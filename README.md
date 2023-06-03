@@ -2,6 +2,10 @@
 
 Build powerful LLM-based Dart/Flutter applications.
 
+| 🚧 **Early Stage of Development** 🚧                                                                                                                              | 📢 **Call for Collaborators** 📢                                        |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| Please note that this project is in a very early stage of development. We are still working on the initial version and there may be bugs and incomplete features. | We are looking for collaborators to join the core group of maintainers. |
+
 ## What is LangChain.dart?
 
 LangChain.dart is a Dart port of [LangChain](https://github.com/hwchase17/langchain).
