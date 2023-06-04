@@ -6,7 +6,7 @@ abstract interface class BaseOpenAIClient {
   /// position.
   ///
   /// See https://platform.openai.com/docs/api-reference/completions/create
-  Future<OpenAICompletionModel> createCompletion({
+  Future<OpenAICompletion> createCompletion({
     required final String model,
     required final List<String> prompts,
     final String? suffix,
@@ -28,9 +28,9 @@ abstract interface class BaseOpenAIClient {
   /// a response.
   ///
   /// See https://platform.openai.com/docs/api-reference/chat/create
-  Future<OpenAIChatCompletionModel> createChatCompletion({
+  Future<OpenAIChatCompletion> createChatCompletion({
     required final String model,
-    required final List<OpenAIChatCompletionChoiceMessageModel> messages,
+    required final List<OpenAIChatCompletionMessage> messages,
     final int? maxTokens,
     final double? temperature,
     final double? topP,

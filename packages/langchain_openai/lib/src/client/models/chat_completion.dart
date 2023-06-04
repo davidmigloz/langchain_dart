@@ -1,13 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
-/// {@template openai_chat_completion_choice_message_model}
-/// This represents the message of the [OpenAIChatCompletionChoiceModel] model
+/// {@template openai_chat_completion_message}
+/// This represents the message of the [OpenAIChatCompletionChoice] model
 /// of the OpenAI API, which is used and get returned while using the
 /// [OpenAIChat] methods.
 /// {@endtemplate}
 @immutable
-final class OpenAIChatCompletionChoiceMessageModel {
+final class OpenAIChatCompletionMessage {
   /// The [role] of the message.
   final OpenAIChatMessageRole role;
 
@@ -19,21 +19,21 @@ final class OpenAIChatCompletionChoiceMessageModel {
     return role.hashCode ^ content.hashCode;
   }
 
-  /// {@macro openai_chat_completion_choice_message_model}
-  const OpenAIChatCompletionChoiceMessageModel({
+  /// {@macro openai_chat_completion_message}
+  const OpenAIChatCompletionMessage({
     required this.role,
     required this.content,
   });
 
   @override
   String toString() {
-    return 'OpenAIChatCompletionChoiceMessageModel(role: $role, '
+    return 'OpenAIChatCompletionMessage(role: $role, '
         'content: $content)';
   }
 
   @override
   bool operator ==(
-    covariant final OpenAIChatCompletionChoiceMessageModel other,
+    covariant final OpenAIChatCompletionMessage other,
   ) {
     if (identical(this, other)) return true;
 
@@ -48,7 +48,7 @@ enum OpenAIChatMessageRole { system, user, assistant }
 /// which is used and get returned while using the [OpenAIChat] methods.
 /// {@endtemplate}
 @immutable
-final class OpenAIChatCompletionModel {
+final class OpenAIChatCompletion {
   /// The [id] of the chat completion.
   final String id;
 
@@ -56,10 +56,10 @@ final class OpenAIChatCompletionModel {
   final DateTime created;
 
   /// The [choices] of the chat completion.
-  final List<OpenAIChatCompletionChoiceModel> choices;
+  final List<OpenAIChatCompletionChoice> choices;
 
   /// The [usage] of the chat completion.
-  final OpenAIChatCompletionUsageModel usage;
+  final OpenAIChatCompletionUsage usage;
 
   /// Whether the chat completion have at least one choice in [choices].
   bool get haveChoices => choices.isNotEmpty;
@@ -70,7 +70,7 @@ final class OpenAIChatCompletionModel {
   }
 
   /// {@macro openai_chat_completion}
-  const OpenAIChatCompletionModel({
+  const OpenAIChatCompletion({
     required this.id,
     required this.created,
     required this.choices,
@@ -79,13 +79,13 @@ final class OpenAIChatCompletionModel {
 
   @override
   String toString() {
-    return 'OpenAIChatCompletionModel(id: $id, created: $created, choices: '
+    return 'OpenAIChatCompletion(id: $id, created: $created, choices: '
         '$choices, usage: $usage)';
   }
 
   @override
-  bool operator ==(covariant final OpenAIChatCompletionModel other) {
-    const listEquals = ListEquality<OpenAIChatCompletionChoiceModel>();
+  bool operator ==(covariant final OpenAIChatCompletion other) {
+    const listEquals = ListEquality<OpenAIChatCompletionChoice>();
     if (identical(this, other)) return true;
 
     return other.id == id &&
@@ -96,17 +96,17 @@ final class OpenAIChatCompletionModel {
 }
 
 /// {@template openai_chat_completion_choice}
-/// This class represents a choice of the [OpenAIChatCompletionModel] model of
+/// This class represents a choice of the [OpenAIChatCompletion] model of
 /// the OpenAI API, which is used and get returned while using the [OpenAIChat]
 /// methods.
 /// {@endtemplate}
 @immutable
-final class OpenAIChatCompletionChoiceModel {
+final class OpenAIChatCompletionChoice {
   /// The [index] of the choice.
   final int index;
 
   /// The [message] of the choice.
-  final OpenAIChatCompletionChoiceMessageModel message;
+  final OpenAIChatCompletionMessage message;
 
   /// The [finishReason] of the choice.
   final String? finishReason;
@@ -117,7 +117,7 @@ final class OpenAIChatCompletionChoiceModel {
   }
 
   /// {@macro openai_chat_completion_choice}
-  const OpenAIChatCompletionChoiceModel({
+  const OpenAIChatCompletionChoice({
     required this.index,
     required this.message,
     required this.finishReason,
@@ -125,12 +125,12 @@ final class OpenAIChatCompletionChoiceModel {
 
   @override
   String toString() {
-    return 'OpenAIChatCompletionChoiceModel(index: $index, message: $message, '
+    return 'OpenAIChatCompletionChoice(index: $index, message: $message, '
         'finishReason: $finishReason)';
   }
 
   @override
-  bool operator ==(covariant final OpenAIChatCompletionChoiceModel other) {
+  bool operator ==(covariant final OpenAIChatCompletionChoice other) {
     if (identical(this, other)) return true;
 
     return other.index == index &&
@@ -144,7 +144,7 @@ final class OpenAIChatCompletionChoiceModel {
 /// which is used and get returned while using the [OpenAIChat] methods.
 /// {@endtemplate}
 @immutable
-final class OpenAIChatCompletionUsageModel {
+final class OpenAIChatCompletionUsage {
   /// The number of tokens used for the prompt(s).
   final int promptTokens;
 
@@ -163,7 +163,7 @@ final class OpenAIChatCompletionUsageModel {
   }
 
   /// {@macro openai_chat_completion_usage}
-  const OpenAIChatCompletionUsageModel({
+  const OpenAIChatCompletionUsage({
     required this.promptTokens,
     required this.completionTokens,
     required this.totalTokens,
@@ -171,12 +171,12 @@ final class OpenAIChatCompletionUsageModel {
 
   @override
   String toString() {
-    return 'OpenAIChatCompletionUsageModel(promptTokens: $promptTokens, '
+    return 'OpenAIChatCompletionUsage(promptTokens: $promptTokens, '
         'completionTokens: $completionTokens, totalTokens: $totalTokens)';
   }
 
   @override
-  bool operator ==(covariant final OpenAIChatCompletionUsageModel other) {
+  bool operator ==(covariant final OpenAIChatCompletionUsage other) {
     if (identical(this, other)) return true;
 
     return other.promptTokens == promptTokens &&

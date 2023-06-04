@@ -2,8 +2,8 @@ import 'package:dart_openai/dart_openai.dart' as c;
 
 import '../models/chat_completion.dart';
 
-extension OpenAIChatCompletionChoiceMessageModelDtoMapper
-    on OpenAIChatCompletionChoiceMessageModel {
+extension OpenAIChatCompletionChoiceMessageDtoMapper
+    on OpenAIChatCompletionMessage {
   c.OpenAIChatCompletionChoiceMessageModel toDto() {
     return c.OpenAIChatCompletionChoiceMessageModel(
       role: role.toDto(),
@@ -12,10 +12,10 @@ extension OpenAIChatCompletionChoiceMessageModelDtoMapper
   }
 }
 
-extension _OpenAIChatCompletionChoiceMessageModelMapper
+extension _OpenAIChatCompletionChoiceMessageMapper
     on c.OpenAIChatCompletionChoiceMessageModel {
-  OpenAIChatCompletionChoiceMessageModel toModel() {
-    return OpenAIChatCompletionChoiceMessageModel(
+  OpenAIChatCompletionMessage toModel() {
+    return OpenAIChatCompletionMessage(
       role: role.toModel(),
       content: content,
     );
@@ -38,9 +38,9 @@ extension _OpenAIChatMessageRoleMapper on c.OpenAIChatMessageRole {
       };
 }
 
-extension OpenAIChatCompletionModelMapper on c.OpenAIChatCompletionModel {
-  OpenAIChatCompletionModel toModel() {
-    return OpenAIChatCompletionModel(
+extension OpenAIChatCompletionMapper on c.OpenAIChatCompletionModel {
+  OpenAIChatCompletion toModel() {
+    return OpenAIChatCompletion(
       id: id,
       created: created,
       choices: choices.map((final c) => c.toModel()).toList(growable: false),
@@ -49,10 +49,10 @@ extension OpenAIChatCompletionModelMapper on c.OpenAIChatCompletionModel {
   }
 }
 
-extension _OpenAIChatCompletionChoiceModelMapper
+extension _OpenAIChatCompletionChoiceMapper
     on c.OpenAIChatCompletionChoiceModel {
-  OpenAIChatCompletionChoiceModel toModel() {
-    return OpenAIChatCompletionChoiceModel(
+  OpenAIChatCompletionChoice toModel() {
+    return OpenAIChatCompletionChoice(
       index: index,
       message: message.toModel(),
       finishReason: finishReason,
@@ -60,10 +60,9 @@ extension _OpenAIChatCompletionChoiceModelMapper
   }
 }
 
-extension _OpenAIChatCompletionUsageModelMapper
-    on c.OpenAIChatCompletionUsageModel {
-  OpenAIChatCompletionUsageModel toModel() {
-    return OpenAIChatCompletionUsageModel(
+extension _OpenAIChatCompletionUsageMapper on c.OpenAIChatCompletionUsageModel {
+  OpenAIChatCompletionUsage toModel() {
+    return OpenAIChatCompletionUsage(
       promptTokens: promptTokens,
       completionTokens: completionTokens,
       totalTokens: totalTokens,

@@ -2,9 +2,9 @@ import 'package:dart_openai/dart_openai.dart' as c;
 
 import '../models/completion.dart';
 
-extension OpenAICompletionModelMapper on c.OpenAICompletionModel {
-  OpenAICompletionModel toModel() {
-    return OpenAICompletionModel(
+extension OpenAICompletionMapper on c.OpenAICompletionModel {
+  OpenAICompletion toModel() {
+    return OpenAICompletion(
       id: id,
       created: created,
       model: model,
@@ -14,9 +14,9 @@ extension OpenAICompletionModelMapper on c.OpenAICompletionModel {
   }
 }
 
-extension _OpenAICompletionModelChoiceMapper on c.OpenAICompletionModelChoice {
-  OpenAICompletionModelChoice toModel() {
-    return OpenAICompletionModelChoice(
+extension _OpenAICompletionChoiceMapper on c.OpenAICompletionModelChoice {
+  OpenAICompletionChoice toModel() {
+    return OpenAICompletionChoice(
       text: text,
       index: index,
       logprobs: logprobs,
@@ -25,9 +25,9 @@ extension _OpenAICompletionModelChoiceMapper on c.OpenAICompletionModelChoice {
   }
 }
 
-extension _OpenAICompletionModelUsageMapper on c.OpenAICompletionModelUsage {
-  OpenAICompletionModelUsage toModel() {
-    return OpenAICompletionModelUsage(
+extension _OpenAICompletionUsageMapper on c.OpenAICompletionModelUsage {
+  OpenAICompletionUsage toModel() {
+    return OpenAICompletionUsage(
       promptTokens: promptTokens,
       completionTokens: completionTokens,
       totalTokens: totalTokens,

@@ -40,7 +40,7 @@ final class OpenAIClient implements BaseOpenAIClient {
   }
 
   @override
-  Future<OpenAICompletionModel> createCompletion({
+  Future<OpenAICompletion> createCompletion({
     required final String model,
     required final List<String> prompts,
     final String? suffix,
@@ -78,9 +78,9 @@ final class OpenAIClient implements BaseOpenAIClient {
   }
 
   @override
-  Future<OpenAIChatCompletionModel> createChatCompletion({
+  Future<OpenAIChatCompletion> createChatCompletion({
     required final String model,
-    required final List<OpenAIChatCompletionChoiceMessageModel> messages,
+    required final List<OpenAIChatCompletionMessage> messages,
     final int? maxTokens,
     final double? temperature,
     final double? topP,
