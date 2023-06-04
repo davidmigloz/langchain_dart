@@ -1,6 +1,6 @@
 import 'package:dart_openai/dart_openai.dart' as c;
 
-import '../../models/completion/completion.dart';
+import '../models/completion.dart';
 
 extension OpenAICompletionModelMapper on c.OpenAICompletionModel {
   OpenAICompletionModel toModel() {

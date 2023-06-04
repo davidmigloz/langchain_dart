@@ -23,4 +23,23 @@ abstract interface class BaseOpenAIClient {
     final Map<String, dynamic>? logitBias,
     final String? user,
   });
+
+  /// Given a list of messages describing a conversation, the model will return
+  /// a response.
+  ///
+  /// See https://platform.openai.com/docs/api-reference/chat/create
+  Future<OpenAIChatCompletionModel> createChatCompletion({
+    required final String model,
+    required final List<OpenAIChatCompletionChoiceMessageModel> messages,
+    final int? maxTokens,
+    final double? temperature,
+    final double? topP,
+    final int? n,
+    final int? logprobs,
+    final List<String>? stop,
+    final double? presencePenalty,
+    final double? frequencyPenalty,
+    final Map<String, dynamic>? logitBias,
+    final String? user,
+  });
 }

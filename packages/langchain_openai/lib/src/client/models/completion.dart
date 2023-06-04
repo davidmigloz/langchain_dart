@@ -88,17 +88,6 @@ final class OpenAICompletionModelChoice {
     required this.finishReason,
   });
 
-  /// {@macro openai_completion_model_choice}
-  /// This method is used to convert a [Map<String, dynamic>] object to a [OpenAICompletionModelChoice] object.
-  factory OpenAICompletionModelChoice.fromMap(final Map<String, dynamic> json) {
-    return OpenAICompletionModelChoice(
-      text: json['text'],
-      index: json['index'],
-      logprobs: json['logprobs'],
-      finishReason: json['finishReason'],
-    );
-  }
-
   @override
   bool operator ==(covariant final OpenAICompletionModelChoice other) {
     if (identical(this, other)) return true;
@@ -140,16 +129,6 @@ final class OpenAICompletionModelUsage {
     required this.completionTokens,
     required this.totalTokens,
   });
-
-  /// {@macro openai_completion_model_usage}
-  /// This method is used to convert a [Map<String, dynamic>] object to a [OpenAICompletionModelUsage] object.
-  factory OpenAICompletionModelUsage.fromMap(final Map<String, dynamic> json) {
-    return OpenAICompletionModelUsage(
-      promptTokens: json['prompt_tokens'],
-      completionTokens: json['completion_tokens'],
-      totalTokens: json['total_tokens'],
-    );
-  }
 
   @override
   bool operator ==(covariant final OpenAICompletionModelUsage other) {

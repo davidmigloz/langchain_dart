@@ -1,7 +1,7 @@
 import 'package:dart_openai/dart_openai.dart' as c;
 
 import 'base.dart';
-import 'mappers/completion/completion.dart';
+import 'mappers/mappers.dart';
 import 'models/models.dart';
 
 /// OpenAIClient is a wrapper around the OpenAI API.
@@ -67,8 +67,7 @@ final class OpenAIClient implements BaseOpenAIClient {
       n: n,
       logprobs: logprobs,
       echo: echo,
-      stop: stop
-          ?.firstOrNull, // TODO to investigate why it does not accept a List<String>
+      stop: stop?.firstOrNull,
       presencePenalty: presencePenalty,
       frequencyPenalty: frequencyPenalty,
       bestOf: bestOf,
@@ -76,5 +75,37 @@ final class OpenAIClient implements BaseOpenAIClient {
       user: user,
     );
     return completion.toModel();
+  }
+
+  @override
+  Future<OpenAIChatCompletionModel> createChatCompletion({
+    required final String model,
+    required final List<OpenAIChatCompletionChoiceMessageModel> messages,
+    final int? maxTokens,
+    final double? temperature,
+    final double? topP,
+    final int? n,
+    final int? logprobs,
+    final List<String>? stop,
+    final double? presencePenalty,
+    final double? frequencyPenalty,
+    final Map<String, dynamic>? logitBias,
+    final String? user,
+  }) async {
+    final chat = await _client.chat.create(
+      model: model,
+      messages: messages.map((final m) => m.toDto()).toList(growable: false),
+      temperature: temperature,
+      topP: topP,
+      n: n,
+      // TODO to investigate why it does not accept a List<String>
+      stop: stop?.firstOrNull,
+      maxTokens: maxTokens,
+      presencePenalty: presencePenalty,
+      frequencyPenalty: frequencyPenalty,
+      logitBias: logitBias,
+      user: user,
+    );
+    return chat.toModel();
   }
 }

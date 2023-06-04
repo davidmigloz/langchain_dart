@@ -1,1 +1,2 @@
-export 'completion/completion.dart';
+export 'chat_completion.dart';
+export 'completion.dart';
