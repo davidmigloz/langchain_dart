@@ -136,12 +136,15 @@ String getBufferString({
 }) {
   return messages
       .map(
-        (final m) => switch (m) {
-          HumanMessage _ => humanPrefix,
-          AIMessage _ => aiPrefix,
-          SystemMessage _ => 'System',
-          final ChatMessage m => m.role,
-          _ => throw ArgumentError('Got unsupported message type: $m'),
+        (final m) {
+          final role = switch (m) {
+            HumanMessage _ => humanPrefix,
+            AIMessage _ => aiPrefix,
+            SystemMessage _ => 'System',
+            final ChatMessage m => m.role,
+            _ => throw ArgumentError('Got unsupported message type: $m'),
+          };
+          return '$role: ${m.content}';
         },
       )
       .join('\n');
