@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unused_element, unused_import
 import 'dart:io';
 
 import 'package:langchain/langchain.dart';
@@ -6,8 +6,8 @@ import 'package:langchain_openai/langchain_openai.dart';
 
 void main() async {
   // Uncomment the example you want to run:
-  // _example1();
-  // _example2();
+  _example1();
+  _example2();
 }
 
 /// The most basic building block of LangChain is calling an LLM on some input.

@@ -2,6 +2,10 @@
 
 Build powerful LLM-based Dart/Flutter applications.
 
+| 🚧 **Early Stage of Development** 🚧                                                                                                                              | 📢 **Call for Collaborators** 📢                                        |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| Please note that this project is in a very early stage of development. We are still working on the initial version and there may be bugs and incomplete features. | We are looking for collaborators to join the core group of maintainers. |
+
 ## What is LangChain.dart?
 
 LangChain.dart is a Dart port of [LangChain](https://github.com/hwchase17/langchain).
@@ -27,9 +31,33 @@ it an ideal choice for building these types of applications.
 LangChain.dart aims to fill this gap by abstracting the complexities of working with LLMs in Dart,
 enabling developers to harness the combined potential of both Flutter and LLMs effectively.
 
+## Packages
+
+LangChain.dart has a modular design that contains the following packages:
+
+| Package                                                       | Version                                                                                                      | Description                                       |
+|---------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|---------------------------------------------------|
+| [langchain](https://pub.dev/packages/langchain)               | [![langchain](https://img.shields.io/pub/v/langchain.svg)](https://pub.dev/packages/langchain)               | The core package that provides the LangChain API. |
+| [langchain_openai](https://pub.dev/packages/langchain_openai) | [![langchain](https://img.shields.io/pub/v/langchain_openai.svg)](https://pub.dev/packages/langchain_openai) | LangChain integration with OpenAI.                |
+
 ## Getting started
 
-TODO
+To start using LangChain.dart, add `langchain` as a dependency to your `pubspec.yaml` file.
+Also, include the dependencies for the specific integrations you want to use
+(e.g.`langchain_openai`):
+
+```yaml
+dependencies:
+  langchain: {version}
+  langchain_openai: {version}
+```
+
+The most basic building block of LangChain is calling an LLM on some input:
+
+```dart
+final openai = OpenAI(apiKey: openaiApiKey, temperature: 0.9);
+final result = await openai(prompt: 'Hello world!');
+```
 
 ## Docs
 
