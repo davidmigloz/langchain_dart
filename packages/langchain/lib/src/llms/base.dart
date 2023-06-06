@@ -78,3 +78,31 @@ abstract class BaseLLM extends BaseLanguageModel {
   @override
   String toString() => llmType;
 }
+
+/// LLM class that provides a simpler interface to subclass than  [BaseLLM].
+///
+/// The purpose of this class is to expose a simpler interface for working
+/// with LLMs, rather than expect the user to implement the full _generate
+/// method.
+abstract class LLM implements BaseLLM {
+  const LLM();
+
+  /// Run the LLM on the given prompt and input.
+  Future<String> _call({
+    required final String prompt,
+    final List<String>? stop,
+  });
+
+  @override
+  Future<LLMResult> generateInternal({
+    required final List<String> prompts,
+    final List<String>? stop,
+  }) async {
+    final generations = <List<Generation>>[];
+    for (final String prompt in prompts) {
+      final text = await _call(prompt: prompt, stop: stop);
+      generations.add([Generation(text: text)]);
+    }
+    return LLMResult(generations: generations);
+  }
+}
