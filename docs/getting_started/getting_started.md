@@ -9,7 +9,7 @@ To get started, add LangChain.dart dependency to your project:
 
 ```yaml
 dependencies:
-  langchain: { version }
+  langchain: {version}
 ```
 
 Then, run `pub get` to install the package.
@@ -24,8 +24,8 @@ package:
 
 ```yaml
 dependencies:
-  langchain: { version }
-  langchain_openai: { version }
+  langchain: {version}
+  langchain_openai: {version}
 ```
 
 For using OpenAI’s APIs, you will need to have an OpenAI account and an API key.
@@ -62,33 +62,48 @@ We can then initialize the wrapper with any arguments. In this example, we proba
 outputs to be MORE random, so we’ll initialize it with a HIGH temperature.
 
 ```dart
-
 final llm = OpenAI(apiKey: openaiApiKey, temperature: 0.9);
 ```
 
 We can now call it on some input!
 
 ```dart
-
 final text = 'What would be a good company name for a company that makes colorful socks?';
-print
-(
-await
-llm
-(
-prompt
-:
-text
-)
-); // 'Feetful of Fun'
+print(await llm(prompt: text)); // 'Feetful of Fun'
 ```
 
 For more details on how to use LLMs within LangChain, see the
-[LLM getting started guide](/#/modules/models/llms/getting_started).
+[LLM getting started guide](/modules/models/llms/getting_started).
 
 ### Prompt Templates: Manage prompts for LLMs
 
-TODO
+Calling an LLM is a great first step, but it’s just the beginning. Normally when you use an LLM in 
+an application, you are not sending user input directly to the LLM. Instead, you are probably 
+taking user input and constructing a prompt, and then sending that to the LLM.
+
+For example, in the previous example, the text we passed in was hardcoded to ask for a name for a 
+company that made colorful socks. In this imaginary service, what we would want to do is take only 
+the user input describing what the company does, and then format the prompt with that information.
+
+This is easy to do with LangChain!
+
+First lets define the prompt template:
+```dart
+final prompt = PromptTemplate(
+  inputVariables: const ['product'],
+  template: 'What is a good name for a company that makes {product}?',
+);
+```
+
+Let’s now see how this works! We can call the `.format` method to format it.
+
+```dart
+print(prompt.format({'product': 'colorful socks'}));
+// What is a good name for a company that makes colorful socks?
+```
+
+For more details on how to use Prompt Templates, see the 
+[Prompt Templates getting started guide](/modules/prompts/getting_started).
 
 ### Chains: Combine LLMs and prompts in multi-step workflows
 

@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
 import '../base_language.dart';
-import '../schema.dart';
+import '../schema/schema.dart';
 
 /// LLM wrapper should take in a prompt and return a string.
 abstract class BaseLLM extends BaseLanguageModel {
@@ -36,7 +36,7 @@ abstract class BaseLLM extends BaseLanguageModel {
 
   @override
   Future<LLMResult> generatePrompt({
-    required final List<PromptValue> prompts,
+    required final List<BasePromptValue> prompts,
     final List<String>? stop,
   }) {
     final promptStrings =
@@ -64,15 +64,15 @@ abstract class BaseLLM extends BaseLanguageModel {
   }
 
   @override
-  Future<BaseMessage> predictMessages({
-    required final List<BaseMessage> messages,
+  Future<BaseChatMessage> predictMessages({
+    required final List<BaseChatMessage> messages,
     final List<String>? stop,
   }) async {
     final text = getBufferString(messages: messages);
     final finalStop =
         stop != null ? List<String>.from(stop, growable: false) : null;
     final content = await call(prompt: text, stop: finalStop);
-    return AIMessage(content: content);
+    return AIChatMessage(content: content);
   }
 
   @override
@@ -84,11 +84,12 @@ abstract class BaseLLM extends BaseLanguageModel {
 /// The purpose of this class is to expose a simpler interface for working
 /// with LLMs, rather than expect the user to implement the full _generate
 /// method.
-abstract class LLM implements BaseLLM {
+abstract class LLM extends BaseLLM {
   const LLM();
 
   /// Run the LLM on the given prompt and input.
-  Future<String> _call({
+  @visibleForOverriding
+  Future<String> callInternal({
     required final String prompt,
     final List<String>? stop,
   });
@@ -100,7 +101,7 @@ abstract class LLM implements BaseLLM {
   }) async {
     final generations = <List<Generation>>[];
     for (final String prompt in prompts) {
-      final text = await _call(prompt: prompt, stop: stop);
+      final text = await callInternal(prompt: prompt, stop: stop);
       generations.add([Generation(text: text)]);
     }
     return LLMResult(generations: generations);

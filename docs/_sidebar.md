@@ -6,3 +6,5 @@
     - [Getting Started](modules/models/getting_started.md)
     - LLMs
       - [Getting Started](modules/models/llms/getting_started.md)
+  - Prompts
+    - [Getting Started](modules/prompts/getting_started.md)
