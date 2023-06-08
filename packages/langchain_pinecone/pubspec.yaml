@@ -1,7 +1,7 @@
-name: langchain_openai
-description: OpenAI module for LangChain.dart.
+name: langchain_pinecone
+description: Pinecone module for LangChain.dart.
 version: 0.0.1-dev.1
-repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_openai
+repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_pinecone
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues
 homepage: https://github.com/davidmigloz/langchain_dart
 documentation: https://langchaindart.com
@@ -10,8 +10,6 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  collection: ^1.17.2
-  dart_openai: ^2.0.1
   langchain: ^0.0.1-dev.1
   meta: ^1.9.1
 

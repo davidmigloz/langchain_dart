@@ -4,7 +4,7 @@ version: 0.0.1-dev.1
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues
 homepage: https://github.com/davidmigloz/langchain_dart
-documentation: https://github.com/davidmigloz/langchain_dart#docs
+documentation: https://langchaindart.com
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

@@ -33,12 +33,17 @@ enabling developers to harness the combined potential of both Flutter and LLMs e
 
 ## Packages
 
-LangChain.dart has a modular design that contains the following packages:
+LangChain.dart has a modular design where the core [langchain](https://pub.dev/packages/langchain)
+package provides the LangChain API and each integration with a model provider, data store, etc. is
+provided by a separate package.
 
-| Package                                                       | Version                                                                                                      | Description                                       |
-|---------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|---------------------------------------------------|
-| [langchain](https://pub.dev/packages/langchain)               | [![langchain](https://img.shields.io/pub/v/langchain.svg)](https://pub.dev/packages/langchain)               | The core package that provides the LangChain API. |
-| [langchain_openai](https://pub.dev/packages/langchain_openai) | [![langchain](https://img.shields.io/pub/v/langchain_openai.svg)](https://pub.dev/packages/langchain_openai) | LangChain integration with OpenAI.                |
+
+
+| Package                                                           | Version                                                                                                                   | Description                                       |
+|-------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------|
+| [langchain](https://pub.dev/packages/langchain)                   | [![langchain](https://img.shields.io/pub/v/langchain.svg)](https://pub.dev/packages/langchain)                            | The core package that provides the LangChain API. |
+| [langchain_openai](https://pub.dev/packages/langchain_openai)     | [![langchain_openai](https://img.shields.io/pub/v/langchain_openai.svg)](https://pub.dev/packages/langchain_openai)       | LangChain integration with OpenAI.                |
+| [langchain_pinecone](https://pub.dev/packages/langchain_pinecone) | [![langchain_pinecone](https://img.shields.io/pub/v/langchain_pinecone.svg)](https://pub.dev/packages/langchain_pinecone) | LangChain integration with Pinecone.              | 
 
 ## Getting started
 
@@ -61,7 +66,11 @@ final result = await openai(prompt: 'Hello world!');
 
 ## Docs
 
-TODO
+You can find the full documentation at [langchaindart.com](https://langchaindart.com/#/).
+- Getting started (installation, setting up the environment, simple examples)
+- How-To examples (demos, integrations, helper functions)
+- Reference (full API docs)
+- Resources (high-level explanation of core concepts)
 
 ## Contribute
 

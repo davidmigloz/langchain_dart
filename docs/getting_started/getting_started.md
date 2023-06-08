@@ -5,7 +5,7 @@ with LangChain.
 
 ## Installation
 
-To get started, add LangChain.dart dependency to your project:
+To get started, add LangChain.dart dependency to your project `pubspec.yaml` file:
 
 ```yaml
 dependencies:
