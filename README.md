@@ -60,8 +60,8 @@ dependencies:
 The most basic building block of LangChain is calling an LLM on some input:
 
 ```dart
-final openai = OpenAI(apiKey: openaiApiKey, temperature: 0.9);
-final result = await openai(prompt: 'Hello world!');
+final llm = OpenAI(apiKey: openaiApiKey, temperature: 0.9);
+final result = await llm('Hello world!');
 ```
 
 ## Docs
