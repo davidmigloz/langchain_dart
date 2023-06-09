@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../schema/schema.dart';
+import 'models/models.dart';
 
 enum TemplateFormat {
   /// Python f-strings format (aka. formatted string literals).

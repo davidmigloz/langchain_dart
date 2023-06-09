@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
 
-import '../schema/schema.dart';
+import '../chat_models/models/models.dart';
+import '../output_parsers/output_parsers.dart';
+import 'models/models.dart';
 
 /// Base class for prompt templates. Exposes a format method that returns a
 /// string prompt given a set of input values.
@@ -50,7 +52,7 @@ abstract base class BasePromptTemplate<T> {
   /// Create Chat Messages.
   ///
   /// - [values] - Any arguments to be passed to the prompt template.
-  BasePromptValue formatPromptValue([final InputValues values = const {}]);
+  PromptValue formatPromptValue([final InputValues values = const {}]);
 
   @protected
   Map<String, Object> mergePartialAndUserVariables(
@@ -69,14 +71,14 @@ abstract base class BaseStringPromptTemplate<T> extends BasePromptTemplate<T> {
   });
 
   @override
-  BasePromptValue formatPromptValue([final InputValues values = const {}]) {
+  PromptValue formatPromptValue([final InputValues values = const {}]) {
     final formattedPrompt = format(values);
     return StringPromptValue(formattedPrompt);
   }
 }
 
 /// Return type for [BasePromptTemplate.formatPromptValue].
-class StringPromptValue implements BasePromptValue {
+class StringPromptValue implements PromptValue {
   const StringPromptValue(this.value);
 
   final String value;
@@ -87,7 +89,7 @@ class StringPromptValue implements BasePromptValue {
   }
 
   @override
-  List<BaseChatMessage> toMessages() {
-    return [HumanChatMessage(content: value)];
+  List<ChatMessage> toMessages() {
+    return [ChatMessage.human(value)];
   }
 }

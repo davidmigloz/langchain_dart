@@ -1,24 +1,22 @@
 import 'package:langchain/langchain.dart';
-import 'package:meta/meta.dart';
 
 import '../client/base.dart';
-import '../client/models/models.dart';
 import '../client/openai_client.dart';
+import 'mappers.dart';
 
 /// Wrapper around OpenAI Chat large language models.
-abstract base class BaseOpenAIChat extends BaseLLM {
-  BaseOpenAIChat({
+abstract base class BaseChatOpenAI extends BaseChatModel {
+  BaseChatOpenAI({
     required final String? apiKey,
     required final BaseOpenAIClient? apiClient,
     required this.model,
-    required this.maxTokens,
     required this.temperature,
     required this.topP,
     required this.n,
+    required this.maxTokens,
     required this.presencePenalty,
     required this.frequencyPenalty,
     required this.logitBias,
-    required this.prefixMessages,
   })  : assert(
           apiKey != null || apiClient != null,
           'Either apiKey or apiClient must be provided.',
@@ -27,16 +25,10 @@ abstract base class BaseOpenAIChat extends BaseLLM {
 
   final BaseOpenAIClient _client;
 
-  /// ID of the model to use.
+  /// ID of the model to use (e.g. 'gpt-3.5-turbo').
   ///
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-model
   final String model;
-
-  /// The maximum number of tokens to generate in the chat completion.
-  /// Defaults to inf.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-max_tokens
-  final int? maxTokens;
 
   /// What sampling temperature to use, between 0 and 2.
   ///
@@ -54,6 +46,12 @@ abstract base class BaseOpenAIChat extends BaseLLM {
   ///
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-n
   final int n;
+
+  /// The maximum number of tokens to generate in the chat completion.
+  /// Defaults to inf.
+  ///
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-max_tokens
+  final int? maxTokens;
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
   /// whether they appear in the text so far, increasing the model's likelihood
@@ -74,35 +72,21 @@ abstract base class BaseOpenAIChat extends BaseLLM {
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-logit_bias
   final Map<String, double>? logitBias;
 
-  /// Series of messages for Chat input.
-  final List<OpenAIChatCompletionMessage>? prefixMessages;
+  @override
+  String get modelType => 'openai-chat';
 
   @override
-  String get llmType => 'openai-chat';
-
-  @override
-  @visibleForOverriding
-  Future<LLMResult> generateInternal({
-    required final List<String> prompts,
+  Future<ChatResult> generate(
+    final List<ChatMessage> messages, {
     final List<String>? stop,
   }) async {
-    if (prompts.length > 1) {
-      throw ArgumentError(
-        'OpenAIChat currently only supports single prompt, got $prompts',
-      );
-    }
-
-    final messages = [
-      ...?prefixMessages,
-      OpenAIChatCompletionMessage(
-        role: OpenAIChatMessageRole.user,
-        content: prompts[0],
-      ),
-    ];
+    final messagesDtos = messages
+        .map((final m) => m.toOpenAIChatMessage())
+        .toList(growable: false);
 
     final completion = await _client.createChatCompletion(
       model: model,
-      messages: messages,
+      messages: messagesDtos,
       maxTokens: maxTokens,
       temperature: temperature,
       topP: topP,
@@ -112,46 +96,28 @@ abstract base class BaseOpenAIChat extends BaseLLM {
       frequencyPenalty: frequencyPenalty,
       logitBias: logitBias,
     );
-    return _createLLMResult(completion.choices, prompts, completion.usage);
-  }
 
-  LLMResult _createLLMResult(
-    final List<OpenAIChatCompletionChoice> choices,
-    final List<String> prompts,
-    final OpenAIChatCompletionUsage? modelUsage,
-  ) {
-    final generation = [
-      Generation(
-        text: choices.first.message.content,
-        generationInfo: {
-          'finish_reason': choices.first.finishReason,
-        },
-      )
-    ];
-    final llmOutput = <String, dynamic>{
-      'token_usage': modelUsage,
-      'model': model,
-    };
-    return LLMResult(
-      generations: [generation],
-      llmOutput: llmOutput,
-    );
+    return completion.toChatResult(model);
   }
 }
 
-/// Wrapper around OpenAI Chat large language models.
-final class OpenAIChat extends BaseOpenAIChat {
-  OpenAIChat({
+/// Wrapper around [OpenAI Chat API](https://platform.openai.com/docs/api-reference/chat).
+///
+/// Example:
+/// ```dart
+/// final chat = ChatOpenAI(apiKey: '...', temperature: 1);
+/// ```
+final class ChatOpenAI extends BaseChatOpenAI {
+  ChatOpenAI({
     super.apiKey,
     super.apiClient,
     super.model = 'gpt-3.5-turbo',
-    super.maxTokens,
-    super.temperature = 1,
+    super.temperature = 0.7,
     super.topP = 1,
     super.n = 1,
+    super.maxTokens,
     super.presencePenalty = 0,
     super.frequencyPenalty = 0,
     super.logitBias,
-    super.prefixMessages,
   });
 }

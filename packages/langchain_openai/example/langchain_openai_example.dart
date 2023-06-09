@@ -16,20 +16,20 @@ Future<void> _example1() async {
   final openai = OpenAI(apiKey: openaiApiKey, temperature: 0.9);
   const prompt = 'What would be a good company name '
       'for a company that makes colorful socks?';
-  final result = await openai(prompt: prompt);
+  final result = await openai(prompt);
   print(result);
 }
 
-/// The most frequent use case is to create a chat-bot. This is the most
-/// basic one.
+/// The most frequent use case is to create a chat-bot.
+/// This is the most basic one.
 Future<void> _example2() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
-  final chat = OpenAIChat(apiKey: openaiApiKey, temperature: 0);
+  final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
 
   while (true) {
     stdout.write('> ');
-    final usrMsg = stdin.readLineSync() ?? '';
-    final aiMsg = await chat(prompt: usrMsg);
+    final usrMsg = ChatMessage.human(stdin.readLineSync() ?? '');
+    final aiMsg = await chat([usrMsg]);
     print(aiMsg);
   }
 }

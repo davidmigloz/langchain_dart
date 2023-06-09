@@ -1,9 +1,8 @@
 import 'package:langchain/langchain.dart';
-import 'package:meta/meta.dart';
 
 import '../client/base.dart';
-import '../client/models/models.dart';
 import '../client/openai_client.dart';
+import 'mappers.dart';
 
 /// Wrapper around OpenAI large language models.
 abstract base class BaseOpenAI extends BaseLLM {
@@ -27,7 +26,7 @@ abstract base class BaseOpenAI extends BaseLLM {
 
   final BaseOpenAIClient _client;
 
-  /// ID of the model to use.
+  /// ID of the model to use (e.g. 'text-davinci-003').
   ///
   /// See https://platform.openai.com/docs/api-reference/completions/create#completions/create-model
   final String model;
@@ -80,12 +79,11 @@ abstract base class BaseOpenAI extends BaseLLM {
   final Map<String, double>? logitBias;
 
   @override
-  String get llmType => 'openai';
+  String get modelType => 'openai';
 
   @override
-  @visibleForOverriding
-  Future<LLMResult> generateInternal({
-    required final List<String> prompts,
+  Future<LLMResult> generate(
+    final List<String> prompts, {
     final List<String>? stop,
   }) async {
     final completion = await _client.createCompletion(
@@ -101,37 +99,16 @@ abstract base class BaseOpenAI extends BaseLLM {
       bestOf: bestOf,
       logitBias: logitBias,
     );
-    return _createLLMResult(completion.choices, prompts, completion.usage);
-  }
-
-  LLMResult _createLLMResult(
-    final List<OpenAICompletionChoice> choices,
-    final List<String> prompts,
-    final OpenAICompletionUsage? modelUsage,
-  ) {
-    final generations = <List<Generation>>[];
-    for (int i = 0; i < prompts.length; i++) {
-      final subChoices = choices.sublist(i * n, (i + 1) * n);
-      final generationList = subChoices.map((final choice) {
-        return Generation(
-          text: choice.text,
-          generationInfo: {
-            'finish_reason': choice.finishReason,
-            'logprobs': choice.logprobs,
-          },
-        );
-      }).toList(growable: false);
-      generations.add(generationList);
-    }
-    final llmOutput = <String, dynamic>{
-      'token_usage': modelUsage,
-      'model': model,
-    };
-    return LLMResult(generations: generations, llmOutput: llmOutput);
+    return completion.toChatResult(numPrompts: prompts.length, n: n);
   }
 }
 
-/// Wrapper around OpenAI large language models.
+/// Wrapper around [OpenAI Completions API](https://platform.openai.com/docs/api-reference/completions).
+///
+/// Example:
+/// ```dart
+/// final llm = OpenAI(apiKey: '...', temperature: 1);
+/// ```
 final class OpenAI extends BaseOpenAI {
   OpenAI({
     super.apiKey,

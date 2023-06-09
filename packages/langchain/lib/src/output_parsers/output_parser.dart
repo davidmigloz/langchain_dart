@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import 'schema.dart';
+import '../prompts/models/models.dart';
 
 /// Options for formatting instructions.
 interface class FormatInstructionsOptions {}
@@ -25,7 +25,7 @@ abstract class BaseOutputParser<T> {
   /// [prompt] - Prompt used to generate the output.
   Future<T> parseWithPrompt(
     final String text,
-    final BasePromptValue prompt,
+    final PromptValue prompt,
   ) async {
     return parse(text);
   }

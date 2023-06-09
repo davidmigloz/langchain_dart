@@ -2,8 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:meta/meta.dart';
 
-import '../schema/schema.dart';
 import 'base.dart';
+import 'models/models.dart';
 import 'template.dart';
 
 /// Schema to represent a prompt for an LLM.

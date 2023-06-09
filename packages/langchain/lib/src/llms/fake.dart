@@ -1,6 +1,6 @@
 import 'base.dart';
 
-class FakeListLLM extends LLM {
+class FakeListLLM extends SimpleLLM {
   FakeListLLM({
     required this.responses,
   });
@@ -9,11 +9,11 @@ class FakeListLLM extends LLM {
   int i = 0;
 
   @override
-  String get llmType => 'fake-list';
+  String get modelType => 'fake-list';
 
   @override
-  Future<String> callInternal({
-    required final String prompt,
+  Future<String> callInternal(
+    final String prompt, {
     final List<String>? stop,
   }) {
     return Future<String>.value(responses[i++ % responses.length]);

@@ -1,3 +1,6 @@
+@TestOn('vm')
+library; // Uses dart:io
+
 import 'dart:io';
 
 import 'package:langchain_openai/langchain_openai.dart';
@@ -18,6 +21,7 @@ void main() {
         presencePenalty: 0.1,
         frequencyPenalty: 0.1,
         bestOf: 10,
+        logitBias: {'foo': 1.0},
       );
       expect(llm.model, 'foo');
       expect(llm.maxTokens, 10);
@@ -27,18 +31,19 @@ void main() {
       expect(llm.presencePenalty, 0.1);
       expect(llm.frequencyPenalty, 0.1);
       expect(llm.bestOf, 10);
+      expect(llm.logitBias, {'foo': 1.0});
     });
 
     test('Test call to OpenAI', () async {
       final llm = OpenAI(apiKey: openaiApiKey, maxTokens: 10);
-      final output = await llm(prompt: 'Say foo:');
+      final output = await llm('Say foo:');
       expect(output, isNotEmpty);
     });
 
     test('Test generate to OpenAI', () async {
       final llm = OpenAI(apiKey: openaiApiKey, maxTokens: 10);
       final res = await llm.generate(
-        prompts: [
+        [
           'Hello, how are you?',
           'I am fine, thank you.',
         ],
@@ -46,19 +51,31 @@ void main() {
       expect(res.generations.length, 2);
     });
 
-    test('Test LLM output contains model', () async {
+    test('Test model output contains metadata', () async {
       final llm = OpenAI(apiKey: openaiApiKey, maxTokens: 10);
-      final res = await llm.generate(prompts: ['Hello, how are you?']);
-      expect(res.llmOutput, isNotNull);
-      expect(res.llmOutput!['model'], llm.model);
+      final res = await llm.generate(['Hello, how are you?']);
+      expect(res.modelOutput, isNotNull);
+      expect(res.modelOutput!['id'], isNotEmpty);
+      expect(res.modelOutput!['created'], isNotNull);
+      expect(res.modelOutput!['model'], llm.model);
     });
 
-    test('Test openai stop logic on valid configuration', () async {
+    test('Test stop logic on valid configuration', () async {
       const query = 'write an ordered list of five items';
       final llm = OpenAI(apiKey: openaiApiKey, temperature: 0);
-      final res = await llm(prompt: query, stop: ['3']);
+      final res = await llm(query, stop: ['3']);
       expect(res.contains('2.'), isTrue);
       expect(res.contains('3.'), isFalse);
+    });
+
+    test('Test OpenAI wrapper with multiple completions', () async {
+      final chat = OpenAI(apiKey: openaiApiKey, n: 5, bestOf: 5);
+      final res = await chat.generate(['Hello, how are you?']);
+      expect(res.generations.length, 1);
+      expect(res.generations.first.length, 5);
+      for (final generation in res.generations.first) {
+        expect(generation.output, isNotEmpty);
+      }
     });
   });
 }

@@ -9,7 +9,7 @@ void main() async {
     'tell me a joke about {subject}',
   );
   final prompt = promptTemplate.format({'subject': 'AI'});
-  final result = await llm(prompt: prompt);
+  final result = await llm(prompt);
   print(result);
   // Why did the AI go on a diet? Because it had too many bytes!
 }

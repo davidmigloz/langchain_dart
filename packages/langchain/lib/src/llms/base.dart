@@ -1,109 +1,69 @@
 import 'package:meta/meta.dart';
 
-import '../base_language.dart';
-import '../schema/schema.dart';
+import '../language_models/language_models.dart';
+import 'models/models.dart';
 
-/// LLM wrapper should take in a prompt and return a string.
-abstract class BaseLLM extends BaseLanguageModel {
+/// Large Language Models base class.
+/// It should take in a prompt and return a string.
+abstract class BaseLLM extends BaseLanguageModel<String, LLMResult> {
   const BaseLLM();
 
-  /// Return type of LLM.
-  String get llmType;
-
-  @visibleForOverriding
-  Future<LLMResult> generateInternal({
-    required final List<String> prompts,
-    final List<String>? stop,
-  });
-
-  /// Run the LLM on the given prompt.
+  /// Runs the LLM on the given prompt.
   ///
   /// - [prompts] The prompts to pass into the model.
   /// - [stop] Optional list of stop words to use when generating.
   ///
-  /// Returns the full LLM output.
-  ///
   /// Example:
   /// ```dart
-  /// response = openai.generate(['Tell me a joke.']);
+  /// final result = openai.generate(['Tell me a joke.']);
   /// ```
-  Future<LLMResult> generate({
-    required final List<String> prompts,
-    final List<String>? stop,
-  }) {
-    return generateInternal(prompts: prompts, stop: stop);
-  }
-
   @override
-  Future<LLMResult> generatePrompt({
-    required final List<BasePromptValue> prompts,
-    final List<String>? stop,
-  }) {
-    final promptStrings =
-        prompts.map((final p) => p.toString()).toList(growable: false);
-    return generate(prompts: promptStrings, stop: stop);
-  }
-
-  /// Run the LLM on the given prompt and input.
-  Future<String> call({
-    required final String prompt,
-    final List<String>? stop,
-  }) async {
-    final result = await generate(prompts: [prompt], stop: stop);
-    return result.generations[0][0].text;
-  }
-
-  @override
-  Future<String> predict({
-    required final String text,
-    final List<String>? stop,
-  }) {
-    final finalStop =
-        stop != null ? List<String>.from(stop, growable: false) : null;
-    return call(prompt: text, stop: finalStop);
-  }
-
-  @override
-  Future<BaseChatMessage> predictMessages({
-    required final List<BaseChatMessage> messages,
-    final List<String>? stop,
-  }) async {
-    final text = getBufferString(messages: messages);
-    final finalStop =
-        stop != null ? List<String>.from(stop, growable: false) : null;
-    final content = await call(prompt: text, stop: finalStop);
-    return AIChatMessage(content: content);
-  }
-
-  @override
-  String toString() => llmType;
-}
-
-/// LLM class that provides a simpler interface to subclass than  [BaseLLM].
-///
-/// The purpose of this class is to expose a simpler interface for working
-/// with LLMs, rather than expect the user to implement the full _generate
-/// method.
-abstract class LLM extends BaseLLM {
-  const LLM();
-
-  /// Run the LLM on the given prompt and input.
-  @visibleForOverriding
-  Future<String> callInternal({
-    required final String prompt,
+  Future<LLMResult> generate(
+    final List<String> prompts, {
     final List<String>? stop,
   });
 
-  @override
-  Future<LLMResult> generateInternal({
-    required final List<String> prompts,
+  /// Runs the LLM on the given prompt.
+  ///
+  /// - [prompt] The prompt to pass into the model.
+  /// - [stop] Optional list of stop words to use when generating.
+  ///
+  /// Example:
+  /// ```dart
+  /// final result = openai('Tell me a joke.');
+  /// ```
+  Future<String> call(
+    final String prompt, {
     final List<String>? stop,
   }) async {
-    final generations = <List<Generation>>[];
+    final result = await generate([prompt], stop: stop);
+    return result.generations[0][0].output;
+  }
+}
+
+/// [SimpleLLM] provides a simplified interface for working with LLMs,
+/// rather than expecting the user to implement the full [SimpleLLM.generate]
+/// method.
+abstract class SimpleLLM extends BaseLLM {
+  const SimpleLLM();
+
+  @override
+  Future<LLMResult> generate(
+    final List<String> prompts, {
+    final List<String>? stop,
+  }) async {
+    final generations = <List<LLMGeneration>>[];
     for (final String prompt in prompts) {
-      final text = await callInternal(prompt: prompt, stop: stop);
-      generations.add([Generation(text: text)]);
+      final text = await callInternal(prompt, stop: stop);
+      generations.add([LLMGeneration(text)]);
     }
     return LLMResult(generations: generations);
   }
+
+  /// Method which should be implemented by subclasses to run the model.
+  @visibleForOverriding
+  Future<String> callInternal(
+    final String prompt, {
+    final List<String>? stop,
+  });
 }
