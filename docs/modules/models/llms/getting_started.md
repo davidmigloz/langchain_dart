@@ -25,7 +25,7 @@ final llm = OpenAI(apiKey: openaiApiKey, model: 'text-ada-001', n: 2, bestOf: 2)
 in a string and getting back a string.
 
 ```dart
-final llmRes = await llm(prompt: 'Tell me a joke');
+final llmRes = await llm('Tell me a joke');
 print(llmRes); // '\n\nWhy did the chicken cross the road?\n\nTo get to the other side.'
 ```
 
@@ -35,7 +35,7 @@ as well as LLM provider specific information.
 
 ```dart
 final llmRes = await llm.generate(
-  prompts: [
+  [
     'Tell me a joke',
     'Tell me a poem',
     'Tell me a compliment',
@@ -55,17 +55,21 @@ print(llmRes.generations.last);
 //  music and other applications.')]
 ```
 
+`tokensUsage` field contains the amount of tokens used for the generation. This is useful for
+tracking usage and billing.
+
+```dart
+print(llmRes.tokensUsage); // 641
+```
+
 You can also access provider specific information that is returned. 
 This information is NOT standardized across providers.
 
 ```dart
-print(llmRes.llmOutput);
+print(llmRes.modelOutput);
 // {
-//   token_usage: OpenAICompletionUsage(
-//     promptTokens: 17, 
-//     completionTokens: 370, 
-//     totalTokens: 387
-//   ), 
+//   id: cmpl-7PZIWeUBRWBe4DoPQt3BEWyw3vxsF, 
+//   created: 2023-06-09 18:30:40.000,
 //   model: text-ada-001
 // }
 ```

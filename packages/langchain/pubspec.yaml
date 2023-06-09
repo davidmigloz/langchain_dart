@@ -10,7 +10,7 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  collection: ^1.17.2
+  collection: ^1.17.1
   cross_file: ^0.3.3+4
   meta: ^1.9.1
 

@@ -8,3 +8,5 @@
       - [Getting Started](modules/models/llms/getting_started.md)
   - Prompts
     - [Getting Started](modules/prompts/getting_started.md)
+    - Prompt Templates
+      - [Getting Started](modules/prompts/prompt_templates/getting_started.md)

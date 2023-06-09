@@ -68,8 +68,8 @@ final llm = OpenAI(apiKey: openaiApiKey, temperature: 0.9);
 We can now call it on some input!
 
 ```dart
-final text = 'What would be a good company name for a company that makes colorful socks?';
-print(await llm(prompt: text)); // 'Feetful of Fun'
+const text = 'What would be a good company name for a company that makes colorful socks?';
+print(await llm(text)); // 'Feetful of Fun'
 ```
 
 For more details on how to use LLMs within LangChain, see the

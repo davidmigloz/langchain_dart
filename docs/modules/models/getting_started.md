@@ -27,27 +27,20 @@ import 'package:langchain_openai/langchain_openai.dart';
 We can then instantiate the models:
 ```dart
 final llm = OpenAI(apiKey: openaiApiKey);
-final chatModel = OpenAIChat(apiKey: openaiApiKey);
+final chatModel = ChatOpenAI(apiKey: openaiApiKey);
 ```
 
 ### `text` -> `text` interface
 
 ````dart
-final llmRes = await llm.predict(text: 'say hi!');
+final llmRes = await llm('say hi!');
 print(llmRes);
 // '\n\nHi there!'
-
-final chatRes = await chatModel.predict(text: 'say hi!');
-print(chatRes);
-// 'Hi! Hello there! How can I assist you today?'
 ````
 
 ### `messages` -> `messages` interface
 
 ```dart
-final llmRes = await llm.predictMessages(messages: [HumanMessage(content: 'say hi!')]);
-print(llmRes); // [AIMessage(content: '\n\nHi there! How can I help you?')]
-
-final chatRes = await chatModel.predictMessages(messages: [HumanMessage(content: 'say hi!')]);
-print(chatRes); // [AIMessage(content: '\n\nHi there! How can I help you?')]
+final chatRes = await chatModel([ChatMessage.human('say hi!')]);
+print(chatRes); // [ChatMessage.ai(content: '\n\nHi there! How can I help you?')]
 ```

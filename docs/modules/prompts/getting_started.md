@@ -3,8 +3,8 @@
 This section contains everything related to prompts. A prompt is the value passed into the Language 
 Model. This value can either be a string (for LLMs) or a list of messages (for Chat Models).
 
-The data types of these prompts are rather simple, but their construction is anything but. Value 
-props of LangChain here include:
+The data types of these prompts are rather simple, but their construction is anything but. 
+Value proposition of LangChain here include:
 - A standard interface for string prompts and message prompts.
 - A standard (to get started) interface for string prompt templates and message prompt templates.
 - Example Selectors: methods for inserting examples into the prompt for the language model to follow.
@@ -43,5 +43,5 @@ This is what is called when passing to ChatModel (which expects a list of messag
 
 ```dart
 print(stringPromptValue.toMessages());
-// HumanChatMessage(text: 'tell me a joke about soccer', example: false)
+// ChatMessage.human(text: 'tell me a joke about soccer', example: false)
 ```
