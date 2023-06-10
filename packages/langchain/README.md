@@ -66,7 +66,7 @@ final result = await llm('Hello world!');
 
 ## Docs
 
-You can find the full documentation at [langchaindart.com](https://langchaindart.com/#/).
+You can find the full documentation at [langchaindart.com](https://langchaindart.com).
 - Getting started (installation, setting up the environment, simple examples)
 - How-To examples (demos, integrations, helper functions)
 - Reference (full API docs)
