@@ -32,14 +32,36 @@ final chatModel = ChatOpenAI(apiKey: openaiApiKey);
 
 ### `text` -> `text` interface
 
+```dart
+final llmRes = await llm.generatePrompt(const StringPromptValue('say hi!'));
+print(llmRes.generations.first.first.output);
+// -> 'Hi there! How can I help you?'
+
+final chatRes = await chatModel.generatePrompt(const StringPromptValue('say hi!'));
+print(chatRes.generations.first.output);
+// -> AIChatMessage{content: 'Hello! How can I assist you today?'}
+```
+
+As it is the main functionality of the LLM, we also provide a shorthand:
 ````dart
 final llmRes = await llm('say hi!');
 print(llmRes);
-// '\n\nHi there!'
+// -> '\n\nHi there!'
 ````
 
 ### `messages` -> `messages` interface
 
+```dart
+final llmRes = await llm.generatePrompt(ChatPromptValue([ChatMessage.human('say hi!')]));
+print(llmRes.generations.first.first.output);
+// -> 'Robot: Hi there!'
+
+final chatRes = await chatModel.generatePrompt(ChatPromptValue([ChatMessage.human('say hi!')]));
+print(chatRes.generations.first.output);
+// -> AIChatMessage{content: 'Hello there! How may I assist you today?'}
+```
+
+As it is the main functionality of the Chat model, we also provide a shorthand:
 ```dart
 final chatRes = await chatModel([ChatMessage.human('say hi!')]);
 print(chatRes); // [ChatMessage.ai(content: '\n\nHi there! How can I help you?')]

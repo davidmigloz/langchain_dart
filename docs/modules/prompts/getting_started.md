@@ -26,6 +26,9 @@ expose a `formatPromptValue()` method for constructing a prompt. Under the hood,
 ```dart
 final stringPrompt = PromptTemplate.fromTemplate('tell me a joke about {subject}');
 final stringPromptValue = stringPrompt.formatPromptValue({'subject': 'soccer'});
+
+final chatPrompt = ChatPromptTemplate.fromTemplate('tell me a joke about {subject}');
+final chatPromptValue = chatPrompt.formatPrompt({'subject': 'soccer'});
 ```
 
 ### `promptValue.toString()`
@@ -34,7 +37,9 @@ This is what is called when passing to an LLM (which expects raw text).
 
 ```dart
 print(stringPromptValue.toString());
-// tell me a joke about soccer
+// -> 'tell me a joke about soccer'
+print(chatPromptValue.toString());
+// -> 'Human: tell me a joke about soccer'
 ```
 
 ### `promptValue.toMessages()`
@@ -42,6 +47,8 @@ print(stringPromptValue.toString());
 This is what is called when passing to ChatModel (which expects a list of messages)
 
 ```dart
-print(stringPromptValue.toMessages());
-// ChatMessage.human(text: 'tell me a joke about soccer', example: false)
+print(stringPromptValue.toChatMessages());
+// -> [HumanChatMessage(text: 'tell me a joke about soccer', example: false)]
+print(chatPromptValue.toChatMessages());
+// -> [HumanChatMessage(text: 'tell me a joke about soccer', example: false)]
 ```

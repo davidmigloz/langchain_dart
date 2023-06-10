@@ -89,9 +89,8 @@ This is easy to do with LangChain!
 
 First lets define the prompt template:
 ```dart
-final prompt = PromptTemplate(
-  inputVariables: const ['product'],
-  template: 'What is a good name for a company that makes {product}?',
+final prompt = PromptTemplate.fromTemplate(
+  'What is a good name for a company that makes {product}?',
 );
 ```
 

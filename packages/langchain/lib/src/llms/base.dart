@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 
 import '../language_models/language_models.dart';
+import '../prompts/models/models.dart';
 import 'models/models.dart';
 
 /// Large Language Models base class.
@@ -22,6 +23,25 @@ abstract class BaseLLM extends BaseLanguageModel<String, LLMResult> {
     final List<String> prompts, {
     final List<String>? stop,
   });
+
+  /// Runs the LLM on the given prompt value.
+  ///
+  /// - [promptValue] The prompt value to pass into the model.
+  /// - [stop] Optional list of stop words to use when generating.
+  ///
+  /// Example:
+  /// ```dart
+  /// final result = openai.generatePrompt(
+  ///   StringPromptValue('Tell me a joke.'),
+  /// );
+  /// ```
+  @override
+  Future<LLMResult> generatePrompt(
+    final PromptValue promptValue, {
+    final List<String>? stop,
+  }) {
+    return generate([promptValue.toString()], stop: stop);
+  }
 
   /// Runs the LLM on the given prompt.
   ///

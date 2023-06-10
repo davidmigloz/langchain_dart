@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 
 import '../language_models/language_models.dart';
+import '../prompts/models/models.dart';
 import 'models/models.dart';
 
 /// Chat models base class.
@@ -23,6 +24,25 @@ abstract class BaseChatModel
     final List<ChatMessage> messages, {
     final List<String>? stop,
   });
+
+  /// Runs the chat model on the given prompt value.
+  ///
+  /// - [messages] The messages to pass into the model.
+  /// - [stop] Optional list of stop words to use when generating.
+  ///
+  /// Example:
+  /// ```dart
+  /// final result = chat.generatePrompt(
+  ///   ChatPromptValue([ChatMessage.human('say hi!')]),
+  /// );
+  /// ```
+  @override
+  Future<ChatResult> generatePrompt(
+    final PromptValue promptValue, {
+    final List<String>? stop,
+  }) {
+    return generate(promptValue.toChatMessages(), stop: stop);
+  }
 
   /// Runs the chat model on the given messages.
   ///

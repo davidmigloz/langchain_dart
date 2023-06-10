@@ -1,16 +1,17 @@
+import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
-import '../chat_models/models/models.dart';
-import '../output_parsers/output_parsers.dart';
 import 'models/models.dart';
 
-/// Base class for prompt templates. Exposes a format method that returns a
-/// string prompt given a set of input values.
+/// Base class for prompt templates.
+///
+/// It exposes two methods:
+/// - [format]: returns a [String] prompt given a set of input values.
+/// - [formatPrompt]: returns a [PromptValue] given a set of input values.
 @immutable
-abstract base class BasePromptTemplate<T> {
+abstract base class BasePromptTemplate {
   BasePromptTemplate({
     required this.inputVariables,
-    this.outputParser,
     this.partialVariables,
   })  : assert(
           !inputVariables.contains('stop'),
@@ -32,9 +33,6 @@ abstract base class BasePromptTemplate<T> {
   /// A list of the names of the variables the prompt template expects.
   final List<String> inputVariables;
 
-  /// How to parse the output of calling an LLM on this formatted prompt.
-  final BaseOutputParser<T>? outputParser;
-
   /// Partial variables.
   final PartialValues? partialVariables;
 
@@ -42,7 +40,7 @@ abstract base class BasePromptTemplate<T> {
   String get type;
 
   /// Return a partial of the prompt template.
-  BasePromptTemplate<T> partial(final PartialValues values);
+  BasePromptTemplate partial(final PartialValues values);
 
   /// Format the prompt with the inputs.
   ///
@@ -52,7 +50,7 @@ abstract base class BasePromptTemplate<T> {
   /// Create Chat Messages.
   ///
   /// - [values] - Any arguments to be passed to the prompt template.
-  PromptValue formatPromptValue([final InputValues values = const {}]);
+  PromptValue formatPrompt([final InputValues values = const {}]);
 
   @protected
   Map<String, Object> mergePartialAndUserVariables(
@@ -60,36 +58,47 @@ abstract base class BasePromptTemplate<T> {
   ) {
     return {...?partialVariables, ...userVariables};
   }
+
+  @override
+  bool operator ==(covariant final BasePromptTemplate other) {
+    const listEqualityInputVariables = ListEquality<String>();
+    const mapEqualityPartialVariables = MapEquality<String, dynamic>();
+    return identical(this, other) ||
+        runtimeType == other.runtimeType &&
+            listEqualityInputVariables.equals(
+              inputVariables,
+              other.inputVariables,
+            ) &&
+            mapEqualityPartialVariables.equals(
+              partialVariables,
+              other.partialVariables,
+            );
+  }
+
+  @override
+  int get hashCode => inputVariables.hashCode ^ partialVariables.hashCode;
+
+  @override
+  String toString() {
+    return '''
+BasePromptTemplate{
+  inputVariables: $inputVariables, 
+  partialVariables: $partialVariables,
+}
+  ''';
+  }
 }
 
-/// String prompt should expose the format method, returning a prompt.
-abstract base class BaseStringPromptTemplate<T> extends BasePromptTemplate<T> {
+/// Base class to generate a prompt from a string.
+abstract base class BaseStringPromptTemplate extends BasePromptTemplate {
   BaseStringPromptTemplate({
     required super.inputVariables,
-    super.outputParser,
     super.partialVariables,
   });
 
   @override
-  PromptValue formatPromptValue([final InputValues values = const {}]) {
+  PromptValue formatPrompt([final InputValues values = const {}]) {
     final formattedPrompt = format(values);
     return StringPromptValue(formattedPrompt);
-  }
-}
-
-/// Return type for [BasePromptTemplate.formatPromptValue].
-class StringPromptValue implements PromptValue {
-  const StringPromptValue(this.value);
-
-  final String value;
-
-  @override
-  String toString() {
-    return value;
-  }
-
-  @override
-  List<ChatMessage> toMessages() {
-    return [ChatMessage.human(value)];
   }
 }

@@ -4,19 +4,22 @@ import '../client/models/models.dart';
 
 extension ChatMessageMapper on ChatMessage {
   OpenAIChatCompletionMessage toOpenAIChatMessage() {
-    return OpenAIChatCompletionMessage(
-      role: role.toOpenAIChatMessageRole(),
-      content: content,
-    );
+    return switch (this) {
+      final SystemChatMessage systemChatMessage => OpenAIChatCompletionMessage(
+          role: OpenAIChatMessageRole.system,
+          content: systemChatMessage.content,
+        ),
+      final HumanChatMessage humanChatMessage => OpenAIChatCompletionMessage(
+          role: OpenAIChatMessageRole.user,
+          content: humanChatMessage.content,
+        ),
+      final AIChatMessage aiChatMessage => OpenAIChatCompletionMessage(
+          role: OpenAIChatMessageRole.assistant,
+          content: aiChatMessage.content,
+        ),
+      _ => throw UnsupportedError('Unsupported ChatMessage type'),
+    };
   }
-}
-
-extension _ChatMessageRoleMapper on ChatMessageRole {
-  OpenAIChatMessageRole toOpenAIChatMessageRole() => switch (this) {
-        ChatMessageRole.human => OpenAIChatMessageRole.user,
-        ChatMessageRole.ai => OpenAIChatMessageRole.assistant,
-        ChatMessageRole.system => OpenAIChatMessageRole.system,
-      };
 }
 
 extension OpenAIChatCompletionMapper on OpenAIChatCompletion {
@@ -49,17 +52,10 @@ extension _OpenAIChatCompletionChoiceMapper on OpenAIChatCompletionChoice {
 
 extension _OpenAIChatCompletionMessageMapper on OpenAIChatCompletionMessage {
   ChatMessage toChatMessage() {
-    return ChatMessage(
-      role: role.toChatMessageRole(),
-      content: content,
-    );
+    return switch (role) {
+      OpenAIChatMessageRole.system => ChatMessage.system(content),
+      OpenAIChatMessageRole.user => ChatMessage.human(content),
+      OpenAIChatMessageRole.assistant => ChatMessage.ai(content),
+    };
   }
-}
-
-extension _OpenAIChatMessageRoleMapper on OpenAIChatMessageRole {
-  ChatMessageRole toChatMessageRole() => switch (this) {
-        OpenAIChatMessageRole.user => ChatMessageRole.human,
-        OpenAIChatMessageRole.assistant => ChatMessageRole.ai,
-        OpenAIChatMessageRole.system => ChatMessageRole.system,
-      };
 }

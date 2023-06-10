@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:meta/meta.dart';
 
-import 'base.dart';
+import 'base_prompt.dart';
 import 'models/models.dart';
 import 'template.dart';
 
@@ -16,7 +16,7 @@ import 'template.dart';
 /// );
 /// ```
 @immutable
-final class PromptTemplate extends BaseStringPromptTemplate<void> {
+final class PromptTemplate extends BaseStringPromptTemplate {
   PromptTemplate({
     required super.inputVariables,
     super.partialVariables,
@@ -36,58 +36,24 @@ final class PromptTemplate extends BaseStringPromptTemplate<void> {
     }
   }
 
-  /// The prompt template.
-  final String template;
-
-  /// The format of the prompt template.
-  final TemplateFormat templateFormat;
-
-  /// Whether or not to try validating the template.
-  final bool validateTemplate;
-
-  @override
-  String get type => 'prompt';
-
-  @override
-  BasePromptTemplate<void> partial(final PartialValues values) {
-    final newInputVariables = inputVariables
-        .where((final variable) => !values.keys.contains(variable))
-        .toList(growable: false);
-    final newPartialVariables = {
-      ...?partialVariables,
-      ...values,
-    };
-    return copyWith(
-      inputVariables: newInputVariables,
-      partialVariables: newPartialVariables,
-    );
-  }
-
-  @override
-  String format([final InputValues values = const {}]) {
-    final allValues = mergePartialAndUserVariables(values);
-    return renderTemplate(
-      template: template,
-      templateFormat: templateFormat,
-      inputValues: allValues,
-    );
-  }
-
-  /// Load a prompt template from a template
+  /// Creates a prompt template from a string template.
   /// (e.g. "This is a {foo} test.").
   ///
   /// Note: only fString format is supported for now.
   factory PromptTemplate.fromTemplate(
     final String template, {
+    final PartialValues? partialVariables,
     final TemplateFormat templateFormat = TemplateFormat.fString,
     final bool validateTemplate = true,
   }) {
     return PromptTemplate(
       inputVariables: parseFStringTemplate(template)
           .whereType<ParsedFStringVariableNode>()
-          .toSet()
           .map((final node) => node.name)
+          .toSet()
+          .difference(partialVariables?.keys.toSet() ?? {})
           .toList(growable: false),
+      partialVariables: partialVariables,
       template: template,
       templateFormat: templateFormat,
       validateTemplate: validateTemplate,
@@ -120,33 +86,76 @@ final class PromptTemplate extends BaseStringPromptTemplate<void> {
     );
   }
 
-  /// Load a prompt from a file.
+  /// Loads a prompt from a file.
   ///
   /// - [templateFile] the path to the file containing the prompt template.
-  /// - [inputVariables] a list of variable names the final prompt template
-  ///   will expect.
   static Future<PromptTemplate> fromFile(
-    final String templateFile,
-    final List<String> inputVariables,
-  ) async {
+    final String templateFile, {
+    final PartialValues? partialVariables,
+    final TemplateFormat templateFormat = TemplateFormat.fString,
+    final bool validateTemplate = true,
+  }) async {
     final file = XFile(templateFile);
     final template = await file.readAsString();
-    return PromptTemplate(
+    return PromptTemplate.fromTemplate(
+      template,
+      partialVariables: partialVariables,
+      templateFormat: templateFormat,
+      validateTemplate: validateTemplate,
+    );
+  }
+
+  /// The prompt template.
+  final String template;
+
+  /// The format of the prompt template.
+  final TemplateFormat templateFormat;
+
+  /// Whether or not to try validating the template.
+  final bool validateTemplate;
+
+  @override
+  String get type => 'prompt';
+
+  @override
+  BasePromptTemplate partial(final PartialValues values) {
+    final newInputVariables = inputVariables
+        .where((final variable) => !values.keys.contains(variable))
+        .toList(growable: false);
+    final newPartialVariables = {
+      ...?partialVariables,
+      ...values,
+    };
+    return copyWith(
+      inputVariables: newInputVariables,
+      partialVariables: newPartialVariables,
+    );
+  }
+
+  @override
+  String format([final InputValues values = const {}]) {
+    final allValues = mergePartialAndUserVariables(values);
+    return renderTemplate(
       template: template,
-      inputVariables: inputVariables,
+      templateFormat: templateFormat,
+      inputValues: allValues,
     );
   }
 
   @override
   bool operator ==(covariant final PromptTemplate other) {
-    const listEquals = ListEquality<String>();
-    const mapEquals = MapEquality<String, Object>();
-
+    const listEqualsInputVariables = ListEquality<String>();
+    const mapEqualsPartialVariables = MapEquality<String, dynamic>();
     return identical(this, other) ||
         runtimeType == other.runtimeType &&
-            listEquals.equals(inputVariables, other.inputVariables) &&
-            outputParser == other.outputParser &&
-            mapEquals.equals(partialVariables, other.partialVariables) &&
+            listEqualsInputVariables.equals(
+              inputVariables,
+              other.inputVariables,
+            ) &&
+            mapEqualsPartialVariables.equals(
+              partialVariables,
+              other.partialVariables,
+            ) &&
             template == other.template &&
             templateFormat == other.templateFormat &&
             validateTemplate == other.validateTemplate;
@@ -154,11 +163,27 @@ final class PromptTemplate extends BaseStringPromptTemplate<void> {
 
   @override
   int get hashCode =>
-      template.hashCode ^ templateFormat.hashCode ^ validateTemplate.hashCode;
+      inputVariables.hashCode ^
+      partialVariables.hashCode ^
+      template.hashCode ^
+      templateFormat.hashCode ^
+      validateTemplate.hashCode;
+
+  @override
+  String toString() {
+    return '''
+PromptTemplate{
+  template: $template, 
+  inputVariables: $inputVariables,
+  partialVariables: $partialVariables,
+  templateFormat: $templateFormat, 
+  validateTemplate: $validateTemplate,
+}''';
+  }
 
   PromptTemplate copyWith({
     final List<String>? inputVariables,
-    final Map<String, Object>? partialVariables,
+    final Map<String, dynamic>? partialVariables,
     final String? template,
     final TemplateFormat? templateFormat,
     final bool? validateTemplate,

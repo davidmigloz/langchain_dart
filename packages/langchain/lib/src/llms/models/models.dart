@@ -7,6 +7,16 @@ class LLMResult extends LanguageModelResult<List<LLMGeneration>> {
     super.tokensUsage,
     super.modelOutput,
   });
+
+  @override
+  String toString() {
+    return '''
+LLMResult{
+  generations: $generations, 
+  tokensUsage: $tokensUsage, 
+  modelOutput: $modelOutput},
+''';
+  }
 }
 
 /// Output of a single generation.
@@ -15,4 +25,13 @@ class LLMGeneration extends LanguageModelGeneration<String> {
     super.output, {
     super.generationInfo,
   });
+
+  @override
+  String toString() {
+    return '''
+LLMGeneration{
+  output: $output, 
+  generationInfo: $generationInfo, 
+''';
+  }
 }

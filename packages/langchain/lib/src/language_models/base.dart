@@ -1,3 +1,5 @@
+import '../prompts/models/models.dart';
+
 /// Base class for all language models.
 ///
 /// There are two different sub-types of Language Models:
@@ -13,6 +15,12 @@ abstract class BaseLanguageModel<I, O> {
   /// Runs the language model on the given input.
   Future<O> generate(
     final List<I> inputs, {
+    final List<String>? stop,
+  });
+
+  /// Runs the language model on the given prompt value.
+  Future<O> generatePrompt(
+    final PromptValue promptValue, {
     final List<String>? stop,
   });
 

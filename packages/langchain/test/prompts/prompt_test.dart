@@ -4,7 +4,7 @@ import 'package:langchain/src/prompts/template.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Prompt tests', () {
+  group('PromptTemplate tests', () {
     test('Test prompts can be constructed', () {
       const template = 'This is a {foo} test.';
       final inputVariables = ['foo'];
@@ -56,6 +56,31 @@ void main() {
         inputVariables: const ['bar', 'foo'],
       );
       expect(prompt3, expectedPrompt3);
+    });
+
+    test('Create a prompt template with partials', () {
+      const template = 'This is a {foo} {bar} test.';
+      final prompt = PromptTemplate.fromTemplate(
+        template,
+        partialVariables: const {'foo': 'jim'},
+      );
+      final expectedPrompt = PromptTemplate(
+        template: template,
+        inputVariables: const ['bar'],
+        partialVariables: const {'foo': 'jim'},
+      );
+      expect(prompt, expectedPrompt);
+    });
+
+    test('Test error is raised when partial variables overlap', () {
+      expect(
+        () => PromptTemplate(
+          inputVariables: const ['foo', 'bar'],
+          partialVariables: const {'foo': 'jim'},
+          template: 'This is a {foo} {bar} test.',
+        ),
+        throwsA(isA<AssertionError>()),
+      );
     });
 
     test('Test error is raised when input variables are not provided', () {
@@ -141,87 +166,88 @@ Answer:''';
       );
       expect(promptFromExamples, promptFromTemplate);
     });
-  });
 
-  test('Test prompt can be successfully constructed from a file', () async {
-    const templateFile = './test/prompts/assets/prompt_file.txt';
-    const inputVariables = ['question'];
-    final prompt = await PromptTemplate.fromFile(templateFile, inputVariables);
-    expect(prompt.template, 'Question: {question}\nAnswer:');
-  });
+    test('Test prompt can be successfully constructed from a file', () async {
+      const templateFile = './test/prompts/assets/prompt_file.txt';
+      const inputVariables = ['question'];
+      final prompt = await PromptTemplate.fromFile(templateFile);
+      expect(prompt.template, 'Question: {question}\nAnswer:');
+      expect(prompt.inputVariables, inputVariables);
+    });
 
-  test('Test prompt can be initialized with partial variables', () {
-    const template = 'This is a {foo} test.';
-    final prompt = PromptTemplate(
-      inputVariables: const [],
-      template: template,
-      partialVariables: const {'foo': 1},
-    );
-    expect(prompt.template, template);
-    expect(prompt.inputVariables, <String>[]);
-    final result = prompt.format();
-    expect(result, 'This is a 1 test.');
-  });
+    test('Test prompt can be initialized with partial variables', () {
+      const template = 'This is a {foo} test.';
+      final prompt = PromptTemplate(
+        inputVariables: const [],
+        template: template,
+        partialVariables: const {'foo': 1},
+      );
+      expect(prompt.template, template);
+      expect(prompt.inputVariables, <String>[]);
+      final result = prompt.format();
+      expect(result, 'This is a 1 test.');
+    });
 
-  test('Test prompt can be initialized with partial variables', () {
-    const template = 'This is a {foo} test.';
-    final prompt = PromptTemplate(
-      inputVariables: const [],
-      template: template,
-      partialVariables: const {'foo': 2},
-    );
-    expect(prompt.template, template);
-    expect(prompt.inputVariables, <String>[]);
-    final result = prompt.format();
-    expect(result, 'This is a 2 test.');
-  });
+    test('Test prompt can be initialized with partial variables', () {
+      const template = 'This is a {foo} test.';
+      final prompt = PromptTemplate(
+        inputVariables: const [],
+        template: template,
+        partialVariables: const {'foo': 2},
+      );
+      expect(prompt.template, template);
+      expect(prompt.inputVariables, <String>[]);
+      final result = prompt.format();
+      expect(result, 'This is a 2 test.');
+    });
 
-  test('Test prompt can be partial', () {
-    const template = 'This is a {foo} test.';
-    final prompt = PromptTemplate(
-      inputVariables: const ['foo'],
-      template: template,
-    );
-    expect(prompt.template, template);
-    expect(prompt.inputVariables, ['foo']);
+    test('Test prompt can be partial', () {
+      const template = 'This is a {foo} test.';
+      final prompt = PromptTemplate(
+        inputVariables: const ['foo'],
+        template: template,
+      );
+      expect(prompt.template, template);
+      expect(prompt.inputVariables, ['foo']);
 
-    final newPrompt = prompt.partial({'foo': '3'});
-    final newResult = newPrompt.format();
-    expect(newResult, 'This is a 3 test.');
+      final newPrompt = prompt.partial({'foo': '3'});
+      final newResult = newPrompt.format();
+      expect(newResult, 'This is a 3 test.');
 
-    final result = prompt.format({'foo': 'foo'});
-    expect(result, 'This is a foo test.');
-  });
+      final result = prompt.format({'foo': 'foo'});
+      expect(result, 'This is a foo test.');
+    });
 
-  test('Test another partial prompt', () {
-    final prompt = PromptTemplate(
-      template: '{foo}{bar}',
-      inputVariables: const ['foo'],
-      partialVariables: const {'bar': 'baz'},
-    );
-    expect(prompt.format({'foo': 'foo'}), 'foobaz');
-  });
+    test('Test another partial prompt', () {
+      final prompt = PromptTemplate(
+        template: '{foo}{bar}',
+        inputVariables: const ['foo'],
+        partialVariables: const {'bar': 'baz'},
+      );
+      expect(prompt.format({'foo': 'foo'}), 'foobaz');
+    });
 
-  test('Test using full partial', () {
-    final prompt = PromptTemplate(
-      template: '{foo}{bar}',
-      inputVariables: const [],
-      partialVariables: const {'bar': 'baz', 'foo': 'boo'},
-    );
-    expect(prompt.format({}), 'boobaz');
-  });
+    test('Test using full partial', () {
+      final prompt = PromptTemplate(
+        template: '{foo}{bar}',
+        inputVariables: const [],
+        partialVariables: const {'bar': 'baz', 'foo': 'boo'},
+      );
+      expect(prompt.format({}), 'boobaz');
+    });
 
-  test('Test partial', () {
-    final prompt = PromptTemplate(
-      template: '{foo}{bar}',
-      inputVariables: const ['foo', 'bar'],
-    );
-    expect(prompt.inputVariables, ['foo', 'bar']);
-    final partialPrompt = prompt.partial({'foo': 'foo'});
-    // original prompt is not modified
-    expect(prompt.inputVariables, ['foo', 'bar']);
-    // partial prompt has only remaining variables
-    expect(partialPrompt.inputVariables, ['bar']);
-    expect(partialPrompt.format({'bar': 'baz'}), 'foobaz');
+    test('Test partial', () {
+      final prompt = PromptTemplate(
+        template: '{foo}{bar}',
+        inputVariables: const ['foo', 'bar'],
+      );
+      expect(prompt.inputVariables, ['foo', 'bar']);
+      final partialPrompt = prompt.partial({'foo': 'foo'});
+      // original prompt is not modified
+      expect(prompt.inputVariables, ['foo', 'bar']);
+      // partial prompt has only remaining variables
+      expect(partialPrompt.inputVariables, ['bar']);
+      expect(partialPrompt.format({'bar': 'baz'}), 'foobaz');
+    });
   });
 }
