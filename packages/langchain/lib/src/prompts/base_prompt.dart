@@ -54,7 +54,7 @@ abstract base class BasePromptTemplate {
 
   @protected
   Map<String, Object> mergePartialAndUserVariables(
-    final Map<String, Object> userVariables,
+    final Map<String, dynamic> userVariables,
   ) {
     return {...?partialVariables, ...userVariables};
   }

@@ -1,6 +1,7 @@
 /// Build powerful LLM-based Dart/Flutter applications.
 library;
 
+export 'src/chains/chains.dart';
 export 'src/chat_models/chat_models.dart';
 export 'src/language_models/language_models.dart';
 export 'src/llms/llms.dart';

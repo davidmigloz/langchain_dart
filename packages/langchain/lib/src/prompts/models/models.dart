@@ -76,7 +76,7 @@ class ChatPromptValue implements PromptValue {
 /// Input values used to format a prompt.
 /// The keys are the names of the variables in the prompt template
 /// and the values the actual values to use.
-typedef InputValues = Map<String, Object>;
+typedef InputValues = Map<String, dynamic>;
 
 /// Partial input values used to format a prompt.
 /// The keys are the names of the variables in the prompt template

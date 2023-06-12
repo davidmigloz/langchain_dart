@@ -615,7 +615,7 @@ final class MessagesPlaceholder extends BaseMessagePromptTemplate {
 
   @override
   List<ChatMessage> formatMessages([
-    final Map<String, Object> values = const {},
+    final Map<String, dynamic> values = const {},
   ]) {
     return values[variableName] as List<ChatMessage>? ?? const [];
   }

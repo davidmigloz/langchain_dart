@@ -13,7 +13,7 @@ a list of different model providers.
 
 - [LLMs](/modules/models/llms/getting_started): Large Language Models (LLMs) take a text string as 
   input and return a text string as output.
-- Chat Models: Chat Models are usually backed by a language model, but their APIs are more 
-  structured. Specifically, these models take a list of Chat Messages as input, and return a 
-  Chat Message.
+- [Chat Models](/modules/models/chat_models/chat_models.md): Chat Models are usually backed by a 
+- language model, but their APIs are more structured. Specifically, these models take a list of 
+  Chat Messages as input, and return a Chat Message.
 - Text Embedding Models: Text embedding models take text as input and return a list of floats.

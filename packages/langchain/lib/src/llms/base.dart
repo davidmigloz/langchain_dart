@@ -6,7 +6,7 @@ import 'models/models.dart';
 
 /// Large Language Models base class.
 /// It should take in a prompt and return a string.
-abstract class BaseLLM extends BaseLanguageModel<String, LLMResult> {
+abstract class BaseLLM extends BaseLanguageModel<String, List<LLMGeneration>> {
   const BaseLLM();
 
   /// Runs the LLM on the given prompt.

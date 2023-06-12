@@ -7,7 +7,7 @@ import 'models/models.dart';
 /// Chat models base class.
 /// It should take in chat messages and return a chat message.
 abstract class BaseChatModel
-    extends BaseLanguageModel<ChatMessage, ChatResult> {
+    extends BaseLanguageModel<ChatMessage, ChatGeneration> {
   const BaseChatModel();
 
   /// Runs the chat model on the given messages.

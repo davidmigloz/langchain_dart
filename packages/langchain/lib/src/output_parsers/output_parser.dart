@@ -7,6 +7,8 @@ interface class FormatInstructionsOptions {}
 
 /// Class to parse the output of an LLM call.
 abstract class BaseOutputParser<T> {
+  const BaseOutputParser();
+
   /// Parse the output of an LLM call.
   ///
   /// A method which takes in a string (assumed output of a language model)
