@@ -2,6 +2,7 @@ import 'package:langchain/langchain.dart';
 
 import '../client/models/models.dart';
 
+/// Mapper for [ChatMessage] to [OpenAIChatCompletionMessage].
 extension ChatMessageMapper on ChatMessage {
   OpenAIChatCompletionMessage toOpenAIChatMessage() {
     return switch (this) {
@@ -22,6 +23,7 @@ extension ChatMessageMapper on ChatMessage {
   }
 }
 
+/// Mapper for [ChatGeneration] to [OpenAIChatCompletionChoice].
 extension OpenAIChatCompletionMapper on OpenAIChatCompletion {
   ChatResult toChatResult(final String model) {
     return ChatResult(
@@ -38,6 +40,7 @@ extension OpenAIChatCompletionMapper on OpenAIChatCompletion {
   }
 }
 
+/// Mapper for [OpenAIChatCompletionChoice] to [ChatGeneration].
 extension _OpenAIChatCompletionChoiceMapper on OpenAIChatCompletionChoice {
   ChatGeneration toChatGeneration() {
     return ChatGeneration(
@@ -50,6 +53,7 @@ extension _OpenAIChatCompletionChoiceMapper on OpenAIChatCompletionChoice {
   }
 }
 
+/// Mapper for [OpenAIChatCompletionMessage] to [ChatMessage].
 extension _OpenAIChatCompletionMessageMapper on OpenAIChatCompletionMessage {
   ChatMessage toChatMessage() {
     return switch (role) {

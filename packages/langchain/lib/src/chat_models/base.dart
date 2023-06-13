@@ -4,10 +4,13 @@ import '../language_models/language_models.dart';
 import '../prompts/models/models.dart';
 import 'models/models.dart';
 
+/// {@template base_chat_model}
 /// Chat models base class.
 /// It should take in chat messages and return a chat message.
+/// {@endtemplate}
 abstract class BaseChatModel
-    extends BaseLanguageModel<ChatMessage, ChatGeneration> {
+    extends BaseLanguageModel<List<ChatMessage>, ChatMessage> {
+  /// {@macro base_chat_model}
   const BaseChatModel();
 
   /// Runs the chat model on the given messages.
@@ -62,10 +65,13 @@ abstract class BaseChatModel
   }
 }
 
+/// {@template simple_chat_model}
 /// [SimpleChatModel] provides a simplified interface for working with chat
 /// models, rather than expecting the user to implement the full
 /// [SimpleChatModel.generate] method.
+/// {@endtemplate}
 abstract class SimpleChatModel extends BaseChatModel {
+  /// {@macro simple_chat_model}
   const SimpleChatModel();
 
   @override

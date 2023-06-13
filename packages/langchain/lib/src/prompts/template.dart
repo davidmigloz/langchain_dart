@@ -2,6 +2,8 @@ import 'package:meta/meta.dart';
 
 import 'models/models.dart';
 
+/// Format of a template.
+/// Currently only f-strings are supported.
 enum TemplateFormat {
   /// Python f-strings format (aka. formatted string literals).
   /// E.g.: "Hello, my name is {name} and I'm {age} years old."
@@ -128,13 +130,21 @@ List<ParsedFStringNode> parseFStringTemplate(final String template) {
   return nodes;
 }
 
+/// {@template parsed_f_string_node}
+/// A node in a parsed f-string template.
+/// {@endtemplate}
 @immutable
 sealed class ParsedFStringNode {
+  /// {@macro parsed_f_string_node}
   const ParsedFStringNode();
 }
 
+/// {@template parsed_f_string_literal_node}
+/// A literal node in a parsed f-string template.
+/// {@endtemplate}
 @immutable
 class ParsedFStringLiteralNode extends ParsedFStringNode {
+  /// {@macro parsed_f_string_literal_node}
   const ParsedFStringLiteralNode({
     required this.text,
   });
@@ -150,8 +160,12 @@ class ParsedFStringLiteralNode extends ParsedFStringNode {
   int get hashCode => text.hashCode;
 }
 
+/// {@template parsed_f_string_variable_node}
+/// A variable node in a parsed f-string template.
+/// {@endtemplate}
 @immutable
 class ParsedFStringVariableNode extends ParsedFStringNode {
+  /// {@macro parsed_f_string_variable_node}
   const ParsedFStringVariableNode({
     required this.name,
   });

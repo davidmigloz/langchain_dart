@@ -4,8 +4,11 @@ import '../client/base.dart';
 import '../client/openai_client.dart';
 import 'mappers.dart';
 
+/// {@template base_chat_openai}
 /// Wrapper around OpenAI Chat large language models.
+/// {@endtemplate}
 abstract base class BaseChatOpenAI extends BaseChatModel {
+  /// {@macro base_chat_openai}
   BaseChatOpenAI({
     required final String? apiKey,
     required final BaseOpenAIClient? apiClient,
@@ -23,6 +26,7 @@ abstract base class BaseChatOpenAI extends BaseChatModel {
         ),
         _client = apiClient ?? OpenAIClient.instanceFor(apiKey: apiKey!);
 
+  /// API client to use.
   final BaseOpenAIClient _client;
 
   /// ID of the model to use (e.g. 'gpt-3.5-turbo').
@@ -101,13 +105,16 @@ abstract base class BaseChatOpenAI extends BaseChatModel {
   }
 }
 
+/// {@template chat_openai}
 /// Wrapper around [OpenAI Chat API](https://platform.openai.com/docs/api-reference/chat).
 ///
 /// Example:
 /// ```dart
 /// final chat = ChatOpenAI(apiKey: '...', temperature: 1);
 /// ```
+/// {@endtemplate}
 final class ChatOpenAI extends BaseChatOpenAI {
+  /// {@macro chat_openai}
   ChatOpenAI({
     super.apiKey,
     super.apiClient,

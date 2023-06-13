@@ -1,21 +1,13 @@
 import 'package:langchain/langchain.dart';
 import '../client/models/models.dart';
 
+/// Mapper for [OpenAICompletionModel] to [LLMResult].
 extension OpenAICompletionMapper on OpenAICompletion {
-  LLMResult toChatResult({
-    required final int numPrompts,
-    required final int n,
-  }) {
-    final generations = List.generate(
-      numPrompts,
-      (final i) => choices
-          .sublist(i * n, (i + 1) * n)
+  LLMResult toChatResult() {
+    return LLMResult(
+      generations: choices
           .map((final choice) => choice.toLLMGeneration())
           .toList(growable: false),
-      growable: false,
-    );
-    return LLMResult(
-      generations: generations,
       tokensUsage: usage?.totalTokens,
       modelOutput: {
         'id': id,
@@ -26,6 +18,7 @@ extension OpenAICompletionMapper on OpenAICompletion {
   }
 }
 
+/// Mapper for [OpenAICompletionChoice] to [LLMGeneration].
 extension _OpenAICompletionChoiceMapper on OpenAICompletionChoice {
   LLMGeneration toLLMGeneration() {
     return LLMGeneration(

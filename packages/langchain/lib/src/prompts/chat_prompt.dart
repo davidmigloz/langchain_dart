@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:cross_file/cross_file.dart';
+import 'package:meta/meta.dart';
 
 import '../chat_models/chat_models.dart';
 import 'base_chat_prompt.dart';
@@ -8,6 +9,7 @@ import 'models/models.dart';
 import 'prompt.dart';
 import 'template.dart';
 
+/// {@template chat_prompt_template}
 /// Schema to represent a prompt for a Chat model.
 ///
 /// Whereas LLMs take a string as prompt, Chat models take a list of messages.
@@ -51,7 +53,10 @@ import 'template.dart';
 ///   partialVariables: {'foo': 'foo', 'bar': 'bar'},
 /// );
 /// ```
+/// {@endtemplate}
+@immutable
 final class ChatPromptTemplate extends BaseChatPromptTemplate {
+  /// {@macro chat_prompt_template}
   ChatPromptTemplate({
     required super.inputVariables,
     super.partialVariables,
@@ -263,6 +268,7 @@ ChatPromptTemplate{
 }''';
   }
 
+  /// Creates a copy of this [ChatPromptTemplate] with the given fields.
   ChatPromptTemplate copyWith({
     final List<String>? inputVariables,
     final PartialValues? partialVariables,
@@ -276,9 +282,13 @@ ChatPromptTemplate{
   }
 }
 
+/// {@template system_chat_message_prompt_template}
 /// A template for a [SystemChatMessage].
+/// {@endtemplate}
+@immutable
 final class SystemChatMessagePromptTemplate
     extends BaseStringMessagePromptTemplate {
+  /// {@macro system_chat_message_prompt_template}
   const SystemChatMessagePromptTemplate({
     required super.prompt,
   });
@@ -355,9 +365,13 @@ SystemChatMessagePromptTemplate{
   }
 }
 
+/// {@template human_chat_message_prompt_template}
 /// A template for a [HumanChatMessage].
+/// {@endtemplate}
+@immutable
 final class HumanChatMessagePromptTemplate
     extends BaseStringMessagePromptTemplate {
+  /// {@macro human_chat_message_prompt_template}
   const HumanChatMessagePromptTemplate({
     required super.prompt,
   });
@@ -434,9 +448,13 @@ HumanChatMessagePromptTemplate{
   }
 }
 
+/// {@template ai_chat_message_prompt_template}
 /// A template for a [AIChatMessage].
+/// {@endtemplate}
+@immutable
 final class AIChatMessagePromptTemplate
     extends BaseStringMessagePromptTemplate {
+  /// {@macro ai_chat_message_prompt_template}
   const AIChatMessagePromptTemplate({
     required super.prompt,
   });
@@ -513,8 +531,13 @@ AIChatMessagePromptTemplate{
   }
 }
 
+/// {@template custom_chat_message_prompt_template}
+/// A template for a [CustomChatMessage].
+/// {@endtemplate}
+@immutable
 final class CustomChatMessagePromptTemplate
     extends BaseStringMessagePromptTemplate {
+  /// {@macro custom_chat_message_prompt_template}
   const CustomChatMessagePromptTemplate({
     required super.prompt,
     required this.role,
@@ -600,8 +623,12 @@ CustomChatMessagePromptTemplate{
   }
 }
 
+/// {@template messages_placeholder}
 /// Prompt template that assumes variable is already list of messages.
+/// {@endtemplate}
+@immutable
 final class MessagesPlaceholder extends BaseMessagePromptTemplate {
+  /// {@macro messages_placeholder}
   MessagesPlaceholder({required this.variableName})
       : super(prompt: PromptTemplate(inputVariables: const [], template: ''));
 

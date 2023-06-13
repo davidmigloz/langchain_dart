@@ -42,18 +42,13 @@ void main() {
 
     test('Test generate to OpenAI', () async {
       final llm = OpenAI(apiKey: openaiApiKey, maxTokens: 10);
-      final res = await llm.generate(
-        [
-          'Hello, how are you?',
-          'I am fine, thank you.',
-        ],
-      );
-      expect(res.generations.length, 2);
+      final res = await llm.generate('Hello, how are you?');
+      expect(res.generations.length, 1);
     });
 
     test('Test model output contains metadata', () async {
       final llm = OpenAI(apiKey: openaiApiKey, maxTokens: 10);
-      final res = await llm.generate(['Hello, how are you?']);
+      final res = await llm.generate('Hello, how are you?');
       expect(res.modelOutput, isNotNull);
       expect(res.modelOutput!['id'], isNotEmpty);
       expect(res.modelOutput!['created'], isNotNull);
@@ -70,10 +65,9 @@ void main() {
 
     test('Test OpenAI wrapper with multiple completions', () async {
       final chat = OpenAI(apiKey: openaiApiKey, n: 5, bestOf: 5);
-      final res = await chat.generate(['Hello, how are you?']);
-      expect(res.generations.length, 1);
-      expect(res.generations.first.length, 5);
-      for (final generation in res.generations.first) {
+      final res = await chat.generate('Hello, how are you?');
+      expect(res.generations.length, 5);
+      for (final generation in res.generations) {
         expect(generation.output, isNotEmpty);
       }
     });

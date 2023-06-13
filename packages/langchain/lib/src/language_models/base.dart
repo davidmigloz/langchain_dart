@@ -1,13 +1,16 @@
 import '../prompts/models/models.dart';
 import 'models/models.dart';
 
+/// {@template base_language_model}
 /// Base class for all language models.
 ///
 /// There are two different sub-types of Language Models:
 /// - LLMs: these wrap APIs which take text in and return text.
 /// - ChatModels: these wrap models which take chat messages in and return a
 ///   chat message.
-abstract class BaseLanguageModel<I, O extends Object> {
+/// {@endtemplate}
+abstract class BaseLanguageModel<I extends Object, O extends Object> {
+  /// {@macro base_language_model}
   const BaseLanguageModel();
 
   /// Return type of language model.
@@ -15,7 +18,7 @@ abstract class BaseLanguageModel<I, O extends Object> {
 
   /// Runs the language model on the given input.
   Future<LanguageModelResult<O>> generate(
-    final List<I> inputs, {
+    final I input, {
     final List<String>? stop,
   });
 

@@ -3,8 +3,11 @@ import 'package:meta/meta.dart';
 import '../memory/base.dart';
 import 'models/models.dart';
 
+/// {@template base_chain}
 /// Base class that defines a chain.
+/// {@endtemplate}
 abstract class BaseChain {
+  /// {@macro base_chain}
   const BaseChain({
     this.memory,
   });

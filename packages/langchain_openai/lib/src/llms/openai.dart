@@ -4,8 +4,11 @@ import '../client/base.dart';
 import '../client/openai_client.dart';
 import 'mappers.dart';
 
+/// {@template base_openai}
 /// Wrapper around OpenAI large language models.
+/// {@endtemplate}
 abstract base class BaseOpenAI extends BaseLLM {
+  /// {@macro base_openai}
   BaseOpenAI({
     required final String? apiKey,
     required final BaseOpenAIClient? apiClient,
@@ -83,12 +86,12 @@ abstract base class BaseOpenAI extends BaseLLM {
 
   @override
   Future<LLMResult> generate(
-    final List<String> prompts, {
+    final String prompt, {
     final List<String>? stop,
   }) async {
     final completion = await _client.createCompletion(
       model: model,
-      prompts: prompts,
+      prompts: [prompt],
       maxTokens: maxTokens,
       temperature: temperature,
       topP: topP,
@@ -99,17 +102,20 @@ abstract base class BaseOpenAI extends BaseLLM {
       bestOf: bestOf,
       logitBias: logitBias,
     );
-    return completion.toChatResult(numPrompts: prompts.length, n: n);
+    return completion.toChatResult();
   }
 }
 
+/// {@template openai}
 /// Wrapper around [OpenAI Completions API](https://platform.openai.com/docs/api-reference/completions).
 ///
 /// Example:
 /// ```dart
 /// final llm = OpenAI(apiKey: '...', temperature: 1);
 /// ```
+/// {@endtemplate}
 final class OpenAI extends BaseOpenAI {
+  /// {@macro openai}
   OpenAI({
     super.apiKey,
     super.apiClient,

@@ -1,5 +1,6 @@
 import 'models/models.dart';
 
+/// Base class for OpenAI API clients.
 abstract interface class BaseOpenAIClient {
   /// Given a prompt, the model will return one or more predicted completions,
   /// and can also return the probabilities of alternative tokens at each

@@ -3,13 +3,16 @@ import 'package:meta/meta.dart';
 
 import 'models/models.dart';
 
+/// {@template base_prompt_template}
 /// Base class for prompt templates.
 ///
 /// It exposes two methods:
 /// - [format]: returns a [String] prompt given a set of input values.
 /// - [formatPrompt]: returns a [PromptValue] given a set of input values.
+/// {@endtemplate}
 @immutable
 abstract base class BasePromptTemplate {
+  /// {@macro base_prompt_template}
   BasePromptTemplate({
     required this.inputVariables,
     this.partialVariables,
@@ -89,8 +92,12 @@ BasePromptTemplate{
   }
 }
 
+/// {@template base_string_prompt_template}
 /// Base class to generate a prompt from a string.
+/// {@endtemplate}
+@immutable
 abstract base class BaseStringPromptTemplate extends BasePromptTemplate {
+  /// {@macro base_string_prompt_template}
   BaseStringPromptTemplate({
     required super.inputVariables,
     super.partialVariables,

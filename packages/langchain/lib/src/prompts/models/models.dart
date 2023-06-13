@@ -1,10 +1,18 @@
+import 'package:meta/meta.dart';
+
 import '../../chat_models/models/models.dart';
 
+/// {@template prompt_value}
 /// Represents the input to an LLM or Chat model.
 ///
 /// When working with an LLM, the [toString] method will be used.
 /// When working with a Chat model, the [toChatMessages] method will be used.
+/// {@endtemplate}
+@immutable
 abstract interface class PromptValue {
+  /// {@macro prompt_value}
+  const PromptValue();
+
   /// Returns a string representing the prompt.
   @override
   String toString();
@@ -13,12 +21,16 @@ abstract interface class PromptValue {
   List<ChatMessage> toChatMessages();
 }
 
+/// {@template string_prompt_template}
 /// Prompt value whose value is a string.
 ///
 /// When [toString] is called, it returns the string value.
 /// When [toChatMessages] is called, it returns a [HumanChatMessage] with the
 /// value as content.
+/// {@endtemplate}
+@immutable
 class StringPromptValue implements PromptValue {
+  /// {@macro string_prompt_template}
   const StringPromptValue(this.value);
 
   final String value;
@@ -34,6 +46,7 @@ class StringPromptValue implements PromptValue {
   }
 }
 
+/// {@template chat_prompt_template}
 /// Prompt value whose value is a list of messages.
 ///
 /// When [toString] is called, it returns the string representation of the
@@ -47,7 +60,10 @@ class StringPromptValue implements PromptValue {
 /// ...
 /// ```
 /// When [toChatMessages] is called, it returns the list of messages.
+/// {@endtemplate}
+@immutable
 class ChatPromptValue implements PromptValue {
+  /// {@macro chat_prompt_template}
   const ChatPromptValue(this.messages);
 
   final List<ChatMessage> messages;

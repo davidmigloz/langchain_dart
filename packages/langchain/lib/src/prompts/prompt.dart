@@ -6,6 +6,7 @@ import 'base_prompt.dart';
 import 'models/models.dart';
 import 'template.dart';
 
+/// {@template prompt_template}
 /// Schema to represent a prompt for an LLM.
 ///
 /// Example:
@@ -15,6 +16,7 @@ import 'template.dart';
 ///   template: 'Say {foo}',
 /// );
 /// ```
+/// {@endtemplate}
 @immutable
 final class PromptTemplate extends BaseStringPromptTemplate {
   PromptTemplate({

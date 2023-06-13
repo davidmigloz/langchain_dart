@@ -1,7 +1,13 @@
+import 'package:meta/meta.dart';
+
 import '../../language_models/models/models.dart';
 
+/// {@template llm_result}
 /// Class that contains all relevant information for an LLM Result.
-class LLMResult extends LanguageModelResult<List<LLMGeneration>> {
+/// {@endtemplate}
+@immutable
+class LLMResult extends LanguageModelResult<String> {
+  /// {@macro llm_result}
   const LLMResult({
     required super.generations,
     super.tokensUsage,
@@ -17,10 +23,19 @@ LLMResult{
   modelOutput: $modelOutput},
 ''';
   }
+
+  @override
+  String get firstOutputAsString {
+    return generations.firstOrNull?.output ?? '';
+  }
 }
 
+/// {@template llm_generation}
 /// Output of a single generation.
+/// {@endtemplate}
+@immutable
 class LLMGeneration extends LanguageModelGeneration<String> {
+  /// {@macro llm_generation}
   const LLMGeneration(
     super.output, {
     super.generationInfo,

@@ -2,8 +2,12 @@ import 'package:meta/meta.dart';
 
 import '../../language_models/models/models.dart';
 
+/// {@template chat_result}
 /// Result returned by the chat model.
-class ChatResult extends LanguageModelResult<ChatGeneration> {
+/// {@endtemplate}
+@immutable
+class ChatResult extends LanguageModelResult<ChatMessage> {
+  /// {@macro chat_result}
   const ChatResult({
     required super.generations,
     super.tokensUsage,
@@ -19,10 +23,19 @@ ChatResult{
   modelOutput: $modelOutput},
 ''';
   }
+
+  @override
+  String get firstOutputAsString {
+    return generations.firstOrNull?.output.content ?? '';
+  }
 }
 
+/// {@template chat_generation}
 /// Output of a single generation.
+/// {@endtemplate}
+@immutable
 class ChatGeneration extends LanguageModelGeneration<ChatMessage> {
+  /// {@macro chat_generation}
   const ChatGeneration(
     super.output, {
     super.generationInfo,
@@ -38,9 +51,12 @@ ChatGeneration{
   }
 }
 
+/// {@template chat_message}
 /// A message that is part of a chat conversation.
+/// {@endtemplate}
 @immutable
 sealed class ChatMessage {
+  /// {@macro chat_message}
   const ChatMessage({
     required this.content,
   });
@@ -83,8 +99,12 @@ sealed class ChatMessage {
   final String content;
 }
 
+/// {@template system_chat_message}
 /// Type of message that is a system message.
+/// {@endtemplate}
+@immutable
 class SystemChatMessage extends ChatMessage {
+  /// {@macro system_chat_message}
   const SystemChatMessage({
     required super.content,
   });
@@ -107,8 +127,12 @@ SystemChatMessage{
   }
 }
 
+/// {@template human_chat_message}
 /// Type of message that is spoken by the human.
+/// {@endtemplate}
+@immutable
 class HumanChatMessage extends ChatMessage {
+  /// {@macro human_chat_message}
   const HumanChatMessage({
     required super.content,
     this.example = false,
@@ -138,8 +162,12 @@ HumanChatMessage{
   }
 }
 
+/// {@template ai_chat_message}
 /// Type of message that is spoken by the AI.
+/// {@endtemplate}
+@immutable
 class AIChatMessage extends ChatMessage {
+  /// {@macro ai_chat_message}
   const AIChatMessage({
     required super.content,
     this.example = false,
@@ -169,8 +197,12 @@ AIChatMessage{
   }
 }
 
+/// {@template custom_chat_message}
 /// Chat message with custom role.
+/// {@endtemplate}
+@immutable
 class CustomChatMessage extends ChatMessage {
+  /// {@macro custom_chat_message}
   const CustomChatMessage({
     required super.content,
     required this.role,

@@ -1,6 +1,4 @@
-import '../chat_models/models/models.dart';
 import '../language_models/base.dart';
-import '../llms/models/models.dart';
 import '../output_parsers/output_parser.dart';
 import '../prompts/base_prompt.dart';
 import 'base.dart';
@@ -19,7 +17,8 @@ import 'models/models.dart';
 /// final res = await chain.run('bad');
 /// ```
 /// {@endtemplate}
-class LLMChain<I, O extends Object, T extends Object> extends BaseChain {
+class LLMChain<I extends Object, O extends Object, P extends Object>
+    extends BaseChain {
   /// {@macro llm_chain}
   const LLMChain({
     required this.prompt,
@@ -36,7 +35,7 @@ class LLMChain<I, O extends Object, T extends Object> extends BaseChain {
   final BaseLanguageModel<I, O> llm;
 
   /// OutputParser to use.
-  final BaseOutputParser<T>? outputParser;
+  final BaseOutputParser<P>? outputParser;
 
   /// Key to use for output, defaults to `text`.
   final String outputKey;
@@ -53,13 +52,9 @@ class LLMChain<I, O extends Object, T extends Object> extends BaseChain {
   @override
   Future<ChainValues> callInternal(final ChainValues values) async {
     final promptValue = prompt.formatPrompt(values);
-    final response = await llm.generatePrompt(promptValue);
 
-    String output = switch (response) {
-      LLMResult(generations: final g) => g.first.first.output,
-      ChatResult(generations: final g) => g.first.output.content,
-      _ => throw Exception('Invalid response type'),
-    };
+    final response = await llm.generatePrompt(promptValue);
+    String output = response.firstOutputAsString;
 
     if (outputParser != null) {
       final res = await outputParser?.parseWithPrompt(output, promptValue);
