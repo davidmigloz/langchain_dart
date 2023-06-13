@@ -13,3 +13,5 @@
     - [Prompt Templates](modules/prompts/prompt_templates/prompt_templates.md)
       - [Getting Started](modules/prompts/prompt_templates/getting_started.md)
     - [Chat Prompt Templates](modules/prompts/chat_prompt_templates/chat_prompt_templates.md)
+  - [Chains](modules/chains/chains.md)
+    - [Getting Started](modules/chains/getting_started.md)

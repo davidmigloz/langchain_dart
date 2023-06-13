@@ -18,11 +18,10 @@ To create a message template associated with a role, you use `ChatMessagePromptT
 For convenience, there is a `fromTemplate()` method exposed on the template. If you were to use
 this template, this is what it would look like:
 
-
 ```dart
 const template = 'You are a helpful assistant that translates {input_language} to {output_language}.';
 final systemMessagePrompt = SystemChatMessagePromptTemplate.fromTemplate(template);
-const  humanTemplate = '{text}';
+const humanTemplate = '{text}';
 final humanMessagePrompt = HumanChatMessagePromptTemplate.fromTemplate(humanTemplate);
 ```
 
@@ -30,7 +29,7 @@ If you wanted to construct the `MessagePromptTemplate` more directly, you could 
 `PromptTemplate` outside and then pass it in, eg:
 
 ```dart
-final prompt= PromptTemplate.fromTemplate(
+final prompt = PromptTemplate.fromTemplate(
   'You are a helpful assistant that translates {input_language} to {output_language}.',
 );
 final systemMessagePrompt2 = SystemChatMessagePromptTemplate(prompt: prompt);
@@ -43,9 +42,7 @@ string or `ChatMessage` object, depending on whether you want to use the formatt
 to an LLM or Chat model.
 
 ```dart
-final chatPrompt = ChatPromptTemplate.fromPromptMessages(
-  [systemMessagePrompt, humanMessagePrompt],
-);
+final chatPrompt = ChatPromptTemplate.fromPromptMessages([systemMessagePrompt, humanMessagePrompt]);
 final formattedPrompt = chatPrompt.formatPrompt({
   'input_language': 'English',
   'output_language': 'French',
