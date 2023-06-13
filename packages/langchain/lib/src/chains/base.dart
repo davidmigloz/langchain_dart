@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
 import '../memory/base.dart';
@@ -54,16 +55,31 @@ abstract class BaseChain {
     return Future.wait(inputs.map(call));
   }
 
-  /// Runs the chain as text in, text out.
+  /// Runs the chain as input in, String out.
+  ///
+  /// The input can be:
+  /// - A single value, if the chain has a single input key.
+  ///   Eg: `chain.run('Hello world!')`
+  /// - A map of key->values, if the chain has multiple input keys.
+  ///   Eg: `chain.run({'foo': 'Hello', 'bar': 'world!'})`
   Future<String> run(final dynamic input) async {
-    final isKeylessInput = inputKeys.length <= 1;
-    if (!isKeylessInput) {
+    const SetEquality<String> setEq = SetEquality<String>();
+    Map<String, dynamic> chainValues;
+
+    if (inputKeys.isEmpty) {
+      chainValues = const {};
+    } else if (input is Map &&
+        setEq.equals(
+            inputKeys.toSet(), (input.keys as Iterable<String>).toSet())) {
+      chainValues = input as Map<String, dynamic>;
+    } else if (inputKeys.length == 1) {
+      chainValues = {inputKeys[0]: input};
+    } else {
       throw ArgumentError(
-        'Chain $chainType expects multiple inputs, cannot use `run`',
+        'This chain ($chainType) requires ${inputKeys.length} input values.',
       );
     }
-    final chainValues =
-        inputKeys.isNotEmpty ? {inputKeys[0]: input} : <String, dynamic>{};
+
     final returnValues = await call(chainValues);
 
     if (returnValues.length == 1) {
@@ -71,8 +87,8 @@ abstract class BaseChain {
     }
 
     throw Exception(
-      'Return values have multiple keys, '
-      '`run` only supported when one key currently',
+      'The chain returned multiple keys, '
+      '`run` only supports one key. Use `call` instead.',
     );
   }
 }
