@@ -27,7 +27,16 @@ abstract class BaseChain {
 
   /// Runs the core logic of this chain with the given values.
   /// If [memory] is not null, it will be used to load and save values.
-  Future<ChainValues> call(final ChainValues values) async {
+  Future<ChainValues> call(
+    final ChainValues values, {
+    final bool returnOnlyOutputs = false,
+  }) async {
+    if (!returnOnlyOutputs && _hasDuplicatedInputOutputKeys(values)) {
+      throw ArgumentError(
+        'The same key cannot be used for both input and output key.',
+      );
+    }
+
     final fullValues = {...values};
 
     final memory = this.memory;
@@ -42,7 +51,19 @@ abstract class BaseChain {
       await memory.saveContext(values, outputValues);
     }
 
-    return outputValues;
+    if (returnOnlyOutputs) {
+      return outputValues;
+    }
+
+    return {...values, ...outputValues};
+  }
+
+  bool _hasDuplicatedInputOutputKeys(final ChainValues values) {
+    final inputKeysSet = values.keys.toSet();
+    final outputKeysSet = outputKeys.toSet();
+
+    final intersection = inputKeysSet.intersection(outputKeysSet);
+    return intersection.isNotEmpty;
   }
 
   /// Call method to be implemented by subclasses.
@@ -63,14 +84,11 @@ abstract class BaseChain {
   /// - A map of key->values, if the chain has multiple input keys.
   ///   Eg: `chain.run({'foo': 'Hello', 'bar': 'world!'})`
   Future<String> run(final dynamic input) async {
-    const SetEquality<String> setEq = SetEquality<String>();
     Map<String, dynamic> chainValues;
 
     if (inputKeys.isEmpty) {
       chainValues = const {};
-    } else if (input is Map &&
-        setEq.equals(
-            inputKeys.toSet(), (input.keys as Iterable<String>).toSet())) {
+    } else if (_isValidInputMap(input)) {
       chainValues = input as Map<String, dynamic>;
     } else if (inputKeys.length == 1) {
       chainValues = {inputKeys[0]: input};
@@ -80,7 +98,7 @@ abstract class BaseChain {
       );
     }
 
-    final returnValues = await call(chainValues);
+    final returnValues = await call(chainValues, returnOnlyOutputs: true);
 
     if (returnValues.length == 1) {
       return returnValues.values.first.toString();
@@ -90,5 +108,26 @@ abstract class BaseChain {
       'The chain returned multiple keys, '
       '`run` only supports one key. Use `call` instead.',
     );
+  }
+
+  bool _isValidInputMap(final dynamic input) {
+    if (input is! Map) {
+      return false;
+    }
+
+    final inputMap = input as Map<String, dynamic>;
+    final inputKeysSet = inputMap.keys.toSet();
+    final inputKeysSetLength = inputKeysSet.length;
+
+    if (inputKeysSetLength != inputKeys.length) {
+      return false;
+    }
+
+    final inputKeysSetDiff = inputKeysSet.difference(inputKeys.toSet());
+    if (inputKeysSetDiff.isNotEmpty) {
+      return false;
+    }
+
+    return true;
   }
 }
