@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
 import '../memory/base.dart';
@@ -28,34 +27,46 @@ abstract class BaseChain {
   /// Runs the core logic of this chain with the given values.
   /// If [memory] is not null, it will be used to load and save values.
   Future<ChainValues> call(
-    final ChainValues values, {
+    final dynamic input, {
     final bool returnOnlyOutputs = false,
   }) async {
-    if (!returnOnlyOutputs && _hasDuplicatedInputOutputKeys(values)) {
+    Map<String, dynamic> chainValues;
+
+    if (inputKeys.isEmpty) {
+      chainValues = const {};
+    } else if (_isValidInputMap(input)) {
+      final inputMap = input as ChainValues;
+      if (!returnOnlyOutputs && _hasDuplicatedInputOutputKeys(inputMap)) {
+        throw ArgumentError(
+          'The same key cannot be used for both input and output key.',
+        );
+      }
+      chainValues = {...inputMap};
+    } else if (inputKeys.length == 1) {
+      chainValues = {inputKeys[0]: input};
+    } else {
       throw ArgumentError(
-        'The same key cannot be used for both input and output key.',
+        'This chain ($chainType) requires ${inputKeys.length} input values.',
       );
     }
 
-    final fullValues = {...values};
-
     final memory = this.memory;
     if (memory != null) {
-      final newValues = await memory.loadMemoryVariables(values);
-      fullValues.addAll(newValues);
+      final newValues = await memory.loadMemoryVariables(chainValues);
+      chainValues.addAll(newValues);
     }
 
-    final outputValues = await callInternal(fullValues);
+    final outputValues = await callInternal(chainValues);
 
     if (memory != null) {
-      await memory.saveContext(values, outputValues);
+      await memory.saveContext(chainValues, outputValues);
     }
 
     if (returnOnlyOutputs) {
       return outputValues;
     }
 
-    return {...values, ...outputValues};
+    return {...chainValues, ...outputValues};
   }
 
   bool _hasDuplicatedInputOutputKeys(final ChainValues values) {
@@ -84,21 +95,7 @@ abstract class BaseChain {
   /// - A map of key->values, if the chain has multiple input keys.
   ///   Eg: `chain.run({'foo': 'Hello', 'bar': 'world!'})`
   Future<String> run(final dynamic input) async {
-    Map<String, dynamic> chainValues;
-
-    if (inputKeys.isEmpty) {
-      chainValues = const {};
-    } else if (_isValidInputMap(input)) {
-      chainValues = input as Map<String, dynamic>;
-    } else if (inputKeys.length == 1) {
-      chainValues = {inputKeys[0]: input};
-    } else {
-      throw ArgumentError(
-        'This chain ($chainType) requires ${inputKeys.length} input values.',
-      );
-    }
-
-    final returnValues = await call(chainValues, returnOnlyOutputs: true);
+    final returnValues = await call(input, returnOnlyOutputs: true);
 
     if (returnValues.length == 1) {
       return returnValues.values.first.toString();

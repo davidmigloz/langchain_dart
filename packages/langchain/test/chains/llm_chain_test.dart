@@ -12,6 +12,15 @@ void main() {
       expect(res['foo'], 'Hello world!');
     });
 
+    test('Test LLMChain call single value', () async {
+      final model = FakeListLLM(responses: ['Hello world!']);
+      final prompt = PromptTemplate.fromTemplate('Print {foo}');
+      final chain = LLMChain(prompt: prompt, llm: model);
+      final res = await chain.call('Hello world!');
+      expect(res['text'], 'Hello world!');
+      expect(res['foo'], 'Hello world!');
+    });
+
     test('Test LLMChain call returnOnlyOutputs true', () async {
       final model = FakeListLLM(responses: ['Hello world! again!']);
       final prompt = PromptTemplate.fromTemplate('Print {foo} {bar}');
