@@ -16,7 +16,7 @@ import 'models/models.dart';
 @immutable
 abstract base class BaseChatPromptTemplate extends BasePromptTemplate {
   /// {@macro base_chat_prompt_template}
-  BaseChatPromptTemplate({
+  const BaseChatPromptTemplate({
     required super.inputVariables,
     super.partialVariables,
   });

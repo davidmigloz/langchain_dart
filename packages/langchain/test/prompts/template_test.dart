@@ -38,7 +38,7 @@ void main() {
         // Expect exception to be thrown
         expect(
           () => renderFStringTemplate(template, inputValues),
-          throwsA(isA<ArgumentError>()),
+          throwsA(isA<TemplateValidationException>()),
           reason: 'Template: $template',
         );
       }

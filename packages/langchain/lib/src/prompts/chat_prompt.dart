@@ -53,56 +53,37 @@ import 'template.dart';
 ///   partialVariables: {'foo': 'foo', 'bar': 'bar'},
 /// );
 /// ```
+///
+/// The default constructor does not validate the template. You can use
+/// [ChatPromptTemplate.validateTemplate] to validate the template.
 /// {@endtemplate}
 @immutable
 final class ChatPromptTemplate extends BaseChatPromptTemplate {
   /// {@macro chat_prompt_template}
-  ChatPromptTemplate({
+  const ChatPromptTemplate({
     required super.inputVariables,
     super.partialVariables,
     required this.promptMessages,
-    this.validateTemplate = true,
-  }) {
-    if (validateTemplate) {
-      final inputVariablesMessages = promptMessages
-          .map((final promptMessage) => promptMessage.inputVariables)
-          .expand((final element) => element)
-          .toSet();
-      final inputVariablesInstance = inputVariables.toSet();
-      final inputVariablesDiff = inputVariablesMessages
-          .difference(inputVariablesInstance)
-          .union(inputVariablesInstance.difference(inputVariablesMessages));
-      if (inputVariablesDiff.isNotEmpty) {
-        throw ArgumentError(
-          'Mismatch between input variables and prompt messages input '
-          'variables. Diff: $inputVariablesDiff',
-        );
-      }
-      final partialVariablesSet = {
-        if (partialVariables != null) ...partialVariables!.keys,
-      };
-      final partialVariablesInstance = partialVariablesSet.toSet();
-      final partialVariablesDiff = partialVariablesSet
-          .difference(partialVariablesInstance)
-          .union(partialVariablesInstance.difference(partialVariablesSet));
-      if (partialVariablesDiff.isNotEmpty) {
-        throw ArgumentError(
-          'Mismatch between partial variables and prompt messages input '
-          'variables. Diff: $partialVariablesDiff',
-        );
-      }
-    }
-  }
+  });
 
   /// Creates a [ChatPromptTemplate] with a single message from a string
   /// template.
+  ///
+  /// Example:
+  /// ```dart
+  /// final chatPrompt = ChatPromptTemplate.fromTemplate(
+  ///   "Hello {foo}, I'm {bar}. Thanks for the {context}",
+  ///   partialVariables: {'foo': 'foo', 'bar': 'bar'},
+  /// );
+  /// ```
   ///
   /// - [template] the template string.
   /// - [role] the role of the message ([HumanChatMessage] by default).
   /// - [customRole] the role of the message if [role] is
   ///   [ChatMessageRole.custom].
   /// - [partialVariables] the partial variables to use for the template.
-  /// - [templateFormat] the format of the template.
+  /// - [templateFormat] the format of the template (only fString format is
+  ///   supported for now).
   /// - [validateTemplate] whether to validate the template.
   factory ChatPromptTemplate.fromTemplate(
     final String template, {
@@ -117,29 +98,33 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
           template,
           partialVariables: partialVariables,
           templateFormat: templateFormat,
-          validateTemplate: validateTemplate,
+          validateTemplate: false,
         ),
       ChatMessageRole.ai => AIChatMessagePromptTemplate.fromTemplate(
           template,
           partialVariables: partialVariables,
           templateFormat: templateFormat,
-          validateTemplate: validateTemplate,
+          validateTemplate: false,
         ),
       ChatMessageRole.system => SystemChatMessagePromptTemplate.fromTemplate(
           template,
           partialVariables: partialVariables,
           templateFormat: templateFormat,
-          validateTemplate: validateTemplate,
+          validateTemplate: false,
         ),
       ChatMessageRole.custom => CustomChatMessagePromptTemplate.fromTemplate(
           template,
           role: ArgumentError.checkNotNull(customRole, 'customRole'),
           partialVariables: partialVariables,
           templateFormat: templateFormat,
-          validateTemplate: validateTemplate,
+          validateTemplate: false,
         ),
     };
-    return ChatPromptTemplate.fromPromptMessages([messagesPromptTemplate]);
+    final t = ChatPromptTemplate.fromPromptMessages([messagesPromptTemplate]);
+    if (validateTemplate) {
+      t.validateTemplate();
+    }
+    return t;
   }
 
   /// Creates a [ChatPromptTemplate] with a single message from a file.
@@ -173,14 +158,16 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
 
   /// Creates a [ChatPromptTemplate] with a list of template messages.
   ///
-  /// Each template message can be:
-  /// - [SystemChatMessagePromptTemplate] (for system messages)
-  /// - [HumanChatMessagePromptTemplate] (for human messages)
-  /// - [AIChatMessagePromptTemplate] (for AI messages)
-  /// - [CustomChatMessagePromptTemplate] (for custom role messages)
+  /// - [promptMessages] the list of template messages. The list can contain:
+  ///   * [SystemChatMessagePromptTemplate] (for system messages)
+  ///   * [HumanChatMessagePromptTemplate] (for human messages)
+  ///   * [AIChatMessagePromptTemplate] (for AI messages)
+  ///   * [CustomChatMessagePromptTemplate] (for custom role messages)
+  /// - [validateTemplate] whether to validate the template.
   factory ChatPromptTemplate.fromPromptMessages(
-    final List<BaseMessagePromptTemplate> promptMessages,
-  ) {
+    final List<BaseMessagePromptTemplate> promptMessages, {
+    final bool validateTemplate = true,
+  }) {
     final inputVariables = promptMessages
         .map((final m) => m.inputVariables)
         .expand((final i) => i)
@@ -189,21 +176,42 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
     final partialVariables = {
       for (final m in promptMessages) ...?m.partialVariables,
     };
-    return ChatPromptTemplate(
+    final t = ChatPromptTemplate(
       inputVariables: inputVariables,
       partialVariables: partialVariables.isEmpty ? null : partialVariables,
       promptMessages: promptMessages,
     );
+    if (validateTemplate) {
+      t.validateTemplate();
+    }
+    return t;
   }
 
   /// The list of messages that make up the prompt template.
   final List<BaseMessagePromptTemplate> promptMessages;
 
-  /// Whether or not to try validating the template.
-  final bool validateTemplate;
-
   @override
   String get type => 'chat';
+
+  @override
+  BasePromptTemplate partial(final PartialValues values) {
+    final newPromptMessages = promptMessages
+        .map(
+          (final BaseMessagePromptTemplate m) =>
+              m.copyWith(prompt: m.prompt.partial(values)),
+        )
+        .toList(growable: false);
+    return ChatPromptTemplate.fromPromptMessages(newPromptMessages);
+  }
+
+  @override
+  void validateTemplate() {
+    checkValidChatPromptTemplate(
+      promptMessages: promptMessages,
+      inputVariables: inputVariables,
+      partialVariables: partialVariables?.keys,
+    );
+  }
 
   @override
   List<ChatMessage> formatMessages([final InputValues values = const {}]) {
@@ -220,17 +228,6 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
         )
         .expand((final i) => i)
         .toList(growable: false);
-  }
-
-  @override
-  BasePromptTemplate partial(final PartialValues values) {
-    final newPromptMessages = promptMessages
-        .map(
-          (final BaseMessagePromptTemplate m) =>
-              m.copyWith(prompt: m.prompt.partial(values)),
-        )
-        .toList(growable: false);
-    return ChatPromptTemplate.fromPromptMessages(newPromptMessages);
   }
 
   @override
@@ -629,8 +626,8 @@ CustomChatMessagePromptTemplate{
 @immutable
 final class MessagesPlaceholder extends BaseMessagePromptTemplate {
   /// {@macro messages_placeholder}
-  MessagesPlaceholder({required this.variableName})
-      : super(prompt: PromptTemplate(inputVariables: const [], template: ''));
+  const MessagesPlaceholder({required this.variableName})
+      : super(prompt: const PromptTemplate(inputVariables: [], template: ''));
 
   final String variableName;
 

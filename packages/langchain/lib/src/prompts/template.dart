@@ -1,6 +1,10 @@
 import 'package:meta/meta.dart';
 
+import '../utils/exception.dart';
+import 'base_chat_prompt.dart';
+import 'chat_prompt.dart';
 import 'models/models.dart';
+import 'prompt.dart';
 
 /// Format of a template.
 /// Currently only f-strings are supported.
@@ -14,31 +18,53 @@ enum TemplateFormat {
   jinja2,
 }
 
-/// Checks if a template is valid.
-/// Throws an exception if it is not.
-void checkValidTemplate({
+/// Checks if the template is a valid [PromptTemplate].
+///
+/// Throws a [TemplateValidationException] if it is not.
+void checkValidPromptTemplate({
   required final String template,
   required final TemplateFormat templateFormat,
   required final List<String> inputVariables,
+  required final Iterable<String>? partialVariables,
 }) {
   try {
     // Check format
     if (templateFormat == TemplateFormat.jinja2) {
-      throw UnimplementedError('Jinja2 not implemented yet');
+      throw const TemplateValidationException(
+        message: 'Jinja2 not implemented yet',
+      );
     }
-
-    // Check variables
+    // Check reversed keywords
+    if (inputVariables.contains('stop') ||
+        (partialVariables?.contains('stop') ?? false)) {
+      throw const TemplateValidationException(
+        message:
+            'Cannot have a variable named `stop`, as it is used internally.',
+      );
+    }
+    // Check overlapping
+    if (partialVariables != null &&
+        inputVariables
+            .toSet()
+            .intersection(partialVariables.toSet())
+            .isNotEmpty) {
+      throw const TemplateValidationException(
+        message: 'Cannot have overlapping between input and partial variables',
+      );
+    }
+    // Check variables in text
+    final allVariables = [...inputVariables, ...?partialVariables];
     final variablesNodes = parseFStringTemplate(template)
         .whereType<ParsedFStringVariableNode>()
         .toSet();
-    if (variablesNodes.length != inputVariables.length) {
-      throw Exception(
-          'Invalid template: ${variablesNodes.length} variables found, '
-          'but ${inputVariables.length} expected.');
+    if (variablesNodes.length != allVariables.length) {
+      throw TemplateValidationException(
+        message: '${variablesNodes.length} variables found, '
+            'but ${inputVariables.length} expected.',
+      );
     }
-
     // Try to render
-    final dummyInputs = inputVariables.fold(
+    final dummyInputs = allVariables.fold(
       <String, Object>{},
       (final acc, final v) {
         acc[v] = 'foo';
@@ -50,9 +76,65 @@ void checkValidTemplate({
       templateFormat: templateFormat,
       inputValues: dummyInputs,
     );
+  } on TemplateValidationException {
+    rethrow;
   } catch (e) {
-    throw Exception('Invalid template: $e}');
+    throw TemplateValidationException(message: '$e');
   }
+}
+
+/// Checks if the template is a valid [ChatPromptTemplate].
+///
+/// Throws a [TemplateValidationException] if it is not.
+void checkValidChatPromptTemplate({
+  required final List<BaseMessagePromptTemplate> promptMessages,
+  required final List<String> inputVariables,
+  required final Iterable<String>? partialVariables,
+}) {
+  try {
+    final inputVariablesMessages = promptMessages
+        .map((final promptMessage) => promptMessage.inputVariables)
+        .expand((final element) => element)
+        .toSet();
+    final inputVariablesInstance = inputVariables.toSet();
+    final inputVariablesDiff = inputVariablesMessages
+        .difference(inputVariablesInstance)
+        .union(inputVariablesInstance.difference(inputVariablesMessages));
+    if (inputVariablesDiff.isNotEmpty) {
+      throw TemplateValidationException(
+        message: 'Mismatch between input variables and prompt messages input '
+            'variables. Diff: $inputVariablesDiff',
+      );
+    }
+    final partialVariablesSet = {...?partialVariables};
+    final partialVariablesInstance = partialVariablesSet.toSet();
+    final partialVariablesDiff = partialVariablesSet
+        .difference(partialVariablesInstance)
+        .union(partialVariablesInstance.difference(partialVariablesSet));
+    if (partialVariablesDiff.isNotEmpty) {
+      throw TemplateValidationException(
+        message: 'Mismatch between partial variables and prompt messages input '
+            'variables. Diff: $partialVariablesDiff',
+      );
+    }
+    for (final promptMessage in promptMessages) {
+      promptMessage.prompt.validateTemplate();
+    }
+  } on TemplateValidationException {
+    rethrow;
+  } catch (e) {
+    throw TemplateValidationException(message: '$e');
+  }
+}
+
+/// {@template template_validation_exception}
+/// Exception thrown when a template validation fails.
+/// {@endtemplate}
+final class TemplateValidationException extends LangChainException {
+  /// {@macro template_validation_exception}
+  const TemplateValidationException({
+    super.message = '',
+  }) : super(code: 'template_validation');
 }
 
 /// Renders a template with the given values.
@@ -63,8 +145,9 @@ String renderTemplate({
 }) {
   return switch (templateFormat) {
     TemplateFormat.fString => renderFStringTemplate(template, inputValues),
-    TemplateFormat.jinja2 =>
-      throw UnimplementedError('Jinja2 not implemented yet'),
+    TemplateFormat.jinja2 => throw const TemplateValidationException(
+        message: 'Jinja2 not implemented yet',
+      ),
   };
 }
 
@@ -112,13 +195,17 @@ List<ParsedFStringNode> parseFStringTemplate(final String template) {
     } else if (chars[i] == '{') {
       final j = nextBracket('}', i);
       if (j < 0) {
-        throw ArgumentError("Unclosed '{' in template.");
+        throw const TemplateValidationException(
+          message: "Unclosed '{' in template.",
+        );
       }
       nodes
           .add(ParsedFStringVariableNode(name: chars.sublist(i + 1, j).join()));
       i = j + 1;
     } else if (chars[i] == '}') {
-      throw ArgumentError("Single '}' in template.");
+      throw const TemplateValidationException(
+        message: "Single '}' in template.",
+      );
     } else {
       final next = nextBracket('{}', i);
       final text =

@@ -17,38 +17,38 @@ import 'template.dart';
 /// );
 /// ```
 /// {@endtemplate}
+///
+/// The default constructor does not validate the template. You can use
+/// [PromptTemplate.validateTemplate] to validate the template.
 @immutable
 final class PromptTemplate extends BaseStringPromptTemplate {
-  PromptTemplate({
+  /// {@macro prompt_template}
+  const PromptTemplate({
     required super.inputVariables,
     super.partialVariables,
     required this.template,
     this.templateFormat = TemplateFormat.fString,
-    this.validateTemplate = true,
-  }) {
-    if (validateTemplate) {
-      checkValidTemplate(
-        template: template,
-        templateFormat: templateFormat,
-        inputVariables: [
-          ...inputVariables,
-          ...?partialVariables?.keys,
-        ],
-      );
-    }
-  }
+  });
 
   /// Creates a prompt template from a string template.
-  /// (e.g. "This is a {foo} test.").
   ///
-  /// Note: only fString format is supported for now.
+  /// Example:
+  /// ```dart
+  /// final prompt = PromptTemplate.fromTemplate('Say {foo}');
+  /// ```
+  ///
+  /// - [template] the template string.
+  /// - [partialVariables] the partial variables to use for the template.
+  /// - [templateFormat] the format of the template (only fString format is
+  ///   supported for now).
+  /// - [validateTemplate] whether to validate the template.
   factory PromptTemplate.fromTemplate(
     final String template, {
     final PartialValues? partialVariables,
     final TemplateFormat templateFormat = TemplateFormat.fString,
     final bool validateTemplate = true,
   }) {
-    return PromptTemplate(
+    final t = PromptTemplate(
       inputVariables: parseFStringTemplate(template)
           .whereType<ParsedFStringVariableNode>()
           .map((final node) => node.name)
@@ -58,8 +58,11 @@ final class PromptTemplate extends BaseStringPromptTemplate {
       partialVariables: partialVariables,
       template: template,
       templateFormat: templateFormat,
-      validateTemplate: validateTemplate,
     );
+    if (validateTemplate) {
+      t.validateTemplate();
+    }
+    return t;
   }
 
   /// Take examples in list format with prefix and suffix to create a prompt.
@@ -74,23 +77,33 @@ final class PromptTemplate extends BaseStringPromptTemplate {
   /// - [exampleSeparator] the separator to use in between examples.
   /// - [prefix] string that should go before any examples. Generally includes
   ///   examples.
+  /// - [validateTemplate] whether to validate the template.
   factory PromptTemplate.fromExamples({
     required final List<String> examples,
     required final String suffix,
     required final List<String> inputVariables,
     final String exampleSeparator = '\n\n',
     final String prefix = '',
+    final bool validateTemplate = true,
   }) {
     final template = [prefix, ...examples, suffix].join(exampleSeparator);
-    return PromptTemplate(
+    final t = PromptTemplate(
       inputVariables: inputVariables,
       template: template,
     );
+    if (validateTemplate) {
+      t.validateTemplate();
+    }
+    return t;
   }
 
   /// Loads a prompt from a file.
   ///
   /// - [templateFile] the path to the file containing the prompt template.
+  /// - [partialVariables] the partial variables to use for the template.
+  /// - [templateFormat] the format of the template (only fString format is
+  ///   supported for now).
+  /// - [validateTemplate] whether to validate the template.
   static Future<PromptTemplate> fromFile(
     final String templateFile, {
     final PartialValues? partialVariables,
@@ -113,9 +126,6 @@ final class PromptTemplate extends BaseStringPromptTemplate {
   /// The format of the prompt template.
   final TemplateFormat templateFormat;
 
-  /// Whether or not to try validating the template.
-  final bool validateTemplate;
-
   @override
   String get type => 'prompt';
 
@@ -131,6 +141,16 @@ final class PromptTemplate extends BaseStringPromptTemplate {
     return copyWith(
       inputVariables: newInputVariables,
       partialVariables: newPartialVariables,
+    );
+  }
+
+  @override
+  void validateTemplate() {
+    checkValidPromptTemplate(
+      template: template,
+      templateFormat: templateFormat,
+      inputVariables: inputVariables,
+      partialVariables: partialVariables?.keys,
     );
   }
 
@@ -159,8 +179,7 @@ final class PromptTemplate extends BaseStringPromptTemplate {
               other.partialVariables,
             ) &&
             template == other.template &&
-            templateFormat == other.templateFormat &&
-            validateTemplate == other.validateTemplate;
+            templateFormat == other.templateFormat;
   }
 
   @override
@@ -168,8 +187,7 @@ final class PromptTemplate extends BaseStringPromptTemplate {
       inputVariables.hashCode ^
       partialVariables.hashCode ^
       template.hashCode ^
-      templateFormat.hashCode ^
-      validateTemplate.hashCode;
+      templateFormat.hashCode;
 
   @override
   String toString() {
@@ -179,7 +197,6 @@ PromptTemplate{
   inputVariables: $inputVariables,
   partialVariables: $partialVariables,
   templateFormat: $templateFormat, 
-  validateTemplate: $validateTemplate,
 }''';
   }
 
@@ -188,14 +205,12 @@ PromptTemplate{
     final Map<String, dynamic>? partialVariables,
     final String? template,
     final TemplateFormat? templateFormat,
-    final bool? validateTemplate,
   }) {
     return PromptTemplate(
       inputVariables: inputVariables ?? this.inputVariables,
       partialVariables: partialVariables ?? this.partialVariables,
       template: template ?? this.template,
       templateFormat: templateFormat ?? this.templateFormat,
-      validateTemplate: validateTemplate ?? this.validateTemplate,
     );
   }
 }

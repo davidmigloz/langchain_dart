@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
 import 'models/models.dart';
+import 'template.dart';
 
 /// {@template base_prompt_template}
 /// Base class for prompt templates.
@@ -13,25 +14,10 @@ import 'models/models.dart';
 @immutable
 abstract base class BasePromptTemplate {
   /// {@macro base_prompt_template}
-  BasePromptTemplate({
+  const BasePromptTemplate({
     required this.inputVariables,
     this.partialVariables,
-  })  : assert(
-          !inputVariables.contains('stop'),
-          'Cannot have an input variable named `stop`, as it is used internally.',
-        ),
-        assert(
-          partialVariables == null || !partialVariables.keys.contains('stop'),
-          'Cannot have an partial variable named `stop`, as it is used internally.',
-        ),
-        assert(
-          partialVariables == null ||
-              inputVariables
-                  .toSet()
-                  .intersection(partialVariables.keys.toSet())
-                  .isEmpty,
-          'Cannot have overlapping between input and partial variables',
-        );
+  });
 
   /// A list of the names of the variables the prompt template expects.
   final List<String> inputVariables;
@@ -44,6 +30,12 @@ abstract base class BasePromptTemplate {
 
   /// Return a partial of the prompt template.
   BasePromptTemplate partial(final PartialValues values);
+
+  /// Validate the integrity of the prompt template, checking that all the
+  /// variables are present and that the right format is used.
+  ///
+  /// Throws a [TemplateValidationException] if the template is not valid.
+  void validateTemplate();
 
   /// Format the prompt with the inputs.
   ///
@@ -98,7 +90,7 @@ BasePromptTemplate{
 @immutable
 abstract base class BaseStringPromptTemplate extends BasePromptTemplate {
   /// {@macro base_string_prompt_template}
-  BaseStringPromptTemplate({
+  const BaseStringPromptTemplate({
     required super.inputVariables,
     super.partialVariables,
   });

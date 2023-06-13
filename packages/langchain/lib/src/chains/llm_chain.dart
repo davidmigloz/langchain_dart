@@ -24,8 +24,8 @@ class LLMChain<I extends Object, O extends Object, P extends Object>
     required this.prompt,
     required this.llm,
     this.outputParser,
-    this.outputKey = 'text',
     super.memory,
+    this.outputKey = 'text',
   });
 
   /// Prompt object to use.
