@@ -30,7 +30,7 @@ abstract class BaseChatModel
 
   /// Runs the chat model on the given prompt value.
   ///
-  /// - [messages] The messages to pass into the model.
+  /// - [promptValue] The prompt value to pass into the model.
   /// - [stop] Optional list of stop words to use when generating.
   ///
   /// Example:

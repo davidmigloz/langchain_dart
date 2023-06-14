@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 
 import '../../chat_models/models/models.dart';
+import '../../chat_models/utils.dart';
 
 /// {@template prompt_value}
 /// Represents the input to an LLM or Chat model.
@@ -33,6 +34,7 @@ class StringPromptValue implements PromptValue {
   /// {@macro string_prompt_template}
   const StringPromptValue(this.value);
 
+  /// String value to use as the prompt.
   final String value;
 
   @override
@@ -66,21 +68,12 @@ class ChatPromptValue implements PromptValue {
   /// {@macro chat_prompt_template}
   const ChatPromptValue(this.messages);
 
+  /// List of messages to use as the prompt.
   final List<ChatMessage> messages;
 
   @override
   String toString() {
-    return messages.map(
-      (final m) {
-        final role = switch (m) {
-          SystemChatMessage _ => 'System',
-          HumanChatMessage _ => 'Human',
-          AIChatMessage _ => 'AI',
-          final CustomChatMessage m => m.role,
-        };
-        return '$role: ${m.content}';
-      },
-    ).join('\n');
+    return messages.toBufferString();
   }
 
   @override
