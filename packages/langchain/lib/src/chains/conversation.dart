@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_redundant_argument_values
 import '../memory/base.dart';
-import '../memory/buffer_memory.dart';
+import '../memory/buffer.dart';
 import '../prompts/prompt.dart';
 import 'llm_chain.dart';
 

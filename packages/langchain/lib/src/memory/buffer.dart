@@ -1,6 +1,6 @@
 import '../chat_models/utils.dart';
 import '../stores/message/in_memory.dart';
-import 'chat_memory.dart';
+import 'chat.dart';
 import 'models/models.dart';
 
 /// {@template conversation_buffer_memory}

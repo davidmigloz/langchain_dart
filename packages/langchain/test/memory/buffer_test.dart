@@ -1,5 +1,5 @@
 import 'package:langchain/src/chat_models/chat_models.dart';
-import 'package:langchain/src/memory/buffer_memory.dart';
+import 'package:langchain/src/memory/buffer.dart';
 import 'package:langchain/src/stores/message/in_memory.dart';
 import 'package:test/test.dart';
 
@@ -10,7 +10,10 @@ void main() {
       final result1 = await memory.loadMemoryVariables();
       expect(result1, {'history': ''});
 
-      await memory.saveContext({'foo': 'bar'}, {'bar': 'foo'});
+      await memory.saveContext(
+        inputValues: {'foo': 'bar'},
+        outputValues: {'bar': 'foo'},
+      );
       const expectedString = 'Human: bar\nAI: foo';
       final result2 = await memory.loadMemoryVariables();
       expect(result2, {'history': expectedString});
@@ -21,7 +24,10 @@ void main() {
       final result1 = await memory.loadMemoryVariables();
       expect(result1, {'history': <ChatMessage>[]});
 
-      await memory.saveContext({'foo': 'bar'}, {'bar': 'foo'});
+      await memory.saveContext(
+        inputValues: {'foo': 'bar'},
+        outputValues: {'bar': 'foo'},
+      );
       final expectedResult = [
         ChatMessage.human('bar'),
         ChatMessage.ai('foo'),
@@ -45,7 +51,10 @@ void main() {
 
     test('Test clear memory', () async {
       final memory = ConversationBufferMemory();
-      await memory.saveContext({'foo': 'bar'}, {'bar': 'foo'});
+      await memory.saveContext(
+        inputValues: {'foo': 'bar'},
+        outputValues: {'bar': 'foo'},
+      );
       const expectedString = 'Human: bar\nAI: foo';
       final result1 = await memory.loadMemoryVariables();
       expect(result1, {'history': expectedString});

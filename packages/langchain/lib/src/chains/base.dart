@@ -62,7 +62,10 @@ abstract class BaseChain {
     final outputValues = await callInternal(chainValues);
 
     if (memory != null) {
-      await memory.saveContext(chainValues, outputValues);
+      await memory.saveContext(
+        inputValues: chainValues,
+        outputValues: outputValues,
+      );
     }
 
     if (returnOnlyOutputs) {

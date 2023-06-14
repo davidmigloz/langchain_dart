@@ -17,10 +17,10 @@ abstract interface class BaseMemory {
   ]);
 
   /// Save the context of this model run to memory.
-  Future<void> saveContext(
-    final MemoryInputValues inputValues,
-    final MemoryOutputValues outputValues,
-  );
+  Future<void> saveContext({
+    required final MemoryInputValues inputValues,
+    required final MemoryOutputValues outputValues,
+  });
 
   /// Clear memory contents.
   Future<void> clear();

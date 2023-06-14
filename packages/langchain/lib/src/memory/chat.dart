@@ -34,10 +34,10 @@ abstract base class BaseChatMemory implements BaseMemory {
   final bool returnMessages;
 
   @override
-  Future<void> saveContext(
-    final MemoryInputValues inputValues,
-    final MemoryOutputValues outputValues,
-  ) async {
+  Future<void> saveContext({
+    required final MemoryInputValues inputValues,
+    required final MemoryOutputValues outputValues,
+  }) async {
     // this is purposefully done in sequence so they're saved in order
     final (input, output) = _getInputOutputValues(inputValues, outputValues);
     await chatHistory.addUserMessage(input);
