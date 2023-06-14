@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import '../../langchain.dart';
 import '../stores/message/history.dart';
 import '../stores/message/in_memory.dart';
+import '../utils/exception.dart';
 import 'base.dart';
 import 'models/models.dart';
 import 'utils.dart';

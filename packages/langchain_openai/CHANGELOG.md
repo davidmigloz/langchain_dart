@@ -1,3 +1,7 @@
+## 0.0.1-dev.4
+
+- Improve API documentation.
+
 ## 0.0.1-dev.3
 
 - Add support for ChatPromptTemplate class (#8).
