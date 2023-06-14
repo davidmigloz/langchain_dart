@@ -5,6 +5,7 @@ import '../stores/message/history.dart';
 import '../stores/message/in_memory.dart';
 import 'base.dart';
 import 'models/models.dart';
+import 'utils.dart';
 
 /// {@template base_chat_memory}
 /// Base interface for chat memory.
@@ -38,8 +39,30 @@ abstract base class BaseChatMemory implements BaseMemory {
     final MemoryOutputValues outputValues,
   ) async {
     // this is purposefully done in sequence so they're saved in order
-    await chatHistory.addUserMessage(getMemoryValue(inputValues, inputKey));
-    await chatHistory.addAIChatMessage(getMemoryValue(outputValues, outputKey));
+    final (input, output) = _getInputOutputValues(inputValues, outputValues);
+    await chatHistory.addUserMessage(input);
+    await chatHistory.addAIChatMessage(output);
+  }
+
+  (String input, String output) _getInputOutputValues(
+    final MemoryInputValues inputValues,
+    final MemoryOutputValues outputValues,
+  ) {
+    final promptInputKey = inputKey == null
+        ? getPromptInputKey(inputValues, memoryKeys)
+        : inputKey!;
+    String outputKey;
+    if (this.outputKey == null) {
+      if (outputValues.length != 1) {
+        throw LangChainException(
+          message: 'One output key expected, got ${outputValues.keys}',
+        );
+      }
+      outputKey = outputValues.keys.first;
+    } else {
+      outputKey = this.outputKey!;
+    }
+    return (inputValues[promptInputKey], outputValues[outputKey]);
   }
 
   @override

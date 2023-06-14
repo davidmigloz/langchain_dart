@@ -24,3 +24,23 @@ class FakeListLLM extends SimpleLLM {
     return Future<String>.value(responses[i++ % responses.length]);
   }
 }
+
+/// {@template fake_echo_llm}
+/// Fake LLM for testing.
+/// It just returns the prompt.
+/// {@endtemplate}
+class FakeEchoLLM extends SimpleLLM {
+  /// {@macro fake_echo_llm}
+  const FakeEchoLLM();
+
+  @override
+  String get modelType => 'fake-echo';
+
+  @override
+  Future<String> callInternal(
+    final String prompt, {
+    final List<String>? stop,
+  }) {
+    return Future<String>.value(prompt);
+  }
+}

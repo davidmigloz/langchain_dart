@@ -1,4 +1,3 @@
-import '../../langchain.dart';
 import 'models/models.dart';
 
 /// {@template base_memory}
@@ -25,23 +24,4 @@ abstract interface class BaseMemory {
 
   /// Clear memory contents.
   Future<void> clear();
-}
-
-/// This function is used by memory classes to select the input value
-/// to use for the memory. If there is only one input value, it is used.
-/// If there are multiple input values, the inputKey must be specified.
-dynamic getMemoryValue(
-  final MemoryInputValues values, [
-  final String? key,
-]) {
-  if (key != null) {
-    return values[key];
-  }
-  if (values.length == 1) {
-    return values.values.first;
-  }
-  throw LangChainException(
-    message: 'Input values have ${values.length} keys, you must specify an '
-        'input key or pass only 1 key as input',
-  );
 }
