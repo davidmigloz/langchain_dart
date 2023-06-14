@@ -11,19 +11,19 @@ abstract base class BaseChatMessageHistory {
   const BaseChatMessageHistory();
 
   /// Return a list of messages.
-  Future<List<ChatMessage>> getMessages();
+  Future<List<ChatMessage>> getChatMessages();
 
   /// Add [ChatMessage] to the history.
-  Future<void> addMessage(final ChatMessage message);
+  Future<void> addChatMessage(final ChatMessage message);
 
   /// Add a user message to the history.
-  Future<void> addUserMessage(final String message) {
-    return addMessage(ChatMessage.human(message));
+  Future<void> addUserChatMessage(final String message) {
+    return addChatMessage(ChatMessage.human(message));
   }
 
   /// Add an AI message to the history.
   Future<void> addAIChatMessage(final String message) {
-    return addMessage(ChatMessage.ai(message));
+    return addChatMessage(ChatMessage.ai(message));
   }
 
   /// Clear the history.

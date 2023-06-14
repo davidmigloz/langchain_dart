@@ -12,12 +12,12 @@ final class ChatMessageHistory extends BaseChatMessageHistory {
   final List<ChatMessage> _messages;
 
   @override
-  Future<List<ChatMessage>> getMessages() {
+  Future<List<ChatMessage>> getChatMessages() {
     return Future.value(_messages);
   }
 
   @override
-  Future<void> addMessage(final ChatMessage message) async {
+  Future<void> addChatMessage(final ChatMessage message) async {
     _messages.add(message);
   }
 

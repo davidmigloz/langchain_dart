@@ -7,14 +7,14 @@ void main() {
     test('Test addMessage and getMessages', () async {
       final history = ChatMessageHistory();
       final message = ChatMessage.human('This is a test');
-      history.addMessage(message);
-      expect(await history.getMessages(), [message]);
+      history.addChatMessage(message);
+      expect(await history.getChatMessages(), [message]);
     });
 
     test('Test addUserMessage', () async {
       final history = ChatMessageHistory()
-        ..addUserMessage('This is a human msg');
-      final messages = await history.getMessages();
+        ..addUserChatMessage('This is a human msg');
+      final messages = await history.getChatMessages();
       expect(messages.first, isA<HumanChatMessage>());
       expect(messages.first.content, 'This is a human msg');
     });
@@ -22,7 +22,7 @@ void main() {
     test('Test addAIChatMessage', () async {
       final history = ChatMessageHistory()
         ..addAIChatMessage('This is an AI msg');
-      final messages = await history.getMessages();
+      final messages = await history.getChatMessages();
       expect(messages.first, isA<AIChatMessage>());
       expect(messages.first.content, 'This is an AI msg');
     });
@@ -31,9 +31,9 @@ void main() {
       final history = ChatMessageHistory();
       final message = ChatMessage.human('This is a test');
       history
-        ..addMessage(message)
+        ..addChatMessage(message)
         ..clear();
-      expect(await history.getMessages(), <ChatMessage>[]);
+      expect(await history.getChatMessages(), <ChatMessage>[]);
     });
   });
 }

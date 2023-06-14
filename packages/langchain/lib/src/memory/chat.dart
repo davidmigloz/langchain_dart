@@ -40,7 +40,7 @@ abstract base class BaseChatMemory implements BaseMemory {
   }) async {
     // this is purposefully done in sequence so they're saved in order
     final (input, output) = _getInputOutputValues(inputValues, outputValues);
-    await chatHistory.addUserMessage(input);
+    await chatHistory.addUserChatMessage(input);
     await chatHistory.addAIChatMessage(output);
   }
 

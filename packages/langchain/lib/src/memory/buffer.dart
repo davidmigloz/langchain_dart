@@ -45,7 +45,7 @@ final class ConversationBufferMemory extends BaseChatMemory {
   Future<MemoryVariables> loadMemoryVariables([
     final MemoryInputValues values = const {},
   ]) async {
-    final messages = await chatHistory.getMessages();
+    final messages = await chatHistory.getChatMessages();
     if (returnMessages) {
       return {memoryKey: messages};
     }
