@@ -1,6 +1,8 @@
-- [LangChain.dart](README.md)
+- [Welcome to LangChain.dart](README.md)
 - Getting started
-  - [Quick start](getting_started/getting_started.md)
+  - [Setup and Installation](getting_started/installation.md)
+  - [Quick start: using LLMs](getting_started/getting_started_llms.md)
+  - [Quick start: using Chat Models](getting_started/getting_started_chat_models.md)
 - Modules
   - [Models](modules/models/models.md)
     - [Getting Started](modules/models/getting_started.md)
@@ -13,5 +15,7 @@
     - [Prompt Templates](modules/prompts/prompt_templates/prompt_templates.md)
       - [Getting Started](modules/prompts/prompt_templates/getting_started.md)
     - [Chat Prompt Templates](modules/prompts/chat_prompt_templates/chat_prompt_templates.md)
+  - [Memory](modules/memory/memory.md)
+    - [Getting Started](modules/memory/getting_started.md)
   - [Chains](modules/chains/chains.md)
     - [Getting Started](modules/chains/getting_started.md)

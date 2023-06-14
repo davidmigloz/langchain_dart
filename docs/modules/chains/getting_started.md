@@ -123,7 +123,28 @@ Tips: You can easily integrate a Chain object as a Tool in your Agent via its ru
 
 ## Add memory to chains
 
-TODO
+`Chain` supports taking a `BaseMemory` object as its memory argument, allowing `Chain` object to 
+persist data across multiple calls. In other words, it makes `Chain` a stateful object.
+
+```dart
+final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
+final memory = ConversationBufferMemory(returnMessages: true);
+final conversation = ConversationChain(llm: chat, memory: memory);
+
+final output1 = await conversation.run(
+  'Answer briefly. What are the first 3 colors of a rainbow?',
+);
+print(output1);
+// -> 'The first three colors of a rainbow are red, orange, and yellow.'
+
+final output2 = await conversation.run('And the next 4?');
+print(output2);
+// -> 'The next four colors of a rainbow are green, blue, indigo, and violet.'
+```
+
+Essentially, `BaseMemory` defines an interface of how LangChain stores memory. It allows reading 
+of stored data through `loadMemoryVariables` method and storing new data through `saveContext` 
+method. You can learn more about it in [Memory](/modules/memory/memory.md) section.
 
 ## Debug Chain
 
