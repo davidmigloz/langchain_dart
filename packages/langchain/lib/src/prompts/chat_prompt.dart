@@ -171,8 +171,7 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
     final inputVariables = promptMessages
         .map((final m) => m.inputVariables)
         .expand((final i) => i)
-        .toSet()
-        .toList(growable: false);
+        .toSet();
     final partialVariables = {
       for (final m in promptMessages) ...?m.partialVariables,
     };
@@ -232,12 +231,12 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
 
   @override
   bool operator ==(covariant final ChatPromptTemplate other) {
-    const listEqualsInputVariables = ListEquality<String>();
+    const setEqualsInputVariables = SetEquality<String>();
     const mapEqualsPartialVariables = MapEquality<String, dynamic>();
     const listEqualsPromptMessages = ListEquality<BaseMessagePromptTemplate>();
     return identical(this, other) ||
         runtimeType == other.runtimeType &&
-            listEqualsInputVariables.equals(
+            setEqualsInputVariables.equals(
               inputVariables,
               other.inputVariables,
             ) &&
@@ -267,7 +266,7 @@ ChatPromptTemplate{
 
   /// Creates a copy of this [ChatPromptTemplate] with the given fields.
   ChatPromptTemplate copyWith({
-    final List<String>? inputVariables,
+    final Set<String>? inputVariables,
     final PartialValues? partialVariables,
     final List<BaseMessagePromptTemplate>? promptMessages,
   }) {
@@ -627,12 +626,12 @@ CustomChatMessagePromptTemplate{
 final class MessagesPlaceholder extends BaseMessagePromptTemplate {
   /// {@macro messages_placeholder}
   const MessagesPlaceholder({required this.variableName})
-      : super(prompt: const PromptTemplate(inputVariables: [], template: ''));
+      : super(prompt: const PromptTemplate(inputVariables: {}, template: ''));
 
   final String variableName;
 
   @override
-  List<String> get inputVariables => [variableName];
+  Set<String> get inputVariables => {variableName};
 
   @override
   PartialValues? get partialVariables => null;

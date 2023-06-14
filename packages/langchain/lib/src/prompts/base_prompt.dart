@@ -19,8 +19,8 @@ abstract base class BasePromptTemplate {
     this.partialVariables,
   });
 
-  /// A list of the names of the variables the prompt template expects.
-  final List<String> inputVariables;
+  /// A set of the names of the variables the prompt template expects.
+  final Set<String> inputVariables;
 
   /// Partial variables.
   final PartialValues? partialVariables;
@@ -56,11 +56,11 @@ abstract base class BasePromptTemplate {
 
   @override
   bool operator ==(covariant final BasePromptTemplate other) {
-    const listEqualityInputVariables = ListEquality<String>();
+    const setEqualityInputVariables = SetEquality<String>();
     const mapEqualityPartialVariables = MapEquality<String, dynamic>();
     return identical(this, other) ||
         runtimeType == other.runtimeType &&
-            listEqualityInputVariables.equals(
+            setEqualityInputVariables.equals(
               inputVariables,
               other.inputVariables,
             ) &&

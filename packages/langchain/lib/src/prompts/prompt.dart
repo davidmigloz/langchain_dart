@@ -53,8 +53,7 @@ final class PromptTemplate extends BaseStringPromptTemplate {
           .whereType<ParsedFStringVariableNode>()
           .map((final node) => node.name)
           .toSet()
-          .difference(partialVariables?.keys.toSet() ?? {})
-          .toList(growable: false),
+          .difference(partialVariables?.keys.toSet() ?? {}),
       partialVariables: partialVariables,
       template: template,
       templateFormat: templateFormat,
@@ -81,7 +80,7 @@ final class PromptTemplate extends BaseStringPromptTemplate {
   factory PromptTemplate.fromExamples({
     required final List<String> examples,
     required final String suffix,
-    required final List<String> inputVariables,
+    required final Set<String> inputVariables,
     final String exampleSeparator = '\n\n',
     final String prefix = '',
     final bool validateTemplate = true,
@@ -133,7 +132,7 @@ final class PromptTemplate extends BaseStringPromptTemplate {
   BasePromptTemplate partial(final PartialValues values) {
     final newInputVariables = inputVariables
         .where((final variable) => !values.keys.contains(variable))
-        .toList(growable: false);
+        .toSet();
     final newPartialVariables = {
       ...?partialVariables,
       ...values,
@@ -166,11 +165,11 @@ final class PromptTemplate extends BaseStringPromptTemplate {
 
   @override
   bool operator ==(covariant final PromptTemplate other) {
-    const listEqualsInputVariables = ListEquality<String>();
+    const setEqualsInputVariables = SetEquality<String>();
     const mapEqualsPartialVariables = MapEquality<String, dynamic>();
     return identical(this, other) ||
         runtimeType == other.runtimeType &&
-            listEqualsInputVariables.equals(
+            setEqualsInputVariables.equals(
               inputVariables,
               other.inputVariables,
             ) &&
@@ -201,7 +200,7 @@ PromptTemplate{
   }
 
   PromptTemplate copyWith({
-    final List<String>? inputVariables,
+    final Set<String>? inputVariables,
     final Map<String, dynamic>? partialVariables,
     final String? template,
     final TemplateFormat? templateFormat,

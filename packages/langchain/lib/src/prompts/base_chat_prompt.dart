@@ -49,7 +49,7 @@ abstract base class BaseMessagePromptTemplate {
   final BasePromptTemplate prompt;
 
   /// Input variables of all the messages in the prompt template.
-  List<String> get inputVariables;
+  Set<String> get inputVariables;
 
   /// Partial variables.
   PartialValues? get partialVariables;
@@ -102,7 +102,7 @@ abstract base class BaseStringMessagePromptTemplate
       super.prompt as BaseStringPromptTemplate;
 
   @override
-  List<String> get inputVariables => prompt.inputVariables;
+  Set<String> get inputVariables => prompt.inputVariables;
 
   @override
   PartialValues? get partialVariables => prompt.partialVariables;

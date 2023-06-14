@@ -39,7 +39,7 @@ final class ConversationBufferMemory extends BaseChatMemory {
   final String memoryKey;
 
   @override
-  List<String> get memoryKeys => [memoryKey];
+  Set<String> get memoryKeys => {memoryKey};
 
   @override
   Future<MemoryVariables> loadMemoryVariables([

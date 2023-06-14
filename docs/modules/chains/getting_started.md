@@ -161,16 +161,16 @@ class ConcatenateChain extends BaseChain {
   String get chainType => 'concat';
 
   @override
-  List<String> get inputKeys {
+  Set<String> get inputKeys {
     // Union of the input keys of the two chains
     return <String>{
       ...chain1.inputKeys,
       ...chain2.inputKeys,
-    }.toList(growable: false);
+    };
   }
 
   @override
-  List<String> get outputKeys => const ['concat_output'];
+  Set<String> get outputKeys => const {'concat_output'};
 
   @override
   Future<ChainValues> callInternal(final ChainValues values) async {

@@ -8,8 +8,8 @@ abstract interface class BaseMemory {
   /// {@macro base_memory}
   const BaseMemory();
 
-  /// Input keys this memory class will load dynamically.
-  List<String> get memoryKeys;
+  /// Input keys this memory class will load dynamically to the prompt.
+  Set<String> get memoryKeys;
 
   /// Returns key-value pairs given the [MemoryInputValues].
   /// If empty, returns all memories.

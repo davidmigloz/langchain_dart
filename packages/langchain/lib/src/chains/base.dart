@@ -19,10 +19,10 @@ abstract class BaseChain {
   String get chainType;
 
   /// Input keys for this chain.
-  List<String> get inputKeys;
+  Set<String> get inputKeys;
 
   /// Output keys for this chain.
-  List<String> get outputKeys;
+  Set<String> get outputKeys;
 
   /// Runs the core logic of this chain with the given values.
   /// If [memory] is not null, it will be used to load and save values.
@@ -32,9 +32,12 @@ abstract class BaseChain {
   }) async {
     Map<String, dynamic> chainValues;
 
+    final inputKeys =
+        this.inputKeys.difference(this.memory?.memoryKeys ?? const {});
+
     if (inputKeys.isEmpty) {
       chainValues = const {};
-    } else if (_isValidInputMap(input)) {
+    } else if (_isValidInputMap(inputKeys, input)) {
       final inputMap = input as ChainValues;
       if (!returnOnlyOutputs && _hasDuplicatedInputOutputKeys(inputMap)) {
         throw ArgumentError(
@@ -43,7 +46,7 @@ abstract class BaseChain {
       }
       chainValues = {...inputMap};
     } else if (inputKeys.length == 1) {
-      chainValues = {inputKeys[0]: input};
+      chainValues = {inputKeys.first: input};
     } else {
       throw ArgumentError(
         'This chain ($chainType) requires ${inputKeys.length} input values.',
@@ -107,7 +110,7 @@ abstract class BaseChain {
     );
   }
 
-  bool _isValidInputMap(final dynamic input) {
+  bool _isValidInputMap(final Set<String> inputKeys, final dynamic input) {
     if (input is! Map) {
       return false;
     }
@@ -120,7 +123,7 @@ abstract class BaseChain {
       return false;
     }
 
-    final inputKeysSetDiff = inputKeysSet.difference(inputKeys.toSet());
+    final inputKeysSetDiff = inputKeysSet.difference(inputKeys);
     if (inputKeysSetDiff.isNotEmpty) {
       return false;
     }

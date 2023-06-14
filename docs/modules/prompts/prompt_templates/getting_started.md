@@ -24,7 +24,7 @@ I want you to act as a naming consultant for new companies.
 What is a good name for a company that makes {product}?
 ''';
 final promptTemplate = PromptTemplate(
-  inputVariables: const ['product'],
+  inputVariables: const {'product'},
   template: template,
 );
 final prompt = promptTemplate.format({'product': 'colorful socks'});
@@ -41,7 +41,7 @@ any number of input variables, and can be formatted to generate a prompt.
 ```dart
 // An example prompt with no input variables
 final noInputPrompt = PromptTemplate(
-  inputVariables: const [],
+  inputVariables: const {},
   template: 'Tell me a joke.',
 );
 print(noInputPrompt.format());
@@ -49,7 +49,7 @@ print(noInputPrompt.format());
 
 // An example prompt with one input variable
 final oneInputPrompt = PromptTemplate(
-  inputVariables: const ['adjective'],
+  inputVariables: const {'adjective'},
   template: 'Tell me a {adjective} joke.',
 );
 print(oneInputPrompt.format({'adjective': 'funny'}));
@@ -57,7 +57,7 @@ print(oneInputPrompt.format({'adjective': 'funny'}));
 
 // An example prompt with multiple input variables
 final multipleInputPrompt = PromptTemplate(
-  inputVariables: const ['adjective', 'content'],
+  inputVariables: const {'adjective', 'content'},
   template: 'Tell me a {adjective} joke about {content}.',
 );
 print(multipleInputPrompt.format({'adjective': 'funny', 'content': 'AI'}));
@@ -72,7 +72,7 @@ using `PromptTemplate.fromTemplate` factory constructor. LangChain will automati
 const template = 'Tell me a {adjective} joke about {content}.';
 final promptTemplate = PromptTemplate.fromTemplate(template);
 print(promptTemplate.inputVariables);
-// -> ['adjective', 'content']
+// -> {'adjective', 'content'}
 print(promptTemplate.format({'adjective': 'funny', 'content': 'chickens'}));
 // -> 'Tell me a funny joke about chickens.'
 ```
@@ -96,13 +96,13 @@ setting `validateTemplate` to `false`.
 const template = 'I am learning langchain because {reason}.';
 
 final promptTemplate = PromptTemplate(
-  inputVariables: const ['reason', 'foo'],
+  inputVariables: const {'reason', 'foo'},
   template: template,
 );
 // -> 'Exception: Invalid template: 1 variables found, but 2 expected.}'
 
 final promptTemplate1 = PromptTemplate(
-  inputVariables: const ['reason', 'foo'],
+  inputVariables: const {'reason', 'foo'},
   template: template,
   validateTemplate: false,
 );

@@ -36,11 +36,11 @@ void main() {
     test('Test format with invalid input variables', () {
       const systemPrompt = PromptTemplate(
         template: "Here's some context: {context}",
-        inputVariables: ['context'],
+        inputVariables: {'context'},
       );
       const userPrompt = PromptTemplate(
         template: "Hello {foo}, I'm {bar}",
-        inputVariables: ['foo', 'bar'],
+        inputVariables: {'foo', 'bar'},
       );
       expect(
         () => const ChatPromptTemplate(
@@ -48,7 +48,7 @@ void main() {
             SystemChatMessagePromptTemplate(prompt: systemPrompt),
             HumanChatMessagePromptTemplate(prompt: userPrompt),
           ],
-          inputVariables: ['context', 'foo', 'bar', 'baz'],
+          inputVariables: {'context', 'foo', 'bar', 'baz'},
         ).validateTemplate(),
         throwsA(isA<TemplateValidationException>()),
       );
@@ -58,7 +58,7 @@ void main() {
             SystemChatMessagePromptTemplate(prompt: systemPrompt),
             HumanChatMessagePromptTemplate(prompt: userPrompt),
           ],
-          inputVariables: ['context', 'foo'],
+          inputVariables: {'context', 'foo'},
         ).validateTemplate(),
         throwsA(isA<TemplateValidationException>()),
       );
@@ -71,7 +71,7 @@ void main() {
       );
       const expectedPrompt = PromptTemplate(
         template: 'hi {foo} {bar}',
-        inputVariables: ['bar'],
+        inputVariables: {'bar'},
         partialVariables: {'foo': 'jim'},
       );
       expect(prompt.promptMessages.length, 1);
@@ -87,19 +87,19 @@ void main() {
       const template = 'hi {foo} {bar}';
       final prompt = ChatPromptTemplate.fromTemplate(template);
       final expectedPrompt = ChatPromptTemplate(
-        inputVariables: const ['foo', 'bar'],
+        inputVariables: const {'foo', 'bar'},
         promptMessages: [HumanChatMessagePromptTemplate.fromTemplate(template)],
       );
       expect(prompt, expectedPrompt);
 
       final partialPrompt1 = prompt.partial(const {'foo': 'jim'});
       const expectedPrompt1 = ChatPromptTemplate(
-        inputVariables: ['bar'],
+        inputVariables: {'bar'},
         partialVariables: {'foo': 'jim'},
         promptMessages: [
           HumanChatMessagePromptTemplate(
             prompt: PromptTemplate(
-              inputVariables: ['bar'],
+              inputVariables: {'bar'},
               partialVariables: {'foo': 'jim'},
               template: template,
             ),
@@ -110,12 +110,12 @@ void main() {
 
       final partialPrompt2 = partialPrompt1.partial(const {'bar': 'morrison'});
       const expectedPrompt2 = ChatPromptTemplate(
-        inputVariables: [],
+        inputVariables: {},
         partialVariables: {'foo': 'jim', 'bar': 'morrison'},
         promptMessages: [
           HumanChatMessagePromptTemplate(
             prompt: PromptTemplate(
-              inputVariables: [],
+              inputVariables: {},
               partialVariables: {'foo': 'jim', 'bar': 'morrison'},
               template: template,
             ),
@@ -128,12 +128,12 @@ void main() {
     test('Test using partial', () {
       const userPrompt = PromptTemplate(
         template: '{foo}{bar}',
-        inputVariables: ['foo', 'bar'],
+        inputVariables: {'foo', 'bar'},
       );
 
       const prompt = ChatPromptTemplate(
         promptMessages: [HumanChatMessagePromptTemplate(prompt: userPrompt)],
-        inputVariables: ['foo', 'bar'],
+        inputVariables: {'foo', 'bar'},
       );
 
       final partialPrompt = prompt.partial({'foo': 'foo'});
@@ -204,11 +204,11 @@ void main() {
     test('Test fromPromptMessages', () {
       const systemPrompt = PromptTemplate(
         template: "Here's some context: {context}",
-        inputVariables: ['context'],
+        inputVariables: {'context'},
       );
       const userPrompt = PromptTemplate(
         template: "Hello {foo}, I'm {bar}",
-        inputVariables: ['foo', 'bar'],
+        inputVariables: {'foo', 'bar'},
       );
       final chatPrompt = ChatPromptTemplate.fromPromptMessages(const [
         SystemChatMessagePromptTemplate(prompt: systemPrompt),

@@ -44,10 +44,10 @@ class LLMChain<I extends Object, O extends Object, P extends Object>
   String get chainType => 'llm';
 
   @override
-  List<String> get inputKeys => prompt.inputVariables;
+  Set<String> get inputKeys => prompt.inputVariables;
 
   @override
-  List<String> get outputKeys => [outputKey];
+  Set<String> get outputKeys => {outputKey};
 
   @override
   Future<ChainValues> callInternal(final ChainValues values) async {
