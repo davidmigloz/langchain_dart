@@ -9,4 +9,5 @@ export 'src/memory/memory.dart';
 export 'src/output_parsers/output_parsers.dart';
 export 'src/prompts/prompts.dart';
 export 'src/stores/stores.dart';
+export 'src/tools/tools.dart';
 export 'src/utils/utils.dart';
