@@ -26,6 +26,7 @@ abstract base class BaseTool<I> {
   final String description;
 
   /// Schema to parse and validate tool's input arguments.
+  /// Following the [JSON Schema specification](https://json-schema.org).
   final Map<String, dynamic> inputJsonSchema;
 
   /// Whether to return the tool's output directly.
