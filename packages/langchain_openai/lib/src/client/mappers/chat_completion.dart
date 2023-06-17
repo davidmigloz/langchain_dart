@@ -1,6 +1,7 @@
 import 'package:dart_openai/dart_openai.dart' as c;
 
 import '../models/chat_completion.dart';
+import 'functions.dart';
 
 /// Mapper for [ChatMessage] to [c.OpenAIChatCompletionMessage].
 extension OpenAIChatCompletionChoiceMessageDtoMapper
@@ -9,6 +10,8 @@ extension OpenAIChatCompletionChoiceMessageDtoMapper
     return c.OpenAIChatCompletionChoiceMessageModel(
       role: role.toDto(),
       content: content,
+      functionCall: functionCall?.toDto(),
+      functionName: functionName,
     );
   }
 }
@@ -21,6 +24,7 @@ extension _OpenAIChatCompletionChoiceMessageMapper
     return OpenAIChatCompletionMessage(
       role: role.toModel(),
       content: content,
+      functionCall: functionCall?.toModel(),
     );
   }
 }
@@ -32,6 +36,7 @@ extension _OpenAIChatMessageRoleDtoMapper on OpenAIChatMessageRole {
         OpenAIChatMessageRole.system => c.OpenAIChatMessageRole.system,
         OpenAIChatMessageRole.user => c.OpenAIChatMessageRole.user,
         OpenAIChatMessageRole.assistant => c.OpenAIChatMessageRole.assistant,
+        OpenAIChatMessageRole.function => c.OpenAIChatMessageRole.function,
       };
 }
 
@@ -42,6 +47,7 @@ extension _OpenAIChatMessageRoleMapper on c.OpenAIChatMessageRole {
         c.OpenAIChatMessageRole.system => OpenAIChatMessageRole.system,
         c.OpenAIChatMessageRole.user => OpenAIChatMessageRole.user,
         c.OpenAIChatMessageRole.assistant => OpenAIChatMessageRole.assistant,
+        c.OpenAIChatMessageRole.function => OpenAIChatMessageRole.function,
       };
 }
 

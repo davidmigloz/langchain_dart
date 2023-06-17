@@ -1,4 +1,5 @@
 import 'base.dart';
+import 'models/models.dart';
 
 /// {@template fake_list_llm}
 /// Fake LLM for testing.
@@ -19,7 +20,7 @@ class FakeListLLM extends SimpleLLM {
   @override
   Future<String> callInternal(
     final String prompt, {
-    final List<String>? stop,
+    final LLMOptions? options,
   }) {
     return Future<String>.value(responses[i++ % responses.length]);
   }
@@ -39,7 +40,7 @@ class FakeEchoLLM extends SimpleLLM {
   @override
   Future<String> callInternal(
     final String prompt, {
-    final List<String>? stop,
+    final LLMOptions? options,
   }) {
     return Future<String>.value(prompt);
   }

@@ -1,5 +1,19 @@
 import 'package:meta/meta.dart';
 
+/// {@template language_model_options}
+/// Generation options to pass into the language model.
+/// {@endtemplate
+@immutable
+abstract class LanguageModelOptions {
+  /// {@macro language_model_options}
+  const LanguageModelOptions({
+    this.stop,
+  });
+
+  /// List of stop words to use when generating.
+  final List<String>? stop;
+}
+
 /// {@template language_model}
 /// Result returned by the model.
 /// {@endtemplate}

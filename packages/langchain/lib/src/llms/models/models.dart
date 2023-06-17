@@ -2,6 +2,16 @@ import 'package:meta/meta.dart';
 
 import '../../language_models/models/models.dart';
 
+/// {@template llm_options}
+/// Generation options to pass into the LLM.
+/// {@endtemplate}
+class LLMOptions extends LanguageModelOptions {
+  /// {@macro llm_options}
+  const LLMOptions({
+    super.stop,
+  });
+}
+
 /// {@template llm_result}
 /// Class that contains all relevant information for an LLM Result.
 /// {@endtemplate}

@@ -16,7 +16,14 @@ extension ChatMessageMapper on ChatMessage {
         ),
       final AIChatMessage aiChatMessage => OpenAIChatCompletionMessage(
           role: OpenAIChatMessageRole.assistant,
+          functionCall: aiChatMessage.functionCall?.toFunctionCallResponse(),
           content: aiChatMessage.content,
+        ),
+      final FunctionChatMessage functionChatMessage =>
+        OpenAIChatCompletionMessage(
+          role: OpenAIChatMessageRole.function,
+          functionName: functionChatMessage.name,
+          content: functionChatMessage.content,
         ),
       _ => throw UnsupportedError('Unsupported ChatMessage type'),
     };
@@ -59,7 +66,56 @@ extension _OpenAIChatCompletionMessageMapper on OpenAIChatCompletionMessage {
     return switch (role) {
       OpenAIChatMessageRole.system => ChatMessage.system(content),
       OpenAIChatMessageRole.user => ChatMessage.human(content),
-      OpenAIChatMessageRole.assistant => ChatMessage.ai(content),
+      OpenAIChatMessageRole.assistant => ChatMessage.ai(
+          content,
+          functionCall: functionCall?.toChatFunctionCall(),
+        ),
+      OpenAIChatMessageRole.function => ChatMessage.function(
+          name: functionName ?? '',
+          content: content,
+        ),
+    };
+  }
+}
+
+/// Mapper for [OpenAIFunctionCallResponse] to [AIChatMessageFunctionCall].
+extension _OpenAIFunctionCallResponseMapper on OpenAIFunctionCallResponse {
+  AIChatMessageFunctionCall toChatFunctionCall() {
+    return AIChatMessageFunctionCall(
+      name: name,
+      arguments: arguments,
+    );
+  }
+}
+
+extension _AIChatMessageFunctionCallMapper on AIChatMessageFunctionCall {
+  OpenAIFunctionCallResponse toFunctionCallResponse() {
+    return OpenAIFunctionCallResponse(
+      name: name,
+      arguments: arguments,
+    );
+  }
+}
+
+/// Mapper for [ChatFunction] to [OpenAIFunction].
+extension ChatFunctionMapper on ChatFunction {
+  OpenAIFunction toOpenAIFunction() {
+    return OpenAIFunction(
+      name: name,
+      description: description,
+      parameters:
+          parameters != null ? OpenAIFunctionParameters(parameters!) : null,
+    );
+  }
+}
+
+extension ChatFunctionCallMapper on ChatFunctionCall {
+  OpenAIFunctionCall toOpenAIFunctionCall() {
+    return switch (this) {
+      ChatFunctionCallNone _ => OpenAIFunctionCall.none,
+      ChatFunctionCallAuto _ => OpenAIFunctionCall.auto,
+      final ChatFunctionCallForced f =>
+        OpenAIFunctionCall.forFunction(f.functionName),
     };
   }
 }

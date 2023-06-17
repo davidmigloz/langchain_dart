@@ -1,4 +1,5 @@
 import '../language_models/base.dart';
+import '../language_models/models/models.dart';
 import '../output_parsers/output_parser.dart';
 import '../prompts/base_prompt.dart';
 import 'base.dart';
@@ -17,8 +18,8 @@ import 'models/models.dart';
 /// final res = await chain.run('bad');
 /// ```
 /// {@endtemplate}
-class LLMChain<I extends Object, O extends Object, P extends Object>
-    extends BaseChain {
+class LLMChain<LLMInput extends Object, LLMOptions extends LanguageModelOptions,
+    LLMOutput extends Object, P extends Object> extends BaseChain {
   /// {@macro llm_chain}
   const LLMChain({
     required this.prompt,
@@ -32,7 +33,7 @@ class LLMChain<I extends Object, O extends Object, P extends Object>
   final BasePromptTemplate prompt;
 
   /// LLM Wrapper to use.
-  final BaseLanguageModel<I, O> llm;
+  final BaseLanguageModel<LLMInput, LLMOptions, LLMOutput> llm;
 
   /// OutputParser to use.
   final BaseOutputParser<P>? outputParser;

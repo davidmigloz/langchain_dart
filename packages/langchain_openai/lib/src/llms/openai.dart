@@ -3,11 +3,12 @@ import 'package:langchain/langchain.dart';
 import '../client/base.dart';
 import '../client/openai_client.dart';
 import 'mappers.dart';
+import 'models/models.dart';
 
 /// {@template base_openai}
 /// Wrapper around OpenAI large language models.
 /// {@endtemplate}
-abstract base class BaseOpenAI extends BaseLLM {
+abstract base class BaseOpenAI extends BaseLLM<OpenAIOptions> {
   /// {@macro base_openai}
   BaseOpenAI({
     required final String? apiKey,
@@ -87,7 +88,7 @@ abstract base class BaseOpenAI extends BaseLLM {
   @override
   Future<LLMResult> generate(
     final String prompt, {
-    final List<String>? stop,
+    final OpenAIOptions? options,
   }) async {
     final completion = await _client.createCompletion(
       model: model,
@@ -96,7 +97,7 @@ abstract base class BaseOpenAI extends BaseLLM {
       temperature: temperature,
       topP: topP,
       n: n,
-      stop: stop,
+      stop: options?.stop,
       presencePenalty: presencePenalty,
       frequencyPenalty: frequencyPenalty,
       bestOf: bestOf,

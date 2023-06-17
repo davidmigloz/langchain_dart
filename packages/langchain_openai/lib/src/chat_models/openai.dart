@@ -3,11 +3,12 @@ import 'package:langchain/langchain.dart';
 import '../client/base.dart';
 import '../client/openai_client.dart';
 import 'mappers.dart';
+import 'models/models.dart';
 
 /// {@template base_chat_openai}
 /// Wrapper around OpenAI Chat large language models.
 /// {@endtemplate}
-abstract base class BaseChatOpenAI extends BaseChatModel {
+abstract base class BaseChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   /// {@macro base_chat_openai}
   BaseChatOpenAI({
     required final String? apiKey,
@@ -82,7 +83,7 @@ abstract base class BaseChatOpenAI extends BaseChatModel {
   @override
   Future<ChatResult> generate(
     final List<ChatMessage> messages, {
-    final List<String>? stop,
+    final ChatOpenAIOptions? options,
   }) async {
     final messagesDtos = messages
         .map((final m) => m.toOpenAIChatMessage())
@@ -91,11 +92,15 @@ abstract base class BaseChatOpenAI extends BaseChatModel {
     final completion = await _client.createChatCompletion(
       model: model,
       messages: messagesDtos,
+      functions: options?.functions
+          ?.map((final f) => f.toOpenAIFunction())
+          .toList(growable: false),
+      functionCall: options?.functionCall?.toOpenAIFunctionCall(),
       maxTokens: maxTokens,
       temperature: temperature,
       topP: topP,
       n: n,
-      stop: stop,
+      stop: options?.stop,
       presencePenalty: presencePenalty,
       frequencyPenalty: frequencyPenalty,
       logitBias: logitBias,

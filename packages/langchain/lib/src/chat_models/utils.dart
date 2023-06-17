@@ -10,13 +10,16 @@ extension ChatMessagesX on List<ChatMessage> {
   }) {
     return map(
       (final m) {
-        final role = switch (m) {
-          SystemChatMessage _ => 'System',
-          HumanChatMessage _ => humanPrefix,
-          AIChatMessage _ => aiPrefix,
-          final CustomChatMessage m => m.role,
+        return switch (m) {
+          SystemChatMessage _ => 'System: ${m.content}',
+          HumanChatMessage _ => '$humanPrefix: ${m.content}',
+          AIChatMessage _ => m.functionCall == null
+              ? '$aiPrefix: ${m.content}'
+              : '$aiPrefix: ${m.functionCall!.name}(${m.functionCall!.arguments})',
+          FunctionChatMessage(name: final n, content: final c) =>
+            'Function: $n=$c',
+          final CustomChatMessage m => '${m.role}: ${m.content}',
         };
-        return '$role: ${m.content}';
       },
     ).join('\n');
   }

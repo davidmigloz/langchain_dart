@@ -4,6 +4,7 @@ library; // Uses dart:io
 import 'dart:io';
 
 import 'package:langchain_openai/langchain_openai.dart';
+import 'package:langchain_openai/src/llms/models/models.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -58,7 +59,7 @@ void main() {
     test('Test stop logic on valid configuration', () async {
       const query = 'write an ordered list of five items';
       final llm = OpenAI(apiKey: openaiApiKey, temperature: 0);
-      final res = await llm(query, stop: ['3']);
+      final res = await llm(query, options: const OpenAIOptions(stop: ['3']));
       expect(res.contains('2.'), isTrue);
       expect(res.contains('3.'), isFalse);
     });

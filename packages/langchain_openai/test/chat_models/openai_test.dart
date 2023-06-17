@@ -1,10 +1,12 @@
 @TestOn('vm')
 library; // Uses dart:io
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:langchain/langchain.dart';
 import 'package:langchain_openai/langchain_openai.dart';
+import 'package:langchain_openai/src/chat_models/models/models.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -65,7 +67,10 @@ void main() {
     test('Test stop logic on valid configuration', () async {
       final query = ChatMessage.human('write an ordered list of five items');
       final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
-      final res = await chat([query], stop: ['3']);
+      final res = await chat(
+        [query],
+        options: const ChatOpenAIOptions(stop: ['3']),
+      );
       expect(res.content.contains('2.'), isTrue);
       expect(res.content.contains('3.'), isFalse);
     });
@@ -87,6 +92,79 @@ void main() {
       for (final generation in res.generations) {
         expect(generation.output.content, isNotEmpty);
       }
+    });
+
+    test('Test ChatOpenAI functions', () async {
+      final chat = ChatOpenAI(
+        apiKey: openaiApiKey,
+        model: 'gpt-3.5-turbo-0613',
+      );
+
+      const function = ChatFunction(
+        name: 'get_current_weather',
+        description: 'Get the current weather in a given location',
+        parameters: {
+          'type': 'object',
+          'properties': {
+            'location': {
+              'type': 'string',
+              'description': 'The city and state, e.g. San Francisco, CA'
+            },
+            'unit': {
+              'type': 'string',
+              'description': 'The unit of temperature to return',
+              'enum': ['celsius', 'fahrenheit']
+            }
+          },
+          'required': ['location']
+        },
+      );
+
+      final humanMessage = ChatMessage.human(
+        'What’s the weather like in Boston right now?',
+      );
+      final res1 = await chat.generate(
+        [humanMessage],
+        options: const ChatOpenAIOptions(functions: [function]),
+      );
+
+      expect(res1.generations.length, 1);
+      final generation1 = res1.generations.first;
+
+      expect(generation1.output, isA<AIChatMessage>());
+      final aiMessage1 = generation1.output as AIChatMessage;
+
+      expect(aiMessage1.content, isEmpty);
+      expect(aiMessage1.functionCall, isNotNull);
+      final functionCall = aiMessage1.functionCall!;
+
+      expect(functionCall.name, function.name);
+      expect(functionCall.arguments.containsKey('location'), isTrue);
+      expect(functionCall.arguments['location'], contains('Boston'));
+
+      final functionResult = {
+        'temperature': '22',
+        'unit': 'celsius',
+        'description': 'Sunny'
+      };
+      final functionMessage = ChatMessage.function(
+        name: function.name,
+        content: json.encode(functionResult),
+      );
+
+      final res2 = await chat.generate(
+        [humanMessage, aiMessage1, functionMessage],
+        options: const ChatOpenAIOptions(functions: [function]),
+      );
+
+      expect(res2.generations.length, 1);
+      final generation2 = res2.generations.first;
+
+      expect(generation2.output, isA<AIChatMessage>());
+      final aiMessage2 = generation2.output as AIChatMessage;
+
+      expect(aiMessage2.functionCall, isNull);
+      expect(aiMessage2.content, contains('22'));
     });
   });
 }

@@ -32,6 +32,8 @@ abstract interface class BaseOpenAIClient {
   Future<OpenAIChatCompletion> createChatCompletion({
     required final String model,
     required final List<OpenAIChatCompletionMessage> messages,
+    final List<OpenAIFunction>? functions,
+    final OpenAIFunctionCall? functionCall,
     final int? maxTokens,
     final double? temperature,
     final double? topP,

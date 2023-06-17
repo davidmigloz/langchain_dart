@@ -1,9 +1,20 @@
+import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
 import '../../language_models/models/models.dart';
 
+/// {@template chat_model_options}
+/// Generation options to pass into the Chat Model.
+/// {@endtemplate}
+class ChatModelOptions extends LanguageModelOptions {
+  /// {@macro chat_model_options}
+  const ChatModelOptions({
+    super.stop,
+  });
+}
+
 /// {@template chat_result}
-/// Result returned by the chat model.
+/// Result returned by the Chat Model.
 /// {@endtemplate}
 @immutable
 class ChatResult extends LanguageModelResult<ChatMessage> {
@@ -78,11 +89,23 @@ sealed class ChatMessage {
   /// Type of message that is spoken by the AI.
   factory ChatMessage.ai(
     final String content, {
+    final AIChatMessageFunctionCall? functionCall,
     final bool example = false,
   }) =>
       AIChatMessage(
         content: content,
+        functionCall: functionCall,
         example: example,
+      );
+
+  /// Type of message that is the response of calling a function.
+  factory ChatMessage.function({
+    required final String name,
+    required final String content,
+  }) =>
+      FunctionChatMessage(
+        content: content,
+        name: name,
       );
 
   /// Chat message with custom role.
@@ -111,8 +134,7 @@ class SystemChatMessage extends ChatMessage {
 
   @override
   bool operator ==(covariant final SystemChatMessage other) =>
-      identical(this, other) ||
-      runtimeType == other.runtimeType && content == other.content;
+      identical(this, other) || content == other.content;
 
   @override
   int get hashCode => content.hashCode;
@@ -144,9 +166,7 @@ class HumanChatMessage extends ChatMessage {
   @override
   bool operator ==(covariant final HumanChatMessage other) =>
       identical(this, other) ||
-      runtimeType == other.runtimeType &&
-          content == other.content &&
-          example == other.example;
+      content == other.content && example == other.example;
 
   @override
   int get hashCode => content.hashCode ^ example.hashCode;
@@ -170,8 +190,12 @@ class AIChatMessage extends ChatMessage {
   /// {@macro ai_chat_message}
   const AIChatMessage({
     required super.content,
+    this.functionCall,
     this.example = false,
   });
+
+  /// A function call that the AI wants to make.
+  final AIChatMessageFunctionCall? functionCall;
 
   /// Whether this message is an example.
   final bool example;
@@ -179,8 +203,8 @@ class AIChatMessage extends ChatMessage {
   @override
   bool operator ==(covariant final AIChatMessage other) =>
       identical(this, other) ||
-      runtimeType == other.runtimeType &&
-          content == other.content &&
+      content == other.content &&
+          functionCall == other.functionCall &&
           example == other.example;
 
   @override
@@ -191,7 +215,76 @@ class AIChatMessage extends ChatMessage {
     return '''
 AIChatMessage{
   content: $content,
+  functionCall: $functionCall,
   example: $example,
+}
+''';
+  }
+}
+
+/// {@template ai_chat_message_function_call}
+/// A function call that the AI wants to make.
+/// {@endtemplate}
+@immutable
+class AIChatMessageFunctionCall {
+  /// {@macro ai_chat_message_function_call}
+  const AIChatMessageFunctionCall({
+    required this.name,
+    required this.arguments,
+  });
+
+  /// The name of the function that the model wants to call.
+  final String name;
+
+  /// The arguments that the model wants to pass to the function.
+  final Map<String, dynamic> arguments;
+
+  @override
+  bool operator ==(covariant final AIChatMessageFunctionCall other) {
+    final mapEquals = const MapEquality<String, dynamic>().equals;
+    return identical(this, other) ||
+        name == other.name && mapEquals(arguments, other.arguments);
+  }
+
+  @override
+  int get hashCode => name.hashCode ^ arguments.hashCode;
+
+  @override
+  String toString() {
+    return '''
+AIChatMessageFunctionCall{
+  name: $name,
+  arguments: $arguments,
+}
+      ''';
+  }
+}
+
+/// {@template function_chat_message}
+/// Type of message that is the response of calling a function.
+/// {@endtemplate}
+@immutable
+class FunctionChatMessage extends ChatMessage {
+  /// {@macro function_chat_message}
+  const FunctionChatMessage({
+    required super.content,
+    required this.name,
+  });
+
+  final String name;
+
+  @override
+  bool operator ==(covariant final FunctionChatMessage other) =>
+      identical(this, other) || content == other.content && name == other.name;
+
+  @override
+  int get hashCode => content.hashCode;
+
+  @override
+  String toString() {
+    return '''
+SystemChatMessage{
+  content: $content,
 }
 ''';
   }
@@ -213,10 +306,7 @@ class CustomChatMessage extends ChatMessage {
 
   @override
   bool operator ==(covariant final CustomChatMessage other) =>
-      identical(this, other) ||
-      runtimeType == other.runtimeType &&
-          content == other.content &&
-          role == other.role;
+      identical(this, other) || content == other.content && role == other.role;
 
   @override
   int get hashCode => content.hashCode ^ role.hashCode;
@@ -234,3 +324,96 @@ CustomChatMessage{
 
 /// Role of a chat message
 enum ChatMessageRole { system, human, ai, custom }
+
+/// {@template openai_function_model}
+/// The description of a function that can be called by the chat model.
+/// {@endtemplate
+@immutable
+class ChatFunction {
+  /// {@macro openai_function_model}
+  const ChatFunction({
+    required this.name,
+    this.description,
+    this.parameters,
+  });
+
+  /// The name of the function to be called.
+  final String name;
+
+  /// The description of what the function does.
+  final String? description;
+
+  /// The parameters the functions accepts, described as a
+  /// [JSON Schema](https://json-schema.org/understanding-json-schema) object.
+  final Map<String, dynamic>? parameters;
+
+  @override
+  bool operator ==(covariant final ChatFunction other) {
+    final mapEquals = const MapEquality<String, dynamic>().equals;
+    return identical(this, other) ||
+        name == other.name &&
+            description == other.description &&
+            mapEquals(parameters, other.parameters);
+  }
+
+  @override
+  int get hashCode =>
+      name.hashCode ^ description.hashCode ^ parameters.hashCode;
+
+  @override
+  String toString() {
+    return '''
+ChatFunction{
+  name: $name,
+  description: $description,
+  parameters: $parameters,
+}
+''';
+  }
+}
+
+/// {@template chat_function_call}
+/// Controls how the model responds to function calls.
+/// {@endtemplate}
+sealed class ChatFunctionCall {
+  /// {@macro chat_function_call}
+  const ChatFunctionCall();
+
+  /// The model does not call a function, and responds to the end-user.
+  static const none = ChatFunctionCallNone();
+
+  /// The model can pick between an end-user or calling a function.
+  static const auto = ChatFunctionCallAuto();
+
+  /// The model is forced to to call the specified function.
+  factory ChatFunctionCall.forced({required final String functionName}) =>
+      ChatFunctionCallForced(functionName: functionName);
+}
+
+/// {@template chat_function_call_none}
+/// The model does not call a function, and responds to the end-user.
+/// {@endtemplate}
+final class ChatFunctionCallNone extends ChatFunctionCall {
+  /// {@macro chat_function_call_none}
+  const ChatFunctionCallNone();
+}
+
+/// {@template chat_function_call_auto}
+/// The model can pick between an end-user or calling a function.
+/// {@endtemplate}
+final class ChatFunctionCallAuto extends ChatFunctionCall {
+  /// {@macro chat_function_call_auto}
+  const ChatFunctionCallAuto();
+}
+
+/// {@template chat_function_call_forced}
+/// The model is forced to to call the specified function.
+/// {@endtemplate}
+final class ChatFunctionCallForced extends ChatFunctionCall {
+  const ChatFunctionCallForced({
+    required this.functionName,
+  });
+
+  /// The name of the function to call.
+  final String functionName;
+}

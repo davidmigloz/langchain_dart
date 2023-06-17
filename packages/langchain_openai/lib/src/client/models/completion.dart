@@ -34,17 +34,6 @@ final class OpenAICompletion {
   bool get haveChoices => choices.isNotEmpty;
 
   @override
-  int get hashCode {
-    return id.hashCode ^ created.hashCode ^ model.hashCode ^ choices.hashCode;
-  }
-
-  @override
-  String toString() {
-    return 'OpenAICompletion(id: $id, created: $created, model: $model, '
-        'choices: $choices)';
-  }
-
-  @override
   bool operator ==(covariant final OpenAICompletion other) {
     if (identical(this, other)) return true;
     final listEquals = const DeepCollectionEquality().equals;
@@ -53,6 +42,19 @@ final class OpenAICompletion {
         other.created == created &&
         other.model == model &&
         listEquals(other.choices, choices);
+  }
+
+  @override
+  int get hashCode =>
+      id.hashCode ^ created.hashCode ^ model.hashCode ^ choices.hashCode;
+
+  @override
+  String toString() {
+    return 'OpenAICompletion('
+        'id: $id, '
+        'created: $created, '
+        'model: $model, '
+        'choices: $choices)';
   }
 }
 
@@ -82,14 +84,6 @@ final class OpenAICompletionChoice {
   final String? finishReason;
 
   @override
-  int get hashCode {
-    return text.hashCode ^
-        index.hashCode ^
-        logprobs.hashCode ^
-        finishReason.hashCode;
-  }
-
-  @override
   bool operator ==(covariant final OpenAICompletionChoice other) {
     if (identical(this, other)) return true;
 
@@ -100,9 +94,19 @@ final class OpenAICompletionChoice {
   }
 
   @override
+  int get hashCode =>
+      text.hashCode ^
+      index.hashCode ^
+      logprobs.hashCode ^
+      finishReason.hashCode;
+
+  @override
   String toString() {
-    return 'OpenAICompletionChoice(text: $text, index: $index, logprobs: '
-        '$logprobs, finishReason: $finishReason)';
+    return 'OpenAICompletionChoice('
+        'text: $text, '
+        'index: $index, '
+        'logprobs: $logprobs, '
+        'finishReason: $finishReason)';
   }
 }
 
@@ -128,10 +132,6 @@ final class OpenAICompletionUsage {
   final int? totalTokens;
 
   @override
-  int get hashCode =>
-      promptTokens.hashCode ^ completionTokens.hashCode ^ totalTokens.hashCode;
-
-  @override
   bool operator ==(covariant final OpenAICompletionUsage other) {
     if (identical(this, other)) return true;
 
@@ -141,7 +141,12 @@ final class OpenAICompletionUsage {
   }
 
   @override
-  String toString() =>
-      'OpenAICompletionUsage(promptTokens: $promptTokens, completionTokens: '
-      '$completionTokens, totalTokens: $totalTokens)';
+  int get hashCode =>
+      promptTokens.hashCode ^ completionTokens.hashCode ^ totalTokens.hashCode;
+
+  @override
+  String toString() => 'OpenAICompletionUsage('
+      'promptTokens: $promptTokens, '
+      'completionTokens: $completionTokens, '
+      'totalTokens: $totalTokens)';
 }

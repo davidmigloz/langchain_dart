@@ -81,6 +81,8 @@ final class OpenAIClient implements BaseOpenAIClient {
   Future<OpenAIChatCompletion> createChatCompletion({
     required final String model,
     required final List<OpenAIChatCompletionMessage> messages,
+    final List<OpenAIFunction>? functions,
+    final OpenAIFunctionCall? functionCall,
     final int? maxTokens,
     final double? temperature,
     final double? topP,
@@ -95,6 +97,8 @@ final class OpenAIClient implements BaseOpenAIClient {
     final chat = await _client.chat.create(
       model: model,
       messages: messages.map((final m) => m.toDto()).toList(growable: false),
+      functions: functions?.map((final f) => f.toDto()).toList(growable: false),
+      functionCall: functionCall?.toDto(),
       temperature: temperature,
       topP: topP,
       n: n,

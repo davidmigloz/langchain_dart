@@ -8,60 +8,97 @@ import 'models/models.dart';
 /// Chat models base class.
 /// It should take in chat messages and return a chat message.
 /// {@endtemplate}
-abstract class BaseChatModel
-    extends BaseLanguageModel<List<ChatMessage>, ChatMessage> {
+abstract class BaseChatModel<Options extends ChatModelOptions>
+    extends BaseLanguageModel<List<ChatMessage>, Options, ChatMessage> {
   /// {@macro base_chat_model}
   const BaseChatModel();
 
   /// Runs the chat model on the given messages.
   ///
   /// - [messages] The messages to pass into the model.
-  /// - [stop] Optional list of stop words to use when generating.
+  /// - [options] Generation options to pass into the Chat Model.
   ///
   /// Example:
   /// ```dart
-  /// final result = chat.generate([ChatMessage.human('say hi!')]);
+  /// final result = await chat.generate([ChatMessage.human('say hi!')]);
   /// ```
   @override
   Future<ChatResult> generate(
     final List<ChatMessage> messages, {
-    final List<String>? stop,
+    final Options? options,
   });
 
   /// Runs the chat model on the given prompt value.
   ///
   /// - [promptValue] The prompt value to pass into the model.
-  /// - [stop] Optional list of stop words to use when generating.
+  /// - [options] Generation options to pass into the Chat Model.
   ///
   /// Example:
   /// ```dart
-  /// final result = chat.generatePrompt(
+  /// final result = await chat.generatePrompt(
   ///   ChatPromptValue([ChatMessage.human('say hi!')]),
   /// );
   /// ```
   @override
   Future<ChatResult> generatePrompt(
     final PromptValue promptValue, {
-    final List<String>? stop,
+    final Options? options,
   }) {
-    return generate(promptValue.toChatMessages(), stop: stop);
+    return generate(promptValue.toChatMessages(), options: options);
   }
 
   /// Runs the chat model on the given messages.
   ///
   /// - [messages] The messages to pass into the model.
-  /// - [stop] Optional list of stop words to use when generating.
+  /// - [options] Generation options to pass into the Chat Model.
   ///
   /// Example:
   /// ```dart
-  /// final result = chat([HumanMessage(content: 'say hi!')]);
+  /// final result = await chat([ChatMessage.human('say hi!')]);
   /// ```
+  @override
   Future<ChatMessage> call(
     final List<ChatMessage> messages, {
-    final List<String>? stop,
+    final Options? options,
   }) async {
-    final ChatResult result = await generate(messages, stop: stop);
+    final ChatResult result = await generate(messages, options: options);
     return result.generations[0].output;
+  }
+
+  /// Runs the chat model on the given text as a human message and returns the
+  /// content of the AI message.
+  ///
+  /// - [text] The text to pass into the model.
+  /// - [options] Generation options to pass into the Chat Model.
+  ///
+  /// Example:
+  /// ```dart
+  /// final result = await predict('say hi!');
+  /// ```
+  @override
+  Future<String> predict(
+    final String text, {
+    final Options? options,
+  }) async {
+    final res = await call([ChatMessage.human(text)], options: options);
+    return res.content;
+  }
+
+  /// Runs the chat model on the given messages (same as [call] method).
+  ///
+  /// - [messages] The messages to pass into the model.
+  /// - [options] Generation options to pass into the Chat Model.
+  ///
+  /// Example:
+  /// ```dart
+  /// final result = await chat.predictMessages([ChatMessage.human('say hi!')]);
+  /// );
+  @override
+  Future<ChatMessage> predictMessages(
+    final List<ChatMessage> messages, {
+    final Options? options,
+  }) async {
+    return call(messages, options: options);
   }
 }
 
@@ -70,16 +107,17 @@ abstract class BaseChatModel
 /// models, rather than expecting the user to implement the full
 /// [SimpleChatModel.generate] method.
 /// {@endtemplate}
-abstract class SimpleChatModel extends BaseChatModel {
+abstract class SimpleChatModel<Options extends ChatModelOptions>
+    extends BaseChatModel<Options> {
   /// {@macro simple_chat_model}
   const SimpleChatModel();
 
   @override
   Future<ChatResult> generate(
     final List<ChatMessage> messages, {
-    final List<String>? stop,
+    final Options? options,
   }) async {
-    final text = await callInternal(messages, stop: stop);
+    final text = await callInternal(messages, options: options);
     final message = ChatMessage.ai(text);
     return ChatResult(
       generations: [ChatGeneration(message)],
@@ -90,6 +128,6 @@ abstract class SimpleChatModel extends BaseChatModel {
   @visibleForOverriding
   Future<String> callInternal(
     final List<ChatMessage> messages, {
-    final List<String>? stop,
+    final Options? options,
   });
 }

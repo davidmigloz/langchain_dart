@@ -1,6 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
+import 'functions.dart';
+
 /// {@template openai_chat_completion_message}
 /// This represents the message of the [OpenAIChatCompletionChoice] model
 /// of the OpenAI API, which is used and get returned while using the
@@ -12,6 +14,8 @@ final class OpenAIChatCompletionMessage {
   const OpenAIChatCompletionMessage({
     required this.role,
     required this.content,
+    this.functionCall,
+    this.functionName,
   });
 
   /// The [role] of the message.
@@ -20,29 +24,43 @@ final class OpenAIChatCompletionMessage {
   /// The [content] of the message.
   final String content;
 
-  @override
-  String toString() {
-    return 'OpenAIChatCompletionMessage('
-        'role: $role, '
-        'content: $content)';
-  }
+  /// The response from the model requesting to call a function.
+  final OpenAIFunctionCallResponse? functionCall;
 
-  @override
-  int get hashCode {
-    return role.hashCode ^ content.hashCode;
-  }
+  /// The name of the function that was called.
+  final String? functionName;
 
   @override
   bool operator ==(
     covariant final OpenAIChatCompletionMessage other,
   ) {
     if (identical(this, other)) return true;
-    return other.role == role && other.content == content;
+    return other.role == role &&
+        other.content == content &&
+        other.functionCall == functionCall &&
+        other.functionName == functionName;
+  }
+
+  @override
+  int get hashCode {
+    return role.hashCode ^
+        content.hashCode ^
+        functionCall.hashCode ^
+        functionName.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'OpenAIChatCompletionMessage('
+        'role: $role, '
+        'content: $content, '
+        'functionCall: $functionCall, '
+        ')';
   }
 }
 
 /// The role of the author of this message.
-enum OpenAIChatMessageRole { system, user, assistant }
+enum OpenAIChatMessageRole { system, user, assistant, function }
 
 /// {@template openai_chat_completion}
 /// This class represents the chat completion response model of the OpenAI API,
@@ -74,21 +92,6 @@ final class OpenAIChatCompletion {
   bool get haveChoices => choices.isNotEmpty;
 
   @override
-  String toString() {
-    return 'OpenAIChatCompletion('
-        'id: $id, '
-        'created: $created, '
-        'choices: '
-        '$choices, '
-        'usage: $usage)';
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^ created.hashCode ^ choices.hashCode ^ usage.hashCode;
-  }
-
-  @override
   bool operator ==(covariant final OpenAIChatCompletion other) {
     const listEquals = ListEquality<OpenAIChatCompletionChoice>();
     if (identical(this, other)) return true;
@@ -96,6 +99,20 @@ final class OpenAIChatCompletion {
         other.created == created &&
         listEquals.equals(other.choices, choices) &&
         other.usage == usage;
+  }
+
+  @override
+  int get hashCode =>
+      id.hashCode ^ created.hashCode ^ choices.hashCode ^ usage.hashCode;
+
+  @override
+  String toString() {
+    return 'OpenAIChatCompletion('
+        'id: $id, '
+        'created: $created, '
+        'choices: '
+        '$choices, '
+        'usage: $usage)';
   }
 }
 
@@ -125,24 +142,22 @@ final class OpenAIChatCompletionChoice {
   final String? finishReason;
 
   @override
-  String toString() {
-    return 'OpenAIChatCompletionChoice('
-        'index: $index, '
-        'message: $message, '
-        'finishReason: $finishReason)';
-  }
-
-  @override
-  int get hashCode {
-    return index.hashCode ^ message.hashCode ^ finishReason.hashCode;
-  }
-
-  @override
   bool operator ==(covariant final OpenAIChatCompletionChoice other) {
     if (identical(this, other)) return true;
     return other.index == index &&
         other.message == message &&
         other.finishReason == finishReason;
+  }
+
+  @override
+  int get hashCode => index.hashCode ^ message.hashCode ^ finishReason.hashCode;
+
+  @override
+  String toString() {
+    return 'OpenAIChatCompletionChoice('
+        'index: $index, '
+        'message: $message, '
+        'finishReason: $finishReason)';
   }
 }
 
@@ -170,26 +185,23 @@ final class OpenAIChatCompletionUsage {
   final int totalTokens;
 
   @override
-  String toString() {
-    return 'OpenAIChatCompletionUsage('
-        'promptTokens: $promptTokens, '
-        'completionTokens: $completionTokens, '
-        'totalTokens: $totalTokens)';
-  }
-
-  @override
-  int get hashCode {
-    return promptTokens.hashCode ^
-        completionTokens.hashCode ^
-        totalTokens.hashCode;
-  }
-
-  @override
   bool operator ==(covariant final OpenAIChatCompletionUsage other) {
     if (identical(this, other)) return true;
 
     return other.promptTokens == promptTokens &&
         other.completionTokens == completionTokens &&
         other.totalTokens == totalTokens;
+  }
+
+  @override
+  int get hashCode =>
+      promptTokens.hashCode ^ completionTokens.hashCode ^ totalTokens.hashCode;
+
+  @override
+  String toString() {
+    return 'OpenAIChatCompletionUsage('
+        'promptTokens: $promptTokens, '
+        'completionTokens: $completionTokens, '
+        'totalTokens: $totalTokens)';
   }
 }
