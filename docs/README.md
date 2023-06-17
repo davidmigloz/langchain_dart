@@ -1,100 +1,114 @@
 # Welcome to LangChain.dart
 
-**LangChain.dart** is a Dart port of [LangChain](https://github.com/hwchase17/langchain).
+**LangChain.dart** is a Dart port
+of [LangChain](https://github.com/hwchase17/langchain).
 
-> **Attribution note:** most of the docs are just an adaptation of the original 
-> [LangChain docs](https://python.langchain.com/).
+> **Attribution note:** most of the docs are just an adaptation of the original
+> [Python LangChain docs](https://python.langchain.com/).
 
-**LangChain** is a framework for developing applications powered by language models. We believe 
-that the most powerful and differentiated applications will not only call out to a language model, 
-but will also be:
-1. *Data-aware*: connect a language model to other sources of data.
-2. *Agentic*: allow a language model to interact with its environment.
+**LangChain** is a framework for developing applications powered by language
+models. It enables applications that are:
 
-The LangChain framework is designed around these principles.
+1. **Data-aware:** connect a language model to other sources of data.
+2. **Agentic:** allow a language model to interact with its environment.
 
-This is the Dart specific portion of the documentation. 
-- For a purely conceptual guide to LangChain, see [here](https://docs.langchain.com).
-- For the Python docs, see [here](https://python.langchain.com).
-- For the JavaScript docs, see [here](https://js.langchain.com).
+The main value prop of LangChain are:
+
+1. **Components:** abstractions for working with language models, along with a
+   collection of implementations for each abstraction. Components are modular
+   and easy-to-use, whether you are using the rest of the LangChain framework or
+   not.
+2. **Off-the-shelf chains:** a structured assembly of components for
+   accomplishing specific higher-level tasks.
+
+Off-the-shelf chains make it easy to get started. For more complex applications
+and nuanced use-cases, components make it easy to customize existing chains or
+build new ones.
 
 ## Getting Started
 
-How to get started using LangChain to create an Language Model application:
+[Here’s](/getting_started/installation) how to install LangChain, set up your
+environment, and start building.
 
-- [Quickstart Guide](/getting_started/getting_started.md)
+We recommend following
+our [Quickstart guide](/getting_started/getting_started.md) to familiarize
+yourself with the framework by building your first LangChain application.
 
-Concepts and terminology:
-
-- [Concepts and terminology](https://python.langchain.com/en/latest/getting_started/concepts.html)
-
-Tutorials created by community experts and presented on YouTube:
-
-- [Tutorials](https://python.langchain.com/en/latest/getting_started/tutorials.html)
+> Note: These docs are for
+> the [LangChain Dart package](https://github.com/davidmigloz/langchain_dart).
+> For documentation on LangChain
+> Python, [click here](https://python.langchain.com), and for
+> LangChain.js, [head here](https://js.langchain.com).
 
 ## Modules
 
-These modules are the core abstractions which we view as the building blocks of any LLM-powered 
-application.
+LangChain provides standard, extendable interfaces and external integrations for
+the following modules, listed from least to most complex:
 
-For each module LangChain provides standard, extendable interfaces. LangChain also provides 
-external integrations and even end-to-end implementations for off-the-shelf use.
+#### [Model I/O](/modules/models/models.md)
 
-The docs for each module contain quickstart examples, how-to guides, reference docs, and 
-conceptual guides.
+- Interface with language models.
 
-The modules are (from least to most complex):
+#### Data connection
 
-- [Models](/modules/models/models.md): Supported model types and integrations.
-- [Prompts](/modules/prompts/prompts.md): Prompt management, optimization, and serialization.
-- Memory: Memory refers to state that is persisted between calls of a chain/agent.
-- Indexes: Language models become much more powerful when combined with application-specific data - 
-  this module contains interfaces and integrations for loading, querying and updating external data.
-- [Chains](/modules/chains/chains.md): Chains are structured sequences of calls (to an LLM or to a 
-  different utility).
-- Agents: An agent is a Chain in which an LLM, given a high-level directive and a set of tools, 
-  repeatedly decides an action, executes the action and observes the outcome until the high-level 
-  directive is complete.
-- Callbacks: Callbacks let you log and stream the intermediate steps of any chain, making it easy 
-  to observe, debug, and evaluate the internals of an application.
+- Interface with application-specific data.
 
-## Use Cases
+#### [Chains](/modules/chains/chains.md)
 
-Best practices and built-in implementations for common LangChain use cases:
+- Construct sequences of calls.
 
-- [Autonomous Agents](https://python.langchain.com/en/latest/use_cases/autonomous_agents.html): 
-  Autonomous agents are long-running agents that take many steps in an attempt to accomplish an 
-  objective. Examples include AutoGPT and BabyAGI.
-- [Agent Simulations](https://python.langchain.com/en/latest/use_cases/agent_simulations.html): 
-  Putting agents in a sandbox and observing how they interact with each other and react to events 
-  can be an effective way to evaluate their long-range reasoning and planning abilities.
-- [Personal Assistants](https://python.langchain.com/en/latest/use_cases/personal_assistants.html): 
-  One of the primary LangChain use cases. Personal assistants need to take actions, remember 
-  interactions, and have knowledge about your data.
-- [Question Answering](https://python.langchain.com/en/latest/use_cases/question_answering.html): 
-  Another common LangChain use case. Answering questions over specific documents, only utilizing 
-  the information in those documents to construct an answer.
-- [Chatbots](https://python.langchain.com/en/latest/use_cases/chatbots.html): Language models love 
-  to chat, making this a very natural use of them.
-- [Querying Tabular Data](https://python.langchain.com/en/latest/use_cases/tabular.html): 
-  Recommended reading if you want to use language models to query structured data 
-  (CSVs, SQL, dataframes, etc).
-- [Code Understanding](https://python.langchain.com/en/latest/use_cases/code.html): Recommended 
-  reading if you want to use language models to analyze code.
-- [Interacting with APIs](https://python.langchain.com/en/latest/use_cases/apis.html): Enabling 
-  language models to interact with APIs is extremely powerful. It gives them access to up-to-date 
-  information and allows them to take actions.
-- [Extraction](https://python.langchain.com/en/latest/use_cases/extraction.html): Extract 
-  structured information from text.
-- [Summarization](https://python.langchain.com/en/latest/use_cases/summarization.html): 
-  Compressing longer documents. A type of Data-Augmented Generation.
-- [Evaluation](https://python.langchain.com/en/latest/use_cases/evaluation.html): Generative 
-  models are hard to evaluate with traditional metrics. One promising approach is to use language 
-  models themselves to do the evaluation.
+#### Agents
 
-## Reference Docs
+- Let chains choose which tools to use given high-level directives.
 
-Full documentation on all methods, classes, installation methods, and integration setups 
-for LangChain.
+#### Memory
 
-- [Reference Documentation](https://pub.dev/documentation/langchain/latest/)
+- Persist application state between runs of a chain.
+
+#### Callbacks
+
+- Log and stream intermediate steps of any chain.
+
+## Examples, ecosystem, and resources
+
+### [Use cases](https://python.langchain.com/docs/use_cases/)
+
+Walkthroughs and best-practices for common end-to-end use cases, like:
+
+- [Chatbots](https://python.langchain.com/docs/use_cases/chatbots)
+- [Answering questions using sources](https://python.langchain.com/docs/use_cases/question_answering)
+- [Analyzing structured data](https://python.langchain.com/docs/use_cases/tabular.html)
+- and much more...
+
+### [Guides](https://python.langchain.com/docs/guides)
+
+Learn best practices for developing with LangChain.
+
+### [Ecosystem](https://python.langchain.com/docs/ecosystem)
+
+LangChain is part of a rich ecosystem of tools that integrate with our framework
+and build on top of it. Check out our growing list of integrations and dependent
+repos.
+
+### [Additional resources](https://python.langchain.com/docs/additional_resources)
+
+Our community is full of prolific developers, creative builders, and fantastic
+teachers. Check
+out [YouTube tutorials](https://python.langchain.com/docs/ecosystem/youtube.html)
+for great tutorials from folks in the community,
+and [Gallery](https://github.com/kyrolabs/awesome-langchain) for a list of
+awesome LangChain projects, compiled by the folks
+at [KyroLabs](https://kyrolabs.com).
+
+### Support
+
+Join us on [GitHub](https://github.com/davidmigloz/langchain_dart)
+or [Discord](https://discord.gg/6adMQxSpJS) to ask questions, share feedback,
+meet other developers building with LangChain, and dream about the future of
+LLM’s.
+
+## API reference
+
+Head to the [reference section](https://pub.dev/documentation/langchain/latest)
+for full documentation of all classes and methods in the LangChain Dart
+package.
