@@ -1,0 +1,100 @@
+# Chat models
+
+Chat models are a variation on language models. While chat models use language
+models under the hood, the interface they expose is a bit different. Rather than
+expose a "text in, text out" API, they expose an interface where "chat messages"
+are the inputs and outputs.
+
+Chat model APIs are fairly new, so we are still figuring out the correct
+abstractions.
+
+The following sections of documentation are provided:
+
+- **How-to guides**: Walkthroughs of core functionality, like streaming,
+  creating chat prompts, etc.
+- **Integrations**: How to use different chat model providers (OpenAI,
+  Anthropic, etc).
+
+## Get started
+
+### Setup
+
+For this guide, we will work with an OpenAI chat model wrapper, although the functionalities
+highlighted are generic for all LLM types.
+
+To use LangChain you need to import the `langchain` package. As we are integrating with OpenAI,
+we also need to import the `langchain_openai` package.
+```dart
+import 'package:langchain/langchain.dart';
+import 'package:langchain_openai/langchain_openai.dart';
+```
+
+We can then instantiate the chat model:
+```dart
+final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
+```
+
+### Messages
+
+The chat model interface is based around messages rather than raw text. The 
+types of messages currently supported in LangChain are `AIChatMessage`, 
+`HumanChatMessage`, `SystemChatMessage`, and `CustomChatMessage` – 
+`CustomChatMessage` takes in an  arbitrary role parameter. Most of the time, 
+you’ll just be dealing with `HumanChatMessage`, `AIChatMessage`, and 
+`SystemChatMessage`.
+
+### `call`: messages in -> message out
+
+You can get chat completions by passing one or more messages to the chat model. 
+The response will be a message.
+
+```dart
+final messages = [
+  ChatMessage.human(
+    'Translate this sentence from English to French. I love programming.',
+  ),
+];
+final chatRes = await chat(messages);
+// -> AIChatMessage{content: J'aime programmer., example: false}
+```
+
+OpenAI’s chat model supports multiple messages as input.
+See [here](https://platform.openai.com/docs/guides/gpt/chat-completions-vs-completions) for more
+information. Here is an example of sending a system and user message to the chat model:
+
+```dart
+final messages = [
+  ChatMessage.system('You are a helpful assistant that translates English to French.'),
+  ChatMessage.human('I love programming.')
+];
+final chatRes = await chat(messages);
+print(chatRes);
+// -> AIChatMessage{content: J'adore la programmation., example: false}
+```
+
+### `generate`: richer outputs
+
+The `generate` APIs return an `ChatResult` which contains a `ChatGeneration`
+object with the `output` messages and some metadata about the generation. It 
+also contains some additional information like `tokensUsage` and `modelOutput`.
+
+```dart
+final chatRes1 = await chat.generate(messages);
+print(chatRes1.generations);
+// -> [ChatGeneration{
+//       output: AIChatMessage{content: J'adore la programmation., example: false},
+//       generationInfo: {index: 0, finish_reason: stop}}]
+print(chatRes1.tokensUsage);
+// -> 36
+print(chatRes1.modelOutput);
+// -> {id: chatcmpl-7QHTjpTCELFuGbxRaazFqvYtepXOc, created: 2023-06-11 17:41:11.000, model: gpt-3.5-turbo}
+```
+
+### `generatePrompt`: generate from a `PromptValue`
+
+```dart
+final chatRes2 = await chat.generatePrompt(ChatPromptValue(messages));
+print(chatRes2.generations);
+print(chatRes2.tokensUsage);
+print(chatRes2.modelOutput);
+```

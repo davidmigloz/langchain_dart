@@ -1,7 +1,7 @@
 # Welcome to LangChain.dart
 
 **LangChain.dart** is a Dart port
-of [LangChain](https://github.com/hwchase17/langchain).
+of Python's [LangChain](https://github.com/hwchase17/langchain) framework.
 
 > **Attribution note:** most of the docs are just an adaptation of the original
 > [Python LangChain docs](https://python.langchain.com/).
@@ -27,47 +27,41 @@ build new ones.
 
 ## Getting Started
 
-[Here’s](/getting_started/installation) how to install LangChain, set up your
+[Here’s](/get_started/installation) how to install LangChain, set up your
 environment, and start building.
 
 We recommend following
-our [Quickstart guide](/getting_started/getting_started.md) to familiarize
+our [Quickstart guide](/get_started/getting_started.md) to familiarize
 yourself with the framework by building your first LangChain application.
 
-> Note: These docs are for
+> **Note:** These docs are for
 > the [LangChain Dart package](https://github.com/davidmigloz/langchain_dart).
 > For documentation on LangChain
-> Python, [click here](https://python.langchain.com), and for
-> LangChain.js, [head here](https://js.langchain.com).
+> Python [click here](https://python.langchain.com), and for
+> LangChain.js [click here](https://js.langchain.com).
 
 ## Modules
 
 LangChain provides standard, extendable interfaces and external integrations for
 the following modules, listed from least to most complex:
 
-#### [Model I/O](/modules/models/models.md)
+**[Model I/O](/modules/model_io/models/models.md)**  
+Interface with language models.
 
-- Interface with language models.
+**[Data connection]()**  
+Interface with application-specific data.
 
-#### Data connection
+**[Chains]()**  
+Construct sequences of calls.
 
-- Interface with application-specific data.
+**[Agents]()**  
+Let chains choose which tools to use given high-level directives.
 
-#### [Chains](/modules/chains/chains.md)
+**[Memory]()**  
+Persist application state between runs of a chain.
 
-- Construct sequences of calls.
-
-#### Agents
-
-- Let chains choose which tools to use given high-level directives.
-
-#### Memory
-
-- Persist application state between runs of a chain.
-
-#### Callbacks
-
-- Log and stream intermediate steps of any chain.
+**[Callbacks]()**  
+Log and stream intermediate steps of any chain.
 
 ## Examples, ecosystem, and resources
 
