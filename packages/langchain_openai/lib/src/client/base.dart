@@ -45,4 +45,14 @@ abstract interface class BaseOpenAIClient {
     final Map<String, dynamic>? logitBias,
     final String? user,
   });
+
+  /// Get a vector representation of a given input that can be easily consumed
+  /// by machine learning models and algorithms.
+  ///
+  /// See https://platform.openai.com/docs/api-reference/embeddings
+  Future<OpenAIEmbeddings> createEmbeddings({
+    required final String model,
+    required final dynamic input,
+    final String? user,
+  });
 }

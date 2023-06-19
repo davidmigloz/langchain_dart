@@ -112,4 +112,18 @@ final class OpenAIClient implements BaseOpenAIClient {
     );
     return chat.toModel();
   }
+
+  @override
+  Future<OpenAIEmbeddings> createEmbeddings({
+    required final String model,
+    required final dynamic input,
+    final String? user,
+  }) async {
+    final c.OpenAIEmbeddingsModel embeddings = await _client.embedding.create(
+      model: model,
+      input: input,
+      user: user,
+    );
+    return embeddings.toModel();
+  }
 }

@@ -4,6 +4,7 @@ library;
 export 'src/chains/chains.dart';
 export 'src/chat_models/chat_models.dart';
 export 'src/documents/documents.dart';
+export 'src/embeddings/embeddings.dart';
 export 'src/language_models/language_models.dart';
 export 'src/llms/llms.dart';
 export 'src/memory/memory.dart';
