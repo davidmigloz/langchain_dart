@@ -13,3 +13,4 @@ export 'src/prompts/prompts.dart';
 export 'src/stores/stores.dart';
 export 'src/tools/tools.dart';
 export 'src/utils/utils.dart';
+export 'src/vector_stores/vector_stores.dart';
