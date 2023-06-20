@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 
 import '../../chat_models/models/models.dart';
 import '../../chat_models/utils.dart';
+import '../../utils/exception.dart';
 
 /// {@template prompt_value}
 /// Represents the input to an LLM or Chat model.
@@ -91,3 +92,13 @@ typedef InputValues = Map<String, dynamic>;
 /// The keys are the names of the variables in the prompt template
 /// and the values the actual values to use.
 typedef PartialValues = Map<String, dynamic>;
+
+/// {@template prompt_exception}
+/// Exception thrown when some error occurs while working with a prompt.
+/// {@endtemplate}
+final class PromptException extends LangChainException {
+  /// {@macro prompt_exception}
+  const PromptException({
+    super.message = '',
+  }) : super(code: 'prompt');
+}
