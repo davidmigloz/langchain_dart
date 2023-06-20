@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_unused_constructor_parameters
-import '../models/models.dart';
 import '../embeddings/base.dart';
+import '../models/models.dart';
 import '../retrievers/vector_store.dart';
 import 'models/models.dart';
 

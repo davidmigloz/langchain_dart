@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
-import '../models/models.dart';
 import '../embeddings/base.dart';
+import '../models/models.dart';
 import 'base.dart';
 
 /// {@template memory_vector_store}

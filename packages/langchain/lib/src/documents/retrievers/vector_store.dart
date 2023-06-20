@@ -1,5 +1,5 @@
-import '../vector_stores/vector_stores.dart';
 import '../models/models.dart';
+import '../vector_stores/vector_stores.dart';
 import 'base.dart';
 
 /// {@template vector_store_retriever}

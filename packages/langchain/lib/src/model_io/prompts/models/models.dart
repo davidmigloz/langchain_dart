@@ -1,8 +1,8 @@
 import 'package:meta/meta.dart';
 
+import '../../../utils/exception.dart';
 import '../../chat_models/models/models.dart';
 import '../../chat_models/utils.dart';
-import '../../../utils/exception.dart';
 
 /// {@template prompt_value}
 /// Represents the input to an LLM or Chat model.

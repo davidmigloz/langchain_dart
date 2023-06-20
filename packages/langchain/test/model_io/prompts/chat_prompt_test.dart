@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_redundant_argument_values
-import 'package:langchain/langchain.dart';
-import 'package:langchain/src/model_io/prompts/base_chat_prompt.dart';
+import 'package:langchain/src/model_io/chat_models/chat_models.dart';
+import 'package:langchain/src/model_io/prompts/prompts.dart';
 import 'package:test/test.dart';
 
 void main() {
