@@ -86,7 +86,7 @@ abstract class BaseChain {
   /// Call method to be implemented by subclasses.
   /// This is where the core logic of the chain should be implemented.
   @protected
-  Future<ChainValues> callInternal(final ChainValues values);
+  Future<ChainValues> callInternal(final ChainValues inputs);
 
   /// Call the chain on all inputs in the list.
   Future<List<ChainValues>> apply(final List<ChainValues> inputs) async {
