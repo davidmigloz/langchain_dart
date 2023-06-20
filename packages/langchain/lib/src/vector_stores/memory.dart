@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
 import '../documents/models/models.dart';
+import '../embeddings/base.dart';
 import 'base.dart';
 
 /// {@template memory_vector_store}
@@ -21,6 +22,41 @@ class MemoryVectorStore extends VectorStore {
 
   /// Vectors stored in memory.
   final List<MemoryVector> memoryVectors = [];
+
+  /// Creates a vector store from a list of texts.
+  ///
+  /// - [texts] is a list of texts to add to the vector store.
+  /// - [metadatas] is a list of metadata to add to the vector store.
+  /// - [embeddings] is the embeddings model to use to embed the texts.
+  factory MemoryVectorStore.fromText({
+    required final List<String> texts,
+    required final List<Map<String, dynamic>> metadatas,
+    required final Embeddings embeddings,
+  }) {
+    return MemoryVectorStore(embeddings: embeddings)
+      ..addDocuments(
+        documents: texts
+            .mapIndexed(
+              (final i, final text) => Document(
+                pageContent: text,
+                metadata: i < metadatas.length ? metadatas[i] : const {},
+              ),
+            )
+            .toList(growable: false),
+      );
+  }
+
+  /// Creates a vector store from a list of documents.
+  ///
+  /// - [documents] is a list of documents to add to the vector store.
+  /// - [embeddings] is the embeddings model to use to embed the documents.
+  factory MemoryVectorStore.fromDocuments({
+    required final List<Document> documents,
+    required final Embeddings embeddings,
+  }) {
+    return MemoryVectorStore(embeddings: embeddings)
+      ..addDocuments(documents: documents);
+  }
 
   @override
   Future<List<String>> addVectors({

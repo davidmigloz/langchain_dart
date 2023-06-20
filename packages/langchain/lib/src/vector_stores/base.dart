@@ -1,5 +1,7 @@
+// ignore_for_file: avoid_unused_constructor_parameters
 import '../documents/models/models.dart';
 import '../embeddings/base.dart';
+import '../retrievers/vector_store.dart';
 import 'models/models.dart';
 
 /// {@category vector_stores}
@@ -13,6 +15,34 @@ abstract class VectorStore {
 
   /// The embeddings model used to embed documents.
   final Embeddings embeddings;
+
+  /// Creates a vector store from a list of texts.
+  ///
+  /// - [texts] is a list of texts to add to the vector store.
+  /// - [metadatas] is a list of metadata to add to the vector store.
+  /// - [embeddings] is the embeddings model to use to embed the texts.
+  factory VectorStore.fromText({
+    required final List<String> texts,
+    required final List<Map<String, dynamic>> metadatas,
+    required final Embeddings embeddings,
+  }) {
+    throw UnimplementedError(
+      'Use the fromText method on a specific vector store.',
+    );
+  }
+
+  /// Creates a vector store from a list of documents.
+  ///
+  /// - [documents] is a list of documents to add to the vector store.
+  /// - [embeddings] is the embeddings model to use to embed the documents.
+  factory VectorStore.fromDocuments({
+    required final List<Document> documents,
+    required final Embeddings embeddings,
+  }) {
+    throw UnimplementedError(
+      'Use the fromDocuments method on a specific vector store.',
+    );
+  }
 
   /// Runs more documents through the embeddings and add to the vector store.
   ///
@@ -45,9 +75,11 @@ abstract class VectorStore {
   ///
   /// - [query] is the query to search for.
   /// - [searchType] is the type of search to perform.
+  /// - [k] is the number of documents to return.
   Future<List<Document>> search({
     required final String query,
     required final VectorStoreSearchType searchType,
+    final int k = 4,
   }) {
     return switch (searchType) {
       VectorStoreSearchType.similarity => similaritySearch(query: query),
@@ -157,4 +189,16 @@ abstract class VectorStore {
     final int fetchK = 20,
     final double lambdaMult = 0.5,
   });
+
+  /// Returns a retriever that uses this vector store.
+  VectorStoreRetriever asRetriever({
+    final VectorStoreSearchType searchType = VectorStoreSearchType.similarity,
+    final int k = 4,
+  }) {
+    return VectorStoreRetriever(
+      vectorStore: this,
+      searchType: searchType,
+      k: k,
+    );
+  }
 }
