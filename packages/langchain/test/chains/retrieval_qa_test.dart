@@ -1,10 +1,7 @@
 import 'package:langchain/src/chains/chains.dart';
 import 'package:langchain/src/documents/documents.dart';
-import 'package:langchain/src/embeddings/base.dart';
-import 'package:langchain/src/llms/fake.dart';
-import 'package:langchain/src/prompts/prompt.dart';
-import 'package:langchain/src/retrievers/retrievers.dart';
-import 'package:langchain/src/vector_stores/memory.dart';
+import 'package:langchain/src/model_io/llms/fake.dart';
+import 'package:langchain/src/model_io/prompts/prompts.dart';
 import 'package:test/test.dart';
 
 void main() {

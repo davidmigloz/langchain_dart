@@ -1,8 +1,8 @@
 import 'package:meta/meta.dart';
 
 import '../../documents/models/models.dart';
-import '../../prompts/base_prompt.dart';
-import '../../prompts/models/models.dart';
+import '../../model_io/prompts/base_prompt.dart';
+import '../../model_io/prompts/models/models.dart';
 import '../base.dart';
 import '../models/models.dart';
 

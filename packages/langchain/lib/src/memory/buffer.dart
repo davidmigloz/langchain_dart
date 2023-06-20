@@ -1,5 +1,4 @@
-import '../chat_models/utils.dart';
-import '../stores/message/in_memory.dart';
+import '../model_io/chat_models/utils.dart';
 import 'chat.dart';
 import 'models/models.dart';
 

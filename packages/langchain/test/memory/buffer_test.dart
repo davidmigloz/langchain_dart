@@ -1,6 +1,5 @@
-import 'package:langchain/src/chat_models/chat_models.dart';
-import 'package:langchain/src/memory/buffer.dart';
-import 'package:langchain/src/stores/message/in_memory.dart';
+import 'package:langchain/src/memory/memory.dart';
+import 'package:langchain/src/model_io/chat_models/chat_models.dart';
 import 'package:test/test.dart';
 
 void main() {

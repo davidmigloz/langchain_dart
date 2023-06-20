@@ -1,7 +1,6 @@
 import '../../documents/models/models.dart';
-import '../../prompts/base_prompt.dart';
-import '../../prompts/models/models.dart';
-import '../../prompts/prompt.dart';
+import '../../model_io/prompts/base_prompt.dart';
+import '../../model_io/prompts/prompts.dart';
 import '../llm_chain.dart';
 import 'base.dart';
 

@@ -1,7 +1,7 @@
 import '../documents/models/models.dart';
-import '../language_models/base.dart';
-import '../prompts/prompt.dart';
-import '../retrievers/base.dart';
+import '../documents/retrievers/base.dart';
+import '../model_io/language_models/base.dart';
+import '../model_io/prompts/prompts.dart';
 import 'base.dart';
 import 'combine_documents/base.dart';
 import 'models/models.dart';

@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_redundant_argument_values
 import '../memory/base.dart';
 import '../memory/buffer.dart';
-import '../prompts/prompt.dart';
+import '../model_io/prompts/prompts.dart';
 import 'llm_chain.dart';
 
 const _defaultTemplate = '''
