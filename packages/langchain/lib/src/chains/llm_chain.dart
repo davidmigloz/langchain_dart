@@ -51,8 +51,8 @@ class LLMChain<LLMInput extends Object, LLMOptions extends LanguageModelOptions,
   Set<String> get outputKeys => {outputKey};
 
   @override
-  Future<ChainValues> callInternal(final ChainValues values) async {
-    final promptValue = prompt.formatPrompt(values);
+  Future<ChainValues> callInternal(final ChainValues inputs) async {
+    final promptValue = prompt.formatPrompt(inputs);
 
     final response = await llm.generatePrompt(promptValue);
     String output = response.firstOutputAsString;
