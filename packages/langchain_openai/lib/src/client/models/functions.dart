@@ -10,7 +10,7 @@ class OpenAIFunction {
   const OpenAIFunction({
     required this.name,
     this.description,
-    this.parameters,
+    required this.parametersSchema,
   });
 
   /// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain
@@ -22,51 +22,28 @@ class OpenAIFunction {
 
   /// The parameters the functions accepts, described as a
   /// [JSON Schema](https://json-schema.org/understanding-json-schema) object.
-  final OpenAIFunctionParameters? parameters;
+  final Map<String, dynamic> parametersSchema;
 
   @override
-  bool operator ==(covariant final OpenAIFunction other) =>
-      identical(this, other) ||
-      name == other.name &&
-          description == other.description &&
-          parameters == other.parameters;
+  bool operator ==(covariant final OpenAIFunction other) {
+    final mapEquals = const MapEquality<String, dynamic>().equals;
+
+    return identical(this, other) ||
+        name == other.name &&
+            description == other.description &&
+            mapEquals(parametersSchema, other.parametersSchema);
+  }
 
   @override
   int get hashCode =>
-      name.hashCode ^ description.hashCode ^ parameters.hashCode;
+      name.hashCode ^ description.hashCode ^ parametersSchema.hashCode;
 
   @override
   String toString() {
     return 'OpenAIFunction('
         'name: $name, '
         'description: $description, '
-        'parameters: $parameters)';
-  }
-}
-
-/// {@template openai_function_parameters}
-/// The parameters the functions accepts, described as a
-/// [JSON Schema](https://json-schema.org/understanding-json-schema) object.
-/// {@endtemplate}
-@immutable
-class OpenAIFunctionParameters {
-  const OpenAIFunctionParameters(this.map);
-
-  final Map<String, dynamic> map;
-
-  @override
-  bool operator ==(covariant final OpenAIFunctionParameters other) {
-    final mapEquals = const MapEquality<String, dynamic>().equals;
-
-    return identical(this, other) || mapEquals(map, other.map);
-  }
-
-  @override
-  int get hashCode => map.hashCode;
-
-  @override
-  String toString() {
-    return 'OpenAIFunctionParameters(map: $map)';
+        'parametersSchema: $parametersSchema)';
   }
 }
 

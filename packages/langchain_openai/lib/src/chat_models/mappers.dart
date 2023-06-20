@@ -103,8 +103,7 @@ extension ChatFunctionMapper on ChatFunction {
     return OpenAIFunction(
       name: name,
       description: description,
-      parameters:
-          parameters != null ? OpenAIFunctionParameters(parameters!) : null,
+      parametersSchema: parameters ?? const {},
     );
   }
 }

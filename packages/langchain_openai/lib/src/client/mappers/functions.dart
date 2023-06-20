@@ -8,15 +8,8 @@ extension OpenAIFunctionDtoMapper on OpenAIFunction {
     return c.OpenAIFunctionModel(
       name: name,
       description: description,
-      parameters: parameters?.toDto(),
+      parametersSchema: parametersSchema,
     );
-  }
-}
-
-/// Mapper for [OpenAIFunctionParameters] to [c.OpenAIFunctionParameters].
-extension OpenAIFunctionParametersDtoMapper on OpenAIFunctionParameters {
-  c.OpenAIFunctionParameters toDto() {
-    return c.OpenAIFunctionParameters(map);
   }
 }
 
@@ -45,8 +38,8 @@ extension OpenAIFunctionCallResponseDtoMapper on OpenAIFunctionCallResponse {
 extension OpenAIFunctionCallResponseMapper on c.FunctionCallResponse {
   OpenAIFunctionCallResponse toModel() {
     return OpenAIFunctionCallResponse(
-      name: name,
-      arguments: arguments,
+      name: name ?? '',
+      arguments: arguments ?? const {},
     );
   }
 }
