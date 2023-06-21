@@ -99,10 +99,12 @@ prompts for our task.
 
 ```dart
 final openai = OpenAI(apiKey: openaiApiKey, temperature: 0.9);
+
 const fnExplainer = FunctionExplainerPromptTemplate();
 final prompt = fnExplainer.formatPrompt({
    FunctionExplainerPromptTemplate.functionNameInputKey: 'helloWorld',
 });
+
 final result = await openai.generatePrompt(prompt);
 print(result.firstOutputAsString);
 // -> 'This function is named helloWorld and it returns a string with the 
