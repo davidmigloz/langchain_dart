@@ -265,6 +265,7 @@ ChatPromptTemplate{
   }
 
   /// Creates a copy of this [ChatPromptTemplate] with the given fields.
+  @override
   ChatPromptTemplate copyWith({
     final Set<String>? inputVariables,
     final PartialValues? partialVariables,

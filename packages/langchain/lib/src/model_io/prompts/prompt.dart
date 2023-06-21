@@ -129,18 +129,8 @@ final class PromptTemplate extends BaseStringPromptTemplate {
   String get type => 'prompt';
 
   @override
-  BasePromptTemplate partial(final PartialValues values) {
-    final newInputVariables = inputVariables
-        .where((final variable) => !values.keys.contains(variable))
-        .toSet();
-    final newPartialVariables = {
-      ...?partialVariables,
-      ...values,
-    };
-    return copyWith(
-      inputVariables: newInputVariables,
-      partialVariables: newPartialVariables,
-    );
+  PromptTemplate partial(final PartialValues values) {
+    return super.partial(values) as PromptTemplate;
   }
 
   @override
@@ -199,6 +189,7 @@ PromptTemplate{
 }''';
   }
 
+  @override
   PromptTemplate copyWith({
     final Set<String>? inputVariables,
     final Map<String, dynamic>? partialVariables,

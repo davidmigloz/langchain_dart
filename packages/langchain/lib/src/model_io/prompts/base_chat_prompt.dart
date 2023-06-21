@@ -22,19 +22,17 @@ abstract base class BaseChatPromptTemplate extends BasePromptTemplate {
   });
 
   @override
-  String format([final InputValues values = const {}]) {
+  String format(final InputValues values) {
     return formatPrompt(values).toString();
   }
 
   @override
-  PromptValue formatPrompt([final InputValues values = const {}]) {
+  PromptValue formatPrompt(final InputValues values) {
     return ChatPromptValue(formatMessages(values));
   }
 
   /// Format input values into a list of messages.
-  List<ChatMessage> formatMessages([
-    final InputValues values = const {},
-  ]);
+  List<ChatMessage> formatMessages(final InputValues values);
 }
 
 /// {@template base_message_prompt_template}
@@ -57,9 +55,7 @@ abstract base class BaseMessagePromptTemplate {
   /// Format the prompt with the inputs returning a list of messages.
   ///
   /// - [values] - Any arguments to be passed to the prompt template.
-  List<ChatMessage> formatMessages([
-    final InputValues values = const {},
-  ]);
+  List<ChatMessage> formatMessages(final InputValues values);
 
   @override
   bool operator ==(covariant final BaseMessagePromptTemplate other) =>
@@ -108,9 +104,7 @@ abstract base class BaseStringMessagePromptTemplate
   PartialValues? get partialVariables => prompt.partialVariables;
 
   @override
-  List<ChatMessage> formatMessages([
-    final InputValues values = const {},
-  ]) {
+  List<ChatMessage> formatMessages(final InputValues values) {
     return [format(values)];
   }
 
