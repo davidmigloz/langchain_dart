@@ -14,10 +14,8 @@ void main() async {
 Future<void> _example1() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
   final openai = OpenAI(apiKey: openaiApiKey, temperature: 0.9);
-  const prompt = 'What would be a good company name '
-      'for a company that makes colorful socks?';
-  final result = await openai(prompt);
-  print(result);
+  final result = await openai.generate('Tell me a joke');
+  print(result.tokensUsage);
 }
 
 /// The most frequent use case is to create a chat-bot.

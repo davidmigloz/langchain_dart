@@ -1,7 +1,8 @@
 # LLMChain
 
-You can use the existing `LLMChain` in a very similar way to before - provide a
-prompt and a model.
+You can use the existing `LLMChain` in a very similar way as 
+[with LLMs](/modules/chains/chains?id=get-started) - provide a prompt and a 
+model.
 
 ```dart
 final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);

@@ -34,6 +34,7 @@
           - [Streaming](/modules/model_io/models/chat_models/how_to/streaming.md)
         - Integrations
           - [OpenAI](/modules/model_io/models/chat_models/integrations/openai.md)
+    - [Output parsers](/modules/model_io/output_parsers/output_parsers.md)
   - [Chains](/modules/chains/chains.md)
     - How-to
       - [Different call methods](/modules/chains/how_to/call_methods.md)
