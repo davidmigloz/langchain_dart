@@ -24,10 +24,12 @@ partialed prompt template along and just use that. Below is an example of doing
 this:
 
 ```dart
+
 final prompt = PromptTemplate.fromTemplate('{foo}{bar}');
 final partialPrompt = prompt.partial({'foo': 'foo'});
 
 final res = partialPrompt.format({'bar': 'baz'});
+
 print(res);
 // -> 'foobaz'
 ```
@@ -35,11 +37,13 @@ print(res);
 You can also just initialize the prompt with the partialed variables.
 
 ```dart
+
 final prompt = PromptTemplate.fromTemplate(
   '{foo}{bar}',
   partialVariables: const {'foo': 'foo'},
 );
 final res = prompt.format({'bar': 'baz'});
+
 print(res);
 // -> 'foobaz'
 ```
@@ -47,5 +51,5 @@ print(res);
 ## Partial With Functions
 
 This functionality is still not implemented in LangChain.dart.
-
-
+You can follow the progress of this feature
+in [this issue](https://github.com/davidmigloz/langchain_dart/issues/51).
