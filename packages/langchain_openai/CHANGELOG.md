@@ -1,3 +1,8 @@
+## 0.0.1-dev.5
+
+- Add support for OpenAIEmbeddings (#38).
+- Add support for OpenAI functions (#35).
+
 ## 0.0.1-dev.4
 
 - Improve API documentation.

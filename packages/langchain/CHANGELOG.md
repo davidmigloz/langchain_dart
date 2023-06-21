@@ -1,3 +1,21 @@
+## 0.0.1-dev.5
+
+- Add support for TextLoader (#47).
+- Add support for BaseLoader (#46).
+- Add support for RetrievalQAChain class (#42).
+- Add support for StuffDocumentsQAChain (#50).
+- Add support for StuffDocumentsChain (#49).
+- Add support for BaseCombineDocumentsChain class (#41).
+- Add support for ConditionalPromptSelector (#48).
+- Add support for VectorStoreRetriever class (#45).
+- Add support for MemoryVectorStore class (#44).
+- Add support for VectorStore class (#36).
+- Add support for OpenAIEmbeddings (#38).
+- Add support for CharacterTextSplitter class (#39).
+- Add support for OpenAI functions (#35).
+- Add support for Calculator tool (#32).
+- Add support for Tool class (#31).
+
 ## 0.0.1-dev.4
 
 - Add support for LLMChain class (#20).
