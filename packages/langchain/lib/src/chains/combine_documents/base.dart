@@ -53,7 +53,7 @@ abstract class BaseCombineDocumentsChain extends BaseChain {
   }
 
   /// Combines the given [docs] into a single string.
-  Future<(String output, Map<String, dynamic> extraInfo)> combineDocs(
+  Future<(dynamic output, Map<String, dynamic> extraInfo)> combineDocs(
     final List<Document> docs, {
     final InputValues inputs = const {},
   });

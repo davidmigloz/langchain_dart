@@ -82,7 +82,7 @@ class LLMChain<LLMInput extends Object, LLMOptions extends LanguageModelOptions,
     };
 
     return {
-      outputKey: res.toString(),
+      outputKey: res,
       if (!returnFinalOnly) fullGenerationOutputKey: response.generations.first,
     };
   }

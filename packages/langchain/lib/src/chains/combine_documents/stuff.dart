@@ -89,7 +89,7 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
   ///
   /// - [docs] the documents to combine.
   @override
-  Future<(String output, Map<String, dynamic> extraInfo)> combineDocs(
+  Future<(dynamic output, Map<String, dynamic> extraInfo)> combineDocs(
     final List<Document> docs, {
     final InputValues inputs = const {},
   }) async {

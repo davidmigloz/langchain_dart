@@ -104,14 +104,14 @@ abstract class BaseChain {
     return Future.wait(inputs.map(call));
   }
 
-  /// Runs the chain as input in, String out.
+  /// Runs the chain as input in, output out.
   ///
   /// The input can be:
   /// - A single value, if the chain has a single input key.
   ///   Eg: `chain.run('Hello world!')`
   /// - A map of key->values, if the chain has multiple input keys.
   ///   Eg: `chain.run({'foo': 'Hello', 'bar': 'world!'})`
-  Future<String> run(final dynamic input) async {
+  Future<dynamic> run(final dynamic input) async {
     final outputKey = runOutputKey;
     final returnValues = await call(input, returnOnlyOutputs: true);
     return returnValues[outputKey];
