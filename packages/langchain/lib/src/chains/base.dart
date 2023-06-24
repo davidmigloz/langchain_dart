@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 
 import '../memory/base.dart';
+import '../utils/utils.dart';
 import 'models/models.dart';
 
 /// {@template base_chain}
@@ -23,6 +24,16 @@ abstract class BaseChain {
 
   /// Output keys for this chain.
   Set<String> get outputKeys;
+
+  /// Output key from where the [run] method needs to take the return value.
+  String get runOutputKey {
+    if (outputKeys.length != 1) {
+      throw LangChainException(
+        message: '`run` only supports one key output key. Got $outputKeys',
+      );
+    }
+    return outputKeys.first;
+  }
 
   /// Runs the core logic of this chain with the given values.
   /// If [memory] is not null, it will be used to load and save values.
@@ -101,16 +112,9 @@ abstract class BaseChain {
   /// - A map of key->values, if the chain has multiple input keys.
   ///   Eg: `chain.run({'foo': 'Hello', 'bar': 'world!'})`
   Future<String> run(final dynamic input) async {
+    final outputKey = runOutputKey;
     final returnValues = await call(input, returnOnlyOutputs: true);
-
-    if (returnValues.length == 1) {
-      return returnValues.values.first.toString();
-    }
-
-    throw Exception(
-      'The chain returned multiple keys, '
-      '`run` only supports one key. Use `call` instead.',
-    );
+    return returnValues[outputKey];
   }
 
   bool _isValidInputMap(final Set<String> inputKeys, final dynamic input) {

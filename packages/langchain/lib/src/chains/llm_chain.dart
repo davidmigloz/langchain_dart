@@ -16,27 +16,43 @@ import 'models/models.dart';
 /// ```
 /// {@endtemplate}
 class LLMChain<LLMInput extends Object, LLMOptions extends LanguageModelOptions,
-    LLMOutput extends Object, P extends Object> extends BaseChain {
+    LLMOutput extends Object, ParserOutput extends Object> extends BaseChain {
   /// {@macro llm_chain}
   const LLMChain({
     required this.prompt,
     required this.llm,
-    this.outputParser,
-    super.memory,
     this.outputKey = 'text',
+    this.outputParser,
+    this.returnFinalOnly = true,
+    this.llmOptions,
+    super.memory,
   });
 
   /// Prompt object to use.
   final BasePromptTemplate prompt;
 
-  /// LLM Wrapper to use.
+  /// Language model to call.
   final BaseLanguageModel<LLMInput, LLMOptions, LLMOutput> llm;
 
-  /// OutputParser to use.
-  final BaseOutputParser<P>? outputParser;
-
-  /// Key to use for output, defaults to `text`.
+  /// Key to use for output.
   final String outputKey;
+
+  /// OutputParser to use.
+  ///
+  /// Defaults to one that takes the most likely string but does not change it
+  /// otherwise.
+  final BaseLLMOutputParser<LLMOutput, ParserOutput>? outputParser;
+
+  /// Whether to return only the final parsed result.
+  /// If false, it will return a bunch of extra information about the
+  /// generation.
+  final bool returnFinalOnly;
+
+  /// Options to pass to the language model.
+  final LLMOptions? llmOptions;
+
+  /// Output key to use for returning the full generation.
+  static const fullGenerationOutputKey = 'full_generation';
 
   @override
   String get chainType => 'llm';
@@ -45,20 +61,29 @@ class LLMChain<LLMInput extends Object, LLMOptions extends LanguageModelOptions,
   Set<String> get inputKeys => prompt.inputVariables;
 
   @override
-  Set<String> get outputKeys => {outputKey};
+  Set<String> get outputKeys =>
+      returnFinalOnly ? {outputKey} : {outputKey, fullGenerationOutputKey};
+
+  @override
+  String get runOutputKey => outputKey;
 
   @override
   Future<ChainValues> callInternal(final ChainValues inputs) async {
     final promptValue = prompt.formatPrompt(inputs);
 
-    final response = await llm.generatePrompt(promptValue);
-    String output = response.firstOutputAsString;
+    final response = await llm.generatePrompt(promptValue, options: llmOptions);
 
-    if (outputParser != null) {
-      final res = await outputParser?.parseWithPrompt(output, promptValue);
-      output = res.toString();
-    }
+    final res = switch (outputParser) {
+      null => response.firstOutputAsString,
+      _ => await outputParser!.parseResultWithPrompt(
+          response.generations,
+          promptValue,
+        ),
+    };
 
-    return {outputKey: output};
+    return {
+      outputKey: res.toString(),
+      if (!returnFinalOnly) fullGenerationOutputKey: response.generations.first,
+    };
   }
 }

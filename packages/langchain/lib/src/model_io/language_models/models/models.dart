@@ -36,7 +36,9 @@ abstract class LanguageModelResult<O extends Object> {
   final Map<String, dynamic>? modelOutput;
 
   /// Returns the first output as a string.
-  String get firstOutputAsString;
+  String get firstOutputAsString {
+    return generations.firstOrNull?.outputAsString ?? '';
+  }
 }
 
 /// {@template language_model_generation}
@@ -56,4 +58,7 @@ abstract class LanguageModelGeneration<O> {
   /// Raw generation info response from the provider.
   /// May include things like reason for finishing.
   final Map<String, dynamic>? generationInfo;
+
+  /// Returns the output as string.
+  String get outputAsString;
 }

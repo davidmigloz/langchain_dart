@@ -25,6 +25,16 @@ class Document {
   @override
   int get hashCode => pageContent.hashCode ^ metadata.hashCode;
 
+  Document copyWith({
+    final String? pageContent,
+    final Map<String, dynamic>? metadata,
+  }) {
+    return Document(
+      pageContent: pageContent ?? this.pageContent,
+      metadata: metadata ?? this.metadata,
+    );
+  }
+
   @override
   String toString() {
     return '''

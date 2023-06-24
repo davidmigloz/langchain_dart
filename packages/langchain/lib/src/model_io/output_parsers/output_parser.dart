@@ -1,16 +1,47 @@
-import 'package:meta/meta.dart';
-
+import '../language_models/models/models.dart';
 import '../prompts/models/models.dart';
 
 /// Options for formatting instructions.
 interface class FormatInstructionsOptions {}
 
+/// {@template base_llm_output_parser}
+/// Class to parse the output of an LLM call.
+/// {@endtemplate}
+abstract class BaseLLMOutputParser<LLMOutput, ParserOutput> {
+  /// {@macro base_llm_output_parser}
+  const BaseLLMOutputParser();
+
+  /// Parse LLM result.
+  Future<ParserOutput> parseResult(
+    final List<LanguageModelGeneration<LLMOutput>> result,
+  );
+
+  /// Optional method to parse the output of an LLM call with a prompt.
+  Future<ParserOutput> parseResultWithPrompt(
+    final List<LanguageModelGeneration<LLMOutput>> result,
+    final PromptValue prompt,
+  ) async {
+    return parseResult(result);
+  }
+}
+
 /// {@template base_output_parser}
 /// Class to parse the output of an LLM call.
 /// {@endtemplate}
-abstract class BaseOutputParser<T> {
+abstract class BaseOutputParser<LLMOutput, ParserOutput>
+    extends BaseLLMOutputParser<LLMOutput, ParserOutput> {
   /// {@macro base_output_parser}
   const BaseOutputParser();
+
+  /// Return the string type key uniquely identifying this class of parser
+  String get type;
+
+  @override
+  Future<ParserOutput> parseResult(
+    final List<LanguageModelGeneration<LLMOutput>> result,
+  ) {
+    return parse(result.first.outputAsString);
+  }
 
   /// Parse the output of an LLM call.
   ///
@@ -18,7 +49,7 @@ abstract class BaseOutputParser<T> {
   /// and parses it into some structure.
   ///
   /// [text] - LLM output to parse.
-  Future<T> parse(final String text);
+  Future<ParserOutput> parse(final String text);
 
   /// Optional method to parse the output of an LLM call with a prompt.
   ///
@@ -28,7 +59,7 @@ abstract class BaseOutputParser<T> {
   ///
   /// [text] - LLM output to parse.
   /// [prompt] - Prompt used to generate the output.
-  Future<T> parseWithPrompt(
+  Future<ParserOutput> parseWithPrompt(
     final String text,
     final PromptValue prompt,
   ) async {
@@ -39,27 +70,4 @@ abstract class BaseOutputParser<T> {
   ///
   /// [options] - Options for formatting instructions.
   String getFormatInstructions([final FormatInstructionsOptions? options]);
-
-  /// Return the string type key uniquely identifying this class of parser
-  @visibleForOverriding
-  String type();
-}
-
-/// {@template output_parser_exception}
-/// Exception that output parsers should raise to signify a parsing error.
-///
-/// This exists to differentiate parsing errors from other code or execution
-/// errors that also may arise inside the output parser. OutputParserExceptions
-/// will be available to catch and handle in ways to fix the parsing error,
-/// while other errors will be raised.
-/// {@endtemplate}
-class OutputParserException implements Exception {
-  /// {@macro output_parser_exception}
-  const OutputParserException({
-    this.message,
-    this.llmOutput,
-  });
-
-  final String? message;
-  final String? llmOutput;
 }

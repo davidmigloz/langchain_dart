@@ -13,7 +13,6 @@ void main() {
       final llmChain = LLMChain(prompt: prompt, llm: model);
       final stuffChain = StuffDocumentsChain(
         llmChain: llmChain,
-        documentVariableName: 'context',
       );
 
       const foo = 'Hello world!';

@@ -34,11 +34,6 @@ ChatResult{
   modelOutput: $modelOutput},
 ''';
   }
-
-  @override
-  String get firstOutputAsString {
-    return generations.firstOrNull?.output.content ?? '';
-  }
 }
 
 /// {@template chat_generation}
@@ -51,6 +46,9 @@ class ChatGeneration extends LanguageModelGeneration<ChatMessage> {
     super.output, {
     super.generationInfo,
   });
+
+  @override
+  String get outputAsString => output.content;
 
   @override
   String toString() {

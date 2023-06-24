@@ -7,13 +7,14 @@ import '../base.dart';
 import '../models/models.dart';
 
 /// {@template base_combine_documents_chain}
-/// Base interface for chains combining documents.
+/// Base interface for chains combining documents,
+/// such as [StuffDocumentsChain].
 /// {@endtemplate}
 abstract class BaseCombineDocumentsChain extends BaseChain {
   /// {@macro base_combine_documents_chain}
   const BaseCombineDocumentsChain({
-    this.inputKey = 'input_documents',
-    this.outputKey = 'output_text',
+    this.inputKey = defaultInputKey,
+    this.outputKey = defaultOutputKey,
   });
 
   /// Key to use for input documents.
@@ -21,6 +22,12 @@ abstract class BaseCombineDocumentsChain extends BaseChain {
 
   /// Key to use for output text.
   final String outputKey;
+
+  /// Default [inputKey] value.
+  static const String defaultInputKey = 'input_documents';
+
+  /// Default [outputKey] value.
+  static const String defaultOutputKey = 'output_text';
 
   /// Prompt variable to use for the page content.
   static const pageContentPromptVar = 'page_content';

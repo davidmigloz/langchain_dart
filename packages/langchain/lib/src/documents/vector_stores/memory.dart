@@ -50,12 +50,13 @@ class MemoryVectorStore extends VectorStore {
   ///
   /// - [documents] is a list of documents to add to the vector store.
   /// - [embeddings] is the embeddings model to use to embed the documents.
-  factory MemoryVectorStore.fromDocuments({
+  static Future<MemoryVectorStore> fromDocuments({
     required final List<Document> documents,
     required final Embeddings embeddings,
-  }) {
-    return MemoryVectorStore(embeddings: embeddings)
-      ..addDocuments(documents: documents);
+  }) async {
+    final store = MemoryVectorStore(embeddings: embeddings);
+    await store.addDocuments(documents: documents);
+    return store;
   }
 
   @override

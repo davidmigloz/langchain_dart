@@ -33,11 +33,6 @@ LLMResult{
   modelOutput: $modelOutput},
 ''';
   }
-
-  @override
-  String get firstOutputAsString {
-    return generations.firstOrNull?.output ?? '';
-  }
 }
 
 /// {@template llm_generation}
@@ -50,6 +45,9 @@ class LLMGeneration extends LanguageModelGeneration<String> {
     super.output, {
     super.generationInfo,
   });
+
+  @override
+  String get outputAsString => output;
 
   @override
   String toString() {

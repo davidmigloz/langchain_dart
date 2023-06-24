@@ -24,7 +24,7 @@ import 'template.dart';
 ///
 /// Example:
 /// ```dart
-/// final chatPrompt = ChatPromptTemplate.fromMessages([
+/// final chatPrompt = ChatPromptTemplate.fromPromptMessages([
 ///   SystemChatMessagePromptTemplate.fromTemplate(
 ///     "Here's some context: {context}",
 ///   ),
