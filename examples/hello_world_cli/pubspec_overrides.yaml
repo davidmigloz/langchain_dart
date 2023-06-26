@@ -1,0 +1,6 @@
+# melos_managed_dependency_overrides: langchain,langchain_openai
+dependency_overrides:
+  langchain:
+    path: ../../packages/langchain
+  langchain_openai:
+    path: ../../packages/langchain_openai
