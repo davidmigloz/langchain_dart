@@ -27,5 +27,17 @@ void main() {
       expect(echoTool.description, 'echo');
       expect(echoTool.run(toolInput: 'Hello world!'), 'Hello world!');
     });
+
+    test('Tool.fromFunction test', () {
+      final echoTool = Tool.fromFunction(
+        name: 'echo',
+        description: 'echo',
+        func: (final String toolInput) => toolInput,
+      );
+
+      expect(echoTool.name, 'echo');
+      expect(echoTool.description, 'echo');
+      expect(echoTool.run(toolInput: 'Hello world!'), 'Hello world!');
+    });
   });
 }
