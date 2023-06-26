@@ -2,7 +2,8 @@ name: langchain
 repository: https://github.com/davidmigloz/langchain_dart
 
 packages:
-  - packages/**
+  - examples/*
+  - packages/*
 
 command:
   version:

@@ -1,0 +1,11 @@
+name: hello_world_cli
+description: A sample CLI app integrating LangChain.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ^3.0.5
+
+dependencies:
+  langchain: ^0.0.1-dev.6
+  langchain_openai: ^0.0.1-dev.6
