@@ -1,0 +1,43 @@
+name: Test
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+# Cancel currently running workflow when a new one is triggered
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Run Linter & Unit Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@96f53100ba2a5449eb71d2e6604bbcd94b9449b5
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@ed388baf1d5404fd6ef3c54c2f82e6159150b60f
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Set-up Flutter
+        run: |
+          flutter config --no-analytics
+          dart --disable-analytics
+
+      - name: Install Melos
+        uses: bluefireteam/melos-action@dd3c344d731938d2ab2567a261f54a19a68b5f6a
+
+      - name: Run linter
+        run: melos lint:diff
+
+      - name: Run unit tests
+        run: melos test:diff

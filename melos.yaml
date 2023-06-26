@@ -13,17 +13,33 @@ command:
     usePubspecOverrides: true
 
 scripts:
-  analyze:
-    exec: flutter analyze .
-    description: Analyze a specific package in this project.
-
-  check-format:
-    exec: dart format --set-exit-if-changed .
-    description: Check the format of a specific package in this project.
-
+  lint:
+    description: Run all static analysis checks
+    run: melos run format && melos run analyze
+    
+  lint:diff:
+    description: Run all static analysis checks failing fast
+    run: melos run format:diff && melos run analyze:diff
+    
   format:
-    exec: dart format .
-    description: Format a specific package in this project.
+    description: Format Dart files
+    run: melos exec -- "dart format --fix ."
+    
+  format:diff:
+    description: Format Flutter files
+    run: melos exec --fail-fast -- "dart format --fix --set-exit-if-changed ."
+    packageFilters:
+      diff: origin/main...HEAD
+    
+  analyze:
+    description: Run Flutter static analyzer
+    run: melos exec -- "flutter analyze ."
+
+  analyze:diff:
+    description: Run Flutter static analyzer
+    run: melos exec -- "flutter analyze ."
+    packageFilters:
+      diff: origin/main...HEAD
 
   test:
     run: melos run test:dart --no-select && melos run test:flutter --no-select
@@ -32,16 +48,24 @@ scripts:
   test:dart:
     run: melos exec -c 1 --fail-fast -- "dart test test"
     description: Run Dart tests for a specific package in this project.
-    select-package:
+    packageFilters:
       flutter: false
-      dir-exists: test
+      dirExists: test
 
   test:flutter:
     run: melos exec -c 1 --fail-fast -- "flutter test test"
     description: Run Flutter tests for a specific package in this project.
-    select-package:
+    packageFilters:
       flutter: true
-      dir-exists: test
+      dirExists: test
+
+  test:diff:
+    exec: dart test test
+    description: Run all Dart tests for changed packages in this project.
+    packageFilters:
+      diff: origin/main...HEAD
+      flutter: false
+      dirExists: test
 
   dep-outdated:
     description: Checks which dependencies have newer versions available.

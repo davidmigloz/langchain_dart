@@ -140,7 +140,7 @@ class _Response extends StatelessWidget {
     return BlocBuilder<HomeScreenCubit, HomeScreenState>(
       builder: (final context, final state) {
         final response = state.response;
-        if(response == null || response.isEmpty) {
+        if (response == null || response.isEmpty) {
           return const SizedBox.shrink();
         }
 
@@ -149,7 +149,7 @@ class _Response extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             Text(
+            Text(
               'Response',
               style: theme.textTheme.headlineSmall,
             ),
