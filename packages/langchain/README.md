@@ -1,5 +1,9 @@
 # 🦜️🔗 LangChain.dart
 
+[![Test](https://github.com/davidmigloz/langchain_dart/actions/workflows/test.yaml/badge.svg)](https://github.com/davidmigloz/langchain_dart/actions/workflows/test.yaml)
+[![langchain](https://img.shields.io/pub/v/langchain.svg)](https://pub.dev/packages/langchain)
+[![MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://github.com/davidmigloz/langchain_dart/blob/main/LICENSE)
+
 Build powerful LLM-based Dart/Flutter applications.
 
 | 🚧 **Early Stage of Development** 🚧                                                                                                                              | 📢 **Call for Collaborators** 📢                                        |
@@ -8,28 +12,33 @@ Build powerful LLM-based Dart/Flutter applications.
 
 ## What is LangChain.dart?
 
-LangChain.dart is a Dart port of [LangChain](https://github.com/hwchase17/langchain).
+LangChain.dart is a Dart port of the popular [LangChain](https://github.com/hwchase17/langchain)
+Python framework created by [Harrison Chase](https://www.linkedin.com/in/harrison-chase-961287118).
+
+LangChain provides a set of ready-to-use components for working with language models and the
+concept of chains, which allows to "chain" components together to formulate more advanced use cases
+around LLMs.
+
+The components can be grouped into a few core modules:
+
+![LangChain.dart](https://raw.githubusercontent.com/davidmigloz/langchain_dart/main/docs/img/langchain.dart.png)
 
 ## Motivation
 
 Large Language Models (LLMs) have revolutionized Natural Language Processing (NLP), serving as
-essential components in a wide range of applications, such as question answering, summarization,
+essential components in a wide range of applications, such as question-answering, summarization,
 translation, and text generation.
 
-Notably, most libraries and tools designed to support LLMs have been predominantly developed for
-the Python and JavaScript ecosystems. As a result, the number of Python and JavaScript applications
-leveraging LLMs has grown exponentially.
+The adoption of LLMs is creating a new tech stack in its wake. However, most emerging libraries and
+tools are being predominantly developed for the Python and JavaScript ecosystems. As a result, the
+number of applications leveraging LLMs in these ecosystems has grown exponentially.
 
 In contrast, the Dart / Flutter ecosystem has not experienced similar growth, which can likely be
-attributed to the scarcity of Dart and Flutter libraries that streamline the complexities associated
-with working with LLMs.
+attributed to the scarcity of Dart and Flutter libraries that streamline the complexities
+associated with working with LLMs.
 
-Flutter provides a unique technology that enables the rapid development of high-quality, natively
-compiled applications for mobile, web, desktop, and embedded devices from a single codebase, making
-it an ideal choice for building these types of applications.
-
-LangChain.dart aims to fill this gap by abstracting the complexities of working with LLMs in Dart,
-enabling developers to harness the combined potential of both Flutter and LLMs effectively.
+LangChain.dart aims to fill this gap by abstracting the intricacies of working with LLMs in Dart
+and Flutter, enabling developers to harness their combined potential effectively.
 
 ## Packages
 
@@ -76,12 +85,9 @@ final result = await llm('Hello world!');
 
 ## Docs
 
-You can find the full documentation at [langchaindart.com](https://langchaindart.com).
-
-- Getting started (installation, setting up the environment, simple examples)
-- How-To examples (demos, integrations, helper functions)
-- Reference (full API docs)
-- Resources (high-level explanation of core concepts)
+- [LangChain conceptual guide](https://docs.langchain.com/docs)
+- [LangChain.dart documentation](https://langchaindart.com)
+- [Sample apps](https://github.com/davidmigloz/langchain_dart/tree/main/examples)
 
 ## Contribute
 
