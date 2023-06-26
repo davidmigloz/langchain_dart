@@ -6,7 +6,6 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:langchain/langchain.dart';
 import 'package:langchain_openai/langchain_openai.dart';
-import 'package:langchain_openai/src/chains/qa_with_sources.dart';
 import 'package:test/test.dart';
 
 void main() {

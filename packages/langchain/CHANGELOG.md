@@ -1,3 +1,8 @@
+## 0.0.1-dev.6
+
+- Add support for PipelinePromptTemplate class (#18).
+- LLMChain improvements (#43).
+
 ## 0.0.1-dev.5
 
 - Add support for TextLoader (#47).

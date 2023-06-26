@@ -1,3 +1,7 @@
+## 0.0.1-dev.6
+
+- Add support for OpenAIQAWithSourcesChain (#53).
+
 ## 0.0.1-dev.5
 
 - Add support for OpenAIEmbeddings (#38).
