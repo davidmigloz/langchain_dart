@@ -1,0 +1,67 @@
+name: "🐛 Bug Report"
+description: Submit a bug report to help us improve LangChain.dart.
+labels: ["t:bug"]
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Thank you for taking the time to file a bug report. Before creating a new
+        issue, please make sure to take a few moments to check the issue tracker
+        for existing issues about the bug.
+
+  - type: textarea
+    id: system-info
+    attributes:
+      label: System Info
+      description: Please share your system info with us.
+      placeholder: |
+        LangChain.dart: 
+        Dart:  
+        Platform:
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: related-components
+    attributes:
+      label: Related Components
+      description: "Select the components related to the issue (if applicable):"
+      options:
+        - label: "doc-loaders"
+        - label: "doc-transformers"
+        - label: "prompts"
+        - label: "llms"
+        - label: "chat-models"
+        - label: "output-parsers"
+        - label: "chains"
+        - label: "memory"
+        - label: "stores"
+        - label: "embeddings"
+        - label: "retrievers"
+        - label: "agents"
+
+  - type: textarea
+    id: reproduction
+    validations:
+      required: true
+    attributes:
+      label: Reproduction
+      description: |
+        Please provide a [code sample](https://stackoverflow.com/help/minimal-reproducible-example) that reproduces the problem you ran into.
+        If you have code snippets, error messages, stack traces please provide them here as well.
+        Important! Use [code tags](See https://help.github.com/en/github/writing-on-github/creating-and-highlighting-code-blocks#syntax-highlighting) to correctly format your code. 
+        Avoid screenshots when possible, as they are hard to read and (more importantly) don't allow others to copy-and-paste your code.
+
+      placeholder: |
+        Steps to reproduce the behavior:
+          1.
+          2.
+          3.
+
+  - type: textarea
+    id: expected-behavior
+    validations:
+      required: true
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you would expect to happen.
