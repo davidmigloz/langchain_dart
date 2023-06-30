@@ -1,6 +1,7 @@
 /// OpenAI module for LangChain.dart.
 library;
 
+export 'src/agents/agents.dart';
 export 'src/chains/chains.dart';
 export 'src/chat_models/chat_models.dart';
 export 'src/client/client.dart';

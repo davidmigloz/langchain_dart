@@ -64,9 +64,9 @@ class QAWithSourcesOutputParser
   const QAWithSourcesOutputParser();
 
   @override
-  Future<QAWithSources> parseFunctionArguments(
-    final Map<String, dynamic> arguments,
+  Future<QAWithSources> parseFunctionCall(
+    final AIChatMessageFunctionCall functionCall,
   ) async {
-    return QAWithSources.fromMap(arguments);
+    return QAWithSources.fromMap(functionCall.arguments);
   }
 }
