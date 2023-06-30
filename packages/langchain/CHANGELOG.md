@@ -1,3 +1,9 @@
+## 0.0.1-dev.7
+
+- Add support for Agent class (#33).
+- Add support for AgentExecutor class (#56).
+- Update hello_world_flutter example with local models.
+
 ## 0.0.1-dev.6
 
 - Add support for PipelinePromptTemplate class (#18).

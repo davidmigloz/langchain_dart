@@ -1,3 +1,8 @@
+## 0.0.1-dev.7
+
+- Add support for OpenAIAgent class (#34).
+- Export OpenAI Client class (allowing to define custom base URL).
+
 ## 0.0.1-dev.6
 
 - Add support for OpenAIQAWithSourcesChain (#53).

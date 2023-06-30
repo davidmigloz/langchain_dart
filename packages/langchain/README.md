@@ -101,6 +101,7 @@ final result = await llm('Hello world!');
 - [LangChain conceptual guide](https://docs.langchain.com/docs)
 - [LangChain.dart documentation](https://langchaindart.com)
 - [Sample apps](https://github.com/davidmigloz/langchain_dart/tree/main/examples)
+- [Blog](https://blog.langchaindart.com)
 
 ## Support
 
