@@ -39,20 +39,62 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    return const Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _OpenAIKeyTextField(),
-        SizedBox(height: 16),
-        _QueryTextField(),
-        SizedBox(height: 16),
-        _SubmitButton(),
-        SizedBox(height: 12),
-        Divider(),
-        SizedBox(height: 16),
-        _Response(),
-      ],
+    return BlocBuilder<HomeScreenCubit, HomeScreenState>(
+      buildWhen: (final previous, final current) =>
+          previous.clientType != current.clientType,
+      builder: (final context, final state) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _ClientTypeSelector(state.clientType),
+            const SizedBox(height: 16),
+            if (state.clientType == ClientType.openAI)
+              const _OpenAIKeyTextField()
+            else
+              const _LocalUrlTextField(),
+            const SizedBox(height: 16),
+            const _QueryTextField(),
+            const SizedBox(height: 16),
+            const _SubmitButton(),
+            const SizedBox(height: 12),
+            const Divider(),
+            const SizedBox(height: 16),
+            const _Response(),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _ClientTypeSelector extends StatelessWidget {
+  const _ClientTypeSelector(this.selected);
+
+  final ClientType selected;
+
+  @override
+  Widget build(final BuildContext context) {
+    final cubit = context.read<HomeScreenCubit>();
+    return Center(
+      child: SegmentedButton<ClientType>(
+        segments: const <ButtonSegment<ClientType>>[
+          ButtonSegment<ClientType>(
+            value: ClientType.openAI,
+            label: Text('OpenAI'),
+            icon: Icon(Icons.cloud_outlined),
+          ),
+          ButtonSegment<ClientType>(
+            value: ClientType.local,
+            label: Text('Local'),
+            icon: Icon(Icons.install_desktop_outlined),
+          ),
+        ],
+        selected: {selected},
+        onSelectionChanged: (final Set<ClientType> newSelection) {
+          cubit.onClientTypeChanged(newSelection.first);
+        },
+      ),
     );
   }
 }
@@ -68,6 +110,7 @@ class _OpenAIKeyTextField extends StatelessWidget {
           previous.error != current.error,
       builder: (final context, final state) {
         return TextField(
+          controller: TextEditingController(text: state.openAIKey),
           decoration: InputDecoration(
             prefixIcon: const Icon(Icons.password),
             labelText: 'OpenAI API key',
@@ -78,6 +121,33 @@ class _OpenAIKeyTextField extends StatelessWidget {
           ),
           obscureText: true,
           onChanged: cubit.onOpenAIKeyChanged,
+        );
+      },
+    );
+  }
+}
+
+class _LocalUrlTextField extends StatelessWidget {
+  const _LocalUrlTextField();
+
+  @override
+  Widget build(final BuildContext context) {
+    final cubit = context.read<HomeScreenCubit>();
+    return BlocBuilder<HomeScreenCubit, HomeScreenState>(
+      buildWhen: (final previous, final current) =>
+          previous.error != current.error,
+      builder: (final context, final state) {
+        return TextField(
+          controller: TextEditingController(text: state.localUrl),
+          decoration: InputDecoration(
+            prefixIcon: const Icon(Icons.link),
+            labelText: 'Local URL',
+            filled: true,
+            errorText: state.error == HomeScreenError.localUrlEmpty
+                ? 'Local URL cannot be empty'
+                : null,
+          ),
+          onChanged: cubit.onLocalUrlChanged,
         );
       },
     );
@@ -153,7 +223,7 @@ class _Response extends StatelessWidget {
               'Response',
               style: theme.textTheme.headlineSmall,
             ),
-            Text(
+            SelectableText(
               state.response ?? '',
             ),
           ],
