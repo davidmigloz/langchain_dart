@@ -20,7 +20,7 @@ final class CalculatorTool extends Tool {
   final _parser = Parser();
 
   @override
-  FutureOr<String> runInternal({required final String toolInput}) {
+  FutureOr<String> runInternalString(final String toolInput) {
     try {
       return _parser
           .parse(toolInput)

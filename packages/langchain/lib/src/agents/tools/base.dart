@@ -6,8 +6,10 @@ import 'models/models.dart';
 
 /// {@template base_tool}
 /// Base class LangChain tools must extend.
+/// The input to the tool needs to be described by [inputJsonSchema].
 /// {@endtemplate}
-abstract base class BaseTool<I> {
+@immutable
+abstract base class BaseTool {
   /// {@macro base_tool}
   BaseTool({
     required this.name,
@@ -37,53 +39,6 @@ abstract base class BaseTool<I> {
   /// Handle the content of the [ToolException] thrown by the tool.
   final String Function(ToolException)? handleToolError;
 
-  /// Runs the tool.
-  ///
-  /// - [toolInput] is the input to the tool.
-  FutureOr<String> run({
-    required final I toolInput,
-  }) {
-    try {
-      return runInternal(toolInput: toolInput);
-    } on ToolException catch (e) {
-      if (handleToolError != null) {
-        return handleToolError!(e);
-      } else {
-        rethrow;
-      }
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  /// Actual implementation of [run] method logic.
-  @protected
-  FutureOr<String> runInternal({
-    required final I toolInput,
-  });
-
-  /// Runs the tool (same as [run] but using callable class syntax).
-  ///
-  /// - [toolInput] is the input to the tool.
-  FutureOr<String> call({
-    required final I toolInput,
-  }) {
-    return run(toolInput: toolInput);
-  }
-}
-
-/// {@template structured_tool}
-/// Generic base class for Tools that accept any class as input.
-/// {@endtemplate}
-abstract base class StructuredTool<I> extends BaseTool<I> {
-  StructuredTool({
-    required super.name,
-    required super.description,
-    required super.inputJsonSchema,
-    super.returnDirect = false,
-    super.handleToolError,
-  });
-
   /// Creates a [StructuredTool] from a function.
   ///
   /// - [name] is the unique name of the tool that clearly communicates its
@@ -98,15 +53,16 @@ abstract base class StructuredTool<I> extends BaseTool<I> {
   ///   the AgentExecutor will stop looping.
   /// - [handleToolError] is a function that handles the content of the
   ///   [ToolException] thrown by the tool.
-  factory StructuredTool.fromFunction({
+  factory BaseTool.fromFunction({
     required final String name,
     required final String description,
-    required final FutureOr<String> Function(I toolInput) func,
+    required final FutureOr<String> Function(Map<String, dynamic> toolInput)
+        func,
     required final Map<String, dynamic> inputJsonSchema,
     final bool returnDirect = false,
     final String Function(ToolException)? handleToolError,
   }) {
-    return _StructuredToolFunc(
+    return _BaseToolFunc(
       name: name,
       description: description,
       func: func,
@@ -115,15 +71,54 @@ abstract base class StructuredTool<I> extends BaseTool<I> {
       handleToolError: handleToolError,
     );
   }
+
+  /// Runs the tool.
+  ///
+  /// - [toolInput] is the input to the tool.
+  FutureOr<String> run(final Map<String, dynamic> toolInput) {
+    try {
+      return runInternal(toolInput);
+    } on ToolException catch (e) {
+      if (handleToolError != null) {
+        return handleToolError!(e);
+      } else {
+        rethrow;
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  /// Actual implementation of [run] method logic.
+  @protected
+  FutureOr<String> runInternal(
+    final Map<String, dynamic> toolInput,
+  );
+
+  /// Runs the tool (same as [run] but using callable class syntax).
+  ///
+  /// - [toolInput] is the input to the tool.
+  FutureOr<String> call({
+    required final Map<String, dynamic> toolInput,
+  }) {
+    return run(toolInput);
+  }
+
+  @override
+  bool operator ==(covariant final BaseTool other) =>
+      identical(this, other) || name == other.name;
+
+  @override
+  int get hashCode => name.hashCode;
 }
 
-/// {@template structured_tool_func}
-/// Implementation of [StructuredTool] that accepts a function as input.
-/// Used in [StructuredTool.fromFunction].
+/// {@template base_tool_func}
+/// A tool that accepts a function as input.
+/// Used in [BaseTool.fromFunction].
 /// {@endtemplate}
-final class _StructuredToolFunc<I> extends StructuredTool<I> {
-  /// {@macro structured_tool_func}
-  _StructuredToolFunc({
+final class _BaseToolFunc extends BaseTool {
+  /// {@macro base_tool_func}
+  _BaseToolFunc({
     required super.name,
     required super.description,
     required this.func,
@@ -133,10 +128,10 @@ final class _StructuredToolFunc<I> extends StructuredTool<I> {
   });
 
   /// The function to run when the tool is called.
-  final FutureOr<String> Function(I toolInput) func;
+  final FutureOr<String> Function(Map<String, dynamic> toolInput) func;
 
   @override
-  FutureOr<String> runInternal({required final I toolInput}) {
+  FutureOr<String> runInternal(final Map<String, dynamic> toolInput) {
     return func(toolInput);
   }
 }
@@ -145,14 +140,27 @@ final class _StructuredToolFunc<I> extends StructuredTool<I> {
 /// This class wraps functions that accept a single string input and returns a
 /// string output.
 /// {@endtemplate}
-abstract base class Tool extends BaseTool<String> {
+abstract base class Tool extends BaseTool {
   /// {@macro tool}
   Tool({
     required super.name,
     required super.description,
     super.returnDirect = false,
     super.handleToolError,
-  }) : super(inputJsonSchema: const {'type': 'string'});
+  }) : super(
+          inputJsonSchema: {
+            'type': 'object',
+            'properties': {
+              inputVar: {
+                'type': 'string',
+                'description': 'The input to the tool',
+              },
+            },
+            'required': ['input'],
+          },
+        );
+
+  static const inputVar = 'input';
 
   /// Creates a [StructuredTool] from a function.
   ///
@@ -181,6 +189,15 @@ abstract base class Tool extends BaseTool<String> {
       handleToolError: handleToolError,
     );
   }
+
+  @override
+  FutureOr<String> runInternal(final Map<String, dynamic> toolInput) {
+    return runInternalString(toolInput[Tool.inputVar]);
+  }
+
+  /// Actual implementation of [run] method logic with string input.
+  @protected
+  FutureOr<String> runInternalString(final String toolInput);
 }
 
 /// {@template tool_func}
@@ -200,7 +217,7 @@ final class _ToolFunc extends Tool {
   final FutureOr<String> Function(String toolInput) func;
 
   @override
-  FutureOr<String> runInternal({required final String toolInput}) {
+  FutureOr<String> runInternalString(final String toolInput) {
     return func(toolInput);
   }
 }

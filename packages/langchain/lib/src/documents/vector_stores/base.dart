@@ -71,6 +71,13 @@ abstract class VectorStore {
     required final List<Document> documents,
   });
 
+  /// Delete by vector ID.
+  ///
+  /// - [ids] is a list of ids to delete.
+  ///
+  /// Returns true if the delete was successful.
+  Future<bool> delete({required final List<String> ids});
+
   /// Returns docs most similar to query using specified search type.
   ///
   /// - [query] is the query to search for.

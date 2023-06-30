@@ -39,9 +39,9 @@ abstract base class BaseChatPromptTemplate extends BasePromptTemplate {
 /// Base class for all message templates in a [ChatPromptTemplate].
 /// {@endtemplate}
 @immutable
-abstract base class BaseMessagePromptTemplate {
+abstract base class BaseChatMessagePromptTemplate {
   /// {@macro base_message_prompt_template}
-  const BaseMessagePromptTemplate({required this.prompt});
+  const BaseChatMessagePromptTemplate({required this.prompt});
 
   /// The prompt template for the message.
   final BasePromptTemplate prompt;
@@ -58,7 +58,7 @@ abstract base class BaseMessagePromptTemplate {
   List<ChatMessage> formatMessages(final InputValues values);
 
   @override
-  bool operator ==(covariant final BaseMessagePromptTemplate other) =>
+  bool operator ==(covariant final BaseChatMessagePromptTemplate other) =>
       identical(this, other) ||
       runtimeType == other.runtimeType && prompt == other.prompt;
 
@@ -68,16 +68,16 @@ abstract base class BaseMessagePromptTemplate {
   @override
   String toString() {
     return '''
-BaseMessagePromptTemplate{
+BaseChatMessagePromptTemplate{
   prompt: $prompt, 
   inputVariables: $inputVariables, 
   partialVariables: $partialVariables,
 }''';
   }
 
-  /// Return a new [BaseMessagePromptTemplate] instance with the given
+  /// Return a new [BaseChatMessagePromptTemplate] instance with the given
   /// values.
-  BaseMessagePromptTemplate copyWith({
+  BaseChatMessagePromptTemplate copyWith({
     final BasePromptTemplate? prompt,
   });
 }
@@ -87,7 +87,7 @@ BaseMessagePromptTemplate{
 /// {@endtemplate}
 @immutable
 abstract base class BaseStringMessagePromptTemplate
-    extends BaseMessagePromptTemplate {
+    extends BaseChatMessagePromptTemplate {
   /// {@macro base_string_message_prompt_template}
   const BaseStringMessagePromptTemplate({
     required final BaseStringPromptTemplate prompt,

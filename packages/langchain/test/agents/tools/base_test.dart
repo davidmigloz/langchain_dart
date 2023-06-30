@@ -4,16 +4,17 @@ import 'package:test/test.dart';
 void main() {
   group('BaseTool tests', () {
     test('StructuredTool.fromFunction', () {
-      final echoTool = StructuredTool.fromFunction(
+      final echoTool = BaseTool.fromFunction(
         name: 'echo-int',
         description: 'echo-int',
-        func: (final int toolInput) => toolInput.toString(),
+        func: (final Map<String, dynamic> toolInput) =>
+            toolInput['input'].toString(),
         inputJsonSchema: const {'type': 'integer'},
       );
 
       expect(echoTool.name, 'echo-int');
       expect(echoTool.description, 'echo-int');
-      expect(echoTool.run(toolInput: 1), '1');
+      expect(echoTool.run({'input': 1}), '1');
     });
 
     test('Tool.fromFunction', () {
@@ -25,7 +26,7 @@ void main() {
 
       expect(echoTool.name, 'echo');
       expect(echoTool.description, 'echo');
-      expect(echoTool.run(toolInput: 'Hello world!'), 'Hello world!');
+      expect(echoTool.run({'input': 'Hello world!'}), 'Hello world!');
     });
   });
 }

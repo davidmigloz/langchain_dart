@@ -289,7 +289,7 @@ void main() {
   });
 }
 
-List<BaseMessagePromptTemplate> _createMessages() {
+List<BaseChatMessagePromptTemplate> _createMessages() {
   return [
     SystemChatMessagePromptTemplate.fromTemplate(
       "Here's some context: {context}",

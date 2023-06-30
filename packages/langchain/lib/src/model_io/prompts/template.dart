@@ -87,7 +87,7 @@ void checkValidPromptTemplate({
 ///
 /// Throws a [TemplateValidationException] if it is not.
 void checkValidChatPromptTemplate({
-  required final List<BaseMessagePromptTemplate> promptMessages,
+  required final List<BaseChatMessagePromptTemplate> promptMessages,
   required final Set<String> inputVariables,
   required final Iterable<String>? partialVariables,
 }) {

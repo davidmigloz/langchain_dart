@@ -22,10 +22,10 @@ abstract class BaseOutputFunctionsParser<O>
         message: 'No function message returned',
       );
     }
-    return parseFunctionArguments(message.functionCall!.arguments);
+    return parseFunctionCall(message.functionCall!);
   }
 
-  Future<O> parseFunctionArguments(final Map<String, dynamic> arguments);
+  Future<O> parseFunctionCall(final AIChatMessageFunctionCall functionCall);
 }
 
 /// {@template output_functions_parser}
@@ -38,9 +38,9 @@ class OutputFunctionsParser
   const OutputFunctionsParser();
 
   @override
-  Future<Map<String, dynamic>> parseFunctionArguments(
-    final Map<String, dynamic> arguments,
+  Future<Map<String, dynamic>> parseFunctionCall(
+    final AIChatMessageFunctionCall functionCall,
   ) async {
-    return arguments;
+    return functionCall.arguments;
   }
 }

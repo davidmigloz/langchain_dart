@@ -165,7 +165,7 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
   ///   * [CustomChatMessagePromptTemplate] (for custom role messages)
   /// - [validateTemplate] whether to validate the template.
   factory ChatPromptTemplate.fromPromptMessages(
-    final List<BaseMessagePromptTemplate> promptMessages, {
+    final List<BaseChatMessagePromptTemplate> promptMessages, {
     final bool validateTemplate = true,
   }) {
     final inputVariables = promptMessages
@@ -187,7 +187,7 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
   }
 
   /// The list of messages that make up the prompt template.
-  final List<BaseMessagePromptTemplate> promptMessages;
+  final List<BaseChatMessagePromptTemplate> promptMessages;
 
   @override
   String get type => 'chat';
@@ -196,7 +196,7 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
   BasePromptTemplate partial(final PartialValues values) {
     final newPromptMessages = promptMessages
         .map(
-          (final BaseMessagePromptTemplate m) =>
+          (final BaseChatMessagePromptTemplate m) =>
               m.copyWith(prompt: m.prompt.partial(values)),
         )
         .toList(growable: false);
@@ -233,7 +233,8 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
   bool operator ==(covariant final ChatPromptTemplate other) {
     const setEqualsInputVariables = SetEquality<String>();
     const mapEqualsPartialVariables = MapEquality<String, dynamic>();
-    const listEqualsPromptMessages = ListEquality<BaseMessagePromptTemplate>();
+    const listEqualsPromptMessages =
+        ListEquality<BaseChatMessagePromptTemplate>();
     return identical(this, other) ||
         runtimeType == other.runtimeType &&
             setEqualsInputVariables.equals(
@@ -269,7 +270,7 @@ ChatPromptTemplate{
   ChatPromptTemplate copyWith({
     final Set<String>? inputVariables,
     final PartialValues? partialVariables,
-    final List<BaseMessagePromptTemplate>? promptMessages,
+    final List<BaseChatMessagePromptTemplate>? promptMessages,
   }) {
     return ChatPromptTemplate(
       inputVariables: inputVariables ?? this.inputVariables,
@@ -624,7 +625,7 @@ CustomChatMessagePromptTemplate{
 /// Prompt template that assumes variable is already list of messages.
 /// {@endtemplate}
 @immutable
-final class MessagesPlaceholder extends BaseMessagePromptTemplate {
+final class MessagesPlaceholder extends BaseChatMessagePromptTemplate {
   /// {@macro messages_placeholder}
   const MessagesPlaceholder({required this.variableName})
       : super(prompt: const PromptTemplate(inputVariables: {}, template: ''));
@@ -655,7 +656,7 @@ MessagesPlaceholder{
   }
 
   @override
-  BaseMessagePromptTemplate copyWith({
+  BaseChatMessagePromptTemplate copyWith({
     final BasePromptTemplate? prompt,
     final String? variableName,
   }) {

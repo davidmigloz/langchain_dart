@@ -78,6 +78,11 @@ class MemoryVectorStore extends VectorStore {
   }
 
   @override
+  Future<bool> delete({required final List<String> ids}) {
+    throw UnimplementedError();
+  }
+
+  @override
   Future<List<(Document, double)>> similaritySearchByVectorWithScores({
     required final List<double> embedding,
     final int k = 4,
