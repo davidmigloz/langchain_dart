@@ -1,13 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
-/// {@template openai_embeddings}
+/// {@template openai_embeddings_request}
 /// This class is used to represent an OpenAI embeddings request.
 /// {@endtemplate}
 @immutable
-final class OpenAIEmbeddings {
-  /// {@macro openai_embeddings}
-  const OpenAIEmbeddings({
+final class OpenAIEmbeddingsRequest {
+  /// {@macro openai_embeddings_request}
+  const OpenAIEmbeddingsRequest({
     required this.data,
     required this.model,
     required this.usage,
@@ -23,7 +23,7 @@ final class OpenAIEmbeddings {
   final OpenAIEmbeddingsUsage? usage;
 
   @override
-  bool operator ==(covariant final OpenAIEmbeddings other) {
+  bool operator ==(covariant final OpenAIEmbeddingsRequest other) {
     if (identical(this, other)) return true;
     final listEquals = const DeepCollectionEquality().equals;
 

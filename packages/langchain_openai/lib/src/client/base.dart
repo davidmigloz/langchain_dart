@@ -50,7 +50,7 @@ abstract interface class BaseOpenAIClient {
   /// by machine learning models and algorithms.
   ///
   /// See https://platform.openai.com/docs/api-reference/embeddings
-  Future<OpenAIEmbeddings> createEmbeddings({
+  Future<OpenAIEmbeddingsRequest> createEmbeddings({
     required final String model,
     required final dynamic input,
     final String? user,

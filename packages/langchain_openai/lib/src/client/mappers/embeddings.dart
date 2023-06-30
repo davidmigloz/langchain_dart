@@ -2,10 +2,10 @@ import 'package:dart_openai/dart_openai.dart' as c;
 
 import '../models/embeddings.dart';
 
-/// Mapper for [c.OpenAIEmbeddingsModel] to [OpenAIEmbeddings].
+/// Mapper for [c.OpenAIEmbeddingsModel] to [OpenAIEmbeddingsRequest].
 extension OpenAIEmbeddingsModelMapper on c.OpenAIEmbeddingsModel {
-  OpenAIEmbeddings toModel() {
-    return OpenAIEmbeddings(
+  OpenAIEmbeddingsRequest toModel() {
+    return OpenAIEmbeddingsRequest(
       data: data.map((final d) => d.toModel()).toList(growable: false),
       model: model,
       usage: usage?.toModel(),

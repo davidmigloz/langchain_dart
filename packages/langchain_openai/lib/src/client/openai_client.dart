@@ -39,6 +39,21 @@ final class OpenAIClient implements BaseOpenAIClient {
     return _instance!;
   }
 
+  /// [OpenAIClient] constructor for local models that expose the same API as
+  /// OpenAI. For example, using [Prem App](https://www.premai.io/#PremApp).
+  /// The OpenAI API key is not required for local models.
+  ///
+  /// - [apiBaseUrl] Base url of the local model API
+  ///   (eg. `http://localhost:8111`).
+  ///
+  /// Returns the singleton instance of [OpenAIClient].
+  factory OpenAIClient.local(final String apiBaseUrl) {
+    c.OpenAI.apiKey = 'sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+    c.OpenAI.baseUrl = apiBaseUrl;
+    _instance ??= OpenAIClient._(c.OpenAI.instance);
+    return _instance!;
+  }
+
   @override
   Future<OpenAICompletion> createCompletion({
     required final String model,
@@ -114,7 +129,7 @@ final class OpenAIClient implements BaseOpenAIClient {
   }
 
   @override
-  Future<OpenAIEmbeddings> createEmbeddings({
+  Future<OpenAIEmbeddingsRequest> createEmbeddings({
     required final String model,
     required final dynamic input,
     final String? user,
