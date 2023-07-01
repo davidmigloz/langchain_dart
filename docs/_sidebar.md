@@ -58,3 +58,8 @@
       - [Adding memory](/modules/chains/how_to/memory.md)
       - [Serialization](/modules/chains/how_to/serialization.md)
   - [Memory](/modules/memory/memory.md)
+  - [Agents](/modules/agents/agents.md)
+    - [Agent types](/modules/agents/agent_types/agent_types.md)
+      - [OpenAI functions](/modules/agents/agent_types/openai_functions_agent.md)
+    - [Tools](/modules/agents/tools/tools.md)
+    - [Toolkits](/modules/agents/toolkits/toolkits.md)

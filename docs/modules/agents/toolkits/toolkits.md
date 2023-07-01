@@ -1,0 +1,4 @@
+# Toolkits
+
+Toolkits are collections of tools that are designed to be used together for
+specific tasks and have convenience loading methods.
