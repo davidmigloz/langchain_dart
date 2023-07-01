@@ -15,6 +15,7 @@
         - [Composition](/modules/model_io/prompts/prompt_templates/prompt_composition.md)
         - [Serialization](/modules/model_io/prompts/prompt_templates/prompt_serialization.md)
         - [Validate template](/modules/model_io/prompts/prompt_templates/validate.md)
+      - [Example selectors](/modules/model_io/prompts/example_selectors/example_selectors.md)
     - [Language models](/modules/model_io/models/models.md)
       - [LLMs](/modules/model_io/models/llms/llms.md)
         - How-to
@@ -29,12 +30,25 @@
           - [OpenAI](/modules/model_io/models/llms/integrations/openai.md)
       - [Chat Models](/modules/model_io/models/chat_models/chat_models.md)
         - How-to
+          - [Caching](/modules/model_io/models/chat_models/how_to/caching.md)
           - [LLMChain](/modules/model_io/models/chat_models/how_to/llm_chain.md)
           - [Prompts](/modules/model_io/models/chat_models/how_to/prompts.md)
           - [Streaming](/modules/model_io/models/chat_models/how_to/streaming.md)
         - Integrations
           - [OpenAI](/modules/model_io/models/chat_models/integrations/openai.md)
+          - [Prem App](/modules/model_io/models/chat_models/integrations/prem.md)
     - [Output parsers](/modules/model_io/output_parsers/output_parsers.md)
+  - [Data connection](/modules/data_connection/data_connection.md)
+    - [Document loaders](/modules/data_connection/document_loaders/document_loaders.md)
+    - [Document transformers](/modules/data_connection/document_transformers/document_transformers.md)
+    - [Text embedding models](/modules/data_connection/text_embedding/text_embedding.md)
+      - Integrations
+        - [OpenAI](/modules/data_connection/text_embedding/integrations/openai.md)
+        - [Prem App](/modules/data_connection/text_embedding/integrations/prem.md)
+    - [Vector stores](/modules/data_connection/vector_stores/vector_stores.md)
+      - Integrations
+        - [Memory](/modules/data_connection/vector_stores/integrations/memory.md)
+    - [Retrievers](/modules/data_connection/retrievers/retrievers.md)
   - [Chains](/modules/chains/chains.md)
     - How-to
       - [Different call methods](/modules/chains/how_to/call_methods.md)

@@ -45,6 +45,8 @@ yourself with the framework by building your first LangChain application.
 LangChain provides standard, extendable interfaces and external integrations for
 the following modules, listed from least to most complex:
 
+![LangChain.dart](https://raw.githubusercontent.com/davidmigloz/langchain_dart/main/docs/img/langchain.dart.png)
+
 **[Model I/O](/modules/model_io/models/models.md)**  
 Interface with language models.
 

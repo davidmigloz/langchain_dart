@@ -137,7 +137,7 @@ method to generate the formatted messages.
 Because this is generating a list of messages, it is slightly more complex than 
 the normal prompt template which is generating only a string. Please see the 
 detailed guides on prompts to understand more options available to you 
-[here](/modules/model_io/prompts/chat_prompt_templates/chat_prompt_templates.md).
+[here](/modules/model_io/prompts/prompt_templates/prompt_templates.md).
 
 ```dart
 final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
@@ -229,7 +229,32 @@ take and in what order. Agents are given access to tools, and they repeatedly
 choose a tool, run the tool, and observe the output until they come up with a 
 final answer.
 
-TODO
+To load an agent, you need to choose:
+
+- LLM/Chat model: The language model powering the agent.
+- Tool(s): A function that performs a specific duty. This can be things like: 
+  calculator, Google Search, Database lookup, other chains, etc. For a list of 
+  predefined tools and their specifications, see the 
+  [Tools documentation]().
+- Agent: an agent class is largely parameterized by the prompt the language 
+  model uses to determine which action to take. The agents are orchestrated by
+  agent executors.
+
+For this example, we'll be using a calculator to evaluate mathematical 
+expressions.
+
+```dart
+final llm = ChatOpenAI(
+  apiKey: openaiApiKey,
+  model: 'gpt-3.5-turbo-0613',
+  temperature: 0,
+);
+final tool = CalculatorTool();
+final agent = OpenAIFunctionsAgent.fromLLMAndTools(llm: llm, tools: [tool]);
+final executor = AgentExecutor(agent: agent, tools: [tool]);
+final res = await executor.run('What is 40 raised to the 0.43 power? ');
+print(res); // -> '40 raised to the power of 0.43 is approximately 4.8852'
+```
 
 ### Memory
 

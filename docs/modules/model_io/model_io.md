@@ -11,3 +11,4 @@ gives you the building blocks to interface with any language model.
   information from model outputs.
 
 ![model_io_diagram](img/model_io.jpg)
+*Image source: [LangChain docs](https://python.langchain.com/docs/modules/model_io)*
