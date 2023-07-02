@@ -1,3 +1,10 @@
+## 0.0.1
+
+- Initial public release.
+
+Check out the announcement post for all the details:
+https://blog.langchaindart.com/introducing-langchain-dart-6b1d34fc41ef
+
 ## 0.0.1-dev.7
 
 - Add support for OpenAIAgent class (#34).

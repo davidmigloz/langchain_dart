@@ -7,11 +7,10 @@
 
 Build powerful LLM-based Dart/Flutter applications.
 
-| 🚧 **Early Stage of Development** 🚧                                                                                                                              | 📢 **Call for Collaborators** 📢                                        |
-|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
-| Please note that this project is in a very early stage of development. We are still working on the initial version and there may be bugs and incomplete features. | We are looking for collaborators to join the core group of maintainers. |
-
 ## What is LangChain.dart?
+
+> Check out the announcement post:  
+> [Introducing LangChain.dart 🦜️🔗](https://blog.langchaindart.com/introducing-langchain-dart-6b1d34fc41ef)
 
 LangChain.dart is a Dart port of the popular [LangChain](https://github.com/hwchase17/langchain)
 Python framework created by [Harrison Chase](https://www.linkedin.com/in/harrison-chase-961287118).
@@ -115,6 +114,10 @@ help getting started.
 
 Join us on [Discord](https://discord.gg/x4qbhqecVR) to meet other maintainers. We'll help you get
 your first contribution in no time!
+
+| 📢 **Call for Collaborators** 📢                                        |
+|-------------------------------------------------------------------------|
+| We are looking for collaborators to join the core group of maintainers. |
 
 ## Related projects
 
