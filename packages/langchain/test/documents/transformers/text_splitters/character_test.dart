@@ -84,7 +84,7 @@ void main() {
       );
       final splits = ['foo', 'bar', 'baz'];
       final expectedOutput = ['foo bar', 'baz'];
-      final output = splitter.mergeSplits(splits, separator: ' ');
+      final output = splitter.mergeSplits(splits, ' ');
       expect(output, expectedOutput);
     });
 
@@ -274,6 +274,112 @@ void main() {
       final output = splitter.splitText(text);
       final expectedOutput = <String>[]; // no chunks should be generated
       expect(output, expectedOutput);
+    });
+
+    test('Test splitting by character count.', () {
+      const text = 'foo bar baz 123';
+      const splitter = CharacterTextSplitter(
+        separator: ' ',
+        chunkSize: 7,
+        chunkOverlap: 3,
+      );
+      final output = splitter.splitText(text);
+      final expectedOutput = ['foo bar', 'bar baz', 'baz 123'];
+      expect(output, expectedOutput);
+    });
+
+    test("Test splitting by character count doesn't create empty documents.",
+        () {
+      const text = 'foo  bar';
+      const splitter = CharacterTextSplitter(
+        separator: ' ',
+        chunkSize: 2,
+        chunkOverlap: 0,
+      );
+      final output = splitter.splitText(text);
+      final expectedOutput = ['foo', 'bar'];
+      expect(output, expectedOutput);
+    });
+
+    test('Test splitting by character count on long words.', () {
+      const text = 'foo bar baz a a';
+      const splitter = CharacterTextSplitter(
+        separator: ' ',
+        chunkSize: 3,
+        chunkOverlap: 1,
+      );
+      final output = splitter.splitText(text);
+      final expectedOutput = ['foo', 'bar', 'baz', 'a a'];
+      expect(output, expectedOutput);
+    });
+
+    test('Test splitting by character count when shorter words are first.', () {
+      const text = 'a a foo bar baz';
+      const splitter = CharacterTextSplitter(
+        separator: ' ',
+        chunkSize: 3,
+        chunkOverlap: 1,
+      );
+      final output = splitter.splitText(text);
+      final expectedOutput = ['a a', 'foo', 'bar', 'baz'];
+      expect(output, expectedOutput);
+    });
+
+    test('Test splitting by characters when splits not found easily.', () {
+      const text = 'foo bar baz 123';
+      const splitter = CharacterTextSplitter(
+        separator: ' ',
+        chunkSize: 1,
+        chunkOverlap: 0,
+      );
+      final output = splitter.splitText(text);
+      final expectedOutput = ['foo', 'bar', 'baz', '123'];
+      expect(output, expectedOutput);
+    });
+
+    test('Test invalid arguments.', () {
+      expect(
+        () => CharacterTextSplitter(chunkSize: 2, chunkOverlap: 4),
+        throwsA(isA<AssertionError>()),
+      );
+    });
+
+    test('Test create documents method.', () async {
+      final texts = ['foo bar', 'baz'];
+      const splitter = CharacterTextSplitter(
+        separator: ' ',
+        chunkSize: 3,
+        chunkOverlap: 0,
+      );
+      final docs = splitter.createDocuments(texts);
+      const expectedDocs = [
+        Document(pageContent: 'foo'),
+        Document(pageContent: 'bar'),
+        Document(pageContent: 'baz'),
+      ];
+      expect(docs, equals(expectedDocs));
+    });
+
+    test('Test create documents with metadata method.', () async {
+      final texts = ['foo bar', 'baz'];
+      const splitter = CharacterTextSplitter(
+        separator: ' ',
+        chunkSize: 3,
+        chunkOverlap: 0,
+      );
+      final docs = splitter.createDocuments(
+        texts,
+        metadatas: [
+          {'source': '1'},
+          {'source': '2'},
+        ],
+      );
+      const expectedDocs = [
+        Document(pageContent: 'foo', metadata: {'source': '1'}),
+        Document(pageContent: 'bar', metadata: {'source': '1'}),
+        Document(pageContent: 'baz', metadata: {'source': '2'}),
+      ];
+      expect(docs, equals(expectedDocs));
     });
   });
 }

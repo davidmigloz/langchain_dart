@@ -1,5 +1,5 @@
 import '../models/models.dart';
-import '../transformers/text_splitter.dart';
+import '../transformers/transformers.dart';
 
 /// @{template base_document_loader}
 /// Interface for loading documents.

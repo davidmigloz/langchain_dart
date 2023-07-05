@@ -1,8 +1,8 @@
 import 'package:characters/characters.dart';
 import 'package:meta/meta.dart';
 
-import '../models/models.dart';
-import 'base.dart';
+import '../../models/models.dart';
+import '../base.dart';
 
 /// Default length function for [TextSplitter].
 /// Measures the length of the given chunk by counting its characters.
@@ -83,9 +83,9 @@ abstract base class TextSplitter implements BaseDocumentTransformer {
   @protected
   @visibleForTesting
   List<String> mergeSplits(
-    final List<String> splits, {
-    required final String separator,
-  }) {
+    final List<String> splits,
+    final String separator,
+  ) {
     final separatorLen = lengthFunction(separator);
 
     bool exceedsChunkSize(
@@ -155,47 +155,5 @@ abstract base class TextSplitter implements BaseDocumentTransformer {
     final List<Document> documents,
   ) async {
     return splitDocuments(documents);
-  }
-}
-
-/// {@template character_text_splitter}
-/// Implementation of [TextSplitter] that looks at characters.
-/// {@endtemplate}
-final class CharacterTextSplitter extends TextSplitter {
-  /// {@macro character_text_splitter}
-  const CharacterTextSplitter({
-    this.separator = '\n\n',
-    super.chunkSize,
-    super.chunkOverlap,
-    super.lengthFunction,
-    super.keepSeparator,
-    super.addStartIndex,
-  });
-
-  final String separator;
-
-  @override
-  List<String> splitText(final String text) {
-    // First we naively split the large input into a bunch of smaller ones.
-    final splitText = _splitTextWithRegex(text, separator, keepSeparator);
-    final finalSeparator = keepSeparator ? '' : separator;
-    return mergeSplits(splitText, separator: finalSeparator);
-  }
-
-  List<String> _splitTextWithRegex(
-    final String text,
-    final String separator,
-    final bool keepSeparator,
-  ) {
-    // Now that we have the separator, split the text
-    List<String> splits;
-    if (separator.isNotEmpty) {
-      splits = text.split(keepSeparator ? RegExp('(?=$separator)') : separator);
-    } else {
-      splits = text.split('');
-    }
-    return splits
-        .where((final s) => s.trim().isNotEmpty)
-        .toList(growable: false);
   }
 }
