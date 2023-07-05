@@ -1,2 +1,2 @@
 export 'base.dart';
-export 'text_splitter.dart';
+export 'text_splitters/text_splitters.dart';
