@@ -15,7 +15,7 @@ List<String> splitTextWithRegex(
   // Now that we have the separator, split the text
   List<String> splits;
   if (separator.isNotEmpty) {
-    splits = text.split(keepSeparator ? RegExp('(?=$separator)') : separator);
+    splits = text.split(RegExp(keepSeparator ? '(?=$separator)' : separator));
   } else {
     splits = text.split('');
   }

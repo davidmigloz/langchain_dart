@@ -11,7 +11,7 @@ int _defaultLengthFunction(final String chunk) => chunk.characters.length;
 /// {@template text_splitter}
 /// Interface for splitting text into chunks.
 /// {@endtemplate}
-abstract base class TextSplitter implements BaseDocumentTransformer {
+abstract class TextSplitter implements BaseDocumentTransformer {
   const TextSplitter({
     this.chunkSize = 4000,
     this.chunkOverlap = 200,

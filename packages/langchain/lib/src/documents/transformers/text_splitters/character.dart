@@ -7,7 +7,7 @@ import 'utils.dart';
 /// - How the text is split: by single character (by default "\n\n").
 /// - How the chunk size is measured: by number of characters.
 /// {@endtemplate}
-final class CharacterTextSplitter extends TextSplitter {
+class CharacterTextSplitter extends TextSplitter {
   /// {@macro character_text_splitter}
   const CharacterTextSplitter({
     this.separator = '\n\n',
