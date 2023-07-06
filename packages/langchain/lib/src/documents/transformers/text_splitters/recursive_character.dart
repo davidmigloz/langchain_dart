@@ -5,7 +5,7 @@ import 'utils.dart';
 /// Implementation of splitting text that looks at characters.
 /// Recursively tries to split by different characters to find one that works.
 /// {@endtemplate}
-final class RecursiveCharacterTextSplitter extends TextSplitter {
+class RecursiveCharacterTextSplitter extends TextSplitter {
   /// {@macro recursive_character_text_splitter}
   const RecursiveCharacterTextSplitter({
     this.separators = const ['\n\n', '\n', ' ', ''],
@@ -35,7 +35,7 @@ final class RecursiveCharacterTextSplitter extends TextSplitter {
         separator = s;
         break;
       }
-      if (text.contains(s)) {
+      if (text.contains(RegExp(s))) {
         separator = s;
         newSeparators = separators.sublist(i + 1);
         break;
