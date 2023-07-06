@@ -33,8 +33,13 @@ splitter:
 ## Get started with text splitters
 
 The most basic text splitter is the `CharacterTextSplitter`. This splits based
-on characters (by default "\n\n") and measure chunk length by number of
+on characters (by default `\n\n`) and measure chunk length by number of
 characters.
+
+The default recommended text splitter is the `RecursiveCharacterTextSplitter`. This text splitter 
+takes a list of characters. It tries to create chunks based on splitting on the first character, 
+but if any chunks are too large it then moves onto the next character, and so forth. By default 
+the characters it tries to split on are `["\n\n", "\n", " ", ""]`.
 
 In addition to controlling which characters you can split on, you can also
 control a few other things:
@@ -54,9 +59,9 @@ control a few other things:
 const filePath = 'state_of_the_union.txt';
 const loader = TextLoader(filePath);
 final documents = await loader.load();
-const textSplitter = CharacterTextSplitter(
+const textSplitter = RecursiveCharacterTextSplitter(
   chunkSize: 800,
   chunkOverlap: 0,
 );
-final texts = textSplitter.splitDocuments(documents);
+final docs = textSplitter.splitDocuments(documents);
 ```

@@ -41,6 +41,10 @@
   - [Data connection](/modules/data_connection/data_connection.md)
     - [Document loaders](/modules/data_connection/document_loaders/document_loaders.md)
     - [Document transformers](/modules/data_connection/document_transformers/document_transformers.md)
+      - Text splitters
+        - [Split by character](/modules/data_connection/document_transformers/text_splitters/character_text_splitter.md)
+        - [Recursively split by character](/modules/data_connection/document_transformers/text_splitters/recursive_character_text_splitter.md)
+        - [Split code](/modules/data_connection/document_transformers/text_splitters/code_text_splitter.md)
     - [Text embedding models](/modules/data_connection/text_embedding/text_embedding.md)
       - Integrations
         - [OpenAI](/modules/data_connection/text_embedding/integrations/openai.md)
