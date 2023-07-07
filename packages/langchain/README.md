@@ -1,16 +1,16 @@
 # 🦜️🔗 LangChain.dart
 
-[![Test](https://github.com/davidmigloz/langchain_dart/actions/workflows/test.yaml/badge.svg)](https://github.com/davidmigloz/langchain_dart/actions/workflows/test.yaml)
+[![tests](https://img.shields.io/github/actions/workflow/status/davidmigloz/langchain_dart/test.yaml?logo=github&label=tests)](https://github.com/davidmigloz/langchain_dart/actions/workflows/test.yaml)
+[![docs](https://img.shields.io/github/actions/workflow/status/davidmigloz/langchain_dart/pages%2Fpages-build-deployment?logo=github&label=docs)](https://github.com/davidmigloz/langchain_dart/actions/workflows/pages/pages-build-deployment)
 [![langchain](https://img.shields.io/pub/v/langchain.svg)](https://pub.dev/packages/langchain)
-[![](https://dcbadge.vercel.app/api/server/x4qbhqecVR?compact=true&style=flat)](https://discord.gg/x4qbhqecVR)
+[![](https://dcbadge.vercel.app/api/server/x4qbhqecVR?style=flat)](https://discord.gg/x4qbhqecVR)
 [![MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://github.com/davidmigloz/langchain_dart/blob/main/LICENSE)
 
 Build powerful LLM-based Dart/Flutter applications.
 
 ## What is LangChain.dart?
 
-> Check out the announcement post:  
-> [Introducing LangChain.dart 🦜️🔗](https://blog.langchaindart.com/introducing-langchain-dart-6b1d34fc41ef)
+> Check out the announcement post: [Introducing LangChain.dart 🦜️🔗](https://blog.langchaindart.com/introducing-langchain-dart-6b1d34fc41ef)
 
 LangChain.dart is a Dart port of the popular [LangChain](https://github.com/hwchase17/langchain)
 Python framework created by [Harrison Chase](https://www.linkedin.com/in/harrison-chase-961287118).
@@ -41,8 +41,8 @@ Large Language Models (LLMs) have revolutionized Natural Language Processing (NL
 essential components in a wide range of applications, such as question-answering, summarization,
 translation, and text generation.
 
-The adoption of LLMs is creating a new tech stack in its wake. However, most emerging libraries and
-tools are being predominantly developed for the Python and JavaScript ecosystems. As a result, the
+The adoption of LLMs is creating a new tech stack in its wake. However, emerging libraries and
+tools are predominantly being developed for the Python and JavaScript ecosystems. As a result, the
 number of applications leveraging LLMs in these ecosystems has grown exponentially.
 
 In contrast, the Dart / Flutter ecosystem has not experienced similar growth, which can likely be
@@ -58,23 +58,10 @@ LangChain.dart has a modular design where the core [langchain](https://pub.dev/p
 package provides the LangChain API and each integration with a model provider, data store, etc. is
 provided by a separate package.
 
-| Package                                                                 | Version                                                                                                                            | Description                                       | Models | Data conn. | Memory | Tools |
-|-------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------|--------|------------|--------|-------|
-| [langchain](https://pub.dev/packages/langchain)                         | [![langchain](https://img.shields.io/pub/v/langchain.svg)](https://pub.dev/packages/langchain)                                     | The core package that provides the LangChain API. | 🟢     | 🟢         | 🟢     | 🟢    |
-| [langchain_amazon](https://pub.dev/packages/langchain_amazon)           | [![langchain_amazon](https://img.shields.io/pub/v/langchain_amazon.svg)](https://pub.dev/packages/langchain_amazon)                | Integration with Amazon.                          |        |            |        |       |
-| [langchain_anthropic](https://pub.dev/packages/langchain_anthropic)     | [![langchain_anthropic](https://img.shields.io/pub/v/langchain_anthropic.svg)](https://pub.dev/packages/langchain_anthropic)       | Integration with Anthropic.                       |        |            |        |       |
-| [langchain_chroma](https://pub.dev/packages/langchain_chroma)           | [![langchain_chroma](https://img.shields.io/pub/v/langchain_chroma.svg)](https://pub.dev/packages/langchain_chroma)                | Integration with Chroma.                          |        |            |        |       |
-| [langchain_cohere](https://pub.dev/packages/langchain_cohere)           | [![langchain_cohere](https://img.shields.io/pub/v/langchain_cohere.svg)](https://pub.dev/packages/langchain_cohere)                | Integration with Cohere.                          |        |            |        |       |
-| [langchain_google](https://pub.dev/packages/langchain_google)           | [![langchain_google](https://img.shields.io/pub/v/langchain_google.svg)](https://pub.dev/packages/langchain_google)                | Integration with Google.                          |        |            |        |       |
-| [langchain_huggingface](https://pub.dev/packages/langchain_huggingface) | [![langchain_huggingface](https://img.shields.io/pub/v/langchain_huggingface.svg)](https://pub.dev/packages/langchain_huggingface) | Integration with Hugging Face.                    |        |            |        |       |
-| [langchain_microsoft](https://pub.dev/packages/langchain_microsoft)     | [![langchain_microsoft](https://img.shields.io/pub/v/langchain_microsoft.svg)](https://pub.dev/packages/langchain_microsoft)       | Integration with Microsoft.                       |        |            |        |       |
-| [langchain_openai](https://pub.dev/packages/langchain_openai)           | [![langchain_openai](https://img.shields.io/pub/v/langchain_openai.svg)](https://pub.dev/packages/langchain_openai)                | Integration with OpenAI.                          | ✅      | ✅          |        |       |
-| [langchain_pinecone](https://pub.dev/packages/langchain_pinecone)       | [![langchain_pinecone](https://img.shields.io/pub/v/langchain_pinecone.svg)](https://pub.dev/packages/langchain_pinecone)          | Integration with Pinecone.                        |        |            |        |       |
-| [langchain_supabase](https://pub.dev/packages/langchain_supabase)       | [![langchain_supabase](https://img.shields.io/pub/v/langchain_supabase.svg)](https://pub.dev/packages/langchain_supabase)          | Integration with Supabase.                        |        |            |        |       |
-| [langchain_weaviate](https://pub.dev/packages/langchain_weaviate)       | [![langchain_weaviate](https://img.shields.io/pub/v/langchain_weaviate.svg)](https://pub.dev/packages/langchain_weaviate)          | Integration with Weaviate.                        |        |            |        |       |
-| [langchain_wikipedia](https://pub.dev/packages/langchain_wikipedia)     | [![langchain_wikipedia](https://img.shields.io/pub/v/langchain_wikipedia.svg)](https://pub.dev/packages/langchain_wikipedia)       | Integration with Wikipedia.                       |        |            |        |       |
-| [langchain_wolfram](https://pub.dev/packages/langchain_wolfram)         | [![langchain_wolfram](https://img.shields.io/pub/v/langchain_wolfram.svg)](https://pub.dev/packages/langchain_wolfram)             | Integration with Wolfram Research.                |        |            |        |       |
-| [langchain_zapier](https://pub.dev/packages/langchain_zapier)           | [![langchain_zapier](https://img.shields.io/pub/v/langchain_zapier.svg)](https://pub.dev/packages/langchain_zapier)                | Integration with Zapier.                          |        |            |        |       |
+| Package                                                       | Version                                                                                                             | Description        | Models | Data conn. | Memory | Agents & Tools |
+|---------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|--------------------|--------|------------|--------|----------------|
+| [langchain](https://pub.dev/packages/langchain)               | [![langchain](https://img.shields.io/pub/v/langchain.svg)](https://pub.dev/packages/langchain)                      | Core LangChain API | ★      | ★          | ★      | ★              |
+| [langchain_openai](https://pub.dev/packages/langchain_openai) | [![langchain_openai](https://img.shields.io/pub/v/langchain_openai.svg)](https://pub.dev/packages/langchain_openai) | OpenAI integration | ✔      | ✔          |        | ✔              |
 
 ## Getting started
 
@@ -84,8 +71,8 @@ Also, include the dependencies for the specific integrations you want to use
 
 ```yaml
 dependencies:
-  langchain: { version }
-  langchain_openai: { version }
+  langchain: {version}
+  langchain_openai: {version}
 ```
 
 The most basic building block of LangChain is calling an LLM on some input:
@@ -101,6 +88,7 @@ final result = await llm('Hello world!');
 - [LangChain.dart documentation](https://langchaindart.com)
 - [Sample apps](https://github.com/davidmigloz/langchain_dart/tree/main/examples)
 - [Blog](https://blog.langchaindart.com)
+- [Project board](https://github.com/users/davidmigloz/projects/2/views/1)
 
 ## Support
 
@@ -108,16 +96,16 @@ Having trouble? Get help in the official [LangChain.dart Discord](https://discor
 
 ## Contribute
 
+| 📢 **Call for Collaborators** 📢                                        |
+|-------------------------------------------------------------------------|
+| We are looking for collaborators to join the core group of maintainers. |
+
 New contributors welcome! Check out our
 [Contributors Guide](https://github.com/davidmigloz/langchain_dart/blob/main/CONTRIBUTING.md) for
 help getting started.
 
 Join us on [Discord](https://discord.gg/x4qbhqecVR) to meet other maintainers. We'll help you get
 your first contribution in no time!
-
-| 📢 **Call for Collaborators** 📢                                        |
-|-------------------------------------------------------------------------|
-| We are looking for collaborators to join the core group of maintainers. |
 
 ## Related projects
 
