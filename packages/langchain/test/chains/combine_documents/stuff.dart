@@ -8,12 +8,11 @@ void main() {
   group('StuffDocumentsChain tests', () {
     test('Test LLMChain call', () async {
       const model = FakeEchoLLM();
-      final prompt =
-          PromptTemplate.fromTemplate('Print {foo}. Context: {context}');
-      final llmChain = LLMChain(prompt: prompt, llm: model);
-      final stuffChain = StuffDocumentsChain(
-        llmChain: llmChain,
+      final prompt = PromptTemplate.fromTemplate(
+        'Print {foo}. Context: {context}',
       );
+      final llmChain = LLMChain(prompt: prompt, llm: model);
+      final stuffChain = StuffDocumentsChain(llmChain: llmChain);
 
       const foo = 'Hello world!';
       const docs = [

@@ -5,7 +5,27 @@ import '../utils/utils.dart';
 import 'models/models.dart';
 
 /// {@template base_chain}
-/// Base class that defines a chain.
+/// Base class for creating structured sequences of calls to components.
+///
+/// Chains should be used to encode a sequence of calls to components like
+/// models, document retrievers, other chains, etc., and provide a simple
+/// interface to this sequence.
+///
+/// The [BaseChain] interface makes it easy to create apps that are:
+/// - Stateful: add Memory to any Chain to give it state.
+/// - Observable: pass Callbacks to a Chain to execute additional functionality,
+///   like logging, outside the main sequence of component calls.
+/// - Composable: the Chain API is flexible enough that it is easy to combine
+///   Chains with other components, including other Chains.
+///
+/// The main methods exposed by chains are:
+///
+/// - [call] Chains are callable. The [call] method is the primary way to
+///   execute a Chain. This takes inputs as a dictionary and returns a
+///   dictionary output.
+/// - [run] A convenience method that takes inputs and returns the output as a
+///   string. This method can only be used for a subset of chains and cannot
+///   return as rich of an output as [call].
 /// {@endtemplate}
 abstract class BaseChain {
   /// {@macro base_chain}
@@ -37,6 +57,14 @@ abstract class BaseChain {
 
   /// Runs the core logic of this chain with the given values.
   /// If [memory] is not null, it will be used to load and save values.
+  ///
+  /// - [inputs] are the inputs to this chain. Assumed to contain all inputs
+  /// specified in [inputKeys], including any inputs added by [memory].
+  /// - [returnOnlyOutputs] if true the chain will only return the outputs of
+  /// this chain. If false, the chain will return all inputs and outputs.
+  ///
+  /// Returns a dictionary of outputs. It should contain all outputs specified
+  /// in [outputKeys].
   Future<ChainValues> call(
     final dynamic input, {
     final bool returnOnlyOutputs = false,
@@ -94,7 +122,7 @@ abstract class BaseChain {
     return intersection.isNotEmpty;
   }
 
-  /// Call method to be implemented by subclasses.
+  /// Call method to be implemented by subclasses (called by [call]).
   /// This is where the core logic of the chain should be implemented.
   @protected
   Future<ChainValues> callInternal(final ChainValues inputs);
@@ -104,7 +132,14 @@ abstract class BaseChain {
     return Future.wait(inputs.map(call));
   }
 
-  /// Runs the chain as input in, output out.
+  /// Convenience method for executing chain when there's a single output.
+  ///
+  /// The main difference between this method and [call] is that this method
+  /// can only be used for chains that return a single output. If a Chain has
+  /// more outputs, or you want to return the inputs/run info along with the
+  /// outputs, use [call].
+  ///
+  /// Returns the chain output.
   ///
   /// The input can be:
   /// - A single value, if the chain has a single input key.

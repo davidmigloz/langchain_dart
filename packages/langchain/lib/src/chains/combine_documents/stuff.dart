@@ -6,12 +6,34 @@ import 'base.dart';
 /// {@template stuff_documents_chain}
 /// Chain that combines documents by stuffing into context.
 ///
-/// It expects a `List<Document>` as input, combines the documents and calls
-/// the [llmChain] with the stuffed documents as input (using
-/// [llmChainStuffedDocumentInputKey] as input key).
+/// This chain takes a list of documents and first combines them into a single
+/// string. It does this by formatting each document into a string with the
+/// [documentPrompt] and then joining them together with [documentSeparator].
+/// It then adds that new string to the inputs with the variable name set by
+/// [llmChainStuffedDocumentInputKey]. Those inputs are then passed to the
+/// [llmChain].
 ///
 /// The content of each document is formatted using [documentPrompt].
 /// By default, it just takes the content of the document.
+///
+/// Example:
+/// ```dart
+/// final prompt = PromptTemplate.fromTemplate(
+///   'Print {foo}. Context: {context}',
+/// );
+/// final llm = OpenAI(apiKey: openaiApiKey);
+/// final llmChain = LLMChain(prompt: prompt, llm: llm);
+/// final stuffChain = StuffDocumentsChain(llmChain: llmChain)
+/// const foo = 'Hello world!';
+/// const docs = [
+///   Document(pageContent: 'Hello 1!'),
+///   Document(pageContent: 'Hello 2!'),
+/// ];
+/// final res = await stuffChain.call({
+///   'foo': foo,
+///   'input_documents': docs,
+/// });
+/// ```
 /// {@endtemplate}
 class StuffDocumentsChain extends BaseCombineDocumentsChain {
   /// {@macro stuff_documents_chain}
@@ -68,6 +90,9 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
   String get chainType => 'stuff_documents_chain';
 
   void _initLlmChainDocumentInputKey() {
+    // If only one variable is present in the llmChain.prompt,
+    // we can infer that the formatted documents should be passed in
+    // with this variable name.
     final llmChainInputVariables = llmChain.prompt.inputVariables;
     if (llmChainInputVariables.length == 1) {
       llmChainStuffedDocumentInputKey = llmChainInputVariables.first;
@@ -88,6 +113,9 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
   /// Stuff all documents into one prompt and pass to LLM.
   ///
   /// - [docs] the documents to combine.
+  /// - [inputs] the inputs to pass to the [llmChain].
+  ///
+  /// Returns a tuple of the output string and any extra info to return.
   @override
   Future<(dynamic output, Map<String, dynamic> extraInfo)> combineDocs(
     final List<Document> docs, {

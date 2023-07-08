@@ -3,6 +3,7 @@ import 'history.dart';
 
 /// {@template chat_message_history}
 /// A simple in-memory implementation of a chat message history.
+/// Stores messages in an in memory list.
 /// {@endtemplate}
 final class ChatMessageHistory extends BaseChatMessageHistory {
   /// {@macro chat_message_history}

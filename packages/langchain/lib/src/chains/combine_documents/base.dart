@@ -9,6 +9,15 @@ import '../models/models.dart';
 /// {@template base_combine_documents_chain}
 /// Base interface for chains combining documents,
 /// such as [StuffDocumentsChain].
+///
+/// Subclasses of this chain deal with combining documents in a variety of
+/// ways. This base class exists to add some uniformity in the interface these
+/// types of chains should expose. Namely, they expect an input key related to
+/// the documents to use (default [defaultInputKey]), and then also expose a
+/// method to calculate the length of a prompt from documents (useful for
+/// outside callers to use to determine whether it's safe to pass a list of
+/// documents into this chain or whether that will longer than the context
+/// length).
 /// {@endtemplate}
 abstract class BaseCombineDocumentsChain extends BaseChain {
   /// {@macro base_combine_documents_chain}
@@ -52,7 +61,14 @@ abstract class BaseCombineDocumentsChain extends BaseChain {
     };
   }
 
+  // TODO add promptLength method to base chain the prompt length given the documents passed in
+
   /// Combines the given [docs] into a single string.
+  ///
+  /// - [docs] is the list of documents to combine.
+  /// - [inputs] is a map of other inputs to use in the combination.
+  ///
+  /// Returns a tuple of the output string and any extra info to return.
   Future<(dynamic output, Map<String, dynamic> extraInfo)> combineDocs(
     final List<Document> docs, {
     final InputValues inputs = const {},
