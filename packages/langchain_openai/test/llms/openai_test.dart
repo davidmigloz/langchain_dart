@@ -3,6 +3,7 @@ library; // Uses dart:io
 
 import 'dart:io';
 
+import 'package:langchain/langchain.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 import 'package:langchain_openai/src/llms/models/models.dart';
 import 'package:test/test.dart';
@@ -71,6 +72,30 @@ void main() {
       for (final generation in res.generations) {
         expect(generation.output, isNotEmpty);
       }
+    });
+
+    test('Test tokenize', () async {
+      final chat = OpenAI(apiKey: openaiApiKey);
+      const text = 'Hello, how are you?';
+
+      final tokens = await chat.tokenize(PromptValue.string(text));
+      expect(tokens, [15496, 11, 703, 389, 345, 30]);
+    });
+
+    test('Test different encoding than the model', () async {
+      final chat = OpenAI(apiKey: openaiApiKey, encoding: 'cl100k_base');
+      const text = 'Hello, how are you?';
+
+      final tokens = await chat.tokenize(PromptValue.string(text));
+      expect(tokens, [9906, 11, 1268, 527, 499, 30]);
+    });
+
+    test('Test countTokens', () async {
+      final chat = OpenAI(apiKey: openaiApiKey);
+      const text = 'Hello, how are you?';
+
+      final numTokens = await chat.countTokens(PromptValue.string(text));
+      expect(numTokens, 6);
     });
   });
 }

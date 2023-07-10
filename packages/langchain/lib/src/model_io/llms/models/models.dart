@@ -20,7 +20,7 @@ class LLMResult extends LanguageModelResult<String> {
   /// {@macro llm_result}
   const LLMResult({
     required super.generations,
-    super.tokensUsage,
+    super.usage,
     super.modelOutput,
   });
 
@@ -29,7 +29,7 @@ class LLMResult extends LanguageModelResult<String> {
     return '''
 LLMResult{
   generations: $generations, 
-  tokensUsage: $tokensUsage, 
+  usage: $usage, 
   modelOutput: $modelOutput},
 ''';
   }
