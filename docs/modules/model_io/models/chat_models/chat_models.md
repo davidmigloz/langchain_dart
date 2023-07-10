@@ -76,7 +76,7 @@ print(chatRes);
 
 The `generate` APIs return an `ChatResult` which contains a `ChatGeneration`
 object with the `output` messages and some metadata about the generation. It 
-also contains some additional information like `tokensUsage` and `modelOutput`.
+also contains some additional information like `usage` and `modelOutput`.
 
 ```dart
 final chatRes1 = await chat.generate(messages);
@@ -84,7 +84,7 @@ print(chatRes1.generations);
 // -> [ChatGeneration{
 //       output: AIChatMessage{content: J'adore la programmation., example: false},
 //       generationInfo: {index: 0, finish_reason: stop}}]
-print(chatRes1.tokensUsage);
+print(chatRes1.usage?.totalTokens);
 // -> 36
 print(chatRes1.modelOutput);
 // -> {id: chatcmpl-7QHTjpTCELFuGbxRaazFqvYtepXOc, created: 2023-06-11 17:41:11.000, model: gpt-3.5-turbo}
@@ -95,6 +95,6 @@ print(chatRes1.modelOutput);
 ```dart
 final chatRes2 = await chat.generatePrompt(ChatPromptValue(messages));
 print(chatRes2.generations);
-print(chatRes2.tokensUsage);
+print(chatRes2.usage);
 print(chatRes2.modelOutput);
 ```

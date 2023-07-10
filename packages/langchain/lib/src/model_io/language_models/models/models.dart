@@ -22,15 +22,15 @@ abstract class LanguageModelResult<O extends Object> {
   /// {@macro language_model}
   const LanguageModelResult({
     required this.generations,
-    this.tokensUsage,
+    this.usage,
     this.modelOutput,
   });
 
   /// Generated outputs.
   final List<LanguageModelGeneration<O>> generations;
 
-  /// The total number of tokens used for the generation.
-  final int? tokensUsage;
+  ///  Usage stats for the generation.
+  final LanguageModelUsage? usage;
 
   /// For arbitrary model provider specific output.
   final Map<String, dynamic>? modelOutput;
@@ -38,6 +38,43 @@ abstract class LanguageModelResult<O extends Object> {
   /// Returns the first output as a string.
   String get firstOutputAsString {
     return generations.firstOrNull?.outputAsString ?? '';
+  }
+}
+
+/// {@template language_model_usage}
+/// Usage stats for the generation.
+///
+/// You can use this information to determine how much the model call costed
+/// (as usage is usually priced by token).
+///
+/// This is only available for some models.
+/// {@endtemplate}
+@immutable
+class LanguageModelUsage {
+  /// {@macro language_model_usage}
+  const LanguageModelUsage({
+    this.promptTokens,
+    this.responseTokens,
+    this.totalTokens,
+  });
+
+  /// The number of tokens in the prompt.
+  final int? promptTokens;
+
+  /// The number of tokens in the completion.
+  final int? responseTokens;
+
+  /// The total number of tokens in the prompt and completion.
+  final int? totalTokens;
+
+  @override
+  String toString() {
+    return '''
+LanguageModelUsage{
+  promptTokens: $promptTokens, 
+  responseTokens: $responseTokens, 
+  totalTokens: $totalTokens},
+''';
   }
 }
 

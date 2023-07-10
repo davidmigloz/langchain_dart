@@ -71,11 +71,11 @@ print(llmRes.generations.first);
 // [LLMGeneration(output='\n\nWhy did the chicken cross the road?\n\nTo get to the other side!')]
 ```
 
-`tokensUsage` field contains the amount of tokens used for the generation. This is useful for
+`usage` field contains the amount of tokens used for the generation. This is useful for
 tracking usage and billing.
 
 ```dart
-print(llmRes.tokensUsage); // 641
+print(llmRes.usage?.totalUsage); // 641
 ```
 
 You can also access provider specific information that is returned.

@@ -1,4 +1,5 @@
 import 'package:langchain/langchain.dart';
+import 'package:tiktoken/tiktoken.dart';
 
 import '../client/base.dart';
 import '../client/openai_client.dart';
@@ -21,6 +22,7 @@ abstract base class BaseChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     required this.presencePenalty,
     required this.frequencyPenalty,
     required this.logitBias,
+    required this.encoding,
   })  : assert(
           apiKey != null || apiClient != null,
           'Either apiKey or apiClient must be provided.',
@@ -77,6 +79,25 @@ abstract base class BaseChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-logit_bias
   final Map<String, double>? logitBias;
 
+  /// The encoding to use by tiktoken when [tokenize] is called.
+  ///
+  /// By default, when [encoding] is not set, it is derived from the [model].
+  /// However, there are some cases where you may want to use this wrapper
+  /// class with a [model] not supported by tiktoken (e.g. when using Azure
+  /// embeddings or when using one of the many model providers that expose an
+  /// OpenAI-like API but with different models). In those cases, tiktoken won't
+  /// be able to derive the encoding to use, so you have to explicitly specify
+  /// it using this field.
+  ///
+  /// Supported encodings:
+  /// - `cl100k_base` (used by gpt-4, gpt-3.5-turbo, text-embedding-ada-002).
+  /// - `p50k_base` (used by codex models, text-davinci-002, text-davinci-003).
+  /// - `r50k_base` (used by gpt-3 models like davinci).
+  ///
+  /// For an exhaustive list check:
+  /// https://github.com/mvitlov/tiktoken/blob/master/lib/tiktoken.dart
+  final String? encoding;
+
   @override
   String get modelType => 'openai-chat';
 
@@ -108,6 +129,80 @@ abstract base class BaseChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
 
     return completion.toChatResult(model);
   }
+
+  /// Tokenizes the given prompt using tiktoken with the encoding used by the
+  /// [model]. If an encoding model is specified in [encoding] field, that
+  /// encoding is used instead.
+  ///
+  /// - [promptValue] The prompt to tokenize.
+  @override
+  Future<List<int>> tokenize(final PromptValue promptValue) async {
+    return _getTiktoken().encode(promptValue.toString());
+  }
+
+  @override
+  Future<int> countTokens(final PromptValue promptValue) async {
+    final tiktoken = _getTiktoken();
+    final messages = promptValue.toChatMessages();
+
+    // Ref: https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb
+    final int tokensPerMessage;
+    final int tokensPerName;
+
+    switch (model) {
+      case 'gpt-3.5-turbo-0613':
+      case 'gpt-3.5-turbo-16k-0613':
+      case 'gpt-4-0314':
+      case 'gpt-4-32k-0314':
+      case 'gpt-4-0613':
+      case 'gpt-4-32k-0613':
+        tokensPerMessage = 3;
+        tokensPerName = 1;
+      case 'gpt-3.5-turbo-0301':
+        // Every message follows <|start|>{role/name}\n{content}<|end|>\n
+        tokensPerMessage = 4;
+        // If there's a name, the role is omitted
+        tokensPerName = -1;
+      default:
+        if (model.startsWith('gpt-3.5-turbo') || model.startsWith('gpt-4')) {
+          // Returning num tokens assuming gpt-3.5-turbo-0613
+          tokensPerMessage = 3;
+          tokensPerName = 1;
+        } else {
+          throw UnimplementedError(
+            'countTokens not supported for model $model',
+          );
+        }
+    }
+
+    int numTokens = 0;
+    for (final message in messages) {
+      numTokens += tokensPerMessage;
+      numTokens += tiktoken.encode(message.content).length;
+      numTokens += switch (message) {
+        final SystemChatMessage _ => tiktoken.encode('system').length,
+        final HumanChatMessage _ => tiktoken.encode('user').length,
+        final AIChatMessage msg => tiktoken.encode('assistant').length +
+            (msg.functionCall != null
+                ? tiktoken.encode(msg.functionCall!.name).length +
+                    tiktoken
+                        .encode(msg.functionCall!.arguments.toString())
+                        .length
+                : 0),
+        final FunctionChatMessage msg =>
+          tiktoken.encode(msg.name).length + tokensPerName,
+        final CustomChatMessage msg => tiktoken.encode(msg.role).length,
+      };
+    }
+
+    // every reply is primed with <im_start>assistant
+    return numTokens + 3;
+  }
+
+  /// Returns the tiktoken model to use for the given model.
+  Tiktoken _getTiktoken() {
+    return encoding != null ? getEncoding(encoding!) : encodingForModel(model);
+  }
 }
 
 /// {@template chat_openai}
@@ -131,5 +226,6 @@ final class ChatOpenAI extends BaseChatOpenAI {
     super.presencePenalty = 0,
     super.frequencyPenalty = 0,
     super.logitBias,
+    super.encoding,
   });
 }

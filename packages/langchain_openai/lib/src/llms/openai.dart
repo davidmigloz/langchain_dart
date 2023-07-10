@@ -1,4 +1,5 @@
 import 'package:langchain/langchain.dart';
+import 'package:tiktoken/tiktoken.dart';
 
 import '../client/base.dart';
 import '../client/openai_client.dart';
@@ -22,6 +23,7 @@ abstract base class BaseOpenAI extends BaseLLM<OpenAIOptions> {
     required this.frequencyPenalty,
     required this.bestOf,
     required this.logitBias,
+    required this.encoding,
   })  : assert(
           apiKey != null || apiClient != null,
           'Either apiKey or apiClient must be provided.',
@@ -82,6 +84,25 @@ abstract base class BaseOpenAI extends BaseLLM<OpenAIOptions> {
   /// See https://platform.openai.com/docs/api-reference/completions/create#completions/create-logit_bias
   final Map<String, double>? logitBias;
 
+  /// The encoding to use by tiktoken when [tokenize] is called.
+  ///
+  /// By default, when [encoding] is not set, it is derived from the [model].
+  /// However, there are some cases where you may want to use this wrapper
+  /// class with a [model] not supported by tiktoken (e.g. when using Azure
+  /// embeddings or when using one of the many model providers that expose an
+  /// OpenAI-like API but with different models). In those cases, tiktoken won't
+  /// be able to derive the encoding to use, so you have to explicitly specify
+  /// it using this field.
+  ///
+  /// Supported encodings:
+  /// - `cl100k_base` (used by gpt-4, gpt-3.5-turbo, text-embedding-ada-002).
+  /// - `p50k_base` (used by codex models, text-davinci-002, text-davinci-003).
+  /// - `r50k_base` (used by gpt-3 models like davinci).
+  ///
+  /// For an exhaustive list check:
+  /// https://github.com/mvitlov/tiktoken/blob/master/lib/tiktoken.dart
+  final String? encoding;
+
   @override
   String get modelType => 'openai';
 
@@ -104,6 +125,19 @@ abstract base class BaseOpenAI extends BaseLLM<OpenAIOptions> {
       logitBias: logitBias,
     );
     return completion.toChatResult();
+  }
+
+  /// Tokenizes the given prompt using tiktoken with the encoding used by the
+  /// [model]. If an encoding model is specified in [encoding] field, that
+  /// encoding is used instead.
+  ///
+  /// - [promptValue] The prompt to tokenize.
+  @override
+  Future<List<int>> tokenize(final PromptValue promptValue) async {
+    final encoding = this.encoding != null
+        ? getEncoding(this.encoding!)
+        : encodingForModel(model);
+    return encoding.encode(promptValue.toString());
   }
 }
 
@@ -129,5 +163,6 @@ final class OpenAI extends BaseOpenAI {
     super.frequencyPenalty = 0,
     super.bestOf = 1,
     super.logitBias,
+    super.encoding,
   });
 }
