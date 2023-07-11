@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('StuffDocumentsChain tests', () {
-    test('Test LLMChain call', () async {
+    test('Test StuffDocumentsChain call', () async {
       const model = FakeEchoLLM();
       final prompt = PromptTemplate.fromTemplate(
         'Print {foo}. Context: {context}',
@@ -29,6 +29,24 @@ void main() {
         res['output_text'],
         'Print Hello world!. Context: Hello 1!\n\nHello 2!',
       );
+    });
+
+    test('Test promptLength', () async {
+      const model = FakeEchoLLM();
+      final prompt = PromptTemplate.fromTemplate(
+        'Print {foo}. Context: {context}',
+      );
+      final llmChain = LLMChain(prompt: prompt, llm: model);
+      final stuffChain = StuffDocumentsChain(llmChain: llmChain);
+
+      const foo = 'Hello world!';
+      const docs = [
+        Document(pageContent: 'Hello 1!'),
+        Document(pageContent: 'Hello 2!'),
+      ];
+
+      final tokens = await stuffChain.promptLength(docs, inputs: {'foo': foo});
+      expect(tokens, 7);
     });
   });
 }

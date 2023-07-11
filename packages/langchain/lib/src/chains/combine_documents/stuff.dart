@@ -9,9 +9,9 @@ import 'base.dart';
 /// This chain takes a list of documents and first combines them into a single
 /// string. It does this by formatting each document into a string with the
 /// [documentPrompt] and then joining them together with [documentSeparator].
-/// It then adds that new string to the inputs with the variable name set by
-/// [llmChainStuffedDocumentInputKey]. Those inputs are then passed to the
-/// [llmChain].
+/// It then adds that new resulting string to the inputs with the variable
+/// name set by [llmChainStuffedDocumentInputKey]. Those inputs are then
+/// passed to the [llmChain].
 ///
 /// The content of each document is formatted using [documentPrompt].
 /// By default, it just takes the content of the document.
@@ -110,6 +110,16 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
     }
   }
 
+  @override
+  Future<int?> promptLength(
+    final List<Document> docs, {
+    final InputValues inputs = const {},
+  }) {
+    final llmInputs = _getInputs(docs, inputs);
+    final prompt = llmChain.prompt.formatPrompt(llmInputs);
+    return llmChain.llm.countTokens(prompt);
+  }
+
   /// Stuff all documents into one prompt and pass to LLM.
   ///
   /// - [docs] the documents to combine.
@@ -117,7 +127,7 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
   ///
   /// Returns a tuple of the output string and any extra info to return.
   @override
-  Future<(dynamic output, Map<String, dynamic> extraInfo)> combineDocs(
+  Future<(String output, Map<String, dynamic> extraInfo)> combineDocs(
     final List<Document> docs, {
     final InputValues inputs = const {},
   }) async {
