@@ -37,7 +37,7 @@ extension OpenAIChatCompletionMapper on OpenAIChatCompletion {
       generations: choices
           .map((final choice) => choice.toChatGeneration())
           .toList(growable: false),
-      tokensUsage: usage.totalTokens,
+      usage: usage.toLanguageModelUsage(),
       modelOutput: {
         'id': id,
         'created': created,
@@ -56,6 +56,17 @@ extension _OpenAIChatCompletionChoiceMapper on OpenAIChatCompletionChoice {
         'index': index,
         'finish_reason': finishReason,
       },
+    );
+  }
+}
+
+/// Mapper for [OpenAIChatCompletionUsage] to [LanguageModelUsage].
+extension _OpenAIChatCompletionUsageMapper on OpenAIChatCompletionUsage {
+  LanguageModelUsage toLanguageModelUsage() {
+    return LanguageModelUsage(
+      promptTokens: promptTokens,
+      responseTokens: completionTokens,
+      totalTokens: totalTokens,
     );
   }
 }

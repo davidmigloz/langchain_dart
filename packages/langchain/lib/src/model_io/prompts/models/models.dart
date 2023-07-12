@@ -11,7 +11,7 @@ import '../../chat_models/utils.dart';
 /// When working with a Chat model, the [toChatMessages] method will be used.
 /// {@endtemplate}
 @immutable
-abstract interface class PromptValue {
+sealed class PromptValue {
   /// {@macro prompt_value}
   const PromptValue();
 
@@ -21,6 +21,16 @@ abstract interface class PromptValue {
 
   /// Returns a list of messages representing the prompt.
   List<ChatMessage> toChatMessages();
+
+  /// {@macro string_prompt_template}
+  factory PromptValue.string(final String value) {
+    return StringPromptValue(value);
+  }
+
+  /// {@macro chat_prompt_template}
+  factory PromptValue.chat(final List<ChatMessage> messages) {
+    return ChatPromptValue(messages);
+  }
 }
 
 /// {@template string_prompt_template}

@@ -132,7 +132,8 @@ abstract class BaseChain {
     return Future.wait(inputs.map(call));
   }
 
-  /// Convenience method for executing chain when there's a single output.
+  /// Convenience method for executing chain when there's a single string
+  /// output.
   ///
   /// The main difference between this method and [call] is that this method
   /// can only be used for chains that return a single output. If a Chain has
@@ -146,7 +147,7 @@ abstract class BaseChain {
   ///   Eg: `chain.run('Hello world!')`
   /// - A map of key->values, if the chain has multiple input keys.
   ///   Eg: `chain.run({'foo': 'Hello', 'bar': 'world!'})`
-  Future<dynamic> run(final dynamic input) async {
+  Future<String> run(final dynamic input) async {
     final outputKey = runOutputKey;
     final returnValues = await call(input, returnOnlyOutputs: true);
     return returnValues[outputKey];
@@ -161,12 +162,12 @@ abstract class BaseChain {
     final inputKeysSet = inputMap.keys.toSet();
     final inputKeysSetLength = inputKeysSet.length;
 
-    if (inputKeysSetLength != inputKeys.length) {
+    if (inputKeysSetLength < inputKeys.length) {
       return false;
     }
 
-    final inputKeysSetDiff = inputKeysSet.difference(inputKeys);
-    if (inputKeysSetDiff.isNotEmpty) {
+    final inputKeysDiff = inputKeys.difference(inputKeysSet);
+    if (inputKeysDiff.isNotEmpty) {
       return false;
     }
 
