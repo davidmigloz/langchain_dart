@@ -61,7 +61,7 @@ void main() {
       final reduceChain = ReduceDocumentsChain(
         combineDocumentsChain: combineDocsChain,
         collapseDocumentsChain: collapseDocsChain,
-        defaultTokenMax: 7,
+        tokenMax: 7,
       );
 
       const docs = [

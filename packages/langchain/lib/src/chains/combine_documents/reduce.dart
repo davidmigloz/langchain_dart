@@ -9,14 +9,14 @@ import 'stuff.dart';
 /// This involves two chains:
 /// - [combineDocumentsChain] this is the chain that combines the documents.
 /// - [collapseDocumentsChain] this is the chain that collapses the documents
-///   if they exceed [defaultTokenMax].
+///   if they exceed [tokenMax].
 ///
 /// The chain works as follows:
 /// - If the number of tokens resulting of formatting the prompt from
-///   [combineDocumentsChain] is less than [defaultTokenMax], then
+///   [combineDocumentsChain] is less than [tokenMax], then
 ///   [combineDocumentsChain] is called with the documents and the result is
 ///   returned.
-/// - Otherwise, the documents are split into groups of max [defaultTokenMax]
+/// - Otherwise, the documents are split into groups of max [tokenMax]
 ///   tokens and [collapseDocumentsChain] is called for each group. Then, the
 ///   resulting documents are combined by calling [combineDocumentsChain] and
 ///   the result is returned.
@@ -52,9 +52,11 @@ import 'stuff.dart';
 class ReduceDocumentsChain extends BaseCombineDocumentsChain {
   /// {@macro reduce_documents_chain}
   const ReduceDocumentsChain({
+    super.inputKey = defaultInputKey,
+    super.outputKey = defaultOutputKey,
     required this.combineDocumentsChain,
     this.collapseDocumentsChain,
-    this.defaultTokenMax = 3000,
+    this.tokenMax = 3000,
   });
 
   /// Final chain to call to combine documents.
@@ -74,8 +76,16 @@ class ReduceDocumentsChain extends BaseCombineDocumentsChain {
   /// documents.
   ///
   /// It is assumed that each document to combine is less than
-  /// [defaultTokenMax] tokens.
-  final int defaultTokenMax;
+  /// [tokenMax] tokens.
+  final int tokenMax;
+
+  /// Default [inputKey] value.
+  static const String defaultInputKey =
+      BaseCombineDocumentsChain.defaultInputKey;
+
+  /// Default [outputKey] value.
+  static const String defaultOutputKey =
+      BaseCombineDocumentsChain.defaultOutputKey;
 
   @override
   String get chainType => 'reduce_documents_chain';
@@ -85,14 +95,14 @@ class ReduceDocumentsChain extends BaseCombineDocumentsChain {
     final List<Document> docs, {
     final InputValues inputs = const {},
   }) async {
-    // This combine method doesn't depend on the prompt length.
+    // This combine method doesn't depend on the prompt length
     return null;
   }
 
   /// Combine multiple documents.
   ///
   /// - [docs] the documents to combine. It is assumed that each one is less
-  ///   than [defaultTokenMax] tokens.
+  ///   than [tokenMax] tokens.
   /// - [inputs] additional parameters to be passed to LLM calls (like other
   ///   input variables besides the documents).
   ///
@@ -101,12 +111,10 @@ class ReduceDocumentsChain extends BaseCombineDocumentsChain {
   Future<(String output, Map<String, dynamic> extraInfo)> combineDocs(
     final List<Document> docs, {
     final InputValues inputs = const {},
-    final int? tokenMax,
   }) async {
     final resultDocs = await _splitAndCollapseDocs(
       docs,
       inputs: inputs,
-      tokenMax: tokenMax,
     );
     return combineDocumentsChain.combineDocs(resultDocs, inputs: inputs);
   }
@@ -115,21 +123,19 @@ class ReduceDocumentsChain extends BaseCombineDocumentsChain {
   /// [tokenMax] tokens. And then collapses them into a single document.
   Future<List<Document>> _splitAndCollapseDocs(
     final List<Document> docs, {
-    final int? tokenMax,
     final InputValues inputs = const {},
   }) async {
-    final finalTokenMax = tokenMax ?? defaultTokenMax;
     final lengthFunc = combineDocumentsChain.promptLength;
 
     List<Document> resultDocs = docs;
     int? numTokens = await lengthFunc(resultDocs, inputs: inputs);
 
-    while (numTokens != null && numTokens > finalTokenMax) {
+    while (numTokens != null && numTokens > tokenMax) {
       final newResultDocList = await _splitDocs(
         docs,
         inputs,
         lengthFunc,
-        finalTokenMax,
+        tokenMax,
       );
       resultDocs = [];
       for (final docs in newResultDocList) {

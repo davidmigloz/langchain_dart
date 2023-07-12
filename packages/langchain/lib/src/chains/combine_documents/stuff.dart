@@ -10,8 +10,8 @@ import 'base.dart';
 /// string. It does this by formatting each document into a string with the
 /// [documentPrompt] and then joining them together with [documentSeparator].
 /// It then adds that new resulting string to the inputs with the variable
-/// name set by [llmChainStuffedDocumentInputKey]. Those inputs are then
-/// passed to the [llmChain].
+/// name set by [llmChainStuffedDocumentPromptVar]. Those inputs are then
+/// passed to the [llmChain] who will format the prompt and call the model.
 ///
 /// The content of each document is formatted using [documentPrompt].
 /// By default, it just takes the content of the document.
@@ -45,11 +45,11 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
       inputVariables: {StuffDocumentsChain.pageContentPromptVar},
       template: '{${StuffDocumentsChain.pageContentPromptVar}}',
     ),
-    this.llmChainStuffedDocumentInputKey =
-        defaultLlmChainStuffedDocumentInputKey,
+    this.llmChainStuffedDocumentPromptVar =
+        defaultLlmChainStuffedDocumentPromptVar,
     this.documentSeparator = '\n\n',
   }) {
-    _initLlmChainDocumentInputKey();
+    _initLlmChainDocumentPromptVar();
   }
 
   /// LLM wrapper to use after formatting documents.
@@ -58,9 +58,9 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
   /// Prompt to use to format each document.
   final BasePromptTemplate documentPrompt;
 
-  /// The key in the [llmChain] input values where to put the documents in.
+  /// The variable name in the [llmChain] where to put the documents in.
   /// If only one variable in the [llmChain], this doesn't need to be provided.
-  String llmChainStuffedDocumentInputKey;
+  String llmChainStuffedDocumentPromptVar;
 
   /// The string with which to join the formatted documents.
   final String documentSeparator;
@@ -73,8 +73,8 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
   static const String defaultOutputKey =
       BaseCombineDocumentsChain.defaultOutputKey;
 
-  /// Default value for [llmChainStuffedDocumentInputKey].
-  static const String defaultLlmChainStuffedDocumentInputKey = 'context';
+  /// Default value for [llmChainStuffedDocumentPromptVar].
+  static const String defaultLlmChainStuffedDocumentPromptVar = 'context';
 
   /// Prompt variable to use for the page content.
   static const pageContentPromptVar =
@@ -83,29 +83,29 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
   @override
   Set<String> get inputKeys => {
         inputKey,
-        ...llmChain.inputKeys.difference({llmChainStuffedDocumentInputKey}),
+        ...llmChain.inputKeys.difference({llmChainStuffedDocumentPromptVar}),
       };
 
   @override
   String get chainType => 'stuff_documents_chain';
 
-  void _initLlmChainDocumentInputKey() {
+  void _initLlmChainDocumentPromptVar() {
     // If only one variable is present in the llmChain.prompt,
     // we can infer that the formatted documents should be passed in
-    // with this variable name.
+    // with this variable name
     final llmChainInputVariables = llmChain.prompt.inputVariables;
     if (llmChainInputVariables.length == 1) {
-      llmChainStuffedDocumentInputKey = llmChainInputVariables.first;
-    } else if (llmChainStuffedDocumentInputKey.isEmpty) {
+      llmChainStuffedDocumentPromptVar = llmChainInputVariables.first;
+    } else if (llmChainStuffedDocumentPromptVar.isEmpty) {
       throw ArgumentError(
-        'llmChainDocumentInputKey must be provided if there are multiple '
-        'llmChain input variables',
+        'llmChainStuffedDocumentPromptVar must be provided if there are '
+        'multiple llmChain input variables',
       );
     } else if (!llmChainInputVariables
-        .contains(llmChainStuffedDocumentInputKey)) {
+        .contains(llmChainStuffedDocumentPromptVar)) {
       throw ArgumentError(
-        'llmChainDocumentInputKey ($llmChainStuffedDocumentInputKey) was not found in '
-        'llmChain input variables',
+        'llmChainStuffedDocumentPromptVar ($llmChainStuffedDocumentPromptVar) '
+        'was not found in llmChain input variables',
       );
     }
   }
@@ -155,7 +155,7 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
 
     return {
       ...promptInputValues,
-      llmChainStuffedDocumentInputKey: docStrings.join(documentSeparator),
+      llmChainStuffedDocumentPromptVar: docStrings.join(documentSeparator),
     };
   }
 }
