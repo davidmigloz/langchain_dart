@@ -21,7 +21,7 @@ class ChatResult extends LanguageModelResult<ChatMessage> {
   /// {@macro chat_result}
   const ChatResult({
     required super.generations,
-    super.tokensUsage,
+    super.usage,
     super.modelOutput,
   });
 
@@ -30,7 +30,7 @@ class ChatResult extends LanguageModelResult<ChatMessage> {
     return '''
 ChatResult{
   generations: $generations, 
-  tokensUsage: $tokensUsage, 
+  usage: $usage, 
   modelOutput: $modelOutput},
 ''';
   }
@@ -281,7 +281,8 @@ class FunctionChatMessage extends ChatMessage {
   @override
   String toString() {
     return '''
-SystemChatMessage{
+FunctionChatMessage{
+  name: $name,
   content: $content,
 }
 ''';

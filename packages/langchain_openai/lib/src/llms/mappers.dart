@@ -8,7 +8,7 @@ extension OpenAICompletionMapper on OpenAICompletion {
       generations: choices
           .map((final choice) => choice.toLLMGeneration())
           .toList(growable: false),
-      tokensUsage: usage?.totalTokens,
+      usage: usage?.toLanguageModelUsage(),
       modelOutput: {
         'id': id,
         'created': created,
@@ -28,6 +28,17 @@ extension _OpenAICompletionChoiceMapper on OpenAICompletionChoice {
         'logprobs': logprobs,
         'finish_reason': finishReason,
       },
+    );
+  }
+}
+
+/// Mapper for [OpenAICompletionUsage] to [LanguageModelUsage].
+extension _OpenAICompletionUsageMapper on OpenAICompletionUsage {
+  LanguageModelUsage toLanguageModelUsage() {
+    return LanguageModelUsage(
+      promptTokens: promptTokens,
+      responseTokens: completionTokens,
+      totalTokens: totalTokens,
     );
   }
 }

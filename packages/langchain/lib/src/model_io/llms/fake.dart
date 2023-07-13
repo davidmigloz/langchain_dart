@@ -1,3 +1,4 @@
+import '../prompts/models/models.dart';
 import 'base.dart';
 import 'models/models.dart';
 
@@ -24,6 +25,15 @@ class FakeListLLM extends SimpleLLM {
   }) {
     return Future<String>.value(responses[i++ % responses.length]);
   }
+
+  @override
+  Future<List<int>> tokenize(final PromptValue promptValue) async {
+    return promptValue
+        .toString()
+        .split(' ')
+        .map((final word) => word.hashCode)
+        .toList(growable: false);
+  }
 }
 
 /// {@template fake_echo_llm}
@@ -43,5 +53,14 @@ class FakeEchoLLM extends SimpleLLM {
     final LLMOptions? options,
   }) {
     return Future<String>.value(prompt);
+  }
+
+  @override
+  Future<List<int>> tokenize(final PromptValue promptValue) async {
+    return promptValue
+        .toString()
+        .split(' ')
+        .map((final word) => word.hashCode)
+        .toList(growable: false);
   }
 }
