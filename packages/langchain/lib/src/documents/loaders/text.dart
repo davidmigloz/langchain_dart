@@ -5,16 +5,23 @@ import 'base.dart';
 
 /// {@template text_loader}
 /// A document loader that loads a [Document] from a text file.
+///
+/// Example usage:
+/// ```dart
+/// final loader = TextLoader('path/to/file.txt');
+/// final documents = await loader.load();
+/// ```
 /// {@endtemplate}
 class TextLoader extends BaseDocumentLoader {
   /// {@macro text_loader}
-  const TextLoader(this.path);
+  const TextLoader(this.filePath);
 
-  final String path;
+  /// The path to the text file.
+  final String filePath;
 
   @override
   Stream<Document> lazyLoad() async* {
-    final file = XFile(path);
+    final file = XFile(filePath);
 
     final fileName = file.name;
     final fileSize = await file.length();
@@ -24,7 +31,7 @@ class TextLoader extends BaseDocumentLoader {
     final doc = Document(
       pageContent: fileContent,
       metadata: {
-        'path': path,
+        'path': filePath,
         'name': fileName,
         'size': fileSize,
         'lastModified': fileLastModified,
