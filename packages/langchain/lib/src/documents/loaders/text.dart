@@ -31,7 +31,7 @@ class TextLoader extends BaseDocumentLoader {
     final doc = Document(
       pageContent: fileContent,
       metadata: {
-        'path': filePath,
+        'source': filePath,
         'name': fileName,
         'size': fileSize,
         'lastModified': fileLastModified,
