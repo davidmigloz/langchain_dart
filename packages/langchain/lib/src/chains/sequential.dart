@@ -6,65 +6,71 @@ import 'models/models.dart';
 
 class SequentialChain extends BaseChain {
 
-
-  late List<BaseChain> chains;
-  late List<String> inputVariables;
-  late List<String> outputVariables;
-  bool returnAll = false;
+  /// SequentialChain is a more 
+  /// general form of sequential chains 
+  /// that allows for multiple inputs and outputs.
+  /// It is useful for more complex scenarios where you need 
+  /// to handle multiple variables and have more flexibility in the flow of data 
+  /// between steps.
 
   SequentialChain({
     required this.chains,
+    super.memory,
+    this.inputVariables = const <String>{},
+    this.outputVariables = const <String>{},
     this.returnAll = false,
-    super.memory
   }) {
-    if (this.returnAll && this.outputVariables.length > 0) {
+    if (this.returnAll && this.outputVariables.isEmpty) {
       throw LangChainException(message: "Either specify variables to return using `outputVariables` or use `returnAll` param. Cannot apply both conditions at the same time.");
     }
     this._validateChains();
   }
 
+  final Set<BaseChain> chains;
+  final Set<String> inputVariables;
+  final Set<String> outputVariables;
+  bool returnAll;
+
+
   @override
   String get chainType => 'SequentialChain';
 
   @override
-  // TODO: implement inputKeys
-  Set<String> get inputKeys => Set.from(this.inputVariables);
+  Set<String> get inputKeys => this.inputVariables;
   
   @override
-  // TODO: implement outputKeys
-  Set<String> get outputKeys => Set.from(this.outputVariables);
+  Set<String> get outputKeys => this.outputVariables;
 
   @override
   Future<ChainValues> callInternal(ChainValues inputs) async {
-    ChainValues known_values = ChainValues.from(inputs);
+    ChainValues knownValues = ChainValues.from(inputs);
     for (int i = 0; i < this.chains.length; i++) {
-      final outputs = await this.chains[i].call(known_values, returnOnlyOutputs: true);
-      known_values.addAll(outputs);
+      final outputs = await this.chains.elementAt(i).call(knownValues, returnOnlyOutputs: true);
+      knownValues.addAll(outputs);
     }
-    return {for (var k in this.outputVariables) k: known_values[k]};
+    return {for (var k in this.outputVariables) k: knownValues[k]};
   }
 
   void _validateChains() {
-    if (this.chains.length == 0) {
+    if (this.chains.isEmpty) {
       throw LangChainException(message: "Sequential chain must have at least one chain.");
     }
 
-    final Set<String> memoryKeys = this.memory?.memoryKeys == null ? Set<String>() : this.memory!.memoryKeys;
+    final Set<String> memoryKeys = this.memory?.memoryKeys == null ? <String>{} : this.memory!.memoryKeys;
     final Set<String> keysIntersection = inputKeys.intersection(memoryKeys);
-    if (keysIntersection.isNotEmpty) {
-      throw LangChainException(message: "The following keys: $keysIntersection are overlapping between memory and input keys of the chain variables. This can lead to unexpected behaviour. Please use input and memory keys that don't overlap.");
-    }
+
+    assert(keysIntersection.isNotEmpty, "The following keys: $keysIntersection are overlapping between memory and input keys of the chain variables. This can lead to unexpected behaviour. Please use input and memory keys that don't overlap.");
+    
 
     final availableKeys = inputKeys.union(memoryKeys);
 
     for (final chain in this.chains) {
-      final missingKeys = Set.from(chain.inputKeys).difference(availableKeys);
-      if (missingKeys.length > 0) {
-        throw LangChainException(message: 'Missing variables for chain "${chain.chainType}" are overlapping: ${missingKeys}. This can lead to unexpected behaviour.');
-      }
+      final missingKeys = chain.inputKeys.difference(availableKeys);
+      assert(missingKeys.isNotEmpty, 'Missing variables for chain "${chain.chainType}" are overlapping: ${missingKeys}. This can lead to unexpected behaviour.');
       final overlappingOutputKeys = availableKeys.intersection(outputKeys);
-      if (overlappingOutputKeys.length > 0) {
-        throw LangChainException(message: 'Missing variables for chain "${chain.chainType}" are overlapping: ${overlappingOutputKeys}. This can lead to unexpected behaviour.');
+      
+      if (overlappingOutputKeys.isNotEmpty) {
+        assert(overlappingOutputKeys.isNotEmpty, 'Missing variables for chain "${chain.chainType}" are overlapping: ${overlappingOutputKeys}. This can lead to unexpected behaviour.');
       }
       for (final outputKey in outputKeys) {
         availableKeys.add(outputKey);
@@ -74,31 +80,34 @@ class SequentialChain extends BaseChain {
     if (this.outputVariables.isEmpty) {
       if (this.returnAll) {
         final _outputKeys = availableKeys.difference(inputKeys);
-        this.outputVariables = List.from(outputKeys);
+        this.outputVariables.addAll(_outputKeys);
       }
       else {
-        this.outputVariables = List.from(this.chains.last.outputKeys);
+        this.outputVariables.addAll(this.chains.last.outputKeys);
       }
     }
     else {
-      final missingKeys = Set.from(this.outputVariables).difference(availableKeys);
-      if (missingKeys.isNotEmpty) {
-        throw LangChainException(message: 'The following output variables were expected to be in the final chain output but were not found: $missingKeys');
-      }
+      final missingKeys = this.outputVariables.difference(availableKeys);
+      assert(missingKeys.isNotEmpty, 'The following output variables were expected to be in the final chain output but were not found: $missingKeys');
     }
   }
 }
 
 
 class SimpleSequentialChain extends BaseChain {
-  // Simple chain where the outputs of one step feed directly into next.
+
+  /// SimpleSequentialChain is the simpler form of sequential chains, 
+  /// where each step in the chain has a singular input and output. 
+  /// It is suitable for scenarios where you want to pass the output of one step as the input
+  /// to the next step in a straightforward manner.
+
 
   SimpleSequentialChain({
     super.memory,
-    this.chains = const []
+    required this.chains
   });
 
-  final List<BaseChain> chains;
+  final Set<BaseChain> chains;
   final bool stripOutputs = false;
   final String inputKey = 'input';
   final String outputKey = 'output';
@@ -107,10 +116,10 @@ class SimpleSequentialChain extends BaseChain {
   String get chainType => 'SimpleSequentialChain';
 
   @override
-  Set<String> get inputKeys => Set.from([this.inputKey]);
+  Set<String> get inputKeys => <String>{this.inputKey};
 
   @override
-  Set<String> get outputKeys => Set.from([this.outputKey]);
+  Set<String> get outputKeys => <String>{this.outputKey};
 
   ChainValues validateChains(final ChainValues values) {
     /// Validate that chains are all single input/output
@@ -130,7 +139,7 @@ class SimpleSequentialChain extends BaseChain {
   Future<ChainValues> callInternal(ChainValues inputs) async {
     String _input = inputs[this.inputKey];
     for (int i = 0; i < this.chains.length; i++) {
-      _input = await this.chains[i].run(_input);
+      _input = await this.chains.elementAt(i).run(_input);
       if (this.stripOutputs) {
         _input = _input.trim();
       }
@@ -140,8 +149,4 @@ class SimpleSequentialChain extends BaseChain {
     };
   }
 
-  @override
-  Future<ChainValues> call(input, {bool returnOnlyOutputs = false}) {
-    return super.call(input, returnOnlyOutputs: returnOnlyOutputs);
-  }
 }
