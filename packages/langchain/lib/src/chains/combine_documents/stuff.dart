@@ -41,13 +41,10 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
     required this.llmChain,
     super.inputKey = defaultInputKey,
     super.outputKey = defaultOutputKey,
-    this.documentPrompt = const PromptTemplate(
-      inputVariables: {StuffDocumentsChain.pageContentPromptVar},
-      template: '{${StuffDocumentsChain.pageContentPromptVar}}',
-    ),
+    this.documentPrompt = defaultDocumentPrompt,
+    this.documentSeparator = defaultDocumentSeparator,
     this.llmChainStuffedDocumentPromptVar =
         defaultLlmChainStuffedDocumentPromptVar,
-    this.documentSeparator = '\n\n',
   }) {
     _initLlmChainDocumentPromptVar();
   }
@@ -58,23 +55,30 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
   /// Prompt to use to format each document.
   final BasePromptTemplate documentPrompt;
 
-  /// The variable name in the [llmChain] where to put the documents in.
-  /// If only one variable in the [llmChain], this doesn't need to be provided.
-  String llmChainStuffedDocumentPromptVar;
-
   /// The string with which to join the formatted documents.
   final String documentSeparator;
 
+  /// The variable name in the [llmChain.prompt] where to put the documents in.
+  /// If only one variable in the [llmChain], this doesn't need to be provided.
+  String llmChainStuffedDocumentPromptVar;
+
   /// Default [inputKey] value.
-  static const String defaultInputKey =
-      BaseCombineDocumentsChain.defaultInputKey;
+  static const defaultInputKey = BaseCombineDocumentsChain.defaultInputKey;
 
   /// Default [outputKey] value.
-  static const String defaultOutputKey =
-      BaseCombineDocumentsChain.defaultOutputKey;
+  static const defaultOutputKey = BaseCombineDocumentsChain.defaultOutputKey;
+
+  /// Default [documentPrompt] value.
+  static const defaultDocumentPrompt = PromptTemplate(
+    inputVariables: {StuffDocumentsChain.pageContentPromptVar},
+    template: '{${StuffDocumentsChain.pageContentPromptVar}}',
+  );
+
+  /// Default value for [documentSeparator].
+  static const defaultDocumentSeparator = '\n\n';
 
   /// Default value for [llmChainStuffedDocumentPromptVar].
-  static const String defaultLlmChainStuffedDocumentPromptVar = 'context';
+  static const defaultLlmChainStuffedDocumentPromptVar = 'context';
 
   /// Prompt variable to use for the page content.
   static const pageContentPromptVar =

@@ -24,9 +24,9 @@ void main() {
         'input_documents': docs,
       });
       expect(res['foo'], foo);
-      expect(res['input_documents'], docs);
+      expect(res[StuffDocumentsChain.defaultInputKey], docs);
       expect(
-        res['output_text'],
+        res[StuffDocumentsChain.defaultOutputKey],
         'Print Hello world!. Context: Hello 1!\n\nHello 2!',
       );
     });

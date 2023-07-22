@@ -49,7 +49,7 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
     required this.reduceDocumentsChain,
     super.inputKey = defaultInputKey,
     super.outputKey = defaultOutputKey,
-    this.llmChainDocumentPromptVar = defaultLlmChainDocumentPromptVar,
+    this.mapLlmChainDocumentPromptVar = defaultLlmChainDocumentPromptVar,
     this.returnIntermediateSteps = false,
   }) {
     _initLlmChainDocumentPromptVar();
@@ -64,7 +64,7 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
 
   /// The variable name in the [mapLlmChain] where to put the documents in.
   /// If only one variable in the [mapLlmChain], this doesn't need to be provided.
-  String llmChainDocumentPromptVar;
+  String mapLlmChainDocumentPromptVar;
 
   /// Return the results of the map steps in the output.
   final bool returnIntermediateSteps;
@@ -77,7 +77,7 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
   static const String defaultOutputKey =
       BaseCombineDocumentsChain.defaultOutputKey;
 
-  /// Default value for [llmChainDocumentPromptVar].
+  /// Default value for [mapLlmChainDocumentPromptVar].
   static const String defaultLlmChainDocumentPromptVar = 'context';
 
   /// Output key for the chain's intermediate steps output.
@@ -104,15 +104,15 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
     // with this variable name
     final llmChainInputVariables = mapLlmChain.prompt.inputVariables;
     if (llmChainInputVariables.length == 1) {
-      llmChainDocumentPromptVar = llmChainInputVariables.first;
-    } else if (llmChainDocumentPromptVar.isEmpty) {
+      mapLlmChainDocumentPromptVar = llmChainInputVariables.first;
+    } else if (mapLlmChainDocumentPromptVar.isEmpty) {
       throw ArgumentError(
         'llmChainDocumentPromptVar must be provided if there are multiple '
         'llmChain input variables',
       );
-    } else if (!llmChainInputVariables.contains(llmChainDocumentPromptVar)) {
+    } else if (!llmChainInputVariables.contains(mapLlmChainDocumentPromptVar)) {
       throw ArgumentError(
-        'llmChainDocumentPromptVar ($llmChainDocumentPromptVar) was not found '
+        'llmChainDocumentPromptVar ($mapLlmChainDocumentPromptVar) was not found '
         'in llmChain input variables',
       );
     }
@@ -143,7 +143,12 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
   }) async {
     final mapResults = await mapLlmChain.apply(
       docs
-          .map((final d) => {...inputs, llmChainDocumentPromptVar: d})
+          .map(
+            (final d) => {
+              ...inputs,
+              mapLlmChainDocumentPromptVar: d.pageContent,
+            },
+          )
           .toList(growable: false),
     );
 

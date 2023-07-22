@@ -56,7 +56,7 @@ class ReduceDocumentsChain extends BaseCombineDocumentsChain {
     super.outputKey = defaultOutputKey,
     required this.combineDocumentsChain,
     this.collapseDocumentsChain,
-    this.tokenMax = 3000,
+    this.tokenMax = defaultTokenMax,
   });
 
   /// Final chain to call to combine documents.
@@ -80,12 +80,13 @@ class ReduceDocumentsChain extends BaseCombineDocumentsChain {
   final int tokenMax;
 
   /// Default [inputKey] value.
-  static const String defaultInputKey =
-      BaseCombineDocumentsChain.defaultInputKey;
+  static const defaultInputKey = BaseCombineDocumentsChain.defaultInputKey;
 
   /// Default [outputKey] value.
-  static const String defaultOutputKey =
-      BaseCombineDocumentsChain.defaultOutputKey;
+  static const defaultOutputKey = BaseCombineDocumentsChain.defaultOutputKey;
+
+  /// Default [tokenMax] value.
+  static const defaultTokenMax = 3000;
 
   @override
   String get chainType => 'reduce_documents_chain';

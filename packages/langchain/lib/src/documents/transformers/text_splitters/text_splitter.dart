@@ -4,10 +4,6 @@ import 'package:meta/meta.dart';
 import '../../models/models.dart';
 import '../base.dart';
 
-/// Default length function for [TextSplitter].
-/// Measures the length of the given chunk by counting its characters.
-int _defaultLengthFunction(final String chunk) => chunk.characters.length;
-
 /// {@template text_splitter}
 /// Interface for splitting text into chunks.
 /// {@endtemplate}
@@ -15,7 +11,7 @@ abstract class TextSplitter implements BaseDocumentTransformer {
   const TextSplitter({
     this.chunkSize = 4000,
     this.chunkOverlap = 200,
-    this.lengthFunction = _defaultLengthFunction,
+    this.lengthFunction = defaultLengthFunction,
     this.keepSeparator = false,
     this.addStartIndex = false,
   }) : assert(chunkOverlap <= chunkSize);
@@ -34,6 +30,11 @@ abstract class TextSplitter implements BaseDocumentTransformer {
 
   /// If `true`, includes chunk's `start_index` in metadata.
   final bool addStartIndex;
+
+  /// Default length function for [TextSplitter].
+  /// Measures the length of the given chunk by counting its characters.
+  static int defaultLengthFunction(final String chunk) =>
+      chunk.characters.length;
 
   /// Split text into multiple components.
   List<String> splitText(final String text);

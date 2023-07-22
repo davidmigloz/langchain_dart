@@ -21,7 +21,7 @@ class LLMChain<LLMInput extends Object, LLMOptions extends LanguageModelOptions,
   const LLMChain({
     required this.prompt,
     required this.llm,
-    this.outputKey = 'text',
+    this.outputKey = defaultOutputKey,
     this.outputParser,
     this.returnFinalOnly = true,
     this.llmOptions,
@@ -50,6 +50,9 @@ class LLMChain<LLMInput extends Object, LLMOptions extends LanguageModelOptions,
 
   /// Options to pass to the language model.
   final LLMOptions? llmOptions;
+
+  /// Default output key.
+  static const defaultOutputKey = 'text';
 
   /// Output key to use for returning the full generation.
   static const fullGenerationOutputKey = 'full_generation';
