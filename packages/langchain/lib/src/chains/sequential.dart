@@ -1,152 +1,248 @@
-
-import '../utils/exception.dart';
+import '../memory/memory.dart';
 import 'base.dart';
 import 'models/models.dart';
 
-
+/// {@template sequential_chain}
+/// Chain that combines multiple chains where the output of the one
+/// chain is the input of the next chain.
+///
+/// If you don't provide [inputKeys] and [outputKeys], they will be inferred
+/// from the chains.
+///
+/// Example:
+/// ```dart
+/// final chain1 = FakeChain(
+///   inputVariables: {'foo', 'test'},
+///   outputVariables: {'bar'},
+/// );
+/// final chain2 = FakeChain(
+///   inputVariables: {'bar', 'foo'},
+///   outputVariables: {'baz'},
+/// );
+/// final chain = SequentialChain(chains: [chain1, chain2]);
+/// final output = await chain({'foo': '123', 'test': '456'});
+/// ```
+///
+/// If all the chains have only one input and one output, you can use
+/// [SimpleSequentialChain] instead.
+/// {@endtemplate}
 class SequentialChain extends BaseChain {
-
-  /// SequentialChain is a more 
-  /// general form of sequential chains 
-  /// that allows for multiple inputs and outputs.
-  /// It is useful for more complex scenarios where you need 
-  /// to handle multiple variables and have more flexibility in the flow of data 
-  /// between steps.
-
+  /// {@macro sequential_chain}
   SequentialChain({
     required this.chains,
     super.memory,
-    this.inputVariables = const <String>{},
-    this.outputVariables = const <String>{},
-    this.returnAll = false,
-  }) {
-    if (this.returnAll && this.outputVariables.isEmpty) {
-      throw LangChainException(message: "Either specify variables to return using `outputVariables` or use `returnAll` param. Cannot apply both conditions at the same time.");
-    }
-    this._validateChains();
+    final Set<String>? inputKeys,
+    final Set<String>? outputKeys,
+    this.returnIntermediateOutputs = false,
+  })  : inputKeys = inputKeys ?? _inferInputKeys(chains, memory),
+        outputKeys = outputKeys ??
+            _inferOutputKeys(chains, returnIntermediateOutputs, memory) {
+    assert(_isChainValid());
   }
 
-  final Set<BaseChain> chains;
-  final Set<String> inputVariables;
-  final Set<String> outputVariables;
-  bool returnAll;
+  /// The chains to run sequentially.
+  final List<BaseChain> chains;
 
-
-  @override
-  String get chainType => 'SequentialChain';
-
-  @override
-  Set<String> get inputKeys => this.inputVariables;
-  
-  @override
-  Set<String> get outputKeys => this.outputVariables;
+  /// Whether the chain should return all intermediate outputs or just the
+  /// final output. By default, only the final output of the chain is returned.
+  /// Setting it to true can be useful if you want to see the outputs of each
+  /// step in the chain for debugging or analysis purposes.
+  bool returnIntermediateOutputs;
 
   @override
-  Future<ChainValues> callInternal(ChainValues inputs) async {
-    ChainValues knownValues = ChainValues.from(inputs);
-    for (int i = 0; i < this.chains.length; i++) {
-      final outputs = await this.chains.elementAt(i).call(knownValues, returnOnlyOutputs: true);
+  String get chainType => 'sequential_chain';
+
+  @override
+  Set<String> inputKeys;
+
+  @override
+  Set<String> outputKeys;
+
+  /// Infers the input keys for the chain from the [chains].
+  static Set<String> _inferInputKeys(
+    final List<BaseChain> chains,
+    final BaseMemory? memory,
+  ) {
+    final inputKeys = {
+      for (final chain in chains)
+        ...chain.inputKeys.difference(chain.memory?.memoryKeys ?? const {}),
+    };
+    final outputKeys = {
+      for (final chain in chains) ...chain.outputKeys,
+    };
+    return inputKeys
+        .difference(outputKeys)
+        .difference(memory?.memoryKeys ?? const {});
+  }
+
+  /// Infers the output keys for the chain from the [chains].
+  static Set<String> _inferOutputKeys(
+    final List<BaseChain> chains,
+    final bool returnIntermediateOutputs,
+    final BaseMemory? memory,
+  ) {
+    if (returnIntermediateOutputs) {
+      return {
+        ...?memory?.memoryKeys,
+        for (final chain in chains) ...{
+          ...chain.outputKeys,
+          ...?memory?.memoryKeys
+        },
+      };
+    }
+    return chains.last.outputKeys;
+  }
+
+  /// Checks if the chain is valid.
+  bool _isChainValid() {
+    if (chains.isEmpty) {
+      throw AssertionError('Sequential chain must have at least one chain.');
+    }
+
+    if (memory != null) {
+      final intersection = inputKeys.intersection(memory!.memoryKeys);
+      if (intersection.isNotEmpty) {
+        throw AssertionError(
+          'Input keys and memory keys must not overlap. Got: $intersection',
+        );
+      }
+    }
+
+    final knownKeys = inputKeys.union(memory?.memoryKeys ?? const {});
+
+    for (final chain in chains) {
+      final missingKeys = chain.inputKeys
+          .difference(knownKeys)
+          .difference(chain.memory?.memoryKeys ?? const {});
+      if (missingKeys.isNotEmpty) {
+        throw AssertionError(
+          'Missing required input keys $missingKeys for chain '
+          '"${chain.chainType}". Only got $knownKeys.',
+        );
+      }
+
+      final overlappingOutputKeys = knownKeys.intersection(chain.outputKeys);
+      if (overlappingOutputKeys.isNotEmpty) {
+        throw AssertionError(
+          'Chain "${chain.chainType}" returns keys that already exist: '
+          '$overlappingOutputKeys.',
+        );
+      }
+
+      knownKeys.addAll(chain.outputKeys);
+    }
+
+    if (outputKeys.isNotEmpty) {
+      final missingKeys = outputKeys.difference(knownKeys);
+      if (missingKeys.isNotEmpty) {
+        throw AssertionError(
+          'Expected output keys that were not found: $missingKeys',
+        );
+      }
+    }
+
+    return true;
+  }
+
+  @override
+  Future<ChainValues> callInternal(final ChainValues inputs) async {
+    final knownValues = {...inputs};
+    for (final chain in chains) {
+      final outputs = await chain.call(knownValues, returnOnlyOutputs: true);
       knownValues.addAll(outputs);
     }
-    return {for (var k in this.outputVariables) k: knownValues[k]};
-  }
-
-  void _validateChains() {
-    if (this.chains.isEmpty) {
-      throw LangChainException(message: "Sequential chain must have at least one chain.");
-    }
-
-    final Set<String> memoryKeys = this.memory?.memoryKeys == null ? <String>{} : this.memory!.memoryKeys;
-    final Set<String> keysIntersection = inputKeys.intersection(memoryKeys);
-
-    assert(keysIntersection.isNotEmpty, "The following keys: $keysIntersection are overlapping between memory and input keys of the chain variables. This can lead to unexpected behaviour. Please use input and memory keys that don't overlap.");
-    
-
-    final availableKeys = inputKeys.union(memoryKeys);
-
-    for (final chain in this.chains) {
-      final missingKeys = chain.inputKeys.difference(availableKeys);
-      assert(missingKeys.isNotEmpty, 'Missing variables for chain "${chain.chainType}" are overlapping: ${missingKeys}. This can lead to unexpected behaviour.');
-      final overlappingOutputKeys = availableKeys.intersection(outputKeys);
-      
-      if (overlappingOutputKeys.isNotEmpty) {
-        assert(overlappingOutputKeys.isNotEmpty, 'Missing variables for chain "${chain.chainType}" are overlapping: ${overlappingOutputKeys}. This can lead to unexpected behaviour.');
-      }
-      for (final outputKey in outputKeys) {
-        availableKeys.add(outputKey);
-      }
-    }
-
-    if (this.outputVariables.isEmpty) {
-      if (this.returnAll) {
-        final _outputKeys = availableKeys.difference(inputKeys);
-        this.outputVariables.addAll(_outputKeys);
-      }
-      else {
-        this.outputVariables.addAll(this.chains.last.outputKeys);
-      }
-    }
-    else {
-      final missingKeys = this.outputVariables.difference(availableKeys);
-      assert(missingKeys.isNotEmpty, 'The following output variables were expected to be in the final chain output but were not found: $missingKeys');
-    }
+    return {
+      for (final outputKey in outputKeys) outputKey: knownValues[outputKey],
+    };
   }
 }
 
-
+/// {@template simple_sequential_chain}
+/// [SimpleSequentialChain] is a simpler form of [SequentialChain], where each
+/// step has a singular input/output, and the output of one step is the input
+/// to the next.
+///
+/// It is suitable for cases where you only need to pass a single string as an
+/// argument and get a single string as output for all steps in the chain.
+///
+/// Example:
+/// ```dart
+/// final chain1 = FakeChain(
+///   inputVariables: {'foo'},
+///   outputVariables: {'bar'},
+/// );
+/// final chain2 = FakeChain(
+///   inputVariables: {'bar'},
+///   outputVariables: {'baz'},
+/// );
+/// final chain = SimpleSequentialChain(chains: [chain1, chain2]);
+/// final output = await chain({'input': '123'});
+/// ```
+/// {@endtemplate}
 class SimpleSequentialChain extends BaseChain {
-
-  /// SimpleSequentialChain is the simpler form of sequential chains, 
-  /// where each step in the chain has a singular input and output. 
-  /// It is suitable for scenarios where you want to pass the output of one step as the input
-  /// to the next step in a straightforward manner.
-
-
+  /// {@macro simple_sequential_chain}
   SimpleSequentialChain({
     super.memory,
-    required this.chains
-  });
+    required this.chains,
+    this.trimOutputs = false,
+    final String inputKey = defaultInputKey,
+    final String outputKey = defaultOutputKey,
+  })  : inputKeys = {inputKey},
+        outputKeys = {outputKey} {
+    assert(_isChainValid());
+  }
 
-  final Set<BaseChain> chains;
-  final bool stripOutputs = false;
-  final String inputKey = 'input';
-  final String outputKey = 'output';
+  /// The chains to run sequentially.
+  final List<BaseChain> chains;
+
+  /// Whether to trim the outputs of the chains before passing them to the next
+  /// chain. By default, the outputs are not trimmed.
+  final bool trimOutputs;
 
   @override
-  String get chainType => 'SimpleSequentialChain';
+  String get chainType => 'simple_sequential_chain';
 
   @override
-  Set<String> get inputKeys => <String>{this.inputKey};
+  Set<String> inputKeys;
 
   @override
-  Set<String> get outputKeys => <String>{this.outputKey};
+  Set<String> outputKeys;
 
-  ChainValues validateChains(final ChainValues values) {
-    /// Validate that chains are all single input/output
-    for (BaseChain chain in values['chains']) {
+  /// Default input key for the input of the chain.
+  static const String defaultInputKey = 'input';
+
+  /// Default output key for the output of the chain.
+  static const String defaultOutputKey = 'output';
+
+  /// Checks if the chain is valid.
+  bool _isChainValid() {
+    for (final chain in chains) {
       if (chain.inputKeys.length != 1) {
-        throw Exception('Chains used in SimplePipeline should all have one input, got ${chain} with ${chain.inputKeys.length} inputs.');
+        throw AssertionError(
+          'Chains used in SimpleSequentialChain should all have one input. '
+          'Got ${chain.chainType} with ${chain.inputKeys.length} inputs.',
+        );
       }
 
       if (chain.outputKeys.length != 1) {
-        throw Exception('Chains used in SimplePipeline should all have one output, got ${chain} with ${chain.outputKeys.length} outputs.');
+        throw AssertionError(
+          'Chains used in SimpleSequentialChain should all have one output. '
+          'Got ${chain.chainType} with ${chain.outputKeys.length} outputs.',
+        );
       }
     }
-    return values;
+    return true;
   }
 
   @override
-  Future<ChainValues> callInternal(ChainValues inputs) async {
-    String _input = inputs[this.inputKey];
-    for (int i = 0; i < this.chains.length; i++) {
-      _input = await this.chains.elementAt(i).run(_input);
-      if (this.stripOutputs) {
-        _input = _input.trim();
+  Future<ChainValues> callInternal(final ChainValues inputs) async {
+    String input = inputs[inputKeys.first];
+    for (final chain in chains) {
+      input = await chain.run(input);
+      if (trimOutputs) {
+        input = input.trim();
       }
     }
-    return {
-      outputKey: _input
-    };
+    return {outputKeys.first: input};
   }
-
 }
