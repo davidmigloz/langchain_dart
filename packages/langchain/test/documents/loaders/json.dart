@@ -17,7 +17,7 @@ void main() {
       );
 
       const loader = JsonLoader(
-        filePath: filePath,
+        filePath,
         jpSchema: r'$..text',
       );
 
@@ -34,7 +34,7 @@ void main() {
       const filePath = './test/documents/loaders/assets/example_2.json';
 
       const loader = JsonLoader(
-        filePath: filePath,
+        filePath,
         jpSchema: r'$..price',
       );
 
@@ -54,7 +54,7 @@ void main() {
       const filePath = './test/documents/loaders/assets/example_2.json';
 
       const loader = JsonLoader(
-        filePath: filePath,
+        filePath,
         jpSchema: r'$..category',
       );
 
@@ -73,7 +73,7 @@ void main() {
       const filePath = './test/documents/loaders/assets/example_2.json';
 
       const loader = JsonLoader(
-        filePath: filePath,
+        filePath,
         jpSchema: r'.[]',
       );
 
@@ -84,7 +84,7 @@ void main() {
       const filePath = './test/documents/loaders/assets/example_2.json';
 
       final loader = JsonLoader(
-        filePath: filePath,
+        filePath,
         jpSchema: r'$..category',
         metadataBuilder: (final matchValue, final fileMetadata) {
           return {'length': matchValue.toString().length};

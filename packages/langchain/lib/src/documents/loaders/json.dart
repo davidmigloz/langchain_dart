@@ -22,7 +22,7 @@ import 'base.dart';
 /// Example usage:
 /// ```dart
 /// final loader = JsonLoader(
-///   filePath: 'path/to/file.json',
+///   'path/to/file.json',
 ///   jpSchema: '$..yourJsonPath',
 /// );
 /// final documents = await loader.load();
@@ -34,8 +34,8 @@ import 'base.dart';
 /// {@endtemplate}
 class JsonLoader extends BaseDocumentLoader {
   /// {@macro json_loader}
-  const JsonLoader({
-    required this.filePath,
+  const JsonLoader(
+    this.filePath, {
     required this.jpSchema,
     this.metadataBuilder,
   });
@@ -63,7 +63,7 @@ class JsonLoader extends BaseDocumentLoader {
     final fileLastModified = await file.lastModified();
     final basePath = JsonPath(jpSchema);
     final fileMetadata = <String, dynamic>{
-      'path': filePath,
+      'source': filePath,
       'name': fileName,
       'size': fileSize,
       'lastModified': fileLastModified,
