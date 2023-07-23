@@ -71,6 +71,8 @@
     - Documents
       - [Stuff](/modules/chains/documents/stuff.md) 
       - [MapReduce](/modules/chains/documents/map_reduce.md)
+    - Popular
+      - [Summarize](/modules/chains/popular/summarize.md)
   - [Memory](/modules/memory/memory.md)
   - [Agents](/modules/agents/agents.md)
     - [Agent types](/modules/agents/agent_types/agent_types.md)
