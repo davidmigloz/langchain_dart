@@ -68,6 +68,9 @@
     - Foundational
       - [LLM](/modules/chains/foundational/llm.md)
       - [Sequential](/modules/chains/foundational/sequential.md)
+    - Documents
+      - [Stuff](/modules/chains/documents/stuff.md) 
+      - [MapReduce](/modules/chains/documents/map_reduce.md)
   - [Memory](/modules/memory/memory.md)
   - [Agents](/modules/agents/agents.md)
     - [Agent types](/modules/agents/agent_types/agent_types.md)
