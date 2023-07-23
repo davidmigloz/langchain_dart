@@ -65,6 +65,9 @@
       - [Loading from LangChainHub](/modules/chains/how_to/from_hub.md)
       - [Adding memory](/modules/chains/how_to/memory.md)
       - [Serialization](/modules/chains/how_to/serialization.md)
+    - Foundational
+      - [LLM](/modules/chains/foundational/llm.md)
+      - [Sequential](/modules/chains/foundational/sequential.md)
   - [Memory](/modules/memory/memory.md)
   - [Agents](/modules/agents/agents.md)
     - [Agent types](/modules/agents/agent_types/agent_types.md)

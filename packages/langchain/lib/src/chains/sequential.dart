@@ -182,11 +182,11 @@ class SequentialChain extends BaseChain {
 class SimpleSequentialChain extends BaseChain {
   /// {@macro simple_sequential_chain}
   SimpleSequentialChain({
-    super.memory,
     required this.chains,
-    this.trimOutputs = false,
+    super.memory,
     final String inputKey = defaultInputKey,
     final String outputKey = defaultOutputKey,
+    this.trimOutputs = false,
   })  : inputKeys = {inputKey},
         outputKeys = {outputKey} {
     assert(_isChainValid());
@@ -236,10 +236,10 @@ class SimpleSequentialChain extends BaseChain {
 
   @override
   Future<ChainValues> callInternal(final ChainValues inputs) async {
-    String input = inputs[inputKeys.first];
+    dynamic input = inputs[inputKeys.first];
     for (final chain in chains) {
       input = await chain.run(input);
-      if (trimOutputs) {
+      if (trimOutputs && input is String) {
         input = input.trim();
       }
     }

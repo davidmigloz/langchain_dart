@@ -19,8 +19,8 @@ class LLMChain<LLMInput extends Object, LLMOptions extends LanguageModelOptions,
     LLMOutput extends Object, ParserOutput extends Object> extends BaseChain {
   /// {@macro llm_chain}
   const LLMChain({
-    required this.prompt,
     required this.llm,
+    required this.prompt,
     this.outputKey = defaultOutputKey,
     this.outputParser,
     this.returnFinalOnly = true,
@@ -28,11 +28,11 @@ class LLMChain<LLMInput extends Object, LLMOptions extends LanguageModelOptions,
     super.memory,
   });
 
-  /// Prompt object to use.
-  final BasePromptTemplate prompt;
-
   /// Language model to call.
   final BaseLanguageModel<LLMInput, LLMOptions, LLMOutput> llm;
+
+  /// Prompt object to use.
+  final BasePromptTemplate prompt;
 
   /// Key to use for output.
   final String outputKey;

@@ -29,7 +29,7 @@ abstract class BaseDocumentLoader {
   Future<List<Document>> loadAndSplit({
     final TextSplitter splitter = const RecursiveCharacterTextSplitter(),
   }) async {
-    final docs = await lazyLoad().toList();
+    final docs = await load();
     return splitter.splitDocuments(docs);
   }
 }
