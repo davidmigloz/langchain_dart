@@ -5,7 +5,7 @@ import '../models/models.dart';
 import 'base.dart';
 
 /// {@template web_base_loader}
-/// A document loader that loads [Document]s from a web pages.
+/// A document loader that loads [Document]s from web pages.
 ///
 /// It uses [http](https://pub.dev/packages/http) to fetch the web page content.
 /// And [beautiful_soup_dart](https://pub.dev/packages/beautiful_soup_dart) to
