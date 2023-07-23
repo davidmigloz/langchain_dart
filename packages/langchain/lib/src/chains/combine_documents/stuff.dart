@@ -1,6 +1,7 @@
 import '../../documents/models/models.dart';
 import '../../model_io/prompts/prompts.dart';
 import '../llm_chain.dart';
+import '../models/models.dart';
 import 'base.dart';
 
 /// {@template stuff_documents_chain}
@@ -129,15 +130,20 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
   /// - [docs] the documents to combine.
   /// - [inputs] the inputs to pass to the [llmChain].
   ///
-  /// Returns a tuple of the output string and any extra info to return.
+  /// Returns the output of the chain.
   @override
-  Future<(String output, Map<String, dynamic> extraInfo)> combineDocs(
+  Future<ChainValues> combineDocs(
     final List<Document> docs, {
     final InputValues inputs = const {},
   }) async {
     final llmInputs = _getInputs(docs, inputs);
-    final llmOutput = await llmChain.run(llmInputs);
-    return (llmOutput, const <String, dynamic>{});
+    final llmOutput = await llmChain.call(llmInputs);
+    return {
+      outputKey: llmOutput[llmChain.outputKey],
+      if (!llmChain.returnFinalOnly)
+        LLMChain.fullGenerationOutputKey:
+            llmOutput[LLMChain.fullGenerationOutputKey],
+    };
   }
 
   /// Returns a map with all the input values for the prompt and the

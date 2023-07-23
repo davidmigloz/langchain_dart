@@ -1,6 +1,7 @@
 import '../../documents/models/models.dart';
 import '../../model_io/prompts/models/models.dart';
 import '../llm_chain.dart';
+import '../models/models.dart';
 import 'base.dart';
 import 'reduce.dart';
 import 'stuff.dart';
@@ -135,9 +136,9 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
   /// - [docs] is the list of documents to combine.
   /// - [inputs] is a map of other inputs to use in the combination.
   ///
-  /// Returns a tuple of the output and any extra info to return.
+  /// Returns the output of the chain.
   @override
-  Future<(String, Map<String, dynamic>)> combineDocs(
+  Future<ChainValues> combineDocs(
     final List<Document> docs, {
     final InputValues inputs = const {},
   }) async {
@@ -161,7 +162,7 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
       ),
     );
 
-    final (output, extraInfo) = await reduceDocumentsChain.combineDocs(
+    final output = await reduceDocumentsChain.combineDocs(
       resultDocs,
       inputs: inputs,
     );
@@ -170,12 +171,12 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
       final intermediateSteps = mapResults
           .map((final r) => r[questionResultKey])
           .toList(growable: false);
-      return (
-        output,
-        {...extraInfo, intermediateStepsOutputKey: intermediateSteps}
-      );
+      return {
+        ...output,
+        intermediateStepsOutputKey: intermediateSteps,
+      };
     }
 
-    return (output, extraInfo);
+    return output;
   }
 }

@@ -1,5 +1,6 @@
 import '../../documents/models/models.dart';
 import '../../model_io/prompts/models/models.dart';
+import '../models/models.dart';
 import 'base.dart';
 import 'stuff.dart';
 
@@ -107,9 +108,9 @@ class ReduceDocumentsChain extends BaseCombineDocumentsChain {
   /// - [inputs] additional parameters to be passed to LLM calls (like other
   ///   input variables besides the documents).
   ///
-  /// Returns a tuple of the output and any extra info to return.
+  /// Returns the output of the chain.
   @override
-  Future<(String output, Map<String, dynamic> extraInfo)> combineDocs(
+  Future<ChainValues> combineDocs(
     final List<Document> docs, {
     final InputValues inputs = const {},
   }) async {

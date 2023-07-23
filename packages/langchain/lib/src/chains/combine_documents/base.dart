@@ -36,7 +36,7 @@ abstract class BaseCombineDocumentsChain extends BaseChain {
   static const String defaultInputKey = 'input_documents';
 
   /// Default [outputKey] value.
-  static const String defaultOutputKey = 'output_text';
+  static const String defaultOutputKey = 'output';
 
   /// Prompt variable to use for the page content.
   static const pageContentPromptVar = 'page_content';
@@ -54,11 +54,7 @@ abstract class BaseCombineDocumentsChain extends BaseChain {
     final otherInputs = {
       for (final key in otherInputKeys) key: inputs[key],
     };
-    final (output, extraInfo) = await combineDocs(docs, inputs: otherInputs);
-    return {
-      outputKey: output,
-      ...extraInfo,
-    };
+    return combineDocs(docs, inputs: otherInputs);
   }
 
   /// Returns the prompt length (number of tokens) given the documents passed
@@ -83,8 +79,8 @@ abstract class BaseCombineDocumentsChain extends BaseChain {
   /// - [docs] is the list of documents to combine.
   /// - [inputs] is a map of other inputs to use in the combination.
   ///
-  /// Returns a tuple of the output and any extra info to return.
-  Future<(String output, Map<String, dynamic> extraInfo)> combineDocs(
+  /// Returns the output of the chain.
+  Future<ChainValues> combineDocs(
     final List<Document> docs, {
     final InputValues inputs = const {},
   });

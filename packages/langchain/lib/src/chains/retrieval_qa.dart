@@ -34,7 +34,6 @@ class RetrievalQAChain extends BaseChain {
     this.outputKey = defaultOutputKey,
     this.combineDocumentsChainInputKey =
         BaseCombineDocumentsChain.defaultInputKey,
-    this.returnSourceDocuments = false,
   });
 
   /// Retriever to use.
@@ -51,9 +50,6 @@ class RetrievalQAChain extends BaseChain {
 
   /// Key to use for inputting the documents to [combineDocumentsChain].
   final String combineDocumentsChainInputKey;
-
-  /// Whether to return the source documents.
-  final bool returnSourceDocuments;
 
   /// Default input key for the query.
   static const String defaultInputKey = 'query';
@@ -73,7 +69,7 @@ class RetrievalQAChain extends BaseChain {
   @override
   Set<String> get outputKeys => {
         outputKey,
-        if (returnSourceDocuments) sourceDocumentsOutputKey,
+        sourceDocumentsOutputKey,
       };
 
   @override
@@ -118,12 +114,25 @@ class RetrievalQAChain extends BaseChain {
       combineDocumentsChainInputKey: docs,
       questionPromptVar: query,
     };
-    final answer = await combineDocumentsChain.run(combineDocumentsChainInputs);
+    final answer = await combineDocumentsChain.call(
+      combineDocumentsChainInputs,
+    );
 
-    return {
-      outputKey: answer,
-      if (returnSourceDocuments) sourceDocumentsOutputKey: docs,
-    };
+    final output = <String, dynamic>{};
+    for (final entry in answer.entries) {
+      final key = entry.key;
+      final value = entry.value;
+
+      if (key == combineDocumentsChain.outputKey) {
+        output[outputKey] = value;
+      } else if (key == combineDocumentsChain.inputKey) {
+        output[sourceDocumentsOutputKey] = value;
+      } else {
+        output[key] = value;
+      }
+    }
+
+    return output;
   }
 
   /// Returns the documents to do question answering over.
