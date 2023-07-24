@@ -166,5 +166,62 @@ void main() {
       expect(aiMessage2.functionCall, isNull);
       expect(aiMessage2.content, contains('22'));
     });
+
+    test('Test tokenize', () async {
+      final chat = ChatOpenAI(apiKey: openaiApiKey);
+      const text = 'Hello, how are you?';
+
+      final tokens = await chat.tokenize(PromptValue.string(text));
+      expect(tokens, [9906, 11, 1268, 527, 499, 30]);
+    });
+
+    test('Test encoding', () async {
+      final chat = ChatOpenAI(apiKey: openaiApiKey, encoding: 'p50k_base');
+      const text = 'Hello, how are you?';
+
+      final tokens = await chat.tokenize(PromptValue.string(text));
+      expect(tokens, [15496, 11, 703, 389, 345, 30]);
+    });
+
+    test('Test countTokens string', () async {
+      final chat = ChatOpenAI(apiKey: openaiApiKey);
+      final prompt = PromptValue.string('Hello, how are you?');
+
+      final numTokens = await chat.countTokens(prompt);
+      final generation = await chat.generatePrompt(prompt);
+      expect(numTokens, generation.usage!.promptTokens);
+    });
+
+    test('Test countTokens messages', () async {
+      final models = [
+        'gpt-3.5-turbo-0301',
+        'gpt-3.5-turbo-0613',
+        'gpt-3.5-turbo-16k-0613',
+        'gpt-4-0314',
+        'gpt-4-0613',
+      ];
+      for (final model in models) {
+        final chat = ChatOpenAI(
+          apiKey: openaiApiKey,
+          model: model,
+          temperature: 0,
+          maxTokens: 1,
+        );
+        final messages = [
+          ChatMessage.system(
+            'You are a helpful, pattern-following assistant that translates '
+            'corporate jargon into plain English.',
+          ),
+          ChatMessage.human(
+            "This late pivot means we don't have time to boil the ocean for the "
+            'client deliverable.',
+          ),
+        ];
+
+        final numTokens = await chat.countTokens(PromptValue.chat(messages));
+        final generation = await chat.generate(messages);
+        expect(numTokens, generation.usage!.promptTokens);
+      }
+    });
   });
 }

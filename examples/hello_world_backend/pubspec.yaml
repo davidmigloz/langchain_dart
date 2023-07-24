@@ -1,0 +1,13 @@
+name: hello_world_backend
+description: A sample backend service integrating LangChain.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ^3.0.5
+
+dependencies:
+  langchain: ^0.0.1
+  langchain_openai: ^0.0.1
+  shelf: ^1.4.1
+  shelf_router: ^1.1.4

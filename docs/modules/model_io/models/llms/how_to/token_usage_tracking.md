@@ -6,6 +6,8 @@ currently only implemented for the OpenAI API.
 ```dart
 final openai = OpenAI(apiKey: openaiApiKey, temperature: 0.9);
 final result = await openai.generate('Tell me a joke');
-print(result.tokensUsage);
--> 24
+final usage = result.usage;
+print(usage?.promptTokens);   // 4
+print(usage?.responseTokens); // 20
+print(usage?.totalTokens);    // 24
 ```

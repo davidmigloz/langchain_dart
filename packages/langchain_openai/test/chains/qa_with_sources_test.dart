@@ -63,10 +63,15 @@ void main() {
       const query = 'What did President Biden say about Russia?';
       final res = await retrievalQA(query);
 
-      expect(res['query'], query);
+      expect(res[RetrievalQAChain.defaultInputKey], query);
+      expect(
+        res[RetrievalQAChain.sourceDocumentsOutputKey],
+        isA<List<Document>>(),
+      );
 
-      expect(res['result'], isA<QAWithSources>());
-      final qaWithSources = res['result'] as QAWithSources;
+      final output = res[RetrievalQAChain.defaultOutputKey];
+      expect(output, isA<QAWithSources>());
+      final qaWithSources = output as QAWithSources;
 
       final answer = qaWithSources.answer;
       expect(answer, isNotEmpty);

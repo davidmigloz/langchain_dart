@@ -132,24 +132,26 @@ abstract class BaseChain {
     return Future.wait(inputs.map(call));
   }
 
-  /// Convenience method for executing chain when there's a single output.
+  /// Convenience method for executing chain when there's a single string
+  /// output.
   ///
   /// The main difference between this method and [call] is that this method
-  /// can only be used for chains that return a single output. If a Chain has
-  /// more outputs, or you want to return the inputs/run info along with the
-  /// outputs, use [call].
+  /// can only be used for chains that return a single string output. If a
+  /// Chain has more outputs, the output is not a string, or you want to return
+  /// the inputs/run info along with the outputs, use [call].
   ///
-  /// Returns the chain output.
+  /// If [run] is called on a chain that does not return a string,
+  /// [Object.toString] will be called on the output.
   ///
   /// The input can be:
   /// - A single value, if the chain has a single input key.
   ///   Eg: `chain.run('Hello world!')`
   /// - A map of key->values, if the chain has multiple input keys.
   ///   Eg: `chain.run({'foo': 'Hello', 'bar': 'world!'})`
-  Future<dynamic> run(final dynamic input) async {
+  Future<String> run(final dynamic input) async {
     final outputKey = runOutputKey;
     final returnValues = await call(input, returnOnlyOutputs: true);
-    return returnValues[outputKey];
+    return returnValues[outputKey].toString();
   }
 
   bool _isValidInputMap(final Set<String> inputKeys, final dynamic input) {
@@ -161,12 +163,12 @@ abstract class BaseChain {
     final inputKeysSet = inputMap.keys.toSet();
     final inputKeysSetLength = inputKeysSet.length;
 
-    if (inputKeysSetLength != inputKeys.length) {
+    if (inputKeysSetLength < inputKeys.length) {
       return false;
     }
 
-    final inputKeysSetDiff = inputKeysSet.difference(inputKeys);
-    if (inputKeysSetDiff.isNotEmpty) {
+    final inputKeysDiff = inputKeys.difference(inputKeysSet);
+    if (inputKeysDiff.isNotEmpty) {
       return false;
     }
 

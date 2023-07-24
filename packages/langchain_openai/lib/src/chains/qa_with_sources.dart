@@ -44,7 +44,10 @@ class QAWithSources {
     required this.sources,
   });
 
+  /// The answer to the question.
   final String answer;
+
+  /// The sources used to answer the question.
   final List<String> sources;
 
   /// {@macro qa_with_sources}
@@ -54,6 +57,9 @@ class QAWithSources {
       sources: List<String>.from(map['sources']),
     );
   }
+
+  @override
+  String toString() => answer;
 }
 
 /// {@template qa_with_sources_output_parser}

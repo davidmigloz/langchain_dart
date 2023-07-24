@@ -40,6 +40,10 @@
     - [Output parsers](/modules/model_io/output_parsers/output_parsers.md)
   - [Data connection](/modules/data_connection/data_connection.md)
     - [Document loaders](/modules/data_connection/document_loaders/document_loaders.md)
+      - How-to
+        - [Text](/modules/data_connection/document_loaders/how_to/text.md)
+        - [JSON](/modules/data_connection/document_loaders/how_to/json.md)
+        - [Web page](/modules/data_connection/document_loaders/how_to/web.md)
     - [Document transformers](/modules/data_connection/document_transformers/document_transformers.md)
       - Text splitters
         - [Split by character](/modules/data_connection/document_transformers/text_splitters/character_text_splitter.md)
@@ -61,6 +65,14 @@
       - [Loading from LangChainHub](/modules/chains/how_to/from_hub.md)
       - [Adding memory](/modules/chains/how_to/memory.md)
       - [Serialization](/modules/chains/how_to/serialization.md)
+    - Foundational
+      - [LLM](/modules/chains/foundational/llm.md)
+      - [Sequential](/modules/chains/foundational/sequential.md)
+    - Documents
+      - [Stuff](/modules/chains/documents/stuff.md) 
+      - [MapReduce](/modules/chains/documents/map_reduce.md)
+    - Popular
+      - [Summarize](/modules/chains/popular/summarize.md)
   - [Memory](/modules/memory/memory.md)
   - [Agents](/modules/agents/agents.md)
     - [Agent types](/modules/agents/agent_types/agent_types.md)

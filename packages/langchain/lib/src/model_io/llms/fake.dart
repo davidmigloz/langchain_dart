@@ -1,3 +1,4 @@
+import '../prompts/models/models.dart';
 import 'base.dart';
 import 'models/models.dart';
 
@@ -11,8 +12,10 @@ class FakeListLLM extends SimpleLLM {
     required this.responses,
   });
 
+  /// Responses to return in order when called.
   final List<String> responses;
-  int i = 0;
+
+  int _i = 0;
 
   @override
   String get modelType => 'fake-list';
@@ -22,7 +25,16 @@ class FakeListLLM extends SimpleLLM {
     final String prompt, {
     final LLMOptions? options,
   }) {
-    return Future<String>.value(responses[i++ % responses.length]);
+    return Future<String>.value(responses[_i++ % responses.length]);
+  }
+
+  @override
+  Future<List<int>> tokenize(final PromptValue promptValue) async {
+    return promptValue
+        .toString()
+        .split(' ')
+        .map((final word) => word.hashCode)
+        .toList(growable: false);
   }
 }
 
@@ -43,5 +55,54 @@ class FakeEchoLLM extends SimpleLLM {
     final LLMOptions? options,
   }) {
     return Future<String>.value(prompt);
+  }
+
+  @override
+  Future<List<int>> tokenize(final PromptValue promptValue) async {
+    return promptValue
+        .toString()
+        .split(' ')
+        .map((final word) => word.hashCode)
+        .toList(growable: false);
+  }
+}
+
+/// {@template fake_handler_llm}
+/// Fake LLM for testing.
+/// It returns the string returned by the [handler] function.
+/// {@endtemplate}
+class FakeHandlerLLM extends SimpleLLM {
+  /// {@macro fake_handler_llm}
+  FakeHandlerLLM({
+    required this.handler,
+  });
+
+  /// Function called to generate the response.
+  final String Function(
+    String prompt,
+    LLMOptions? options,
+    int callCount,
+  ) handler;
+
+  int _callCount = 0;
+
+  @override
+  String get modelType => 'fake-handler';
+
+  @override
+  Future<String> callInternal(
+    final String prompt, {
+    final LLMOptions? options,
+  }) {
+    return Future.value(handler(prompt, options, ++_callCount));
+  }
+
+  @override
+  Future<List<int>> tokenize(final PromptValue promptValue) async {
+    return promptValue
+        .toString()
+        .split(' ')
+        .map((final word) => word.hashCode)
+        .toList(growable: false);
   }
 }

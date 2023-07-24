@@ -36,7 +36,7 @@ abstract class BaseCombineDocumentsChain extends BaseChain {
   static const String defaultInputKey = 'input_documents';
 
   /// Default [outputKey] value.
-  static const String defaultOutputKey = 'output_text';
+  static const String defaultOutputKey = 'output';
 
   /// Prompt variable to use for the page content.
   static const pageContentPromptVar = 'page_content';
@@ -54,22 +54,33 @@ abstract class BaseCombineDocumentsChain extends BaseChain {
     final otherInputs = {
       for (final key in otherInputKeys) key: inputs[key],
     };
-    final (output, extraInfo) = await combineDocs(docs, inputs: otherInputs);
-    return {
-      outputKey: output,
-      ...extraInfo,
-    };
+    return combineDocs(docs, inputs: otherInputs);
   }
 
-  // TODO add promptLength method to base chain the prompt length given the documents passed in
+  /// Returns the prompt length (number of tokens) given the documents passed
+  /// in.
+  ///
+  /// This can be used by a caller to determine whether passing in a list of
+  /// documents would exceed a certain prompt length. This useful when trying
+  /// to ensure that the size of a prompt remains below a certain context limit.
+  ///
+  /// - [docs] is the list of documents to combine.
+  /// - [inputs] is a map of other inputs to use in the combination.
+  ///
+  /// Returns null if the combine method doesn't depend on the prompt length.
+  /// Otherwise, the length of the prompt in tokens.
+  Future<int?> promptLength(
+    final List<Document> docs, {
+    final InputValues inputs = const {},
+  });
 
   /// Combines the given [docs] into a single string.
   ///
   /// - [docs] is the list of documents to combine.
   /// - [inputs] is a map of other inputs to use in the combination.
   ///
-  /// Returns a tuple of the output string and any extra info to return.
-  Future<(dynamic output, Map<String, dynamic> extraInfo)> combineDocs(
+  /// Returns the output of the chain.
+  Future<ChainValues> combineDocs(
     final List<Document> docs, {
     final InputValues inputs = const {},
   });

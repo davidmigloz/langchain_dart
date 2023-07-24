@@ -1,6 +1,7 @@
 import '../../documents/models/models.dart';
 import '../../model_io/prompts/prompts.dart';
 import '../llm_chain.dart';
+import '../models/models.dart';
 import 'base.dart';
 
 /// {@template stuff_documents_chain}
@@ -9,9 +10,9 @@ import 'base.dart';
 /// This chain takes a list of documents and first combines them into a single
 /// string. It does this by formatting each document into a string with the
 /// [documentPrompt] and then joining them together with [documentSeparator].
-/// It then adds that new string to the inputs with the variable name set by
-/// [llmChainStuffedDocumentInputKey]. Those inputs are then passed to the
-/// [llmChain].
+/// It then adds that new resulting string to the inputs with the variable
+/// name set by [llmChainStuffedDocumentPromptVar]. Those inputs are then
+/// passed to the [llmChain] who will format the prompt and call the model.
 ///
 /// The content of each document is formatted using [documentPrompt].
 /// By default, it just takes the content of the document.
@@ -41,15 +42,12 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
     required this.llmChain,
     super.inputKey = defaultInputKey,
     super.outputKey = defaultOutputKey,
-    this.documentPrompt = const PromptTemplate(
-      inputVariables: {StuffDocumentsChain.pageContentPromptVar},
-      template: '{${StuffDocumentsChain.pageContentPromptVar}}',
-    ),
-    this.llmChainStuffedDocumentInputKey =
-        defaultLlmChainStuffedDocumentInputKey,
-    this.documentSeparator = '\n\n',
+    this.documentPrompt = defaultDocumentPrompt,
+    this.documentSeparator = defaultDocumentSeparator,
+    this.llmChainStuffedDocumentPromptVar =
+        defaultLlmChainStuffedDocumentPromptVar,
   }) {
-    _initLlmChainDocumentInputKey();
+    _initLlmChainDocumentPromptVar();
   }
 
   /// LLM wrapper to use after formatting documents.
@@ -58,23 +56,30 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
   /// Prompt to use to format each document.
   final BasePromptTemplate documentPrompt;
 
-  /// The key in the [llmChain] input values where to put the documents in.
-  /// If only one variable in the [llmChain], this doesn't need to be provided.
-  String llmChainStuffedDocumentInputKey;
-
   /// The string with which to join the formatted documents.
   final String documentSeparator;
 
+  /// The variable name in the [llmChain.prompt] where to put the documents in.
+  /// If only one variable in the [llmChain], this doesn't need to be provided.
+  String llmChainStuffedDocumentPromptVar;
+
   /// Default [inputKey] value.
-  static const String defaultInputKey =
-      BaseCombineDocumentsChain.defaultInputKey;
+  static const defaultInputKey = BaseCombineDocumentsChain.defaultInputKey;
 
   /// Default [outputKey] value.
-  static const String defaultOutputKey =
-      BaseCombineDocumentsChain.defaultOutputKey;
+  static const defaultOutputKey = BaseCombineDocumentsChain.defaultOutputKey;
 
-  /// Default value for [llmChainStuffedDocumentInputKey].
-  static const String defaultLlmChainStuffedDocumentInputKey = 'context';
+  /// Default [documentPrompt] value.
+  static const defaultDocumentPrompt = PromptTemplate(
+    inputVariables: {StuffDocumentsChain.pageContentPromptVar},
+    template: '{${StuffDocumentsChain.pageContentPromptVar}}',
+  );
+
+  /// Default value for [documentSeparator].
+  static const defaultDocumentSeparator = '\n\n';
+
+  /// Default value for [llmChainStuffedDocumentPromptVar].
+  static const defaultLlmChainStuffedDocumentPromptVar = 'context';
 
   /// Prompt variable to use for the page content.
   static const pageContentPromptVar =
@@ -83,31 +88,41 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
   @override
   Set<String> get inputKeys => {
         inputKey,
-        ...llmChain.inputKeys.difference({llmChainStuffedDocumentInputKey}),
+        ...llmChain.inputKeys.difference({llmChainStuffedDocumentPromptVar}),
       };
 
   @override
   String get chainType => 'stuff_documents_chain';
 
-  void _initLlmChainDocumentInputKey() {
+  void _initLlmChainDocumentPromptVar() {
     // If only one variable is present in the llmChain.prompt,
     // we can infer that the formatted documents should be passed in
-    // with this variable name.
+    // with this variable name
     final llmChainInputVariables = llmChain.prompt.inputVariables;
     if (llmChainInputVariables.length == 1) {
-      llmChainStuffedDocumentInputKey = llmChainInputVariables.first;
-    } else if (llmChainStuffedDocumentInputKey.isEmpty) {
+      llmChainStuffedDocumentPromptVar = llmChainInputVariables.first;
+    } else if (llmChainStuffedDocumentPromptVar.isEmpty) {
       throw ArgumentError(
-        'llmChainDocumentInputKey must be provided if there are multiple '
-        'llmChain input variables',
+        'llmChainStuffedDocumentPromptVar must be provided if there are '
+        'multiple llmChain input variables',
       );
     } else if (!llmChainInputVariables
-        .contains(llmChainStuffedDocumentInputKey)) {
+        .contains(llmChainStuffedDocumentPromptVar)) {
       throw ArgumentError(
-        'llmChainDocumentInputKey ($llmChainStuffedDocumentInputKey) was not found in '
-        'llmChain input variables',
+        'llmChainStuffedDocumentPromptVar ($llmChainStuffedDocumentPromptVar) '
+        'was not found in llmChain input variables',
       );
     }
+  }
+
+  @override
+  Future<int?> promptLength(
+    final List<Document> docs, {
+    final InputValues inputs = const {},
+  }) {
+    final llmInputs = _getInputs(docs, inputs);
+    final prompt = llmChain.prompt.formatPrompt(llmInputs);
+    return llmChain.llm.countTokens(prompt);
   }
 
   /// Stuff all documents into one prompt and pass to LLM.
@@ -115,15 +130,20 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
   /// - [docs] the documents to combine.
   /// - [inputs] the inputs to pass to the [llmChain].
   ///
-  /// Returns a tuple of the output string and any extra info to return.
+  /// Returns the output of the chain.
   @override
-  Future<(dynamic output, Map<String, dynamic> extraInfo)> combineDocs(
+  Future<ChainValues> combineDocs(
     final List<Document> docs, {
     final InputValues inputs = const {},
   }) async {
     final llmInputs = _getInputs(docs, inputs);
-    final llmOutput = await llmChain.run(llmInputs);
-    return (llmOutput, const <String, dynamic>{});
+    final llmOutput = await llmChain.call(llmInputs);
+    return {
+      outputKey: llmOutput[llmChain.outputKey],
+      if (!llmChain.returnFinalOnly)
+        LLMChain.fullGenerationOutputKey:
+            llmOutput[LLMChain.fullGenerationOutputKey],
+    };
   }
 
   /// Returns a map with all the input values for the prompt and the
@@ -145,7 +165,7 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
 
     return {
       ...promptInputValues,
-      llmChainStuffedDocumentInputKey: docStrings.join(documentSeparator),
+      llmChainStuffedDocumentPromptVar: docStrings.join(documentSeparator),
     };
   }
 }

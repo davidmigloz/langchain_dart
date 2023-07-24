@@ -9,11 +9,11 @@ class RecursiveCharacterTextSplitter extends TextSplitter {
   /// {@macro recursive_character_text_splitter}
   const RecursiveCharacterTextSplitter({
     this.separators = const ['\n\n', '\n', ' ', ''],
-    super.chunkSize,
-    super.chunkOverlap,
-    super.lengthFunction,
+    super.chunkSize = 4000,
+    super.chunkOverlap = 200,
+    super.lengthFunction = TextSplitter.defaultLengthFunction,
     super.keepSeparator = true,
-    super.addStartIndex,
+    super.addStartIndex = false,
   });
 
   final List<String> separators;
