@@ -2,6 +2,13 @@ import 'models/models.dart';
 
 /// {@template base_memory}
 /// Base interface for memory in chains.
+///
+/// Memory refers to state in Chains. Memory can be used to store information
+/// about past executions of a Chain and inject that information into the
+/// inputs of future executions of the Chain. For example, for conversational
+/// Chains Memory can be used to store conversations and automatically add them
+/// to future model prompts so that the model has the necessary context to
+/// respond coherently to the latest input.
 /// {@endtemplate}
 abstract interface class BaseMemory {
   /// {@macro base_memory}
@@ -11,7 +18,6 @@ abstract interface class BaseMemory {
   Set<String> get memoryKeys;
 
   /// Returns key-value pairs given the [MemoryInputValues].
-  /// If empty, returns all memories.
   Future<MemoryVariables> loadMemoryVariables([
     final MemoryInputValues values = const {},
   ]);
