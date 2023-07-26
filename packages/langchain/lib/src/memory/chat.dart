@@ -23,6 +23,9 @@ abstract base class BaseChatMemory implements BaseMemory {
   final BaseChatMessageHistory chatHistory;
 
   /// The input key to use for the chat history.
+  ///
+  /// If null, the input key is inferred from the prompt (the input key hat
+  /// was filled in by the user (i.e. not a memory key)).
   final String? inputKey;
 
   /// The output key to use for the chat history.
@@ -48,9 +51,8 @@ abstract base class BaseChatMemory implements BaseMemory {
     final MemoryInputValues inputValues,
     final MemoryOutputValues outputValues,
   ) {
-    final promptInputKey = inputKey == null
-        ? getPromptInputKey(inputValues, memoryKeys)
-        : inputKey!;
+    final promptInputKey =
+        inputKey ?? getPromptInputKey(inputValues, memoryKeys);
     String outputKey;
     if (this.outputKey == null) {
       if (outputValues.length != 1) {
