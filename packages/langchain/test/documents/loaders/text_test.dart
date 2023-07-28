@@ -9,7 +9,7 @@ void main() {
       final expectedDoc = Document(
         pageContent: 'Foo\nBar\nBaz\n',
         metadata: {
-          'path': filePath,
+          'source': filePath,
           'name': 'example.txt',
           'size': 12,
           'lastModified': DateTime.parse('2023-06-20 22:12:19.000'),
