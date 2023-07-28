@@ -9,6 +9,7 @@ command:
   version:
     linkToCommits: true
     workspaceChangelog: true
+    releaseUrl: true
   bootstrap:
     usePubspecOverrides: true
 

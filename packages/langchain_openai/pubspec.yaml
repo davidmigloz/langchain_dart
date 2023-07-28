@@ -11,10 +11,10 @@ environment:
 
 dependencies:
   collection: ^1.17.1
-  dart_openai: ^3.0.0
+  dart_openai: ^4.0.0
   langchain: ^0.0.2
   meta: ^1.9.1
   tiktoken: ^1.0.3
 
 dev_dependencies:
-  test: ^1.24.3
+  test: ^1.24.4
