@@ -2,6 +2,7 @@ import '../model_io/chat_models/models/models.dart';
 import '../model_io/chat_models/utils.dart';
 import 'chat.dart';
 import 'models/models.dart';
+import 'stores/message/in_memory.dart';
 
 /// {@template conversation_buffer_window_memory}
 /// Buffer for storing a conversation in-memory inside a limited size window
