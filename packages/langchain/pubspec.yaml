@@ -6,8 +6,6 @@ issue_tracker: https://github.com/davidmigloz/langchain_dart/issues
 homepage: https://github.com/davidmigloz/langchain_dart
 documentation: https://langchaindart.com
 
-publish_to: "none"
-
 environment:
   sdk: ">=3.0.0 <4.0.0"
 
