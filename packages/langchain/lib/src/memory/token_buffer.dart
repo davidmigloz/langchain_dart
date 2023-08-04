@@ -2,6 +2,7 @@ import '../model_io/chat_models/models/models.dart';
 import '../model_io/chat_models/utils.dart';
 import '../model_io/language_models/language_models.dart';
 import '../model_io/prompts/prompts.dart';
+import 'base.dart';
 import 'buffer_window.dart';
 import 'chat.dart';
 import 'models/models.dart';
@@ -36,15 +37,27 @@ final class ConversationTokenBufferMemory<
     super.inputKey,
     super.outputKey,
     super.returnMessages = false,
-    required this.llm,
-    this.humanPrefix = 'Human',
-    this.aiPrefix = 'AI',
-    this.memoryKey = 'history',
     this.maxTokenLimit = 2000,
+    required this.llm,
+    this.memoryKey = BaseMemory.defaultMemoryKey,
+    this.systemPrefix = SystemChatMessage.defaultPrefix,
+    this.humanPrefix = HumanChatMessage.defaultPrefix,
+    this.aiPrefix = AIChatMessage.defaultPrefix,
+    this.functionPrefix = FunctionChatMessage.defaultPrefix,
   });
+
+  /// Max number of tokens to use.
+  final int maxTokenLimit;
 
   /// Language model to use for counting tokens.
   final BaseLanguageModel<LLMInput, LLMOptions, LLMOutput> llm;
+
+  /// The memory key to use for the chat history.
+  /// This will be passed as input variable to the prompt.
+  final String memoryKey;
+
+  /// The prefix to use for system messages.
+  final String systemPrefix;
 
   /// The prefix to use for human messages.
   final String humanPrefix;
@@ -52,11 +65,8 @@ final class ConversationTokenBufferMemory<
   /// The prefix to use for AI messages.
   final String aiPrefix;
 
-  /// The memory key to use for the chat history.
-  final String memoryKey;
-
-  /// Max number of tokens to use.
-  final int maxTokenLimit;
+  /// The prefix to use for function messages.
+  final String functionPrefix;
 
   @override
   Set<String> get memoryKeys => {memoryKey};
@@ -71,8 +81,10 @@ final class ConversationTokenBufferMemory<
     }
     return {
       memoryKey: messages.toBufferString(
+        systemPrefix: systemPrefix,
         humanPrefix: humanPrefix,
         aiPrefix: aiPrefix,
+        functionPrefix: functionPrefix,
       ),
     };
   }

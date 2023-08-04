@@ -130,6 +130,9 @@ class SystemChatMessage extends ChatMessage {
     required super.content,
   });
 
+  /// Default prefix for [SystemChatMessage].
+  static const String defaultPrefix = 'System';
+
   @override
   bool operator ==(covariant final SystemChatMessage other) =>
       identical(this, other) || content == other.content;
@@ -160,6 +163,9 @@ class HumanChatMessage extends ChatMessage {
 
   /// Whether this message is an example.
   final bool example;
+
+  /// Default prefix for [HumanChatMessage].
+  static const String defaultPrefix = 'Human';
 
   @override
   bool operator ==(covariant final HumanChatMessage other) =>
@@ -197,6 +203,9 @@ class AIChatMessage extends ChatMessage {
 
   /// Whether this message is an example.
   final bool example;
+
+  /// Default prefix for [AIChatMessage].
+  static const String defaultPrefix = 'AI';
 
   @override
   bool operator ==(covariant final AIChatMessage other) =>
@@ -270,6 +279,9 @@ class FunctionChatMessage extends ChatMessage {
   });
 
   final String name;
+
+  /// Default prefix for [FunctionChatMessage].
+  static const String defaultPrefix = 'Function';
 
   @override
   bool operator ==(covariant final FunctionChatMessage other) =>

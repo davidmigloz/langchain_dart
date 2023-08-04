@@ -14,6 +14,9 @@ abstract interface class BaseMemory {
   /// {@macro base_memory}
   const BaseMemory();
 
+  /// Default memory key.
+  static const String defaultMemoryKey = 'history';
+
   /// Input keys this memory class will load dynamically to the prompt.
   Set<String> get memoryKeys;
 

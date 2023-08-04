@@ -1,4 +1,6 @@
+import '../model_io/chat_models/models/models.dart';
 import '../model_io/chat_models/utils.dart';
+import 'base.dart';
 import 'chat.dart';
 import 'models/models.dart';
 
@@ -23,10 +25,19 @@ final class ConversationBufferMemory extends BaseChatMemory {
     super.inputKey,
     super.outputKey,
     super.returnMessages = false,
-    this.humanPrefix = 'Human',
-    this.aiPrefix = 'AI',
-    this.memoryKey = 'history',
+    this.memoryKey = BaseMemory.defaultMemoryKey,
+    this.systemPrefix = SystemChatMessage.defaultPrefix,
+    this.humanPrefix = HumanChatMessage.defaultPrefix,
+    this.aiPrefix = AIChatMessage.defaultPrefix,
+    this.functionPrefix = FunctionChatMessage.defaultPrefix,
   });
+
+  /// The memory key to use for the chat history.
+  /// This will be passed as input variable to the prompt.
+  final String memoryKey;
+
+  /// The prefix to use for system messages.
+  final String systemPrefix;
 
   /// The prefix to use for human messages.
   final String humanPrefix;
@@ -34,8 +45,8 @@ final class ConversationBufferMemory extends BaseChatMemory {
   /// The prefix to use for AI messages.
   final String aiPrefix;
 
-  /// The memory key to use for the chat history.
-  final String memoryKey;
+  /// The prefix to use for function messages.
+  final String functionPrefix;
 
   @override
   Set<String> get memoryKeys => {memoryKey};
@@ -50,8 +61,10 @@ final class ConversationBufferMemory extends BaseChatMemory {
     }
     return {
       memoryKey: messages.toBufferString(
+        systemPrefix: systemPrefix,
         humanPrefix: humanPrefix,
         aiPrefix: aiPrefix,
+        functionPrefix: functionPrefix,
       ),
     };
   }

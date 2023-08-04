@@ -1,5 +1,6 @@
 import '../model_io/chat_models/models/models.dart';
 import '../model_io/chat_models/utils.dart';
+import 'base.dart';
 import 'chat.dart';
 import 'models/models.dart';
 import 'stores/message/in_memory.dart';
@@ -12,7 +13,7 @@ import 'stores/message/in_memory.dart';
 ///
 /// Example:
 /// ```dart
-/// final memory = ConversationBufferWindowMemory();
+/// final memory = ConversationBufferWindowMemory(k: 10);
 /// await memory.saveContext({'foo': 'bar'}, {'bar': 'foo'});
 /// final res = await memory.loadMemoryVariables();
 /// // {'history': 'Human: bar\nAI: foo'}
@@ -25,11 +26,23 @@ final class ConversationBufferWindowMemory extends BaseChatMemory {
     super.inputKey,
     super.outputKey,
     super.returnMessages = false,
-    this.humanPrefix = 'Human',
-    this.aiPrefix = 'AI',
-    this.memoryKey = 'history',
     this.k = 5,
+    this.memoryKey = BaseMemory.defaultMemoryKey,
+    this.systemPrefix = SystemChatMessage.defaultPrefix,
+    this.humanPrefix = HumanChatMessage.defaultPrefix,
+    this.aiPrefix = AIChatMessage.defaultPrefix,
+    this.functionPrefix = FunctionChatMessage.defaultPrefix,
   });
+
+  /// Number of messages to keep in the buffer.
+  final int k;
+
+  /// The memory key to use for the chat history.
+  /// This will be passed as input variable to the prompt.
+  final String memoryKey;
+
+  /// The prefix to use for system messages.
+  final String systemPrefix;
 
   /// The prefix to use for human messages.
   final String humanPrefix;
@@ -37,11 +50,8 @@ final class ConversationBufferWindowMemory extends BaseChatMemory {
   /// The prefix to use for AI messages.
   final String aiPrefix;
 
-  /// The memory key to use for the chat history.
-  final String memoryKey;
-
-  /// Number of messages to keep in the buffer.
-  final int k;
+  /// The prefix to use for function messages.
+  final String functionPrefix;
 
   @override
   Set<String> get memoryKeys => {memoryKey};
@@ -56,8 +66,10 @@ final class ConversationBufferWindowMemory extends BaseChatMemory {
     }
     return {
       memoryKey: messages.toBufferString(
+        systemPrefix: systemPrefix,
         humanPrefix: humanPrefix,
         aiPrefix: aiPrefix,
+        functionPrefix: functionPrefix,
       ),
     };
   }
