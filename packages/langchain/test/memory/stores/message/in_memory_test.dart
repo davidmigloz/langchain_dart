@@ -27,14 +27,30 @@ void main() {
       expect(messages.first.content, 'This is an AI msg');
     });
 
-    test('Test removeOldestMessage', () async {
+    test('Test removeLast', () async {
       final history = ChatMessageHistory();
       final message = ChatMessage.human('This is a test');
       final message2 = ChatMessage.ai('This is an AI msg');
       history
         ..addChatMessage(message)
         ..addChatMessage(message2);
-      final oldestMessage = await history.removeOldestMessage();
+      final oldestMessage = await history.removeLast();
+      expect(oldestMessage, isA<AIChatMessage>());
+      expect(oldestMessage.content, 'This is an AI msg');
+      final messages = await history.getChatMessages();
+      expect(messages.length, 1);
+      expect(messages.first, isA<HumanChatMessage>());
+      expect(messages.first.content, 'This is a test');
+    });
+
+    test('Test removeFirst', () async {
+      final history = ChatMessageHistory();
+      final message = ChatMessage.human('This is a test');
+      final message2 = ChatMessage.ai('This is an AI msg');
+      history
+        ..addChatMessage(message)
+        ..addChatMessage(message2);
+      final oldestMessage = await history.removeFirst();
       expect(oldestMessage, isA<HumanChatMessage>());
       expect(oldestMessage.content, 'This is a test');
       final messages = await history.getChatMessages();
