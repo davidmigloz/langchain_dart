@@ -3,4 +3,5 @@
 *.iml
 .dart_tool/
 pubspec.lock
+.vscode/
 

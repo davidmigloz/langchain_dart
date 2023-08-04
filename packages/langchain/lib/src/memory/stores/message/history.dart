@@ -25,6 +25,19 @@ abstract base class BaseChatMessageHistory {
     return addChatMessage(ChatMessage.ai(message));
   }
 
+  /// Add a Function response message to the history.
+  Future<void> addFunctionChatMessage({
+    required final String name,
+    required final String content,
+  }) {
+    return addChatMessage(
+      ChatMessage.function(
+        name: name,
+        content: content,
+      ),
+    );
+  }
+
   /// Clear the history.
   Future<void> clear();
 }
