@@ -159,7 +159,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
     final List<BaseChatMessagePromptTemplate>? extraPromptMessages,
   }) {
     return ChatPromptTemplate.fromPromptMessages([
-      _systemChatMessagePromptTemplate,
+      systemChatMessage,
       ...?extraPromptMessages,
       HumanChatMessagePromptTemplate.fromTemplate('{$agentInputKey}'),
       const MessagesPlaceholder(variableName: _agentScratchpadInputKey),
