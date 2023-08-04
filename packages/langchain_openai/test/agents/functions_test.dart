@@ -31,7 +31,7 @@ void main() {
       expect(res, contains('4.88'));
     });
 
-    test('Test OpenAIFunctionsAgent with memory', () async {
+    Future<void> testMemory({required final bool returnMessages}) async {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
         model: 'gpt-3.5-turbo-0613',
@@ -67,13 +67,16 @@ void main() {
         llm: llm,
         tools: tools,
         extraPromptMessages: [
-          HumanChatMessagePromptTemplate.fromTemplate(
-            'Previous conversation history:\n{${BaseMemory.defaultMemoryKey}}',
-          ),
+          if (returnMessages)
+            const MessagesPlaceholder(variableName: BaseMemory.defaultMemoryKey)
+          else
+            HumanChatMessagePromptTemplate.fromTemplate(
+              'Previous conversation history:\n{${BaseMemory.defaultMemoryKey}}',
+            ),
         ],
       );
 
-      final memory = ConversationBufferMemory();
+      final memory = ConversationBufferMemory(returnMessages: returnMessages);
 
       final executor = AgentExecutor(
         agent: agent,
@@ -100,6 +103,14 @@ void main() {
 
       final res3 = await executor.run('What was the last result?');
       expect(res3, contains('Result 3'));
+    }
+
+    test('Test OpenAIFunctionsAgent with string memory', () async {
+      await testMemory(returnMessages: false);
+    });
+
+    test('Test OpenAIFunctionsAgent with messages memory', () async {
+      await testMemory(returnMessages: true);
     });
   });
 }
