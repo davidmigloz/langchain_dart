@@ -108,11 +108,11 @@ void main() {
     });
 
     test('Test memory in one of the internal chains', () async {
-      final memory = ConversationBufferMemory(memoryKey: 'bla')
-        ..saveContext(
-          inputValues: {'input': 'yo'},
-          outputValues: {'output': 'ya'},
-        );
+      final memory = ConversationBufferMemory(memoryKey: 'bla');
+      await memory.saveContext(
+        inputValues: {'input': 'yo'},
+        outputValues: {'output': 'ya'},
+      );
 
       final chain1 = _FakeChain(
         inputVariables: {'foo', 'bla'},

@@ -6,7 +6,7 @@ import 'output_parser.dart';
 /// {@template base_output_functions_parser}
 /// A parser that converts the output of a function call into a specified type.
 /// {@endtemplate}
-abstract class BaseOutputFunctionsParser<O>
+abstract class BaseOutputFunctionsParser<O extends Object>
     extends BaseLLMOutputParser<ChatMessage, O> {
   /// {@macro base_output_functions_parser}
   const BaseOutputFunctionsParser();

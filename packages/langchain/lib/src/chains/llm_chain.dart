@@ -1,3 +1,4 @@
+import '../memory/base.dart';
 import '../model_io/model_io.dart';
 import 'base.dart';
 import 'models/models.dart';
@@ -15,44 +16,47 @@ import 'models/models.dart';
 /// final res = await chain.run('bad');
 /// ```
 /// {@endtemplate}
-class LLMChain<LLMInput extends Object, LLMOptions extends LanguageModelOptions,
-    LLMOutput extends Object, ParserOutput extends Object> extends BaseChain {
+class LLMChain<
+    LLMType extends BaseLanguageModel,
+    LLMOptions extends LanguageModelOptions,
+    OutputParserType extends BaseLLMOutputParser,
+    MemoryType extends BaseMemory> extends BaseChain<MemoryType> {
   /// {@macro llm_chain}
   const LLMChain({
     required this.llm,
-    required this.prompt,
-    this.outputKey = defaultOutputKey,
-    this.outputParser,
-    this.returnFinalOnly = true,
     this.llmOptions,
+    required this.prompt,
     super.memory,
+    this.outputParser,
+    this.outputKey = defaultOutputKey,
+    this.returnFinalOnly = true,
   });
 
   /// Language model to call.
-  final BaseLanguageModel<LLMInput, LLMOptions, LLMOutput> llm;
+  final LLMType llm;
+
+  /// Options to pass to the language model.
+  final LLMOptions? llmOptions;
 
   /// Prompt object to use.
   final BasePromptTemplate prompt;
-
-  /// Key to use for output.
-  final String outputKey;
 
   /// OutputParser to use.
   ///
   /// Defaults to one that takes the most likely string but does not change it
   /// otherwise.
-  final BaseLLMOutputParser<LLMOutput, ParserOutput>? outputParser;
+  final OutputParserType? outputParser;
+
+  /// Key to use for output.
+  final String outputKey;
 
   /// Whether to return only the final parsed result.
   /// If false, it will return a bunch of extra information about the
   /// generation.
   final bool returnFinalOnly;
 
-  /// Options to pass to the language model.
-  final LLMOptions? llmOptions;
-
   /// Default output key.
-  static const defaultOutputKey = 'text';
+  static const defaultOutputKey = 'output';
 
   /// Output key to use for returning the full generation.
   static const fullGenerationOutputKey = 'full_generation';
@@ -76,13 +80,12 @@ class LLMChain<LLMInput extends Object, LLMOptions extends LanguageModelOptions,
 
     final response = await llm.generatePrompt(promptValue, options: llmOptions);
 
-    final res = switch (outputParser) {
-      null => response.firstOutputAsString,
-      _ => await outputParser!.parseResultWithPrompt(
-          response.generations,
-          promptValue,
-        ),
-    };
+    final res = outputParser == null
+        ? response.generations.firstOrNull?.output
+        : await outputParser!.parseResultWithPrompt(
+            response.generations,
+            promptValue,
+          );
 
     return {
       outputKey: res,

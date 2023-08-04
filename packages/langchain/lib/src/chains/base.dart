@@ -27,14 +27,14 @@ import 'models/models.dart';
 ///   string. This method can only be used for a subset of chains and cannot
 ///   return as rich of an output as [call].
 /// {@endtemplate}
-abstract class BaseChain {
+abstract class BaseChain<MemoryType extends BaseMemory> {
   /// {@macro base_chain}
   const BaseChain({
     this.memory,
   });
 
   /// Memory to use for this chain.
-  final BaseMemory? memory;
+  final MemoryType? memory;
 
   /// Return the string type key uniquely identifying this class of chain.
   String get chainType;

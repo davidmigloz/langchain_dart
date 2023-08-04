@@ -7,7 +7,8 @@ interface class FormatInstructionsOptions {}
 /// {@template base_llm_output_parser}
 /// Class to parse the output of an LLM call.
 /// {@endtemplate}
-abstract class BaseLLMOutputParser<LLMOutput, ParserOutput> {
+abstract class BaseLLMOutputParser<LLMOutput extends Object,
+    ParserOutput extends Object> {
   /// {@macro base_llm_output_parser}
   const BaseLLMOutputParser();
 
@@ -28,7 +29,8 @@ abstract class BaseLLMOutputParser<LLMOutput, ParserOutput> {
 /// {@template base_output_parser}
 /// Class to parse the output of an LLM call.
 /// {@endtemplate}
-abstract class BaseOutputParser<LLMOutput, ParserOutput>
+abstract class BaseOutputParser<LLMOutput extends Object,
+        ParserOutput extends Object>
     extends BaseLLMOutputParser<LLMOutput, ParserOutput> {
   /// {@macro base_output_parser}
   const BaseOutputParser();

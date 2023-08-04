@@ -8,7 +8,7 @@ void main() {
       final prompt = PromptTemplate.fromTemplate('Print {foo}');
       final chain = LLMChain(prompt: prompt, llm: model);
       final res = await chain.call({'foo': 'Hello world!'});
-      expect(res['text'], 'Hello world!');
+      expect(res[LLMChain.defaultOutputKey], 'Hello world!');
       expect(res['foo'], 'Hello world!');
     });
 
@@ -17,7 +17,7 @@ void main() {
       final prompt = PromptTemplate.fromTemplate('Print {foo}');
       final chain = LLMChain(prompt: prompt, llm: model);
       final res = await chain.call('Hello world!');
-      expect(res['text'], 'Hello world!');
+      expect(res[LLMChain.defaultOutputKey], 'Hello world!');
       expect(res['foo'], 'Hello world!');
     });
 
@@ -30,7 +30,7 @@ void main() {
         returnOnlyOutputs: true,
       );
       expect(res.length, 1);
-      expect(res['text'], 'Hello world! again!');
+      expect(res[LLMChain.defaultOutputKey], 'Hello world! again!');
     });
 
     test('Test LLMChain outputKey', () async {
@@ -79,6 +79,15 @@ void main() {
         () async => chain.run({'foo': 'Hello world!, ', 'sun': 'again!'}),
         throwsArgumentError,
       );
+    });
+
+    test('Test LLMChain with chat model', () async {
+      final model = FakeChatModel(responses: ['Hello world!']);
+      final prompt = PromptTemplate.fromTemplate('Print {foo}');
+      final chain = LLMChain(prompt: prompt, llm: model);
+      final res = await chain.call({'foo': 'Hello world!'});
+      expect(res[LLMChain.defaultOutputKey], ChatMessage.ai('Hello world!'));
+      expect(res['foo'], 'Hello world!');
     });
   });
 }
