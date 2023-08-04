@@ -23,6 +23,11 @@ final class ChatMessageHistory extends BaseChatMessageHistory {
   }
 
   @override
+  Future<ChatMessage> removeOldestMessage() {
+    return Future.value(_messages.removeAt(0));
+  }
+
+  @override
   Future<void> clear() async {
     _messages.clear();
   }

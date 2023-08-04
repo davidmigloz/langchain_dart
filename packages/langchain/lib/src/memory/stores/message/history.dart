@@ -25,6 +25,8 @@ abstract base class BaseChatMessageHistory {
     return addChatMessage(ChatMessage.ai(message));
   }
 
+  Future<ChatMessage> removeOldestMessage();
+
   /// Clear the history.
   Future<void> clear();
 }
