@@ -14,7 +14,7 @@ void main(final List<String> arguments) async {
 
   final chatOpenAI = ChatOpenAI(
     apiKey: openAiApiKey,
-    temperature: 0.0,
+    temperature: 0.3,
     maxTokens: 512,
     model: 'gpt-3.5-turbo-0613',
   );

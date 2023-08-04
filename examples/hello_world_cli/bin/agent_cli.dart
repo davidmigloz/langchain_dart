@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:langchain/langchain.dart';
@@ -15,107 +14,75 @@ void main(final List<String> arguments) async {
 
   final chatOpenAI = ChatOpenAI(
     apiKey: openAiApiKey,
-    temperature: 0.0,
+    temperature: 0.3,
     maxTokens: 512,
     model: 'gpt-3.5-turbo-0613',
   );
 
-  final memory = ConversationBufferMemory();
-
-  final searchRestaurantsTool = Tool.fromFunction(
-    name: 'search_restaurants',
-    description: '''
-    When asked to find a restaurant, use this function to search for available restaurants in a specific location per party size and date-time.
-    parameters: {
+  final tool = BaseTool.fromFunction(
+    name: 'search_support',
+    description:
+        'Search the support documentation when asked questions about a product.',
+    inputJsonSchema: const {
       'type': 'object',
       'properties': {
-        'location': {
+        'query': {
           'type': 'string',
-          'description':
-              'The city or area (e.g. Tel Aviv, North Israel).',
+          'description': 'The search query.',
         },
-        'party_size': {
-          'type': 'number',
-          'description': 'The number of people',
-        },
-        'date_time': {
+        'product': {
           'type': 'string',
-          'description':
-              'The desired online reservation date and time in ISO format.',
+          'description': 'The product name (e.g. Product A, Product B)',
         },
       },
-      'required': ['location', 'party_size', 'date_time'],
-    } 
-    ''',
-    func: (final String toolInput) async {
-      final arguments = jsonDecode(toolInput);
+      'required': ['query', 'product'],
+    },
+    func: (final Map<String, dynamic> toolInput) async {
+      stdout.writeln('\nFunction Call Arguments: $toolInput\n');
 
-      stdout.writeln('\n= Function Call Arguments:\n= $arguments\n');
+      // final query = toolInput['query'];
+      // final product = toolInput['product'];
 
+      // TODO: implement search
+
+      // Mock results
       final functionResponse = [
-        'Vivino',
-        'Kisu',
+        '{"title": "Document A", "description": "This document explains how to use Product A."}',
+        '{"title": "Document B", "description": "This document explains how to use Product B."}',
       ];
 
-      final functionResponseContent = '''
-          Suggest only one restaurant to the user out of the following JSON list (do not expose the "id"):
-          $functionResponse
-          ''';
-
-      // Store the Function response in memory.
-      memory.chatHistory.addFunctionChatMessage(
-        name: 'search_restaurants',
-        content: functionResponseContent,
-      );
-
-      return functionResponseContent;
-    },
-    handleToolError: (final e) {
-      // Handle tool error.
-      return 'Sorry, an error occurred: $e';
+      return 'Results:\n$functionResponse';
     },
   );
 
   final agent = OpenAIFunctionsAgent.fromLLMAndTools(
     llm: chatOpenAI,
-    tools: [searchRestaurantsTool],
+    tools: [tool],
     systemChatMessage: SystemChatMessagePromptTemplate.fromTemplate(
-      '''
-        You are a restaurant hostess that should assist the user to find a restaurant and make an online reservation in English.
-        You are also a Tabit support assistant, that can answer questions about Tabit products.
-
-        When you need to find a restaurant - ask the user for the desired location, party-size and date-time.
-        Once you have all these details, use the function-calls to fetch the data.
-        
-        Only use the functions you have been provided with.
-        Use the functions only when you need to.
-        ''',
+      'You are a tech support agent.',
     ),
+    extraPromptMessages: [
+      const MessagesPlaceholder(variableName: BaseMemory.defaultMemoryKey),
+    ],
   );
+
+  final memory = ConversationBufferMemory(returnMessages: true);
+
   final executor = AgentExecutor(
     agent: agent,
-    tools: [searchRestaurantsTool],
+    tools: [tool],
+    memory: memory,
   );
 
   while (true) {
     // Get user input.
     stdout.write('> ');
     final query = stdin.readLineSync() ?? '';
-    final userMessage = ChatMessage.human(query);
-
-    // Add user input to memory.
-    memory.chatHistory.addUserChatMessage(userMessage.content.trim());
-    final messages = await memory.chatHistory.getChatMessages();
 
     // Chat Complete by OpenAI.
-    final response = await executor.call(messages);
-
-    final aiMessage = response['output'];
+    final aiMessage = await executor.run(query);
 
     // Output AI response message.
     stdout.writeln(aiMessage);
-
-    // Store AI response in memory.
-    memory.chatHistory.addAIChatMessage(aiMessage);
   }
 }
