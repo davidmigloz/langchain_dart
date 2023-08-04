@@ -22,6 +22,7 @@ class AgentExecutor extends BaseChain {
   AgentExecutor({
     required this.agent,
     required final List<BaseTool> tools,
+    super.memory,
     this.returnIntermediateSteps = false,
     this.maxIterations = 15,
     this.maxExecutionTime,

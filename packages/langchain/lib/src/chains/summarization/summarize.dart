@@ -97,9 +97,6 @@ abstract class SummarizeChain {
   ///   a single summary.
   ///
   /// - [llm] is the language model to use for summarization.
-  /// - [summaryMaxTokens] is the maximum number of tokens allowed in the final
-  ///   summary. If the final summary exceeds this limit, it will be collapsed
-  ///   using [collapsePrompt].
   /// - [inputKey] is the input key where the documents to summarize will be
   ///   placed.
   /// - [outputKey] is the output key where the summary will be placed.
@@ -117,8 +114,17 @@ abstract class SummarizeChain {
   /// - [combineDocumentPromptVar] is the variable used in the [combinePrompt]
   ///   to indicate where the summaries should be placed.
   /// - [combineDocumentSeparator] is the separator used to join the summaries.
+  /// - [combineInputMaxTokens] is the maximum number of tokens allowed for the
+  ///   input of the final combine call. If the sum of the lengths of the
+  ///   summaries of each document exceeds this limit, the summaries will be
+  ///   collapsed using [collapseLlm] before they are combined into the final
+  ///   summary. Set this to a value lower than the context length limit of the
+  ///   model. For example: if the model context length is 4,097, you can set
+  ///   [combineInputMaxTokens] to 3,000 to have 1,097 tokens left for the final
+  ///   summary generation.
   /// - [collapsePrompt] is the prompt to use to collapse the final summary if
-  ///   it exceeds the [summaryMaxTokens] limit. By default, [combinePrompt] is used.
+  ///   it exceeds the [combineInputMaxTokens] limit. By default,
+  ///   [combinePrompt] is used.
   /// - [collapseLlm] is the language model to use to collapse the final
   ///   summary. By default, [combineLlm] is used if it is not null, otherwise
   ///   [llm] is used.
@@ -149,7 +155,6 @@ abstract class SummarizeChain {
   /// ```
   static MapReduceDocumentsChain mapReduce({
     required final BaseLanguageModel llm,
-    final int summaryMaxTokens = ReduceDocumentsChain.defaultTokenMax,
     final String inputKey = SummarizeChain.defaultInputKey,
     final String outputKey = SummarizeChain.defaultOutputKey,
     final BasePromptTemplate mapPrompt = _promptTemplate,
@@ -163,6 +168,7 @@ abstract class SummarizeChain {
         StuffDocumentsChain.defaultLlmChainStuffedDocumentPromptVar,
     final String combineDocumentSeparator =
         StuffDocumentsChain.defaultDocumentSeparator,
+    final int combineInputMaxTokens = ReduceDocumentsChain.defaultTokenMax,
     final BasePromptTemplate? collapsePrompt,
     final BaseLanguageModel? collapseLlm,
     final BasePromptTemplate collapseDocumentPrompt =
@@ -204,7 +210,7 @@ abstract class SummarizeChain {
     final reduceDocumentsChain = ReduceDocumentsChain(
       combineDocumentsChain: combineDocumentsChain,
       collapseDocumentsChain: collapseDocumentsChain,
-      tokenMax: summaryMaxTokens,
+      tokenMax: combineInputMaxTokens,
     );
 
     final mapLlmChain = LLMChain(llm: llm, prompt: mapPrompt);
