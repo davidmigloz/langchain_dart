@@ -25,7 +25,15 @@ abstract base class BaseChatMessageHistory {
     return addChatMessage(ChatMessage.ai(message));
   }
 
-  Future<ChatMessage> removeOldestMessage();
+  /// Removes and returns the first (oldest) element of the history.
+  ///
+  /// The history must not be empty when this method is called.
+  Future<ChatMessage> removeFirst();
+
+  /// Removes and returns the last (newest) element of the history.
+  ///
+  /// The history must not be empty when this method is called.
+  Future<ChatMessage> removeLast();
 
   /// Clear the history.
   Future<void> clear();

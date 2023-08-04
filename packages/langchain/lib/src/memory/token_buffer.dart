@@ -2,14 +2,21 @@ import '../model_io/chat_models/models/models.dart';
 import '../model_io/chat_models/utils.dart';
 import '../model_io/language_models/language_models.dart';
 import '../model_io/prompts/prompts.dart';
+import 'buffer_window.dart';
 import 'chat.dart';
 import 'models/models.dart';
+import 'stores/message/in_memory.dart';
 
-/// {@template conversation_buffer_window_memory}
-/// Buffer for storing a conversation in-memory and then retrieving
-/// the messages at a later time. Uses token length to limit the buffer size.
+/// {@template conversation_token_buffer_memory}
+/// Rolling buffer for storing a conversation and then retrieving the messages
+/// at a later time.
 ///
-/// It uses [ConversationTokenBufferMemory] as in-memory storage by default.
+/// It uses token length (rather than number of interactions like
+/// [ConversationBufferWindowMemory]) to determine when to flush old
+/// interactions from the buffer. This allows it to keep more context while
+/// staying under a max token limit.
+///
+/// It uses [ChatMessageHistory] as in-memory storage by default.
 ///
 /// Example:
 /// ```dart
@@ -23,7 +30,7 @@ final class ConversationTokenBufferMemory<
     LLMInput extends Object,
     LLMOptions extends LanguageModelOptions,
     LLMOutput extends Object> extends BaseChatMemory {
-  /// {@macro conversation_buffer_window_memory}
+  /// {@macro conversation_token_buffer_memory}
   ConversationTokenBufferMemory({
     super.chatHistory,
     super.inputKey,
@@ -36,7 +43,7 @@ final class ConversationTokenBufferMemory<
     this.maxTokenLimit = 2000,
   });
 
-  /// Language model to call.
+  /// Language model to use for counting tokens.
   final BaseLanguageModel<LLMInput, LLMOptions, LLMOutput> llm;
 
   /// The prefix to use for human messages.
@@ -75,12 +82,16 @@ final class ConversationTokenBufferMemory<
     required final MemoryInputValues inputValues,
     required final MemoryOutputValues outputValues,
   }) async {
-    super.saveContext(inputValues: inputValues, outputValues: outputValues);
+    await super.saveContext(
+      inputValues: inputValues,
+      outputValues: outputValues,
+    );
     List<ChatMessage> buffer = await chatHistory.getChatMessages();
     int currentBufferLength = await llm.countTokens(PromptValue.chat(buffer));
+    // Prune buffer if it exceeds max token limit
     if (currentBufferLength > maxTokenLimit) {
       while (currentBufferLength > maxTokenLimit) {
-        await chatHistory.removeOldestMessage();
+        await chatHistory.removeFirst();
         buffer = await chatHistory.getChatMessages();
         currentBufferLength = await llm.countTokens(PromptValue.chat(buffer));
       }
