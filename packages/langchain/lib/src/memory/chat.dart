@@ -34,6 +34,9 @@ abstract base class BaseChatMemory implements BaseMemory {
   /// If true, when [loadMemoryVariables] is called, it will return
   /// [ChatMessage] objects. If false, it will return a String representation
   /// of the messages.
+  ///
+  /// Set this to true when you are using a Chat model like `ChatOpenAI`.
+  /// Set this to false when you are use a text LLM like `OpenAI`.
   final bool returnMessages;
 
   @override
