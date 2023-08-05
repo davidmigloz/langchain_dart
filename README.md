@@ -90,45 +90,6 @@ final result = await llm('Hello world!');
 - [Blog](https://blog.langchaindart.com)
 - [Project board](https://github.com/users/davidmigloz/projects/2/views/1)
 
-### Debugging the Dart CLI in Vscode
-To easily run and debug the Dart examples - you can add the `.vscode` folder and the `launch.json` file to your main folder: 
-```
-.vscode/launch.json
-```
-The `launch.json` should look as follows: 
-```
-{
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "Agent CLI",
-      "request": "launch",
-      "type": "dart",
-      "cwd": "examples/hello_world_cli/",
-      "program": "bin/agent_cli.dart",
-      "env": {
-        "OPENAI_API_KEY": "{{yourOpenAiAPiKey}}",
-      },
-      "console": "terminal",
-    },
-    {
-      "name": "Conversation CLI",
-      "request": "launch",
-      "type": "dart",
-      "cwd": "examples/hello_world_cli/",
-      "program": "bin/conversation_cli.dart",
-      "env": {
-        "OPENAI_API_KEY": "{{yourOpenAiAPiKey}}",
-      },
-      "console": "terminal",
-    },
-  ]
-}
-```
-
 ## Support
 
 Having trouble? Get help in the official [LangChain.dart Discord](https://discord.gg/x4qbhqecVR).
