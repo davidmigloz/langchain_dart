@@ -1,13 +1,13 @@
 import '../model_io/prompts/models/models.dart';
 import '../utils/exception.dart';
-import 'models/models.dart';
+import 'agents.dart';
 
 /// {@template base_action_agent}
 /// Base class for action agents.
 /// {@endtemplate}
 abstract class BaseActionAgent {
   /// {@macro base_action_agent}
-  const BaseActionAgent();
+  const BaseActionAgent({required this.tools});
 
   /// The key for the scratchpad (intermediate steps) of the agent.
   static const agentScratchpadInputKey = 'agent_scratchpad';
@@ -27,7 +27,7 @@ abstract class BaseActionAgent {
   String get agentType;
 
   /// The tools this agent can use.
-  Set<String>? getAllowedTools() => null;
+  final List<BaseTool> tools;
 
   /// Given input, decided what to do.
   ///
@@ -68,7 +68,7 @@ abstract class BaseActionAgent {
 /// {@endtemplate}
 abstract class BaseSingleActionAgent extends BaseActionAgent {
   /// {@macro base_single_action_agent}
-  const BaseSingleActionAgent();
+  const BaseSingleActionAgent({required super.tools});
 }
 
 /// {@template base_multi_action_agent}
@@ -76,5 +76,5 @@ abstract class BaseSingleActionAgent extends BaseActionAgent {
 /// {@endtemplate}
 abstract class BaseMultiActionAgent extends BaseActionAgent {
   /// {@macro base_multi_action_agent}
-  const BaseMultiActionAgent();
+  const BaseMultiActionAgent({required super.tools});
 }

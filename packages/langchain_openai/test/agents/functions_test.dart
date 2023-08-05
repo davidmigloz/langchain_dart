@@ -24,7 +24,7 @@ void main() {
       final agent =
           OpenAIFunctionsAgent.fromLLMAndTools(llm: llm, tools: tools);
 
-      final executor = AgentExecutor(agent: agent, tools: tools);
+      final executor = AgentExecutor(agent: agent);
 
       final res = await executor.run('What is 40 raised to the 0.43 power? ');
 
@@ -70,10 +70,7 @@ void main() {
         memory: memory,
       );
 
-      final executor = AgentExecutor(
-        agent: agent,
-        tools: tools,
-      );
+      final executor = AgentExecutor(agent: agent);
 
       final res1 = await executor.run(
         'Search for cats. Return only 3 results.',
