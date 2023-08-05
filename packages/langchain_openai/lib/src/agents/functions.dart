@@ -30,7 +30,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
   /// {@macro openai_functions_agent}
   OpenAIFunctionsAgent({
     required this.llmChain,
-    required this.tools,
+    required super.tools,
   })  : assert(
           llmChain.memory != null ||
               llmChain.prompt.inputVariables
@@ -56,9 +56,6 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
   /// the agent to work properly.
   final LLMChain<BaseChatOpenAI, ChatOpenAIOptions, void, BaseChatMemory>
       llmChain;
-
-  /// The tools this agent has access to.
-  final List<BaseTool> tools;
 
   /// The key for the input to the agent.
   static const agentInputKey = 'input';
@@ -102,11 +99,6 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
       ),
       tools: tools,
     );
-  }
-
-  @override
-  Set<String>? getAllowedTools() {
-    return tools.map((final t) => t.name).toSet();
   }
 
   @override

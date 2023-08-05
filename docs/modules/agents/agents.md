@@ -100,7 +100,7 @@ final agent = OpenAIFunctionsAgent.fromLLMAndTools(llm: llm, tools: tools);
 Now let's create the agent executor and test it out!
 
 ```dart
-final executor = AgentExecutor(agent: agent, tools: tools);
+final executor = AgentExecutor(agent: agent);
 final res = await executor.run('What is 40 raised to the 0.43 power? ');
 print(res); // -> '40 raised to the power of 0.43 is approximately 4.8852' 
 ```

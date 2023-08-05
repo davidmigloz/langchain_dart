@@ -6,41 +6,6 @@ import 'package:test/test.dart';
 
 void main() {
   group('AgentExecutor tests', () {
-    test('AgentExecutor constructor tools validation', () {
-      final tool1 = _MockTool(name: 'tool1');
-      final tool2 = _MockTool(name: 'tool2');
-
-      final agent1 = _SingleActionMockAgent(tools: [tool1]);
-      expect(
-        () => AgentExecutor(agent: agent1, tools: [tool2]),
-        throwsA(isA<AssertionError>()),
-      );
-
-      final agent2 = _SingleActionMockAgent(tools: [tool1]);
-      expect(
-        () => AgentExecutor(agent: agent2, tools: [tool1]),
-        returnsNormally,
-      );
-    });
-
-    test('AgentExecutor constructor multi action agent tools validation', () {
-      final tool1 = _MockTool();
-      final agent1 = _MultiActionMockAgent(tools: [tool1]);
-
-      expect(
-        () => AgentExecutor(agent: agent1, tools: [tool1]),
-        returnsNormally,
-      );
-
-      final tool2 = _MockTool(returnDirect: true);
-      final agent2 = _MultiActionMockAgent(tools: [tool2]);
-
-      expect(
-        () => AgentExecutor(agent: agent2, tools: [tool2]),
-        throwsA(isA<AssertionError>()),
-      );
-    });
-
     test('should return result when maxIterations is reached', () async {
       final tool = _MockTool();
       final agent = _SingleActionMockAgent(
@@ -54,7 +19,6 @@ void main() {
       );
       final executor = AgentExecutor(
         agent: agent,
-        tools: [tool],
         maxIterations: 1,
       );
       final result = await executor.run('test');
@@ -74,7 +38,6 @@ void main() {
       );
       final executor = AgentExecutor(
         agent: agent,
-        tools: [tool],
         maxExecutionTime: const Duration(milliseconds: 1),
       );
       final result = await executor.run('test');
@@ -95,7 +58,7 @@ void main() {
           )
         ],
       );
-      final executor = AgentExecutor(agent: agent, tools: [tool]);
+      final executor = AgentExecutor(agent: agent);
       final result = await executor.run('test');
       expect(result, 'mock');
     });
@@ -113,7 +76,6 @@ void main() {
       );
       final executor = AgentExecutor(
         agent: agent,
-        tools: [tool],
         maxIterations: 1,
         returnIntermediateSteps: true,
       );
@@ -142,7 +104,6 @@ void main() {
       );
       final executor = AgentExecutor(
         agent: agent,
-        tools: [tool],
         handleParsingErrors: (final _) => 'fallback',
         maxIterations: 1,
         returnIntermediateSteps: true,
@@ -174,12 +135,11 @@ final class _MockTool extends Tool {
 
 final class _SingleActionMockAgent extends BaseActionAgent {
   _SingleActionMockAgent({
-    this.tools = const [],
+    super.tools = const [],
     this.actions = const [],
     this.throwOutputParserException = false,
   });
 
-  final List<BaseTool> tools;
   final List<BaseAgentAction> actions;
   final bool throwOutputParserException;
 
@@ -190,11 +150,6 @@ final class _SingleActionMockAgent extends BaseActionAgent {
 
   @override
   Set<String> get inputKeys => {'mock-input-key'};
-
-  @override
-  Set<String> getAllowedTools() {
-    return tools.map((final t) => t.name).toSet();
-  }
 
   @override
   Future<List<BaseAgentAction>> plan(
@@ -211,11 +166,9 @@ final class _SingleActionMockAgent extends BaseActionAgent {
 
 final class _MultiActionMockAgent extends BaseMultiActionAgent {
   _MultiActionMockAgent({
-    this.tools = const [],
+    super.tools = const [],
     this.actions = const [],
   });
-
-  final List<BaseTool> tools;
 
   final List<BaseAgentAction> actions;
 
@@ -226,11 +179,6 @@ final class _MultiActionMockAgent extends BaseMultiActionAgent {
 
   @override
   Set<String> get inputKeys => {'mock-input-key'};
-
-  @override
-  Set<String> getAllowedTools() {
-    return tools.map((final t) => t.name).toSet();
-  }
 
   @override
   Future<List<BaseAgentAction>> plan(
