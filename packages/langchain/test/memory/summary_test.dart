@@ -38,14 +38,14 @@ void main() {
       );
       final memory = ConversationSummaryMemory(llm: model);
       final result1 = await memory.loadMemoryVariables();
-      expect(result1, {'history': ''});
+      expect(result1, {BaseMemory.defaultMemoryKey: ''});
 
       await memory.saveContext(
         inputValues: {'foo': 'bar'},
         outputValues: {'bar': 'foo'},
       );
       final result2 = await memory.loadMemoryVariables();
-      expect(result2, {'history': 'System: Human said foo'});
+      expect(result2, {BaseMemory.defaultMemoryKey: 'System: Human said foo'});
     });
 
     test('Test summary memory return system messages', () async {
@@ -100,7 +100,7 @@ void main() {
       final memory =
           ConversationSummaryMemory(llm: model, returnMessages: true);
       final result1 = await memory.loadMemoryVariables();
-      expect(result1, {'history': <ChatMessage>[]});
+      expect(result1, {BaseMemory.defaultMemoryKey: <ChatMessage>[]});
 
       await memory.saveContext(
         inputValues: {'foo': 'bar'},
@@ -108,7 +108,7 @@ void main() {
       );
       final expectedResult = [ChatMessage.system('Human said foo')];
       final result2 = await memory.loadMemoryVariables();
-      expect(result2, {'history': expectedResult});
+      expect(result2, {BaseMemory.defaultMemoryKey: expectedResult});
 
       await memory.saveContext(
         inputValues: {'foo': 'bar1'},
@@ -117,7 +117,7 @@ void main() {
 
       final expectedResult2 = [ChatMessage.system('Human said bar')];
       final result3 = await memory.loadMemoryVariables();
-      expect(result3, {'history': expectedResult2});
+      expect(result3, {BaseMemory.defaultMemoryKey: expectedResult2});
     });
 
     test('Test buffer memory with pre-loaded history', () async {
@@ -146,10 +146,10 @@ void main() {
       final memory = await ConversationSummaryMemory.fromMessages(
         llm: model,
         chatHistory: ChatMessageHistory(messages: pastMessages),
-        prompt: prompt,
+        summaryPromptTemplate: prompt,
       );
       final result = await memory.loadMemoryVariables();
-      expect(result, {'history': 'System: Human said foo'});
+      expect(result, {BaseMemory.defaultMemoryKey: 'System: Human said foo'});
     });
 
     test('Test clear memory', () async {
@@ -171,19 +171,54 @@ void main() {
           }
         },
       );
-      final memory = ConversationSummaryMemory(llm: model, prompt: prompt)
-        ..buffer = 'Human said bar';
+      final memory = ConversationSummaryMemory(
+        llm: model,
+        summaryPromptTemplate: prompt,
+        initialSummary: 'Human said bar',
+      );
       await memory.saveContext(
         inputValues: {'foo': 'bar'},
         outputValues: {'bar': 'foo'},
       );
       const expectedString = 'System: Human said foo';
       final result1 = await memory.loadMemoryVariables();
-      expect(result1, {'history': expectedString});
+      expect(result1, {BaseMemory.defaultMemoryKey: expectedString});
 
       await memory.clear();
       final result2 = await memory.loadMemoryVariables();
-      expect(result2, {'history': ''});
+      expect(result2, {BaseMemory.defaultMemoryKey: ''});
+    });
+
+    test('Test summaryMessageBuilder', () async {
+      const prompt = PromptTemplate(
+        inputVariables: {'summary', 'new_lines'},
+        template: 'Please summary {summary} with {new_lines}',
+      );
+      final model = FakeHandlerLLM(
+        handler: (final prompt, final options, final callCount) {
+          switch (callCount) {
+            case 1:
+              expect(
+                prompt,
+                "Please summary  with Human: My name's Jonas\nAI: Nice to meet you, Jonas!",
+              );
+              return 'Human said foo';
+            default:
+              throw TestFailure('Unexpected call count: $callCount');
+          }
+        },
+      );
+      final memory = ConversationSummaryMemory(
+        llm: model,
+        summaryPromptTemplate: prompt,
+        summaryMessageBuilder: ChatMessage.ai,
+      );
+      await memory.saveContext(
+        inputValues: {'foo': "My name's Jonas"},
+        outputValues: {'bar': 'Nice to meet you, Jonas!'},
+      );
+      final result = await memory.loadMemoryVariables();
+      expect(result, {BaseMemory.defaultMemoryKey: 'AI: Human said foo'});
     });
   });
 }

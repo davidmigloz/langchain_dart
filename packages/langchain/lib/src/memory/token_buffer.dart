@@ -27,10 +27,8 @@ import 'stores/message/in_memory.dart';
 /// // {'history': 'Human: bar\nAI: foo'}
 /// ```
 /// {@endtemplate}
-final class ConversationTokenBufferMemory<
-    LLMInput extends Object,
-    LLMOptions extends LanguageModelOptions,
-    LLMOutput extends Object> extends BaseChatMemory {
+final class ConversationTokenBufferMemory<LLMType extends BaseLanguageModel>
+    extends BaseChatMemory {
   /// {@macro conversation_token_buffer_memory}
   ConversationTokenBufferMemory({
     super.chatHistory,
@@ -50,7 +48,7 @@ final class ConversationTokenBufferMemory<
   final int maxTokenLimit;
 
   /// Language model to use for counting tokens.
-  final BaseLanguageModel<LLMInput, LLMOptions, LLMOutput> llm;
+  final LLMType llm;
 
   /// The memory key to use for the chat history.
   /// This will be passed as input variable to the prompt.
