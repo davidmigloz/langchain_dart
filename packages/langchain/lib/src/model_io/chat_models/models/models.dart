@@ -336,12 +336,12 @@ CustomChatMessage{
 /// Role of a chat message
 enum ChatMessageRole { system, human, ai, custom }
 
-/// {@template openai_function_model}
+/// {@template chat_function}
 /// The description of a function that can be called by the chat model.
 /// {@endtemplate
 @immutable
 class ChatFunction {
-  /// {@macro openai_function_model}
+  /// {@macro chat_function}
   const ChatFunction({
     required this.name,
     this.description,

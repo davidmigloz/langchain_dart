@@ -15,8 +15,8 @@ abstract base class BaseChatMessageHistory {
   /// Add [ChatMessage] to the history.
   Future<void> addChatMessage(final ChatMessage message);
 
-  /// Add a user message to the history.
-  Future<void> addUserChatMessage(final String message) {
+  /// Add a human message to the history.
+  Future<void> addHumanChatMessage(final String message) {
     return addChatMessage(ChatMessage.human(message));
   }
 

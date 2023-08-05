@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:meta/meta.dart';
 
+import '../../model_io/chat_models/models/models.dart';
 import 'models/models.dart';
 
 /// {@template base_tool}
@@ -102,6 +103,15 @@ abstract base class BaseTool {
     required final Map<String, dynamic> toolInput,
   }) {
     return run(toolInput);
+  }
+
+  /// Converts the tool to a [ChatFunction].
+  ChatFunction toChatFunction() {
+    return ChatFunction(
+      name: name,
+      description: description,
+      parameters: inputJsonSchema,
+    );
   }
 
   @override

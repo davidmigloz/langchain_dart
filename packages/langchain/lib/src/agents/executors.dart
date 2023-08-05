@@ -17,6 +17,12 @@ import 'tools/invalid.dart';
 /// retrieves the output, and passes it back to the agent to determine the next
 /// action. This process continues until the agent determines it can directly
 /// respond to the user or completes its task.
+///
+/// If you add [memory] to the [AgentExecutor], it will save the
+/// [AgentExecutor]'s inputs and outputs. It won't save the agent's
+/// intermediate inputs and outputs. If you want to save the agent's
+/// intermediate inputs and outputs, you should add [memory] to the agent
+/// instead.
 /// {@endtemplate}
 class AgentExecutor extends BaseChain {
   AgentExecutor({

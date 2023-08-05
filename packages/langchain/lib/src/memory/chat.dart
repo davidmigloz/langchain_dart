@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import '../model_io/chat_models/models/models.dart';
 import '../utils/exception.dart';
 import 'base.dart';
 import 'models/models.dart';
@@ -46,11 +47,21 @@ abstract base class BaseChatMemory implements BaseMemory {
   }) async {
     // this is purposefully done in sequence so they're saved in order
     final (input, output) = _getInputOutputValues(inputValues, outputValues);
-    await chatHistory.addUserChatMessage(input);
-    await chatHistory.addAIChatMessage(output);
+
+    if (input is ChatMessage) {
+      await chatHistory.addChatMessage(input);
+    } else {
+      await chatHistory.addHumanChatMessage(input.toString());
+    }
+
+    if (output is ChatMessage) {
+      await chatHistory.addChatMessage(output);
+    } else {
+      await chatHistory.addAIChatMessage(output.toString());
+    }
   }
 
-  (String input, String output) _getInputOutputValues(
+  (dynamic input, dynamic output) _getInputOutputValues(
     final MemoryInputValues inputValues,
     final MemoryOutputValues outputValues,
   ) {

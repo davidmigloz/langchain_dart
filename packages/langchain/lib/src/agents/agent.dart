@@ -9,6 +9,9 @@ abstract class BaseActionAgent {
   /// {@macro base_action_agent}
   const BaseActionAgent();
 
+  /// The key for the scratchpad (intermediate steps) of the agent.
+  static const agentScratchpadInputKey = 'agent_scratchpad';
+
   /// Return key for the agent's output.
   static const agentReturnKey = 'output';
 

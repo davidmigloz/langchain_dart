@@ -1,3 +1,4 @@
+import 'package:langchain/src/agents/agent.dart';
 import 'package:langchain/src/memory/memory.dart';
 import 'package:langchain/src/model_io/chat_models/chat_models.dart';
 import 'package:test/test.dart';
@@ -7,7 +8,7 @@ void main() {
     test('Test buffer memory', () async {
       final memory = ConversationBufferMemory();
       final result1 = await memory.loadMemoryVariables();
-      expect(result1, {'history': ''});
+      expect(result1, {BaseMemory.defaultMemoryKey: ''});
 
       await memory.saveContext(
         inputValues: {'foo': 'bar'},
@@ -15,13 +16,13 @@ void main() {
       );
       const expectedString = 'Human: bar\nAI: foo';
       final result2 = await memory.loadMemoryVariables();
-      expect(result2, {'history': expectedString});
+      expect(result2, {BaseMemory.defaultMemoryKey: expectedString});
     });
 
     test('Test buffer memory return messages', () async {
       final memory = ConversationBufferMemory(returnMessages: true);
       final result1 = await memory.loadMemoryVariables();
-      expect(result1, {'history': <ChatMessage>[]});
+      expect(result1, {BaseMemory.defaultMemoryKey: <ChatMessage>[]});
 
       await memory.saveContext(
         inputValues: {'foo': 'bar'},
@@ -32,7 +33,24 @@ void main() {
         ChatMessage.ai('foo'),
       ];
       final result2 = await memory.loadMemoryVariables();
-      expect(result2, {'history': expectedResult});
+      expect(result2, {BaseMemory.defaultMemoryKey: expectedResult});
+    });
+
+    test('Test chat message as input and output', () async {
+      final memory = ConversationBufferMemory(returnMessages: true);
+      final result1 = await memory.loadMemoryVariables();
+      expect(result1, {BaseMemory.defaultMemoryKey: <ChatMessage>[]});
+
+      await memory.saveContext(
+        inputValues: {'foo': ChatMessage.function(name: 'foo', content: 'bar')},
+        outputValues: {'bar': ChatMessage.ai('baz')},
+      );
+      final expectedResult = [
+        ChatMessage.function(name: 'foo', content: 'bar'),
+        ChatMessage.ai('baz'),
+      ];
+      final result2 = await memory.loadMemoryVariables();
+      expect(result2, {BaseMemory.defaultMemoryKey: expectedResult});
     });
 
     test('Test buffer memory with pre-loaded history', () async {
@@ -45,7 +63,7 @@ void main() {
         chatHistory: ChatMessageHistory(messages: pastMessages),
       );
       final result = await memory.loadMemoryVariables();
-      expect(result, {'history': pastMessages});
+      expect(result, {BaseMemory.defaultMemoryKey: pastMessages});
     });
 
     test('Test clear memory', () async {
@@ -56,11 +74,69 @@ void main() {
       );
       const expectedString = 'Human: bar\nAI: foo';
       final result1 = await memory.loadMemoryVariables();
-      expect(result1, {'history': expectedString});
+      expect(result1, {BaseMemory.defaultMemoryKey: expectedString});
 
       memory.clear();
       final result2 = await memory.loadMemoryVariables();
-      expect(result2, {'history': ''});
+      expect(result2, {BaseMemory.defaultMemoryKey: ''});
+    });
+
+    test('Test reserved keys are ignored when selecting prompt input keys',
+        () async {
+      final memory = ConversationBufferMemory(returnMessages: true);
+      await memory.saveContext(
+        inputValues: {
+          'foo': 'bar',
+          'stop': 'stop',
+          BaseActionAgent.agentScratchpadInputKey: 'baz',
+        },
+        outputValues: {'bar': 'foo'},
+      );
+      final expectedResult = [
+        ChatMessage.human('bar'),
+        ChatMessage.ai('foo'),
+      ];
+      final result1 = await memory.loadMemoryVariables();
+      expect(result1, {BaseMemory.defaultMemoryKey: expectedResult});
+    });
+
+    test('Test multiple input values with inputKey specified', () async {
+      final memory = ConversationBufferMemory(
+        returnMessages: true,
+        inputKey: 'foo2',
+      );
+      await memory.saveContext(
+        inputValues: {
+          'foo1': 'bar1',
+          'foo2': 'bar2',
+          BaseActionAgent.agentScratchpadInputKey: 'baz',
+        },
+        outputValues: {'bar': 'foo'},
+      );
+      final expectedResult = [
+        ChatMessage.human('bar2'),
+        ChatMessage.ai('foo'),
+      ];
+      final result1 = await memory.loadMemoryVariables();
+      expect(result1, {BaseMemory.defaultMemoryKey: expectedResult});
+    });
+
+    test(
+        'Test error is thrown if inputKey not specified when using with '
+        'multiple input values', () async {
+      final memory = ConversationBufferMemory(returnMessages: true);
+
+      // expect throws exception if no input keys are selected
+      expect(
+        () async => memory.saveContext(
+          inputValues: {
+            'foo1': 'bar1',
+            'foo2': 'bar2',
+          },
+          outputValues: {'bar': 'foo'},
+        ),
+        throwsException,
+      );
     });
   });
 }

@@ -13,7 +13,7 @@ void main() {
 
     test('Test addUserMessage', () async {
       final history = ChatMessageHistory()
-        ..addUserChatMessage('This is a human msg');
+        ..addHumanChatMessage('This is a human msg');
       final messages = await history.getChatMessages();
       expect(messages.first, isA<HumanChatMessage>());
       expect(messages.first.content, 'This is a human msg');

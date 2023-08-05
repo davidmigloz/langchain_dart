@@ -15,13 +15,13 @@ void main() {
       );
       const expectedString = 'Human: bar\nAI: foo';
       final result2 = await memory.loadMemoryVariables();
-      expect(result2, {'history': expectedString});
+      expect(result2, {BaseMemory.defaultMemoryKey: expectedString});
     });
 
     test('Test buffer memory return messages', () async {
       final memory = ConversationBufferWindowMemory(k: 1, returnMessages: true);
       final result1 = await memory.loadMemoryVariables();
-      expect(result1, {'history': <ChatMessage>[]});
+      expect(result1, {BaseMemory.defaultMemoryKey: <ChatMessage>[]});
 
       await memory.saveContext(
         inputValues: {'foo': 'bar'},
@@ -32,7 +32,7 @@ void main() {
         ChatMessage.ai('foo'),
       ];
       final result2 = await memory.loadMemoryVariables();
-      expect(result2, {'history': expectedResult});
+      expect(result2, {BaseMemory.defaultMemoryKey: expectedResult});
 
       await memory.saveContext(
         inputValues: {'foo': 'bar1'},
@@ -44,7 +44,7 @@ void main() {
         ChatMessage.ai('foo1'),
       ];
       final result3 = await memory.loadMemoryVariables();
-      expect(result3, {'history': expectedResult2});
+      expect(result3, {BaseMemory.defaultMemoryKey: expectedResult2});
     });
 
     test('Test buffer memory with pre-loaded history', () async {
@@ -57,7 +57,7 @@ void main() {
         chatHistory: ChatMessageHistory(messages: pastMessages),
       );
       final result = await memory.loadMemoryVariables();
-      expect(result, {'history': pastMessages});
+      expect(result, {BaseMemory.defaultMemoryKey: pastMessages});
     });
 
     test('Test clear memory', () async {
@@ -68,11 +68,11 @@ void main() {
       );
       const expectedString = 'Human: bar\nAI: foo';
       final result1 = await memory.loadMemoryVariables();
-      expect(result1, {'history': expectedString});
+      expect(result1, {BaseMemory.defaultMemoryKey: expectedString});
 
       memory.clear();
       final result2 = await memory.loadMemoryVariables();
-      expect(result2, {'history': ''});
+      expect(result2, {BaseMemory.defaultMemoryKey: ''});
     });
   });
 }

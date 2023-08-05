@@ -1,3 +1,4 @@
+import '../agents/agent.dart';
 import '../utils/exception.dart';
 import 'models/models.dart';
 
@@ -10,13 +11,17 @@ String getPromptInputKey(
   final MemoryInputValues inputValues,
   final Set<String> memoryKeys,
 ) {
-  // "stop" is a special key that can be passed as input but is not used to
-  // format the prompt
-  final promptInputKeys =
-      inputValues.keys.toSet().difference({...memoryKeys, 'stop'});
+  // Reserved keys can be passed as input but is not used to format the prompt
+  final promptInputKeys = inputValues.keys.toSet().difference({
+    ...memoryKeys,
+    'stop',
+    BaseActionAgent.agentScratchpadInputKey,
+  });
   if (promptInputKeys.length != 1) {
     throw LangChainException(
-      message: 'One input key expected got $promptInputKeys',
+      message: 'One input key expected got $promptInputKeys. '
+          'If you have multiple input keys in your prompt you need to specify '
+          'the input key to use for the memory using the `inputKey` parameter.',
     );
   }
   return promptInputKeys.first;
