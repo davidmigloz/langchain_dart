@@ -621,8 +621,85 @@ CustomChatMessagePromptTemplate{
   }
 }
 
+/// {@template message_placeholder}
+/// Prompt template that assumes the variable is a [ChatMessage].
+///
+/// This is useful when you want to use a single [ChatMessage] in the prompt.
+/// For example, when you decide the type of message at runtime (e.g.
+/// [HumanChatMessage] or [FunctionChatMessage]).
+///
+/// If you need to add multiple messages, use [MessagesPlaceholder].
+///
+/// Example:
+/// ```dart
+/// ChatPromptTemplate.fromPromptMessages([
+///   SystemChatMessagePromptTemplate.fromTemplate(
+///     'You are a helpful AI assistant',
+///   ),
+///   MessagesPlaceholder(variableName: '{history'),
+///   MessagePlaceholder(variableName: '{input'),
+/// ]);
+/// ```
+/// {@endtemplate}
+@immutable
+final class MessagePlaceholder extends BaseChatMessagePromptTemplate {
+  /// {@macro message_placeholder}
+  const MessagePlaceholder({required this.variableName})
+      : super(prompt: const PromptTemplate(inputVariables: {}, template: ''));
+
+  final String variableName;
+
+  @override
+  Set<String> get inputVariables => {variableName};
+
+  @override
+  PartialValues? get partialVariables => null;
+
+  @override
+  List<ChatMessage> formatMessages([
+    final Map<String, dynamic> values = const {},
+  ]) {
+    final message = values[variableName] as ChatMessage?;
+    return [if (message != null) message];
+  }
+
+  @override
+  String toString() {
+    return '''
+MessagePlaceholder{
+  variableName: $variableName,
+  inputVariables: $inputVariables,
+  partialVariables: $partialVariables,
+}''';
+  }
+
+  @override
+  BaseChatMessagePromptTemplate copyWith({
+    final BasePromptTemplate? prompt,
+    final String? variableName,
+  }) {
+    return MessagePlaceholder(
+      variableName: variableName ?? this.variableName,
+    );
+  }
+}
+
 /// {@template messages_placeholder}
-/// Prompt template that assumes variable is already list of messages.
+/// Prompt template that assumes the variable is a list of [ChatMessage].
+///
+/// This is useful for when you want to use a list of messages in the prompt.
+/// For example, after retrieving them from memory.
+///
+/// Example:
+/// ```dart
+/// ChatPromptTemplate.fromPromptMessages([
+///   SystemChatMessagePromptTemplate.fromTemplate(
+///     'You are a helpful AI assistant',
+///   ),
+///   MessagesPlaceholder(variableName: '{history'),
+///   HumanChatMessagePromptTemplate.fromTemplate('{input}'),
+/// ]);
+/// ```
 /// {@endtemplate}
 @immutable
 final class MessagesPlaceholder extends BaseChatMessagePromptTemplate {
