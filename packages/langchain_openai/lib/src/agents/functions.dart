@@ -148,7 +148,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
 
     return {
       ...inputs,
-      agentInputKey: [agentInput],
+      agentInputKey: agentInput,
       if (llmChain.memory == null)
         BaseActionAgent.agentScratchpadInputKey:
             _constructScratchPad(intermediateSteps),
@@ -220,7 +220,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
         ),
       for (final memoryKey in memory?.memoryKeys ?? {})
         MessagesPlaceholder(variableName: memoryKey),
-      const MessagesPlaceholder(variableName: agentInputKey),
+      const MessagePlaceholder(variableName: agentInputKey),
     ]);
   }
 }
