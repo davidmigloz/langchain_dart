@@ -636,8 +636,8 @@ CustomChatMessagePromptTemplate{
 ///   SystemChatMessagePromptTemplate.fromTemplate(
 ///     'You are a helpful AI assistant',
 ///   ),
-///   MessagesPlaceholder(variableName: '{history'),
-///   MessagePlaceholder(variableName: '{input'),
+///   MessagesPlaceholder(variableName: '{history}'),
+///   MessagePlaceholder(variableName: '{input}'),
 /// ]);
 /// ```
 /// {@endtemplate}
@@ -696,7 +696,7 @@ MessagePlaceholder{
 ///   SystemChatMessagePromptTemplate.fromTemplate(
 ///     'You are a helpful AI assistant',
 ///   ),
-///   MessagesPlaceholder(variableName: '{history'),
+///   MessagesPlaceholder(variableName: '{history}'),
 ///   HumanChatMessagePromptTemplate.fromTemplate('{input}'),
 /// ]);
 /// ```
