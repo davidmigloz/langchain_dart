@@ -22,9 +22,48 @@ const _systemChatMessagePromptTemplate = SystemChatMessagePromptTemplate(
 /// );
 /// final tools = [CalculatorTool()];
 /// final agent = OpenAIFunctionsAgent.fromLLMAndTools(llm: llm, tools: tools);
-/// final executor = AgentExecutor(agent: agent, tools: tools);
+/// final executor = AgentExecutor(agent: agent);
 /// final res = await executor.run('What is 40 raised to the 0.43 power? ');
 /// ```
+///
+/// You can easily add memory to the agent using the memory parameter from the
+/// [OpenAIFunctionsAgent.fromLLMAndTools] constructor. Make sure you enable
+/// [BaseChatMemory.returnMessages] on your memory, as the agent works with
+/// [ChatMessage]s. The default prompt template already takes care of adding
+/// the history to the prompt. For example:
+/// ```dart
+/// final memory = ConversationBufferMemory(returnMessages: true);
+/// final agent = OpenAIFunctionsAgent.fromLLMAndTools(
+///   llm: llm,
+///   tools: tools,
+///   memory: memory,
+/// );
+/// ```
+///
+/// If you need to use your own [llmChain] make sure your prompt template
+/// includes:
+/// - `MessagePlaceholder(variableName: agentInputKey)`: the input to the agent.
+/// - If you are using memory:
+///   * `MessagesPlaceholder(variableName: '{memoryKey}')`: the history of chat
+///      messages.
+/// - If you are not using memory:
+///   * `MessagesPlaceholder(variableName: BaseActionAgent.agentScratchpadInputKey)`:
+///     the intermediary work of the agent (if you are using memory, the agent
+///     uses the memory to store the intermediary work).
+/// Example:
+/// ```dart
+/// ChatPromptTemplate.fromPromptMessages([
+///   SystemChatMessagePromptTemplate.fromTemplate(
+///     'You are a helpful AI assistant',
+///   ),
+///   MessagesPlaceholder(variableName: '{history}'),
+///   MessagePlaceholder(variableName: '{input}'),
+/// ]);
+/// ```
+///
+/// You can use [OpenAIFunctionsAgent.createPrompt] to build the prompt
+/// template if you only need to customize the system message or add some
+/// extra messages.
 /// {@endtemplate}
 class OpenAIFunctionsAgent extends BaseSingleActionAgent {
   /// {@macro openai_functions_agent}
@@ -191,6 +230,9 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
   String get agentType => 'openai-functions';
 
   /// Creates prompt for this agent.
+  ///
+  /// It takes care of adding the necessary placeholders to handle the
+  /// intermediary work of the agent or the memory.
   ///
   /// - [systemChatMessage] message to use as the system message that will be
   ///   the first in the prompt.
