@@ -24,8 +24,8 @@ import 'models/models.dart';
 ///   execute a Chain. This takes inputs as a dictionary and returns a
 ///   dictionary output.
 /// - [run] A convenience method that takes inputs and returns the output as a
-///   string. This method can only be used for a subset of chains and cannot
-///   return as rich of an output as [call].
+///   string. This method can only be used if the Chain has a single string
+///   output.
 /// {@endtemplate}
 abstract class BaseChain<MemoryType extends BaseMemory> {
   /// {@macro base_chain}
@@ -49,7 +49,10 @@ abstract class BaseChain<MemoryType extends BaseMemory> {
   String get runOutputKey {
     if (outputKeys.length != 1) {
       throw LangChainException(
-        message: '`run` only supports one key output key. Got $outputKeys',
+        message: '`chain.run` method can only be used with chains that return '
+            'a single string output. $chainType chain returns '
+            '${outputKeys.length} output: $outputKeys. '
+            'Use `chain.call` method instead.',
       );
     }
     return outputKeys.first;

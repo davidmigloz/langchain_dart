@@ -10,7 +10,7 @@ base class LangChainException implements Exception {
     this.message,
     final String? code,
     this.stackTrace,
-  }) : code = code ?? 'unknown';
+  }) : code = code ?? 'exception';
 
   /// The long form message of the exception.
   final String? message;
