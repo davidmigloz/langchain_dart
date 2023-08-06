@@ -14,6 +14,39 @@ import 'question_answering/question_answering.dart';
 /// It retrieves the documents using the [retriever] and then combines them
 /// using the [combineDocumentsChain].
 ///
+/// For convenience, you can instantiate this chain using the factory
+/// constructor [RetrievalQAChain.fromLlm]. By default, it uses a prompt
+/// template optimized for question answering that includes the retrieved
+/// documents and the question to answer. The documents are inserted in the
+/// prompt using a [StuffDocumentsQAChain].
+///
+/// The chain returns two outputs:
+/// - `result` (or the output key specified in the constructor): the answer to
+///   the question.
+/// - `source_documents`: the documents used to answer the question.
+///
+/// Note: as the chain returns two outputs you can only call it using the
+/// [call] method. The [run] method is not supported.
+///
+/// Example:
+/// ```dart
+/// final retriever = VectorStoreRetriever(vectorStore: vectorStore);
+/// final retrievalQA = RetrievalQAChain.fromLlm(
+///   llm: llm,
+///   retriever: retriever,
+/// );
+/// final res = await retrievalQA({
+///   RetrievalQAChain.defaultInputKey: 'What did I say?',
+/// });
+/// final answer = res[RetrievalQAChain.defaultOutputKey];
+/// final docs = res[RetrievalQAChain.sourceDocumentsOutputKey];
+/// ```
+///
+/// If you need more flexibility, you can use the primary constructor which
+/// allows you to specify the [retriever] and the [combineDocumentsChain].
+/// Your prompt should include the `{context}` and `{question}` variables to
+/// be replaced by the documents and the question respectively.
+///
 /// Example:
 /// ```dart
 /// final llmChain = LLMChain(prompt: prompt, llm: llm);
@@ -22,7 +55,9 @@ import 'question_answering/question_answering.dart';
 ///   retriever: retriever,
 ///   combineDocumentsChain: stuffChain,
 /// );
-/// final res = await retrievalQA({'query': 'What did I say?'});
+/// final res = await retrievalQA({
+///   RetrievalQAChain.defaultInputKey: 'What did I say?',
+/// });
 /// ```
 /// {@endtemplate}
 class RetrievalQAChain extends BaseChain {
@@ -78,7 +113,7 @@ class RetrievalQAChain extends BaseChain {
   /// Creates a [RetrievalQAChain] from a [LanguageModel] and a [Retriever].
   ///
   /// By default, it uses a prompt template optimized for question answering
-  /// that includes the context and the question.
+  /// that includes the retrieved documents and the question.
   ///
   /// The documents are combined using a [StuffDocumentsChain].
   ///
@@ -89,7 +124,9 @@ class RetrievalQAChain extends BaseChain {
   ///   llm: llm,
   ///   retriever: retriever,
   /// );
-  /// final res = await retrievalQA({'query': 'What did I say?'});
+  /// final res = await retrievalQA({
+  ///   RetrievalQAChain.defaultInputKey: 'What did I say?',
+  /// });
   /// ```
   ///
   /// If you want to use a different prompt template, you can pass it in
