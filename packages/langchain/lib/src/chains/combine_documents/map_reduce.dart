@@ -1,4 +1,5 @@
 import '../../documents/models/models.dart';
+import '../../model_io/chat_models/models/models.dart';
 import '../../model_io/prompts/models/models.dart';
 import '../llm_chain.dart';
 import '../models/models.dart';
@@ -157,7 +158,7 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
     final resultDocs = List<Document>.generate(
       mapResults.length,
       (final i) => Document(
-        pageContent: mapResults[i][questionResultKey],
+        pageContent: _getStringContent(mapResults[i][questionResultKey]),
         metadata: docs[i].metadata,
       ),
     );
@@ -169,7 +170,7 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
 
     if (returnIntermediateSteps) {
       final intermediateSteps = mapResults
-          .map((final r) => r[questionResultKey])
+          .map((final r) => _getStringContent(r[questionResultKey]))
           .toList(growable: false);
       return {
         ...output,
@@ -179,4 +180,10 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
 
     return output;
   }
+
+  String _getStringContent(final dynamic content) => switch (content) {
+        final String resultStr => resultStr,
+        final ChatMessage resultMsg => resultMsg.content,
+        _ => '',
+      };
 }
