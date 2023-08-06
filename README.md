@@ -23,15 +23,15 @@ The components can be grouped into a few core modules:
 
 ![LangChain.dart](https://raw.githubusercontent.com/davidmigloz/langchain_dart/main/docs/img/langchain.dart.png)
 
-- **Model I/O:** streamlines the interaction between the model inputs (prompt templates), the
+- 📃 **Model I/O:** streamlines the interaction between the model inputs (prompt templates), the
   Language Model (abstracting different providers), and the model output (output parsers).
-- **Data Connection:** assists in loading user data (document loaders), modifying it (document
+- 📚 **Data Connection:** assists in loading user data (document loaders), modifying it (document
   transformers), storing (via text embedding models and vector stores), and retrieving when needed
   (retrievers).
-- **Chains:** a way to compose multiple components or other chains into a single pipeline.
-- **Memory:** equips chains or agents with both short-term and long-term memory capabilities,
+- 🔗 **Chains:** a way to compose multiple components or other chains into a single pipeline.
+- 🧠 **Memory:** equips chains or agents with both short-term and long-term memory capabilities,
   facilitating recall of prior interactions with the user.
-- **Agents:** "Bots" that harness LLMs to perform tasks. They serve as the link between LLM and the
+- 🤖 **Agents:** "Bots" that harness LLMs to perform tasks. They serve as the link between LLM and the
   tools (web search, calculators, database lookup, etc.). They determine what has to be
   accomplished and the tools that are more suitable for the specific task.
 
@@ -87,7 +87,7 @@ final result = await llm('Hello world!');
 - [LangChain conceptual guide](https://docs.langchain.com/docs)
 - [LangChain.dart documentation](https://langchaindart.com)
 - [Sample apps](https://github.com/davidmigloz/langchain_dart/tree/main/examples)
-- [Blog](https://blog.langchaindart.com)
+- [LangChain.dart blog](https://blog.langchaindart.com)
 - [Project board](https://github.com/users/davidmigloz/projects/2/views/1)
 
 ## Support

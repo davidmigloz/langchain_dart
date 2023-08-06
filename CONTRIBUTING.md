@@ -4,12 +4,7 @@
 We welcome contributions of any size and skill level, whether it be in the form of a new 
 feature, improved infra, or better documentation.
 
-To contribute to this project, please follow a 
-["fork and pull request"](https://github.com/firstcontributions/first-contributions) workflow.
-
-## 🔗 Quick links
-
-### Not sure what to work on?
+## 🙋Where to start
 
 If you are not sure what to work on, we have a few suggestions:
 
@@ -22,7 +17,70 @@ If you are not sure what to work on, we have a few suggestions:
   If you are interested in working on a specific integration or feature, just pick anything from 
   those lists not done yet, please let us know and we can help you get started.
 
-## 🗺️ Contributing guidelines
+Once you have picked an issue, read the rest of this document to get set up and start contributing!
+
+## 🗺️ Guidelines
+
+### 📁 Project structure
+
+The project has a modular design where the core `langchain` package provides the LangChain API and
+each integration with a model provider, data store, etc. is provided by a separate package
+(e.g. `langchain_openai`).
+
+The project is structured as follows:
+- `packages`: contains the core `langchain` package and all integration packages.
+- `docs`: contains the project documentation.
+- `examples`: contains sample apps that demonstrate how to use the LangChain.dart.
+
+### 👩‍💻 Workflow
+
+To contribute to this project, please follow a
+["fork and pull request"](https://github.com/firstcontributions/first-contributions) workflow.
+
+Pull requests cannot land without passing the formatting, linting and testing checks first. See 
+[Common Tasks](https://github.com/davidmigloz/langchain_dart/blob/main/CONTRIBUTING.md#-common-tasks) 
+for how to run these checks locally.
+
+The project follows [Conventional Commits](https://www.conventionalcommits.org/) specification for commit messages.
+This allows us to automatically generate the changelog and release notes. We use the following types:
+- `feat`: a new feature.
+- `fix`: a bug fix.
+- `refactor`: a code change that neither fixes a bug nor adds a feature.
+- `test`: adding missing tests or correcting existing tests.
+- `docs`: documentation only changes.
+- `chore`: changes to the build process or auxiliary tools.
+
+After the type comes the scope, we use the component name indicated in the issue (e.g. `chains`, `llms`, etc.).
+If it is a breaking change, append a `!` after the type/scope (e.g. `feat(chains)!: ...`).
+At the end of the commit message, add the ticket number (e.g. `#123`).
+
+These are some examples of valid commit messages:
+```
+feat(memory): Add support for ConversationTokenBufferMemory (#26)
+fix(agents): Allow to add memory to an agent executor (#80)
+refactor(memory): Extract default memory key and prefixes to constants
+tests(memory): ChatMessageHistory removeLast and removeFirst (#82)
+docs(agents): Add example of using memory in OpenAIFunctionsAgent (#91)
+```
+
+It's essential that we maintain great documentation and testing. If you:
+- Add a new feature
+  * Add relevant documentation (API docs, project docs, examples, etc.)
+  * Add relevant unit or integration test
+- Fix a bug
+  * Add a relevant unit or integration test
+- Make an improvement
+  * Add or update relevant documentation (API docs, project docs, examples, etc.)
+  * Add or update relevant unit or integration test
+
+If you add a new major piece of functionality, it is helpful to add an example to showcase how to
+use it. Most of our users find examples to be the most helpful kind of documentation.
+
+Examples can be added in the `examples` directory of the repository. Each example should contain
+a README that explains what the example does, and how to run it.
+
+We're a small, building-oriented team. If there's something you'd like to add or change, opening a pull 
+request is the best way to get our attention.
 
 ### 🚩 GitHub issues
 
@@ -70,18 +128,9 @@ codebase. If you are finding these difficult (or even just annoying) to work wit
 contact a maintainer for help - we do not want these to get in the way of getting good code into 
 the codebase.
 
-### 🏭 Release process
-
-As of now, LangChain has an ad hoc release process: releases are cut with high frequency via by
-a developer and published to [pub.dev](https://pub.dev/packages/langchain).
-
-LangChain follows the [semver](https://semver.org/) versioning standard. However, as pre-1.0 
-software, even patch releases may contain 
-[non-backwards-compatible changes](https://semver.org/#spec-item-4).
-
 ## 🚀 Quick start
 
-### Tooling
+Our primary goal is to make it as easy as possible for you to contribute to this project.
 
 This project uses the following tools, which are worth getting familiar with if you plan to 
 contribute:
@@ -92,19 +141,16 @@ contribute:
 - **[GitHub Actions](https://github.com/features/actions)** - a CI/CD tool for GitHub repositories.
 - **[docsify](https://docsify.js.org)** - static site generation for documentation.
 
-Now, you should be able to run the common tasks in the following section.
-
-## ✅ Common tasks
-
-Our primary goal is to make it as easy as possible for you to contribute to this project.
-
-### Setup
-
-To get started, you will need to install the dependencies for the project. To do so, run:
+To get started, run:
 
 ```bash
 melos bootstrap
 ```
+
+This will install all the dependencies and set up the monorepo. If you don't get any errors, 
+you are good to go!
+
+## ✅ Common tasks
 
 ### Formatting
 
@@ -145,14 +191,6 @@ If you only want to run the tests for the packages that have changed compared to
 melos test:diff
 ```
 
-### Examples
-
-If you add a new major piece of functionality, it is helpful to add an example to showcase how to 
-use it. Most of our users find examples to be the most helpful kind of documentation.
-
-Examples can be added in the `examples` directory of the repository. Each example should contain
-a README that explains what the example does, and how to run it.
-
 ## 📄 Documentation
 
 The [API reference](https://pub.dev/documentation/langchain/latest/) docs are automatically 
@@ -168,3 +206,32 @@ You can run a hot-reloading version of the docs static site by running:
 ```bash
 docsify serve docs
 ```
+
+## 🏭 Release process
+
+As of now, LangChain has an ad-hoc release process: releases are cut with high frequency via by
+a developer and published to [pub.dev](https://pub.dev/packages/langchain).
+
+LangChain follows the [semver](https://semver.org/) versioning standard. However, as pre-1.0
+software, even patch releases may contain
+[non-backwards-compatible changes](https://semver.org/#spec-item-4).
+
+To create a release, run:
+
+```bash
+melos version -V langchain:x.x.x --no-private
+```
+
+This command will bump the version in the `langchain` package and all packages that depend on it.
+It will also update the CHANGELOG.md for each package, commit the changes and creates tags.
+
+Create a new release on GitHub and copy the CHANGELOG.md content into the release description.
+
+After that, you can publish the package to pub.dev:
+
+```bash
+melos publish --no-dry-run
+```
+
+Finally, drop by the [Discord](https://discord.gg/x4qbhqecVR) and let everyone know about the new
+release!
