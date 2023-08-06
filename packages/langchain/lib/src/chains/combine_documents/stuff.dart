@@ -1,4 +1,5 @@
 import '../../documents/models/models.dart';
+import '../../model_io/chat_models/models/models.dart';
 import '../../model_io/prompts/prompts.dart';
 import '../llm_chain.dart';
 import '../models/models.dart';
@@ -138,8 +139,13 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
   }) async {
     final llmInputs = _getInputs(docs, inputs);
     final llmOutput = await llmChain.call(llmInputs);
+    final output = switch (llmOutput[llmChain.outputKey]) {
+      final String resultStr => resultStr,
+      final ChatMessage resultMsg => resultMsg.content,
+      _ => '',
+    };
     return {
-      outputKey: llmOutput[llmChain.outputKey],
+      outputKey: output,
       if (!llmChain.returnFinalOnly)
         LLMChain.fullGenerationOutputKey:
             llmOutput[LLMChain.fullGenerationOutputKey],
