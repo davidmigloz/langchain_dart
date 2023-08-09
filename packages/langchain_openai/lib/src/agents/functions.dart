@@ -1,7 +1,6 @@
 import 'package:langchain/langchain.dart';
 
-import '../../langchain_openai.dart';
-import '../chat_models/models/models.dart';
+import '../chat_models/chat_models.dart';
 
 const _systemChatMessagePromptTemplate = SystemChatMessagePromptTemplate(
   prompt: PromptTemplate(
