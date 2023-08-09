@@ -167,5 +167,49 @@ void main() {
         ]),
       );
     });
+
+    test('Test TSV file', () async {
+      const filePath = './test/documents/loaders/assets/example_2.tsv';
+
+      final loader = CsvLoader(
+        filePath,
+        fieldDelimiter: '\t',
+      );
+
+      expect(
+        loader.lazyLoad(),
+        emitsInOrder([
+          const Document(
+            pageContent: 'category: reference\n'
+                'author: Nigel Rees\n'
+                'title: Sayings of the Century\n'
+                'price: 8.95',
+            metadata: {'source': filePath},
+          ),
+          const Document(
+            pageContent: 'category: fiction\n'
+                'author: Evelyn Waugh\n'
+                'title: Sword of Honour\n'
+                'price: 12.99',
+            metadata: {'source': filePath},
+          ),
+          const Document(
+            pageContent: 'category: fiction\n'
+                'author: Herman Melville\n'
+                'title: Moby Dick\n'
+                'price: 8.99',
+            metadata: {'source': filePath},
+          ),
+          const Document(
+            pageContent: 'category: fiction\n'
+                'author: J. R. R. Tolkien\n'
+                'title: The Lord of the Rings\n'
+                'price: 22.99',
+            metadata: {'source': filePath},
+          ),
+          emitsDone,
+        ]),
+      );
+    });
   });
 }
