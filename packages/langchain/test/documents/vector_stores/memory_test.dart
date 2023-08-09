@@ -5,21 +5,21 @@ void main() {
   group('MemoryVectorStore tests', () {
     test('Test MemoryVectorStore search', () async {
       final embeddings = _FakeEmbeddings(vectors: [_chaoVector]);
-      final store = MemoryVectorStore(embeddings: embeddings)
-        ..addVectors(
-          vectors: [
-            _helloVector,
-            _hiVector,
-            _byeVector,
-            _whatsThisVector,
-          ],
-          documents: [
-            const Document(pageContent: 'hello'),
-            const Document(pageContent: 'hi'),
-            const Document(pageContent: 'bye'),
-            const Document(pageContent: "what's this"),
-          ],
-        );
+      final store = MemoryVectorStore(embeddings: embeddings);
+      await store.addVectors(
+        vectors: [
+          _helloVector,
+          _hiVector,
+          _byeVector,
+          _whatsThisVector,
+        ],
+        documents: [
+          const Document(pageContent: 'hello'),
+          const Document(pageContent: 'hi'),
+          const Document(pageContent: 'bye'),
+          const Document(pageContent: "what's this"),
+        ],
+      );
 
       final results = await store.similaritySearch(query: 'chao', k: 1);
 

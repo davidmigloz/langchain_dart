@@ -14,8 +14,8 @@ void main() {
         const Document(pageContent: "what's this"),
       ];
       final embeddings = _FakeEmbeddings();
-      final vectorStore = MemoryVectorStore(embeddings: embeddings)
-        ..addDocuments(documents: documents);
+      final vectorStore = MemoryVectorStore(embeddings: embeddings);
+      await vectorStore.addDocuments(documents: documents);
       final retriever = VectorStoreRetriever(vectorStore: vectorStore);
 
       const model = FakeEchoLLM();
@@ -47,8 +47,8 @@ void main() {
         const Document(pageContent: "what's this"),
       ];
       final embeddings = _FakeEmbeddings();
-      final vectorStore = MemoryVectorStore(embeddings: embeddings)
-        ..addDocuments(documents: documents);
+      final vectorStore = MemoryVectorStore(embeddings: embeddings);
+      await vectorStore.addDocuments(documents: documents);
       final retriever = VectorStoreRetriever(vectorStore: vectorStore);
 
       const llm = FakeEchoLLM();

@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('BaseTool tests', () {
-    test('StructuredTool.fromFunction', () {
+    test('StructuredTool.fromFunction', () async {
       final echoTool = BaseTool.fromFunction(
         name: 'echo-int',
         description: 'echo-int',
@@ -17,7 +17,7 @@ void main() {
       expect(echoTool.run({'input': 1}), '1');
     });
 
-    test('Tool.fromFunction', () {
+    test('Tool.fromFunction', () async {
       final echoTool = Tool.fromFunction(
         name: 'echo',
         description: 'echo',
