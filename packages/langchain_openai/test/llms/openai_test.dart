@@ -5,7 +5,6 @@ import 'dart:io';
 
 import 'package:langchain/langchain.dart';
 import 'package:langchain_openai/langchain_openai.dart';
-import 'package:langchain_openai/src/llms/models/models.dart';
 import 'package:test/test.dart';
 
 void main() {
