@@ -1,7 +1,6 @@
 import 'package:langchain/langchain.dart';
 
 import '../chat_models/chat_models.dart';
-import '../chat_models/models/models.dart';
 
 /// {@template openai_qa_with_structure_chain}
 /// A chain that answers questions returning the answers with the specified
