@@ -1,6 +1,6 @@
 name: langchain_openai
 description: OpenAI module for LangChain.dart.
-version: 0.0.5
+version: 0.0.5+1
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_openai
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues
 homepage: https://github.com/davidmigloz/langchain_dart
@@ -12,7 +12,7 @@ environment:
 dependencies:
   collection: ^1.17.1
   dart_openai: ^4.0.0
-  langchain: ^0.0.5
+  langchain: ^0.0.5+1
   meta: ^1.9.1
   tiktoken: ^1.0.3
 
