@@ -7,7 +7,7 @@ import '../models/models.dart';
 import 'base.dart';
 
 /// {@template csv_loader}
-/// A document loader for loading documents from CSV files.
+/// A document loader for loading documents from CSV or TSV files.
 ///
 /// It reads the CSV file specified by [filePath] and transforms each row into
 /// a [Document] object.
@@ -27,6 +27,8 @@ import 'base.dart';
 ///
 /// You can specify a [sourceField] to use as the source metadata field for
 /// each document. Otherwise, the [filePath] will be used as source.
+///
+/// For loading TSV files, set the [fieldDelimiter] as `\t`.
 ///
 /// Example:
 /// ```dart
