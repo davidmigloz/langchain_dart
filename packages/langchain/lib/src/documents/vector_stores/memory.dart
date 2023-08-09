@@ -9,6 +9,12 @@ import 'base.dart';
 
 /// {@template memory_vector_store}
 /// Vector store that stores vectors in memory.
+///
+/// By default, it uses cosine similarity to compare vectors.
+///
+/// It iterates over all vectors in the store to find the most similar vectors.
+/// This is not efficient for large vector stores as it has a time complexity
+/// of O(vector_dimensionality * num_vectors).
 /// {@endtemplate}
 class MemoryVectorStore extends VectorStore {
   /// {@macro memory_vector_store}
