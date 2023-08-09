@@ -37,13 +37,13 @@ class PopUpScreenCubit extends Cubit<PopUpScreenState> {
     emit(state.copyWith(openAiKey: openAIKey));
   }
 
-  void onSaveOpenAiKeyPressed() {
+  Future<void> onSaveOpenAiKeyPressed() async {
     final openAIKey = state.openAiKey;
     if (openAIKey == null) {
       return;
     }
 
-    settingsRepository.saveOpenAiKey(openAIKey);
+    await settingsRepository.saveOpenAiKey(openAIKey);
     emit(state.copyWith(status: PopUpScreenStatus.idle));
   }
 

@@ -6,8 +6,8 @@ import 'package:langchain_openai/langchain_openai.dart';
 
 void main() async {
   // Uncomment the example you want to run:
-  _example1();
-  // _example2();
+  await _example1();
+  // await _example2();
 }
 
 /// The most basic building block of LangChain is calling an LLM on some input.

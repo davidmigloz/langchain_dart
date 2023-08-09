@@ -10,7 +10,7 @@ void main() {
       };
       const memory = SimpleMemory(memories: memories);
       expect(await memory.loadMemoryVariables(), memories);
-      memory.saveContext(
+      await memory.saveContext(
         inputValues: {
           'foo': 'bar2',
           'bar': 'foo2',
@@ -20,7 +20,7 @@ void main() {
         },
       );
       expect(await memory.loadMemoryVariables(), memories);
-      memory.clear();
+      await memory.clear();
       expect(await memory.loadMemoryVariables(), memories);
     });
   });

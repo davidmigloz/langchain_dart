@@ -76,7 +76,7 @@ void main() {
       final result1 = await memory.loadMemoryVariables();
       expect(result1, {BaseMemory.defaultMemoryKey: expectedString});
 
-      memory.clear();
+      await memory.clear();
       final result2 = await memory.loadMemoryVariables();
       expect(result2, {BaseMemory.defaultMemoryKey: ''});
     });

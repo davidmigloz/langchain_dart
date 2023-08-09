@@ -34,22 +34,23 @@ class MemoryVectorStore extends VectorStore {
   /// - [texts] is a list of texts to add to the vector store.
   /// - [metadatas] is a list of metadata to add to the vector store.
   /// - [embeddings] is the embeddings model to use to embed the texts.
-  factory MemoryVectorStore.fromText({
+  static Future<MemoryVectorStore> fromText({
     required final List<String> texts,
     required final List<Map<String, dynamic>> metadatas,
     required final Embeddings embeddings,
-  }) {
-    return MemoryVectorStore(embeddings: embeddings)
-      ..addDocuments(
-        documents: texts
-            .mapIndexed(
-              (final i, final text) => Document(
-                pageContent: text,
-                metadata: i < metadatas.length ? metadatas[i] : const {},
-              ),
-            )
-            .toList(growable: false),
-      );
+  }) async {
+    final vs = MemoryVectorStore(embeddings: embeddings);
+    await vs.addDocuments(
+      documents: texts
+          .mapIndexed(
+            (final i, final text) => Document(
+              pageContent: text,
+              metadata: i < metadatas.length ? metadatas[i] : const {},
+            ),
+          )
+          .toList(growable: false),
+    );
+    return vs;
   }
 
   /// Creates a vector store from a list of documents.
