@@ -1,0 +1,121 @@
+import 'package:googleapis/aiplatform/v1.dart';
+import 'package:googleapis_auth/googleapis_auth.dart';
+
+import 'apis/apis.dart';
+
+/// {@template vertex_ai_gen_ai_client}
+/// A client for interacting with Vertex AI's Generative AI foundational models.
+///
+/// APIs available:
+/// - [text] API: models fine-tuned to follow natural language instructions and
+///   suitable for a variety of language tasks (e.g. `text-bison`).
+/// - [chat] API: models fine-tuned for multi-turn conversation use cases
+///   (e.g. `chat-bison`).
+/// - [textEmbeddings] API: models that extract semantic information from text
+///   (e.g. `textembedding-gecko`).
+///
+/// Vertex AI Generative AI documentation:
+/// https://cloud.google.com/vertex-ai/docs/generative-ai/learn/overview
+///
+/// API documentation:
+/// https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/overview
+///
+/// ### Set up your Google Cloud project
+///
+/// 1. [Select or create a Google Cloud project](https://console.cloud.google.com/cloud-resource-manager).
+/// 2. [Make sure that billing is enabled for your project](https://cloud.google.com/billing/docs/how-to/modify-project).
+/// 3. [Enable the Vertex AI API](https://console.cloud.google.com/flows/enableapi?apiid=aiplatform.googleapis.com).
+/// 4. [Configure the Vertex AI location](https://cloud.google.com/vertex-ai/docs/general/locations).
+///
+/// ### Authentication
+///
+/// The HTTP [client] passed to the constructor must be authenticated.
+/// You can use the [`googleapis_auth`](https://pub.dev/packages/googleapis_auth)
+/// package to obtain an authenticated HTTP client.
+///
+/// Check out the `googleapis_auth` documentation for more information:
+/// https://pub.dev/packages/googleapis_auth
+///
+/// Example using a service account:
+/// ```dart
+/// final serviceAccountCredentials = ServiceAccountCredentials.fromJson(
+///   json.decode(serviceAccountJson),
+/// );
+/// final authClient = await clientViaServiceAccount(
+///   serviceAccountCredentials,
+///   [VertexAIGenAIClient.cloudPlatformScope],
+/// );
+/// final vertexAi = VertexAIGenAIClient(
+///   authHttpClient: authClient,
+///   project: 'your-project-id',
+/// );
+/// ```
+///
+/// The service account should have the following permission:
+/// - `aiplatform.endpoints.predict`
+///
+/// The required scopes are:
+/// - `https://www.googleapis.com/auth/cloud-platform` (you can use the
+///   constant [VertexAIGenAIClient.cloudPlatformScope])
+///
+/// See: https://cloud.google.com/vertex-ai/docs/generative-ai/access-control
+///
+/// ### Pricing
+///
+/// You can find pricing information for Vertex AI here:
+/// https://cloud.google.com/vertex-ai/docs/generative-ai/pricing
+/// {@endtemplate}
+class VertexAIGenAIClient {
+  /// {@macro vertex_ai_gen_ai_client}
+  VertexAIGenAIClient({
+    required final AuthClient authHttpClient,
+    required this.project,
+    this.location = 'us-central1',
+    final String rootUrl = 'https://us-central1-aiplatform.googleapis.com/',
+  }) : _vertexAiApi = AiplatformApi(authHttpClient, rootUrl: rootUrl);
+
+  /// The Google Cloud project to use for interacting with Vertex AI.
+  final String project;
+
+  /// The Google Cloud location to use for interacting with Vertex AI.
+  ///
+  /// See: https://cloud.google.com/vertex-ai/docs/general/locations
+  final String location;
+
+  /// Vertex AI API client.
+  final AiplatformApi _vertexAiApi;
+
+  /// Scope required for Vertex AI API calls.
+  static const cloudPlatformScope = AiplatformApi.cloudPlatformScope;
+
+  /// Text model API.
+  ///
+  /// Models fine-tuned to follow natural language instructions and suitable
+  /// for a variety of language tasks (e.g. `text-bison`).
+  VertexAITextModelApi get text => VertexAITextModelApi(
+        modelsApi: _vertexAiApi.projects.locations.publishers.models,
+        project: project,
+        location: location,
+      );
+
+  /// Chat model API.
+  ///
+  /// Models fine-tuned for multi-turn conversation use cases
+  /// (e.g. `chat-bison`).
+  VertexAITextChatModelApi get chat => VertexAITextChatModelApi(
+        modelsApi: _vertexAiApi.projects.locations.publishers.models,
+        project: project,
+        location: location,
+      );
+
+  /// Text embeddings model API.
+  ///
+  /// Models that extract semantic information from text
+  /// (e.g. `textembedding-gecko`).
+  VertexAITextEmbeddingsModelApi get textEmbeddings =>
+      VertexAITextEmbeddingsModelApi(
+        modelsApi: _vertexAiApi.projects.locations.publishers.models,
+        project: project,
+        location: location,
+      );
+}

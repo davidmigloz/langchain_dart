@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:googleapis/aiplatform/v1.dart';
 import 'package:meta/meta.dart';
 
 /// {@template vertex_ai_text_embeddings_model_request}
@@ -16,14 +15,6 @@ class VertexAITextEmbeddingsModelRequest {
   ///
   /// There is a limit of up to 5 input texts per request.
   final List<String> content;
-
-  GoogleCloudAiplatformV1PredictRequest toRequest() {
-    return GoogleCloudAiplatformV1PredictRequest(
-      instances: [
-        for (final c in content) {'content': c},
-      ],
-    );
-  }
 
   @override
   bool operator ==(covariant final VertexAITextEmbeddingsModelRequest other) =>
@@ -57,24 +48,6 @@ class VertexAITextEmbeddingsModelResponse {
 
   /// The metadata for the response.
   final VertexAITextEmbeddingsModelResponseMetadata metadata;
-
-  factory VertexAITextEmbeddingsModelResponse.fromResponse(
-    final GoogleCloudAiplatformV1PredictResponse response,
-  ) {
-    return VertexAITextEmbeddingsModelResponse(
-      predictions: response.predictions
-              ?.map(
-                (final p) => VertexAITextEmbeddingsModelPrediction.fromMap(
-                  p as Map<String, dynamic>? ?? const {},
-                ),
-              )
-              .toList(growable: false) ??
-          const [],
-      metadata: VertexAITextEmbeddingsModelResponseMetadata.fromMap(
-        response.metadata as Map<String, dynamic>? ?? const {},
-      ),
-    );
-  }
 
   @override
   bool operator ==(covariant final VertexAITextEmbeddingsModelResponse other) {
@@ -173,6 +146,8 @@ class VertexAITextEmbeddingsModelResponseStatistics {
   /// Number of tokens of the input text.
   final int tokenCount;
 
+  /// Factory for creating a [VertexAITextEmbeddingsModelResponseStatistics]
+  /// from a JSON map.
   factory VertexAITextEmbeddingsModelResponseStatistics.fromMap(
     final Map<String, dynamic> statisticsJson,
   ) {
@@ -215,8 +190,11 @@ class VertexAITextEmbeddingsModelResponseMetadata {
     required this.billableCharacterCount,
   });
 
+  /// The total number of billable characters.
   final int billableCharacterCount;
 
+  /// Factory for creating a [VertexAITextEmbeddingsModelResponseMetadata]
+  /// from a JSON map.
   factory VertexAITextEmbeddingsModelResponseMetadata.fromMap(
     final Map<String, dynamic> metadataJson,
   ) {

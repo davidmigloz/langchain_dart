@@ -1,11 +1,10 @@
-name: langchain_google
-description: Google module for LangChain.dart.
+name: vertex_ai
+description: Vertex AI API client.
 version: 0.0.1-dev.1
-repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_google
+repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/vertex_ai
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues
 homepage: https://github.com/davidmigloz/langchain_dart
 documentation: https://langchaindart.com
-publish_to: none # Remove when the package is ready to be published
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -15,9 +14,7 @@ dependencies:
   googleapis: ^11.4.0
   googleapis_auth: ^1.4.1
   http: ^1.1.0
-  langchain: ^0.0.5+1
   meta: ^1.9.1
-  vertex_ai: ^0.0.1-dev.1
 
 dev_dependencies:
   test: ^1.24.3

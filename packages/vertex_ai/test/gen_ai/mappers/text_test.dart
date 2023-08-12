@@ -1,13 +1,14 @@
 import 'package:googleapis/aiplatform/v1.dart';
-import 'package:langchain_google/langchain_google.dart';
 import 'package:test/test.dart';
+import 'package:vertex_ai/src/gen_ai/mappers/mappers.dart';
+import 'package:vertex_ai/vertex_ai.dart';
 
 void main() {
-  group('VertexAITextModel models tests', () {
-    test('VertexAITextModelRequest.toRequest', () {
+  group('VertexAITextModelGoogleApisMapper tests', () {
+    test('VertexAITextModelGoogleApisMapper.mapRequest', () {
       const request = VertexAITextModelRequest(
         prompt: 'PROMPT',
-        params: VertexAIModelRequestParams(
+        params: VertexAITextModelRequestParams(
           temperature: 0.1,
           maxOutputTokens: 256,
           topP: 0.1,
@@ -28,12 +29,12 @@ void main() {
         },
       );
 
-      final req = request.toRequest();
+      final req = VertexAITextModelGoogleApisMapper.mapRequest(request);
       expect(req.instances, expected.instances);
       expect(req.parameters, expected.parameters);
     });
 
-    test('VertexAITextModelResponse.fromMap', () {
+    test('VertexAITextModelGoogleApisMapper.mapResponse', () {
       final response = GoogleCloudAiplatformV1PredictResponse(
         predictions: [
           {
@@ -159,17 +160,17 @@ void main() {
             ),
           ),
         ],
-        metadata: const VertexAIResponseMetadata(
-          token: VertexAIResponseMetadataToken(
+        metadata: const VertexAITextModelResponseMetadata(
+          token: VertexAITextModelResponseMetadataToken(
             inputTotalTokens: 10,
             inputTotalBillableCharacters: 42,
             outputTotalTokens: 256,
-            outputTotalCharacters: 1025,
+            outputTotalBillableCharacters: 1025,
           ),
         ),
       );
 
-      final res = VertexAITextModelResponse.fromResponse(response);
+      final res = VertexAITextModelGoogleApisMapper.mapResponse(response);
       expect(res, expected);
     });
   });

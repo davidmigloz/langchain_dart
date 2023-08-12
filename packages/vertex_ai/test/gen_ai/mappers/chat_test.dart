@@ -1,31 +1,32 @@
 import 'package:googleapis/aiplatform/v1.dart';
-import 'package:langchain_google/langchain_google.dart';
 import 'package:test/test.dart';
+import 'package:vertex_ai/src/gen_ai/mappers/mappers.dart';
+import 'package:vertex_ai/vertex_ai.dart';
 
 void main() {
-  group('VertexAIChatModel models tests', () {
-    test('VertexAIChatModelRequest.toRequest', () {
-      const request = VertexAIChatModelRequest(
+  group('VertexAIChatModelGoogleApisMapper tests', () {
+    test('VertexAIChatModelGoogleApisMapper.mapRequest', () {
+      const request = VertexAITextChatModelRequest(
         context: 'CONTEXT',
         examples: [
-          VertexAIChatModelExample(
-            input: VertexAIChatModelMessage(
+          VertexAITextChatModelExample(
+            input: VertexAITextChatModelMessage(
               author: 'USER',
               content: 'Hello',
             ),
-            output: VertexAIChatModelMessage(
+            output: VertexAITextChatModelMessage(
               author: 'AI',
               content: 'World',
             ),
           ),
         ],
         messages: [
-          VertexAIChatModelMessage(
+          VertexAITextChatModelMessage(
             author: 'USER',
             content: 'Hello',
           ),
         ],
-        params: VertexAIModelRequestParams(
+        params: VertexAITextChatModelRequestParams(
           temperature: 0.1,
           maxOutputTokens: 256,
           topP: 0.1,
@@ -64,12 +65,12 @@ void main() {
         },
       );
 
-      final req = request.toRequest();
+      final req = VertexAITextChatModelGoogleApisMapper.mapRequest(request);
       expect(req.instances, expected.instances);
       expect(req.parameters, expected.parameters);
     });
 
-    test('VertexAIChatModelResponse.fromMap', () {
+    test('VertexAIChatModelGoogleApisMapper.mapResponse', () {
       final response = GoogleCloudAiplatformV1PredictResponse(
         predictions: [
           {
@@ -174,15 +175,15 @@ void main() {
           },
         },
       );
-      final expected = VertexAIChatModelResponse(
+      final expected = VertexAITextChatModelResponse(
         predictions: [
-          VertexAIChatModelPrediction(
+          VertexAITextChatModelPrediction(
             candidates: const [
-              VertexAIChatModelMessage(
+              VertexAITextChatModelMessage(
                 author: 'AI',
                 content: 'Hello world!',
               ),
-              VertexAIChatModelMessage(
+              VertexAITextChatModelMessage(
                 author: 'AI',
                 content: 'Hello world! v2',
               ),
@@ -262,17 +263,17 @@ void main() {
             ],
           ),
         ],
-        metadata: const VertexAIResponseMetadata(
-          token: VertexAIResponseMetadataToken(
+        metadata: const VertexAITextChatModelResponseMetadata(
+          token: VertexAITextChatModelResponseMetadataToken(
             inputTotalTokens: 10,
             inputTotalBillableCharacters: 42,
             outputTotalTokens: 256,
-            outputTotalCharacters: 1025,
+            outputTotalBillableCharacters: 1025,
           ),
         ),
       );
 
-      final res = VertexAIChatModelResponse.fromResponse(response);
+      final res = VertexAITextChatModelGoogleApisMapper.mapResponse(response);
       expect(res, expected);
     });
   });
