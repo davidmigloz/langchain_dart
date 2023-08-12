@@ -142,7 +142,7 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
     final output = switch (llmOutput[llmChain.outputKey]) {
       final String resultStr => resultStr,
       final ChatMessage resultMsg => resultMsg.content,
-      _ => '',
+      _ => llmOutput[llmChain.outputKey],
     };
     return {
       outputKey: output,

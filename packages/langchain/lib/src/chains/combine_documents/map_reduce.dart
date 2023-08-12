@@ -184,6 +184,6 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
   String _getStringContent(final dynamic content) => switch (content) {
         final String resultStr => resultStr,
         final ChatMessage resultMsg => resultMsg.content,
-        _ => '',
+        _ => content,
       };
 }
