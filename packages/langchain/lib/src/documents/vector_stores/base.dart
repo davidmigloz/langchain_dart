@@ -89,8 +89,8 @@ abstract class VectorStore {
     final int k = 4,
   }) {
     return switch (searchType) {
-      VectorStoreSearchType.similarity => similaritySearch(query: query),
-      VectorStoreSearchType.mmr => maxMarginalRelevanceSearch(query: query),
+      VectorStoreSearchType.similarity => similaritySearch(query: query, k: k),
+      VectorStoreSearchType.mmr => maxMarginalRelevanceSearch(query: query, k: k),
     };
   }
 
