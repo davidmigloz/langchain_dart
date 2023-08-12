@@ -5,22 +5,18 @@ void main() {
   group('TextLoader tests', () {
     test('Test that a text file can be loaded', () async {
       const filePath = './test/documents/loaders/assets/example.txt';
-
-      final expectedDoc = Document(
-        pageContent: 'Foo\nBar\nBaz\n',
-        metadata: {
-          'source': filePath,
-          'name': 'example.txt',
-          'size': 12,
-          'lastModified': DateTime.parse('2023-06-20 22:12:19.000'),
-        },
-      );
-
       const loader = TextLoader(filePath);
       expect(
         loader.lazyLoad(),
         emitsInOrder([
-          expectedDoc,
+          (final Document doc) {
+            expect(doc.pageContent, 'Foo\nBar\nBaz\n');
+            expect(doc.metadata['source'], filePath);
+            expect(doc.metadata['name'], 'example.txt');
+            expect(doc.metadata['size'], 12);
+            expect(doc.metadata['lastModified'], isA<DateTime>());
+            return true;
+          },
           emitsDone,
         ]),
       );

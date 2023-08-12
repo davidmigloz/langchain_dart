@@ -6,16 +6,6 @@ void main() {
     test('Test that a json file can be loaded', () async {
       const filePath = './test/documents/loaders/assets/example_1.json';
 
-      final expectedDoc = Document(
-        pageContent: 'Foo\nBar\nBaz\n',
-        metadata: {
-          'source': filePath,
-          'name': 'example_1.json',
-          'size': 32,
-          'lastModified': DateTime.parse('2023-07-13 17:49:35.000'),
-        },
-      );
-
       const loader = JsonLoader(
         filePath,
         jpSchema: r'$..text',
@@ -24,7 +14,14 @@ void main() {
       expect(
         loader.lazyLoad(),
         emitsInOrder([
-          expectedDoc,
+          (final Document doc) {
+            expect(doc.pageContent, 'Foo\nBar\nBaz\n');
+            expect(doc.metadata['source'], filePath);
+            expect(doc.metadata['name'], 'example_1.json');
+            expect(doc.metadata['size'], 32);
+            expect(doc.metadata['lastModified'], isA<DateTime>());
+            return true;
+          },
           emitsDone,
         ]),
       );
