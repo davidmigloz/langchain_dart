@@ -17,7 +17,7 @@ void main() {
       const loader = TextLoader(filePath);
       final documents = await loader.load();
 
-      const textSplitter = CharacterTextSplitter(
+      const textSplitter = RecursiveCharacterTextSplitter(
         chunkSize: 800,
         chunkOverlap: 0,
       );
