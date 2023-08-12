@@ -1,10 +1,11 @@
 import 'package:googleapis/aiplatform/v1.dart';
-import 'package:langchain_google/langchain_google.dart';
 import 'package:test/test.dart';
+import 'package:vertex_ai/src/gen_ai/mappers/mappers.dart';
+import 'package:vertex_ai/vertex_ai.dart';
 
 void main() {
-  group('VertexAITextEmbeddingsModel models tests', () {
-    test('VertexAITextEmbeddingsModelRequest.toRequest', () {
+  group('VertexAITextEmbeddingsModelGoogleApisMapper tests', () {
+    test('VertexAITextEmbeddingsModelGoogleApisMapper.mapRequest', () {
       const request = VertexAITextEmbeddingsModelRequest(
         content: [
           'CONTENT 1',
@@ -24,12 +25,13 @@ void main() {
         ],
       );
 
-      final req = request.toRequest();
+      final req =
+          VertexAITextEmbeddingsModelGoogleApisMapper.mapRequest(request);
       expect(req.instances, expected.instances);
       expect(req.parameters, expected.parameters);
     });
 
-    test('VertexAITextEmbeddingsModelResponse.fromMap', () {
+    test('VertexAITextEmbeddingsModelGoogleApisMapper.mapResponse', () {
       final response = GoogleCloudAiplatformV1PredictResponse(
         predictions: [
           {
@@ -77,7 +79,8 @@ void main() {
         ),
       );
 
-      final res = VertexAITextEmbeddingsModelResponse.fromResponse(response);
+      final res =
+          VertexAITextEmbeddingsModelGoogleApisMapper.mapResponse(response);
       expect(res, expected);
     });
   });

@@ -4,21 +4,20 @@ library; // Uses dart:io
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:googleapis/aiplatform/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
-import 'package:langchain_google/langchain_google.dart';
 import 'package:test/test.dart';
+import 'package:vertex_ai/vertex_ai.dart';
 
 void main() async {
   final client = await _getAuthenticatedClient();
-  final vertex = VertexAIModelGardenClient(
-    client: client,
+  final vertexAi = VertexAIGenAIClient(
+    authHttpClient: client,
     project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
   );
 
-  group('VertexAI tests', () {
+  group('VertexAIGenAIClient tests', () {
     test('Test VertexAITextModelApi', () async {
-      final res = await vertex.text.predict(
+      final res = await vertexAi.text.predict(
         prompt:
             'List the numbers from 1 to 9 in order without any spaces or commas.',
       );
@@ -29,22 +28,22 @@ void main() async {
     });
 
     test('Test VertexAIChatModelApi', () async {
-      final res = await vertex.chat.predict(
+      final res = await vertexAi.chat.predict(
         context: 'Only output numeric characters.',
         examples: const [
-          VertexAIChatModelExample(
-            input: VertexAIChatModelMessage(
+          VertexAITextChatModelExample(
+            input: VertexAITextChatModelMessage(
               author: 'USER',
               content: 'List the numbers from 1 to 3',
             ),
-            output: VertexAIChatModelMessage(
+            output: VertexAITextChatModelMessage(
               author: 'AI',
               content: '123',
             ),
           ),
         ],
         messages: const [
-          VertexAIChatModelMessage(
+          VertexAITextChatModelMessage(
             author: 'USER',
             content: 'List the numbers from 1 to 9',
           ),
@@ -60,7 +59,7 @@ void main() async {
     });
 
     test('Test VertexAITextEmbeddingsModelApi', () async {
-      final res = await vertex.textEmbeddings.predict(
+      final res = await vertexAi.textEmbeddings.predict(
         content: ['Embedding text'],
       );
       expect(res.predictions.first.values, hasLength(768));
@@ -77,6 +76,6 @@ Future<AuthClient> _getAuthenticatedClient() async {
   );
   return clientViaServiceAccount(
     serviceAccountCredentials,
-    [AiplatformApi.cloudPlatformScope],
+    [VertexAIGenAIClient.cloudPlatformScope],
   );
 }

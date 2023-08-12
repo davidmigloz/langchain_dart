@@ -1,4 +1,6 @@
-# melos_managed_dependency_overrides: langchain
+# melos_managed_dependency_overrides: langchain,vertex_ai
 dependency_overrides:
   langchain:
     path: ../langchain
+  vertex_ai:
+    path: ../vertex_ai

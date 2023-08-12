@@ -1,224 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
-/// {@template vertex_ai_model_request_params}
-/// Parameters for a Vertex AI model request.
-/// {@endtemplate}
-@immutable
-class VertexAIModelRequestParams {
-  /// {@macro vertex_ai_model_request_params}
-  const VertexAIModelRequestParams({
-    this.temperature = 0.2,
-    this.maxOutputTokens = 1024,
-    this.topP = 0.95,
-    this.topK = 40,
-    this.additionalParameters,
-  });
-
-  /// The temperature is used for sampling during response generation, which
-  /// occurs when topP and topK are applied. Temperature controls the degree of
-  /// randomness in token selection. Lower temperatures are good for prompts
-  /// that require a more deterministic and less open-ended or creative
-  /// response, while higher temperatures can lead to more diverse or creative
-  /// results. A temperature of 0 is deterministic, meaning that the highest
-  /// probability response is always selected.
-  ///
-  /// For most use cases, try starting with a temperature of 0.2. If the model
-  /// returns a response that's too generic, too short, or the model gives a
-  /// fallback response, try increasing the temperature.
-  ///
-  /// Range: [0.0, 1.0]
-  final double temperature;
-
-  /// Maximum number of tokens that can be generated in the response. A token
-  /// is approximately four characters. 100 tokens correspond to roughly
-  /// 60-80 words.
-  ///
-  /// Specify a lower value for shorter responses and a higher value for longer
-  /// responses.
-  ///
-  /// Range: [1, 1024]
-  final int maxOutputTokens;
-
-  /// Top-P changes how the model selects tokens for output. Tokens are
-  /// selected from the most (see top-K) to least probable until the sum of
-  /// their probabilities equals the top-P value. For example, if tokens A, B,
-  /// and C have a probability of 0.3, 0.2, and 0.1 and the top-P value is 0.5,
-  /// then the model will select either A or B as the next token by using
-  /// temperature and excludes C as a candidate.
-  ///
-  /// Specify a lower value for less random responses and a higher value for
-  /// more random responses.
-  ///
-  /// Range: [0.0, 1.0]
-  final double topP;
-
-  /// Top-K changes how the model selects tokens for output. A top-K of 1 means
-  /// the next selected token is the most probable among all tokens in the
-  /// model's vocabulary (also called greedy decoding), while a top-K of 3
-  /// means that the next token is selected from among the three most probable
-  /// tokens by using temperature.
-  ///
-  /// For each token selection step, the top-K tokens with the highest
-  /// probabilities are sampled. Then tokens are further filtered based on
-  /// top-P with the final token selected using temperature sampling.
-  ///
-  /// Specify a lower value for less random responses and a higher value for
-  /// more random responses.
-  ///
-  /// Range: [1, 40]
-  final int topK;
-
-  /// Additional parameters to be passed to the Vertex AI model.
-  final Map<String, dynamic>? additionalParameters;
-
-  Map<String, dynamic> toMap() {
-    return {
-      'temperature': temperature,
-      'maxOutputTokens': maxOutputTokens,
-      'topP': topP,
-      'topK': topK,
-      ...?additionalParameters,
-    };
-  }
-
-  @override
-  bool operator ==(covariant final VertexAIModelRequestParams other) =>
-      identical(this, other) ||
-      runtimeType == other.runtimeType &&
-          temperature == other.temperature &&
-          maxOutputTokens == other.maxOutputTokens &&
-          topP == other.topP &&
-          topK == other.topK &&
-          const MapEquality<String, dynamic>().equals(
-            additionalParameters,
-            other.additionalParameters,
-          );
-
-  @override
-  int get hashCode =>
-      temperature.hashCode ^
-      maxOutputTokens.hashCode ^
-      topP.hashCode ^
-      topK.hashCode ^
-      const MapEquality<String, dynamic>().hash(additionalParameters);
-
-  @override
-  String toString() {
-    return 'VertexAIModelRequestParams{'
-        'temperature: $temperature, '
-        'maxOutputTokens: $maxOutputTokens, '
-        'topP: $topP, '
-        'topK: $topK, '
-        'additionalParameters: $additionalParameters}';
-  }
-}
-
-/// {@template vertex_ai_response_metadata}
-/// Metadata for a Vertex AI Text and Chat Model Response.
-/// {@endtemplate}
-@immutable
-class VertexAIResponseMetadata {
-  /// {@macro vertex_ai_response_metadata}
-  const VertexAIResponseMetadata({
-    required this.token,
-  });
-
-  final VertexAIResponseMetadataToken token;
-
-  factory VertexAIResponseMetadata.fromMap(
-    final Map<String, dynamic> metadataJson,
-  ) {
-    return VertexAIResponseMetadata(
-      token: VertexAIResponseMetadataToken.fromMap(
-        metadataJson['tokenMetadata'],
-      ),
-    );
-  }
-
-  @override
-  bool operator ==(covariant final VertexAIResponseMetadata other) =>
-      identical(this, other) ||
-      runtimeType == other.runtimeType && token == other.token;
-
-  @override
-  int get hashCode => token.hashCode;
-
-  @override
-  String toString() {
-    return 'VertexAIResponseMetadata{token: $token}';
-  }
-}
-
-/// {@template vertex_ai_response_metadata_token}
-/// Token metadata for a Vertex AI Text and Chat Model Response.
-/// {@endtemplate}
-@immutable
-class VertexAIResponseMetadataToken {
-  /// {@macro vertex_ai_response_metadata_token}
-  const VertexAIResponseMetadataToken({
-    required this.inputTotalTokens,
-    required this.inputTotalBillableCharacters,
-    required this.outputTotalTokens,
-    required this.outputTotalCharacters,
-  });
-
-  /// The total number of tokens in the input.
-  final int inputTotalTokens;
-
-  /// The total number of billable characters in the input.
-  final int inputTotalBillableCharacters;
-
-  /// The total number of tokens in the output.
-  final int outputTotalTokens;
-
-  /// The total number of billable characters in the output.
-  final int outputTotalCharacters;
-
-  factory VertexAIResponseMetadataToken.fromMap(
-    final Map<String, dynamic> tokenMetadataJson,
-  ) {
-    final inputTokenCount =
-        tokenMetadataJson['inputTokenCount'] as Map<String, dynamic>;
-    final outputTokenCount =
-        tokenMetadataJson['outputTokenCount'] as Map<String, dynamic>;
-    return VertexAIResponseMetadataToken(
-      inputTotalTokens: inputTokenCount['totalTokens'] as int,
-      inputTotalBillableCharacters:
-          inputTokenCount['totalBillableCharacters'] as int,
-      outputTotalTokens: outputTokenCount['totalTokens'] as int,
-      outputTotalCharacters: outputTokenCount['totalBillableCharacters'] as int,
-    );
-  }
-
-  @override
-  bool operator ==(
-    covariant final VertexAIResponseMetadataToken other,
-  ) =>
-      identical(this, other) ||
-      runtimeType == other.runtimeType &&
-          inputTotalTokens == other.inputTotalTokens &&
-          inputTotalBillableCharacters == other.inputTotalBillableCharacters &&
-          outputTotalTokens == other.outputTotalTokens &&
-          outputTotalCharacters == other.outputTotalCharacters;
-
-  @override
-  int get hashCode =>
-      inputTotalTokens.hashCode ^
-      inputTotalBillableCharacters.hashCode ^
-      outputTotalTokens.hashCode ^
-      outputTotalCharacters.hashCode;
-
-  @override
-  String toString() {
-    return 'VertexAIResponseMetadataToken{'
-        'inputTotalTokens: $inputTotalTokens, '
-        'inputTotalBillableCharacters: $inputTotalBillableCharacters, '
-        'outputTotalTokens: $outputTotalTokens, '
-        'outputTotalCharacters: $outputTotalCharacters}';
-  }
-}
-
 /// {@template vertex_ai_prediction_citation}
 /// Citation for a Vertex AI Text Model Prediction.
 /// {@endtemplate}
@@ -259,6 +41,8 @@ class VertexAIPredictionCitation {
   /// the date at which the source of this citation was published.
   final DateTime? publicationDate;
 
+  /// Factory method for creating a [VertexAIPredictionCitation] from a JSON
+  /// map.
   factory VertexAIPredictionCitation.fromMap(
     final Map<String, dynamic> citationJson,
   ) {
@@ -320,6 +104,8 @@ class VertexAIPredictionSafetyAttributes {
   /// designated confidence scores for Derogatory, Toxic, Sexual or Violent.
   final bool blocked;
 
+  /// Factory method for creating a [VertexAIPredictionSafetyAttributes] from a
+  /// JSON map.
   factory VertexAIPredictionSafetyAttributes.fromMap(
     final Map<String, dynamic> safetyAttributesJson,
   ) {
