@@ -39,4 +39,8 @@ jobs:
         run: melos lint:diff
 
       - name: Run unit tests
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          VERTEX_AI_PROJECT_ID: ${{ secrets.VERTEX_AI_PROJECT_ID }}
+          VERTEX_AI_SERVICE_ACCOUNT: ${{ secrets.VERTEX_AI_SERVICE_ACCOUNT }}
         run: melos test:diff
