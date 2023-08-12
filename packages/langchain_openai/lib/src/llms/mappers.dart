@@ -3,7 +3,7 @@ import '../client/models/models.dart';
 
 /// Mapper for [OpenAICompletionModel] to [LLMResult].
 extension OpenAICompletionMapper on OpenAICompletion {
-  LLMResult toChatResult() {
+  LLMResult toLLMResult() {
     return LLMResult(
       generations: choices
           .map((final choice) => choice.toLLMGeneration())

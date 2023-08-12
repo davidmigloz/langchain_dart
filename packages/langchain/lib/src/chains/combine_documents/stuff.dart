@@ -139,10 +139,10 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
   }) async {
     final llmInputs = _getInputs(docs, inputs);
     final llmOutput = await llmChain.call(llmInputs);
-    final output = switch (llmOutput[llmChain.outputKey]) {
-      final String resultStr => resultStr,
+    final content = llmOutput[llmChain.outputKey];
+    final output = switch (content) {
       final ChatMessage resultMsg => resultMsg.content,
-      _ => llmOutput[llmChain.outputKey],
+      _ => content,
     };
     return {
       outputKey: output,

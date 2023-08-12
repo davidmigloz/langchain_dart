@@ -7,9 +7,7 @@ import '../../language_models/models/models.dart';
 /// {@endtemplate}
 class LLMOptions extends LanguageModelOptions {
   /// {@macro llm_options}
-  const LLMOptions({
-    super.stop,
-  });
+  const LLMOptions();
 }
 
 /// {@template llm_result}

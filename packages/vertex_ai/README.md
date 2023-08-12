@@ -20,7 +20,7 @@ generative AI models so you can use in your AI-powered applications.
 The `VertexAIGenAIClient` delegates authentication to the 
 [googleapis_auth](https://pub.dev/packages/googleapis_auth) package. 
 
-To create an instance of the Vertex AI API client, you need to provide an
+To create an instance of `VertexAIGenAIClient` you need to provide an
 [`AuthClient`](https://pub.dev/documentation/googleapis_auth/latest/googleapis_auth/AuthClient-class.html) 
 instance.
 
@@ -44,7 +44,7 @@ final vertexAi = VertexAIGenAIClient(
 );
 ```
 
-The service account should have the following 
+The service account should have the following
 [permission](https://cloud.google.com/vertex-ai/docs/general/iam-permissions):
 - `aiplatform.endpoints.predict`
 

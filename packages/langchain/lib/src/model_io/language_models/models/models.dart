@@ -6,12 +6,7 @@ import 'package:meta/meta.dart';
 @immutable
 abstract class LanguageModelOptions {
   /// {@macro language_model_options}
-  const LanguageModelOptions({
-    this.stop,
-  });
-
-  /// List of stop words to use when generating.
-  final List<String>? stop;
+  const LanguageModelOptions();
 }
 
 /// {@template language_model}
@@ -54,15 +49,23 @@ class LanguageModelUsage {
   /// {@macro language_model_usage}
   const LanguageModelUsage({
     this.promptTokens,
+    this.promptBillableCharacters,
     this.responseTokens,
+    this.responseBillableCharacters,
     this.totalTokens,
   });
 
   /// The number of tokens in the prompt.
   final int? promptTokens;
 
+  /// The total number of billable characters in the prompt if applicable.
+  final int? promptBillableCharacters;
+
   /// The number of tokens in the completion.
   final int? responseTokens;
+
+  /// The total number of billable characters in the completion if applicable.
+  final int? responseBillableCharacters;
 
   /// The total number of tokens in the prompt and completion.
   final int? totalTokens;
@@ -72,8 +75,10 @@ class LanguageModelUsage {
     return '''
 LanguageModelUsage{
   promptTokens: $promptTokens, 
+  promptBillableCharacters: $promptBillableCharacters, 
   responseTokens: $responseTokens, 
-  totalTokens: $totalTokens},
+  responseBillableCharacters: $responseBillableCharacters, 
+  totalTokens: $totalTokens}
 ''';
   }
 }

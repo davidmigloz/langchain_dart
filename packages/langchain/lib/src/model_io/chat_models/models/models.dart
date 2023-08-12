@@ -8,9 +8,7 @@ import '../../language_models/models/models.dart';
 /// {@endtemplate}
 class ChatModelOptions extends LanguageModelOptions {
   /// {@macro chat_model_options}
-  const ChatModelOptions({
-    super.stop,
-  });
+  const ChatModelOptions();
 }
 
 /// {@template chat_result}
