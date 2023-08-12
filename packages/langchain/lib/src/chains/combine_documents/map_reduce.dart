@@ -158,7 +158,7 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
     final resultDocs = List<Document>.generate(
       mapResults.length,
       (final i) => Document(
-        pageContent: _getStringContent(mapResults[i][questionResultKey]),
+        pageContent: _getContent(mapResults[i][questionResultKey]),
         metadata: docs[i].metadata,
       ),
     );
@@ -170,7 +170,7 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
 
     if (returnIntermediateSteps) {
       final intermediateSteps = mapResults
-          .map((final r) => _getStringContent(r[questionResultKey]))
+          .map((final r) => _getContent(r[questionResultKey]))
           .toList(growable: false);
       return {
         ...output,
@@ -181,8 +181,7 @@ class MapReduceDocumentsChain extends BaseCombineDocumentsChain {
     return output;
   }
 
-  String _getStringContent(final dynamic content) => switch (content) {
-        final String resultStr => resultStr,
+  String _getContent(final dynamic content) => switch (content) {
         final ChatMessage resultMsg => resultMsg.content,
         _ => content,
       };

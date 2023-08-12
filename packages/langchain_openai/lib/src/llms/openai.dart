@@ -124,7 +124,7 @@ abstract base class BaseOpenAI extends BaseLLM<OpenAIOptions> {
       bestOf: bestOf,
       logitBias: logitBias,
     );
-    return completion.toChatResult();
+    return completion.toLLMResult();
   }
 
   /// Tokenizes the given prompt using tiktoken with the encoding used by the

@@ -29,14 +29,19 @@ import 'apis/apis.dart';
 ///
 /// ### Authentication
 ///
-/// The HTTP [client] passed to the constructor must be authenticated.
-/// You can use the [`googleapis_auth`](https://pub.dev/packages/googleapis_auth)
-/// package to obtain an authenticated HTTP client.
+/// The `VertexAIGenAIClient` delegates authentication to the
+/// [googleapis_auth](https://pub.dev/packages/googleapis_auth) package.
 ///
-/// Check out the `googleapis_auth` documentation for more information:
-/// https://pub.dev/packages/googleapis_auth
+/// To create an instance of `VertexAIGenAIClient` you need to provide an
+/// [`AuthClient`](https://pub.dev/documentation/googleapis_auth/latest/googleapis_auth/AuthClient-class.html)
+/// instance.
 ///
-/// Example using a service account:
+/// There are several ways to obtain an `AuthClient` depending on your use case.
+/// Check out the [googleapis_auth](https://pub.dev/packages/googleapis_auth)
+/// package documentation for more details.
+///
+/// Example using a service account JSON:
+///
 /// ```dart
 /// final serviceAccountCredentials = ServiceAccountCredentials.fromJson(
 ///   json.decode(serviceAccountJson),
@@ -51,12 +56,14 @@ import 'apis/apis.dart';
 /// );
 /// ```
 ///
-/// The service account should have the following permission:
+/// The service account should have the following
+/// [permission](https://cloud.google.com/vertex-ai/docs/general/iam-permissions):
 /// - `aiplatform.endpoints.predict`
 ///
-/// The required scopes are:
-/// - `https://www.googleapis.com/auth/cloud-platform` (you can use the
-///   constant [VertexAIGenAIClient.cloudPlatformScope])
+/// The required[OAuth2 scope](https://developers.google.com/identity/protocols/oauth2/scopes)
+/// is:
+/// - `https://www.googleapis.com/auth/cloud-platform` (you can use the constant
+///   `VertexAIGenAIClient.cloudPlatformScope`)
 ///
 /// See: https://cloud.google.com/vertex-ai/docs/generative-ai/access-control
 ///

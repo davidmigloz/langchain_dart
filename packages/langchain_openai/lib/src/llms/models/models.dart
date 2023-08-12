@@ -6,6 +6,9 @@ import 'package:langchain/langchain.dart';
 class OpenAIOptions extends LLMOptions {
   /// {@macro openai_options}
   const OpenAIOptions({
-    super.stop,
+    this.stop,
   });
+
+  /// List of stop words to use when generating.
+  final List<String>? stop;
 }

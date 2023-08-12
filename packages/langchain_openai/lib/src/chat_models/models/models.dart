@@ -9,10 +9,13 @@ class ChatOpenAIOptions extends ChatModelOptions {
     /// Up to 4 sequences where the API will stop generating further tokens.
     ///
     /// Ref: https://platform.openai.com/docs/api-reference/chat/create#chat/create-stop
-    super.stop,
+    this.stop,
     this.functions,
     this.functionCall,
   });
+
+  /// List of stop words to use when generating.
+  final List<String>? stop;
 
   /// A list of functions the model may generate JSON inputs for.
   ///
