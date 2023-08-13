@@ -10,6 +10,7 @@ command:
     linkToCommits: true
     workspaceChangelog: true
     releaseUrl: true
+    branch: main
   bootstrap:
     usePubspecOverrides: true
 
