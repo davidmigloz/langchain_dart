@@ -426,3 +426,20 @@ final class ChatFunctionCallForced extends ChatFunctionCall {
   /// The name of the function to call.
   final String functionName;
 }
+
+/// {@template chat_example}
+/// An example of a conversation between the end-user and the model.
+/// {@endtemplate}
+class ChatExample {
+  /// {@macro chat_example}
+  const ChatExample({
+    required this.input,
+    required this.output,
+  });
+
+  /// An example of an input message from the user.
+  final ChatMessage input;
+
+  /// An example of what the model should output given the input.
+  final ChatMessage output;
+}

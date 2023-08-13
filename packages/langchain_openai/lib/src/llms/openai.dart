@@ -3,7 +3,7 @@ import 'package:tiktoken/tiktoken.dart';
 
 import '../client/base.dart';
 import '../client/openai_client.dart';
-import 'mappers.dart';
+import 'models/mappers.dart';
 import 'models/models.dart';
 
 /// {@template base_openai}

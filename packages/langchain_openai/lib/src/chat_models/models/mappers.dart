@@ -1,6 +1,6 @@
 import 'package:langchain/langchain.dart';
 
-import '../client/models/models.dart';
+import '../../client/models/models.dart';
 
 /// Mapper for [ChatMessage] to [OpenAIChatCompletionMessage].
 extension ChatMessageMapper on ChatMessage {

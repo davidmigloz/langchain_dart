@@ -62,6 +62,8 @@ Future<void> main() async {
         maxOutputTokens: 10,
       );
       final res = await llm.generate('Hello, how are you?');
+      expect(res.modelOutput, isNotNull);
+      expect(res.modelOutput!['model'], llm.model);
       expect(res.usage?.promptTokens, isNotNull);
       expect(res.usage?.promptBillableCharacters, isNotNull);
       expect(res.usage?.responseTokens, isNotNull);

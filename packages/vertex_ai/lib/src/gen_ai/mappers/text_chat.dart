@@ -10,10 +10,11 @@ class VertexAITextChatModelGoogleApisMapper {
     return GoogleCloudAiplatformV1PredictRequest(
       instances: [
         {
-          'context': request.context,
+          'context': request.context ?? '',
           'examples': request.examples
-              ?.map((final e) => e.toMap())
-              .toList(growable: false),
+                  ?.map((final e) => e.toMap())
+                  .toList(growable: false) ??
+              const [],
           'messages': request.messages
               .map((final m) => m.toMap())
               .toList(growable: false),
