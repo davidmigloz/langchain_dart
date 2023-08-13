@@ -3,13 +3,15 @@ import 'package:vertex_ai/vertex_ai.dart';
 
 /// Mapper for [VertexAITextModelResponse] to [LLMResult].
 extension VertexAITextModelResponseMapper on VertexAITextModelResponse {
-  LLMResult toLLMResult() {
+  LLMResult toLLMResult(final String model) {
     return LLMResult(
       generations: predictions
           .map((final prediction) => prediction.toLLMGeneration())
           .toList(growable: false),
       usage: metadata.token.toLanguageModelUsage(),
-      modelOutput: const {},
+      modelOutput: {
+        'model': model,
+      },
     );
   }
 }
@@ -27,7 +29,7 @@ extension _VertexAITextModelPredictionMapper on VertexAITextModelPrediction {
   }
 }
 
-/// Mapper for [VertexAIResponseMetadataToken] to [LanguageModelUsage].
+/// Mapper for [_VertexAIResponseMetadataTokenMapper] to [LanguageModelUsage].
 extension _VertexAIResponseMetadataTokenMapper
     on VertexAITextModelResponseMetadataToken {
   LanguageModelUsage toLanguageModelUsage() {

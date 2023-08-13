@@ -76,7 +76,8 @@ void main() {
 
     test('Test ChatOpenAI wrapper with system message', () async {
       final chat = ChatOpenAI(apiKey: openaiApiKey, maxTokens: 10);
-      final systemMessage = ChatMessage.human('You are to chat with the user.');
+      final systemMessage =
+          ChatMessage.system('You are to chat with the user.');
       final humanMessage =
           ChatMessage.human('write an ordered list of five items');
       final res = await chat([systemMessage, humanMessage]);

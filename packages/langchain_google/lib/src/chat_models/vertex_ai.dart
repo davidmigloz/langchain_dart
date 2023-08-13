@@ -6,16 +6,16 @@ import 'package:vertex_ai/vertex_ai.dart';
 import 'models/mappers.dart';
 import 'models/models.dart';
 
-/// {@template vertex_ai}
-/// Wrapper around GCP Vertex AI text models API (aka PaLM API).
+/// {@template chat_vertex_ai}
+/// Wrapper around GCP Vertex AI text chat models API (aka PaLM API).
 ///
 /// Example:
 /// ```dart
-/// final llm = VertexAI(
+/// final chatModel = ChatVertexAI(
 ///   authHttpClient: authClient,
 ///   project: 'your-project-id',
 /// );
-/// final result = await llm('Hello world!');
+/// final result = await chatModel([ChatMessage.human('Hello')]);
 /// ```
 ///
 /// Vertex AI documentation:
@@ -49,9 +49,9 @@ import 'models/models.dart';
 /// );
 /// final authClient = await clientViaServiceAccount(
 ///   serviceAccountCredentials,
-///   [VertexAI.cloudPlatformScope],
+///   [ChatVertexAI.cloudPlatformScope],
 /// );
-/// final vertexAi = VertexAI(
+/// final chatVertexAi = ChatVertexAI(
 ///   authHttpClient: authClient,
 ///   project: 'your-project-id',
 /// );
@@ -64,19 +64,19 @@ import 'models/models.dart';
 /// The required[OAuth2 scope](https://developers.google.com/identity/protocols/oauth2/scopes)
 /// is:
 /// - `https://www.googleapis.com/auth/cloud-platform` (you can use the
-///   constant `VertexAI.cloudPlatformScope`)
+///   constant `ChatVertexAI.cloudPlatformScope`)
 ///
 /// See: https://cloud.google.com/vertex-ai/docs/generative-ai/access-control
 /// {@endtemplate}
-class VertexAI extends BaseLLM<VertexAIOptions> {
-  /// {@macro vertex_ai}
-  VertexAI({
+class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
+  /// {@macro chat_vertex_ai}
+  ChatVertexAI({
     required final AuthClient authHttpClient,
     required final String project,
     final String location = 'us-central1',
     final String rootUrl = 'https://us-central1-aiplatform.googleapis.com/',
     this.publisher = 'google',
-    this.model = 'text-bison',
+    this.model = 'chat-bison',
     this.maxOutputTokens = 1024,
     this.temperature = 0.2,
     this.topP = 0.95,
@@ -165,25 +165,41 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
   static const cloudPlatformScope = VertexAIGenAIClient.cloudPlatformScope;
 
   @override
-  String get modelType => 'vertex-ai';
+  String get modelType => 'vertex-ai-chat';
 
   @override
-  Future<LLMResult> generate(
-    final String prompt, {
-    final VertexAIOptions? options,
+  Future<ChatResult> generate(
+    final List<ChatMessage> messages, {
+    final ChatVertexAIOptions? options,
   }) async {
-    final result = await client.text.predict(
-      prompt: prompt,
+    String? context;
+    final vertexMessages = <VertexAITextChatModelMessage>[];
+    for (final message in messages) {
+      if (message is SystemChatMessage) {
+        context = message.content;
+        continue;
+      } else {
+        vertexMessages.add(message.toVertexAIChatMessage());
+      }
+    }
+    final examples = options?.examples
+        ?.map((final e) => e.toVertexAIChatExample())
+        .toList(growable: false);
+
+    final result = await client.chat.predict(
+      context: context,
+      examples: examples,
+      messages: vertexMessages,
       publisher: publisher,
       model: model,
-      parameters: VertexAITextModelRequestParams(
+      parameters: VertexAITextChatModelRequestParams(
         maxOutputTokens: maxOutputTokens,
         temperature: temperature,
         topP: topP,
         topK: topK,
       ),
     );
-    return result.toLLMResult(model);
+    return result.toChatResult(model);
   }
 
   /// Tokenizes the given prompt using tiktoken.

@@ -1,5 +1,5 @@
 import 'package:langchain/langchain.dart';
-import '../client/models/models.dart';
+import '../../client/models/models.dart';
 
 /// Mapper for [OpenAICompletionModel] to [LLMResult].
 extension OpenAICompletionMapper on OpenAICompletion {
