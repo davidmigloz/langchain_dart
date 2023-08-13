@@ -7,7 +7,7 @@ import 'models/mappers.dart';
 import 'models/models.dart';
 
 /// {@template chat_vertex_ai}
-/// Wrapper around GCP Vertex AI text chat models API (aka PaLM API).
+/// Wrapper around GCP Vertex AI text chat models API (aka PaLM API for chat).
 ///
 /// Example:
 /// ```dart
@@ -30,10 +30,10 @@ import 'models/models.dart';
 ///
 /// ### Authentication
 ///
-/// The `VertexAI` wrapper delegates authentication to the
+/// The `ChatVertexAI` wrapper delegates authentication to the
 /// [googleapis_auth](https://pub.dev/packages/googleapis_auth) package.
 ///
-/// To create an instance of `VertexAI` you need to provide an
+/// To create an instance of `ChatVertexAI` you need to provide an
 /// [`AuthClient`](https://pub.dev/documentation/googleapis_auth/latest/googleapis_auth/AuthClient-class.html)
 /// instance.
 ///
@@ -99,9 +99,9 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
   /// The text model to use.
   ///
   /// To use the latest model version, specify the model name without a version
-  /// number (e.g. `text-bison`).
+  /// number (e.g. `chat-bison`).
   /// To use a stable model version, specify the model version number
-  /// (e.g. `text-bison@001`).
+  /// (e.g. `chat-bison@001`).
   ///
   /// You can find a list of available models here:
   /// https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models

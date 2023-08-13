@@ -5,6 +5,29 @@ import 'qa_with_structure.dart';
 /// {@template openai_qa_with_sources_chain}
 /// A chain that answers questions returning a [QAWithSources] object
 /// containing the answers with the sources used to answer the question.
+///
+/// Example:
+/// ```dart
+/// final llm = ChatOpenAI(
+///   apiKey: openaiApiKey,
+///   model: 'gpt-3.5-turbo-0613',
+///   temperature: 0,
+/// );
+/// final qaChain = OpenAIQAWithSourcesChain(llm: llm);
+/// final docPrompt = PromptTemplate.fromTemplate(
+///   'Content: {page_content}\nSource: {source}',
+/// );
+/// final finalQAChain = StuffDocumentsChain(
+///   llmChain: qaChain,
+///   documentPrompt: docPrompt,
+/// );
+/// final retrievalQA = RetrievalQAChain(
+///   retriever: vectorStore.asRetriever(),
+///   combineDocumentsChain: finalQAChain,
+/// );
+/// const query = 'What did President Biden say about Russia?';
+/// final res = await retrievalQA(query);
+/// ```
 /// {@endtemplate}
 class OpenAIQAWithSourcesChain extends OpenAIQAWithStructureChain {
   OpenAIQAWithSourcesChain({
