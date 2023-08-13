@@ -2,16 +2,16 @@
 @TestOn('vm')
 library; // Uses dart:io
 
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:googleapis_auth/auth_io.dart';
 import 'package:langchain/langchain.dart';
 import 'package:langchain_google/langchain_google.dart';
 import 'package:test/test.dart';
 
+import '../utils/auth.dart';
+
 void main() async {
-  final authHttpClient = await _getAuthHttpClient();
+  final authHttpClient = await getAuthHttpClient();
   group('ChatVertexAI tests', () {
     test('Test ChatVertexAI parameters', () async {
       final llm = ChatVertexAI(
@@ -139,14 +139,4 @@ void main() async {
       expect(numTokens, 42);
     });
   });
-}
-
-Future<AuthClient> _getAuthHttpClient() async {
-  final serviceAccountCredentials = ServiceAccountCredentials.fromJson(
-    json.decode(Platform.environment['VERTEX_AI_SERVICE_ACCOUNT']!),
-  );
-  return clientViaServiceAccount(
-    serviceAccountCredentials,
-    [ChatVertexAI.cloudPlatformScope],
-  );
 }

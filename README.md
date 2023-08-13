@@ -58,10 +58,11 @@ LangChain.dart has a modular design where the core [langchain](https://pub.dev/p
 package provides the LangChain API and each integration with a model provider, data store, etc. is
 provided by a separate package.
 
-| Package                                                       | Version                                                                                                             | Description        | Models | Data conn. | Memory | Agents & Tools |
-|---------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|--------------------|--------|------------|--------|----------------|
-| [langchain](https://pub.dev/packages/langchain)               | [![langchain](https://img.shields.io/pub/v/langchain.svg)](https://pub.dev/packages/langchain)                      | Core LangChain API | ★      | ★          | ★      | ★              |
-| [langchain_openai](https://pub.dev/packages/langchain_openai) | [![langchain_openai](https://img.shields.io/pub/v/langchain_openai.svg)](https://pub.dev/packages/langchain_openai) | OpenAI integration | ✔      | ✔          |        | ✔              |
+| Package                                                       | Version                                                                                                             | Description                         | Models | Data conn. | Chains | Agents & Tools |
+|---------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------------|--------|------------|--------|----------------|
+| [langchain](https://pub.dev/packages/langchain)               | [![langchain](https://img.shields.io/pub/v/langchain.svg)](https://pub.dev/packages/langchain)                      | Core LangChain API                  | ★      | ★          | ★      | ★              |
+| [langchain_openai](https://pub.dev/packages/langchain_openai) | [![langchain_openai](https://img.shields.io/pub/v/langchain_openai.svg)](https://pub.dev/packages/langchain_openai) | OpenAI integration                  | ✔      | ✔          | ✔      | ✔              |
+| [langchain_google](https://pub.dev/packages/langchain_google) | [![langchain_google](https://img.shields.io/pub/v/langchain_google.svg)](https://pub.dev/packages/langchain_google) | Google integration (VertexAI, PaLM) | ✔      | ✔          |        |                |
 
 ## Getting started
 

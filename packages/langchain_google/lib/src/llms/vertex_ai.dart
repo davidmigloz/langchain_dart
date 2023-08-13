@@ -7,7 +7,7 @@ import 'models/mappers.dart';
 import 'models/models.dart';
 
 /// {@template vertex_ai}
-/// Wrapper around GCP Vertex AI text models API (aka PaLM API).
+/// Wrapper around GCP Vertex AI text models API (aka PaLM API for text).
 ///
 /// Example:
 /// ```dart
