@@ -50,7 +50,7 @@ class VertexAIIndexesApi {
   Future<VertexAIOperation> create({
     required final String displayName,
     required final String description,
-    required final VertexAIIndexCreationMetadata metadata,
+    required final VertexAIIndexRequestMetadata metadata,
     final VertexAIIndexUpdateMethod indexUpdateMethod =
         VertexAIIndexUpdateMethod.batchUpdate,
     final Map<String, String>? labels,
@@ -67,6 +67,42 @@ class VertexAIIndexesApi {
         etag: etag,
       ),
       'projects/$project/locations/$location',
+    );
+    return VertexAIOperationGoogleApisMapper.mapOperation(res);
+  }
+
+  /// Updates an Index.
+  ///
+  /// - [id] The id of the index
+  /// - [displayName] The new display name for the Index.
+  /// - [description] The new description for the Index.
+  /// - [metadata] The new metadata for the Index.
+  /// - [labels] The new labels for the Index.
+  ///
+  /// To replace the existing content of an existing Index:
+  /// - Set [VertexAIIndexRequestMetadata.contentsDeltaUri] to the Cloud
+  ///   Storage URI that includes the vectors you want to update.
+  /// - Set [VertexAIIndexRequestMetadata.isCompleteOverwrite] to true.
+  ///
+  /// If you set the [VertexAIIndexRequestMetadata.contentsDeltaUri]] field
+  /// when calling [update], then no other index fields (such as [displayName],
+  /// [description], or [labels]) can be also updated as part of the same call.
+  Future<VertexAIOperation> update({
+    required final String id,
+    final String? displayName,
+    final String? description,
+    final VertexAIIndexRequestMetadata? metadata,
+    final Map<String, String>? labels,
+  }) async {
+    final metadataMap = metadata?.toMap();
+    final res = await _indexesApi.patch(
+      GoogleCloudAiplatformV1Index(
+        displayName: displayName,
+        description: description,
+        metadata: metadataMap,
+        labels: labels,
+      ),
+      'projects/$project/locations/$location/indexes/$id',
     );
     return VertexAIOperationGoogleApisMapper.mapOperation(res);
   }

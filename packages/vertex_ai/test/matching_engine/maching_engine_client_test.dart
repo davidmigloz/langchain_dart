@@ -23,8 +23,8 @@ void main() async {
       final res = await marchingEngine.indexes.create(
         displayName: 'test-index',
         description: 'This is a test index',
-        metadata: const VertexAIIndexCreationMetadata(
-          contentsDeltaUri: 'gs://brxs-vertex-ai/index',
+        metadata: const VertexAIIndexRequestMetadata(
+          contentsDeltaUri: 'gs://vertex-ai/index',
           config: VertexAINearestNeighborSearchConfig(
             dimensions: 768,
             algorithmConfig: VertexAITreeAhAlgorithmConfig(),
@@ -80,6 +80,17 @@ void main() async {
         );
       }
       expect(operation.error, isNull);
+    });
+
+    test('Test update index', () async {
+      final res = await marchingEngine.indexes.update(
+        id: '5086059315115065344',
+        metadata: const VertexAIIndexRequestMetadata(
+          contentsDeltaUri: 'gs://vertex-ai/index',
+          isCompleteOverwrite: true,
+        ),
+      );
+      expect(res, isNotNull);
     });
 
     test('Test list indexes', () async {
