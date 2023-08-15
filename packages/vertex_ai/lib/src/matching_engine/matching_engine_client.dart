@@ -3,22 +3,15 @@ import 'package:googleapis_auth/googleapis_auth.dart';
 
 import 'apis/apis.dart';
 
-/// {@template vertex_ai_gen_ai_client}
-/// A client for interacting with Vertex AI's Generative AI foundational models.
+/// {@template vertex_ai_matching_engine_client}
+/// A client for interacting with Vertex AI's Matching Engine vector database.
 ///
 /// APIs available:
-/// - [text] API: models fine-tuned to follow natural language instructions and
-///   suitable for a variety of language tasks (e.g. `text-bison`).
-/// - [chat] API: models fine-tuned for multi-turn conversation use cases
-///   (e.g. `chat-bison`).
-/// - [textEmbeddings] API: models that extract semantic information from text
-///   (e.g. `textembedding-gecko`).
+/// - [indexes] API: to create and manage vector indexes.
+/// - [indexEndpoints] API: to create and manage vector index endpoints.
 ///
-/// Vertex AI Generative AI documentation:
-/// https://cloud.google.com/vertex-ai/docs/generative-ai/learn/overview
-///
-/// API documentation:
-/// https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/overview
+/// Vertex AI Matching Engine documentation:
+/// https://cloud.google.com/vertex-ai/docs/matching-engine/overview
 ///
 /// ### Set up your Google Cloud project
 ///
@@ -29,11 +22,11 @@ import 'apis/apis.dart';
 ///
 /// ### Authentication
 ///
-/// The `VertexAIGenAIClient` delegates authentication to the
+/// The `VertexAIMatchingEngineClient` delegates authentication to the
 /// [googleapis_auth](https://pub.dev/packages/googleapis_auth) package.
 ///
-/// To create an instance of `VertexAIGenAIClient` you need to provide an
-/// [`AuthClient`](https://pub.dev/documentation/googleapis_auth/latest/googleapis_auth/AuthClient-class.html)
+/// To create an instance of `VertexAIMatchingEngineClient` you need to provide
+/// an [`AuthClient`](https://pub.dev/documentation/googleapis_auth/latest/googleapis_auth/AuthClient-class.html)
 /// instance.
 ///
 /// There are several ways to obtain an `AuthClient` depending on your use case.
@@ -50,31 +43,39 @@ import 'apis/apis.dart';
 ///   serviceAccountCredentials,
 ///   [VertexAIGenAIClient.cloudPlatformScope],
 /// );
-/// final vertexAi = VertexAIGenAIClient(
+/// final vertexAi = VertexAIMatchingEngineClient(
 ///   authHttpClient: authClient,
 ///   project: 'your-project-id',
 /// );
 /// ```
 ///
-/// The service account should have the following
-/// [permission](https://cloud.google.com/vertex-ai/docs/general/iam-permissions):
-/// - `aiplatform.endpoints.predict`
+/// To be able to create and manage indexes and index endpoints, the service
+/// account should have the following [permissions](https://cloud.google.com/vertex-ai/docs/general/iam-permissions):
+/// - `aiplatform.indexes.create`
+/// - `aiplatform.indexes.get`
+/// - `aiplatform.indexes.list`
+/// - `aiplatform.indexes.update`
+/// - `aiplatform.indexes.delete`
+/// - `aiplatform.indexEndpoints.create`
+/// - `aiplatform.indexEndpoints.get`
+/// - `aiplatform.indexEndpoints.list`
+/// - `aiplatform.indexEndpoints.update`
+/// - `aiplatform.indexEndpoints.delete`
+/// - `aiplatform.indexEndpoints.deploy`
+/// - `aiplatform.indexEndpoints.undeploy`
+///
+/// If you just want to query an index endpoint, the service account only needs:
+/// - `aiplatform.indexEndpoints.queryVectors`
 ///
 /// The required[OAuth2 scope](https://developers.google.com/identity/protocols/oauth2/scopes)
 /// is:
 /// - `https://www.googleapis.com/auth/cloud-platform` (you can use the constant
-///   `VertexAIGenAIClient.cloudPlatformScope`)
+///   `VertexAIMatchingEngineClient.cloudPlatformScope`)
 ///
 /// See: https://cloud.google.com/vertex-ai/docs/generative-ai/access-control
-///
-/// ### Pricing
-///
-/// You can find pricing information for Vertex AI here:
-/// https://cloud.google.com/vertex-ai/docs/generative-ai/pricing
 /// {@endtemplate}
-class VertexAIGenAIClient {
-  /// {@macro vertex_ai_gen_ai_client}
-  VertexAIGenAIClient({
+class VertexAIMatchingEngineClient {
+  VertexAIMatchingEngineClient({
     required final AuthClient authHttpClient,
     required this.project,
     this.location = 'us-central1',
@@ -98,33 +99,16 @@ class VertexAIGenAIClient {
   /// Scope required for Vertex AI API calls.
   static const cloudPlatformScope = AiplatformApi.cloudPlatformScope;
 
-  /// Text model API.
-  ///
-  /// Models fine-tuned to follow natural language instructions and suitable
-  /// for a variety of language tasks (e.g. `text-bison`).
-  VertexAITextModelApi get text => VertexAITextModelApi(
-        modelsApi: _vertexAiApi.projects.locations.publishers.models,
+  /// Indexes API client.
+  VertexAIIndexesApi get indexes => VertexAIIndexesApi(
+        indexesApi: _vertexAiApi.projects.locations.indexes,
         project: project,
         location: location,
       );
 
-  /// Chat model API.
-  ///
-  /// Models fine-tuned for multi-turn conversation use cases
-  /// (e.g. `chat-bison`).
-  VertexAITextChatModelApi get chat => VertexAITextChatModelApi(
-        modelsApi: _vertexAiApi.projects.locations.publishers.models,
-        project: project,
-        location: location,
-      );
-
-  /// Text embeddings model API.
-  ///
-  /// Models that extract semantic information from text
-  /// (e.g. `textembedding-gecko`).
-  VertexAITextEmbeddingsModelApi get textEmbeddings =>
-      VertexAITextEmbeddingsModelApi(
-        modelsApi: _vertexAiApi.projects.locations.publishers.models,
+  /// Index Endpoints API client.
+  VertexAIIndexEndpointsApi get indexEndpoints => VertexAIIndexEndpointsApi(
+        indexEndpointsApi: _vertexAiApi.projects.locations.indexEndpoints,
         project: project,
         location: location,
       );
