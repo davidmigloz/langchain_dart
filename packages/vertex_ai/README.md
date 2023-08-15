@@ -205,6 +205,18 @@ You can also list all indexes:
 final indexes = await marchingEngine.indexes.list();
 ```
 
+### Update an index
+
+```dart
+final res = await marchingEngine.indexes.update(
+  id: '5086059315115065344',
+  metadata: const VertexAIIndexRequestMetadata(
+    contentsDeltaUri: 'gs://bucket-name/path-to-index-dir',
+    isCompleteOverwrite: true,
+  ),
+);
+```
+
 ### Create an index endpoint
 
 ```dart

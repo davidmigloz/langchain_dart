@@ -125,16 +125,16 @@ class VertexAIIndex {
   }
 }
 
-/// {@template vertex_ai_index_creation_metadata}
-/// Metadata required to create a Vertex AI Index.
+/// {@template vertex_ai_index_request_metadata}
+/// Metadata required to create or update a Vertex AI Index.
 /// {@endtemplate}
 @immutable
-class VertexAIIndexCreationMetadata {
-  /// {@macro vertex_ai_index_creation_metadata}
-  const VertexAIIndexCreationMetadata({
-    required this.contentsDeltaUri,
+class VertexAIIndexRequestMetadata {
+  /// {@macro vertex_ai_index_request_metadata}
+  const VertexAIIndexRequestMetadata({
+    this.contentsDeltaUri,
     this.isCompleteOverwrite = false,
-    required this.config,
+    this.config,
   });
 
   /// Allows inserting, updating or deleting the contents of the Matching
@@ -143,7 +143,7 @@ class VertexAIIndexCreationMetadata {
   ///
   /// If you set this field when updating an index, then no other field can be
   /// also updated as part of the same call.
-  final String contentsDeltaUri;
+  final String? contentsDeltaUri;
 
   /// If this field is set together with contentsDeltaUri when updating an
   /// index, then existing content of the index will be replaced by the data
@@ -151,19 +151,19 @@ class VertexAIIndexCreationMetadata {
   final bool isCompleteOverwrite;
 
   /// The configuration of the Matching Engine Index.
-  final VertexAINearestNeighborSearchConfig config;
+  final VertexAINearestNeighborSearchConfig? config;
 
-  /// Converts a [VertexAIIndexCreationMetadata] to a [Map].
+  /// Converts a [VertexAIIndexRequestMetadata] to a [Map].
   Map<String, dynamic> toMap() {
     return {
       'contentsDeltaUri': contentsDeltaUri,
       'isCompleteOverwrite': isCompleteOverwrite,
-      'config': config.toMap(),
+      'config': config?.toMap(),
     };
   }
 
   @override
-  bool operator ==(covariant final VertexAIIndexCreationMetadata other) =>
+  bool operator ==(covariant final VertexAIIndexRequestMetadata other) =>
       identical(this, other) ||
       runtimeType == other.runtimeType &&
           contentsDeltaUri == other.contentsDeltaUri &&
@@ -178,7 +178,7 @@ class VertexAIIndexCreationMetadata {
 
   @override
   String toString() {
-    return 'VertexAIIndexCreationMetadata{'
+    return 'VertexAIIndexRequestMetadata{'
         'contentsDeltaUri: $contentsDeltaUri, '
         'isCompleteOverwrite: $isCompleteOverwrite, '
         'config: $config}';
