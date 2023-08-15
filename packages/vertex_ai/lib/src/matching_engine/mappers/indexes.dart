@@ -18,10 +18,23 @@ class VertexAIIndexGoogleApisMapper {
               .firstWhereOrNull((final m) => m.id == index.indexUpdateMethod) ??
           VertexAIIndexUpdateMethod.batchUpdate,
       indexStats: index.indexStats != null ? mapStats(index.indexStats!) : null,
+      deployedIndexes: index.deployedIndexes
+              ?.map(_mapDeployedIndexRef)
+              .toList(growable: false) ??
+          const [],
       labels: index.labels,
       etag: index.etag ?? '',
       createTime: DateTime.tryParse(index.createTime ?? '') ?? DateTime.now(),
       updateTime: DateTime.tryParse(index.updateTime ?? '') ?? DateTime.now(),
+    );
+  }
+
+  static VertexAIDeployedIndexRef _mapDeployedIndexRef(
+    final GoogleCloudAiplatformV1DeployedIndexRef deployedIndexRef,
+  ) {
+    return VertexAIDeployedIndexRef(
+      deployedIndexId: deployedIndexRef.deployedIndexId ?? '',
+      indexEndpoint: deployedIndexRef.indexEndpoint ?? '',
     );
   }
 

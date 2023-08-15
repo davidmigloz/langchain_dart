@@ -2,6 +2,8 @@
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
+import '../../../vertex_ai.dart';
+
 /// {@template vertex_ai_index}
 /// A Vertex AI Index.
 /// {@endtemplate}
@@ -16,6 +18,7 @@ class VertexAIIndex {
     required this.metadata,
     required this.indexUpdateMethod,
     required this.indexStats,
+    required this.deployedIndexes,
     required this.labels,
     required this.etag,
     required this.createTime,
@@ -50,6 +53,12 @@ class VertexAIIndex {
   /// The statistics of the Index.
   final VertexAIIndexStats? indexStats;
 
+  /// The pointers to [VertexAIDeployedIndex] created from this Index.
+  ///
+  /// An Index can be only deleted if all its [VertexAIDeployedIndex] had been
+  /// undeployed first.
+  final List<VertexAIDeployedIndexRef> deployedIndexes;
+
   /// The labels with user-defined metadata to organize your Indexes.
   ///
   /// Label keys and values can be no longer than 64 characters (Unicode
@@ -78,6 +87,7 @@ class VertexAIIndex {
 
   @override
   bool operator ==(covariant final VertexAIIndex other) {
+    final listEquals = const ListEquality<VertexAIDeployedIndexRef>().equals;
     final mapEquals = const MapEquality<String, String>().equals;
     return identical(this, other) ||
         runtimeType == other.runtimeType &&
@@ -88,6 +98,7 @@ class VertexAIIndex {
             metadata == other.metadata &&
             indexUpdateMethod == other.indexUpdateMethod &&
             indexStats == other.indexStats &&
+            listEquals(deployedIndexes, other.deployedIndexes) &&
             mapEquals(labels, other.labels) &&
             etag == other.etag &&
             createTime == other.createTime &&
@@ -103,6 +114,7 @@ class VertexAIIndex {
       metadata.hashCode ^
       indexUpdateMethod.hashCode ^
       indexStats.hashCode ^
+      const ListEquality<VertexAIDeployedIndexRef>().hash(deployedIndexes) ^
       const MapEquality<String, String>().hash(labels) ^
       etag.hashCode ^
       createTime.hashCode ^
@@ -118,6 +130,7 @@ class VertexAIIndex {
         'metadata: $metadata, '
         'indexUpdateMethod: $indexUpdateMethod, '
         'indexStats: $indexStats, '
+        'deployedIndexes: $deployedIndexes, '
         'labels: $labels, '
         'etag: $etag, '
         'createTime: $createTime, '
@@ -607,6 +620,44 @@ class VertexAIIndexStats {
     return 'VertexAIIndexStats{'
         'shardsCount: $shardsCount, '
         'vectorsCount: $vectorsCount}';
+  }
+}
+
+/// @{template vertex_ai_deployed_index_ref}
+/// Points to a [VertexAIDeployedIndex].
+/// {@endtemplate}
+@immutable
+class VertexAIDeployedIndexRef {
+  /// {@macro vertex_ai_deployed_index_ref}
+  const VertexAIDeployedIndexRef({
+    required this.deployedIndexId,
+    required this.indexEndpoint,
+  });
+
+  /// The ID of the [VertexAIDeployedIndex] in the index endpoint.
+  final String deployedIndexId;
+
+  /// A resource name of the index endpoint.
+  final String indexEndpoint;
+
+  /// The ID of the index endpoint.
+  String get indexEndpointId => indexEndpoint.split('/').last;
+
+  @override
+  bool operator ==(covariant final VertexAIDeployedIndexRef other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          deployedIndexId == other.deployedIndexId &&
+          indexEndpoint == other.indexEndpoint;
+
+  @override
+  int get hashCode => deployedIndexId.hashCode ^ indexEndpoint.hashCode;
+
+  @override
+  String toString() {
+    return 'VertexAIDeployedIndexRef{'
+        'deployedIndexId: $deployedIndexId, '
+        'indexEndpoint: $indexEndpoint}';
   }
 }
 

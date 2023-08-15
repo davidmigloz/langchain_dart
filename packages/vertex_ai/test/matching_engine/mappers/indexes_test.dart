@@ -35,6 +35,12 @@ void main() {
           shardsCount: 1,
           vectorsCount: '1000',
         ),
+        deployedIndexes: [
+          GoogleCloudAiplatformV1DeployedIndexRef(
+            deployedIndexId: 'DEPLOYED_INDEX_ID',
+            indexEndpoint: 'INDEX_ENDPOINT',
+          ),
+        ],
         etag: 'ETAG',
         createTime: '2020-11-08T21:56:30.558449Z',
         updateTime: '2020-11-08T22:39:25.048623Z',
@@ -63,6 +69,12 @@ void main() {
           shardsCount: 1,
           vectorsCount: 1000,
         ),
+        deployedIndexes: const [
+          VertexAIDeployedIndexRef(
+            deployedIndexId: 'DEPLOYED_INDEX_ID',
+            indexEndpoint: 'INDEX_ENDPOINT',
+          ),
+        ],
         labels: null,
         etag: 'ETAG',
         createTime: DateTime.parse('2020-11-08T21:56:30.558449Z'),
