@@ -260,7 +260,7 @@ class VertexAINearestNeighborSearchConfig {
   /// exact reordering is performed. Exact reordering is a procedure where
   /// results returned by an approximate search algorithm are reordered via a
   /// more expensive distance computation.
-  final int approximateNeighborsCount;
+  final int? approximateNeighborsCount;
 
   /// The distance measure used in nearest neighbor search.
   final VertexAIDistanceMeasureType distanceMeasureType;
@@ -288,7 +288,7 @@ class VertexAINearestNeighborSearchConfig {
   ) {
     return VertexAINearestNeighborSearchConfig(
       dimensions: map['dimensions'] as int,
-      approximateNeighborsCount: map['approximateNeighborsCount'] as int,
+      approximateNeighborsCount: map['approximateNeighborsCount'] as int?,
       distanceMeasureType: VertexAIDistanceMeasureType.values.firstWhere(
         (final t) => t.id == map['distanceMeasureType'] as String,
       ),
@@ -534,6 +534,9 @@ class VertexAITreeAhAlgorithmConfig extends VertexAIAlgorithmConfig {
 /// {@template vertex_ai_brute_force_config}
 /// Configuration options for using brute force search, which simply implements
 /// the standard linear search in the database for each query.
+///
+/// Use this algorithm only for development or small datasets (less that 100k
+/// documents), since it is computationally expensive.
 /// {@endtemplate}
 @immutable
 class VertexAIBruteForceAlgorithmConfig extends VertexAIAlgorithmConfig {
