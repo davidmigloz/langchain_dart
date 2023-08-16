@@ -123,8 +123,7 @@ void main(final List<String> arguments) async {
   }
 
   // Get deployed index
-  print('\n> Getting deployed index...');
-  print('Index ready to be used!');
+  print('\n> Index ready to be used!');
   print('You can now use it in LangChain.dart:');
   print('''
 final vectorStore = VertexAIMatchingEngine(

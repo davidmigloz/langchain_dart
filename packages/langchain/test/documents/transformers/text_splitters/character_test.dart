@@ -88,6 +88,25 @@ void main() {
       expect(output, expectedOutput);
     });
 
+    test('Test split documents method', () {
+      const docs = [
+        Document(id: '1', pageContent: 'foo bar', metadata: {'m': '1'}),
+        Document(id: '2', pageContent: 'baz', metadata: {'m': '2'}),
+      ];
+      const splitter = CharacterTextSplitter(
+        separator: ' ',
+        chunkSize: 3,
+        chunkOverlap: 0,
+      );
+      final splitDocs = splitter.splitDocuments(docs);
+      final expectedDocs = [
+        const Document(id: '1', pageContent: 'foo', metadata: {'m': '1'}),
+        const Document(id: '1', pageContent: 'bar', metadata: {'m': '1'}),
+        const Document(id: '2', pageContent: 'baz', metadata: {'m': '2'}),
+      ];
+      expect(splitDocs, equals(expectedDocs));
+    });
+
     test('Test create documents method', () {
       final texts = ['foo bar', 'baz'];
       const splitter = CharacterTextSplitter(
