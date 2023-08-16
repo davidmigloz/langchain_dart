@@ -1,3 +1,7 @@
+## 0.0.7
+
+ - n
+
 ## 0.0.6
 
  - **REFACTOR**: Always await or explicitly discard Futures ([#106](https://github.com/davidmigloz/langchain_dart/issues/106)). ([989e93db](https://github.com/davidmigloz/langchain_dart/commit/989e93dbf6b5d61f053550219d88842156aeb492))

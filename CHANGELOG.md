@@ -3,6 +3,48 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain` - `v0.0.7`](#langchain---v007)
+ - [`langchain_google` - `v0.0.2`](#langchain_google---v002)
+ - [`vertex_ai` - `v0.0.2`](#vertex_ai---v002)
+ - [`langchain_openai` - `v0.0.7`](#langchain_openai---v007)
+
+---
+
+#### `langchain` - `v0.0.7`
+
+ - **FEAT**(stores): Integrate Vertex AI Matching Engine vector store ([#103](https://github.com/davidmigloz/langchain_dart/issues/103)). ([289c3eef](https://github.com/davidmigloz/langchain_dart/commit/289c3eef722206ac9dea0c968c036ad3289d10be))
+ - **DOCS**: Update readme. ([a64860ce](https://github.com/davidmigloz/langchain_dart/commit/a64860ceda8fe926b720086cf7c86df2b02abf35))
+ - **DOCS**: Update readme. ([8a58f4a1](https://github.com/davidmigloz/langchain_dart/commit/8a58f4a1923f474bc331e2d02b9cf14b79194331))
+
+#### `langchain_google` - `v0.0.2`
+
+ - **FEAT**(stores): Integrate Vertex AI Matching Engine vector store ([#103](https://github.com/davidmigloz/langchain_dart/issues/103)). ([289c3eef](https://github.com/davidmigloz/langchain_dart/commit/289c3eef722206ac9dea0c968c036ad3289d10be))
+ - **DOCS**: Update readme. ([a64860ce](https://github.com/davidmigloz/langchain_dart/commit/a64860ceda8fe926b720086cf7c86df2b02abf35))
+
+#### `vertex_ai` - `v0.0.2`
+
+ - **FIX**(vertex_ai): Expose index deployed indexes references ([#118](https://github.com/davidmigloz/langchain_dart/issues/118)). ([f3635f23](https://github.com/davidmigloz/langchain_dart/commit/f3635f23554b60c856a11aaea95881030a00315e))
+ - **FEAT**(stores): Integrate Vertex AI Matching Engine vector store ([#103](https://github.com/davidmigloz/langchain_dart/issues/103)). ([289c3eef](https://github.com/davidmigloz/langchain_dart/commit/289c3eef722206ac9dea0c968c036ad3289d10be))
+ - **FEAT**(vertex_ai): Support updating Matching Engine index ([#117](https://github.com/davidmigloz/langchain_dart/issues/117)). ([0ffd31fa](https://github.com/davidmigloz/langchain_dart/commit/0ffd31fa3a1f32bdcc6bf9a9fa2c5023a10b3687))
+ - **FEAT**(vertex_a): Add GCP Vertex AI Matching Engine client ([#116](https://github.com/davidmigloz/langchain_dart/issues/116)). ([2c1bbfcc](https://github.com/davidmigloz/langchain_dart/commit/2c1bbfcca22a4ddfb40bcb28e8ec8cbca865a9a5))
+
+#### `langchain_openai` - `v0.0.7`
+
+ - n
+
+
 ## 2023-08-13
 
 ### Changes

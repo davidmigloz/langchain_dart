@@ -1,3 +1,10 @@
+## 0.0.2
+
+ - **FIX**(vertex_ai): Expose index deployed indexes references ([#118](https://github.com/davidmigloz/langchain_dart/issues/118)). ([f3635f23](https://github.com/davidmigloz/langchain_dart/commit/f3635f23554b60c856a11aaea95881030a00315e))
+ - **FEAT**(stores): Integrate Vertex AI Matching Engine vector store ([#103](https://github.com/davidmigloz/langchain_dart/issues/103)). ([289c3eef](https://github.com/davidmigloz/langchain_dart/commit/289c3eef722206ac9dea0c968c036ad3289d10be))
+ - **FEAT**(vertex_ai): Support updating Matching Engine index ([#117](https://github.com/davidmigloz/langchain_dart/issues/117)). ([0ffd31fa](https://github.com/davidmigloz/langchain_dart/commit/0ffd31fa3a1f32bdcc6bf9a9fa2c5023a10b3687))
+ - **FEAT**(vertex_a): Add GCP Vertex AI Matching Engine client ([#116](https://github.com/davidmigloz/langchain_dart/issues/116)). ([2c1bbfcc](https://github.com/davidmigloz/langchain_dart/commit/2c1bbfcca22a4ddfb40bcb28e8ec8cbca865a9a5))
+
 ## 0.0.1
 
  - **REFACTOR**(vertex-ai): Move Vertex AI client to its own package ([#111](https://github.com/davidmigloz/langchain_dart/issues/111)). ([d8aea156](https://github.com/davidmigloz/langchain_dart/commit/d8aea15633f1a9fb0df35cf9cc44bbc93ad46cd8))
