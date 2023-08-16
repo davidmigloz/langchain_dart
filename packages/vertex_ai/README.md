@@ -10,9 +10,12 @@ Dart client for the [Vertex AI](https://cloud.google.com/vertex-ai) API.
 ## Features
 
 - [Generative AI](https://cloud.google.com/vertex-ai/docs/generative-ai/learn/overview)
-  * [Text models](https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/text)
-  * [Text chat models](https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/text-chat)
-  * [Text embeddings models](https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/text-embeddings)
+  * Text models
+  * Text chat models
+  * Text embeddings models
+- [Matching Engine](https://cloud.google.com/vertex-ai/docs/matching-engine/overview)
+  * Create and manage indexes and index endpoints
+  * Query indexes
 
 ## Generative AI
 
@@ -102,9 +105,10 @@ final res = await vertexAi.textEmbeddings.predict(
 
 ## Matching Engine
 
-Vertex AI Matching Engine provides the industry's leading high-scale low 
-latency vector database. These vector databases are commonly referred to as 
-vector similarity-matching or an approximate nearest neighbor (ANN) service.
+[Vertex AI Matching Engine](https://cloud.google.com/vertex-ai/docs/matching-engine/overview) 
+provides the industry's leading high-scale low latency vector database. These 
+vector databases are commonly referred to as vector similarity-matching or an 
+approximate nearest neighbor (ANN) service.
 
 Matching Engine provides tooling to build use cases that match semantically 
 similar items. More specifically, given a query item, Matching Engine finds the 
