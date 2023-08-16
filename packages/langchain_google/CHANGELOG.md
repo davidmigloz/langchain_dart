@@ -1,3 +1,7 @@
+## 0.0.2+2
+
+ - Update a dependency to the latest release.
+
 ## 0.0.2+1
 
  - **DOCS**: Add VertexAI Matching Engine sample setup script ([#121](https://github.com/davidmigloz/langchain_dart/issues/121)). ([ed2e1549](https://github.com/davidmigloz/langchain_dart/commit/ed2e1549ca1d6bb0223231bcbe0c1c4a6a198402))

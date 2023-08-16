@@ -15,6 +15,36 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`langchain` - `v0.0.7+1`](#langchain---v0071)
+ - [`langchain_openai` - `v0.0.7+1`](#langchain_openai---v0071)
+ - [`langchain_google` - `v0.0.2+2`](#langchain_google---v0022)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_openai` - `v0.0.7+1`
+ - `langchain_google` - `v0.0.2+2`
+
+---
+
+#### `langchain` - `v0.0.7+1`
+
+ - **FIX**(doc-transformers): Text splitters were not preserving docs IDs ([#122](https://github.com/davidmigloz/langchain_dart/issues/122)). ([a9d7f098](https://github.com/davidmigloz/langchain_dart/commit/a9d7f098e650329fe43f35e2f0e11a1f61778e4f))
+
+
+## 2023-08-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`langchain_google` - `v0.0.2+1`](#langchain_google---v0021)
  - [`vertex_ai` - `v0.0.2+1`](#vertex_ai---v0021)
 
