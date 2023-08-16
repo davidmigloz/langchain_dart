@@ -42,6 +42,7 @@ abstract class TextSplitter implements BaseDocumentTransformer {
   /// Creates documents from a list of texts.
   List<Document> createDocuments(
     final List<String> texts, {
+    final List<String>? ids,
     final List<Map<String, dynamic>>? metadatas,
   }) {
     final meta = metadatas ?? List.filled(texts.length, <String, dynamic>{});
@@ -52,23 +53,29 @@ abstract class TextSplitter implements BaseDocumentTransformer {
       final chunks = splitText(text);
       var index = -1;
       return chunks.map((final chunk) {
+        String? id = ids?[textIndex];
+        if (id != null && id.isEmpty) {
+          id = null;
+        }
         final metadata = {...meta[textIndex]};
         if (addStartIndex) {
           index = text.indexOf(chunk, index + 1);
           metadata['start_index'] = index;
         }
-        return Document(pageContent: chunk, metadata: metadata);
+        return Document(id: id, pageContent: chunk, metadata: metadata);
       });
     }).toList(growable: false);
   }
 
   /// Splits documents.
   List<Document> splitDocuments(final List<Document> documents) {
+    final ids =
+        documents.map((final doc) => doc.id ?? '').toList(growable: false);
     final texts =
         documents.map((final doc) => doc.pageContent).toList(growable: false);
     final metadatas =
         documents.map((final doc) => doc.metadata).toList(growable: false);
-    return createDocuments(texts, metadatas: metadatas);
+    return createDocuments(texts, ids: ids, metadatas: metadatas);
   }
 
   /// Joins documents into a single document with the given separator.
