@@ -9,6 +9,33 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ---
 
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain_google` - `v0.0.2+1`](#langchain_google---v0021)
+ - [`vertex_ai` - `v0.0.2+1`](#vertex_ai---v0021)
+
+---
+
+#### `langchain_google` - `v0.0.2+1`
+
+ - **DOCS**: Add VertexAI Matching Engine sample setup script ([#121](https://github.com/davidmigloz/langchain_dart/issues/121)). ([ed2e1549](https://github.com/davidmigloz/langchain_dart/commit/ed2e1549ca1d6bb0223231bcbe0c1c4a6a198402))
+
+#### `vertex_ai` - `v0.0.2+1`
+
+ - **FIX**(vertex_ai): approximateNeighborsCount deserialization issue ([#120](https://github.com/davidmigloz/langchain_dart/issues/120)). ([f3381208](https://github.com/davidmigloz/langchain_dart/commit/f33812082191d3105d692f1d6bf461069df14750))
+ - **DOCS**: Update readme. ([81f67c5e](https://github.com/davidmigloz/langchain_dart/commit/81f67c5e2f5963df9756d3245dd263b2060af173))
+
+
+## 2023-08-16
+
+### Changes
+
+---
+
 Packages with changes:
 
  - [`langchain` - `v0.0.7`](#langchain---v007)

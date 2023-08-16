@@ -1,3 +1,8 @@
+## 0.0.2+1
+
+ - **FIX**(vertex_ai): approximateNeighborsCount deserialization issue ([#120](https://github.com/davidmigloz/langchain_dart/issues/120)). ([f3381208](https://github.com/davidmigloz/langchain_dart/commit/f33812082191d3105d692f1d6bf461069df14750))
+ - **DOCS**: Update readme. ([81f67c5e](https://github.com/davidmigloz/langchain_dart/commit/81f67c5e2f5963df9756d3245dd263b2060af173))
+
 ## 0.0.2
 
  - **FIX**(vertex_ai): Expose index deployed indexes references ([#118](https://github.com/davidmigloz/langchain_dart/issues/118)). ([f3635f23](https://github.com/davidmigloz/langchain_dart/commit/f3635f23554b60c856a11aaea95881030a00315e))

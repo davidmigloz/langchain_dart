@@ -1,6 +1,6 @@
 name: langchain_google
 description: Google module for LangChain.dart.
-version: 0.0.2
+version: 0.0.2+1
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_google
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues
 homepage: https://github.com/davidmigloz/langchain_dart
@@ -19,7 +19,7 @@ dependencies:
   meta: ^1.9.1
   tiktoken: ^1.0.3
   uuid: ^3.0.7
-  vertex_ai: ^0.0.2
+  vertex_ai: ^0.0.2+1
 
 dev_dependencies:
   test: ^1.24.3
