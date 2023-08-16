@@ -32,7 +32,11 @@ import 'package:vertex_ai/vertex_ai.dart';
 /// Engine index and expose it in a Vertex AI index endpoint.
 ///
 /// You can use [vertex_ai](https://pub.dev/packages/vertex_ai) Dart package
-/// to do that. Check out its documentation for more details.
+/// to do that.
+///
+/// Check out this sample script that creates the index and index endpoint
+/// ready to be used with LangChains.dart:
+/// https://github.com/davidmigloz/langchain_dart/tree/main/examples/vertex_ai_matching_engine_setup
 ///
 /// ### Authentication
 ///
