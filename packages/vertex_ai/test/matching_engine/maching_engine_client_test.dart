@@ -44,7 +44,7 @@ void main() async {
     });
 
     test('Test create index endpoint', () async {
-      // 1. Create index
+      // 1. Create index endpoint
       final res = await marchingEngine.indexEndpoints.create(
         displayName: 'test-index-endpoint',
         description: 'This is a test index endpoint',
@@ -63,7 +63,7 @@ void main() async {
     });
 
     test('Test deploy index to endpoint', () async {
-      // 1. Create index
+      // 1. Deploy index to endpoint
       final res = await marchingEngine.indexEndpoints.deployIndex(
         indexId: '5086059315115065344',
         indexEndpointId: '8572232454792806400',
