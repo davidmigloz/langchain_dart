@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:gcloud/storage.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:langchain_google/langchain_google.dart';
 
@@ -10,6 +11,6 @@ Future<AuthClient> getAuthHttpClient() async {
   );
   return clientViaServiceAccount(
     serviceAccountCredentials,
-    [VertexAI.cloudPlatformScope],
+    [VertexAI.cloudPlatformScope, ...Storage.SCOPES],
   );
 }

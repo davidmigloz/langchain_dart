@@ -118,16 +118,6 @@ class MemoryVectorStore extends VectorStore {
         )
         .toList(growable: false);
   }
-
-  @override
-  List<Document> maxMarginalRelevanceSearchByVector({
-    required final List<double> embedding,
-    final int k = 4,
-    final int fetchK = 20,
-    final double lambdaMult = 0.5,
-  }) {
-    throw UnsupportedError('MRR not supported for memory vector store.');
-  }
 }
 
 /// {@template memory_vector}

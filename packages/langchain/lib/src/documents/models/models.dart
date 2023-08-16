@@ -8,39 +8,67 @@ import 'package:meta/meta.dart';
 class Document {
   /// {@macro document}
   const Document({
+    this.id,
     required this.pageContent,
     this.metadata = const {},
   });
 
+  /// Optional ID for the document.
+  ///
+  /// It can be used to identify the document in the vector store.
+  final String? id;
+
+  /// The text content of the document.
   final String pageContent;
+
+  /// The metadata of the document.
   final Map<String, dynamic> metadata;
 
-  @override
-  bool operator ==(covariant final Document other) {
-    final mapEquals = const MapEquality<String, dynamic>().equals;
-    return identical(this, other) ||
-        pageContent == other.pageContent && mapEquals(metadata, other.metadata);
+  factory Document.fromMap(final Map<String, dynamic> map) {
+    return Document(
+      id: map['id'] as String?,
+      pageContent: map['pageContent'] as String,
+      metadata: map['metadata'] as Map<String, dynamic>,
+    );
   }
 
-  @override
-  int get hashCode => pageContent.hashCode ^ metadata.hashCode;
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'pageContent': pageContent,
+      'metadata': metadata,
+    };
+  }
 
   Document copyWith({
+    final String? id,
     final String? pageContent,
     final Map<String, dynamic>? metadata,
   }) {
     return Document(
+      id: id ?? this.id,
       pageContent: pageContent ?? this.pageContent,
       metadata: metadata ?? this.metadata,
     );
   }
 
   @override
+  bool operator ==(covariant final Document other) {
+    final mapEquals = const MapEquality<String, dynamic>().equals;
+    return identical(this, other) ||
+        id == other.id &&
+            pageContent == other.pageContent &&
+            mapEquals(metadata, other.metadata);
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ pageContent.hashCode ^ metadata.hashCode;
+
+  @override
   String toString() {
-    return '''
-Document{
-  pageContent: $pageContent,
-  metadata: $metadata,
-}''';
+    return 'Document{'
+        'id: $id, '
+        'pageContent: $pageContent, '
+        'metadata: $metadata}';
   }
 }

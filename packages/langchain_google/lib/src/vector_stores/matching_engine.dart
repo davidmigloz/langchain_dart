@@ -1,0 +1,333 @@
+import 'dart:convert';
+
+import 'package:gcloud/storage.dart';
+import 'package:googleapis_auth/googleapis_auth.dart';
+import 'package:langchain/langchain.dart';
+import 'package:uuid/uuid.dart';
+import 'package:vertex_ai/vertex_ai.dart';
+
+/// A vector store that uses Vertex AI Matching Engine.
+///
+/// Vertex AI Matching Engine provides a high-scale low latency vector database.
+///
+/// This vector stores relies on two GCP services:
+/// - Vertex AI Matching Engine: to store the vectors and perform similarity
+///   searches.
+/// - Google Cloud Storage: to store the documents and the vectors to add to
+///   the index.
+///
+/// Vertex AI Matching Engine documentation:
+/// https://cloud.google.com/vertex-ai/docs/matching-engine/overview
+///
+/// ### Set up your Google Cloud Platform project
+///
+/// 1. [Select or create a Google Cloud project](https://console.cloud.google.com/cloud-resource-manager).
+/// 2. [Make sure that billing is enabled for your project](https://cloud.google.com/billing/docs/how-to/modify-project).
+/// 3. [Enable the Vertex AI API](https://console.cloud.google.com/flows/enableapi?apiid=aiplatform.googleapis.com).
+/// 4. [Configure the Vertex AI location](https://cloud.google.com/vertex-ai/docs/general/locations).
+///
+/// ### Create your Vertex AI Matching Engine index
+///
+/// To use this vector store, first you need to create a Vertex AI Matching
+/// Engine index and expose it in a Vertex AI index endpoint.
+///
+/// You can use [vertex_ai](https://pub.dev/packages/vertex_ai) Dart package
+/// to do that. Check out its documentation for more details.
+///
+/// ### Authentication
+///
+/// The `VertexAIMatchingEngine` wrapper delegates authentication to the
+/// [googleapis_auth](https://pub.dev/packages/googleapis_auth) package.
+///
+/// To create an instance of `VertexAIMatchingEngine` you need to provide an
+/// [`AuthClient`](https://pub.dev/documentation/googleapis_auth/latest/googleapis_auth/AuthClient-class.html)
+/// instance.
+///
+/// There are several ways to obtain an `AuthClient` depending on your use case.
+/// Check out the [googleapis_auth](https://pub.dev/packages/googleapis_auth)
+/// package documentation for more details.
+///
+/// Example using a service account JSON:
+///
+/// ```dart
+/// final serviceAccountCredentials = ServiceAccountCredentials.fromJson(
+///   json.decode(serviceAccountJson),
+/// );
+/// final authClient = await clientViaServiceAccount(
+///   serviceAccountCredentials,
+///   VertexAIMatchingEngine.cloudPlatformScopes,
+/// );
+/// final vectorStore = VertexAIMatchingEngine(
+///   authHttpClient: authClient,
+///   project: 'your-project-id',
+///   location: 'europe-west1',
+///   queryRootUrl: 'https://your-query-root-url.vdb.vertexai.goog/',
+///   indexId: 'your-index-id',
+///   gcsBucketName: 'your-gcs-bucket-name',
+///   embeddings: embeddings,
+/// );
+/// ```
+///
+/// The minimum required permissions for the service account if you just need
+/// to query the index are:
+/// - `aiplatform.indexes.get`
+/// - `aiplatform.indexEndpoints.queryVectors`
+/// - `storage.objects.get`
+///
+/// If you also need to add new vectors to the index, the service account
+/// should have the following permissions as well:
+/// - `aiplatform.indexes.update`
+/// - `storage.objects.create`
+/// - `storage.objects.update`
+///
+/// The required[OAuth2 scope](https://developers.google.com/identity/protocols/oauth2/scopes)
+/// is:
+/// - `https://www.googleapis.com/auth/cloud-platform`
+/// - `https://www.googleapis.com/auth/devstorage.full_control`
+///
+/// You can use the constant `VertexAIMatchingEngine.cloudPlatformScopes`.
+class VertexAIMatchingEngine extends VectorStore {
+  /// Creates a new Vertex AI Matching Engine vector store.
+  ///
+  /// - [authHttpClient] An authenticated HTTP client.
+  /// - [project] The ID of the Google Cloud project to use.
+  /// - [location] The Google Cloud location to use. Vertex AI and
+  ///   Cloud Storage should have the same location.
+  /// - [rootUrl] The root URL of the Vertex AI API. By default it uses
+  ///   `https://$location-aiplatform.googleapis.com/`.
+  /// - [queryRootUrl] The root URL of the Vertex AI Matching Engine index
+  ///   endpoint. For example: `https://your-query-root-url.vdb.vertexai.goog/`.
+  ///   You can find this URL when you create the index endpoint. See:
+  ///   https://cloud.google.com/vertex-ai/docs/matching-engine/deploy-index-public#get_the_index_domain_name
+  /// - [indexId] The ID of the index to use. You can find this ID when you
+  ///   create the index or in the Vertex AI console.
+  /// - [indexEndpointId] The ID of the IndexEndpoint to use. Only needed if
+  ///   you have multiple endpoints for the same index.
+  /// - [deployedIndexId] The ID of the DeployedIndex to use. Only needed if
+  ///   you have multiple deployed indexes for the same index.
+  /// - [gcsBucketName] The name of the Google Cloud Storage bucket to use to
+  ///   store the documents and the vectors to add to the index.
+  /// - [gcsDocumentsFolder] The folder in the Google Cloud Storage bucket where
+  ///   the documents are stored.
+  /// - [gcsIndexesFolder] The folder in the Google Cloud Storage bucket where
+  ///   the vectors to add to the index are stored.
+  /// - [completeOverwriteWhenAdding] If true, when new vectors are added to
+  ///   the index, the previous ones are deleted. If false, the new vectors are
+  ///   added to the index without deleting the previous ones.
+  VertexAIMatchingEngine({
+    required final AuthClient authHttpClient,
+    required final String project,
+    required final String location,
+    final String? rootUrl,
+    required final String queryRootUrl,
+    required this.indexId,
+    final String? indexEndpointId,
+    final String? deployedIndexId,
+    required this.gcsBucketName,
+    this.gcsDocumentsFolder = 'documents',
+    this.gcsIndexesFolder = 'indexes',
+    this.completeOverwriteWhenAdding = false,
+    required super.embeddings,
+  })  : _queryClient = VertexAIMatchingEngineClient(
+          authHttpClient: authHttpClient,
+          project: project,
+          location: location,
+          rootUrl: queryRootUrl,
+        ),
+        _managementClient = VertexAIMatchingEngineClient(
+          authHttpClient: authHttpClient,
+          project: project,
+          location: location,
+          rootUrl: rootUrl ?? 'https://$location-aiplatform.googleapis.com/',
+        ),
+        _storageClient = Storage(authHttpClient, project),
+        _indexEndpointId = indexEndpointId,
+        _deployedIndexId = deployedIndexId;
+
+  /// A client for querying the Vertex AI Matching Engine index.
+  final VertexAIMatchingEngineClient _queryClient;
+
+  /// A client for managing the Vertex AI Matching Engine index.
+  final VertexAIMatchingEngineClient _managementClient;
+
+  /// A client for interacting with Google Cloud Storage.
+  final Storage _storageClient;
+
+  /// The id of the index to use.
+  final String indexId;
+
+  /// The Google Cloud Storage bucket to use.
+  final String gcsBucketName;
+
+  /// The folder in the Google Cloud Storage bucket where the documents are
+  /// stored.
+  final String gcsDocumentsFolder;
+
+  /// The folder in the Google Cloud Storage bucket where the vectors to add
+  /// to the index are stored.
+  final String gcsIndexesFolder;
+
+  /// If true, when new vectors are added to the index, the previous ones are
+  /// deleted. If false, the new vectors are added to the index without
+  /// deleting the previous ones.
+  final bool completeOverwriteWhenAdding;
+
+  /// The ID of the index endpoint to use.
+  String? _indexEndpointId;
+
+  /// The ID of the deployed index to use.
+  String? _deployedIndexId;
+
+  /// A UUID generator.
+  final Uuid _uuid = const Uuid();
+
+  /// Scopes required for Vertex AI and Cloud Storage API calls.
+  static const cloudPlatformScopes = [
+    VertexAIGenAIClient.cloudPlatformScope,
+    ...Storage.SCOPES,
+  ];
+
+  @override
+  Future<List<String>> addVectors({
+    required final List<List<double>> vectors,
+    required final List<Document> documents,
+  }) async {
+    assert(vectors.length == documents.length);
+
+    final bucket = _storageClient.bucket(gcsBucketName);
+    final List<String> ids = [];
+    final List<String> vectorsJsons = [];
+
+    // Write each document to GCS (in gcsDocumentsFolder)
+    for (var i = 0; i < documents.length; i++) {
+      Document doc = documents[i];
+      if (doc.id == null) {
+        doc = doc.copyWith(id: _uuid.v4());
+      }
+      final id = doc.id!;
+      final vector = vectors[i];
+      final docPath = '$gcsDocumentsFolder/$id.json';
+      final docJson = json.encode(doc.toMap());
+      final vectorJson = json.encode({'id': id, 'embedding': vector});
+
+      ids.add(id);
+      vectorsJsons.add(vectorJson);
+      await bucket.writeBytes(
+        docPath,
+        utf8.encode(docJson),
+        contentType: 'application/json',
+      );
+    }
+
+    // Write JSON lines index file to GCS (in indexFolder)
+    final now = DateTime.now().toIso8601String();
+    final indexFolder = '$gcsIndexesFolder/$now';
+    final indexPath = '$indexFolder/${_uuid.v4()}.json';
+    await bucket.writeBytes(
+      indexPath,
+      utf8.encode(vectorsJsons.join('\n')),
+      contentType: 'application/json',
+    );
+
+    // Trigger a batch update of the index
+    await _managementClient.indexes.update(
+      id: indexId,
+      metadata: VertexAIIndexRequestMetadata(
+        contentsDeltaUri: 'gs://$gcsBucketName/$indexFolder/',
+        isCompleteOverwrite: completeOverwriteWhenAdding,
+      ),
+    );
+    return ids;
+  }
+
+  @override
+  Future<bool> delete({
+    required final List<String> ids,
+  }) {
+    throw UnimplementedError(
+      'To delete vectors from Matching Engine you just need to sets '
+      '`completeOverwriteWhenAdding` to true and add new ones. '
+      'Each new batch will replace the previous one.',
+    );
+  }
+
+  @override
+  Future<List<(Document, double scores)>> similaritySearchByVectorWithScores({
+    required final List<double> embedding,
+    final int k = 4,
+  }) async {
+    final (indexEndpointId, deployedIndexId) = await _getIndexIds();
+    final queryRes = await _queryClient.indexEndpoints.findNeighbors(
+      indexEndpointId: indexEndpointId,
+      deployedIndexId: deployedIndexId,
+      queries: [
+        VertexAIFindNeighborsRequestQuery(
+          datapoint: VertexAIIndexDatapoint(
+            datapointId: _uuid.v4(),
+            featureVector: embedding,
+          ),
+          neighborCount: k,
+        ),
+      ],
+    );
+
+    final neighbors = queryRes.nearestNeighbors.firstOrNull?.neighbors ?? [];
+    if (neighbors.isEmpty) {
+      return const [];
+    }
+
+    final List<(Document, double)> results = [];
+    for (final neighbor in neighbors) {
+      final id = neighbor.datapoint.datapointId;
+      final document = await _getDocument(id);
+      final score = neighbor.distance;
+      results.add((document, score));
+    }
+
+    return results;
+  }
+
+  /// Returns the index endpoint and deployed index ids.
+  Future<(String indexEndpointId, String deployedIndexId)>
+      _getIndexIds() async {
+    if (_indexEndpointId != null && _deployedIndexId != null) {
+      return (_indexEndpointId!, _deployedIndexId!);
+    }
+
+    final index = await _managementClient.indexes.get(id: indexId);
+    if (index.deployedIndexes.isEmpty) {
+      throw LangChainException(
+        message: 'No deployed indexes found for index $indexId',
+      );
+    } else if (index.deployedIndexes.length > 1) {
+      throw LangChainException(
+        message: 'Multiple deployed indexes found for index $indexId. '
+            'Please specify the `indexEndpointId` and `deployedIndexId` '
+            'that you want to use.',
+      );
+    }
+
+    final deployedIndex = index.deployedIndexes.first;
+    _indexEndpointId = deployedIndex.indexEndpointId;
+    _deployedIndexId = deployedIndex.deployedIndexId;
+    return (_indexEndpointId!, _deployedIndexId!);
+  }
+
+  /// Returns the document with the given id from the Storage bucket.
+  Future<Document> _getDocument(final String id) async {
+    final bucket = _storageClient.bucket(gcsBucketName);
+    final path = '$gcsDocumentsFolder/$id.json';
+    final jsonFile = (await bucket
+            .read('documents/$id.json')
+            .transform(utf8.decoder)
+            .transform(json.decoder)
+            .toList())
+        .firstOrNull;
+    if (jsonFile == null) {
+      throw LangChainException(
+        message: 'No document found in gs://$gcsBucketName/$path',
+      );
+    }
+    return Document.fromMap(jsonFile as Map<String, dynamic>);
+  }
+}

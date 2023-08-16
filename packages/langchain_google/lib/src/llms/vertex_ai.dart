@@ -74,7 +74,7 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
     required final AuthClient authHttpClient,
     required final String project,
     final String location = 'us-central1',
-    final String rootUrl = 'https://us-central1-aiplatform.googleapis.com/',
+    final String? rootUrl,
     this.publisher = 'google',
     this.model = 'text-bison',
     this.maxOutputTokens = 1024,
@@ -85,7 +85,7 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
           authHttpClient: authHttpClient,
           project: project,
           location: location,
-          rootUrl: rootUrl,
+          rootUrl: rootUrl ?? 'https://$location-aiplatform.googleapis.com/',
         );
 
   /// A client for interacting with Vertex AI API.

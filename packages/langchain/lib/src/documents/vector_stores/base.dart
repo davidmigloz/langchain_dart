@@ -196,7 +196,9 @@ abstract class VectorStore {
     final int k = 4,
     final int fetchK = 20,
     final double lambdaMult = 0.5,
-  });
+  }) {
+    throw UnimplementedError('MRR not supported for this vector store');
+  }
 
   /// Returns a retriever that uses this vector store.
   VectorStoreRetriever asRetriever({
