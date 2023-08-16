@@ -1,0 +1,13 @@
+name: vertex_ai_matching_engine_setup
+description: A script to setup Vertex AI Matching Engine to be used in LangChain.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ^3.0.5
+
+dependencies:
+  gcloud: ^0.8.11
+  googleapis_auth: ^1.4.1
+  http: ^1.1.0
+  vertex_ai: ^0.0.2
