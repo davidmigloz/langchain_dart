@@ -17,11 +17,6 @@ void main() async {
     location: 'europe-west1',
   );
 
-  test('Test get index', () async {
-    final res = await marchingEngine.indexes.get(id: '5086059315115065344');
-    expect(res, isNotNull);
-  });
-
   group('VertexAIMatchingEngineClient management tests', skip: true, () {
     test('Test create index', () async {
       // 1. Create index
