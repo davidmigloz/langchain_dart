@@ -19,6 +19,9 @@ Google module for [LangChain.dart](https://github.com/davidmigloz/langchain_dart
 - Embeddings:
   * `VertexAIEmbeddings`: wrapper around GCP Vertex AI text embedding models 
     API.
+- Vector stores:
+  * `VertexAIMatchingEngine` vector store that uses GCP Vertex AI Matching 
+    Engine and Cloud Storage.
 
 ## License
 
