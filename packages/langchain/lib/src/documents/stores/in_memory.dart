@@ -7,9 +7,9 @@ import 'base.dart';
 /// {@endtemplate}
 class InMemoryDocStore implements DocStore {
   /// {@macro in_memory_doc_store}
-  InMemoryDocStore(
+  InMemoryDocStore({
     final Map<String, Document>? initialDocuments,
-  ) : _documents = {...?initialDocuments};
+  }) : _documents = {...?initialDocuments};
 
   final Map<String, Document> _documents;
 
