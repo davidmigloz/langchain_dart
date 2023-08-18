@@ -147,11 +147,11 @@ void main() async {
         authHttpClient: authClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         rootUrl:
-            'https://1451028425.europe-west1-706285145183.vdb.vertexai.goog/',
+            'https://455238120.europe-west1-706285145183.vdb.vertexai.goog/',
       );
       final res = await machineEngineQuery.indexEndpoints.findNeighbors(
-        indexEndpointId: '8572232454792806400',
-        deployedIndexId: 'deployment1',
+        indexEndpointId: '1537609836840091648',
+        deployedIndexId: 'public_knowledge_base_index_deployed',
         queries: const [
           VertexAIFindNeighborsRequestQuery(
             datapoint: VertexAIIndexDatapoint(
@@ -945,5 +945,5 @@ const _queryVector = [
   0.04319629445672035,
   -0.007710671983659267,
   -0.00981274526566267,
-  0.006554502993822098
+  0.006554502993822098,
 ];

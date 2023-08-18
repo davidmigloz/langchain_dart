@@ -99,7 +99,7 @@ class AgentExecutor extends BaseChain {
     final List<AgentStep> intermediateSteps = [];
 
     // Construct a mapping of tool name to tool for easy lookup
-    final nameToToolMap = {for (var tool in _internalTools) tool.name: tool};
+    final nameToToolMap = {for (final tool in _internalTools) tool.name: tool};
 
     // Let's start tracking the number of iterations and time elapsed
     int iterations = 0;
@@ -185,7 +185,7 @@ class AgentExecutor extends BaseChain {
           tool: ExceptionTool.toolName,
           toolInput: {Tool.inputVar: handleParsingErrors!(e)},
           log: e.toString(),
-        )
+        ),
       ];
     }
 

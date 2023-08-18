@@ -49,7 +49,7 @@ void main() {
                   'license': 'CC BY-SA 4.0',
                   'publicationDate': '2023-02-11',
                 },
-              ]
+              ],
             },
             'safetyAttributes': {
               'scores': [

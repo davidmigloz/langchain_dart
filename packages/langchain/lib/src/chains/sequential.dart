@@ -86,7 +86,7 @@ class SequentialChain extends BaseChain {
         ...?memory?.memoryKeys,
         for (final chain in chains) ...{
           ...chain.outputKeys,
-          ...?memory?.memoryKeys
+          ...?memory?.memoryKeys,
         },
       };
     }

@@ -25,10 +25,10 @@ void main() {
                 'fractionLeafNodesToSearch': 0.1,
                 'leafNodeEmbeddingCount': 900,
                 'leafNodesToSearchPercent': 5,
-              }
+              },
             },
             'shardSize': 'SHARD_SIZE_MEDIUM',
-          }
+          },
         },
         indexUpdateMethod: 'BATCH_UPDATE',
         indexStats: GoogleCloudAiplatformV1IndexStats(

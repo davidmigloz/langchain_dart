@@ -14,7 +14,7 @@ void main() {
           AgentAction(
             tool: tool.name,
             toolInput: {Tool.inputVar: 'mock'},
-          )
+          ),
         ],
       );
       final executor = AgentExecutor(
@@ -33,7 +33,7 @@ void main() {
           AgentAction(
             tool: tool.name,
             toolInput: {Tool.inputVar: 'mock'},
-          )
+          ),
         ],
       );
       final executor = AgentExecutor(
@@ -55,7 +55,7 @@ void main() {
           ),
           const AgentFinish(
             returnValues: {BaseActionAgent.agentReturnKey: 'mock'},
-          )
+          ),
         ],
       );
       final executor = AgentExecutor(agent: agent);
@@ -71,7 +71,7 @@ void main() {
           const AgentAction(
             tool: 'tool',
             toolInput: {Tool.inputVar: 'mock'},
-          )
+          ),
         ],
       );
       final executor = AgentExecutor(
@@ -99,7 +99,7 @@ void main() {
           const AgentAction(
             tool: 'invalid_tool',
             toolInput: {Tool.inputVar: 'mock'},
-          )
+          ),
         ],
       );
       final executor = AgentExecutor(

@@ -74,7 +74,7 @@ class VectorStoreRetrieverMemory implements BaseMemory {
     final excludeKeys = {memoryKey, ...excludeInputKeys};
     final filteredInputs = {
       for (final entry in inputValues.entries)
-        if (!excludeKeys.contains(entry.key)) entry.key: entry.value
+        if (!excludeKeys.contains(entry.key)) entry.key: entry.value,
     };
     final inputsOutputs = {...filteredInputs, ...outputValues};
     final pageContent = inputsOutputs.entries.map((final entry) {

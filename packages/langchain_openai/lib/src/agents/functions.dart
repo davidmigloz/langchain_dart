@@ -195,7 +195,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
               ChatMessage.function(
                 name: s.action.tool,
                 content: s.observation,
-              )
+              ),
             ];
       }).expand((final m) => m),
     ];
