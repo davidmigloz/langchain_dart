@@ -3,28 +3,131 @@ import 'package:test/test.dart';
 
 void main() {
   group('MemoryVectorStore tests', () {
-    test('Test MemoryVectorStore search', () async {
-      final embeddings = _FakeEmbeddings(vectors: [_chaoVector]);
-      final store = MemoryVectorStore(embeddings: embeddings);
-      await store.addVectors(
-        vectors: [
-          _helloVector,
-          _hiVector,
-          _byeVector,
-          _whatsThisVector,
-        ],
+    test('Test MemoryVectorStore.fromDocuments', () async {
+      const embeddings = _FakeEmbeddings();
+      final store = await MemoryVectorStore.fromDocuments(
         documents: [
-          const Document(pageContent: 'hello'),
-          const Document(pageContent: 'hi'),
-          const Document(pageContent: 'bye'),
-          const Document(pageContent: "what's this"),
+          const Document(id: '1', pageContent: 'hello'),
+          const Document(id: '2', pageContent: 'hi'),
+          const Document(id: '3', pageContent: 'bye'),
+          const Document(id: '4', pageContent: "what's this"),
+        ],
+        embeddings: embeddings,
+      );
+
+      final results = await store.similaritySearch(query: 'chao', k: 1);
+
+      expect(results.length, 1);
+      expect(results.first.id, '3');
+      expect(results.first.pageContent, 'bye');
+    });
+
+    test('Test MemoryVectorStore.fromText', () async {
+      const embeddings = _FakeEmbeddings();
+      final store = await MemoryVectorStore.fromText(
+        ids: const ['1', '2', '3', '4'],
+        texts: const ['hello', 'hi', 'bye', "what's this"],
+        embeddings: embeddings,
+      );
+
+      final results = await store.similaritySearch(query: 'chao', k: 1);
+
+      expect(results.length, 1);
+      expect(results.first.id, '3');
+      expect(results.first.pageContent, 'bye');
+    });
+
+    test('Test MemoryVectorStore with initialMemoryVectors', () async {
+      const embeddings = _FakeEmbeddings();
+      final store = MemoryVectorStore(
+        embeddings: embeddings,
+        initialMemoryVectors: [
+          MemoryVector(
+            document: const Document(id: '1', pageContent: 'hello'),
+            embedding: _helloVector,
+          ),
+          MemoryVector(
+            document: const Document(id: '2', pageContent: 'hi'),
+            embedding: _hiVector,
+          ),
+          MemoryVector(
+            document: const Document(id: '3', pageContent: 'bye'),
+            embedding: _byeVector,
+          ),
+          MemoryVector(
+            document: const Document(id: '4', pageContent: "what's this"),
+            embedding: _whatsThisVector,
+          ),
         ],
       );
 
       final results = await store.similaritySearch(query: 'chao', k: 1);
 
       expect(results.length, 1);
+      expect(results.first.id, '3');
       expect(results.first.pageContent, 'bye');
+    });
+
+    test('Test delete entry', () async {
+      const embeddings = _FakeEmbeddings();
+      final store = await MemoryVectorStore.fromDocuments(
+        documents: [
+          const Document(id: '1', pageContent: 'hello'),
+          const Document(id: '2', pageContent: 'hi'),
+          const Document(id: '3', pageContent: 'bye'),
+          const Document(id: '4', pageContent: "what's this"),
+        ],
+        embeddings: embeddings,
+      );
+      await store.delete(ids: ['3']);
+
+      final results = await store.similaritySearch(query: 'chao', k: 1);
+
+      expect(results.length, 1);
+      expect(results.first.id, '2');
+      expect(results.first.pageContent, 'hi');
+    });
+
+    test('Test toMap and fromMap', () async {
+      const embeddings = _FakeEmbeddings();
+      final store = MemoryVectorStore(
+        embeddings: embeddings,
+        initialMemoryVectors: const [
+          MemoryVector(
+            document: Document(id: '1', pageContent: 'hello'),
+            embedding: [1, 2, 3],
+          ),
+          MemoryVector(
+            document: Document(id: '2', pageContent: 'hi'),
+            embedding: [4, 5, 6],
+          ),
+        ],
+      );
+
+      final map = store.memoryVectors.map((final v) => v.toMap());
+      final expectedMap = [
+        {
+          'document': {
+            'id': '1',
+            'pageContent': 'hello',
+            'metadata': <String, dynamic>{},
+          },
+          'embedding': [1.0, 2.0, 3.0],
+        },
+        {
+          'document': {
+            'id': '2',
+            'pageContent': 'hi',
+            'metadata': <String, dynamic>{},
+          },
+          'embedding': [4.0, 5.0, 6.0],
+        },
+      ];
+      expect(map, expectedMap);
+
+      final newMap =
+          expectedMap.map(MemoryVector.fromMap).toList(growable: false);
+      expect(newMap, store.memoryVectors);
     });
   });
 
@@ -61,24 +164,33 @@ void main() {
 }
 
 class _FakeEmbeddings implements Embeddings {
-  _FakeEmbeddings({
-    this.vectors = const [],
-  });
-
-  final List<List<double>> vectors;
+  const _FakeEmbeddings();
 
   @override
   Future<List<double>> embedQuery(
     final String query,
   ) async {
-    return vectors[0];
+    return embedText(query);
   }
 
   @override
   Future<List<List<double>>> embedDocuments(
     final List<String> documents,
   ) async {
-    return vectors;
+    return [
+      for (final document in documents) embedText(document),
+    ];
+  }
+
+  List<double> embedText(final String text) {
+    return switch (text) {
+      'hello' => _helloVector,
+      'hi' => _hiVector,
+      'bye' => _byeVector,
+      "what's this" => _whatsThisVector,
+      'chao' => _chaoVector,
+      _ => throw Exception('Unknown text: $text'),
+    };
   }
 }
 
