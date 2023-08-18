@@ -11,7 +11,7 @@ void main() {
         ('{{pre{foo}post}}', {'foo': 'bar'}, '{prebarpost}'),
         ('text', {}, 'text'),
         ('}}{{', {}, '}{'),
-        ('{first}_{second}', {'first': 'foo', 'second': 'bar'}, 'foo_bar')
+        ('{first}_{second}', {'first': 'foo', 'second': 'bar'}, 'foo_bar'),
       ];
 
       for (final scenario in scenarios) {
@@ -30,7 +30,7 @@ void main() {
         ('{', {}),
         ('}', {}),
         ('{foo', {}),
-        ('foo}', {})
+        ('foo}', {}),
       ];
 
       for (final scenario in scenarios) {

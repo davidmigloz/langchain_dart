@@ -48,9 +48,9 @@ class OpenAIQAWithSourcesChain extends OpenAIQAWithStructureChain {
                   'type': 'array',
                   'items': {'type': 'string'},
                   'description': 'The sources used to answer the question',
-                }
+                },
               },
-              'required': ['answer', 'sources']
+              'required': ['answer', 'sources'],
             },
           ),
           outputParser: const QAWithSourcesOutputParser(),

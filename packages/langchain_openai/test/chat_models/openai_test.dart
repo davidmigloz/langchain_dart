@@ -108,15 +108,15 @@ void main() {
           'properties': {
             'location': {
               'type': 'string',
-              'description': 'The city and state, e.g. San Francisco, CA'
+              'description': 'The city and state, e.g. San Francisco, CA',
             },
             'unit': {
               'type': 'string',
               'description': 'The unit of temperature to return',
-              'enum': ['celsius', 'fahrenheit']
-            }
+              'enum': ['celsius', 'fahrenheit'],
+            },
           },
-          'required': ['location']
+          'required': ['location'],
         },
       );
 
@@ -145,7 +145,7 @@ void main() {
       final functionResult = {
         'temperature': '22',
         'unit': 'celsius',
-        'description': 'Sunny'
+        'description': 'Sunny',
       };
       final functionMessage = ChatMessage.function(
         name: function.name,

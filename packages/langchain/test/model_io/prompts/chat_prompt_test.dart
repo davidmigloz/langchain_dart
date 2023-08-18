@@ -229,7 +229,7 @@ void main() {
     test('Test SimpleMessagePromptTemplate', () {
       const prompt = MessagesPlaceholder(variableName: 'foo');
       final values = {
-        'foo': [ChatMessage.human("Hello Foo, I'm Bar")]
+        'foo': [ChatMessage.human("Hello Foo, I'm Bar")],
       };
       final messages = prompt.formatMessages(values);
       expect(messages, [ChatMessage.human("Hello Foo, I'm Bar")]);

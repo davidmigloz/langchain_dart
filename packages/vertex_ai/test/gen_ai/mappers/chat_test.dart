@@ -259,7 +259,7 @@ void main() {
                   0.1,
                 ],
                 blocked: false,
-              )
+              ),
             ],
           ),
         ],
