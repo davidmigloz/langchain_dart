@@ -7,7 +7,6 @@ import '../embeddings/base.dart';
 import '../models/models.dart';
 import 'base.dart';
 
-/// {@template memory_vector_store}
 /// Vector store that stores vectors in memory.
 ///
 /// By default, it uses cosine similarity to compare vectors.
@@ -15,43 +14,32 @@ import 'base.dart';
 /// It iterates over all vectors in the store to find the most similar vectors.
 /// This is not efficient for large vector stores as it has a time complexity
 /// of O(vector_dimensionality * num_vectors).
-/// {@endtemplate}
+///
+/// For more efficient vector stores, see [VertexAIMatchingEngine].
 class MemoryVectorStore extends VectorStore {
-  /// {@macro memory_vector_store}
+  /// Main constructor for [MemoryVectorStore].
+  ///
+  /// - [embeddings] is the embeddings model to use to embed the documents.
+  /// - [similarityFunction] is the similarity function to use when comparing
+  ///   vectors. By default, it uses cosine similarity.
+  /// - [initialMemoryVectors] is an optional list of [MemoryVector] to
+  ///   initialize the vector store with. This is useful when loading a vector
+  ///   store from a database or file.
+  ///
+  /// If you want to create and populate a [MemoryVectorStore] from a list of
+  /// documents or texts, use [MemoryVectorStore.fromDocuments] or
+  /// [MemoryVectorStore.fromText].
   MemoryVectorStore({
     required super.embeddings,
     this.similarityFunction = cosineSimilarity,
-  });
+    final List<MemoryVector>? initialMemoryVectors,
+  }) : memoryVectors = [...?initialMemoryVectors];
 
   /// Similarity function to use when comparing vectors.
   final double Function(List<double> a, List<double> b) similarityFunction;
 
   /// Vectors stored in memory.
-  final List<MemoryVector> memoryVectors = [];
-
-  /// Creates a vector store from a list of texts.
-  ///
-  /// - [texts] is a list of texts to add to the vector store.
-  /// - [metadatas] is a list of metadata to add to the vector store.
-  /// - [embeddings] is the embeddings model to use to embed the texts.
-  static Future<MemoryVectorStore> fromText({
-    required final List<String> texts,
-    required final List<Map<String, dynamic>> metadatas,
-    required final Embeddings embeddings,
-  }) async {
-    final vs = MemoryVectorStore(embeddings: embeddings);
-    await vs.addDocuments(
-      documents: texts
-          .mapIndexed(
-            (final i, final text) => Document(
-              pageContent: text,
-              metadata: i < metadatas.length ? metadatas[i] : const {},
-            ),
-          )
-          .toList(growable: false),
-    );
-    return vs;
-  }
+  final List<MemoryVector> memoryVectors;
 
   /// Creates a vector store from a list of documents.
   ///
@@ -66,6 +54,41 @@ class MemoryVectorStore extends VectorStore {
     return store;
   }
 
+  /// Creates a vector store from a list of texts.
+  ///
+  /// - [ids] is a list of ids to add to the vector store.
+  /// - [texts] is a list of texts to add to the vector store.
+  /// - [metadatas] is a list of metadata to add to the vector store.
+  /// - [embeddings] is the embeddings model to use to embed the texts.
+  static Future<MemoryVectorStore> fromText({
+    final List<String>? ids,
+    required final List<String> texts,
+    final List<Map<String, dynamic>>? metadatas,
+    required final Embeddings embeddings,
+  }) async {
+    assert(
+      ids == null || ids.length == texts.length,
+      'ids and texts must have the same length',
+    );
+    assert(
+      metadatas == null || metadatas.length == texts.length,
+      'metadatas and texts must have the same length',
+    );
+    final vs = MemoryVectorStore(embeddings: embeddings);
+    await vs.addDocuments(
+      documents: texts
+          .mapIndexed(
+            (final i, final text) => Document(
+              id: ids?[i],
+              pageContent: text,
+              metadata: metadatas?[i] ?? const {},
+            ),
+          )
+          .toList(growable: false),
+    );
+    return vs;
+  }
+
   @override
   Future<List<String>> addVectors({
     required final List<List<double>> vectors,
@@ -75,9 +98,8 @@ class MemoryVectorStore extends VectorStore {
       vectors.mapIndexed((final i, final vector) {
         final doc = documents[i];
         return MemoryVector(
-          content: doc.pageContent,
+          document: doc,
           embedding: vector,
-          metadata: doc.metadata,
         );
       }),
     );
@@ -85,8 +107,11 @@ class MemoryVectorStore extends VectorStore {
   }
 
   @override
-  Future<bool> delete({required final List<String> ids}) {
-    throw UnimplementedError();
+  Future<bool> delete({required final List<String> ids}) async {
+    memoryVectors.removeWhere(
+      (final vector) => ids.contains(vector.document.id),
+    );
+    return true;
   }
 
   @override
@@ -109,10 +134,7 @@ class MemoryVectorStore extends VectorStore {
     return searches
         .map(
           (final search) => (
-            Document(
-              pageContent: memoryVectors[search.key].content,
-              metadata: memoryVectors[search.key].metadata,
-            ),
+            memoryVectors[search.key].document,
             search.value,
           ),
         )
@@ -121,20 +143,56 @@ class MemoryVectorStore extends VectorStore {
 }
 
 /// {@template memory_vector}
-/// Represents a vector in memory.
+/// Represents an entry of [MemoryVectorStore].
 /// {@endtemplate}
 @immutable
 class MemoryVector {
   /// {@macro memory_vector}
   const MemoryVector({
-    required this.content,
+    required this.document,
     required this.embedding,
-    required this.metadata,
   });
 
-  final String content;
+  /// Document associated with the vector.
+  final Document document;
+
+  /// Vector embedding.
   final List<double> embedding;
-  final Map<String, dynamic> metadata;
+
+  /// Creates a vector from a map.
+  factory MemoryVector.fromMap(final Map<String, dynamic> map) {
+    return MemoryVector(
+      document: Document.fromMap(map['document'] as Map<String, dynamic>),
+      embedding: map['embedding'] as List<double>,
+    );
+  }
+
+  /// Converts the vector to a map.
+  Map<String, dynamic> toMap() {
+    return {
+      'document': document.toMap(),
+      'embedding': embedding,
+    };
+  }
+
+  @override
+  bool operator ==(covariant final MemoryVector other) {
+    return identical(this, other) ||
+        runtimeType == other.runtimeType &&
+            document == other.document &&
+            const ListEquality<double>().equals(embedding, other.embedding);
+  }
+
+  @override
+  int get hashCode =>
+      document.hashCode ^ const ListEquality<double>().hash(embedding);
+
+  @override
+  String toString() {
+    return 'MemoryVector{'
+        'document: $document, '
+        'embedding: ${embedding.length}}';
+  }
 }
 
 /// Measures the cosine of the angle between two vectors in a vector space.
