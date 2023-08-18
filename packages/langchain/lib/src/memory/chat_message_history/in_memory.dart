@@ -1,7 +1,7 @@
 import 'dart:collection';
 
-import '../../../model_io/chat_models/chat_models.dart';
-import 'history.dart';
+import '../../model_io/chat_models/chat_models.dart';
+import 'base.dart';
 
 /// {@template chat_message_history}
 /// A simple in-memory implementation of a chat message history.
