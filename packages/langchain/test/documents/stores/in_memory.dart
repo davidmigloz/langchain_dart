@@ -19,7 +19,7 @@ void main() {
     };
 
     setUp(() {
-      store = InMemoryDocStore(initialDocs);
+      store = InMemoryDocStore(initialDocuments: initialDocs);
     });
 
     test('search returns the correct document for an existing id', () async {

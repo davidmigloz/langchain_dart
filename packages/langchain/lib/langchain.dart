@@ -6,4 +6,5 @@ export 'src/chains/chains.dart';
 export 'src/documents/documents.dart';
 export 'src/memory/memory.dart';
 export 'src/model_io/model_io.dart';
+export 'src/storage/storage.dart';
 export 'src/utils/utils.dart';
