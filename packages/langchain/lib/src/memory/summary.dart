@@ -5,9 +5,8 @@ import '../model_io/language_models/language_models.dart';
 import '../model_io/prompts/prompts.dart';
 import 'base.dart';
 import 'chat.dart';
+import 'chat_message_history/chat_message_history.dart';
 import 'models/models.dart';
-import 'stores/message/history.dart';
-import 'stores/message/in_memory.dart';
 
 const _template = '''
 Progressively summarize the lines of conversation provided, adding onto the previous summary returning a new summary.

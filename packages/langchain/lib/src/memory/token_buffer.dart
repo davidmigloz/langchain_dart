@@ -6,7 +6,6 @@ import 'base.dart';
 import 'buffer_window.dart';
 import 'chat.dart';
 import 'models/models.dart';
-import 'stores/message/in_memory.dart';
 
 /// {@template conversation_token_buffer_memory}
 /// Rolling buffer for storing a conversation and then retrieving the messages

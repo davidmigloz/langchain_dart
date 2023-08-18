@@ -3,9 +3,8 @@ import 'dart:async';
 import '../model_io/chat_models/models/models.dart';
 import '../utils/exception.dart';
 import 'base.dart';
+import 'chat_message_history/chat_message_history.dart';
 import 'models/models.dart';
-import 'stores/message/history.dart';
-import 'stores/message/in_memory.dart';
 import 'utils.dart';
 
 /// {@template base_chat_memory}

@@ -1,4 +1,4 @@
-import '../../../model_io/chat_models/models/models.dart';
+import '../../model_io/chat_models/models/models.dart';
 
 /// {@template base_chat_message_history}
 /// Base interface for chat message history.
