@@ -1,3 +1,7 @@
+## 0.0.8
+
+ - **REFACTOR**: Fix Dart 3.1.0 linter issues ([#125](https://github.com/davidmigloz/langchain_dart/issues/125)). ([cc32f3f1](https://github.com/davidmigloz/langchain_dart/commit/cc32f3f13240c28cf174a9dbffc7d61bc061f843))
+
 ## 0.0.7+1
 
  - Update a dependency to the latest release.
