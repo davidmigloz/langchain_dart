@@ -18,7 +18,7 @@ class EncoderBackedStore<K, V, EK, EV> implements BaseStore<K, V> {
   final BaseStore<EK, EV> store;
 
   /// The encoder/decoder for keys and values.
-  final Encoder<K, V, EK, EV> encoder;
+  final StoreEncoder<K, V, EK, EV> encoder;
 
   @override
   Future<List<V?>> get(final List<K> keys) async {
@@ -60,9 +60,9 @@ class EncoderBackedStore<K, V, EK, EV> implements BaseStore<K, V> {
 /// {@template encoder}
 /// Encoder/decoder for keys and values.
 /// {@endtemplate}
-abstract class Encoder<K, V, EK, EV> {
+abstract interface class StoreEncoder<K, V, EK, EV> {
   /// {@macro encoder}
-  const Encoder();
+  const StoreEncoder();
 
   /// Encodes a key.
   EK encodeKey(final K key);
