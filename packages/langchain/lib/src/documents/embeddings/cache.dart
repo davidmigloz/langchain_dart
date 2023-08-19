@@ -19,6 +19,9 @@ import 'base.dart';
 /// to create a cache backed embeddings that uses a [EncoderBackedStore] which
 /// generates the keys for the cache by hashing the text.
 ///
+/// You can use a [InMemoryStore] (mainly for testing or prototyping),
+/// a [LocalFileStore] or your custom implementation of [BaseStore].
+///
 /// The [CacheBackedEmbeddings.embedQuery] method does not support caching at
 /// the moment.
 /// {@endtemplate}
