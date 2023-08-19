@@ -39,7 +39,7 @@ void main() {
   });
 }
 
-class SampleEncoder extends Encoder<int, String, String, String> {
+class SampleEncoder implements StoreEncoder<int, String, String, String> {
   @override
   String encodeKey(final int key) => '$key';
 
