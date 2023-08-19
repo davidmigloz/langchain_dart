@@ -19,6 +19,10 @@ import 'package:vertex_ai/vertex_ai.dart';
 /// Vertex AI Matching Engine documentation:
 /// https://cloud.google.com/vertex-ai/docs/matching-engine/overview
 ///
+/// Currently it only supports Batch Updates, it doesn't support Streaming
+/// Updates. Batch Updates take around 1h to be applied to the index. See:
+/// https://cloud.google.com/vertex-ai/docs/matching-engine/update-rebuild-index#update_index_content_with_batch_updates
+///
 /// ### Set up your Google Cloud Platform project
 ///
 /// 1. [Select or create a Google Cloud project](https://console.cloud.google.com/cloud-resource-manager).
@@ -65,7 +69,6 @@ import 'package:vertex_ai/vertex_ai.dart';
 ///   authHttpClient: authClient,
 ///   project: 'your-project-id',
 ///   location: 'europe-west1',
-///   queryRootUrl: 'https://your-query-root-url.vdb.vertexai.goog/',
 ///   indexId: 'your-index-id',
 ///   gcsBucketName: 'your-gcs-bucket-name',
 ///   embeddings: embeddings,
@@ -101,8 +104,7 @@ class VertexAIMatchingEngine extends VectorStore {
   ///   `https://$location-aiplatform.googleapis.com/`.
   /// - [queryRootUrl] The root URL of the Vertex AI Matching Engine index
   ///   endpoint. For example: `https://your-query-root-url.vdb.vertexai.goog/`.
-  ///   You can find this URL when you create the index endpoint. See:
-  ///   https://cloud.google.com/vertex-ai/docs/matching-engine/deploy-index-public#get_the_index_domain_name
+  ///   Only needed if you have multiple endpoints for the same index.
   /// - [indexId] The ID of the index to use. You can find this ID when you
   ///   create the index or in the Vertex AI console.
   /// - [indexEndpointId] The ID of the IndexEndpoint to use. Only needed if
@@ -120,10 +122,10 @@ class VertexAIMatchingEngine extends VectorStore {
   ///   added to the index without deleting the previous ones.
   VertexAIMatchingEngine({
     required final AuthClient authHttpClient,
-    required final String project,
-    required final String location,
+    required this.project,
+    required this.location,
     final String? rootUrl,
-    required final String queryRootUrl,
+    final String? queryRootUrl,
     required this.indexId,
     final String? indexEndpointId,
     final String? deployedIndexId,
@@ -132,12 +134,7 @@ class VertexAIMatchingEngine extends VectorStore {
     this.gcsIndexesFolder = 'indexes',
     this.completeOverwriteWhenAdding = false,
     required super.embeddings,
-  })  : _queryClient = VertexAIMatchingEngineClient(
-          authHttpClient: authHttpClient,
-          project: project,
-          location: location,
-          rootUrl: queryRootUrl,
-        ),
+  })  : _authHttpClient = authHttpClient,
         _managementClient = VertexAIMatchingEngineClient(
           authHttpClient: authHttpClient,
           project: project,
@@ -145,17 +142,28 @@ class VertexAIMatchingEngine extends VectorStore {
           rootUrl: rootUrl ?? 'https://$location-aiplatform.googleapis.com/',
         ),
         _storageClient = Storage(authHttpClient, project),
+        _queryRootUrl = queryRootUrl,
         _indexEndpointId = indexEndpointId,
         _deployedIndexId = deployedIndexId;
 
+  /// An authenticated HTTP client.
+  final AuthClient _authHttpClient;
+
   /// A client for querying the Vertex AI Matching Engine index.
-  final VertexAIMatchingEngineClient _queryClient;
+  VertexAIMatchingEngineClient? _queryClient;
 
   /// A client for managing the Vertex AI Matching Engine index.
   final VertexAIMatchingEngineClient _managementClient;
 
   /// A client for interacting with Google Cloud Storage.
   final Storage _storageClient;
+
+  /// The ID of the Google Cloud project to use.
+  final String project;
+
+  /// The Google Cloud location to use. Vertex AI and Cloud Storage should have
+  /// the same location.
+  final String location;
 
   /// The id of the index to use.
   final String indexId;
@@ -175,6 +183,9 @@ class VertexAIMatchingEngine extends VectorStore {
   /// deleted. If false, the new vectors are added to the index without
   /// deleting the previous ones.
   final bool completeOverwriteWhenAdding;
+
+  /// The root URL of the Vertex AI Matching Engine index endpoint.
+  String? _queryRootUrl;
 
   /// The ID of the index endpoint to use.
   String? _indexEndpointId;
@@ -260,8 +271,10 @@ class VertexAIMatchingEngine extends VectorStore {
     required final List<double> embedding,
     final int k = 4,
   }) async {
-    final (indexEndpointId, deployedIndexId) = await _getIndexIds();
-    final queryRes = await _queryClient.indexEndpoints.findNeighbors(
+    final (queryRootUrl, indexEndpointId, deployedIndexId) =
+        await _getIndexIds();
+    final queryClient = _getQueryClient(queryRootUrl);
+    final queryRes = await queryClient.indexEndpoints.findNeighbors(
       indexEndpointId: indexEndpointId,
       deployedIndexId: deployedIndexId,
       queries: [
@@ -292,10 +305,12 @@ class VertexAIMatchingEngine extends VectorStore {
   }
 
   /// Returns the index endpoint and deployed index ids.
-  Future<(String indexEndpointId, String deployedIndexId)>
+  Future<(String queryRootUrl, String indexEndpointId, String deployedIndexId)>
       _getIndexIds() async {
-    if (_indexEndpointId != null && _deployedIndexId != null) {
-      return (_indexEndpointId!, _deployedIndexId!);
+    if (_queryRootUrl != null &&
+        _indexEndpointId != null &&
+        _deployedIndexId != null) {
+      return (_queryRootUrl!, _indexEndpointId!, _deployedIndexId!);
     }
 
     final index = await _managementClient.indexes.get(id: indexId);
@@ -310,11 +325,24 @@ class VertexAIMatchingEngine extends VectorStore {
             'that you want to use.',
       );
     }
-
     final deployedIndex = index.deployedIndexes.first;
+    final indexEndpoint = await _managementClient.indexEndpoints
+        .get(id: deployedIndex.indexEndpointId);
+
+    _queryRootUrl = 'http://${indexEndpoint.publicEndpointDomainName}/';
     _indexEndpointId = deployedIndex.indexEndpointId;
     _deployedIndexId = deployedIndex.deployedIndexId;
-    return (_indexEndpointId!, _deployedIndexId!);
+    return (_queryRootUrl!, _indexEndpointId!, _deployedIndexId!);
+  }
+
+  /// Returns a client for querying the Vertex AI Matching Engine index.
+  VertexAIMatchingEngineClient _getQueryClient(final String queryRootUrl) {
+    return _queryClient ??= VertexAIMatchingEngineClient(
+      authHttpClient: _authHttpClient,
+      project: project,
+      location: location,
+      rootUrl: queryRootUrl,
+    );
   }
 
   /// Returns the document with the given id from the Storage bucket.
