@@ -19,16 +19,13 @@ void main() async {
     authHttpClient: authHttpClient,
     project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
     location: 'europe-west1',
-    queryRootUrl:
-        'https://1451028425.europe-west1-706285145183.vdb.vertexai.goog/',
-    indexId: '5086059315115065344',
-    gcsBucketName: 'vertex-ai',
-    gcsIndexesFolder: 'index',
+    indexId: '6394355006866194432',
+    gcsBucketName: 'public_knowledge_base_index',
     embeddings: embeddings,
   );
 
-  group('VertexAIMatchingEngine tests', skip: true, () {
-    test('Test VertexAIMatchingEngine add new vectors', () async {
+  group('VertexAIMatchingEngine tests', () {
+    test('Test VertexAIMatchingEngine add new vectors', skip: true, () async {
       final res = await vectorStore.addDocuments(
         documents: const [
           Document(
@@ -49,14 +46,13 @@ void main() async {
 
     test('Test VertexAIMatchingEngine query', () async {
       final res = await vectorStore.similaritySearch(
-        query: 'Can I add tags to my index?',
+        query: 'Can I pay by credit card?',
         k: 1,
       );
       expect(res.length, 1);
       expect(
-        res.first.pageContent,
-        'You can also add optional tags to your index to help '
-        'with diversifying results or filtering pre index query',
+        res.first.id,
+        'faq_621656c96b5ff317d867d019',
       );
     });
   });
