@@ -247,13 +247,13 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
     return ChatPromptTemplate.fromPromptMessages([
       systemChatMessage,
       ...?extraPromptMessages,
+      for (final memoryKey in memory?.memoryKeys ?? {})
+        MessagesPlaceholder(variableName: memoryKey),
+      const MessagePlaceholder(variableName: agentInputKey),
       if (memory == null)
         const MessagesPlaceholder(
           variableName: BaseActionAgent.agentScratchpadInputKey,
         ),
-      for (final memoryKey in memory?.memoryKeys ?? {})
-        MessagesPlaceholder(variableName: memoryKey),
-      const MessagePlaceholder(variableName: agentInputKey),
     ]);
   }
 }
