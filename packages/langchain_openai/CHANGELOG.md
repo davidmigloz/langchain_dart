@@ -12,7 +12,7 @@
 
 ## 0.0.7
 
- - n
+- Update a dependency to the latest release.
 
 ## 0.0.6
 

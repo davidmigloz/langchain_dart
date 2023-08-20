@@ -9,11 +9,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ---
 
-Packages with breaking changes:
-
- - There are no breaking changes in this release.
-
-Packages with other changes:
+Packages with changes:
 
  - [`langchain_openai` - `v0.0.8+1`](#langchain_openai---v0081)
 
@@ -30,11 +26,7 @@ Packages with other changes:
 
 ---
 
-Packages with breaking changes:
-
- - There are no breaking changes in this release.
-
-Packages with other changes:
+Packages with changes:
 
  - [`langchain` - `v0.0.8`](#langchain---v008)
  - [`langchain_google` - `v0.0.3`](#langchain_google---v003)
@@ -74,11 +66,7 @@ Packages with other changes:
 
 ---
 
-Packages with breaking changes:
-
- - There are no breaking changes in this release.
-
-Packages with other changes:
+Packages with changes:
 
  - [`langchain` - `v0.0.7+1`](#langchain---v0071)
  - [`langchain_openai` - `v0.0.7+1`](#langchain_openai---v0071)
@@ -104,11 +92,7 @@ Packages with dependency updates only:
 
 ---
 
-Packages with breaking changes:
-
- - There are no breaking changes in this release.
-
-Packages with other changes:
+Packages with changes:
 
  - [`langchain_google` - `v0.0.2+1`](#langchain_google---v0021)
  - [`vertex_ai` - `v0.0.2+1`](#vertex_ai---v0021)
