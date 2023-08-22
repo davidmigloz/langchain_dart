@@ -9,8 +9,7 @@ class VectorStoreRetriever<V extends VectorStore> implements BaseRetriever {
   /// {@macro vector_store_retriever}
   const VectorStoreRetriever({
     required this.vectorStore,
-    this.searchType = VectorStoreSearchType.similarity,
-    this.k = 4,
+    this.searchType = const VectorStoreSimilaritySearch(),
   });
 
   /// The vector store to retrieve documents from.
@@ -19,12 +18,9 @@ class VectorStoreRetriever<V extends VectorStore> implements BaseRetriever {
   /// The type of search to perform.
   final VectorStoreSearchType searchType;
 
-  /// The number of documents to return.
-  final int k;
-
   @override
   Future<List<Document>> getRelevantDocuments(final String query) {
-    return vectorStore.search(query: query, searchType: searchType, k: k);
+    return vectorStore.search(query: query, searchType: searchType);
   }
 
   /// Runs more documents through the embeddings and add to the vector store.

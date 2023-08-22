@@ -15,7 +15,10 @@ void main() {
         embeddings: embeddings,
       );
 
-      final results = await store.similaritySearch(query: 'chao', k: 1);
+      final results = await store.similaritySearch(
+        query: 'chao',
+        config: const VectorStoreSimilaritySearch(k: 1),
+      );
 
       expect(results.length, 1);
       expect(results.first.id, '3');
@@ -30,7 +33,10 @@ void main() {
         embeddings: embeddings,
       );
 
-      final results = await store.similaritySearch(query: 'chao', k: 1);
+      final results = await store.similaritySearch(
+        query: 'chao',
+        config: const VectorStoreSimilaritySearch(k: 1),
+      );
 
       expect(results.length, 1);
       expect(results.first.id, '3');
@@ -61,7 +67,10 @@ void main() {
         ],
       );
 
-      final results = await store.similaritySearch(query: 'chao', k: 1);
+      final results = await store.similaritySearch(
+        query: 'chao',
+        config: const VectorStoreSimilaritySearch(k: 1),
+      );
 
       expect(results.length, 1);
       expect(results.first.id, '3');
@@ -81,7 +90,10 @@ void main() {
       );
       await store.delete(ids: ['3']);
 
-      final results = await store.similaritySearch(query: 'chao', k: 1);
+      final results = await store.similaritySearch(
+        query: 'chao',
+        config: const VectorStoreSimilaritySearch(k: 1),
+      );
 
       expect(results.length, 1);
       expect(results.first.id, '2');

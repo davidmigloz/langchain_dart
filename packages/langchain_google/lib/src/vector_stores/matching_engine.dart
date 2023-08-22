@@ -78,6 +78,7 @@ import 'package:vertex_ai/vertex_ai.dart';
 /// The minimum required permissions for the service account if you just need
 /// to query the index are:
 /// - `aiplatform.indexes.get`
+/// - `aiplatform.indexEndpoints.get`
 /// - `aiplatform.indexEndpoints.queryVectors`
 /// - `storage.objects.get`
 ///
@@ -93,6 +94,37 @@ import 'package:vertex_ai/vertex_ai.dart';
 /// - `https://www.googleapis.com/auth/devstorage.full_control`
 ///
 /// You can use the constant `VertexAIMatchingEngine.cloudPlatformScopes`.
+///
+/// ### Vector attributes
+///
+/// Vertex AI Matching Engine allows you to add attributes to the vectors that
+/// you can later use to restrict vector matching searches to a subset of the
+/// index.
+///
+/// To add attributes to the vectors, add a `restricts` key to the document
+/// metadata with the attributes that you want to add. For example:
+/// ```dart
+/// final doc = Document(
+///  id: 'doc1',
+///  pageContent: 'The cat is a domestic species of small carnivorous mammal',
+///  metadata: {
+///    'restricts': [
+///      {
+///        'namespace': 'class',
+///        'allow': ['cat', 'pet']
+///      },
+///      {
+///        'namespace': 'category',
+///        'allow': ['feline']
+///      }
+///    ],
+///    'otherMetadata': '...',
+///  },
+/// );
+/// ```
+///
+/// Check out the documentation for more details:
+/// https://cloud.google.com/vertex-ai/docs/matching-engine/filtering
 class VertexAIMatchingEngine extends VectorStore {
   /// Creates a new Vertex AI Matching Engine vector store.
   ///
@@ -223,7 +255,13 @@ class VertexAIMatchingEngine extends VectorStore {
       final vector = vectors[i];
       final docPath = '$gcsDocumentsFolder/$id.json';
       final docJson = json.encode(doc.toMap());
-      final vectorJson = json.encode({'id': id, 'embedding': vector});
+      final vectorMap = {
+        'id': id,
+        'embedding': vector,
+        if (doc.metadata['restricts'] != null)
+          'restricts': doc.metadata['restricts'],
+      };
+      final vectorJson = json.encode(vectorMap);
 
       ids.add(id);
       vectorsJsons.add(vectorJson);
@@ -269,7 +307,8 @@ class VertexAIMatchingEngine extends VectorStore {
   @override
   Future<List<(Document, double scores)>> similaritySearchByVectorWithScores({
     required final List<double> embedding,
-    final int k = 4,
+    final VectorStoreSimilaritySearch config =
+        const VectorStoreSimilaritySearch(),
   }) async {
     final (queryRootUrl, indexEndpointId, deployedIndexId) =
         await _getIndexIds();
@@ -283,14 +322,21 @@ class VertexAIMatchingEngine extends VectorStore {
             datapointId: _uuid.v4(),
             featureVector: embedding,
           ),
-          neighborCount: k,
+          neighborCount: config.k,
         ),
       ],
     );
 
-    final neighbors = queryRes.nearestNeighbors.firstOrNull?.neighbors ?? [];
+    Iterable<VertexAIFindNeighborsResponseNeighbor> neighbors =
+        queryRes.nearestNeighbors.firstOrNull?.neighbors ?? [];
     if (neighbors.isEmpty) {
       return const [];
+    }
+
+    if (config.scoreThreshold != null) {
+      final threshold = config.scoreThreshold!;
+      neighbors =
+          neighbors.where((final neighbor) => neighbor.distance >= threshold);
     }
 
     final List<(Document, double)> results = [];
