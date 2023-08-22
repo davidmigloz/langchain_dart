@@ -81,29 +81,36 @@ abstract class VectorStore {
   /// Returns docs most similar to query using specified search type.
   ///
   /// - [query] is the query to search for.
-  /// - [searchType] is the type of search to perform.
-  /// - [k] is the number of documents to return.
+  /// - [searchType] is the type of search to perform, either
+  ///   [VectorStoreSearchType.similarity] (default) or
+  ///   [VectorStoreSearchType.mmr].
   Future<List<Document>> search({
     required final String query,
     required final VectorStoreSearchType searchType,
-    final int k = 4,
   }) {
     return switch (searchType) {
-      VectorStoreSearchType.similarity => similaritySearch(query: query, k: k),
-      VectorStoreSearchType.mmr =>
-        maxMarginalRelevanceSearch(query: query, k: k),
+      final VectorStoreSimilaritySearch config => similaritySearch(
+          query: query,
+          config: config,
+        ),
+      final VectorStoreMMRSearch config =>
+        maxMarginalRelevanceSearch(query: query, config: config),
     };
   }
 
   /// Returns docs most similar to query using similarity.
   ///
-  /// - [query] is the query to search for.
-  /// - [k] is the number of documents to return.
+  /// - [query] the query to search for.
+  /// - [config] the configuration for the search.
   Future<List<Document>> similaritySearch({
     required final String query,
-    final int k = 4,
+    final VectorStoreSimilaritySearch config =
+        const VectorStoreSimilaritySearch(),
   }) async {
-    final docsWithScores = await similaritySearchWithScores(query: query, k: k);
+    final docsWithScores = await similaritySearchWithScores(
+      query: query,
+      config: config,
+    );
     return docsWithScores
         .map((final docWithScore) => docWithScore.$1)
         .toList(growable: false);
@@ -112,13 +119,16 @@ abstract class VectorStore {
   /// Returns docs most similar to embedding vector using similarity.
   ///
   /// - [embedding] is the embedding vector to look up documents similar to.
-  /// - [k] is the number of documents to return.
+  /// - [config] the configuration for the search.
   Future<List<Document>> similaritySearchByVector({
     required final List<double> embedding,
-    final int k = 4,
+    final VectorStoreSimilaritySearch config =
+        const VectorStoreSimilaritySearch(),
   }) async {
-    final docsWithScores =
-        await similaritySearchByVectorWithScores(embedding: embedding, k: k);
+    final docsWithScores = await similaritySearchByVectorWithScores(
+      embedding: embedding,
+      config: config,
+    );
     return docsWithScores
         .map((final docWithScore) => docWithScore.$1)
         .toList(growable: false);
@@ -128,16 +138,17 @@ abstract class VectorStore {
   /// 0 is dissimilar, 1 is most similar.
   ///
   /// - [query] is the query to search for.
-  /// - [k] is the number of documents to return.
+  /// - [config] the configuration for the search.
   ///
   /// Returns a list of tuples of documents and their similarity scores.
   Future<List<(Document, double score)>> similaritySearchWithScores({
     required final String query,
-    final int k = 4,
+    final VectorStoreSimilaritySearch config =
+        const VectorStoreSimilaritySearch(),
   }) async {
     return similaritySearchByVectorWithScores(
       embedding: await embeddings.embedQuery(query),
-      k: k,
+      config: config,
     );
   }
 
@@ -145,12 +156,13 @@ abstract class VectorStore {
   /// 0 is dissimilar, 1 is most similar.
   ///
   /// - [query] is the query to search for.
-  /// - [k] is the number of documents to return.
+  /// - [config] the configuration for the search.
   ///
   /// Returns a list of tuples of documents and their similarity scores.
   Future<List<(Document, double scores)>> similaritySearchByVectorWithScores({
     required final List<double> embedding,
-    final int k = 4,
+    final VectorStoreSimilaritySearch config =
+        const VectorStoreSimilaritySearch(),
   });
 
   /// Returns docs selected using the maximal marginal relevance algorithm (MMR)
@@ -160,22 +172,14 @@ abstract class VectorStore {
   /// AND diversity among selected documents.
   ///
   /// - [query] is the query to search for.
-  /// - [k] is the number of documents to return.
-  /// - [fetchK] is the number of documents to pass to MMR algorithm.
-  /// - [lambdaMult] is a umber between 0 and 1 that determines the degree of
-  ///   diversity among the results with 0 corresponding to maximum diversity
-  ///   and 1 to minimum diversity.
+  /// - [config] the configuration for the search.
   Future<List<Document>> maxMarginalRelevanceSearch({
     required final String query,
-    final int k = 4,
-    final int fetchK = 20,
-    final double lambdaMult = 0.5,
+    final VectorStoreMMRSearch config = const VectorStoreMMRSearch(),
   }) async {
     return maxMarginalRelevanceSearchByVector(
       embedding: await embeddings.embedQuery(query),
-      k: k,
-      fetchK: fetchK,
-      lambdaMult: lambdaMult,
+      config: config,
     );
   }
 
@@ -186,29 +190,26 @@ abstract class VectorStore {
   /// AND diversity among selected documents.
   ///
   /// - [embedding] is the embedding vector to look up documents similar to.
-  /// - [k] is the number of documents to return.
-  /// - [fetchK] is the number of documents to pass to MMR algorithm.
-  /// - [lambdaMult] is a umber between 0 and 1 that determines the degree of
-  ///   diversity among the results with 0 corresponding to maximum diversity
-  ///   and 1 to minimum diversity.
+  /// - [config] the configuration for the search.
   List<Document> maxMarginalRelevanceSearchByVector({
     required final List<double> embedding,
-    final int k = 4,
-    final int fetchK = 20,
-    final double lambdaMult = 0.5,
+    final VectorStoreMMRSearch config = const VectorStoreMMRSearch(),
   }) {
     throw UnimplementedError('MRR not supported for this vector store');
   }
 
-  /// Returns a retriever that uses this vector store.
+  /// Returns a [VectorStoreRetriever] that uses this vector store.
+  ///
+  /// - [searchType] is the type of search to perform, either
+  ///   [VectorStoreSearchType.similarity] (default) or
+  ///   [VectorStoreSearchType.mmr].
   VectorStoreRetriever asRetriever({
-    final VectorStoreSearchType searchType = VectorStoreSearchType.similarity,
-    final int k = 4,
+    final VectorStoreSearchType searchType =
+        const VectorStoreSimilaritySearch(),
   }) {
     return VectorStoreRetriever(
       vectorStore: this,
       searchType: searchType,
-      k: k,
     );
   }
 }

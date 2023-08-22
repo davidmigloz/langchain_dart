@@ -44,16 +44,26 @@ void main() async {
       expect(res.length, 2);
     });
 
-    test('Test VertexAIMatchingEngine query', () async {
+    test('Test VertexAIMatchingEngine query return 1 result', () async {
       final res = await vectorStore.similaritySearch(
         query: 'Can I pay by credit card?',
-        k: 1,
+        config: const VectorStoreSimilaritySearch(k: 1),
       );
       expect(res.length, 1);
       expect(
         res.first.id,
         'faq_621656c96b5ff317d867d019',
       );
+    });
+
+    test('Test VertexAIMatchingEngine query with scoreThreshold', () async {
+      final res = await vectorStore.similaritySearchWithScores(
+        query: 'Can I pay by credit card?',
+        config: const VectorStoreSimilaritySearch(scoreThreshold: 0.6),
+      );
+      for (final (_, score) in res) {
+        expect(score, greaterThan(0.6));
+      }
     });
   });
 }

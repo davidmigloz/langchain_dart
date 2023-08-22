@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 import '../embeddings/base.dart';
 import '../models/models.dart';
 import 'base.dart';
+import 'models/models.dart';
 
 /// Vector store that stores vectors in memory.
 ///
@@ -117,9 +118,10 @@ class MemoryVectorStore extends VectorStore {
   @override
   Future<List<(Document, double)>> similaritySearchByVectorWithScores({
     required final List<double> embedding,
-    final int k = 4,
+    final VectorStoreSimilaritySearch config =
+        const VectorStoreSimilaritySearch(),
   }) async {
-    final searches = memoryVectors
+    var searches = memoryVectors
         .asMap()
         .map(
           (final key, final value) => MapEntry(
@@ -129,7 +131,12 @@ class MemoryVectorStore extends VectorStore {
         )
         .entries
         .sorted((final a, final b) => (a.value > b.value ? -1 : 1))
-        .take(k);
+        .take(config.k);
+
+    if (config.scoreThreshold != null) {
+      searches = searches
+          .where((final search) => search.value >= config.scoreThreshold!);
+    }
 
     return searches
         .map(

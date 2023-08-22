@@ -61,8 +61,7 @@ void main() {
       final res = await retrievalQA({'query': query});
 
       const expectedRes = '''
-Use the following pieces of context to answer the question at the end.
-If you don't know the answer, just say that you don't know, don't try to make up an answer.
+Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.
 
 what's this
 
