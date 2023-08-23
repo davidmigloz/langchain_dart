@@ -6,6 +6,8 @@ import 'package:langchain/langchain.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vertex_ai/vertex_ai.dart';
 
+import 'models/models.dart';
+
 /// A vector store that uses Vertex AI Matching Engine.
 ///
 /// Vertex AI Matching Engine provides a high-scale low latency vector database.
@@ -95,7 +97,7 @@ import 'package:vertex_ai/vertex_ai.dart';
 ///
 /// You can use the constant `VertexAIMatchingEngine.cloudPlatformScopes`.
 ///
-/// ### Vector attributes
+/// ### Vector attributes filtering
 ///
 /// Vertex AI Matching Engine allows you to add attributes to the vectors that
 /// you can later use to restrict vector matching searches to a subset of the
@@ -125,6 +127,26 @@ import 'package:vertex_ai/vertex_ai.dart';
 ///
 /// Check out the documentation for more details:
 /// https://cloud.google.com/vertex-ai/docs/matching-engine/filtering
+///
+/// After adding the attributes to the documents, you can use the use them to
+/// restrict the similarity search results. Example:
+///
+/// ```dart
+/// final vectorStore = VertexAIMatchingEngine(...);
+/// final res = await vectorStore.similaritySearch(
+///   query: 'What should I feed my cat?',
+///   config: VertexAIMatchingEngineSimilaritySearch(
+///     k: 5,
+///     scoreThreshold: 0.8,
+///     filters: [
+///       const VertexAIMatchingEngineFilter(
+///         namespace: 'class',
+///         allowList: ['cat'],
+///       ),
+///     ],
+///   ),
+/// );
+/// ```
 class VertexAIMatchingEngine extends VectorStore {
   /// Creates a new Vertex AI Matching Engine vector store.
   ///
@@ -321,6 +343,8 @@ class VertexAIMatchingEngine extends VectorStore {
           datapoint: VertexAIIndexDatapoint(
             datapointId: _uuid.v4(),
             featureVector: embedding,
+            restricts: config
+                .filter?[VertexAIMatchingEngineSimilaritySearch.filterKey],
           ),
           neighborCount: config.k,
         ),
