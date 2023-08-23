@@ -59,7 +59,7 @@ class StringPromptValue implements PromptValue {
   }
 }
 
-/// {@template chat_prompt_template}
+/// {@template chat_prompt_value}
 /// Prompt value whose value is a list of messages.
 ///
 /// When [toString] is called, it returns the string representation of the
@@ -76,7 +76,7 @@ class StringPromptValue implements PromptValue {
 /// {@endtemplate}
 @immutable
 class ChatPromptValue implements PromptValue {
-  /// {@macro chat_prompt_template}
+  /// {@macro chat_prompt_value}
   const ChatPromptValue(this.messages);
 
   /// List of messages to use as the prompt.

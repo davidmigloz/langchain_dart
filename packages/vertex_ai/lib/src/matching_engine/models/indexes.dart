@@ -474,7 +474,7 @@ class VertexAITreeAhAlgorithmConfig extends VertexAIAlgorithmConfig {
 
   /// The default fraction of leaf nodes that any query may be searched.
   ///
-  /// Must be in range (0.0, 1.0).
+  /// Must be in range `(0.0, 1.0)`.
   final double fractionLeafNodesToSearch;
 
   /// Number of embeddings on each leaf node.
@@ -482,7 +482,7 @@ class VertexAITreeAhAlgorithmConfig extends VertexAIAlgorithmConfig {
 
   /// The default percentage of leaf nodes that any query may be searched.
   ///
-  /// Must be in the range [1, 100].
+  /// Must be in the range `[1, 100]`.
   final int leafNodesToSearchPercent;
 
   /// Factory constructor for creating a new [VertexAITreeAhAlgorithmConfig]
@@ -626,7 +626,7 @@ class VertexAIIndexStats {
   }
 }
 
-/// @{template vertex_ai_deployed_index_ref}
+/// {@template vertex_ai_deployed_index_ref}
 /// Points to a [VertexAIDeployedIndex].
 /// {@endtemplate}
 @immutable

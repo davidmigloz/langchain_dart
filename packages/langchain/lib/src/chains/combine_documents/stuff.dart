@@ -60,7 +60,7 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
   /// The string with which to join the formatted documents.
   final String documentSeparator;
 
-  /// The variable name in the [llmChain.prompt] where to put the documents in.
+  /// The variable name in the [LLMChain.prompt] where to put the documents in.
   /// If only one variable in the [llmChain], this doesn't need to be provided.
   String llmChainStuffedDocumentPromptVar;
 

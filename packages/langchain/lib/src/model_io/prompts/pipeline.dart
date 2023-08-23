@@ -7,9 +7,9 @@ import 'prompt.dart';
 /// A prompt template for composing multiple prompts together.
 ///
 /// This can be useful when you want to reuse parts of prompts.
-/// A [PipelinePrompt] consists of two main parts:
-/// - [finalPrompt]: this is the final prompt that is returned.
-/// - [pipelinePrompts]: This is a list of records, consisting of a string
+/// A [PipelinePromptTemplate] consists of two main parts:
+/// - [finalPrompt] This is the final prompt that is returned.
+/// - [pipelinePrompts] This is a list of records, consisting of a string
 ///   (`name`) and a [BasePromptTemplate]. Each [BasePromptTemplate] will be
 ///   formatted and then passed to future prompt templates as a variable with
 ///   the same name as `name`.

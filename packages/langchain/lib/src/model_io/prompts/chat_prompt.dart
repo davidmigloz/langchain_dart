@@ -66,7 +66,7 @@ final class ChatPromptTemplate extends BaseChatPromptTemplate {
     required this.promptMessages,
   });
 
-  /// Creates a [ChatPromptTemplate] with a single message from a string
+  /// Creates a chat prompt template with a single message from a string
   /// template.
   ///
   /// Example:

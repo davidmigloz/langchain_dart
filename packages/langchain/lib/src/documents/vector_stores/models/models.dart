@@ -8,8 +8,8 @@
 /// But it depends on the actual implementation of the vector store whether
 /// these are supported or not. Vector stores may also provide their own
 /// subclasses of this class to support additional configuration options.
-/// For example, [VertexAIMatchingEngine] provides
-/// [VertexAIMatchingEngineSimilaritySearch] which is a subclass of
+/// For example, [VertexAIMatchingEngine](https://pub.dev/documentation/langchain_google/latest/langchain_google/VertexAIMatchingEngine-class.html)
+/// provides `VertexAIMatchingEngineSimilaritySearch` which is a subclass of
 /// [VectorStoreSimilaritySearch]. Check the documentation of the vector store
 /// you are using for more information.
 /// {@endtemplate}
@@ -68,7 +68,7 @@ class VectorStoreSimilaritySearch extends VectorStoreSearchType {
   });
 
   /// The minimum relevance score a document must have to be returned.
-  /// Range: [0, 1].
+  /// Range: `[0, 1]`.
   final double? scoreThreshold;
 }
 

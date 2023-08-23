@@ -4,7 +4,7 @@ import '../models/models.dart';
 import '../retrievers/vector_store.dart';
 import 'models/models.dart';
 
-/// {@category vector_stores}
+/// {@template vector_store}
 /// Interface for vector stores.
 /// {@endtemplate}
 abstract class VectorStore {
@@ -134,7 +134,7 @@ abstract class VectorStore {
         .toList(growable: false);
   }
 
-  /// Returns docs and relevance scores in the range [0, 1].
+  /// Returns docs and relevance scores in the range `[0, 1]`.
   /// 0 is dissimilar, 1 is most similar.
   ///
   /// - [query] is the query to search for.
@@ -152,7 +152,7 @@ abstract class VectorStore {
     );
   }
 
-  /// Returns docs and relevance scores in the range [0, 1],
+  /// Returns docs and relevance scores in the range `[0, 1]`,
   /// 0 is dissimilar, 1 is most similar.
   ///
   /// - [query] is the query to search for.
