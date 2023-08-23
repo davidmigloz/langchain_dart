@@ -59,10 +59,28 @@ void main() async {
     test('Test VertexAIMatchingEngine query with scoreThreshold', () async {
       final res = await vectorStore.similaritySearchWithScores(
         query: 'Can I pay by credit card?',
-        config: const VectorStoreSimilaritySearch(scoreThreshold: 0.6),
+        config: VertexAIMatchingEngineSimilaritySearch(scoreThreshold: 0.6),
       );
       for (final (_, score) in res) {
         expect(score, greaterThan(0.6));
+      }
+    });
+
+    test('Test VertexAIMatchingEngine query with filters', () async {
+      final res = await vectorStore.similaritySearch(
+        query: 'Can I pay by credit card?',
+        config: VertexAIMatchingEngineSimilaritySearch(
+          k: 10,
+          filters: [
+            const VertexAIMatchingEngineFilter(
+              namespace: 'type',
+              allowList: ['faq'],
+            ),
+          ],
+        ),
+      );
+      for (final doc in res) {
+        expect(doc.metadata['type'], 'faq');
       }
     });
   });

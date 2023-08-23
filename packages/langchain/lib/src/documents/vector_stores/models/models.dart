@@ -1,22 +1,40 @@
 /// {@template vector_store_search_type}
 /// Vector store search type.
+///
+/// In general, we provide support two types of search:
+/// - Similarity search.
+/// - Maximal Marginal Relevance (MMR) search.
+///
+/// But it depends on the actual implementation of the vector store whether
+/// these are supported or not. Vector stores may also provide their own
+/// subclasses of this class to support additional configuration options.
+/// For example, [VertexAIMatchingEngine] provides
+/// [VertexAIMatchingEngineSimilaritySearch] which is a subclass of
+/// [VectorStoreSimilaritySearch]. Check the documentation of the vector store
+/// you are using for more information.
 /// {@endtemplate}
 sealed class VectorStoreSearchType {
   /// {@macro vector_store_search_type}
   const VectorStoreSearchType({
     required this.k,
+    this.filter,
   });
 
   /// The number of documents to return.
   final int k;
 
+  /// The filter to apply to the search.
+  final Map<String, dynamic>? filter;
+
   /// Similarity search.
   factory VectorStoreSearchType.similarity({
     final int k = 4,
+    final Map<String, dynamic>? filter,
     final double? scoreThreshold,
   }) {
     return VectorStoreSimilaritySearch(
       k: k,
+      filter: filter,
       scoreThreshold: scoreThreshold,
     );
   }
@@ -24,11 +42,13 @@ sealed class VectorStoreSearchType {
   /// Maximal Marginal Relevance (MMR) search.
   factory VectorStoreSearchType.mmr({
     final int k = 4,
+    final Map<String, dynamic>? filter,
     final int fetchK = 20,
     final double lambdaMult = 0.5,
   }) {
     return VectorStoreMMRSearch(
       k: k,
+      filter: filter,
       fetchK: fetchK,
       lambdaMult: lambdaMult,
     );
@@ -43,6 +63,7 @@ class VectorStoreSimilaritySearch extends VectorStoreSearchType {
   /// {@macro vector_store_similarity_search}
   const VectorStoreSimilaritySearch({
     super.k = 4,
+    super.filter,
     this.scoreThreshold,
   });
 
@@ -61,6 +82,7 @@ class VectorStoreMMRSearch extends VectorStoreSearchType {
   /// {@macro vector_store_mmr_search}
   const VectorStoreMMRSearch({
     super.k = 4,
+    super.filter,
     this.fetchK = 20,
     this.lambdaMult = 0.5,
   });
