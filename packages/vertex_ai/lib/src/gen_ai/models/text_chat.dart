@@ -112,7 +112,7 @@ class VertexAITextChatModelRequestParams {
   /// returns a response that's too generic, too short, or the model gives a
   /// fallback response, try increasing the temperature.
   ///
-  /// Range: [0.0, 1.0]
+  /// Range: `[0.0, 1.0]`
   final double temperature;
 
   /// Maximum number of tokens that can be generated in the response. A token
@@ -122,7 +122,7 @@ class VertexAITextChatModelRequestParams {
   /// Specify a lower value for shorter responses and a higher value for longer
   /// responses.
   ///
-  /// Range: [1, 1024]
+  /// Range: `[1, 1024]`
   final int maxOutputTokens;
 
   /// Top-P changes how the model selects tokens for output. Tokens are
@@ -135,7 +135,7 @@ class VertexAITextChatModelRequestParams {
   /// Specify a lower value for less random responses and a higher value for
   /// more random responses.
   ///
-  /// Range: [0.0, 1.0]
+  /// Range: `[0.0, 1.0]`
   final double topP;
 
   /// Top-K changes how the model selects tokens for output. A top-K of 1 means
@@ -151,7 +151,7 @@ class VertexAITextChatModelRequestParams {
   /// Specify a lower value for less random responses and a higher value for
   /// more random responses.
   ///
-  /// Range: [1, 40]
+  /// Range: `[1, 40]`
   final int topK;
 
   /// Converts this object to a [Map].

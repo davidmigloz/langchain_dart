@@ -17,6 +17,7 @@ abstract interface class BasePromptSelector {
 /// {@template conditional_prompt_selector}
 /// Prompt collection that goes through conditionals
 /// to select the appropriate prompt.
+/// {@endtemplate}
 class ConditionalPromptSelector implements BasePromptSelector {
   /// {@macro conditional_prompt_selector}
   const ConditionalPromptSelector({

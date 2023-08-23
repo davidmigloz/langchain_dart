@@ -110,7 +110,8 @@ class RetrievalQAChain extends BaseChain {
   @override
   String get chainType => 'retrieval_qa';
 
-  /// Creates a [RetrievalQAChain] from a [LanguageModel] and a [Retriever].
+  /// Creates a [RetrievalQAChain] from a [BaseLanguageModel] and a
+  /// [BaseRetriever].
   ///
   /// By default, it uses a prompt template optimized for question answering
   /// that includes the retrieved documents and the question.

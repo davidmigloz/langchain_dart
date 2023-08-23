@@ -40,7 +40,7 @@ abstract base class BaseTool {
   /// Handle the content of the [ToolException] thrown by the tool.
   final String Function(ToolException)? handleToolError;
 
-  /// Creates a [StructuredTool] from a function.
+  /// Creates a [BaseTool] from a function.
   ///
   /// - [name] is the unique name of the tool that clearly communicates its
   ///   purpose.
@@ -172,7 +172,7 @@ abstract base class Tool extends BaseTool {
 
   static const inputVar = 'input';
 
-  /// Creates a [StructuredTool] from a function.
+  /// Creates a [Tool] from a function.
   ///
   /// - [name] is the unique name of the tool that clearly communicates its
   ///   purpose.

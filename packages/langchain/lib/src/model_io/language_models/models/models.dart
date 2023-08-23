@@ -2,7 +2,7 @@ import 'package:meta/meta.dart';
 
 /// {@template language_model_options}
 /// Generation options to pass into the language model.
-/// {@endtemplate
+/// {@endtemplate}
 @immutable
 abstract class LanguageModelOptions {
   /// {@macro language_model_options}

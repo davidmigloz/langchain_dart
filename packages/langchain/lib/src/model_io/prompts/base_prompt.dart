@@ -8,8 +8,8 @@ import 'template.dart';
 /// Base class for prompt templates.
 ///
 /// It exposes two methods:
-/// - [format]: returns a [String] prompt given a set of input values.
-/// - [formatPrompt]: returns a [PromptValue] given a set of input values.
+/// - [format] returns a [String] prompt given a set of input values.
+/// - [formatPrompt] returns a [PromptValue] given a set of input values.
 /// {@endtemplate}
 @immutable
 abstract base class BasePromptTemplate {
