@@ -100,6 +100,62 @@ void main() {
       expect(results.first.pageContent, 'hi');
     });
 
+    test('Test scoreThreshold filter', () async {
+      const embeddings = _FakeEmbeddings();
+      final store = await MemoryVectorStore.fromText(
+        ids: const ['1', '2', '3', '4'],
+        texts: const ['hello', 'hi', 'bye', "what's this"],
+        embeddings: embeddings,
+      );
+
+      final res = await store.similaritySearchWithScores(
+        query: 'chao',
+        config: const VectorStoreSimilaritySearch(scoreThreshold: 0.85),
+      );
+
+      for (final (_, score) in res) {
+        expect(score, greaterThan(0.85));
+      }
+    });
+
+    test('Test filtering', () async {
+      const embeddings = _FakeEmbeddings();
+      final store = await MemoryVectorStore.fromDocuments(
+        documents: [
+          const Document(
+            id: '1',
+            pageContent: 'hello',
+            metadata: {'type': 'a'},
+          ),
+          const Document(
+            id: '2',
+            pageContent: 'hi',
+            metadata: {'type': 'a'},
+          ),
+          const Document(
+            id: '3',
+            pageContent: 'bye',
+            metadata: {'type': 'b'},
+          ),
+          const Document(
+            id: '4',
+            pageContent: "what's this",
+            metadata: {'type': 'b'},
+          ),
+        ],
+        embeddings: embeddings,
+      );
+
+      final results = await store.similaritySearch(
+        query: 'chao',
+        config: const VectorStoreSimilaritySearch(filter: {'type': 'b'}),
+      );
+
+      for (final doc in results) {
+        expect(doc.metadata['type'], 'b');
+      }
+    });
+
     test('Test toMap and fromMap', () async {
       const embeddings = _FakeEmbeddings();
       final store = MemoryVectorStore(

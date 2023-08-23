@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
+import 'package:uuid/uuid.dart';
 
 import '../embeddings/base.dart';
 import '../models/models.dart';
@@ -17,6 +18,26 @@ import 'models/models.dart';
 /// of O(vector_dimensionality * num_vectors).
 ///
 /// For more efficient vector stores, see [VertexAIMatchingEngine].
+///
+/// ### Filtering
+///
+/// You can filter the search space before running the similarity search by
+/// providing a [VectorStoreSearchType.filter] that will be matched against the
+/// metadata of the documents in the vector store.
+///
+/// Example:
+/// ```dart
+/// final vs = MemoryVectorStore(...);
+/// final res = await store.similaritySearch(
+///   query: 'Test query',
+///   config: const VectorStoreSimilaritySearch(
+///     filter: {'type': 'foo'},
+///   ),
+/// );
+/// ```
+///
+/// This query will only consider documents that have a metadata field `type`
+/// with value `foo`.
 class MemoryVectorStore extends VectorStore {
   /// Main constructor for [MemoryVectorStore].
   ///
@@ -42,22 +63,34 @@ class MemoryVectorStore extends VectorStore {
   /// Vectors stored in memory.
   final List<MemoryVector> memoryVectors;
 
+  /// UUID generator.
+  final Uuid _uuid = const Uuid();
+
   /// Creates a vector store from a list of documents.
   ///
-  /// - [documents] is a list of documents to add to the vector store.
+  /// - [documents] is a list of documents to add to the vector store. If no
+  ///   document id is provided, a random uuid will be generated.
   /// - [embeddings] is the embeddings model to use to embed the documents.
   static Future<MemoryVectorStore> fromDocuments({
     required final List<Document> documents,
     required final Embeddings embeddings,
   }) async {
-    final store = MemoryVectorStore(embeddings: embeddings);
-    await store.addDocuments(documents: documents);
-    return store;
+    final vs = MemoryVectorStore(embeddings: embeddings);
+    final docs = documents
+        .map(
+          (final doc) => doc.id == null || doc.id!.isEmpty
+              ? doc.copyWith(id: vs._uuid.v4())
+              : doc,
+        )
+        .toList(growable: false);
+    await vs.addDocuments(documents: docs);
+    return vs;
   }
 
   /// Creates a vector store from a list of texts.
   ///
-  /// - [ids] is a list of ids to add to the vector store.
+  /// - [ids] is a list of ids to add to the vector store. If no id is provided,
+  ///   a random uuid will be generated.
   /// - [texts] is a list of texts to add to the vector store.
   /// - [metadatas] is a list of metadata to add to the vector store.
   /// - [embeddings] is the embeddings model to use to embed the texts.
@@ -80,7 +113,7 @@ class MemoryVectorStore extends VectorStore {
       documents: texts
           .mapIndexed(
             (final i, final text) => Document(
-              id: ids?[i],
+              id: ids?[i] ?? vs._uuid.v4(),
               pageContent: text,
               metadata: metadatas?[i] ?? const {},
             ),
@@ -121,31 +154,34 @@ class MemoryVectorStore extends VectorStore {
     final VectorStoreSimilaritySearch config =
         const VectorStoreSimilaritySearch(),
   }) async {
-    var searches = memoryVectors
-        .asMap()
+    var entries = memoryVectors;
+    if (config.filter != null) {
+      final filter = config.filter!;
+      entries = entries
+          .where(
+            (final entry) => filter.keys.every(
+              (final key) => entry.document.metadata[key] == filter[key],
+            ),
+          )
+          .toList(growable: false);
+    }
+
+    var searches = entries
         .map(
-          (final key, final value) => MapEntry(
-            key,
-            similarityFunction(embedding, value.embedding),
+          (final entry) => (
+            entry.document,
+            similarityFunction(embedding, entry.embedding),
           ),
         )
-        .entries
-        .sorted((final a, final b) => (a.value > b.value ? -1 : 1))
+        .sorted((final a, final b) => (a.$2 > b.$2 ? -1 : 1))
         .take(config.k);
 
     if (config.scoreThreshold != null) {
-      searches = searches
-          .where((final search) => search.value >= config.scoreThreshold!);
+      searches =
+          searches.where((final search) => search.$2 >= config.scoreThreshold!);
     }
 
-    return searches
-        .map(
-          (final search) => (
-            memoryVectors[search.key].document,
-            search.value,
-          ),
-        )
-        .toList(growable: false);
+    return searches.toList(growable: false);
   }
 }
 
