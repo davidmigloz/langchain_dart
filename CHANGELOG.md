@@ -9,48 +9,45 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ---
 
-Packages with breaking changes:
+Packages with changes:
 
- - There are no breaking changes in this release.
+- [`langchain` - `v0.0.10`](#langchain---v0010)
+- [`langchain_google` - `v0.0.5`](#langchain_google---v005)
+- [`langchain_openai` - `v0.0.10`](#langchain_openai---v0010)
+- [`vertex_ai` - `v0.0.5`](#vertex_ai---v005)
 
-Packages with other changes:
+New packages:
 
- - [`langchain` - `v0.0.10`](#langchain---v0010)
- - [`langchain_google` - `v0.0.5`](#langchain_google---v005)
- - [`langchain_openai` - `v0.0.10`](#langchain_openai---v0010)
- - [`langchain_chroma` - `v0.0.1`](#langchain_chroma---v001)
- - [`vertex_ai` - `v0.0.5`](#vertex_ai---v005)
- - [`chromadb` - `v0.0.1`](#chromadb---v001)
+- [`langchain_chroma` - `v0.0.1`](#langchain_chroma---v001)
+- [`chromadb` - `v0.0.1`](#chromadb---v001)
 
 ---
 
 #### `langchain` - `v0.0.10`
 
- - **FEAT**(vector-stores): Add support for Chroma VectorStore ([#139](https://github.com/davidmigloz/langchain_dart/issues/139)). ([098783b4](https://github.com/davidmigloz/langchain_dart/commit/098783b4895ab30bb61d07355a0b587ff76b9175))
- - **DOCS**: Update readme. ([b61eda5b](https://github.com/davidmigloz/langchain_dart/commit/b61eda5ba506b4602592511c6a9be1e7aae5bf57))
+- **DOCS**: Update readme. ([b61eda5b](https://github.com/davidmigloz/langchain_dart/commit/b61eda5ba506b4602592511c6a9be1e7aae5bf57))
 
 #### `langchain_google` - `v0.0.5`
 
- - **FEAT**(vector-stores): Add support for Chroma VectorStore ([#139](https://github.com/davidmigloz/langchain_dart/issues/139)). ([098783b4](https://github.com/davidmigloz/langchain_dart/commit/098783b4895ab30bb61d07355a0b587ff76b9175))
- - **DOCS**: Fix typos. ([282cfa24](https://github.com/davidmigloz/langchain_dart/commit/282cfa24caa7b91ce28db6b1997af4c2c3ecf3e4))
- - **DOCS**: Update readme. ([b61eda5b](https://github.com/davidmigloz/langchain_dart/commit/b61eda5ba506b4602592511c6a9be1e7aae5bf57))
+- **DOCS**: Fix typos. ([282cfa24](https://github.com/davidmigloz/langchain_dart/commit/282cfa24caa7b91ce28db6b1997af4c2c3ecf3e4))
+- **DOCS**: Update readme. ([b61eda5b](https://github.com/davidmigloz/langchain_dart/commit/b61eda5ba506b4602592511c6a9be1e7aae5bf57))
 
 #### `langchain_openai` - `v0.0.10`
 
- - **DOCS**: Update readme. ([b61eda5b](https://github.com/davidmigloz/langchain_dart/commit/b61eda5ba506b4602592511c6a9be1e7aae5bf57))
+- **DOCS**: Update readme. ([b61eda5b](https://github.com/davidmigloz/langchain_dart/commit/b61eda5ba506b4602592511c6a9be1e7aae5bf57))
 
 #### `langchain_chroma` - `v0.0.1`
 
- - **FEAT**(vector-stores): Add support for Chroma VectorStore ([#139](https://github.com/davidmigloz/langchain_dart/issues/139)). ([098783b4](https://github.com/davidmigloz/langchain_dart/commit/098783b4895ab30bb61d07355a0b587ff76b9175))
+- **FEAT**(vector-stores): Add support for Chroma VectorStore ([#139](https://github.com/davidmigloz/langchain_dart/issues/139)). ([098783b4](https://github.com/davidmigloz/langchain_dart/commit/098783b4895ab30bb61d07355a0b587ff76b9175))
 
 #### `vertex_ai` - `v0.0.5`
 
- - **DOCS**: Fix typos. ([282cfa24](https://github.com/davidmigloz/langchain_dart/commit/282cfa24caa7b91ce28db6b1997af4c2c3ecf3e4))
- - **DOCS**: Update readme. ([b61eda5b](https://github.com/davidmigloz/langchain_dart/commit/b61eda5ba506b4602592511c6a9be1e7aae5bf57))
+- **DOCS**: Fix typos. ([282cfa24](https://github.com/davidmigloz/langchain_dart/commit/282cfa24caa7b91ce28db6b1997af4c2c3ecf3e4))
+- **DOCS**: Update readme. ([b61eda5b](https://github.com/davidmigloz/langchain_dart/commit/b61eda5ba506b4602592511c6a9be1e7aae5bf57))
 
 #### `chromadb` - `v0.0.1`
 
- - **FEAT**(chromadb): Add Chroma embedding database API client ([#140](https://github.com/davidmigloz/langchain_dart/issues/140)). ([5fdcbc52](https://github.com/davidmigloz/langchain_dart/commit/5fdcbc528c1bbac1114a89433cf72bd8870fa4eb))
+- **FEAT**(chromadb): Add Chroma embedding database API client ([#140](https://github.com/davidmigloz/langchain_dart/issues/140)). ([5fdcbc52](https://github.com/davidmigloz/langchain_dart/commit/5fdcbc528c1bbac1114a89433cf72bd8870fa4eb))
 
 
 ## 2023-08-23
