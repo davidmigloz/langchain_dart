@@ -64,6 +64,14 @@ provided by a separate package.
 | [langchain_openai](https://pub.dev/packages/langchain_openai) | [![langchain_openai](https://img.shields.io/pub/v/langchain_openai.svg)](https://pub.dev/packages/langchain_openai) | OpenAI integration (GPT-3, GPT-4, Functions, etc.)         | ✔      | ✔          | ✔      | ✔              |
 | [langchain_google](https://pub.dev/packages/langchain_google) | [![langchain_google](https://img.shields.io/pub/v/langchain_google.svg)](https://pub.dev/packages/langchain_google) | Google integration (VertexAI, PaLM, Matching Engine, etc.) | ✔      | ✔          |        |                |
 
+The following packages are maintained (and used internally) by LangChain.dart, 
+although they can also be used independently:
+
+| Package                                         | Version                                                                                        | Description              | 
+|-------------------------------------------------|------------------------------------------------------------------------------------------------|--------------------------|
+| [chromadb](https://pub.dev/packages/chromadb)   | [![chromadb](https://img.shields.io/pub/v/chromadb.svg)](https://pub.dev/packages/chromadb)    | Chroma DB API client     |
+| [vertex_ai](https://pub.dev/packages/vertex_ai) | [![vertex_ai](https://img.shields.io/pub/v/vertex_ai.svg)](https://pub.dev/packages/vertex_ai) | GCP Vertex AI API client |
+
 ## Getting started
 
 To start using LangChain.dart, add `langchain` as a dependency to your `pubspec.yaml` file.

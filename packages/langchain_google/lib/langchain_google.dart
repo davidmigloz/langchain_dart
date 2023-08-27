@@ -1,4 +1,4 @@
-/// Google module for LangChain.dart.
+/// LangChain.dart integration module for Google (VertexAI, PaLM, Matching Engine, etc.).
 library;
 
 export 'src/chat_models/chat_models.dart';

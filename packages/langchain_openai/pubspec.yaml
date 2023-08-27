@@ -1,5 +1,5 @@
 name: langchain_openai
-description: OpenAI module for LangChain.dart.
+description: LangChain.dart integration module for OpenAI (GPT-3, GPT-4, Functions, etc.).
 version: 0.0.9
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_openai
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues

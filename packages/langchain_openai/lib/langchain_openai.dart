@@ -1,4 +1,4 @@
-/// OpenAI module for LangChain.dart.
+/// LangChain.dart integration module for OpenAI (GPT-3, GPT-4, Functions, etc.).
 library;
 
 export 'src/agents/agents.dart';
