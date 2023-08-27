@@ -19,7 +19,7 @@ Dart client for the [Vertex AI](https://cloud.google.com/vertex-ai) API.
 
 ## Generative AI
 
-[Generative AI]((https://cloud.google.com/vertex-ai/docs/generative-ai/learn/overview)) 
+[Generative AI](https://cloud.google.com/vertex-ai/docs/generative-ai/learn/overview) 
 support on Vertex AI (also known as `genai`) gives you access to Google's large 
 generative AI models so you can use in your AI-powered applications.
 

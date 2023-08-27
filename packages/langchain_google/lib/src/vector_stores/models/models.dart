@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 
 import 'mappers.dart';
 
-/// {@template vector_store_similarity_search}
+/// {@template vertex_ai_matching_engine_similarity_search}
 /// Vertex AI Matching Engine similarity search config.
 ///
 /// Example:
@@ -25,6 +25,7 @@ import 'mappers.dart';
 /// {@endtemplate}
 class VertexAIMatchingEngineSimilaritySearch
     extends VectorStoreSimilaritySearch {
+  /// {@macro vertex_ai_matching_engine_similarity_search}
   VertexAIMatchingEngineSimilaritySearch({
     super.k = 4,
     final List<VertexAIMatchingEngineFilter>? filters,
