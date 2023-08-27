@@ -316,7 +316,7 @@ class VertexAIMatchingEngine extends VectorStore {
   }
 
   @override
-  Future<bool> delete({
+  Future<void> delete({
     required final List<String> ids,
   }) {
     throw UnimplementedError(
