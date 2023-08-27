@@ -76,7 +76,7 @@ abstract class VectorStore {
   /// - [ids] is a list of ids to delete.
   ///
   /// Returns true if the delete was successful.
-  Future<bool> delete({required final List<String> ids});
+  Future<void> delete({required final List<String> ids});
 
   /// Returns docs most similar to query using specified search type.
   ///

@@ -141,11 +141,10 @@ class MemoryVectorStore extends VectorStore {
   }
 
   @override
-  Future<bool> delete({required final List<String> ids}) async {
+  Future<void> delete({required final List<String> ids}) async {
     memoryVectors.removeWhere(
       (final vector) => ids.contains(vector.document.id),
     );
-    return true;
   }
 
   @override

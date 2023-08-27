@@ -1,4 +1,8 @@
-# melos_managed_dependency_overrides: langchain
+# melos_managed_dependency_overrides: langchain,chromadb,langchain_openai
 dependency_overrides:
+  chromadb:
+    path: ../chromadb
   langchain:
     path: ../langchain
+  langchain_openai:
+    path: ../langchain_openai
