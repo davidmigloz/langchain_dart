@@ -5,6 +5,7 @@
 import 'dart:io' as io;
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'dart:typed_data';
 import 'package:http/retry.dart';
 import 'schema/schema.dart';
 
@@ -62,25 +63,27 @@ class ChromaApiClientException implements io.HttpException {
 /// `client`: Override HTTP client to use for requests
 class ChromaApiClient {
   ChromaApiClient({
-    this.host,
+    String? host,
     http.Client? client,
   }) {
     // Create a retry client
-    _client = RetryClient(client ?? http.Client());
+    this.client = RetryClient(client ?? http.Client());
+    // Ensure trailing slash is removed from host
+    this.host = host?.replaceAll(RegExp(r'/$'), '');
   }
 
   /// User provided override for host URL
   late final String? host;
 
-  /// Internal HTTP client
-  late final http.Client _client;
+  /// HTTP client for requests
+  late final http.Client client;
 
   // ------------------------------------------
   // METHOD: endSession
   // ------------------------------------------
 
   /// Close the HTTP client and end session
-  void endSession() => _client.close();
+  void endSession() => client.close();
 
   // ------------------------------------------
   // METHOD: onRequest
@@ -130,21 +133,42 @@ class ChromaApiClient {
     }
 
     // Ensure query parameters are properly encoded
-    queryParams = queryParams.map(
-        (key, value) => MapEntry(key, Uri.encodeComponent(value.toString())));
-
-    // Determine the connection type
-    final hostUri = Uri.parse(host);
-    secure ??= hostUri.scheme == 'https';
+    queryParams = queryParams.map((key, value) {
+      if (value is List) {
+        return MapEntry(
+          key,
+          value.map((v) => Uri.encodeComponent(v.toString())).toList(),
+        );
+      } else {
+        return MapEntry(
+          key,
+          Uri.encodeComponent(value.toString()),
+        );
+      }
+    });
 
     // Build the request URI
-    final uri = Uri(
-      scheme: secure ? 'https' : 'http',
-      host: hostUri.host,
-      port: hostUri.port,
-      path: path,
-      queryParameters: queryParams.isEmpty ? null : queryParams,
-    );
+    secure ??= Uri.parse(host).scheme == 'https';
+    Uri uri;
+    String authority;
+    if (host.contains('http')) {
+      authority = Uri.parse(host).authority;
+    } else {
+      authority = Uri.parse(Uri.https(host).toString()).authority;
+    }
+    if (secure) {
+      uri = Uri.https(
+        authority,
+        path,
+        queryParams.isEmpty ? null : queryParams,
+      );
+    } else {
+      uri = Uri.http(
+        authority,
+        path,
+        queryParams.isEmpty ? null : queryParams,
+      );
+    }
 
     // Build the headers
     Map<String, String> headers = {}..addAll(headerParams);
@@ -198,7 +222,7 @@ class ChromaApiClient {
       request = await onRequest(request);
 
       // Submit request
-      response = await http.Response.fromStream(await _client.send(request));
+      response = await http.Response.fromStream(await client.send(request));
 
       // Handle user response middleware
       response = await onResponse(response);
@@ -236,7 +260,7 @@ class ChromaApiClient {
   /// `GET` `http://localhost:8000/api/v1`
   Future<Map<String, int>> root() async {
     final r = await _request(
-      host: 'http://localhost:8000',
+      host: 'localhost:8000',
       path: '/api/v1',
       secure: false,
       method: HttpMethod.get,
@@ -256,7 +280,7 @@ class ChromaApiClient {
   /// `POST` `http://localhost:8000/api/v1/reset`
   Future<bool> reset() async {
     final r = await _request(
-      host: 'http://localhost:8000',
+      host: 'localhost:8000',
       path: '/api/v1/reset',
       secure: false,
       method: HttpMethod.post,
@@ -276,7 +300,7 @@ class ChromaApiClient {
   /// `GET` `http://localhost:8000/api/v1/version`
   Future<String> version() async {
     final r = await _request(
-      host: 'http://localhost:8000',
+      host: 'localhost:8000',
       path: '/api/v1/version',
       secure: false,
       method: HttpMethod.get,
@@ -284,7 +308,7 @@ class ChromaApiClient {
       requestType: '',
       responseType: 'application/json',
     );
-    return json.decode(r.body);
+    return r.body;
   }
 
   // ------------------------------------------
@@ -296,7 +320,7 @@ class ChromaApiClient {
   /// `GET` `http://localhost:8000/api/v1/heartbeat`
   Future<Map<String, int>> heartbeat() async {
     final r = await _request(
-      host: 'http://localhost:8000',
+      host: 'localhost:8000',
       path: '/api/v1/heartbeat',
       secure: false,
       method: HttpMethod.get,
@@ -316,7 +340,7 @@ class ChromaApiClient {
   /// `GET` `http://localhost:8000/api/v1/collections`
   Future<List<CollectionType>> listCollections() async {
     final r = await _request(
-      host: 'http://localhost:8000',
+      host: 'localhost:8000',
       path: '/api/v1/collections',
       secure: false,
       method: HttpMethod.get,
@@ -341,7 +365,7 @@ class ChromaApiClient {
     required CreateCollection request,
   }) async {
     final r = await _request(
-      host: 'http://localhost:8000',
+      host: 'localhost:8000',
       path: '/api/v1/collections',
       secure: false,
       method: HttpMethod.post,
@@ -369,7 +393,7 @@ class ChromaApiClient {
     required AddEmbedding request,
   }) async {
     final r = await _request(
-      host: 'http://localhost:8000',
+      host: 'localhost:8000',
       path: '/api/v1/collections/$collectionId/add',
       secure: false,
       method: HttpMethod.post,
@@ -397,7 +421,7 @@ class ChromaApiClient {
     required UpdateEmbedding request,
   }) async {
     final r = await _request(
-      host: 'http://localhost:8000',
+      host: 'localhost:8000',
       path: '/api/v1/collections/$collectionId/update',
       secure: false,
       method: HttpMethod.post,
@@ -425,7 +449,7 @@ class ChromaApiClient {
     required AddEmbedding request,
   }) async {
     final r = await _request(
-      host: 'http://localhost:8000',
+      host: 'localhost:8000',
       path: '/api/v1/collections/$collectionId/upsert',
       secure: false,
       method: HttpMethod.post,
@@ -453,7 +477,7 @@ class ChromaApiClient {
     required GetEmbedding request,
   }) async {
     final r = await _request(
-      host: 'http://localhost:8000',
+      host: 'localhost:8000',
       path: '/api/v1/collections/$collectionId/get',
       secure: false,
       method: HttpMethod.post,
@@ -481,7 +505,7 @@ class ChromaApiClient {
     required DeleteEmbedding request,
   }) async {
     final r = await _request(
-      host: 'http://localhost:8000',
+      host: 'localhost:8000',
       path: '/api/v1/collections/$collectionId/delete',
       secure: false,
       method: HttpMethod.post,
@@ -506,7 +530,7 @@ class ChromaApiClient {
     required String collectionId,
   }) async {
     final r = await _request(
-      host: 'http://localhost:8000',
+      host: 'localhost:8000',
       path: '/api/v1/collections/$collectionId/count',
       secure: false,
       method: HttpMethod.get,
@@ -533,7 +557,7 @@ class ChromaApiClient {
     required QueryEmbedding request,
   }) async {
     final r = await _request(
-      host: 'http://localhost:8000',
+      host: 'localhost:8000',
       path: '/api/v1/collections/$collectionId/query',
       secure: false,
       method: HttpMethod.post,
@@ -558,7 +582,7 @@ class ChromaApiClient {
     required String collectionName,
   }) async {
     final r = await _request(
-      host: 'http://localhost:8000',
+      host: 'localhost:8000',
       path: '/api/v1/collections/$collectionName',
       secure: false,
       method: HttpMethod.get,
@@ -582,7 +606,7 @@ class ChromaApiClient {
     required String collectionName,
   }) async {
     final r = await _request(
-      host: 'http://localhost:8000',
+      host: 'localhost:8000',
       path: '/api/v1/collections/$collectionName',
       secure: false,
       method: HttpMethod.delete,
@@ -609,7 +633,7 @@ class ChromaApiClient {
     required UpdateCollection request,
   }) async {
     final r = await _request(
-      host: 'http://localhost:8000',
+      host: 'localhost:8000',
       path: '/api/v1/collections/$collectionId',
       secure: false,
       method: HttpMethod.put,
