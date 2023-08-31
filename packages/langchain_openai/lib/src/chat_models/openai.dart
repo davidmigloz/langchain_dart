@@ -23,6 +23,7 @@ abstract base class BaseChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     required this.frequencyPenalty,
     required this.logitBias,
     required this.encoding,
+    required this.user,
   })  : assert(
           apiKey != null || apiClient != null,
           'Either apiKey or apiClient must be provided.',
@@ -98,6 +99,15 @@ abstract base class BaseChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   /// https://github.com/mvitlov/tiktoken/blob/master/lib/tiktoken.dart
   final String? encoding;
 
+  /// A unique identifier representing your end-user, which can help OpenAI to
+  /// monitor and detect abuse.
+  ///
+  /// If you need to send different users in different requests, you can set
+  /// this field in [ChatOpenAIOptions] instead.
+  ///
+  /// Ref: https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids
+  final String? user;
+
   @override
   String get modelType => 'openai-chat';
 
@@ -125,6 +135,7 @@ abstract base class BaseChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
       presencePenalty: presencePenalty,
       frequencyPenalty: frequencyPenalty,
       logitBias: logitBias,
+      user: options?.user ?? user,
     );
 
     return completion.toChatResult(model);
@@ -227,5 +238,6 @@ final class ChatOpenAI extends BaseChatOpenAI {
     super.frequencyPenalty = 0,
     super.logitBias,
     super.encoding,
+    super.user,
   });
 }

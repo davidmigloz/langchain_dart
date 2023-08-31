@@ -1,4 +1,5 @@
 import 'package:langchain/langchain.dart';
+import '../openai.dart';
 
 /// {@template chat_openai_options}
 /// Options to pass into the OpenAI Chat Model.
@@ -6,15 +7,15 @@ import 'package:langchain/langchain.dart';
 class ChatOpenAIOptions extends ChatModelOptions {
   /// {@macro chat_openai_options}
   const ChatOpenAIOptions({
-    /// Up to 4 sequences where the API will stop generating further tokens.
-    ///
-    /// Ref: https://platform.openai.com/docs/api-reference/chat/create#chat/create-stop
     this.stop,
     this.functions,
     this.functionCall,
+    this.user,
   });
 
-  /// List of stop words to use when generating.
+  /// Up to 4 sequences where the API will stop generating further tokens.
+  ///
+  /// Ref: https://platform.openai.com/docs/api-reference/chat/create#chat/create-stop
   final List<String>? stop;
 
   /// A list of functions the model may generate JSON inputs for.
@@ -26,4 +27,16 @@ class ChatOpenAIOptions extends ChatModelOptions {
   ///
   /// Ref: https://platform.openai.com/docs/api-reference/chat/create#chat/create-function_call
   final ChatFunctionCall? functionCall;
+
+  /// A unique identifier representing your end-user, which can help OpenAI to
+  /// monitor and detect abuse.
+  ///
+  /// If the user does not change between requests, you can set this field in
+  /// [ChatOpenAI.user] instead.
+  ///
+  /// If you specify it in both places, the value in [ChatOpenAIOptions.user]
+  /// will be used.
+  ///
+  /// Ref: https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids
+  final String? user;
 }

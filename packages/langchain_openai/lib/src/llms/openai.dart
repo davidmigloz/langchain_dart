@@ -24,6 +24,7 @@ abstract base class BaseOpenAI extends BaseLLM<OpenAIOptions> {
     required this.bestOf,
     required this.logitBias,
     required this.encoding,
+    required this.user,
   })  : assert(
           apiKey != null || apiClient != null,
           'Either apiKey or apiClient must be provided.',
@@ -103,6 +104,15 @@ abstract base class BaseOpenAI extends BaseLLM<OpenAIOptions> {
   /// https://github.com/mvitlov/tiktoken/blob/master/lib/tiktoken.dart
   final String? encoding;
 
+  /// A unique identifier representing your end-user, which can help OpenAI to
+  /// monitor and detect abuse.
+  ///
+  /// If you need to send different users in different requests, you can set
+  /// this field in [OpenAIOptions.user] instead.
+  ///
+  /// Ref: https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids
+  final String? user;
+
   @override
   String get modelType => 'openai';
 
@@ -123,6 +133,7 @@ abstract base class BaseOpenAI extends BaseLLM<OpenAIOptions> {
       frequencyPenalty: frequencyPenalty,
       bestOf: bestOf,
       logitBias: logitBias,
+      user: options?.user,
     );
     return completion.toLLMResult();
   }
@@ -164,5 +175,6 @@ final class OpenAI extends BaseOpenAI {
     super.bestOf = 1,
     super.logitBias,
     super.encoding,
+    super.user,
   });
 }
