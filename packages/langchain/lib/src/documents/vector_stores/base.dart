@@ -16,34 +16,6 @@ abstract class VectorStore {
   /// The embeddings model used to embed documents.
   final Embeddings embeddings;
 
-  /// Creates a vector store from a list of texts.
-  ///
-  /// - [texts] is a list of texts to add to the vector store.
-  /// - [metadatas] is a list of metadata to add to the vector store.
-  /// - [embeddings] is the embeddings model to use to embed the texts.
-  factory VectorStore.fromText({
-    required final List<String> texts,
-    required final List<Map<String, dynamic>> metadatas,
-    required final Embeddings embeddings,
-  }) {
-    throw UnimplementedError(
-      'Use the fromText method on a specific vector store.',
-    );
-  }
-
-  /// Creates a vector store from a list of documents.
-  ///
-  /// - [documents] is a list of documents to add to the vector store.
-  /// - [embeddings] is the embeddings model to use to embed the documents.
-  factory VectorStore.fromDocuments({
-    required final List<Document> documents,
-    required final Embeddings embeddings,
-  }) {
-    throw UnimplementedError(
-      'Use the fromDocuments method on a specific vector store.',
-    );
-  }
-
   /// Runs more documents through the embeddings and add to the vector store.
   ///
   /// - [documents] is a list of documents to add to the vector store.

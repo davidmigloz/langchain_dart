@@ -22,13 +22,4 @@ class VectorStoreRetriever<V extends VectorStore> implements BaseRetriever {
   Future<List<Document>> getRelevantDocuments(final String query) {
     return vectorStore.search(query: query, searchType: searchType);
   }
-
-  /// Runs more documents through the embeddings and add to the vector store.
-  ///
-  /// - [documents] is a list of documents to add to the vector store.
-  ///
-  /// Returns a list of ids from adding the documents into the vector store.
-  Future<List<String>> addDocuments(final List<Document> documents) {
-    return vectorStore.addDocuments(documents: documents);
-  }
 }
