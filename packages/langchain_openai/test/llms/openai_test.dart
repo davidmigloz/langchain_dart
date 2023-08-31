@@ -23,6 +23,7 @@ void main() {
         frequencyPenalty: 0.1,
         bestOf: 10,
         logitBias: {'foo': 1.0},
+        user: 'foo',
       );
       expect(llm.model, 'foo');
       expect(llm.maxTokens, 10);
@@ -33,6 +34,7 @@ void main() {
       expect(llm.frequencyPenalty, 0.1);
       expect(llm.bestOf, 10);
       expect(llm.logitBias, {'foo': 1.0});
+      expect(llm.user, 'foo');
     });
 
     test('Test call to OpenAI', () async {

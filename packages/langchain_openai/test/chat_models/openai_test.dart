@@ -23,6 +23,7 @@ void main() {
         presencePenalty: 0.1,
         frequencyPenalty: 0.1,
         logitBias: {'foo': 1.0},
+        user: 'foo',
       );
       expect(chat.model, 'foo');
       expect(chat.maxTokens, 10);
@@ -32,6 +33,7 @@ void main() {
       expect(chat.presencePenalty, 0.1);
       expect(chat.frequencyPenalty, 0.1);
       expect(chat.logitBias, {'foo': 1.0});
+      expect(chat.user, 'foo');
     });
 
     test('Test call to ChatOpenAI', () async {
