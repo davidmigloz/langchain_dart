@@ -5,14 +5,17 @@ repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/lan
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues
 homepage: https://github.com/davidmigloz/langchain_dart
 documentation: https://langchaindart.com
-publish_to: none # Remove when the package is ready to be published
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
+  http: ^1.1.0
   langchain: ^0.0.10
   meta: ^1.9.1
+  pinecone: ^0.5.1
+  uuid: ^3.0.7
 
 dev_dependencies:
   test: ^1.24.3
+  langchain_openai: ^0.0.9
