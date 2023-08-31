@@ -2,12 +2,13 @@ import '../../langchain.dart';
 import 'utils.dart';
 
 /// {@template vector_store_retriever_memory}
-/// VectorStoreRetriever-backed memory.
+/// Memory backed by a vector store.
 /// {@endtemplate}
-class VectorStoreRetrieverMemory implements BaseMemory {
+class VectorStoreMemory implements BaseMemory {
   /// {@macro vector_store_retriever_memory}
-  VectorStoreRetrieverMemory({
-    required this.retriever,
+  VectorStoreMemory({
+    required this.vectorStore,
+    this.searchType = const VectorStoreSimilaritySearch(),
     this.memoryKey = defaultMemoryKey,
     this.inputKey,
     this.excludeInputKeys = const {},
@@ -15,7 +16,10 @@ class VectorStoreRetrieverMemory implements BaseMemory {
   });
 
   /// VectorStoreRetriever object to connect to.
-  final VectorStoreRetriever retriever;
+  final VectorStore vectorStore;
+
+  /// The type of search to perform.
+  final VectorStoreSearchType searchType;
 
   /// Name of the key where the memories are in the map returned by
   /// [loadMemoryVariables].
@@ -48,7 +52,7 @@ class VectorStoreRetrieverMemory implements BaseMemory {
   ]) async {
     final promptInputKey = inputKey ?? getPromptInputKey(values, memoryKeys);
     final query = values[promptInputKey];
-    final docs = await retriever.getRelevantDocuments(query);
+    final docs = await vectorStore.search(query: query, searchType: searchType);
     return {
       memoryKey: returnDocs
           ? docs
@@ -62,7 +66,7 @@ class VectorStoreRetrieverMemory implements BaseMemory {
     required final MemoryOutputValues outputValues,
   }) async {
     final docs = _buildDocuments(inputValues, outputValues);
-    await retriever.addDocuments(docs);
+    await vectorStore.addDocuments(documents: docs);
   }
 
   /// Builds the documents to save to the vector store from the given
