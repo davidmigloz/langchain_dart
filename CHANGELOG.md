@@ -1,6 +1,6 @@
 # Change Log
 
-All notable changes to this project will be documented in this file following
+All notable changes to this project will be documented in this file following 
 [Conventional Commits](https://conventionalcommits.org) specification.
 
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) 
@@ -12,13 +12,16 @@ server for more details about each release.
 
 ---
 
+New packages:
+
+- [`langchain_pinecone` - `v0.0.1`](#langchain_pinecone---v001)
+ 
 Packages with breaking changes:
 
  - [`langchain` - `v0.0.11`](#langchain---v0011)
 
 Packages with other changes:
 
- - [`langchain_pinecone` - `v0.0.1`](#langchain_pinecone---v001)
  - [`langchain_google` - `v0.0.6`](#langchain_google---v006)
  - [`langchain_openai` - `v0.0.11`](#langchain_openai---v0011)
  - [`langchain_chroma` - `v0.0.2`](#langchain_chroma---v002)
@@ -37,6 +40,7 @@ Packages with other changes:
 
  - **DOCS**: Update readme. ([e1b5b295](https://github.com/davidmigloz/langchain_dart/commit/e1b5b2958bdf2b787c8b49aeeb6690c33c225943))
  - **DOCS**: Update packages example. ([4f8488fc](https://github.com/davidmigloz/langchain_dart/commit/4f8488fcb324e31b9d8dece7d1999333d7982253))
+ - **FEAT**(vector-stores): Add support for Pinecone VectorStore ([#37](https://github.com/davidmigloz/langchain_dart/issues/37)). ([e43eef97](https://github.com/davidmigloz/langchain_dart/commit/e43eef979c329fc72a3eed72d818992287838a80))
 
 #### `langchain_google` - `v0.0.6`
 
@@ -478,12 +482,6 @@ Packages with changes:
 ### Changes
 
 #### `langchain` - `v0.0.1`
-
- - Initial public release. 
-
-Check out the announcement post for all the details: 
-https://blog.langchaindart.com/introducing-langchain-dart-6b1d34fc41ef
-- `v0.0.1`
 
  - Initial public release. 
 

@@ -14,7 +14,7 @@ command:
     changelogs:
       - path: CHANGELOG.md
         description: |
-          All notable changes to this project will be documented in this file following
+          All notable changes to this project will be documented in this file following 
           [Conventional Commits](https://conventionalcommits.org) specification.
   
           Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) 
