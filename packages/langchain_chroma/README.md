@@ -1,4 +1,4 @@
-# 🦜️🔗 LangChain.dart / Google
+# 🦜️🔗 LangChain.dart / Chroma
 
 [![tests](https://img.shields.io/github/actions/workflow/status/davidmigloz/langchain_dart/test.yaml?logo=github&label=tests)](https://github.com/davidmigloz/langchain_dart/actions/workflows/test.yaml)
 [![docs](https://img.shields.io/github/actions/workflow/status/davidmigloz/langchain_dart/pages%2Fpages-build-deployment?logo=github&label=docs)](https://github.com/davidmigloz/langchain_dart/actions/workflows/pages/pages-build-deployment)
@@ -11,7 +11,7 @@ Chroma module for [LangChain.dart](https://github.com/davidmigloz/langchain_dart
 ## Features
 
 - Vector stores:
-    * `Chroma` vector store that uses [Chroma](https://www.trychroma.com)  
+    * `Chroma` vector store that uses [Chroma](https://www.trychroma.com) 
     open-source embedding database.
 
 ## License

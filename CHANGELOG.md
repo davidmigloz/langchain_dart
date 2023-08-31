@@ -1,7 +1,10 @@
 # Change Log
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+All notable changes to this project will be documented in this file following
+[Conventional Commits](https://conventionalcommits.org) specification.
+
+Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) 
+server for more details about each release.
 
 ## 2023-08-27
 
