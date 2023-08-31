@@ -52,7 +52,7 @@ class VertexAIPredictionCitation {
       url: citationJson['url'] as String?,
       title: citationJson['title'] as String?,
       license: citationJson['license'] as String?,
-      publicationDate: DateTime.tryParse(citationJson['publicationDate']),
+      publicationDate: DateTime.tryParse(citationJson['publicationDate'] ?? ''),
     );
   }
 
