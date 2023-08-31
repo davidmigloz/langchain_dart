@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, unused_element, unused_import
+// ignore_for_file: avoid_print, unused_element
 import 'dart:io';
 
 import 'package:langchain/langchain.dart';
@@ -28,6 +28,6 @@ Future<void> _example2() async {
     stdout.write('> ');
     final usrMsg = ChatMessage.human(stdin.readLineSync() ?? '');
     final aiMsg = await chat([usrMsg]);
-    print(aiMsg);
+    print(aiMsg.content);
   }
 }
