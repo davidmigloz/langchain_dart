@@ -2,16 +2,16 @@ import 'package:langchain/langchain.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('VectorStoreRetrieverMemory tests', () {
+  group('VectorStoreMemory tests', () {
     test('Test vector store memory', () async {
       final embeddings = _FakeEmbeddings();
       final vectorStore = MemoryVectorStore(embeddings: embeddings);
-      final memory = VectorStoreRetrieverMemory(
-        retriever: vectorStore.asRetriever(),
+      final memory = VectorStoreMemory(
+        vectorStore: vectorStore,
       );
 
       final result1 = await memory.loadMemoryVariables({'input': 'foo'});
-      expect(result1[VectorStoreRetrieverMemory.defaultMemoryKey], '');
+      expect(result1[VectorStoreMemory.defaultMemoryKey], '');
 
       await memory.saveContext(
         inputValues: {
@@ -23,7 +23,7 @@ void main() {
       );
       final result2 = await memory.loadMemoryVariables({'input': 'foo'});
       expect(
-        result2[VectorStoreRetrieverMemory.defaultMemoryKey],
+        result2[VectorStoreMemory.defaultMemoryKey],
         'foo: bar\nbar: foo',
       );
     });
@@ -31,8 +31,8 @@ void main() {
     test('Test returnDocs', () async {
       final embeddings = _FakeEmbeddings();
       final vectorStore = MemoryVectorStore(embeddings: embeddings);
-      final memory = VectorStoreRetrieverMemory(
-        retriever: vectorStore.asRetriever(),
+      final memory = VectorStoreMemory(
+        vectorStore: vectorStore,
         returnDocs: true,
       );
 
@@ -47,7 +47,7 @@ void main() {
       final result = await memory.loadMemoryVariables({'input': 'foo'});
       const expectedDoc = Document(pageContent: 'foo: bar\nbar: foo');
       expect(
-        result[VectorStoreRetrieverMemory.defaultMemoryKey],
+        result[VectorStoreMemory.defaultMemoryKey],
         [expectedDoc],
       );
     });
@@ -55,13 +55,13 @@ void main() {
     test('Test excludeInputKeys', () async {
       final embeddings = _FakeEmbeddings();
       final vectorStore = MemoryVectorStore(embeddings: embeddings);
-      final memory = VectorStoreRetrieverMemory(
-        retriever: vectorStore.asRetriever(),
+      final memory = VectorStoreMemory(
+        vectorStore: vectorStore,
         excludeInputKeys: {'foo'},
       );
 
       final result1 = await memory.loadMemoryVariables({'input': 'foo'});
-      expect(result1[VectorStoreRetrieverMemory.defaultMemoryKey], '');
+      expect(result1[VectorStoreMemory.defaultMemoryKey], '');
 
       await memory.saveContext(
         inputValues: {
@@ -73,7 +73,7 @@ void main() {
       );
       final result2 = await memory.loadMemoryVariables({'input': 'foo'});
       expect(
-        result2[VectorStoreRetrieverMemory.defaultMemoryKey],
+        result2[VectorStoreMemory.defaultMemoryKey],
         'bar: foo',
       );
     });
