@@ -6,6 +6,62 @@ All notable changes to this project will be documented in this file following
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) 
 server for more details about each release.
 
+## 2023-08-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`langchain` - `v0.0.11`](#langchain---v0011)
+
+Packages with other changes:
+
+ - [`langchain_pinecone` - `v0.0.1`](#langchain_pinecone---v001)
+ - [`langchain_google` - `v0.0.6`](#langchain_google---v006)
+ - [`langchain_openai` - `v0.0.11`](#langchain_openai---v0011)
+ - [`langchain_chroma` - `v0.0.2`](#langchain_chroma---v002)
+ - [`vertex_ai` - `v0.0.6`](#vertex_ai---v006)
+ - [`chromadb` - `v0.0.2`](#chromadb---v002)
+
+---
+
+#### `langchain` - `v0.0.11`
+
+ - **DOCS**: Update readme. ([e1b5b295](https://github.com/davidmigloz/langchain_dart/commit/e1b5b2958bdf2b787c8b49aeeb6690c33c225943))
+ - **BREAKING** **REFACTOR**(vector-stores): Remove addDocuments from VectorStoreRetriever ([#146](https://github.com/davidmigloz/langchain_dart/issues/146)). ([d32a5fd9](https://github.com/davidmigloz/langchain_dart/commit/d32a5fd94645d10deee5a35f0d83501f93be7308))
+ - **BREAKING** **REFACTOR**(memory): Rename VectorStoreRetrieverMemory and require vector store ([#145](https://github.com/davidmigloz/langchain_dart/issues/145)). ([67af3195](https://github.com/davidmigloz/langchain_dart/commit/67af319595755ec3c3834ceabaf4086cfa32ad8c))
+
+#### `langchain_pinecone` - `v0.0.1`
+
+ - **DOCS**: Update readme. ([e1b5b295](https://github.com/davidmigloz/langchain_dart/commit/e1b5b2958bdf2b787c8b49aeeb6690c33c225943))
+ - **DOCS**: Update packages example. ([4f8488fc](https://github.com/davidmigloz/langchain_dart/commit/4f8488fcb324e31b9d8dece7d1999333d7982253))
+
+#### `langchain_google` - `v0.0.6`
+
+ - **DOCS**: Update packages example. ([4f8488fc](https://github.com/davidmigloz/langchain_dart/commit/4f8488fcb324e31b9d8dece7d1999333d7982253))
+
+#### `langchain_openai` - `v0.0.11`
+
+ - **FEAT**(llms): Add ability to specify user in OpenAI and ChatOpenAI ([#143](https://github.com/davidmigloz/langchain_dart/issues/143)). ([457ab54e](https://github.com/davidmigloz/langchain_dart/commit/457ab54e45afd5aa382e284806dc73cfe0905c09))
+ - **DOCS**: Update packages example. ([4f8488fc](https://github.com/davidmigloz/langchain_dart/commit/4f8488fcb324e31b9d8dece7d1999333d7982253))
+
+#### `langchain_chroma` - `v0.0.2`
+
+ - **DOCS**: Update readme. ([e1b5b295](https://github.com/davidmigloz/langchain_dart/commit/e1b5b2958bdf2b787c8b49aeeb6690c33c225943))
+ - **DOCS**: Update packages example. ([4f8488fc](https://github.com/davidmigloz/langchain_dart/commit/4f8488fcb324e31b9d8dece7d1999333d7982253))
+
+#### `vertex_ai` - `v0.0.6`
+
+ - **FIX**(vertex_ai): typecast exception when null publicationDate ([#148](https://github.com/davidmigloz/langchain_dart/issues/148)). ([d4afc131](https://github.com/davidmigloz/langchain_dart/commit/d4afc1315f7fc041a7730346942891bb966f8d14))
+ - **DOCS**: Update packages example. ([4f8488fc](https://github.com/davidmigloz/langchain_dart/commit/4f8488fcb324e31b9d8dece7d1999333d7982253))
+
+#### `chromadb` - `v0.0.2`
+
+ - **REFACTOR**(chromadb): Update generated Chroma API client ([#142](https://github.com/davidmigloz/langchain_dart/issues/142)). ([4f0e7379](https://github.com/davidmigloz/langchain_dart/commit/4f0e7379f4408fe03a6433e3bdb6ebbe2262cbbc))
+
+
 ## 2023-08-27
 
 ### Changes
@@ -422,6 +478,12 @@ Packages with changes:
 ### Changes
 
 #### `langchain` - `v0.0.1`
+
+ - Initial public release. 
+
+Check out the announcement post for all the details: 
+https://blog.langchaindart.com/introducing-langchain-dart-6b1d34fc41ef
+- `v0.0.1`
 
  - Initial public release. 
 
