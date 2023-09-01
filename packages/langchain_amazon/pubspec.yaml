@@ -7,6 +7,12 @@ homepage: https://github.com/davidmigloz/langchain_dart
 documentation: https://langchaindart.com
 publish_to: none # Remove when the package is ready to be published
 
+topics:
+  - ai
+  - nlp
+  - llms
+  - langchain
+
 environment:
   sdk: ">=3.0.0 <4.0.0"
 
