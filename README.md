@@ -125,6 +125,14 @@ your first contribution in no time!
 - [LangChain.go](https://github.com/tmc/langchaingo): A Go port of LangChain.
 - [LangChain.rb](https://github.com/andreibondarev/langchainrb): A Ruby port of LangChain.
 
+## Sponsors
+
+<p align="center">
+  <a href="https://github.com/sponsors/davidmigloz">
+    <img src='https://raw.githubusercontent.com/davidmigloz/sponsors/main/sponsors.svg'/>
+  </a>
+</p>
+
 ## License
 
 LangChain.dart is licensed under the [MIT License](https://github.com/davidmigloz/langchain_dart/blob/main/LICENSE).
