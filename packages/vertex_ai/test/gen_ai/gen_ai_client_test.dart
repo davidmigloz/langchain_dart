@@ -17,55 +17,79 @@ void main() async {
 
   group('VertexAIGenAIClient tests', () {
     test('Test VertexAITextModelApi', () async {
-      final res = await vertexAi.text.predict(
-        prompt:
-            'List the numbers from 1 to 9 in order without any spaces or commas.',
-      );
-      expect(res.predictions.first.content, contains('123456789'));
-      expect(res.predictions.first.safetyAttributes.blocked, isFalse);
-      expect(res.metadata.token.inputTotalTokens, greaterThan(0));
-      expect(res.metadata.token.outputTotalTokens, greaterThan(0));
+      final models = ['text-bison', 'text-bison-32k'];
+
+      for (final model in models) {
+        final res = await vertexAi.text.predict(
+          model: model,
+          prompt:
+              'List the numbers from 1 to 9 in order without any spaces or commas.',
+        );
+        expect(res.predictions.first.content, contains('123456789'));
+        expect(res.predictions.first.safetyAttributes.blocked, isFalse);
+        expect(res.metadata.token.inputTotalTokens, greaterThan(0));
+        expect(res.metadata.token.outputTotalTokens, greaterThan(0));
+      }
     });
 
     test('Test VertexAIChatModelApi', () async {
-      final res = await vertexAi.chat.predict(
-        context: 'Only output numeric characters.',
-        examples: const [
-          VertexAITextChatModelExample(
-            input: VertexAITextChatModelMessage(
+      final models = ['chat-bison', 'chat-bison-32k'];
+
+      for (final model in models) {
+        final res = await vertexAi.chat.predict(
+          model: model,
+          context: 'Only output numeric characters.',
+          examples: const [
+            VertexAITextChatModelExample(
+              input: VertexAITextChatModelMessage(
+                author: 'USER',
+                content: 'List the numbers from 1 to 3',
+              ),
+              output: VertexAITextChatModelMessage(
+                author: 'AI',
+                content: '123',
+              ),
+            ),
+          ],
+          messages: const [
+            VertexAITextChatModelMessage(
               author: 'USER',
-              content: 'List the numbers from 1 to 3',
+              content: 'List the numbers from 1 to 9',
             ),
-            output: VertexAITextChatModelMessage(
-              author: 'AI',
-              content: '123',
-            ),
-          ),
-        ],
-        messages: const [
-          VertexAITextChatModelMessage(
-            author: 'USER',
-            content: 'List the numbers from 1 to 9',
-          ),
-        ],
-      );
-      expect(
-        res.predictions.first.candidates.first.content,
-        contains('123456789'),
-      );
-      expect(res.predictions.first.safetyAttributes.first.blocked, isFalse);
-      expect(res.metadata.token.inputTotalTokens, greaterThan(0));
-      expect(res.metadata.token.outputTotalTokens, greaterThan(0));
+          ],
+        );
+        expect(
+          res.predictions.first.candidates.first.content,
+          contains('123456789'),
+        );
+        expect(res.predictions.first.safetyAttributes.first.blocked, isFalse);
+        expect(res.metadata.token.inputTotalTokens, greaterThan(0));
+        expect(res.metadata.token.outputTotalTokens, greaterThan(0));
+      }
     });
 
     test('Test VertexAITextEmbeddingsModelApi', () async {
-      final res = await vertexAi.textEmbeddings.predict(
-        content: ['Embedding text'],
-      );
-      expect(res.predictions.first.values, hasLength(768));
-      expect(res.predictions.first.statistics.truncated, isFalse);
-      expect(res.predictions.first.statistics.tokenCount, greaterThan(1));
-      expect(res.metadata.billableCharacterCount, greaterThan(1));
+      final models = [
+        'textembedding-gecko@latest',
+        'textembedding-gecko-multilingual@latest',
+      ];
+
+      for (final model in models) {
+        final res = await vertexAi.textEmbeddings.predict(
+          model: model,
+          content: [
+            const VertexAITextEmbeddingsModelContent(
+              taskType: VertexAITextEmbeddingsModelTaskType.retrievalDocument,
+              title: 'Embedding title',
+              content: 'Embedding text',
+            ),
+          ],
+        );
+        expect(res.predictions.first.values, hasLength(768));
+        expect(res.predictions.first.statistics.truncated, isFalse);
+        expect(res.predictions.first.statistics.tokenCount, greaterThan(1));
+        expect(res.metadata.billableCharacterCount, greaterThan(1));
+      }
     });
   });
 }

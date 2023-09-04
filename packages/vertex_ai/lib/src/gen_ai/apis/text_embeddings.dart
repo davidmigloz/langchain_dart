@@ -8,6 +8,18 @@ import '../models/models.dart';
 ///
 /// Documentation:
 /// https://cloud.google.com/vertex-ai/docs/generative-ai/embeddings/get-text-embeddings
+///
+/// Supported models:
+/// - `textembedding-gecko`
+///   * Max input token: 3072
+///   * Output: 768-dimensional vector embeddings
+/// - `textembedding-gecko-multilingual`
+///   * Max input token: 3072
+///   * Output: 768-dimensional vector embeddings
+///
+/// The previous list of models may not be exhaustive or up-to-date. Check out
+/// the [Vertex AI documentation](https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models)
+/// for the latest list of available models.
 /// {@endtemplate}
 class VertexAITextEmbeddingsModelApi {
   /// {@macro vertex_ai_text_embeddings_model_api}
@@ -40,7 +52,7 @@ class VertexAITextEmbeddingsModelApi {
   /// API documentation:
   /// https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.publishers.models/predict
   Future<VertexAITextEmbeddingsModelResponse> predict({
-    required final List<String> content,
+    required final List<VertexAITextEmbeddingsModelContent> content,
     final String publisher = 'google',
     final String model = 'textembedding-gecko',
   }) async {

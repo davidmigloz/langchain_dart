@@ -8,20 +8,52 @@ void main() {
     test('VertexAITextEmbeddingsModelGoogleApisMapper.mapRequest', () {
       const request = VertexAITextEmbeddingsModelRequest(
         content: [
-          'CONTENT 1',
-          'CONTENT 2',
-          'CONTENT 3',
-          'CONTENT 4',
-          'CONTENT 5',
+          VertexAITextEmbeddingsModelContent(
+            taskType: VertexAITextEmbeddingsModelTaskType.retrievalDocument,
+            title: 'TITLE 1',
+            content: 'CONTENT 1',
+          ),
+          VertexAITextEmbeddingsModelContent(
+            taskType: VertexAITextEmbeddingsModelTaskType.retrievalQuery,
+            content: 'CONTENT 2',
+          ),
+          VertexAITextEmbeddingsModelContent(
+            taskType: VertexAITextEmbeddingsModelTaskType.semanticSimilarity,
+            content: 'CONTENT 3',
+          ),
+          VertexAITextEmbeddingsModelContent(
+            taskType: VertexAITextEmbeddingsModelTaskType.classification,
+            content: 'CONTENT 4',
+          ),
+          VertexAITextEmbeddingsModelContent(
+            taskType: VertexAITextEmbeddingsModelTaskType.clustering,
+            content: 'CONTENT 5',
+          ),
         ],
       );
       final expected = GoogleCloudAiplatformV1PredictRequest(
         instances: [
-          {'content': 'CONTENT 1'},
-          {'content': 'CONTENT 2'},
-          {'content': 'CONTENT 3'},
-          {'content': 'CONTENT 4'},
-          {'content': 'CONTENT 5'},
+          {
+            'task_type': 'RETRIEVAL_DOCUMENT',
+            'title': 'TITLE 1',
+            'content': 'CONTENT 1',
+          },
+          {
+            'task_type': 'RETRIEVAL_QUERY',
+            'content': 'CONTENT 2',
+          },
+          {
+            'task_type': 'SEMANTIC_SIMILARITY',
+            'content': 'CONTENT 3',
+          },
+          {
+            'task_type': 'CLASSIFICATION',
+            'content': 'CONTENT 4',
+          },
+          {
+            'task_type': 'CLUSTERING',
+            'content': 'CONTENT 5',
+          },
         ],
       );
 
