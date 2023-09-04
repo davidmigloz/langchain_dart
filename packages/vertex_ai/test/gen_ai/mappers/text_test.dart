@@ -13,6 +13,8 @@ void main() {
           maxOutputTokens: 256,
           topP: 0.1,
           topK: 30,
+          stopSequence: ['STOP'],
+          candidateCount: 10,
         ),
       );
       final expected = GoogleCloudAiplatformV1PredictRequest(
@@ -26,6 +28,8 @@ void main() {
           'maxOutputTokens': 256,
           'topP': 0.1,
           'topK': 30,
+          'stopSequence': ['STOP'],
+          'candidateCount': 10,
         },
       );
 
