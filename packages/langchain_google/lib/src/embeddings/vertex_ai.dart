@@ -63,6 +63,19 @@ import 'package:vertex_ai/vertex_ai.dart';
 ///   constant `VertexAIEmbeddings.cloudPlatformScope`)
 ///
 /// See: https://cloud.google.com/vertex-ai/docs/generative-ai/access-control
+///
+/// ## Available models
+///
+/// - `textembedding-gecko`
+///   * Max input token: 3072
+///   * Output: 768-dimensional vector embeddings
+/// - `textembedding-gecko-multilingual`: support over 100 non-English languages
+///   * Max input token: 3072
+///   * Output: 768-dimensional vector embeddings
+///
+/// The previous list of models may not be exhaustive or up-to-date. Check out
+/// the [Vertex AI documentation](https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models)
+/// for the latest list of available models.
 /// {@endtemplate}
 class VertexAIEmbeddings implements Embeddings {
   /// {@macro vertex_ai_embeddings}
@@ -117,7 +130,17 @@ class VertexAIEmbeddings implements Embeddings {
     final embeddings = await Future.wait(
       subDocs.map((final docsBatch) async {
         final data = await client.textEmbeddings.predict(
-          content: docsBatch,
+          content: docsBatch
+              .map(
+                (final doc) => VertexAITextEmbeddingsModelContent(
+                  taskType: _getTaskType(
+                    defaultTaskType:
+                        VertexAITextEmbeddingsModelTaskType.retrievalDocument,
+                  ),
+                  content: doc,
+                ),
+              )
+              .toList(growable: false),
           publisher: publisher,
           model: model,
         );
@@ -133,10 +156,30 @@ class VertexAIEmbeddings implements Embeddings {
   @override
   Future<List<double>> embedQuery(final String query) async {
     final data = await client.textEmbeddings.predict(
-      content: [query],
+      content: [
+        VertexAITextEmbeddingsModelContent(
+          taskType: _getTaskType(
+            defaultTaskType: VertexAITextEmbeddingsModelTaskType.retrievalQuery,
+          ),
+          content: query,
+        ),
+      ],
       publisher: publisher,
       model: model,
     );
     return data.predictions.first.values;
+  }
+
+  VertexAITextEmbeddingsModelTaskType? _getTaskType({
+    required final VertexAITextEmbeddingsModelTaskType defaultTaskType,
+  }) {
+    // Models released before August 2023 do not support taskType.
+    // Currently 'textembedding-gecko' points to 'textembedding-gecko@001'
+    // Ref: https://cloud.google.com/vertex-ai/docs/generative-ai/learn/model-versioning
+    if (model == 'textembedding-gecko' || model == 'textembedding-gecko@001') {
+      return null;
+    }
+
+    return VertexAITextEmbeddingsModelTaskType.retrievalDocument;
   }
 }
