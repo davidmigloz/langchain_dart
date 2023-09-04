@@ -67,6 +67,22 @@ import 'models/models.dart';
 ///   constant `ChatVertexAI.cloudPlatformScope`)
 ///
 /// See: https://cloud.google.com/vertex-ai/docs/generative-ai/access-control
+///
+/// ## Available models
+///
+/// - `chat-bison`
+///   * Max input token: 4096
+///   * Max output tokens: 1024
+///   * Training data: Up to Feb 2023
+///   * Max turns: 2500
+/// - `chat-bison-32k`
+///   * Max input and output tokens combined: 32k
+///   * Training data: Up to Aug 2023
+///   * Max turns: 2500
+///
+/// The previous list of models may not be exhaustive or up-to-date. Check out
+/// the [Vertex AI documentation](https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models)
+/// for the latest list of available models.
 /// {@endtemplate}
 class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
   /// {@macro chat_vertex_ai}
