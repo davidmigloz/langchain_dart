@@ -52,6 +52,8 @@ class VertexAITextModelRequestParams {
     this.maxOutputTokens = 1024,
     this.topP = 0.95,
     this.topK = 40,
+    this.stopSequence = const [],
+    this.candidateCount = 1,
   });
 
   /// The temperature is used for sampling during response generation, which
@@ -108,6 +110,15 @@ class VertexAITextModelRequestParams {
   /// Range: `[1, 40]`
   final int topK;
 
+  /// Specifies a list of strings that tells the model to stop generating text
+  /// if one of the strings is encountered in the response. If a string appears
+  /// multiple times in the response, then the response truncates where it's
+  /// first encountered. The strings are case-sensitive.
+  final List<String> stopSequence;
+
+  /// The number of response variations to return.
+  final int candidateCount;
+
   /// Converts this object to a [Map].
   Map<String, dynamic> toMap() {
     return {
@@ -115,6 +126,8 @@ class VertexAITextModelRequestParams {
       'maxOutputTokens': maxOutputTokens,
       'topP': topP,
       'topK': topK,
+      'stopSequence': stopSequence,
+      'candidateCount': candidateCount,
     };
   }
 
@@ -125,14 +138,21 @@ class VertexAITextModelRequestParams {
           temperature == other.temperature &&
           maxOutputTokens == other.maxOutputTokens &&
           topP == other.topP &&
-          topK == other.topK;
+          topK == other.topK &&
+          const ListEquality<String>().equals(
+            stopSequence,
+            other.stopSequence,
+          ) &&
+          candidateCount == other.candidateCount;
 
   @override
   int get hashCode =>
       temperature.hashCode ^
       maxOutputTokens.hashCode ^
       topP.hashCode ^
-      topK.hashCode;
+      topK.hashCode ^
+      const ListEquality<String>().hash(stopSequence) ^
+      candidateCount.hashCode;
 
   @override
   String toString() {
@@ -140,7 +160,9 @@ class VertexAITextModelRequestParams {
         'temperature: $temperature, '
         'maxOutputTokens: $maxOutputTokens, '
         'topP: $topP, '
-        'topK: $topK}';
+        'topK: $topK, '
+        'stopSequence: $stopSequence, '
+        'candidateCount: $candidateCount}';
   }
 }
 
