@@ -8,6 +8,19 @@ import '../models/models.dart';
 ///
 /// Documentation:
 /// https://cloud.google.com/vertex-ai/docs/generative-ai/text/text-overview
+///
+/// Supported models:
+/// - `text-bison`
+///   * Max input token: 8192
+///   * Max output tokens: 1024
+///   * Training data: Up to Feb 2023
+/// - `text-bison-32k`
+///   * Max input and output tokens combined: 32k
+///   * Training data: Up to Aug 2023
+///
+/// The previous list of models may not be exhaustive or up-to-date. Check out
+/// the [Vertex AI documentation](https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models)
+/// for the latest list of available models.
 /// {@endtemplate}
 class VertexAITextModelApi {
   /// {@macro vertex_ai_text_model_api}

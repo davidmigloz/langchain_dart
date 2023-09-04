@@ -99,7 +99,12 @@ like semantic search, recommendation, classification, and outlier detection.
 
 ```dart
 final res = await vertexAi.textEmbeddings.predict(
-  content: ['The only true wisdom is in knowing you know nothing.'],
+  content: [
+    const VertexAITextEmbeddingsModelContent(
+      taskType: VertexAITextEmbeddingsModelTaskType.retrievalDocument,
+      title: 'The Paradox of Wisdom',
+      content: 'The only true wisdom is in knowing you know nothing',
+    ),
 );
 ```
 

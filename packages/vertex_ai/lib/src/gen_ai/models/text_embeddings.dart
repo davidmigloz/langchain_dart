@@ -11,25 +11,124 @@ class VertexAITextEmbeddingsModelRequest {
     required this.content,
   });
 
-  /// The text that you want to generate embeddings for.
+  /// The content you want to generate embeddings for.
   ///
-  /// There is a limit of up to 5 input texts per request.
-  final List<String> content;
+  /// There is a limit of up to 5 items per request.
+  final List<VertexAITextEmbeddingsModelContent> content;
 
   @override
   bool operator ==(covariant final VertexAITextEmbeddingsModelRequest other) =>
       identical(this, other) ||
       runtimeType == other.runtimeType &&
-          const ListEquality<String>().equals(content, other.content);
+          const ListEquality<VertexAITextEmbeddingsModelContent>().equals(
+            content,
+            other.content,
+          );
 
   @override
-  int get hashCode => const ListEquality<String>().hash(content);
+  int get hashCode =>
+      const ListEquality<VertexAITextEmbeddingsModelContent>().hash(content);
 
   @override
   String toString() {
     return 'VertexAITextEmbeddingsModelRequest{'
         'content: $content}';
   }
+}
+
+/// {@template vertex_ai_text_embeddings_model_content}
+/// The content to embed.
+/// {@endtemplate}
+@immutable
+class VertexAITextEmbeddingsModelContent {
+  /// {@macro vertex_ai_text_embeddings_model_content}
+  const VertexAITextEmbeddingsModelContent({
+    this.taskType,
+    this.title,
+    required this.content,
+  }) : assert(
+          title == null ||
+              taskType == VertexAITextEmbeddingsModelTaskType.retrievalDocument,
+          'title can only be used with retrievalDocument taskType',
+        );
+
+  /// Type of task where the embeddings will be used.
+  /// It helps the model produce better quality embeddings.
+  ///
+  /// Note: only supported in models released in or after August 2023. Check
+  /// out [Models versions and lifecycle](https://cloud.google.com/vertex-ai/docs/generative-ai/learn/model-versioning)
+  /// for more information.
+  final VertexAITextEmbeddingsModelTaskType? taskType;
+
+  /// Optional title of the document to embed.
+  ///
+  /// Only valid with [taskType] set to [VertexAITextEmbeddingsModelTaskType.retrievalDocument].
+  ///
+  /// Note: only supported in models released in or after August 2023. Check
+  /// out [Models versions and lifecycle](https://cloud.google.com/vertex-ai/docs/generative-ai/learn/model-versioning)
+  /// for more information.
+  final String? title;
+
+  /// The text that you want to generate embeddings for.
+  final String content;
+
+  /// Converts this content to a JSON map.
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      if (taskType != null)
+        'task_type': switch (taskType!) {
+          VertexAITextEmbeddingsModelTaskType.retrievalQuery =>
+            'RETRIEVAL_QUERY',
+          VertexAITextEmbeddingsModelTaskType.retrievalDocument =>
+            'RETRIEVAL_DOCUMENT',
+          VertexAITextEmbeddingsModelTaskType.semanticSimilarity =>
+            'SEMANTIC_SIMILARITY',
+          VertexAITextEmbeddingsModelTaskType.classification =>
+            'CLASSIFICATION',
+          VertexAITextEmbeddingsModelTaskType.clustering => 'CLUSTERING',
+        },
+      if (title != null) 'title': title,
+      'content': content,
+    };
+  }
+
+  @override
+  bool operator ==(covariant final VertexAITextEmbeddingsModelContent other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          taskType == other.taskType &&
+          title == other.title &&
+          content == other.content;
+
+  @override
+  int get hashCode => taskType.hashCode ^ title.hashCode ^ content.hashCode;
+
+  @override
+  String toString() {
+    return 'VertexAITextEmbeddingsModelContent{'
+        'taskType: $taskType, '
+        'title: $title, '
+        'content: $content}';
+  }
+}
+
+/// Type of task where the embeddings will be used.
+/// It helps the model produce better quality embeddings.
+enum VertexAITextEmbeddingsModelTaskType {
+  /// Specifies the given text is a query in a search/retrieval setting.
+  retrievalQuery,
+
+  /// Specifies the given text is a document in a search/retrieval setting.
+  retrievalDocument,
+
+  /// Specifies the given text will be used for Semantic Textual Similarity.
+  semanticSimilarity,
+
+  /// Specifies that the embeddings will be used for classification.
+  classification,
+
+  /// Specifies that the embeddings will be used for clustering.
+  clustering,
 }
 
 /// {@template vertex_ai_text_embeddings_model_response}

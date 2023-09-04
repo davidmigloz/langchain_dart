@@ -8,6 +8,21 @@ import '../models/models.dart';
 ///
 /// Documentation:
 /// https://cloud.google.com/vertex-ai/docs/generative-ai/chat/test-chat-prompts
+///
+/// Supported models:
+/// - `chat-bison`
+///   * Max input token: 4096
+///   * Max output tokens: 1024
+///   * Training data: Up to Feb 2023
+///   * Max turns: 2500
+/// - `chat-bison-32k`
+///   * Max input and output tokens combined: 32k
+///   * Training data: Up to Aug 2023
+///   * Max turns: 2500
+///
+/// The previous list of models may not be exhaustive or up-to-date. Check out
+/// the [Vertex AI documentation](https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models)
+/// for the latest list of available models.
 /// {@endtemplate}
 class VertexAITextChatModelApi {
   /// {@macro vertex_ai_text_chat_model_api}
