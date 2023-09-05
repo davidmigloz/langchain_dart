@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:crypto/crypto.dart';
 
+import '../models/models.dart';
 import 'base.dart';
 
 /// {@template fake_embeddings}
@@ -26,8 +27,12 @@ class FakeEmbeddings implements Embeddings {
   final bool deterministic;
 
   @override
-  Future<List<List<double>>> embedDocuments(final List<String> texts) async {
-    return texts.map(_getEmbeddings).toList(growable: false);
+  Future<List<List<double>>> embedDocuments(
+    final List<Document> documents,
+  ) async {
+    return documents
+        .map((final d) => _getEmbeddings(d.pageContent))
+        .toList(growable: false);
   }
 
   @override

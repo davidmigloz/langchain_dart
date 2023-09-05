@@ -83,9 +83,11 @@ void main() {
 class _FakeEmbeddings implements Embeddings {
   @override
   Future<List<List<double>>> embedDocuments(
-    final List<String> documents,
+    final List<Document> documents,
   ) async {
-    return documents.map(_embed).toList(growable: false);
+    return documents
+        .map((final doc) => _embed(doc.pageContent))
+        .toList(growable: false);
   }
 
   @override

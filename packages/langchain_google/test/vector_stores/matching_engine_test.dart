@@ -14,6 +14,7 @@ void main() async {
   final embeddings = VertexAIEmbeddings(
     authHttpClient: authHttpClient,
     project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
+    model: 'textembedding-gecko-multilingual',
   );
   final vectorStore = VertexAIMatchingEngine(
     authHttpClient: authHttpClient,
@@ -52,7 +53,7 @@ void main() async {
       expect(res.length, 1);
       expect(
         res.first.id,
-        'faq_621656c96b5ff317d867d019',
+        'blog_62fced7e440f2d026f7d442e',
       );
     });
 

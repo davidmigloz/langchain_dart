@@ -24,10 +24,8 @@ abstract class VectorStore {
   Future<List<String>> addDocuments({
     required final List<Document> documents,
   }) async {
-    final texts =
-        documents.map((final doc) => doc.pageContent).toList(growable: false);
     return addVectors(
-      vectors: await embeddings.embedDocuments(texts),
+      vectors: await embeddings.embedDocuments(documents),
       documents: documents,
     );
   }
