@@ -11,7 +11,7 @@ topics:
   - nlp
   - llms
   - palm
-  - matching_engine
+  - matching-engine
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
