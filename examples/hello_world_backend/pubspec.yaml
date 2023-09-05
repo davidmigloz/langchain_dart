@@ -7,7 +7,7 @@ environment:
   sdk: ^3.0.5
 
 dependencies:
-  langchain: ^0.0.11
-  langchain_openai: ^0.0.11
+  langchain: ^0.0.12
+  langchain_openai: ^0.0.12
   shelf: ^1.4.1
   shelf_router: ^1.1.4

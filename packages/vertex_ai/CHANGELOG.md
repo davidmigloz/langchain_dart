@@ -1,3 +1,11 @@
+## 0.0.7
+
+ - **FIX**(vertex_ai): Fix typo in stop sequences field deserialization ([#152](https://github.com/davidmigloz/langchain_dart/issues/152)). ([4f7161da](https://github.com/davidmigloz/langchain_dart/commit/4f7161da55309bcbd5a62c21ba2a7fa703c4eb09))
+ - **FEAT**(vertex_ai): Add support for stopSequence and candidateCount ([#150](https://github.com/davidmigloz/langchain_dart/issues/150)). ([eab7d968](https://github.com/davidmigloz/langchain_dart/commit/eab7d968f464db58a04f3453b4470ad3859536aa))
+ - **FEAT**(vertex_ai): Support task type and title in embeddings models ([#149](https://github.com/davidmigloz/langchain_dart/issues/149)). ([421d36bd](https://github.com/davidmigloz/langchain_dart/commit/421d36bdfe1ad8c4776811f6e1f0d3bf8c316ee3))
+ - **DOCS**: Fix invalid package topics. ([f81b833a](https://github.com/davidmigloz/langchain_dart/commit/f81b833aae33e0a945ef4450da12344886224bae))
+ - **DOCS**: Add topics to pubspecs. ([8c1d6297](https://github.com/davidmigloz/langchain_dart/commit/8c1d62970710cc326fd5930101918aaf16b18f74))
+
 ## 0.0.6
 
  - **FIX**(vertex_ai): typecast exception when null publicationDate ([#148](https://github.com/davidmigloz/langchain_dart/issues/148)). ([d4afc131](https://github.com/davidmigloz/langchain_dart/commit/d4afc1315f7fc041a7730346942891bb966f8d14))
