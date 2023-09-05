@@ -29,46 +29,41 @@ Packages with other changes:
 
 #### `langchain` - `v0.0.12`
 
+ - **BREAKING** **REFACTOR**(embeddings): Change embedDocuments input to `List<Document>` ([#153](https://github.com/davidmigloz/langchain_dart/issues/153)). ([1b5d6fbf](https://github.com/davidmigloz/langchain_dart/commit/1b5d6fbf20bcbb7734581f91d66eff3a86731fec))
  - **DOCS**: Acknowledge sponsors in readme. ([092d94c8](https://github.com/davidmigloz/langchain_dart/commit/092d94c8ac166cf47f1ddab748b61d440f4b8585))
  - **DOCS**: Add topics to pubspecs. ([8c1d6297](https://github.com/davidmigloz/langchain_dart/commit/8c1d62970710cc326fd5930101918aaf16b18f74))
- - **BREAKING** **REFACTOR**(embeddings): Change embedDocuments input to `List<Document>` ([#153](https://github.com/davidmigloz/langchain_dart/issues/153)). ([1b5d6fbf](https://github.com/davidmigloz/langchain_dart/commit/1b5d6fbf20bcbb7734581f91d66eff3a86731fec))
 
 #### `langchain_google` - `v0.0.7`
 
+ - **BREAKING** **FEAT**(llms): Add default and call options in VertexAI and ChatVertexAI ([#155](https://github.com/davidmigloz/langchain_dart/issues/155)). ([fe1b12ea](https://github.com/davidmigloz/langchain_dart/commit/fe1b12ea282cd587f9dc78bd959741781ebb6d35))
+ - **BREAKING** **REFACTOR**(embeddings): Change embedDocuments input to `List<Document>` ([#153](https://github.com/davidmigloz/langchain_dart/issues/153)). ([1b5d6fbf](https://github.com/davidmigloz/langchain_dart/commit/1b5d6fbf20bcbb7734581f91d66eff3a86731fec))
  - **FEAT**(embeddings): Support document title in VertexAIEmbeddings ([#154](https://github.com/davidmigloz/langchain_dart/issues/154)). ([6b763731](https://github.com/davidmigloz/langchain_dart/commit/6b76373139bb50e8d0e59b3f63b54f6adae3d498))
  - **FEAT**(embeddings): Support task type in VertexAIEmbeddings ([#151](https://github.com/davidmigloz/langchain_dart/issues/151)). ([8a2199e2](https://github.com/davidmigloz/langchain_dart/commit/8a2199e26a945f7d2ad8d3da3ca14e083172f6f1))
- - **DOCS**: Fix invalid package topics. ([f81b833a](https://github.com/davidmigloz/langchain_dart/commit/f81b833aae33e0a945ef4450da12344886224bae))
  - **DOCS**: Add topics to pubspecs. ([8c1d6297](https://github.com/davidmigloz/langchain_dart/commit/8c1d62970710cc326fd5930101918aaf16b18f74))
- - **BREAKING** **REFACTOR**(embeddings): Change embedDocuments input to `List<Document>` ([#153](https://github.com/davidmigloz/langchain_dart/issues/153)). ([1b5d6fbf](https://github.com/davidmigloz/langchain_dart/commit/1b5d6fbf20bcbb7734581f91d66eff3a86731fec))
- - **BREAKING** **FEAT**(llms): Add default and call options in VertexAI and ChatVertexAI ([#155](https://github.com/davidmigloz/langchain_dart/issues/155)). ([fe1b12ea](https://github.com/davidmigloz/langchain_dart/commit/fe1b12ea282cd587f9dc78bd959741781ebb6d35))
 
 #### `langchain_openai` - `v0.0.12`
 
- - **DOCS**: Add topics to pubspecs. ([8c1d6297](https://github.com/davidmigloz/langchain_dart/commit/8c1d62970710cc326fd5930101918aaf16b18f74))
  - **BREAKING** **REFACTOR**(embeddings): Change embedDocuments input to `List<Document>` ([#153](https://github.com/davidmigloz/langchain_dart/issues/153)). ([1b5d6fbf](https://github.com/davidmigloz/langchain_dart/commit/1b5d6fbf20bcbb7734581f91d66eff3a86731fec))
+ - **DOCS**: Add topics to pubspecs. ([8c1d6297](https://github.com/davidmigloz/langchain_dart/commit/8c1d62970710cc326fd5930101918aaf16b18f74))
 
 #### `langchain_pinecone` - `v0.0.2`
 
- - **DOCS**: Fix invalid package topics. ([f81b833a](https://github.com/davidmigloz/langchain_dart/commit/f81b833aae33e0a945ef4450da12344886224bae))
  - **DOCS**: Add topics to pubspecs. ([8c1d6297](https://github.com/davidmigloz/langchain_dart/commit/8c1d62970710cc326fd5930101918aaf16b18f74))
  - **DOCS**: Update changelog. ([df784ff1](https://github.com/davidmigloz/langchain_dart/commit/df784ff108584b0732ec9455f1531636256e9c4e))
 
 #### `langchain_chroma` - `v0.0.3`
 
- - **DOCS**: Fix invalid package topics. ([f81b833a](https://github.com/davidmigloz/langchain_dart/commit/f81b833aae33e0a945ef4450da12344886224bae))
  - **DOCS**: Add topics to pubspecs. ([8c1d6297](https://github.com/davidmigloz/langchain_dart/commit/8c1d62970710cc326fd5930101918aaf16b18f74))
 
 #### `vertex_ai` - `v0.0.7`
 
- - **FIX**(vertex_ai): Fix typo in stop sequences field deserialization ([#152](https://github.com/davidmigloz/langchain_dart/issues/152)). ([4f7161da](https://github.com/davidmigloz/langchain_dart/commit/4f7161da55309bcbd5a62c21ba2a7fa703c4eb09))
  - **FEAT**(vertex_ai): Add support for stopSequence and candidateCount ([#150](https://github.com/davidmigloz/langchain_dart/issues/150)). ([eab7d968](https://github.com/davidmigloz/langchain_dart/commit/eab7d968f464db58a04f3453b4470ad3859536aa))
  - **FEAT**(vertex_ai): Support task type and title in embeddings models ([#149](https://github.com/davidmigloz/langchain_dart/issues/149)). ([421d36bd](https://github.com/davidmigloz/langchain_dart/commit/421d36bdfe1ad8c4776811f6e1f0d3bf8c316ee3))
- - **DOCS**: Fix invalid package topics. ([f81b833a](https://github.com/davidmigloz/langchain_dart/commit/f81b833aae33e0a945ef4450da12344886224bae))
+ - **FIX**(vertex_ai): Fix typo in stop sequences field deserialization ([#152](https://github.com/davidmigloz/langchain_dart/issues/152)). ([4f7161da](https://github.com/davidmigloz/langchain_dart/commit/4f7161da55309bcbd5a62c21ba2a7fa703c4eb09))
  - **DOCS**: Add topics to pubspecs. ([8c1d6297](https://github.com/davidmigloz/langchain_dart/commit/8c1d62970710cc326fd5930101918aaf16b18f74))
 
 #### `chromadb` - `v0.0.3`
 
- - **DOCS**: Fix invalid package topics. ([f81b833a](https://github.com/davidmigloz/langchain_dart/commit/f81b833aae33e0a945ef4450da12344886224bae))
  - **DOCS**: Add topics to pubspecs. ([8c1d6297](https://github.com/davidmigloz/langchain_dart/commit/8c1d62970710cc326fd5930101918aaf16b18f74))
 
 
