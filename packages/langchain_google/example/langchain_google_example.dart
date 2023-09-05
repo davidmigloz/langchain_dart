@@ -17,7 +17,9 @@ Future<void> _example1() async {
   final openai = VertexAI(
     authHttpClient: await _getAuthHttpClient(),
     project: _getProjectId(),
-    temperature: 0.9,
+    defaultOptions: const VertexAIOptions(
+      temperature: 0.9,
+    ),
   );
   final result = await openai('Tell me a joke');
   print(result);
@@ -29,7 +31,9 @@ Future<void> _example2() async {
   final chat = ChatVertexAI(
     authHttpClient: await _getAuthHttpClient(),
     project: _getProjectId(),
-    temperature: 0,
+    defaultOptions: const ChatVertexAIOptions(
+      temperature: 0,
+    ),
   );
 
   while (true) {
