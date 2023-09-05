@@ -31,10 +31,12 @@ void main() async {
         const Document(
           id: '1',
           pageContent: 'Hello world',
+          metadata: {'title': 'Hello!'},
         ),
         const Document(
           id: '2',
           pageContent: 'Bye bye',
+          metadata: {'title': 'Bye!'},
         ),
       ]);
       expect(res.length, 2);

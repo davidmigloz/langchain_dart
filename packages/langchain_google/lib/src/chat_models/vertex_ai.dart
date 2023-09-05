@@ -68,7 +68,7 @@ import 'models/models.dart';
 ///
 /// See: https://cloud.google.com/vertex-ai/docs/generative-ai/access-control
 ///
-/// ## Available models
+/// ### Available models
 ///
 /// - `chat-bison`
 ///   * Max input token: 4096
