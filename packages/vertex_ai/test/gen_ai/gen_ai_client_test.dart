@@ -32,6 +32,28 @@ void main() async {
       }
     });
 
+    test('Test VertexAITextModelApi stop sequence', () async {
+      final res = await vertexAi.text.predict(
+        prompt:
+            'List the numbers from 1 to 9 in order without any spaces or commas.',
+        parameters: const VertexAITextModelRequestParams(
+          stopSequences: ['4'],
+        ),
+      );
+      expect(res.predictions.first.content, contains('123'));
+    });
+
+    test('Test VertexAITextModelApi candidates count', () async {
+      final res = await vertexAi.text.predict(
+        prompt: 'Suggest a name for a LLM framework for Dart',
+        parameters: const VertexAITextModelRequestParams(
+          temperature: 1,
+          candidateCount: 3,
+        ),
+      );
+      expect(res.predictions.length, 3);
+    });
+
     test('Test VertexAIChatModelApi', () async {
       final models = ['chat-bison', 'chat-bison-32k'];
 

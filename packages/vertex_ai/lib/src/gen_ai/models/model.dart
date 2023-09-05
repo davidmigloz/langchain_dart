@@ -110,7 +110,8 @@ class VertexAIPredictionSafetyAttributes {
     final Map<String, dynamic> safetyAttributesJson,
   ) {
     return VertexAIPredictionSafetyAttributes(
-      categories: (safetyAttributesJson['categories'] as List<dynamic>)
+      categories: (safetyAttributesJson['categories'] as List<dynamic>? ??
+              const [])
           .map(
             (final category) => switch (category) {
               'Derogatory' =>
@@ -142,7 +143,7 @@ class VertexAIPredictionSafetyAttributes {
           .toList(growable: false),
       scores:
           (safetyAttributesJson['scores'] as List<dynamic>? ?? const []).cast(),
-      blocked: safetyAttributesJson['blocked'] as bool,
+      blocked: safetyAttributesJson['blocked'] as bool? ?? false,
     );
   }
 
