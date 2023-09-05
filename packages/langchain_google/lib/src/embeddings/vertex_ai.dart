@@ -64,7 +64,7 @@ import 'package:vertex_ai/vertex_ai.dart';
 ///
 /// See: https://cloud.google.com/vertex-ai/docs/generative-ai/access-control
 ///
-/// ## Available models
+/// ### Available models
 ///
 /// - `textembedding-gecko`
 ///   * Max input token: 3072
@@ -76,6 +76,40 @@ import 'package:vertex_ai/vertex_ai.dart';
 /// The previous list of models may not be exhaustive or up-to-date. Check out
 /// the [Vertex AI documentation](https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models)
 /// for the latest list of available models.
+///
+/// ### Task type
+///
+/// Embedding models released after August 2023 support specifying a
+/// 'task type' when embedding documents. The task type is then used by the
+/// model to improve the quality of the embeddings.
+///
+/// This class uses the specifies the following task type:
+/// - `retrievalDocument`: for embedding documents
+/// - `retrievalQuery`: for embedding queries
+///
+/// ### Title
+///
+/// Embedding models released after August 2023 support specifying a document
+/// title when embedding documents. The title is then used by the model to
+/// improve the quality of the embeddings.
+///
+/// To specify a document title, add the title to the document's metadata.
+/// Then, specify the metadata key in the [docTitleKey] parameter.
+///
+/// Example:
+/// ```dart
+/// final embeddings = VertexAIEmbeddings(
+///   authHttpClient: authClient,
+///   project: 'your-project-id',
+///   docTitleKey: 'title',
+/// );
+/// final result = await embeddings.embedDocuments([
+///   Document(
+///     pageContent: 'Hello world',
+///     metadata: {'title': 'Hello!'},
+///   ),
+/// ]);
+/// ```
 /// {@endtemplate}
 class VertexAIEmbeddings implements Embeddings {
   /// {@macro vertex_ai_embeddings}
@@ -87,6 +121,7 @@ class VertexAIEmbeddings implements Embeddings {
     this.publisher = 'google',
     this.model = 'textembedding-gecko',
     this.batchSize = 5,
+    this.docTitleKey = 'title',
   }) : client = VertexAIGenAIClient(
           authHttpClient: authHttpClient,
           project: project,
@@ -118,6 +153,9 @@ class VertexAIEmbeddings implements Embeddings {
   /// `textembedding-gecko` has a limit of up to 5 input texts per request.
   final int batchSize;
 
+  /// The metadata key used to store the document's (optional) title.
+  final String docTitleKey;
+
   /// Scope required for Vertex AI API calls.
   static const cloudPlatformScope = VertexAIGenAIClient.cloudPlatformScope;
 
@@ -130,17 +168,23 @@ class VertexAIEmbeddings implements Embeddings {
     final embeddings = await Future.wait(
       batches.map((final batch) async {
         final data = await client.textEmbeddings.predict(
-          content: batch
-              .map(
-                (final doc) => VertexAITextEmbeddingsModelContent(
-                  taskType: _getTaskType(
-                    defaultTaskType:
-                        VertexAITextEmbeddingsModelTaskType.retrievalDocument,
-                  ),
-                  content: doc.pageContent,
-                ),
-              )
-              .toList(growable: false),
+          content: batch.map(
+            (final doc) {
+              final taskType = _getTaskType(
+                defaultTaskType:
+                    VertexAITextEmbeddingsModelTaskType.retrievalDocument,
+              );
+              final title = taskType ==
+                      VertexAITextEmbeddingsModelTaskType.retrievalDocument
+                  ? doc.metadata[docTitleKey]
+                  : null;
+              return VertexAITextEmbeddingsModelContent(
+                taskType: taskType,
+                title: title,
+                content: doc.pageContent,
+              );
+            },
+          ).toList(growable: false),
           publisher: publisher,
           model: model,
         );

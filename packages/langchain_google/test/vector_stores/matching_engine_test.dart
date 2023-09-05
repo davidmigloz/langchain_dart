@@ -47,13 +47,13 @@ void main() async {
 
     test('Test VertexAIMatchingEngine query return 1 result', () async {
       final res = await vectorStore.similaritySearch(
-        query: 'Can I pay by credit card?',
+        query: 'What payment methods do you offer?',
         config: const VectorStoreSimilaritySearch(k: 1),
       );
       expect(res.length, 1);
       expect(
         res.first.id,
-        'blog_62fced7e440f2d026f7d442e',
+        'education_61dd8b84bbd3af82960777a6',
       );
     });
 
