@@ -98,7 +98,7 @@ class VertexAITextChatModelRequestParams {
     this.maxOutputTokens = 1024,
     this.topP = 0.95,
     this.topK = 40,
-    this.stopSequence = const [],
+    this.stopSequences = const [],
     this.candidateCount = 1,
   });
 
@@ -160,7 +160,7 @@ class VertexAITextChatModelRequestParams {
   /// if one of the strings is encountered in the response. If a string appears
   /// multiple times in the response, then the response truncates where it's
   /// first encountered. The strings are case-sensitive.
-  final List<String> stopSequence;
+  final List<String> stopSequences;
 
   /// The number of response variations to return.
   final int candidateCount;
@@ -172,7 +172,7 @@ class VertexAITextChatModelRequestParams {
       'maxOutputTokens': maxOutputTokens,
       'topP': topP,
       'topK': topK,
-      'stopSequence': stopSequence,
+      'stopSequences': stopSequences,
       'candidateCount': candidateCount,
     };
   }
@@ -186,8 +186,8 @@ class VertexAITextChatModelRequestParams {
           topP == other.topP &&
           topK == other.topK &&
           const ListEquality<String>().equals(
-            stopSequence,
-            other.stopSequence,
+            stopSequences,
+            other.stopSequences,
           ) &&
           candidateCount == other.candidateCount;
 
@@ -197,7 +197,7 @@ class VertexAITextChatModelRequestParams {
       maxOutputTokens.hashCode ^
       topP.hashCode ^
       topK.hashCode ^
-      const ListEquality<String>().hash(stopSequence) ^
+      const ListEquality<String>().hash(stopSequences) ^
       candidateCount.hashCode;
 
   @override
@@ -207,7 +207,7 @@ class VertexAITextChatModelRequestParams {
         'maxOutputTokens: $maxOutputTokens, '
         'topP: $topP, '
         'topK: $topK, '
-        'stopSequence: $stopSequence, '
+        'stopSequence: $stopSequences, '
         'candidateCount: $candidateCount}';
   }
 }
