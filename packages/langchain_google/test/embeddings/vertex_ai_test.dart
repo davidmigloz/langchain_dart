@@ -3,6 +3,7 @@ library; // Uses dart:io
 
 import 'dart:io';
 
+import 'package:langchain/langchain.dart';
 import 'package:langchain_google/langchain_google.dart';
 import 'package:test/test.dart';
 
@@ -26,7 +27,16 @@ void main() async {
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         batchSize: 1,
       );
-      final res = await embeddings.embedDocuments(['Hello world', 'Bye bye']);
+      final res = await embeddings.embedDocuments([
+        const Document(
+          id: '1',
+          pageContent: 'Hello world',
+        ),
+        const Document(
+          id: '2',
+          pageContent: 'Bye bye',
+        ),
+      ]);
       expect(res.length, 2);
       expect(res[0].length, 768);
       expect(res[1].length, 768);

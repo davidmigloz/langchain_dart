@@ -92,7 +92,7 @@ class _FakeEmbeddings implements Embeddings {
 
   @override
   Future<List<List<double>>> embedDocuments(
-    final List<String> documents,
+    final List<Document> documents,
   ) async {
     return List.generate(documents.length, (final i) => [0, 1 / i]);
   }

@@ -123,21 +123,21 @@ class VertexAIEmbeddings implements Embeddings {
 
   @override
   Future<List<List<double>>> embedDocuments(
-    final List<String> documents,
+    final List<Document> documents,
   ) async {
-    final subDocs = chunkArray(documents, chunkSize: batchSize);
+    final batches = chunkArray(documents, chunkSize: batchSize);
 
     final embeddings = await Future.wait(
-      subDocs.map((final docsBatch) async {
+      batches.map((final batch) async {
         final data = await client.textEmbeddings.predict(
-          content: docsBatch
+          content: batch
               .map(
                 (final doc) => VertexAITextEmbeddingsModelContent(
                   taskType: _getTaskType(
                     defaultTaskType:
                         VertexAITextEmbeddingsModelTaskType.retrievalDocument,
                   ),
-                  content: doc,
+                  content: doc.pageContent,
                 ),
               )
               .toList(growable: false),
