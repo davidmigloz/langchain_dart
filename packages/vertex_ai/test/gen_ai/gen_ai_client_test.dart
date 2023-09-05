@@ -15,8 +15,8 @@ void main() async {
     project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
   );
 
-  group('VertexAIGenAIClient tests', () {
-    test('Test VertexAITextModelApi', () async {
+  group('VertexAIGenAIClient / VertexAITextModelApi tests', () {
+    test('Test VertexAITextModelApi call', () async {
       final models = ['text-bison', 'text-bison-32k'];
 
       for (final model in models) {
@@ -53,8 +53,10 @@ void main() async {
       );
       expect(res.predictions.length, 3);
     });
+  });
 
-    test('Test VertexAIChatModelApi', () async {
+  group('VertexAIGenAIClient / VertexAIChatModelApi tests', () {
+    test('Test VertexAIChatModelApi call', () async {
       final models = ['chat-bison', 'chat-bison-32k'];
 
       for (final model in models) {
@@ -90,7 +92,50 @@ void main() async {
       }
     });
 
-    test('Test VertexAITextEmbeddingsModelApi', () async {
+    test('Test VertexAIChatModelApi stop sequence', () async {
+      final res = await vertexAi.chat.predict(
+        messages: const [
+          VertexAITextChatModelMessage(
+            author: 'USER',
+            content: 'List the numbers from 1 to 9 '
+                'in order without any spaces or commas.',
+          ),
+        ],
+        parameters: const VertexAITextChatModelRequestParams(
+          stopSequences: ['4'],
+        ),
+      );
+      expect(
+        res.predictions.first.candidates.first.content,
+        contains('123'),
+      );
+      expect(
+        res.predictions.first.candidates.first.content,
+        isNot(contains('456789')),
+      );
+    });
+
+    test('Test VertexAIChatModelApi candidates count', skip: true, () async {
+      // It seems that the Vertex AI Chat API ignores the candidateCount
+      // parameter at the moment
+      final res = await vertexAi.chat.predict(
+        messages: const [
+          VertexAITextChatModelMessage(
+            author: 'USER',
+            content: 'Suggest a name for a LLM framework for Dart',
+          ),
+        ],
+        parameters: const VertexAITextChatModelRequestParams(
+          temperature: 1,
+          candidateCount: 3,
+        ),
+      );
+      expect(res.predictions.length, 3);
+    });
+  });
+
+  group('VertexAIGenAIClient / VertexAITextEmbeddingsModelApi tests', () {
+    test('Test VertexAITextEmbeddingsModelApi call', () async {
       final models = [
         'textembedding-gecko@latest',
         'textembedding-gecko-multilingual@latest',
