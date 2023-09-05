@@ -12,8 +12,8 @@ void main() async {
     test('Embeds a document with the same embedding vector for the same text',
         () async {
       final embeddings = FakeEmbeddings(size: 3);
-      const document1 = 'This is a document.';
-      const document2 = 'This is a document.';
+      const document1 = Document(pageContent: 'This is a document.');
+      const document2 = Document(pageContent: 'This is a document.');
 
       final embedding1 = (await embeddings.embedDocuments([document1])).first;
       final embedding2 = (await embeddings.embedDocuments([document2])).first;
@@ -53,8 +53,8 @@ void main() async {
 
     test('If deterministic is false, embeddings are different', () async {
       final embeddings = FakeEmbeddings(size: 3, deterministic: false);
-      const document1 = 'This is a document.';
-      const document2 = 'This is a document.';
+      const document1 = Document(pageContent: 'This is a document.');
+      const document2 = Document(pageContent: 'This is a document.');
 
       final embedding1 = (await embeddings.embedDocuments([document1])).first;
       final embedding2 = (await embeddings.embedDocuments([document2])).first;

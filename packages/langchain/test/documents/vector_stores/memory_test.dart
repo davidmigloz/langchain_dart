@@ -243,10 +243,10 @@ class _FakeEmbeddings implements Embeddings {
 
   @override
   Future<List<List<double>>> embedDocuments(
-    final List<String> documents,
+    final List<Document> documents,
   ) async {
     return [
-      for (final document in documents) embedText(document),
+      for (final document in documents) embedText(document.pageContent),
     ];
   }
 

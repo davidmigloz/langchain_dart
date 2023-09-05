@@ -5,6 +5,7 @@ import 'package:crypto/crypto.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../storage/storage.dart';
+import '../models/models.dart';
 import 'base.dart';
 
 /// {@template cache_backed_embeddings}
@@ -70,18 +71,22 @@ class CacheBackedEmbeddings implements Embeddings {
   }
 
   @override
-  Future<List<List<double>>> embedDocuments(final List<String> texts) async {
+  Future<List<List<double>>> embedDocuments(
+    final List<Document> documents,
+  ) async {
+    final texts =
+        documents.map((final doc) => doc.pageContent).toList(growable: false);
     final vectors = await documentEmbeddingsStore.get(texts);
     final missingIndices = [
       for (var i = 0; i < texts.length; i++)
         if (vectors[i] == null) i,
     ];
-    final missingTexts =
-        missingIndices.map((final i) => texts[i]).toList(growable: false);
+    final missingDocs =
+        missingIndices.map((final i) => documents[i]).toList(growable: false);
 
-    if (missingTexts.isNotEmpty) {
+    if (missingDocs.isNotEmpty) {
       final missingVectors =
-          await underlyingEmbeddings.embedDocuments(missingTexts);
+          await underlyingEmbeddings.embedDocuments(missingDocs);
       final missingVectorPairs = missingIndices
           .map((final i) => (texts[i], missingVectors[i]))
           .toList(growable: false);

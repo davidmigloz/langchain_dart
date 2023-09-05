@@ -39,16 +39,17 @@ class OpenAIEmbeddings implements Embeddings {
 
   @override
   Future<List<List<double>>> embedDocuments(
-    final List<String> documents,
+    final List<Document> documents,
   ) async {
     // TODO use tiktoken to chunk documents that exceed the context length of the model
-    final subPrompts = chunkArray(documents, chunkSize: batchSize);
+    final batches = chunkArray(documents, chunkSize: batchSize);
 
     final embeddings = await Future.wait(
-      subPrompts.map((final input) async {
+      batches.map((final batch) async {
         final data = await _client.createEmbeddings(
           model: model,
-          input: input,
+          input:
+              batch.map((final doc) => doc.pageContent).toList(growable: false),
         );
         return data.data.map((final d) => d.embeddings);
       }),
