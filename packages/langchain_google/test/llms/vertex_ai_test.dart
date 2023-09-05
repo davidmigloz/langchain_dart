@@ -21,19 +21,30 @@ Future<void> main() async {
         rootUrl: 'https://us-central1-aiplatform.googleapis.com/',
         publisher: 'google',
         model: 'text-bison@001',
-        maxOutputTokens: 10,
-        temperature: 0.1,
-        topP: 0.1,
-        topK: 10,
+        defaultOptions: const VertexAIOptions(
+          maxOutputTokens: 10,
+          temperature: 0.1,
+          topP: 0.1,
+          topK: 10,
+          stopSequences: ['\n'],
+          candidateCount: 10,
+        ),
       );
       expect(llm.client.project, Platform.environment['VERTEX_AI_PROJECT_ID']);
       expect(llm.client.location, 'us-central1');
       expect(llm.publisher, 'google');
       expect(llm.model, 'text-bison@001');
-      expect(llm.maxOutputTokens, 10);
-      expect(llm.temperature, 0.1);
-      expect(llm.topP, 0.1);
-      expect(llm.topK, 10);
+      expect(
+        llm.defaultOptions,
+        const VertexAIOptions(
+          maxOutputTokens: 10,
+          temperature: 0.1,
+          topP: 0.1,
+          topK: 10,
+          stopSequences: ['\n'],
+          candidateCount: 10,
+        ),
+      );
     });
 
     test('Test call to VertexAI', () async {
@@ -49,7 +60,7 @@ Future<void> main() async {
       final llm = VertexAI(
         authHttpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
-        maxOutputTokens: 10,
+        defaultOptions: const VertexAIOptions(maxOutputTokens: 10),
       );
       final res = await llm.generate('Hello, how are you?');
       expect(res.generations.length, 1);
@@ -59,7 +70,7 @@ Future<void> main() async {
       final llm = VertexAI(
         authHttpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
-        maxOutputTokens: 10,
+        defaultOptions: const VertexAIOptions(maxOutputTokens: 10),
       );
       final res = await llm.generate('Hello, how are you?');
       expect(res.modelOutput, isNotNull);
@@ -68,6 +79,56 @@ Future<void> main() async {
       expect(res.usage?.promptBillableCharacters, isNotNull);
       expect(res.usage?.responseTokens, isNotNull);
       expect(res.usage?.responseBillableCharacters, isNotNull);
+    });
+
+    test('Test model stop sequence', () async {
+      final llm = VertexAI(
+        authHttpClient: authHttpClient,
+        project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
+        defaultOptions: const VertexAIOptions(
+          stopSequences: ['4'],
+        ),
+      );
+      final res = await llm.generate(
+        'List the numbers from 1 to 9 in order without any spaces or commas',
+      );
+      expect(res.firstOutputAsString, contains('123'));
+      expect(res.firstOutputAsString, isNot(contains('456789')));
+
+      // call options should override defaults
+      final res2 = await llm.generate(
+        'List the numbers from 1 to 9 in order without any spaces or commas',
+        options: const VertexAIOptions(
+          stopSequences: ['5'],
+        ),
+      );
+      expect(res2.firstOutputAsString, contains('1234'));
+      expect(res2.firstOutputAsString, isNot(contains('56789')));
+    });
+
+    test('Test model candidates count', () async {
+      final llm = VertexAI(
+        authHttpClient: authHttpClient,
+        project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
+        defaultOptions: const VertexAIOptions(
+          temperature: 1,
+          candidateCount: 3,
+        ),
+      );
+      final res = await llm.generate(
+        'Suggest a name for a LLM framework for Dart',
+      );
+      expect(res.generations.length, 3);
+
+      // call options should override defaults
+      final res2 = await llm.generate(
+        'Suggest a name for a LLM framework for Python',
+        options: const VertexAIOptions(
+          temperature: 1,
+          candidateCount: 5,
+        ),
+      );
+      expect(res2.generations.length, 5);
     });
 
     test('Test tokenize', () async {
