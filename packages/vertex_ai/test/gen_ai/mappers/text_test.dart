@@ -13,7 +13,7 @@ void main() {
           maxOutputTokens: 256,
           topP: 0.1,
           topK: 30,
-          stopSequence: ['STOP'],
+          stopSequences: ['STOP'],
           candidateCount: 10,
         ),
       );
@@ -28,7 +28,7 @@ void main() {
           'maxOutputTokens': 256,
           'topP': 0.1,
           'topK': 30,
-          'stopSequence': ['STOP'],
+          'stopSequences': ['STOP'],
           'candidateCount': 10,
         },
       );
