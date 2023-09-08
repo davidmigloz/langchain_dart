@@ -6,6 +6,37 @@ All notable changes to this project will be documented in this file following
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) 
 server for more details about each release.
 
+## 2023-09-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain_google` - `v0.0.7+1`](#langchain_google---v0071)
+ - [`langchain_pinecone` - `v0.0.2+1`](#langchain_pinecone---v0021)
+ - [`vertex_ai` - `v0.0.7+1`](#vertex_ai---v0071)
+
+---
+
+#### `langchain_google` - `v0.0.7+1`
+
+ - **REFACTOR**(vertex_ai): Require `http.Client` instead of `AuthClient` ([#156](https://github.com/davidmigloz/langchain_dart/issues/156)). ([0f7fee7f](https://github.com/davidmigloz/langchain_dart/commit/0f7fee7f0780e5b650ec50307a7fda65e242e822))
+
+#### `langchain_pinecone` - `v0.0.2+1`
+
+ - **REFACTOR**(vertex_ai): Require `http.Client` instead of `AuthClient` ([#156](https://github.com/davidmigloz/langchain_dart/issues/156)). ([0f7fee7f](https://github.com/davidmigloz/langchain_dart/commit/0f7fee7f0780e5b650ec50307a7fda65e242e822))
+
+#### `vertex_ai` - `v0.0.7+1`
+
+ - **REFACTOR**(vertex_ai): Require `http.Client` instead of `AuthClient` ([#156](https://github.com/davidmigloz/langchain_dart/issues/156)). ([0f7fee7f](https://github.com/davidmigloz/langchain_dart/commit/0f7fee7f0780e5b650ec50307a7fda65e242e822))
+
+
 ## 2023-09-05
 
 ### Changes
@@ -543,6 +574,12 @@ Packages with changes:
 ### Changes
 
 #### `langchain` - `v0.0.1`
+
+ - Initial public release. 
+
+Check out the announcement post for all the details: 
+https://blog.langchaindart.com/introducing-langchain-dart-6b1d34fc41ef
+- `v0.0.1`
 
  - Initial public release. 
 

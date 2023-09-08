@@ -1,3 +1,7 @@
+## 0.0.7+1
+
+ - **REFACTOR**(vertex_ai): Require `http.Client` instead of `AuthClient` ([#156](https://github.com/davidmigloz/langchain_dart/issues/156)). ([0f7fee7f](https://github.com/davidmigloz/langchain_dart/commit/0f7fee7f0780e5b650ec50307a7fda65e242e822))
+
 ## 0.0.7
 
 > Note: This release has breaking changes.
