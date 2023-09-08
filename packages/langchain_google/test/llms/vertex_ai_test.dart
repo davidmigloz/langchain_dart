@@ -15,7 +15,7 @@ Future<void> main() async {
   group('VertexAI tests', () {
     test('Test VertexAI parameters', () async {
       final llm = VertexAI(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         location: 'us-central1',
         rootUrl: 'https://us-central1-aiplatform.googleapis.com/',
@@ -49,7 +49,7 @@ Future<void> main() async {
 
     test('Test call to VertexAI', () async {
       final llm = VertexAI(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
       );
       final output = await llm('Say foo:');
@@ -58,7 +58,7 @@ Future<void> main() async {
 
     test('Test generate to VertexAI', () async {
       final llm = VertexAI(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         defaultOptions: const VertexAIOptions(maxOutputTokens: 10),
       );
@@ -68,7 +68,7 @@ Future<void> main() async {
 
     test('Test model output contains metadata', () async {
       final llm = VertexAI(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         defaultOptions: const VertexAIOptions(maxOutputTokens: 10),
       );
@@ -83,7 +83,7 @@ Future<void> main() async {
 
     test('Test model stop sequence', () async {
       final llm = VertexAI(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         defaultOptions: const VertexAIOptions(
           stopSequences: ['4'],
@@ -108,7 +108,7 @@ Future<void> main() async {
 
     test('Test model candidates count', () async {
       final llm = VertexAI(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         defaultOptions: const VertexAIOptions(
           temperature: 1,
@@ -133,7 +133,7 @@ Future<void> main() async {
 
     test('Test tokenize', () async {
       final llm = VertexAI(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
       );
       const text = 'Hello, how are you?';
@@ -144,7 +144,7 @@ Future<void> main() async {
 
     test('Test countTokens', () async {
       final llm = VertexAI(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
       );
       const text = 'Hello, how are you?';

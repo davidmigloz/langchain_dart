@@ -12,7 +12,7 @@ import 'package:vertex_ai/vertex_ai.dart';
 void main() async {
   final authClient = await _getAuthenticatedClient();
   final marchingEngine = VertexAIMatchingEngineClient(
-    authHttpClient: authClient,
+    httpClient: authClient,
     project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
     location: 'europe-west1',
   );
@@ -144,7 +144,7 @@ void main() async {
   group('VertexAIMatchingEngineClient query tests', () {
     test('Test query index', () async {
       final machineEngineQuery = VertexAIMatchingEngineClient(
-        authHttpClient: authClient,
+        httpClient: authClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         rootUrl:
             'https://455238120.europe-west1-706285145183.vdb.vertexai.goog/',

@@ -41,7 +41,7 @@ void main(final List<String> arguments) async {
   // Get Vertex AI client
   print('\n> Creating client...');
   final marchingEngine = VertexAIMatchingEngineClient(
-    authHttpClient: authClient,
+    httpClient: authClient,
     project: projectId,
     location: projectLocation,
   );
@@ -127,7 +127,7 @@ void main(final List<String> arguments) async {
   print('You can now use it in LangChain.dart:');
   print('''
 final vectorStore = VertexAIMatchingEngine(
-  authHttpClient: authClient,
+  httpClient: authClient,
   project: '$projectId',
   location: '$projectLocation',
   queryRootUrl: 'http://${indexEndpoint.publicEndpointDomainName}/',

@@ -14,7 +14,7 @@ void main() async {
   group('VertexAIEmbeddings tests', () {
     test('Test VertexAIEmbeddings.embedQuery', () async {
       final embeddings = VertexAIEmbeddings(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
       );
       final res = await embeddings.embedQuery('Hello world');
@@ -23,7 +23,7 @@ void main() async {
 
     test('Test VertexAIEmbeddings.embedDocuments', () async {
       final embeddings = VertexAIEmbeddings(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         batchSize: 1,
       );
