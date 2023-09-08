@@ -1,5 +1,5 @@
 import 'package:googleapis/aiplatform/v1.dart';
-import 'package:googleapis_auth/googleapis_auth.dart';
+import 'package:http/http.dart' as http;
 
 import 'apis/apis.dart';
 
@@ -22,12 +22,11 @@ import 'apis/apis.dart';
 ///
 /// ### Authentication
 ///
-/// The `VertexAIMatchingEngineClient` delegates authentication to the
-/// [googleapis_auth](https://pub.dev/packages/googleapis_auth) package.
-///
 /// To create an instance of `VertexAIMatchingEngineClient` you need to provide
-/// an [`AuthClient`](https://pub.dev/documentation/googleapis_auth/latest/googleapis_auth/AuthClient-class.html)
-/// instance.
+/// an HTTP client that handles authentication. The easiest way to do this is
+/// to use [`AuthClient`](https://pub.dev/documentation/googleapis_auth/latest/googleapis_auth/AuthClient-class.html)
+/// from the [googleapis_auth](https://pub.dev/packages/googleapis_auth)
+/// package.
 ///
 /// There are several ways to obtain an `AuthClient` depending on your use case.
 /// Check out the [googleapis_auth](https://pub.dev/packages/googleapis_auth)
@@ -44,7 +43,7 @@ import 'apis/apis.dart';
 ///   [VertexAIGenAIClient.cloudPlatformScope],
 /// );
 /// final vertexAi = VertexAIMatchingEngineClient(
-///   authHttpClient: authClient,
+///   httpClient: authClient,
 ///   project: 'your-project-id',
 /// );
 /// ```
@@ -76,12 +75,12 @@ import 'apis/apis.dart';
 /// {@endtemplate}
 class VertexAIMatchingEngineClient {
   VertexAIMatchingEngineClient({
-    required final AuthClient authHttpClient,
+    required final http.Client httpClient,
     required this.project,
     this.location = 'us-central1',
     final String? rootUrl,
   }) : _vertexAiApi = AiplatformApi(
-          authHttpClient,
+          httpClient,
           rootUrl: rootUrl ?? 'https://$location-aiplatform.googleapis.com/',
         );
 

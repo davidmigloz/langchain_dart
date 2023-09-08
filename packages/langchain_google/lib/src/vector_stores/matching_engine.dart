@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:gcloud/storage.dart';
-import 'package:googleapis_auth/googleapis_auth.dart';
+import 'package:http/http.dart' as http;
 import 'package:langchain/langchain.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vertex_ai/vertex_ai.dart';
@@ -46,12 +46,11 @@ import 'models/models.dart';
 ///
 /// ### Authentication
 ///
-/// The `VertexAIMatchingEngine` wrapper delegates authentication to the
-/// [googleapis_auth](https://pub.dev/packages/googleapis_auth) package.
-///
 /// To create an instance of `VertexAIMatchingEngine` you need to provide an
-/// [`AuthClient`](https://pub.dev/documentation/googleapis_auth/latest/googleapis_auth/AuthClient-class.html)
-/// instance.
+/// HTTP client that handles authentication. The easiest way to do this is to
+/// use [`AuthClient`](https://pub.dev/documentation/googleapis_auth/latest/googleapis_auth/AuthClient-class.html)
+/// from the [googleapis_auth](https://pub.dev/packages/googleapis_auth)
+/// package.
 ///
 /// There are several ways to obtain an `AuthClient` depending on your use case.
 /// Check out the [googleapis_auth](https://pub.dev/packages/googleapis_auth)
@@ -68,7 +67,7 @@ import 'models/models.dart';
 ///   VertexAIMatchingEngine.cloudPlatformScopes,
 /// );
 /// final vectorStore = VertexAIMatchingEngine(
-///   authHttpClient: authClient,
+///   httpClient: authClient,
 ///   project: 'your-project-id',
 ///   location: 'europe-west1',
 ///   indexId: 'your-index-id',
@@ -150,7 +149,7 @@ import 'models/models.dart';
 class VertexAIMatchingEngine extends VectorStore {
   /// Creates a new Vertex AI Matching Engine vector store.
   ///
-  /// - [authHttpClient] An authenticated HTTP client.
+  /// - [httpClient] An authenticated HTTP client.
   /// - [project] The ID of the Google Cloud project to use.
   /// - [location] The Google Cloud location to use. Vertex AI and
   ///   Cloud Storage should have the same location.
@@ -175,7 +174,7 @@ class VertexAIMatchingEngine extends VectorStore {
   ///   the index, the previous ones are deleted. If false, the new vectors are
   ///   added to the index without deleting the previous ones.
   VertexAIMatchingEngine({
-    required final AuthClient authHttpClient,
+    required final http.Client httpClient,
     required this.project,
     required this.location,
     final String? rootUrl,
@@ -188,20 +187,20 @@ class VertexAIMatchingEngine extends VectorStore {
     this.gcsIndexesFolder = 'indexes',
     this.completeOverwriteWhenAdding = false,
     required super.embeddings,
-  })  : _authHttpClient = authHttpClient,
+  })  : _httpClient = httpClient,
         _managementClient = VertexAIMatchingEngineClient(
-          authHttpClient: authHttpClient,
+          httpClient: httpClient,
           project: project,
           location: location,
           rootUrl: rootUrl ?? 'https://$location-aiplatform.googleapis.com/',
         ),
-        _storageClient = Storage(authHttpClient, project),
+        _storageClient = Storage(httpClient, project),
         _queryRootUrl = queryRootUrl,
         _indexEndpointId = indexEndpointId,
         _deployedIndexId = deployedIndexId;
 
   /// An authenticated HTTP client.
-  final AuthClient _authHttpClient;
+  final http.Client _httpClient;
 
   /// A client for querying the Vertex AI Matching Engine index.
   VertexAIMatchingEngineClient? _queryClient;
@@ -408,7 +407,7 @@ class VertexAIMatchingEngine extends VectorStore {
   /// Returns a client for querying the Vertex AI Matching Engine index.
   VertexAIMatchingEngineClient _getQueryClient(final String queryRootUrl) {
     return _queryClient ??= VertexAIMatchingEngineClient(
-      authHttpClient: _authHttpClient,
+      httpClient: _httpClient,
       project: project,
       location: location,
       rootUrl: queryRootUrl,

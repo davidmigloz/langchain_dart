@@ -1,4 +1,4 @@
-import 'package:googleapis_auth/googleapis_auth.dart';
+import 'package:http/http.dart' as http;
 import 'package:langchain/langchain.dart';
 import 'package:tiktoken/tiktoken.dart';
 import 'package:vertex_ai/vertex_ai.dart';
@@ -30,8 +30,11 @@ import 'models/models.dart';
 ///
 /// ### Authentication
 ///
-/// The `VertexAI` wrapper delegates authentication to the
-/// [googleapis_auth](https://pub.dev/packages/googleapis_auth) package.
+/// To create an instance of `VertexAI` you need to provide an
+/// HTTP client that handles authentication. The easiest way to do this is to
+/// use [`AuthClient`](https://pub.dev/documentation/googleapis_auth/latest/googleapis_auth/AuthClient-class.html)
+/// from the [googleapis_auth](https://pub.dev/packages/googleapis_auth)
+/// package.
 ///
 /// To create an instance of `VertexAI` you need to provide an
 /// [`AuthClient`](https://pub.dev/documentation/googleapis_auth/latest/googleapis_auth/AuthClient-class.html)
@@ -52,7 +55,7 @@ import 'models/models.dart';
 ///   [VertexAI.cloudPlatformScope],
 /// );
 /// final vertexAi = VertexAI(
-///   authHttpClient: authClient,
+///   httpClient: authClient,
 ///   project: 'your-project-id',
 /// );
 /// ```
@@ -93,7 +96,7 @@ import 'models/models.dart';
 /// Example:
 /// ```dart
 /// final llm = VertexAI(
-///   authHttpClient: authClient,
+///   httpClient: authClient,
 ///   project: 'your-project-id',
 ///   defaultOptions: VertexAIOptions(
 ///     temperature: 0.9,
@@ -110,7 +113,7 @@ import 'models/models.dart';
 class VertexAI extends BaseLLM<VertexAIOptions> {
   /// {@macro vertex_ai}
   VertexAI({
-    required final AuthClient authHttpClient,
+    required final http.Client httpClient,
     required final String project,
     final String location = 'us-central1',
     final String? rootUrl,
@@ -118,7 +121,7 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
     this.model = 'text-bison',
     this.defaultOptions = const VertexAIOptions(),
   }) : client = VertexAIGenAIClient(
-          authHttpClient: authHttpClient,
+          httpClient: httpClient,
           project: project,
           location: location,
           rootUrl: rootUrl ?? 'https://$location-aiplatform.googleapis.com/',

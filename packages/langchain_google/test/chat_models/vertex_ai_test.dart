@@ -15,7 +15,7 @@ void main() async {
   group('ChatVertexAI tests', () {
     test('Test ChatVertexAI parameters', () async {
       final llm = ChatVertexAI(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         location: 'us-central1',
         rootUrl: 'https://us-central1-aiplatform.googleapis.com/',
@@ -49,7 +49,7 @@ void main() async {
 
     test('Test call to ChatVertexAI', () async {
       final chat = ChatVertexAI(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         defaultOptions: const ChatVertexAIOptions(maxOutputTokens: 10),
       );
@@ -59,7 +59,7 @@ void main() async {
 
     test('Test generate to ChatVertexAI', () async {
       final chat = ChatVertexAI(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         defaultOptions: const ChatVertexAIOptions(maxOutputTokens: 10),
       );
@@ -75,7 +75,7 @@ void main() async {
 
     test('Test model output contains metadata', () async {
       final chat = ChatVertexAI(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         defaultOptions: const ChatVertexAIOptions(maxOutputTokens: 10),
       );
@@ -92,7 +92,7 @@ void main() async {
 
     test('Test ChatVertexAI wrapper with system message', () async {
       final chat = ChatVertexAI(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         defaultOptions: const ChatVertexAIOptions(maxOutputTokens: 10),
       );
@@ -106,7 +106,7 @@ void main() async {
 
     test('Test model stop sequence', () async {
       final chat = ChatVertexAI(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         defaultOptions: const ChatVertexAIOptions(
           stopSequences: ['4'],
@@ -139,7 +139,7 @@ void main() async {
       // It seems that the Vertex AI Chat API ignores the candidateCount
       // parameter at the moment
       final chat = ChatVertexAI(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         defaultOptions: const ChatVertexAIOptions(
           temperature: 1,
@@ -164,7 +164,7 @@ void main() async {
 
     test('Test tokenize', () async {
       final chat = ChatVertexAI(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
       );
       const text = 'Hello, how are you?';
@@ -175,7 +175,7 @@ void main() async {
 
     test('Test countTokens string', () async {
       final chat = ChatVertexAI(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
       );
       final prompt = PromptValue.string('Hello, how are you?');
@@ -187,7 +187,7 @@ void main() async {
 
     test('Test countTokens messages', () async {
       final chat = ChatVertexAI(
-        authHttpClient: authHttpClient,
+        httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         defaultOptions: const ChatVertexAIOptions(
           maxOutputTokens: 1,

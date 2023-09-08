@@ -15,7 +15,7 @@ void main() async {
 /// The most basic building block of LangChain is calling an LLM on some input.
 Future<void> _example1() async {
   final openai = VertexAI(
-    authHttpClient: await _getAuthHttpClient(),
+    httpClient: await _getAuthHttpClient(),
     project: _getProjectId(),
     defaultOptions: const VertexAIOptions(
       temperature: 0.9,
@@ -29,7 +29,7 @@ Future<void> _example1() async {
 /// This is the most basic one.
 Future<void> _example2() async {
   final chat = ChatVertexAI(
-    authHttpClient: await _getAuthHttpClient(),
+    httpClient: await _getAuthHttpClient(),
     project: _getProjectId(),
     defaultOptions: const ChatVertexAIOptions(
       temperature: 0,

@@ -12,12 +12,12 @@ import '../utils/auth.dart';
 void main() async {
   final authHttpClient = await getAuthHttpClient();
   final embeddings = VertexAIEmbeddings(
-    authHttpClient: authHttpClient,
+    httpClient: authHttpClient,
     project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
     model: 'textembedding-gecko-multilingual',
   );
   final vectorStore = VertexAIMatchingEngine(
-    authHttpClient: authHttpClient,
+    httpClient: authHttpClient,
     project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
     location: 'europe-west1',
     indexId: '6394355006866194432',
@@ -53,7 +53,7 @@ void main() async {
       expect(res.length, 1);
       expect(
         res.first.id,
-        'education_61dd8b84bbd3af82960777a6',
+        'faq_621656c96b5ff317d867d019',
       );
     });
 

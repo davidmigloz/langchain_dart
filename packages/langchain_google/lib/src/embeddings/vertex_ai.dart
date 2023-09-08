@@ -1,4 +1,4 @@
-import 'package:googleapis_auth/googleapis_auth.dart';
+import 'package:http/http.dart' as http;
 import 'package:langchain/langchain.dart';
 import 'package:vertex_ai/vertex_ai.dart';
 
@@ -8,7 +8,7 @@ import 'package:vertex_ai/vertex_ai.dart';
 /// Example:
 /// ```dart
 /// final embeddings = VertexAIEmbeddings(
-///   authHttpClient: authClient,
+///   httpClient: authClient,
 ///   project: 'your-project-id',
 /// );
 /// final result = await embeddings.embedQuery('Hello world');
@@ -26,8 +26,11 @@ import 'package:vertex_ai/vertex_ai.dart';
 ///
 /// ### Authentication
 ///
-/// The `VertexAIEmbeddings` wrapper delegates authentication to the
-/// [googleapis_auth](https://pub.dev/packages/googleapis_auth) package.
+/// To create an instance of `VertexAIEmbeddings` you need to provide an
+/// HTTP client that handles authentication. The easiest way to do this is to
+/// use [`AuthClient`](https://pub.dev/documentation/googleapis_auth/latest/googleapis_auth/AuthClient-class.html)
+/// from the [googleapis_auth](https://pub.dev/packages/googleapis_auth)
+/// package.
 ///
 /// To create an instance of `VertexAIEmbeddings` you need to provide an
 /// [`AuthClient`](https://pub.dev/documentation/googleapis_auth/latest/googleapis_auth/AuthClient-class.html)
@@ -48,7 +51,7 @@ import 'package:vertex_ai/vertex_ai.dart';
 ///   [VertexAIEmbeddings.cloudPlatformScope],
 /// );
 /// final vertexAi = VertexAIEmbeddings(
-///   authHttpClient: authClient,
+///   httpClient: authClient,
 ///   project: 'your-project-id',
 /// );
 /// ```
@@ -99,7 +102,7 @@ import 'package:vertex_ai/vertex_ai.dart';
 /// Example:
 /// ```dart
 /// final embeddings = VertexAIEmbeddings(
-///   authHttpClient: authClient,
+///   httpClient: authClient,
 ///   project: 'your-project-id',
 ///   docTitleKey: 'title',
 /// );
@@ -114,19 +117,19 @@ import 'package:vertex_ai/vertex_ai.dart';
 class VertexAIEmbeddings implements Embeddings {
   /// {@macro vertex_ai_embeddings}
   VertexAIEmbeddings({
-    required final AuthClient authHttpClient,
+    required final http.Client httpClient,
     required final String project,
     final String location = 'us-central1',
-    final String rootUrl = 'https://us-central1-aiplatform.googleapis.com/',
+    final String? rootUrl,
     this.publisher = 'google',
     this.model = 'textembedding-gecko',
     this.batchSize = 5,
     this.docTitleKey = 'title',
   }) : client = VertexAIGenAIClient(
-          authHttpClient: authHttpClient,
+          httpClient: httpClient,
           project: project,
           location: location,
-          rootUrl: rootUrl,
+          rootUrl: rootUrl ?? 'https://$location-aiplatform.googleapis.com/',
         );
 
   /// A client for interacting with Vertex AI API.

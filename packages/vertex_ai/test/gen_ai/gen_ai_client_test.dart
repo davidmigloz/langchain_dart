@@ -11,7 +11,7 @@ import 'package:vertex_ai/vertex_ai.dart';
 void main() async {
   final client = await _getAuthenticatedClient();
   final vertexAi = VertexAIGenAIClient(
-    authHttpClient: client,
+    httpClient: client,
     project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
   );
 
