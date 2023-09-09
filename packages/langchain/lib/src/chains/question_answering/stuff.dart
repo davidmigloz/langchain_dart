@@ -53,8 +53,12 @@ final _promptSelector = ConditionalPromptSelector(
 class StuffDocumentsQAChain extends StuffDocumentsChain {
   /// {@macro stuff_documents_qa_chain}
   StuffDocumentsQAChain({
-    required final BaseLanguageModel llm,
     final BasePromptTemplate? prompt,
+    required final BaseLanguageModel llm,
+    super.inputKey = StuffDocumentsChain.defaultInputKey,
+    super.outputKey = StuffDocumentsChain.defaultOutputKey,
+    super.documentPrompt = StuffDocumentsChain.defaultDocumentPrompt,
+    super.documentSeparator = StuffDocumentsChain.defaultDocumentSeparator,
   }) : super(
           llmChain: LLMChain(
             prompt: prompt ?? _promptSelector.getPrompt(llm),
