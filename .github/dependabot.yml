@@ -5,10 +5,10 @@ updates:
 - package-ecosystem: pub
   directory: /
   schedule:
-    interval: monthly
+    interval: weekly
 
 # https://docs.github.com/en/code-security/dependabot/working-with-dependabot/keeping-your-actions-up-to-date-with-dependabot
 - package-ecosystem: github-actions
   directory: /
   schedule:
-    interval: monthly
+    interval: weekly
