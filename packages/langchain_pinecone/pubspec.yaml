@@ -20,7 +20,7 @@ dependencies:
   http: ^1.1.0
   langchain: ^0.0.12
   meta: ^1.9.1
-  pinecone: 0.5.1 # 0.5.2 has issues
+  pinecone: ^0.5.3
   uuid: ^3.0.7
 
 dev_dependencies:
