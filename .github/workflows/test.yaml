@@ -1,7 +1,9 @@
 name: Test
 
 on:
-  pull_request:
+  # pull_request_target is dangerous! Review external PRs code before approving to run the workflow
+  # We need this to be able to access the secrets required by the workflow
+  pull_request_target:
   workflow_dispatch:
 
 # Cancel currently running workflow when a new one is triggered
