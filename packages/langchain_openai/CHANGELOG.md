@@ -1,3 +1,7 @@
+## 0.0.13
+
+ - **FEAT**: Implement LangChain Expression Language (LCEL) ([#163](https://github.com/davidmigloz/langchain_dart/issues/163)). ([85ea41af](https://github.com/davidmigloz/langchain_dart/commit/85ea41af9f5e2ff42bba620a60f765ca0f67c86c))
+
 ## 0.0.12
 
 > Note: This release has breaking changes.

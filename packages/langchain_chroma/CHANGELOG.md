@@ -1,3 +1,7 @@
+## 0.0.4
+
+ - n
+
 ## 0.0.3
 
  - **DOCS**: Fix invalid package topics. ([f81b833a](https://github.com/davidmigloz/langchain_dart/commit/f81b833aae33e0a945ef4450da12344886224bae))
