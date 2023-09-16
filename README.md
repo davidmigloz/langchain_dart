@@ -108,16 +108,16 @@ final model = ChatOpenAI(apiKey: openaiApiKey);
 const stringOutputParser = StringOutputParser();
 
 final chain = Runnable.fromMap({
-  'city': promptTemplate1 | model | stringOutputParser,
-  'language': Runnable.getItemFromMap('language'),
-}) |
-promptTemplate2 |
-model |
-stringOutputParser;
+      'city': promptTemplate1 | model | stringOutputParser,
+      'language': Runnable.getItemFromMap('language'),
+    }) |
+    promptTemplate2 |
+    model |
+    stringOutputParser;
 
 final res = await chain.invoke({
-'person': 'Rafael Nadal',
-'language': 'Spanish',
+  'person': 'Rafael Nadal',
+  'language': 'Spanish',
 });
 print(res);
 // La ciudad de Manacor se encuentra en España.
