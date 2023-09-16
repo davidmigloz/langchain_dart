@@ -45,11 +45,11 @@ Packages with other changes:
 
 #### `langchain_chroma` - `v0.0.4`
 
- - n
+ - Updated `langchain` dependency
 
 #### `langchain_google` - `v0.0.8`
 
- - n
+ - Updated `langchain` dependency
 
 
 ## 2023-09-08

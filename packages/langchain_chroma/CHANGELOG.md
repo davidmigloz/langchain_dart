@@ -1,6 +1,6 @@
 ## 0.0.4
 
- - n
+ - Updated `langchain` dependency
 
 ## 0.0.3
 
