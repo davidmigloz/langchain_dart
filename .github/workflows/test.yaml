@@ -11,12 +11,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
-jobs:
-  get-env-info:
-    name: Get Environment Info
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
-        
+jobs:        
   check:
     name: Run Linter & Unit Tests
     runs-on: ubuntu-latest
