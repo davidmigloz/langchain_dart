@@ -11,15 +11,14 @@ import '../chat_models/chat_models.dart';
 /// a specific structure (e.g. the answer and the sources used to answer the
 /// question).
 /// {@endtemplate}
-class OpenAIQAWithStructureChain<S extends Object> extends LLMChain<
-    BaseChatOpenAI,
-    ChatOpenAIOptions,
-    BaseOutputFunctionsParser<S>,
-    BaseChatMemory> {
+class OpenAIQAWithStructureChain<CallOptions extends BaseLangChainOptions,
+        S extends Object>
+    extends LLMChain<BaseChatOpenAI, ChatOpenAIOptions,
+        BaseOutputFunctionsParser<CallOptions, S>, BaseChatMemory> {
   OpenAIQAWithStructureChain({
     required super.llm,
     required final ChatFunction function,
-    required BaseOutputFunctionsParser<S> super.outputParser,
+    required BaseOutputFunctionsParser<CallOptions, S> super.outputParser,
     final BasePromptTemplate? prompt,
   }) : super(
           prompt: prompt ?? _getPrompt(),

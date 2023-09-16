@@ -244,6 +244,14 @@ class AIChatMessageFunctionCall {
   /// The arguments that the model wants to pass to the function.
   final Map<String, dynamic> arguments;
 
+  /// Converts the [AIChatMessageFunctionCall] to a [Map].
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'arguments': arguments,
+    };
+  }
+
   @override
   bool operator ==(covariant final AIChatMessageFunctionCall other) {
     final mapEquals = const MapEquality<String, dynamic>().equals;

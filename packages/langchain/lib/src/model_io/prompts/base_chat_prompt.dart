@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import '../../core/core.dart';
 import '../chat_models/models/models.dart';
 import 'base_prompt.dart';
 import 'models/models.dart';
@@ -39,7 +40,8 @@ abstract base class BaseChatPromptTemplate extends BasePromptTemplate {
 /// Base class for all message templates in a [ChatPromptTemplate].
 /// {@endtemplate}
 @immutable
-abstract base class BaseChatMessagePromptTemplate {
+abstract base class BaseChatMessagePromptTemplate
+    extends Runnable<InputValues, BaseLangChainOptions, List<ChatMessage>> {
   /// {@macro base_message_prompt_template}
   const BaseChatMessagePromptTemplate({required this.prompt});
 
@@ -51,6 +53,17 @@ abstract base class BaseChatMessagePromptTemplate {
 
   /// Partial variables.
   PartialValues? get partialVariables;
+
+  /// Format the prompt with the inputs returning a list of messages.
+  ///
+  /// - [input] - Any arguments to be passed to the prompt template.
+  @override
+  Future<List<ChatMessage>> invoke(
+    final InputValues input, {
+    final BaseLangChainOptions? options,
+  }) {
+    return Future.value(formatMessages(input));
+  }
 
   /// Format the prompt with the inputs returning a list of messages.
   ///

@@ -86,11 +86,41 @@ dependencies:
   langchain_openai: {version}
 ```
 
-The most basic building block of LangChain is calling an LLM on some input:
+The most basic building block of LangChain.dart is calling an LLM on some input:
 
 ```dart
 final llm = OpenAI(apiKey: openaiApiKey);
 final result = await llm('Hello world!');
+// Hello everyone! I'm new here and excited to be part of this community.
+```
+
+But you can build complex pipelines by chaining together multiple components:
+
+```dart
+final promptTemplate1 = ChatPromptTemplate.fromTemplate(
+  'What is the city {person} is from? Only respond with the name of the city.',
+);
+final promptTemplate2 = ChatPromptTemplate.fromTemplate(
+  'What country is the city {city} in? Respond in {language}.',
+);
+
+final model = ChatOpenAI(apiKey: openaiApiKey);
+const stringOutputParser = StringOutputParser();
+
+final chain = Runnable.fromMap({
+  'city': promptTemplate1 | model | stringOutputParser,
+  'language': Runnable.getItemFromMap('language'),
+}) |
+promptTemplate2 |
+model |
+stringOutputParser;
+
+final res = await chain.invoke({
+'person': 'Rafael Nadal',
+'language': 'Spanish',
+});
+print(res);
+// La ciudad de Manacor se encuentra en España.
 ```
 
 ## Documentation

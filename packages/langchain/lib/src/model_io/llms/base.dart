@@ -15,6 +15,25 @@ abstract class BaseLLM<Options extends LLMOptions>
   /// {@macro base_llm}
   const BaseLLM();
 
+  /// Runs the LLM on the given prompt value.
+  ///
+  /// - [input] The prompt value to pass into the model.
+  /// - [options] Generation options to pass into the LLM.
+  ///
+  /// Example:
+  /// ```dart
+  /// final result = await openai.invoke(
+  ///   PromptValue.string('Tell me a joke.'),
+  /// );
+  /// ```
+  @override
+  Future<LanguageModelResult<String>> invoke(
+    final PromptValue input, {
+    final Options? options,
+  }) async {
+    return generatePrompt(input, options: options);
+  }
+
   /// Runs the LLM on the given prompt.
   ///
   /// - [prompt] The prompt to pass into the model.
@@ -38,7 +57,7 @@ abstract class BaseLLM<Options extends LLMOptions>
   /// Example:
   /// ```dart
   /// final result = await openai.generatePrompt(
-  ///   StringPromptValue('Tell me a joke.'),
+  ///   PromptValue.string('Tell me a joke.'),
   /// );
   /// ```
   @override

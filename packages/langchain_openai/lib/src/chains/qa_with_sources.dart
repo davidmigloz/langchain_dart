@@ -88,8 +88,8 @@ class QAWithSources {
 /// {@template qa_with_sources_output_parser}
 /// A parser that converts the output of the OpenAI API into a [QAWithSources].
 /// {@endtemplate}
-class QAWithSourcesOutputParser
-    extends BaseOutputFunctionsParser<QAWithSources> {
+class QAWithSourcesOutputParser<CallOptions extends BaseLangChainOptions>
+    extends BaseOutputFunctionsParser<CallOptions, QAWithSources> {
   const QAWithSourcesOutputParser();
 
   @override

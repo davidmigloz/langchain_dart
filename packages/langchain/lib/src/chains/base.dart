@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import '../core/core.dart';
 import '../memory/base.dart';
 import '../utils/utils.dart';
 import 'models/models.dart';
@@ -27,7 +28,8 @@ import 'models/models.dart';
 ///   string. This method can only be used if the Chain has a single string
 ///   output.
 /// {@endtemplate}
-abstract class BaseChain<MemoryType extends BaseMemory> {
+abstract class BaseChain<MemoryType extends BaseMemory>
+    extends BaseLangChain<ChainValues, ChainOptions, ChainValues> {
   /// {@macro base_chain}
   const BaseChain({
     this.memory,
@@ -56,6 +58,18 @@ abstract class BaseChain<MemoryType extends BaseMemory> {
       );
     }
     return outputKeys.first;
+  }
+
+  /// Runs the core logic of this chain with the given input.
+  ///
+  /// - [input] is the input to this chain.
+  /// - [options] not used.
+  @override
+  Future<ChainValues> invoke(
+    final ChainValues input, {
+    final ChainOptions? options,
+  }) {
+    return call(input);
   }
 
   /// Runs the core logic of this chain with the given values.

@@ -1,0 +1,10 @@
+# melos_managed_dependency_overrides: langchain,langchain_openai,chromadb,langchain_chroma
+dependency_overrides:
+  chromadb:
+    path: ../../packages/chromadb
+  langchain:
+    path: ../../packages/langchain
+  langchain_chroma:
+    path: ../../packages/langchain_chroma
+  langchain_openai:
+    path: ../../packages/langchain_openai

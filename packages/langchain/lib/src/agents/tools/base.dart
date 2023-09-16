@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:meta/meta.dart';
 
+import '../../core/core.dart';
 import '../../model_io/chat_models/models/models.dart';
 import 'models/models.dart';
 
@@ -10,7 +11,8 @@ import 'models/models.dart';
 /// The input to the tool needs to be described by [inputJsonSchema].
 /// {@endtemplate}
 @immutable
-abstract base class BaseTool {
+abstract base class BaseTool
+    extends BaseLangChain<Map<String, dynamic>, BaseLangChainOptions, String> {
   /// {@macro base_tool}
   BaseTool({
     required this.name,
@@ -71,6 +73,18 @@ abstract base class BaseTool {
       returnDirect: returnDirect,
       handleToolError: handleToolError,
     );
+  }
+
+  /// Runs the tool.
+  ///
+  /// - [input] is the input to the tool.
+  /// - [options] not used.
+  @override
+  Future<String> invoke(
+    final Map<String, dynamic> input, {
+    final BaseLangChainOptions? options,
+  }) async {
+    return run(input);
   }
 
   /// Runs the tool.

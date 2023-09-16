@@ -1,0 +1,12 @@
+name: docs_examples
+description: Examples used in langchaindart.com documentation.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ^3.0.5
+
+dependencies:
+  langchain: ^0.0.12
+  langchain_openai: ^0.0.12
+  langchain_chroma: ^0.0.3

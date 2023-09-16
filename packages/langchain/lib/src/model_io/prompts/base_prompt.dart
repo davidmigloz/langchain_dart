@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
+import '../../core/core.dart';
 import 'models/models.dart';
 import 'template.dart';
 
@@ -12,7 +13,8 @@ import 'template.dart';
 /// - [formatPrompt] returns a [PromptValue] given a set of input values.
 /// {@endtemplate}
 @immutable
-abstract base class BasePromptTemplate {
+abstract base class BasePromptTemplate
+    extends Runnable<InputValues, BaseLangChainOptions, PromptValue> {
   /// {@macro base_prompt_template}
   const BasePromptTemplate({
     required this.inputVariables,
@@ -53,12 +55,25 @@ abstract base class BasePromptTemplate {
     );
   }
 
-  /// Format the prompt with the inputs.
+  /// Format the prompt given the input values and return a formatted prompt
+  /// value.
+  ///
+  /// - [input] - Any arguments to be passed to the prompt template.
+  @override
+  Future<PromptValue> invoke(
+    final InputValues input, {
+    final BaseLangChainOptions? options,
+  }) {
+    return Future.value(formatPrompt(input));
+  }
+
+  /// Format the prompt given the input values and return a formatted string.
   ///
   /// - [values] - Any arguments to be passed to the prompt template.
   String format(final InputValues values);
 
-  /// Create Chat Messages.
+  /// Format the prompt given the input values and return a formatted prompt
+  /// value.
   ///
   /// - [values] - Any arguments to be passed to the prompt template.
   PromptValue formatPrompt(final InputValues values);

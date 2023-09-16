@@ -7,7 +7,7 @@ import '../base.dart';
 /// {@template text_splitter}
 /// Interface for splitting text into chunks.
 /// {@endtemplate}
-abstract class TextSplitter implements BaseDocumentTransformer {
+abstract class TextSplitter extends BaseDocumentTransformer {
   const TextSplitter({
     this.chunkSize = 4000,
     this.chunkOverlap = 200,

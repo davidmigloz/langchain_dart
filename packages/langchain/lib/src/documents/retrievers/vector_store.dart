@@ -5,7 +5,7 @@ import 'base.dart';
 /// {@template vector_store_retriever}
 /// A retriever that uses a vector store to retrieve documents.
 /// {@endtemplate}
-class VectorStoreRetriever<V extends VectorStore> implements BaseRetriever {
+class VectorStoreRetriever<V extends VectorStore> extends BaseRetriever {
   /// {@macro vector_store_retriever}
   const VectorStoreRetriever({
     required this.vectorStore,

@@ -1,10 +1,12 @@
 import 'package:meta/meta.dart';
 
+import '../../../core/core.dart';
+
 /// {@template language_model_options}
 /// Generation options to pass into the language model.
 /// {@endtemplate}
 @immutable
-abstract class LanguageModelOptions {
+abstract class LanguageModelOptions extends BaseLangChainOptions {
   /// {@macro language_model_options}
   const LanguageModelOptions();
 }

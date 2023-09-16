@@ -1,3 +1,4 @@
+import '../../core/core.dart';
 import '../chat_models/models/models.dart';
 import '../prompts/models/models.dart';
 import 'models/models.dart';
@@ -11,7 +12,8 @@ import 'models/models.dart';
 ///   chat message.
 /// {@endtemplate}
 abstract class BaseLanguageModel<Input extends Object,
-    Options extends LanguageModelOptions, Output extends Object> {
+        Options extends LanguageModelOptions, Output extends Object>
+    extends BaseLangChain<PromptValue, Options, LanguageModelResult<Output>> {
   /// {@macro base_language_model}
   const BaseLanguageModel();
 

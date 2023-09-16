@@ -79,3 +79,11 @@
       - [OpenAI functions](/modules/agents/agent_types/openai_functions_agent.md)
     - [Tools](/modules/agents/tools/tools.md)
     - [Toolkits](/modules/agents/toolkits/toolkits.md)
+- [LangChain Expression Language](/expression_language/expression_language.md)
+  - [Interface](/expression_language/interface.md)
+  - Cookbook
+    - [Prompt + LLM](/expression_language/cookbook/prompt_llm_parser.md)
+    - [Multiple chains](/expression_language/cookbook/multiple_chains.md)
+    - [Adding memory](/expression_language/cookbook/adding_memory.md)
+    - [Retrieval](/expression_language/cookbook/retrieval.md)
+    - [Using Tools](/expression_language/cookbook/tools.md)

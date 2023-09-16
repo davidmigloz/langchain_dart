@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 
 import '../language_models/base.dart';
+import '../language_models/models/models.dart';
 import '../prompts/models/models.dart';
 import 'models/models.dart';
 
@@ -12,6 +13,25 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
     extends BaseLanguageModel<List<ChatMessage>, Options, ChatMessage> {
   /// {@macro base_chat_model}
   const BaseChatModel();
+
+  /// Runs the chat model on the given prompt value.
+  ///
+  /// - [input] The prompt value to pass into the model.
+  /// - [options] Generation options to pass into the Chat Model.
+  ///
+  /// Example:
+  /// ```dart
+  /// final result = await chat.invoke(
+  ///   PromptValue.chat([ChatMessage.human('say hi!')]),
+  /// );
+  /// ```
+  @override
+  Future<LanguageModelResult<ChatMessage>> invoke(
+    final PromptValue input, {
+    final Options? options,
+  }) async {
+    return generatePrompt(input, options: options);
+  }
 
   /// Runs the chat model on the given messages.
   ///
@@ -36,7 +56,7 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
   /// Example:
   /// ```dart
   /// final result = await chat.generatePrompt(
-  ///   ChatPromptValue([ChatMessage.human('say hi!')]),
+  ///   PromptValue.chat([ChatMessage.human('say hi!')]),
   /// );
   /// ```
   @override
@@ -61,7 +81,7 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
     final List<ChatMessage> messages, {
     final Options? options,
   }) async {
-    final ChatResult result = await generate(messages, options: options);
+    final result = await generate(messages, options: options);
     return result.generations[0].output;
   }
 
