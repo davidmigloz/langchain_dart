@@ -25,7 +25,7 @@ dependencies:
   langchain: ^0.0.13
   meta: ^1.9.1
   tiktoken: ^1.0.3
-  uuid: ^3.0.7
+  uuid: ^4.0.0
   vertex_ai: ^0.0.7+1
 
 dev_dependencies:

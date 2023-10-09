@@ -21,7 +21,7 @@ dependencies:
   http: ^1.1.0
   langchain: ^0.0.13
   meta: ^1.9.1
-  uuid: ^3.0.7
+  uuid: ^4.0.0
 
 dev_dependencies:
   test: ^1.24.3
