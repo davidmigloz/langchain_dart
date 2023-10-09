@@ -1,6 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint
+// ignore_for_file: invalid_annotation_target, type=lint
 part of chroma_api_schema;
 
 // ==========================================

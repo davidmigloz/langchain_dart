@@ -5,7 +5,6 @@
 import 'dart:io' as io;
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'dart:typed_data';
 import 'package:http/retry.dart';
 import 'schema/schema.dart';
 
