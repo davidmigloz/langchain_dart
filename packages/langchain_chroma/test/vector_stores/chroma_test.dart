@@ -48,6 +48,26 @@ void main() async {
       expect(res.length, 5);
     });
 
+    test('Test Chroma add new vectors from file', () async {
+      const filePath = './test/vector_stores/assets/example.txt';
+      const loader = TextLoader(filePath);
+      final pages = await loader.load();
+
+      const splitter = RecursiveCharacterTextSplitter(
+        chunkOverlap: 150,
+        chunkSize: 1500,
+      );
+      final docs = splitter.splitDocuments(pages);
+
+      await vectorStore.addDocuments(documents: docs);
+
+      final res = await vectorStore.similaritySearch(
+        query: 'Who are we?',
+        config: const ChromaSimilaritySearch(k: 1),
+      );
+      expect(res.length, 1);
+    });
+
     test('Test Chroma query return 1 result', () async {
       final res = await vectorStore.similaritySearch(
         query: 'Is it raining?',

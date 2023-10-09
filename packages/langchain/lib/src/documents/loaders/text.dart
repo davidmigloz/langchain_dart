@@ -34,7 +34,7 @@ class TextLoader extends BaseDocumentLoader {
         'source': filePath,
         'name': fileName,
         'size': fileSize,
-        'lastModified': fileLastModified,
+        'lastModified': fileLastModified.millisecondsSinceEpoch,
       },
     );
     yield doc;

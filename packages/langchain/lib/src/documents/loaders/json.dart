@@ -66,7 +66,7 @@ class JsonLoader extends BaseDocumentLoader {
       'source': filePath,
       'name': fileName,
       'size': fileSize,
-      'lastModified': fileLastModified,
+      'lastModified': fileLastModified.millisecondsSinceEpoch,
     };
 
     final fileContent = await file.readAsString();

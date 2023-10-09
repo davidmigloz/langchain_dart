@@ -14,7 +14,7 @@ void main() {
             expect(doc.metadata['source'], filePath);
             expect(doc.metadata['name'], 'example.txt');
             expect(doc.metadata['size'], 12);
-            expect(doc.metadata['lastModified'], isA<DateTime>());
+            expect(doc.metadata['lastModified'], isA<int>());
             return true;
           },
           emitsDone,

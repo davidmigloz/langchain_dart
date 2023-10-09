@@ -19,7 +19,7 @@ void main() {
             expect(doc.metadata['source'], filePath);
             expect(doc.metadata['name'], 'example_1.json');
             expect(doc.metadata['size'], 32);
-            expect(doc.metadata['lastModified'], isA<DateTime>());
+            expect(doc.metadata['lastModified'], isA<int>());
             return true;
           },
           emitsDone,
