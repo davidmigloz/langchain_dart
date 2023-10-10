@@ -14,11 +14,4 @@ class StringOutputParser<LLMOutput extends Object,
   Future<String> parse(final String text) {
     return Future.value(text);
   }
-
-  @override
-  String getFormatInstructions([
-    final FormatInstructionsOptions? options,
-  ]) {
-    return '';
-  }
 }

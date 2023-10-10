@@ -93,7 +93,9 @@ abstract class BaseOutputParser<LLMOutput extends Object,
   /// Return a string describing the format of the LLM output.
   ///
   /// [options] - Options for formatting instructions.
-  String getFormatInstructions([final FormatInstructionsOptions? options]);
+  String getFormatInstructions([final FormatInstructionsOptions? options]) {
+    return ''; // Override this method to provide instructions.
+  }
 }
 
 /// {@template base_transform_output_parser}
