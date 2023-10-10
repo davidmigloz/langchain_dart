@@ -50,7 +50,7 @@ the following modules, listed from least to most complex:
 **[Model I/O](/modules/model_io/models/models.md)**  
 Interface with language models.
 
-**[Data connection]()**  
+**[Retrieval]()**  
 Interface with application-specific data.
 
 **[Chains]()**  

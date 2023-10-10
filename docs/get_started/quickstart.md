@@ -2,13 +2,9 @@
 
 ## Installation
 
-To get started, follow
-the [installation instructions](/get_started/installation.md) to install
-LangChain.
+To get started, follow the [installation instructions](/get_started/installation.md) to install LangChain.
 
-Using LangChain will usually require integrations with one or more model
-providers, data stores, APIs, etc. For this example, we'll use OpenAI's model
-APIs.
+Using LangChain will usually require integrations with one or more model providers, data stores, APIs, etc. For this example, we'll use OpenAI's model APIs.
 
 First we'll need to add LangChain.dart OpenAI package:
 
@@ -18,11 +14,9 @@ dependencies:
   langchain_openai: { version }
 ```
 
-Accessing the API requires an API key, which you can get by creating an account
-and heading [here](https://platform.openai.com/account/api-keys).
+Accessing the API requires an API key, which you can get by creating an account and heading [here](https://platform.openai.com/account/api-keys).
 
-The library does not force you to use any specific key management strategy. You
-just need to pass the key on the `OpenAI` constructor:
+The library does not force you to use any specific key management strategy. You just need to pass the key on the `OpenAI` constructor:
 
 ```dart
 import 'package:langchain/langchain.dart';
@@ -33,117 +27,109 @@ final llm = OpenAI(apiKey: openaiApiKey);
 
 ## Building an application
 
-Now we can start building our language model application. LangChain provides
-many modules that can be used to build language model applications. Modules can
-be used as stand-alones in simple applications and they can be combined for more
-complex use cases.
+Now we can start building our language model application. LangChain provides many modules that can be used to build language model applications. Modules can be used as stand-alones in simple applications and they can be combined for more complex use cases.
 
-### LLMs
+The most common and most important chain that LangChain helps create contains three things:
 
-The basic building block of LangChain is the LLM, which takes in text and
-generates more text.
+- LLM: The language model is the core reasoning engine here. In order to work with LangChain, you need to understand the different types of language models and how to work with them.
+- Prompt Templates: This provides instructions to the language model. This controls what the language model outputs, so understanding how to construct prompts and different prompting strategies is crucial.
+- Output Parsers: These translate the raw response from the LLM to a more workable format, making it easy to use the output downstream.
 
-As an example, suppose we're building an application that generates a company
-name based on a company description. In order to do this, we need to initialize
-an OpenAI model wrapper. In this case, since we want the outputs to be MORE
-random, we'll initialize our model with a HIGH temperature.
+In this getting started guide we will cover those three components by themselves, and then go over how to combine all of them. Understanding these concepts will set you up well for being able to use and customize LangChain applications. Most LangChain applications allow you to configure the LLM and/or the prompt used, so knowing how to take advantage of this will be a big enabler.
+
+## LLMs
+
+There are two types of language models, which in LangChain are called:
+
+- LLMs: this is a language model which takes a string as input and returns a string.
+- ChatModels: this is a language model which takes a list of messages as input and returns a message.
+
+The input/output for LLMs is simple and easy to understand - a string. But what about ChatModels? The input there is a list of `ChatMessages`, and the output is a single `ChatMessage`. A `ChatMessage` has two required components:
+
+- `content`: This is the content of the message.
+- `role`: This is the role of the entity from which the `ChatMessage` is coming from.
+
+LangChain provides several objects to easily distinguish between different roles:
+
+- `HumanChatMessage`: A `ChatMessage` coming from a human/user.
+- `AIChatMessage`: A `ChatMessage` coming from an AI/assistant.
+- `SystemChatMessage`: A ChatMessage coming from the system.
+- `FunctionChatMessage`: A ChatMessage coming from a function call.
+
+If none of those roles sound right, there is also a `CustomChatMessage` class where you can specify the role manually. For more information on how to use these different messages most effectively, see our prompting guide.
+
+LangChain provides a standard interface for both, but it's useful to understand this difference in order to construct prompts for a given language model. The standard interface that LangChain provides has two methods:
+
+- `predict`: Takes in a string, returns a string
+- `predictMessages`: Takes in a list of messages, returns a message.
+
+Let's see how to work with these different types of models and these different types of inputs. First, let's import an LLM and a ChatModel.
 
 ```dart
-final llm = OpenAI(apiKey: openaiApiKey, temperature: 0.9);
+final llm = OpenAI(apiKey: openaiApiKey);
+final chatModel = ChatOpenAI(apiKey: openaiApiKey);
+
+final res1 = await llm.predict('Hi!');
+print(res1); // 'Hello!'
+
+final res2 = await chatModel.predict('Hi!');
+print(res2); // 'Hello!'
 ```
 
-And now we can pass in text and get predictions!
+The `OpenAI` and `ChatOpenAI` objects are basically just configuration objects. You can initialize them with parameters like `temperature` and others, and pass them around.
+
+Next, let's use the predict method to run over a string input.
 
 ```dart
 const text = 'What would be a good company name for a company that makes colorful socks?';
 
-final res = await llm.predict(text);
-print(res); 
-// -> 'Feetful of Fun'
+final res1 = await llm.predict(text);
+print(res1); // Feetful of Fun
+
+final res2 = await chatModel.predict(text);
+print(res2); // Socks O'Color
 ```
 
-### Chat models
-
-Chat models are a variation on language models. While chat models use language
-models under the hood, the interface they expose is a bit different: rather than
-expose a "text in, text out" API, they expose an interface where "chat messages"
-are the inputs and outputs.
-
-You can get chat completions by passing one or more messages to the chat model.
-The response will be a message. The types of messages currently supported in
-LangChain are `AIMessage`, `HumanMessage`, `SystemMessage`,
-and `ChatMessage` -- `ChatMessage` takes in an arbitrary role parameter. Most of
-the time, you'll just be dealing with `HumanMessage`, `AIMessage`,
-and `SystemMessage`.
+Finally, let's use the `predictMessages` method to run over a list of messages.
 
 ```dart
-import 'package:langchain/langchain.dart';
-import 'package:langchain_openai/langchain_openai.dart';
+const text = 'What would be a good company name for a company that makes colorful socks?';
+final messages = [ChatMessage.human(text)];
 
-final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
+final res1 = await llm.predictMessages(messages);
+print(res1); // AIChatMessage(content=Feetful of Fun)
 
-final usrMsg = ChatMessage.human('Translate this sentence from English to French. I love programming.');
-final aiMsg = await chat.predictMessages([usrMsg]);
-print(aiMsg);
-// -> AIChatMessage(content="J'aime programmer.") 
+final res2 = await chatModel.predictMessages(messages);
+print(res2); // AIChatMessage(content=Socks O'Color)
 ```
 
-It is useful to understand how chat models are different from a normal LLM, but
-it can often be handy to just be able to treat them the same. LangChain makes
-that easy by also exposing an interface through which you can interact with a
-chat model as you would a normal LLM. You can access this through the `predict`
-interface.
+For both these methods, you can also pass in parameters. For example, you could pass in `temperature=0` to adjust the temperature that is used from what the object was configured with. Whatever values are passed in during run time will always override what the object was configured with.
 
-```dart
-const text = 'Translate this sentence from English to French. I love programming.';
-final res = await llm.predict(text);
-print(res); 
-// -> 'J'aime programmer'
-```
+## Prompt templates
 
-### Prompt templates
+Most LLM applications do not pass user input directly into an LLM. Usually they will add the user input to a larger piece of text, called a prompt template, that provides additional context on the specific task at hand.
 
-Most LLM applications do not pass user input directly into to an LLM. Usually 
-they will add the user input to a larger piece of text, called a prompt 
-template, that provides additional context on the specific task at hand.
+In the previous example, the text we passed to the model contained instructions to generate a company name. For our application, it'd be great if the user only had to provide the description of a company/product, without having to worry about giving the model instructions.
 
-In the previous example, the text we passed to the model contained instructions 
-to generate a company name. For our application, it'd be great if the user only 
-had to provide the description of a company/product, without having to worry 
-about giving the model instructions.
-
-<!-- tabs:start -->
-
-#### **LLMs**
-
-With PromptTemplates this is easy! In this case our template would be very 
-simple:
+`PromptTemplates` help with exactly this! They bundle up all the logic for going from user input into a fully formatted prompt. This can start off very simple - for example, a prompt to produce the above string would just be:
 
 ```dart
 final prompt = PromptTemplate.fromTemplate(
   'What is a good name for a company that makes {product}?',
 );
 print(prompt.format({'product': 'colorful socks'}));
-// -> 'What is a good name for a company that makes colorful socks?'
+// 'What is a good name for a company that makes colorful socks?'
 ```
 
-#### **Chat models**
+However, the advantages of using these over raw string formatting are several. You can "partial" out variables - e.g. you can format only some of the variables at a time. You can compose them together, easily combining different templates into a single prompt. For explanations of these functionalities, see the section on [prompts](/modules/model_io/prompts/prompts.md) for more detail.
 
-Similar to LLMs, you can make use of templating by using a 
-`MessagePromptTemplate`. You can build a `ChatPromptTemplate` from one or more 
-`MessagePromptTemplate`s. You can use `ChatPromptTemplate`'s `formatPrompt` 
-method to generate the formatted messages.
-
-Because this is generating a list of messages, it is slightly more complex than 
-the normal prompt template which is generating only a string. Please see the 
-detailed guides on prompts to understand more options available to you 
-[here](/modules/model_io/prompts/prompt_templates/prompt_templates.md).
+`PromptTemplates` can also be used to produce a list of messages. In this case, the prompt not only contains information about the content, but also each message (its role, its position in the list, etc) Here, what happens most often is a `ChatPromptTemplate` is a list of `ChatMessagePromptTemplates`. Each `ChatMessagePromptTemplate` contains instructions for how to format that `ChatMessage` - its role, and then also its content. Let's take a look at this below:
 
 ```dart
 final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
 
-const template = 'You are a helpful assistant that translates {input_language} to {output_language}.';
-final systemMessagePrompt = SystemChatMessagePromptTemplate.fromTemplate(template);
+const systemTemplate = 'You are a helpful assistant that translates {input_language} to {output_language}.';
+final systemMessagePrompt = SystemChatMessagePromptTemplate.fromTemplate(systemTemplate);
 const humanTemplate = '{text}';
 final humanMessagePrompt = HumanChatMessagePromptTemplate.fromTemplate(humanTemplate);
 
@@ -159,210 +145,66 @@ print(formattedPrompt);
 //  HumanChatMessage(content='I love programming.')]
 ```
 
-<!-- tabs:end -->
+`ChatPromptTemplates` can also be constructed in other ways - see the section on [prompts](/modules/model_io/prompts/prompts.md) for more detail.
 
-### Chains
+## Output parsers
 
-Now that we've got a model and a prompt template, we'll want to combine the 
-two. Chains give us a way to link (or chain) together multiple primitives, like 
-models, prompts, and other chains.
+`OutputParsers` convert the raw output of an LLM into a format that can be used downstream. There are few main type of `OutputParsers`, including:
 
-<!-- tabs:start -->
+- Convert text from LLM -> structured information (e.g. JSON).
+- Convert a `ChatMessage` into just a string.
+- Convert the extra information returned from a call besides the message (like OpenAI function invocation) into a string.
 
-#### **LLMs**
+For full information on this, see the section on [output parsers](/modules/model_io/output_parsers/output_parsers.md).
 
-The simplest and most common type of chain is an `LLMChain`, which passes an 
-input first to a `PromptTemplate` and then to an LLM. We can construct an 
-`LLMChain` from our existing model and prompt template.
-
-Using this we can replace:
+In this getting started guide, we will write our own output parser - one that converts a comma separated list into a list.
 
 ```dart
-llm.predict('What would be a good company name for a company that makes colorful socks?');
+class CommaSeparatedListOutputParser
+    extends BaseOutputParser<ChatMessage, BaseLangChainOptions, List<String>> {
+  @override
+  Future<List<String>> parse(final String text) async {
+    return text.trim().split(',');
+  }
+}
 ```
 
-with:
-
 ```dart
-final chain = LLMChain(llm: llm, prompt: prompt);
-final res = await chain.run('colorful socks');
-// -> '\n\nSocktastic!'
+final res = await CommaSeparatedListOutputParser().parse('hi, bye');
+print(res); // [hi, bye]
 ```
 
-There we go, our first chain! Understanding how this simple chain works will 
-set you up well for working with more complex chains.
+## PromptTemplate + LLM + OutputParser
 
-#### **Chat models**
-
-The `LLMChain` can be used with chat models as well:
+We can now combine all these into one chain. This chain will take input variables, pass those to a prompt template to create a prompt, pass the prompt to a language model, and then pass the output through an (optional) output parser. This is a convenient way to bundle up a modular piece of logic. Let's see it in action!
 
 ```dart
-final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
-
-const template = 'You are a helpful assistant that translates {input_language} to {output_language}.';
-final systemMessagePrompt = SystemChatMessagePromptTemplate.fromTemplate(template);
+const systemTemplate = '''
+You are a helpful assistant who generates comma separated lists.
+A user will pass in a category, and you should generate 5 objects in that category in a comma separated list.
+ONLY return a comma separated list, and nothing more.
+''';
+final systemMessagePrompt = SystemChatMessagePromptTemplate.fromTemplate(systemTemplate);
 const humanTemplate = '{text}';
 final humanMessagePrompt = HumanChatMessagePromptTemplate.fromTemplate(humanTemplate);
 
 final chatPrompt = ChatPromptTemplate.fromPromptMessages([systemMessagePrompt, humanMessagePrompt]);
+final chatModel = ChatOpenAI(apiKey: openaiApiKey);
 
-final chain = LLMChain(llm: chat, prompt: chatPrompt);
+final chain = chatPrompt | chatModel | CommaSeparatedListOutputParser();
 
-final res = await chain.run({
-  'input_language': 'English',
-  'output_language': 'French',
-  'text': 'I love programming.'
-});
-print(res);
-// -> 'J'adore la programmation.'
+final res = await chain.invoke({'text': 'colors'});
+print(res); // ['red', 'blue', 'green', 'yellow', 'orange']
 ```
 
-<!-- tabs:end -->
+Note that we are using the `|` syntax to join these components together. This `|` syntax is called the LangChain Expression Language. To learn more about this syntax, read the documentation [here](/expression_language/expression_language.md).
 
-### Agents
+## Next steps
 
-Our first chain ran a pre-determined sequence of steps. To handle complex 
-workflows, we need to be able to dynamically choose actions based on inputs.
+This is it! We've now gone over how to create the core building block of LangChain applications. There is a lot more nuance in all these components (LLMs, prompts, output parsers) and a lot more different components to learn about as well. To continue on your journey:
 
-Agents do just this: they use a language model to determine which actions to 
-take and in what order. Agents are given access to tools, and they repeatedly 
-choose a tool, run the tool, and observe the output until they come up with a 
-final answer.
-
-To load an agent, you need to choose:
-
-- LLM/Chat model: The language model powering the agent.
-- Tool(s): A function that performs a specific duty. This can be things like: 
-  calculator, Google Search, Database lookup, other chains, etc. For a list of 
-  predefined tools and their specifications, see the 
-  [Tools documentation]().
-- Agent: an agent class is largely parameterized by the prompt the language 
-  model uses to determine which action to take. The agents are orchestrated by
-  agent executors.
-
-For this example, we'll be using a calculator to evaluate mathematical 
-expressions.
-
-```dart
-final llm = ChatOpenAI(
-  apiKey: openaiApiKey,
-  model: 'gpt-3.5-turbo-0613',
-  temperature: 0,
-);
-final tool = CalculatorTool();
-final agent = OpenAIFunctionsAgent.fromLLMAndTools(llm: llm, tools: [tool]);
-final executor = AgentExecutor(agent: agent);
-final res = await executor.run('What is 40 raised to the 0.43 power? ');
-print(res); // -> '40 raised to the power of 0.43 is approximately 4.8852'
-```
-
-### Memory
-
-The chains and agents we've looked at so far have been stateless, but for many 
-applications it's necessary to reference past interactions. This is clearly the 
-case with a chatbot for example, where you want it to understand new messages 
-in the context of past messages.
-
-The Memory module gives you a way to maintain application state. The 
-`BaseMemory` interface is simple: it lets you update state given the latest run 
-inputs and outputs, and it lets you modify (or contextualize) the next input 
-using the stored state.
-
-There are a number of built-in memory systems. The simplest of these are is a 
-buffer memory which just prepends the last few inputs/outputs to the current 
-input - we will use this in the example below.
-
-<!-- tabs:start -->
-
-#### **LLMs**
-
-```dart
-final llm = OpenAI(apiKey: openaiApiKey, temperature: 0);
-final conversation = ConversationChain(llm: llm);
-
-final output = await conversation.run('Hi there!');
-print(output);
-// -> 'Hello! How are you today?'
-```
-
-Under the hood, the chain has formatted the prompt with the input and then
-passed it to the LLM.
-
-```dart
-> Entering new chain...
-Prompt after formatting:
-The following is a friendly conversation between a human and an AI. The AI is talkative and
-provides lots of specific details from its context. If the AI does not know the answer to a
-question, it truthfully says it does not know.
-
-Current conversation:
-
-Human: Hi there!
-AI:
-
-> Finished chain.
-' Hello! How are you today?'
-```
-
-As it was the first message, 'Current conversation' is still empty. If we send
-another message, we can see that the chain remembers the previous message and 
-adds it to the context.
-
-```dart
-final output1 = await conversation.run(
-  "I'm doing well! Just having a conversation with an AI.",
-);
-print(output1);
-// -> 'That's great! What would you like to talk about?'
-```
-
-Here's what's going on under the hood:
-
-```
-> Entering new chain...
-Prompt after formatting:
-The following is a friendly conversation between a human and an AI. The AI is 
-talkative and provides lots of specific details from its context. If the AI 
-does not know the answer to a question, it truthfully says it does not know.
-
-Current conversation:
-
-Human: Hi there!
-AI: Hello! How are you today?
-Human: I'm doing well! Just having a conversation with an AI.
-AI:
-
-> Finished chain
-    .
-"That's great! What would you like to talk about?"
-```
-
-#### **Chat models**
-
-You can use Memory with chains and agents initialized with chat models. The 
-main difference between this and Memory for LLMs is that rather than trying to 
-condense all previous messages into a string, we can keep them as their own 
-unique memory object.
-
-```dart
-final output1 = await conversation.run('Hi there!');
-print(output1);
-// -> 'Hello! How can I assist you today?'
-final output2 = await conversation.run(
-  "I'm doing well! Just having a conversation with an AI.",
-);
-print(output2);
-// -> 'That sounds like fun! I'm happy to chat with you. Is there anything 
-// specific you'd like to talk about?'
-final output3 = await conversation.run(
-  'Tell me about yourself',
-);
-print(output3);
-// -> 'Sure! I am an AI language model created by OpenAI. I was trained on a 
-// large dataset of text from the internet, which allows me to understand and 
-// generate human-like language. I can answer questions, provide information, 
-// and even have conversations like this one. Is there anything else you'd 
-// like to know about me?'
-```
-
-<!-- tabs:end -->
+- [Dive deeper](/modules/model_io/model_io.md) into LLMs, prompts, and output parsers.
+- Learn the other [key components](/modules/modules.md).
+- Read up on [LangChain Expression Language](/expression_language/expression_language.md) to learn how to chain these components together.
+- Check out our helpful guides for detailed walkthroughs on particular topics.
+- Explore [end-to-end use cases](https://python.langchain.com/docs/use_cases).
