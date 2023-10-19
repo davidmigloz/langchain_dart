@@ -1,0 +1,2619 @@
+#file: noinspection YAMLUnusedAnchor
+openapi: 3.0.0
+
+info:
+  title: OpenAI API
+  description: The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details.
+  version: "2.0.0"
+  termsOfService: https://openai.com/policies/terms-of-use
+  contact:
+    name: OpenAI Support
+    url: https://help.openai.com/
+  license:
+    name: MIT
+    url: https://github.com/openai/openai-openapi/blob/master/LICENSE
+
+servers:
+  - url: https://api.openai.com/v1
+
+tags:
+  - name: Chat
+    description: Given a list of messages comprising a conversation, the model will return a response.
+  - name: Completions
+    description: Given a prompt, the model will return one or more predicted completions, and can also return the probabilities of alternative tokens at each position.
+  - name: Embeddings
+    description: Get a vector representation of a given input that can be easily consumed by machine learning models and algorithms.
+  - name: Fine-tuning
+    description: Manage fine-tuning jobs to tailor a model to your specific training data.
+  - name: Images
+    description: Given a prompt and/or an input image, the model will generate a new image.
+  - name: Models
+    description: List and describe the various models available in the API.
+  - name: Moderations
+    description: Given a input text, outputs if the model classifies it as violating OpenAI's content policy.
+
+paths:
+  /chat/completions:
+    post:
+      operationId: createChatCompletion
+      tags:
+        - Chat
+      summary: Creates a model response for the given chat conversation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateChatCompletionRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateChatCompletionResponse"
+      x-oaiMeta:
+        name: Create chat completion
+        group: chat
+        returns: |
+          Returns a [chat completion](https://platform.openai.com/docs/api-reference/chat/object) object, or a streamed sequence of [chat completion chunk](https://platform.openai.com/docs/api-reference/chat/streaming) objects if the request is streamed.
+        path: create
+        examples:
+          - title: No Streaming
+            request:
+              curl: |
+                curl https://api.openai.com/v1/chat/completions \
+                  -H "Content-Type: application/json" \
+                  -H "Authorization: Bearer $OPENAI_API_KEY" \
+                  -d '{
+                    "model": "VAR_model_id",
+                    "messages": [
+                      {
+                        "role": "system",
+                        "content": "You are a helpful assistant."
+                      },
+                      {
+                        "role": "user",
+                        "content": "Hello!"
+                      }
+                    ]
+                  }'
+              python: |
+                import os
+                import openai
+                openai.api_key = os.getenv("OPENAI_API_KEY")
+
+                completion = openai.ChatCompletion.create(
+                  model="VAR_model_id",
+                  messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": "Hello!"}
+                  ]
+                )
+
+                print(completion.choices[0].message)
+              node.js: |-
+                import OpenAI from "openai";
+
+                const openai = new OpenAI();
+
+                async function main() {
+                  const completion = await openai.chat.completions.create({
+                    messages: [{ role: "system", content: "You are a helpful assistant." }],
+                    model: "VAR_model_id",
+                  });
+
+                  console.log(completion.choices[0]);
+                }
+
+                main();
+            response: &chat_completion_example |
+              {
+                "id": "chatcmpl-123",
+                "object": "chat.completion",
+                "created": 1677652288,
+                "model": "gpt-3.5-turbo-0613",
+                "choices": [{
+                  "index": 0,
+                  "message": {
+                    "role": "assistant",
+                    "content": "\n\nHello there, how may I assist you today?",
+                  },
+                  "finish_reason": "stop"
+                }],
+                "usage": {
+                  "prompt_tokens": 9,
+                  "completion_tokens": 12,
+                  "total_tokens": 21
+                }
+              }
+          - title: Streaming
+            request:
+              curl: |
+                curl https://api.openai.com/v1/chat/completions \
+                  -H "Content-Type: application/json" \
+                  -H "Authorization: Bearer $OPENAI_API_KEY" \
+                  -d '{
+                    "model": "VAR_model_id",
+                    "messages": [
+                      {
+                        "role": "system",
+                        "content": "You are a helpful assistant."
+                      },
+                      {
+                        "role": "user",
+                        "content": "Hello!"
+                      }
+                    ],
+                    "stream": true
+                  }'
+              python: |
+                import os
+                import openai
+                openai.api_key = os.getenv("OPENAI_API_KEY")
+
+                completion = openai.ChatCompletion.create(
+                  model="VAR_model_id",
+                  messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": "Hello!"}
+                  ],
+                  stream=True
+                )
+
+                for chunk in completion:
+                  print(chunk.choices[0].delta)
+
+              node.js: |-
+                import OpenAI from "openai";
+
+                const openai = new OpenAI();
+
+                async function main() {
+                  const completion = await openai.chat.completions.create({
+                    model: "VAR_model_id",
+                    messages: [
+                      {"role": "system", "content": "You are a helpful assistant."},
+                      {"role": "user", "content": "Hello!"}
+                    ],
+                    stream: true,
+                  });
+
+                  for await (const chunk of completion) {
+                    console.log(chunk.choices[0].delta.content);
+                  }
+                }
+
+                main();
+            response: &chat_completion_chunk_example |
+              {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1694268190,"model":"gpt-3.5-turbo-0613","choices":[{"index":0,"delta":{"role":"assistant","content":""},"finish_reason":null}]}
+
+              {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1694268190,"model":"gpt-3.5-turbo-0613","choices":[{"index":0,"delta":{"content":"Hello"},"finish_reason":null}]}
+
+              {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1694268190,"model":"gpt-3.5-turbo-0613","choices":[{"index":0,"delta":{"content":"!"},"finish_reason":null}]}
+
+              ....
+
+              {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1694268190,"model":"gpt-3.5-turbo-0613","choices":[{"index":0,"delta":{"content":" today"},"finish_reason":null}]}
+
+              {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1694268190,"model":"gpt-3.5-turbo-0613","choices":[{"index":0,"delta":{"content":"?"},"finish_reason":null}]}
+
+              {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1694268190,"model":"gpt-3.5-turbo-0613","choices":[{"index":0,"delta":{},"finish_reason":"stop"}]}
+          - title: Function calling
+            request:
+              curl: |
+                curl https://api.openai.com/v1/chat/completions \
+                -H "Content-Type: application/json" \
+                -H "Authorization: Bearer $OPENAI_API_KEY" \
+                -d '{
+                  "model": "gpt-3.5-turbo",
+                  "messages": [
+                    {
+                      "role": "user",
+                      "content": "What is the weather like in Boston?"
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "name": "get_current_weather",
+                      "description": "Get the current weather in a given location",
+                      "parameters": {
+                        "type": "object",
+                        "properties": {
+                          "location": {
+                            "type": "string",
+                            "description": "The city and state, e.g. San Francisco, CA"
+                          },
+                          "unit": {
+                            "type": "string",
+                            "enum": ["celsius", "fahrenheit"]
+                          }
+                        },
+                        "required": ["location"]
+                      }
+                    }
+                  ],
+                  "function_call": "auto"
+                }'
+              python: |
+                import os
+                import openai
+                openai.api_key = os.getenv("OPENAI_API_KEY")
+
+                functions = [ 
+                  {
+                    "name": "get_current_weather",
+                    "description": "Get the current weather in a given location",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "location": {
+                                "type": "string",
+                                "description": "The city and state, e.g. San Francisco, CA",
+                            },
+                            "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
+                        },
+                        "required": ["location"],
+                    },
+                  }
+                ]
+                messages = [{"role": "user", "content": "What's the weather like in Boston today?"}]
+                completion = openai.ChatCompletion.create(
+                  model="VAR_model_id",
+                  messages=messages,
+                  functions=functions,
+                  function_call="auto",  # auto is default, but we'll be explicit
+                )
+
+                print(completion)
+
+              node.js: |-
+                import OpenAI from "openai";
+
+                const openai = new OpenAI();
+
+                async function main() {
+                  const messages = [{"role": "user", "content": "What's the weather like in Boston today?"}];
+                  const functions = [
+                      {
+                          "name": "get_current_weather",
+                          "description": "Get the current weather in a given location",
+                          "parameters": {
+                              "type": "object",
+                              "properties": {
+                                  "location": {
+                                      "type": "string",
+                                      "description": "The city and state, e.g. San Francisco, CA",
+                                  },
+                                  "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
+                              },
+                              "required": ["location"],
+                          },
+                      }
+                  ];
+
+                  const response = await openai.chat.completions.create({
+                      model: "gpt-3.5-turbo",
+                      messages: messages,
+                      functions: functions,
+                      function_call: "auto",  // auto is default, but we'll be explicit
+                  });
+
+                  console.log(response);
+                }
+
+                main();
+            response: &chat_completion_function_example |
+              {
+                "choices": [
+                  {
+                    "finish_reason": "function_call",
+                    "index": 0,
+                    "message": {
+                      "content": null,
+                      "function_call": {
+                        "arguments": "{\n  \"location\": \"Boston, MA\"\n}",
+                        "name": "get_current_weather"
+                      },
+                      "role": "assistant"
+                    }
+                  }
+                ],
+                "created": 1694028367,
+                "model": "gpt-3.5-turbo-0613",
+                "object": "chat.completion",
+                "usage": {
+                  "completion_tokens": 18,
+                  "prompt_tokens": 82,
+                  "total_tokens": 100
+                }
+              }
+  /completions:
+    post:
+      operationId: createCompletion
+      tags:
+        - Completions
+      summary: Creates a completion for the provided prompt and parameters.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCompletionRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateCompletionResponse"
+      x-oaiMeta:
+        name: Create completion
+        returns: |
+          Returns a [completion](https://platform.openai.com/docs/api-reference/completions/object) object, or a sequence of completion objects if the request is streamed.
+        legacy: true
+        examples:
+          - title: No streaming
+            request:
+              curl: |
+                curl https://api.openai.com/v1/completions \
+                  -H "Content-Type: application/json" \
+                  -H "Authorization: Bearer $OPENAI_API_KEY" \
+                  -d '{
+                    "model": "VAR_model_id",
+                    "prompt": "Say this is a test",
+                    "max_tokens": 7,
+                    "temperature": 0
+                  }'
+              python: |
+                import os
+                import openai
+                openai.api_key = os.getenv("OPENAI_API_KEY")
+                openai.Completion.create(
+                  model="VAR_model_id",
+                  prompt="Say this is a test",
+                  max_tokens=7,
+                  temperature=0
+                )
+              node.js: |-
+                import OpenAI from "openai";
+
+                const openai = new OpenAI();
+
+                async function main() {
+                  const completion = await openai.completions.create({
+                    model: "VAR_model_id",
+                    prompt: "Say this is a test.",
+                    max_tokens: 7,
+                    temperature: 0,
+                  });
+
+                  console.log(completion);
+                }
+                main();
+            response: |
+              {
+                "id": "cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7",
+                "object": "text_completion",
+                "created": 1589478378,
+                "model": "VAR_model_id",
+                "choices": [
+                  {
+                    "text": "\n\nThis is indeed a test",
+                    "index": 0,
+                    "logprobs": null,
+                    "finish_reason": "length"
+                  }
+                ],
+                "usage": {
+                  "prompt_tokens": 5,
+                  "completion_tokens": 7,
+                  "total_tokens": 12
+                }
+              }
+          - title: Streaming
+            request:
+              curl: |
+                curl https://api.openai.com/v1/completions \
+                  -H "Content-Type: application/json" \
+                  -H "Authorization: Bearer $OPENAI_API_KEY" \
+                  -d '{
+                    "model": "VAR_model_id",
+                    "prompt": "Say this is a test",
+                    "max_tokens": 7,
+                    "temperature": 0,
+                    "stream": true
+                  }'
+              python: |
+                import os
+                import openai
+                openai.api_key = os.getenv("OPENAI_API_KEY")
+                for chunk in openai.Completion.create(
+                  model="VAR_model_id",
+                  prompt="Say this is a test",
+                  max_tokens=7,
+                  temperature=0,
+                  stream=True
+                ):
+                  print(chunk['choices'][0]['text'])
+              node.js: |-
+                import OpenAI from "openai";
+
+                const openai = new OpenAI();
+
+                async function main() {
+                  const stream = await openai.completions.create({
+                    model: "VAR_model_id",
+                    prompt: "Say this is a test.",
+                    stream: true,
+                  });
+
+                  for await (const chunk of stream) {
+                    console.log(chunk.choices[0].text)
+                  }
+                }
+                main();
+            response: |
+              {
+                "id": "cmpl-7iA7iJjj8V2zOkCGvWF2hAkDWBQZe",
+                "object": "text_completion",
+                "created": 1690759702,
+                "choices": [
+                  {
+                    "text": "This",
+                    "index": 0,
+                    "logprobs": null,
+                    "finish_reason": null
+                  }
+                ],
+                "model": "gpt-3.5-turbo-instruct"
+              }
+  /embeddings:
+    post:
+      operationId: createEmbedding
+      tags:
+        - Embeddings
+      summary: Creates an embedding vector representing the input text.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateEmbeddingRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateEmbeddingResponse"
+      x-oaiMeta:
+        name: Create embeddings
+        returns: A list of [embedding](https://platform.openai.com/docs/api-reference/embeddings/object) objects.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/embeddings \
+                -H "Authorization: Bearer $OPENAI_API_KEY" \
+                -H "Content-Type: application/json" \
+                -d '{
+                  "input": "The food was delicious and the waiter...",
+                  "model": "text-embedding-ada-002"
+                }'
+            python: |
+              import os
+              import openai
+              openai.api_key = os.getenv("OPENAI_API_KEY")
+              openai.Embedding.create(
+                model="text-embedding-ada-002",
+                input="The food was delicious and the waiter..."
+              )
+            node.js: |-
+              import OpenAI from "openai";
+
+              const openai = new OpenAI();
+
+              async function main() {
+                const embedding = await openai.embeddings.create({
+                  model: "text-embedding-ada-002",
+                  input: "The quick brown fox jumped over the lazy dog",
+                });
+
+                console.log(embedding);
+              }
+
+              main();
+          response: |
+            {
+              "object": "list",
+              "data": [
+                {
+                  "object": "embedding",
+                  "embedding": [
+                    0.0023064255,
+                    -0.009327292,
+                    .... (1536 floats total for ada-002)
+                    -0.0028842222,
+                  ],
+                  "index": 0
+                }
+              ],
+              "model": "text-embedding-ada-002",
+              "usage": {
+                "prompt_tokens": 8,
+                "total_tokens": 8
+              }
+            }
+  /fine_tuning/jobs:
+    post:
+      operationId: createFineTuningJob
+      tags:
+        - Fine-tuning
+      summary: |
+        Creates a job that fine-tunes a specified model from a given dataset.
+
+        Response includes details of the enqueued job including job status and the name of the fine-tuned models once complete.
+
+        [Learn more about fine-tuning](https://platform.openai.com/docs/guides/fine-tuning).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateFineTuningJobRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FineTuningJob"
+      x-oaiMeta:
+        name: Create fine-tuning job
+        returns: A [fine-tuning.job](https://platform.openai.com/docs/api-reference/fine-tuning/object) object.
+        examples:
+          - title: No hyperparameters
+            request:
+              curl: |
+                curl https://api.openai.com/v1/fine_tuning/jobs \
+                  -H "Content-Type: application/json" \
+                  -H "Authorization: Bearer $OPENAI_API_KEY" \
+                  -d '{
+                    "training_file": "file-abc123",
+                    "model": "gpt-3.5-turbo"
+                  }'
+              python: |
+                import os
+                import openai
+                openai.api_key = os.getenv("OPENAI_API_KEY")
+                openai.FineTuningJob.create(training_file="file-abc123", model="gpt-3.5-turbo")
+              node.js: |
+                import OpenAI from "openai";
+
+                const openai = new OpenAI();
+
+                async function main() {
+                  const fineTune = await openai.fineTuning.jobs.create({
+                    training_file: "file-abc123"
+                  });
+
+                  console.log(fineTune);
+                }
+
+                main();
+            response: |
+              {
+                "object": "fine_tuning.job",
+                "id": "ftjob-abc123",
+                "model": "gpt-3.5-turbo-0613",
+                "created_at": 1614807352,
+                "fine_tuned_model": null,
+                "organization_id": "org-123",
+                "result_files": [],
+                "status": "queued",
+                "validation_file": null,
+                "training_file": "file-abc123",
+              }
+          - title: Hyperparameters
+            request:
+              curl: |
+                curl https://api.openai.com/v1/fine_tuning/jobs \
+                  -H "Content-Type: application/json" \
+                  -H "Authorization: Bearer $OPENAI_API_KEY" \
+                  -d '{
+                    "training_file": "file-abc123",
+                    "model": "gpt-3.5-turbo",
+                    "hyperparameters": {
+                      "n_epochs": 2
+                    }
+                  }'
+              python: |
+                import os
+                import openai
+                openai.api_key = os.getenv("OPENAI_API_KEY")
+                openai.FineTuningJob.create(training_file="file-abc123", model="gpt-3.5-turbo", hyperparameters={"n_epochs":2})
+              node.js: |
+                import OpenAI from "openai";
+
+                const openai = new OpenAI();
+
+                async function main() {
+                  const fineTune = await openai.fineTuning.jobs.create({
+                    training_file: "file-abc123",
+                    model: "gpt-3.5-turbo",
+                    hyperparameters: { n_epochs: 2 }
+                  });
+
+                  console.log(fineTune);
+                }
+
+                main();
+            response: |
+              {
+                "object": "fine_tuning.job",
+                "id": "ftjob-abc123",
+                "model": "gpt-3.5-turbo-0613",
+                "created_at": 1614807352,
+                "fine_tuned_model": null,
+                "organization_id": "org-123",
+                "result_files": [],
+                "status": "queued",
+                "validation_file": null,
+                "training_file": "file-abc123",
+                "hyperparameters":{"n_epochs":2},
+              }
+          - title: Validation file
+            request:
+              curl: |
+                curl https://api.openai.com/v1/fine_tuning/jobs \
+                  -H "Content-Type: application/json" \
+                  -H "Authorization: Bearer $OPENAI_API_KEY" \
+                  -d '{
+                    "training_file": "file-abc123",
+                    "validation_file": "file-abc123",
+                    "model": "gpt-3.5-turbo"
+                  }'
+              python: |
+                import os
+                import openai
+                openai.api_key = os.getenv("OPENAI_API_KEY")
+                openai.FineTuningJob.create(training_file="file-abc123", validation_file="file-abc123", model="gpt-3.5-turbo")
+              node.js: |
+                import OpenAI from "openai";
+
+                const openai = new OpenAI();
+
+                async function main() {
+                  const fineTune = await openai.fineTuning.jobs.create({
+                    training_file: "file-abc123",
+                    validation_file: "file-abc123"
+                  });
+
+                  console.log(fineTune);
+                }
+
+                main();
+            response: |
+              {
+                "object": "fine_tuning.job",
+                "id": "ftjob-abc123",
+                "model": "gpt-3.5-turbo-0613",
+                "created_at": 1614807352,
+                "fine_tuned_model": null,
+                "organization_id": "org-123",
+                "result_files": [],
+                "status": "queued",
+                "validation_file": "file-abc123",
+                "training_file": "file-abc123",
+              }
+    get:
+      operationId: listPaginatedFineTuningJobs
+      tags:
+        - Fine-tuning
+      summary: |
+        List your organization's fine-tuning jobs.
+      parameters:
+        - name: after
+          in: query
+          description: Identifier for the last job from the previous pagination request.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Number of fine-tuning jobs to retrieve.
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListPaginatedFineTuningJobsResponse"
+      x-oaiMeta:
+        name: List fine-tuning jobs
+        returns: A list of paginated [fine-tuning job](https://platform.openai.com/docs/api-reference/fine-tuning/object) objects.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/fine_tuning/jobs?limit=2 \
+                -H "Authorization: Bearer $OPENAI_API_KEY"
+            python: |
+              import os
+              import openai
+              openai.api_key = os.getenv("OPENAI_API_KEY")
+              openai.FineTuningJob.list()
+            node.js: |-
+              import OpenAI from "openai";
+
+              const openai = new OpenAI();
+
+              async function main() {
+                const list = await openai.fineTuning.jobs.list();
+
+                for await (const fineTune of list) {
+                  console.log(fineTune);
+                }
+              }
+
+              main();
+          response: |
+            {
+              "object": "list",
+              "data": [
+                {
+                  "object": "fine_tuning.job.event",
+                  "id": "ft-event-TjX0lMfOniCZX64t9PUQT5hn",
+                  "created_at": 1689813489,
+                  "level": "warn",
+                  "message": "Fine tuning process stopping due to job cancellation",
+                  "data": null,
+                  "type": "message"
+                },
+                { ... },
+                { ... }
+              ], "has_more": true
+            }
+  /fine_tuning/jobs/{fine_tuning_job_id}:
+    get:
+      operationId: retrieveFineTuningJob
+      tags:
+        - Fine-tuning
+      summary: |
+        Get info about a fine-tuning job.
+
+        [Learn more about fine-tuning](https://platform.openai.com/docs/guides/fine-tuning).
+      parameters:
+        - in: path
+          name: fine_tuning_job_id
+          required: true
+          schema:
+            type: string
+            example: ft-AF1WoRqd3aJAHsqc9NY7iL8F
+          description: |
+            The ID of the fine-tuning job.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FineTuningJob"
+      x-oaiMeta:
+        name: Retrieve fine-tuning job
+        returns: The [fine-tuning](https://platform.openai.com/docs/api-reference/fine-tunes/object) object with the given ID.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/fine_tuning/jobs/ft-AF1WoRqd3aJAHsqc9NY7iL8F \
+                -H "Authorization: Bearer $OPENAI_API_KEY"
+            python: |
+              import os
+              import openai
+              openai.api_key = os.getenv("OPENAI_API_KEY")
+              openai.FineTuningJob.retrieve("ftjob-abc123")
+            node.js: |
+              import OpenAI from "openai";
+
+              const openai = new OpenAI();
+
+              async function main() {
+                const fineTune = await openai.fineTuning.jobs.retrieve("ftjob-abc123");
+              
+                console.log(fineTune);
+              }
+
+              main();
+          response: &fine_tuning_example |
+            {
+              "object": "fine_tuning.job",
+              "id": "ftjob-abc123",
+              "model": "davinci-002",
+              "created_at": 1692661014,
+              "finished_at": 1692661190,
+              "fine_tuned_model": "ft:davinci-002:my-org:custom_suffix:7q8mpxmy",
+              "organization_id": "org-123",
+              "result_files": [
+                  "file-abc123"
+              ],
+              "status": "succeeded",
+              "validation_file": null,
+              "training_file": "file-abc123",
+              "hyperparameters": {
+                  "n_epochs": 4,
+              },
+              "trained_tokens": 5768
+            }
+  /fine_tuning/jobs/{fine_tuning_job_id}/events:
+    get:
+      operationId: listFineTuningEvents
+      tags:
+        - Fine-tuning
+      summary: |
+        Get status updates for a fine-tuning job.
+      parameters:
+        - in: path
+          name: fine_tuning_job_id
+          required: true
+          schema:
+            type: string
+            example: ft-AF1WoRqd3aJAHsqc9NY7iL8F
+          description: |
+            The ID of the fine-tuning job to get events for.
+        - name: after
+          in: query
+          description: Identifier for the last event from the previous pagination request.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Number of events to retrieve.
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListFineTuningJobEventsResponse"
+      x-oaiMeta:
+        name: List fine-tuning events
+        returns: A list of fine-tuning event objects.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/fine_tuning/jobs/ftjob-abc123/events \
+                -H "Authorization: Bearer $OPENAI_API_KEY"
+            python: |
+              import os
+              import openai
+              openai.api_key = os.getenv("OPENAI_API_KEY")
+              openai.FineTuningJob.list_events(id="ftjob-abc123", limit=2)
+            node.js: |-
+              import OpenAI from "openai";
+
+              const openai = new OpenAI();
+
+              async function main() {
+                const list = await openai.fineTuning.list_events(id="ftjob-abc123", limit=2);
+
+                for await (const fineTune of list) {
+                  console.log(fineTune);
+                }
+              }
+
+              main();
+          response: |
+            {
+              "object": "list",
+              "data": [
+                {
+                  "object": "fine_tuning.job.event",
+                  "id": "ft-event-ddTJfwuMVpfLXseO0Am0Gqjm",
+                  "created_at": 1692407401,
+                  "level": "info",
+                  "message": "Fine tuning job successfully completed",
+                  "data": null,
+                  "type": "message"
+                },
+                {
+                  "object": "fine_tuning.job.event",
+                  "id": "ft-event-tyiGuB72evQncpH87xe505Sv",
+                  "created_at": 1692407400,
+                  "level": "info",
+                  "message": "New fine-tuned model created: ft:gpt-3.5-turbo:openai::7p4lURel",
+                  "data": null,
+                  "type": "message"
+                }
+              ],
+              "has_more": true
+            }
+  /fine_tuning/jobs/{fine_tuning_job_id}/cancel:
+    post:
+      operationId: cancelFineTuningJob
+      tags:
+        - Fine-tuning
+      summary: |
+        Immediately cancel a fine-tune job.
+      parameters:
+        - in: path
+          name: fine_tuning_job_id
+          required: true
+          schema:
+            type: string
+            example: ft-AF1WoRqd3aJAHsqc9NY7iL8F
+          description: |
+            The ID of the fine-tuning job to cancel.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FineTuningJob"
+      x-oaiMeta:
+        name: Cancel fine-tuning
+        returns: The cancelled [fine-tuning](https://platform.openai.com/docs/api-reference/fine-tuning/object) object.
+        examples:
+          request:
+            curl: |
+              curl -X POST https://api.openai.com/v1/fine_tuning/jobs/ftjob-abc123/cancel \
+                -H "Authorization: Bearer $OPENAI_API_KEY"
+            python: |
+              import os
+              import openai
+              openai.api_key = os.getenv("OPENAI_API_KEY")
+              openai.FineTuningJob.cancel("ftjob-abc123")
+            node.js: |-
+              import OpenAI from "openai";
+
+              const openai = new OpenAI();
+
+              async function main() {
+                const fineTune = await openai.fineTuning.jobs.cancel("ftjob-abc123");
+
+                console.log(fineTune);
+              }
+              main();
+          response: |
+            {
+              "object": "fine_tuning.job",
+              "id": "ftjob-abc123",
+              "model": "gpt-3.5-turbo-0613",
+              "created_at": 1689376978,
+              "fine_tuned_model": null,
+              "organization_id": "org-123",
+              "result_files": [],
+              "hyperparameters": {
+                "n_epochs":  "auto"
+              },
+              "status": "cancelled",
+              "validation_file": "file-abc123",
+              "training_file": "file-abc123"
+            }
+  /images/generations:
+    post:
+      operationId: createImage
+      tags:
+        - Images
+      summary: Creates an image given a prompt.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateImageRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ImagesResponse"
+      x-oaiMeta:
+        name: Create image
+        returns: Returns a list of [image](https://platform.openai.com/docs/api-reference/images/object) objects.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/images/generations \
+                -H "Content-Type: application/json" \
+                -H "Authorization: Bearer $OPENAI_API_KEY" \
+                -d '{
+                  "prompt": "A cute baby sea otter",
+                  "n": 2,
+                  "size": "1024x1024"
+                }'
+            python: |
+              import os
+              import openai
+              openai.api_key = os.getenv("OPENAI_API_KEY")
+              openai.Image.create(
+                prompt="A cute baby sea otter",
+                n=2,
+                size="1024x1024"
+              )
+            node.js: |-
+              import OpenAI from "openai";
+
+              const openai = new OpenAI();
+
+              async function main() {
+                const image = await openai.images.generate({ prompt: "A cute baby sea otter" });
+
+                console.log(image.data);
+              }
+              main();
+          response: |
+            {
+              "created": 1589478378,
+              "data": [
+                {
+                  "url": "https://..."
+                },
+                {
+                  "url": "https://..."
+                }
+              ]
+            }
+  /models:
+    get:
+      operationId: listModels
+      tags:
+        - Models
+      summary: Lists the currently available models, and provides basic information about each one such as the owner and availability.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListModelsResponse"
+      x-oaiMeta:
+        name: List models
+        returns: A list of [model](https://platform.openai.com/docs/api-reference/models/object) objects.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/models \
+                -H "Authorization: Bearer $OPENAI_API_KEY"
+            python: |
+              import os
+              import openai
+              openai.api_key = os.getenv("OPENAI_API_KEY")
+              openai.Model.list()
+            node.js: |-
+              import OpenAI from "openai";
+
+              const openai = new OpenAI();
+
+              async function main() {
+                const list = await openai.models.list();
+
+                for await (const model of list) {
+                  console.log(model);
+                }
+              }
+              main();
+          response: |
+            {
+              "object": "list",
+              "data": [
+                {
+                  "id": "model-id-0",
+                  "object": "model",
+                  "created": 1686935002,
+                  "owned_by": "organization-owner"
+                },
+                {
+                  "id": "model-id-1",
+                  "object": "model",
+                  "created": 1686935002,
+                  "owned_by": "organization-owner",
+                },
+                {
+                  "id": "model-id-2",
+                  "object": "model",
+                  "created": 1686935002,
+                  "owned_by": "openai"
+                },
+              ],
+              "object": "list"
+            }
+  /models/{model}:
+    get:
+      operationId: retrieveModel
+      tags:
+        - Models
+      summary: Retrieves a model instance, providing basic information about the model such as the owner and permissioning.
+      parameters:
+        - in: path
+          name: model
+          required: true
+          schema:
+            type: string
+            # ideally this will be an actual ID, so this will always work from browser
+            example: gpt-3.5-turbo
+          description: The ID of the model to use for this request
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Model"
+      x-oaiMeta:
+        name: Retrieve model
+        returns: The [model](https://platform.openai.com/docs/api-reference/models/object) object matching the specified ID.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/models/VAR_model_id \
+                -H "Authorization: Bearer $OPENAI_API_KEY"
+            python: |
+              import os
+              import openai
+              openai.api_key = os.getenv("OPENAI_API_KEY")
+              openai.Model.retrieve("VAR_model_id")
+            node.js: |-
+              import OpenAI from "openai";
+
+              const openai = new OpenAI();
+
+              async function main() {
+                const model = await openai.models.retrieve("gpt-3.5-turbo");
+
+                console.log(model);
+              }
+
+              main();
+          response: &retrieve_model_response |
+            {
+              "id": "VAR_model_id",
+              "object": "model",
+              "created": 1686935002,
+              "owned_by": "openai"
+            }
+    delete:
+      operationId: deleteModel
+      tags:
+        - Models
+      summary: Delete a fine-tuned model. You must have the Owner role in your organization to delete a model.
+      parameters:
+        - in: path
+          name: model
+          required: true
+          schema:
+            type: string
+            example: ft:gpt-3.5-turbo:acemeco:suffix:abc123
+          description: The model to delete
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteModelResponse"
+      x-oaiMeta:
+        name: Delete fine-tune model
+        returns: Deletion status.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/models/ft:gpt-3.5-turbo:acemeco:suffix:abc123 \
+                -X DELETE \
+                -H "Authorization: Bearer $OPENAI_API_KEY"
+            python: |
+              import os
+              import openai
+              openai.api_key = os.getenv("OPENAI_API_KEY")
+              openai.Model.delete("ft:gpt-3.5-turbo:acemeco:suffix:abc123")
+            node.js: |-
+              import OpenAI from "openai";
+
+              const openai = new OpenAI();
+
+              async function main() {
+                const model = await openai.models.del("ft:gpt-3.5-turbo:acemeco:suffix:abc123");
+
+                console.log(model);
+              }
+              main();
+          response: |
+            {
+              "id": "ft:gpt-3.5-turbo:acemeco:suffix:abc123",
+              "object": "model",
+              "deleted": true
+            }
+  /moderations:
+    post:
+      operationId: createModeration
+      tags:
+        - Moderations
+      summary: Classifies if text violates OpenAI's Content Policy.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateModerationRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateModerationResponse"
+      x-oaiMeta:
+        name: Create moderation
+        returns: A [moderation](https://platform.openai.com/docs/api-reference/moderations/object) object.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/moderations \
+                -H "Content-Type: application/json" \
+                -H "Authorization: Bearer $OPENAI_API_KEY" \
+                -d '{
+                  "input": "I want to kill them."
+                }'
+            python: |
+              import os
+              import openai
+              openai.api_key = os.getenv("OPENAI_API_KEY")
+              openai.Moderation.create(
+                input="I want to kill them.",
+              )
+            node.js: |
+              import OpenAI from "openai";
+
+              const openai = new OpenAI();
+
+              async function main() {
+                const moderation = await openai.moderations.create({ input: "I want to kill them." });
+
+                console.log(moderation);
+              }
+              main();
+          response: &moderation_example |
+            {
+              "id": "modr-XXXXX",
+              "model": "text-moderation-005",
+              "results": [
+                {
+                  "flagged": true,
+                  "categories": {
+                    "sexual": false,
+                    "hate": false,
+                    "harassment": false,
+                    "self-harm": false,
+                    "sexual/minors": false,
+                    "hate/threatening": false,
+                    "violence/graphic": false,
+                    "self-harm/intent": false,
+                    "self-harm/instructions": false,
+                    "harassment/threatening": true,
+                    "violence": true,
+                  },
+                  "category_scores": {
+                    "sexual": 1.2282071e-06,
+                    "hate": 0.010696256,
+                    "harassment": 0.29842457,
+                    "self-harm": 1.5236925e-08,
+                    "sexual/minors": 5.7246268e-08,
+                    "hate/threatening": 0.0060676364,
+                    "violence/graphic": 4.435014e-06,
+                    "self-harm/intent": 8.098441e-10,
+                    "self-harm/instructions": 2.8498655e-11,
+                    "harassment/threatening": 0.63055265,
+                    "violence": 0.99011886,
+                  }
+                }
+              ]
+            }
+
+
+components:
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: http
+      scheme: 'bearer'
+
+  schemas:
+    CreateCompletionRequest:
+      type: object
+      description: Request object for the Create completion endpoint.
+      properties:
+        model:
+          title: CompletionModel
+          description: &model_description |
+            ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+          anyOf:
+            - type: string
+            - type: string
+              title: CompletionModels
+              description: |
+                Available completion models. Mind that the list may not be exhaustive nor up-to-date.
+              enum:
+                [
+                  "babbage-002",
+                  "davinci-002",
+                  "gpt-3.5-turbo-instruct",
+                  "text-davinci-003",
+                  "text-davinci-002",
+                  "text-davinci-001",
+                  "code-davinci-002",
+                  "text-curie-001",
+                  "text-babbage-001",
+                  "text-ada-001",
+                ]
+          x-oaiTypeLabel: string
+        prompt:
+          title: CompletionPrompt
+          description: &completions_prompt_description |
+            The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays.
+
+            Note that <|endoftext|> is the document separator that the model sees during training, so if a prompt is not specified the model will generate as if from the beginning of a new document.
+          default: "<|endoftext|>"
+          nullable: true
+          oneOf:
+            - type: string
+              default: ""
+              example: "This is a test."
+            - type: array
+              items:
+                type: string
+                default: ""
+                example: "This is a test."
+            - type: array
+              minItems: 1
+              items:
+                type: integer
+              example: "[1212, 318, 257, 1332, 13]"
+            - type: array
+              minItems: 1
+              items:
+                type: array
+                minItems: 1
+                items:
+                  type: integer
+              example: "[[1212, 318, 257, 1332, 13]]"
+        best_of:
+          type: integer
+          minimum: 0
+          maximum: 20
+          nullable: true
+          description: &completions_best_of_description |
+            Generates `best_of` completions server-side and returns the "best" (the one with the highest log probability per token). Results cannot be streamed.
+            
+            When used with `n`, `best_of` controls the number of candidate completions and `n` specifies how many to return – `best_of` must be greater than `n`.
+
+            **Note:** Because this parameter generates many completions, it can quickly consume your token quota. Use carefully and ensure that you have reasonable settings for `max_tokens` and `stop`.
+        echo:
+          type: boolean
+          default: false
+          nullable: true
+          description: &completions_echo_description >
+            Echo back the prompt in addition to the completion
+        frequency_penalty:
+          type: number
+          default: 0
+          minimum: -2
+          maximum: 2
+          nullable: true
+          description: &completions_frequency_penalty_description |
+            Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+
+            [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+        logit_bias: &completions_logit_bias
+          type: object
+          x-oaiTypeLabel: map
+          default: null
+          nullable: true
+          additionalProperties:
+            type: integer
+          description: &completions_logit_bias_description |
+            Modify the likelihood of specified tokens appearing in the completion.
+
+            Accepts a json object that maps tokens (specified by their token ID in the GPT tokenizer) to an associated bias value from -100 to 100. You can use this [tokenizer tool](https://platform.openai.com/tokenizer?view=bpe) (which works for both GPT-2 and GPT-3) to convert text to token IDs. Mathematically, the bias is added to the logits generated by the model prior to sampling. The exact effect will vary per model, but values between -1 and 1 should decrease or increase likelihood of selection; values like -100 or 100 should result in a ban or exclusive selection of the relevant token.
+
+            As an example, you can pass `{"50256": -100}` to prevent the <|endoftext|> token from being generated.
+        logprobs: &completions_logprobs_configuration
+          type: integer
+          minimum: 0
+          maximum: 5
+          default: null
+          nullable: true
+          description: &completions_logprobs_description |
+            Include the log probabilities on the `logprobs` most likely tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response.
+
+            The maximum value for `logprobs` is 5.
+        max_tokens:
+          type: integer
+          minimum: 0
+          default: 16
+          example: 16
+          nullable: true
+          description: &completions_max_tokens_description |
+            The maximum number of [tokens](https://platform.openai.com/tokenizer) to generate in the completion.
+
+            The token count of your prompt plus `max_tokens` cannot exceed the model's context length. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
+        n:
+          type: integer
+          minimum: 1
+          maximum: 128
+          default: 1
+          example: 1
+          nullable: true
+          description: &completions_completions_description |
+            How many completions to generate for each prompt.
+
+            **Note:** Because this parameter generates many completions, it can quickly consume your token quota. Use carefully and ensure that you have reasonable settings for `max_tokens` and `stop`.
+        presence_penalty:
+          type: number
+          default: 0
+          minimum: -2
+          maximum: 2
+          nullable: true
+          description: &completions_presence_penalty_description |
+            Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
+
+            [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+        stop:
+          title: CompletionStop
+          description: &completions_stop_description >
+            Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
+          default: null
+          nullable: true
+          oneOf:
+            - type: string
+              default: <|endoftext|>
+              example: "\n"
+              nullable: true
+            - type: array
+              minItems: 1
+              maxItems: 4
+              items:
+                type: string
+                example: '["\n"]'
+        stream:
+          description: >
+            Whether to stream back partial progress. If set, tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format)
+            as they become available, with the stream terminated by a `data: [DONE]` message. [Example Python code](https://cookbook.openai.com/examples/how_to_stream_completions).
+          type: boolean
+          nullable: true
+          default: false
+        suffix:
+          description: The suffix that comes after a completion of inserted text.
+          default: null
+          nullable: true
+          type: string
+          example: "test."
+        temperature:
+          type: number
+          minimum: 0
+          maximum: 2
+          default: 1
+          example: 1
+          nullable: true
+          description: &completions_temperature_description |
+            What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+
+            We generally recommend altering this or `top_p` but not both.
+        top_p:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 1
+          example: 1
+          nullable: true
+          description: &completions_top_p_description |
+            An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+
+            We generally recommend altering this or `temperature` but not both.
+        user: &end_user_param_configuration
+          type: string
+          example: user-1234
+          description: |
+            A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+      required:
+        - model
+        - prompt
+    CreateCompletionResponse:
+      type: object
+      description: |
+        Represents a completion response from the API. Note: both the streamed and non-streamed response objects share the same shape (unlike the chat endpoint).
+      properties:
+        id:
+          type: string
+          description: A unique identifier for the completion.
+        choices:
+          type: array
+          description: The list of completion choices the model generated for the input prompt.
+          items:
+            $ref: "#/components/schemas/CompletionChoice"
+        created:
+          type: integer
+          description: The Unix timestamp (in seconds) of when the completion was created.
+        model:
+          type: string
+          description: The model used for completion.
+        object:
+          type: string
+          description: The object type, which is always "text_completion"
+        usage:
+          $ref: "#/components/schemas/CompletionUsage"
+      required:
+        - id
+        - object
+        - created
+        - model
+        - choices
+      x-oaiMeta:
+        name: The completion object
+        legacy: true
+        example: |
+          {
+            "id": "cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7",
+            "object": "text_completion",
+            "created": 1589478378,
+            "model": "gpt-3.5-turbo",
+            "choices": [
+              {
+                "text": "\n\nThis is indeed a test",
+                "index": 0,
+                "logprobs": null,
+                "finish_reason": "length"
+              }
+            ],
+            "usage": {
+              "prompt_tokens": 5,
+              "completion_tokens": 7,
+              "total_tokens": 12
+            }
+          }
+    CompletionChoice:
+      type: object
+      description: A choice the model generated for the input prompt.
+      required:
+        - finish_reason
+        - index
+        - logprobs
+        - text
+      properties:
+        finish_reason:
+          $ref: "#/components/schemas/CompletionFinishReason"
+        index:
+          type: integer
+          description: The index of the choice in the list of generated choices.
+        logprobs:
+          $ref: "#/components/schemas/CompletionLogprobs"
+          nullable: true
+        text:
+          type: string
+          description: The text of the completion.
+    CompletionFinishReason:
+      type: string
+      nullable: true
+      description: &completion_finish_reason_description |
+        The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
+        `length` if the maximum number of tokens specified in the request was reached,
+        or `content_filter` if content was omitted due to a flag from our content filters.
+      enum: [ "stop", "length", "content_filter" ]
+    CompletionLogprobs:
+      type: object
+      description: |
+        The probabilities on the `logprobs` most likely tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response.
+      properties:
+        text_offset:
+          type: array
+          description: The offset of the token from the beginning of the prompt.
+          items:
+            type: integer
+        token_logprobs:
+          type: array
+          description: The log probabilities of tokens in the completion.
+          items:
+            type: number
+            nullable: true
+        tokens:
+          type: array
+          description: The tokens generated by the model converted back to text.
+          items:
+            type: string
+        top_logprobs:
+          type: array
+          description: The log probabilities of the `logprobs` most likely tokens.
+          items:
+            type: object
+            nullable: true
+            additionalProperties:
+              type: number
+    CreateChatCompletionRequest:
+      type: object
+      description: Request object for the Create chat completion endpoint.
+      properties:
+        model:
+          title: ChatCompletionModel
+          description: ID of the model to use. See the [model endpoint compatibility](/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.
+          example: "gpt-3.5-turbo"
+          anyOf:
+            - type: string
+            - type: string
+              title: ChatCompletionModels
+              enum:
+                [
+                  "gpt-4",
+                  "gpt-4-0314",
+                  "gpt-4-0613",
+                  "gpt-4-32k",
+                  "gpt-4-32k-0314",
+                  "gpt-4-32k-0613",
+                  "gpt-3.5-turbo",
+                  "gpt-3.5-turbo-16k",
+                  "gpt-3.5-turbo-0301",
+                  "gpt-3.5-turbo-0613",
+                  "gpt-3.5-turbo-16k-0613",
+                ]
+          x-oaiTypeLabel: string
+        messages:
+          description: A list of messages comprising the conversation so far. [Example Python code](https://cookbook.openai.com/examples/how_to_format_inputs_to_chatgpt_models).
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/ChatCompletionMessage"
+        frequency_penalty:
+          type: number
+          default: 0
+          minimum: -2
+          maximum: 2
+          nullable: true
+          description: *completions_frequency_penalty_description
+        function_call:
+          description: >
+            Controls how the model calls functions. "none" means the model will not call a function and instead generates a message. "auto" means the model can pick between generating a message or calling a function. Specifying a particular function via [ChatCompletionFunctionCallOption] forces the model to call that function. "none" is the default when no functions are present. "auto" is the default if functions are present.
+          type: object
+          # TODO add support for oneOf
+          # title: ChatCompletionFunctionCall
+          # oneOf:
+          #   - type: string
+          #     enum: [ none, auto ]
+          #   - $ref: "#/components/schemas/ChatCompletionFunctionCallOption"
+        functions:
+          description: A list of functions the model may generate JSON inputs for.
+          type: array
+          minItems: 1
+          maxItems: 128
+          items:
+            $ref: "#/components/schemas/ChatCompletionFunctions"
+        logit_bias:
+          type: object
+          x-oaiTypeLabel: map
+          default: null
+          nullable: true
+          additionalProperties:
+            type: integer
+          description: |
+            Modify the likelihood of specified tokens appearing in the completion.
+
+            Accepts a json object that maps tokens (specified by their token ID in the tokenizer) to an associated bias value from -100 to 100. Mathematically, the bias is added to the logits generated by the model prior to sampling. The exact effect will vary per model, but values between -1 and 1 should decrease or increase likelihood of selection; values like -100 or 100 should result in a ban or exclusive selection of the relevant token.
+        max_tokens:
+          description: |
+            The maximum number of [tokens](https://platform.openai.com/tokenizer) to generate in the chat completion.
+
+            The total length of input tokens and generated tokens is limited by the model's context length. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
+          default: inf
+          type: integer
+          nullable: true
+        n:
+          type: integer
+          minimum: 1
+          maximum: 128
+          default: 1
+          example: 1
+          nullable: true
+          description: How many chat completion choices to generate for each input message.
+        presence_penalty:
+          type: number
+          default: 0
+          minimum: -2
+          maximum: 2
+          nullable: true
+          description: *completions_presence_penalty_description
+        stop:
+          title: ChatCompletionStop
+          description: |
+            Up to 4 sequences where the API will stop generating further tokens.
+          default: null
+          oneOf:
+            - type: string
+              nullable: true
+            - type: array
+              minItems: 1
+              maxItems: 4
+              items:
+                type: string
+        stream:
+          description: >
+            If set, partial message deltas will be sent, like in ChatGPT. Tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format)
+            as they become available, with the stream terminated by a `data: [DONE]` message. [Example Python code](https://cookbook.openai.com/examples/how_to_stream_completions).
+          type: boolean
+          nullable: true
+          default: false
+        temperature:
+          type: number
+          minimum: 0
+          maximum: 2
+          default: 1
+          example: 1
+          nullable: true
+          description: *completions_temperature_description
+        top_p:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 1
+          example: 1
+          nullable: true
+          description: *completions_top_p_description
+        user: *end_user_param_configuration
+      required:
+        - model
+        - messages
+    ChatCompletionMessage:
+      type: object
+      description: A message in a chat conversation.
+      properties:
+        role:
+          $ref: "#/components/schemas/ChatCompletionMessageRole"
+        content:
+          type: string
+          nullable: true
+          description: The contents of the message. `content` is required for all messages, and may be null for assistant messages with function calls.
+        function_call:
+          $ref: "#/components/schemas/ChatCompletionMessageFunctionCall"
+        name:
+          type: string
+          description: The name of the author of this message. `name` is required if role is `function`, and it should be the name of the function whose response is in the `content`. May contain a-z, A-Z, 0-9, and underscores, with a maximum length of 64 characters.
+      required:
+        - role
+        - content
+    ChatCompletionMessageRole:
+      type: string
+      enum: [ "system", "user", "assistant", "function" ]
+      description: The role of the messages author. One of `system`, `user`, `assistant`, or `function`.
+    ChatCompletionMessageFunctionCall:
+      type: object
+      description: The name and arguments of a function that should be called, as generated by the model.
+      properties:
+        name:
+          type: string
+          description: The name of the function to call.
+        arguments:
+          type: string
+          description: The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function.
+      required:
+        - arguments
+        - name
+    ChatCompletionFunctions:
+      type: object
+      description: A function that the model may call.
+      properties:
+        name:
+          type: string
+          description: The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.
+        description:
+          type: string
+          description: A description of what the function does, used by the model to choose when and how to call the function.
+        parameters:
+          $ref: "#/components/schemas/ChatCompletionFunctionParameters"
+      required:
+        - name
+        - parameters
+    ChatCompletionFunctionParameters:
+      type: object
+      description: "The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.\n\nTo describe a function that accepts no parameters, provide the value `{\"type\": \"object\", \"properties\": {}}`."
+      additionalProperties: true
+    ChatCompletionFunctionCallOption:
+      type: object
+      description: Forces the model to call the specified function.
+      properties:
+        name:
+          type: string
+          description: The name of the function to call.
+      required:
+        - name
+    CreateChatCompletionResponse:
+      type: object
+      description: Represents a chat completion response returned by model, based on the provided input.
+      properties:
+        id:
+          type: string
+          description: A unique identifier for the chat completion.
+        choices:
+          type: array
+          description: A list of chat completion choices. Can be more than one if `n` is greater than 1.
+          items:
+            $ref: "#/components/schemas/ChatCompletionResponseChoice"
+        created:
+          type: integer
+          description: The Unix timestamp (in seconds) of when the chat completion was created.
+        model:
+          type: string
+          description: The model used for the chat completion.
+        object:
+          type: string
+          description: The object type, which is always `chat.completion`.
+        usage:
+          $ref: "#/components/schemas/CompletionUsage"
+      required:
+        - choices
+        - created
+        - id
+        - model
+        - object
+      x-oaiMeta:
+        name: The chat completion object
+        group: chat
+        example: *chat_completion_example
+    ChatCompletionResponseChoice:
+      type: object
+      description: A choice the model generated for the input prompt.
+      required:
+        - finish_reason
+        - index
+        - message
+      properties:
+        finish_reason:
+          $ref: "#/components/schemas/ChatCompletionFinishReason"
+        index:
+          type: integer
+          description: The index of the choice in the list of choices.
+        message:
+          $ref: "#/components/schemas/ChatCompletionMessage"
+    ChatCompletionFinishReason:
+      type: string
+      description: &chat_completion_finish_reason_description |
+        The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
+        `length` if the maximum number of tokens specified in the request was reached,
+        `content_filter` if content was omitted due to a flag from our content filters,
+        or `function_call` if the model called a function.
+      enum: [ "stop", "length", "function_call", "content_filter" ]
+    CreateChatCompletionStreamResponse:
+      type: object
+      description: Represents a streamed chunk of a chat completion response returned by model, based on the provided input.
+      properties:
+        id:
+          type: string
+          description: A unique identifier for the chat completion. Each chunk has the same ID.
+        choices:
+          type: array
+          description: A list of chat completion choices. Can be more than one if `n` is greater than 1.
+          items:
+            $ref: "#/components/schemas/ChatCompletionStreamResponseChoice"
+        created:
+          type: integer
+          description: The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp.
+        model:
+          type: string
+          description: The model to generate the completion.
+        object:
+          type: string
+          description: The object type, which is always `chat.completion.chunk`.
+      required:
+        - choices
+        - created
+        - id
+        - model
+        - object
+      x-oaiMeta:
+        name: The chat completion chunk object
+        group: chat
+        example: *chat_completion_chunk_example
+    ChatCompletionStreamResponseChoice:
+      type: object
+      description: A choice the model generated for the input prompt.
+      required:
+        - delta
+        - finish_reason
+        - index
+      properties:
+        delta:
+          $ref: "#/components/schemas/ChatCompletionStreamResponseDelta"
+        finish_reason:
+          $ref: "#/components/schemas/ChatCompletionFinishReason"
+          nullable: true
+        index:
+          type: integer
+          description: The index of the choice in the list of choices.
+    ChatCompletionStreamResponseDelta:
+      type: object
+      description: A chat completion delta generated by streamed model responses.
+      properties:
+        content:
+          type: string
+          description: The contents of the chunk message.
+          nullable: true
+        function_call:
+          $ref: "#/components/schemas/ChatCompletionMessageFunctionCall"
+        role:
+          $ref: "#/components/schemas/ChatCompletionMessageRole"
+    CompletionUsage:
+      type: object
+      description: Usage statistics for the completion request.
+      properties:
+        completion_tokens:
+          type: integer
+          nullable: true
+          description: Number of tokens in the generated completion.
+        prompt_tokens:
+          type: integer
+          description: Number of tokens in the prompt.
+        total_tokens:
+          type: integer
+          description: Total number of tokens used in the request (prompt + completion).
+      required:
+        - prompt_tokens
+        - completion_tokens
+        - total_tokens
+    CreateEmbeddingRequest:
+      type: object
+      description: Request object for the Create embedding endpoint.
+      additionalProperties: false
+      properties:
+        model:
+          title: EmbeddingModel
+          description: *model_description
+          example: "text-embedding-ada-002"
+          anyOf:
+            - type: string
+            - type: string
+              title: EmbeddingModels
+              enum: [ "text-embedding-ada-002" ]
+        input:
+          title: EmbeddingInput
+          description: |
+            Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. The input must not exceed the max input tokens for the model (8192 tokens for `text-embedding-ada-002`) and cannot be an empty string. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
+          example: "The quick brown fox jumped over the lazy dog"
+          oneOf:
+            - type: string
+              default: ""
+              example: "This is a test."
+            - type: array
+              minItems: 1
+              items:
+                type: string
+                default: ""
+                example: "This is a test."
+            - type: array
+              minItems: 1
+              items:
+                type: integer
+              example: "[1212, 318, 257, 1332, 13]"
+            - type: array
+              minItems: 1
+              items:
+                type: array
+                minItems: 1
+                items:
+                  type: integer
+              example: "[[1212, 318, 257, 1332, 13]]"
+        encoding_format:
+          title: EmbeddingEncodingFormat
+          description: "The format to return the embeddings in. Can be either `float` or [`base64`](https://pypi.org/project/pybase64/)."
+          example: "float"
+          default: "float"
+          type: string
+          enum: [ "float", "base64" ]
+        user: *end_user_param_configuration
+      required:
+        - model
+        - input
+    CreateEmbeddingResponse:
+      type: object
+      description: Represents an embedding vector returned by embedding endpoint.
+      properties:
+        data:
+          type: array
+          description: The list of embeddings generated by the model.
+          items:
+            $ref: "#/components/schemas/Embedding"
+        model:
+          type: string
+          description: The name of the model used to generate the embedding.
+        object:
+          type: string
+          description: The object type, which is always "list".
+        usage:
+          $ref: "#/components/schemas/EmbeddingUsage"
+      required:
+        - object
+        - model
+        - data
+        - usage
+    Embedding:
+      type: object
+      description: |
+        Represents an embedding vector returned by embedding endpoint.
+      properties:
+        index:
+          type: integer
+          description: The index of the embedding in the list of embeddings.
+        embedding:
+          type: array
+          description: |
+            The embedding vector, which is a list of floats. The length of vector depends on the model as listed in the [embedding guide](https://platform.openai.com/docs/guides/embeddings).
+          items:
+            type: number
+        object:
+          type: string
+          description: The object type, which is always "embedding".
+      required:
+        - index
+        - object
+        - embedding
+      x-oaiMeta:
+        name: The embedding object
+        example: |
+          {
+            "object": "embedding",
+            "embedding": [
+              0.0023064255,
+              -0.009327292,
+              .... (1536 floats total for ada-002)
+              -0.0028842222,
+            ],
+            "index": 0
+          }
+    EmbeddingUsage:
+      type: object
+      description: The usage information for the request.
+      properties:
+        prompt_tokens:
+          type: integer
+          description: The number of tokens used by the prompt.
+        total_tokens:
+          type: integer
+          description: The total number of tokens used by the request.
+      required:
+        - prompt_tokens
+        - total_tokens
+    CreateFineTuningJobRequest:
+      type: object
+      description: Request object for the Create fine-tuning job endpoint.
+      properties:
+        model:
+          title: FineTuningModel
+          description: |
+            The name of the model to fine-tune. You can select one of the
+            [supported models](/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
+          example: "gpt-3.5-turbo"
+          anyOf:
+            - type: string
+            - type: string
+              title: FineTuningModels
+              enum: [ "babbage-002", "davinci-002", "gpt-3.5-turbo" ]
+          x-oaiTypeLabel: string
+        training_file:
+          description: |
+            The ID of an uploaded file that contains training data.
+
+            See [upload file](https://platform.openai.com/docs/api-reference/files/upload) for how to upload a file.
+
+            Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.
+
+            See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
+          type: string
+          example: "file-abc123"
+        hyperparameters:
+          $ref: "#/components/schemas/FineTuningJobHyperparameters"
+        suffix:
+          description: |
+            A string of up to 18 characters that will be added to your fine-tuned model name.
+
+            For example, a `suffix` of "custom-model-name" would produce a model name like `ft:gpt-3.5-turbo:openai:custom-model-name:7p4lURel`.
+          type: string
+          minLength: 1
+          maxLength: 40
+          default: null
+          nullable: true
+        validation_file:
+          description: |
+            The ID of an uploaded file that contains validation data.
+
+            If you provide this file, the data is used to generate validation
+            metrics periodically during fine-tuning. These metrics can be viewed in
+            the fine-tuning results file.
+            The same data should not be present in both train and validation files.
+
+            Your dataset must be formatted as a JSONL file. You must upload your file with the purpose `fine-tune`.
+
+            See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
+          type: string
+          nullable: true
+          example: "file-abc123"
+      required:
+        - model
+        - training_file
+    FineTuningJob:
+      type: object
+      title: FineTuningJob
+      description: |
+        The `fine_tuning.job` object represents a fine-tuning job that has been created through the API.
+      properties:
+        id:
+          type: string
+          description: The object identifier, which can be referenced in the API endpoints.
+        created_at:
+          type: integer
+          description: The Unix timestamp (in seconds) for when the fine-tuning job was created.
+        error:
+          $ref: "#/components/schemas/FineTuningJobError"
+        fine_tuned_model:
+          type: string
+          nullable: true
+          description: The name of the fine-tuned model that is being created. The value will be null if the fine-tuning job is still running.
+        finished_at:
+          type: integer
+          nullable: true
+          description: The Unix timestamp (in seconds) for when the fine-tuning job was finished. The value will be null if the fine-tuning job is still running.
+        hyperparameters:
+          $ref: "#/components/schemas/FineTuningJobHyperparameters"
+        model:
+          type: string
+          description: The base model that is being fine-tuned.
+        object:
+          type: string
+          description: The object type, which is always "fine_tuning.job".
+        organization_id:
+          type: string
+          description: The organization that owns the fine-tuning job.
+        result_files:
+          type: array
+          description: The compiled results file ID(s) for the fine-tuning job. You can retrieve the results with the [Files API](https://platform.openai.com/docs/api-reference/files/retrieve-contents).
+          items:
+            type: string
+            example: file-abc123
+        status:
+          $ref: "#/components/schemas/FineTuningJobStatus"
+        trained_tokens:
+          type: integer
+          nullable: true
+          description: The total number of billable tokens processed by this fine-tuning job. The value will be null if the fine-tuning job is still running.
+        training_file:
+          type: string
+          description: The file ID used for training. You can retrieve the training data with the [Files API](https://platform.openai.com/docs/api-reference/files/retrieve-contents).
+        validation_file:
+          type: string
+          nullable: true
+          description: The file ID used for validation. You can retrieve the validation results with the [Files API](https://platform.openai.com/docs/api-reference/files/retrieve-contents).
+      required:
+        - created_at
+        - error
+        - finished_at
+        - fine_tuned_model
+        - hyperparameters
+        - id
+        - model
+        - object
+        - organization_id
+        - result_files
+        - status
+        - trained_tokens
+        - training_file
+        - validation_file
+      x-oaiMeta:
+        name: The fine-tuning job object
+        example: *fine_tuning_example
+    FineTuningJobStatus:
+      type: string
+      description: The current status of the fine-tuning job, which can be either `validating_files`, `queued`, `running`, `succeeded`, `failed`, or `cancelled`.
+      enum: [ "validating_files", "queued", "running", "succeeded", "failed", "cancelled" ]
+    FineTuningJobError:
+      type: object
+      nullable: true
+      description: For fine-tuning jobs that have `failed`, this will contain more information on the cause of the failure.
+      properties:
+        code:
+          type: string
+          description: A machine-readable error code.
+        message:
+          type: string
+          description: A human-readable error message.
+        param:
+          type: string
+          description: The parameter that was invalid, usually `training_file` or `validation_file`. This field will be null if the failure was not parameter-specific.
+          nullable: true
+      required:
+        - code
+        - message
+        - param
+    FineTuningJobHyperparameters:
+      type: object
+      description: The hyperparameters used for the fine-tuning job. See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
+      properties:
+        n_epochs:
+          title: FineTuningNEpochs
+          description: |
+            The number of epochs to train the model for. An epoch refers to one
+            full cycle through the training dataset.
+          oneOf:
+            - type: string
+              title: FineTuningNEpochsOptions
+              enum: [auto]
+            - type: integer
+              minimum: 1
+              maximum: 50
+          default: auto
+      required:
+        - n_epochs
+    ListPaginatedFineTuningJobsResponse:
+      type: object
+      description: Represents a list of fine-tuning jobs.
+      properties:
+        data:
+          type: array
+          description: The list of fine-tuning jobs.
+          items:
+            $ref: "#/components/schemas/FineTuningJob"
+        has_more:
+          type: boolean
+          description: Whether there are more fine-tuning jobs to retrieve.
+        object:
+          type: string
+          description: The object type, which is always "list".
+      required:
+        - object
+        - data
+        - has_more
+    ListFineTuningJobEventsResponse:
+      type: object
+      description: Represents a list of fine-tuning job events.
+      properties:
+        data:
+          type: array
+          description: The list of fine-tuning job events.
+          items:
+            $ref: "#/components/schemas/FineTuningJobEvent"
+        object:
+          type: string
+          description: The object type, which is always "list".
+      required:
+        - object
+        - data
+    FineTuningJobEvent:
+      type: object
+      description: Fine-tuning job event object.
+      properties:
+        id:
+          type: string
+          description: The event identifier, which can be referenced in the API endpoints.
+        created_at:
+          type: integer
+          description: The Unix timestamp (in seconds) for when the event was created.
+        level:
+          type: string
+          description: The log level of the event.
+          enum: ["info", "warn", "error"]
+        message:
+          type: string
+          description: The message of the event.
+        object:
+          type: string
+          description: The object type, which is always "fine_tuning.job.event".
+      required:
+        - id
+        - object
+        - created_at
+        - level
+        - message
+      x-oaiMeta:
+        name: The fine-tuning job event object
+        example: |
+          {
+            "object": "event",
+            "id": "ftevent-abc123"
+            "created_at": 1677610602,
+            "level": "info",
+            "message": "Created fine-tuning job"
+          }
+    CreateImageRequest:
+      type: object
+      description: Request object for the Create image endpoint.
+      properties:
+        prompt:
+          description: A text description of the desired image(s). The maximum length is 1000 characters.
+          type: string
+          example: "A cute baby sea otter"
+        n: &images_n
+          type: integer
+          minimum: 1
+          maximum: 10
+          default: 1
+          example: 1
+          nullable: true
+          description: The number of images to generate. Must be between 1 and 10.
+        response_format: &images_response_format
+          title: ImageResponseFormat
+          type: string
+          enum: ["url", "b64_json"]
+          default: "url"
+          example: "url"
+          nullable: true
+          description: The format in which the generated images are returned. Must be one of `url` or `b64_json`.
+        size: &images_size
+          title: ImageSize
+          type: string
+          enum: ["256x256", "512x512", "1024x1024"]
+          default: "1024x1024"
+          example: "1024x1024"
+          nullable: true
+          description: The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
+        user: *end_user_param_configuration
+      required:
+        - prompt
+    ImagesResponse:
+      type: object
+      description: Represents a generated image returned by the images endpoint.
+      properties:
+        created:
+          type: integer
+          description: The Unix timestamp (in seconds) when the image was created.
+        data:
+          type: array
+          description: The list of images generated by the model.
+          items:
+            $ref: "#/components/schemas/Image"
+      required:
+        - created
+        - data
+    Image:
+      type: object
+      description: Represents the url or the content of an image generated by the OpenAI API.
+      properties:
+        b64_json:
+          type: string
+          description: The base64-encoded JSON of the generated image, if `response_format` is `b64_json`.
+        url:
+          type: string
+          description: The URL of the generated image, if `response_format` is `url` (default).
+      x-oaiMeta:
+        name: The image object
+        example: |
+          {
+            "url": "..."
+          }
+    Model:
+      title: Model
+      description: Describes an OpenAI model offering that can be used with the API.
+      properties:
+        id:
+          type: string
+          description: The model identifier, which can be referenced in the API endpoints.
+        created:
+          type: integer
+          description: The Unix timestamp (in seconds) when the model was created.
+        object:
+          type: string
+          description: The object type, which is always "model".
+        owned_by:
+          type: string
+          description: The organization that owns the model.
+      required:
+        - id
+        - object
+        - created
+        - owned_by
+      x-oaiMeta:
+        name: The model object
+        example: *retrieve_model_response
+    ListModelsResponse:
+      type: object
+      description: Represents a list of models returned by the List models endpoint.
+      properties:
+        object:
+          type: string
+          description: The object type, which is always "list".
+        data:
+          type: array
+          description: The list of models.
+          items:
+            $ref: "#/components/schemas/Model"
+      required:
+        - object
+        - data
+    DeleteModelResponse:
+      type: object
+      description: Represents a deleted response returned by the Delete model endpoint.
+      properties:
+        id:
+          type: string
+          description: The model identifier.
+        deleted:
+          type: boolean
+          description: Whether the model was deleted.
+        object:
+          type: string
+          description: The object type, which is always "model".
+      required:
+        - id
+        - object
+        - deleted
+    CreateModerationRequest:
+      type: object
+      description: Request object for the Create moderation endpoint.
+      properties:
+        model:
+          title: ModerationModel
+          description: |
+            Two content moderations models are available: `text-moderation-stable` and `text-moderation-latest`.
+
+            The default is `text-moderation-latest` which will be automatically upgraded over time. This ensures you are always using our most accurate model. If you use `text-moderation-stable`, we will provide advanced notice before updating the model. Accuracy of `text-moderation-stable` may be slightly lower than for `text-moderation-latest`.
+          nullable: false
+          default: "text-moderation-latest"
+          example: "text-moderation-stable"
+          anyOf:
+            - type: string
+            - type: string
+              title: ModerationModels
+              enum: ["text-moderation-latest", "text-moderation-stable"]
+          x-oaiTypeLabel: string
+        input:
+          title: ModerationInput
+          description: The input text to classify
+          oneOf:
+            - type: string
+              default: ""
+              example: "I want to kill them."
+            - type: array
+              items:
+                type: string
+                default: ""
+                example: "I want to kill them."
+      required:
+        - input
+    CreateModerationResponse:
+      type: object
+      description: Represents policy compliance report by OpenAI's content moderation model against a given input.
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the moderation request.
+        model:
+          type: string
+          description: The model used to generate the moderation results.
+        results:
+          type: array
+          description: A list of moderation objects.
+          items:
+            $ref: "#/components/schemas/Moderation"
+      required:
+        - id
+        - model
+        - results
+      x-oaiMeta:
+        name: The moderation object
+        example: *moderation_example
+    Moderation:
+      type: object
+      description: Represents policy compliance report by OpenAI's content moderation model against a given input.
+      properties:
+        flagged:
+          type: boolean
+          description: Whether the content violates [OpenAI's usage policies](https://platform.openai.com/policies/usage-policies).
+        categories:
+            $ref: "#/components/schemas/ModerationCategories"
+        category_scores:
+            $ref: "#/components/schemas/ModerationCategoriesScores"
+      required:
+        - flagged
+        - categories
+        - category_scores
+    ModerationCategories:
+      type: object
+      description: A list of the categories, and whether they are flagged or not.
+      properties:
+        hate:
+          type: boolean
+          description: Content that expresses, incites, or promotes hate based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste. Hateful content aimed at non-protected groups (e.g., chess players) is harrassment.
+        hate/threatening:
+          type: boolean
+          description: Hateful content that also includes violence or serious harm towards the targeted group based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste.
+        harassment:
+          type: boolean
+          description: Content that expresses, incites, or promotes harassing language towards any target.
+        harassment/threatening:
+          type: boolean
+          description: Harassment content that also includes violence or serious harm towards any target.
+        self-harm:
+          type: boolean
+          description: Content that promotes, encourages, or depicts acts of self-harm, such as suicide, cutting, and eating disorders.
+        self-harm/intent:
+          type: boolean
+          description: Content where the speaker expresses that they are engaging or intend to engage in acts of self-harm, such as suicide, cutting, and eating disorders.
+        self-harm/instructions:
+          type: boolean
+          description: Content that encourages performing acts of self-harm, such as suicide, cutting, and eating disorders, or that gives instructions or advice on how to commit such acts.
+        sexual:
+          type: boolean
+          description: Content meant to arouse sexual excitement, such as the description of sexual activity, or that promotes sexual services (excluding sex education and wellness).
+        sexual/minors:
+          type: boolean
+          description: Sexual content that includes an individual who is under 18 years old.
+        violence:
+          type: boolean
+          description: Content that depicts death, violence, or physical injury.
+        violence/graphic:
+          type: boolean
+          description: Content that depicts death, violence, or physical injury in graphic detail.
+      required:
+        - hate
+        - hate/threatening
+        - harassment
+        - harassment/threatening
+        - self-harm
+        - self-harm/intent
+        - self-harm/instructions
+        - sexual
+        - sexual/minors
+        - violence
+        - violence/graphic
+    ModerationCategoriesScores:
+      type: object
+      description: A list of the categories along with their scores as predicted by model.
+      properties:
+        hate:
+          type: number
+          description: The score for the category 'hate'.
+        hate/threatening:
+          type: number
+          description: The score for the category 'hate/threatening'.
+        harassment:
+          type: number
+          description: The score for the category 'harassment'.
+        harassment/threatening:
+          type: number
+          description: The score for the category 'harassment/threatening'.
+        self-harm:
+          type: number
+          description: The score for the category 'self-harm'.
+        self-harm/intent:
+          type: number
+          description: The score for the category 'self-harm/intent'.
+        self-harm/instructions:
+          type: number
+          description: The score for the category 'self-harm/instructions'.
+        sexual:
+          type: number
+          description: The score for the category 'sexual'.
+        sexual/minors:
+          type: number
+          description: The score for the category 'sexual/minors'.
+        violence:
+          type: number
+          description: The score for the category 'violence'.
+        violence/graphic:
+          type: number
+          description: The score for the category 'violence/graphic'.
+      required:
+        - hate
+        - hate/threatening
+        - harassment
+        - harassment/threatening
+        - self-harm
+        - self-harm/intent
+        - self-harm/instructions
+        - sexual
+        - sexual/minors
+        - violence
+        - violence/graphic
+
+security:
+  - ApiKeyAuth: [ ]
