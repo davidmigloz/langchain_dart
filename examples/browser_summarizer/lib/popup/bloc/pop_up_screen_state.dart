@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs
 part of 'pop_up_screen_cubit.dart';
 
 @immutable

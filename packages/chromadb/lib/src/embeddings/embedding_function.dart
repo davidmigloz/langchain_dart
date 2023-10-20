@@ -25,20 +25,28 @@ sealed class Embeddable {
   }
 }
 
+/// {@template embeddable_document}
 /// Text document.
+/// {@endtemplate}
 class EmbeddableDocument extends Embeddable {
+  /// {@macro embeddable_document}
   const EmbeddableDocument({
     required this.document,
   });
 
+  /// The text document to embed.
   final String document;
 }
 
+/// {@template embeddable_image}
 /// Image.
+/// {@endtemplate}
 class EmbeddableImage extends Embeddable {
+  /// {@macro embeddable_image}
   const EmbeddableImage({
     required this.image,
   });
 
+  /// The image to embed.
   final String image;
 }

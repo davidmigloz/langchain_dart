@@ -5,6 +5,7 @@ import 'indexes.dart';
 
 /// Vertex AI Index Endpoints to googleapis models.
 class VertexAIIndexEndpointsGoogleApisMapper {
+  /// Maps a VertexAIIndexEndpoint to a GoogleCloudAiplatformV1IndexEndpoint.
   static GoogleCloudAiplatformV1PrivateServiceConnectConfig
       mapPrivateServiceConnectConfig(
     final VertexAIPrivateServiceConnectConfig privateServiceConnectConfig,
@@ -16,6 +17,7 @@ class VertexAIIndexEndpointsGoogleApisMapper {
     );
   }
 
+  /// Maps a VertexAIIndexEndpoint to a GoogleCloudAiplatformV1IndexEndpoint.
   static GoogleCloudAiplatformV1AutomaticResources mapAutomaticResources(
     final VertexAIAutomaticResources automaticResources,
   ) {
@@ -25,6 +27,7 @@ class VertexAIIndexEndpointsGoogleApisMapper {
     );
   }
 
+  /// Maps a VertexAIIndexEndpoint to a GoogleCloudAiplatformV1IndexEndpoint.
   static GoogleCloudAiplatformV1FindNeighborsRequestQuery mapRequestQuery(
     final VertexAIFindNeighborsRequestQuery query,
   ) {
@@ -40,6 +43,7 @@ class VertexAIIndexEndpointsGoogleApisMapper {
     );
   }
 
+  /// Maps a VertexAIIndexEndpoint to a GoogleCloudAiplatformV1IndexEndpoint.
   static VertexAIIndexEndpoint mapIndexEndpoint(
     final GoogleCloudAiplatformV1IndexEndpoint indexEndpoint,
   ) {
@@ -178,6 +182,7 @@ class VertexAIIndexEndpointsGoogleApisMapper {
     );
   }
 
+  /// Maps a GoogleCloudAiplatformV1Index to a VertexAIIndex.
   static VertexAIFindNeighborsResponse mapFindNeighborsResponse(
     final GoogleCloudAiplatformV1FindNeighborsResponse response,
   ) {

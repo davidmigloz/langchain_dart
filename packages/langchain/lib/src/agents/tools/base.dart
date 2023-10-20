@@ -184,6 +184,7 @@ abstract base class Tool extends BaseTool {
           },
         );
 
+  /// The name of the input variable.
   static const inputVar = 'input';
 
   /// Creates a [Tool] from a function.

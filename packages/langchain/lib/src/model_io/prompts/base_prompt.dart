@@ -78,6 +78,7 @@ abstract base class BasePromptTemplate
   /// - [values] - Any arguments to be passed to the prompt template.
   PromptValue formatPrompt(final InputValues values);
 
+  /// Merge the partial variables with the user variables.
   @protected
   Map<String, Object> mergePartialAndUserVariables(
     final Map<String, dynamic> userVariables,

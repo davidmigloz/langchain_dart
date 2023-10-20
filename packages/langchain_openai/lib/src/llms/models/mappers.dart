@@ -1,7 +1,9 @@
 import 'package:langchain/langchain.dart';
 import 'package:openai_dart/openai_dart.dart';
 
+/// Mapper for [CreateCompletionResponse].
 extension CreateCompletionResponseMapper on CreateCompletionResponse {
+  /// Converts a [CreateCompletionResponse] to a [LLMResult].
   LLMResult toLLMResult({final bool streaming = false}) {
     return LLMResult(
       generations: choices

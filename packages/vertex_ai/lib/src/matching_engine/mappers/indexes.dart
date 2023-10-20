@@ -5,6 +5,7 @@ import '../models/indexes.dart';
 
 /// Vertex AI Index Mapper to googleapis models.
 class VertexAIIndexGoogleApisMapper {
+  /// Maps a VertexAIIndex to a GoogleCloudAiplatformV1Index.
   static VertexAIIndex mapIndex(final GoogleCloudAiplatformV1Index index) {
     return VertexAIIndex(
       name: index.name ?? '',
@@ -38,6 +39,7 @@ class VertexAIIndexGoogleApisMapper {
     );
   }
 
+  /// Maps a GoogleCloudAiplatformV1Index to a VertexAIIndex.
   static VertexAIIndexStats mapStats(
     final GoogleCloudAiplatformV1IndexStats stats,
   ) {
@@ -48,6 +50,7 @@ class VertexAIIndexGoogleApisMapper {
     );
   }
 
+  /// Maps a VertexAIIndex to a GoogleCloudAiplatformV1Index.
   static GoogleCloudAiplatformV1IndexDatapoint mapIndexDatapoint(
     final VertexAIIndexDatapoint datapoint,
   ) {
@@ -57,9 +60,8 @@ class VertexAIIndexGoogleApisMapper {
       crowdingTag: datapoint.crowdingTag != null
           ? _mapCrowdingTag(datapoint.crowdingTag!)
           : null,
-      restricts: datapoint.restricts != null
-          ? datapoint.restricts!.map(_mapRestriction).toList(growable: false)
-          : null,
+      restricts:
+          datapoint.restricts?.map(_mapRestriction).toList(growable: false),
     );
   }
 
@@ -81,6 +83,7 @@ class VertexAIIndexGoogleApisMapper {
     );
   }
 
+  /// Maps a GoogleCloudAiplatformV1Index to a VertexAIIndex.
   static VertexAIIndexDatapoint mapIndexDatapointDto(
     final GoogleCloudAiplatformV1IndexDatapoint datapoint,
   ) {
@@ -90,9 +93,8 @@ class VertexAIIndexGoogleApisMapper {
       crowdingTag: datapoint.crowdingTag != null
           ? _mapCrowdingTagDto(datapoint.crowdingTag!)
           : null,
-      restricts: datapoint.restricts != null
-          ? datapoint.restricts!.map(_mapRestrictionDto).toList(growable: false)
-          : null,
+      restricts:
+          datapoint.restricts?.map(_mapRestrictionDto).toList(growable: false),
     );
   }
 

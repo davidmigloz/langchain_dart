@@ -114,14 +114,21 @@ class CacheBackedEmbeddings implements Embeddings {
   }
 }
 
+/// {@template embeddings_byte_store_encoder}
+/// Encoder that transforms values to and from bytes.
+/// {@endtemplate}
 class EmbeddingsByteStoreEncoder
     implements StoreEncoder<String, List<double>, String, Uint8List> {
+  /// {@macro embeddings_byte_store_encoder}
   const EmbeddingsByteStoreEncoder({
     this.namespace = '',
     this.uuid = const Uuid(),
   });
 
+  /// The namespace to use for the cache keys.
   final String namespace;
+
+  /// The uuid generator to use for generating the cache keys.
   final Uuid uuid;
 
   @override

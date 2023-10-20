@@ -236,6 +236,7 @@ class ParsedFStringLiteralNode extends ParsedFStringNode {
     required this.text,
   });
 
+  /// The text of the literal.
   final String text;
 
   @override
@@ -257,6 +258,7 @@ class ParsedFStringVariableNode extends ParsedFStringNode {
     required this.name,
   });
 
+  /// The name of the variable.
   final String name;
 
   @override

@@ -189,6 +189,8 @@ class VertexAITextEmbeddingsModelPrediction {
   /// The statistics computed from the input text.
   final VertexAITextEmbeddingsModelResponseStatistics statistics;
 
+  /// Factory for creating a [VertexAITextEmbeddingsModelPrediction] from a
+  /// JSON map.
   factory VertexAITextEmbeddingsModelPrediction.fromMap(
     final Map<String, dynamic> predictionJson,
   ) {

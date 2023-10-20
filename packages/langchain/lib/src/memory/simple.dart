@@ -6,10 +6,12 @@ import 'models/models.dart';
 /// shouldn't ever change between prompts.
 /// {@endtemplate}
 final class SimpleMemory implements BaseMemory {
+  /// {@macro simple_memory}
   const SimpleMemory({
     this.memories = const {},
   });
 
+  /// The memories to store.
   final Map<String, dynamic> memories;
 
   @override

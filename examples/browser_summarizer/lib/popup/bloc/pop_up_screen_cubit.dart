@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_web_libraries_in_flutter
+// ignore_for_file: avoid_web_libraries_in_flutter, public_member_api_docs
 import 'dart:js_util';
 
 import 'package:equatable/equatable.dart';

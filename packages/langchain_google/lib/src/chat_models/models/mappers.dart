@@ -6,6 +6,7 @@ const _authorAI = 'AI';
 
 /// Mapper for [ChatMessage] to [VertexAITextChatModelMessage].
 extension ChatMessageMapper on ChatMessage {
+  /// Converts a [ChatMessage] to a [VertexAITextChatModelMessage].
   VertexAITextChatModelMessage toVertexAIChatMessage() {
     return switch (this) {
       final HumanChatMessage humanChatMessage => VertexAITextChatModelMessage(
@@ -30,7 +31,9 @@ extension ChatMessageMapper on ChatMessage {
   }
 }
 
+/// Mapper for [ChatExample].
 extension ChatExampleMapper on ChatExample {
+  /// Converts a [ChatExample] to a [VertexAITextChatModelExample].
   VertexAITextChatModelExample toVertexAIChatExample() {
     return VertexAITextChatModelExample(
       input: input.toVertexAIChatMessage(),
@@ -41,6 +44,7 @@ extension ChatExampleMapper on ChatExample {
 
 /// Mapper for [ChatGeneration] to [VertexAITextChatModelResponse].
 extension VertexAITextChatModelResponseMapper on VertexAITextChatModelResponse {
+  /// Converts a [ChatGeneration] to a [VertexAITextChatModelResponse].
   ChatResult toChatResult(final String id, final String model) {
     return ChatResult(
       id: id,

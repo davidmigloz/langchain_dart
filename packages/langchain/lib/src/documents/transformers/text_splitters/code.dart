@@ -7,6 +7,7 @@ import 'recursive_character.dart';
 /// flow statements.
 /// {@endtemplate}
 class CodeTextSplitter extends RecursiveCharacterTextSplitter {
+  /// {@macro code_text_splitter}
   CodeTextSplitter({
     required final CodeLanguage language,
     super.chunkSize,

@@ -43,6 +43,7 @@ import 'sequence.dart';
 /// {@endtemplate}
 abstract class Runnable<RunInput extends Object?,
     CallOptions extends BaseLangChainOptions, RunOutput extends Object?> {
+  /// {@macro runnable}
   const Runnable();
 
   /// Creates a [RunnableSequence] from a list of [Runnable] objects.

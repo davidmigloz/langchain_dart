@@ -2,7 +2,10 @@ import 'package:vertex_ai/vertex_ai.dart';
 
 import 'models.dart';
 
+/// Mapper for [VertexAIIndexDatapointRestriction].
 abstract class VertexAIMatchingEngineFilterMapper {
+  /// Converts a [VertexAIMatchingEngineFilter] to a
+  /// [VertexAIIndexDatapointRestriction].
   static VertexAIIndexDatapointRestriction toDto(
     final VertexAIMatchingEngineFilter filter,
   ) {

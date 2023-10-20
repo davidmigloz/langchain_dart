@@ -16,6 +16,7 @@ final class ExceptionTool extends Tool {
           description: 'Called when the agent throws an OutputParserException',
         );
 
+  /// The name of the tool.
   static const toolName = '_exception';
 
   @override

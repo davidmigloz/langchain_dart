@@ -457,6 +457,7 @@ class VertexAITextChatModelResponseMetadata {
     required this.token,
   });
 
+  /// The token metadata for the response.
   final VertexAITextChatModelResponseMetadataToken token;
 
   /// Factory method for creating a [VertexAITextChatModelResponseMetadata]

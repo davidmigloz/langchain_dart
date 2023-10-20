@@ -30,6 +30,7 @@ import 'qa_with_structure.dart';
 /// ```
 /// {@endtemplate}
 class OpenAIQAWithSourcesChain extends OpenAIQAWithStructureChain {
+  /// {@macro openai_qa_with_sources_chain}
   OpenAIQAWithSourcesChain({
     required super.llm,
   }) : super(
@@ -90,6 +91,7 @@ class QAWithSources {
 /// {@endtemplate}
 class QAWithSourcesOutputParser<CallOptions extends BaseLangChainOptions>
     extends BaseOutputFunctionsParser<CallOptions, QAWithSources> {
+  /// {@macro qa_with_sources_output_parser}
   QAWithSourcesOutputParser();
 
   @override

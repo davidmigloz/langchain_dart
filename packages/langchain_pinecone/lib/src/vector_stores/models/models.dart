@@ -35,6 +35,7 @@ class PineconeSimilaritySearch extends VectorStoreSimilaritySearch {
   /// Sparse vector for hybrid search.
   final PineconeSparseVector? sparseVector;
 
+  /// Creates a [PineconeSimilaritySearch] from a [VectorStoreSimilaritySearch].
   factory PineconeSimilaritySearch.fromBaseConfig(
     final VectorStoreSimilaritySearch config,
   ) {

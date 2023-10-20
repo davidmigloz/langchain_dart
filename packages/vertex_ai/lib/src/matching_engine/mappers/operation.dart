@@ -4,6 +4,7 @@ import '../models/operation.dart';
 
 /// Vertex AI Operation to googleapis models.
 class VertexAIOperationGoogleApisMapper {
+  /// Maps a VertexAIOperation to a GoogleLongrunningOperation.
   static VertexAIOperation mapOperation(
     final GoogleLongrunningOperation operation,
   ) {

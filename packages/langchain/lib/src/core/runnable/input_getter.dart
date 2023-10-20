@@ -38,6 +38,7 @@ import 'base.dart';
 /// print(res);
 /// // Aceptamos los siguientes métodos de pago: iDEAL y PayPal.
 /// ```
+/// {@endtemplate}
 class RunnableItemFromMap<RunOutput extends Object>
     extends Runnable<Map<String, dynamic>, BaseLangChainOptions, RunOutput> {
   /// {@macro runnable_item_from_map}
@@ -96,8 +97,10 @@ class RunnableItemFromMap<RunOutput extends Object>
 /// print(res);
 /// // Why don't bears wear shoes? Because they have bear feet!
 /// ```
+/// {@endtemplate}
 class RunnableMapFromItem<RunInput extends Object>
     extends Runnable<RunInput, BaseLangChainOptions, Map<String, dynamic>> {
+  /// {@macro runnable_map_from_item}
   const RunnableMapFromItem(this.key);
 
   /// The key where to place the input in the output map.

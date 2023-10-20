@@ -24,6 +24,7 @@ class Document {
   /// The metadata of the document.
   final Map<String, dynamic> metadata;
 
+  /// Creates a document from a map.
   factory Document.fromMap(final Map<String, dynamic> map) {
     return Document(
       id: map['id'] as String?,
@@ -32,6 +33,7 @@ class Document {
     );
   }
 
+  /// Converts the document to a map.
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -40,6 +42,7 @@ class Document {
     };
   }
 
+  /// Creates a copy of the document.
   Document copyWith({
     final String? id,
     final String? pageContent,

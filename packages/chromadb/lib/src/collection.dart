@@ -465,9 +465,18 @@ class Collection {
 
 /// The items to include in the response.
 enum Include {
+  /// Include documents.
   documents,
+
+  /// Include embeddings.
   embeddings,
+
+  /// Include metadatas.
   metadatas,
+
+  /// Include distances.
   distances,
+
+  /// Include data.
   data,
 }

@@ -592,6 +592,7 @@ final class CustomChatMessagePromptTemplate
     );
   }
 
+  /// The role of the message.
   final String role;
 
   @override
@@ -647,6 +648,7 @@ final class MessagePlaceholder extends BaseChatMessagePromptTemplate {
   const MessagePlaceholder({required this.variableName})
       : super(prompt: const PromptTemplate(inputVariables: {}, template: ''));
 
+  /// The name of the placeholder variable.
   final String variableName;
 
   @override
@@ -707,6 +709,7 @@ final class MessagesPlaceholder extends BaseChatMessagePromptTemplate {
   const MessagesPlaceholder({required this.variableName})
       : super(prompt: const PromptTemplate(inputVariables: {}, template: ''));
 
+  /// The name of the placeholder variable.
   final String variableName;
 
   @override

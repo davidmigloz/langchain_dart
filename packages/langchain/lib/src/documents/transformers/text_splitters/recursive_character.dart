@@ -16,6 +16,7 @@ class RecursiveCharacterTextSplitter extends TextSplitter {
     super.addStartIndex = false,
   });
 
+  /// List of separators to use for splitting.
   final List<String> separators;
 
   @override

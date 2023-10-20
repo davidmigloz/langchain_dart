@@ -54,6 +54,7 @@ class ConversationChain extends LLMChain {
     super.outputKey = 'response',
   }) : super(memory: memory ?? ConversationBufferMemory(memoryKey: _memoryKey));
 
+  /// The key of the input value.
   final String inputKey;
 
   @override

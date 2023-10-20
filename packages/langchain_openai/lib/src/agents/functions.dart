@@ -100,6 +100,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
   @override
   Set<String> get inputKeys => {agentInputKey};
 
+  /// The tools the agent has access to.
   List<ChatFunction> get functions => llmChain.llmOptions?.functions ?? [];
 
   /// Construct an [OpenAIFunctionsAgent] from an [llm] and [tools].

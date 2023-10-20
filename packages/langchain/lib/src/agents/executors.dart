@@ -25,6 +25,7 @@ import 'tools/invalid.dart';
 /// instead.
 /// {@endtemplate}
 class AgentExecutor extends BaseChain {
+  /// {@macro agent_executor}
   AgentExecutor({
     required this.agent,
     super.memory,
