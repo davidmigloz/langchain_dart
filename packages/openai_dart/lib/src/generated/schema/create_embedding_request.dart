@@ -158,14 +158,14 @@ class _EmbeddingInputConverter
     if (data is String) {
       return EmbeddingInput.string(data);
     }
-    if (data is List<String>) {
-      return EmbeddingInput.arrayString(data);
+    if (data is List && data.every((item) => item is String)) {
+      return EmbeddingInput.arrayString(data.cast());
     }
-    if (data is List<int>) {
-      return EmbeddingInput.arrayInteger(data);
+    if (data is List && data.every((item) => item is int)) {
+      return EmbeddingInput.arrayInteger(data.cast());
     }
-    if (data is List<List<int>>) {
-      return EmbeddingInput.array(data);
+    if (data is List && data.every((item) => item is List<int>)) {
+      return EmbeddingInput.array(data.cast());
     }
     throw Exception('Unexpected value for EmbeddingInput: $data');
   }

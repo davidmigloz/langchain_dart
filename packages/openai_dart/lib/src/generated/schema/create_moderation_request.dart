@@ -148,8 +148,8 @@ class _ModerationInputConverter
     if (data is String) {
       return ModerationInput.string(data);
     }
-    if (data is List<String>) {
-      return ModerationInput.arrayString(data);
+    if (data is List && data.every((item) => item is String)) {
+      return ModerationInput.arrayString(data.cast());
     }
     throw Exception('Unexpected value for ModerationInput: $data');
   }

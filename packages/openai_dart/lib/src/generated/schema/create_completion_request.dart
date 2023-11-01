@@ -343,14 +343,14 @@ class _CompletionPromptConverter
     if (data is String) {
       return CompletionPrompt.string(data);
     }
-    if (data is List<String>) {
-      return CompletionPrompt.arrayString(data);
+    if (data is List && data.every((item) => item is String)) {
+      return CompletionPrompt.arrayString(data.cast());
     }
-    if (data is List<int>) {
-      return CompletionPrompt.arrayInteger(data);
+    if (data is List && data.every((item) => item is int)) {
+      return CompletionPrompt.arrayInteger(data.cast());
     }
-    if (data is List<List<int>>) {
-      return CompletionPrompt.array(data);
+    if (data is List && data.every((item) => item is List<int>)) {
+      return CompletionPrompt.array(data.cast());
     }
     return CompletionPrompt.string('<|endoftext|>');
   }
@@ -401,8 +401,8 @@ class _CompletionStopConverter
     if (data is String) {
       return CompletionStop.string(data);
     }
-    if (data is List<String>) {
-      return CompletionStop.arrayString(data);
+    if (data is List && data.every((item) => item is String)) {
+      return CompletionStop.arrayString(data.cast());
     }
     throw Exception('Unexpected value for CompletionStop: $data');
   }

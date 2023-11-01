@@ -30,12 +30,26 @@ void main() {
       final res = await client.createEmbedding(request: request);
       expect(res.data, hasLength(1));
       expect(res.data.first.index, 0);
-      expect(res.data.first.embedding, hasLength(1536));
+      expect(res.data.first.embeddingVector, hasLength(1536));
       expect(res.data.first.object, 'embedding');
       expect(res.model, startsWith('text-embedding-ada-002'));
       expect(res.object, 'list');
       expect(res.usage.promptTokens, greaterThan(0));
       expect(res.usage.totalTokens, greaterThan(0));
+    });
+
+    test('Test call embeddings API with encoding base64', () async {
+      const request = CreateEmbeddingRequest(
+        model: EmbeddingModel.enumeration(EmbeddingModels.textEmbeddingAda002),
+        input: EmbeddingInput.string(
+          'The food was delicious and the waiter...',
+        ),
+        encodingFormat: EmbeddingEncodingFormat.base64,
+      );
+      final res = await client.createEmbedding(request: request);
+      expect(res.data, hasLength(1));
+      expect(res.data.first.index, 0);
+      expect(res.data.first.embeddingVectorBase64, isNotEmpty);
     });
   });
 }

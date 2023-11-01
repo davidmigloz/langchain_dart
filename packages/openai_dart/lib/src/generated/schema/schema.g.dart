@@ -843,17 +843,55 @@ Map<String, dynamic> _$$CreateEmbeddingResponseImplToJson(
 _$EmbeddingImpl _$$EmbeddingImplFromJson(Map<String, dynamic> json) =>
     _$EmbeddingImpl(
       index: json['index'] as int,
-      embedding: (json['embedding'] as List<dynamic>)
-          .map((e) => (e as num).toDouble())
-          .toList(),
+      embedding: const _EmbeddingVectorConverter().fromJson(json['embedding']),
       object: json['object'] as String,
     );
 
-Map<String, dynamic> _$$EmbeddingImplToJson(_$EmbeddingImpl instance) =>
+Map<String, dynamic> _$$EmbeddingImplToJson(_$EmbeddingImpl instance) {
+  final val = <String, dynamic>{
+    'index': instance.index,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('embedding',
+      const _EmbeddingVectorConverter().toJson(instance.embedding));
+  val['object'] = instance.object;
+  return val;
+}
+
+_$UnionEmbeddingVectorStringImpl _$$UnionEmbeddingVectorStringImplFromJson(
+        Map<String, dynamic> json) =>
+    _$UnionEmbeddingVectorStringImpl(
+      json['value'] as String,
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$UnionEmbeddingVectorStringImplToJson(
+        _$UnionEmbeddingVectorStringImpl instance) =>
     <String, dynamic>{
-      'index': instance.index,
-      'embedding': instance.embedding,
-      'object': instance.object,
+      'value': instance.value,
+      'runtimeType': instance.$type,
+    };
+
+_$UnionEmbeddingVectorArrayNumberImpl
+    _$$UnionEmbeddingVectorArrayNumberImplFromJson(Map<String, dynamic> json) =>
+        _$UnionEmbeddingVectorArrayNumberImpl(
+          (json['value'] as List<dynamic>)
+              .map((e) => (e as num).toDouble())
+              .toList(),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$UnionEmbeddingVectorArrayNumberImplToJson(
+        _$UnionEmbeddingVectorArrayNumberImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'runtimeType': instance.$type,
     };
 
 _$EmbeddingUsageImpl _$$EmbeddingUsageImplFromJson(Map<String, dynamic> json) =>

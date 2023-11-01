@@ -57,7 +57,7 @@ Future<void> _embeddings(final OpenAIClient client) async {
       input: EmbeddingInput.string('The food was delicious and the waiter...'),
     ),
   );
-  print(res.data.first.embedding);
+  print(res.data.first.embeddingVector);
 }
 
 Future<void> _fineTuning(final OpenAIClient client) async {

@@ -8919,7 +8919,8 @@ mixin _$Embedding {
   int get index => throw _privateConstructorUsedError;
 
   /// The embedding vector, which is a list of floats. The length of vector depends on the model as listed in the [embedding guide](https://platform.openai.com/docs/guides/embeddings).
-  List<double> get embedding => throw _privateConstructorUsedError;
+  @_EmbeddingVectorConverter()
+  EmbeddingVector get embedding => throw _privateConstructorUsedError;
 
   /// The object type, which is always "embedding".
   String get object => throw _privateConstructorUsedError;
@@ -8935,7 +8936,12 @@ abstract class $EmbeddingCopyWith<$Res> {
   factory $EmbeddingCopyWith(Embedding value, $Res Function(Embedding) then) =
       _$EmbeddingCopyWithImpl<$Res, Embedding>;
   @useResult
-  $Res call({int index, List<double> embedding, String object});
+  $Res call(
+      {int index,
+      @_EmbeddingVectorConverter() EmbeddingVector embedding,
+      String object});
+
+  $EmbeddingVectorCopyWith<$Res> get embedding;
 }
 
 /// @nodoc
@@ -8963,12 +8969,20 @@ class _$EmbeddingCopyWithImpl<$Res, $Val extends Embedding>
       embedding: null == embedding
           ? _value.embedding
           : embedding // ignore: cast_nullable_to_non_nullable
-              as List<double>,
+              as EmbeddingVector,
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $EmbeddingVectorCopyWith<$Res> get embedding {
+    return $EmbeddingVectorCopyWith<$Res>(_value.embedding, (value) {
+      return _then(_value.copyWith(embedding: value) as $Val);
+    });
   }
 }
 
@@ -8980,7 +8994,13 @@ abstract class _$$EmbeddingImplCopyWith<$Res>
       __$$EmbeddingImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int index, List<double> embedding, String object});
+  $Res call(
+      {int index,
+      @_EmbeddingVectorConverter() EmbeddingVector embedding,
+      String object});
+
+  @override
+  $EmbeddingVectorCopyWith<$Res> get embedding;
 }
 
 /// @nodoc
@@ -9004,9 +9024,9 @@ class __$$EmbeddingImplCopyWithImpl<$Res>
           : index // ignore: cast_nullable_to_non_nullable
               as int,
       embedding: null == embedding
-          ? _value._embedding
+          ? _value.embedding
           : embedding // ignore: cast_nullable_to_non_nullable
-              as List<double>,
+              as EmbeddingVector,
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
@@ -9020,10 +9040,9 @@ class __$$EmbeddingImplCopyWithImpl<$Res>
 class _$EmbeddingImpl extends _Embedding {
   const _$EmbeddingImpl(
       {required this.index,
-      required final List<double> embedding,
+      @_EmbeddingVectorConverter() required this.embedding,
       required this.object})
-      : _embedding = embedding,
-        super._();
+      : super._();
 
   factory _$EmbeddingImpl.fromJson(Map<String, dynamic> json) =>
       _$$EmbeddingImplFromJson(json);
@@ -9033,15 +9052,9 @@ class _$EmbeddingImpl extends _Embedding {
   final int index;
 
   /// The embedding vector, which is a list of floats. The length of vector depends on the model as listed in the [embedding guide](https://platform.openai.com/docs/guides/embeddings).
-  final List<double> _embedding;
-
-  /// The embedding vector, which is a list of floats. The length of vector depends on the model as listed in the [embedding guide](https://platform.openai.com/docs/guides/embeddings).
   @override
-  List<double> get embedding {
-    if (_embedding is EqualUnmodifiableListView) return _embedding;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_embedding);
-  }
+  @_EmbeddingVectorConverter()
+  final EmbeddingVector embedding;
 
   /// The object type, which is always "embedding".
   @override
@@ -9058,15 +9071,14 @@ class _$EmbeddingImpl extends _Embedding {
         (other.runtimeType == runtimeType &&
             other is _$EmbeddingImpl &&
             (identical(other.index, index) || other.index == index) &&
-            const DeepCollectionEquality()
-                .equals(other._embedding, _embedding) &&
+            (identical(other.embedding, embedding) ||
+                other.embedding == embedding) &&
             (identical(other.object, object) || other.object == object));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, index,
-      const DeepCollectionEquality().hash(_embedding), object);
+  int get hashCode => Object.hash(runtimeType, index, embedding, object);
 
   @JsonKey(ignore: true)
   @override
@@ -9085,7 +9097,7 @@ class _$EmbeddingImpl extends _Embedding {
 abstract class _Embedding extends Embedding {
   const factory _Embedding(
       {required final int index,
-      required final List<double> embedding,
+      @_EmbeddingVectorConverter() required final EmbeddingVector embedding,
       required final String object}) = _$EmbeddingImpl;
   const _Embedding._() : super._();
 
@@ -9099,7 +9111,8 @@ abstract class _Embedding extends Embedding {
   @override
 
   /// The embedding vector, which is a list of floats. The length of vector depends on the model as listed in the [embedding guide](https://platform.openai.com/docs/guides/embeddings).
-  List<double> get embedding;
+  @_EmbeddingVectorConverter()
+  EmbeddingVector get embedding;
   @override
 
   /// The object type, which is always "embedding".
@@ -9108,6 +9121,415 @@ abstract class _Embedding extends Embedding {
   @JsonKey(ignore: true)
   _$$EmbeddingImplCopyWith<_$EmbeddingImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+EmbeddingVector _$EmbeddingVectorFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'string':
+      return _UnionEmbeddingVectorString.fromJson(json);
+    case 'arrayNumber':
+      return _UnionEmbeddingVectorArrayNumber.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'runtimeType', 'EmbeddingVector',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$EmbeddingVector {
+  Object get value => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String value) string,
+    required TResult Function(List<double> value) arrayNumber,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String value)? string,
+    TResult? Function(List<double> value)? arrayNumber,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String value)? string,
+    TResult Function(List<double> value)? arrayNumber,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_UnionEmbeddingVectorString value) string,
+    required TResult Function(_UnionEmbeddingVectorArrayNumber value)
+        arrayNumber,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_UnionEmbeddingVectorString value)? string,
+    TResult? Function(_UnionEmbeddingVectorArrayNumber value)? arrayNumber,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_UnionEmbeddingVectorString value)? string,
+    TResult Function(_UnionEmbeddingVectorArrayNumber value)? arrayNumber,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $EmbeddingVectorCopyWith<$Res> {
+  factory $EmbeddingVectorCopyWith(
+          EmbeddingVector value, $Res Function(EmbeddingVector) then) =
+      _$EmbeddingVectorCopyWithImpl<$Res, EmbeddingVector>;
+}
+
+/// @nodoc
+class _$EmbeddingVectorCopyWithImpl<$Res, $Val extends EmbeddingVector>
+    implements $EmbeddingVectorCopyWith<$Res> {
+  _$EmbeddingVectorCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$UnionEmbeddingVectorStringImplCopyWith<$Res> {
+  factory _$$UnionEmbeddingVectorStringImplCopyWith(
+          _$UnionEmbeddingVectorStringImpl value,
+          $Res Function(_$UnionEmbeddingVectorStringImpl) then) =
+      __$$UnionEmbeddingVectorStringImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String value});
+}
+
+/// @nodoc
+class __$$UnionEmbeddingVectorStringImplCopyWithImpl<$Res>
+    extends _$EmbeddingVectorCopyWithImpl<$Res,
+        _$UnionEmbeddingVectorStringImpl>
+    implements _$$UnionEmbeddingVectorStringImplCopyWith<$Res> {
+  __$$UnionEmbeddingVectorStringImplCopyWithImpl(
+      _$UnionEmbeddingVectorStringImpl _value,
+      $Res Function(_$UnionEmbeddingVectorStringImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$UnionEmbeddingVectorStringImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UnionEmbeddingVectorStringImpl extends _UnionEmbeddingVectorString {
+  const _$UnionEmbeddingVectorStringImpl(this.value, {final String? $type})
+      : $type = $type ?? 'string',
+        super._();
+
+  factory _$UnionEmbeddingVectorStringImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$UnionEmbeddingVectorStringImplFromJson(json);
+
+  @override
+  final String value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'EmbeddingVector.string(value: $value)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UnionEmbeddingVectorStringImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UnionEmbeddingVectorStringImplCopyWith<_$UnionEmbeddingVectorStringImpl>
+      get copyWith => __$$UnionEmbeddingVectorStringImplCopyWithImpl<
+          _$UnionEmbeddingVectorStringImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String value) string,
+    required TResult Function(List<double> value) arrayNumber,
+  }) {
+    return string(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String value)? string,
+    TResult? Function(List<double> value)? arrayNumber,
+  }) {
+    return string?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String value)? string,
+    TResult Function(List<double> value)? arrayNumber,
+    required TResult orElse(),
+  }) {
+    if (string != null) {
+      return string(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_UnionEmbeddingVectorString value) string,
+    required TResult Function(_UnionEmbeddingVectorArrayNumber value)
+        arrayNumber,
+  }) {
+    return string(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_UnionEmbeddingVectorString value)? string,
+    TResult? Function(_UnionEmbeddingVectorArrayNumber value)? arrayNumber,
+  }) {
+    return string?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_UnionEmbeddingVectorString value)? string,
+    TResult Function(_UnionEmbeddingVectorArrayNumber value)? arrayNumber,
+    required TResult orElse(),
+  }) {
+    if (string != null) {
+      return string(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UnionEmbeddingVectorStringImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _UnionEmbeddingVectorString extends EmbeddingVector {
+  const factory _UnionEmbeddingVectorString(final String value) =
+      _$UnionEmbeddingVectorStringImpl;
+  const _UnionEmbeddingVectorString._() : super._();
+
+  factory _UnionEmbeddingVectorString.fromJson(Map<String, dynamic> json) =
+      _$UnionEmbeddingVectorStringImpl.fromJson;
+
+  @override
+  String get value;
+  @JsonKey(ignore: true)
+  _$$UnionEmbeddingVectorStringImplCopyWith<_$UnionEmbeddingVectorStringImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$UnionEmbeddingVectorArrayNumberImplCopyWith<$Res> {
+  factory _$$UnionEmbeddingVectorArrayNumberImplCopyWith(
+          _$UnionEmbeddingVectorArrayNumberImpl value,
+          $Res Function(_$UnionEmbeddingVectorArrayNumberImpl) then) =
+      __$$UnionEmbeddingVectorArrayNumberImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<double> value});
+}
+
+/// @nodoc
+class __$$UnionEmbeddingVectorArrayNumberImplCopyWithImpl<$Res>
+    extends _$EmbeddingVectorCopyWithImpl<$Res,
+        _$UnionEmbeddingVectorArrayNumberImpl>
+    implements _$$UnionEmbeddingVectorArrayNumberImplCopyWith<$Res> {
+  __$$UnionEmbeddingVectorArrayNumberImplCopyWithImpl(
+      _$UnionEmbeddingVectorArrayNumberImpl _value,
+      $Res Function(_$UnionEmbeddingVectorArrayNumberImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$UnionEmbeddingVectorArrayNumberImpl(
+      null == value
+          ? _value._value
+          : value // ignore: cast_nullable_to_non_nullable
+              as List<double>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UnionEmbeddingVectorArrayNumberImpl
+    extends _UnionEmbeddingVectorArrayNumber {
+  const _$UnionEmbeddingVectorArrayNumberImpl(final List<double> value,
+      {final String? $type})
+      : _value = value,
+        $type = $type ?? 'arrayNumber',
+        super._();
+
+  factory _$UnionEmbeddingVectorArrayNumberImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$UnionEmbeddingVectorArrayNumberImplFromJson(json);
+
+  final List<double> _value;
+  @override
+  List<double> get value {
+    if (_value is EqualUnmodifiableListView) return _value;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_value);
+  }
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'EmbeddingVector.arrayNumber(value: $value)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UnionEmbeddingVectorArrayNumberImpl &&
+            const DeepCollectionEquality().equals(other._value, _value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_value));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UnionEmbeddingVectorArrayNumberImplCopyWith<
+          _$UnionEmbeddingVectorArrayNumberImpl>
+      get copyWith => __$$UnionEmbeddingVectorArrayNumberImplCopyWithImpl<
+          _$UnionEmbeddingVectorArrayNumberImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String value) string,
+    required TResult Function(List<double> value) arrayNumber,
+  }) {
+    return arrayNumber(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String value)? string,
+    TResult? Function(List<double> value)? arrayNumber,
+  }) {
+    return arrayNumber?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String value)? string,
+    TResult Function(List<double> value)? arrayNumber,
+    required TResult orElse(),
+  }) {
+    if (arrayNumber != null) {
+      return arrayNumber(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_UnionEmbeddingVectorString value) string,
+    required TResult Function(_UnionEmbeddingVectorArrayNumber value)
+        arrayNumber,
+  }) {
+    return arrayNumber(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_UnionEmbeddingVectorString value)? string,
+    TResult? Function(_UnionEmbeddingVectorArrayNumber value)? arrayNumber,
+  }) {
+    return arrayNumber?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_UnionEmbeddingVectorString value)? string,
+    TResult Function(_UnionEmbeddingVectorArrayNumber value)? arrayNumber,
+    required TResult orElse(),
+  }) {
+    if (arrayNumber != null) {
+      return arrayNumber(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UnionEmbeddingVectorArrayNumberImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _UnionEmbeddingVectorArrayNumber extends EmbeddingVector {
+  const factory _UnionEmbeddingVectorArrayNumber(final List<double> value) =
+      _$UnionEmbeddingVectorArrayNumberImpl;
+  const _UnionEmbeddingVectorArrayNumber._() : super._();
+
+  factory _UnionEmbeddingVectorArrayNumber.fromJson(Map<String, dynamic> json) =
+      _$UnionEmbeddingVectorArrayNumberImpl.fromJson;
+
+  @override
+  List<double> get value;
+  @JsonKey(ignore: true)
+  _$$UnionEmbeddingVectorArrayNumberImplCopyWith<
+          _$UnionEmbeddingVectorArrayNumberImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 EmbeddingUsage _$EmbeddingUsageFromJson(Map<String, dynamic> json) {

@@ -2047,11 +2047,16 @@ components:
           type: integer
           description: The index of the embedding in the list of embeddings.
         embedding:
-          type: array
+          title: EmbeddingVector
           description: |
             The embedding vector, which is a list of floats. The length of vector depends on the model as listed in the [embedding guide](https://platform.openai.com/docs/guides/embeddings).
-          items:
-            type: number
+          oneOf:
+            - type: string
+              description: The embedding vector as a base64-encoded string.
+            - type: array
+              description: The embedding vector as a list of floats.
+              items:
+                type: number
         object:
           type: string
           description: The object type, which is always "embedding".

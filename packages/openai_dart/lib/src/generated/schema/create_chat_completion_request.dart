@@ -287,8 +287,8 @@ class _ChatCompletionStopConverter
     if (data is String) {
       return ChatCompletionStop.string(data);
     }
-    if (data is List<String>) {
-      return ChatCompletionStop.arrayString(data);
+    if (data is List && data.every((item) => item is String)) {
+      return ChatCompletionStop.arrayString(data.cast());
     }
     throw Exception('Unexpected value for ChatCompletionStop: $data');
   }
