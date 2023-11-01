@@ -237,7 +237,7 @@ final res = await client.createEmbedding(
     input: EmbeddingInput.string('The food was delicious and the waiter...'),
   ),
 );
-print(res.data.first.embedding);
+print(res.data.first.embeddingVector);
 // [0.002253932, -0.009333183, 0.01574578, -0.007790351, -0.004711035, ...]
 ```
 
@@ -250,6 +250,20 @@ print(res.data.first.embedding);
 - `EmbeddingInput.arrayInteger([...])`: the tokenized input.
 - `EmbeddingInput.arrayString(['input'])`: batch of string inputs.
 - `EmbeddingInput.array([[...]])`: batch of tokenized inputs.
+
+You can also request the embedding vector encoded as a base64 string:
+
+```dart
+final res = await client.createEmbedding(
+  request: CreateEmbeddingRequest(
+    model: EmbeddingModel.string('text-embedding-ada-002'),
+    input: EmbeddingInput.string('The food was delicious and the waiter...'),
+    encodingFormat: EmbeddingEncodingFormat.base64,
+  ),
+);
+print(res.data.first.embeddingVectorBase64);
+// tLYTOzXqGLxL/YA8M0b/uwdfmrsdNXM8iJIfvEOOHL3IJeK7Ok3rv...
+```
 
 ### Fine-tuning
 
