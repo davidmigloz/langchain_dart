@@ -21,7 +21,7 @@ dependencies:
   collection: ^1.17.1
   crypto: ^3.0.3
   cross_file: ^0.3.3+4
-  csv: ^5.0.2
+  csv: ^5.1.0
   http: ^1.1.0
   json_path: ^0.6.2
   math_expressions: ^2.4.0

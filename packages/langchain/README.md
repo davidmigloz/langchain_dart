@@ -25,8 +25,8 @@ The components can be grouped into a few core modules:
 
 - 📃 **Model I/O:** streamlines the interaction between the model inputs (prompt templates), the
   Language Model (abstracting different providers), and the model output (output parsers).
-- 📚 **Data Connection:** assists in loading user data (document loaders), modifying it (document
-  transformers), storing (via text embedding models and vector stores), and retrieving when needed
+- 📚 **Retrieval:** assists in loading user data (document loaders), modifying it (document
+  transformers and embedding models), storing (vector stores), and retrieving when needed
   (retrievers).
 - 🔗 **Chains:** a way to compose multiple components or other chains into a single pipeline.
 - 🧠 **Memory:** equips chains or agents with both short-term and long-term memory capabilities,
@@ -69,10 +69,11 @@ provided by a separate package.
 The following packages are maintained (and used internally) by LangChain.dart,
 although they can also be used independently:
 
-| Package                                         | Version                                                                                        | Description              | 
-|-------------------------------------------------|------------------------------------------------------------------------------------------------|--------------------------|
-| [chromadb](https://pub.dev/packages/chromadb)   | [![chromadb](https://img.shields.io/pub/v/chromadb.svg)](https://pub.dev/packages/chromadb)    | Chroma DB API client     |
-| [vertex_ai](https://pub.dev/packages/vertex_ai) | [![vertex_ai](https://img.shields.io/pub/v/vertex_ai.svg)](https://pub.dev/packages/vertex_ai) | GCP Vertex AI API client |
+| Package                                             | Version                                                                                              | Description              | 
+|-----------------------------------------------------|------------------------------------------------------------------------------------------------------|--------------------------|
+| [chromadb](https://pub.dev/packages/chromadb)       | [![chromadb](https://img.shields.io/pub/v/chromadb.svg)](https://pub.dev/packages/chromadb)          | Chroma DB API client     |
+| [openai_dart](https://pub.dev/packages/openai_dart) | [![openai_dart](https://img.shields.io/pub/v/openai_dart.svg)](https://pub.dev/packages/openai_dart) | OpenAI API client        |
+| [vertex_ai](https://pub.dev/packages/vertex_ai)     | [![vertex_ai](https://img.shields.io/pub/v/vertex_ai.svg)](https://pub.dev/packages/vertex_ai)       | GCP Vertex AI API client |
 
 ## Getting started
 
