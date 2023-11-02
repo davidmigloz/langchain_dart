@@ -7,7 +7,7 @@ the OpenAI API.
 ```dart
 const localUrl = 'http://localhost:8000'; // Check Prem app for the actual URL
 final chat = ChatOpenAI(
-    apiClient: OpenAIClient.local(localUrl), 
+    baseUrl: localUrl,
     temperature: 0,
 );
 

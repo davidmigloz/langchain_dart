@@ -1,42 +1,167 @@
+import 'package:http/http.dart' as http;
 import 'package:langchain/langchain.dart';
+import 'package:openai_dart/openai_dart.dart';
 import 'package:tiktoken/tiktoken.dart';
 
-import '../client/base.dart';
-import '../client/openai_client.dart';
 import 'models/mappers.dart';
 import 'models/models.dart';
 
-/// {@template base_chat_openai}
-/// Wrapper around OpenAI Chat large language models.
-/// {@endtemplate}
-abstract base class BaseChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
-  /// {@macro base_chat_openai}
-  BaseChatOpenAI({
-    required final String? apiKey,
-    required final BaseOpenAIClient? apiClient,
-    required this.model,
-    required this.temperature,
-    required this.topP,
-    required this.n,
-    required this.maxTokens,
-    required this.presencePenalty,
-    required this.frequencyPenalty,
-    required this.logitBias,
-    required this.encoding,
-    required this.user,
-  })  : assert(
-          apiKey != null || apiClient != null,
-          'Either apiKey or apiClient must be provided.',
-        ),
-        _client = apiClient ?? OpenAIClient.instanceFor(apiKey: apiKey!);
+/// Wrapper around [OpenAI Chat API](https://platform.openai.com/docs/api-reference/chat).
+///
+/// Example:
+/// ```dart
+/// final chat = ChatOpenAI(apiKey: '...', temperature: 1);
+/// final messages = [
+///   ChatMessage.system('You are a helpful assistant that translates English to French.'),
+///   ChatMessage.human('I love programming.')
+/// ];
+/// final res = await chat(messages);
+/// ```
+///
+/// - [Completions guide](https://platform.openai.com/docs/guides/gpt/chat-completions-api)
+/// - [Completions API docs](https://platform.openai.com/docs/api-reference/chat)
+///
+/// ### Authentication
+///
+/// The OpenAI API uses API keys for authentication. Visit your
+/// [API Keys](https://platform.openai.com/account/api-keys) page to retrieve
+/// the API key you'll use in your requests.
+///
+/// #### Organization (optional)
+///
+/// For users who belong to multiple organizations, you can specify which
+/// organization is used for an API request. Usage from these API requests will
+/// count against the specified organization's subscription quota.
+///
+/// ```dart
+/// final client = ChatOpenAI(
+///   apiKey: 'OPENAI_API_KEY',
+///   organization: 'org-dtDDtkEGoFccn5xaP5W1p3Rr',
+/// );
+/// ```
+///
+/// ### Advance
+///
+/// #### Custom HTTP client
+///
+/// You can always provide your own implementation of `http.Client` for further
+/// customization:
+///
+/// ```dart
+/// final client = ChatOpenAI(
+///   apiKey: 'OPENAI_API_KEY',
+///   client: MyHttpClient(),
+/// );
+/// ```
+///
+/// #### Using a proxy
+///
+/// ##### HTTP proxy
+///
+/// You can use your own HTTP proxy by overriding the `baseUrl` and providing
+/// your required `headers`:
+///
+/// ```dart
+/// final client = ChatOpenAI(
+///   baseUrl: 'https://my-proxy.com',
+///   headers: {'x-my-proxy-header': 'value'},
+/// );
+/// ```
+///
+/// If you need further customization, you can always provide your own
+/// `http.Client`.
+///
+/// ##### SOCKS5 proxy
+///
+/// To use a SOCKS5 proxy, you can use the
+/// [`socks5_proxy`](https://pub.dev/packages/socks5_proxy) package and a
+/// custom `http.Client`.
+class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
+  /// Create a new [ChatOpenAI] instance.
+  ///
+  /// Main configuration options:
+  /// - `apiKey`: your OpenAI API key. You can find your API key in the
+  ///   [OpenAI dashboard](https://platform.openai.com/account/api-keys).
+  /// - `organization`: your OpenAI organization ID (if applicable).
+  /// - [ChatOpenAI.model]
+  /// - [ChatOpenAI.frequencyPenalty]
+  /// - [ChatOpenAI.logitBias]
+  /// - [ChatOpenAI.maxTokens]
+  /// - [ChatOpenAI.n]
+  /// - [ChatOpenAI.presencePenalty]
+  /// - [ChatOpenAI.temperature]
+  /// - [ChatOpenAI.topP]
+  /// - [ChatOpenAI.user]
+  /// - [ChatOpenAI.encoding]
+  ///
+  /// Advance configuration options:
+  /// - `baseUrl`: the base URL to use. Defaults to OpenAI's API URL. You can
+  ///   override this to use a different API URL, or to use a proxy.
+  /// - `headers`: global headers to send with every request. You can use
+  ///   this to set custom headers, or to override the default headers.
+  /// - `client`: the HTTP client to use. You can set your own HTTP client if
+  ///   you need further customization (e.g. to use a Socks5 proxy).
+  ChatOpenAI({
+    final String? apiKey,
+    final String? organization,
+    final String? baseUrl,
+    final Map<String, String>? headers,
+    final http.Client? client,
+    this.model = 'gpt-3.5-turbo',
+    this.frequencyPenalty = 0,
+    this.logitBias,
+    this.maxTokens,
+    this.n = 1,
+    this.presencePenalty = 0,
+    this.temperature = 1,
+    this.topP = 1,
+    this.user,
+    this.encoding,
+  }) : _client = OpenAIClient(
+          apiKey: apiKey ?? '',
+          organization: organization,
+          baseUrl: baseUrl,
+          headers: headers,
+          client: client,
+        );
 
-  /// API client to use.
-  final BaseOpenAIClient _client;
+  /// A client for interacting with OpenAI API.
+  final OpenAIClient _client;
 
   /// ID of the model to use (e.g. 'gpt-3.5-turbo').
   ///
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-model
   final String model;
+
+  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
+  /// their existing frequency in the text so far, decreasing the model's
+  /// likelihood to repeat the same line verbatim.
+  ///
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-frequency_penalty
+  final double frequencyPenalty;
+
+  /// Modify the likelihood of specified tokens appearing in the completion.
+  ///
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-logit_bias
+  final Map<String, int>? logitBias;
+
+  /// The maximum number of tokens to generate in the chat completion.
+  /// Defaults to inf.
+  ///
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-max_tokens
+  final int? maxTokens;
+
+  /// How many chat completion choices to generate for each input message.
+  ///
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-n
+  final int n;
+
+  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
+  /// whether they appear in the text so far, increasing the model's likelihood
+  /// to talk about new topics.
+  ///
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-presence_penalty
+  final double presencePenalty;
 
   /// What sampling temperature to use, between 0 and 2.
   ///
@@ -50,35 +175,14 @@ abstract base class BaseChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-top_p
   final double topP;
 
-  /// How many chat completion choices to generate for each input message.
+  /// A unique identifier representing your end-user, which can help OpenAI to
+  /// monitor and detect abuse.
   ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-n
-  final int n;
-
-  /// The maximum number of tokens to generate in the chat completion.
-  /// Defaults to inf.
+  /// If you need to send different users in different requests, you can set
+  /// this field in [ChatOpenAIOptions] instead.
   ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-max_tokens
-  final int? maxTokens;
-
-  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
-  /// whether they appear in the text so far, increasing the model's likelihood
-  /// to talk about new topics.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-presence_penalty
-  final double presencePenalty;
-
-  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
-  /// their existing frequency in the text so far, decreasing the model's
-  /// likelihood to repeat the same line verbatim.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-frequency_penalty
-  final double frequencyPenalty;
-
-  /// Modify the likelihood of specified tokens appearing in the completion.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-logit_bias
-  final Map<String, double>? logitBias;
+  /// Ref: https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids
+  final String? user;
 
   /// The encoding to use by tiktoken when [tokenize] is called.
   ///
@@ -99,15 +203,6 @@ abstract base class BaseChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   /// https://github.com/mvitlov/tiktoken/blob/master/lib/tiktoken.dart
   final String? encoding;
 
-  /// A unique identifier representing your end-user, which can help OpenAI to
-  /// monitor and detect abuse.
-  ///
-  /// If you need to send different users in different requests, you can set
-  /// this field in [ChatOpenAIOptions] instead.
-  ///
-  /// Ref: https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids
-  final String? user;
-
   @override
   String get modelType => 'openai-chat';
 
@@ -116,26 +211,28 @@ abstract base class BaseChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final List<ChatMessage> messages, {
     final ChatOpenAIOptions? options,
   }) async {
-    final messagesDtos = messages
-        .map((final m) => m.toOpenAIChatMessage())
-        .toList(growable: false);
+    final messagesDtos = messages.toChatCompletionMessages();
+    final functionsDtos = options?.functions?.toChatCompletionFunctions();
+    final functionCall = options?.functionCall?.toChatCompletionFunctionCall();
 
     final completion = await _client.createChatCompletion(
-      model: model,
-      messages: messagesDtos,
-      functions: options?.functions
-          ?.map((final f) => f.toOpenAIFunction())
-          .toList(growable: false),
-      functionCall: options?.functionCall?.toOpenAIFunctionCall(),
-      maxTokens: maxTokens,
-      temperature: temperature,
-      topP: topP,
-      n: n,
-      stop: options?.stop,
-      presencePenalty: presencePenalty,
-      frequencyPenalty: frequencyPenalty,
-      logitBias: logitBias,
-      user: options?.user ?? user,
+      request: CreateChatCompletionRequest(
+        model: ChatCompletionModel.string(model),
+        messages: messagesDtos,
+        functions: functionsDtos,
+        functionCall: functionCall,
+        frequencyPenalty: frequencyPenalty,
+        logitBias: logitBias,
+        maxTokens: maxTokens,
+        n: n,
+        presencePenalty: presencePenalty,
+        stop: options?.stop != null
+            ? ChatCompletionStop.arrayString(options!.stop!)
+            : null,
+        temperature: temperature,
+        topP: topP,
+        user: options?.user ?? user,
+      ),
     );
 
     return completion.toChatResult(model);
@@ -214,30 +311,4 @@ abstract base class BaseChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   Tiktoken _getTiktoken() {
     return encoding != null ? getEncoding(encoding!) : encodingForModel(model);
   }
-}
-
-/// {@template chat_openai}
-/// Wrapper around [OpenAI Chat API](https://platform.openai.com/docs/api-reference/chat).
-///
-/// Example:
-/// ```dart
-/// final chat = ChatOpenAI(apiKey: '...', temperature: 1);
-/// ```
-/// {@endtemplate}
-final class ChatOpenAI extends BaseChatOpenAI {
-  /// {@macro chat_openai}
-  ChatOpenAI({
-    super.apiKey,
-    super.apiClient,
-    super.model = 'gpt-3.5-turbo',
-    super.temperature = 0.7,
-    super.topP = 1,
-    super.n = 1,
-    super.maxTokens,
-    super.presencePenalty = 0,
-    super.frequencyPenalty = 0,
-    super.logitBias,
-    super.encoding,
-    super.user,
-  });
 }

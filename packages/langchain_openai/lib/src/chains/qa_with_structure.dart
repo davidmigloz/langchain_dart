@@ -13,7 +13,7 @@ import '../chat_models/chat_models.dart';
 /// {@endtemplate}
 class OpenAIQAWithStructureChain<CallOptions extends BaseLangChainOptions,
         S extends Object>
-    extends LLMChain<BaseChatOpenAI, ChatOpenAIOptions,
+    extends LLMChain<ChatOpenAI, ChatOpenAIOptions,
         BaseOutputFunctionsParser<CallOptions, S>, BaseChatMemory> {
   OpenAIQAWithStructureChain({
     required super.llm,
