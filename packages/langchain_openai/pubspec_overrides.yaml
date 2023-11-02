@@ -1,4 +1,6 @@
-# melos_managed_dependency_overrides: langchain
+# melos_managed_dependency_overrides: langchain,openai_dart
 dependency_overrides:
   langchain:
     path: ../langchain
+  openai_dart:
+    path: ../openai_dart

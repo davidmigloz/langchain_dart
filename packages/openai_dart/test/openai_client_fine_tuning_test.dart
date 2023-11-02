@@ -12,7 +12,7 @@ void main() {
 
     setUp(() {
       client = OpenAIClient(
-        apiKey: Platform.environment['OPENAI_API_KEY']!,
+        apiKey: Platform.environment['OPENAI_API_KEY'],
       );
     });
 

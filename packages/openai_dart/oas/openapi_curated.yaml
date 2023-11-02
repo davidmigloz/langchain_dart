@@ -1677,22 +1677,21 @@ components:
           nullable: true
           description: *completions_frequency_penalty_description
         function_call:
+          title: ChatCompletionFunctionCall
           description: >
             Controls how the model calls functions. "none" means the model will not call a function and instead generates a message. "auto" means the model can pick between generating a message or calling a function. Specifying a particular function via [ChatCompletionFunctionCallOption] forces the model to call that function. "none" is the default when no functions are present. "auto" is the default if functions are present.
-          type: object
-          # TODO add support for oneOf
-          # title: ChatCompletionFunctionCall
-          # oneOf:
-          #   - type: string
-          #     enum: [ none, auto ]
-          #   - $ref: "#/components/schemas/ChatCompletionFunctionCallOption"
+          oneOf:
+            - type: string
+              title: ChatCompletionFunctionCallMode
+              enum: [none, auto]
+            - $ref: "#/components/schemas/ChatCompletionFunctionCallOption"
         functions:
           description: A list of functions the model may generate JSON inputs for.
           type: array
           minItems: 1
           maxItems: 128
           items:
-            $ref: "#/components/schemas/ChatCompletionFunctions"
+            $ref: "#/components/schemas/ChatCompletionFunction"
         logit_bias:
           type: object
           x-oaiTypeLabel: map
@@ -1802,7 +1801,7 @@ components:
       required:
         - arguments
         - name
-    ChatCompletionFunctions:
+    ChatCompletionFunction:
       type: object
       description: A function that the model may call.
       properties:
@@ -2461,7 +2460,6 @@ components:
             Two content moderations models are available: `text-moderation-stable` and `text-moderation-latest`.
 
             The default is `text-moderation-latest` which will be automatically upgraded over time. This ensures you are always using our most accurate model. If you use `text-moderation-stable`, we will provide advanced notice before updating the model. Accuracy of `text-moderation-stable` may be slightly lower than for `text-moderation-latest`.
-          nullable: false
           default: "text-moderation-latest"
           example: "text-moderation-stable"
           anyOf:

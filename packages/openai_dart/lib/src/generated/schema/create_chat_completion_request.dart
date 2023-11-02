@@ -29,10 +29,12 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     double? frequencyPenalty,
 
     /// Controls how the model calls functions. "none" means the model will not call a function and instead generates a message. "auto" means the model can pick between generating a message or calling a function. Specifying a particular function via [ChatCompletionFunctionCallOption] forces the model to call that function. "none" is the default when no functions are present. "auto" is the default if functions are present.
-    @JsonKey(name: 'function_call', includeIfNull: false) dynamic functionCall,
+    @_ChatCompletionFunctionCallConverter()
+    @JsonKey(name: 'function_call', includeIfNull: false)
+    ChatCompletionFunctionCall? functionCall,
 
     /// A list of functions the model may generate JSON inputs for.
-    @JsonKey(includeIfNull: false) List<ChatCompletionFunctions>? functions,
+    @JsonKey(includeIfNull: false) List<ChatCompletionFunction>? functions,
 
     /// Modify the likelihood of specified tokens appearing in the completion.
     ///
@@ -213,13 +215,13 @@ enum ChatCompletionModels {
 sealed class ChatCompletionModel with _$ChatCompletionModel {
   const ChatCompletionModel._();
 
-  const factory ChatCompletionModel.string(
-    String value,
-  ) = _UnionChatCompletionModelString;
-
   const factory ChatCompletionModel.enumeration(
     ChatCompletionModels value,
   ) = _UnionChatCompletionModelEnum;
+
+  const factory ChatCompletionModel.string(
+    String value,
+  ) = _UnionChatCompletionModelString;
 
   /// Object construction from a JSON representation
   factory ChatCompletionModel.fromJson(Map<String, dynamic> json) =>
@@ -243,18 +245,99 @@ class _ChatCompletionModelConverter
     if (data is String) {
       return ChatCompletionModel.string(data);
     }
-    throw Exception('Unexpected value for ChatCompletionModel: $data');
+    throw Exception(
+      'Unexpected value for ChatCompletionModel: $data',
+    );
   }
 
   @override
   Object? toJson(ChatCompletionModel data) {
     return switch (data) {
-      _UnionChatCompletionModelString(value: final v) => v,
       _UnionChatCompletionModelEnum(value: final v) =>
         _$ChatCompletionModelsEnumMap[v]!,
+      _UnionChatCompletionModelString(value: final v) => v,
     };
   }
 }
+
+// ==========================================
+// ENUM: ChatCompletionFunctionCallMode
+// ==========================================
+
+/// No Description
+enum ChatCompletionFunctionCallMode {
+  @JsonValue('none')
+  none,
+  @JsonValue('auto')
+  auto,
+}
+
+// ==========================================
+// CLASS: ChatCompletionFunctionCall
+// ==========================================
+
+/// Controls how the model calls functions. "none" means the model will not call a function and instead generates a message. "auto" means the model can pick between generating a message or calling a function. Specifying a particular function via [ChatCompletionFunctionCallOption] forces the model to call that function. "none" is the default when no functions are present. "auto" is the default if functions are present.
+@freezed
+sealed class ChatCompletionFunctionCall with _$ChatCompletionFunctionCall {
+  const ChatCompletionFunctionCall._();
+
+  const factory ChatCompletionFunctionCall.enumeration(
+    ChatCompletionFunctionCallMode value,
+  ) = _UnionChatCompletionFunctionCallEnum;
+
+  const factory ChatCompletionFunctionCall.chatCompletionFunctionCallOption(
+    ChatCompletionFunctionCallOption value,
+  ) = _UnionChatCompletionFunctionCallChatCompletionFunctionCallOption;
+
+  /// Object construction from a JSON representation
+  factory ChatCompletionFunctionCall.fromJson(Map<String, dynamic> json) =>
+      _$ChatCompletionFunctionCallFromJson(json);
+}
+
+/// Custom JSON converter for [ChatCompletionFunctionCall]
+class _ChatCompletionFunctionCallConverter
+    implements JsonConverter<ChatCompletionFunctionCall?, Object?> {
+  const _ChatCompletionFunctionCallConverter();
+
+  @override
+  ChatCompletionFunctionCall? fromJson(Object? data) {
+    if (data == null) {
+      return null;
+    }
+    if (data is String &&
+        _$ChatCompletionFunctionCallModeEnumMap.values.contains(data)) {
+      return ChatCompletionFunctionCall.enumeration(
+        _$ChatCompletionFunctionCallModeEnumMap.keys.elementAt(
+          _$ChatCompletionFunctionCallModeEnumMap.values.toList().indexOf(data),
+        ),
+      );
+    }
+    if (data is Map<String, dynamic>) {
+      try {
+        return ChatCompletionFunctionCall.chatCompletionFunctionCallOption(
+          ChatCompletionFunctionCallOption.fromJson(data),
+        );
+      } catch (e) {}
+    }
+    throw Exception(
+      'Unexpected value for ChatCompletionFunctionCall: $data',
+    );
+  }
+
+  @override
+  Object? toJson(ChatCompletionFunctionCall? data) {
+    return switch (data) {
+      _UnionChatCompletionFunctionCallEnum(value: final v) =>
+        _$ChatCompletionFunctionCallModeEnumMap[v]!,
+      _UnionChatCompletionFunctionCallChatCompletionFunctionCallOption(
+        value: final v
+      ) =>
+        v.toJson(),
+      null => null,
+    };
+  }
+}
+
 // ==========================================
 // CLASS: ChatCompletionStop
 // ==========================================
@@ -264,13 +347,13 @@ class _ChatCompletionModelConverter
 sealed class ChatCompletionStop with _$ChatCompletionStop {
   const ChatCompletionStop._();
 
-  const factory ChatCompletionStop.string(
-    String value,
-  ) = _UnionChatCompletionStopString;
-
   const factory ChatCompletionStop.arrayString(
     List<String> value,
   ) = _UnionChatCompletionStopArrayString;
+
+  const factory ChatCompletionStop.string(
+    String value,
+  ) = _UnionChatCompletionStopString;
 
   /// Object construction from a JSON representation
   factory ChatCompletionStop.fromJson(Map<String, dynamic> json) =>
@@ -279,25 +362,31 @@ sealed class ChatCompletionStop with _$ChatCompletionStop {
 
 /// Custom JSON converter for [ChatCompletionStop]
 class _ChatCompletionStopConverter
-    implements JsonConverter<ChatCompletionStop, Object?> {
+    implements JsonConverter<ChatCompletionStop?, Object?> {
   const _ChatCompletionStopConverter();
 
   @override
-  ChatCompletionStop fromJson(Object? data) {
-    if (data is String) {
-      return ChatCompletionStop.string(data);
+  ChatCompletionStop? fromJson(Object? data) {
+    if (data == null) {
+      return null;
     }
     if (data is List && data.every((item) => item is String)) {
       return ChatCompletionStop.arrayString(data.cast());
     }
-    throw Exception('Unexpected value for ChatCompletionStop: $data');
+    if (data is String) {
+      return ChatCompletionStop.string(data);
+    }
+    throw Exception(
+      'Unexpected value for ChatCompletionStop: $data',
+    );
   }
 
   @override
-  Object? toJson(ChatCompletionStop data) {
+  Object? toJson(ChatCompletionStop? data) {
     return switch (data) {
-      _UnionChatCompletionStopString(value: final v) => v,
       _UnionChatCompletionStopArrayString(value: final v) => v,
+      _UnionChatCompletionStopString(value: final v) => v,
+      null => null,
     };
   }
 }

@@ -108,7 +108,7 @@ await for (final res in stream) {
 **Function calling:**
 
 ```dart
-const function = ChatCompletionFunctions(
+const function = ChatCompletionFunction(
   name: 'get_current_weather',
   description: 'Get the current weather in a given location',
   parameters: {
