@@ -92,8 +92,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
   ///
   /// The memory must have [BaseChatMemory.returnMessages] set to true for
   /// the agent to work properly.
-  final LLMChain<BaseChatOpenAI, ChatOpenAIOptions, void, BaseChatMemory>
-      llmChain;
+  final LLMChain<ChatOpenAI, ChatOpenAIOptions, void, BaseChatMemory> llmChain;
 
   /// The key for the input to the agent.
   static const agentInputKey = 'input';
@@ -113,7 +112,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
   /// - [extraPromptMessages] prompt messages that will be placed between the
   ///   system message and the input from the agent.
   factory OpenAIFunctionsAgent.fromLLMAndTools({
-    required final BaseChatOpenAI llm,
+    required final ChatOpenAI llm,
     required final List<BaseTool> tools,
     final BaseChatMemory? memory,
     final SystemChatMessagePromptTemplate systemChatMessage =

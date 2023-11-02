@@ -1,28 +1,35 @@
+import 'dart:convert';
+
 import 'package:langchain/langchain.dart';
+import 'package:openai_dart/openai_dart.dart';
 
-import '../../client/models/models.dart';
+extension ChatMessageListMapper on List<ChatMessage> {
+  List<ChatCompletionMessage> toChatCompletionMessages() {
+    return map((final message) => message.toChatCompletionMessage())
+        .toList(growable: false);
+  }
+}
 
-/// Mapper for [ChatMessage] to [OpenAIChatCompletionMessage].
-extension ChatMessageMapper on ChatMessage {
-  OpenAIChatCompletionMessage toOpenAIChatMessage() {
+extension _ChatMessageMapper on ChatMessage {
+  ChatCompletionMessage toChatCompletionMessage() {
     return switch (this) {
-      final SystemChatMessage systemChatMessage => OpenAIChatCompletionMessage(
-          role: OpenAIChatMessageRole.system,
+      final SystemChatMessage systemChatMessage => ChatCompletionMessage(
+          role: ChatCompletionMessageRole.system,
           content: systemChatMessage.content,
         ),
-      final HumanChatMessage humanChatMessage => OpenAIChatCompletionMessage(
-          role: OpenAIChatMessageRole.user,
+      final HumanChatMessage humanChatMessage => ChatCompletionMessage(
+          role: ChatCompletionMessageRole.user,
           content: humanChatMessage.content,
         ),
-      final AIChatMessage aiChatMessage => OpenAIChatCompletionMessage(
-          role: OpenAIChatMessageRole.assistant,
-          functionCall: aiChatMessage.functionCall?.toFunctionCallResponse(),
+      final AIChatMessage aiChatMessage => ChatCompletionMessage(
+          role: ChatCompletionMessageRole.assistant,
+          functionCall:
+              aiChatMessage.functionCall?.toChatCompletionMessageFunctionCall(),
           content: aiChatMessage.content,
         ),
-      final FunctionChatMessage functionChatMessage =>
-        OpenAIChatCompletionMessage(
-          role: OpenAIChatMessageRole.function,
-          functionName: functionChatMessage.name,
+      final FunctionChatMessage functionChatMessage => ChatCompletionMessage(
+          role: ChatCompletionMessageRole.function,
+          name: functionChatMessage.name,
           content: functionChatMessage.content,
         ),
       _ => throw UnsupportedError('Unsupported ChatMessage type'),
@@ -30,14 +37,13 @@ extension ChatMessageMapper on ChatMessage {
   }
 }
 
-/// Mapper for [ChatGeneration] to [OpenAIChatCompletionChoice].
-extension OpenAIChatCompletionMapper on OpenAIChatCompletion {
+extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
   ChatResult toChatResult(final String model) {
     return ChatResult(
       generations: choices
           .map((final choice) => choice.toChatGeneration())
           .toList(growable: false),
-      usage: usage.toLanguageModelUsage(),
+      usage: usage?.toLanguageModelUsage(),
       modelOutput: {
         'id': id,
         'created': created,
@@ -47,8 +53,7 @@ extension OpenAIChatCompletionMapper on OpenAIChatCompletion {
   }
 }
 
-/// Mapper for [OpenAIChatCompletionChoice] to [ChatGeneration].
-extension _OpenAIChatCompletionChoiceMapper on OpenAIChatCompletionChoice {
+extension _ChatCompletionResponseChoiceMapper on ChatCompletionResponseChoice {
   ChatGeneration toChatGeneration() {
     return ChatGeneration(
       message.toChatMessage(),
@@ -60,8 +65,7 @@ extension _OpenAIChatCompletionChoiceMapper on OpenAIChatCompletionChoice {
   }
 }
 
-/// Mapper for [OpenAIChatCompletionUsage] to [LanguageModelUsage].
-extension _OpenAIChatCompletionUsageMapper on OpenAIChatCompletionUsage {
+extension _CompletionUsageMapper on CompletionUsage {
   LanguageModelUsage toLanguageModelUsage() {
     return LanguageModelUsage(
       promptTokens: promptTokens,
@@ -71,61 +75,72 @@ extension _OpenAIChatCompletionUsageMapper on OpenAIChatCompletionUsage {
   }
 }
 
-/// Mapper for [OpenAIChatCompletionMessage] to [ChatMessage].
-extension _OpenAIChatCompletionMessageMapper on OpenAIChatCompletionMessage {
+extension _ChatCompletionMessageMapper on ChatCompletionMessage {
   ChatMessage toChatMessage() {
     return switch (role) {
-      OpenAIChatMessageRole.system => ChatMessage.system(content),
-      OpenAIChatMessageRole.user => ChatMessage.human(content),
-      OpenAIChatMessageRole.assistant => ChatMessage.ai(
-          content,
-          functionCall: functionCall?.toChatFunctionCall(),
+      ChatCompletionMessageRole.system => ChatMessage.system(content ?? ''),
+      ChatCompletionMessageRole.user => ChatMessage.human(content ?? ''),
+      ChatCompletionMessageRole.assistant => ChatMessage.ai(
+          content ?? '',
+          functionCall: functionCall?.toChatCompletionMessageFunctionCall(),
         ),
-      OpenAIChatMessageRole.function => ChatMessage.function(
-          name: functionName ?? '',
-          content: content,
+      ChatCompletionMessageRole.function => ChatMessage.function(
+          name: name ?? '',
+          content: content ?? '',
         ),
     };
   }
 }
 
-/// Mapper for [OpenAIFunctionCallResponse] to [AIChatMessageFunctionCall].
-extension _OpenAIFunctionCallResponseMapper on OpenAIFunctionCallResponse {
-  AIChatMessageFunctionCall toChatFunctionCall() {
+extension _ChatCompletionMessageFunctionCallMapper
+    on ChatCompletionMessageFunctionCall {
+  AIChatMessageFunctionCall toChatCompletionMessageFunctionCall() {
     return AIChatMessageFunctionCall(
       name: name,
-      arguments: arguments,
+      arguments: json.decode(arguments),
     );
   }
 }
 
 extension _AIChatMessageFunctionCallMapper on AIChatMessageFunctionCall {
-  OpenAIFunctionCallResponse toFunctionCallResponse() {
-    return OpenAIFunctionCallResponse(
+  ChatCompletionMessageFunctionCall toChatCompletionMessageFunctionCall() {
+    return ChatCompletionMessageFunctionCall(
       name: name,
-      arguments: arguments,
+      arguments: json.encode(arguments),
     );
   }
 }
 
-/// Mapper for [ChatFunction] to [OpenAIFunction].
-extension ChatFunctionMapper on ChatFunction {
-  OpenAIFunction toOpenAIFunction() {
-    return OpenAIFunction(
+extension ChatFunctionListMapper on List<ChatFunction> {
+  List<ChatCompletionFunction> toChatCompletionFunctions() {
+    return map((final function) => function.toChatCompletionFunction())
+        .toList(growable: false);
+  }
+}
+
+extension _ChatFunctionMapper on ChatFunction {
+  ChatCompletionFunction toChatCompletionFunction() {
+    return ChatCompletionFunction(
       name: name,
       description: description,
-      parametersSchema: parameters ?? const {},
+      parameters: parameters ?? {},
     );
   }
 }
 
 extension ChatFunctionCallMapper on ChatFunctionCall {
-  OpenAIFunctionCall toOpenAIFunctionCall() {
+  ChatCompletionFunctionCall toChatCompletionFunctionCall() {
     return switch (this) {
-      ChatFunctionCallNone _ => OpenAIFunctionCall.none,
-      ChatFunctionCallAuto _ => OpenAIFunctionCall.auto,
+      ChatFunctionCallNone _ => const ChatCompletionFunctionCall.enumeration(
+          ChatCompletionFunctionCallMode.none,
+        ),
+      ChatFunctionCallAuto _ => const ChatCompletionFunctionCall.enumeration(
+          ChatCompletionFunctionCallMode.auto,
+        ),
       final ChatFunctionCallForced f =>
-        OpenAIFunctionCall.forFunction(f.functionName),
+        ChatCompletionFunctionCall.chatCompletionFunctionCallOption(
+          ChatCompletionFunctionCallOption(name: f.functionName),
+        )
     };
   }
 }

@@ -22,7 +22,7 @@ void main() {
         maxTokens: 10,
         presencePenalty: 0.1,
         frequencyPenalty: 0.1,
-        logitBias: {'foo': 1.0},
+        logitBias: {'foo': 1},
         user: 'foo',
       );
       expect(chat.model, 'foo');
@@ -96,7 +96,8 @@ void main() {
       }
     });
 
-    test('Test ChatOpenAI functions', () async {
+    test('Test ChatOpenAI functions',
+        timeout: const Timeout(Duration(minutes: 1)), () async {
       final chat = ChatOpenAI(
         apiKey: openaiApiKey,
         model: 'gpt-3.5-turbo-0613',

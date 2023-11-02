@@ -26,10 +26,11 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   }
 
   Future<void> onSubmitPressed() async {
-    final client = _createClient();
-    if (client == null) {
+    final config = _getClientConfig();
+    if (config == null) {
       return;
     }
+    final (apiKey, baseUrl) = config;
 
     final query = state.query;
     if (query == null || query.isEmpty) {
@@ -44,7 +45,10 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
 
     emit(state.copyWith(status: HomeScreenStatus.generating, response: ''));
 
-    final llm = ChatOpenAI(apiClient: client);
+    final llm = ChatOpenAI(
+      apiKey: apiKey,
+      baseUrl: baseUrl,
+    );
 
     final result = await llm([ChatMessage.human(query)]);
     emit(
@@ -55,7 +59,7 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     );
   }
 
-  OpenAIClient? _createClient() {
+  (String? apiKey, String? baseUrl)? _getClientConfig() {
     final clientType = state.clientType;
 
     if (clientType == ClientType.openAI) {
@@ -70,7 +74,7 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
         return null;
       }
 
-      return OpenAIClient.instanceFor(apiKey: openAIKey);
+      return (openAIKey, null);
     } else {
       final localUrl = state.localUrl;
       if (localUrl == null || localUrl.isEmpty) {
@@ -83,7 +87,7 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
         return null;
       }
 
-      return OpenAIClient.local(localUrl);
+      return (null, localUrl);
     }
   }
 }
