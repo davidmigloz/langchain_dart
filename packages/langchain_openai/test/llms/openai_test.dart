@@ -22,7 +22,7 @@ void main() {
         presencePenalty: 0.1,
         frequencyPenalty: 0.1,
         bestOf: 10,
-        logitBias: {'foo': 1.0},
+        logitBias: {'foo': 1},
         user: 'foo',
       );
       expect(llm.model, 'foo');

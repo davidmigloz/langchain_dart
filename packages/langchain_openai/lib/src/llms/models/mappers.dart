@@ -1,8 +1,7 @@
 import 'package:langchain/langchain.dart';
-import '../../client/models/models.dart';
+import 'package:openai_dart/openai_dart.dart';
 
-/// Mapper for [OpenAICompletionModel] to [LLMResult].
-extension OpenAICompletionMapper on OpenAICompletion {
+extension CreateCompletionResponseMapper on CreateCompletionResponse {
   LLMResult toLLMResult() {
     return LLMResult(
       generations: choices
@@ -18,22 +17,21 @@ extension OpenAICompletionMapper on OpenAICompletion {
   }
 }
 
-/// Mapper for [OpenAICompletionChoice] to [LLMGeneration].
-extension _OpenAICompletionChoiceMapper on OpenAICompletionChoice {
+extension _CompletionChoiceMapper on CompletionChoice {
   LLMGeneration toLLMGeneration() {
+    final json = toJson();
     return LLMGeneration(
       text,
       generationInfo: {
         'index': index,
-        'logprobs': logprobs,
-        'finish_reason': finishReason,
+        'logprobs': json['logprobs'],
+        'finish_reason': json['finish_reason'],
       },
     );
   }
 }
 
-/// Mapper for [OpenAICompletionUsage] to [LanguageModelUsage].
-extension _OpenAICompletionUsageMapper on OpenAICompletionUsage {
+extension _CompletionUsageMapper on CompletionUsage {
   LanguageModelUsage toLanguageModelUsage() {
     return LanguageModelUsage(
       promptTokens: promptTokens,
