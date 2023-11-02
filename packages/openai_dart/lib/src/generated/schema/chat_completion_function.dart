@@ -5,16 +5,16 @@
 part of open_a_i_schema;
 
 // ==========================================
-// CLASS: ChatCompletionFunctions
+// CLASS: ChatCompletionFunction
 // ==========================================
 
 /// A function that the model may call.
 @freezed
-class ChatCompletionFunctions with _$ChatCompletionFunctions {
-  const ChatCompletionFunctions._();
+class ChatCompletionFunction with _$ChatCompletionFunction {
+  const ChatCompletionFunction._();
 
-  /// Factory constructor for ChatCompletionFunctions
-  const factory ChatCompletionFunctions({
+  /// Factory constructor for ChatCompletionFunction
+  const factory ChatCompletionFunction({
     /// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.
     required String name,
 
@@ -25,11 +25,11 @@ class ChatCompletionFunctions with _$ChatCompletionFunctions {
     ///
     /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
     required ChatCompletionFunctionParameters parameters,
-  }) = _ChatCompletionFunctions;
+  }) = _ChatCompletionFunction;
 
   /// Object construction from a JSON representation
-  factory ChatCompletionFunctions.fromJson(Map<String, dynamic> json) =>
-      _$ChatCompletionFunctionsFromJson(json);
+  factory ChatCompletionFunction.fromJson(Map<String, dynamic> json) =>
+      _$ChatCompletionFunctionFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [

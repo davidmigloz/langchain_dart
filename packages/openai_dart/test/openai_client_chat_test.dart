@@ -13,7 +13,7 @@ void main() {
 
     setUp(() {
       client = OpenAIClient(
-        apiKey: Platform.environment['OPENAI_API_KEY']!,
+        apiKey: Platform.environment['OPENAI_API_KEY'],
       );
     });
 
@@ -184,7 +184,7 @@ void main() {
     });
 
     test('Test call chat completions API functions', () async {
-      const function = ChatCompletionFunctions(
+      const function = ChatCompletionFunction(
         name: 'get_current_weather',
         description: 'Get the current weather in a given location',
         parameters: {
@@ -204,27 +204,30 @@ void main() {
         },
       );
 
-      const request1 = CreateChatCompletionRequest(
-        model: ChatCompletionModel.enumeration(
+      final request1 = CreateChatCompletionRequest(
+        model: const ChatCompletionModel.enumeration(
           ChatCompletionModels.gpt35Turbo,
         ),
         messages: [
-          ChatCompletionMessage(
+          const ChatCompletionMessage(
             role: ChatCompletionMessageRole.system,
             content: 'You are a helpful assistant.',
           ),
-          ChatCompletionMessage(
+          const ChatCompletionMessage(
             role: ChatCompletionMessageRole.user,
             content: 'What’s the weather like in Boston right now?',
           ),
         ],
         functions: [function],
+        functionCall:
+            ChatCompletionFunctionCall.chatCompletionFunctionCallOption(
+          ChatCompletionFunctionCallOption(name: function.name),
+        ),
       );
       final res1 = await client.createChatCompletion(request: request1);
       expect(res1.choices, hasLength(1));
 
       final choice1 = res1.choices.first;
-      expect(choice1.finishReason, ChatCompletionFinishReason.functionCall);
 
       final aiMessage1 = choice1.message;
       expect(aiMessage1.role, ChatCompletionMessageRole.assistant);

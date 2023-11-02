@@ -77,13 +77,13 @@ enum EmbeddingModels {
 sealed class EmbeddingModel with _$EmbeddingModel {
   const EmbeddingModel._();
 
-  const factory EmbeddingModel.string(
-    String value,
-  ) = _UnionEmbeddingModelString;
-
   const factory EmbeddingModel.enumeration(
     EmbeddingModels value,
   ) = _UnionEmbeddingModelEnum;
+
+  const factory EmbeddingModel.string(
+    String value,
+  ) = _UnionEmbeddingModelString;
 
   /// Object construction from a JSON representation
   factory EmbeddingModel.fromJson(Map<String, dynamic> json) =>
@@ -107,17 +107,20 @@ class _EmbeddingModelConverter
     if (data is String) {
       return EmbeddingModel.string(data);
     }
-    throw Exception('Unexpected value for EmbeddingModel: $data');
+    throw Exception(
+      'Unexpected value for EmbeddingModel: $data',
+    );
   }
 
   @override
   Object? toJson(EmbeddingModel data) {
     return switch (data) {
-      _UnionEmbeddingModelString(value: final v) => v,
       _UnionEmbeddingModelEnum(value: final v) => _$EmbeddingModelsEnumMap[v]!,
+      _UnionEmbeddingModelString(value: final v) => v,
     };
   }
 }
+
 // ==========================================
 // CLASS: EmbeddingInput
 // ==========================================
@@ -127,21 +130,21 @@ class _EmbeddingModelConverter
 sealed class EmbeddingInput with _$EmbeddingInput {
   const EmbeddingInput._();
 
-  const factory EmbeddingInput.string(
-    String value,
-  ) = _UnionEmbeddingInputString;
-
-  const factory EmbeddingInput.arrayString(
-    List<String> value,
-  ) = _UnionEmbeddingInputArrayString;
+  const factory EmbeddingInput.array(
+    List<List<int>> value,
+  ) = _UnionEmbeddingInputArray;
 
   const factory EmbeddingInput.arrayInteger(
     List<int> value,
   ) = _UnionEmbeddingInputArrayInteger;
 
-  const factory EmbeddingInput.array(
-    List<List<int>> value,
-  ) = _UnionEmbeddingInputArray;
+  const factory EmbeddingInput.arrayString(
+    List<String> value,
+  ) = _UnionEmbeddingInputArrayString;
+
+  const factory EmbeddingInput.string(
+    String value,
+  ) = _UnionEmbeddingInputString;
 
   /// Object construction from a JSON representation
   factory EmbeddingInput.fromJson(Map<String, dynamic> json) =>
@@ -155,31 +158,34 @@ class _EmbeddingInputConverter
 
   @override
   EmbeddingInput fromJson(Object? data) {
-    if (data is String) {
-      return EmbeddingInput.string(data);
-    }
-    if (data is List && data.every((item) => item is String)) {
-      return EmbeddingInput.arrayString(data.cast());
+    if (data is List && data.every((item) => item is List<int>)) {
+      return EmbeddingInput.array(data.cast());
     }
     if (data is List && data.every((item) => item is int)) {
       return EmbeddingInput.arrayInteger(data.cast());
     }
-    if (data is List && data.every((item) => item is List<int>)) {
-      return EmbeddingInput.array(data.cast());
+    if (data is List && data.every((item) => item is String)) {
+      return EmbeddingInput.arrayString(data.cast());
     }
-    throw Exception('Unexpected value for EmbeddingInput: $data');
+    if (data is String) {
+      return EmbeddingInput.string(data);
+    }
+    throw Exception(
+      'Unexpected value for EmbeddingInput: $data',
+    );
   }
 
   @override
   Object? toJson(EmbeddingInput data) {
     return switch (data) {
-      _UnionEmbeddingInputString(value: final v) => v,
-      _UnionEmbeddingInputArrayString(value: final v) => v,
-      _UnionEmbeddingInputArrayInteger(value: final v) => v,
       _UnionEmbeddingInputArray(value: final v) => v,
+      _UnionEmbeddingInputArrayInteger(value: final v) => v,
+      _UnionEmbeddingInputArrayString(value: final v) => v,
+      _UnionEmbeddingInputString(value: final v) => v,
     };
   }
 }
+
 // ==========================================
 // ENUM: EmbeddingEncodingFormat
 // ==========================================

@@ -56,13 +56,13 @@ class Embedding with _$Embedding {
 sealed class EmbeddingVector with _$EmbeddingVector {
   const EmbeddingVector._();
 
-  const factory EmbeddingVector.string(
-    String value,
-  ) = _UnionEmbeddingVectorString;
-
   const factory EmbeddingVector.arrayNumber(
     List<double> value,
   ) = _UnionEmbeddingVectorArrayNumber;
+
+  const factory EmbeddingVector.string(
+    String value,
+  ) = _UnionEmbeddingVectorString;
 
   /// Object construction from a JSON representation
   factory EmbeddingVector.fromJson(Map<String, dynamic> json) =>
@@ -76,20 +76,22 @@ class _EmbeddingVectorConverter
 
   @override
   EmbeddingVector fromJson(Object? data) {
-    if (data is String) {
-      return EmbeddingVector.string(data);
-    }
     if (data is List && data.every((item) => item is double)) {
       return EmbeddingVector.arrayNumber(data.cast());
     }
-    throw Exception('Unexpected value for EmbeddingVector: $data');
+    if (data is String) {
+      return EmbeddingVector.string(data);
+    }
+    throw Exception(
+      'Unexpected value for EmbeddingVector: $data',
+    );
   }
 
   @override
   Object? toJson(EmbeddingVector data) {
     return switch (data) {
-      _UnionEmbeddingVectorString(value: final v) => v,
       _UnionEmbeddingVectorArrayNumber(value: final v) => v,
+      _UnionEmbeddingVectorString(value: final v) => v,
     };
   }
 }

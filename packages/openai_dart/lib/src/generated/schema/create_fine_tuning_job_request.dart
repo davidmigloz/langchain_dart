@@ -115,13 +115,13 @@ enum FineTuningModels {
 sealed class FineTuningModel with _$FineTuningModel {
   const FineTuningModel._();
 
-  const factory FineTuningModel.string(
-    String value,
-  ) = _UnionFineTuningModelString;
-
   const factory FineTuningModel.enumeration(
     FineTuningModels value,
   ) = _UnionFineTuningModelEnum;
+
+  const factory FineTuningModel.string(
+    String value,
+  ) = _UnionFineTuningModelString;
 
   /// Object construction from a JSON representation
   factory FineTuningModel.fromJson(Map<String, dynamic> json) =>
@@ -145,15 +145,17 @@ class _FineTuningModelConverter
     if (data is String) {
       return FineTuningModel.string(data);
     }
-    throw Exception('Unexpected value for FineTuningModel: $data');
+    throw Exception(
+      'Unexpected value for FineTuningModel: $data',
+    );
   }
 
   @override
   Object? toJson(FineTuningModel data) {
     return switch (data) {
-      _UnionFineTuningModelString(value: final v) => v,
       _UnionFineTuningModelEnum(value: final v) =>
         _$FineTuningModelsEnumMap[v]!,
+      _UnionFineTuningModelString(value: final v) => v,
     };
   }
 }

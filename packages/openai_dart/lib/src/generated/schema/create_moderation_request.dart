@@ -19,10 +19,11 @@ class CreateModerationRequest with _$CreateModerationRequest {
     ///
     /// The default is `text-moderation-latest` which will be automatically upgraded over time. This ensures you are always using our most accurate model. If you use `text-moderation-stable`, we will provide advanced notice before updating the model. Accuracy of `text-moderation-stable` may be slightly lower than for `text-moderation-latest`.
     @_ModerationModelConverter()
+    @JsonKey(includeIfNull: false)
     @Default(
       ModerationModel.string('text-moderation-latest'),
     )
-    ModerationModel model,
+    ModerationModel? model,
 
     /// The input text to classify
     @_ModerationInputConverter() required ModerationInput input,
@@ -72,13 +73,13 @@ enum ModerationModels {
 sealed class ModerationModel with _$ModerationModel {
   const ModerationModel._();
 
-  const factory ModerationModel.string(
-    String value,
-  ) = _UnionModerationModelString;
-
   const factory ModerationModel.enumeration(
     ModerationModels value,
   ) = _UnionModerationModelEnum;
+
+  const factory ModerationModel.string(
+    String value,
+  ) = _UnionModerationModelString;
 
   /// Object construction from a JSON representation
   factory ModerationModel.fromJson(Map<String, dynamic> json) =>
@@ -87,11 +88,14 @@ sealed class ModerationModel with _$ModerationModel {
 
 /// Custom JSON converter for [ModerationModel]
 class _ModerationModelConverter
-    implements JsonConverter<ModerationModel, Object?> {
+    implements JsonConverter<ModerationModel?, Object?> {
   const _ModerationModelConverter();
 
   @override
-  ModerationModel fromJson(Object? data) {
+  ModerationModel? fromJson(Object? data) {
+    if (data == null) {
+      return null;
+    }
     if (data is String && _$ModerationModelsEnumMap.values.contains(data)) {
       return ModerationModel.enumeration(
         _$ModerationModelsEnumMap.keys.elementAt(
@@ -102,20 +106,20 @@ class _ModerationModelConverter
     if (data is String) {
       return ModerationModel.string(data);
     }
-    return ModerationModel.enumeration(
-      ModerationModels.textModerationLatest,
-    );
+    return ModerationModel.string('text-moderation-latest');
   }
 
   @override
-  Object? toJson(ModerationModel data) {
+  Object? toJson(ModerationModel? data) {
     return switch (data) {
-      _UnionModerationModelString(value: final v) => v,
       _UnionModerationModelEnum(value: final v) =>
         _$ModerationModelsEnumMap[v]!,
+      _UnionModerationModelString(value: final v) => v,
+      null => null,
     };
   }
 }
+
 // ==========================================
 // CLASS: ModerationInput
 // ==========================================
@@ -125,13 +129,13 @@ class _ModerationModelConverter
 sealed class ModerationInput with _$ModerationInput {
   const ModerationInput._();
 
-  const factory ModerationInput.string(
-    String value,
-  ) = _UnionModerationInputString;
-
   const factory ModerationInput.arrayString(
     List<String> value,
   ) = _UnionModerationInputArrayString;
+
+  const factory ModerationInput.string(
+    String value,
+  ) = _UnionModerationInputString;
 
   /// Object construction from a JSON representation
   factory ModerationInput.fromJson(Map<String, dynamic> json) =>
@@ -145,20 +149,22 @@ class _ModerationInputConverter
 
   @override
   ModerationInput fromJson(Object? data) {
-    if (data is String) {
-      return ModerationInput.string(data);
-    }
     if (data is List && data.every((item) => item is String)) {
       return ModerationInput.arrayString(data.cast());
     }
-    throw Exception('Unexpected value for ModerationInput: $data');
+    if (data is String) {
+      return ModerationInput.string(data);
+    }
+    throw Exception(
+      'Unexpected value for ModerationInput: $data',
+    );
   }
 
   @override
   Object? toJson(ModerationInput data) {
     return switch (data) {
-      _UnionModerationInputString(value: final v) => v,
       _UnionModerationInputArrayString(value: final v) => v,
+      _UnionModerationInputString(value: final v) => v,
     };
   }
 }

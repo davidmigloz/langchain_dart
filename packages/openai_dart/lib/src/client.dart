@@ -22,22 +22,22 @@ class OpenAIClient extends g.OpenAIClient {
   /// Advance configuration options:
   /// - `baseUrl`: the base URL to use. Defaults to OpenAI's API URL. You can
   ///   override this to use a different API URL, or to use a proxy.
-  /// - `globalHeaders`: global headers to send with every request. You can use
+  /// - `headers`: global headers to send with every request. You can use
   ///   this to set custom headers, or to override the default headers.
   /// - `client`: the HTTP client to use. You can set your own HTTP client if
   ///   you need further customization (e.g. to use a Socks5 proxy).
   OpenAIClient({
-    final String apiKey = '',
+    final String? apiKey,
     final String? organization,
     final String? baseUrl,
-    final Map<String, String>? globalHeaders,
+    final Map<String, String>? headers,
     final http.Client? client,
   }) : super(
-          bearerToken: apiKey,
+          bearerToken: apiKey ?? '',
           baseUrl: baseUrl,
           headers: {
             if (organization != null) 'OpenAI-Organization': organization,
-            ...?globalHeaders,
+            ...?headers,
           },
           client: client ?? createDefaultHttpClient(),
         );

@@ -256,13 +256,13 @@ enum CompletionModels {
 sealed class CompletionModel with _$CompletionModel {
   const CompletionModel._();
 
-  const factory CompletionModel.string(
-    String value,
-  ) = _UnionCompletionModelString;
-
   const factory CompletionModel.enumeration(
     CompletionModels value,
   ) = _UnionCompletionModelEnum;
+
+  const factory CompletionModel.string(
+    String value,
+  ) = _UnionCompletionModelString;
 
   /// Object construction from a JSON representation
   factory CompletionModel.fromJson(Map<String, dynamic> json) =>
@@ -286,18 +286,21 @@ class _CompletionModelConverter
     if (data is String) {
       return CompletionModel.string(data);
     }
-    throw Exception('Unexpected value for CompletionModel: $data');
+    throw Exception(
+      'Unexpected value for CompletionModel: $data',
+    );
   }
 
   @override
   Object? toJson(CompletionModel data) {
     return switch (data) {
-      _UnionCompletionModelString(value: final v) => v,
       _UnionCompletionModelEnum(value: final v) =>
         _$CompletionModelsEnumMap[v]!,
+      _UnionCompletionModelString(value: final v) => v,
     };
   }
 }
+
 // ==========================================
 // CLASS: CompletionPrompt
 // ==========================================
@@ -309,21 +312,21 @@ class _CompletionModelConverter
 sealed class CompletionPrompt with _$CompletionPrompt {
   const CompletionPrompt._();
 
-  const factory CompletionPrompt.string(
-    String value,
-  ) = _UnionCompletionPromptString;
-
-  const factory CompletionPrompt.arrayString(
-    List<String> value,
-  ) = _UnionCompletionPromptArrayString;
+  const factory CompletionPrompt.array(
+    List<List<int>> value,
+  ) = _UnionCompletionPromptArray;
 
   const factory CompletionPrompt.arrayInteger(
     List<int> value,
   ) = _UnionCompletionPromptArrayInteger;
 
-  const factory CompletionPrompt.array(
-    List<List<int>> value,
-  ) = _UnionCompletionPromptArray;
+  const factory CompletionPrompt.arrayString(
+    List<String> value,
+  ) = _UnionCompletionPromptArrayString;
+
+  const factory CompletionPrompt.string(
+    String value,
+  ) = _UnionCompletionPromptString;
 
   /// Object construction from a JSON representation
   factory CompletionPrompt.fromJson(Map<String, dynamic> json) =>
@@ -332,40 +335,37 @@ sealed class CompletionPrompt with _$CompletionPrompt {
 
 /// Custom JSON converter for [CompletionPrompt]
 class _CompletionPromptConverter
-    implements JsonConverter<CompletionPrompt?, Object?> {
+    implements JsonConverter<CompletionPrompt, Object?> {
   const _CompletionPromptConverter();
 
   @override
-  CompletionPrompt? fromJson(Object? data) {
-    if (data == null) {
-      return null;
-    }
-    if (data is String) {
-      return CompletionPrompt.string(data);
-    }
-    if (data is List && data.every((item) => item is String)) {
-      return CompletionPrompt.arrayString(data.cast());
+  CompletionPrompt fromJson(Object? data) {
+    if (data is List && data.every((item) => item is List<int>)) {
+      return CompletionPrompt.array(data.cast());
     }
     if (data is List && data.every((item) => item is int)) {
       return CompletionPrompt.arrayInteger(data.cast());
     }
-    if (data is List && data.every((item) => item is List<int>)) {
-      return CompletionPrompt.array(data.cast());
+    if (data is List && data.every((item) => item is String)) {
+      return CompletionPrompt.arrayString(data.cast());
+    }
+    if (data is String) {
+      return CompletionPrompt.string(data);
     }
     return CompletionPrompt.string('<|endoftext|>');
   }
 
   @override
-  Object? toJson(CompletionPrompt? data) {
+  Object? toJson(CompletionPrompt data) {
     return switch (data) {
-      _UnionCompletionPromptString(value: final v) => v,
-      _UnionCompletionPromptArrayString(value: final v) => v,
-      _UnionCompletionPromptArrayInteger(value: final v) => v,
       _UnionCompletionPromptArray(value: final v) => v,
-      null => null,
+      _UnionCompletionPromptArrayInteger(value: final v) => v,
+      _UnionCompletionPromptArrayString(value: final v) => v,
+      _UnionCompletionPromptString(value: final v) => v,
     };
   }
 }
+
 // ==========================================
 // CLASS: CompletionStop
 // ==========================================
@@ -375,13 +375,13 @@ class _CompletionPromptConverter
 sealed class CompletionStop with _$CompletionStop {
   const CompletionStop._();
 
-  const factory CompletionStop.string(
-    String value,
-  ) = _UnionCompletionStopString;
-
   const factory CompletionStop.arrayString(
     List<String> value,
   ) = _UnionCompletionStopArrayString;
+
+  const factory CompletionStop.string(
+    String value,
+  ) = _UnionCompletionStopString;
 
   /// Object construction from a JSON representation
   factory CompletionStop.fromJson(Map<String, dynamic> json) =>
@@ -398,20 +398,22 @@ class _CompletionStopConverter
     if (data == null) {
       return null;
     }
-    if (data is String) {
-      return CompletionStop.string(data);
-    }
     if (data is List && data.every((item) => item is String)) {
       return CompletionStop.arrayString(data.cast());
     }
-    throw Exception('Unexpected value for CompletionStop: $data');
+    if (data is String) {
+      return CompletionStop.string(data);
+    }
+    throw Exception(
+      'Unexpected value for CompletionStop: $data',
+    );
   }
 
   @override
   Object? toJson(CompletionStop? data) {
     return switch (data) {
-      _UnionCompletionStopString(value: final v) => v,
       _UnionCompletionStopArrayString(value: final v) => v,
+      _UnionCompletionStopString(value: final v) => v,
       null => null,
     };
   }

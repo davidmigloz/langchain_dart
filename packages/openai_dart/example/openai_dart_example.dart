@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:openai_dart/openai_dart.dart';
 
 Future<void> main() async {
-  final client = OpenAIClient(apiKey: Platform.environment['OPENAI_API_KEY']!);
+  final client = OpenAIClient(apiKey: Platform.environment['OPENAI_API_KEY']);
 
   await _chatCompletions(client);
   await _completions(client);
