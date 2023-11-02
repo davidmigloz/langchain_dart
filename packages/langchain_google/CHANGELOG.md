@@ -1,3 +1,10 @@
+## 0.0.9
+
+> Note: This release has breaking changes.
+
+ - **DOCS**: Update changelog. ([d45d624a](https://github.com/davidmigloz/langchain_dart/commit/d45d624a0ba12e53c4e78a29750cad30d66c61c5))
+ - **BREAKING** **FEAT**: Update uuid internal dependency to 4.x.x ([#173](https://github.com/davidmigloz/langchain_dart/issues/173)). ([b01f4afe](https://github.com/davidmigloz/langchain_dart/commit/b01f4afea6cfcdf8a0aa6e1b11d3057efa6e5fc0))
+
 ## 0.0.8
 
  - Updated `langchain` dependency
