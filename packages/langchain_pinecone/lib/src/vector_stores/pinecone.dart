@@ -74,17 +74,17 @@ import 'models/models.dart';
 class Pinecone extends VectorStore {
   /// {@macro pinecone}
   Pinecone({
-    required final String apiKey,
-    final String? host,
+    final String? apiKey,
+    final String? baseUrl,
+    final http.Client? client,
     required this.indexName,
     this.environment = 'gcp-starter',
     this.namespace,
     this.docPageContentKey = 'page_content',
     required super.embeddings,
-    final http.Client? client,
   }) : _client = PineconeClient(
-          apiKey: apiKey,
-          host: host,
+          apiKey: apiKey ?? '',
+          baseUrl: baseUrl,
           client: client,
         );
 
