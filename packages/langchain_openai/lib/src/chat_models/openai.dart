@@ -130,49 +130,49 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
 
   /// ID of the model to use (e.g. 'gpt-3.5-turbo').
   ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-model
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-model
   final String model;
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
   /// their existing frequency in the text so far, decreasing the model's
   /// likelihood to repeat the same line verbatim.
   ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-frequency_penalty
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-frequency_penalty
   final double frequencyPenalty;
 
   /// Modify the likelihood of specified tokens appearing in the completion.
   ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-logit_bias
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-logit_bias
   final Map<String, int>? logitBias;
 
   /// The maximum number of tokens to generate in the chat completion.
   /// Defaults to inf.
   ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-max_tokens
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-max_tokens
   final int? maxTokens;
 
   /// How many chat completion choices to generate for each input message.
   ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-n
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-n
   final int n;
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
   /// whether they appear in the text so far, increasing the model's likelihood
   /// to talk about new topics.
   ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-presence_penalty
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-presence_penalty
   final double presencePenalty;
 
   /// What sampling temperature to use, between 0 and 2.
   ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-temperature
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-temperature
   final double temperature;
 
   /// An alternative to sampling with temperature, called nucleus sampling,
   /// where the model considers the results of the tokens with top_p
   /// probability mass.
   ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat/create-top_p
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-top_p
   final double topP;
 
   /// A unique identifier representing your end-user, which can help OpenAI to
