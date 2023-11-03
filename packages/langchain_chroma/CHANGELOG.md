@@ -1,3 +1,7 @@
+## 0.0.5+1
+
+ - **DOCS**: Update CHANGELOG.md. ([5ea4e532](https://github.com/davidmigloz/langchain_dart/commit/5ea4e5326e706a52d157284a281eb881e05117c5))
+
 ## 0.0.5
 
 > Note: This release has breaking changes.

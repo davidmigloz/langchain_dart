@@ -1,3 +1,8 @@
+## 0.0.5
+
+ - **FEAT**(vector-stores): Upgrade pinecone client to v0.6.0 ([#188](https://github.com/davidmigloz/langchain_dart/issues/188)). ([57e2587f](https://github.com/davidmigloz/langchain_dart/commit/57e2587fa3849e7aea199dd52e2cb2ce4f61946a))
+ - **DOCS**: Update CHANGELOG.md. ([5ea4e532](https://github.com/davidmigloz/langchain_dart/commit/5ea4e5326e706a52d157284a281eb881e05117c5))
+
 ## 0.0.4
 
 > Note: This release has breaking changes.

@@ -1,5 +1,45 @@
 # Change Log
 
+All notable changes to this project will be documented in this file following 
+[Conventional Commits](https://conventionalcommits.org) specification.
+
+Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) 
+server for more details about each release.
+
+## 2023-11-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain_chroma` - `v0.0.5+1`](#langchain_chroma---v0051)
+ - [`langchain_openai` - `v0.0.14+1`](#langchain_openai---v00141)
+ - [`langchain_pinecone` - `v0.0.5`](#langchain_pinecone---v005)
+
+---
+
+#### `langchain_chroma` - `v0.0.5+1`
+
+ - **DOCS**: Update CHANGELOG.md. ([5ea4e532](https://github.com/davidmigloz/langchain_dart/commit/5ea4e5326e706a52d157284a281eb881e05117c5))
+
+#### `langchain_openai` - `v0.0.14+1`
+
+ - **FIX**(llms): Revert OpenAI maxTokens default to 256 ([#189](https://github.com/davidmigloz/langchain_dart/issues/189)). ([ab2ce6d4](https://github.com/davidmigloz/langchain_dart/commit/ab2ce6d4231ca0e2aff7aa3d9831625b10d0524d))
+ - **DOCS**: Update CHANGELOG.md. ([5ea4e532](https://github.com/davidmigloz/langchain_dart/commit/5ea4e5326e706a52d157284a281eb881e05117c5))
+
+#### `langchain_pinecone` - `v0.0.5`
+
+ - **FEAT**(vector-stores): Upgrade pinecone client to v0.6.0 ([#188](https://github.com/davidmigloz/langchain_dart/issues/188)). ([57e2587f](https://github.com/davidmigloz/langchain_dart/commit/57e2587fa3849e7aea199dd52e2cb2ce4f61946a))
+ - **DOCS**: Update CHANGELOG.md. ([5ea4e532](https://github.com/davidmigloz/langchain_dart/commit/5ea4e5326e706a52d157284a281eb881e05117c5))
+
+# Change Log
+
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
