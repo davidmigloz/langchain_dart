@@ -111,7 +111,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     this.frequencyPenalty = 0,
     this.logitBias,
     this.logprobs,
-    this.maxTokens,
+    this.maxTokens = 256,
     this.n = 1,
     this.presencePenalty = 0,
     this.suffix,
