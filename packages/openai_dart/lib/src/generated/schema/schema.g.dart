@@ -689,7 +689,7 @@ _$ChatCompletionStreamResponseDeltaImpl
           content: json['content'] as String?,
           functionCall: json['function_call'] == null
               ? null
-              : ChatCompletionMessageFunctionCall.fromJson(
+              : ChatCompletionStreamMessageFunctionCall.fromJson(
                   json['function_call'] as Map<String, dynamic>),
           role: $enumDecodeNullable(
               _$ChatCompletionMessageRoleEnumMap, json['role'],
@@ -709,6 +709,29 @@ Map<String, dynamic> _$$ChatCompletionStreamResponseDeltaImplToJson(
   writeNotNull('content', instance.content);
   writeNotNull('function_call', instance.functionCall?.toJson());
   writeNotNull('role', _$ChatCompletionMessageRoleEnumMap[instance.role]);
+  return val;
+}
+
+_$ChatCompletionStreamMessageFunctionCallImpl
+    _$$ChatCompletionStreamMessageFunctionCallImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ChatCompletionStreamMessageFunctionCallImpl(
+          name: json['name'] as String?,
+          arguments: json['arguments'] as String?,
+        );
+
+Map<String, dynamic> _$$ChatCompletionStreamMessageFunctionCallImplToJson(
+    _$ChatCompletionStreamMessageFunctionCallImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('arguments', instance.arguments);
   return val;
 }
 
