@@ -257,6 +257,45 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     return completion.toLLMResult();
   }
 
+  @override
+  Stream<LLMResult> stream(
+    final PromptValue input, {
+    final OpenAIOptions? options,
+  }) {
+    return _client
+        .createCompletionStream(
+          request: CreateCompletionRequest(
+            model: CompletionModel.string(model),
+            prompt: CompletionPrompt.string(input.toString()),
+            bestOf: bestOf,
+            frequencyPenalty: frequencyPenalty,
+            logitBias: logitBias,
+            logprobs: logprobs,
+            maxTokens: maxTokens,
+            n: n,
+            presencePenalty: presencePenalty,
+            stop: options?.stop != null
+                ? CompletionStop.arrayString(options!.stop!)
+                : null,
+            suffix: suffix,
+            temperature: temperature,
+            topP: topP,
+            user: options?.user ?? user,
+          ),
+        )
+        .map((final completion) => completion.toLLMResult(streaming: true));
+  }
+
+  @override
+  Stream<LLMResult> streamFromInputStream(
+    final Stream<PromptValue> inputStream, {
+    final OpenAIOptions? options,
+  }) {
+    return inputStream.asyncExpand((final input) {
+      return stream(input, options: options);
+    });
+  }
+
   /// Tokenizes the given prompt using tiktoken with the encoding used by the
   /// [model]. If an encoding model is specified in [encoding] field, that
   /// encoding is used instead.

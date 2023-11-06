@@ -2,7 +2,7 @@ import 'package:langchain/langchain.dart';
 import 'package:openai_dart/openai_dart.dart';
 
 extension CreateCompletionResponseMapper on CreateCompletionResponse {
-  LLMResult toLLMResult() {
+  LLMResult toLLMResult({final bool streaming = false}) {
     return LLMResult(
       generations: choices
           .map((final choice) => choice.toLLMGeneration())
@@ -13,6 +13,7 @@ extension CreateCompletionResponseMapper on CreateCompletionResponse {
         'created': created,
         'model': model,
       },
+      streaming: streaming,
     );
   }
 }
