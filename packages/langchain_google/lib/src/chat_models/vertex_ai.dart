@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:langchain/langchain.dart';
 import 'package:tiktoken/tiktoken.dart';
+import 'package:uuid/uuid.dart';
 import 'package:vertex_ai/vertex_ai.dart';
 
 import 'models/mappers.dart';
@@ -150,6 +151,9 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
   /// Scope required for Vertex AI API calls.
   static const cloudPlatformScope = VertexAIGenAIClient.cloudPlatformScope;
 
+  /// A UUID generator.
+  late final Uuid _uuid = const Uuid();
+
   @override
   String get modelType => 'vertex-ai-chat';
 
@@ -158,6 +162,7 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
     final List<ChatMessage> messages, {
     final ChatVertexAIOptions? options,
   }) async {
+    final id = _uuid.v4();
     String? context;
     final vertexMessages = <VertexAITextChatModelMessage>[];
     for (final message in messages) {
@@ -189,7 +194,7 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
             options?.candidateCount ?? defaultOptions.candidateCount,
       ),
     );
-    return result.toChatResult(model);
+    return result.toChatResult(id, model);
   }
 
   /// Tokenizes the given prompt using tiktoken.

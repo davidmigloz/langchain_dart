@@ -36,8 +36,9 @@ extension ChatExampleMapper on ChatExample {
 
 /// Mapper for [ChatGeneration] to [VertexAITextChatModelResponse].
 extension VertexAITextChatModelResponseMapper on VertexAITextChatModelResponse {
-  ChatResult toChatResult(final String model) {
+  ChatResult toChatResult(final String id, final String model) {
     return ChatResult(
+      id: id,
       generations: predictions
           .map((final prediction) => prediction.toChatGeneration())
           .toList(growable: false),
