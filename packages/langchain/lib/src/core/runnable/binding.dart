@@ -68,7 +68,9 @@ class RunnableBinding<RunInput extends Object?,
     final Stream<RunInput> inputStream, {
     final CallOptions? options,
   }) {
-    return bound.streamFromInputStream(inputStream,
-        options: options ?? this.options);
+    return bound.streamFromInputStream(
+      inputStream,
+      options: options ?? this.options,
+    );
   }
 }

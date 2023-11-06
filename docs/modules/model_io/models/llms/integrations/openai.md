@@ -10,11 +10,37 @@ OpenAI [models](https://platform.openai.com/docs/models).
 import 'package:langchain/langchain.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 
-final llm = OpenAI(apiKey: openaiApiKey);
+final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
+
 final prompt = PromptTemplate.fromTemplate(
   'What is a good name for a company that makes {product}?',
 );
-final chain = LLMChain(llm: llm, prompt: prompt);
-final res = await chain.run('colorful socks');
+final llm = OpenAI(apiKey: openaiApiKey);
+
+final chain = prompt | llm | const StringOutputParser();
+
+final res = await chain.invoke({'product': 'colorful socks'});
+print(res);
 // -> '\n\nSocktastic!'
+```
+
+## Streaming
+
+```dart
+final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
+
+final promptTemplate = PromptTemplate.fromTemplate(
+  'List the numbers from 1 to {max_num} in order without any spaces or commas',
+);
+final llm = OpenAI(apiKey: openaiApiKey);
+const stringOutputParser = StringOutputParser<String>();
+
+final chain = promptTemplate | llm | stringOutputParser;
+
+final stream = chain.stream({'max_num': '9'});
+await stream.forEach(print);
+// 123
+// 45
+// 67
+// 89
 ```

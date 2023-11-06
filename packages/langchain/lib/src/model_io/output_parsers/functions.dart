@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
-import 'package:langchain/src/model_io/output_parsers/utils/json.dart';
 import 'package:meta/meta.dart';
 
 import '../../core/core.dart';
 import '../chat_models/models/models.dart';
 import '../language_models/models/models.dart';
 import 'output_parser.dart';
+import 'utils/json.dart';
 
 /// {@template base_output_functions_parser}
 /// Base class for parsers that converts the output of a function call into a

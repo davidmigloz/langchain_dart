@@ -2,8 +2,8 @@
 
 In an effort to make it as easy as possible to create custom chains, we've implemented a `Runnable` interface that most components implement. This is a standard interface with a few different methods, which makes it easy to define custom chains as well as making it possible to invoke them in a standard way. The standard interface exposed includes:
 
-- `stream`: stream back chunks of the response.
 - `invoke`: call the chain on an input.
+- `stream`: stream back chunks of the response.
 - `batch`: call the chain on a list of inputs.
 
 The type of the input and output varies by component:
@@ -62,11 +62,9 @@ final promptTemplate = ChatPromptTemplate.fromTemplate(
 final chain = promptTemplate | model | const StringOutputParser();
 ```
 
-### Stream
-
-TODO
-
 ### Invoke
+
+The `invoke` method takes an input and returns the output of invoking the chain on that input.
 
 ```dart
 final res = await chain.invoke({'topic': 'bears'});
@@ -74,9 +72,38 @@ print(res);
 // Why don't bears wear shoes? Because they have bear feet!
 ```
 
+### Stream
+
+The `stream` method takes an input and streams back chunks of the output.
+
+```dart
+final stream = chain.stream({'topic': 'bears'});
+int count = 0;
+await for (final res in stream) {
+  print('$count: $res');
+  count++;
+}
+// 0:
+// 1: Why
+// 2:  don
+// 3: 't
+// 4:  bears
+// 5:  like
+// 6:  fast
+// 7:  food
+// 8: ?
+// 9: Because
+// 10:  they
+// 11:  can
+// 12: 't
+// 13:  catch
+// 14:  it
+// 15: !
+```
+
 ### Batch
 
-TODO
+Batch is not supported yet.
 
 ## Runnable types
 

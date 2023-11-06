@@ -48,6 +48,8 @@
           - [GCP Vertex AI](/modules/model_io/models/chat_models/integrations/gcp_vertex_ai.md)
           - [Prem App](/modules/model_io/models/chat_models/integrations/prem.md)
     - [Output parsers](/modules/model_io/output_parsers/output_parsers.md)
+      - [String output parser](/modules/model_io/output_parsers/string.md)
+      - [Functions output parsers](/modules/model_io/output_parsers/functions.md)
   - [Retrieval](/modules/retrieval/retrieval.md)
     - [Document loaders](/modules/retrieval/document_loaders/document_loaders.md)
       - How-to
