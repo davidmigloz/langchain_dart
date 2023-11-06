@@ -28,6 +28,7 @@ part 'chat_completion_finish_reason.dart';
 part 'create_chat_completion_stream_response.dart';
 part 'chat_completion_stream_response_choice.dart';
 part 'chat_completion_stream_response_delta.dart';
+part 'chat_completion_stream_message_function_call.dart';
 part 'completion_usage.dart';
 part 'create_embedding_request.dart';
 part 'create_embedding_response.dart';
