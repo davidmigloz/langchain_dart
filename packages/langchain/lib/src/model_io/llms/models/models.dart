@@ -10,28 +10,8 @@ class LLMOptions extends LanguageModelOptions {
   const LLMOptions();
 }
 
-/// {@template llm_result}
 /// Class that contains all relevant information for an LLM Result.
-/// {@endtemplate}
-@immutable
-class LLMResult extends LanguageModelResult<String> {
-  /// {@macro llm_result}
-  const LLMResult({
-    required super.generations,
-    super.usage,
-    super.modelOutput,
-  });
-
-  @override
-  String toString() {
-    return '''
-LLMResult{
-  generations: $generations, 
-  usage: $usage, 
-  modelOutput: $modelOutput},
-''';
-  }
-}
+typedef LLMResult = LanguageModelResult<String>;
 
 /// {@template llm_generation}
 /// Output of a single generation.
@@ -46,6 +26,19 @@ class LLMGeneration extends LanguageModelGeneration<String> {
 
   @override
   String get outputAsString => output;
+
+  @override
+  LanguageModelGeneration<String> concat(
+    final LanguageModelGeneration<String> other,
+  ) {
+    return LLMGeneration(
+      output + other.output,
+      generationInfo: {
+        ...?generationInfo,
+        ...?other.generationInfo,
+      },
+    );
+  }
 
   @override
   String toString() {

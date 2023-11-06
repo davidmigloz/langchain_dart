@@ -62,4 +62,12 @@ class RunnableBinding<RunInput extends Object,
   }) async {
     return bound.invoke(input, options: options ?? this.options);
   }
+
+  @override
+  Stream<RunOutput> streamFromInputStream(
+    final Stream<RunInput> inputStream, {
+    final CallOptions? options,
+  }) {
+    return bound.streamFromInputStream(inputStream, options: options ?? this.options);
+  }
 }

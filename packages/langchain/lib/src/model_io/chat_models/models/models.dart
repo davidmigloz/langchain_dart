@@ -11,28 +11,8 @@ class ChatModelOptions extends LanguageModelOptions {
   const ChatModelOptions();
 }
 
-/// {@template chat_result}
 /// Result returned by the Chat Model.
-/// {@endtemplate}
-@immutable
-class ChatResult extends LanguageModelResult<ChatMessage> {
-  /// {@macro chat_result}
-  const ChatResult({
-    required super.generations,
-    super.usage,
-    super.modelOutput,
-  });
-
-  @override
-  String toString() {
-    return '''
-ChatResult{
-  generations: $generations, 
-  usage: $usage, 
-  modelOutput: $modelOutput},
-''';
-  }
-}
+typedef ChatResult = LanguageModelResult<ChatMessage>;
 
 /// {@template chat_generation}
 /// Output of a single generation.
@@ -47,6 +27,19 @@ class ChatGeneration extends LanguageModelGeneration<ChatMessage> {
 
   @override
   String get outputAsString => output.content;
+
+  @override
+  LanguageModelGeneration<ChatMessage> concat(
+    final LanguageModelGeneration<ChatMessage> other,
+  ) {
+    return ChatGeneration(
+      output.concat(other.output),
+      generationInfo: {
+        ...?generationInfo,
+        ...?other.generationInfo,
+      },
+    );
+  }
 
   @override
   String toString() {
@@ -116,6 +109,9 @@ sealed class ChatMessage {
 
   /// The content of the message.
   final String content;
+
+  /// Merges this message with another by concatenating the content.
+  ChatMessage concat(final ChatMessage other);
 }
 
 /// {@template system_chat_message}
@@ -137,6 +133,11 @@ class SystemChatMessage extends ChatMessage {
 
   @override
   int get hashCode => content.hashCode;
+
+  @override
+  SystemChatMessage concat(final ChatMessage other) {
+    return SystemChatMessage(content: content + other.content);
+  }
 
   @override
   String toString() {
@@ -172,6 +173,14 @@ class HumanChatMessage extends ChatMessage {
 
   @override
   int get hashCode => content.hashCode ^ example.hashCode;
+
+  @override
+  HumanChatMessage concat(final ChatMessage other) {
+    return HumanChatMessage(
+      content: content + other.content,
+      example: example,
+    );
+  }
 
   @override
   String toString() {
@@ -216,6 +225,32 @@ class AIChatMessage extends ChatMessage {
   int get hashCode => content.hashCode ^ example.hashCode;
 
   @override
+  AIChatMessage concat(final ChatMessage other) {
+    if (other is AIChatMessage) {
+      return AIChatMessage(
+        content: content + other.content,
+        functionCall: functionCall != null || other.functionCall != null
+            ? AIChatMessageFunctionCall(
+                name: (functionCall?.name ?? '') +
+                    (other.functionCall?.name ?? ''),
+                argumentsRaw: (functionCall?.argumentsRaw ?? '') +
+                    (other.functionCall?.argumentsRaw ?? ''),
+                arguments: {
+                  ...?functionCall?.arguments,
+                  ...?other.functionCall?.arguments,
+                },
+              )
+            : null,
+        example: example,
+      );
+    }
+    return AIChatMessage(
+      content: content + other.content,
+      example: example,
+    );
+  }
+
+  @override
   String toString() {
     return '''
 AIChatMessage{
@@ -235,11 +270,15 @@ class AIChatMessageFunctionCall {
   /// {@macro ai_chat_message_function_call}
   const AIChatMessageFunctionCall({
     required this.name,
+    required this.argumentsRaw,
     required this.arguments,
   });
 
   /// The name of the function that the model wants to call.
   final String name;
+
+  /// The raw arguments JSON string (needed to parse streaming responses).
+  final String argumentsRaw;
 
   /// The arguments that the model wants to pass to the function.
   final Map<String, dynamic> arguments;
@@ -256,17 +295,21 @@ class AIChatMessageFunctionCall {
   bool operator ==(covariant final AIChatMessageFunctionCall other) {
     final mapEquals = const MapEquality<String, dynamic>().equals;
     return identical(this, other) ||
-        name == other.name && mapEquals(arguments, other.arguments);
+        name == other.name &&
+            argumentsRaw == other.argumentsRaw &&
+            mapEquals(arguments, other.arguments);
   }
 
   @override
-  int get hashCode => name.hashCode ^ arguments.hashCode;
+  int get hashCode =>
+      name.hashCode ^ argumentsRaw.hashCode ^ arguments.hashCode;
 
   @override
   String toString() {
     return '''
 AIChatMessageFunctionCall{
   name: $name,
+  argumentsRaw: $argumentsRaw,
   arguments: $arguments,
 }
       ''';
@@ -295,6 +338,14 @@ class FunctionChatMessage extends ChatMessage {
 
   @override
   int get hashCode => content.hashCode;
+
+  @override
+  FunctionChatMessage concat(final ChatMessage other) {
+    return FunctionChatMessage(
+      content: content + other.content,
+      name: name + (other is FunctionChatMessage ? other.name : ''),
+    );
+  }
 
   @override
   String toString() {
@@ -327,6 +378,14 @@ class CustomChatMessage extends ChatMessage {
 
   @override
   int get hashCode => content.hashCode ^ role.hashCode;
+
+  @override
+  CustomChatMessage concat(final ChatMessage other) {
+    return CustomChatMessage(
+      role: role,
+      content: content + other.content,
+    );
+  }
 
   @override
   String toString() {

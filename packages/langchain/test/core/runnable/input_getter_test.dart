@@ -10,14 +10,36 @@ void main() {
       final res = await chain.invoke({'foo': 'foo1', 'bar': 'bar1'});
       expect(res, 'foo1');
     });
-  });
 
-  group('RunnableMapFromItem tests', () {
     test('RunnableMapFromItem from Runnable.getMapFromItem', () async {
       final chain = Runnable.getMapFromItem('foo');
 
       final res = await chain.invoke('foo1');
       expect(res, {'foo': 'foo1'});
+    });
+
+    test('Streaming RunnableItemFromMap', () async {
+      final chain = Runnable.getItemFromMap('foo');
+      final stream = chain.stream({'foo': 'foo1', 'bar': 'bar1'});
+
+      final streamList = await stream.toList();
+      expect(streamList.length, 1);
+      expect(streamList.first, isA<String>());
+
+      final item = streamList.first;
+      expect(item, 'foo1');
+    });
+
+    test('Streaming RunnableMapFromItem', () async {
+      final chain = Runnable.getMapFromItem('foo');
+      final stream = chain.stream('foo1');
+
+      final streamList = await stream.toList();
+      expect(streamList.length, 1);
+      expect(streamList.first, isA<Map<String, dynamic>>());
+
+      final item = streamList.first;
+      expect(item, {'foo': 'foo1'});
     });
   });
 }
