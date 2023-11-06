@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
 import '../../../core/core.dart';
@@ -15,13 +16,18 @@ abstract class LanguageModelOptions extends BaseLangChainOptions {
 /// Result returned by the model.
 /// {@endtemplate}
 @immutable
-abstract class LanguageModelResult<O extends Object> {
+class LanguageModelResult<O extends Object> {
   /// {@macro language_model}
   const LanguageModelResult({
+    this.id,
     required this.generations,
     this.usage,
     this.modelOutput,
+    this.streaming = false,
   });
+
+  /// Result id.
+  final String? id;
 
   /// Generated outputs.
   final List<LanguageModelGeneration<O>> generations;
@@ -32,9 +38,66 @@ abstract class LanguageModelResult<O extends Object> {
   /// For arbitrary model provider specific output.
   final Map<String, dynamic>? modelOutput;
 
+  /// Whether the result of the language model is being streamed.
+  final bool streaming;
+
   /// Returns the first output as a string.
   String get firstOutputAsString {
     return generations.firstOrNull?.outputAsString ?? '';
+  }
+
+  @override
+  bool operator ==(covariant final LanguageModelResult<O> other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          id == other.id &&
+          ListEquality<LanguageModelGeneration<O>>().equals(
+            generations,
+            other.generations,
+          ) &&
+          usage == other.usage &&
+          const MapEquality<String, dynamic>().equals(
+            modelOutput,
+            other.modelOutput,
+          ) &&
+          streaming == other.streaming;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      ListEquality<LanguageModelGeneration<O>>().hash(generations) ^
+      usage.hashCode ^
+      const MapEquality<String, dynamic>().hash(modelOutput) ^
+      streaming.hashCode;
+
+  /// Merges this result with another by concatenating the outputs.
+  LanguageModelResult<O> concat(final LanguageModelResult<O> other) {
+    return LanguageModelResult<O>(
+      id: id,
+      generations: generations.mapIndexed(
+        (final index, final generation) {
+          return generation.concat(other.generations[index]);
+        },
+      ).toList(growable: false),
+      usage: usage,
+      modelOutput: {
+        ...?modelOutput,
+        ...?other.modelOutput,
+      },
+      streaming: streaming,
+    );
+  }
+
+  @override
+  String toString() {
+    return '''
+LanguageModelResult{
+  id: $id, 
+  generations: $generations, 
+  usage: $usage, 
+  modelOutput: $modelOutput, 
+  streaming: $streaming
+}''';
   }
 }
 
@@ -73,6 +136,24 @@ class LanguageModelUsage {
   final int? totalTokens;
 
   @override
+  bool operator ==(covariant final LanguageModelUsage other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          promptTokens == other.promptTokens &&
+          promptBillableCharacters == other.promptBillableCharacters &&
+          responseTokens == other.responseTokens &&
+          responseBillableCharacters == other.responseBillableCharacters &&
+          totalTokens == other.totalTokens;
+
+  @override
+  int get hashCode =>
+      promptTokens.hashCode ^
+      promptBillableCharacters.hashCode ^
+      responseTokens.hashCode ^
+      responseBillableCharacters.hashCode ^
+      totalTokens.hashCode;
+
+  @override
   String toString() {
     return '''
 LanguageModelUsage{
@@ -105,4 +186,31 @@ abstract class LanguageModelGeneration<O> {
 
   /// Returns the output as string.
   String get outputAsString;
+
+  @override
+  bool operator ==(covariant final LanguageModelGeneration<O> other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          output == other.output &&
+          const MapEquality<String, dynamic>().equals(
+            generationInfo,
+            other.generationInfo,
+          );
+
+  @override
+  int get hashCode =>
+      output.hashCode ^
+      const MapEquality<String, dynamic>().hash(generationInfo);
+
+  /// Merges this generation with another by concatenating the outputs.
+  LanguageModelGeneration<O> concat(final LanguageModelGeneration<O> other);
+
+  @override
+  String toString() {
+    return '''
+LanguageModelGeneration{
+  output: $output, 
+  generationInfo: $generationInfo
+}''';
+  }
 }

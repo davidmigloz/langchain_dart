@@ -18,5 +18,19 @@ void main() {
       final res = await chain.invoke({'input': 'world'});
       expect(res, 12);
     });
+
+    test('Streaming RunnableFunction', () async {
+      final function = Runnable.fromFunction<String, int>(
+        (final input, final options) => input.length,
+      );
+      final stream = function.stream('world');
+
+      final streamList = await stream.toList();
+      expect(streamList.length, 1);
+      expect(streamList.first, isA<int>());
+
+      final item = streamList.first;
+      expect(item, 5);
+    });
   });
 }

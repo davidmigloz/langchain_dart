@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:meta/meta.dart';
+
 import '../base.dart';
 import 'binding.dart';
 import 'function.dart';
@@ -101,11 +103,43 @@ abstract class Runnable<RunInput extends Object,
     final CallOptions? options,
   });
 
+  /// Streams the output of invoking the [Runnable] on the given [input].
+  ///
+  /// - [input] - the input to invoke the [Runnable] on.
+  /// - [options] - the options to use when invoking the [Runnable].
+  Stream<RunOutput> stream(
+    final RunInput input, {
+    final CallOptions? options,
+  }) {
+    return streamFromInputStream(
+      Stream.value(input).asBroadcastStream(),
+      options: options,
+    );
+  }
+
+  /// Streams the output of invoking the [Runnable] on the given [inputStream].
+  ///
+  /// - [inputStream] - the input stream to invoke the [Runnable] on.
+  /// - [options] - the options to use when invoking the [Runnable].
+  @protected
+  Stream<RunOutput> streamFromInputStream(
+    final Stream<RunInput> inputStream, {
+    final CallOptions? options,
+  }) {
+    // By default, it just emits the result of calling invoke
+    // Subclasses should override this method if they support streaming output
+    return inputStream.asyncMap(
+      // ignore: discarded_futures
+      (final input) => invoke(input, options: options),
+    );
+  }
+
   /// Pipes the output of this [Runnable] into another [Runnable].
   ///
   /// - [next] - the [Runnable] to pipe the output into.
-  RunnableSequence<RunInput, NewRunOutput> pipe<NewRunOutput extends Object>(
-    final Runnable<RunOutput, CallOptions, NewRunOutput> next,
+  RunnableSequence<RunInput, NewRunOutput> pipe<NewRunOutput extends Object,
+      NewCallOptions extends BaseLangChainOptions>(
+    final Runnable<RunOutput, NewCallOptions, NewRunOutput> next,
   ) {
     return RunnableSequence<RunInput, NewRunOutput>(
       first: this,

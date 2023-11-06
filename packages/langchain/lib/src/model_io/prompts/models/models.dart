@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
 import '../../../utils/exception.dart';
@@ -57,6 +58,14 @@ class StringPromptValue implements PromptValue {
   List<ChatMessage> toChatMessages() {
     return [ChatMessage.human(value)];
   }
+
+  @override
+  bool operator ==(covariant final StringPromptValue other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType && value == other.value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// {@template chat_prompt_value}
@@ -91,6 +100,16 @@ class ChatPromptValue implements PromptValue {
   List<ChatMessage> toChatMessages() {
     return messages;
   }
+
+  @override
+  bool operator ==(covariant final ChatPromptValue other) {
+    return identical(this, other) ||
+        runtimeType == other.runtimeType &&
+            const ListEquality<ChatMessage>().equals(messages, other.messages);
+  }
+
+  @override
+  int get hashCode => const ListEquality<ChatMessage>().hash(messages);
 }
 
 /// Input values used to format a prompt.

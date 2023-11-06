@@ -1,3 +1,5 @@
+import 'package:async/async.dart' show StreamGroup;
+
 import '../base.dart';
 import 'base.dart';
 
@@ -63,5 +65,19 @@ class RunnableMap<RunInput extends Object>
     });
 
     return output;
+  }
+
+  @override
+  Stream<Map<String, dynamic>> streamFromInputStream(
+    final Stream<RunInput> inputStream, {
+    final BaseLangChainOptions? options,
+  }) {
+    return StreamGroup.merge(
+      steps.entries.map((final entry) {
+        return entry.value.streamFromInputStream(inputStream, options: options).map(
+              (final output) => {entry.key: output},
+            );
+      }),
+    );
   }
 }

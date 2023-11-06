@@ -22,5 +22,17 @@ void main() {
         },
       );
     });
+
+    test('Streaming RunnablePassthrough', () async {
+      final passthrough = Runnable.passthrough();
+      final stream = passthrough.stream('world');
+
+      final streamList = await stream.toList();
+      expect(streamList.length, 1);
+      expect(streamList.first, isA<String>());
+
+      final item = streamList.first;
+      expect(item, 'world');
+    });
   });
 }

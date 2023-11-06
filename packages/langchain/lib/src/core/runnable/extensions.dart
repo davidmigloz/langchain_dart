@@ -19,7 +19,7 @@ extension RunnableX<
   ///
   /// - [next] - the [Runnable] to pipe the output into.
   RunnableSequence<RunInput, NewRunOutput> operator |(
-    final Runnable<RunOutput, CallOptions, NewRunOutput> next,
+    final Runnable<RunOutput, BaseLangChainOptions, NewRunOutput> next,
   ) {
     return pipe(next);
   }

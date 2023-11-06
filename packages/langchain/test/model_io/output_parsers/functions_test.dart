@@ -10,6 +10,7 @@ void main() {
           '',
           functionCall: const AIChatMessageFunctionCall(
             name: 'test',
+            argumentsRaw: '{"foo":"bar","bar":"foo"}',
             arguments: {
               'foo': 'bar',
               'bar': 'foo',

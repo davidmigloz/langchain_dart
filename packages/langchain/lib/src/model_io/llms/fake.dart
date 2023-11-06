@@ -40,7 +40,7 @@ class FakeListLLM extends SimpleLLM {
 
 /// {@template fake_echo_llm}
 /// Fake LLM for testing.
-/// It just returns the prompt.
+/// It just returns the prompt or streams it char by char.
 /// {@endtemplate}
 class FakeEchoLLM extends SimpleLLM {
   /// {@macro fake_echo_llm}
@@ -55,6 +55,24 @@ class FakeEchoLLM extends SimpleLLM {
     final LLMOptions? options,
   }) {
     return Future<String>.value(prompt);
+  }
+
+  @override
+  Stream<LLMResult> streamFromInputStream(
+    final Stream<PromptValue> inputStream, {
+    final LLMOptions? options,
+  }) {
+    return inputStream.asyncExpand(
+      (final prompt) {
+        final promptChars = prompt.toString().split('');
+        return Stream.fromIterable(promptChars).map(
+          (final item) => LLMResult(
+            generations: [LLMGeneration(item)],
+            streaming: true,
+          ),
+        );
+      },
+    );
   }
 
   @override

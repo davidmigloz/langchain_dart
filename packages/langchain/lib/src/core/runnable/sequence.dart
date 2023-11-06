@@ -109,18 +109,33 @@ class RunnableSequence<RunInput extends Object, RunOutput extends Object>
     return last.invoke(nextStepInput, options: options);
   }
 
+  @override
+  Stream<RunOutput> streamFromInputStream(
+    final Stream<RunInput> inputStream, {
+    final BaseLangChainOptions? options,
+  }) {
+    var nextStepStream = first.streamFromInputStream(inputStream);
+
+    for (final step in middle) {
+      nextStepStream = step.streamFromInputStream(nextStepStream);
+    }
+
+    return last.streamFromInputStream(nextStepStream);
+  }
+
   /// Pipes the output of this [RunnableSequence] into another [Runnable].
   ///
   /// - [next] - the [Runnable] to pipe the output into.
   @override
-  RunnableSequence<RunInput, NewRunOutput> pipe<NewRunOutput extends Object>(
-    final Runnable<RunOutput, BaseLangChainOptions, NewRunOutput> next,
+  RunnableSequence<RunInput, NewRunOutput> pipe<NewRunOutput extends Object, NewCallOptions extends BaseLangChainOptions>(
+    final Runnable<RunOutput, NewCallOptions, NewRunOutput> next,
   ) {
     if (next is RunnableSequence<RunOutput, NewRunOutput>) {
+      final nextSeq = next as RunnableSequence<RunOutput, NewRunOutput>;
       return RunnableSequence(
         first: first,
-        middle: [...middle, last, next.first, ...next.middle],
-        last: next.last,
+        middle: [...middle, last, nextSeq.first, ...nextSeq.middle],
+        last: nextSeq.last,
       );
     } else {
       return RunnableSequence(

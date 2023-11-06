@@ -40,7 +40,8 @@ class FakeChatModel extends SimpleChatModel {
 
 /// {@template fake_echo_llm}
 /// Fake Chat Model for testing.
-/// It just returns the content of the last message of the prompt.
+/// It just returns the content of the last message of the prompt
+/// or streams it char by char.
 /// {@endtemplate}
 class FakeEchoChatModel extends SimpleChatModel {
   /// {@macro fake_echo_llm}
@@ -55,6 +56,24 @@ class FakeEchoChatModel extends SimpleChatModel {
     final ChatModelOptions? options,
   }) {
     return Future<String>.value(messages.last.content);
+  }
+
+  @override
+  Stream<ChatResult> streamFromInputStream(
+    final Stream<PromptValue> inputStream, {
+    final ChatModelOptions? options,
+  }) {
+    return inputStream.asyncExpand(
+      (final input) {
+        final prompt = input.toChatMessages().first.content.split('');
+        return Stream.fromIterable(prompt).map(
+          (final char) => ChatResult(
+            generations: [ChatGeneration(ChatMessage.ai(char))],
+            streaming: true,
+          ),
+        );
+      },
+    );
   }
 
   @override
