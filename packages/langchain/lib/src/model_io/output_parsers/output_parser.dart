@@ -6,10 +6,10 @@ import '../prompts/models/models.dart';
 interface class FormatInstructionsOptions {}
 
 /// {@template base_llm_output_parser}
-/// Class to parse the output of an LLM call.
+/// Class to parse the output of an model call.
 /// {@endtemplate}
 abstract class BaseLLMOutputParser<LLMOutput extends Object,
-        CallOptions extends BaseLangChainOptions, ParserOutput extends Object>
+        CallOptions extends BaseLangChainOptions, ParserOutput extends Object?>
     extends Runnable<LanguageModelResult<LLMOutput>, CallOptions,
         ParserOutput> {
   /// {@macro base_llm_output_parser}
@@ -96,16 +96,4 @@ abstract class BaseOutputParser<LLMOutput extends Object,
   String getFormatInstructions([final FormatInstructionsOptions? options]) {
     return ''; // Override this method to provide instructions.
   }
-}
-
-/// {@template base_transform_output_parser}
-/// Class to parse the output of an LLM call that also allows streaming inputs.
-/// {@endtemplate}
-abstract class BaseTransformOutputParser<LLMOutput extends Object,
-        CallOptions extends BaseLangChainOptions, ParserOutput extends Object>
-    extends BaseOutputParser<LLMOutput, CallOptions, ParserOutput> {
-  /// {@macro base_transform_output_parser}
-  const BaseTransformOutputParser();
-
-// TODO add streaming methods
 }

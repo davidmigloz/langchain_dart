@@ -74,7 +74,9 @@ class RunnableMap<RunInput extends Object>
   }) {
     return StreamGroup.merge(
       steps.entries.map((final entry) {
-        return entry.value.streamFromInputStream(inputStream, options: options).map(
+        return entry.value
+            .streamFromInputStream(inputStream, options: options)
+            .map(
               (final output) => {entry.key: output},
             );
       }),

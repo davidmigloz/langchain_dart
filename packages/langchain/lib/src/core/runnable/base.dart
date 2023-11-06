@@ -41,8 +41,8 @@ import 'sequence.dart';
 ///   as output. You can create a [RunnablePassthrough] using the
 ///   [Runnable.passthrough] static method.
 /// {@endtemplate}
-abstract class Runnable<RunInput extends Object,
-    CallOptions extends BaseLangChainOptions, RunOutput extends Object> {
+abstract class Runnable<RunInput extends Object?,
+    CallOptions extends BaseLangChainOptions, RunOutput extends Object?> {
   const Runnable();
 
   /// Creates a [RunnableSequence] from a list of [Runnable] objects.
@@ -137,7 +137,7 @@ abstract class Runnable<RunInput extends Object,
   /// Pipes the output of this [Runnable] into another [Runnable].
   ///
   /// - [next] - the [Runnable] to pipe the output into.
-  RunnableSequence<RunInput, NewRunOutput> pipe<NewRunOutput extends Object,
+  RunnableSequence<RunInput, NewRunOutput> pipe<NewRunOutput extends Object?,
       NewCallOptions extends BaseLangChainOptions>(
     final Runnable<RunOutput, NewCallOptions, NewRunOutput> next,
   ) {

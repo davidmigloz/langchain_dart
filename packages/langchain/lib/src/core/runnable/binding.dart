@@ -36,8 +36,8 @@ import 'base.dart';
 /// // }
 /// ```
 /// {@endtemplate}
-class RunnableBinding<RunInput extends Object,
-        CallOptions extends BaseLangChainOptions, RunOutput extends Object>
+class RunnableBinding<RunInput extends Object?,
+        CallOptions extends BaseLangChainOptions, RunOutput extends Object?>
     extends Runnable<RunInput, CallOptions, RunOutput> {
   /// {@macro runnable_binding}
   const RunnableBinding({
@@ -68,6 +68,7 @@ class RunnableBinding<RunInput extends Object,
     final Stream<RunInput> inputStream, {
     final CallOptions? options,
   }) {
-    return bound.streamFromInputStream(inputStream, options: options ?? this.options);
+    return bound.streamFromInputStream(inputStream,
+        options: options ?? this.options);
   }
 }
