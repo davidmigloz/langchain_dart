@@ -7,7 +7,7 @@ void main() {
     test('RunnableFunction from Runnable.fromFunction', () async {
       final prompt = PromptTemplate.fromTemplate('Hello {input}!');
       const model = FakeEchoChatModel();
-      const outputParser = StringOutputParser<ChatMessage, ChatModelOptions>();
+      const outputParser = StringOutputParser<ChatMessage>();
       final chain = prompt |
           model |
           outputParser |
