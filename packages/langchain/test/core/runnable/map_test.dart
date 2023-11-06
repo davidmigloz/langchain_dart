@@ -9,7 +9,7 @@ void main() {
       final prompt1 = PromptTemplate.fromTemplate('Hello {input}!');
       final prompt2 = PromptTemplate.fromTemplate('Bye {input}!');
       const model = FakeEchoChatModel();
-      const outputParser = StringOutputParser<ChatMessage, ChatModelOptions>();
+      const outputParser = StringOutputParser<ChatMessage>();
       final chain = Runnable.fromMap({
         'left': prompt1 | model | outputParser,
         'right': prompt2 | model | outputParser,
