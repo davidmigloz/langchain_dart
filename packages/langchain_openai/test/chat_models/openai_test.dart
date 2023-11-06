@@ -60,9 +60,8 @@ void main() {
         [ChatMessage.human('Hello, how are you?')],
       );
       expect(res.modelOutput, isNotNull);
-      expect(res.modelOutput!['id'], isNotEmpty);
       expect(res.modelOutput!['created'], isNotNull);
-      expect(res.modelOutput!['model'], chat.model);
+      expect(res.modelOutput!['model'], startsWith(chat.model));
     });
 
     test('Test stop logic on valid configuration', () async {
@@ -98,10 +97,7 @@ void main() {
 
     test('Test ChatOpenAI functions',
         timeout: const Timeout(Duration(minutes: 1)), () async {
-      final chat = ChatOpenAI(
-        apiKey: openaiApiKey,
-        model: 'gpt-3.5-turbo-0613',
-      );
+      final chat = ChatOpenAI(apiKey: openaiApiKey);
 
       const function = ChatFunction(
         name: 'get_current_weather',
@@ -225,6 +221,79 @@ void main() {
         final generation = await chat.generate(messages);
         expect(numTokens, generation.usage!.promptTokens);
       }
+    });
+
+    test('Test ChatOpenAI streaming', () async {
+      final promptTemplate = ChatPromptTemplate.fromPromptMessages([
+        SystemChatMessagePromptTemplate.fromTemplate(
+          'You are a helpful assistant that replies only with numbers '
+          'in order without any spaces or commas',
+        ),
+        HumanChatMessagePromptTemplate.fromTemplate(
+          'List the numbers from 1 to {max_num}',
+        ),
+      ]);
+      final chat = ChatOpenAI(apiKey: openaiApiKey);
+      const stringOutputParser = StringOutputParser<ChatMessage>();
+
+      final chain = promptTemplate.pipe(chat).pipe(stringOutputParser);
+      final stream = chain.stream({'max_num': '9'});
+
+      String content = '';
+      int count = 0;
+      await for (final res in stream) {
+        content += res;
+        count++;
+      }
+      expect(count, greaterThan(1));
+      expect(content, contains('123456789'));
+    });
+
+    test('Test ChatOpenAI streaming with functions', () async {
+      const function = ChatFunction(
+        name: 'joke',
+        description: 'A joke',
+        parameters: {
+          'type': 'object',
+          'properties': {
+            'setup': {
+              'type': 'string',
+              'description': 'The setup for the joke',
+            },
+            'punchline': {
+              'type': 'string',
+              'description': 'The punchline to the joke',
+            },
+          },
+          'required': ['location', 'punchline'],
+        },
+      );
+
+      final promptTemplate = ChatPromptTemplate.fromTemplate(
+        'tell me a long joke about {foo}',
+      );
+      final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0).bind(
+        ChatOpenAIOptions(
+          functions: const [function],
+          functionCall: ChatFunctionCall.forced(functionName: 'joke'),
+        ),
+      );
+      final jsonOutputParser = JsonOutputFunctionsParser();
+
+      final chain = promptTemplate.pipe(chat).pipe(jsonOutputParser);
+
+      final stream = chain.stream({'foo': 'bears'});
+
+      Map<String, dynamic> lastResult = {};
+      int count = 0;
+      await for (final res in stream) {
+        lastResult = res;
+        count++;
+      }
+
+      expect(count, greaterThan(1));
+      expect(lastResult['setup'], isNotEmpty);
+      expect(lastResult['punchline'], isNotEmpty);
     });
   });
 }

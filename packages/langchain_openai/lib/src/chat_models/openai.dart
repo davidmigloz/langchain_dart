@@ -234,8 +234,49 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
         user: options?.user ?? user,
       ),
     );
+    return completion.toChatResult();
+  }
 
-    return completion.toChatResult(model);
+  @override
+  Stream<ChatResult> stream(
+    final PromptValue input, {
+    final ChatOpenAIOptions? options,
+  }) {
+    final messagesDtos = input.toChatMessages().toChatCompletionMessages();
+    final functionsDtos = options?.functions?.toChatCompletionFunctions();
+    final functionCall = options?.functionCall?.toChatCompletionFunctionCall();
+
+    return _client
+        .createChatCompletionStream(
+          request: CreateChatCompletionRequest(
+            model: ChatCompletionModel.string(model),
+            messages: messagesDtos,
+            functions: functionsDtos,
+            functionCall: functionCall,
+            frequencyPenalty: frequencyPenalty,
+            logitBias: logitBias,
+            maxTokens: maxTokens,
+            n: n,
+            presencePenalty: presencePenalty,
+            stop: options?.stop != null
+                ? ChatCompletionStop.arrayString(options!.stop!)
+                : null,
+            temperature: temperature,
+            topP: topP,
+            user: options?.user ?? user,
+          ),
+        )
+        .map((final completion) => completion.toChatResult());
+  }
+
+  @override
+  Stream<ChatResult> streamFromInputStream(
+    final Stream<PromptValue> inputStream, {
+    final ChatOpenAIOptions? options,
+  }) {
+    return inputStream.asyncExpand((final input) {
+      return stream(input, options: options);
+    });
   }
 
   /// Tokenizes the given prompt using tiktoken with the encoding used by the

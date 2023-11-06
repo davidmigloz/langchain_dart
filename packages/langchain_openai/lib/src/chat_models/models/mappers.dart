@@ -38,14 +38,14 @@ extension _ChatMessageMapper on ChatMessage {
 }
 
 extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
-  ChatResult toChatResult(final String model) {
+  ChatResult toChatResult() {
     return ChatResult(
+      id: id,
       generations: choices
           .map((final choice) => choice.toChatGeneration())
           .toList(growable: false),
       usage: usage?.toLanguageModelUsage(),
       modelOutput: {
-        'id': id,
         'created': created,
         'model': model,
       },
@@ -82,7 +82,7 @@ extension _ChatCompletionMessageMapper on ChatCompletionMessage {
       ChatCompletionMessageRole.user => ChatMessage.human(content ?? ''),
       ChatCompletionMessageRole.assistant => ChatMessage.ai(
           content ?? '',
-          functionCall: functionCall?.toChatCompletionMessageFunctionCall(),
+          functionCall: functionCall?.toAIChatMessageFunctionCall(),
         ),
       ChatCompletionMessageRole.function => ChatMessage.function(
           name: name ?? '',
@@ -94,10 +94,11 @@ extension _ChatCompletionMessageMapper on ChatCompletionMessage {
 
 extension _ChatCompletionMessageFunctionCallMapper
     on ChatCompletionMessageFunctionCall {
-  AIChatMessageFunctionCall toChatCompletionMessageFunctionCall() {
+  AIChatMessageFunctionCall toAIChatMessageFunctionCall() {
     return AIChatMessageFunctionCall(
       name: name,
-      arguments: json.decode(arguments),
+      argumentsRaw: arguments,
+      arguments: arguments.isEmpty ? {} : json.decode(arguments),
     );
   }
 }
@@ -142,5 +143,80 @@ extension ChatFunctionCallMapper on ChatFunctionCall {
           ChatCompletionFunctionCallOption(name: f.functionName),
         )
     };
+  }
+}
+
+extension CreateChatCompletionStreamResponseMapper
+    on CreateChatCompletionStreamResponse {
+  ChatResult toChatResult() {
+    return ChatResult(
+      generations: choices
+          .map((final choice) => choice.toChatGeneration())
+          .toList(growable: false),
+      modelOutput: {
+        'id': id,
+        'created': created,
+        'model': model,
+      },
+      streaming: true,
+    );
+  }
+}
+
+extension _ChatCompletionStreamResponseChoiceMapper
+    on ChatCompletionStreamResponseChoice {
+  ChatGeneration toChatGeneration() {
+    return ChatGeneration(
+      delta.toChatMessage(),
+      generationInfo: {
+        'index': index,
+        'finish_reason': finishReason,
+      },
+    );
+  }
+}
+
+extension _ChatCompletionStreamResponseDeltaMapper
+    on ChatCompletionStreamResponseDelta {
+  ChatMessage toChatMessage() {
+    return switch (role) {
+      ChatCompletionMessageRole.system => ChatMessage.system(content ?? ''),
+      ChatCompletionMessageRole.user => ChatMessage.human(content ?? ''),
+      ChatCompletionMessageRole.assistant => ChatMessage.ai(
+          content ?? '',
+          functionCall: functionCall?.toAIChatMessageFunctionCall(),
+        ),
+      ChatCompletionMessageRole.function => ChatMessage.function(
+          name: '',
+          content: content ?? '',
+        ),
+      null => _handleNullRole(),
+    };
+  }
+
+  ChatMessage _handleNullRole() {
+    if (functionCall != null) {
+      return ChatMessage.ai(
+        content ?? '',
+        functionCall: functionCall?.toAIChatMessageFunctionCall(),
+      );
+    } else {
+      return ChatMessage.custom(content ?? '', role: '');
+    }
+  }
+}
+
+extension _ChatCompletionStreamMessageFunctionCallMapper
+    on ChatCompletionStreamMessageFunctionCall {
+  AIChatMessageFunctionCall toAIChatMessageFunctionCall() {
+    Map<String, dynamic> args = {};
+    try {
+      args = json.decode(arguments ?? '');
+    } catch (_) {}
+    return AIChatMessageFunctionCall(
+      name: name ?? '',
+      argumentsRaw: arguments ?? '',
+      arguments: args,
+    );
   }
 }
