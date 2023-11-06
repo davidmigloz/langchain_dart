@@ -195,7 +195,7 @@ final chain = promptTemplate |
         functionCall: ChatFunctionCall.forced(functionName: function.name),
       ),
     ) |
-    const JsonOutputFunctionsParser();
+    JsonOutputFunctionsParser();
 
 final res = await chain.invoke({'foo': 'bears'});
 print(res);
@@ -212,7 +212,7 @@ final chain = promptTemplate |
         functionCall: ChatFunctionCall.forced(functionName: function.name),
       ),
     ) |
-    const JsonKeyOutputFunctionsParser(keyName: 'setup');
+    JsonKeyOutputFunctionsParser(keyName: 'setup');
 
 final res = await chain.invoke({'foo': 'bears'});
 print(res);

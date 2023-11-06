@@ -105,7 +105,6 @@ void main() {
       expect(res, 'Hello world!');
     });
 
-
     test('Streaming Chain', () async {
       final model = FakeListLLM(responses: ['Hello world!']);
       final prompt = PromptTemplate.fromTemplate('Print {foo}');

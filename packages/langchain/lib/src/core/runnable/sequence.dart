@@ -59,7 +59,7 @@ import 'base.dart';
 /// // Why don't bears wear shoes? Because they have bear feet!
 /// ```
 /// {@endtemplate}
-class RunnableSequence<RunInput extends Object, RunOutput extends Object>
+class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
     extends Runnable<RunInput, BaseLangChainOptions, RunOutput> {
   /// {@macro runnable_sequence}
   const RunnableSequence({
@@ -69,13 +69,13 @@ class RunnableSequence<RunInput extends Object, RunOutput extends Object>
   });
 
   /// The first [Runnable] in the [RunnableSequence].
-  final Runnable<RunInput, BaseLangChainOptions, Object> first;
+  final Runnable<RunInput, BaseLangChainOptions, Object?> first;
 
   /// The middle [Runnable]s in the [RunnableSequence].
   final List<Runnable> middle;
 
   /// The last [Runnable] in the [RunnableSequence].
-  final Runnable<Object, BaseLangChainOptions, RunOutput> last;
+  final Runnable<Object?, BaseLangChainOptions, RunOutput> last;
 
   /// Returns a list of all the [Runnable]s in the [RunnableSequence].
   List<Runnable> get steps => [first, ...middle, last];
@@ -100,7 +100,7 @@ class RunnableSequence<RunInput extends Object, RunOutput extends Object>
     final RunInput input, {
     final BaseLangChainOptions? options,
   }) async {
-    Object nextStepInput = input;
+    Object? nextStepInput = input;
 
     for (final step in [first, ...middle]) {
       nextStepInput = await step.invoke(nextStepInput, options: options);
@@ -127,7 +127,8 @@ class RunnableSequence<RunInput extends Object, RunOutput extends Object>
   ///
   /// - [next] - the [Runnable] to pipe the output into.
   @override
-  RunnableSequence<RunInput, NewRunOutput> pipe<NewRunOutput extends Object, NewCallOptions extends BaseLangChainOptions>(
+  RunnableSequence<RunInput, NewRunOutput> pipe<NewRunOutput extends Object?,
+      NewCallOptions extends BaseLangChainOptions>(
     final Runnable<RunOutput, NewCallOptions, NewRunOutput> next,
   ) {
     if (next is RunnableSequence<RunOutput, NewRunOutput>) {

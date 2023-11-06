@@ -287,6 +287,7 @@ class AIChatMessageFunctionCall {
   Map<String, dynamic> toMap() {
     return {
       'name': name,
+      'argumentsRaw': argumentsRaw,
       'arguments': arguments,
     };
   }
