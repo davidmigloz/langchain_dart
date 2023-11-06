@@ -67,8 +67,8 @@ void main() {
     });
 
     test('Test OpenAI wrapper with multiple completions', () async {
-      final chat = OpenAI(apiKey: openaiApiKey, n: 5, bestOf: 5);
-      final res = await chat.generate('Hello, how are you?');
+      final llm = OpenAI(apiKey: openaiApiKey, n: 5, bestOf: 5);
+      final res = await llm.generate('Hello, how are you?');
       expect(res.generations.length, 5);
       for (final generation in res.generations) {
         expect(generation.output, isNotEmpty);
@@ -76,27 +76,48 @@ void main() {
     });
 
     test('Test tokenize', () async {
-      final chat = OpenAI(apiKey: openaiApiKey);
+      final llm = OpenAI(apiKey: openaiApiKey);
       const text = 'Hello, how are you?';
 
-      final tokens = await chat.tokenize(PromptValue.string(text));
+      final tokens = await llm.tokenize(PromptValue.string(text));
       expect(tokens, [15496, 11, 703, 389, 345, 30]);
     });
 
     test('Test different encoding than the model', () async {
-      final chat = OpenAI(apiKey: openaiApiKey, encoding: 'cl100k_base');
+      final llm = OpenAI(apiKey: openaiApiKey, encoding: 'cl100k_base');
       const text = 'Hello, how are you?';
 
-      final tokens = await chat.tokenize(PromptValue.string(text));
+      final tokens = await llm.tokenize(PromptValue.string(text));
       expect(tokens, [9906, 11, 1268, 527, 499, 30]);
     });
 
     test('Test countTokens', () async {
-      final chat = OpenAI(apiKey: openaiApiKey);
+      final llm = OpenAI(apiKey: openaiApiKey);
       const text = 'Hello, how are you?';
 
-      final numTokens = await chat.countTokens(PromptValue.string(text));
+      final numTokens = await llm.countTokens(PromptValue.string(text));
       expect(numTokens, 6);
+    });
+
+    test('Test streaming', () async {
+      final promptTemplate = PromptTemplate.fromTemplate(
+        'List the numbers from 1 to {max_num} in order without any spaces or commas',
+      );
+      final llm = OpenAI(apiKey: openaiApiKey);
+      const stringOutputParser = StringOutputParser<String>();
+
+      final chain = promptTemplate.pipe(llm).pipe(stringOutputParser);
+
+      final stream = chain.stream({'max_num': '9'});
+
+      String content = '';
+      int count = 0;
+      await for (final res in stream) {
+        content += res;
+        count++;
+      }
+      expect(count, greaterThan(1));
+      expect(content, contains('123456789'));
     });
   });
 }
