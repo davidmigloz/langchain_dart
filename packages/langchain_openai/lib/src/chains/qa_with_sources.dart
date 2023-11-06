@@ -53,7 +53,7 @@ class OpenAIQAWithSourcesChain extends OpenAIQAWithStructureChain {
               'required': ['answer', 'sources'],
             },
           ),
-          outputParser: const QAWithSourcesOutputParser(),
+          outputParser: QAWithSourcesOutputParser(),
         );
 }
 
@@ -90,12 +90,12 @@ class QAWithSources {
 /// {@endtemplate}
 class QAWithSourcesOutputParser<CallOptions extends BaseLangChainOptions>
     extends BaseOutputFunctionsParser<CallOptions, QAWithSources> {
-  const QAWithSourcesOutputParser();
+  QAWithSourcesOutputParser();
 
   @override
   Future<QAWithSources> parseFunctionCall(
-    final AIChatMessageFunctionCall functionCall,
+    final AIChatMessageFunctionCall? functionCall,
   ) async {
-    return QAWithSources.fromMap(functionCall.arguments);
+    return QAWithSources.fromMap(functionCall?.arguments ?? const {});
   }
 }
