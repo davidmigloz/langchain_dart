@@ -1,3 +1,7 @@
+## 0.0.10
+
+ - **FEAT**(chat-models): Add result id in ChatVertexAI generations ([#195](https://github.com/davidmigloz/langchain_dart/issues/195)). ([a5bea6d3](https://github.com/davidmigloz/langchain_dart/commit/a5bea6d3aefbb53ed55d3abda0f51f5878445b72))
+
 ## 0.0.9
 
 > Note: This release has breaking changes.

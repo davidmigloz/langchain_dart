@@ -1,3 +1,7 @@
+## 0.0.5+1
+
+ - Update a dependency to the latest release.
+
 ## 0.0.5
 
  - **FEAT**(vector-stores): Upgrade pinecone client to v0.6.0 ([#188](https://github.com/davidmigloz/langchain_dart/issues/188)). ([57e2587f](https://github.com/davidmigloz/langchain_dart/commit/57e2587fa3849e7aea199dd52e2cb2ce4f61946a))
