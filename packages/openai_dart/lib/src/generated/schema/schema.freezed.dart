@@ -15342,12 +15342,20 @@ CreateImageRequest _$CreateImageRequestFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CreateImageRequest {
-  /// A text description of the desired image(s). The maximum length is 1000 characters.
+  /// A text description of the desired image(s). The maximum length is 1000 characters for `dall-e-2` and 4000 characters for `dall-e-3`.
   String get prompt => throw _privateConstructorUsedError;
 
-  /// The number of images to generate. Must be between 1 and 10.
+  /// The model to use for image generation.
+  @_CreateImageRequestModelConverter()
+  @JsonKey(includeIfNull: false)
+  CreateImageRequestModel? get model => throw _privateConstructorUsedError;
+
+  /// The number of images to generate. Must be between 1 and 10. For `dall-e-3`, only `n=1` is supported.
   @JsonKey(includeIfNull: false)
   int? get n => throw _privateConstructorUsedError;
+
+  /// The quality of the image that will be generated. `hd` creates images with finer details and greater consistency across the image. This param is only supported for `dall-e-3`.
+  ImageQuality get quality => throw _privateConstructorUsedError;
 
   /// The format in which the generated images are returned. Must be one of `url` or `b64_json`.
   @JsonKey(
@@ -15356,10 +15364,15 @@ mixin _$CreateImageRequest {
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ImageResponseFormat? get responseFormat => throw _privateConstructorUsedError;
 
-  /// The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
+  /// The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`. Must be one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3` models.
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ImageSize? get size => throw _privateConstructorUsedError;
+
+  /// The style of the generated images. Must be one of `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images. This param is only supported for `dall-e-3`.
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ImageStyle? get style => throw _privateConstructorUsedError;
 
   /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
   @JsonKey(includeIfNull: false)
@@ -15379,7 +15392,11 @@ abstract class $CreateImageRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {String prompt,
+      @_CreateImageRequestModelConverter()
+      @JsonKey(includeIfNull: false)
+      CreateImageRequestModel? model,
       @JsonKey(includeIfNull: false) int? n,
+      ImageQuality quality,
       @JsonKey(
           name: 'response_format',
           includeIfNull: false,
@@ -15389,7 +15406,13 @@ abstract class $CreateImageRequestCopyWith<$Res> {
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       ImageSize? size,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ImageStyle? style,
       @JsonKey(includeIfNull: false) String? user});
+
+  $CreateImageRequestModelCopyWith<$Res>? get model;
 }
 
 /// @nodoc
@@ -15406,9 +15429,12 @@ class _$CreateImageRequestCopyWithImpl<$Res, $Val extends CreateImageRequest>
   @override
   $Res call({
     Object? prompt = null,
+    Object? model = freezed,
     Object? n = freezed,
+    Object? quality = null,
     Object? responseFormat = freezed,
     Object? size = freezed,
+    Object? style = freezed,
     Object? user = freezed,
   }) {
     return _then(_value.copyWith(
@@ -15416,10 +15442,18 @@ class _$CreateImageRequestCopyWithImpl<$Res, $Val extends CreateImageRequest>
           ? _value.prompt
           : prompt // ignore: cast_nullable_to_non_nullable
               as String,
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as CreateImageRequestModel?,
       n: freezed == n
           ? _value.n
           : n // ignore: cast_nullable_to_non_nullable
               as int?,
+      quality: null == quality
+          ? _value.quality
+          : quality // ignore: cast_nullable_to_non_nullable
+              as ImageQuality,
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -15428,11 +15462,27 @@ class _$CreateImageRequestCopyWithImpl<$Res, $Val extends CreateImageRequest>
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
               as ImageSize?,
+      style: freezed == style
+          ? _value.style
+          : style // ignore: cast_nullable_to_non_nullable
+              as ImageStyle?,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CreateImageRequestModelCopyWith<$Res>? get model {
+    if (_value.model == null) {
+      return null;
+    }
+
+    return $CreateImageRequestModelCopyWith<$Res>(_value.model!, (value) {
+      return _then(_value.copyWith(model: value) as $Val);
+    });
   }
 }
 
@@ -15446,7 +15496,11 @@ abstract class _$$CreateImageRequestImplCopyWith<$Res>
   @useResult
   $Res call(
       {String prompt,
+      @_CreateImageRequestModelConverter()
+      @JsonKey(includeIfNull: false)
+      CreateImageRequestModel? model,
       @JsonKey(includeIfNull: false) int? n,
+      ImageQuality quality,
       @JsonKey(
           name: 'response_format',
           includeIfNull: false,
@@ -15456,7 +15510,14 @@ abstract class _$$CreateImageRequestImplCopyWith<$Res>
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       ImageSize? size,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ImageStyle? style,
       @JsonKey(includeIfNull: false) String? user});
+
+  @override
+  $CreateImageRequestModelCopyWith<$Res>? get model;
 }
 
 /// @nodoc
@@ -15471,9 +15532,12 @@ class __$$CreateImageRequestImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? prompt = null,
+    Object? model = freezed,
     Object? n = freezed,
+    Object? quality = null,
     Object? responseFormat = freezed,
     Object? size = freezed,
+    Object? style = freezed,
     Object? user = freezed,
   }) {
     return _then(_$CreateImageRequestImpl(
@@ -15481,10 +15545,18 @@ class __$$CreateImageRequestImplCopyWithImpl<$Res>
           ? _value.prompt
           : prompt // ignore: cast_nullable_to_non_nullable
               as String,
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as CreateImageRequestModel?,
       n: freezed == n
           ? _value.n
           : n // ignore: cast_nullable_to_non_nullable
               as int?,
+      quality: null == quality
+          ? _value.quality
+          : quality // ignore: cast_nullable_to_non_nullable
+              as ImageQuality,
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -15493,6 +15565,10 @@ class __$$CreateImageRequestImplCopyWithImpl<$Res>
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
               as ImageSize?,
+      style: freezed == style
+          ? _value.style
+          : style // ignore: cast_nullable_to_non_nullable
+              as ImageStyle?,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -15506,7 +15582,11 @@ class __$$CreateImageRequestImplCopyWithImpl<$Res>
 class _$CreateImageRequestImpl extends _CreateImageRequest {
   const _$CreateImageRequestImpl(
       {required this.prompt,
+      @_CreateImageRequestModelConverter()
+      @JsonKey(includeIfNull: false)
+      this.model = const CreateImageRequestModel.string('dall-e-2'),
       @JsonKey(includeIfNull: false) this.n = 1,
+      this.quality = ImageQuality.standard,
       @JsonKey(
           name: 'response_format',
           includeIfNull: false,
@@ -15516,20 +15596,35 @@ class _$CreateImageRequestImpl extends _CreateImageRequest {
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       this.size = ImageSize.v1024x1024,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.style = ImageStyle.vivid,
       @JsonKey(includeIfNull: false) this.user})
       : super._();
 
   factory _$CreateImageRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreateImageRequestImplFromJson(json);
 
-  /// A text description of the desired image(s). The maximum length is 1000 characters.
+  /// A text description of the desired image(s). The maximum length is 1000 characters for `dall-e-2` and 4000 characters for `dall-e-3`.
   @override
   final String prompt;
 
-  /// The number of images to generate. Must be between 1 and 10.
+  /// The model to use for image generation.
+  @override
+  @_CreateImageRequestModelConverter()
+  @JsonKey(includeIfNull: false)
+  final CreateImageRequestModel? model;
+
+  /// The number of images to generate. Must be between 1 and 10. For `dall-e-3`, only `n=1` is supported.
   @override
   @JsonKey(includeIfNull: false)
   final int? n;
+
+  /// The quality of the image that will be generated. `hd` creates images with finer details and greater consistency across the image. This param is only supported for `dall-e-3`.
+  @override
+  @JsonKey()
+  final ImageQuality quality;
 
   /// The format in which the generated images are returned. Must be one of `url` or `b64_json`.
   @override
@@ -15539,11 +15634,17 @@ class _$CreateImageRequestImpl extends _CreateImageRequest {
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   final ImageResponseFormat? responseFormat;
 
-  /// The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
+  /// The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`. Must be one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3` models.
   @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   final ImageSize? size;
+
+  /// The style of the generated images. Must be one of `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images. This param is only supported for `dall-e-3`.
+  @override
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ImageStyle? style;
 
   /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
   @override
@@ -15552,7 +15653,7 @@ class _$CreateImageRequestImpl extends _CreateImageRequest {
 
   @override
   String toString() {
-    return 'CreateImageRequest(prompt: $prompt, n: $n, responseFormat: $responseFormat, size: $size, user: $user)';
+    return 'CreateImageRequest(prompt: $prompt, model: $model, n: $n, quality: $quality, responseFormat: $responseFormat, size: $size, style: $style, user: $user)';
   }
 
   @override
@@ -15561,17 +15662,20 @@ class _$CreateImageRequestImpl extends _CreateImageRequest {
         (other.runtimeType == runtimeType &&
             other is _$CreateImageRequestImpl &&
             (identical(other.prompt, prompt) || other.prompt == prompt) &&
+            (identical(other.model, model) || other.model == model) &&
             (identical(other.n, n) || other.n == n) &&
+            (identical(other.quality, quality) || other.quality == quality) &&
             (identical(other.responseFormat, responseFormat) ||
                 other.responseFormat == responseFormat) &&
             (identical(other.size, size) || other.size == size) &&
+            (identical(other.style, style) || other.style == style) &&
             (identical(other.user, user) || other.user == user));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, prompt, n, responseFormat, size, user);
+  int get hashCode => Object.hash(runtimeType, prompt, model, n, quality,
+      responseFormat, size, style, user);
 
   @JsonKey(ignore: true)
   @override
@@ -15591,7 +15695,11 @@ class _$CreateImageRequestImpl extends _CreateImageRequest {
 abstract class _CreateImageRequest extends CreateImageRequest {
   const factory _CreateImageRequest(
           {required final String prompt,
+          @_CreateImageRequestModelConverter()
+          @JsonKey(includeIfNull: false)
+          final CreateImageRequestModel? model,
           @JsonKey(includeIfNull: false) final int? n,
+          final ImageQuality quality,
           @JsonKey(
               name: 'response_format',
               includeIfNull: false,
@@ -15601,6 +15709,10 @@ abstract class _CreateImageRequest extends CreateImageRequest {
               includeIfNull: false,
               unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
           final ImageSize? size,
+          @JsonKey(
+              includeIfNull: false,
+              unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+          final ImageStyle? style,
           @JsonKey(includeIfNull: false) final String? user}) =
       _$CreateImageRequestImpl;
   const _CreateImageRequest._() : super._();
@@ -15610,13 +15722,23 @@ abstract class _CreateImageRequest extends CreateImageRequest {
 
   @override
 
-  /// A text description of the desired image(s). The maximum length is 1000 characters.
+  /// A text description of the desired image(s). The maximum length is 1000 characters for `dall-e-2` and 4000 characters for `dall-e-3`.
   String get prompt;
   @override
 
-  /// The number of images to generate. Must be between 1 and 10.
+  /// The model to use for image generation.
+  @_CreateImageRequestModelConverter()
+  @JsonKey(includeIfNull: false)
+  CreateImageRequestModel? get model;
+  @override
+
+  /// The number of images to generate. Must be between 1 and 10. For `dall-e-3`, only `n=1` is supported.
   @JsonKey(includeIfNull: false)
   int? get n;
+  @override
+
+  /// The quality of the image that will be generated. `hd` creates images with finer details and greater consistency across the image. This param is only supported for `dall-e-3`.
+  ImageQuality get quality;
   @override
 
   /// The format in which the generated images are returned. Must be one of `url` or `b64_json`.
@@ -15627,10 +15749,16 @@ abstract class _CreateImageRequest extends CreateImageRequest {
   ImageResponseFormat? get responseFormat;
   @override
 
-  /// The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
+  /// The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`. Must be one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3` models.
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ImageSize? get size;
+  @override
+
+  /// The style of the generated images. Must be one of `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images. This param is only supported for `dall-e-3`.
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ImageStyle? get style;
   @override
 
   /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
@@ -15640,6 +15768,421 @@ abstract class _CreateImageRequest extends CreateImageRequest {
   @JsonKey(ignore: true)
   _$$CreateImageRequestImplCopyWith<_$CreateImageRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+CreateImageRequestModel _$CreateImageRequestModelFromJson(
+    Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'enumeration':
+      return _UnionCreateImageRequestModelEnum.fromJson(json);
+    case 'string':
+      return _UnionCreateImageRequestModelString.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'runtimeType',
+          'CreateImageRequestModel',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$CreateImageRequestModel {
+  Object get value => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ImageModels value) enumeration,
+    required TResult Function(String value) string,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ImageModels value)? enumeration,
+    TResult? Function(String value)? string,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ImageModels value)? enumeration,
+    TResult Function(String value)? string,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_UnionCreateImageRequestModelEnum value)
+        enumeration,
+    required TResult Function(_UnionCreateImageRequestModelString value) string,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_UnionCreateImageRequestModelEnum value)? enumeration,
+    TResult? Function(_UnionCreateImageRequestModelString value)? string,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_UnionCreateImageRequestModelEnum value)? enumeration,
+    TResult Function(_UnionCreateImageRequestModelString value)? string,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateImageRequestModelCopyWith<$Res> {
+  factory $CreateImageRequestModelCopyWith(CreateImageRequestModel value,
+          $Res Function(CreateImageRequestModel) then) =
+      _$CreateImageRequestModelCopyWithImpl<$Res, CreateImageRequestModel>;
+}
+
+/// @nodoc
+class _$CreateImageRequestModelCopyWithImpl<$Res,
+        $Val extends CreateImageRequestModel>
+    implements $CreateImageRequestModelCopyWith<$Res> {
+  _$CreateImageRequestModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$UnionCreateImageRequestModelEnumImplCopyWith<$Res> {
+  factory _$$UnionCreateImageRequestModelEnumImplCopyWith(
+          _$UnionCreateImageRequestModelEnumImpl value,
+          $Res Function(_$UnionCreateImageRequestModelEnumImpl) then) =
+      __$$UnionCreateImageRequestModelEnumImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({ImageModels value});
+}
+
+/// @nodoc
+class __$$UnionCreateImageRequestModelEnumImplCopyWithImpl<$Res>
+    extends _$CreateImageRequestModelCopyWithImpl<$Res,
+        _$UnionCreateImageRequestModelEnumImpl>
+    implements _$$UnionCreateImageRequestModelEnumImplCopyWith<$Res> {
+  __$$UnionCreateImageRequestModelEnumImplCopyWithImpl(
+      _$UnionCreateImageRequestModelEnumImpl _value,
+      $Res Function(_$UnionCreateImageRequestModelEnumImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$UnionCreateImageRequestModelEnumImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as ImageModels,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UnionCreateImageRequestModelEnumImpl
+    extends _UnionCreateImageRequestModelEnum {
+  const _$UnionCreateImageRequestModelEnumImpl(this.value,
+      {final String? $type})
+      : $type = $type ?? 'enumeration',
+        super._();
+
+  factory _$UnionCreateImageRequestModelEnumImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$UnionCreateImageRequestModelEnumImplFromJson(json);
+
+  @override
+  final ImageModels value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'CreateImageRequestModel.enumeration(value: $value)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UnionCreateImageRequestModelEnumImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UnionCreateImageRequestModelEnumImplCopyWith<
+          _$UnionCreateImageRequestModelEnumImpl>
+      get copyWith => __$$UnionCreateImageRequestModelEnumImplCopyWithImpl<
+          _$UnionCreateImageRequestModelEnumImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ImageModels value) enumeration,
+    required TResult Function(String value) string,
+  }) {
+    return enumeration(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ImageModels value)? enumeration,
+    TResult? Function(String value)? string,
+  }) {
+    return enumeration?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ImageModels value)? enumeration,
+    TResult Function(String value)? string,
+    required TResult orElse(),
+  }) {
+    if (enumeration != null) {
+      return enumeration(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_UnionCreateImageRequestModelEnum value)
+        enumeration,
+    required TResult Function(_UnionCreateImageRequestModelString value) string,
+  }) {
+    return enumeration(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_UnionCreateImageRequestModelEnum value)? enumeration,
+    TResult? Function(_UnionCreateImageRequestModelString value)? string,
+  }) {
+    return enumeration?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_UnionCreateImageRequestModelEnum value)? enumeration,
+    TResult Function(_UnionCreateImageRequestModelString value)? string,
+    required TResult orElse(),
+  }) {
+    if (enumeration != null) {
+      return enumeration(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UnionCreateImageRequestModelEnumImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _UnionCreateImageRequestModelEnum
+    extends CreateImageRequestModel {
+  const factory _UnionCreateImageRequestModelEnum(final ImageModels value) =
+      _$UnionCreateImageRequestModelEnumImpl;
+  const _UnionCreateImageRequestModelEnum._() : super._();
+
+  factory _UnionCreateImageRequestModelEnum.fromJson(
+          Map<String, dynamic> json) =
+      _$UnionCreateImageRequestModelEnumImpl.fromJson;
+
+  @override
+  ImageModels get value;
+  @JsonKey(ignore: true)
+  _$$UnionCreateImageRequestModelEnumImplCopyWith<
+          _$UnionCreateImageRequestModelEnumImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$UnionCreateImageRequestModelStringImplCopyWith<$Res> {
+  factory _$$UnionCreateImageRequestModelStringImplCopyWith(
+          _$UnionCreateImageRequestModelStringImpl value,
+          $Res Function(_$UnionCreateImageRequestModelStringImpl) then) =
+      __$$UnionCreateImageRequestModelStringImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String value});
+}
+
+/// @nodoc
+class __$$UnionCreateImageRequestModelStringImplCopyWithImpl<$Res>
+    extends _$CreateImageRequestModelCopyWithImpl<$Res,
+        _$UnionCreateImageRequestModelStringImpl>
+    implements _$$UnionCreateImageRequestModelStringImplCopyWith<$Res> {
+  __$$UnionCreateImageRequestModelStringImplCopyWithImpl(
+      _$UnionCreateImageRequestModelStringImpl _value,
+      $Res Function(_$UnionCreateImageRequestModelStringImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$UnionCreateImageRequestModelStringImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UnionCreateImageRequestModelStringImpl
+    extends _UnionCreateImageRequestModelString {
+  const _$UnionCreateImageRequestModelStringImpl(this.value,
+      {final String? $type})
+      : $type = $type ?? 'string',
+        super._();
+
+  factory _$UnionCreateImageRequestModelStringImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$UnionCreateImageRequestModelStringImplFromJson(json);
+
+  @override
+  final String value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'CreateImageRequestModel.string(value: $value)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UnionCreateImageRequestModelStringImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UnionCreateImageRequestModelStringImplCopyWith<
+          _$UnionCreateImageRequestModelStringImpl>
+      get copyWith => __$$UnionCreateImageRequestModelStringImplCopyWithImpl<
+          _$UnionCreateImageRequestModelStringImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ImageModels value) enumeration,
+    required TResult Function(String value) string,
+  }) {
+    return string(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ImageModels value)? enumeration,
+    TResult? Function(String value)? string,
+  }) {
+    return string?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ImageModels value)? enumeration,
+    TResult Function(String value)? string,
+    required TResult orElse(),
+  }) {
+    if (string != null) {
+      return string(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_UnionCreateImageRequestModelEnum value)
+        enumeration,
+    required TResult Function(_UnionCreateImageRequestModelString value) string,
+  }) {
+    return string(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_UnionCreateImageRequestModelEnum value)? enumeration,
+    TResult? Function(_UnionCreateImageRequestModelString value)? string,
+  }) {
+    return string?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_UnionCreateImageRequestModelEnum value)? enumeration,
+    TResult Function(_UnionCreateImageRequestModelString value)? string,
+    required TResult orElse(),
+  }) {
+    if (string != null) {
+      return string(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UnionCreateImageRequestModelStringImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _UnionCreateImageRequestModelString
+    extends CreateImageRequestModel {
+  const factory _UnionCreateImageRequestModelString(final String value) =
+      _$UnionCreateImageRequestModelStringImpl;
+  const _UnionCreateImageRequestModelString._() : super._();
+
+  factory _UnionCreateImageRequestModelString.fromJson(
+          Map<String, dynamic> json) =
+      _$UnionCreateImageRequestModelStringImpl.fromJson;
+
+  @override
+  String get value;
+  @JsonKey(ignore: true)
+  _$$UnionCreateImageRequestModelStringImplCopyWith<
+          _$UnionCreateImageRequestModelStringImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 ImagesResponse _$ImagesResponseFromJson(Map<String, dynamic> json) {
@@ -15833,6 +16376,10 @@ mixin _$Image {
   @JsonKey(includeIfNull: false)
   String? get url => throw _privateConstructorUsedError;
 
+  /// The prompt that was used to generate the image, if there was any revision to the prompt.
+  @JsonKey(name: 'revised_prompt', includeIfNull: false)
+  String? get revisedPrompt => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ImageCopyWith<Image> get copyWith => throw _privateConstructorUsedError;
@@ -15845,7 +16392,9 @@ abstract class $ImageCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'b64_json', includeIfNull: false) String? b64Json,
-      @JsonKey(includeIfNull: false) String? url});
+      @JsonKey(includeIfNull: false) String? url,
+      @JsonKey(name: 'revised_prompt', includeIfNull: false)
+      String? revisedPrompt});
 }
 
 /// @nodoc
@@ -15863,6 +16412,7 @@ class _$ImageCopyWithImpl<$Res, $Val extends Image>
   $Res call({
     Object? b64Json = freezed,
     Object? url = freezed,
+    Object? revisedPrompt = freezed,
   }) {
     return _then(_value.copyWith(
       b64Json: freezed == b64Json
@@ -15872,6 +16422,10 @@ class _$ImageCopyWithImpl<$Res, $Val extends Image>
       url: freezed == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
+              as String?,
+      revisedPrompt: freezed == revisedPrompt
+          ? _value.revisedPrompt
+          : revisedPrompt // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -15886,7 +16440,9 @@ abstract class _$$ImageImplCopyWith<$Res> implements $ImageCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'b64_json', includeIfNull: false) String? b64Json,
-      @JsonKey(includeIfNull: false) String? url});
+      @JsonKey(includeIfNull: false) String? url,
+      @JsonKey(name: 'revised_prompt', includeIfNull: false)
+      String? revisedPrompt});
 }
 
 /// @nodoc
@@ -15902,6 +16458,7 @@ class __$$ImageImplCopyWithImpl<$Res>
   $Res call({
     Object? b64Json = freezed,
     Object? url = freezed,
+    Object? revisedPrompt = freezed,
   }) {
     return _then(_$ImageImpl(
       b64Json: freezed == b64Json
@@ -15912,6 +16469,10 @@ class __$$ImageImplCopyWithImpl<$Res>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String?,
+      revisedPrompt: freezed == revisedPrompt
+          ? _value.revisedPrompt
+          : revisedPrompt // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -15921,7 +16482,9 @@ class __$$ImageImplCopyWithImpl<$Res>
 class _$ImageImpl extends _Image {
   const _$ImageImpl(
       {@JsonKey(name: 'b64_json', includeIfNull: false) this.b64Json,
-      @JsonKey(includeIfNull: false) this.url})
+      @JsonKey(includeIfNull: false) this.url,
+      @JsonKey(name: 'revised_prompt', includeIfNull: false)
+      this.revisedPrompt})
       : super._();
 
   factory _$ImageImpl.fromJson(Map<String, dynamic> json) =>
@@ -15937,9 +16500,14 @@ class _$ImageImpl extends _Image {
   @JsonKey(includeIfNull: false)
   final String? url;
 
+  /// The prompt that was used to generate the image, if there was any revision to the prompt.
+  @override
+  @JsonKey(name: 'revised_prompt', includeIfNull: false)
+  final String? revisedPrompt;
+
   @override
   String toString() {
-    return 'Image(b64Json: $b64Json, url: $url)';
+    return 'Image(b64Json: $b64Json, url: $url, revisedPrompt: $revisedPrompt)';
   }
 
   @override
@@ -15948,12 +16516,14 @@ class _$ImageImpl extends _Image {
         (other.runtimeType == runtimeType &&
             other is _$ImageImpl &&
             (identical(other.b64Json, b64Json) || other.b64Json == b64Json) &&
-            (identical(other.url, url) || other.url == url));
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.revisedPrompt, revisedPrompt) ||
+                other.revisedPrompt == revisedPrompt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, b64Json, url);
+  int get hashCode => Object.hash(runtimeType, b64Json, url, revisedPrompt);
 
   @JsonKey(ignore: true)
   @override
@@ -15972,7 +16542,9 @@ class _$ImageImpl extends _Image {
 abstract class _Image extends Image {
   const factory _Image(
       {@JsonKey(name: 'b64_json', includeIfNull: false) final String? b64Json,
-      @JsonKey(includeIfNull: false) final String? url}) = _$ImageImpl;
+      @JsonKey(includeIfNull: false) final String? url,
+      @JsonKey(name: 'revised_prompt', includeIfNull: false)
+      final String? revisedPrompt}) = _$ImageImpl;
   const _Image._() : super._();
 
   factory _Image.fromJson(Map<String, dynamic> json) = _$ImageImpl.fromJson;
@@ -15987,6 +16559,11 @@ abstract class _Image extends Image {
   /// The URL of the generated image, if `response_format` is `url` (default).
   @JsonKey(includeIfNull: false)
   String? get url;
+  @override
+
+  /// The prompt that was used to generate the image, if there was any revision to the prompt.
+  @JsonKey(name: 'revised_prompt', includeIfNull: false)
+  String? get revisedPrompt;
   @override
   @JsonKey(ignore: true)
   _$$ImageImplCopyWith<_$ImageImpl> get copyWith =>

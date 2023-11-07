@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_redundant_argument_values
 @TestOn('vm')
 library; // Uses dart:io
 
@@ -22,7 +23,11 @@ void main() {
 
     test('Test call create image API', () async {
       const request = CreateImageRequest(
+        model: CreateImageRequestModel.enumeration(ImageModels.dallE2),
         prompt: 'A cute baby sea otter',
+        quality: ImageQuality.standard,
+        size: ImageSize.v1024x1024,
+        style: ImageStyle.natural,
       );
       final res = await client.createImage(request: request);
       expect(res.created, greaterThan(0));
@@ -30,6 +35,7 @@ void main() {
       final image = res.data.first;
       expect(image.b64Json, isNull);
       expect(image.url, startsWith('http'));
+      expect(image.revisedPrompt, isNull);
     });
 
     test('Test call create image API returned in base64', () async {

@@ -1478,9 +1478,20 @@ components:
       description: Request object for the Create image endpoint.
       properties:
         prompt:
-          description: A text description of the desired image(s). The maximum length is 1000 characters.
+          description: A text description of the desired image(s). The maximum length is 1000 characters for `dall-e-2` and 4000 characters for `dall-e-3`.
           type: string
           example: "A cute baby sea otter"
+        model:
+          anyOf:
+            - type: string
+            - type: string
+              title: ImageModels
+              description: Available models for image generation.
+              enum: ["dall-e-2", "dall-e-3"]
+          default: "dall-e-2"
+          example: "dall-e-3"
+          nullable: true
+          description: The model to use for image generation.
         n: &images_n
           type: integer
           minimum: 1
@@ -1488,7 +1499,14 @@ components:
           default: 1
           example: 1
           nullable: true
-          description: The number of images to generate. Must be between 1 and 10.
+          description: The number of images to generate. Must be between 1 and 10. For `dall-e-3`, only `n=1` is supported.
+        quality:
+          title: ImageQuality
+          type: string
+          enum: ["standard", "hd"]
+          default: "standard"
+          example: "standard"
+          description: The quality of the image that will be generated. `hd` creates images with finer details and greater consistency across the image. This param is only supported for `dall-e-3`.
         response_format: &images_response_format
           title: ImageResponseFormat
           type: string
@@ -1500,11 +1518,19 @@ components:
         size: &images_size
           title: ImageSize
           type: string
-          enum: [ "256x256", "512x512", "1024x1024" ]
+          enum: [ "256x256", "512x512", "1024x1024", "1792x1024", "1024x1792" ]
           default: "1024x1024"
           example: "1024x1024"
           nullable: true
-          description: The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
+          description: The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`. Must be one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3` models.
+        style:
+          title: ImageStyle
+          type: string
+          enum: ["vivid", "natural"]
+          default: "vivid"
+          example: "vivid"
+          nullable: true
+          description: The style of the generated images. Must be one of `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images. This param is only supported for `dall-e-3`.
         user: *end_user_param_configuration
       required:
         - prompt
@@ -1533,6 +1559,9 @@ components:
         url:
           type: string
           description: The URL of the generated image, if `response_format` is `url` (default).
+        revised_prompt:
+          type: string
+          description: The prompt that was used to generate the image, if there was any revision to the prompt.
     Model:
       title: Model
       description: Describes an OpenAI model offering that can be used with the API.
