@@ -12,7 +12,7 @@ extension CreateCompletionResponseMapper on CreateCompletionResponse {
         'id': id,
         'created': created,
         'model': model,
-        'systemFingerprint': systemFingerprint,
+        'system_fingerprint': systemFingerprint,
       },
       streaming: streaming,
     );

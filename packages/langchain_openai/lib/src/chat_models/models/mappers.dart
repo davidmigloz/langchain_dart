@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:langchain/langchain.dart';
 import 'package:openai_dart/openai_dart.dart';
 
+import 'models.dart';
+
 extension ChatMessageListMapper on List<ChatMessage> {
   List<ChatCompletionMessage> toChatCompletionMessages() {
     return map((final message) => message.toChatCompletionMessage())
@@ -48,6 +50,7 @@ extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
       modelOutput: {
         'created': created,
         'model': model,
+        'system_fingerprint': systemFingerprint,
       },
     );
   }
@@ -85,6 +88,10 @@ extension _ChatCompletionMessageMapper on ChatCompletionMessage {
           functionCall: functionCall?.toAIChatMessageFunctionCall(),
         ),
       ChatCompletionMessageRole.function => ChatMessage.function(
+          name: name ?? '',
+          content: content ?? '',
+        ),
+      ChatCompletionMessageRole.tool => ChatMessage.function(
           name: name ?? '',
           content: content ?? '',
         ),
@@ -157,6 +164,7 @@ extension CreateChatCompletionStreamResponseMapper
         'id': id,
         'created': created,
         'model': model,
+        'system_fingerprint': systemFingerprint,
       },
       streaming: true,
     );
@@ -190,6 +198,10 @@ extension _ChatCompletionStreamResponseDeltaMapper
           name: '',
           content: content ?? '',
         ),
+      ChatCompletionMessageRole.tool => ChatMessage.function(
+          name: '',
+          content: content ?? '',
+        ),
       null => _handleNullRole(),
     };
   }
@@ -217,6 +229,19 @@ extension _ChatCompletionStreamMessageFunctionCallMapper
       name: name ?? '',
       argumentsRaw: arguments ?? '',
       arguments: args,
+    );
+  }
+}
+
+extension ChatOpenAIResponseFormatMapper on ChatOpenAIResponseFormat {
+  ChatCompletionResponseFormat toChatCompletionResponseFormat() {
+    return ChatCompletionResponseFormat(
+      type: switch (type) {
+        ChatOpenAIResponseFormatType.text =>
+          ChatCompletionResponseFormatType.text,
+        ChatOpenAIResponseFormatType.jsonObject =>
+          ChatCompletionResponseFormatType.jsonObject,
+      },
     );
   }
 }
