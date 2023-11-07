@@ -15,11 +15,22 @@ class CreateImageRequest with _$CreateImageRequest {
 
   /// Factory constructor for CreateImageRequest
   const factory CreateImageRequest({
-    /// A text description of the desired image(s). The maximum length is 1000 characters.
+    /// A text description of the desired image(s). The maximum length is 1000 characters for `dall-e-2` and 4000 characters for `dall-e-3`.
     required String prompt,
 
-    /// The number of images to generate. Must be between 1 and 10.
+    /// The model to use for image generation.
+    @_CreateImageRequestModelConverter()
+    @JsonKey(includeIfNull: false)
+    @Default(
+      CreateImageRequestModel.string('dall-e-2'),
+    )
+    CreateImageRequestModel? model,
+
+    /// The number of images to generate. Must be between 1 and 10. For `dall-e-3`, only `n=1` is supported.
     @JsonKey(includeIfNull: false) @Default(1) int? n,
+
+    /// The quality of the image that will be generated. `hd` creates images with finer details and greater consistency across the image. This param is only supported for `dall-e-3`.
+    @Default(ImageQuality.standard) ImageQuality quality,
 
     /// The format in which the generated images are returned. Must be one of `url` or `b64_json`.
     @JsonKey(
@@ -30,13 +41,21 @@ class CreateImageRequest with _$CreateImageRequest {
     @Default(ImageResponseFormat.url)
     ImageResponseFormat? responseFormat,
 
-    /// The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
+    /// The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`. Must be one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3` models.
     @JsonKey(
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
     )
     @Default(ImageSize.v1024x1024)
     ImageSize? size,
+
+    /// The style of the generated images. Must be one of `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images. This param is only supported for `dall-e-3`.
+    @JsonKey(
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
+    )
+    @Default(ImageStyle.vivid)
+    ImageStyle? style,
 
     /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
     @JsonKey(includeIfNull: false) String? user,
@@ -49,9 +68,12 @@ class CreateImageRequest with _$CreateImageRequest {
   /// List of all property names of schema
   static const List<String> propertyNames = [
     'prompt',
+    'model',
     'n',
+    'quality',
     'response_format',
     'size',
+    'style',
     'user'
   ];
 
@@ -75,12 +97,95 @@ class CreateImageRequest with _$CreateImageRequest {
   Map<String, dynamic> toMap() {
     return {
       'prompt': prompt,
+      'model': model,
       'n': n,
+      'quality': quality,
       'response_format': responseFormat,
       'size': size,
+      'style': style,
       'user': user,
     };
   }
+}
+
+// ==========================================
+// ENUM: ImageModels
+// ==========================================
+
+/// Available models for image generation.
+enum ImageModels {
+  @JsonValue('dall-e-2')
+  dallE2,
+  @JsonValue('dall-e-3')
+  dallE3,
+}
+
+// ==========================================
+// CLASS: CreateImageRequestModel
+// ==========================================
+
+/// The model to use for image generation.
+@freezed
+sealed class CreateImageRequestModel with _$CreateImageRequestModel {
+  const CreateImageRequestModel._();
+
+  const factory CreateImageRequestModel.enumeration(
+    ImageModels value,
+  ) = _UnionCreateImageRequestModelEnum;
+
+  const factory CreateImageRequestModel.string(
+    String value,
+  ) = _UnionCreateImageRequestModelString;
+
+  /// Object construction from a JSON representation
+  factory CreateImageRequestModel.fromJson(Map<String, dynamic> json) =>
+      _$CreateImageRequestModelFromJson(json);
+}
+
+/// Custom JSON converter for [CreateImageRequestModel]
+class _CreateImageRequestModelConverter
+    implements JsonConverter<CreateImageRequestModel?, Object?> {
+  const _CreateImageRequestModelConverter();
+
+  @override
+  CreateImageRequestModel? fromJson(Object? data) {
+    if (data == null) {
+      return null;
+    }
+    if (data is String && _$ImageModelsEnumMap.values.contains(data)) {
+      return CreateImageRequestModel.enumeration(
+        _$ImageModelsEnumMap.keys.elementAt(
+          _$ImageModelsEnumMap.values.toList().indexOf(data),
+        ),
+      );
+    }
+    if (data is String) {
+      return CreateImageRequestModel.string(data);
+    }
+    return CreateImageRequestModel.string('dall-e-2');
+  }
+
+  @override
+  Object? toJson(CreateImageRequestModel? data) {
+    return switch (data) {
+      _UnionCreateImageRequestModelEnum(value: final v) =>
+        _$ImageModelsEnumMap[v]!,
+      _UnionCreateImageRequestModelString(value: final v) => v,
+      null => null,
+    };
+  }
+}
+
+// ==========================================
+// ENUM: ImageQuality
+// ==========================================
+
+/// The quality of the image that will be generated. `hd` creates images with finer details and greater consistency across the image. This param is only supported for `dall-e-3`.
+enum ImageQuality {
+  @JsonValue('standard')
+  standard,
+  @JsonValue('hd')
+  hd,
 }
 
 // ==========================================
@@ -99,7 +204,7 @@ enum ImageResponseFormat {
 // ENUM: ImageSize
 // ==========================================
 
-/// The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
+/// The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`. Must be one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3` models.
 enum ImageSize {
   @JsonValue('256x256')
   v256x256,
@@ -107,4 +212,20 @@ enum ImageSize {
   v512x512,
   @JsonValue('1024x1024')
   v1024x1024,
+  @JsonValue('1792x1024')
+  v1792x1024,
+  @JsonValue('1024x1792')
+  v1024x1792,
+}
+
+// ==========================================
+// ENUM: ImageStyle
+// ==========================================
+
+/// The style of the generated images. Must be one of `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images. This param is only supported for `dall-e-3`.
+enum ImageStyle {
+  @JsonValue('vivid')
+  vivid,
+  @JsonValue('natural')
+  natural,
 }

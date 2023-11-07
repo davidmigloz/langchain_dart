@@ -1444,7 +1444,12 @@ _$CreateImageRequestImpl _$$CreateImageRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateImageRequestImpl(
       prompt: json['prompt'] as String,
+      model: json['model'] == null
+          ? const CreateImageRequestModel.string('dall-e-2')
+          : const _CreateImageRequestModelConverter().fromJson(json['model']),
       n: json['n'] as int? ?? 1,
+      quality: $enumDecodeNullable(_$ImageQualityEnumMap, json['quality']) ??
+          ImageQuality.standard,
       responseFormat: $enumDecodeNullable(
               _$ImageResponseFormatEnumMap, json['response_format'],
               unknownValue: JsonKey.nullForUndefinedEnumValue) ??
@@ -1452,6 +1457,9 @@ _$CreateImageRequestImpl _$$CreateImageRequestImplFromJson(
       size: $enumDecodeNullable(_$ImageSizeEnumMap, json['size'],
               unknownValue: JsonKey.nullForUndefinedEnumValue) ??
           ImageSize.v1024x1024,
+      style: $enumDecodeNullable(_$ImageStyleEnumMap, json['style'],
+              unknownValue: JsonKey.nullForUndefinedEnumValue) ??
+          ImageStyle.vivid,
       user: json['user'] as String?,
     );
 
@@ -1467,13 +1475,22 @@ Map<String, dynamic> _$$CreateImageRequestImplToJson(
     }
   }
 
+  writeNotNull('model',
+      const _CreateImageRequestModelConverter().toJson(instance.model));
   writeNotNull('n', instance.n);
+  val['quality'] = _$ImageQualityEnumMap[instance.quality]!;
   writeNotNull(
       'response_format', _$ImageResponseFormatEnumMap[instance.responseFormat]);
   writeNotNull('size', _$ImageSizeEnumMap[instance.size]);
+  writeNotNull('style', _$ImageStyleEnumMap[instance.style]);
   writeNotNull('user', instance.user);
   return val;
 }
+
+const _$ImageQualityEnumMap = {
+  ImageQuality.standard: 'standard',
+  ImageQuality.hd: 'hd',
+};
 
 const _$ImageResponseFormatEnumMap = {
   ImageResponseFormat.url: 'url',
@@ -1484,7 +1501,49 @@ const _$ImageSizeEnumMap = {
   ImageSize.v256x256: '256x256',
   ImageSize.v512x512: '512x512',
   ImageSize.v1024x1024: '1024x1024',
+  ImageSize.v1792x1024: '1792x1024',
+  ImageSize.v1024x1792: '1024x1792',
 };
+
+const _$ImageStyleEnumMap = {
+  ImageStyle.vivid: 'vivid',
+  ImageStyle.natural: 'natural',
+};
+
+_$UnionCreateImageRequestModelEnumImpl
+    _$$UnionCreateImageRequestModelEnumImplFromJson(
+            Map<String, dynamic> json) =>
+        _$UnionCreateImageRequestModelEnumImpl(
+          $enumDecode(_$ImageModelsEnumMap, json['value']),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$UnionCreateImageRequestModelEnumImplToJson(
+        _$UnionCreateImageRequestModelEnumImpl instance) =>
+    <String, dynamic>{
+      'value': _$ImageModelsEnumMap[instance.value]!,
+      'runtimeType': instance.$type,
+    };
+
+const _$ImageModelsEnumMap = {
+  ImageModels.dallE2: 'dall-e-2',
+  ImageModels.dallE3: 'dall-e-3',
+};
+
+_$UnionCreateImageRequestModelStringImpl
+    _$$UnionCreateImageRequestModelStringImplFromJson(
+            Map<String, dynamic> json) =>
+        _$UnionCreateImageRequestModelStringImpl(
+          json['value'] as String,
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$UnionCreateImageRequestModelStringImplToJson(
+        _$UnionCreateImageRequestModelStringImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'runtimeType': instance.$type,
+    };
 
 _$ImagesResponseImpl _$$ImagesResponseImplFromJson(Map<String, dynamic> json) =>
     _$ImagesResponseImpl(
@@ -1504,6 +1563,7 @@ Map<String, dynamic> _$$ImagesResponseImplToJson(
 _$ImageImpl _$$ImageImplFromJson(Map<String, dynamic> json) => _$ImageImpl(
       b64Json: json['b64_json'] as String?,
       url: json['url'] as String?,
+      revisedPrompt: json['revised_prompt'] as String?,
     );
 
 Map<String, dynamic> _$$ImageImplToJson(_$ImageImpl instance) {
@@ -1517,6 +1577,7 @@ Map<String, dynamic> _$$ImageImplToJson(_$ImageImpl instance) {
 
   writeNotNull('b64_json', instance.b64Json);
   writeNotNull('url', instance.url);
+  writeNotNull('revised_prompt', instance.revisedPrompt);
   return val;
 }
 
