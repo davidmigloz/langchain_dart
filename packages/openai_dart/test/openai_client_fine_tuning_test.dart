@@ -33,7 +33,7 @@ void main() {
       expect(res.id, isNotEmpty);
       expect(res.createdAt, greaterThan(0));
       expect(res.error, isNull);
-      expect(res.object, 'fine_tuning.job');
+      expect(res.object, FineTuningJobObject.fineTuningJob);
       expect(res.fineTunedModel, isNotNull);
     });
 
@@ -41,7 +41,7 @@ void main() {
       final res = await client.listPaginatedFineTuningJobs();
       expect(res.data, isEmpty);
       expect(res.hasMore, false);
-      expect(res.object, 'list');
+      expect(res.object, ListPaginatedFineTuningJobsResponseObject.list);
     });
 
     test('Test retrieve fine-tuning job', skip: true, () async {
@@ -51,7 +51,7 @@ void main() {
       expect(res.id, isNotEmpty);
       expect(res.createdAt, greaterThan(0));
       expect(res.error, isNull);
-      expect(res.object, 'fine_tuning.job');
+      expect(res.object, FineTuningJobObject.fineTuningJob);
       expect(res.fineTunedModel, isNotNull);
     });
 
@@ -67,7 +67,7 @@ void main() {
         fineTuningJobId: 'ft-AF1WoRqd3aJAHsqc9NY7iL8F',
       );
       expect(res.data, isEmpty);
-      expect(res.object, 'list');
+      expect(res.object, ListFineTuningJobEventsResponseObject.list);
     });
   });
 }

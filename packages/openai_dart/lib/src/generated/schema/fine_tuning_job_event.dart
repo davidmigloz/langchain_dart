@@ -28,7 +28,7 @@ class FineTuningJobEvent with _$FineTuningJobEvent {
     required String message,
 
     /// The object type, which is always "fine_tuning.job.event".
-    required String object,
+    required FineTuningJobEventObject object,
   }) = _FineTuningJobEvent;
 
   /// Object construction from a JSON representation
@@ -73,4 +73,14 @@ enum FineTuningJobEventLevel {
   warn,
   @JsonValue('error')
   error,
+}
+
+// ==========================================
+// ENUM: FineTuningJobEventObject
+// ==========================================
+
+/// The object type, which is always "fine_tuning.job.event".
+enum FineTuningJobEventObject {
+  @JsonValue('fine_tuning.job.event')
+  fineTuningJobEvent,
 }

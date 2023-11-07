@@ -37,7 +37,7 @@ class FineTuningJob with _$FineTuningJob {
     required String model,
 
     /// The object type, which is always "fine_tuning.job".
-    required String object,
+    required FineTuningJobObject object,
 
     /// The organization that owns the fine-tuning job.
     @JsonKey(name: 'organization_id') required String organizationId,
@@ -104,4 +104,14 @@ class FineTuningJob with _$FineTuningJob {
       'validation_file': validationFile,
     };
   }
+}
+
+// ==========================================
+// ENUM: FineTuningJobObject
+// ==========================================
+
+/// The object type, which is always "fine_tuning.job".
+enum FineTuningJobObject {
+  @JsonValue('fine_tuning.job')
+  fineTuningJob,
 }

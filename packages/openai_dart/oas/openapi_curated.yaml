@@ -563,7 +563,7 @@ components:
         object:
           type: string
           description: The object type, which is always "text_completion"
-          enum: [text_completion]
+          enum: [ text_completion ]
         usage:
           $ref: "#/components/schemas/CompletionUsage"
       required:
@@ -712,7 +712,7 @@ components:
           properties:
             type:
               type: string
-              enum: ["text", "json_object"]
+              enum: [ "text", "json_object" ]
               example: "json_object"
               default: "text"
               description: |
@@ -780,14 +780,14 @@ components:
             `none` means the model will not call a function and instead generates a message.
             `auto` means the model can pick between generating a message or calling a function.
             Specifying a particular function via `{"type: "function", "function": {"name": "my_function"}}` forces the model to call that function.
-    
+            
             `none` is the default when no functions are present. `auto` is the default if functions are present.
           oneOf:
             - type: string
               description: >
                 `none` means the model will not call a function and instead generates a message.
                 `auto` means the model can pick between generating a message or calling a function.
-              enum: [none, auto]
+              enum: [ none, auto ]
             - $ref: "#/components/schemas/ChatCompletionNamedToolChoice"
         user: *end_user_param_configuration
         function_call:
@@ -808,7 +808,7 @@ components:
               description: >
                 `none` means the model will not call a function and instead generates a message.
                 `auto` means the model can pick between generating a message or calling a function.
-              enum: [none, auto]
+              enum: [ none, auto ]
             - $ref: "#/components/schemas/ChatCompletionFunctionCallOption"
         functions:
           deprecated: true
@@ -902,7 +902,7 @@ components:
       properties:
         type:
           type: string
-          enum: ["function"]
+          enum: [ "function" ]
           description: The type of the tool. Currently, only `function` is supported.
         function:
           $ref: "#/components/schemas/ChatCompletionFunction"
@@ -915,7 +915,7 @@ components:
       properties:
         type:
           type: string
-          enum: ["function"]
+          enum: [ "function" ]
           description: The type of the tool. Currently, only `function` is supported.
         function:
           $ref: "#/components/schemas/ChatCompletionFunctionCallOption"
@@ -934,7 +934,7 @@ components:
           description: The ID of the tool call.
         type:
           type: string
-          enum: ["function"]
+          enum: [ "function" ]
           description: The type of the tool. Currently, only `function` is supported.
         function:
           $ref: "#/components/schemas/ChatCompletionMessageFunctionCall"
@@ -969,7 +969,7 @@ components:
         object:
           type: string
           description: The object type, which is always `chat.completion`.
-          enum: [chat.completion]
+          enum: [ chat.completion ]
         usage:
           $ref: "#/components/schemas/CompletionUsage"
       required:
@@ -1035,7 +1035,7 @@ components:
         object:
           type: string
           description: The object type, which is always `chat.completion.chunk`.
-          enum: [chat.completion.chunk]
+          enum: [ chat.completion.chunk ]
       required:
         - choices
         - created
@@ -1095,7 +1095,7 @@ components:
           description: The ID of the tool call.
         type:
           type: string
-          enum: ["function"]
+          enum: [ "function" ]
           description: The type of the tool. Currently, only `function` is supported.
         function:
           $ref: "#/components/schemas/ChatCompletionStreamMessageFunctionCall"
@@ -1187,7 +1187,7 @@ components:
         object:
           type: string
           description: The object type, which is always "list".
-          enum: [list]
+          enum: [ list ]
         usage:
           $ref: "#/components/schemas/EmbeddingUsage"
       required:
@@ -1217,7 +1217,7 @@ components:
         object:
           type: string
           description: The object type, which is always "embedding".
-          enum: [embedding]
+          enum: [ embedding ]
       required:
         - index
         - object
@@ -1322,6 +1322,7 @@ components:
         object:
           type: string
           description: The object type, which is always "fine_tuning.job".
+          enum: [ fine_tuning.job ]
         organization_id:
           type: string
           description: The organization that owns the fine-tuning job.
@@ -1362,7 +1363,15 @@ components:
     FineTuningJobStatus:
       type: string
       description: The current status of the fine-tuning job, which can be either `validating_files`, `queued`, `running`, `succeeded`, `failed`, or `cancelled`.
-      enum: [ "validating_files", "queued", "running", "succeeded", "failed", "cancelled" ]
+      enum:
+        [
+          "validating_files",
+          "queued",
+          "running",
+          "succeeded",
+          "failed",
+          "cancelled",
+        ]
     FineTuningJobError:
       type: object
       nullable: true
@@ -1394,7 +1403,7 @@ components:
           oneOf:
             - type: string
               title: FineTuningNEpochsOptions
-              enum: [auto]
+              enum: [ auto ]
             - type: integer
               minimum: 1
               maximum: 50
@@ -1416,6 +1425,7 @@ components:
         object:
           type: string
           description: The object type, which is always "list".
+          enum: [ list ]
       required:
         - object
         - data
@@ -1432,6 +1442,7 @@ components:
         object:
           type: string
           description: The object type, which is always "list".
+          enum: [ list ]
       required:
         - object
         - data
@@ -1448,13 +1459,14 @@ components:
         level:
           type: string
           description: The log level of the event.
-          enum: ["info", "warn", "error"]
+          enum: [ "info", "warn", "error" ]
         message:
           type: string
           description: The message of the event.
         object:
           type: string
           description: The object type, which is always "fine_tuning.job.event".
+          enum: [fine_tuning.job.event]
       required:
         - id
         - object
@@ -1480,7 +1492,7 @@ components:
         response_format: &images_response_format
           title: ImageResponseFormat
           type: string
-          enum: ["url", "b64_json"]
+          enum: [ "url", "b64_json" ]
           default: "url"
           example: "url"
           nullable: true
@@ -1488,7 +1500,7 @@ components:
         size: &images_size
           title: ImageSize
           type: string
-          enum: ["256x256", "512x512", "1024x1024"]
+          enum: [ "256x256", "512x512", "1024x1024" ]
           default: "1024x1024"
           example: "1024x1024"
           nullable: true
@@ -1590,7 +1602,7 @@ components:
             - type: string
             - type: string
               title: ModerationModels
-              enum: ["text-moderation-latest", "text-moderation-stable"]
+              enum: [ "text-moderation-latest", "text-moderation-stable" ]
           x-oaiTypeLabel: string
         input:
           title: ModerationInput
@@ -1633,9 +1645,9 @@ components:
           type: boolean
           description: Whether the content violates [OpenAI's usage policies](https://platform.openai.com/policies/usage-policies).
         categories:
-            $ref: "#/components/schemas/ModerationCategories"
+          $ref: "#/components/schemas/ModerationCategories"
         category_scores:
-            $ref: "#/components/schemas/ModerationCategoriesScores"
+          $ref: "#/components/schemas/ModerationCategoriesScores"
       required:
         - flagged
         - categories

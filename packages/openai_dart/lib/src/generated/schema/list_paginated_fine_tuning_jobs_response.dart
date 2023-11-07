@@ -23,7 +23,7 @@ class ListPaginatedFineTuningJobsResponse
     @JsonKey(name: 'has_more') required bool hasMore,
 
     /// The object type, which is always "list".
-    required String object,
+    required ListPaginatedFineTuningJobsResponseObject object,
   }) = _ListPaginatedFineTuningJobsResponse;
 
   /// Object construction from a JSON representation
@@ -47,4 +47,14 @@ class ListPaginatedFineTuningJobsResponse
       'object': object,
     };
   }
+}
+
+// ==========================================
+// ENUM: ListPaginatedFineTuningJobsResponseObject
+// ==========================================
+
+/// The object type, which is always "list".
+enum ListPaginatedFineTuningJobsResponseObject {
+  @JsonValue('list')
+  list,
 }

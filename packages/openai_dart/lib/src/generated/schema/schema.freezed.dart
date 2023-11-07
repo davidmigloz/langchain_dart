@@ -13340,7 +13340,7 @@ mixin _$FineTuningJob {
   String get model => throw _privateConstructorUsedError;
 
   /// The object type, which is always "fine_tuning.job".
-  String get object => throw _privateConstructorUsedError;
+  FineTuningJobObject get object => throw _privateConstructorUsedError;
 
   /// The organization that owns the fine-tuning job.
   @JsonKey(name: 'organization_id')
@@ -13385,7 +13385,7 @@ abstract class $FineTuningJobCopyWith<$Res> {
       @JsonKey(name: 'finished_at') int? finishedAt,
       FineTuningJobHyperparameters hyperparameters,
       String model,
-      String object,
+      FineTuningJobObject object,
       @JsonKey(name: 'organization_id') String organizationId,
       @JsonKey(name: 'result_files') List<String> resultFiles,
       FineTuningJobStatus status,
@@ -13457,7 +13457,7 @@ class _$FineTuningJobCopyWithImpl<$Res, $Val extends FineTuningJob>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as String,
+              as FineTuningJobObject,
       organizationId: null == organizationId
           ? _value.organizationId
           : organizationId // ignore: cast_nullable_to_non_nullable
@@ -13523,7 +13523,7 @@ abstract class _$$FineTuningJobImplCopyWith<$Res>
       @JsonKey(name: 'finished_at') int? finishedAt,
       FineTuningJobHyperparameters hyperparameters,
       String model,
-      String object,
+      FineTuningJobObject object,
       @JsonKey(name: 'organization_id') String organizationId,
       @JsonKey(name: 'result_files') List<String> resultFiles,
       FineTuningJobStatus status,
@@ -13595,7 +13595,7 @@ class __$$FineTuningJobImplCopyWithImpl<$Res>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as String,
+              as FineTuningJobObject,
       organizationId: null == organizationId
           ? _value.organizationId
           : organizationId // ignore: cast_nullable_to_non_nullable
@@ -13681,7 +13681,7 @@ class _$FineTuningJobImpl extends _FineTuningJob {
 
   /// The object type, which is always "fine_tuning.job".
   @override
-  final String object;
+  final FineTuningJobObject object;
 
   /// The organization that owns the fine-tuning job.
   @override
@@ -13796,7 +13796,7 @@ abstract class _FineTuningJob extends FineTuningJob {
       @JsonKey(name: 'finished_at') required final int? finishedAt,
       required final FineTuningJobHyperparameters hyperparameters,
       required final String model,
-      required final String object,
+      required final FineTuningJobObject object,
       @JsonKey(name: 'organization_id') required final String organizationId,
       @JsonKey(name: 'result_files') required final List<String> resultFiles,
       required final FineTuningJobStatus status,
@@ -13843,7 +13843,7 @@ abstract class _FineTuningJob extends FineTuningJob {
   @override
 
   /// The object type, which is always "fine_tuning.job".
-  String get object;
+  FineTuningJobObject get object;
   @override
 
   /// The organization that owns the fine-tuning job.
@@ -14672,7 +14672,8 @@ mixin _$ListPaginatedFineTuningJobsResponse {
   bool get hasMore => throw _privateConstructorUsedError;
 
   /// The object type, which is always "list".
-  String get object => throw _privateConstructorUsedError;
+  ListPaginatedFineTuningJobsResponseObject get object =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -14692,7 +14693,7 @@ abstract class $ListPaginatedFineTuningJobsResponseCopyWith<$Res> {
   $Res call(
       {List<FineTuningJob> data,
       @JsonKey(name: 'has_more') bool hasMore,
-      String object});
+      ListPaginatedFineTuningJobsResponseObject object});
 }
 
 /// @nodoc
@@ -14725,7 +14726,7 @@ class _$ListPaginatedFineTuningJobsResponseCopyWithImpl<$Res,
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as String,
+              as ListPaginatedFineTuningJobsResponseObject,
     ) as $Val);
   }
 }
@@ -14742,7 +14743,7 @@ abstract class _$$ListPaginatedFineTuningJobsResponseImplCopyWith<$Res>
   $Res call(
       {List<FineTuningJob> data,
       @JsonKey(name: 'has_more') bool hasMore,
-      String object});
+      ListPaginatedFineTuningJobsResponseObject object});
 }
 
 /// @nodoc
@@ -14774,7 +14775,7 @@ class __$$ListPaginatedFineTuningJobsResponseImplCopyWithImpl<$Res>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as String,
+              as ListPaginatedFineTuningJobsResponseObject,
     ));
   }
 }
@@ -14812,7 +14813,7 @@ class _$ListPaginatedFineTuningJobsResponseImpl
 
   /// The object type, which is always "list".
   @override
-  final String object;
+  final ListPaginatedFineTuningJobsResponseObject object;
 
   @override
   String toString() {
@@ -14855,7 +14856,7 @@ abstract class _ListPaginatedFineTuningJobsResponse
   const factory _ListPaginatedFineTuningJobsResponse(
           {required final List<FineTuningJob> data,
           @JsonKey(name: 'has_more') required final bool hasMore,
-          required final String object}) =
+          required final ListPaginatedFineTuningJobsResponseObject object}) =
       _$ListPaginatedFineTuningJobsResponseImpl;
   const _ListPaginatedFineTuningJobsResponse._() : super._();
 
@@ -14875,7 +14876,7 @@ abstract class _ListPaginatedFineTuningJobsResponse
   @override
 
   /// The object type, which is always "list".
-  String get object;
+  ListPaginatedFineTuningJobsResponseObject get object;
   @override
   @JsonKey(ignore: true)
   _$$ListPaginatedFineTuningJobsResponseImplCopyWith<
@@ -14894,7 +14895,8 @@ mixin _$ListFineTuningJobEventsResponse {
   List<FineTuningJobEvent> get data => throw _privateConstructorUsedError;
 
   /// The object type, which is always "list".
-  String get object => throw _privateConstructorUsedError;
+  ListFineTuningJobEventsResponseObject get object =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -14910,7 +14912,9 @@ abstract class $ListFineTuningJobEventsResponseCopyWith<$Res> {
       _$ListFineTuningJobEventsResponseCopyWithImpl<$Res,
           ListFineTuningJobEventsResponse>;
   @useResult
-  $Res call({List<FineTuningJobEvent> data, String object});
+  $Res call(
+      {List<FineTuningJobEvent> data,
+      ListFineTuningJobEventsResponseObject object});
 }
 
 /// @nodoc
@@ -14938,7 +14942,7 @@ class _$ListFineTuningJobEventsResponseCopyWithImpl<$Res,
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as String,
+              as ListFineTuningJobEventsResponseObject,
     ) as $Val);
   }
 }
@@ -14952,7 +14956,9 @@ abstract class _$$ListFineTuningJobEventsResponseImplCopyWith<$Res>
       __$$ListFineTuningJobEventsResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<FineTuningJobEvent> data, String object});
+  $Res call(
+      {List<FineTuningJobEvent> data,
+      ListFineTuningJobEventsResponseObject object});
 }
 
 /// @nodoc
@@ -14979,7 +14985,7 @@ class __$$ListFineTuningJobEventsResponseImplCopyWithImpl<$Res>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as String,
+              as ListFineTuningJobEventsResponseObject,
     ));
   }
 }
@@ -15010,7 +15016,7 @@ class _$ListFineTuningJobEventsResponseImpl
 
   /// The object type, which is always "list".
   @override
-  final String object;
+  final ListFineTuningJobEventsResponseObject object;
 
   @override
   String toString() {
@@ -15050,8 +15056,9 @@ class _$ListFineTuningJobEventsResponseImpl
 abstract class _ListFineTuningJobEventsResponse
     extends ListFineTuningJobEventsResponse {
   const factory _ListFineTuningJobEventsResponse(
-      {required final List<FineTuningJobEvent> data,
-      required final String object}) = _$ListFineTuningJobEventsResponseImpl;
+          {required final List<FineTuningJobEvent> data,
+          required final ListFineTuningJobEventsResponseObject object}) =
+      _$ListFineTuningJobEventsResponseImpl;
   const _ListFineTuningJobEventsResponse._() : super._();
 
   factory _ListFineTuningJobEventsResponse.fromJson(Map<String, dynamic> json) =
@@ -15064,7 +15071,7 @@ abstract class _ListFineTuningJobEventsResponse
   @override
 
   /// The object type, which is always "list".
-  String get object;
+  ListFineTuningJobEventsResponseObject get object;
   @override
   @JsonKey(ignore: true)
   _$$ListFineTuningJobEventsResponseImplCopyWith<
@@ -15092,7 +15099,7 @@ mixin _$FineTuningJobEvent {
   String get message => throw _privateConstructorUsedError;
 
   /// The object type, which is always "fine_tuning.job.event".
-  String get object => throw _privateConstructorUsedError;
+  FineTuningJobEventObject get object => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -15111,7 +15118,7 @@ abstract class $FineTuningJobEventCopyWith<$Res> {
       @JsonKey(name: 'created_at') int createdAt,
       FineTuningJobEventLevel level,
       String message,
-      String object});
+      FineTuningJobEventObject object});
 }
 
 /// @nodoc
@@ -15153,7 +15160,7 @@ class _$FineTuningJobEventCopyWithImpl<$Res, $Val extends FineTuningJobEvent>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as String,
+              as FineTuningJobEventObject,
     ) as $Val);
   }
 }
@@ -15171,7 +15178,7 @@ abstract class _$$FineTuningJobEventImplCopyWith<$Res>
       @JsonKey(name: 'created_at') int createdAt,
       FineTuningJobEventLevel level,
       String message,
-      String object});
+      FineTuningJobEventObject object});
 }
 
 /// @nodoc
@@ -15211,7 +15218,7 @@ class __$$FineTuningJobEventImplCopyWithImpl<$Res>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as String,
+              as FineTuningJobEventObject,
     ));
   }
 }
@@ -15249,7 +15256,7 @@ class _$FineTuningJobEventImpl extends _FineTuningJobEvent {
 
   /// The object type, which is always "fine_tuning.job.event".
   @override
-  final String object;
+  final FineTuningJobEventObject object;
 
   @override
   String toString() {
@@ -15291,11 +15298,12 @@ class _$FineTuningJobEventImpl extends _FineTuningJobEvent {
 
 abstract class _FineTuningJobEvent extends FineTuningJobEvent {
   const factory _FineTuningJobEvent(
-      {required final String id,
-      @JsonKey(name: 'created_at') required final int createdAt,
-      required final FineTuningJobEventLevel level,
-      required final String message,
-      required final String object}) = _$FineTuningJobEventImpl;
+          {required final String id,
+          @JsonKey(name: 'created_at') required final int createdAt,
+          required final FineTuningJobEventLevel level,
+          required final String message,
+          required final FineTuningJobEventObject object}) =
+      _$FineTuningJobEventImpl;
   const _FineTuningJobEvent._() : super._();
 
   factory _FineTuningJobEvent.fromJson(Map<String, dynamic> json) =
@@ -15321,7 +15329,7 @@ abstract class _FineTuningJobEvent extends FineTuningJobEvent {
   @override
 
   /// The object type, which is always "fine_tuning.job.event".
-  String get object;
+  FineTuningJobEventObject get object;
   @override
   @JsonKey(ignore: true)
   _$$FineTuningJobEventImplCopyWith<_$FineTuningJobEventImpl> get copyWith =>
