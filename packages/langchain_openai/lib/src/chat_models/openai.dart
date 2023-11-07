@@ -89,6 +89,8 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   /// - [ChatOpenAI.maxTokens]
   /// - [ChatOpenAI.n]
   /// - [ChatOpenAI.presencePenalty]
+  /// - [ChatOpenAI.responseFormat]
+  /// - [ChatOpenAI.seed]
   /// - [ChatOpenAI.temperature]
   /// - [ChatOpenAI.topP]
   /// - [ChatOpenAI.user]
@@ -113,6 +115,8 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     this.maxTokens,
     this.n = 1,
     this.presencePenalty = 0,
+    this.responseFormat,
+    this.seed,
     this.temperature = 1,
     this.topP = 1,
     this.user,
@@ -162,6 +166,32 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   ///
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-presence_penalty
   final double presencePenalty;
+
+  /// An object specifying the format that the model must output.
+  ///
+  /// Setting to [ChatOpenAIResponseFormatType.jsonObject] enables JSON mode,
+  /// which guarantees the message the model generates is valid JSON.
+  ///
+  /// Important: when using JSON mode you must still instruct the model to
+  /// produce JSON yourself via some conversation message, for example via your
+  /// system message. If you don't do this, the model may generate an unending
+  /// stream of whitespace until the generation reaches the token limit, which
+  /// may take a lot of time and give the appearance of a "stuck" request.
+  /// Also note that the message content may be partial (i.e. cut off) if
+  /// `finish_reason="length"`, which indicates the generation exceeded
+  /// `max_tokens` or the conversation exceeded the max context length.
+  ///
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-response_format
+  final ChatOpenAIResponseFormat? responseFormat;
+
+  /// This feature is in Beta. If specified, our system will make a best effort
+  /// to sample deterministically, such that repeated requests with the same
+  /// seed and parameters should return the same result. Determinism is not
+  /// guaranteed, and you should refer to the system_fingerprint response
+  /// parameter to monitor changes in the backend.
+  ///
+  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-seed
+  final int? seed;
 
   /// What sampling temperature to use, between 0 and 2.
   ///
@@ -214,6 +244,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final messagesDtos = messages.toChatCompletionMessages();
     final functionsDtos = options?.functions?.toChatCompletionFunctions();
     final functionCall = options?.functionCall?.toChatCompletionFunctionCall();
+    final resFormat = responseFormat?.toChatCompletionResponseFormat();
 
     final completion = await _client.createChatCompletion(
       request: CreateChatCompletionRequest(
@@ -226,6 +257,8 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
         maxTokens: maxTokens,
         n: n,
         presencePenalty: presencePenalty,
+        responseFormat: resFormat,
+        seed: seed,
         stop: options?.stop != null
             ? ChatCompletionStop.arrayString(options!.stop!)
             : null,

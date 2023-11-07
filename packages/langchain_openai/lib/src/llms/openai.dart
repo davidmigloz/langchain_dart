@@ -87,6 +87,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   /// - [OpenAI.maxTokens]
   /// - [OpenAI.n]
   /// - [OpenAI.presencePenalty]
+  /// - [OpenAI.seed]
   /// - [OpenAI.suffix]
   /// - [OpenAI.temperature]
   /// - [OpenAI.topP]

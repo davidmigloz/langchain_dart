@@ -137,8 +137,8 @@ void main() {
       final generation2 = res2.generations.first;
 
       expect(
-        res1.modelOutput?['systemFingerprint'],
-        res2.modelOutput?['systemFingerprint'],
+        res1.modelOutput?['system_fingerprint'],
+        res2.modelOutput?['system_fingerprint'],
       );
       expect(generation1.output, generation2.output);
     });

@@ -295,5 +295,63 @@ void main() {
       expect(lastResult['setup'], isNotEmpty);
       expect(lastResult['punchline'], isNotEmpty);
     });
+
+    test('Test response seed', () async {
+      final prompt = PromptValue.string('How are you?');
+      final llm = ChatOpenAI(
+        apiKey: openaiApiKey,
+        temperature: 0,
+        seed: 9999,
+      );
+
+      final res1 = await llm.invoke(prompt);
+      expect(res1.generations, hasLength(1));
+      final generation1 = res1.generations.first;
+
+      final res2 = await llm.invoke(prompt);
+      expect(res2.generations, hasLength(1));
+      final generation2 = res2.generations.first;
+
+      expect(
+        res1.modelOutput?['system_fingerprint'],
+        res2.modelOutput?['system_fingerprint'],
+      );
+      expect(generation1.output, generation2.output);
+    });
+
+    test('Test JSON mode', () async {
+      final prompt = PromptValue.chat([
+        ChatMessage.system(
+          "Extract the 'name' and 'origin' of any companies mentioned in the "
+          'following statement. Return a JSON list.',
+        ),
+        ChatMessage.human(
+          'Google was founded in the USA, while Deepmind was founded in the UK',
+        ),
+      ]);
+      final llm = ChatOpenAI(
+        apiKey: openaiApiKey,
+        model: 'gpt-4-1106-preview',
+        temperature: 0,
+        seed: 9999,
+        responseFormat: const ChatOpenAIResponseFormat(
+          type: ChatOpenAIResponseFormatType.jsonObject,
+        ),
+      );
+
+      final res = await llm.invoke(prompt);
+      expect(res.generations, hasLength(1));
+      final outputMsg = res.generations.first.output;
+      final outputJson = json.decode(outputMsg.content) as Map<String, dynamic>;
+      expect(outputJson['companies'], isNotNull);
+      final companies = outputJson['companies'] as List<dynamic>;
+      expect(companies, hasLength(2));
+      final firstCompany = companies.first as Map<String, dynamic>;
+      expect(firstCompany['name'], 'Google');
+      expect(firstCompany['origin'], 'USA');
+      final secondCompany = companies.last as Map<String, dynamic>;
+      expect(secondCompany['name'], 'Deepmind');
+      expect(secondCompany['origin'], 'UK');
+    });
   });
 }
