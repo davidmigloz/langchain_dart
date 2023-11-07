@@ -8,9 +8,10 @@ import 'package:vertex_ai/vertex_ai.dart';
 
 import 'models/models.dart';
 
-/// A vector store that uses Vertex AI Matching Engine.
+/// A vector store that uses Vertex AI Vector Search
+/// (former Vertex AI Matching Engine).
 ///
-/// Vertex AI Matching Engine provides a high-scale low latency vector database.
+/// Vertex AI Vector Search provides a high-scale low latency vector database.
 ///
 /// This vector stores relies on two GCP services:
 /// - Vertex AI Matching Engine: to store the vectors and perform similarity
@@ -32,10 +33,10 @@ import 'models/models.dart';
 /// 3. [Enable the Vertex AI API](https://console.cloud.google.com/flows/enableapi?apiid=aiplatform.googleapis.com).
 /// 4. [Configure the Vertex AI location](https://cloud.google.com/vertex-ai/docs/general/locations).
 ///
-/// ### Create your Vertex AI Matching Engine index
+/// ### Create your Vertex AI Vector Search index
 ///
-/// To use this vector store, first you need to create a Vertex AI Matching
-/// Engine index and expose it in a Vertex AI index endpoint.
+/// To use this vector store, first you need to create a Vertex AI Vector
+/// Search index and expose it in a Vertex AI index endpoint.
 ///
 /// You can use [vertex_ai](https://pub.dev/packages/vertex_ai) Dart package
 /// to do that.

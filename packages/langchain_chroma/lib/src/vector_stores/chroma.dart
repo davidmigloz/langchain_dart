@@ -16,14 +16,38 @@ import 'models/models.dart';
 /// The server can run on your local computer via docker or be easily deployed
 /// to any cloud provider.
 ///
-/// To run Chroma in client server mode, run the docker container:
+/// ### Running Chroma in client/server mode
+///
+/// You can run a Chroma server in two ways:
+///
+/// #### Using Python client
+///
+/// The Python client supports spinning up a Chroma server easily:
+///
+/// ```sh
+/// pip install chromadb
+/// chroma run --path /db_path
 /// ```
-/// docker-compose up -d --build
+///
+/// #### Using Docker
+///
+/// Otherwise, you can run the Chroma server using Docker:
+///
+/// ```sh
+/// docker pull chromadb/chroma
+/// docker run -p 8000:8000 chromadb/chroma
 /// ```
 ///
 /// By default, the Chroma client will connect to a server running on
-/// `http://localhost:8000`. To connect to a different server, pass the
-/// `host` parameter to the constructor.
+/// `http://localhost:8000`. To connect to a different server, pass the `host`
+/// parameter to the constructor.
+///
+/// ```dart
+/// final vectorStore = Chroma(
+///   embeddings: OpenAIEmbeddings(apiKey: openaiApiKey),
+///   host: 'http://localhost:8888',
+/// );
+/// ```
 ///
 /// ### Collections
 ///
