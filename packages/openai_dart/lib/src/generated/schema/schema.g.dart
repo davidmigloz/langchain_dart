@@ -1584,7 +1584,7 @@ Map<String, dynamic> _$$ImageImplToJson(_$ImageImpl instance) {
 _$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(
       id: json['id'] as String,
       created: json['created'] as int,
-      object: json['object'] as String,
+      object: $enumDecode(_$ModelObjectEnumMap, json['object']),
       ownedBy: json['owned_by'] as String,
     );
 
@@ -1592,14 +1592,18 @@ Map<String, dynamic> _$$ModelImplToJson(_$ModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'created': instance.created,
-      'object': instance.object,
+      'object': _$ModelObjectEnumMap[instance.object]!,
       'owned_by': instance.ownedBy,
     };
+
+const _$ModelObjectEnumMap = {
+  ModelObject.model: 'model',
+};
 
 _$ListModelsResponseImpl _$$ListModelsResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$ListModelsResponseImpl(
-      object: json['object'] as String,
+      object: $enumDecode(_$ListModelsResponseObjectEnumMap, json['object']),
       data: (json['data'] as List<dynamic>)
           .map((e) => Model.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1608,9 +1612,13 @@ _$ListModelsResponseImpl _$$ListModelsResponseImplFromJson(
 Map<String, dynamic> _$$ListModelsResponseImplToJson(
         _$ListModelsResponseImpl instance) =>
     <String, dynamic>{
-      'object': instance.object,
+      'object': _$ListModelsResponseObjectEnumMap[instance.object]!,
       'data': instance.data.map((e) => e.toJson()).toList(),
     };
+
+const _$ListModelsResponseObjectEnumMap = {
+  ListModelsResponseObject.list: 'list',
+};
 
 _$DeleteModelResponseImpl _$$DeleteModelResponseImplFromJson(
         Map<String, dynamic> json) =>

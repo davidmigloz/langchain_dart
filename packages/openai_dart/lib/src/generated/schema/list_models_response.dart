@@ -16,7 +16,7 @@ class ListModelsResponse with _$ListModelsResponse {
   /// Factory constructor for ListModelsResponse
   const factory ListModelsResponse({
     /// The object type, which is always "list".
-    required String object,
+    required ListModelsResponseObject object,
 
     /// The list of models.
     required List<Model> data,
@@ -41,4 +41,14 @@ class ListModelsResponse with _$ListModelsResponse {
       'data': data,
     };
   }
+}
+
+// ==========================================
+// ENUM: ListModelsResponseObject
+// ==========================================
+
+/// The object type, which is always "list".
+enum ListModelsResponseObject {
+  @JsonValue('list')
+  list,
 }

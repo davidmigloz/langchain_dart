@@ -16583,7 +16583,7 @@ mixin _$Model {
   int get created => throw _privateConstructorUsedError;
 
   /// The object type, which is always "model".
-  String get object => throw _privateConstructorUsedError;
+  ModelObject get object => throw _privateConstructorUsedError;
 
   /// The organization that owns the model.
   @JsonKey(name: 'owned_by')
@@ -16602,7 +16602,7 @@ abstract class $ModelCopyWith<$Res> {
   $Res call(
       {String id,
       int created,
-      String object,
+      ModelObject object,
       @JsonKey(name: 'owned_by') String ownedBy});
 }
 
@@ -16636,7 +16636,7 @@ class _$ModelCopyWithImpl<$Res, $Val extends Model>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as String,
+              as ModelObject,
       ownedBy: null == ownedBy
           ? _value.ownedBy
           : ownedBy // ignore: cast_nullable_to_non_nullable
@@ -16655,7 +16655,7 @@ abstract class _$$ModelImplCopyWith<$Res> implements $ModelCopyWith<$Res> {
   $Res call(
       {String id,
       int created,
-      String object,
+      ModelObject object,
       @JsonKey(name: 'owned_by') String ownedBy});
 }
 
@@ -16687,7 +16687,7 @@ class __$$ModelImplCopyWithImpl<$Res>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as String,
+              as ModelObject,
       ownedBy: null == ownedBy
           ? _value.ownedBy
           : ownedBy // ignore: cast_nullable_to_non_nullable
@@ -16719,7 +16719,7 @@ class _$ModelImpl extends _Model {
 
   /// The object type, which is always "model".
   @override
-  final String object;
+  final ModelObject object;
 
   /// The organization that owns the model.
   @override
@@ -16764,7 +16764,7 @@ abstract class _Model extends Model {
   const factory _Model(
       {required final String id,
       required final int created,
-      required final String object,
+      required final ModelObject object,
       @JsonKey(name: 'owned_by') required final String ownedBy}) = _$ModelImpl;
   const _Model._() : super._();
 
@@ -16781,7 +16781,7 @@ abstract class _Model extends Model {
   @override
 
   /// The object type, which is always "model".
-  String get object;
+  ModelObject get object;
   @override
 
   /// The organization that owns the model.
@@ -16800,7 +16800,7 @@ ListModelsResponse _$ListModelsResponseFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ListModelsResponse {
   /// The object type, which is always "list".
-  String get object => throw _privateConstructorUsedError;
+  ListModelsResponseObject get object => throw _privateConstructorUsedError;
 
   /// The list of models.
   List<Model> get data => throw _privateConstructorUsedError;
@@ -16817,7 +16817,7 @@ abstract class $ListModelsResponseCopyWith<$Res> {
           ListModelsResponse value, $Res Function(ListModelsResponse) then) =
       _$ListModelsResponseCopyWithImpl<$Res, ListModelsResponse>;
   @useResult
-  $Res call({String object, List<Model> data});
+  $Res call({ListModelsResponseObject object, List<Model> data});
 }
 
 /// @nodoc
@@ -16840,7 +16840,7 @@ class _$ListModelsResponseCopyWithImpl<$Res, $Val extends ListModelsResponse>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as String,
+              as ListModelsResponseObject,
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -16857,7 +16857,7 @@ abstract class _$$ListModelsResponseImplCopyWith<$Res>
       __$$ListModelsResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String object, List<Model> data});
+  $Res call({ListModelsResponseObject object, List<Model> data});
 }
 
 /// @nodoc
@@ -16878,7 +16878,7 @@ class __$$ListModelsResponseImplCopyWithImpl<$Res>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as String,
+              as ListModelsResponseObject,
       data: null == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
@@ -16900,7 +16900,7 @@ class _$ListModelsResponseImpl extends _ListModelsResponse {
 
   /// The object type, which is always "list".
   @override
-  final String object;
+  final ListModelsResponseObject object;
 
   /// The list of models.
   final List<Model> _data;
@@ -16949,7 +16949,7 @@ class _$ListModelsResponseImpl extends _ListModelsResponse {
 
 abstract class _ListModelsResponse extends ListModelsResponse {
   const factory _ListModelsResponse(
-      {required final String object,
+      {required final ListModelsResponseObject object,
       required final List<Model> data}) = _$ListModelsResponseImpl;
   const _ListModelsResponse._() : super._();
 
@@ -16959,7 +16959,7 @@ abstract class _ListModelsResponse extends ListModelsResponse {
   @override
 
   /// The object type, which is always "list".
-  String get object;
+  ListModelsResponseObject get object;
   @override
 
   /// The list of models.

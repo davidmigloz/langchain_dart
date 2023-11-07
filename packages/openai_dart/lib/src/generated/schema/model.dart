@@ -22,7 +22,7 @@ class Model with _$Model {
     required int created,
 
     /// The object type, which is always "model".
-    required String object,
+    required ModelObject object,
 
     /// The organization that owns the model.
     @JsonKey(name: 'owned_by') required String ownedBy,
@@ -53,4 +53,14 @@ class Model with _$Model {
       'owned_by': ownedBy,
     };
   }
+}
+
+// ==========================================
+// ENUM: ModelObject
+// ==========================================
+
+/// The object type, which is always "model".
+enum ModelObject {
+  @JsonValue('model')
+  model,
 }
