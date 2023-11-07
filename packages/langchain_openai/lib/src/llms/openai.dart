@@ -114,6 +114,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     this.maxTokens = 256,
     this.n = 1,
     this.presencePenalty = 0,
+    this.seed,
     this.suffix,
     this.temperature = 1,
     this.topP = 1,
@@ -181,6 +182,16 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   /// See https://platform.openai.com/docs/api-reference/completions/create#completions-create-presence_penalty
   final double presencePenalty;
 
+  /// If specified, our system will make a best effort to sample
+  /// deterministically, such that repeated requests with the same seed and
+  /// parameters should return the same result.
+  ///
+  /// Determinism is not guaranteed, and you should refer to the
+  /// `system_fingerprint` response parameter to monitor changes in the backend.
+  ///
+  /// See https://platform.openai.com/docs/api-reference/completions/create#completions-create-seed
+  final int? seed;
+
   /// The suffix that comes after a completion of inserted text.
   ///
   /// See https://platform.openai.com/docs/api-reference/completions/create#completions-create-suffix
@@ -245,6 +256,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
         maxTokens: maxTokens,
         n: n,
         presencePenalty: presencePenalty,
+        seed: seed,
         stop: options?.stop != null
             ? CompletionStop.arrayString(options!.stop!)
             : null,

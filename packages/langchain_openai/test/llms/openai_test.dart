@@ -119,5 +119,28 @@ void main() {
       expect(count, greaterThan(1));
       expect(content, contains('123456789'));
     });
+
+    test('Test response seed', () async {
+      final prompt = PromptValue.string('How are you?');
+      final llm = OpenAI(
+        apiKey: openaiApiKey,
+        temperature: 0,
+        seed: 9999,
+      );
+
+      final res1 = await llm.invoke(prompt);
+      expect(res1.generations, hasLength(1));
+      final generation1 = res1.generations.first;
+
+      final res2 = await llm.invoke(prompt);
+      expect(res2.generations, hasLength(1));
+      final generation2 = res2.generations.first;
+
+      expect(
+        res1.modelOutput?['systemFingerprint'],
+        res2.modelOutput?['systemFingerprint'],
+      );
+      expect(generation1.output, generation2.output);
+    });
   });
 }
