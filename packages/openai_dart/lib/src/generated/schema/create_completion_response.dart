@@ -27,8 +27,14 @@ class CreateCompletionResponse with _$CreateCompletionResponse {
     /// The model used for completion.
     required String model,
 
+    /// This fingerprint represents the backend configuration that the model runs with.
+    ///
+    /// Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.
+    @JsonKey(name: 'system_fingerprint', includeIfNull: false)
+    String? systemFingerprint,
+
     /// The object type, which is always "text_completion"
-    required String object,
+    required CreateCompletionResponseObject object,
 
     /// Usage statistics for the completion request.
     @JsonKey(includeIfNull: false) CompletionUsage? usage,
@@ -44,6 +50,7 @@ class CreateCompletionResponse with _$CreateCompletionResponse {
     'choices',
     'created',
     'model',
+    'system_fingerprint',
     'object',
     'usage'
   ];
@@ -60,8 +67,19 @@ class CreateCompletionResponse with _$CreateCompletionResponse {
       'choices': choices,
       'created': created,
       'model': model,
+      'system_fingerprint': systemFingerprint,
       'object': object,
       'usage': usage,
     };
   }
+}
+
+// ==========================================
+// ENUM: CreateCompletionResponseObject
+// ==========================================
+
+/// The object type, which is always "text_completion"
+enum CreateCompletionResponseObject {
+  @JsonValue('text_completion')
+  textCompletion,
 }
