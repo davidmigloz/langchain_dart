@@ -47,7 +47,7 @@ void main() {
           res.model.replaceAll(RegExp('[-.]'), '').toLowerCase(),
           model.name.toLowerCase(),
         );
-        expect(res.object, 'text_completion');
+        expect(res.object, CreateCompletionResponseObject.textCompletion);
         expect(res.usage?.promptTokens, greaterThan(0));
         expect(res.usage?.completionTokens, greaterThan(0));
         expect(res.usage?.totalTokens, greaterThan(0));
@@ -153,6 +153,26 @@ void main() {
         text += res.choices.first.text.trim();
       }
       expect(text, contains('123456789'));
+    });
+
+    test('Test response seed', () async {
+      const request = CreateCompletionRequest(
+        model: CompletionModel.enumeration(CompletionModels.gpt35TurboInstruct),
+        prompt: CompletionPrompt.string('How are you?'),
+        temperature: 0,
+        seed: 9999,
+      );
+
+      final res1 = await client.createCompletion(request: request);
+      expect(res1.choices, hasLength(1));
+      final choice1 = res1.choices.first;
+
+      final res2 = await client.createCompletion(request: request);
+      expect(res2.choices, hasLength(1));
+      final choice2 = res2.choices.first;
+
+      expect(res1.systemFingerprint, res2.systemFingerprint);
+      expect(choice1.text, choice2.text);
     });
   });
 }

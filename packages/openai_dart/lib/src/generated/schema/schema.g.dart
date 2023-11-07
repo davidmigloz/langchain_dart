@@ -23,6 +23,7 @@ _$CreateCompletionRequestImpl _$$CreateCompletionRequestImplFromJson(
       maxTokens: json['max_tokens'] as int? ?? 16,
       n: json['n'] as int? ?? 1,
       presencePenalty: (json['presence_penalty'] as num?)?.toDouble() ?? 0.0,
+      seed: json['seed'] as int?,
       stop: const _CompletionStopConverter().fromJson(json['stop']),
       stream: json['stream'] as bool? ?? false,
       suffix: json['suffix'] as String?,
@@ -53,6 +54,7 @@ Map<String, dynamic> _$$CreateCompletionRequestImplToJson(
   writeNotNull('max_tokens', instance.maxTokens);
   writeNotNull('n', instance.n);
   writeNotNull('presence_penalty', instance.presencePenalty);
+  writeNotNull('seed', instance.seed);
   writeNotNull('stop', const _CompletionStopConverter().toJson(instance.stop));
   writeNotNull('stream', instance.stream);
   writeNotNull('suffix', instance.suffix);
@@ -206,7 +208,9 @@ _$CreateCompletionResponseImpl _$$CreateCompletionResponseImplFromJson(
           .toList(),
       created: json['created'] as int,
       model: json['model'] as String,
-      object: json['object'] as String,
+      systemFingerprint: json['system_fingerprint'] as String?,
+      object:
+          $enumDecode(_$CreateCompletionResponseObjectEnumMap, json['object']),
       usage: json['usage'] == null
           ? null
           : CompletionUsage.fromJson(json['usage'] as Map<String, dynamic>),
@@ -219,7 +223,6 @@ Map<String, dynamic> _$$CreateCompletionResponseImplToJson(
     'choices': instance.choices.map((e) => e.toJson()).toList(),
     'created': instance.created,
     'model': instance.model,
-    'object': instance.object,
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -228,9 +231,15 @@ Map<String, dynamic> _$$CreateCompletionResponseImplToJson(
     }
   }
 
+  writeNotNull('system_fingerprint', instance.systemFingerprint);
+  val['object'] = _$CreateCompletionResponseObjectEnumMap[instance.object]!;
   writeNotNull('usage', instance.usage?.toJson());
   return val;
 }
+
+const _$CreateCompletionResponseObjectEnumMap = {
+  CreateCompletionResponseObject.textCompletion: 'text_completion',
+};
 
 _$CompletionChoiceImpl _$$CompletionChoiceImplFromJson(
         Map<String, dynamic> json) =>
