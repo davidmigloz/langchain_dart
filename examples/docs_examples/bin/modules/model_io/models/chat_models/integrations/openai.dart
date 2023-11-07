@@ -8,6 +8,7 @@ void main(final List<String> arguments) async {
   await _chatOpenAI();
   await _chatOpenAIStreaming();
   await _chatOpenAIStreamingFunctions();
+  await _chatOpenAIJsonMode();
 }
 
 Future<void> _chatOpenAI() async {
@@ -114,4 +115,41 @@ Future<void> _chatOpenAIStreamingFunctions() async {
   // {setup: Why don't bears like fast food?, punchline: Because they can't catch}
   // {setup: Why don't bears like fast food?, punchline: Because they can't catch it}
   // {setup: Why don't bears like fast food?, punchline: Because they can't catch it!}
+}
+
+Future<void> _chatOpenAIJsonMode() async {
+  final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
+
+  final prompt = PromptValue.chat([
+    ChatMessage.system(
+      "Extract the 'name' and 'origin' of any companies mentioned in the "
+          'following statement. Return a JSON list.',
+    ),
+    ChatMessage.human(
+      'Google was founded in the USA, while Deepmind was founded in the UK',
+    ),
+  ]);
+  final llm = ChatOpenAI(
+    apiKey: openaiApiKey,
+    model: 'gpt-4-1106-preview',
+    temperature: 0,
+    responseFormat: const ChatOpenAIResponseFormat(
+      type: ChatOpenAIResponseFormatType.jsonObject,
+    ),
+  );
+  final res = await llm.invoke(prompt);
+  final outputMsg = res.firstOutputAsString;
+  print(outputMsg);
+  // {
+  //   "companies": [
+  //     {
+  //       "name": "Google",
+  //       "origin": "USA"
+  //     },
+  //     {
+  //       "name": "Deepmind",
+  //       "origin": "UK"
+  //     }
+  //   ]
+  // }
 }

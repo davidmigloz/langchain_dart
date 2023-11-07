@@ -1,8 +1,5 @@
 # Change Log
 
-All notable changes to this project will be documented in this file following 
-[Conventional Commits](https://conventionalcommits.org) specification.
-
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) 
 server for more details about each release.
 
@@ -38,10 +35,6 @@ Packages with other changes:
  - **FEAT**(vector-stores): Upgrade pinecone client to v0.6.0 ([#188](https://github.com/davidmigloz/langchain_dart/issues/188)). ([57e2587f](https://github.com/davidmigloz/langchain_dart/commit/57e2587fa3849e7aea199dd52e2cb2ce4f61946a))
  - **DOCS**: Update CHANGELOG.md. ([5ea4e532](https://github.com/davidmigloz/langchain_dart/commit/5ea4e5326e706a52d157284a281eb881e05117c5))
 
-# Change Log
-
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 ## 2023-11-02
 

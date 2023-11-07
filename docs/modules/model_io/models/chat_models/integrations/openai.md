@@ -109,3 +109,43 @@ await stream.forEach(print);
 // {setup: Why don't bears like fast food?, punchline: Because they can't catch it}
 // {setup: Why don't bears like fast food?, punchline: Because they can't catch it!}
 ```
+
+## JSON mode
+
+GPT-4 Turbo supports a new JSON mode, which ensures the model will respond with valid JSON. JSON mode is useful for developers generating JSON in the Chat Completions API outside of function calling.
+
+```dart
+final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
+final prompt = PromptValue.chat([
+  ChatMessage.system(
+    "Extract the 'name' and 'origin' of any companies mentioned in the "
+        'following statement. Return a JSON list.',
+  ),
+  ChatMessage.human(
+    'Google was founded in the USA, while Deepmind was founded in the UK',
+  ),
+]);
+final llm = ChatOpenAI(
+  apiKey: openaiApiKey,
+  model: 'gpt-4-1106-preview',
+  temperature: 0,
+  responseFormat: const ChatOpenAIResponseFormat(
+    type: ChatOpenAIResponseFormatType.jsonObject,
+  ),
+);
+final res = await llm.invoke(prompt);
+final outputMsg = res.firstOutputAsString;
+print(outputMsg);
+// {
+//   "companies": [
+//     {
+//       "name": "Google",
+//       "origin": "USA"
+//     },
+//     {
+//       "name": "Deepmind",
+//       "origin": "UK"
+//     }
+//   ]
+// }
+```

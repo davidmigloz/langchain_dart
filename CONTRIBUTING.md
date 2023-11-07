@@ -219,18 +219,25 @@ software, even patch releases may contain
 To create a release, run:
 
 ```bash
-melos version -V langchain:x.x.x --no-private
+melos version --no-private --no-git-tag-version
+```
+
+Or if you want to define the version manually:
+
+```bash
+melos version -V langchain:x.x.x --no-private --no-git-tag-version
 ```
 
 This command will bump the version in the `langchain` package and all packages that depend on it.
-It will also update the CHANGELOG.md for each package, commit the changes and creates tags.
+It will also update the CHANGELOG.md for each package and commit the changes.
 
-Create a new release on GitHub and copy the CHANGELOG.md content into the release description.
+Update any CHANGELOG.md details if needed. Then create a new release on GitHub and copy the 
+CHANGELOG.md content into the release description.
 
 After that, you can publish the package to pub.dev:
 
 ```bash
-melos publish --no-dry-run
+melos publish --no-dry-run --git-tag-version
 ```
 
 Finally, drop by the [Discord](https://discord.gg/x4qbhqecVR) and let everyone know about the new
