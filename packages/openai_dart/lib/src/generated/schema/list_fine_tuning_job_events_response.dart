@@ -19,7 +19,7 @@ class ListFineTuningJobEventsResponse with _$ListFineTuningJobEventsResponse {
     required List<FineTuningJobEvent> data,
 
     /// The object type, which is always "list".
-    required String object,
+    required ListFineTuningJobEventsResponseObject object,
   }) = _ListFineTuningJobEventsResponse;
 
   /// Object construction from a JSON representation
@@ -41,4 +41,14 @@ class ListFineTuningJobEventsResponse with _$ListFineTuningJobEventsResponse {
       'object': object,
     };
   }
+}
+
+// ==========================================
+// ENUM: ListFineTuningJobEventsResponseObject
+// ==========================================
+
+/// The object type, which is always "list".
+enum ListFineTuningJobEventsResponseObject {
+  @JsonValue('list')
+  list,
 }

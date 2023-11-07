@@ -1259,7 +1259,7 @@ _$FineTuningJobImpl _$$FineTuningJobImplFromJson(Map<String, dynamic> json) =>
       hyperparameters: FineTuningJobHyperparameters.fromJson(
           json['hyperparameters'] as Map<String, dynamic>),
       model: json['model'] as String,
-      object: json['object'] as String,
+      object: $enumDecode(_$FineTuningJobObjectEnumMap, json['object']),
       organizationId: json['organization_id'] as String,
       resultFiles: (json['result_files'] as List<dynamic>)
           .map((e) => e as String)
@@ -1279,7 +1279,7 @@ Map<String, dynamic> _$$FineTuningJobImplToJson(_$FineTuningJobImpl instance) =>
       'finished_at': instance.finishedAt,
       'hyperparameters': instance.hyperparameters.toJson(),
       'model': instance.model,
-      'object': instance.object,
+      'object': _$FineTuningJobObjectEnumMap[instance.object]!,
       'organization_id': instance.organizationId,
       'result_files': instance.resultFiles,
       'status': _$FineTuningJobStatusEnumMap[instance.status]!,
@@ -1287,6 +1287,10 @@ Map<String, dynamic> _$$FineTuningJobImplToJson(_$FineTuningJobImpl instance) =>
       'training_file': instance.trainingFile,
       'validation_file': instance.validationFile,
     };
+
+const _$FineTuningJobObjectEnumMap = {
+  FineTuningJobObject.fineTuningJob: 'fine_tuning.job',
+};
 
 const _$FineTuningJobStatusEnumMap = {
   FineTuningJobStatus.validatingFiles: 'validating_files',
@@ -1365,7 +1369,9 @@ _$ListPaginatedFineTuningJobsResponseImpl
               .map((e) => FineTuningJob.fromJson(e as Map<String, dynamic>))
               .toList(),
           hasMore: json['has_more'] as bool,
-          object: json['object'] as String,
+          object: $enumDecode(
+              _$ListPaginatedFineTuningJobsResponseObjectEnumMap,
+              json['object']),
         );
 
 Map<String, dynamic> _$$ListPaginatedFineTuningJobsResponseImplToJson(
@@ -1373,8 +1379,13 @@ Map<String, dynamic> _$$ListPaginatedFineTuningJobsResponseImplToJson(
     <String, dynamic>{
       'data': instance.data.map((e) => e.toJson()).toList(),
       'has_more': instance.hasMore,
-      'object': instance.object,
+      'object':
+          _$ListPaginatedFineTuningJobsResponseObjectEnumMap[instance.object]!,
     };
+
+const _$ListPaginatedFineTuningJobsResponseObjectEnumMap = {
+  ListPaginatedFineTuningJobsResponseObject.list: 'list',
+};
 
 _$ListFineTuningJobEventsResponseImpl
     _$$ListFineTuningJobEventsResponseImplFromJson(Map<String, dynamic> json) =>
@@ -1383,15 +1394,21 @@ _$ListFineTuningJobEventsResponseImpl
               .map(
                   (e) => FineTuningJobEvent.fromJson(e as Map<String, dynamic>))
               .toList(),
-          object: json['object'] as String,
+          object: $enumDecode(
+              _$ListFineTuningJobEventsResponseObjectEnumMap, json['object']),
         );
 
 Map<String, dynamic> _$$ListFineTuningJobEventsResponseImplToJson(
         _$ListFineTuningJobEventsResponseImpl instance) =>
     <String, dynamic>{
       'data': instance.data.map((e) => e.toJson()).toList(),
-      'object': instance.object,
+      'object':
+          _$ListFineTuningJobEventsResponseObjectEnumMap[instance.object]!,
     };
+
+const _$ListFineTuningJobEventsResponseObjectEnumMap = {
+  ListFineTuningJobEventsResponseObject.list: 'list',
+};
 
 _$FineTuningJobEventImpl _$$FineTuningJobEventImplFromJson(
         Map<String, dynamic> json) =>
@@ -1400,7 +1417,7 @@ _$FineTuningJobEventImpl _$$FineTuningJobEventImplFromJson(
       createdAt: json['created_at'] as int,
       level: $enumDecode(_$FineTuningJobEventLevelEnumMap, json['level']),
       message: json['message'] as String,
-      object: json['object'] as String,
+      object: $enumDecode(_$FineTuningJobEventObjectEnumMap, json['object']),
     );
 
 Map<String, dynamic> _$$FineTuningJobEventImplToJson(
@@ -1410,13 +1427,17 @@ Map<String, dynamic> _$$FineTuningJobEventImplToJson(
       'created_at': instance.createdAt,
       'level': _$FineTuningJobEventLevelEnumMap[instance.level]!,
       'message': instance.message,
-      'object': instance.object,
+      'object': _$FineTuningJobEventObjectEnumMap[instance.object]!,
     };
 
 const _$FineTuningJobEventLevelEnumMap = {
   FineTuningJobEventLevel.info: 'info',
   FineTuningJobEventLevel.warn: 'warn',
   FineTuningJobEventLevel.error: 'error',
+};
+
+const _$FineTuningJobEventObjectEnumMap = {
+  FineTuningJobEventObject.fineTuningJobEvent: 'fine_tuning.job.event',
 };
 
 _$CreateImageRequestImpl _$$CreateImageRequestImplFromJson(
