@@ -22,11 +22,11 @@ void main() {
 
     test('Test call list models API', () async {
       final res = await client.listModels();
-      expect(res.object, 'list');
+      expect(res.object, ListModelsResponseObject.list);
       expect(res.data, isNotEmpty);
       final model = res.data.first;
       expect(model.id, isNotEmpty);
-      expect(model.object, 'model');
+      expect(model.object, ModelObject.model);
       expect(model.created, greaterThan(0));
       expect(model.ownedBy, isNotEmpty);
     });
@@ -34,7 +34,7 @@ void main() {
     test('Test call retrieve model API', () async {
       final res = await client.retrieveModel(model: 'gpt-4');
       expect(res.id, 'gpt-4');
-      expect(res.object, 'model');
+      expect(res.object, ModelObject.model);
       expect(res.created, greaterThan(0));
       expect(res.ownedBy, 'openai');
     });
