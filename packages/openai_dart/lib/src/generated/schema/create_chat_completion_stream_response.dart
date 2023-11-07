@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: invalid_annotation_target
+// ignore_for_file: invalid_annotation_target, unused_import
 part of open_a_i_schema;
 
 // ==========================================
@@ -28,8 +28,14 @@ class CreateChatCompletionStreamResponse
     /// The model to generate the completion.
     required String model,
 
+    /// This fingerprint represents the backend configuration that the model runs with.
+    ///
+    /// Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact
+    @JsonKey(name: 'system_fingerprint', includeIfNull: false)
+    String? systemFingerprint,
+
     /// The object type, which is always `chat.completion.chunk`.
-    required String object,
+    required CreateChatCompletionStreamResponseObject object,
   }) = _CreateChatCompletionStreamResponse;
 
   /// Object construction from a JSON representation
@@ -43,6 +49,7 @@ class CreateChatCompletionStreamResponse
     'choices',
     'created',
     'model',
+    'system_fingerprint',
     'object'
   ];
 
@@ -58,7 +65,18 @@ class CreateChatCompletionStreamResponse
       'choices': choices,
       'created': created,
       'model': model,
+      'system_fingerprint': systemFingerprint,
       'object': object,
     };
   }
+}
+
+// ==========================================
+// ENUM: CreateChatCompletionStreamResponseObject
+// ==========================================
+
+/// The object type, which is always `chat.completion.chunk`.
+enum CreateChatCompletionStreamResponseObject {
+  @JsonValue('chat.completion.chunk')
+  chatCompletionChunk,
 }

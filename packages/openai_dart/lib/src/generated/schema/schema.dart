@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: invalid_annotation_target
+// ignore_for_file: invalid_annotation_target, unused_import
 
 library open_a_i_schema;
 
@@ -22,6 +22,10 @@ part 'chat_completion_message_function_call.dart';
 part 'chat_completion_function.dart';
 part 'chat_completion_function_parameters.dart';
 part 'chat_completion_function_call_option.dart';
+part 'chat_completion_tool.dart';
+part 'chat_completion_named_tool_choice.dart';
+part 'chat_completion_message_tool_calls.dart';
+part 'chat_completion_message_tool_call.dart';
 part 'create_chat_completion_response.dart';
 part 'chat_completion_response_choice.dart';
 part 'chat_completion_finish_reason.dart';
@@ -29,6 +33,7 @@ part 'create_chat_completion_stream_response.dart';
 part 'chat_completion_stream_response_choice.dart';
 part 'chat_completion_stream_response_delta.dart';
 part 'chat_completion_stream_message_function_call.dart';
+part 'chat_completion_stream_message_tool_call_chunk.dart';
 part 'completion_usage.dart';
 part 'create_embedding_request.dart';
 part 'create_embedding_response.dart';
@@ -53,4 +58,5 @@ part 'create_moderation_response.dart';
 part 'moderation.dart';
 part 'moderation_categories.dart';
 part 'moderation_categories_scores.dart';
+part 'union_completion_named_tool_choice.dart';
 part 'union_completion_function_call_option.dart';

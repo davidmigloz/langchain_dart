@@ -33,7 +33,11 @@ _$CreateCompletionRequestImpl _$$CreateCompletionRequestImplFromJson(
 
 Map<String, dynamic> _$$CreateCompletionRequestImplToJson(
     _$CreateCompletionRequestImpl instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'model': const _CompletionModelConverter().toJson(instance.model),
+    'prompt': _$JsonConverterToJson<Object?, CompletionPrompt>(
+        instance.prompt, const _CompletionPromptConverter().toJson),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -41,12 +45,6 @@ Map<String, dynamic> _$$CreateCompletionRequestImplToJson(
     }
   }
 
-  writeNotNull(
-      'model', const _CompletionModelConverter().toJson(instance.model));
-  writeNotNull(
-      'prompt',
-      _$JsonConverterToJson<Object?, CompletionPrompt>(
-          instance.prompt, const _CompletionPromptConverter().toJson));
   writeNotNull('best_of', instance.bestOf);
   writeNotNull('echo', instance.echo);
   writeNotNull('frequency_penalty', instance.frequencyPenalty);
@@ -249,22 +247,13 @@ _$CompletionChoiceImpl _$$CompletionChoiceImplFromJson(
     );
 
 Map<String, dynamic> _$$CompletionChoiceImplToJson(
-    _$CompletionChoiceImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'finish_reason', _$CompletionFinishReasonEnumMap[instance.finishReason]);
-  val['index'] = instance.index;
-  writeNotNull('logprobs', instance.logprobs?.toJson());
-  val['text'] = instance.text;
-  return val;
-}
+        _$CompletionChoiceImpl instance) =>
+    <String, dynamic>{
+      'finish_reason': _$CompletionFinishReasonEnumMap[instance.finishReason],
+      'index': instance.index,
+      'logprobs': instance.logprobs?.toJson(),
+      'text': instance.text,
+    };
 
 const _$CompletionFinishReasonEnumMap = {
   CompletionFinishReason.stop: 'stop',
@@ -315,28 +304,41 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
           .map((e) => ChatCompletionMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
       frequencyPenalty: (json['frequency_penalty'] as num?)?.toDouble() ?? 0.0,
-      functionCall: const _ChatCompletionFunctionCallConverter()
-          .fromJson(json['function_call']),
-      functions: (json['functions'] as List<dynamic>?)
-          ?.map(
-              (e) => ChatCompletionFunction.fromJson(e as Map<String, dynamic>))
-          .toList(),
       logitBias: (json['logit_bias'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as int),
       ),
       maxTokens: json['max_tokens'] as int?,
       n: json['n'] as int? ?? 1,
       presencePenalty: (json['presence_penalty'] as num?)?.toDouble() ?? 0.0,
+      responseFormat: json['response_format'] == null
+          ? null
+          : ChatCompletionResponseFormat.fromJson(
+              json['response_format'] as Map<String, dynamic>),
+      seed: json['seed'] as int?,
       stop: const _ChatCompletionStopConverter().fromJson(json['stop']),
       stream: json['stream'] as bool? ?? false,
       temperature: (json['temperature'] as num?)?.toDouble() ?? 1.0,
       topP: (json['top_p'] as num?)?.toDouble() ?? 1.0,
+      tools: (json['tools'] as List<dynamic>?)
+          ?.map((e) => ChatCompletionTool.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      toolChoice: const _ChatCompletionToolChoiceOptionConverter()
+          .fromJson(json['tool_choice']),
       user: json['user'] as String?,
+      functionCall: const _ChatCompletionFunctionCallConverter()
+          .fromJson(json['function_call']),
+      functions: (json['functions'] as List<dynamic>?)
+          ?.map(
+              (e) => ChatCompletionFunction.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
     _$CreateChatCompletionRequestImpl instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'model': const _ChatCompletionModelConverter().toJson(instance.model),
+    'messages': instance.messages.map((e) => e.toJson()).toList(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -344,26 +346,30 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
     }
   }
 
-  writeNotNull(
-      'model', const _ChatCompletionModelConverter().toJson(instance.model));
-  val['messages'] = instance.messages.map((e) => e.toJson()).toList();
   writeNotNull('frequency_penalty', instance.frequencyPenalty);
+  writeNotNull('logit_bias', instance.logitBias);
+  writeNotNull('max_tokens', instance.maxTokens);
+  writeNotNull('n', instance.n);
+  writeNotNull('presence_penalty', instance.presencePenalty);
+  writeNotNull('response_format', instance.responseFormat?.toJson());
+  writeNotNull('seed', instance.seed);
+  writeNotNull(
+      'stop', const _ChatCompletionStopConverter().toJson(instance.stop));
+  writeNotNull('stream', instance.stream);
+  writeNotNull('temperature', instance.temperature);
+  writeNotNull('top_p', instance.topP);
+  writeNotNull('tools', instance.tools?.map((e) => e.toJson()).toList());
+  writeNotNull(
+      'tool_choice',
+      const _ChatCompletionToolChoiceOptionConverter()
+          .toJson(instance.toolChoice));
+  writeNotNull('user', instance.user);
   writeNotNull(
       'function_call',
       const _ChatCompletionFunctionCallConverter()
           .toJson(instance.functionCall));
   writeNotNull(
       'functions', instance.functions?.map((e) => e.toJson()).toList());
-  writeNotNull('logit_bias', instance.logitBias);
-  writeNotNull('max_tokens', instance.maxTokens);
-  writeNotNull('n', instance.n);
-  writeNotNull('presence_penalty', instance.presencePenalty);
-  writeNotNull(
-      'stop', const _ChatCompletionStopConverter().toJson(instance.stop));
-  writeNotNull('stream', instance.stream);
-  writeNotNull('temperature', instance.temperature);
-  writeNotNull('top_p', instance.topP);
-  writeNotNull('user', instance.user);
   return val;
 }
 
@@ -388,6 +394,8 @@ const _$ChatCompletionModelsEnumMap = {
   ChatCompletionModels.gpt432k: 'gpt-4-32k',
   ChatCompletionModels.gpt432k0314: 'gpt-4-32k-0314',
   ChatCompletionModels.gpt432k0613: 'gpt-4-32k-0613',
+  ChatCompletionModels.gpt41106Preview: 'gpt-4-1106-preview',
+  ChatCompletionModels.gpt4VisionPreview: 'gpt-4-vision-preview',
   ChatCompletionModels.gpt35Turbo: 'gpt-3.5-turbo',
   ChatCompletionModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
   ChatCompletionModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
@@ -408,6 +416,93 @@ Map<String, dynamic> _$$UnionChatCompletionModelStringImplToJson(
       'value': instance.value,
       'runtimeType': instance.$type,
     };
+
+_$ChatCompletionResponseFormatImpl _$$ChatCompletionResponseFormatImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ChatCompletionResponseFormatImpl(
+      type: $enumDecodeNullable(
+              _$ChatCompletionResponseFormatTypeEnumMap, json['type']) ??
+          ChatCompletionResponseFormatType.text,
+    );
+
+Map<String, dynamic> _$$ChatCompletionResponseFormatImplToJson(
+        _$ChatCompletionResponseFormatImpl instance) =>
+    <String, dynamic>{
+      'type': _$ChatCompletionResponseFormatTypeEnumMap[instance.type]!,
+    };
+
+const _$ChatCompletionResponseFormatTypeEnumMap = {
+  ChatCompletionResponseFormatType.text: 'text',
+  ChatCompletionResponseFormatType.jsonObject: 'json_object',
+};
+
+_$UnionChatCompletionStopArrayStringImpl
+    _$$UnionChatCompletionStopArrayStringImplFromJson(
+            Map<String, dynamic> json) =>
+        _$UnionChatCompletionStopArrayStringImpl(
+          (json['value'] as List<dynamic>).map((e) => e as String).toList(),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$UnionChatCompletionStopArrayStringImplToJson(
+        _$UnionChatCompletionStopArrayStringImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'runtimeType': instance.$type,
+    };
+
+_$UnionChatCompletionStopStringImpl
+    _$$UnionChatCompletionStopStringImplFromJson(Map<String, dynamic> json) =>
+        _$UnionChatCompletionStopStringImpl(
+          json['value'] as String,
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$UnionChatCompletionStopStringImplToJson(
+        _$UnionChatCompletionStopStringImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'runtimeType': instance.$type,
+    };
+
+_$UnionChatCompletionToolChoiceOptionEnumImpl
+    _$$UnionChatCompletionToolChoiceOptionEnumImplFromJson(
+            Map<String, dynamic> json) =>
+        _$UnionChatCompletionToolChoiceOptionEnumImpl(
+          $enumDecode(
+              _$ChatCompletionToolChoiceOptionEnumEnumMap, json['value']),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$UnionChatCompletionToolChoiceOptionEnumImplToJson(
+        _$UnionChatCompletionToolChoiceOptionEnumImpl instance) =>
+    <String, dynamic>{
+      'value': _$ChatCompletionToolChoiceOptionEnumEnumMap[instance.value]!,
+      'runtimeType': instance.$type,
+    };
+
+const _$ChatCompletionToolChoiceOptionEnumEnumMap = {
+  ChatCompletionToolChoiceOptionEnum.none: 'none',
+  ChatCompletionToolChoiceOptionEnum.auto: 'auto',
+};
+
+_$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
+    _$$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplFromJson(
+            Map<String, dynamic> json) =>
+        _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl(
+          ChatCompletionNamedToolChoice.fromJson(
+              json['value'] as Map<String, dynamic>),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic>
+    _$$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplToJson(
+            _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
+                instance) =>
+        <String, dynamic>{
+          'value': instance.value.toJson(),
+          'runtimeType': instance.$type,
+        };
 
 _$UnionChatCompletionFunctionCallEnumImpl
     _$$UnionChatCompletionFunctionCallEnumImplFromJson(
@@ -447,44 +542,20 @@ Map<String, dynamic>
           'runtimeType': instance.$type,
         };
 
-_$UnionChatCompletionStopArrayStringImpl
-    _$$UnionChatCompletionStopArrayStringImplFromJson(
-            Map<String, dynamic> json) =>
-        _$UnionChatCompletionStopArrayStringImpl(
-          (json['value'] as List<dynamic>).map((e) => e as String).toList(),
-          $type: json['runtimeType'] as String?,
-        );
-
-Map<String, dynamic> _$$UnionChatCompletionStopArrayStringImplToJson(
-        _$UnionChatCompletionStopArrayStringImpl instance) =>
-    <String, dynamic>{
-      'value': instance.value,
-      'runtimeType': instance.$type,
-    };
-
-_$UnionChatCompletionStopStringImpl
-    _$$UnionChatCompletionStopStringImplFromJson(Map<String, dynamic> json) =>
-        _$UnionChatCompletionStopStringImpl(
-          json['value'] as String,
-          $type: json['runtimeType'] as String?,
-        );
-
-Map<String, dynamic> _$$UnionChatCompletionStopStringImplToJson(
-        _$UnionChatCompletionStopStringImpl instance) =>
-    <String, dynamic>{
-      'value': instance.value,
-      'runtimeType': instance.$type,
-    };
-
 _$ChatCompletionMessageImpl _$$ChatCompletionMessageImplFromJson(
         Map<String, dynamic> json) =>
     _$ChatCompletionMessageImpl(
       role: $enumDecode(_$ChatCompletionMessageRoleEnumMap, json['role']),
       content: json['content'] as String?,
+      toolCalls: (json['tool_calls'] as List<dynamic>?)
+          ?.map((e) =>
+              ChatCompletionMessageToolCall.fromJson(e as Map<String, dynamic>))
+          .toList(),
       functionCall: json['function_call'] == null
           ? null
           : ChatCompletionMessageFunctionCall.fromJson(
               json['function_call'] as Map<String, dynamic>),
+      toolCallId: json['tool_call_id'] as String?,
       name: json['name'] as String?,
     );
 
@@ -492,6 +563,7 @@ Map<String, dynamic> _$$ChatCompletionMessageImplToJson(
     _$ChatCompletionMessageImpl instance) {
   final val = <String, dynamic>{
     'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
+    'content': instance.content,
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -500,8 +572,10 @@ Map<String, dynamic> _$$ChatCompletionMessageImplToJson(
     }
   }
 
-  writeNotNull('content', instance.content);
+  writeNotNull(
+      'tool_calls', instance.toolCalls?.map((e) => e.toJson()).toList());
   writeNotNull('function_call', instance.functionCall?.toJson());
+  writeNotNull('tool_call_id', instance.toolCallId);
   writeNotNull('name', instance.name);
   return val;
 }
@@ -510,6 +584,7 @@ const _$ChatCompletionMessageRoleEnumMap = {
   ChatCompletionMessageRole.system: 'system',
   ChatCompletionMessageRole.user: 'user',
   ChatCompletionMessageRole.assistant: 'assistant',
+  ChatCompletionMessageRole.tool: 'tool',
   ChatCompletionMessageRole.function: 'function',
 };
 
@@ -566,6 +641,79 @@ Map<String, dynamic> _$$ChatCompletionFunctionCallOptionImplToJson(
       'name': instance.name,
     };
 
+_$ChatCompletionToolImpl _$$ChatCompletionToolImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ChatCompletionToolImpl(
+      type: $enumDecode(_$ChatCompletionToolTypeEnumMap, json['type']),
+      function: ChatCompletionFunction.fromJson(
+          json['function'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ChatCompletionToolImplToJson(
+        _$ChatCompletionToolImpl instance) =>
+    <String, dynamic>{
+      'type': _$ChatCompletionToolTypeEnumMap[instance.type]!,
+      'function': instance.function.toJson(),
+    };
+
+const _$ChatCompletionToolTypeEnumMap = {
+  ChatCompletionToolType.function: 'function',
+};
+
+_$ChatCompletionNamedToolChoiceImpl
+    _$$ChatCompletionNamedToolChoiceImplFromJson(Map<String, dynamic> json) =>
+        _$ChatCompletionNamedToolChoiceImpl(
+          type: $enumDecodeNullable(
+              _$ChatCompletionNamedToolChoiceTypeEnumMap, json['type'],
+              unknownValue: JsonKey.nullForUndefinedEnumValue),
+          function: json['function'] == null
+              ? null
+              : ChatCompletionFunctionCallOption.fromJson(
+                  json['function'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$ChatCompletionNamedToolChoiceImplToJson(
+    _$ChatCompletionNamedToolChoiceImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'type', _$ChatCompletionNamedToolChoiceTypeEnumMap[instance.type]);
+  writeNotNull('function', instance.function?.toJson());
+  return val;
+}
+
+const _$ChatCompletionNamedToolChoiceTypeEnumMap = {
+  ChatCompletionNamedToolChoiceType.function: 'function',
+};
+
+_$ChatCompletionMessageToolCallImpl
+    _$$ChatCompletionMessageToolCallImplFromJson(Map<String, dynamic> json) =>
+        _$ChatCompletionMessageToolCallImpl(
+          id: json['id'] as String,
+          type: $enumDecode(
+              _$ChatCompletionMessageToolCallTypeEnumMap, json['type']),
+          function: ChatCompletionMessageFunctionCall.fromJson(
+              json['function'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$ChatCompletionMessageToolCallImplToJson(
+        _$ChatCompletionMessageToolCallImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'type': _$ChatCompletionMessageToolCallTypeEnumMap[instance.type]!,
+      'function': instance.function.toJson(),
+    };
+
+const _$ChatCompletionMessageToolCallTypeEnumMap = {
+  ChatCompletionMessageToolCallType.function: 'function',
+};
+
 _$CreateChatCompletionResponseImpl _$$CreateChatCompletionResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateChatCompletionResponseImpl(
@@ -576,7 +724,9 @@ _$CreateChatCompletionResponseImpl _$$CreateChatCompletionResponseImplFromJson(
           .toList(),
       created: json['created'] as int,
       model: json['model'] as String,
-      object: json['object'] as String,
+      systemFingerprint: json['system_fingerprint'] as String?,
+      object: $enumDecode(
+          _$CreateChatCompletionResponseObjectEnumMap, json['object']),
       usage: json['usage'] == null
           ? null
           : CompletionUsage.fromJson(json['usage'] as Map<String, dynamic>),
@@ -589,7 +739,6 @@ Map<String, dynamic> _$$CreateChatCompletionResponseImplToJson(
     'choices': instance.choices.map((e) => e.toJson()).toList(),
     'created': instance.created,
     'model': instance.model,
-    'object': instance.object,
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -598,9 +747,15 @@ Map<String, dynamic> _$$CreateChatCompletionResponseImplToJson(
     }
   }
 
+  writeNotNull('system_fingerprint', instance.systemFingerprint);
+  val['object'] = _$CreateChatCompletionResponseObjectEnumMap[instance.object]!;
   writeNotNull('usage', instance.usage?.toJson());
   return val;
 }
+
+const _$CreateChatCompletionResponseObjectEnumMap = {
+  CreateChatCompletionResponseObject.chatCompletion: 'chat.completion',
+};
 
 _$ChatCompletionResponseChoiceImpl _$$ChatCompletionResponseChoiceImplFromJson(
         Map<String, dynamic> json) =>
@@ -624,8 +779,9 @@ Map<String, dynamic> _$$ChatCompletionResponseChoiceImplToJson(
 const _$ChatCompletionFinishReasonEnumMap = {
   ChatCompletionFinishReason.stop: 'stop',
   ChatCompletionFinishReason.length: 'length',
-  ChatCompletionFinishReason.functionCall: 'function_call',
+  ChatCompletionFinishReason.toolCalls: 'tool_calls',
   ChatCompletionFinishReason.contentFilter: 'content_filter',
+  ChatCompletionFinishReason.functionCall: 'function_call',
 };
 
 _$CreateChatCompletionStreamResponseImpl
@@ -639,18 +795,36 @@ _$CreateChatCompletionStreamResponseImpl
               .toList(),
           created: json['created'] as int,
           model: json['model'] as String,
-          object: json['object'] as String,
+          systemFingerprint: json['system_fingerprint'] as String?,
+          object: $enumDecode(_$CreateChatCompletionStreamResponseObjectEnumMap,
+              json['object']),
         );
 
 Map<String, dynamic> _$$CreateChatCompletionStreamResponseImplToJson(
-        _$CreateChatCompletionStreamResponseImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'choices': instance.choices.map((e) => e.toJson()).toList(),
-      'created': instance.created,
-      'model': instance.model,
-      'object': instance.object,
-    };
+    _$CreateChatCompletionStreamResponseImpl instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'choices': instance.choices.map((e) => e.toJson()).toList(),
+    'created': instance.created,
+    'model': instance.model,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('system_fingerprint', instance.systemFingerprint);
+  val['object'] =
+      _$CreateChatCompletionStreamResponseObjectEnumMap[instance.object]!;
+  return val;
+}
+
+const _$CreateChatCompletionStreamResponseObjectEnumMap = {
+  CreateChatCompletionStreamResponseObject.chatCompletionChunk:
+      'chat.completion.chunk',
+};
 
 _$ChatCompletionStreamResponseChoiceImpl
     _$$ChatCompletionStreamResponseChoiceImplFromJson(
@@ -665,22 +839,13 @@ _$ChatCompletionStreamResponseChoiceImpl
         );
 
 Map<String, dynamic> _$$ChatCompletionStreamResponseChoiceImplToJson(
-    _$ChatCompletionStreamResponseChoiceImpl instance) {
-  final val = <String, dynamic>{
-    'delta': instance.delta.toJson(),
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('finish_reason',
-      _$ChatCompletionFinishReasonEnumMap[instance.finishReason]);
-  val['index'] = instance.index;
-  return val;
-}
+        _$ChatCompletionStreamResponseChoiceImpl instance) =>
+    <String, dynamic>{
+      'delta': instance.delta.toJson(),
+      'finish_reason':
+          _$ChatCompletionFinishReasonEnumMap[instance.finishReason],
+      'index': instance.index,
+    };
 
 _$ChatCompletionStreamResponseDeltaImpl
     _$$ChatCompletionStreamResponseDeltaImplFromJson(
@@ -691,6 +856,10 @@ _$ChatCompletionStreamResponseDeltaImpl
               ? null
               : ChatCompletionStreamMessageFunctionCall.fromJson(
                   json['function_call'] as Map<String, dynamic>),
+          toolCalls: (json['tool_calls'] as List<dynamic>?)
+              ?.map((e) => ChatCompletionStreamMessageToolCallChunk.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
           role: $enumDecodeNullable(
               _$ChatCompletionMessageRoleEnumMap, json['role'],
               unknownValue: JsonKey.nullForUndefinedEnumValue),
@@ -708,6 +877,8 @@ Map<String, dynamic> _$$ChatCompletionStreamResponseDeltaImplToJson(
 
   writeNotNull('content', instance.content);
   writeNotNull('function_call', instance.functionCall?.toJson());
+  writeNotNull(
+      'tool_calls', instance.toolCalls?.map((e) => e.toJson()).toList());
   writeNotNull('role', _$ChatCompletionMessageRoleEnumMap[instance.role]);
   return val;
 }
@@ -735,6 +906,45 @@ Map<String, dynamic> _$$ChatCompletionStreamMessageFunctionCallImplToJson(
   return val;
 }
 
+_$ChatCompletionStreamMessageToolCallChunkImpl
+    _$$ChatCompletionStreamMessageToolCallChunkImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ChatCompletionStreamMessageToolCallChunkImpl(
+          index: json['index'] as int,
+          id: json['id'] as String?,
+          type: $enumDecodeNullable(
+              _$ChatCompletionStreamMessageToolCallChunkTypeEnumMap,
+              json['type'],
+              unknownValue: JsonKey.nullForUndefinedEnumValue),
+          function: json['function'] == null
+              ? null
+              : ChatCompletionStreamMessageFunctionCall.fromJson(
+                  json['function'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$ChatCompletionStreamMessageToolCallChunkImplToJson(
+    _$ChatCompletionStreamMessageToolCallChunkImpl instance) {
+  final val = <String, dynamic>{
+    'index': instance.index,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('type',
+      _$ChatCompletionStreamMessageToolCallChunkTypeEnumMap[instance.type]);
+  writeNotNull('function', instance.function?.toJson());
+  return val;
+}
+
+const _$ChatCompletionStreamMessageToolCallChunkTypeEnumMap = {
+  ChatCompletionStreamMessageToolCallChunkType.function: 'function',
+};
+
 _$CompletionUsageImpl _$$CompletionUsageImplFromJson(
         Map<String, dynamic> json) =>
     _$CompletionUsageImpl(
@@ -744,20 +954,12 @@ _$CompletionUsageImpl _$$CompletionUsageImplFromJson(
     );
 
 Map<String, dynamic> _$$CompletionUsageImplToJson(
-    _$CompletionUsageImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('completion_tokens', instance.completionTokens);
-  val['prompt_tokens'] = instance.promptTokens;
-  val['total_tokens'] = instance.totalTokens;
-  return val;
-}
+        _$CompletionUsageImpl instance) =>
+    <String, dynamic>{
+      'completion_tokens': instance.completionTokens,
+      'prompt_tokens': instance.promptTokens,
+      'total_tokens': instance.totalTokens,
+    };
 
 _$CreateEmbeddingRequestImpl _$$CreateEmbeddingRequestImplFromJson(
         Map<String, dynamic> json) =>
@@ -772,7 +974,12 @@ _$CreateEmbeddingRequestImpl _$$CreateEmbeddingRequestImplFromJson(
 
 Map<String, dynamic> _$$CreateEmbeddingRequestImplToJson(
     _$CreateEmbeddingRequestImpl instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'model': const _EmbeddingModelConverter().toJson(instance.model),
+    'input': const _EmbeddingInputConverter().toJson(instance.input),
+    'encoding_format':
+        _$EmbeddingEncodingFormatEnumMap[instance.encodingFormat]!,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -780,12 +987,6 @@ Map<String, dynamic> _$$CreateEmbeddingRequestImplToJson(
     }
   }
 
-  writeNotNull(
-      'model', const _EmbeddingModelConverter().toJson(instance.model));
-  writeNotNull(
-      'input', const _EmbeddingInputConverter().toJson(instance.input));
-  val['encoding_format'] =
-      _$EmbeddingEncodingFormatEnumMap[instance.encodingFormat]!;
   writeNotNull('user', instance.user);
   return val;
 }
@@ -912,22 +1113,12 @@ _$EmbeddingImpl _$$EmbeddingImplFromJson(Map<String, dynamic> json) =>
       object: json['object'] as String,
     );
 
-Map<String, dynamic> _$$EmbeddingImplToJson(_$EmbeddingImpl instance) {
-  final val = <String, dynamic>{
-    'index': instance.index,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('embedding',
-      const _EmbeddingVectorConverter().toJson(instance.embedding));
-  val['object'] = instance.object;
-  return val;
-}
+Map<String, dynamic> _$$EmbeddingImplToJson(_$EmbeddingImpl instance) =>
+    <String, dynamic>{
+      'index': instance.index,
+      'embedding': const _EmbeddingVectorConverter().toJson(instance.embedding),
+      'object': instance.object,
+    };
 
 _$UnionEmbeddingVectorArrayNumberImpl
     _$$UnionEmbeddingVectorArrayNumberImplFromJson(Map<String, dynamic> json) =>
@@ -987,7 +1178,10 @@ _$CreateFineTuningJobRequestImpl _$$CreateFineTuningJobRequestImplFromJson(
 
 Map<String, dynamic> _$$CreateFineTuningJobRequestImplToJson(
     _$CreateFineTuningJobRequestImpl instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'model': const _FineTuningModelConverter().toJson(instance.model),
+    'training_file': instance.trainingFile,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -995,9 +1189,6 @@ Map<String, dynamic> _$$CreateFineTuningJobRequestImplToJson(
     }
   }
 
-  writeNotNull(
-      'model', const _FineTuningModelConverter().toJson(instance.model));
-  val['training_file'] = instance.trainingFile;
   writeNotNull('hyperparameters', instance.hyperparameters?.toJson());
   writeNotNull('suffix', instance.suffix);
   writeNotNull('validation_file', instance.validationFile);
@@ -1061,32 +1252,23 @@ _$FineTuningJobImpl _$$FineTuningJobImplFromJson(Map<String, dynamic> json) =>
       validationFile: json['validation_file'] as String?,
     );
 
-Map<String, dynamic> _$$FineTuningJobImplToJson(_$FineTuningJobImpl instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-    'created_at': instance.createdAt,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('error', instance.error?.toJson());
-  writeNotNull('fine_tuned_model', instance.fineTunedModel);
-  writeNotNull('finished_at', instance.finishedAt);
-  val['hyperparameters'] = instance.hyperparameters.toJson();
-  val['model'] = instance.model;
-  val['object'] = instance.object;
-  val['organization_id'] = instance.organizationId;
-  val['result_files'] = instance.resultFiles;
-  val['status'] = _$FineTuningJobStatusEnumMap[instance.status]!;
-  writeNotNull('trained_tokens', instance.trainedTokens);
-  val['training_file'] = instance.trainingFile;
-  writeNotNull('validation_file', instance.validationFile);
-  return val;
-}
+Map<String, dynamic> _$$FineTuningJobImplToJson(_$FineTuningJobImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'created_at': instance.createdAt,
+      'error': instance.error?.toJson(),
+      'fine_tuned_model': instance.fineTunedModel,
+      'finished_at': instance.finishedAt,
+      'hyperparameters': instance.hyperparameters.toJson(),
+      'model': instance.model,
+      'object': instance.object,
+      'organization_id': instance.organizationId,
+      'result_files': instance.resultFiles,
+      'status': _$FineTuningJobStatusEnumMap[instance.status]!,
+      'trained_tokens': instance.trainedTokens,
+      'training_file': instance.trainingFile,
+      'validation_file': instance.validationFile,
+    };
 
 const _$FineTuningJobStatusEnumMap = {
   FineTuningJobStatus.validatingFiles: 'validating_files',
@@ -1106,21 +1288,12 @@ _$FineTuningJobErrorImpl _$$FineTuningJobErrorImplFromJson(
     );
 
 Map<String, dynamic> _$$FineTuningJobErrorImplToJson(
-    _$FineTuningJobErrorImpl instance) {
-  final val = <String, dynamic>{
-    'code': instance.code,
-    'message': instance.message,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('param', instance.param);
-  return val;
-}
+        _$FineTuningJobErrorImpl instance) =>
+    <String, dynamic>{
+      'code': instance.code,
+      'message': instance.message,
+      'param': instance.param,
+    };
 
 _$FineTuningJobHyperparametersImpl _$$FineTuningJobHyperparametersImplFromJson(
         Map<String, dynamic> json) =>
@@ -1129,19 +1302,10 @@ _$FineTuningJobHyperparametersImpl _$$FineTuningJobHyperparametersImplFromJson(
     );
 
 Map<String, dynamic> _$$FineTuningJobHyperparametersImplToJson(
-    _$FineTuningJobHyperparametersImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'n_epochs', const _FineTuningNEpochsConverter().toJson(instance.nEpochs));
-  return val;
-}
+        _$FineTuningJobHyperparametersImpl instance) =>
+    <String, dynamic>{
+      'n_epochs': const _FineTuningNEpochsConverter().toJson(instance.nEpochs),
+    };
 
 _$UnionFineTuningNEpochsEnumImpl _$$UnionFineTuningNEpochsEnumImplFromJson(
         Map<String, dynamic> json) =>
@@ -1385,8 +1549,7 @@ Map<String, dynamic> _$$CreateModerationRequestImplToJson(
 
   writeNotNull(
       'model', const _ModerationModelConverter().toJson(instance.model));
-  writeNotNull(
-      'input', const _ModerationInputConverter().toJson(instance.input));
+  val['input'] = const _ModerationInputConverter().toJson(instance.input);
   return val;
 }
 
@@ -1548,6 +1711,32 @@ Map<String, dynamic> _$$ModerationCategoriesScoresImplToJson(
       'violence': instance.violence,
       'violence/graphic': instance.violenceGraphic,
     };
+
+_$UnionCompletionNamedToolChoiceChatImpl
+    _$$UnionCompletionNamedToolChoiceChatImplFromJson(
+            Map<String, dynamic> json) =>
+        _$UnionCompletionNamedToolChoiceChatImpl(
+          type: json['type'] as String?,
+          function: json['function'] == null
+              ? null
+              : ChatCompletionFunctionCallOption.fromJson(
+                  json['function'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$UnionCompletionNamedToolChoiceChatImplToJson(
+    _$UnionCompletionNamedToolChoiceChatImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('type', instance.type);
+  writeNotNull('function', instance.function?.toJson());
+  return val;
+}
 
 _$UnionCompletionFunctionCallOptionChatImpl
     _$$UnionCompletionFunctionCallOptionChatImplFromJson(

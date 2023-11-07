@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: invalid_annotation_target
+// ignore_for_file: invalid_annotation_target, unused_import
 part of open_a_i_schema;
 
 // ==========================================
@@ -27,8 +27,14 @@ class CreateChatCompletionResponse with _$CreateChatCompletionResponse {
     /// The model used for the chat completion.
     required String model,
 
+    /// This fingerprint represents the backend configuration that the model runs with.
+    ///
+    /// Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.
+    @JsonKey(name: 'system_fingerprint', includeIfNull: false)
+    String? systemFingerprint,
+
     /// The object type, which is always `chat.completion`.
-    required String object,
+    required CreateChatCompletionResponseObject object,
 
     /// Usage statistics for the completion request.
     @JsonKey(includeIfNull: false) CompletionUsage? usage,
@@ -44,6 +50,7 @@ class CreateChatCompletionResponse with _$CreateChatCompletionResponse {
     'choices',
     'created',
     'model',
+    'system_fingerprint',
     'object',
     'usage'
   ];
@@ -60,8 +67,19 @@ class CreateChatCompletionResponse with _$CreateChatCompletionResponse {
       'choices': choices,
       'created': created,
       'model': model,
+      'system_fingerprint': systemFingerprint,
       'object': object,
       'usage': usage,
     };
   }
+}
+
+// ==========================================
+// ENUM: CreateChatCompletionResponseObject
+// ==========================================
+
+/// The object type, which is always `chat.completion`.
+enum CreateChatCompletionResponseObject {
+  @JsonValue('chat.completion')
+  chatCompletion,
 }

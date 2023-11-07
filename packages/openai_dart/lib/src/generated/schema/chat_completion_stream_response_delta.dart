@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: invalid_annotation_target
+// ignore_for_file: invalid_annotation_target, unused_import
 part of open_a_i_schema;
 
 // ==========================================
@@ -23,7 +23,11 @@ class ChatCompletionStreamResponseDelta
     @JsonKey(name: 'function_call', includeIfNull: false)
     ChatCompletionStreamMessageFunctionCall? functionCall,
 
-    /// The role of the messages author. One of `system`, `user`, `assistant`, or `function`.
+    /// No Description
+    @JsonKey(name: 'tool_calls', includeIfNull: false)
+    List<ChatCompletionStreamMessageToolCallChunk>? toolCalls,
+
+    /// The role of the messages author. One of `system`, `user`, `assistant`, or `tool` (`function` is deprecated).
     @JsonKey(
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
@@ -40,6 +44,7 @@ class ChatCompletionStreamResponseDelta
   static const List<String> propertyNames = [
     'content',
     'function_call',
+    'tool_calls',
     'role'
   ];
 
@@ -53,6 +58,7 @@ class ChatCompletionStreamResponseDelta
     return {
       'content': content,
       'function_call': functionCall,
+      'tool_calls': toolCalls,
       'role': role,
     };
   }

@@ -55,7 +55,7 @@ void main() {
         expect(res.id, isNotEmpty);
         expect(res.created, greaterThan(0));
         expect(res.model, startsWith('gpt-'));
-        expect(res.object, 'chat.completion');
+        expect(res.object, CreateChatCompletionResponseObject.chatCompletion);
         expect(res.usage?.promptTokens, greaterThan(0));
         expect(res.usage?.completionTokens, greaterThan(0));
         expect(res.usage?.totalTokens, greaterThan(0));
@@ -172,7 +172,10 @@ void main() {
         expect(res.id, isNotEmpty);
         expect(res.created, greaterThan(0));
         expect(res.model, startsWith('gpt-3.5-turbo'));
-        expect(res.object, 'chat.completion.chunk');
+        expect(
+          res.object,
+          CreateChatCompletionStreamResponseObject.chatCompletionChunk,
+        );
         expect(res.choices, hasLength(1));
         final choice = res.choices.first;
         expect(choice.index, 0);
@@ -181,6 +184,200 @@ void main() {
       }
       expect(lastChoice?.finishReason, ChatCompletionFinishReason.stop);
       expect(text, contains('123456789'));
+    });
+
+    test('Test call chat completions API tools', () async {
+      const function = ChatCompletionFunction(
+        name: 'get_current_weather',
+        description: 'Get the current weather in a given location',
+        parameters: {
+          'type': 'object',
+          'properties': {
+            'location': {
+              'type': 'string',
+              'description': 'The city and state, e.g. San Francisco, CA',
+            },
+            'unit': {
+              'type': 'string',
+              'description': 'The unit of temperature to return',
+              'enum': ['celsius', 'fahrenheit'],
+            },
+          },
+          'required': ['location'],
+        },
+      );
+      const tool = ChatCompletionTool(
+        type: ChatCompletionToolType.function,
+        function: function,
+      );
+
+      final request1 = CreateChatCompletionRequest(
+        model: const ChatCompletionModel.enumeration(
+          ChatCompletionModels.gpt35Turbo,
+        ),
+        messages: [
+          const ChatCompletionMessage(
+            role: ChatCompletionMessageRole.system,
+            content: 'You are a helpful assistant.',
+          ),
+          const ChatCompletionMessage(
+            role: ChatCompletionMessageRole.user,
+            content: 'What’s the weather like in Boston right now?',
+          ),
+        ],
+        tools: [tool],
+        toolChoice:
+            ChatCompletionToolChoiceOption.chatCompletionNamedToolChoice(
+          ChatCompletionNamedToolChoice(
+            type: ChatCompletionNamedToolChoiceType.function,
+            function: ChatCompletionFunctionCallOption(name: function.name),
+          ),
+        ),
+      );
+      final res1 = await client.createChatCompletion(request: request1);
+      expect(res1.choices, hasLength(1));
+
+      final choice1 = res1.choices.first;
+
+      final aiMessage1 = choice1.message;
+      expect(aiMessage1.role, ChatCompletionMessageRole.assistant);
+      expect(aiMessage1.content, isNull);
+      expect(aiMessage1.name, isNull);
+      expect(aiMessage1.toolCalls, hasLength(1));
+
+      final toolCall = aiMessage1.toolCalls!.first;
+      final functionCall = toolCall.function;
+      expect(functionCall.name, function.name);
+      expect(functionCall.arguments, isNotEmpty);
+      final arguments = json.decode(
+        functionCall.arguments,
+      ) as Map<String, dynamic>;
+      expect(arguments.containsKey('location'), isTrue);
+      expect(arguments['location'], contains('Boston'));
+
+      final functionResult = {
+        'temperature': '22',
+        'unit': 'celsius',
+        'description': 'Sunny',
+      };
+
+      final request2 = CreateChatCompletionRequest(
+        model: const ChatCompletionModel.enumeration(
+          ChatCompletionModels.gpt35Turbo,
+        ),
+        messages: [
+          const ChatCompletionMessage(
+            role: ChatCompletionMessageRole.system,
+            content: 'You are a helpful assistant.',
+          ),
+          const ChatCompletionMessage(
+            role: ChatCompletionMessageRole.user,
+            content: 'What’s the weather like in Boston right now?',
+          ),
+          aiMessage1,
+          ChatCompletionMessage(
+            role: ChatCompletionMessageRole.tool,
+            toolCallId: toolCall.id,
+            content: json.encode(functionResult),
+          ),
+        ],
+        tools: [tool],
+      );
+      final res2 = await client.createChatCompletion(request: request2);
+      expect(res2.choices, hasLength(1));
+
+      final choice2 = res2.choices.first;
+      expect(choice2.finishReason, ChatCompletionFinishReason.stop);
+
+      final aiMessage2 = choice2.message;
+      expect(aiMessage2.role, ChatCompletionMessageRole.assistant);
+      expect(aiMessage2.content, contains('22'));
+      expect(aiMessage2.toolCalls, isNull);
+      expect(aiMessage2.functionCall, isNull);
+      expect(aiMessage2.name, isNull);
+    });
+
+    test('Test call chat completions API tools streaming', () async {
+      const function = ChatCompletionFunction(
+        name: 'joke',
+        description: 'A joke',
+        parameters: {
+          'type': 'object',
+          'properties': {
+            'setup': {
+              'type': 'string',
+              'description': 'The setup for the joke',
+            },
+            'punchline': {
+              'type': 'string',
+              'description': 'The punchline to the joke',
+            },
+          },
+          'required': ['location', 'punchline'],
+        },
+      );
+      const tool = ChatCompletionTool(
+        type: ChatCompletionToolType.function,
+        function: function,
+      );
+
+      final request1 = CreateChatCompletionRequest(
+        model: const ChatCompletionModel.enumeration(
+          ChatCompletionModels.gpt35Turbo,
+        ),
+        messages: [
+          const ChatCompletionMessage(
+            role: ChatCompletionMessageRole.system,
+            content: 'You are a helpful assistant.',
+          ),
+          const ChatCompletionMessage(
+            role: ChatCompletionMessageRole.user,
+            content: 'Tell me a long joke about bears',
+          ),
+        ],
+        tools: [tool],
+        toolChoice:
+            ChatCompletionToolChoiceOption.chatCompletionNamedToolChoice(
+          ChatCompletionNamedToolChoice(
+            type: ChatCompletionNamedToolChoiceType.function,
+            function: ChatCompletionFunctionCallOption(name: function.name),
+          ),
+        ),
+      );
+      final stream = client.createChatCompletionStream(request: request1);
+
+      int count = 0;
+      await for (final res in stream) {
+        expect(res.id, isNotEmpty);
+        expect(res.created, greaterThan(0));
+        expect(
+          res.object,
+          CreateChatCompletionStreamResponseObject.chatCompletionChunk,
+        );
+        expect(res.model, startsWith('gpt-3.5-turbo'));
+        expect(res.choices, hasLength(1));
+        final choice = res.choices.first;
+        expect(choice.index, 0);
+        final delta = choice.delta;
+        if (choice.finishReason != ChatCompletionFinishReason.stop) {
+          expect(delta.toolCalls, hasLength(1), reason: 'count: $count');
+          final toolCall = delta.toolCalls!.first;
+          expect(toolCall.function, isNotNull);
+          final function = toolCall.function!;
+          if (count == 0) {
+            expect(toolCall.id, isNotEmpty);
+            expect(
+              toolCall.type,
+              ChatCompletionStreamMessageToolCallChunkType.function,
+            );
+            expect(function.name, 'joke');
+          }
+          expect(toolCall.index, 0);
+          expect(function.arguments, isNotNull);
+        }
+        count++;
+      }
+      expect(count, greaterThan(1));
     });
 
     test('Test call chat completions API functions', () async {
@@ -282,6 +479,73 @@ void main() {
       expect(aiMessage2.content, contains('22'));
       expect(aiMessage2.functionCall, isNull);
       expect(aiMessage2.name, isNull);
+    });
+
+    test('Test jsonObject response format', () async {
+      const request = CreateChatCompletionRequest(
+        model: ChatCompletionModel.enumeration(
+          ChatCompletionModels.gpt41106Preview,
+        ),
+        messages: [
+          ChatCompletionMessage(
+            role: ChatCompletionMessageRole.system,
+            content:
+                'You are a helpful assistant. That extracts names from text '
+                'and returns them in a JSON array.',
+          ),
+          ChatCompletionMessage(
+            role: ChatCompletionMessageRole.user,
+            content: 'John, Mary, and Peter.',
+          ),
+        ],
+        temperature: 0,
+        responseFormat: ChatCompletionResponseFormat(
+          type: ChatCompletionResponseFormatType.jsonObject,
+        ),
+      );
+      final res = await client.createChatCompletion(request: request);
+      expect(res.choices, hasLength(1));
+      final choice = res.choices.first;
+      final message = choice.message;
+      expect(message.role, ChatCompletionMessageRole.assistant);
+      final content = message.content;
+      final jsonContent = json.decode(content!) as Map<String, dynamic>;
+      final jsonName = jsonContent['names'] as List<dynamic>;
+      expect(jsonName, isList);
+      expect(jsonName, hasLength(3));
+      expect(jsonName, contains('John'));
+      expect(jsonName, contains('Mary'));
+      expect(jsonName, contains('Peter'));
+    });
+
+    test('Test response seed', () async {
+      const request = CreateChatCompletionRequest(
+        model: ChatCompletionModel.enumeration(
+          ChatCompletionModels.gpt41106Preview,
+        ),
+        messages: [
+          ChatCompletionMessage(
+            role: ChatCompletionMessageRole.system,
+            content: 'You are a helpful assistant.',
+          ),
+          ChatCompletionMessage(
+            role: ChatCompletionMessageRole.user,
+            content: 'How are you?',
+          ),
+        ],
+        temperature: 0,
+        seed: 9999,
+      );
+      final res1 = await client.createChatCompletion(request: request);
+      expect(res1.choices, hasLength(1));
+      final choice1 = res1.choices.first;
+
+      final res2 = await client.createChatCompletion(request: request);
+      expect(res2.choices, hasLength(1));
+      final choice2 = res2.choices.first;
+
+      expect(res1.systemFingerprint, res2.systemFingerprint);
+      expect(choice1.message.content, choice2.message.content);
     });
   });
 }
