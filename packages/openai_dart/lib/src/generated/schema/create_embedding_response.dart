@@ -22,7 +22,7 @@ class CreateEmbeddingResponse with _$CreateEmbeddingResponse {
     required String model,
 
     /// The object type, which is always "list".
-    required String object,
+    required CreateEmbeddingResponseObject object,
 
     /// The usage information for the request.
     required EmbeddingUsage usage,
@@ -54,4 +54,14 @@ class CreateEmbeddingResponse with _$CreateEmbeddingResponse {
       'usage': usage,
     };
   }
+}
+
+// ==========================================
+// ENUM: CreateEmbeddingResponseObject
+// ==========================================
+
+/// The object type, which is always "list".
+enum CreateEmbeddingResponseObject {
+  @JsonValue('list')
+  list,
 }

@@ -1102,7 +1102,8 @@ _$CreateEmbeddingResponseImpl _$$CreateEmbeddingResponseImplFromJson(
           .map((e) => Embedding.fromJson(e as Map<String, dynamic>))
           .toList(),
       model: json['model'] as String,
-      object: json['object'] as String,
+      object:
+          $enumDecode(_$CreateEmbeddingResponseObjectEnumMap, json['object']),
       usage: EmbeddingUsage.fromJson(json['usage'] as Map<String, dynamic>),
     );
 
@@ -1111,23 +1112,31 @@ Map<String, dynamic> _$$CreateEmbeddingResponseImplToJson(
     <String, dynamic>{
       'data': instance.data.map((e) => e.toJson()).toList(),
       'model': instance.model,
-      'object': instance.object,
+      'object': _$CreateEmbeddingResponseObjectEnumMap[instance.object]!,
       'usage': instance.usage.toJson(),
     };
+
+const _$CreateEmbeddingResponseObjectEnumMap = {
+  CreateEmbeddingResponseObject.list: 'list',
+};
 
 _$EmbeddingImpl _$$EmbeddingImplFromJson(Map<String, dynamic> json) =>
     _$EmbeddingImpl(
       index: json['index'] as int,
       embedding: const _EmbeddingVectorConverter().fromJson(json['embedding']),
-      object: json['object'] as String,
+      object: $enumDecode(_$EmbeddingObjectEnumMap, json['object']),
     );
 
 Map<String, dynamic> _$$EmbeddingImplToJson(_$EmbeddingImpl instance) =>
     <String, dynamic>{
       'index': instance.index,
       'embedding': const _EmbeddingVectorConverter().toJson(instance.embedding),
-      'object': instance.object,
+      'object': _$EmbeddingObjectEnumMap[instance.object]!,
     };
+
+const _$EmbeddingObjectEnumMap = {
+  EmbeddingObject.embedding: 'embedding',
+};
 
 _$UnionEmbeddingVectorArrayNumberImpl
     _$$UnionEmbeddingVectorArrayNumberImplFromJson(Map<String, dynamic> json) =>

@@ -1187,6 +1187,7 @@ components:
         object:
           type: string
           description: The object type, which is always "list".
+          enum: [list]
         usage:
           $ref: "#/components/schemas/EmbeddingUsage"
       required:
@@ -1216,6 +1217,7 @@ components:
         object:
           type: string
           description: The object type, which is always "embedding".
+          enum: [embedding]
       required:
         - index
         - object

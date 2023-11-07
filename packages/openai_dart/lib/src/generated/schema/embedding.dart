@@ -22,7 +22,7 @@ class Embedding with _$Embedding {
     @_EmbeddingVectorConverter() required EmbeddingVector embedding,
 
     /// The object type, which is always "embedding".
-    required String object,
+    required EmbeddingObject object,
   }) = _Embedding;
 
   /// Object construction from a JSON representation
@@ -94,4 +94,14 @@ class _EmbeddingVectorConverter
       _UnionEmbeddingVectorString(value: final v) => v,
     };
   }
+}
+
+// ==========================================
+// ENUM: EmbeddingObject
+// ==========================================
+
+/// The object type, which is always "embedding".
+enum EmbeddingObject {
+  @JsonValue('embedding')
+  embedding,
 }

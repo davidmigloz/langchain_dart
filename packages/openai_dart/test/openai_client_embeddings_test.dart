@@ -31,9 +31,9 @@ void main() {
       expect(res.data, hasLength(1));
       expect(res.data.first.index, 0);
       expect(res.data.first.embeddingVector, hasLength(1536));
-      expect(res.data.first.object, 'embedding');
+      expect(res.data.first.object, EmbeddingObject.embedding);
       expect(res.model, startsWith('text-embedding-ada-002'));
-      expect(res.object, 'list');
+      expect(res.object, CreateEmbeddingResponseObject.list);
       expect(res.usage.promptTokens, greaterThan(0));
       expect(res.usage.totalTokens, greaterThan(0));
     });

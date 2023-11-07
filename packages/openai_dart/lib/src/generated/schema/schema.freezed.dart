@@ -11503,7 +11503,8 @@ mixin _$CreateEmbeddingResponse {
   String get model => throw _privateConstructorUsedError;
 
   /// The object type, which is always "list".
-  String get object => throw _privateConstructorUsedError;
+  CreateEmbeddingResponseObject get object =>
+      throw _privateConstructorUsedError;
 
   /// The usage information for the request.
   EmbeddingUsage get usage => throw _privateConstructorUsedError;
@@ -11523,7 +11524,7 @@ abstract class $CreateEmbeddingResponseCopyWith<$Res> {
   $Res call(
       {List<Embedding> data,
       String model,
-      String object,
+      CreateEmbeddingResponseObject object,
       EmbeddingUsage usage});
 
   $EmbeddingUsageCopyWith<$Res> get usage;
@@ -11560,7 +11561,7 @@ class _$CreateEmbeddingResponseCopyWithImpl<$Res,
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as String,
+              as CreateEmbeddingResponseObject,
       usage: null == usage
           ? _value.usage
           : usage // ignore: cast_nullable_to_non_nullable
@@ -11589,7 +11590,7 @@ abstract class _$$CreateEmbeddingResponseImplCopyWith<$Res>
   $Res call(
       {List<Embedding> data,
       String model,
-      String object,
+      CreateEmbeddingResponseObject object,
       EmbeddingUsage usage});
 
   @override
@@ -11626,7 +11627,7 @@ class __$$CreateEmbeddingResponseImplCopyWithImpl<$Res>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as String,
+              as CreateEmbeddingResponseObject,
       usage: null == usage
           ? _value.usage
           : usage // ignore: cast_nullable_to_non_nullable
@@ -11666,7 +11667,7 @@ class _$CreateEmbeddingResponseImpl extends _CreateEmbeddingResponse {
 
   /// The object type, which is always "list".
   @override
-  final String object;
+  final CreateEmbeddingResponseObject object;
 
   /// The usage information for the request.
   @override
@@ -11712,7 +11713,7 @@ abstract class _CreateEmbeddingResponse extends CreateEmbeddingResponse {
   const factory _CreateEmbeddingResponse(
       {required final List<Embedding> data,
       required final String model,
-      required final String object,
+      required final CreateEmbeddingResponseObject object,
       required final EmbeddingUsage usage}) = _$CreateEmbeddingResponseImpl;
   const _CreateEmbeddingResponse._() : super._();
 
@@ -11730,7 +11731,7 @@ abstract class _CreateEmbeddingResponse extends CreateEmbeddingResponse {
   @override
 
   /// The object type, which is always "list".
-  String get object;
+  CreateEmbeddingResponseObject get object;
   @override
 
   /// The usage information for the request.
@@ -11755,7 +11756,7 @@ mixin _$Embedding {
   EmbeddingVector get embedding => throw _privateConstructorUsedError;
 
   /// The object type, which is always "embedding".
-  String get object => throw _privateConstructorUsedError;
+  EmbeddingObject get object => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -11771,7 +11772,7 @@ abstract class $EmbeddingCopyWith<$Res> {
   $Res call(
       {int index,
       @_EmbeddingVectorConverter() EmbeddingVector embedding,
-      String object});
+      EmbeddingObject object});
 
   $EmbeddingVectorCopyWith<$Res> get embedding;
 }
@@ -11805,7 +11806,7 @@ class _$EmbeddingCopyWithImpl<$Res, $Val extends Embedding>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as String,
+              as EmbeddingObject,
     ) as $Val);
   }
 
@@ -11829,7 +11830,7 @@ abstract class _$$EmbeddingImplCopyWith<$Res>
   $Res call(
       {int index,
       @_EmbeddingVectorConverter() EmbeddingVector embedding,
-      String object});
+      EmbeddingObject object});
 
   @override
   $EmbeddingVectorCopyWith<$Res> get embedding;
@@ -11862,7 +11863,7 @@ class __$$EmbeddingImplCopyWithImpl<$Res>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as String,
+              as EmbeddingObject,
     ));
   }
 }
@@ -11890,7 +11891,7 @@ class _$EmbeddingImpl extends _Embedding {
 
   /// The object type, which is always "embedding".
   @override
-  final String object;
+  final EmbeddingObject object;
 
   @override
   String toString() {
@@ -11930,7 +11931,7 @@ abstract class _Embedding extends Embedding {
   const factory _Embedding(
       {required final int index,
       @_EmbeddingVectorConverter() required final EmbeddingVector embedding,
-      required final String object}) = _$EmbeddingImpl;
+      required final EmbeddingObject object}) = _$EmbeddingImpl;
   const _Embedding._() : super._();
 
   factory _Embedding.fromJson(Map<String, dynamic> json) =
@@ -11948,7 +11949,7 @@ abstract class _Embedding extends Embedding {
   @override
 
   /// The object type, which is always "embedding".
-  String get object;
+  EmbeddingObject get object;
   @override
   @JsonKey(ignore: true)
   _$$EmbeddingImplCopyWith<_$EmbeddingImpl> get copyWith =>
