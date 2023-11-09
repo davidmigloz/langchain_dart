@@ -107,6 +107,8 @@ sealed class ChatMessage {
         role: role,
       );
 
+  Map<String, dynamic> toJson();
+
   /// The content of the message.
   final String content;
 
@@ -147,6 +149,15 @@ SystemChatMessage{
 }
 ''';
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': defaultPrefix,
+        'content': content,
+      };
+
+  factory SystemChatMessage.fromJson(final Map<String, dynamic> json) =>
+      SystemChatMessage(content: json['content']);
 }
 
 /// {@template human_chat_message}
@@ -190,6 +201,17 @@ HumanChatMessage{
   example: $example,
 }
 ''';
+  }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': defaultPrefix,
+        'content': content,
+        'example': example,
+      };
+
+  factory HumanChatMessage.fromJson(final Map<String, dynamic> json) {
+    return HumanChatMessage(content: json['content'], example: json['example']);
   }
 }
 
@@ -260,6 +282,24 @@ AIChatMessage{
 }
 ''';
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': defaultPrefix,
+        'content': content,
+        'functionCall': functionCall == null ? null : functionCall!.toJson(),
+        'example': example,
+      };
+
+  factory AIChatMessage.fromJson(final Map<String, dynamic> json) {
+    return AIChatMessage(
+      content: json['content'],
+      functionCall: json['functionCall'] != null
+          ? AIChatMessageFunctionCall.fromJson(json['functionCall'])
+          : null,
+      example: json['example'],
+    );
+  }
 }
 
 /// {@template ai_chat_message_function_call}
@@ -315,6 +355,18 @@ AIChatMessageFunctionCall{
 }
       ''';
   }
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'arguments': arguments,
+      };
+
+  factory AIChatMessageFunctionCall.fromJson(final Map<String, dynamic> json) {
+    return AIChatMessageFunctionCall(
+      name: json['name'],
+      arguments: json['arguments'],
+    );
+  }
 }
 
 /// {@template function_chat_message}
@@ -357,6 +409,16 @@ FunctionChatMessage{
 }
 ''';
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': defaultPrefix,
+        'name': name,
+        'content': content,
+      };
+
+  factory FunctionChatMessage.fromJson(final Map<String, dynamic> json) =>
+      FunctionChatMessage(content: json['content'], name: json['name']);
 }
 
 /// {@template custom_chat_message}
@@ -397,6 +459,15 @@ CustomChatMessage{
 }
 ''';
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': 'Custom',
+        'content': content,
+        'role': role,
+      };
+  factory CustomChatMessage.fromJson(final Map<String, dynamic> json) =>
+      CustomChatMessage(content: json['content'], role: json['role']);
 }
 
 /// Role of a chat message
