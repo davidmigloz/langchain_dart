@@ -68,7 +68,11 @@ Future<void> _fineTuning(final OpenAIClient client) async {
 Future<void> _images(final OpenAIClient client) async {
   final res = await client.createImage(
     request: const CreateImageRequest(
+      model: CreateImageRequestModel.enumeration(ImageModels.dallE3),
       prompt: 'A cute baby sea otter',
+      quality: ImageQuality.hd,
+      size: ImageSize.v1024x1792,
+      style: ImageStyle.natural,
     ),
   );
   print(res.data.first.url);

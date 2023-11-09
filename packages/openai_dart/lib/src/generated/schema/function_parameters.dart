@@ -5,10 +5,10 @@
 part of open_a_i_schema;
 
 // ==========================================
-// TYPE: ChatCompletionFunctionParameters
+// TYPE: FunctionParameters
 // ==========================================
 
 /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
 ///
 /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
-typedef ChatCompletionFunctionParameters = Map<String, dynamic>;
+typedef FunctionParameters = Map<String, dynamic>;

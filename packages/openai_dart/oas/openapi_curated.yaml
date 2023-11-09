@@ -708,19 +708,19 @@ components:
         response_format:
           title: ChatCompletionResponseFormat
           type: object
-          description: An object specifying the format that the model must output. Used to enable JSON mode.
+          description: |
+            An object specifying the format that the model must output. 
+
+            Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+
+            **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in increased latency and appearance of a "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
           properties:
             type:
               type: string
               enum: [ "text", "json_object" ]
               example: "json_object"
               default: "text"
-              description: |
-                Setting to `json_object` enables JSON mode. This guarantees that the message the model generates is valid JSON. 
-
-                Note that your system prompt must still instruct the model to produce JSON, and to help ensure you don't forget, the API will throw an error if the string `JSON` does not appear in your system message. Also note that the message content may be partial (i.e. cut off) if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length. 
-
-                Must be one of `text` or `json_object`.
+              description: Must be one of `text` or `json_object`.
         seed:
           type: integer
           minimum: -9223372036854775808
@@ -820,7 +820,7 @@ components:
           minItems: 1
           maxItems: 128
           items:
-            $ref: "#/components/schemas/ChatCompletionFunction"
+            $ref: "#/components/schemas/FunctionObject"
       required:
         - model
         - messages
@@ -868,7 +868,16 @@ components:
       required:
         - arguments
         - name
-    ChatCompletionFunction:
+    ChatCompletionFunctionCallOption:
+      type: object
+      description: Forces the model to call the specified function.
+      properties:
+        name:
+          type: string
+          description: The name of the function to call.
+      required:
+        - name
+    FunctionObject:
       type: object
       description: A function that the model may call.
       properties:
@@ -879,23 +888,14 @@ components:
           type: string
           description: A description of what the function does, used by the model to choose when and how to call the function.
         parameters:
-          $ref: "#/components/schemas/ChatCompletionFunctionParameters"
+          $ref: "#/components/schemas/FunctionParameters"
       required:
         - name
         - parameters
-    ChatCompletionFunctionParameters:
+    FunctionParameters:
       type: object
       description: "The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.\n\nTo describe a function that accepts no parameters, provide the value `{\"type\": \"object\", \"properties\": {}}`."
       additionalProperties: true
-    ChatCompletionFunctionCallOption:
-      type: object
-      description: Forces the model to call the specified function.
-      properties:
-        name:
-          type: string
-          description: The name of the function to call.
-      required:
-        - name
     ChatCompletionTool:
       type: object
       description: A tool the model may use.
@@ -905,7 +905,7 @@ components:
           enum: [ "function" ]
           description: The type of the tool. Currently, only `function` is supported.
         function:
-          $ref: "#/components/schemas/ChatCompletionFunction"
+          $ref: "#/components/schemas/FunctionObject"
       required:
         - type
         - function

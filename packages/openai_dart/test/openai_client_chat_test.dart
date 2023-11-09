@@ -187,7 +187,7 @@ void main() {
     });
 
     test('Test call chat completions API tools', () async {
-      const function = ChatCompletionFunction(
+      const function = FunctionObject(
         name: 'get_current_weather',
         description: 'Get the current weather in a given location',
         parameters: {
@@ -298,7 +298,7 @@ void main() {
     });
 
     test('Test call chat completions API tools streaming', () async {
-      const function = ChatCompletionFunction(
+      const function = FunctionObject(
         name: 'joke',
         description: 'A joke',
         parameters: {
@@ -381,7 +381,7 @@ void main() {
     });
 
     test('Test call chat completions API functions', () async {
-      const function = ChatCompletionFunction(
+      const function = FunctionObject(
         name: 'get_current_weather',
         description: 'Get the current weather in a given location',
         parameters: {

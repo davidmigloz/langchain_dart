@@ -242,7 +242,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final ChatOpenAIOptions? options,
   }) async {
     final messagesDtos = messages.toChatCompletionMessages();
-    final functionsDtos = options?.functions?.toChatCompletionFunctions();
+    final functionsDtos = options?.functions?.toFunctionObjects();
     final functionCall = options?.functionCall?.toChatCompletionFunctionCall();
     final resFormat = responseFormat?.toChatCompletionResponseFormat();
 
@@ -276,7 +276,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final ChatOpenAIOptions? options,
   }) {
     final messagesDtos = input.toChatMessages().toChatCompletionMessages();
-    final functionsDtos = options?.functions?.toChatCompletionFunctions();
+    final functionsDtos = options?.functions?.toFunctionObjects();
     final functionCall = options?.functionCall?.toChatCompletionFunctionCall();
 
     return _client

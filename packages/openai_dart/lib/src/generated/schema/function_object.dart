@@ -5,16 +5,16 @@
 part of open_a_i_schema;
 
 // ==========================================
-// CLASS: ChatCompletionFunction
+// CLASS: FunctionObject
 // ==========================================
 
 /// A function that the model may call.
 @freezed
-class ChatCompletionFunction with _$ChatCompletionFunction {
-  const ChatCompletionFunction._();
+class FunctionObject with _$FunctionObject {
+  const FunctionObject._();
 
-  /// Factory constructor for ChatCompletionFunction
-  const factory ChatCompletionFunction({
+  /// Factory constructor for FunctionObject
+  const factory FunctionObject({
     /// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.
     required String name,
 
@@ -24,12 +24,12 @@ class ChatCompletionFunction with _$ChatCompletionFunction {
     /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
     ///
     /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
-    required ChatCompletionFunctionParameters parameters,
-  }) = _ChatCompletionFunction;
+    required FunctionParameters parameters,
+  }) = _FunctionObject;
 
   /// Object construction from a JSON representation
-  factory ChatCompletionFunction.fromJson(Map<String, dynamic> json) =>
-      _$ChatCompletionFunctionFromJson(json);
+  factory FunctionObject.fromJson(Map<String, dynamic> json) =>
+      _$FunctionObjectFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [

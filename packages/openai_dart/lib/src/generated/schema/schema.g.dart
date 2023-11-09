@@ -337,8 +337,7 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
       functionCall: const _ChatCompletionFunctionCallConverter()
           .fromJson(json['function_call']),
       functions: (json['functions'] as List<dynamic>?)
-          ?.map(
-              (e) => ChatCompletionFunction.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => FunctionObject.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -612,16 +611,28 @@ Map<String, dynamic> _$$ChatCompletionMessageFunctionCallImplToJson(
       'arguments': instance.arguments,
     };
 
-_$ChatCompletionFunctionImpl _$$ChatCompletionFunctionImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ChatCompletionFunctionImpl(
+_$ChatCompletionFunctionCallOptionImpl
+    _$$ChatCompletionFunctionCallOptionImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ChatCompletionFunctionCallOptionImpl(
+          name: json['name'] as String,
+        );
+
+Map<String, dynamic> _$$ChatCompletionFunctionCallOptionImplToJson(
+        _$ChatCompletionFunctionCallOptionImpl instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+    };
+
+_$FunctionObjectImpl _$$FunctionObjectImplFromJson(Map<String, dynamic> json) =>
+    _$FunctionObjectImpl(
       name: json['name'] as String,
       description: json['description'] as String?,
       parameters: json['parameters'] as Map<String, dynamic>,
     );
 
-Map<String, dynamic> _$$ChatCompletionFunctionImplToJson(
-    _$ChatCompletionFunctionImpl instance) {
+Map<String, dynamic> _$$FunctionObjectImplToJson(
+    _$FunctionObjectImpl instance) {
   final val = <String, dynamic>{
     'name': instance.name,
   };
@@ -637,25 +648,12 @@ Map<String, dynamic> _$$ChatCompletionFunctionImplToJson(
   return val;
 }
 
-_$ChatCompletionFunctionCallOptionImpl
-    _$$ChatCompletionFunctionCallOptionImplFromJson(
-            Map<String, dynamic> json) =>
-        _$ChatCompletionFunctionCallOptionImpl(
-          name: json['name'] as String,
-        );
-
-Map<String, dynamic> _$$ChatCompletionFunctionCallOptionImplToJson(
-        _$ChatCompletionFunctionCallOptionImpl instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-    };
-
 _$ChatCompletionToolImpl _$$ChatCompletionToolImplFromJson(
         Map<String, dynamic> json) =>
     _$ChatCompletionToolImpl(
       type: $enumDecode(_$ChatCompletionToolTypeEnumMap, json['type']),
-      function: ChatCompletionFunction.fromJson(
-          json['function'] as Map<String, dynamic>),
+      function:
+          FunctionObject.fromJson(json['function'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$ChatCompletionToolImplToJson(
