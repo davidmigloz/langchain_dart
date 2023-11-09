@@ -19,7 +19,7 @@ class ChatCompletionTool with _$ChatCompletionTool {
     required ChatCompletionToolType type,
 
     /// A function that the model may call.
-    required ChatCompletionFunction function,
+    required FunctionObject function,
   }) = _ChatCompletionTool;
 
   /// Object construction from a JSON representation

@@ -49,7 +49,11 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     @Default(0.0)
     double? presencePenalty,
 
-    /// An object specifying the format that the model must output. Used to enable JSON mode.
+    /// An object specifying the format that the model must output.
+    ///
+    /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+    ///
+    /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in increased latency and appearance of a "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
     @JsonKey(name: 'response_format', includeIfNull: false)
     ChatCompletionResponseFormat? responseFormat,
 
@@ -107,7 +111,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// Deprecated in favor of `tools`.
     ///
     /// A list of functions the model may generate JSON inputs for.
-    @JsonKey(includeIfNull: false) List<ChatCompletionFunction>? functions,
+    @JsonKey(includeIfNull: false) List<FunctionObject>? functions,
   }) = _CreateChatCompletionRequest;
 
   /// Object construction from a JSON representation
@@ -315,17 +319,17 @@ class _ChatCompletionModelConverter
 // CLASS: ChatCompletionResponseFormat
 // ==========================================
 
-/// An object specifying the format that the model must output. Used to enable JSON mode.
+/// An object specifying the format that the model must output.
+///
+/// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+///
+/// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in increased latency and appearance of a "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
 @freezed
 class ChatCompletionResponseFormat with _$ChatCompletionResponseFormat {
   const ChatCompletionResponseFormat._();
 
   /// Factory constructor for ChatCompletionResponseFormat
   const factory ChatCompletionResponseFormat({
-    /// Setting to `json_object` enables JSON mode. This guarantees that the message the model generates is valid JSON.
-    ///
-    /// Note that your system prompt must still instruct the model to produce JSON, and to help ensure you don't forget, the API will throw an error if the string `JSON` does not appear in your system message. Also note that the message content may be partial (i.e. cut off) if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
-    ///
     /// Must be one of `text` or `json_object`.
     @Default(ChatCompletionResponseFormatType.text)
     ChatCompletionResponseFormatType type,
@@ -579,10 +583,6 @@ class _ChatCompletionFunctionCallConverter
 // ENUM: ChatCompletionResponseFormatType
 // ==========================================
 
-/// Setting to `json_object` enables JSON mode. This guarantees that the message the model generates is valid JSON.
-///
-/// Note that your system prompt must still instruct the model to produce JSON, and to help ensure you don't forget, the API will throw an error if the string `JSON` does not appear in your system message. Also note that the message content may be partial (i.e. cut off) if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
-///
 /// Must be one of `text` or `json_object`.
 enum ChatCompletionResponseFormatType {
   @JsonValue('text')

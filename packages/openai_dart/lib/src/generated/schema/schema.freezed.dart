@@ -3410,7 +3410,11 @@ mixin _$CreateChatCompletionRequest {
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty => throw _privateConstructorUsedError;
 
-  /// An object specifying the format that the model must output. Used to enable JSON mode.
+  /// An object specifying the format that the model must output.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in increased latency and appearance of a "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
   @JsonKey(name: 'response_format', includeIfNull: false)
   ChatCompletionResponseFormat? get responseFormat =>
       throw _privateConstructorUsedError;
@@ -3478,8 +3482,7 @@ mixin _$CreateChatCompletionRequest {
   ///
   /// A list of functions the model may generate JSON inputs for.
   @JsonKey(includeIfNull: false)
-  List<ChatCompletionFunction>? get functions =>
-      throw _privateConstructorUsedError;
+  List<FunctionObject>? get functions => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -3523,7 +3526,7 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
       @_ChatCompletionFunctionCallConverter()
       @JsonKey(name: 'function_call', includeIfNull: false)
       ChatCompletionFunctionCall? functionCall,
-      @JsonKey(includeIfNull: false) List<ChatCompletionFunction>? functions});
+      @JsonKey(includeIfNull: false) List<FunctionObject>? functions});
 
   $ChatCompletionModelCopyWith<$Res> get model;
   $ChatCompletionResponseFormatCopyWith<$Res>? get responseFormat;
@@ -3637,7 +3640,7 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
       functions: freezed == functions
           ? _value.functions
           : functions // ignore: cast_nullable_to_non_nullable
-              as List<ChatCompletionFunction>?,
+              as List<FunctionObject>?,
     ) as $Val);
   }
 
@@ -3738,7 +3741,7 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
       @_ChatCompletionFunctionCallConverter()
       @JsonKey(name: 'function_call', includeIfNull: false)
       ChatCompletionFunctionCall? functionCall,
-      @JsonKey(includeIfNull: false) List<ChatCompletionFunction>? functions});
+      @JsonKey(includeIfNull: false) List<FunctionObject>? functions});
 
   @override
   $ChatCompletionModelCopyWith<$Res> get model;
@@ -3856,7 +3859,7 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
       functions: freezed == functions
           ? _value._functions
           : functions // ignore: cast_nullable_to_non_nullable
-              as List<ChatCompletionFunction>?,
+              as List<FunctionObject>?,
     ));
   }
 }
@@ -3890,8 +3893,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
       @_ChatCompletionFunctionCallConverter()
       @JsonKey(name: 'function_call', includeIfNull: false)
       this.functionCall,
-      @JsonKey(includeIfNull: false)
-      final List<ChatCompletionFunction>? functions})
+      @JsonKey(includeIfNull: false) final List<FunctionObject>? functions})
       : _messages = messages,
         _logitBias = logitBias,
         _tools = tools,
@@ -3962,7 +3964,11 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   final double? presencePenalty;
 
-  /// An object specifying the format that the model must output. Used to enable JSON mode.
+  /// An object specifying the format that the model must output.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in increased latency and appearance of a "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
   @override
   @JsonKey(name: 'response_format', includeIfNull: false)
   final ChatCompletionResponseFormat? responseFormat;
@@ -4045,14 +4051,14 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   /// Deprecated in favor of `tools`.
   ///
   /// A list of functions the model may generate JSON inputs for.
-  final List<ChatCompletionFunction>? _functions;
+  final List<FunctionObject>? _functions;
 
   /// Deprecated in favor of `tools`.
   ///
   /// A list of functions the model may generate JSON inputs for.
   @override
   @JsonKey(includeIfNull: false)
-  List<ChatCompletionFunction>? get functions {
+  List<FunctionObject>? get functions {
     final value = _functions;
     if (value == null) return null;
     if (_functions is EqualUnmodifiableListView) return _functions;
@@ -4169,7 +4175,7 @@ abstract class _CreateChatCompletionRequest
       @JsonKey(name: 'function_call', includeIfNull: false)
       final ChatCompletionFunctionCall? functionCall,
       @JsonKey(includeIfNull: false)
-      final List<ChatCompletionFunction>?
+      final List<FunctionObject>?
           functions}) = _$CreateChatCompletionRequestImpl;
   const _CreateChatCompletionRequest._() : super._();
 
@@ -4220,7 +4226,11 @@ abstract class _CreateChatCompletionRequest
   double? get presencePenalty;
   @override
 
-  /// An object specifying the format that the model must output. Used to enable JSON mode.
+  /// An object specifying the format that the model must output.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in increased latency and appearance of a "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
   @JsonKey(name: 'response_format', includeIfNull: false)
   ChatCompletionResponseFormat? get responseFormat;
   @override
@@ -4295,7 +4305,7 @@ abstract class _CreateChatCompletionRequest
   ///
   /// A list of functions the model may generate JSON inputs for.
   @JsonKey(includeIfNull: false)
-  List<ChatCompletionFunction>? get functions;
+  List<FunctionObject>? get functions;
   @override
   @JsonKey(ignore: true)
   _$$CreateChatCompletionRequestImplCopyWith<_$CreateChatCompletionRequestImpl>
@@ -4709,10 +4719,6 @@ ChatCompletionResponseFormat _$ChatCompletionResponseFormatFromJson(
 
 /// @nodoc
 mixin _$ChatCompletionResponseFormat {
-  /// Setting to `json_object` enables JSON mode. This guarantees that the message the model generates is valid JSON.
-  ///
-  /// Note that your system prompt must still instruct the model to produce JSON, and to help ensure you don't forget, the API will throw an error if the string `JSON` does not appear in your system message. Also note that the message content may be partial (i.e. cut off) if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
-  ///
   /// Must be one of `text` or `json_object`.
   ChatCompletionResponseFormatType get type =>
       throw _privateConstructorUsedError;
@@ -4806,10 +4812,6 @@ class _$ChatCompletionResponseFormatImpl extends _ChatCompletionResponseFormat {
           Map<String, dynamic> json) =>
       _$$ChatCompletionResponseFormatImplFromJson(json);
 
-  /// Setting to `json_object` enables JSON mode. This guarantees that the message the model generates is valid JSON.
-  ///
-  /// Note that your system prompt must still instruct the model to produce JSON, and to help ensure you don't forget, the API will throw an error if the string `JSON` does not appear in your system message. Also note that the message content may be partial (i.e. cut off) if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
-  ///
   /// Must be one of `text` or `json_object`.
   @override
   @JsonKey()
@@ -4860,10 +4862,6 @@ abstract class _ChatCompletionResponseFormat
 
   @override
 
-  /// Setting to `json_object` enables JSON mode. This guarantees that the message the model generates is valid JSON.
-  ///
-  /// Note that your system prompt must still instruct the model to produce JSON, and to help ensure you don't forget, the API will throw an error if the string `JSON` does not appear in your system message. Also note that the message content may be partial (i.e. cut off) if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
-  ///
   /// Must be one of `text` or `json_object`.
   ChatCompletionResponseFormatType get type;
   @override
@@ -6790,233 +6788,6 @@ abstract class _ChatCompletionMessageFunctionCall
       get copyWith => throw _privateConstructorUsedError;
 }
 
-ChatCompletionFunction _$ChatCompletionFunctionFromJson(
-    Map<String, dynamic> json) {
-  return _ChatCompletionFunction.fromJson(json);
-}
-
-/// @nodoc
-mixin _$ChatCompletionFunction {
-  /// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.
-  String get name => throw _privateConstructorUsedError;
-
-  /// A description of what the function does, used by the model to choose when and how to call the function.
-  @JsonKey(includeIfNull: false)
-  String? get description => throw _privateConstructorUsedError;
-
-  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
-  ///
-  /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
-  Map<String, dynamic> get parameters => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $ChatCompletionFunctionCopyWith<ChatCompletionFunction> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ChatCompletionFunctionCopyWith<$Res> {
-  factory $ChatCompletionFunctionCopyWith(ChatCompletionFunction value,
-          $Res Function(ChatCompletionFunction) then) =
-      _$ChatCompletionFunctionCopyWithImpl<$Res, ChatCompletionFunction>;
-  @useResult
-  $Res call(
-      {String name,
-      @JsonKey(includeIfNull: false) String? description,
-      Map<String, dynamic> parameters});
-}
-
-/// @nodoc
-class _$ChatCompletionFunctionCopyWithImpl<$Res,
-        $Val extends ChatCompletionFunction>
-    implements $ChatCompletionFunctionCopyWith<$Res> {
-  _$ChatCompletionFunctionCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? name = null,
-    Object? description = freezed,
-    Object? parameters = null,
-  }) {
-    return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      parameters: null == parameters
-          ? _value.parameters
-          : parameters // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$ChatCompletionFunctionImplCopyWith<$Res>
-    implements $ChatCompletionFunctionCopyWith<$Res> {
-  factory _$$ChatCompletionFunctionImplCopyWith(
-          _$ChatCompletionFunctionImpl value,
-          $Res Function(_$ChatCompletionFunctionImpl) then) =
-      __$$ChatCompletionFunctionImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String name,
-      @JsonKey(includeIfNull: false) String? description,
-      Map<String, dynamic> parameters});
-}
-
-/// @nodoc
-class __$$ChatCompletionFunctionImplCopyWithImpl<$Res>
-    extends _$ChatCompletionFunctionCopyWithImpl<$Res,
-        _$ChatCompletionFunctionImpl>
-    implements _$$ChatCompletionFunctionImplCopyWith<$Res> {
-  __$$ChatCompletionFunctionImplCopyWithImpl(
-      _$ChatCompletionFunctionImpl _value,
-      $Res Function(_$ChatCompletionFunctionImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? name = null,
-    Object? description = freezed,
-    Object? parameters = null,
-  }) {
-    return _then(_$ChatCompletionFunctionImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      parameters: null == parameters
-          ? _value._parameters
-          : parameters // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$ChatCompletionFunctionImpl extends _ChatCompletionFunction {
-  const _$ChatCompletionFunctionImpl(
-      {required this.name,
-      @JsonKey(includeIfNull: false) this.description,
-      required final Map<String, dynamic> parameters})
-      : _parameters = parameters,
-        super._();
-
-  factory _$ChatCompletionFunctionImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ChatCompletionFunctionImplFromJson(json);
-
-  /// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.
-  @override
-  final String name;
-
-  /// A description of what the function does, used by the model to choose when and how to call the function.
-  @override
-  @JsonKey(includeIfNull: false)
-  final String? description;
-
-  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
-  ///
-  /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
-  final Map<String, dynamic> _parameters;
-
-  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
-  ///
-  /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
-  @override
-  Map<String, dynamic> get parameters {
-    if (_parameters is EqualUnmodifiableMapView) return _parameters;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_parameters);
-  }
-
-  @override
-  String toString() {
-    return 'ChatCompletionFunction(name: $name, description: $description, parameters: $parameters)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ChatCompletionFunctionImpl &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
-            const DeepCollectionEquality()
-                .equals(other._parameters, _parameters));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, name, description,
-      const DeepCollectionEquality().hash(_parameters));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ChatCompletionFunctionImplCopyWith<_$ChatCompletionFunctionImpl>
-      get copyWith => __$$ChatCompletionFunctionImplCopyWithImpl<
-          _$ChatCompletionFunctionImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ChatCompletionFunctionImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _ChatCompletionFunction extends ChatCompletionFunction {
-  const factory _ChatCompletionFunction(
-          {required final String name,
-          @JsonKey(includeIfNull: false) final String? description,
-          required final Map<String, dynamic> parameters}) =
-      _$ChatCompletionFunctionImpl;
-  const _ChatCompletionFunction._() : super._();
-
-  factory _ChatCompletionFunction.fromJson(Map<String, dynamic> json) =
-      _$ChatCompletionFunctionImpl.fromJson;
-
-  @override
-
-  /// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.
-  String get name;
-  @override
-
-  /// A description of what the function does, used by the model to choose when and how to call the function.
-  @JsonKey(includeIfNull: false)
-  String? get description;
-  @override
-
-  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
-  ///
-  /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
-  Map<String, dynamic> get parameters;
-  @override
-  @JsonKey(ignore: true)
-  _$$ChatCompletionFunctionImplCopyWith<_$ChatCompletionFunctionImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
 ChatCompletionFunctionCallOption _$ChatCompletionFunctionCallOptionFromJson(
     Map<String, dynamic> json) {
   return _ChatCompletionFunctionCallOption.fromJson(json);
@@ -7174,6 +6945,227 @@ abstract class _ChatCompletionFunctionCallOption
       get copyWith => throw _privateConstructorUsedError;
 }
 
+FunctionObject _$FunctionObjectFromJson(Map<String, dynamic> json) {
+  return _FunctionObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$FunctionObject {
+  /// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.
+  String get name => throw _privateConstructorUsedError;
+
+  /// A description of what the function does, used by the model to choose when and how to call the function.
+  @JsonKey(includeIfNull: false)
+  String? get description => throw _privateConstructorUsedError;
+
+  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+  ///
+  /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
+  Map<String, dynamic> get parameters => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $FunctionObjectCopyWith<FunctionObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FunctionObjectCopyWith<$Res> {
+  factory $FunctionObjectCopyWith(
+          FunctionObject value, $Res Function(FunctionObject) then) =
+      _$FunctionObjectCopyWithImpl<$Res, FunctionObject>;
+  @useResult
+  $Res call(
+      {String name,
+      @JsonKey(includeIfNull: false) String? description,
+      Map<String, dynamic> parameters});
+}
+
+/// @nodoc
+class _$FunctionObjectCopyWithImpl<$Res, $Val extends FunctionObject>
+    implements $FunctionObjectCopyWith<$Res> {
+  _$FunctionObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? description = freezed,
+    Object? parameters = null,
+  }) {
+    return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      parameters: null == parameters
+          ? _value.parameters
+          : parameters // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$FunctionObjectImplCopyWith<$Res>
+    implements $FunctionObjectCopyWith<$Res> {
+  factory _$$FunctionObjectImplCopyWith(_$FunctionObjectImpl value,
+          $Res Function(_$FunctionObjectImpl) then) =
+      __$$FunctionObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String name,
+      @JsonKey(includeIfNull: false) String? description,
+      Map<String, dynamic> parameters});
+}
+
+/// @nodoc
+class __$$FunctionObjectImplCopyWithImpl<$Res>
+    extends _$FunctionObjectCopyWithImpl<$Res, _$FunctionObjectImpl>
+    implements _$$FunctionObjectImplCopyWith<$Res> {
+  __$$FunctionObjectImplCopyWithImpl(
+      _$FunctionObjectImpl _value, $Res Function(_$FunctionObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? description = freezed,
+    Object? parameters = null,
+  }) {
+    return _then(_$FunctionObjectImpl(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      parameters: null == parameters
+          ? _value._parameters
+          : parameters // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$FunctionObjectImpl extends _FunctionObject {
+  const _$FunctionObjectImpl(
+      {required this.name,
+      @JsonKey(includeIfNull: false) this.description,
+      required final Map<String, dynamic> parameters})
+      : _parameters = parameters,
+        super._();
+
+  factory _$FunctionObjectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FunctionObjectImplFromJson(json);
+
+  /// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.
+  @override
+  final String name;
+
+  /// A description of what the function does, used by the model to choose when and how to call the function.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? description;
+
+  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+  ///
+  /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
+  final Map<String, dynamic> _parameters;
+
+  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+  ///
+  /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
+  @override
+  Map<String, dynamic> get parameters {
+    if (_parameters is EqualUnmodifiableMapView) return _parameters;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_parameters);
+  }
+
+  @override
+  String toString() {
+    return 'FunctionObject(name: $name, description: $description, parameters: $parameters)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FunctionObjectImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            const DeepCollectionEquality()
+                .equals(other._parameters, _parameters));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, name, description,
+      const DeepCollectionEquality().hash(_parameters));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FunctionObjectImplCopyWith<_$FunctionObjectImpl> get copyWith =>
+      __$$FunctionObjectImplCopyWithImpl<_$FunctionObjectImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FunctionObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _FunctionObject extends FunctionObject {
+  const factory _FunctionObject(
+      {required final String name,
+      @JsonKey(includeIfNull: false) final String? description,
+      required final Map<String, dynamic> parameters}) = _$FunctionObjectImpl;
+  const _FunctionObject._() : super._();
+
+  factory _FunctionObject.fromJson(Map<String, dynamic> json) =
+      _$FunctionObjectImpl.fromJson;
+
+  @override
+
+  /// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.
+  String get name;
+  @override
+
+  /// A description of what the function does, used by the model to choose when and how to call the function.
+  @JsonKey(includeIfNull: false)
+  String? get description;
+  @override
+
+  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+  ///
+  /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
+  Map<String, dynamic> get parameters;
+  @override
+  @JsonKey(ignore: true)
+  _$$FunctionObjectImplCopyWith<_$FunctionObjectImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 ChatCompletionTool _$ChatCompletionToolFromJson(Map<String, dynamic> json) {
   return _ChatCompletionTool.fromJson(json);
 }
@@ -7184,7 +7176,7 @@ mixin _$ChatCompletionTool {
   ChatCompletionToolType get type => throw _privateConstructorUsedError;
 
   /// A function that the model may call.
-  ChatCompletionFunction get function => throw _privateConstructorUsedError;
+  FunctionObject get function => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -7198,9 +7190,9 @@ abstract class $ChatCompletionToolCopyWith<$Res> {
           ChatCompletionTool value, $Res Function(ChatCompletionTool) then) =
       _$ChatCompletionToolCopyWithImpl<$Res, ChatCompletionTool>;
   @useResult
-  $Res call({ChatCompletionToolType type, ChatCompletionFunction function});
+  $Res call({ChatCompletionToolType type, FunctionObject function});
 
-  $ChatCompletionFunctionCopyWith<$Res> get function;
+  $FunctionObjectCopyWith<$Res> get function;
 }
 
 /// @nodoc
@@ -7227,14 +7219,14 @@ class _$ChatCompletionToolCopyWithImpl<$Res, $Val extends ChatCompletionTool>
       function: null == function
           ? _value.function
           : function // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionFunction,
+              as FunctionObject,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $ChatCompletionFunctionCopyWith<$Res> get function {
-    return $ChatCompletionFunctionCopyWith<$Res>(_value.function, (value) {
+  $FunctionObjectCopyWith<$Res> get function {
+    return $FunctionObjectCopyWith<$Res>(_value.function, (value) {
       return _then(_value.copyWith(function: value) as $Val);
     });
   }
@@ -7248,10 +7240,10 @@ abstract class _$$ChatCompletionToolImplCopyWith<$Res>
       __$$ChatCompletionToolImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ChatCompletionToolType type, ChatCompletionFunction function});
+  $Res call({ChatCompletionToolType type, FunctionObject function});
 
   @override
-  $ChatCompletionFunctionCopyWith<$Res> get function;
+  $FunctionObjectCopyWith<$Res> get function;
 }
 
 /// @nodoc
@@ -7276,7 +7268,7 @@ class __$$ChatCompletionToolImplCopyWithImpl<$Res>
       function: null == function
           ? _value.function
           : function // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionFunction,
+              as FunctionObject,
     ));
   }
 }
@@ -7296,7 +7288,7 @@ class _$ChatCompletionToolImpl extends _ChatCompletionTool {
 
   /// A function that the model may call.
   @override
-  final ChatCompletionFunction function;
+  final FunctionObject function;
 
   @override
   String toString() {
@@ -7334,9 +7326,8 @@ class _$ChatCompletionToolImpl extends _ChatCompletionTool {
 
 abstract class _ChatCompletionTool extends ChatCompletionTool {
   const factory _ChatCompletionTool(
-          {required final ChatCompletionToolType type,
-          required final ChatCompletionFunction function}) =
-      _$ChatCompletionToolImpl;
+      {required final ChatCompletionToolType type,
+      required final FunctionObject function}) = _$ChatCompletionToolImpl;
   const _ChatCompletionTool._() : super._();
 
   factory _ChatCompletionTool.fromJson(Map<String, dynamic> json) =
@@ -7349,7 +7340,7 @@ abstract class _ChatCompletionTool extends ChatCompletionTool {
   @override
 
   /// A function that the model may call.
-  ChatCompletionFunction get function;
+  FunctionObject get function;
   @override
   @JsonKey(ignore: true)
   _$$ChatCompletionToolImplCopyWith<_$ChatCompletionToolImpl> get copyWith =>

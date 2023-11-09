@@ -9,8 +9,8 @@ Dart client for [OpenAI](https://platform.openai.com/docs/api-reference) API.
 
 ## Features
 
-- Generated from the official OpenAI [OpenAPI specification](https://github.com/openai/openai-openapi) (low maintenance effort)
-- Fully documented and tested
+- Generated from the official OpenAI [OpenAPI specification](https://github.com/openai/openai-openapi)
+- Fully type-safe, documented and tested
 - Authentication with organization support
 - Custom base URL and headers support (e.g. HTTP proxies)
 - Custom HTTP client support (e.g. SOCKS5 proxies or advanced use cases)
@@ -105,10 +105,121 @@ await for (final res in stream) {
 }
 ```
 
-**Function calling:**
+**JSON mode:**
 
 ```dart
-const function = ChatCompletionFunction(
+final res = await client.createChatCompletion(
+  request: CreateChatCompletionRequest(
+    model: ChatCompletionModel.enumeration(
+      ChatCompletionModels.gpt41106Preview,
+    ),
+    messages: [
+      ChatCompletionMessage(
+        role: ChatCompletionMessageRole.system,
+        content:
+          'You are a helpful assistant. That extracts names from text '
+          'and returns them in a JSON array.',
+      ),
+      ChatCompletionMessage(
+        role: ChatCompletionMessageRole.user,
+        content: 'John, Mary, and Peter.',
+      ),
+    ],
+    temperature: 0,
+    responseFormat: ChatCompletionResponseFormat(
+      type: ChatCompletionResponseFormatType.jsonObject,
+    ),
+  ),
+);
+// { "names": ["John", "Mary", "Peter"] }
+```
+
+**Tools:**
+
+```dart
+const function = FunctionObject(
+  name: 'get_current_weather',
+  description: 'Get the current weather in a given location',
+  parameters: {
+    'type': 'object',
+    'properties': {
+      'location': {
+        'type': 'string',
+        'description': 'The city and state, e.g. San Francisco, CA',
+      },
+      'unit': {
+        'type': 'string',
+        'description': 'The unit of temperature to return',
+        'enum': ['celsius', 'fahrenheit'],
+      },
+    },
+    'required': ['location'],
+  },
+);
+const tool = ChatCompletionTool(
+  type: ChatCompletionToolType.function,
+  function: function,
+);
+
+final res1 = await client.createChatCompletion(
+  request: CreateChatCompletionRequest(
+    model: const ChatCompletionModel.enumeration(
+      ChatCompletionModels.gpt35Turbo,
+    ),
+    messages: [
+      ChatCompletionMessage(
+        role: ChatCompletionMessageRole.system,
+        content: 'You are a helpful assistant.',
+      ),
+      ChatCompletionMessage(
+        role: ChatCompletionMessageRole.user,
+        content: 'What’s the weather like in Boston right now?',
+      ),
+    ],
+    tools: [tool],
+    toolChoice: ChatCompletionToolChoiceOption.chatCompletionNamedToolChoice(
+      ChatCompletionNamedToolChoice(
+        type: ChatCompletionNamedToolChoiceType.function,
+        function: ChatCompletionFunctionCallOption(name: function.name),
+      ),
+    ),
+  ),
+);
+
+final toolCall = res1.choices.first.message.toolCalls!.first;
+final functionCall = toolCall.function;
+final arguments = json.decode(functionCall.arguments) as Map<String, dynamic>;
+final functionResult = getCurrentWeather(arguments['location'], arguments['unit']);
+
+final res2 = await client.createChatCompletion(
+  request: CreateChatCompletionRequest(
+    model: ChatCompletionModel.string('gpt-3.5-turbo'),
+    messages: [
+      ChatCompletionMessage(
+        role: ChatCompletionMessageRole.system,
+        content: 'You are a helpful assistant.',
+      ),
+      ChatCompletionMessage(
+        role: ChatCompletionMessageRole.user,
+        content: 'What’s the weather like in Boston right now?',
+      ),
+      ChatCompletionMessage(
+        role: ChatCompletionMessageRole.tool,
+        toolCallId: toolCall.id,
+        content: json.encode(functionResult),
+      ),
+    ],
+    tools: [tool],
+  ),
+);
+final answer = res2.choices.first.message.content;
+// The weather in Boston right now is sunny with a temperature of 22°C
+```
+
+**Function calling:** (deprecated in favor of tools)
+
+```dart
+const function = FunctionObject(
   name: 'get_current_weather',
   description: 'Get the current weather in a given location',
   parameters: {
@@ -322,9 +433,11 @@ Given a prompt and/or an input image, the model will generate a new image.
 ```dart
 final res = await client.createImage(
   request: CreateImageRequest(
+    model: CreateImageRequestModel.enumeration(ImageModels.dallE3),
     prompt: 'A cute baby sea otter',
-    n: 2,
-    size: ImageSize.v256x256,
+    quality: ImageQuality.hd,
+    size: ImageSize.v1024x1792,
+    style: ImageStyle.natural,
   ),
 );
 print(res.data.first.url);

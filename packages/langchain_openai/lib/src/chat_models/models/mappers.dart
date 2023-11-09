@@ -120,15 +120,15 @@ extension _AIChatMessageFunctionCallMapper on AIChatMessageFunctionCall {
 }
 
 extension ChatFunctionListMapper on List<ChatFunction> {
-  List<ChatCompletionFunction> toChatCompletionFunctions() {
-    return map((final function) => function.toChatCompletionFunction())
+  List<FunctionObject> toFunctionObjects() {
+    return map((final function) => function.toFunctionObject())
         .toList(growable: false);
   }
 }
 
 extension _ChatFunctionMapper on ChatFunction {
-  ChatCompletionFunction toChatCompletionFunction() {
-    return ChatCompletionFunction(
+  FunctionObject toFunctionObject() {
+    return FunctionObject(
       name: name,
       description: description,
       parameters: parameters ?? {},

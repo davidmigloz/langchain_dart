@@ -123,7 +123,7 @@ Future<void> _chatOpenAIJsonMode() async {
   final prompt = PromptValue.chat([
     ChatMessage.system(
       "Extract the 'name' and 'origin' of any companies mentioned in the "
-          'following statement. Return a JSON list.',
+      'following statement. Return a JSON list.',
     ),
     ChatMessage.human(
       'Google was founded in the USA, while Deepmind was founded in the UK',
