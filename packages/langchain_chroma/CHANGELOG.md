@@ -1,3 +1,7 @@
+## 0.0.5+3
+
+ - **DOCS**: Update vector stores documentation. ([dad60d24](https://github.com/davidmigloz/langchain_dart/commit/dad60d247fac157f2980f73c14ac88e9a0894fba))
+
 ## 0.0.5+2
 
  - Update a dependency to the latest release.

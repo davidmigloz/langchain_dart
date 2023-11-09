@@ -1,3 +1,7 @@
+## 0.0.2+1
+
+ - **REFACTOR**(openai_dart): Rename ChatCompletionFunction to FunctionObject ([#206](https://github.com/davidmigloz/langchain_dart/issues/206)). ([0f06df3f](https://github.com/davidmigloz/langchain_dart/commit/0f06df3f9b32e5887976936b5fd2e6aa5a4f4f5b))
+
 ## 0.0.2
 
  - **FEAT**(openai_dart): Support new models API functionality ([#203](https://github.com/davidmigloz/langchain_dart/issues/203)). ([33ebe746](https://github.com/davidmigloz/langchain_dart/commit/33ebe746b509009ba41e417f36abf267d9d1c2ca))

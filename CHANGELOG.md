@@ -1,7 +1,48 @@
 # Change Log
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) 
+server for more details about each release.
+
+## 2023-11-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain_chroma` - `v0.0.5+3`](#langchain_chroma---v0053)
+ - [`langchain_google` - `v0.0.10+1`](#langchain_google---v00101)
+ - [`langchain_openai` - `v0.0.15+1`](#langchain_openai---v00151)
+ - [`langchain_pinecone` - `v0.0.5+2`](#langchain_pinecone---v0052)
+ - [`openai_dart` - `v0.0.2+1`](#openai_dart---v0021)
+
+---
+
+#### `langchain_chroma` - `v0.0.5+3`
+
+ - **DOCS**: Update vector stores documentation. ([dad60d24](https://github.com/davidmigloz/langchain_dart/commit/dad60d247fac157f2980f73c14ac88e9a0894fba))
+
+#### `langchain_google` - `v0.0.10+1`
+
+ - **DOCS**: Update vector stores documentation. ([dad60d24](https://github.com/davidmigloz/langchain_dart/commit/dad60d247fac157f2980f73c14ac88e9a0894fba))
+
+#### `langchain_openai` - `v0.0.15+1`
+
+ - **REFACTOR**(openai_dart): Rename ChatCompletionFunction to FunctionObject (internal) ([#206](https://github.com/davidmigloz/langchain_dart/issues/206)). ([0f06df3f](https://github.com/davidmigloz/langchain_dart/commit/0f06df3f9b32e5887976936b5fd2e6aa5a4f4f5b))
+
+#### `langchain_pinecone` - `v0.0.5+2`
+
+ - **DOCS**: Update vector stores documentation. ([dad60d24](https://github.com/davidmigloz/langchain_dart/commit/dad60d247fac157f2980f73c14ac88e9a0894fba))
+
+#### `openai_dart` - `v0.0.2+1`
+
+ - **REFACTOR**(openai_dart): Rename ChatCompletionFunction to FunctionObject ([#206](https://github.com/davidmigloz/langchain_dart/issues/206)). ([0f06df3f](https://github.com/davidmigloz/langchain_dart/commit/0f06df3f9b32e5887976936b5fd2e6aa5a4f4f5b))
+
 
 ## 2023-11-07
 
