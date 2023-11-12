@@ -39,13 +39,13 @@ import 'models/models.dart';
 /// ```
 ///
 /// By default, the Chroma client will connect to a server running on
-/// `http://localhost:8000`. To connect to a different server, pass the `host`
-/// parameter to the constructor.
+/// `http://localhost:8000`. To connect to a different server, pass the
+/// `baseUrl` parameter to the constructor.
 ///
 /// ```dart
 /// final vectorStore = Chroma(
 ///   embeddings: OpenAIEmbeddings(apiKey: openaiApiKey),
-///   host: 'http://localhost:8888',
+///   baseUrl: 'http://localhost:8888',
 /// );
 /// ```
 ///
@@ -94,10 +94,16 @@ class Chroma extends VectorStore {
     this.collectionName = 'langchain',
     this.collectionMetadata,
     required super.embeddings,
-    final String? host,
+    final String tenant = 'default_tenant',
+    final String database = 'default_database',
+    final String baseUrl = 'http://localhost:8000',
+    final Map<String, String> headers = const {},
     final http.Client? client,
   }) : _client = ChromaClient(
-          host: host ?? 'http://localhost:8000',
+          tenant: tenant,
+          database: database,
+          baseUrl: baseUrl,
+          headers: headers,
           client: client,
         );
 

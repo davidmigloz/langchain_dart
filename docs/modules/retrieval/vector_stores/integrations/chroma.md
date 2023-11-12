@@ -28,12 +28,12 @@ docker pull chromadb/chroma
 docker run -p 8000:8000 chromadb/chroma
 ```
 
-By default, the Chroma client will connect to a server running on `http://localhost:8000`. To connect to a different server, pass the `host` parameter to the constructor.
+By default, the Chroma client will connect to a server running on `http://localhost:8000`. To connect to a different server, pass the `baseUrl` parameter to the constructor.
 
 ```dart
 final vectorStore = Chroma(
   embeddings: OpenAIEmbeddings(apiKey: openaiApiKey),
-  host: 'http://localhost:8888',
+  baseUrl: 'http://localhost:8888',
 );
 ```
 
