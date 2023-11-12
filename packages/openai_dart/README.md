@@ -19,13 +19,17 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
 
 **Supported endpoints:**
 
-- Chat (with functions and streaming support)
-- Completions (with streaming support)
+- Chat (with tools and streaming support)
+- Completions (legacy)
 - Embeddings
 - Fine-tuning
 - Images
 - Models
 - Moderations
+- Assistants (beta)
+- Threads (beta)
+- Messages (beta)
+- Runs (beta)
 
 ## Table of contents
 
@@ -33,16 +37,20 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
   * [Authentication](#authentication)
     + [Organization (optional)](#organization-optional)
   * [Chat](#chat)
-  * [Completions](#completions)
+  * [Completions (legacy)](#completions-legacy)
   * [Embeddings](#embeddings)
   * [Fine-tuning](#fine-tuning)
   * [Images](#images)
   * [Models](#models)
   * [Moderations](#moderations)
-- [Advance usage](#advance-usage)
-  * [Azure OpenAI Service](#azure-openai-service) 
+  * [Assistants (beta)](#assistants-beta)
+  * [Threads (beta)](#threads-beta)
+  * [Messages (beta)](#messages-beta)
+  * [Runs (beta)](#runs-beta)
+- [Advance Usage](#advance-usage)
+  * [Azure OpenAI Service](#azure-openai-service)
   * [Default HTTP client](#default-http-client)
-  * [Custom HTTP client ](#custom-http-client)
+  * [Custom HTTP client](#custom-http-client)
   * [Using a proxy](#using-a-proxy)
     + [HTTP proxy](#http-proxy)
     + [SOCKS5 proxy](#socks5-proxy)
@@ -77,6 +85,8 @@ final client = OpenAIClient(
 ### Chat
 
 Given a list of messages comprising a conversation, the model will return a response.
+
+Related guide: [Chat Completions](https://platform.openai.com/docs/guides/text-generation)
 
 **Create chat completion:**
 
@@ -356,9 +366,12 @@ final answer = res2.choices.first.message.content;
 // The weather in Boston right now is sunny with a temperature of 22°C
 ```
 
-### Completions
+### Completions (legacy)
 
 Given a prompt, the model will return one or more predicted completions, and can also return the probabilities of alternative tokens at each position.
+
+> Most developer should use our Chat Completions API to leverage our best and newest models. 
+> Most models that support the legacy Completions endpoint will be shut off on January 4th, 2024.
 
 **Create completion:**
 
@@ -407,6 +420,8 @@ await for (final res in stream) {
 
 Get a vector representation of a given input that can be easily consumed by machine learning models and algorithms.
 
+Related guide: [Embeddings](https://platform.openai.com/docs/guides/embeddings)
+
 **Create embedding:**
 
 ```dart
@@ -447,6 +462,8 @@ print(res.data.first.embeddingVectorBase64);
 ### Fine-tuning
 
 Manage fine-tuning jobs to tailor a model to your specific training data.
+
+Related guide: [Fine-tune models](https://platform.openai.com/docs/guides/fine-tuning)
 
 **Create fine-tuning job:**
 
@@ -496,6 +513,8 @@ final res = await client.listFineTuningEvents(
 
 Given a prompt and/or an input image, the model will generate a new image.
 
+Related guide: [Image generation](https://platform.openai.com/docs/guides/images)
+
 **Create image:**
 
 ```dart
@@ -544,7 +563,11 @@ print(res.deleted);
 
 ### Moderations
 
-Given a input text, outputs if the model classifies it as violating OpenAI's content policy.
+Given an input text, outputs if the model classifies it as violating OpenAI's content policy.
+
+Related guide: [Moderations](https://platform.openai.com/docs/guides/moderation)
+
+**Create moderation:**
 
 ```dart
 final res = await client.createModeration(
@@ -566,6 +589,257 @@ print(res.results.first.categoryScores.violence);
 `ModerationInput` is a sealed class that offers four ways to specify the embedding input:
 - `ModerationInput.string('input')`: the input as string.
 - `ModerationInput.listString(['input'])`: batch of string inputs.
+
+### Assistants (beta)
+
+Build assistants that can call models and use tools to perform tasks.
+
+[Get started with the Assistants API](https://platform.openai.com/docs/assistants/overview)
+
+**Create assistant:**
+
+```dart
+final res = await client.createAssistant(
+  request: CreateAssistantRequest(
+    model: CreateAssistantRequestModel.string('gpt-4'),
+    name: 'Math Tutor',
+    description: 'Help students with math homework',
+    instructions: 'You are a personal math tutor. Write and run code to answer math questions.',
+    tools: [AssistantTools.codeInterpreter()],
+  ),
+);
+```
+
+**Create assistant file:**
+
+```dart
+final res = await client.createAssistantFile(
+  assistantId: assistantId,
+  request: CreateAssistantFileRequest(fileId: fileId),
+);
+```
+
+**List assistants:**
+
+```dart
+final res = await client.listAssistants();
+```
+
+**List assistant files:**
+
+```dart
+final res = await client.listAssistantFiles(assistantId: assistantId);
+```
+
+**Retrieve assistant:**
+
+```dart
+final res = await client.getAssistant(assistantId: assistantId);
+```
+
+**Retrieve assistant file:**
+
+```dart
+final res = await client.getAssistantFile(assistantId: assistantId, fileId: fileId);
+```
+
+**Modify assistant:**
+
+```dart
+final res = await client.modifyAssistant(
+  assistantId: assistantId,
+  request: ModifyAssistantRequest(name: 'New name'),
+);
+```
+
+**Delete assistant:**
+
+```dart
+final res = await client.deleteAssistant(assistantId: assistantId);
+```
+
+**Delete assistant file:**
+
+```dart
+final res = await client.deleteAssistantFile(assistantId: assistantId, fileId: fileId);
+```
+
+### Threads (beta)
+
+Create threads that assistants can interact with.
+
+Related guide: [Assistants](https://platform.openai.com/docs/assistants/overview)
+
+**Create thread:**
+
+```dart
+final res = await client.createThread(
+  request: CreateThreadRequest(),
+);
+```
+
+**Retrieve thread:**
+
+```dart
+final res = await client.getThread(threadId: threadId);
+```
+
+**Modify thread:**
+
+```dart
+final res = await client.modifyThread(
+  threadId: threadId,
+  request: ModifyThreadRequest(metadata: {'new': 'metadata'}),
+);
+```
+
+**Delete thread:**
+
+```dart
+final res = await client.deleteThread(threadId: threadId);
+```
+
+### Messages (beta)
+
+Create messages within threads.
+
+Related guide: [Assistants](https://platform.openai.com/docs/assistants/overview)
+
+**Create message:**
+
+```dart
+final res = await client.createThreadMessage(
+  threadId: threadId,
+  request: CreateMessageRequest(
+    role: CreateMessageRequestRole.user,
+    content: 'I need to solve the equation `3x + 11 = 14`. Can you help me?',
+  ),
+);
+```
+
+**List messages:**
+
+```dart
+final res = await client.listThreadMessages(threadId: threadId);
+```
+
+**List message files:**
+
+```dart
+final res = await client.listThreadMessageFiles(threadId: threadId, messageId: messageId);
+```
+
+**Retrieve message:**
+
+```dart
+final res = await client.getThreadMessage(threadId: threadId, messageId: messageId);
+```
+
+**Retrieve message file:**
+
+```dart
+final res = await client.getThreadMessageFile(
+  threadId: threadId,
+  messageId: messageId,
+  fileId: fileId,
+);
+```
+
+**Modify message:**
+
+```dart
+final res = await client.modifyThreadMessage(
+  threadId: threadId,
+  messageId: messageId,
+  request: ModifyMessageRequest(metadata: {'new': 'metadata'}),
+);
+```
+
+### Runs (beta)
+
+Represents an execution run on a thread.
+
+Related guide: [Assistants](https://platform.openai.com/docs/assistants/overview)
+
+**Create run:**
+
+```dart
+final res = await client.createThreadRun(
+  threadId: threadId,
+  request: CreateRunRequest(
+    assistantId: assistantId,
+    instructions: 'Please address the user as Jane Doe. The user has a premium account.',
+  ),
+);
+```
+
+**Create thread and run:**
+
+```dart
+final res = await client.createThreadAndRun(
+  request: CreateThreadAndRunRequest(
+    assistantId: assistantId,
+    instructions: 'Please address the user as Jane Doe. The user has a premium account.',
+  ),
+);
+```
+
+**List runs:**
+
+```dart
+final res = await client.listThreadRuns(threadId: threadId);
+```
+
+**List run steps:**
+
+```dart
+final res = await client.listThreadRunSteps(threadId: threadId, runId: runId);
+```
+
+**Retrieve run:**
+
+```dart
+final res = await client.getThreadRun(threadId: threadId, runId: runId);
+```
+
+**Retrieve run step:**
+
+```dart
+final res = await client.getThreadRunStep(threadId: threadId, runId: runId, stepId: stepId);
+```
+
+**Modify run:**
+
+```dart
+final res = await client.modifyThreadRun(
+  threadId: threadId,
+  runId: runId,
+  request: ModifyRunRequest(metadata: {'new': 'metadata'}),
+);
+```
+
+**Submit tool outputs to run:**
+
+```dart
+final res = await client.submitThreadToolOutputsToRun(
+  threadId: threadId,
+  runId: runId,
+  request: SubmitToolOutputsRunRequest(
+    toolOutputs: [
+      RunSubmitToolOutput(
+        toolCallId: 'call_abc123',
+        output: '28C',
+      ),
+    ],
+  ),
+);
+```
+
+**Cancel a run:**
+
+```dart
+final res = await client.cancelThreadRun(threadId: threadId, runId: runId);
+```
 
 ## Advance Usage
 
@@ -597,7 +871,7 @@ By default, the client uses the following implementation of `http.Client`:
 - Non-web: [`IOClient`](https://pub.dev/documentation/http/latest/io_client/IOClient-class.html)
 - Web: [`FetchClient`](https://pub.dev/documentation/fetch_client/latest/fetch_client/FetchClient-class.html) (to support streaming on web)
 
-### Custom HTTP client 
+### Custom HTTP client
 
 You can always provide your own implementation of `http.Client` for further customization:
 

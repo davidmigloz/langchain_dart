@@ -30,3 +30,32 @@ extension EmbeddingX on Embedding {
     )!;
   }
 }
+
+/// Extension methods for [MessageContent].
+extension MessageContentX on MessageContent {
+  /// Returns the text of the message.
+  ///
+  /// You can only use this field if the message content is of type
+  /// [MessageContentText].
+  String get text {
+    return mapOrNull(
+      text: (final MessageContentTextObject c) => c.text.value,
+      imageFile: (final a) => throw ArgumentError(
+        'Message content is not of type `text`',
+      ),
+    )!;
+  }
+
+  /// Returns the image file ID of the message.
+  ///
+  /// You can only use this field if the message content is of type
+  /// [MessageContentImage].
+  String get imageFile {
+    return mapOrNull(
+      text: (final s) => throw ArgumentError(
+        'Message content is not of type `imageFile`',
+      ),
+      imageFile: (final c) => c.imageFile.fileId,
+    )!;
+  }
+}

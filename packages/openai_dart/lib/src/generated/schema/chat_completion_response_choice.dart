@@ -30,6 +30,9 @@ class ChatCompletionResponseChoice with _$ChatCompletionResponseChoice {
 
     /// An assistant message in a chat conversation.
     required ChatCompletionAssistantMessage message,
+
+    /// Log probability information for the choice.
+    required ChatCompletionLogprobs? logprobs,
   }) = _ChatCompletionResponseChoice;
 
   /// Object construction from a JSON representation
@@ -40,7 +43,8 @@ class ChatCompletionResponseChoice with _$ChatCompletionResponseChoice {
   static const List<String> propertyNames = [
     'finish_reason',
     'index',
-    'message'
+    'message',
+    'logprobs'
   ];
 
   /// Perform validations on the schema property values
@@ -54,6 +58,7 @@ class ChatCompletionResponseChoice with _$ChatCompletionResponseChoice {
       'finish_reason': finishReason,
       'index': index,
       'message': message,
+      'logprobs': logprobs,
     };
   }
 }

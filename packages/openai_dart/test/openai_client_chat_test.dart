@@ -39,6 +39,8 @@ void main() {
             ),
           ],
           temperature: 0,
+          topLogprobs: 2,
+          logprobs: true,
         );
         final CreateChatCompletionResponse res =
             await client.createChatCompletion(request: request);
@@ -46,6 +48,14 @@ void main() {
         final choice = res.choices.first;
         expect(choice.index, 0);
         expect(choice.finishReason, ChatCompletionFinishReason.stop);
+        expect(choice.logprobs?.content, isNotEmpty);
+        final logprob = choice.logprobs!.content!.first;
+        expect(logprob.token, isNotEmpty);
+        expect(logprob.bytes, isNotEmpty);
+        expect(logprob.topLogprobs, hasLength(2));
+        final topLogprob = logprob.topLogprobs.first;
+        expect(topLogprob.token, isNotEmpty);
+        expect(topLogprob.bytes, isNotEmpty);
         final message = choice.message;
         expect(message.role, ChatCompletionMessageRole.assistant);
         expect(message.content, isNotEmpty);

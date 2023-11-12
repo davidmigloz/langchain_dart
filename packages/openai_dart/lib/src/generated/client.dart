@@ -682,4 +682,830 @@ class OpenAIClient {
     );
     return CreateModerationResponse.fromJson(_jsonDecode(r));
   }
+
+  // ------------------------------------------
+  // METHOD: listAssistants
+  // ------------------------------------------
+
+  /// Returns a list of assistants.
+  ///
+  /// `limit`: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
+  ///
+  /// `order`: Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.
+  ///
+  /// `after`: A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
+  ///
+  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+  ///
+  /// `GET` `https://api.openai.com/v1/assistants`
+  Future<ListAssistantsResponse> listAssistants({
+    int limit = 20,
+    String order = 'desc',
+    String? after,
+    String? before,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/assistants',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+      queryParams: {
+        'limit': limit,
+        'order': order,
+        if (after != null) 'after': after,
+        if (before != null) 'before': before,
+      },
+    );
+    return ListAssistantsResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: createAssistant
+  // ------------------------------------------
+
+  /// Create an assistant with a model and instructions.
+  ///
+  /// `request`: Request object for the Create assistant endpoint.
+  ///
+  /// `POST` `https://api.openai.com/v1/assistants`
+  Future<AssistantObject> createAssistant({
+    required CreateAssistantRequest request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/assistants',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return AssistantObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: getAssistant
+  // ------------------------------------------
+
+  /// Retrieves an assistant.
+  ///
+  /// `assistantId`: The ID of the assistant to retrieve.
+  ///
+  /// `GET` `https://api.openai.com/v1/assistants/{assistant_id}`
+  Future<AssistantObject> getAssistant({
+    required String assistantId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/assistants/$assistantId',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return AssistantObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: modifyAssistant
+  // ------------------------------------------
+
+  /// Modifies an assistant.
+  ///
+  /// `assistantId`: The ID of the assistant to modify.
+  ///
+  /// `request`: Request object for the Modify assistant endpoint.
+  ///
+  /// `POST` `https://api.openai.com/v1/assistants/{assistant_id}`
+  Future<AssistantObject> modifyAssistant({
+    required String assistantId,
+    required ModifyAssistantRequest request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/assistants/$assistantId',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return AssistantObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: deleteAssistant
+  // ------------------------------------------
+
+  /// Delete an assistant.
+  ///
+  /// `assistantId`: The ID of the assistant to delete.
+  ///
+  /// `DELETE` `https://api.openai.com/v1/assistants/{assistant_id}`
+  Future<DeleteAssistantResponse> deleteAssistant({
+    required String assistantId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/assistants/$assistantId',
+      method: HttpMethod.delete,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return DeleteAssistantResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: createThread
+  // ------------------------------------------
+
+  /// Create a thread.
+  ///
+  /// `request`: Request object for the Create thread endpoint.
+  ///
+  /// `POST` `https://api.openai.com/v1/threads`
+  Future<ThreadObject> createThread({
+    CreateThreadRequest? request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return ThreadObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: getThread
+  // ------------------------------------------
+
+  /// Retrieves a thread.
+  ///
+  /// `threadId`: The ID of the thread to retrieve.
+  ///
+  /// `GET` `https://api.openai.com/v1/threads/{thread_id}`
+  Future<ThreadObject> getThread({
+    required String threadId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return ThreadObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: modifyThread
+  // ------------------------------------------
+
+  /// Modifies a thread.
+  ///
+  /// `threadId`: The ID of the thread to modify. Only the `metadata` can be modified.
+  ///
+  /// `request`: Request object for the Modify thread endpoint.
+  ///
+  /// `POST` `https://api.openai.com/v1/threads/{thread_id}`
+  Future<ThreadObject> modifyThread({
+    required String threadId,
+    required ModifyThreadRequest request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return ThreadObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: deleteThread
+  // ------------------------------------------
+
+  /// Delete a thread.
+  ///
+  /// `threadId`: The ID of the thread to delete.
+  ///
+  /// `DELETE` `https://api.openai.com/v1/threads/{thread_id}`
+  Future<DeleteThreadResponse> deleteThread({
+    required String threadId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId',
+      method: HttpMethod.delete,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return DeleteThreadResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: listThreadMessages
+  // ------------------------------------------
+
+  /// Returns a list of messages for a given thread.
+  ///
+  /// `threadId`: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) the messages belong to.
+  ///
+  /// `limit`: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
+  ///
+  /// `order`: Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.
+  ///
+  /// `after`: A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
+  ///
+  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+  ///
+  /// `GET` `https://api.openai.com/v1/threads/{thread_id}/messages`
+  Future<ListMessagesResponse> listThreadMessages({
+    required String threadId,
+    int limit = 20,
+    String order = 'desc',
+    String? after,
+    String? before,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId/messages',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+      queryParams: {
+        'limit': limit,
+        'order': order,
+        if (after != null) 'after': after,
+        if (before != null) 'before': before,
+      },
+    );
+    return ListMessagesResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: createThreadMessage
+  // ------------------------------------------
+
+  /// Create a message.
+  ///
+  /// `threadId`: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) to create a message for.
+  ///
+  /// `request`: Request object for the Create message endpoint.
+  ///
+  /// `POST` `https://api.openai.com/v1/threads/{thread_id}/messages`
+  Future<MessageObject> createThreadMessage({
+    required String threadId,
+    required CreateMessageRequest request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId/messages',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return MessageObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: getThreadMessage
+  // ------------------------------------------
+
+  /// Retrieve a message.
+  ///
+  /// `threadId`: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) to which this message belongs.
+  ///
+  /// `messageId`: The ID of the message to retrieve.
+  ///
+  /// `GET` `https://api.openai.com/v1/threads/{thread_id}/messages/{message_id}`
+  Future<MessageObject> getThreadMessage({
+    required String threadId,
+    required String messageId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId/messages/$messageId',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return MessageObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: modifyThreadMessage
+  // ------------------------------------------
+
+  /// Modifies a message.
+  ///
+  /// `threadId`: The ID of the thread to which this message belongs.
+  ///
+  /// `messageId`: The ID of the message to modify.
+  ///
+  /// `request`: Request object for the Modify message endpoint.
+  ///
+  /// `POST` `https://api.openai.com/v1/threads/{thread_id}/messages/{message_id}`
+  Future<MessageObject> modifyThreadMessage({
+    required String threadId,
+    required String messageId,
+    required ModifyMessageRequest request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId/messages/$messageId',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return MessageObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: createThreadAndRun
+  // ------------------------------------------
+
+  /// Create a thread and run it in one request.
+  ///
+  /// `request`: Request object for the Create thread and run endpoint.
+  ///
+  /// `POST` `https://api.openai.com/v1/threads/runs`
+  Future<RunObject> createThreadAndRun({
+    required CreateThreadAndRunRequest request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/runs',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return RunObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: listThreadRuns
+  // ------------------------------------------
+
+  /// Returns a list of runs belonging to a thread.
+  ///
+  /// `threadId`: The ID of the thread the run belongs to.
+  ///
+  /// `limit`: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
+  ///
+  /// `order`: Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.
+  ///
+  /// `after`: A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
+  ///
+  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+  ///
+  /// `GET` `https://api.openai.com/v1/threads/{thread_id}/runs`
+  Future<ListRunsResponse> listThreadRuns({
+    required String threadId,
+    int limit = 20,
+    String order = 'desc',
+    String? after,
+    String? before,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId/runs',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+      queryParams: {
+        'limit': limit,
+        'order': order,
+        if (after != null) 'after': after,
+        if (before != null) 'before': before,
+      },
+    );
+    return ListRunsResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: createThreadRun
+  // ------------------------------------------
+
+  /// Create a run.
+  ///
+  /// `threadId`: The ID of the thread to run.
+  ///
+  /// `request`: Request object for the Create run endpoint.
+  ///
+  /// `POST` `https://api.openai.com/v1/threads/{thread_id}/runs`
+  Future<RunObject> createThreadRun({
+    required String threadId,
+    required CreateRunRequest request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId/runs',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return RunObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: getThreadRun
+  // ------------------------------------------
+
+  /// Retrieves a run.
+  ///
+  /// `threadId`: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was run.
+  ///
+  /// `runId`: The ID of the run to retrieve.
+  ///
+  /// `GET` `https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}`
+  Future<RunObject> getThreadRun({
+    required String threadId,
+    required String runId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId/runs/$runId',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return RunObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: modifyThreadRun
+  // ------------------------------------------
+
+  /// Modifies a run.
+  ///
+  /// `threadId`: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was run.
+  ///
+  /// `runId`: The ID of the run to modify.
+  ///
+  /// `request`: Request object for the Modify run endpoint.
+  ///
+  /// `POST` `https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}`
+  Future<RunObject> modifyThreadRun({
+    required String threadId,
+    required String runId,
+    required ModifyRunRequest request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId/runs/$runId',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return RunObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: submitThreadToolOutputsToRun
+  // ------------------------------------------
+
+  /// When a run has the `status: "requires_action"` and `required_action.type` is `submit_tool_outputs`, this endpoint can be used to submit the outputs from the tool calls once they're all completed. All outputs must be submitted in a single request.
+  ///
+  /// `threadId`: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) to which this run belongs.
+  ///
+  /// `runId`: The ID of the run that requires the tool output submission.
+  ///
+  /// `request`: Request object for the Submit tool outputs to run endpoint.
+  ///
+  /// `POST` `https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}/submit_tool_outputs`
+  Future<RunObject> submitThreadToolOutputsToRun({
+    required String threadId,
+    required String runId,
+    required SubmitToolOutputsRunRequest request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId/runs/$runId/submit_tool_outputs',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return RunObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: cancelThreadRun
+  // ------------------------------------------
+
+  /// Cancels a run that is `in_progress`.
+  ///
+  /// `threadId`: The ID of the thread to which this run belongs.
+  ///
+  /// `runId`: The ID of the run to cancel.
+  ///
+  /// `POST` `https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}/cancel`
+  Future<RunObject> cancelThreadRun({
+    required String threadId,
+    required String runId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId/runs/$runId/cancel',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return RunObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: listThreadRunSteps
+  // ------------------------------------------
+
+  /// Returns a list of run steps belonging to a run.
+  ///
+  /// `threadId`: The ID of the thread the run and run steps belong to.
+  ///
+  /// `runId`: The ID of the run the run steps belong to.
+  ///
+  /// `limit`: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
+  ///
+  /// `order`: Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.
+  ///
+  /// `after`: A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
+  ///
+  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+  ///
+  /// `GET` `https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}/steps`
+  Future<ListRunStepsResponse> listThreadRunSteps({
+    required String threadId,
+    required String runId,
+    int limit = 20,
+    String order = 'desc',
+    String? after,
+    String? before,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId/runs/$runId/steps',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+      queryParams: {
+        'limit': limit,
+        'order': order,
+        if (after != null) 'after': after,
+        if (before != null) 'before': before,
+      },
+    );
+    return ListRunStepsResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: getThreadRunStep
+  // ------------------------------------------
+
+  /// Retrieves a run step.
+  ///
+  /// `threadId`: The ID of the thread to which the run and run step belongs.
+  ///
+  /// `runId`: The ID of the run to which the run step belongs.
+  ///
+  /// `stepId`: The ID of the run step to retrieve.
+  ///
+  /// `GET` `https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}/steps/{step_id}`
+  Future<RunStepObject> getThreadRunStep({
+    required String threadId,
+    required String runId,
+    required String stepId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId/runs/$runId/steps/$stepId',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return RunStepObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: listAssistantFiles
+  // ------------------------------------------
+
+  /// Returns a list of assistant files.
+  ///
+  /// `assistantId`: The ID of the assistant the file belongs to.
+  ///
+  /// `limit`: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
+  ///
+  /// `order`: Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.
+  ///
+  /// `after`: A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
+  ///
+  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+  ///
+  /// `GET` `https://api.openai.com/v1/assistants/{assistant_id}/files`
+  Future<ListAssistantFilesResponse> listAssistantFiles({
+    required String assistantId,
+    int limit = 20,
+    String order = 'desc',
+    String? after,
+    String? before,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/assistants/$assistantId/files',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+      queryParams: {
+        'limit': limit,
+        'order': order,
+        if (after != null) 'after': after,
+        if (before != null) 'before': before,
+      },
+    );
+    return ListAssistantFilesResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: createAssistantFile
+  // ------------------------------------------
+
+  /// Create an assistant file by attaching a [File](https://platform.openai.com/docs/api-reference/files) to an [assistant](https://platform.openai.com/docs/api-reference/assistants).
+  ///
+  /// `assistantId`: The ID of the assistant for which to create a File.
+  ///
+  /// `request`: Request object for the Create assistant file endpoint.
+  ///
+  /// `POST` `https://api.openai.com/v1/assistants/{assistant_id}/files`
+  Future<AssistantFileObject> createAssistantFile({
+    required String assistantId,
+    required CreateAssistantFileRequest request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/assistants/$assistantId/files',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return AssistantFileObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: getAssistantFile
+  // ------------------------------------------
+
+  /// Retrieves an AssistantFile.
+  ///
+  /// `assistantId`: The ID of the assistant who the file belongs to.
+  ///
+  /// `fileId`: The ID of the file we're getting.
+  ///
+  /// `GET` `https://api.openai.com/v1/assistants/{assistant_id}/files/{file_id}`
+  Future<AssistantFileObject> getAssistantFile({
+    required String assistantId,
+    required String fileId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/assistants/$assistantId/files/$fileId',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return AssistantFileObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: deleteAssistantFile
+  // ------------------------------------------
+
+  /// Delete an assistant file.
+  ///
+  /// `assistantId`: The ID of the assistant that the file belongs to.
+  ///
+  /// `fileId`: The ID of the file to delete.
+  ///
+  /// `DELETE` `https://api.openai.com/v1/assistants/{assistant_id}/files/{file_id}`
+  Future<DeleteAssistantFileResponse> deleteAssistantFile({
+    required String assistantId,
+    required String fileId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/assistants/$assistantId/files/$fileId',
+      method: HttpMethod.delete,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return DeleteAssistantFileResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: listThreadMessageFiles
+  // ------------------------------------------
+
+  /// Returns a list of message files.
+  ///
+  /// `threadId`: The ID of the thread that the message and files belong to.
+  ///
+  /// `messageId`: The ID of the message that the files belongs to.
+  ///
+  /// `limit`: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
+  ///
+  /// `order`: Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.
+  ///
+  /// `after`: A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
+  ///
+  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+  ///
+  /// `GET` `https://api.openai.com/v1/threads/{thread_id}/messages/{message_id}/files`
+  Future<ListMessageFilesResponse> listThreadMessageFiles({
+    required String threadId,
+    required String messageId,
+    int limit = 20,
+    String order = 'desc',
+    String? after,
+    String? before,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId/messages/$messageId/files',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+      queryParams: {
+        'limit': limit,
+        'order': order,
+        if (after != null) 'after': after,
+        if (before != null) 'before': before,
+      },
+    );
+    return ListMessageFilesResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: getThreadMessageFile
+  // ------------------------------------------
+
+  /// Retrieves a message file.
+  ///
+  /// `threadId`: The ID of the thread to which the message and File belong.
+  ///
+  /// `messageId`: The ID of the message the file belongs to.
+  ///
+  /// `fileId`: The ID of the file being retrieved.
+  ///
+  /// `GET` `https://api.openai.com/v1/threads/{thread_id}/messages/{message_id}/files/{file_id}`
+  Future<MessageFileObject> getThreadMessageFile({
+    required String threadId,
+    required String messageId,
+    required String fileId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId/messages/$messageId/files/$fileId',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return MessageFileObject.fromJson(_jsonDecode(r));
+  }
 }

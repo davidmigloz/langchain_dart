@@ -17,6 +17,8 @@ servers:
   - url: https://api.openai.com/v1
 
 tags:
+  - name: Assistants
+    description: Build Assistants that can call models and use tools.
   - name: Chat
     description: Given a list of messages comprising a conversation, the model will return a response.
   - name: Completions
@@ -318,6 +320,831 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CreateModerationResponse"
+  /assistants:
+    get:
+      operationId: listAssistants
+      tags:
+        - Assistants
+      summary: Returns a list of assistants.
+      parameters:
+        - name: limit
+          in: query
+          description: &pagination_limit_param_description |
+            A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: order
+          in: query
+          description: &pagination_order_param_description |
+            Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.
+          schema:
+            type: string
+            default: desc
+            enum: ["asc", "desc"]
+        - name: after
+          in: query
+          description: &pagination_after_param_description |
+            A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
+          schema:
+            type: string
+        - name: before
+          in: query
+          description: &pagination_before_param_description |
+            A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListAssistantsResponse"
+    post:
+      operationId: createAssistant
+      tags:
+        - Assistants
+      summary: Create an assistant with a model and instructions.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAssistantRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssistantObject"
+  /assistants/{assistant_id}:
+    get:
+      operationId: getAssistant
+      tags:
+        - Assistants
+      summary: Retrieves an assistant.
+      parameters:
+        - in: path
+          name: assistant_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the assistant to retrieve.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssistantObject"
+    post:
+      operationId: modifyAssistant
+      tags:
+        - Assistant
+      summary: Modifies an assistant.
+      parameters:
+        - in: path
+          name: assistant_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the assistant to modify.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ModifyAssistantRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssistantObject"
+    delete:
+      operationId: deleteAssistant
+      tags:
+        - Assistants
+      summary: Delete an assistant.
+      parameters:
+        - in: path
+          name: assistant_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the assistant to delete.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteAssistantResponse"
+  /threads:
+    post:
+      operationId: createThread
+      tags:
+        - Assistants
+      summary: Create a thread.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateThreadRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ThreadObject"
+  /threads/{thread_id}:
+    get:
+      operationId: getThread
+      tags:
+        - Assistants
+      summary: Retrieves a thread.
+      parameters:
+        - in: path
+          name: thread_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the thread to retrieve.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ThreadObject"
+    post:
+      operationId: modifyThread
+      tags:
+        - Assistants
+      summary: Modifies a thread.
+      parameters:
+        - in: path
+          name: thread_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the thread to modify. Only the `metadata` can be modified.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ModifyThreadRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ThreadObject"
+    delete:
+      operationId: deleteThread
+      tags:
+        - Assistants
+      summary: Delete a thread.
+      parameters:
+        - in: path
+          name: thread_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the thread to delete.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteThreadResponse"
+  /threads/{thread_id}/messages:
+    get:
+      operationId: listThreadMessages
+      tags:
+        - Assistants
+      summary: Returns a list of messages for a given thread.
+      parameters:
+        - in: path
+          name: thread_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) the messages belong to.
+        - name: limit
+          in: query
+          description: *pagination_limit_param_description
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: order
+          in: query
+          description: *pagination_order_param_description
+          schema:
+            type: string
+            default: desc
+            enum: ["asc", "desc"]
+        - name: after
+          in: query
+          description: *pagination_after_param_description
+          schema:
+            type: string
+        - name: before
+          in: query
+          description: *pagination_before_param_description
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListMessagesResponse"
+    post:
+      operationId: createThreadMessage
+      tags:
+        - Assistants
+      summary: Create a message.
+      parameters:
+        - in: path
+          name: thread_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) to create a message for.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMessageRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageObject"
+  /threads/{thread_id}/messages/{message_id}:
+    get:
+      operationId: getThreadMessage
+      tags:
+        - Assistants
+      summary: Retrieve a message.
+      parameters:
+        - in: path
+          name: thread_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) to which this message belongs.
+        - in: path
+          name: message_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the message to retrieve.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageObject"
+    post:
+      operationId: modifyThreadMessage
+      tags:
+        - Assistants
+      summary: Modifies a message.
+      parameters:
+        - in: path
+          name: thread_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the thread to which this message belongs.
+        - in: path
+          name: message_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the message to modify.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ModifyMessageRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageObject"
+  /threads/runs:
+    post:
+      operationId: createThreadAndRun
+      tags:
+        - Assistants
+      summary: Create a thread and run it in one request.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateThreadAndRunRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RunObject"
+  /threads/{thread_id}/runs:
+    get:
+      operationId: listThreadRuns
+      tags:
+        - Assistants
+      summary: Returns a list of runs belonging to a thread.
+      parameters:
+        - name: thread_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the thread the run belongs to.
+        - name: limit
+          in: query
+          description: *pagination_limit_param_description
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: order
+          in: query
+          description: *pagination_order_param_description
+          schema:
+            type: string
+            default: desc
+            enum: ["asc", "desc"]
+        - name: after
+          in: query
+          description: *pagination_after_param_description
+          schema:
+            type: string
+        - name: before
+          in: query
+          description: *pagination_before_param_description
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListRunsResponse"
+    post:
+      operationId: createThreadRun
+      tags:
+        - Assistants
+      summary: Create a run.
+      parameters:
+        - in: path
+          name: thread_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the thread to run.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateRunRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RunObject"
+  /threads/{thread_id}/runs/{run_id}:
+    get:
+      operationId: getThreadRun
+      tags:
+        - Assistants
+      summary: Retrieves a run.
+      parameters:
+        - in: path
+          name: thread_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was run.
+        - in: path
+          name: run_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the run to retrieve.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RunObject"
+    post:
+      operationId: modifyThreadRun
+      tags:
+        - Assistants
+      summary: Modifies a run.
+      parameters:
+        - in: path
+          name: thread_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was run.
+        - in: path
+          name: run_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the run to modify.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ModifyRunRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RunObject"
+  /threads/{thread_id}/runs/{run_id}/submit_tool_outputs:
+    post:
+      operationId: submitThreadToolOutputsToRun
+      tags:
+        - Assistants
+      summary: |
+        When a run has the `status: "requires_action"` and `required_action.type` is `submit_tool_outputs`, this endpoint can be used to submit the outputs from the tool calls once they're all completed. All outputs must be submitted in a single request.
+      parameters:
+        - in: path
+          name: thread_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) to which this run belongs.
+        - in: path
+          name: run_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the run that requires the tool output submission.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmitToolOutputsRunRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RunObject"
+  /threads/{thread_id}/runs/{run_id}/cancel:
+    post:
+      operationId: cancelThreadRun
+      tags:
+        - Assistants
+      summary: Cancels a run that is `in_progress`.
+      parameters:
+        - in: path
+          name: thread_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the thread to which this run belongs.
+        - in: path
+          name: run_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the run to cancel.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RunObject"
+  /threads/{thread_id}/runs/{run_id}/steps:
+    get:
+      operationId: listThreadRunSteps
+      tags:
+        - Assistants
+      summary: Returns a list of run steps belonging to a run.
+      parameters:
+        - name: thread_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the thread the run and run steps belong to.
+        - name: run_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the run the run steps belong to.
+        - name: limit
+          in: query
+          description: *pagination_limit_param_description
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: order
+          in: query
+          description: *pagination_order_param_description
+          schema:
+            type: string
+            default: desc
+            enum: ["asc", "desc"]
+        - name: after
+          in: query
+          description: *pagination_after_param_description
+          schema:
+            type: string
+        - name: before
+          in: query
+          description: *pagination_before_param_description
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListRunStepsResponse"
+  /threads/{thread_id}/runs/{run_id}/steps/{step_id}:
+    get:
+      operationId: getThreadRunStep
+      tags:
+        - Assistants
+      summary: Retrieves a run step.
+      parameters:
+        - in: path
+          name: thread_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the thread to which the run and run step belongs.
+        - in: path
+          name: run_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the run to which the run step belongs.
+        - in: path
+          name: step_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the run step to retrieve.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RunStepObject"
+  /assistants/{assistant_id}/files:
+    get:
+      operationId: listAssistantFiles
+      tags:
+        - Assistants
+      summary: Returns a list of assistant files.
+      parameters:
+        - name: assistant_id
+          in: path
+          description: The ID of the assistant the file belongs to.
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: *pagination_limit_param_description
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: order
+          in: query
+          description: *pagination_order_param_description
+          schema:
+            type: string
+            default: desc
+            enum: ["asc", "desc"]
+        - name: after
+          in: query
+          description: *pagination_after_param_description
+          schema:
+            type: string
+        - name: before
+          in: query
+          description: *pagination_before_param_description
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListAssistantFilesResponse"
+    post:
+      operationId: createAssistantFile
+      tags:
+        - Assistants
+      summary: Create an assistant file by attaching a [File](https://platform.openai.com/docs/api-reference/files) to an [assistant](https://platform.openai.com/docs/api-reference/assistants).
+      parameters:
+        - in: path
+          name: assistant_id
+          required: true
+          schema:
+            type: string
+            example: file-AF1WoRqd3aJAHsqc9NY7iL8F
+          description: |
+            The ID of the assistant for which to create a File.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAssistantFileRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssistantFileObject"
+  /assistants/{assistant_id}/files/{file_id}:
+    get:
+      operationId: getAssistantFile
+      tags:
+        - Assistants
+      summary: Retrieves an AssistantFile.
+      parameters:
+        - in: path
+          name: assistant_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the assistant who the file belongs to.
+        - in: path
+          name: file_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the file we're getting.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssistantFileObject"
+    delete:
+      operationId: deleteAssistantFile
+      tags:
+        - Assistants
+      summary: Delete an assistant file.
+      parameters:
+        - in: path
+          name: assistant_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the assistant that the file belongs to.
+        - in: path
+          name: file_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the file to delete.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteAssistantFileResponse"
+  /threads/{thread_id}/messages/{message_id}/files:
+    get:
+      operationId: listThreadMessageFiles
+      tags:
+        - Assistants
+      summary: Returns a list of message files.
+      parameters:
+        - name: thread_id
+          in: path
+          description: The ID of the thread that the message and files belong to.
+          required: true
+          schema:
+            type: string
+        - name: message_id
+          in: path
+          description: The ID of the message that the files belongs to.
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: *pagination_limit_param_description
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: order
+          in: query
+          description: *pagination_order_param_description
+          schema:
+            type: string
+            default: desc
+            enum: ["asc", "desc"]
+        - name: after
+          in: query
+          description: *pagination_after_param_description
+          schema:
+            type: string
+        - name: before
+          in: query
+          description: *pagination_before_param_description
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListMessageFilesResponse"
+  /threads/{thread_id}/messages/{message_id}/files/{file_id}:
+    get:
+      operationId: getThreadMessageFile
+      tags:
+        - Assistants
+      summary: Retrieves a message file.
+      parameters:
+        - in: path
+          name: thread_id
+          required: true
+          schema:
+            type: string
+            example: thread_AF1WoRqd3aJAHsqc9NY7iL8F
+          description: The ID of the thread to which the message and File belong.
+        - in: path
+          name: message_id
+          required: true
+          schema:
+            type: string
+            example: msg_AF1WoRqd3aJAHsqc9NY7iL8F
+          description: The ID of the message the file belongs to.
+        - in: path
+          name: file_id
+          required: true
+          schema:
+            type: string
+            example: file-AF1WoRqd3aJAHsqc9NY7iL8F
+          description: The ID of the file being retrieved.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageFileObject"
 components:
 
   securitySchemes:
@@ -435,7 +1262,7 @@ components:
           default: null
           nullable: true
           description: &completions_logprobs_description |
-            Include the log probabilities on the `logprobs` most likely tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response.
+            Include the log probabilities on the `logprobs` most likely output tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response.
 
             The maximum value for `logprobs` is 5.
         max_tokens:
@@ -445,7 +1272,7 @@ components:
           example: 16
           nullable: true
           description: &completions_max_tokens_description |
-            The maximum number of [tokens](https://platform.openai.com/tokenizer) to generate in the completion.
+            The maximum number of [tokens](https://platform.openai.com/tokenizer) that can be generated in the completion.
 
             The token count of your prompt plus `max_tokens` cannot exceed the model's context length. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
         n:
@@ -689,9 +1516,19 @@ components:
             Modify the likelihood of specified tokens appearing in the completion.
 
             Accepts a JSON object that maps tokens (specified by their token ID in the tokenizer) to an associated bias value from -100 to 100. Mathematically, the bias is added to the logits generated by the model prior to sampling. The exact effect will vary per model, but values between -1 and 1 should decrease or increase likelihood of selection; values like -100 or 100 should result in a ban or exclusive selection of the relevant token.
+        logprobs:
+          description: Whether to return log probabilities of the output tokens or not. If true, returns the log probabilities of each output token returned in the `content` of `message`. This option is currently not available on the `gpt-4-vision-preview` model.
+          type: boolean
+          nullable: true
+        top_logprobs:
+          description: An integer between 0 and 5 specifying the number of most likely tokens to return at each token position, each with an associated log probability. `logprobs` must be set to `true` if this parameter is used.
+          type: integer
+          minimum: 0
+          maximum: 5
+          nullable: true
         max_tokens:
           description: |
-            The maximum number of [tokens](https://platform.openai.com/tokenizer) to generate in the chat completion.
+            The maximum number of [tokens](https://platform.openai.com/tokenizer) that can be generated in the chat completion.
 
             The total length of input tokens and generated tokens is limited by the model's context length. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
           type: integer
@@ -715,7 +1552,7 @@ components:
           title: ChatCompletionResponseFormat
           type: object
           description: |
-            An object specifying the format that the model must output. 
+            An object specifying the format that the model must output. Compatible with `gpt-4-1106-preview` and `gpt-3.5-turbo-1106`.
 
             Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
 
@@ -810,7 +1647,7 @@ components:
             `auto` means the model can pick between generating a message or calling a function.
             Specifying a particular function via [ChatCompletionFunctionCallOption] forces the model to call that function.
             
-            `none` is the default when no functions are present. `auto`` is the default if functions are present.
+            `none` is the default when no functions are present. `auto` is the default if functions are present.
           oneOf:
             - type: string
               title: ChatCompletionFunctionCallMode
@@ -853,7 +1690,6 @@ components:
           default: system
           description: The role of the messages author, in this case `system`.
         content:
-          nullable: true
           description: The contents of the system message.
           type: string
         name:
@@ -871,7 +1707,6 @@ components:
           description: The role of the messages author, in this case `user`.
         content:
           # TODO extract to ChatCompletionMessageContent once generator bug fixed
-          nullable: true
           description: The contents of the user message.
           oneOf:
             - type: string
@@ -898,7 +1733,7 @@ components:
           nullable: true
           type: string
           description: |
-            The contents of the assistant message.
+            The contents of the assistant message. Required unless `tool_calls` or `function_call` is specified.
         name:
           type: string
           description: An optional name for the participant. Provides the model information to differentiate between participants of the same role.
@@ -909,8 +1744,6 @@ components:
           $ref: "#/components/schemas/ChatCompletionMessageFunctionCall"
           deprecated: true
           description: "Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model."
-      required:
-        - content
     ChatCompletionToolMessage:
       type: object
       description: A tool message in a chat conversation.
@@ -920,7 +1753,6 @@ components:
           default: tool
           description: The role of the messages author, in this case `tool`.
         content:
-          nullable: true
           type: string
           description: The contents of the tool message.
         tool_call_id:
@@ -941,6 +1773,7 @@ components:
         content:
           type: string
           description: The contents of the function message.
+          nullable: true
         name:
           type: string
           description: The name of the function to call.
@@ -1038,10 +1871,9 @@ components:
           $ref: "#/components/schemas/FunctionParameters"
       required:
         - name
-        - parameters
     FunctionParameters:
       type: object
-      description: "The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.\n\nTo describe a function that accepts no parameters, provide the value `{\"type\": \"object\", \"properties\": {}}`."
+      description: "The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format. \n\nOmitting `parameters` defines a function with an empty parameter list."
       additionalProperties: true
     ChatCompletionTool:
       type: object
@@ -1135,16 +1967,18 @@ components:
         - finish_reason
         - index
         - message
+        - logprobs
       properties:
         finish_reason:
           $ref: "#/components/schemas/ChatCompletionFinishReason"
           nullable: true
-          # TODO New models seems to use finish_details instead
         index:
           type: integer
           description: The index of the choice in the list of choices.
         message:
           $ref: "#/components/schemas/ChatCompletionAssistantMessage"
+        logprobs:
+          $ref: "#/components/schemas/ChatCompletionLogprobs"
     ChatCompletionFinishReason:
       type: string
       description: &chat_completion_finish_reason_description |
@@ -1160,6 +1994,56 @@ components:
           "content_filter",
           "function_call",
         ]
+    ChatCompletionLogprobs: &chat_completion_response_logprobs
+      description: Log probability information for the choice.
+      type: object
+      nullable: true
+      properties:
+        content:
+          description: A list of message content tokens with log probability information.
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatCompletionTokenLogprob'
+          nullable: true
+      required:
+        - content
+    ChatCompletionTokenLogprob:
+      type: object
+      description: Log probability information for a token.
+      properties:
+        token: &chat_completion_response_logprobs_token
+          description: The token.
+          type: string
+        logprob: &chat_completion_response_logprobs_token_logprob
+          description: The log probability of this token.
+          type: number
+        bytes: &chat_completion_response_logprobs_bytes
+          description: A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token.
+          type: array
+          items:
+            type: integer
+          nullable: true
+        top_logprobs:
+          description: List of the most likely tokens and their log probability, at this token position. In rare cases, there may be fewer than the number of requested `top_logprobs` returned.
+          type: array
+          items:
+            $ref: "#/components/schemas/ChatCompletionTokenTopLogprob"
+      required:
+        - token
+        - logprob
+        - bytes
+        - top_logprobs
+    ChatCompletionTokenTopLogprob:
+      type: object
+      description: Most likely tokens and their log probability, at this token position.
+      properties:
+        token: *chat_completion_response_logprobs_token
+        logprob: *chat_completion_response_logprobs_token_logprob
+        bytes: *chat_completion_response_logprobs_bytes
+      required:
+        - token
+        - logprob
+        - bytes
     CreateChatCompletionStreamResponse:
       type: object
       description: Represents a streamed chunk of a chat completion response returned by model, based on the provided input.
@@ -1204,6 +2088,7 @@ components:
       properties:
         delta:
           $ref: "#/components/schemas/ChatCompletionStreamResponseDelta"
+        logprobs: *chat_completion_response_logprobs
         finish_reason:
           $ref: "#/components/schemas/ChatCompletionFinishReason"
           nullable: true
@@ -1861,7 +2746,7 @@ components:
       properties:
         hate:
           type: boolean
-          description: Content that expresses, incites, or promotes hate based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste. Hateful content aimed at non-protected groups (e.g., chess players) is harrassment.
+          description: Content that expresses, incites, or promotes hate based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste. Hateful content aimed at non-protected groups (e.g., chess players) is harassment.
         hate/threatening:
           type: boolean
           description: Hateful content that also includes violence or serious harm towards the targeted group based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste.
@@ -1953,6 +2838,1358 @@ components:
         - sexual/minors
         - violence
         - violence/graphic
+    AssistantObject:
+      type: object
+      description: Represents an `assistant` that can call the model and use tools.
+      properties:
+        id:
+          description: The identifier, which can be referenced in API endpoints.
+          type: string
+        object:
+          description: The object type, which is always `assistant`.
+          type: string
+          enum: [assistant]
+        created_at:
+          description: The Unix timestamp (in seconds) for when the assistant was created.
+          type: integer
+        name:
+          description: &assistant_name_param_description |
+            The name of the assistant. The maximum length is 256 characters.
+          type: string
+          maxLength: 256
+          nullable: true
+        description:
+          description: &assistant_description_param_description |
+            The description of the assistant. The maximum length is 512 characters.
+          type: string
+          maxLength: 512
+          nullable: true
+        model:
+          description: *model_description
+          type: string
+        instructions:
+          description: &assistant_instructions_param_description |
+            The system instructions that the assistant uses. The maximum length is 32768 characters.
+          type: string
+          maxLength: 32768
+          nullable: true
+        tools:
+          description: &assistant_tools_param_description |
+            A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+          default: []
+          type: array
+          maxItems: 128
+          items:
+            $ref: "#/components/schemas/AssistantTools"
+        file_ids:
+          description: &assistant_file_param_description |
+            A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
+          default: []
+          type: array
+          maxItems: 20
+          items:
+            type: string
+        metadata:
+          description: &metadata_description |
+            Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+          type: object
+          additionalProperties: true
+          nullable: true
+      required:
+        - id
+        - object
+        - created_at
+        - name
+        - description
+        - model
+        - instructions
+        - tools
+        - file_ids
+        - metadata
+    CreateAssistantRequest:
+      type: object
+      description: Request object for the Create assistant endpoint.
+      additionalProperties: false
+      properties:
+        model:
+          description: *model_description
+          anyOf:
+            - type: string
+              description: The ID of the model to use.
+        name:
+          description: *assistant_name_param_description
+          type: string
+          nullable: true
+          maxLength: 256
+        description:
+          description: *assistant_description_param_description
+          type: string
+          nullable: true
+          maxLength: 512
+        instructions:
+          description: *assistant_instructions_param_description
+          type: string
+          nullable: true
+          maxLength: 32768
+        tools:
+          description: *assistant_tools_param_description
+          default: []
+          type: array
+          maxItems: 128
+          items:
+            $ref: "#/components/schemas/AssistantTools"
+        file_ids:
+          description: *assistant_file_param_description
+          default: []
+          maxItems: 20
+          type: array
+          items:
+            type: string
+        metadata:
+          description: *metadata_description
+          type: object
+          additionalProperties: true
+          nullable: true
+      required:
+        - model
+    ModifyAssistantRequest:
+      type: object
+      description: Request object for the Modify assistant endpoint.
+      additionalProperties: false
+      properties:
+        model:
+          type: string
+          description: *model_description
+        name:
+          description: *assistant_name_param_description
+          type: string
+          nullable: true
+          maxLength: 256
+        description:
+          description: *assistant_description_param_description
+          type: string
+          nullable: true
+          maxLength: 512
+        instructions:
+          description: *assistant_instructions_param_description
+          type: string
+          nullable: true
+          maxLength: 32768
+        tools:
+          description: *assistant_tools_param_description
+          default: []
+          type: array
+          maxItems: 128
+          items:
+            $ref: "#/components/schemas/AssistantTools"
+        file_ids:
+          description: |
+            A list of [File](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order. If a file was previosuly attached to the list but does not show up in the list, it will be deleted from the assistant.
+          default: []
+          type: array
+          maxItems: 20
+          items:
+            type: string
+        metadata:
+          description: *metadata_description
+          type: object
+          additionalProperties: true
+          nullable: true
+    DeleteAssistantResponse:
+      type: object
+      description: Represents a deleted response returned by the Delete assistant endpoint.
+      properties:
+        id:
+          type: string
+          description: The assistant identifier.
+        deleted:
+          type: boolean
+          description: Whether the assistant was deleted.
+        object:
+          type: string
+          description: The object type, which is always `assistant.deleted`.
+          enum: [assistant.deleted]
+      required:
+        - id
+        - object
+        - deleted
+    ListAssistantsResponse:
+      type: object
+      description: Represents a list of assistants returned by the List assistants endpoint.
+      properties:
+        object:
+          type: string
+          description: The object type, which is always `list`.
+          example: "list"
+        data:
+          type: array
+          description: The list of assistants.
+          items:
+            $ref: "#/components/schemas/AssistantObject"
+        first_id:
+          type: string
+          description: The ID of the first assistant in the list.
+          example: "asst_abc123"
+        last_id:
+          type: string
+          description: The ID of the last assistant in the list.
+          example: "asst_abc456"
+        has_more:
+          type: boolean
+          description: Whether there are more assistants to retrieve.
+          example: false
+      required:
+        - object
+        - data
+        - first_id
+        - last_id
+        - has_more
+    AssistantTools:
+      type: object
+      description: A tool that can be used by an assistant.
+      oneOf:
+        - $ref: "#/components/schemas/AssistantToolsCodeInterpreter"
+        - $ref: "#/components/schemas/AssistantToolsRetrieval"
+        - $ref: "#/components/schemas/AssistantToolsFunction"
+      discriminator:
+        propertyName: type
+    AssistantToolsCodeInterpreter:
+      type: object
+      description: Code interpreter tool
+      properties:
+        type:
+          type: string
+          description: "The type of tool being defined: `code_interpreter`"
+          default: "code_interpreter"
+    AssistantToolsRetrieval:
+      type: object
+      description: Retrieval tool
+      properties:
+        type:
+          type: string
+          description: "The type of tool being defined: `retrieval`"
+          default: "retrieval"
+    AssistantToolsFunction:
+      type: object
+      description: Function tool
+      properties:
+        type:
+          type: string
+          description: "The type of tool being defined: `function`"
+          default: "function"
+        function:
+          $ref: "#/components/schemas/FunctionObject"
+      required:
+        - function
+    RunObject:
+      type: object
+      description: Represents an execution run on a [thread](https://platform.openai.com/docs/api-reference/threads).
+      properties:
+        id:
+          description: The identifier, which can be referenced in API endpoints.
+          type: string
+        object:
+          description: The object type, which is always `thread.run`.
+          type: string
+          enum: ["thread.run"]
+        created_at:
+          description: The Unix timestamp (in seconds) for when the run was created.
+          type: integer
+        thread_id:
+          description: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was executed on as a part of this run.
+          type: string
+        assistant_id:
+          description: The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for execution of this run.
+          type: string
+        status:
+          title: RunStatus
+          description: The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, or `expired`.
+          type: string
+          enum:
+            [
+              "queued",
+              "in_progress",
+              "requires_action",
+              "cancelling",
+              "cancelled",
+              "failed",
+              "completed",
+              "expired",
+            ]
+        required_action:
+          title: RunRequiredAction
+          type: object
+          description: Details on the action required to continue the run. Will be `null` if no action is required.
+          nullable: true
+          properties:
+            type:
+              description: For now, this is always `submit_tool_outputs`.
+              type: string
+              enum: ["submit_tool_outputs"]
+            submit_tool_outputs:
+              title: RunSubmitToolOutputs
+              type: object
+              description: Details on the tool outputs needed for this run to continue.
+              properties:
+                tool_calls:
+                  type: array
+                  description: A list of the relevant tool calls.
+                  items:
+                    $ref: "#/components/schemas/RunToolCallObject"
+              required:
+                - tool_calls
+          required:
+            - type
+            - submit_tool_outputs
+        last_error:
+          title: RunLastError
+          type: object
+          description: The last error associated with this run. Will be `null` if there are no errors.
+          nullable: true
+          properties:
+            code:
+              type: string
+              description: One of `server_error` or `rate_limit_exceeded`.
+              enum: ["server_error", "rate_limit_exceeded"]
+            message:
+              type: string
+              description: A human-readable description of the error.
+          required:
+            - code
+            - message
+        expires_at:
+          description: The Unix timestamp (in seconds) for when the run will expire.
+          type: integer
+          nullable: true
+        started_at:
+          description: The Unix timestamp (in seconds) for when the run was started.
+          type: integer
+          nullable: true
+        cancelled_at:
+          description: The Unix timestamp (in seconds) for when the run was cancelled.
+          type: integer
+          nullable: true
+        failed_at:
+          description: The Unix timestamp (in seconds) for when the run failed.
+          type: integer
+          nullable: true
+        completed_at:
+          description: The Unix timestamp (in seconds) for when the run was completed.
+          type: integer
+          nullable: true
+        model:
+          description: The model that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
+          type: string
+        instructions:
+          description: The instructions that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
+          type: string
+        tools:
+          description: The list of tools that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
+          default: []
+          type: array
+          maxItems: 20
+          items:
+            $ref: "#/components/schemas/AssistantTools"
+        file_ids:
+          description: The list of [File](https://platform.openai.com/docs/api-reference/files) IDs the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
+          default: []
+          type: array
+          items:
+            type: string
+        metadata:
+          description: *metadata_description
+          type: object
+          additionalProperties: true
+          nullable: true
+      required:
+        - id
+        - object
+        - created_at
+        - thread_id
+        - assistant_id
+        - status
+        - required_action
+        - last_error
+        - expires_at
+        - started_at
+        - cancelled_at
+        - failed_at
+        - completed_at
+        - model
+        - instructions
+        - tools
+        - file_ids
+        - metadata
+    CreateRunRequest:
+      type: object
+      description: Request object for the Create run endpoint.
+      additionalProperties: false
+      properties:
+        assistant_id:
+          description: The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run.
+          type: string
+        model:
+          description: The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+          type: string
+          nullable: true
+        instructions:
+          description: Overrides the [instructions](https://platform.openai.com/docs/api-reference/assistants/createAssistant) of the assistant. This is useful for modifying the behavior on a per-run basis.
+          type: string
+          nullable: true
+        additional_instructions:
+          description: Appends additional instructions at the end of the instructions for the run. This is useful for modifying the behavior on a per-run basis without overriding other instructions.
+          type: string
+          nullable: true
+        tools:
+          description: Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
+          nullable: true
+          type: array
+          maxItems: 20
+          items:
+            $ref: "#/components/schemas/AssistantTools"
+        metadata:
+          description: *metadata_description
+          type: object
+          additionalProperties: true
+          nullable: true
+      required:
+        - assistant_id
+    ListRunsResponse:
+      type: object
+      description: Represents a list of runs returned by the List runs endpoint.
+      properties:
+        object:
+          type: string
+          description: The object type, which is always `list`.
+          example: "list"
+        data:
+          type: array
+          description: The list of runs.
+          items:
+            $ref: "#/components/schemas/RunObject"
+        first_id:
+          type: string
+          description: The ID of the first run in the list.
+          example: "run_abc123"
+        last_id:
+          type: string
+          description: The ID of the last run in the list.
+          example: "run_abc456"
+        has_more:
+          type: boolean
+          description: Whether there are more runs to retrieve.
+          example: false
+      required:
+        - object
+        - data
+        - first_id
+        - last_id
+        - has_more
+    ModifyRunRequest:
+      type: object
+      description: Request object for the Modify run endpoint.
+      additionalProperties: false
+      properties:
+        metadata:
+          description: *metadata_description
+          type: object
+          additionalProperties: true
+          nullable: true
+    SubmitToolOutputsRunRequest:
+      type: object
+      description: Request object for the Submit tool outputs to run endpoint.
+      additionalProperties: false
+      properties:
+        tool_outputs:
+          description: A list of tools for which the outputs are being submitted.
+          type: array
+          items:
+            $ref: "#/components/schemas/RunSubmitToolOutput"
+      required:
+        - tool_outputs
+    RunSubmitToolOutput:
+      type: object
+      description: Output of a tool.
+      properties:
+        tool_call_id:
+          type: string
+          description: The ID of the tool call in the `required_action` object within the run object the output is being submitted for.
+        output:
+          type: string
+          description: The output of the tool call to be submitted to continue the run.
+    RunToolCallObject:
+      type: object
+      description: Tool call objects
+      properties:
+        id:
+          type: string
+          description: The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://platform.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint.
+        type:
+          type: string
+          description: The type of tool call the output is required for. For now, this is always `function`.
+          enum: ["function"]
+        function:
+          type: object
+          title: RunToolCallFunction
+          description: The function definition.
+          properties:
+            name:
+              type: string
+              description: The name of the function.
+            arguments:
+              type: string
+              description: The arguments that the model expects you to pass to the function.
+          required:
+            - name
+            - arguments
+      required:
+        - id
+        - type
+        - function
+    CreateThreadAndRunRequest:
+      type: object
+      description: Request object for the Create thread and run endpoint.
+      additionalProperties: false
+      properties:
+        assistant_id:
+          description: The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run.
+          type: string
+        thread:
+          $ref: "#/components/schemas/CreateThreadRequest"
+          description: If no thread is provided, an empty thread will be created.
+        model:
+          description: The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+          type: string
+          nullable: true
+        instructions:
+          description: Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis.
+          type: string
+          nullable: true
+        tools:
+          description: Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
+          nullable: true
+          type: array
+          maxItems: 20
+          items:
+            $ref: "#/components/schemas/AssistantTools"
+        metadata:
+          description: *metadata_description
+          type: object
+          additionalProperties: true
+          nullable: true
+      required:
+        - assistant_id
+    ThreadObject:
+      type: object
+      description: Represents a thread that contains [messages](https://platform.openai.com/docs/api-reference/messages).
+      properties:
+        id:
+          description: The identifier, which can be referenced in API endpoints.
+          type: string
+        object:
+          description: The object type, which is always `thread`.
+          type: string
+          enum: ["thread"]
+        created_at:
+          description: The Unix timestamp (in seconds) for when the thread was created.
+          type: integer
+        metadata:
+          description: *metadata_description
+          type: object
+          additionalProperties: true
+          nullable: true
+      required:
+        - id
+        - object
+        - created_at
+        - metadata
+    CreateThreadRequest:
+      type: object
+      description: Request object for the Create thread endpoint.
+      additionalProperties: false
+      properties:
+        messages:
+          description: A list of [messages](https://platform.openai.com/docs/api-reference/messages) to start the thread with.
+          type: array
+          items:
+            $ref: "#/components/schemas/CreateMessageRequest"
+        metadata:
+          description: *metadata_description
+          type: object
+          additionalProperties: true
+          nullable: true
+    ModifyThreadRequest:
+      type: object
+      description: Request object for the Modify thread endpoint.
+      additionalProperties: false
+      properties:
+        metadata:
+          description: *metadata_description
+          type: object
+          additionalProperties: true
+          nullable: true
+    DeleteThreadResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The thread identifier.
+        deleted:
+          type: boolean
+          description: Whether the thread was deleted.
+        object:
+          type: string
+          description: The object type, which is always `thread.deleted`.
+          enum: [thread.deleted]
+      required:
+        - id
+        - object
+        - deleted
+    ListThreadsResponse:
+      type: object
+      description: Represents a list of threads returned by the List threads endpoint.
+      properties:
+        object:
+          type: string
+          description: The object type, which is always `list`.
+          example: "list"
+        data:
+          type: array
+          description: The list of threads.
+          items:
+            $ref: "#/components/schemas/ThreadObject"
+        first_id:
+          type: string
+          description: The ID of the first thread in the list.
+          example: "asst_hLBK7PXBv5Lr2NQT7KLY0ag1"
+        last_id:
+          type: string
+          description: The ID of the last thread in the list.
+          example: "asst_QLoItBbqwyAJEzlTy4y9kOMM"
+        has_more:
+          type: boolean
+          description: Whether there are more threads to retrieve.
+          example: false
+      required:
+        - object
+        - data
+        - first_id
+        - last_id
+        - has_more
+    MessageObject:
+      type: object
+      description: Represents a message within a [thread](https://platform.openai.com/docs/api-reference/threads).
+      properties:
+        id:
+          description: The identifier, which can be referenced in API endpoints.
+          type: string
+        object:
+          description: The object type, which is always `thread.message`.
+          type: string
+          enum: ["thread.message"]
+        created_at:
+          description: The Unix timestamp (in seconds) for when the message was created.
+          type: integer
+        thread_id:
+          description: The [thread](https://platform.openai.com/docs/api-reference/threads) ID that this message belongs to.
+          type: string
+        role:
+          description: The entity that produced the message. One of `user` or `assistant`.
+          type: string
+          enum: ["user", "assistant"]
+        content:
+          description: The content of the message in array of text and/or images.
+          type: array
+          items:
+            $ref: "#/components/schemas/MessageContent"
+        assistant_id:
+          description: If applicable, the ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) that authored this message.
+          type: string
+          nullable: true
+        run_id:
+          description: If applicable, the ID of the [run](https://platform.openai.com/docs/api-reference/runs) associated with the authoring of this message.
+          type: string
+          nullable: true
+        file_ids:
+          description: A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
+          default: []
+          maxItems: 10
+          type: array
+          items:
+            type: string
+        metadata:
+          description: *metadata_description
+          type: object
+          additionalProperties: true
+          nullable: true
+      required:
+        - id
+        - object
+        - created_at
+        - thread_id
+        - role
+        - content
+        - assistant_id
+        - run_id
+        - file_ids
+        - metadata
+    MessageContent:
+      type: object
+      description: The content of a message.
+      oneOf:
+        - $ref: "#/components/schemas/MessageContentImageFileObject"
+        - $ref: "#/components/schemas/MessageContentTextObject"
+      discriminator:
+        propertyName: type
+    CreateMessageRequest:
+      type: object
+      description: Request object for the Create message endpoint.
+      additionalProperties: false
+      required:
+        - role
+        - content
+      properties:
+        role:
+          type: string
+          enum: ["user"]
+          description: The role of the entity that is creating the message. Currently only `user` is supported.
+        content:
+          type: string
+          minLength: 1
+          maxLength: 32768
+          description: The content of the message.
+        file_ids:
+          description: A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the message should use. There can be a maximum of 10 files attached to a message. Useful for tools like `retrieval` and `code_interpreter` that can access and use files.
+          default: []
+          type: array
+          minItems: 1
+          maxItems: 10
+          items:
+            type: string
+        metadata:
+          description: *metadata_description
+          type: object
+          additionalProperties: true
+          nullable: true
+    ModifyMessageRequest:
+      type: object
+      description: Request object for the Modify message endpoint.
+      additionalProperties: false
+      properties:
+        metadata:
+          description: *metadata_description
+          type: object
+          additionalProperties: true
+          nullable: true
+    DeleteMessageResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The message identifier.
+        deleted:
+          type: boolean
+          description: Whether the message was deleted.
+        object:
+          type: string
+          description: The object type, which is always `thread.message.deleted`.
+          enum: [thread.message.deleted]
+      required:
+        - id
+        - object
+        - deleted
+    ListMessagesResponse:
+      type: object
+      description: Represents a list of messages returned by the List messages endpoint.
+      properties:
+        object:
+          type: string
+          description: The object type, which is always `list`.
+          example: "list"
+        data:
+          type: array
+          description: The list of messages.
+          items:
+            $ref: "#/components/schemas/MessageObject"
+        first_id:
+          type: string
+          description: The ID of the first message in the list.
+          example: "msg_abc123"
+        last_id:
+          type: string
+          description: The ID of the last message in the list.
+          example: "msg_abc123"
+        has_more:
+          type: boolean
+          description: Whether there are more messages to retrieve.
+          example: false
+      required:
+        - object
+        - data
+        - first_id
+        - last_id
+        - has_more
+    MessageContentImageFileObject:
+      type: object
+      description: References an image [File](https://platform.openai.com/docs/api-reference/files) in the content of a message.
+      properties:
+        type:
+          description: Always `image_file`.
+          type: string
+        image_file:
+          $ref: "#/components/schemas/MessageContentImageFile"
+      required:
+        - type
+        - image_file
+    MessageContentImageFile:
+      type: object
+      description: The image file that is part of a message.
+      properties:
+        file_id:
+          description: The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content.
+          type: string
+      required:
+        - file_id
+    MessageContentTextObject:
+      type: object
+      description: The text content that is part of a message.
+      properties:
+        type:
+          description: Always `text`.
+          type: string
+        text:
+          $ref: "#/components/schemas/MessageContentText"
+      required:
+        - type
+        - text
+    MessageContentText:
+      type: object
+      description: The text content that is part of a message.
+      properties:
+        value:
+          description: The data that makes up the text.
+          type: string
+        annotations:
+          type: array
+          description: A list of annotations that point to specific quotes from specific files.
+          items:
+            $ref: "#/components/schemas/MessageContentTextAnnotations"
+      required:
+        - value
+        - annotations
+    MessageContentTextAnnotations:
+      type: object
+      description: An annotation within the message that points to a specific quote from a specific File associated with the assistant or the message.
+      oneOf:
+        - $ref: "#/components/schemas/MessageContentTextAnnotationsFileCitationObject"
+        - $ref: "#/components/schemas/MessageContentTextAnnotationsFilePathObject"
+    MessageContentTextAnnotationsFileCitationObject:
+      type: object
+      description: A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the "retrieval" tool to search files.
+      properties:
+        type:
+          description: Always `file_citation`.
+          type: string
+          enum: ["file_citation"]
+        text:
+          description: The text in the message content that needs to be replaced.
+          type: string
+        file_citation:
+          $ref: "#/components/schemas/MessageContentTextAnnotationsFileCitation"
+        start_index:
+          type: integer
+          description: The start index of the text in the message content that needs to be replaced.
+          minimum: 0
+        end_index:
+          type: integer
+          description: The end index of the text in the message content that needs to be replaced.
+          minimum: 0
+      required:
+        - type
+        - text
+        - file_citation
+        - start_index
+        - end_index
+    MessageContentTextAnnotationsFileCitation:
+      type: object
+      description: A citation within the message that points to a specific quote from a specific File associated with the assistant or the message.
+      properties:
+        file_id:
+          description: The ID of the specific File the citation is from.
+          type: string
+        quote:
+          description: The specific quote in the file.
+          type: string
+      required:
+        - file_id
+        - quote
+    MessageContentTextAnnotationsFilePathObject:
+      type: object
+      description: A URL for the file that's generated when the assistant used the `code_interpreter` tool to generate a file.
+      properties:
+        type:
+          description: Always `file_path`.
+          type: string
+          enum: ["file_path"]
+        text:
+          description: The text in the message content that needs to be replaced.
+          type: string
+        file_path:
+          type: object
+          title: MessageContentTextAnnotationsFilePath
+          properties:
+            file_id:
+              description: The ID of the file that was generated.
+              type: string
+          required:
+            - file_id
+        start_index:
+          type: integer
+          minimum: 0
+        end_index:
+          type: integer
+          minimum: 0
+      required:
+        - type
+        - text
+        - file_path
+        - start_index
+        - end_index
+    RunStepObject:
+      type: object
+      description: |
+        Represents a step in execution of a run.
+      properties:
+        id:
+          description: The identifier of the run step, which can be referenced in API endpoints.
+          type: string
+        object:
+          description: The object type, which is always `thread.run.step`.
+          type: string
+          enum: ["thread.run.step"]
+        created_at:
+          description: The Unix timestamp (in seconds) for when the run step was created.
+          type: integer
+        assistant_id:
+          description: The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) associated with the run step.
+          type: string
+        thread_id:
+          description: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was run.
+          type: string
+        run_id:
+          description: The ID of the [run](https://platform.openai.com/docs/api-reference/runs) that this run step is a part of.
+          type: string
+        type:
+          description: The type of run step, which can be either `message_creation` or `tool_calls`.
+          type: string
+          title: RunStepType
+          enum: ["message_creation", "tool_calls"]
+        status:
+          description: The status of the run step, which can be either `in_progress`, `cancelled`, `failed`, `completed`, or `expired`.
+          type: string
+          title: RunStepStatus
+          enum: ["in_progress", "cancelled", "failed", "completed", "expired"]
+        step_details:
+          $ref: "#/components/schemas/RunStepDetails"
+        last_error:
+          type: object
+          title: RunStepLastError
+          description: The last error associated with this run step. Will be `null` if there are no errors.
+          nullable: true
+          properties:
+            code:
+              type: string
+              description: One of `server_error` or `rate_limit_exceeded`.
+              enum: ["server_error", "rate_limit_exceeded"]
+            message:
+              type: string
+              description: A human-readable description of the error.
+          required:
+            - code
+            - message
+        expired_at:
+          description: The Unix timestamp (in seconds) for when the run step expired. A step is considered expired if the parent run is expired.
+          type: integer
+          nullable: true
+        cancelled_at:
+          description: The Unix timestamp (in seconds) for when the run step was cancelled.
+          type: integer
+          nullable: true
+        failed_at:
+          description: The Unix timestamp (in seconds) for when the run step failed.
+          type: integer
+          nullable: true
+        completed_at:
+          description: The Unix timestamp (in seconds) for when the run step completed.
+          type: integer
+          nullable: true
+        metadata:
+          description: *metadata_description
+          type: object
+          additionalProperties: true
+          nullable: true
+      required:
+        - id
+        - object
+        - created_at
+        - assistant_id
+        - thread_id
+        - run_id
+        - type
+        - status
+        - step_details
+        - last_error
+        - expired_at
+        - cancelled_at
+        - failed_at
+        - completed_at
+        - metadata
+    RunStepDetails:
+      type: object
+      description: The details of the run step.
+      oneOf:
+        - $ref: "#/components/schemas/RunStepDetailsMessageCreationObject"
+        - $ref: "#/components/schemas/RunStepDetailsToolCallsObject"
+    ListRunStepsResponse:
+      type: object
+      description: Represents a list of run steps returned by the List run steps endpoint.
+      properties:
+        object:
+          type: string
+          description: The object type, which is always `list`.
+          example: "list"
+        data:
+          type: array
+          description: The list of run steps.
+          items:
+            $ref: "#/components/schemas/RunStepObject"
+        first_id:
+          type: string
+          description: The ID of the first run step in the list.
+          example: "step_abc123"
+        last_id:
+          type: string
+          description: The ID of the last run step in the list.
+          example: "step_abc456"
+        has_more:
+          type: boolean
+          description: Whether there are more run steps to retrieve.
+          example: false
+      required:
+        - object
+        - data
+        - first_id
+        - last_id
+        - has_more
+    RunStepDetailsMessageCreationObject:
+      type: object
+      description: Details of the message creation by the run step.
+      properties:
+        type:
+          description: Always `message_creation`.
+          type: string
+          enum: ["message_creation"]
+        message_creation:
+          $ref: "#/components/schemas/RunStepDetailsMessageCreation"
+      required:
+        - type
+        - message_creation
+    RunStepDetailsMessageCreation:
+      type: object
+      description: Details of the message creation by the run step.
+      properties:
+        message_id:
+          type: string
+          description: The ID of the message that was created by this run step.
+      required:
+        - message_id
+    RunStepDetailsToolCallsObject:
+      type: object
+      description: Details of the tool call.
+      properties:
+        type:
+          description: Always `tool_calls`.
+          type: string
+          enum: ["tool_calls"]
+        tool_calls:
+          type: array
+          description: |
+            An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
+          items:
+            $ref: "#/components/schemas/RunStepDetailsToolCalls"
+      required:
+        - type
+        - tool_calls
+    RunStepDetailsToolCalls:
+      type: object
+      description: Tool calls the run step was involved in.
+      oneOf:
+        - $ref: "#/components/schemas/RunStepDetailsToolCallsCodeObject"
+        - $ref: "#/components/schemas/RunStepDetailsToolCallsRetrievalObject"
+        - $ref: "#/components/schemas/RunStepDetailsToolCallsFunctionObject"
+    RunStepDetailsToolCallsCodeObject:
+      type: object
+      description: Details of the Code Interpreter tool call the run step was involved in.
+      properties:
+        id:
+          type: string
+          description: The ID of the tool call.
+        type:
+          type: string
+          description: The type of tool call. This is always going to be `code_interpreter` for this type of tool call.
+          enum: ["code_interpreter"]
+        code_interpreter:
+          $ref: "#/components/schemas/RunStepDetailsToolCallsCodeObjectCodeInterpreter"
+      required:
+        - id
+        - type
+        - code_interpreter
+    RunStepDetailsToolCallsCodeObjectCodeInterpreter:
+      type: object
+      description: The Code Interpreter tool call definition.
+      required:
+        - input
+        - outputs
+      properties:
+        input:
+          type: string
+          description: The input to the Code Interpreter tool call.
+        outputs:
+          type: array
+          description: The outputs from the Code Interpreter tool call. Code Interpreter can output one or more items, including text (`logs`) or images (`image`). Each of these are represented by a different object type.
+          items:
+            $ref: "#/components/schemas/RunStepDetailsToolCallsCodeOutput"
+    RunStepDetailsToolCallsCodeOutput:
+      type: object
+      description: The output of the Code Interpreter tool call.
+      oneOf:
+        - $ref: "#/components/schemas/RunStepDetailsToolCallsCodeOutputLogsObject"
+        - $ref: "#/components/schemas/RunStepDetailsToolCallsCodeOutputImageObject"
+    RunStepDetailsToolCallsCodeOutputLogsObject:
+      type: object
+      description: Text output from the Code Interpreter tool call as part of a run step.
+      properties:
+        type:
+          description: Always `logs`.
+          type: string
+          enum: ["logs"]
+        logs:
+          type: string
+          description: The text output from the Code Interpreter tool call.
+      required:
+        - type
+        - logs
+    RunStepDetailsToolCallsCodeOutputImageObject:
+      type: object
+      description: Code interpreter image output
+      properties:
+        type:
+          description: Always `image`.
+          type: string
+          enum: ["image"]
+        image:
+          $ref: "#/components/schemas/RunStepDetailsToolCallsCodeOutputImage"
+      required:
+        - type
+        - image
+    RunStepDetailsToolCallsCodeOutputImage:
+      type: object
+      description: Code interpreter image output.
+      properties:
+        file_id:
+          description: The [file](https://platform.openai.com/docs/api-reference/files) ID of the image.
+          type: string
+      required:
+        - file_id
+    RunStepDetailsToolCallsRetrievalObject:
+      description: Retrieval tool call
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the tool call object.
+        type:
+          type: string
+          description: The type of tool call. This is always going to be `retrieval` for this type of tool call.
+          enum: ["retrieval"]
+        retrieval:
+          type: object
+          description: For now, this is always going to be an empty object.
+          additionalProperties: true
+      required:
+        - id
+        - type
+        - retrieval
+    RunStepDetailsToolCallsFunctionObject:
+      type: object
+      description: Function tool call
+      properties:
+        id:
+          type: string
+          description: The ID of the tool call object.
+        type:
+          type: string
+          description: The type of tool call. This is always going to be `function` for this type of tool call.
+          enum: ["function"]
+        function:
+          type: object
+          title: RunStepDetailsToolCallsFunction
+          description: The definition of the function that was called.
+          properties:
+            name:
+              type: string
+              description: The name of the function.
+            arguments:
+              type: string
+              description: The arguments passed to the function.
+            output:
+              type: string
+              description: The output of the function. This will be `null` if the outputs have not been [submitted](https://platform.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
+              nullable: true
+          required:
+            - name
+            - arguments
+            - output
+      required:
+        - id
+        - type
+        - function
+    AssistantFileObject:
+      type: object
+      description: A list of [Files](https://platform.openai.com/docs/api-reference/files) attached to an `assistant`.
+      properties:
+        id:
+          description: The identifier, which can be referenced in API endpoints.
+          type: string
+        object:
+          description: The object type, which is always `assistant.file`.
+          type: string
+          enum: [assistant.file]
+        created_at:
+          description: The Unix timestamp (in seconds) for when the assistant file was created.
+          type: integer
+        assistant_id:
+          description: The assistant ID that the file is attached to.
+          type: string
+      required:
+        - id
+        - object
+        - created_at
+        - assistant_id
+    CreateAssistantFileRequest:
+      type: object
+      description: Request object for the Create assistant file endpoint.
+      additionalProperties: false
+      properties:
+        file_id:
+          description: A [File](https://platform.openai.com/docs/api-reference/files) ID (with `purpose="assistants"`) that the assistant should use. Useful for tools like `retrieval` and `code_interpreter` that can access files.
+          type: string
+      required:
+        - file_id
+    DeleteAssistantFileResponse:
+      type: object
+      description: Deletes the association between the assistant and the file, but does not delete the [File](https://platform.openai.com/docs/api-reference/files) object itself.
+      properties:
+        id:
+          type: string
+          description: The ID of the assistant file.
+        deleted:
+          type: boolean
+          description: Whether the assistant file was deleted.
+        object:
+          type: string
+          description: The object type, which is always `assistant.file.deleted`.
+          enum: [assistant.file.deleted]
+      required:
+        - id
+        - object
+        - deleted
+    ListAssistantFilesResponse:
+      type: object
+      description: Represents a list of assistant files returned by the List assistant files endpoint.
+      properties:
+        object:
+          type: string
+          description: The object type, which is always `list`.
+          example: "list"
+        data:
+          type: array
+          description: A list of assistant files.
+          items:
+            $ref: "#/components/schemas/AssistantFileObject"
+        first_id:
+          type: string
+          description: The ID of the first assistant file in the list.
+          example: "file-abc123"
+        last_id:
+          type: string
+          description: The ID of the last assistant file in the list.
+          example: "file-abc456"
+        has_more:
+          type: boolean
+          description: Whether there are more assistant files available.
+          example: false
+      required:
+        - object
+        - data
+        - items
+        - first_id
+        - last_id
+        - has_more
+    MessageFileObject:
+      type: object
+      description: A list of files attached to a `message`.
+      properties:
+        id:
+          description: The identifier, which can be referenced in API endpoints.
+          type: string
+        object:
+          description: The object type, which is always `thread.message.file`.
+          type: string
+          enum: ["thread.message.file"]
+        created_at:
+          description: The Unix timestamp (in seconds) for when the message file was created.
+          type: integer
+        message_id:
+          description: The ID of the [message](https://platform.openai.com/docs/api-reference/messages) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to.
+          type: string
+      required:
+        - id
+        - object
+        - created_at
+        - message_id
+    ListMessageFilesResponse:
+      type: object
+      description: Represents a list of message files returned by the List message files endpoint.
+      properties:
+        object:
+          type: string
+          description: The object type, which is always `list`.
+          example: "list"
+        data:
+          type: array
+          description: A list of message files.
+          items:
+            $ref: "#/components/schemas/MessageFileObject"
+        first_id:
+          type: string
+          description: The ID of the first message file in the list.
+          example: "file-abc123"
+        last_id:
+          type: string
+          description: The ID of the last message file in the list.
+          example: "file-abc456"
+        has_more:
+          type: boolean
+          description: Whether there are more message files available.
+          example: false
+      required:
+        - object
+        - data
+        - items
+        - first_id
+        - last_id
+        - has_more
 
 security:
   - ApiKeyAuth: [ ]
