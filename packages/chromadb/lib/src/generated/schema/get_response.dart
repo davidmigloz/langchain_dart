@@ -1,6 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
+// ignore_for_file: invalid_annotation_target, unused_import
 part of chroma_api_schema;
 
 // ==========================================
@@ -18,13 +19,13 @@ class GetResponse with _$GetResponse {
     required List<String> ids,
 
     /// List of embeddings of the items.
-    List<List<double>>? embeddings,
+    @JsonKey(includeIfNull: false) List<List<double>>? embeddings,
 
     /// List of metadatas of the items.
-    List<Map<String, dynamic>?>? metadatas,
+    @JsonKey(includeIfNull: false) List<Map<String, dynamic>?>? metadatas,
 
     /// List of documents of the items.
-    List<String?>? documents,
+    @JsonKey(includeIfNull: false) List<String?>? documents,
   }) = _GetResponse;
 
   /// Object construction from a JSON representation

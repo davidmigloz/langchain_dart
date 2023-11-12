@@ -1,6 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: invalid_annotation_target, type=lint
+// ignore_for_file: type=lint
+// ignore_for_file: invalid_annotation_target, unused_import
 part of chroma_api_schema;
 
 // ==========================================
@@ -15,10 +16,11 @@ class UpdateCollection with _$UpdateCollection {
   /// Factory constructor for UpdateCollection
   const factory UpdateCollection({
     /// New name of the collection.
-    @JsonKey(name: 'new_name') String? newName,
+    @JsonKey(name: 'new_name', includeIfNull: false) String? newName,
 
     /// New metadata of the collection.
-    @JsonKey(name: 'new_metadata') dynamic newMetadata,
+    @JsonKey(name: 'new_metadata', includeIfNull: false)
+    Map<String, dynamic>? newMetadata,
   }) = _UpdateCollection;
 
   /// Object construction from a JSON representation

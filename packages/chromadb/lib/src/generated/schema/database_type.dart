@@ -5,32 +5,32 @@
 part of chroma_api_schema;
 
 // ==========================================
-// CLASS: CollectionType
+// CLASS: DatabaseType
 // ==========================================
 
-/// A collection of items.
+/// A database.
 @freezed
-class CollectionType with _$CollectionType {
-  const CollectionType._();
+class DatabaseType with _$DatabaseType {
+  const DatabaseType._();
 
-  /// Factory constructor for CollectionType
-  const factory CollectionType({
-    /// Name of the collection.
-    required String name,
-
-    /// Id of the collection.
+  /// Factory constructor for DatabaseType
+  const factory DatabaseType({
+    /// Id of the database.
     required String id,
 
-    /// Metadata of the collection.
-    @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
-  }) = _CollectionType;
+    /// Name of the database.
+    required String name,
+
+    /// Tenant of the database.
+    @JsonKey(includeIfNull: false) String? tenant,
+  }) = _DatabaseType;
 
   /// Object construction from a JSON representation
-  factory CollectionType.fromJson(Map<String, dynamic> json) =>
-      _$CollectionTypeFromJson(json);
+  factory DatabaseType.fromJson(Map<String, dynamic> json) =>
+      _$DatabaseTypeFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['name', 'id', 'metadata'];
+  static const List<String> propertyNames = ['id', 'name', 'tenant'];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -40,9 +40,9 @@ class CollectionType with _$CollectionType {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
-      'name': name,
       'id': id,
-      'metadata': metadata,
+      'name': name,
+      'tenant': tenant,
     };
   }
 }
