@@ -143,8 +143,6 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
   static const presencePenaltyDefaultValue = 0.0;
   static const presencePenaltyMinValue = -2.0;
   static const presencePenaltyMaxValue = 2.0;
-  static const seedMinValue = -9223372036854775808;
-  static const seedMaxValue = 9223372036854775807;
   static const temperatureDefaultValue = 1.0;
   static const temperatureMinValue = 0.0;
   static const temperatureMaxValue = 2.0;
@@ -188,12 +186,6 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
     }
     if (presencePenalty != null && presencePenalty! > presencePenaltyMaxValue) {
       return "The value of 'presencePenalty' cannot be > $presencePenaltyMaxValue";
-    }
-    if (seed != null && seed! < seedMinValue) {
-      return "The value of 'seed' cannot be < $seedMinValue";
-    }
-    if (seed != null && seed! > seedMaxValue) {
-      return "The value of 'seed' cannot be > $seedMaxValue";
     }
     if (temperature != null && temperature! < temperatureMinValue) {
       return "The value of 'temperature' cannot be < $temperatureMinValue";
