@@ -8,5 +8,5 @@ environment:
 
 dependencies:
   langchain: ^0.0.15
-  langchain_openai: ^0.0.15+1
+  langchain_openai: ^0.0.15+2
   langchain_chroma: ^0.0.5+3

@@ -1,3 +1,7 @@
+## 0.0.15+2
+
+ - Update a dependency to the latest release.
+
 ## 0.0.15+1
 
  - **REFACTOR**(openai_dart): Rename ChatCompletionFunction to FunctionObject (internal) ([#206](https://github.com/davidmigloz/langchain_dart/issues/206)). ([0f06df3f](https://github.com/davidmigloz/langchain_dart/commit/0f06df3f9b32e5887976936b5fd2e6aa5a4f4f5b))
