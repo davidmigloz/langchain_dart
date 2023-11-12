@@ -5,7 +5,7 @@
 [![](https://dcbadge.vercel.app/api/server/x4qbhqecVR?style=flat)](https://discord.gg/x4qbhqecVR)
 [![MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://github.com/davidmigloz/langchain_dart/blob/main/LICENSE)
 
-Dart client for [OpenAI](https://platform.openai.com/docs/api-reference) API.
+Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-reference) API.
 
 ## Features
 
@@ -33,9 +33,8 @@ The OpenAI API uses API keys for authentication. Visit your [API Keys](https://p
 > Do not share it with others or expose it in any client-side code (browsers, apps). Production requests must be routed through your own backend server where your API key can be securely loaded from an environment variable or key management service.
 
 ```dart
-final client = OpenAIClient(
-  apiKey: 'OPENAI_API_KEY',
-);
+final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
+final client = OpenAIClient(apiKey: openaiApiKey);
 ```
 
 #### Organization (optional)
@@ -44,7 +43,7 @@ For users who belong to multiple organizations, you can specify which organizati
 
 ```dart
 final client = OpenAIClient(
-  apiKey: 'OPENAI_API_KEY',
+  apiKey: openaiApiKey,
   organization: 'org-dtDDtkEGoFccn5xaP5W1p3Rr',
 );
 ```
