@@ -1,3 +1,9 @@
+## 0.1.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**(vector-stores): Chroma databases, tenants and global headers support ([#211](https://github.com/davidmigloz/langchain_dart/issues/211)). ([5a1d8397](https://github.com/davidmigloz/langchain_dart/commit/5a1d83971c78849f7185a674ffff527e0348511d))
+
 ## 0.0.5+3
 
  - **DOCS**: Update vector stores documentation. ([dad60d24](https://github.com/davidmigloz/langchain_dart/commit/dad60d247fac157f2980f73c14ac88e9a0894fba))

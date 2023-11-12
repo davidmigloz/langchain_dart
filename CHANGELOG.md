@@ -11,7 +11,8 @@ server for more details about each release.
 
 Packages with breaking changes:
 
- - There are no breaking changes in this release.
+ - [`chromadb` - `v0.1.0`](#chromadb---v010)
+ - [`langchain_chroma` - `v0.1.0`](#langchain_chroma---v010)
 
 Packages with other changes:
 
@@ -25,6 +26,15 @@ Packages with dependency updates only:
  - `langchain_openai` - `v0.0.15+2`
 
 ---
+
+#### `langchain_chroma` - `v0.1.0`
+
+ - **BREAKING** **FEAT**(vector-stores): Chroma databases, tenants and global headers support ([#211](https://github.com/davidmigloz/langchain_dart/issues/211)). ([5a1d8397](https://github.com/davidmigloz/langchain_dart/commit/5a1d83971c78849f7185a674ffff527e0348511d))
+
+
+#### `chromadb` - `v0.1.0`
+
+ - **BREAKING** **FEAT**(chromadb): Multi-modal and tenants support ([#210](https://github.com/davidmigloz/langchain_dart/issues/210)). ([bfb0d89c](https://github.com/davidmigloz/langchain_dart/commit/bfb0d89cf82881090f6a50ee4d70b70f62e4302e))
 
 #### `openai_dart` - `v0.0.2+2`
 
