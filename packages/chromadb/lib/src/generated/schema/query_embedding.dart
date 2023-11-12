@@ -1,6 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: invalid_annotation_target, type=lint
+// ignore_for_file: type=lint
+// ignore_for_file: invalid_annotation_target, unused_import
 part of chroma_api_schema;
 
 // ==========================================
@@ -14,6 +15,13 @@ class QueryEmbedding with _$QueryEmbedding {
 
   /// Factory constructor for QueryEmbedding
   const factory QueryEmbedding({
+    /// Optional query condition to filter results based on metadata values.
+    @JsonKey(includeIfNull: false) Map<String, dynamic>? where,
+
+    /// Optional query condition to filter results based on document content.
+    @JsonKey(name: 'where_document', includeIfNull: false)
+    Map<String, dynamic>? whereDocument,
+
     /// Optional query embeddings to use for the search.
     @JsonKey(name: 'query_embeddings')
     required List<List<double>> queryEmbeddings,
@@ -21,14 +29,8 @@ class QueryEmbedding with _$QueryEmbedding {
     /// Optional number of results to return
     @JsonKey(name: 'n_results') @Default(10) int nResults,
 
-    /// Optional query condition to filter results based on metadata values.
-    Map<String, dynamic>? where,
-
-    /// Optional query condition to filter results based on document content.
-    @JsonKey(name: 'where_document') Map<String, dynamic>? whereDocument,
-
     /// Optional list of items to include in the response.
-    List<String>? include,
+    @JsonKey(includeIfNull: false) List<String>? include,
   }) = _QueryEmbedding;
 
   /// Object construction from a JSON representation
@@ -37,10 +39,10 @@ class QueryEmbedding with _$QueryEmbedding {
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
-    'query_embeddings',
-    'n_results',
     'where',
     'where_document',
+    'query_embeddings',
+    'n_results',
     'include'
   ];
 
@@ -55,10 +57,10 @@ class QueryEmbedding with _$QueryEmbedding {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
-      'query_embeddings': queryEmbeddings,
-      'n_results': nResults,
       'where': where,
       'where_document': whereDocument,
+      'query_embeddings': queryEmbeddings,
+      'n_results': nResults,
       'include': include,
     };
   }

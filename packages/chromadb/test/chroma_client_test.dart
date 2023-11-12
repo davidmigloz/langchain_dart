@@ -4,10 +4,10 @@ library; // Uses dart:io
 import 'package:chromadb/chromadb.dart';
 import 'package:test/test.dart';
 
-// docker-compose -f docker-compose.test.yml up -d --build
+// docker run -p 8000:8000 -e "ALLOW_RESET=TRUE" chromadb/chroma
 void main() async {
   group('ChromaClient tests', skip: true, () {
-    final client = ChromaClient(host: 'http://localhost:65450');
+    final client = ChromaClient();
 
     test('it should reset the database', () async {
       await client.reset();

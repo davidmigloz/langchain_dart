@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: prefer_final_parameters, require_trailing_commas, non_constant_identifier_names, invalid_annotation_target
+// ignore_for_file: prefer_final_parameters, require_trailing_commas, non_constant_identifier_names
 
 part of 'schema.dart';
 
@@ -8,76 +8,171 @@ part of 'schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AddEmbedding _$$_AddEmbeddingFromJson(Map<String, dynamic> json) =>
-    _$_AddEmbedding(
-      ids: (json['ids'] as List<dynamic>).map((e) => e as String).toList(),
+_$AddEmbeddingImpl _$$AddEmbeddingImplFromJson(Map<String, dynamic> json) =>
+    _$AddEmbeddingImpl(
       embeddings: (json['embeddings'] as List<dynamic>?)
           ?.map((e) =>
-              (e as List<dynamic>).map((e) => (e as num).toDouble()).toList())
+              (e as List<dynamic>?)?.map((e) => (e as num).toDouble()).toList())
           .toList(),
       metadatas: (json['metadatas'] as List<dynamic>?)
-          ?.map((e) => e as Map<String, dynamic>)
+          ?.map((e) => e as Map<String, dynamic>?)
           .toList(),
       documents: (json['documents'] as List<dynamic>?)
-          ?.map((e) => e as String)
+          ?.map((e) => e as String?)
           .toList(),
+      uris: (json['uris'] as List<dynamic>?)?.map((e) => e as String?).toList(),
+      ids: (json['ids'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
-Map<String, dynamic> _$$_AddEmbeddingToJson(_$_AddEmbedding instance) =>
-    <String, dynamic>{
-      'ids': instance.ids,
-      'embeddings': instance.embeddings,
-      'metadatas': instance.metadatas,
-      'documents': instance.documents,
-    };
+Map<String, dynamic> _$$AddEmbeddingImplToJson(_$AddEmbeddingImpl instance) {
+  final val = <String, dynamic>{};
 
-_$_CollectionType _$$_CollectionTypeFromJson(Map<String, dynamic> json) =>
-    _$_CollectionType(
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('embeddings', instance.embeddings);
+  writeNotNull('metadatas', instance.metadatas);
+  writeNotNull('documents', instance.documents);
+  writeNotNull('uris', instance.uris);
+  val['ids'] = instance.ids;
+  return val;
+}
+
+_$CollectionTypeImpl _$$CollectionTypeImplFromJson(Map<String, dynamic> json) =>
+    _$CollectionTypeImpl(
       name: json['name'] as String,
       id: json['id'] as String,
       metadata: json['metadata'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$$_CollectionTypeToJson(_$_CollectionType instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'id': instance.id,
-      'metadata': instance.metadata,
-    };
+Map<String, dynamic> _$$CollectionTypeImplToJson(
+    _$CollectionTypeImpl instance) {
+  final val = <String, dynamic>{
+    'name': instance.name,
+    'id': instance.id,
+  };
 
-_$_CreateCollection _$$_CreateCollectionFromJson(Map<String, dynamic> json) =>
-    _$_CreateCollection(
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('metadata', instance.metadata);
+  return val;
+}
+
+_$CreateCollectionImpl _$$CreateCollectionImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CreateCollectionImpl(
       name: json['name'] as String,
       metadata: json['metadata'] as Map<String, dynamic>?,
       getOrCreate: json['get_or_create'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$_CreateCollectionToJson(_$_CreateCollection instance) =>
+Map<String, dynamic> _$$CreateCollectionImplToJson(
+    _$CreateCollectionImpl instance) {
+  final val = <String, dynamic>{
+    'name': instance.name,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('metadata', instance.metadata);
+  val['get_or_create'] = instance.getOrCreate;
+  return val;
+}
+
+_$DatabaseTypeImpl _$$DatabaseTypeImplFromJson(Map<String, dynamic> json) =>
+    _$DatabaseTypeImpl(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      tenant: json['tenant'] as String?,
+    );
+
+Map<String, dynamic> _$$DatabaseTypeImplToJson(_$DatabaseTypeImpl instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'name': instance.name,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tenant', instance.tenant);
+  return val;
+}
+
+_$CreateDatabaseImpl _$$CreateDatabaseImplFromJson(Map<String, dynamic> json) =>
+    _$CreateDatabaseImpl(
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$$CreateDatabaseImplToJson(
+        _$CreateDatabaseImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'metadata': instance.metadata,
-      'get_or_create': instance.getOrCreate,
     };
 
-_$_DeleteEmbedding _$$_DeleteEmbeddingFromJson(Map<String, dynamic> json) =>
-    _$_DeleteEmbedding(
+_$TenantTypeImpl _$$TenantTypeImplFromJson(Map<String, dynamic> json) =>
+    _$TenantTypeImpl(
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$$TenantTypeImplToJson(_$TenantTypeImpl instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+    };
+
+_$CreateTenantImpl _$$CreateTenantImplFromJson(Map<String, dynamic> json) =>
+    _$CreateTenantImpl(
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$$CreateTenantImplToJson(_$CreateTenantImpl instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+    };
+
+_$DeleteEmbeddingImpl _$$DeleteEmbeddingImplFromJson(
+        Map<String, dynamic> json) =>
+    _$DeleteEmbeddingImpl(
       ids: (json['ids'] as List<dynamic>?)?.map((e) => e as String).toList(),
       where: json['where'] as Map<String, dynamic>?,
       whereDocument: json['where_document'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$$_DeleteEmbeddingToJson(_$_DeleteEmbedding instance) =>
-    <String, dynamic>{
-      'ids': instance.ids,
-      'where': instance.where,
-      'where_document': instance.whereDocument,
-    };
+Map<String, dynamic> _$$DeleteEmbeddingImplToJson(
+    _$DeleteEmbeddingImpl instance) {
+  final val = <String, dynamic>{};
 
-_$_GetEmbedding _$$_GetEmbeddingFromJson(Map<String, dynamic> json) =>
-    _$_GetEmbedding(
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ids', instance.ids);
+  writeNotNull('where', instance.where);
+  writeNotNull('where_document', instance.whereDocument);
+  return val;
+}
+
+_$GetEmbeddingImpl _$$GetEmbeddingImplFromJson(Map<String, dynamic> json) =>
+    _$GetEmbeddingImpl(
       ids: (json['ids'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      where: json['where'],
-      whereDocument: json['where_document'],
+      where: json['where'] as Map<String, dynamic>?,
+      whereDocument: json['where_document'] as Map<String, dynamic>?,
       sort: json['sort'] as String?,
       limit: json['limit'] as int?,
       offset: json['offset'] as int?,
@@ -85,19 +180,27 @@ _$_GetEmbedding _$$_GetEmbeddingFromJson(Map<String, dynamic> json) =>
           (json['include'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
-Map<String, dynamic> _$$_GetEmbeddingToJson(_$_GetEmbedding instance) =>
-    <String, dynamic>{
-      'ids': instance.ids,
-      'where': instance.where,
-      'where_document': instance.whereDocument,
-      'sort': instance.sort,
-      'limit': instance.limit,
-      'offset': instance.offset,
-      'include': instance.include,
-    };
+Map<String, dynamic> _$$GetEmbeddingImplToJson(_$GetEmbeddingImpl instance) {
+  final val = <String, dynamic>{};
 
-_$_GetResponse _$$_GetResponseFromJson(Map<String, dynamic> json) =>
-    _$_GetResponse(
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ids', instance.ids);
+  writeNotNull('where', instance.where);
+  writeNotNull('where_document', instance.whereDocument);
+  writeNotNull('sort', instance.sort);
+  writeNotNull('limit', instance.limit);
+  writeNotNull('offset', instance.offset);
+  writeNotNull('include', instance.include);
+  return val;
+}
+
+_$GetResponseImpl _$$GetResponseImplFromJson(Map<String, dynamic> json) =>
+    _$GetResponseImpl(
       ids: (json['ids'] as List<dynamic>).map((e) => e as String).toList(),
       embeddings: (json['embeddings'] as List<dynamic>?)
           ?.map((e) =>
@@ -111,41 +214,78 @@ _$_GetResponse _$$_GetResponseFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$_GetResponseToJson(_$_GetResponse instance) =>
-    <String, dynamic>{
-      'ids': instance.ids,
-      'embeddings': instance.embeddings,
-      'metadatas': instance.metadatas,
-      'documents': instance.documents,
-    };
+Map<String, dynamic> _$$GetResponseImplToJson(_$GetResponseImpl instance) {
+  final val = <String, dynamic>{
+    'ids': instance.ids,
+  };
 
-_$_QueryEmbedding _$$_QueryEmbeddingFromJson(Map<String, dynamic> json) =>
-    _$_QueryEmbedding(
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('embeddings', instance.embeddings);
+  writeNotNull('metadatas', instance.metadatas);
+  writeNotNull('documents', instance.documents);
+  return val;
+}
+
+_$HTTPValidationErrorImpl _$$HTTPValidationErrorImplFromJson(
+        Map<String, dynamic> json) =>
+    _$HTTPValidationErrorImpl(
+      detail: (json['detail'] as List<dynamic>?)
+          ?.map((e) => ValidationError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$HTTPValidationErrorImplToJson(
+    _$HTTPValidationErrorImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('detail', instance.detail?.map((e) => e.toJson()).toList());
+  return val;
+}
+
+_$QueryEmbeddingImpl _$$QueryEmbeddingImplFromJson(Map<String, dynamic> json) =>
+    _$QueryEmbeddingImpl(
+      where: json['where'] as Map<String, dynamic>?,
+      whereDocument: json['where_document'] as Map<String, dynamic>?,
       queryEmbeddings: (json['query_embeddings'] as List<dynamic>)
           .map((e) =>
               (e as List<dynamic>).map((e) => (e as num).toDouble()).toList())
           .toList(),
       nResults: json['n_results'] as int? ?? 10,
-      where: json['where'] as Map<String, dynamic>?,
-      whereDocument: json['where_document'] as Map<String, dynamic>?,
       include:
           (json['include'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
-Map<String, dynamic> _$$_QueryEmbeddingToJson(_$_QueryEmbedding instance) =>
-    <String, dynamic>{
-      'query_embeddings': instance.queryEmbeddings,
-      'n_results': instance.nResults,
-      'where': instance.where,
-      'where_document': instance.whereDocument,
-      'include': instance.include,
-    };
+Map<String, dynamic> _$$QueryEmbeddingImplToJson(
+    _$QueryEmbeddingImpl instance) {
+  final val = <String, dynamic>{};
 
-_$_QueryResponse _$$_QueryResponseFromJson(Map<String, dynamic> json) =>
-    _$_QueryResponse(
-      ids: (json['ids'] as List<dynamic>)
-          .map((e) => (e as List<dynamic>).map((e) => e as String).toList())
-          .toList(),
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('where', instance.where);
+  writeNotNull('where_document', instance.whereDocument);
+  val['query_embeddings'] = instance.queryEmbeddings;
+  val['n_results'] = instance.nResults;
+  writeNotNull('include', instance.include);
+  return val;
+}
+
+_$QueryResponseImpl _$$QueryResponseImplFromJson(Map<String, dynamic> json) =>
+    _$QueryResponseImpl(
       embeddings: (json['embeddings'] as List<dynamic>?)
           ?.map((e) => (e as List<dynamic>)
               .map((e) => (e as List<dynamic>)
@@ -161,78 +301,107 @@ _$_QueryResponse _$$_QueryResponseFromJson(Map<String, dynamic> json) =>
       documents: (json['documents'] as List<dynamic>?)
           ?.map((e) => (e as List<dynamic>).map((e) => e as String?).toList())
           .toList(),
+      data: (json['data'] as List<dynamic>?)
+          ?.map((e) => (e as List<dynamic>).map((e) => e as String?).toList())
+          .toList(),
+      uris: (json['uris'] as List<dynamic>?)
+          ?.map((e) => (e as List<dynamic>).map((e) => e as String?).toList())
+          .toList(),
+      ids: (json['ids'] as List<dynamic>)
+          .map((e) => (e as List<dynamic>).map((e) => e as String).toList())
+          .toList(),
       distances: (json['distances'] as List<dynamic>?)
           ?.map((e) =>
               (e as List<dynamic>).map((e) => (e as num).toDouble()).toList())
           .toList(),
     );
 
-Map<String, dynamic> _$$_QueryResponseToJson(_$_QueryResponse instance) =>
-    <String, dynamic>{
-      'ids': instance.ids,
-      'embeddings': instance.embeddings,
-      'metadatas': instance.metadatas,
-      'documents': instance.documents,
-      'distances': instance.distances,
-    };
+Map<String, dynamic> _$$QueryResponseImplToJson(_$QueryResponseImpl instance) {
+  final val = <String, dynamic>{};
 
-_$_UpdateCollection _$$_UpdateCollectionFromJson(Map<String, dynamic> json) =>
-    _$_UpdateCollection(
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('embeddings', instance.embeddings);
+  writeNotNull('metadatas', instance.metadatas);
+  writeNotNull('documents', instance.documents);
+  writeNotNull('data', instance.data);
+  writeNotNull('uris', instance.uris);
+  val['ids'] = instance.ids;
+  writeNotNull('distances', instance.distances);
+  return val;
+}
+
+_$UpdateCollectionImpl _$$UpdateCollectionImplFromJson(
+        Map<String, dynamic> json) =>
+    _$UpdateCollectionImpl(
       newName: json['new_name'] as String?,
-      newMetadata: json['new_metadata'],
+      newMetadata: json['new_metadata'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$$_UpdateCollectionToJson(_$_UpdateCollection instance) =>
-    <String, dynamic>{
-      'new_name': instance.newName,
-      'new_metadata': instance.newMetadata,
-    };
+Map<String, dynamic> _$$UpdateCollectionImplToJson(
+    _$UpdateCollectionImpl instance) {
+  final val = <String, dynamic>{};
 
-_$_UpdateEmbedding _$$_UpdateEmbeddingFromJson(Map<String, dynamic> json) =>
-    _$_UpdateEmbedding(
-      ids: (json['ids'] as List<dynamic>).map((e) => e as String).toList(),
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('new_name', instance.newName);
+  writeNotNull('new_metadata', instance.newMetadata);
+  return val;
+}
+
+_$UpdateEmbeddingImpl _$$UpdateEmbeddingImplFromJson(
+        Map<String, dynamic> json) =>
+    _$UpdateEmbeddingImpl(
       embeddings: (json['embeddings'] as List<dynamic>?)
           ?.map((e) =>
-              (e as List<dynamic>).map((e) => (e as num).toDouble()).toList())
+              (e as List<dynamic>?)?.map((e) => (e as num).toDouble()).toList())
           .toList(),
       metadatas: (json['metadatas'] as List<dynamic>?)
-          ?.map((e) => e as Map<String, dynamic>)
+          ?.map((e) => e as Map<String, dynamic>?)
           .toList(),
       documents: (json['documents'] as List<dynamic>?)
-          ?.map((e) => e as String)
+          ?.map((e) => e as String?)
           .toList(),
+      uris: (json['uris'] as List<dynamic>?)?.map((e) => e as String?).toList(),
+      ids: (json['ids'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
-Map<String, dynamic> _$$_UpdateEmbeddingToJson(_$_UpdateEmbedding instance) =>
-    <String, dynamic>{
-      'ids': instance.ids,
-      'embeddings': instance.embeddings,
-      'metadatas': instance.metadatas,
-      'documents': instance.documents,
-    };
+Map<String, dynamic> _$$UpdateEmbeddingImplToJson(
+    _$UpdateEmbeddingImpl instance) {
+  final val = <String, dynamic>{};
 
-_$_HTTPValidationError _$$_HTTPValidationErrorFromJson(
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('embeddings', instance.embeddings);
+  writeNotNull('metadatas', instance.metadatas);
+  writeNotNull('documents', instance.documents);
+  writeNotNull('uris', instance.uris);
+  val['ids'] = instance.ids;
+  return val;
+}
+
+_$ValidationErrorImpl _$$ValidationErrorImplFromJson(
         Map<String, dynamic> json) =>
-    _$_HTTPValidationError(
-      detail: (json['detail'] as List<dynamic>?)
-          ?.map((e) => ValidationError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$$_HTTPValidationErrorToJson(
-        _$_HTTPValidationError instance) =>
-    <String, dynamic>{
-      'detail': instance.detail,
-    };
-
-_$_ValidationError _$$_ValidationErrorFromJson(Map<String, dynamic> json) =>
-    _$_ValidationError(
-      loc: json['loc'],
+    _$ValidationErrorImpl(
+      loc: json['loc'] as List<dynamic>,
       msg: json['msg'] as String,
       type: json['type'] as String,
     );
 
-Map<String, dynamic> _$$_ValidationErrorToJson(_$_ValidationError instance) =>
+Map<String, dynamic> _$$ValidationErrorImplToJson(
+        _$ValidationErrorImpl instance) =>
     <String, dynamic>{
       'loc': instance.loc,
       'msg': instance.msg,

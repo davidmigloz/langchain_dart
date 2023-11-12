@@ -1,6 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: invalid_annotation_target, type=lint
+// ignore_for_file: type=lint
+// ignore_for_file: invalid_annotation_target, unused_import
 part of chroma_api_schema;
 
 // ==========================================
@@ -15,25 +16,26 @@ class GetEmbedding with _$GetEmbedding {
   /// Factory constructor for GetEmbedding
   const factory GetEmbedding({
     /// Optional IDs of the items to get.
-    List<String>? ids,
+    @JsonKey(includeIfNull: false) List<String>? ids,
 
     /// Optional where clause to filter items by.
-    dynamic where,
+    @JsonKey(includeIfNull: false) Map<String, dynamic>? where,
 
     /// Optional where clause to filter items by.
-    @JsonKey(name: 'where_document') dynamic whereDocument,
+    @JsonKey(name: 'where_document', includeIfNull: false)
+    Map<String, dynamic>? whereDocument,
 
     /// Sort items.
-    String? sort,
+    @JsonKey(includeIfNull: false) String? sort,
 
     /// Optional limit on the number of items to get.
-    int? limit,
+    @JsonKey(includeIfNull: false) int? limit,
 
     /// Optional offset on the items to get.
-    int? offset,
+    @JsonKey(includeIfNull: false) int? offset,
 
     /// Optional list of items to include in the response.
-    List<String>? include,
+    @JsonKey(includeIfNull: false) List<String>? include,
   }) = _GetEmbedding;
 
   /// Object construction from a JSON representation
