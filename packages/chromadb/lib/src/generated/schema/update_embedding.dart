@@ -1,6 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
+// ignore_for_file: invalid_annotation_target, unused_import
 part of chroma_api_schema;
 
 // ==========================================
@@ -14,17 +15,20 @@ class UpdateEmbedding with _$UpdateEmbedding {
 
   /// Factory constructor for UpdateEmbedding
   const factory UpdateEmbedding({
-    /// IDs of the items to update
-    required List<String> ids,
-
     /// Optional embeddings of the items to update.
-    List<List<double>>? embeddings,
+    @JsonKey(includeIfNull: false) List<List<double>?>? embeddings,
 
     /// Optional metadatas of the items to update.
-    List<Map<String, dynamic>>? metadatas,
+    @JsonKey(includeIfNull: false) List<Map<String, dynamic>?>? metadatas,
 
     /// Optional documents of the items to update.
-    List<String>? documents,
+    @JsonKey(includeIfNull: false) List<String?>? documents,
+
+    /// Optional uris of the items to update.
+    @JsonKey(includeIfNull: false) List<String?>? uris,
+
+    /// IDs of the items to update
+    required List<String> ids,
   }) = _UpdateEmbedding;
 
   /// Object construction from a JSON representation
@@ -33,10 +37,11 @@ class UpdateEmbedding with _$UpdateEmbedding {
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
-    'ids',
     'embeddings',
     'metadatas',
-    'documents'
+    'documents',
+    'uris',
+    'ids'
   ];
 
   /// Perform validations on the schema property values
@@ -47,10 +52,11 @@ class UpdateEmbedding with _$UpdateEmbedding {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
-      'ids': ids,
       'embeddings': embeddings,
       'metadatas': metadatas,
       'documents': documents,
+      'uris': uris,
+      'ids': ids,
     };
   }
 }

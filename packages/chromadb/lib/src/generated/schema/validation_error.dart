@@ -1,6 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
+// ignore_for_file: invalid_annotation_target, unused_import
 part of chroma_api_schema;
 
 // ==========================================
@@ -15,7 +16,7 @@ class ValidationError with _$ValidationError {
   /// Factory constructor for ValidationError
   const factory ValidationError({
     /// No Description
-    required dynamic loc,
+    required List<dynamic> loc,
 
     /// No Description
     required String msg,

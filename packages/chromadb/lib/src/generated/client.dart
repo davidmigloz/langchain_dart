@@ -1,11 +1,16 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
+// ignore_for_file: invalid_annotation_target, unused_import
 
-import 'dart:io' as io;
 import 'dart:convert';
+import 'dart:io' as io;
+import 'dart:typed_data';
+
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart';
+import 'package:meta/meta.dart';
+
 import 'schema/schema.dart';
 
 /// Enum of HTTP methods
@@ -24,6 +29,7 @@ class ChromaApiClientException implements io.HttpException {
     this.code,
     this.body,
   });
+
   @override
   final String message;
   @override
@@ -55,27 +61,37 @@ class ChromaApiClientException implements io.HttpException {
 // CLASS: ChromaApiClient
 // ==========================================
 
-/// Client for ChromaDB API
+/// Client for ChromaDB API (v.0.1.0)
 ///
-/// `host`: Override host URL - else defaults to server host defined in spec
-///
-/// `client`: Override HTTP client to use for requests
+/// This is OpenAPI schema for ChromaDB API.
 class ChromaApiClient {
+  /// Creates a new ChromaApiClient instance.
+  ///
+  /// - [ChromaApiClient.baseUrl] Override base URL (default: server url defined in spec)
+  /// - [ChromaApiClient.headers] Global headers to be sent with every request
+  /// - [ChromaApiClient.client] Override HTTP client to use for requests
   ChromaApiClient({
-    String? host,
+    this.baseUrl,
+    this.headers = const {},
     http.Client? client,
-  }) {
-    // Create a retry client
-    this.client = RetryClient(client ?? http.Client());
-    // Ensure trailing slash is removed from host
-    this.host = host?.replaceAll(RegExp(r'/$'), '');
-  }
+  })  : assert(
+          baseUrl == null || baseUrl.startsWith('http'),
+          'baseUrl must start with http',
+        ),
+        assert(
+          baseUrl == null || !baseUrl.endsWith('/'),
+          'baseUrl must not end with /',
+        ),
+        client = RetryClient(client ?? http.Client());
 
-  /// User provided override for host URL
-  late final String? host;
+  /// Override base URL (default: server url defined in spec)
+  final String? baseUrl;
+
+  /// Global headers to be sent with every request
+  final Map<String, String> headers;
 
   /// HTTP client for requests
-  late final http.Client client;
+  final http.Client client;
 
   // ------------------------------------------
   // METHOD: endSession
@@ -91,8 +107,19 @@ class ChromaApiClient {
   /// Middleware for HTTP requests (user can override)
   ///
   /// The request can be of type [http.Request] or [http.MultipartRequest]
-  Future<http.BaseRequest> onRequest(http.BaseRequest request) async {
-    return request;
+  Future<http.BaseRequest> onRequest(http.BaseRequest request) {
+    return Future.value(request);
+  }
+
+  // ------------------------------------------
+  // METHOD: onStreamedResponse
+  // ------------------------------------------
+
+  /// Middleware for HTTP streamed responses (user can override)
+  Future<http.StreamedResponse> onStreamedResponse(
+    final http.StreamedResponse response,
+  ) {
+    return Future.value(response);
   }
 
   // ------------------------------------------
@@ -100,19 +127,19 @@ class ChromaApiClient {
   // ------------------------------------------
 
   /// Middleware for HTTP responses (user can override)
-  Future<http.Response> onResponse(http.Response response) async {
-    return response;
+  Future<http.Response> onResponse(http.Response response) {
+    return Future.value(response);
   }
 
   // ------------------------------------------
-  // METHOD: _request
+  // METHOD: makeRequestStream
   // ------------------------------------------
 
-  /// Reusable request method
-  Future<http.Response> _request({
-    required String host,
+  /// Reusable request stream method
+  @protected
+  Future<http.StreamedResponse> makeRequestStream({
+    required String baseUrl,
     required String path,
-    required bool? secure,
     required HttpMethod method,
     Map<String, dynamic> queryParams = const {},
     Map<String, String> headerParams = const {},
@@ -121,56 +148,32 @@ class ChromaApiClient {
     String responseType = '',
     Object? body,
   }) async {
-    // Override with the user provided host
-    host = this.host ?? host;
+    // Override with the user provided baseUrl
+    baseUrl = this.baseUrl ?? baseUrl;
 
-    // Ensure a host is provided
-    if (host.isEmpty) {
-      throw Exception(
-        '\n\nHost is required, but none defined in spec or provided by user\n',
-      );
-    }
+    // Ensure a baseUrl is provided
+    assert(
+      baseUrl.isNotEmpty,
+      'baseUrl is required, but none defined in spec or provided by user',
+    );
 
-    // Ensure query parameters are properly encoded
+    // Ensure query parameters are strings or iterable of strings
     queryParams = queryParams.map((key, value) {
-      if (value is List) {
-        return MapEntry(
-          key,
-          value.map((v) => Uri.encodeComponent(v.toString())).toList(),
-        );
+      if (value is Iterable) {
+        return MapEntry(key, value.map((v) => v.toString()));
       } else {
-        return MapEntry(
-          key,
-          Uri.encodeComponent(value.toString()),
-        );
+        return MapEntry(key, value.toString());
       }
     });
 
     // Build the request URI
-    secure ??= Uri.parse(host).scheme == 'https';
-    Uri uri;
-    String authority;
-    if (host.contains('http')) {
-      authority = Uri.parse(host).authority;
-    } else {
-      authority = Uri.parse(Uri.https(host).toString()).authority;
-    }
-    if (secure) {
-      uri = Uri.https(
-        authority,
-        path,
-        queryParams.isEmpty ? null : queryParams,
-      );
-    } else {
-      uri = Uri.http(
-        authority,
-        path,
-        queryParams.isEmpty ? null : queryParams,
-      );
+    Uri uri = Uri.parse(baseUrl + path);
+    if (queryParams.isNotEmpty) {
+      uri = uri.replace(queryParameters: queryParams);
     }
 
     // Build the headers
-    Map<String, String> headers = {}..addAll(headerParams);
+    Map<String, String> headers = {...headerParams};
 
     // Define the request type being sent to server
     if (requestType.isNotEmpty) {
@@ -182,8 +185,11 @@ class ChromaApiClient {
       headers['accept'] = responseType;
     }
 
+    // Add global headers
+    headers.addAll(this.headers);
+
     // Build the request object
-    late http.Response response;
+    late http.StreamedResponse response;
     try {
       http.BaseRequest request;
       if (isMultipart) {
@@ -221,10 +227,10 @@ class ChromaApiClient {
       request = await onRequest(request);
 
       // Submit request
-      response = await http.Response.fromStream(await client.send(request));
+      response = await client.send(request);
 
       // Handle user response middleware
-      response = await onResponse(response);
+      response = await onStreamedResponse(response);
     } catch (e) {
       // Handle request and response errors
       throw ChromaApiClientException(
@@ -246,8 +252,53 @@ class ChromaApiClient {
       method: method,
       message: 'Unsuccessful response',
       code: response.statusCode,
-      body: response.body,
+      body: (await http.Response.fromStream(response)).body,
     );
+  }
+
+  // ------------------------------------------
+  // METHOD: makeRequest
+  // ------------------------------------------
+
+  /// Reusable request method
+  @protected
+  Future<http.Response> makeRequest({
+    required String baseUrl,
+    required String path,
+    required HttpMethod method,
+    Map<String, dynamic> queryParams = const {},
+    Map<String, String> headerParams = const {},
+    bool isMultipart = false,
+    String requestType = '',
+    String responseType = '',
+    Object? body,
+  }) async {
+    try {
+      final streamedResponse = await makeRequestStream(
+        baseUrl: baseUrl,
+        path: path,
+        method: method,
+        queryParams: queryParams,
+        headerParams: headerParams,
+        requestType: requestType,
+        responseType: responseType,
+        body: body,
+      );
+      final response = await http.Response.fromStream(streamedResponse);
+
+      // Handle user response middleware
+      return await onResponse(response);
+    } on ChromaApiClientException {
+      rethrow;
+    } catch (e) {
+      // Handle request and response errors
+      throw ChromaApiClientException(
+        uri: Uri.parse((this.baseUrl ?? baseUrl) + path),
+        method: method,
+        message: 'Response error',
+        body: e,
+      );
+    }
   }
 
   // ------------------------------------------
@@ -258,10 +309,9 @@ class ChromaApiClient {
   ///
   /// `GET` `http://localhost:8000/api/v1`
   Future<Map<String, int>> root() async {
-    final r = await _request(
-      host: 'localhost:8000',
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
       path: '/api/v1',
-      secure: false,
       method: HttpMethod.get,
       isMultipart: false,
       requestType: '',
@@ -278,10 +328,9 @@ class ChromaApiClient {
   ///
   /// `POST` `http://localhost:8000/api/v1/reset`
   Future<bool> reset() async {
-    final r = await _request(
-      host: 'localhost:8000',
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
       path: '/api/v1/reset',
-      secure: false,
       method: HttpMethod.post,
       isMultipart: false,
       requestType: '',
@@ -298,10 +347,9 @@ class ChromaApiClient {
   ///
   /// `GET` `http://localhost:8000/api/v1/version`
   Future<String> version() async {
-    final r = await _request(
-      host: 'localhost:8000',
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
       path: '/api/v1/version',
-      secure: false,
       method: HttpMethod.get,
       isMultipart: false,
       requestType: '',
@@ -318,10 +366,9 @@ class ChromaApiClient {
   ///
   /// `GET` `http://localhost:8000/api/v1/heartbeat`
   Future<Map<String, int>> heartbeat() async {
-    final r = await _request(
-      host: 'localhost:8000',
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
       path: '/api/v1/heartbeat',
-      secure: false,
       method: HttpMethod.get,
       isMultipart: false,
       requestType: '',
@@ -331,21 +378,158 @@ class ChromaApiClient {
   }
 
   // ------------------------------------------
+  // METHOD: preFlightChecks
+  // ------------------------------------------
+
+  /// Pre Flight Checks
+  ///
+  /// `GET` `http://localhost:8000/api/v1/pre-flight-checks`
+  Future<http.Response> preFlightChecks() async {
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
+      path: '/api/v1/pre-flight-checks',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return r;
+  }
+
+  // ------------------------------------------
+  // METHOD: createDatabase
+  // ------------------------------------------
+
+  /// Create Database
+  ///
+  /// `tenant`: No description
+  ///
+  /// `request`: Request model for create database.
+  ///
+  /// `POST` `http://localhost:8000/api/v1/databases`
+  Future<List<DatabaseType>> createDatabase({
+    String tenant = 'default_tenant',
+    required CreateDatabase request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
+      path: '/api/v1/databases',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+      queryParams: {
+        'tenant': tenant,
+      },
+    );
+    final list = json.decode(r.body) as List;
+    return list.map((e) => DatabaseType.fromJson(e)).toList();
+  }
+
+  // ------------------------------------------
+  // METHOD: getDatabase
+  // ------------------------------------------
+
+  /// Get Database
+  ///
+  /// `database`: No description
+  ///
+  /// `tenant`: No description
+  ///
+  /// `GET` `http://localhost:8000/api/v1/databases/{database}`
+  Future<DatabaseType> getDatabase({
+    required String database,
+    String tenant = 'default_tenant',
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
+      path: '/api/v1/databases/$database',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+      queryParams: {
+        'tenant': tenant,
+      },
+    );
+    return DatabaseType.fromJson(json.decode(r.body));
+  }
+
+  // ------------------------------------------
+  // METHOD: createTenant
+  // ------------------------------------------
+
+  /// Create Tenant
+  ///
+  /// `request`: Request model for create tenant.
+  ///
+  /// `POST` `http://localhost:8000/api/v1/tenants`
+  Future<List<TenantType>> createTenant({
+    required CreateTenant request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
+      path: '/api/v1/tenants',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    final list = json.decode(r.body) as List;
+    return list.map((e) => TenantType.fromJson(e)).toList();
+  }
+
+  // ------------------------------------------
+  // METHOD: getTenant
+  // ------------------------------------------
+
+  /// Get Tenant
+  ///
+  /// `tenant`: No description
+  ///
+  /// `GET` `http://localhost:8000/api/v1/tenants/{tenant}`
+  Future<TenantType> getTenant({
+    required String tenant,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
+      path: '/api/v1/tenants/$tenant',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return TenantType.fromJson(json.decode(r.body));
+  }
+
+  // ------------------------------------------
   // METHOD: listCollections
   // ------------------------------------------
 
   /// List Collections
   ///
+  /// `tenant`: No description
+  ///
+  /// `database`: No description
+  ///
   /// `GET` `http://localhost:8000/api/v1/collections`
-  Future<List<CollectionType>> listCollections() async {
-    final r = await _request(
-      host: 'localhost:8000',
+  Future<List<CollectionType>> listCollections({
+    String tenant = 'default_tenant',
+    String database = 'default_database',
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
       path: '/api/v1/collections',
-      secure: false,
       method: HttpMethod.get,
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
+      queryParams: {
+        'tenant': tenant,
+        'database': database,
+      },
     );
     final list = json.decode(r.body) as List;
     return list.map((e) => CollectionType.fromJson(e)).toList();
@@ -357,21 +541,30 @@ class ChromaApiClient {
 
   /// Create Collection
   ///
-  /// `request`: No description
+  /// `tenant`: No description
+  ///
+  /// `database`: No description
+  ///
+  /// `request`: Request model for create collection.
   ///
   /// `POST` `http://localhost:8000/api/v1/collections`
   Future<CollectionType> createCollection({
+    String tenant = 'default_tenant',
+    String database = 'default_database',
     required CreateCollection request,
   }) async {
-    final r = await _request(
-      host: 'localhost:8000',
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
       path: '/api/v1/collections',
-      secure: false,
       method: HttpMethod.post,
       isMultipart: false,
       requestType: 'application/json',
       responseType: 'application/json',
       body: request,
+      queryParams: {
+        'tenant': tenant,
+        'database': database,
+      },
     );
     return CollectionType.fromJson(json.decode(r.body));
   }
@@ -384,24 +577,23 @@ class ChromaApiClient {
   ///
   /// `collectionId`: No description
   ///
-  /// `request`: No description
+  /// `request`: Request model for add items to collection.
   ///
   /// `POST` `http://localhost:8000/api/v1/collections/{collection_id}/add`
-  Future<bool> add({
+  Future<http.Response> add({
     required String collectionId,
     required AddEmbedding request,
   }) async {
-    final r = await _request(
-      host: 'localhost:8000',
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
       path: '/api/v1/collections/$collectionId/add',
-      secure: false,
       method: HttpMethod.post,
       isMultipart: false,
       requestType: 'application/json',
       responseType: 'application/json',
       body: request,
     );
-    return json.decode(r.body);
+    return r;
   }
 
   // ------------------------------------------
@@ -412,24 +604,23 @@ class ChromaApiClient {
   ///
   /// `collectionId`: No description
   ///
-  /// `request`: No description
+  /// `request`: Request model for update items in collection.
   ///
   /// `POST` `http://localhost:8000/api/v1/collections/{collection_id}/update`
-  Future<bool> update({
+  Future<http.Response> update({
     required String collectionId,
     required UpdateEmbedding request,
   }) async {
-    final r = await _request(
-      host: 'localhost:8000',
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
       path: '/api/v1/collections/$collectionId/update',
-      secure: false,
       method: HttpMethod.post,
       isMultipart: false,
       requestType: 'application/json',
       responseType: 'application/json',
       body: request,
     );
-    return json.decode(r.body);
+    return r;
   }
 
   // ------------------------------------------
@@ -440,24 +631,23 @@ class ChromaApiClient {
   ///
   /// `collectionId`: No description
   ///
-  /// `request`: No description
+  /// `request`: Request model for add items to collection.
   ///
   /// `POST` `http://localhost:8000/api/v1/collections/{collection_id}/upsert`
-  Future<bool> upsert({
+  Future<http.Response> upsert({
     required String collectionId,
     required AddEmbedding request,
   }) async {
-    final r = await _request(
-      host: 'localhost:8000',
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
       path: '/api/v1/collections/$collectionId/upsert',
-      secure: false,
       method: HttpMethod.post,
       isMultipart: false,
       requestType: 'application/json',
       responseType: 'application/json',
       body: request,
     );
-    return json.decode(r.body);
+    return r;
   }
 
   // ------------------------------------------
@@ -468,17 +658,16 @@ class ChromaApiClient {
   ///
   /// `collectionId`: No description
   ///
-  /// `request`: No description
+  /// `request`: Request model for get items from collection.
   ///
   /// `POST` `http://localhost:8000/api/v1/collections/{collection_id}/get`
   Future<GetResponse> get({
     required String collectionId,
     required GetEmbedding request,
   }) async {
-    final r = await _request(
-      host: 'localhost:8000',
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
       path: '/api/v1/collections/$collectionId/get',
-      secure: false,
       method: HttpMethod.post,
       isMultipart: false,
       requestType: 'application/json',
@@ -496,17 +685,16 @@ class ChromaApiClient {
   ///
   /// `collectionId`: No description
   ///
-  /// `request`: No description
+  /// `request`: Request model for delete items from collection.
   ///
   /// `POST` `http://localhost:8000/api/v1/collections/{collection_id}/delete`
   Future<List<String>> delete({
     required String collectionId,
     required DeleteEmbedding request,
   }) async {
-    final r = await _request(
-      host: 'localhost:8000',
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
       path: '/api/v1/collections/$collectionId/delete',
-      secure: false,
       method: HttpMethod.post,
       isMultipart: false,
       requestType: 'application/json',
@@ -528,10 +716,9 @@ class ChromaApiClient {
   Future<int> count({
     required String collectionId,
   }) async {
-    final r = await _request(
-      host: 'localhost:8000',
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
       path: '/api/v1/collections/$collectionId/count',
-      secure: false,
       method: HttpMethod.get,
       isMultipart: false,
       requestType: '',
@@ -548,17 +735,16 @@ class ChromaApiClient {
   ///
   /// `collectionId`: No description
   ///
-  /// `request`: No description
+  /// `request`: Request model for query items from collection.
   ///
   /// `POST` `http://localhost:8000/api/v1/collections/{collection_id}/query`
   Future<QueryResponse> getNearestNeighbors({
     required String collectionId,
     required QueryEmbedding request,
   }) async {
-    final r = await _request(
-      host: 'localhost:8000',
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
       path: '/api/v1/collections/$collectionId/query',
-      secure: false,
       method: HttpMethod.post,
       isMultipart: false,
       requestType: 'application/json',
@@ -576,18 +762,27 @@ class ChromaApiClient {
   ///
   /// `collectionName`: No description
   ///
+  /// `tenant`: No description
+  ///
+  /// `database`: No description
+  ///
   /// `GET` `http://localhost:8000/api/v1/collections/{collection_name}`
   Future<CollectionType> getCollection({
     required String collectionName,
+    String tenant = 'default_tenant',
+    String database = 'default_database',
   }) async {
-    final r = await _request(
-      host: 'localhost:8000',
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
       path: '/api/v1/collections/$collectionName',
-      secure: false,
       method: HttpMethod.get,
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
+      queryParams: {
+        'tenant': tenant,
+        'database': database,
+      },
     );
     return CollectionType.fromJson(json.decode(r.body));
   }
@@ -600,18 +795,27 @@ class ChromaApiClient {
   ///
   /// `collectionName`: No description
   ///
+  /// `tenant`: No description
+  ///
+  /// `database`: No description
+  ///
   /// `DELETE` `http://localhost:8000/api/v1/collections/{collection_name}`
   Future<http.Response> deleteCollection({
     required String collectionName,
+    String tenant = 'default_tenant',
+    String database = 'default_database',
   }) async {
-    final r = await _request(
-      host: 'localhost:8000',
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
       path: '/api/v1/collections/$collectionName',
-      secure: false,
       method: HttpMethod.delete,
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
+      queryParams: {
+        'tenant': tenant,
+        'database': database,
+      },
     );
     return r;
   }
@@ -624,17 +828,16 @@ class ChromaApiClient {
   ///
   /// `collectionId`: No description
   ///
-  /// `request`: No description
+  /// `request`: Request model for update collection.
   ///
   /// `PUT` `http://localhost:8000/api/v1/collections/{collection_id}`
   Future<http.Response> updateCollection({
     required String collectionId,
     required UpdateCollection request,
   }) async {
-    final r = await _request(
-      host: 'localhost:8000',
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:8000',
       path: '/api/v1/collections/$collectionId',
-      secure: false,
       method: HttpMethod.put,
       isMultipart: false,
       requestType: 'application/json',

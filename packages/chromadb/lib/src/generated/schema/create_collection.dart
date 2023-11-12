@@ -1,6 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: invalid_annotation_target, type=lint
+// ignore_for_file: type=lint
+// ignore_for_file: invalid_annotation_target, unused_import
 part of chroma_api_schema;
 
 // ==========================================
@@ -18,7 +19,7 @@ class CreateCollection with _$CreateCollection {
     required String name,
 
     /// Metadata of the collection.
-    Map<String, dynamic>? metadata,
+    @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
 
     /// If true, will return existing collection if it exists.
     @JsonKey(name: 'get_or_create') @Default(false) bool getOrCreate,

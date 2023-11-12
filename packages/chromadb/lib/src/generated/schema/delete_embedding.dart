@@ -1,6 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: invalid_annotation_target, type=lint
+// ignore_for_file: type=lint
+// ignore_for_file: invalid_annotation_target, unused_import
 part of chroma_api_schema;
 
 // ==========================================
@@ -15,13 +16,14 @@ class DeleteEmbedding with _$DeleteEmbedding {
   /// Factory constructor for DeleteEmbedding
   const factory DeleteEmbedding({
     /// Optional IDs of the items to delete.
-    List<String>? ids,
+    @JsonKey(includeIfNull: false) List<String>? ids,
 
-    /// Optional query condition to filter items to delete based on metadata values..
-    Map<String, dynamic>? where,
+    /// Optional query condition to filter items to delete based on metadata values.
+    @JsonKey(includeIfNull: false) Map<String, dynamic>? where,
 
     /// Optional query condition to filter items to delete based on document content.
-    @JsonKey(name: 'where_document') Map<String, dynamic>? whereDocument,
+    @JsonKey(name: 'where_document', includeIfNull: false)
+    Map<String, dynamic>? whereDocument,
   }) = _DeleteEmbedding;
 
   /// Object construction from a JSON representation

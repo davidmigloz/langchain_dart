@@ -1,6 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
+// ignore_for_file: invalid_annotation_target, unused_import
 part of chroma_api_schema;
 
 // ==========================================
@@ -14,20 +15,26 @@ class QueryResponse with _$QueryResponse {
 
   /// Factory constructor for QueryResponse
   const factory QueryResponse({
+    /// List of embeddings of the items.
+    @JsonKey(includeIfNull: false) List<List<List<double>>>? embeddings,
+
+    /// List of metadatas of the items.
+    @JsonKey(includeIfNull: false) List<List<Map<String, dynamic>?>>? metadatas,
+
+    /// List of documents of the items.
+    @JsonKey(includeIfNull: false) List<List<String?>>? documents,
+
+    /// List of data of the items.
+    @JsonKey(includeIfNull: false) List<List<String?>>? data,
+
+    /// List of uris of the items.
+    @JsonKey(includeIfNull: false) List<List<String?>>? uris,
+
     /// List of ids of the items.
     required List<List<String>> ids,
 
-    /// List of embeddings of the items.
-    List<List<List<double>>>? embeddings,
-
-    /// List of metadatas of the items.
-    List<List<Map<String, dynamic>?>>? metadatas,
-
-    /// List of documents of the items.
-    List<List<String?>>? documents,
-
     /// List of distances of the items.
-    List<List<double>>? distances,
+    @JsonKey(includeIfNull: false) List<List<double>>? distances,
   }) = _QueryResponse;
 
   /// Object construction from a JSON representation
@@ -36,10 +43,12 @@ class QueryResponse with _$QueryResponse {
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
-    'ids',
     'embeddings',
     'metadatas',
     'documents',
+    'data',
+    'uris',
+    'ids',
     'distances'
   ];
 
@@ -51,10 +60,12 @@ class QueryResponse with _$QueryResponse {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
-      'ids': ids,
       'embeddings': embeddings,
       'metadatas': metadatas,
       'documents': documents,
+      'data': data,
+      'uris': uris,
+      'ids': ids,
       'distances': distances,
     };
   }

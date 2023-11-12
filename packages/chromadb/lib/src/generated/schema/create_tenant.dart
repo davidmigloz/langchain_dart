@@ -5,26 +5,26 @@
 part of chroma_api_schema;
 
 // ==========================================
-// CLASS: HTTPValidationError
+// CLASS: CreateTenant
 // ==========================================
 
-/// No Description
+/// Request model for create tenant.
 @freezed
-class HTTPValidationError with _$HTTPValidationError {
-  const HTTPValidationError._();
+class CreateTenant with _$CreateTenant {
+  const CreateTenant._();
 
-  /// Factory constructor for HTTPValidationError
-  const factory HTTPValidationError({
-    /// No Description
-    @JsonKey(includeIfNull: false) List<ValidationError>? detail,
-  }) = _HTTPValidationError;
+  /// Factory constructor for CreateTenant
+  const factory CreateTenant({
+    /// Name of the tenant.
+    required String name,
+  }) = _CreateTenant;
 
   /// Object construction from a JSON representation
-  factory HTTPValidationError.fromJson(Map<String, dynamic> json) =>
-      _$HTTPValidationErrorFromJson(json);
+  factory CreateTenant.fromJson(Map<String, dynamic> json) =>
+      _$CreateTenantFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['detail'];
+  static const List<String> propertyNames = ['name'];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -34,7 +34,7 @@ class HTTPValidationError with _$HTTPValidationError {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
-      'detail': detail,
+      'name': name,
     };
   }
 }
