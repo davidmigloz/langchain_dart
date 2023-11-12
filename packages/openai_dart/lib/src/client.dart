@@ -43,17 +43,6 @@ class OpenAIClient extends g.OpenAIClient {
         );
 
   // ------------------------------------------
-  // METHOD: onStreamedResponse
-  // ------------------------------------------
-
-  /// Middleware for HTTP streamed responses (user can override)
-  Future<http.StreamedResponse> onStreamedResponse(
-    final http.StreamedResponse response,
-  ) {
-    return Future.value(response);
-  }
-
-  // ------------------------------------------
   // METHOD: createCompletionStream
   // ------------------------------------------
 
@@ -65,7 +54,7 @@ class OpenAIClient extends g.OpenAIClient {
   Stream<CreateCompletionResponse> createCompletionStream({
     required final CreateCompletionRequest request,
   }) async* {
-    final r = await _requestStream(
+    final r = await makeRequestStream(
       baseUrl: 'https://api.openai.com/v1',
       path: '/completions',
       method: g.HttpMethod.post,
@@ -90,7 +79,7 @@ class OpenAIClient extends g.OpenAIClient {
   Stream<CreateChatCompletionStreamResponse> createChatCompletionStream({
     required final CreateChatCompletionRequest request,
   }) async* {
-    final r = await _requestStream(
+    final r = await makeRequestStream(
       baseUrl: 'https://api.openai.com/v1',
       path: '/chat/completions',
       method: g.HttpMethod.post,
@@ -104,120 +93,6 @@ class OpenAIClient extends g.OpenAIClient {
           (final d) =>
               CreateChatCompletionStreamResponse.fromJson(json.decode(d)),
         );
-  }
-
-  // ------------------------------------------
-  // METHOD: _request
-  // ------------------------------------------
-
-  /// Reusable request stream method
-  Future<http.StreamedResponse> _requestStream({
-    required String baseUrl,
-    required final String path,
-    required final g.HttpMethod method,
-    final Map<String, dynamic> queryParams = const {},
-    final Map<String, String> headerParams = const {},
-    final String requestType = '',
-    final String responseType = '',
-    final Object? body,
-  }) async {
-    // Override with the user provided baseUrl
-    baseUrl = this.baseUrl ?? baseUrl;
-
-    // Ensure a baseUrl is provided
-    assert(
-      baseUrl.isNotEmpty,
-      'baseUrl is required, but none defined in spec or provided by user',
-    );
-
-    // Ensure query parameters are strings or iterable of strings
-    final query = queryParams.map((final key, final value) {
-      if (value is Iterable) {
-        return MapEntry(key, value.map((final v) => v.toString()));
-      } else {
-        return MapEntry(key, value.toString());
-      }
-    });
-
-    // Build the request URI
-    Uri uri = Uri.parse(baseUrl + path);
-    if (query.isNotEmpty) {
-      uri = uri.replace(queryParameters: query);
-    }
-
-    // Build the headers
-    final Map<String, String> headers = {...headerParams};
-
-    // Add bearer token to request headers
-    if (bearerToken.isNotEmpty) {
-      headers['authorization'] = 'Bearer $bearerToken';
-    }
-
-    // Define the request type being sent to server
-    if (requestType.isNotEmpty) {
-      headers['content-type'] = requestType;
-    }
-
-    // Define the response type expected to receive from server
-    if (responseType.isNotEmpty) {
-      headers['accept'] = responseType;
-    }
-
-    // Add global headers
-    headers.addAll(this.headers);
-
-    // Build the request object
-    late http.StreamedResponse response;
-    try {
-      http.Request request = http.Request(method.name, uri);
-      try {
-        if (body != null) {
-          request.body = json.encode(body);
-        }
-      } catch (e) {
-        // Handle request encoding error
-        throw g.OpenAIClientException(
-          uri: uri,
-          method: method,
-          message: 'Could not encode: ${body.runtimeType}',
-          body: e,
-        );
-      }
-
-      // Add request headers
-      request.headers.addAll(headers);
-
-      // Handle user request middleware
-      request = await onRequest(request) as http.Request;
-
-      // Submit request
-      response = await client.send(request);
-
-      // Handle user response middleware
-      response = await onStreamedResponse(response);
-    } catch (e) {
-      // Handle request and response errors
-      throw g.OpenAIClientException(
-        uri: uri,
-        method: method,
-        message: 'Response error',
-        body: e,
-      );
-    }
-
-    // Check for successful response
-    if ((response.statusCode ~/ 100) == 2) {
-      return response;
-    }
-
-    // Handle unsuccessful response
-    throw g.OpenAIClientException(
-      uri: uri,
-      method: method,
-      message: 'Unsuccessful response',
-      code: response.statusCode,
-      body: (await http.Response.fromStream(response)).body,
-    );
   }
 }
 
