@@ -3,6 +3,27 @@
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) 
 server for more details about each release.
 
+## 2023-11-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+- There are no breaking changes in this release.
+
+Packages with other changes:
+
+- [`langchain_pinecone` - `v0.0.6`](#langchain_pinecone---v006)
+
+---
+
+#### `langchain_pinecone` - `v0.0.6`
+
+- **FEAT**(vector-stores): Add support for global headers in Pinecone ([#213](https://github.com/davidmigloz/langchain_dart/issues/213)). ([8e0d221f](https://github.com/davidmigloz/langchain_dart/commit/8e0d221fad55b1fa62d9ff6f97476ee647837c6b))
+
+
 ## 2023-11-12
 
 ### Changes

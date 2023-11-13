@@ -1,3 +1,7 @@
+## 0.0.6
+
+ - **FEAT**(vector-stores): Add support for global headers in Pinecone ([#213](https://github.com/davidmigloz/langchain_dart/issues/213)). ([8e0d221f](https://github.com/davidmigloz/langchain_dart/commit/8e0d221fad55b1fa62d9ff6f97476ee647837c6b))
+
 ## 0.0.5+2
 
  - **DOCS**: Update vector stores documentation. ([dad60d24](https://github.com/davidmigloz/langchain_dart/commit/dad60d247fac157f2980f73c14ac88e9a0894fba))
