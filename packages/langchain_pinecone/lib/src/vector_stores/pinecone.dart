@@ -76,6 +76,7 @@ class Pinecone extends VectorStore {
   Pinecone({
     final String? apiKey,
     final String? baseUrl,
+    final Map<String, String> headers = const {},
     final http.Client? client,
     required this.indexName,
     this.environment = 'gcp-starter',
@@ -85,6 +86,7 @@ class Pinecone extends VectorStore {
   }) : _client = PineconeClient(
           apiKey: apiKey ?? '',
           baseUrl: baseUrl,
+          headers: headers,
           client: client,
         );
 
