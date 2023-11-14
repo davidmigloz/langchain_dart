@@ -248,7 +248,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
 
     final completion = await _client.createChatCompletion(
       request: CreateChatCompletionRequest(
-        model: ChatCompletionModel.string(model),
+        model: ChatCompletionModel.modelId(model),
         messages: messagesDtos,
         functions: functionsDtos,
         functionCall: functionCall,
@@ -260,7 +260,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
         responseFormat: resFormat,
         seed: seed,
         stop: options?.stop != null
-            ? ChatCompletionStop.arrayString(options!.stop!)
+            ? ChatCompletionStop.listString(options!.stop!)
             : null,
         temperature: temperature,
         topP: topP,
@@ -282,7 +282,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     return _client
         .createChatCompletionStream(
           request: CreateChatCompletionRequest(
-            model: ChatCompletionModel.string(model),
+            model: ChatCompletionModel.modelId(model),
             messages: messagesDtos,
             functions: functionsDtos,
             functionCall: functionCall,
@@ -292,7 +292,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
             n: n,
             presencePenalty: presencePenalty,
             stop: options?.stop != null
-                ? ChatCompletionStop.arrayString(options!.stop!)
+                ? ChatCompletionStop.listString(options!.stop!)
                 : null,
             temperature: temperature,
             topP: topP,

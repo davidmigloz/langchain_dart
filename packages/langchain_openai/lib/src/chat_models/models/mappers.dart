@@ -139,14 +139,13 @@ extension _ChatFunctionMapper on ChatFunction {
 extension ChatFunctionCallMapper on ChatFunctionCall {
   ChatCompletionFunctionCall toChatCompletionFunctionCall() {
     return switch (this) {
-      ChatFunctionCallNone _ => const ChatCompletionFunctionCall.enumeration(
+      ChatFunctionCallNone _ => const ChatCompletionFunctionCall.mode(
           ChatCompletionFunctionCallMode.none,
         ),
-      ChatFunctionCallAuto _ => const ChatCompletionFunctionCall.enumeration(
+      ChatFunctionCallAuto _ => const ChatCompletionFunctionCall.mode(
           ChatCompletionFunctionCallMode.auto,
         ),
-      final ChatFunctionCallForced f =>
-        ChatCompletionFunctionCall.chatCompletionFunctionCallOption(
+      final ChatFunctionCallForced f => ChatCompletionFunctionCall.function(
           ChatCompletionFunctionCallOption(name: f.functionName),
         )
     };

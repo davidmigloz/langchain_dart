@@ -133,8 +133,8 @@ class OpenAIEmbeddings implements Embeddings {
       batches.map((final batch) async {
         final data = await _client.createEmbedding(
           request: CreateEmbeddingRequest(
-            model: EmbeddingModel.string(model),
-            input: EmbeddingInput.arrayString(
+            model: EmbeddingModel.modelId(model),
+            input: EmbeddingInput.listString(
               batch.map((final doc) => doc.pageContent).toList(growable: false),
             ),
             user: user,
@@ -151,7 +151,7 @@ class OpenAIEmbeddings implements Embeddings {
   Future<List<double>> embedQuery(final String query) async {
     final data = await _client.createEmbedding(
       request: CreateEmbeddingRequest(
-        model: EmbeddingModel.string(model),
+        model: EmbeddingModel.modelId(model),
         input: EmbeddingInput.string(query),
         user: user,
       ),
