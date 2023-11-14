@@ -248,7 +248,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   }) async {
     final completion = await _client.createCompletion(
       request: CreateCompletionRequest(
-        model: CompletionModel.string(model),
+        model: CompletionModel.modelId(model),
         prompt: CompletionPrompt.string(prompt),
         bestOf: bestOf,
         frequencyPenalty: frequencyPenalty,
@@ -259,7 +259,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
         presencePenalty: presencePenalty,
         seed: seed,
         stop: options?.stop != null
-            ? CompletionStop.arrayString(options!.stop!)
+            ? CompletionStop.listString(options!.stop!)
             : null,
         suffix: suffix,
         temperature: temperature,
@@ -278,7 +278,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     return _client
         .createCompletionStream(
           request: CreateCompletionRequest(
-            model: CompletionModel.string(model),
+            model: CompletionModel.modelId(model),
             prompt: CompletionPrompt.string(input.toString()),
             bestOf: bestOf,
             frequencyPenalty: frequencyPenalty,
@@ -288,7 +288,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
             n: n,
             presencePenalty: presencePenalty,
             stop: options?.stop != null
-                ? CompletionStop.arrayString(options!.stop!)
+                ? CompletionStop.listString(options!.stop!)
                 : null,
             suffix: suffix,
             temperature: temperature,
