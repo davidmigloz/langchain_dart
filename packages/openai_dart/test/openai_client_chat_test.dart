@@ -29,7 +29,7 @@ void main() {
 
       for (final model in models) {
         final request = CreateChatCompletionRequest(
-          model: ChatCompletionModel.enumeration(model),
+          model: ChatCompletionModel.model(model),
           messages: [
             const ChatCompletionMessage(
               role: ChatCompletionMessageRole.system,
@@ -64,7 +64,7 @@ void main() {
 
     test('Test call chat completion API with stop sequence', () async {
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.enumeration(
+        model: ChatCompletionModel.model(
           ChatCompletionModels.gpt35Turbo,
         ),
         messages: [
@@ -96,7 +96,7 @@ void main() {
 
     test('Test call chat completions API with max tokens', () async {
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.enumeration(
+        model: ChatCompletionModel.model(
           ChatCompletionModels.gpt35Turbo,
         ),
         messages: [
@@ -121,7 +121,7 @@ void main() {
 
     test('Test call chat completions API with other parameters', () async {
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.enumeration(
+        model: ChatCompletionModel.model(
           ChatCompletionModels.gpt35Turbo,
         ),
         messages: [
@@ -149,7 +149,7 @@ void main() {
 
     test('Test call chat completions streaming API', () async {
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.enumeration(
+        model: ChatCompletionModel.model(
           ChatCompletionModels.gpt35Turbo,
         ),
         messages: [
@@ -212,7 +212,7 @@ void main() {
       );
 
       final request1 = CreateChatCompletionRequest(
-        model: const ChatCompletionModel.enumeration(
+        model: const ChatCompletionModel.model(
           ChatCompletionModels.gpt35Turbo,
         ),
         messages: [
@@ -226,8 +226,7 @@ void main() {
           ),
         ],
         tools: [tool],
-        toolChoice:
-            ChatCompletionToolChoiceOption.chatCompletionNamedToolChoice(
+        toolChoice: ChatCompletionToolChoiceOption.tool(
           ChatCompletionNamedToolChoice(
             type: ChatCompletionNamedToolChoiceType.function,
             function: ChatCompletionFunctionCallOption(name: function.name),
@@ -262,7 +261,7 @@ void main() {
       };
 
       final request2 = CreateChatCompletionRequest(
-        model: const ChatCompletionModel.enumeration(
+        model: const ChatCompletionModel.model(
           ChatCompletionModels.gpt35Turbo,
         ),
         messages: [
@@ -322,7 +321,7 @@ void main() {
       );
 
       final request1 = CreateChatCompletionRequest(
-        model: const ChatCompletionModel.enumeration(
+        model: const ChatCompletionModel.model(
           ChatCompletionModels.gpt35Turbo,
         ),
         messages: [
@@ -336,8 +335,7 @@ void main() {
           ),
         ],
         tools: [tool],
-        toolChoice:
-            ChatCompletionToolChoiceOption.chatCompletionNamedToolChoice(
+        toolChoice: ChatCompletionToolChoiceOption.tool(
           ChatCompletionNamedToolChoice(
             type: ChatCompletionNamedToolChoiceType.function,
             function: ChatCompletionFunctionCallOption(name: function.name),
@@ -402,7 +400,7 @@ void main() {
       );
 
       final request1 = CreateChatCompletionRequest(
-        model: const ChatCompletionModel.enumeration(
+        model: const ChatCompletionModel.model(
           ChatCompletionModels.gpt35Turbo,
         ),
         messages: [
@@ -416,8 +414,7 @@ void main() {
           ),
         ],
         functions: [function],
-        functionCall:
-            ChatCompletionFunctionCall.chatCompletionFunctionCallOption(
+        functionCall: ChatCompletionFunctionCall.function(
           ChatCompletionFunctionCallOption(name: function.name),
         ),
       );
@@ -448,7 +445,7 @@ void main() {
       };
 
       final request2 = CreateChatCompletionRequest(
-        model: const ChatCompletionModel.enumeration(
+        model: const ChatCompletionModel.model(
           ChatCompletionModels.gpt35Turbo,
         ),
         messages: [
@@ -483,7 +480,7 @@ void main() {
 
     test('Test jsonObject response format', () async {
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.enumeration(
+        model: ChatCompletionModel.model(
           ChatCompletionModels.gpt41106Preview,
         ),
         messages: [
@@ -520,7 +517,7 @@ void main() {
 
     test('Test response seed', () async {
       const request = CreateChatCompletionRequest(
-        model: ChatCompletionModel.enumeration(
+        model: ChatCompletionModel.model(
           ChatCompletionModels.gpt41106Preview,
         ),
         messages: [

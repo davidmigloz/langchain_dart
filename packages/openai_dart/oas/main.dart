@@ -10,6 +10,9 @@ void main() async {
     package: 'OpenAI',
     destination: 'lib/src/generated/',
     replace: true,
+    schemaOptions: const SchemaGeneratorOptions(
+      onSchemaUnionFactoryName: _onSchemaUnionFactoryName,
+    ),
     clientOptions: const ClientGeneratorOptions(
       enabled: true,
     ),
@@ -19,3 +22,42 @@ void main() async {
     ['run', 'build_runner', 'build', 'lib', '--delete-conflicting-outputs'],
   );
 }
+
+String? _onSchemaUnionFactoryName(
+  final String union,
+  final String unionSubclass,
+) =>
+    switch (unionSubclass) {
+      // Chat Completion
+      'ChatCompletionModelEnumeration' => 'model',
+      'ChatCompletionModelString' => 'modelId',
+      'ChatCompletionToolChoiceOptionEnumeration' => 'mode',
+      'ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice' => 'tool',
+      'ChatCompletionFunctionCallEnumeration' => 'mode',
+      'ChatCompletionFunctionCallChatCompletionFunctionCallOption' =>
+        'function',
+      // Completion
+      'CompletionModelEnumeration' => 'model',
+      'CompletionModelString' => 'modelId',
+      'CompletionPromptListInt' => 'tokens',
+      'CompletionPromptListListInt' => 'listTokens',
+      // Embeddings
+      'EmbeddingModelEnumeration' => 'model',
+      'EmbeddingModelString' => 'modelId',
+      'EmbeddingVectorListDouble' => 'vector',
+      'EmbeddingVectorString' => 'vectorBase64',
+      'EmbeddingInputListInt' => 'tokens',
+      'EmbeddingInputListListInt' => 'listTokens',
+      // FineTuning
+      'FineTuningModelEnumeration' => 'model',
+      'FineTuningModelString' => 'modelId',
+      'FineTuningNEpochsEnumeration' => 'mode',
+      'FineTuningNEpochsInt' => 'number',
+      // Images
+      'CreateImageRequestModelEnumeration' => 'model',
+      'CreateImageRequestModelString' => 'modelId',
+      // Moderations
+      'ModerationModelEnumeration' => 'model',
+      'ModerationModelString' => 'modelId',
+      _ => null,
+    };

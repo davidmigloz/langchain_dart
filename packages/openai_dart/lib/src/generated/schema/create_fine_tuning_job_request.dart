@@ -95,7 +95,7 @@ class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
 // ENUM: FineTuningModels
 // ==========================================
 
-/// No Description
+/// Available fine-tuning models. Mind that the list may not be exhaustive nor up-to-date.
 enum FineTuningModels {
   @JsonValue('babbage-002')
   babbage002,
@@ -115,13 +115,15 @@ enum FineTuningModels {
 sealed class FineTuningModel with _$FineTuningModel {
   const FineTuningModel._();
 
-  const factory FineTuningModel.enumeration(
+  /// Available fine-tuning models. Mind that the list may not be exhaustive nor up-to-date.
+  const factory FineTuningModel.model(
     FineTuningModels value,
-  ) = _UnionFineTuningModelEnum;
+  ) = FineTuningModelEnumeration;
 
-  const factory FineTuningModel.string(
+  /// The ID of the model to use for this request.
+  const factory FineTuningModel.modelId(
     String value,
-  ) = _UnionFineTuningModelString;
+  ) = FineTuningModelString;
 
   /// Object construction from a JSON representation
   factory FineTuningModel.fromJson(Map<String, dynamic> json) =>
@@ -136,14 +138,14 @@ class _FineTuningModelConverter
   @override
   FineTuningModel fromJson(Object? data) {
     if (data is String && _$FineTuningModelsEnumMap.values.contains(data)) {
-      return FineTuningModel.enumeration(
+      return FineTuningModelEnumeration(
         _$FineTuningModelsEnumMap.keys.elementAt(
           _$FineTuningModelsEnumMap.values.toList().indexOf(data),
         ),
       );
     }
     if (data is String) {
-      return FineTuningModel.string(data);
+      return FineTuningModelString(data);
     }
     throw Exception(
       'Unexpected value for FineTuningModel: $data',
@@ -153,9 +155,9 @@ class _FineTuningModelConverter
   @override
   Object? toJson(FineTuningModel data) {
     return switch (data) {
-      _UnionFineTuningModelEnum(value: final v) =>
+      FineTuningModelEnumeration(value: final v) =>
         _$FineTuningModelsEnumMap[v]!,
-      _UnionFineTuningModelString(value: final v) => v,
+      FineTuningModelString(value: final v) => v,
     };
   }
 }

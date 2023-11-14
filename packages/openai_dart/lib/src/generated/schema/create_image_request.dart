@@ -22,7 +22,7 @@ class CreateImageRequest with _$CreateImageRequest {
     @_CreateImageRequestModelConverter()
     @JsonKey(includeIfNull: false)
     @Default(
-      CreateImageRequestModel.string('dall-e-2'),
+      CreateImageRequestModelString('dall-e-2'),
     )
     CreateImageRequestModel? model,
 
@@ -112,7 +112,7 @@ class CreateImageRequest with _$CreateImageRequest {
 // ENUM: ImageModels
 // ==========================================
 
-/// Available models for image generation.
+/// Available models for image generation. Mind that the list may not be exhaustive nor up-to-date.
 enum ImageModels {
   @JsonValue('dall-e-2')
   dallE2,
@@ -129,13 +129,15 @@ enum ImageModels {
 sealed class CreateImageRequestModel with _$CreateImageRequestModel {
   const CreateImageRequestModel._();
 
-  const factory CreateImageRequestModel.enumeration(
+  /// Available models for image generation. Mind that the list may not be exhaustive nor up-to-date.
+  const factory CreateImageRequestModel.model(
     ImageModels value,
-  ) = _UnionCreateImageRequestModelEnum;
+  ) = CreateImageRequestModelEnumeration;
 
-  const factory CreateImageRequestModel.string(
+  /// The ID of the model to use for this request.
+  const factory CreateImageRequestModel.modelId(
     String value,
-  ) = _UnionCreateImageRequestModelString;
+  ) = CreateImageRequestModelString;
 
   /// Object construction from a JSON representation
   factory CreateImageRequestModel.fromJson(Map<String, dynamic> json) =>
@@ -153,24 +155,24 @@ class _CreateImageRequestModelConverter
       return null;
     }
     if (data is String && _$ImageModelsEnumMap.values.contains(data)) {
-      return CreateImageRequestModel.enumeration(
+      return CreateImageRequestModelEnumeration(
         _$ImageModelsEnumMap.keys.elementAt(
           _$ImageModelsEnumMap.values.toList().indexOf(data),
         ),
       );
     }
     if (data is String) {
-      return CreateImageRequestModel.string(data);
+      return CreateImageRequestModelString(data);
     }
-    return CreateImageRequestModel.string('dall-e-2');
+    return CreateImageRequestModelString('dall-e-2');
   }
 
   @override
   Object? toJson(CreateImageRequestModel? data) {
     return switch (data) {
-      _UnionCreateImageRequestModelEnum(value: final v) =>
+      CreateImageRequestModelEnumeration(value: final v) =>
         _$ImageModelsEnumMap[v]!,
-      _UnionCreateImageRequestModelString(value: final v) => v,
+      CreateImageRequestModelString(value: final v) => v,
       null => null,
     };
   }

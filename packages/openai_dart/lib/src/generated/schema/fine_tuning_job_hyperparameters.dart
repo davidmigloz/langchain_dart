@@ -46,7 +46,7 @@ class FineTuningJobHyperparameters with _$FineTuningJobHyperparameters {
 // ENUM: FineTuningNEpochsOptions
 // ==========================================
 
-/// No Description
+/// The mode for the number of epochs.
 enum FineTuningNEpochsOptions {
   @JsonValue('auto')
   auto,
@@ -62,13 +62,15 @@ enum FineTuningNEpochsOptions {
 sealed class FineTuningNEpochs with _$FineTuningNEpochs {
   const FineTuningNEpochs._();
 
-  const factory FineTuningNEpochs.enumeration(
+  /// The mode for the number of epochs.
+  const factory FineTuningNEpochs.mode(
     FineTuningNEpochsOptions value,
-  ) = _UnionFineTuningNEpochsEnum;
+  ) = FineTuningNEpochsEnumeration;
 
-  const factory FineTuningNEpochs.integer(
+  /// The number of epochs to train the model for.
+  const factory FineTuningNEpochs.number(
     int value,
-  ) = _UnionFineTuningNEpochsInteger;
+  ) = FineTuningNEpochsInt;
 
   /// Object construction from a JSON representation
   factory FineTuningNEpochs.fromJson(Map<String, dynamic> json) =>
@@ -84,16 +86,16 @@ class _FineTuningNEpochsConverter
   FineTuningNEpochs fromJson(Object? data) {
     if (data is String &&
         _$FineTuningNEpochsOptionsEnumMap.values.contains(data)) {
-      return FineTuningNEpochs.enumeration(
+      return FineTuningNEpochsEnumeration(
         _$FineTuningNEpochsOptionsEnumMap.keys.elementAt(
           _$FineTuningNEpochsOptionsEnumMap.values.toList().indexOf(data),
         ),
       );
     }
     if (data is int) {
-      return FineTuningNEpochs.integer(data);
+      return FineTuningNEpochsInt(data);
     }
-    return FineTuningNEpochs.enumeration(
+    return FineTuningNEpochsEnumeration(
       FineTuningNEpochsOptions.auto,
     );
   }
@@ -101,9 +103,9 @@ class _FineTuningNEpochsConverter
   @override
   Object? toJson(FineTuningNEpochs data) {
     return switch (data) {
-      _UnionFineTuningNEpochsEnum(value: final v) =>
+      FineTuningNEpochsEnumeration(value: final v) =>
         _$FineTuningNEpochsOptionsEnumMap[v]!,
-      _UnionFineTuningNEpochsInteger(value: final v) => v,
+      FineTuningNEpochsInt(value: final v) => v,
     };
   }
 }

@@ -223,7 +223,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
 // ENUM: ChatCompletionModels
 // ==========================================
 
-/// No Description
+/// Available completion models. Mind that the list may not be exhaustive nor up-to-date.
 enum ChatCompletionModels {
   @JsonValue('gpt-4')
   gpt4,
@@ -262,13 +262,15 @@ enum ChatCompletionModels {
 sealed class ChatCompletionModel with _$ChatCompletionModel {
   const ChatCompletionModel._();
 
-  const factory ChatCompletionModel.enumeration(
+  /// Available completion models. Mind that the list may not be exhaustive nor up-to-date.
+  const factory ChatCompletionModel.model(
     ChatCompletionModels value,
-  ) = _UnionChatCompletionModelEnum;
+  ) = ChatCompletionModelEnumeration;
 
-  const factory ChatCompletionModel.string(
+  /// The ID of the model to use for this request.
+  const factory ChatCompletionModel.modelId(
     String value,
-  ) = _UnionChatCompletionModelString;
+  ) = ChatCompletionModelString;
 
   /// Object construction from a JSON representation
   factory ChatCompletionModel.fromJson(Map<String, dynamic> json) =>
@@ -283,14 +285,14 @@ class _ChatCompletionModelConverter
   @override
   ChatCompletionModel fromJson(Object? data) {
     if (data is String && _$ChatCompletionModelsEnumMap.values.contains(data)) {
-      return ChatCompletionModel.enumeration(
+      return ChatCompletionModelEnumeration(
         _$ChatCompletionModelsEnumMap.keys.elementAt(
           _$ChatCompletionModelsEnumMap.values.toList().indexOf(data),
         ),
       );
     }
     if (data is String) {
-      return ChatCompletionModel.string(data);
+      return ChatCompletionModelString(data);
     }
     throw Exception(
       'Unexpected value for ChatCompletionModel: $data',
@@ -300,9 +302,9 @@ class _ChatCompletionModelConverter
   @override
   Object? toJson(ChatCompletionModel data) {
     return switch (data) {
-      _UnionChatCompletionModelEnum(value: final v) =>
+      ChatCompletionModelEnumeration(value: final v) =>
         _$ChatCompletionModelsEnumMap[v]!,
-      _UnionChatCompletionModelString(value: final v) => v,
+      ChatCompletionModelString(value: final v) => v,
     };
   }
 }
@@ -356,13 +358,15 @@ class ChatCompletionResponseFormat with _$ChatCompletionResponseFormat {
 sealed class ChatCompletionStop with _$ChatCompletionStop {
   const ChatCompletionStop._();
 
-  const factory ChatCompletionStop.arrayString(
+  /// A list of string stop sequences.
+  const factory ChatCompletionStop.listString(
     List<String> value,
-  ) = _UnionChatCompletionStopArrayString;
+  ) = ChatCompletionStopListString;
 
+  /// A string stop sequence.
   const factory ChatCompletionStop.string(
-    String value,
-  ) = _UnionChatCompletionStopString;
+    String? value,
+  ) = ChatCompletionStopString;
 
   /// Object construction from a JSON representation
   factory ChatCompletionStop.fromJson(Map<String, dynamic> json) =>
@@ -380,10 +384,10 @@ class _ChatCompletionStopConverter
       return null;
     }
     if (data is List && data.every((item) => item is String)) {
-      return ChatCompletionStop.arrayString(data.cast());
+      return ChatCompletionStopListString(data.cast());
     }
     if (data is String) {
-      return ChatCompletionStop.string(data);
+      return ChatCompletionStopString(data);
     }
     throw Exception(
       'Unexpected value for ChatCompletionStop: $data',
@@ -393,8 +397,8 @@ class _ChatCompletionStopConverter
   @override
   Object? toJson(ChatCompletionStop? data) {
     return switch (data) {
-      _UnionChatCompletionStopArrayString(value: final v) => v,
-      _UnionChatCompletionStopString(value: final v) => v,
+      ChatCompletionStopListString(value: final v) => v,
+      ChatCompletionStopString(value: final v) => v,
       null => null,
     };
   }
@@ -427,13 +431,15 @@ sealed class ChatCompletionToolChoiceOption
     with _$ChatCompletionToolChoiceOption {
   const ChatCompletionToolChoiceOption._();
 
-  const factory ChatCompletionToolChoiceOption.enumeration(
+  /// `none` means the model will not call a function and instead generates a message. `auto` means the model can pick between generating a message or calling a function.
+  const factory ChatCompletionToolChoiceOption.mode(
     ChatCompletionToolChoiceOptionEnum value,
-  ) = _UnionChatCompletionToolChoiceOptionEnum;
+  ) = ChatCompletionToolChoiceOptionEnumeration;
 
-  const factory ChatCompletionToolChoiceOption.chatCompletionNamedToolChoice(
+  /// No Description
+  const factory ChatCompletionToolChoiceOption.tool(
     ChatCompletionNamedToolChoice value,
-  ) = _UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoice;
+  ) = ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice;
 
   /// Object construction from a JSON representation
   factory ChatCompletionToolChoiceOption.fromJson(Map<String, dynamic> json) =>
@@ -452,7 +458,7 @@ class _ChatCompletionToolChoiceOptionConverter
     }
     if (data is String &&
         _$ChatCompletionToolChoiceOptionEnumEnumMap.values.contains(data)) {
-      return ChatCompletionToolChoiceOption.enumeration(
+      return ChatCompletionToolChoiceOptionEnumeration(
         _$ChatCompletionToolChoiceOptionEnumEnumMap.keys.elementAt(
           _$ChatCompletionToolChoiceOptionEnumEnumMap.values
               .toList()
@@ -462,7 +468,7 @@ class _ChatCompletionToolChoiceOptionConverter
     }
     if (data is Map<String, dynamic>) {
       try {
-        return ChatCompletionToolChoiceOption.chatCompletionNamedToolChoice(
+        return ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice(
           ChatCompletionNamedToolChoice.fromJson(data),
         );
       } catch (e) {}
@@ -475,9 +481,9 @@ class _ChatCompletionToolChoiceOptionConverter
   @override
   Object? toJson(ChatCompletionToolChoiceOption? data) {
     return switch (data) {
-      _UnionChatCompletionToolChoiceOptionEnum(value: final v) =>
+      ChatCompletionToolChoiceOptionEnumeration(value: final v) =>
         _$ChatCompletionToolChoiceOptionEnumEnumMap[v]!,
-      _UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoice(
+      ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice(
         value: final v
       ) =>
         v.toJson(),
@@ -514,13 +520,15 @@ enum ChatCompletionFunctionCallMode {
 sealed class ChatCompletionFunctionCall with _$ChatCompletionFunctionCall {
   const ChatCompletionFunctionCall._();
 
-  const factory ChatCompletionFunctionCall.enumeration(
+  /// `none` means the model will not call a function and instead generates a message. `auto` means the model can pick between generating a message or calling a function.
+  const factory ChatCompletionFunctionCall.mode(
     ChatCompletionFunctionCallMode value,
-  ) = _UnionChatCompletionFunctionCallEnum;
+  ) = ChatCompletionFunctionCallEnumeration;
 
-  const factory ChatCompletionFunctionCall.chatCompletionFunctionCallOption(
+  /// No Description
+  const factory ChatCompletionFunctionCall.function(
     ChatCompletionFunctionCallOption value,
-  ) = _UnionChatCompletionFunctionCallChatCompletionFunctionCallOption;
+  ) = ChatCompletionFunctionCallChatCompletionFunctionCallOption;
 
   /// Object construction from a JSON representation
   factory ChatCompletionFunctionCall.fromJson(Map<String, dynamic> json) =>
@@ -539,7 +547,7 @@ class _ChatCompletionFunctionCallConverter
     }
     if (data is String &&
         _$ChatCompletionFunctionCallModeEnumMap.values.contains(data)) {
-      return ChatCompletionFunctionCall.enumeration(
+      return ChatCompletionFunctionCallEnumeration(
         _$ChatCompletionFunctionCallModeEnumMap.keys.elementAt(
           _$ChatCompletionFunctionCallModeEnumMap.values.toList().indexOf(data),
         ),
@@ -547,7 +555,7 @@ class _ChatCompletionFunctionCallConverter
     }
     if (data is Map<String, dynamic>) {
       try {
-        return ChatCompletionFunctionCall.chatCompletionFunctionCallOption(
+        return ChatCompletionFunctionCallChatCompletionFunctionCallOption(
           ChatCompletionFunctionCallOption.fromJson(data),
         );
       } catch (e) {}
@@ -560,9 +568,9 @@ class _ChatCompletionFunctionCallConverter
   @override
   Object? toJson(ChatCompletionFunctionCall? data) {
     return switch (data) {
-      _UnionChatCompletionFunctionCallEnum(value: final v) =>
+      ChatCompletionFunctionCallEnumeration(value: final v) =>
         _$ChatCompletionFunctionCallModeEnumMap[v]!,
-      _UnionChatCompletionFunctionCallChatCompletionFunctionCallOption(
+      ChatCompletionFunctionCallChatCompletionFunctionCallOption(
         value: final v
       ) =>
         v.toJson(),

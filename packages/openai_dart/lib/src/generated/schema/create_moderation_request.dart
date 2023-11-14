@@ -21,7 +21,7 @@ class CreateModerationRequest with _$CreateModerationRequest {
     @_ModerationModelConverter()
     @JsonKey(includeIfNull: false)
     @Default(
-      ModerationModel.string('text-moderation-latest'),
+      ModerationModelString('text-moderation-latest'),
     )
     ModerationModel? model,
 
@@ -54,7 +54,7 @@ class CreateModerationRequest with _$CreateModerationRequest {
 // ENUM: ModerationModels
 // ==========================================
 
-/// No Description
+/// Available moderation models. Mind that the list may not be exhaustive nor up-to-date.
 enum ModerationModels {
   @JsonValue('text-moderation-latest')
   textModerationLatest,
@@ -73,13 +73,15 @@ enum ModerationModels {
 sealed class ModerationModel with _$ModerationModel {
   const ModerationModel._();
 
-  const factory ModerationModel.enumeration(
+  /// Available moderation models. Mind that the list may not be exhaustive nor up-to-date.
+  const factory ModerationModel.model(
     ModerationModels value,
-  ) = _UnionModerationModelEnum;
+  ) = ModerationModelEnumeration;
 
-  const factory ModerationModel.string(
+  /// The ID of the model to use for this request.
+  const factory ModerationModel.modelId(
     String value,
-  ) = _UnionModerationModelString;
+  ) = ModerationModelString;
 
   /// Object construction from a JSON representation
   factory ModerationModel.fromJson(Map<String, dynamic> json) =>
@@ -97,24 +99,24 @@ class _ModerationModelConverter
       return null;
     }
     if (data is String && _$ModerationModelsEnumMap.values.contains(data)) {
-      return ModerationModel.enumeration(
+      return ModerationModelEnumeration(
         _$ModerationModelsEnumMap.keys.elementAt(
           _$ModerationModelsEnumMap.values.toList().indexOf(data),
         ),
       );
     }
     if (data is String) {
-      return ModerationModel.string(data);
+      return ModerationModelString(data);
     }
-    return ModerationModel.string('text-moderation-latest');
+    return ModerationModelString('text-moderation-latest');
   }
 
   @override
   Object? toJson(ModerationModel? data) {
     return switch (data) {
-      _UnionModerationModelEnum(value: final v) =>
+      ModerationModelEnumeration(value: final v) =>
         _$ModerationModelsEnumMap[v]!,
-      _UnionModerationModelString(value: final v) => v,
+      ModerationModelString(value: final v) => v,
       null => null,
     };
   }
@@ -129,13 +131,15 @@ class _ModerationModelConverter
 sealed class ModerationInput with _$ModerationInput {
   const ModerationInput._();
 
-  const factory ModerationInput.arrayString(
+  /// A list of string inputs.
+  const factory ModerationInput.listString(
     List<String> value,
-  ) = _UnionModerationInputArrayString;
+  ) = ModerationInputListString;
 
+  /// A string input.
   const factory ModerationInput.string(
     String value,
-  ) = _UnionModerationInputString;
+  ) = ModerationInputString;
 
   /// Object construction from a JSON representation
   factory ModerationInput.fromJson(Map<String, dynamic> json) =>
@@ -150,10 +154,10 @@ class _ModerationInputConverter
   @override
   ModerationInput fromJson(Object? data) {
     if (data is List && data.every((item) => item is String)) {
-      return ModerationInput.arrayString(data.cast());
+      return ModerationInputListString(data.cast());
     }
     if (data is String) {
-      return ModerationInput.string(data);
+      return ModerationInputString(data);
     }
     throw Exception(
       'Unexpected value for ModerationInput: $data',
@@ -163,8 +167,8 @@ class _ModerationInputConverter
   @override
   Object? toJson(ModerationInput data) {
     return switch (data) {
-      _UnionModerationInputArrayString(value: final v) => v,
-      _UnionModerationInputString(value: final v) => v,
+      ModerationInputListString(value: final v) => v,
+      ModerationInputString(value: final v) => v,
     };
   }
 }

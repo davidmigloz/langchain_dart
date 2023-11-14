@@ -21,7 +21,7 @@ Future<void> main() async {
 Future<void> _chatCompletions(final OpenAIClient client) async {
   final res = await client.createChatCompletion(
     request: const CreateChatCompletionRequest(
-      model: ChatCompletionModel.string('gpt-4'),
+      model: ChatCompletionModel.modelId('gpt-4'),
       messages: [
         ChatCompletionMessage(
           role: ChatCompletionMessageRole.system,
@@ -41,7 +41,7 @@ Future<void> _chatCompletions(final OpenAIClient client) async {
 Future<void> _completions(final OpenAIClient client) async {
   final res = await client.createCompletion(
     request: const CreateCompletionRequest(
-      model: CompletionModel.string('gpt-3.5-turbo-instruct'),
+      model: CompletionModel.modelId('gpt-3.5-turbo-instruct'),
       prompt: CompletionPrompt.string('Say this is a test'),
       maxTokens: 7,
       temperature: 0,
@@ -53,7 +53,7 @@ Future<void> _completions(final OpenAIClient client) async {
 Future<void> _embeddings(final OpenAIClient client) async {
   final res = await client.createEmbedding(
     request: const CreateEmbeddingRequest(
-      model: EmbeddingModel.string('text-embedding-ada-002'),
+      model: EmbeddingModel.modelId('text-embedding-ada-002'),
       input: EmbeddingInput.string('The food was delicious and the waiter...'),
     ),
   );
@@ -68,7 +68,7 @@ Future<void> _fineTuning(final OpenAIClient client) async {
 Future<void> _images(final OpenAIClient client) async {
   final res = await client.createImage(
     request: const CreateImageRequest(
-      model: CreateImageRequestModel.enumeration(ImageModels.dallE3),
+      model: CreateImageRequestModel.model(ImageModels.dallE3),
       prompt: 'A cute baby sea otter',
       quality: ImageQuality.hd,
       size: ImageSize.v1024x1792,

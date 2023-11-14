@@ -336,6 +336,7 @@ components:
             ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
           anyOf:
             - type: string
+              description: The ID of the model to use for this request.
             - type: string
               title: CompletionModels
               description: |
@@ -353,7 +354,6 @@ components:
                   "text-babbage-001",
                   "text-ada-001",
                 ]
-          x-oaiTypeLabel: string
         prompt:
           title: CompletionPrompt
           description: &completions_prompt_description |
@@ -364,19 +364,23 @@ components:
           nullable: true
           oneOf:
             - type: string
+              description: A string prompt.
               default: ""
               example: "This is a test."
             - type: array
+              description: A list of string prompts.
               items:
                 type: string
                 default: ""
                 example: "This is a test."
             - type: array
+              description: A tokenized prompt.
               minItems: 1
               items:
                 type: integer
               example: "[1212, 318, 257, 1332, 13]"
             - type: array
+              description: A list of tokenized prompts.
               minItems: 1
               items:
                 type: array
@@ -414,7 +418,6 @@ components:
             [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
         logit_bias: &completions_logit_bias
           type: object
-          x-oaiTypeLabel: map
           default: null
           nullable: true
           additionalProperties:
@@ -483,10 +486,12 @@ components:
           nullable: true
           oneOf:
             - type: string
+              description: A string stop sequence.
               default: <|endoftext|>
               example: "\n"
               nullable: true
             - type: array
+              description: A list of string stop sequences.
               minItems: 1
               maxItems: 4
               items:
@@ -639,8 +644,11 @@ components:
           example: "gpt-3.5-turbo"
           anyOf:
             - type: string
+              description: The ID of the model to use for this request.
             - type: string
               title: ChatCompletionModels
+              description: |
+                Available completion models. Mind that the list may not be exhaustive nor up-to-date.
               enum:
                 [
                   "gpt-4",
@@ -657,7 +665,6 @@ components:
                   "gpt-3.5-turbo-0613",
                   "gpt-3.5-turbo-16k-0613",
                 ]
-          x-oaiTypeLabel: string
         messages:
           description: A list of messages comprising the conversation so far. [Example Python code](https://cookbook.openai.com/examples/how_to_format_inputs_to_chatgpt_models).
           type: array
@@ -673,7 +680,6 @@ components:
           description: *completions_frequency_penalty_description
         logit_bias:
           type: object
-          x-oaiTypeLabel: map
           default: null
           nullable: true
           additionalProperties:
@@ -737,8 +743,10 @@ components:
           default: null
           oneOf:
             - type: string
+              description: A string stop sequence.
               nullable: true
             - type: array
+              description: A list of string stop sequences.
               minItems: 1
               maxItems: 4
               items:
@@ -1130,8 +1138,11 @@ components:
           example: "text-embedding-ada-002"
           anyOf:
             - type: string
+              description: The ID of the model to use for this request.
             - type: string
               title: EmbeddingModels
+              description: |
+                Available completion models. Mind that the list may not be exhaustive nor up-to-date.
               enum: [ "text-embedding-ada-002" ]
         input:
           title: EmbeddingInput
@@ -1140,20 +1151,24 @@ components:
           example: "The quick brown fox jumped over the lazy dog"
           oneOf:
             - type: string
+              description: A string prompt.
               default: ""
               example: "This is a test."
             - type: array
+              description: A list of string prompts.
               minItems: 1
               items:
                 type: string
                 default: ""
                 example: "This is a test."
             - type: array
+              description: A tokenized prompt.
               minItems: 1
               items:
                 type: integer
               example: "[1212, 318, 257, 1332, 13]"
             - type: array
+              description: A list of tokenized prompts.
               minItems: 1
               items:
                 type: array
@@ -1247,10 +1262,12 @@ components:
           example: "gpt-3.5-turbo"
           anyOf:
             - type: string
+              description: The ID of the model to use for this request.
             - type: string
               title: FineTuningModels
+              description: |
+                Available fine-tuning models. Mind that the list may not be exhaustive nor up-to-date.
               enum: [ "babbage-002", "davinci-002", "gpt-3.5-turbo" ]
-          x-oaiTypeLabel: string
         training_file:
           description: |
             The ID of an uploaded file that contains training data.
@@ -1403,8 +1420,10 @@ components:
           oneOf:
             - type: string
               title: FineTuningNEpochsOptions
+              description: The mode for the number of epochs.
               enum: [ auto ]
             - type: integer
+              description: The number of epochs to train the model for.
               minimum: 1
               maximum: 50
           default: auto
@@ -1484,9 +1503,11 @@ components:
         model:
           anyOf:
             - type: string
+              description: The ID of the model to use for this request.
             - type: string
               title: ImageModels
-              description: Available models for image generation.
+              description: |
+                Available models for image generation. Mind that the list may not be exhaustive nor up-to-date.
               enum: ["dall-e-2", "dall-e-3"]
           default: "dall-e-2"
           example: "dall-e-3"
@@ -1631,18 +1652,22 @@ components:
           example: "text-moderation-stable"
           anyOf:
             - type: string
+              description: The ID of the model to use for this request.
             - type: string
               title: ModerationModels
+              description: |
+                Available moderation models. Mind that the list may not be exhaustive nor up-to-date.
               enum: [ "text-moderation-latest", "text-moderation-stable" ]
-          x-oaiTypeLabel: string
         input:
           title: ModerationInput
           description: The input text to classify
           oneOf:
             - type: string
+              description: A string input.
               default: ""
               example: "I want to kill them."
             - type: array
+              description: A list of string inputs.
               items:
                 type: string
                 default: ""

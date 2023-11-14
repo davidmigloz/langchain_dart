@@ -58,5 +58,3 @@ part 'create_moderation_response.dart';
 part 'moderation.dart';
 part 'moderation_categories.dart';
 part 'moderation_categories_scores.dart';
-part 'union_completion_named_tool_choice.dart';
-part 'union_completion_function_call_option.dart';

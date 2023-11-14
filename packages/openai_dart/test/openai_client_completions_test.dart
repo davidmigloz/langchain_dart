@@ -28,7 +28,7 @@ void main() {
 
       for (final model in models) {
         final request = CreateCompletionRequest(
-          model: CompletionModel.enumeration(model),
+          model: CompletionModel.model(model),
           prompt: const CompletionPrompt.string(
             'List the numbers from 1 to 9 in order without any spaces or commas.',
           ),
@@ -56,7 +56,7 @@ void main() {
 
     test('Test call completions API with stop sequence', () async {
       const request = CreateCompletionRequest(
-        model: CompletionModel.enumeration(CompletionModels.gpt35TurboInstruct),
+        model: CompletionModel.model(CompletionModels.gpt35TurboInstruct),
         prompt: CompletionPrompt.string(
           'List the numbers from 1 to 9 in order without any spaces or commas.',
         ),
@@ -76,7 +76,7 @@ void main() {
 
     test('Test call completions API with max tokens', () async {
       const request = CreateCompletionRequest(
-        model: CompletionModel.enumeration(CompletionModels.gpt35TurboInstruct),
+        model: CompletionModel.model(CompletionModels.gpt35TurboInstruct),
         prompt: CompletionPrompt.string('Tell me a joke'),
         maxTokens: 2,
       );
@@ -90,7 +90,7 @@ void main() {
 
     test('Test call completions API with echo', () async {
       const request = CreateCompletionRequest(
-        model: CompletionModel.enumeration(CompletionModels.gpt35TurboInstruct),
+        model: CompletionModel.model(CompletionModels.gpt35TurboInstruct),
         prompt: CompletionPrompt.string('Say this is a test'),
         echo: true,
         maxTokens: 20,
@@ -101,7 +101,7 @@ void main() {
 
     test('Test call completions API with suffix', () async {
       const request = CreateCompletionRequest(
-        model: CompletionModel.enumeration(CompletionModels.gpt35TurboInstruct),
+        model: CompletionModel.model(CompletionModels.gpt35TurboInstruct),
         prompt: CompletionPrompt.string(
           'List the numbers from 1 to 9 in order without any spaces or commas.',
         ),
@@ -115,7 +115,7 @@ void main() {
 
     test('Test call completions API with other parameters', () async {
       const request = CreateCompletionRequest(
-        model: CompletionModel.enumeration(CompletionModels.gpt35TurboInstruct),
+        model: CompletionModel.model(CompletionModels.gpt35TurboInstruct),
         prompt: CompletionPrompt.string('Say this is a test'),
         bestOf: 5,
         frequencyPenalty: 0.5,
@@ -139,7 +139,7 @@ void main() {
 
     test('Test call completions streaming API', () async {
       const request = CreateCompletionRequest(
-        model: CompletionModel.enumeration(CompletionModels.gpt35TurboInstruct),
+        model: CompletionModel.model(CompletionModels.gpt35TurboInstruct),
         prompt: CompletionPrompt.string(
           'List the numbers from 1 to 9 in order without any spaces or commas.',
         ),
@@ -157,7 +157,7 @@ void main() {
 
     test('Test response seed', () async {
       const request = CreateCompletionRequest(
-        model: CompletionModel.enumeration(CompletionModels.gpt35TurboInstruct),
+        model: CompletionModel.model(CompletionModels.gpt35TurboInstruct),
         prompt: CompletionPrompt.string('How are you?'),
         temperature: 0,
         seed: 9999,

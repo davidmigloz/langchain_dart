@@ -56,13 +56,15 @@ class Embedding with _$Embedding {
 sealed class EmbeddingVector with _$EmbeddingVector {
   const EmbeddingVector._();
 
-  const factory EmbeddingVector.arrayNumber(
+  /// The embedding vector as a list of floats.
+  const factory EmbeddingVector.vector(
     List<double> value,
-  ) = _UnionEmbeddingVectorArrayNumber;
+  ) = EmbeddingVectorListDouble;
 
-  const factory EmbeddingVector.string(
+  /// The embedding vector as a base64-encoded string.
+  const factory EmbeddingVector.vectorBase64(
     String value,
-  ) = _UnionEmbeddingVectorString;
+  ) = EmbeddingVectorString;
 
   /// Object construction from a JSON representation
   factory EmbeddingVector.fromJson(Map<String, dynamic> json) =>
@@ -77,10 +79,10 @@ class _EmbeddingVectorConverter
   @override
   EmbeddingVector fromJson(Object? data) {
     if (data is List && data.every((item) => item is double)) {
-      return EmbeddingVector.arrayNumber(data.cast());
+      return EmbeddingVectorListDouble(data.cast());
     }
     if (data is String) {
-      return EmbeddingVector.string(data);
+      return EmbeddingVectorString(data);
     }
     throw Exception(
       'Unexpected value for EmbeddingVector: $data',
@@ -90,8 +92,8 @@ class _EmbeddingVectorConverter
   @override
   Object? toJson(EmbeddingVector data) {
     return switch (data) {
-      _UnionEmbeddingVectorArrayNumber(value: final v) => v,
-      _UnionEmbeddingVectorString(value: final v) => v,
+      EmbeddingVectorListDouble(value: final v) => v,
+      EmbeddingVectorString(value: final v) => v,
     };
   }
 }
