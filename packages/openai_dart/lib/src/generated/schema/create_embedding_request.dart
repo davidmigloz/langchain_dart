@@ -62,7 +62,7 @@ class CreateEmbeddingRequest with _$CreateEmbeddingRequest {
 // ENUM: EmbeddingModels
 // ==========================================
 
-/// No Description
+/// Available completion models. Mind that the list may not be exhaustive nor up-to-date.
 enum EmbeddingModels {
   @JsonValue('text-embedding-ada-002')
   textEmbeddingAda002,
@@ -77,13 +77,15 @@ enum EmbeddingModels {
 sealed class EmbeddingModel with _$EmbeddingModel {
   const EmbeddingModel._();
 
-  const factory EmbeddingModel.enumeration(
+  /// Available completion models. Mind that the list may not be exhaustive nor up-to-date.
+  const factory EmbeddingModel.model(
     EmbeddingModels value,
-  ) = _UnionEmbeddingModelEnum;
+  ) = EmbeddingModelEnumeration;
 
-  const factory EmbeddingModel.string(
+  /// The ID of the model to use for this request.
+  const factory EmbeddingModel.modelId(
     String value,
-  ) = _UnionEmbeddingModelString;
+  ) = EmbeddingModelString;
 
   /// Object construction from a JSON representation
   factory EmbeddingModel.fromJson(Map<String, dynamic> json) =>
@@ -98,14 +100,14 @@ class _EmbeddingModelConverter
   @override
   EmbeddingModel fromJson(Object? data) {
     if (data is String && _$EmbeddingModelsEnumMap.values.contains(data)) {
-      return EmbeddingModel.enumeration(
+      return EmbeddingModelEnumeration(
         _$EmbeddingModelsEnumMap.keys.elementAt(
           _$EmbeddingModelsEnumMap.values.toList().indexOf(data),
         ),
       );
     }
     if (data is String) {
-      return EmbeddingModel.string(data);
+      return EmbeddingModelString(data);
     }
     throw Exception(
       'Unexpected value for EmbeddingModel: $data',
@@ -115,8 +117,8 @@ class _EmbeddingModelConverter
   @override
   Object? toJson(EmbeddingModel data) {
     return switch (data) {
-      _UnionEmbeddingModelEnum(value: final v) => _$EmbeddingModelsEnumMap[v]!,
-      _UnionEmbeddingModelString(value: final v) => v,
+      EmbeddingModelEnumeration(value: final v) => _$EmbeddingModelsEnumMap[v]!,
+      EmbeddingModelString(value: final v) => v,
     };
   }
 }
@@ -130,21 +132,25 @@ class _EmbeddingModelConverter
 sealed class EmbeddingInput with _$EmbeddingInput {
   const EmbeddingInput._();
 
-  const factory EmbeddingInput.array(
+  /// A list of tokenized prompts.
+  const factory EmbeddingInput.listTokens(
     List<List<int>> value,
-  ) = _UnionEmbeddingInputArray;
+  ) = EmbeddingInputListListInt;
 
-  const factory EmbeddingInput.arrayInteger(
+  /// A tokenized prompt.
+  const factory EmbeddingInput.tokens(
     List<int> value,
-  ) = _UnionEmbeddingInputArrayInteger;
+  ) = EmbeddingInputListInt;
 
-  const factory EmbeddingInput.arrayString(
+  /// A list of string prompts.
+  const factory EmbeddingInput.listString(
     List<String> value,
-  ) = _UnionEmbeddingInputArrayString;
+  ) = EmbeddingInputListString;
 
+  /// A string prompt.
   const factory EmbeddingInput.string(
     String value,
-  ) = _UnionEmbeddingInputString;
+  ) = EmbeddingInputString;
 
   /// Object construction from a JSON representation
   factory EmbeddingInput.fromJson(Map<String, dynamic> json) =>
@@ -159,16 +165,16 @@ class _EmbeddingInputConverter
   @override
   EmbeddingInput fromJson(Object? data) {
     if (data is List && data.every((item) => item is List<int>)) {
-      return EmbeddingInput.array(data.cast());
+      return EmbeddingInputListListInt(data.cast());
     }
     if (data is List && data.every((item) => item is int)) {
-      return EmbeddingInput.arrayInteger(data.cast());
+      return EmbeddingInputListInt(data.cast());
     }
     if (data is List && data.every((item) => item is String)) {
-      return EmbeddingInput.arrayString(data.cast());
+      return EmbeddingInputListString(data.cast());
     }
     if (data is String) {
-      return EmbeddingInput.string(data);
+      return EmbeddingInputString(data);
     }
     throw Exception(
       'Unexpected value for EmbeddingInput: $data',
@@ -178,10 +184,10 @@ class _EmbeddingInputConverter
   @override
   Object? toJson(EmbeddingInput data) {
     return switch (data) {
-      _UnionEmbeddingInputArray(value: final v) => v,
-      _UnionEmbeddingInputArrayInteger(value: final v) => v,
-      _UnionEmbeddingInputArrayString(value: final v) => v,
-      _UnionEmbeddingInputString(value: final v) => v,
+      EmbeddingInputListListInt(value: final v) => v,
+      EmbeddingInputListInt(value: final v) => v,
+      EmbeddingInputListString(value: final v) => v,
+      EmbeddingInputString(value: final v) => v,
     };
   }
 }

@@ -23,7 +23,7 @@ void main() {
 
     test('Test call create image API', () async {
       const request = CreateImageRequest(
-        model: CreateImageRequestModel.enumeration(ImageModels.dallE2),
+        model: CreateImageRequestModel.model(ImageModels.dallE2),
         prompt: 'A cute baby sea otter',
         quality: ImageQuality.standard,
         size: ImageSize.v1024x1024,

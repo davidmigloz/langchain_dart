@@ -22,11 +22,11 @@ void main() {
 
     test('Test create fine-tuning job', skip: true, () async {
       const request = CreateFineTuningJobRequest(
-        model: FineTuningModel.enumeration(FineTuningModels.gpt35Turbo),
+        model: FineTuningModel.model(FineTuningModels.gpt35Turbo),
         trainingFile: 'file-abc123',
         validationFile: 'file-abc123',
         hyperparameters: FineTuningJobHyperparameters(
-          nEpochs: FineTuningNEpochs.enumeration(FineTuningNEpochsOptions.auto),
+          nEpochs: FineTuningNEpochs.mode(FineTuningNEpochsOptions.auto),
         ),
       );
       final res = await client.createFineTuningJob(request: request);

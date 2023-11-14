@@ -22,7 +22,7 @@ void main() {
 
     test('Test call moderations API', () async {
       const request = CreateModerationRequest(
-        model: ModerationModel.enumeration(
+        model: ModerationModel.model(
           ModerationModels.textModerationLatest,
         ),
         input: ModerationInput.string('I want to kill them.'),

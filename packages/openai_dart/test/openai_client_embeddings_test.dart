@@ -22,7 +22,7 @@ void main() {
 
     test('Test call embeddings API', () async {
       const request = CreateEmbeddingRequest(
-        model: EmbeddingModel.enumeration(EmbeddingModels.textEmbeddingAda002),
+        model: EmbeddingModel.model(EmbeddingModels.textEmbeddingAda002),
         input: EmbeddingInput.string(
           'The food was delicious and the waiter...',
         ),
@@ -40,7 +40,7 @@ void main() {
 
     test('Test call embeddings API with encoding base64', () async {
       const request = CreateEmbeddingRequest(
-        model: EmbeddingModel.enumeration(EmbeddingModels.textEmbeddingAda002),
+        model: EmbeddingModel.model(EmbeddingModels.textEmbeddingAda002),
         input: EmbeddingInput.string(
           'The food was delicious and the waiter...',
         ),

@@ -816,10 +816,10 @@ abstract class _CreateCompletionRequest extends CreateCompletionRequest {
 
 CompletionModel _$CompletionModelFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
-    case 'enumeration':
-      return _UnionCompletionModelEnum.fromJson(json);
-    case 'string':
-      return _UnionCompletionModelString.fromJson(json);
+    case 'model':
+      return CompletionModelEnumeration.fromJson(json);
+    case 'modelId':
+      return CompletionModelString.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'CompletionModel',
@@ -832,39 +832,39 @@ mixin _$CompletionModel {
   Object get value => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(CompletionModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(CompletionModels value) model,
+    required TResult Function(String value) modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(CompletionModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(CompletionModels value)? model,
+    TResult? Function(String value)? modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(CompletionModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(CompletionModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionCompletionModelEnum value) enumeration,
-    required TResult Function(_UnionCompletionModelString value) string,
+    required TResult Function(CompletionModelEnumeration value) model,
+    required TResult Function(CompletionModelString value) modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionCompletionModelEnum value)? enumeration,
-    TResult? Function(_UnionCompletionModelString value)? string,
+    TResult? Function(CompletionModelEnumeration value)? model,
+    TResult? Function(CompletionModelString value)? modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionCompletionModelEnum value)? enumeration,
-    TResult Function(_UnionCompletionModelString value)? string,
+    TResult Function(CompletionModelEnumeration value)? model,
+    TResult Function(CompletionModelString value)? modelId,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -890,22 +890,23 @@ class _$CompletionModelCopyWithImpl<$Res, $Val extends CompletionModel>
 }
 
 /// @nodoc
-abstract class _$$UnionCompletionModelEnumImplCopyWith<$Res> {
-  factory _$$UnionCompletionModelEnumImplCopyWith(
-          _$UnionCompletionModelEnumImpl value,
-          $Res Function(_$UnionCompletionModelEnumImpl) then) =
-      __$$UnionCompletionModelEnumImplCopyWithImpl<$Res>;
+abstract class _$$CompletionModelEnumerationImplCopyWith<$Res> {
+  factory _$$CompletionModelEnumerationImplCopyWith(
+          _$CompletionModelEnumerationImpl value,
+          $Res Function(_$CompletionModelEnumerationImpl) then) =
+      __$$CompletionModelEnumerationImplCopyWithImpl<$Res>;
   @useResult
   $Res call({CompletionModels value});
 }
 
 /// @nodoc
-class __$$UnionCompletionModelEnumImplCopyWithImpl<$Res>
-    extends _$CompletionModelCopyWithImpl<$Res, _$UnionCompletionModelEnumImpl>
-    implements _$$UnionCompletionModelEnumImplCopyWith<$Res> {
-  __$$UnionCompletionModelEnumImplCopyWithImpl(
-      _$UnionCompletionModelEnumImpl _value,
-      $Res Function(_$UnionCompletionModelEnumImpl) _then)
+class __$$CompletionModelEnumerationImplCopyWithImpl<$Res>
+    extends _$CompletionModelCopyWithImpl<$Res,
+        _$CompletionModelEnumerationImpl>
+    implements _$$CompletionModelEnumerationImplCopyWith<$Res> {
+  __$$CompletionModelEnumerationImplCopyWithImpl(
+      _$CompletionModelEnumerationImpl _value,
+      $Res Function(_$CompletionModelEnumerationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -913,7 +914,7 @@ class __$$UnionCompletionModelEnumImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionCompletionModelEnumImpl(
+    return _then(_$CompletionModelEnumerationImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -924,13 +925,14 @@ class __$$UnionCompletionModelEnumImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionCompletionModelEnumImpl extends _UnionCompletionModelEnum {
-  const _$UnionCompletionModelEnumImpl(this.value, {final String? $type})
-      : $type = $type ?? 'enumeration',
+class _$CompletionModelEnumerationImpl extends CompletionModelEnumeration {
+  const _$CompletionModelEnumerationImpl(this.value, {final String? $type})
+      : $type = $type ?? 'model',
         super._();
 
-  factory _$UnionCompletionModelEnumImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UnionCompletionModelEnumImplFromJson(json);
+  factory _$CompletionModelEnumerationImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$CompletionModelEnumerationImplFromJson(json);
 
   @override
   final CompletionModels value;
@@ -940,14 +942,14 @@ class _$UnionCompletionModelEnumImpl extends _UnionCompletionModelEnum {
 
   @override
   String toString() {
-    return 'CompletionModel.enumeration(value: $value)';
+    return 'CompletionModel.model(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionCompletionModelEnumImpl &&
+            other is _$CompletionModelEnumerationImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -958,37 +960,37 @@ class _$UnionCompletionModelEnumImpl extends _UnionCompletionModelEnum {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionCompletionModelEnumImplCopyWith<_$UnionCompletionModelEnumImpl>
-      get copyWith => __$$UnionCompletionModelEnumImplCopyWithImpl<
-          _$UnionCompletionModelEnumImpl>(this, _$identity);
+  _$$CompletionModelEnumerationImplCopyWith<_$CompletionModelEnumerationImpl>
+      get copyWith => __$$CompletionModelEnumerationImplCopyWithImpl<
+          _$CompletionModelEnumerationImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(CompletionModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(CompletionModels value) model,
+    required TResult Function(String value) modelId,
   }) {
-    return enumeration(value);
+    return model(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(CompletionModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(CompletionModels value)? model,
+    TResult? Function(String value)? modelId,
   }) {
-    return enumeration?.call(value);
+    return model?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(CompletionModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(CompletionModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(value);
+    if (model != null) {
+      return model(value);
     }
     return orElse();
   }
@@ -996,75 +998,73 @@ class _$UnionCompletionModelEnumImpl extends _UnionCompletionModelEnum {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionCompletionModelEnum value) enumeration,
-    required TResult Function(_UnionCompletionModelString value) string,
+    required TResult Function(CompletionModelEnumeration value) model,
+    required TResult Function(CompletionModelString value) modelId,
   }) {
-    return enumeration(this);
+    return model(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionCompletionModelEnum value)? enumeration,
-    TResult? Function(_UnionCompletionModelString value)? string,
+    TResult? Function(CompletionModelEnumeration value)? model,
+    TResult? Function(CompletionModelString value)? modelId,
   }) {
-    return enumeration?.call(this);
+    return model?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionCompletionModelEnum value)? enumeration,
-    TResult Function(_UnionCompletionModelString value)? string,
+    TResult Function(CompletionModelEnumeration value)? model,
+    TResult Function(CompletionModelString value)? modelId,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(this);
+    if (model != null) {
+      return model(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionCompletionModelEnumImplToJson(
+    return _$$CompletionModelEnumerationImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionCompletionModelEnum extends CompletionModel {
-  const factory _UnionCompletionModelEnum(final CompletionModels value) =
-      _$UnionCompletionModelEnumImpl;
-  const _UnionCompletionModelEnum._() : super._();
+abstract class CompletionModelEnumeration extends CompletionModel {
+  const factory CompletionModelEnumeration(final CompletionModels value) =
+      _$CompletionModelEnumerationImpl;
+  const CompletionModelEnumeration._() : super._();
 
-  factory _UnionCompletionModelEnum.fromJson(Map<String, dynamic> json) =
-      _$UnionCompletionModelEnumImpl.fromJson;
+  factory CompletionModelEnumeration.fromJson(Map<String, dynamic> json) =
+      _$CompletionModelEnumerationImpl.fromJson;
 
   @override
   CompletionModels get value;
   @JsonKey(ignore: true)
-  _$$UnionCompletionModelEnumImplCopyWith<_$UnionCompletionModelEnumImpl>
+  _$$CompletionModelEnumerationImplCopyWith<_$CompletionModelEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionCompletionModelStringImplCopyWith<$Res> {
-  factory _$$UnionCompletionModelStringImplCopyWith(
-          _$UnionCompletionModelStringImpl value,
-          $Res Function(_$UnionCompletionModelStringImpl) then) =
-      __$$UnionCompletionModelStringImplCopyWithImpl<$Res>;
+abstract class _$$CompletionModelStringImplCopyWith<$Res> {
+  factory _$$CompletionModelStringImplCopyWith(
+          _$CompletionModelStringImpl value,
+          $Res Function(_$CompletionModelStringImpl) then) =
+      __$$CompletionModelStringImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String value});
 }
 
 /// @nodoc
-class __$$UnionCompletionModelStringImplCopyWithImpl<$Res>
-    extends _$CompletionModelCopyWithImpl<$Res,
-        _$UnionCompletionModelStringImpl>
-    implements _$$UnionCompletionModelStringImplCopyWith<$Res> {
-  __$$UnionCompletionModelStringImplCopyWithImpl(
-      _$UnionCompletionModelStringImpl _value,
-      $Res Function(_$UnionCompletionModelStringImpl) _then)
+class __$$CompletionModelStringImplCopyWithImpl<$Res>
+    extends _$CompletionModelCopyWithImpl<$Res, _$CompletionModelStringImpl>
+    implements _$$CompletionModelStringImplCopyWith<$Res> {
+  __$$CompletionModelStringImplCopyWithImpl(_$CompletionModelStringImpl _value,
+      $Res Function(_$CompletionModelStringImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1072,7 +1072,7 @@ class __$$UnionCompletionModelStringImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionCompletionModelStringImpl(
+    return _then(_$CompletionModelStringImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -1083,14 +1083,13 @@ class __$$UnionCompletionModelStringImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionCompletionModelStringImpl extends _UnionCompletionModelString {
-  const _$UnionCompletionModelStringImpl(this.value, {final String? $type})
-      : $type = $type ?? 'string',
+class _$CompletionModelStringImpl extends CompletionModelString {
+  const _$CompletionModelStringImpl(this.value, {final String? $type})
+      : $type = $type ?? 'modelId',
         super._();
 
-  factory _$UnionCompletionModelStringImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$UnionCompletionModelStringImplFromJson(json);
+  factory _$CompletionModelStringImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CompletionModelStringImplFromJson(json);
 
   @override
   final String value;
@@ -1100,14 +1099,14 @@ class _$UnionCompletionModelStringImpl extends _UnionCompletionModelString {
 
   @override
   String toString() {
-    return 'CompletionModel.string(value: $value)';
+    return 'CompletionModel.modelId(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionCompletionModelStringImpl &&
+            other is _$CompletionModelStringImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -1118,37 +1117,37 @@ class _$UnionCompletionModelStringImpl extends _UnionCompletionModelString {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionCompletionModelStringImplCopyWith<_$UnionCompletionModelStringImpl>
-      get copyWith => __$$UnionCompletionModelStringImplCopyWithImpl<
-          _$UnionCompletionModelStringImpl>(this, _$identity);
+  _$$CompletionModelStringImplCopyWith<_$CompletionModelStringImpl>
+      get copyWith => __$$CompletionModelStringImplCopyWithImpl<
+          _$CompletionModelStringImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(CompletionModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(CompletionModels value) model,
+    required TResult Function(String value) modelId,
   }) {
-    return string(value);
+    return modelId(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(CompletionModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(CompletionModels value)? model,
+    TResult? Function(String value)? modelId,
   }) {
-    return string?.call(value);
+    return modelId?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(CompletionModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(CompletionModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) {
-    if (string != null) {
-      return string(value);
+    if (modelId != null) {
+      return modelId(value);
     }
     return orElse();
   }
@@ -1156,67 +1155,67 @@ class _$UnionCompletionModelStringImpl extends _UnionCompletionModelString {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionCompletionModelEnum value) enumeration,
-    required TResult Function(_UnionCompletionModelString value) string,
+    required TResult Function(CompletionModelEnumeration value) model,
+    required TResult Function(CompletionModelString value) modelId,
   }) {
-    return string(this);
+    return modelId(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionCompletionModelEnum value)? enumeration,
-    TResult? Function(_UnionCompletionModelString value)? string,
+    TResult? Function(CompletionModelEnumeration value)? model,
+    TResult? Function(CompletionModelString value)? modelId,
   }) {
-    return string?.call(this);
+    return modelId?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionCompletionModelEnum value)? enumeration,
-    TResult Function(_UnionCompletionModelString value)? string,
+    TResult Function(CompletionModelEnumeration value)? model,
+    TResult Function(CompletionModelString value)? modelId,
     required TResult orElse(),
   }) {
-    if (string != null) {
-      return string(this);
+    if (modelId != null) {
+      return modelId(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionCompletionModelStringImplToJson(
+    return _$$CompletionModelStringImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionCompletionModelString extends CompletionModel {
-  const factory _UnionCompletionModelString(final String value) =
-      _$UnionCompletionModelStringImpl;
-  const _UnionCompletionModelString._() : super._();
+abstract class CompletionModelString extends CompletionModel {
+  const factory CompletionModelString(final String value) =
+      _$CompletionModelStringImpl;
+  const CompletionModelString._() : super._();
 
-  factory _UnionCompletionModelString.fromJson(Map<String, dynamic> json) =
-      _$UnionCompletionModelStringImpl.fromJson;
+  factory CompletionModelString.fromJson(Map<String, dynamic> json) =
+      _$CompletionModelStringImpl.fromJson;
 
   @override
   String get value;
   @JsonKey(ignore: true)
-  _$$UnionCompletionModelStringImplCopyWith<_$UnionCompletionModelStringImpl>
+  _$$CompletionModelStringImplCopyWith<_$CompletionModelStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 CompletionPrompt _$CompletionPromptFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
-    case 'array':
-      return _UnionCompletionPromptArray.fromJson(json);
-    case 'arrayInteger':
-      return _UnionCompletionPromptArrayInteger.fromJson(json);
-    case 'arrayString':
-      return _UnionCompletionPromptArrayString.fromJson(json);
+    case 'listTokens':
+      return CompletionPromptListListInt.fromJson(json);
+    case 'tokens':
+      return CompletionPromptListInt.fromJson(json);
+    case 'listString':
+      return CompletionPromptListString.fromJson(json);
     case 'string':
-      return _UnionCompletionPromptString.fromJson(json);
+      return CompletionPromptString.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'CompletionPrompt',
@@ -1229,53 +1228,51 @@ mixin _$CompletionPrompt {
   Object get value => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<List<int>> value) array,
-    required TResult Function(List<int> value) arrayInteger,
-    required TResult Function(List<String> value) arrayString,
+    required TResult Function(List<List<int>> value) listTokens,
+    required TResult Function(List<int> value) tokens,
+    required TResult Function(List<String> value) listString,
     required TResult Function(String value) string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<List<int>> value)? array,
-    TResult? Function(List<int> value)? arrayInteger,
-    TResult? Function(List<String> value)? arrayString,
+    TResult? Function(List<List<int>> value)? listTokens,
+    TResult? Function(List<int> value)? tokens,
+    TResult? Function(List<String> value)? listString,
     TResult? Function(String value)? string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<List<int>> value)? array,
-    TResult Function(List<int> value)? arrayInteger,
-    TResult Function(List<String> value)? arrayString,
+    TResult Function(List<List<int>> value)? listTokens,
+    TResult Function(List<int> value)? tokens,
+    TResult Function(List<String> value)? listString,
     TResult Function(String value)? string,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionCompletionPromptArray value) array,
-    required TResult Function(_UnionCompletionPromptArrayInteger value)
-        arrayInteger,
-    required TResult Function(_UnionCompletionPromptArrayString value)
-        arrayString,
-    required TResult Function(_UnionCompletionPromptString value) string,
+    required TResult Function(CompletionPromptListListInt value) listTokens,
+    required TResult Function(CompletionPromptListInt value) tokens,
+    required TResult Function(CompletionPromptListString value) listString,
+    required TResult Function(CompletionPromptString value) string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionCompletionPromptArray value)? array,
-    TResult? Function(_UnionCompletionPromptArrayInteger value)? arrayInteger,
-    TResult? Function(_UnionCompletionPromptArrayString value)? arrayString,
-    TResult? Function(_UnionCompletionPromptString value)? string,
+    TResult? Function(CompletionPromptListListInt value)? listTokens,
+    TResult? Function(CompletionPromptListInt value)? tokens,
+    TResult? Function(CompletionPromptListString value)? listString,
+    TResult? Function(CompletionPromptString value)? string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionCompletionPromptArray value)? array,
-    TResult Function(_UnionCompletionPromptArrayInteger value)? arrayInteger,
-    TResult Function(_UnionCompletionPromptArrayString value)? arrayString,
-    TResult Function(_UnionCompletionPromptString value)? string,
+    TResult Function(CompletionPromptListListInt value)? listTokens,
+    TResult Function(CompletionPromptListInt value)? tokens,
+    TResult Function(CompletionPromptListString value)? listString,
+    TResult Function(CompletionPromptString value)? string,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -1301,23 +1298,23 @@ class _$CompletionPromptCopyWithImpl<$Res, $Val extends CompletionPrompt>
 }
 
 /// @nodoc
-abstract class _$$UnionCompletionPromptArrayImplCopyWith<$Res> {
-  factory _$$UnionCompletionPromptArrayImplCopyWith(
-          _$UnionCompletionPromptArrayImpl value,
-          $Res Function(_$UnionCompletionPromptArrayImpl) then) =
-      __$$UnionCompletionPromptArrayImplCopyWithImpl<$Res>;
+abstract class _$$CompletionPromptListListIntImplCopyWith<$Res> {
+  factory _$$CompletionPromptListListIntImplCopyWith(
+          _$CompletionPromptListListIntImpl value,
+          $Res Function(_$CompletionPromptListListIntImpl) then) =
+      __$$CompletionPromptListListIntImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<List<int>> value});
 }
 
 /// @nodoc
-class __$$UnionCompletionPromptArrayImplCopyWithImpl<$Res>
+class __$$CompletionPromptListListIntImplCopyWithImpl<$Res>
     extends _$CompletionPromptCopyWithImpl<$Res,
-        _$UnionCompletionPromptArrayImpl>
-    implements _$$UnionCompletionPromptArrayImplCopyWith<$Res> {
-  __$$UnionCompletionPromptArrayImplCopyWithImpl(
-      _$UnionCompletionPromptArrayImpl _value,
-      $Res Function(_$UnionCompletionPromptArrayImpl) _then)
+        _$CompletionPromptListListIntImpl>
+    implements _$$CompletionPromptListListIntImplCopyWith<$Res> {
+  __$$CompletionPromptListListIntImplCopyWithImpl(
+      _$CompletionPromptListListIntImpl _value,
+      $Res Function(_$CompletionPromptListListIntImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1325,7 +1322,7 @@ class __$$UnionCompletionPromptArrayImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionCompletionPromptArrayImpl(
+    return _then(_$CompletionPromptListListIntImpl(
       null == value
           ? _value._value
           : value // ignore: cast_nullable_to_non_nullable
@@ -1336,16 +1333,16 @@ class __$$UnionCompletionPromptArrayImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionCompletionPromptArrayImpl extends _UnionCompletionPromptArray {
-  const _$UnionCompletionPromptArrayImpl(final List<List<int>> value,
+class _$CompletionPromptListListIntImpl extends CompletionPromptListListInt {
+  const _$CompletionPromptListListIntImpl(final List<List<int>> value,
       {final String? $type})
       : _value = value,
-        $type = $type ?? 'array',
+        $type = $type ?? 'listTokens',
         super._();
 
-  factory _$UnionCompletionPromptArrayImpl.fromJson(
+  factory _$CompletionPromptListListIntImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$UnionCompletionPromptArrayImplFromJson(json);
+      _$$CompletionPromptListListIntImplFromJson(json);
 
   final List<List<int>> _value;
   @override
@@ -1360,14 +1357,14 @@ class _$UnionCompletionPromptArrayImpl extends _UnionCompletionPromptArray {
 
   @override
   String toString() {
-    return 'CompletionPrompt.array(value: $value)';
+    return 'CompletionPrompt.listTokens(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionCompletionPromptArrayImpl &&
+            other is _$CompletionPromptListListIntImpl &&
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
@@ -1379,43 +1376,43 @@ class _$UnionCompletionPromptArrayImpl extends _UnionCompletionPromptArray {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionCompletionPromptArrayImplCopyWith<_$UnionCompletionPromptArrayImpl>
-      get copyWith => __$$UnionCompletionPromptArrayImplCopyWithImpl<
-          _$UnionCompletionPromptArrayImpl>(this, _$identity);
+  _$$CompletionPromptListListIntImplCopyWith<_$CompletionPromptListListIntImpl>
+      get copyWith => __$$CompletionPromptListListIntImplCopyWithImpl<
+          _$CompletionPromptListListIntImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<List<int>> value) array,
-    required TResult Function(List<int> value) arrayInteger,
-    required TResult Function(List<String> value) arrayString,
+    required TResult Function(List<List<int>> value) listTokens,
+    required TResult Function(List<int> value) tokens,
+    required TResult Function(List<String> value) listString,
     required TResult Function(String value) string,
   }) {
-    return array(value);
+    return listTokens(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<List<int>> value)? array,
-    TResult? Function(List<int> value)? arrayInteger,
-    TResult? Function(List<String> value)? arrayString,
+    TResult? Function(List<List<int>> value)? listTokens,
+    TResult? Function(List<int> value)? tokens,
+    TResult? Function(List<String> value)? listString,
     TResult? Function(String value)? string,
   }) {
-    return array?.call(value);
+    return listTokens?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<List<int>> value)? array,
-    TResult Function(List<int> value)? arrayInteger,
-    TResult Function(List<String> value)? arrayString,
+    TResult Function(List<List<int>> value)? listTokens,
+    TResult Function(List<int> value)? tokens,
+    TResult Function(List<String> value)? listString,
     TResult Function(String value)? string,
     required TResult orElse(),
   }) {
-    if (array != null) {
-      return array(value);
+    if (listTokens != null) {
+      return listTokens(value);
     }
     return orElse();
   }
@@ -1423,83 +1420,80 @@ class _$UnionCompletionPromptArrayImpl extends _UnionCompletionPromptArray {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionCompletionPromptArray value) array,
-    required TResult Function(_UnionCompletionPromptArrayInteger value)
-        arrayInteger,
-    required TResult Function(_UnionCompletionPromptArrayString value)
-        arrayString,
-    required TResult Function(_UnionCompletionPromptString value) string,
+    required TResult Function(CompletionPromptListListInt value) listTokens,
+    required TResult Function(CompletionPromptListInt value) tokens,
+    required TResult Function(CompletionPromptListString value) listString,
+    required TResult Function(CompletionPromptString value) string,
   }) {
-    return array(this);
+    return listTokens(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionCompletionPromptArray value)? array,
-    TResult? Function(_UnionCompletionPromptArrayInteger value)? arrayInteger,
-    TResult? Function(_UnionCompletionPromptArrayString value)? arrayString,
-    TResult? Function(_UnionCompletionPromptString value)? string,
+    TResult? Function(CompletionPromptListListInt value)? listTokens,
+    TResult? Function(CompletionPromptListInt value)? tokens,
+    TResult? Function(CompletionPromptListString value)? listString,
+    TResult? Function(CompletionPromptString value)? string,
   }) {
-    return array?.call(this);
+    return listTokens?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionCompletionPromptArray value)? array,
-    TResult Function(_UnionCompletionPromptArrayInteger value)? arrayInteger,
-    TResult Function(_UnionCompletionPromptArrayString value)? arrayString,
-    TResult Function(_UnionCompletionPromptString value)? string,
+    TResult Function(CompletionPromptListListInt value)? listTokens,
+    TResult Function(CompletionPromptListInt value)? tokens,
+    TResult Function(CompletionPromptListString value)? listString,
+    TResult Function(CompletionPromptString value)? string,
     required TResult orElse(),
   }) {
-    if (array != null) {
-      return array(this);
+    if (listTokens != null) {
+      return listTokens(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionCompletionPromptArrayImplToJson(
+    return _$$CompletionPromptListListIntImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionCompletionPromptArray extends CompletionPrompt {
-  const factory _UnionCompletionPromptArray(final List<List<int>> value) =
-      _$UnionCompletionPromptArrayImpl;
-  const _UnionCompletionPromptArray._() : super._();
+abstract class CompletionPromptListListInt extends CompletionPrompt {
+  const factory CompletionPromptListListInt(final List<List<int>> value) =
+      _$CompletionPromptListListIntImpl;
+  const CompletionPromptListListInt._() : super._();
 
-  factory _UnionCompletionPromptArray.fromJson(Map<String, dynamic> json) =
-      _$UnionCompletionPromptArrayImpl.fromJson;
+  factory CompletionPromptListListInt.fromJson(Map<String, dynamic> json) =
+      _$CompletionPromptListListIntImpl.fromJson;
 
   @override
   List<List<int>> get value;
   @JsonKey(ignore: true)
-  _$$UnionCompletionPromptArrayImplCopyWith<_$UnionCompletionPromptArrayImpl>
+  _$$CompletionPromptListListIntImplCopyWith<_$CompletionPromptListListIntImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionCompletionPromptArrayIntegerImplCopyWith<$Res> {
-  factory _$$UnionCompletionPromptArrayIntegerImplCopyWith(
-          _$UnionCompletionPromptArrayIntegerImpl value,
-          $Res Function(_$UnionCompletionPromptArrayIntegerImpl) then) =
-      __$$UnionCompletionPromptArrayIntegerImplCopyWithImpl<$Res>;
+abstract class _$$CompletionPromptListIntImplCopyWith<$Res> {
+  factory _$$CompletionPromptListIntImplCopyWith(
+          _$CompletionPromptListIntImpl value,
+          $Res Function(_$CompletionPromptListIntImpl) then) =
+      __$$CompletionPromptListIntImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<int> value});
 }
 
 /// @nodoc
-class __$$UnionCompletionPromptArrayIntegerImplCopyWithImpl<$Res>
-    extends _$CompletionPromptCopyWithImpl<$Res,
-        _$UnionCompletionPromptArrayIntegerImpl>
-    implements _$$UnionCompletionPromptArrayIntegerImplCopyWith<$Res> {
-  __$$UnionCompletionPromptArrayIntegerImplCopyWithImpl(
-      _$UnionCompletionPromptArrayIntegerImpl _value,
-      $Res Function(_$UnionCompletionPromptArrayIntegerImpl) _then)
+class __$$CompletionPromptListIntImplCopyWithImpl<$Res>
+    extends _$CompletionPromptCopyWithImpl<$Res, _$CompletionPromptListIntImpl>
+    implements _$$CompletionPromptListIntImplCopyWith<$Res> {
+  __$$CompletionPromptListIntImplCopyWithImpl(
+      _$CompletionPromptListIntImpl _value,
+      $Res Function(_$CompletionPromptListIntImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1507,7 +1501,7 @@ class __$$UnionCompletionPromptArrayIntegerImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionCompletionPromptArrayIntegerImpl(
+    return _then(_$CompletionPromptListIntImpl(
       null == value
           ? _value._value
           : value // ignore: cast_nullable_to_non_nullable
@@ -1518,17 +1512,15 @@ class __$$UnionCompletionPromptArrayIntegerImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionCompletionPromptArrayIntegerImpl
-    extends _UnionCompletionPromptArrayInteger {
-  const _$UnionCompletionPromptArrayIntegerImpl(final List<int> value,
+class _$CompletionPromptListIntImpl extends CompletionPromptListInt {
+  const _$CompletionPromptListIntImpl(final List<int> value,
       {final String? $type})
       : _value = value,
-        $type = $type ?? 'arrayInteger',
+        $type = $type ?? 'tokens',
         super._();
 
-  factory _$UnionCompletionPromptArrayIntegerImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$UnionCompletionPromptArrayIntegerImplFromJson(json);
+  factory _$CompletionPromptListIntImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CompletionPromptListIntImplFromJson(json);
 
   final List<int> _value;
   @override
@@ -1543,14 +1535,14 @@ class _$UnionCompletionPromptArrayIntegerImpl
 
   @override
   String toString() {
-    return 'CompletionPrompt.arrayInteger(value: $value)';
+    return 'CompletionPrompt.tokens(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionCompletionPromptArrayIntegerImpl &&
+            other is _$CompletionPromptListIntImpl &&
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
@@ -1562,44 +1554,43 @@ class _$UnionCompletionPromptArrayIntegerImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionCompletionPromptArrayIntegerImplCopyWith<
-          _$UnionCompletionPromptArrayIntegerImpl>
-      get copyWith => __$$UnionCompletionPromptArrayIntegerImplCopyWithImpl<
-          _$UnionCompletionPromptArrayIntegerImpl>(this, _$identity);
+  _$$CompletionPromptListIntImplCopyWith<_$CompletionPromptListIntImpl>
+      get copyWith => __$$CompletionPromptListIntImplCopyWithImpl<
+          _$CompletionPromptListIntImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<List<int>> value) array,
-    required TResult Function(List<int> value) arrayInteger,
-    required TResult Function(List<String> value) arrayString,
+    required TResult Function(List<List<int>> value) listTokens,
+    required TResult Function(List<int> value) tokens,
+    required TResult Function(List<String> value) listString,
     required TResult Function(String value) string,
   }) {
-    return arrayInteger(value);
+    return tokens(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<List<int>> value)? array,
-    TResult? Function(List<int> value)? arrayInteger,
-    TResult? Function(List<String> value)? arrayString,
+    TResult? Function(List<List<int>> value)? listTokens,
+    TResult? Function(List<int> value)? tokens,
+    TResult? Function(List<String> value)? listString,
     TResult? Function(String value)? string,
   }) {
-    return arrayInteger?.call(value);
+    return tokens?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<List<int>> value)? array,
-    TResult Function(List<int> value)? arrayInteger,
-    TResult Function(List<String> value)? arrayString,
+    TResult Function(List<List<int>> value)? listTokens,
+    TResult Function(List<int> value)? tokens,
+    TResult Function(List<String> value)? listString,
     TResult Function(String value)? string,
     required TResult orElse(),
   }) {
-    if (arrayInteger != null) {
-      return arrayInteger(value);
+    if (tokens != null) {
+      return tokens(value);
     }
     return orElse();
   }
@@ -1607,85 +1598,81 @@ class _$UnionCompletionPromptArrayIntegerImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionCompletionPromptArray value) array,
-    required TResult Function(_UnionCompletionPromptArrayInteger value)
-        arrayInteger,
-    required TResult Function(_UnionCompletionPromptArrayString value)
-        arrayString,
-    required TResult Function(_UnionCompletionPromptString value) string,
+    required TResult Function(CompletionPromptListListInt value) listTokens,
+    required TResult Function(CompletionPromptListInt value) tokens,
+    required TResult Function(CompletionPromptListString value) listString,
+    required TResult Function(CompletionPromptString value) string,
   }) {
-    return arrayInteger(this);
+    return tokens(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionCompletionPromptArray value)? array,
-    TResult? Function(_UnionCompletionPromptArrayInteger value)? arrayInteger,
-    TResult? Function(_UnionCompletionPromptArrayString value)? arrayString,
-    TResult? Function(_UnionCompletionPromptString value)? string,
+    TResult? Function(CompletionPromptListListInt value)? listTokens,
+    TResult? Function(CompletionPromptListInt value)? tokens,
+    TResult? Function(CompletionPromptListString value)? listString,
+    TResult? Function(CompletionPromptString value)? string,
   }) {
-    return arrayInteger?.call(this);
+    return tokens?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionCompletionPromptArray value)? array,
-    TResult Function(_UnionCompletionPromptArrayInteger value)? arrayInteger,
-    TResult Function(_UnionCompletionPromptArrayString value)? arrayString,
-    TResult Function(_UnionCompletionPromptString value)? string,
+    TResult Function(CompletionPromptListListInt value)? listTokens,
+    TResult Function(CompletionPromptListInt value)? tokens,
+    TResult Function(CompletionPromptListString value)? listString,
+    TResult Function(CompletionPromptString value)? string,
     required TResult orElse(),
   }) {
-    if (arrayInteger != null) {
-      return arrayInteger(this);
+    if (tokens != null) {
+      return tokens(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionCompletionPromptArrayIntegerImplToJson(
+    return _$$CompletionPromptListIntImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionCompletionPromptArrayInteger extends CompletionPrompt {
-  const factory _UnionCompletionPromptArrayInteger(final List<int> value) =
-      _$UnionCompletionPromptArrayIntegerImpl;
-  const _UnionCompletionPromptArrayInteger._() : super._();
+abstract class CompletionPromptListInt extends CompletionPrompt {
+  const factory CompletionPromptListInt(final List<int> value) =
+      _$CompletionPromptListIntImpl;
+  const CompletionPromptListInt._() : super._();
 
-  factory _UnionCompletionPromptArrayInteger.fromJson(
-          Map<String, dynamic> json) =
-      _$UnionCompletionPromptArrayIntegerImpl.fromJson;
+  factory CompletionPromptListInt.fromJson(Map<String, dynamic> json) =
+      _$CompletionPromptListIntImpl.fromJson;
 
   @override
   List<int> get value;
   @JsonKey(ignore: true)
-  _$$UnionCompletionPromptArrayIntegerImplCopyWith<
-          _$UnionCompletionPromptArrayIntegerImpl>
+  _$$CompletionPromptListIntImplCopyWith<_$CompletionPromptListIntImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionCompletionPromptArrayStringImplCopyWith<$Res> {
-  factory _$$UnionCompletionPromptArrayStringImplCopyWith(
-          _$UnionCompletionPromptArrayStringImpl value,
-          $Res Function(_$UnionCompletionPromptArrayStringImpl) then) =
-      __$$UnionCompletionPromptArrayStringImplCopyWithImpl<$Res>;
+abstract class _$$CompletionPromptListStringImplCopyWith<$Res> {
+  factory _$$CompletionPromptListStringImplCopyWith(
+          _$CompletionPromptListStringImpl value,
+          $Res Function(_$CompletionPromptListStringImpl) then) =
+      __$$CompletionPromptListStringImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<String> value});
 }
 
 /// @nodoc
-class __$$UnionCompletionPromptArrayStringImplCopyWithImpl<$Res>
+class __$$CompletionPromptListStringImplCopyWithImpl<$Res>
     extends _$CompletionPromptCopyWithImpl<$Res,
-        _$UnionCompletionPromptArrayStringImpl>
-    implements _$$UnionCompletionPromptArrayStringImplCopyWith<$Res> {
-  __$$UnionCompletionPromptArrayStringImplCopyWithImpl(
-      _$UnionCompletionPromptArrayStringImpl _value,
-      $Res Function(_$UnionCompletionPromptArrayStringImpl) _then)
+        _$CompletionPromptListStringImpl>
+    implements _$$CompletionPromptListStringImplCopyWith<$Res> {
+  __$$CompletionPromptListStringImplCopyWithImpl(
+      _$CompletionPromptListStringImpl _value,
+      $Res Function(_$CompletionPromptListStringImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1693,7 +1680,7 @@ class __$$UnionCompletionPromptArrayStringImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionCompletionPromptArrayStringImpl(
+    return _then(_$CompletionPromptListStringImpl(
       null == value
           ? _value._value
           : value // ignore: cast_nullable_to_non_nullable
@@ -1704,17 +1691,16 @@ class __$$UnionCompletionPromptArrayStringImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionCompletionPromptArrayStringImpl
-    extends _UnionCompletionPromptArrayString {
-  const _$UnionCompletionPromptArrayStringImpl(final List<String> value,
+class _$CompletionPromptListStringImpl extends CompletionPromptListString {
+  const _$CompletionPromptListStringImpl(final List<String> value,
       {final String? $type})
       : _value = value,
-        $type = $type ?? 'arrayString',
+        $type = $type ?? 'listString',
         super._();
 
-  factory _$UnionCompletionPromptArrayStringImpl.fromJson(
+  factory _$CompletionPromptListStringImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$UnionCompletionPromptArrayStringImplFromJson(json);
+      _$$CompletionPromptListStringImplFromJson(json);
 
   final List<String> _value;
   @override
@@ -1729,14 +1715,14 @@ class _$UnionCompletionPromptArrayStringImpl
 
   @override
   String toString() {
-    return 'CompletionPrompt.arrayString(value: $value)';
+    return 'CompletionPrompt.listString(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionCompletionPromptArrayStringImpl &&
+            other is _$CompletionPromptListStringImpl &&
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
@@ -1748,44 +1734,43 @@ class _$UnionCompletionPromptArrayStringImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionCompletionPromptArrayStringImplCopyWith<
-          _$UnionCompletionPromptArrayStringImpl>
-      get copyWith => __$$UnionCompletionPromptArrayStringImplCopyWithImpl<
-          _$UnionCompletionPromptArrayStringImpl>(this, _$identity);
+  _$$CompletionPromptListStringImplCopyWith<_$CompletionPromptListStringImpl>
+      get copyWith => __$$CompletionPromptListStringImplCopyWithImpl<
+          _$CompletionPromptListStringImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<List<int>> value) array,
-    required TResult Function(List<int> value) arrayInteger,
-    required TResult Function(List<String> value) arrayString,
+    required TResult Function(List<List<int>> value) listTokens,
+    required TResult Function(List<int> value) tokens,
+    required TResult Function(List<String> value) listString,
     required TResult Function(String value) string,
   }) {
-    return arrayString(value);
+    return listString(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<List<int>> value)? array,
-    TResult? Function(List<int> value)? arrayInteger,
-    TResult? Function(List<String> value)? arrayString,
+    TResult? Function(List<List<int>> value)? listTokens,
+    TResult? Function(List<int> value)? tokens,
+    TResult? Function(List<String> value)? listString,
     TResult? Function(String value)? string,
   }) {
-    return arrayString?.call(value);
+    return listString?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<List<int>> value)? array,
-    TResult Function(List<int> value)? arrayInteger,
-    TResult Function(List<String> value)? arrayString,
+    TResult Function(List<List<int>> value)? listTokens,
+    TResult Function(List<int> value)? tokens,
+    TResult Function(List<String> value)? listString,
     TResult Function(String value)? string,
     required TResult orElse(),
   }) {
-    if (arrayString != null) {
-      return arrayString(value);
+    if (listString != null) {
+      return listString(value);
     }
     return orElse();
   }
@@ -1793,85 +1778,80 @@ class _$UnionCompletionPromptArrayStringImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionCompletionPromptArray value) array,
-    required TResult Function(_UnionCompletionPromptArrayInteger value)
-        arrayInteger,
-    required TResult Function(_UnionCompletionPromptArrayString value)
-        arrayString,
-    required TResult Function(_UnionCompletionPromptString value) string,
+    required TResult Function(CompletionPromptListListInt value) listTokens,
+    required TResult Function(CompletionPromptListInt value) tokens,
+    required TResult Function(CompletionPromptListString value) listString,
+    required TResult Function(CompletionPromptString value) string,
   }) {
-    return arrayString(this);
+    return listString(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionCompletionPromptArray value)? array,
-    TResult? Function(_UnionCompletionPromptArrayInteger value)? arrayInteger,
-    TResult? Function(_UnionCompletionPromptArrayString value)? arrayString,
-    TResult? Function(_UnionCompletionPromptString value)? string,
+    TResult? Function(CompletionPromptListListInt value)? listTokens,
+    TResult? Function(CompletionPromptListInt value)? tokens,
+    TResult? Function(CompletionPromptListString value)? listString,
+    TResult? Function(CompletionPromptString value)? string,
   }) {
-    return arrayString?.call(this);
+    return listString?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionCompletionPromptArray value)? array,
-    TResult Function(_UnionCompletionPromptArrayInteger value)? arrayInteger,
-    TResult Function(_UnionCompletionPromptArrayString value)? arrayString,
-    TResult Function(_UnionCompletionPromptString value)? string,
+    TResult Function(CompletionPromptListListInt value)? listTokens,
+    TResult Function(CompletionPromptListInt value)? tokens,
+    TResult Function(CompletionPromptListString value)? listString,
+    TResult Function(CompletionPromptString value)? string,
     required TResult orElse(),
   }) {
-    if (arrayString != null) {
-      return arrayString(this);
+    if (listString != null) {
+      return listString(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionCompletionPromptArrayStringImplToJson(
+    return _$$CompletionPromptListStringImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionCompletionPromptArrayString extends CompletionPrompt {
-  const factory _UnionCompletionPromptArrayString(final List<String> value) =
-      _$UnionCompletionPromptArrayStringImpl;
-  const _UnionCompletionPromptArrayString._() : super._();
+abstract class CompletionPromptListString extends CompletionPrompt {
+  const factory CompletionPromptListString(final List<String> value) =
+      _$CompletionPromptListStringImpl;
+  const CompletionPromptListString._() : super._();
 
-  factory _UnionCompletionPromptArrayString.fromJson(
-          Map<String, dynamic> json) =
-      _$UnionCompletionPromptArrayStringImpl.fromJson;
+  factory CompletionPromptListString.fromJson(Map<String, dynamic> json) =
+      _$CompletionPromptListStringImpl.fromJson;
 
   @override
   List<String> get value;
   @JsonKey(ignore: true)
-  _$$UnionCompletionPromptArrayStringImplCopyWith<
-          _$UnionCompletionPromptArrayStringImpl>
+  _$$CompletionPromptListStringImplCopyWith<_$CompletionPromptListStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionCompletionPromptStringImplCopyWith<$Res> {
-  factory _$$UnionCompletionPromptStringImplCopyWith(
-          _$UnionCompletionPromptStringImpl value,
-          $Res Function(_$UnionCompletionPromptStringImpl) then) =
-      __$$UnionCompletionPromptStringImplCopyWithImpl<$Res>;
+abstract class _$$CompletionPromptStringImplCopyWith<$Res> {
+  factory _$$CompletionPromptStringImplCopyWith(
+          _$CompletionPromptStringImpl value,
+          $Res Function(_$CompletionPromptStringImpl) then) =
+      __$$CompletionPromptStringImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String value});
 }
 
 /// @nodoc
-class __$$UnionCompletionPromptStringImplCopyWithImpl<$Res>
-    extends _$CompletionPromptCopyWithImpl<$Res,
-        _$UnionCompletionPromptStringImpl>
-    implements _$$UnionCompletionPromptStringImplCopyWith<$Res> {
-  __$$UnionCompletionPromptStringImplCopyWithImpl(
-      _$UnionCompletionPromptStringImpl _value,
-      $Res Function(_$UnionCompletionPromptStringImpl) _then)
+class __$$CompletionPromptStringImplCopyWithImpl<$Res>
+    extends _$CompletionPromptCopyWithImpl<$Res, _$CompletionPromptStringImpl>
+    implements _$$CompletionPromptStringImplCopyWith<$Res> {
+  __$$CompletionPromptStringImplCopyWithImpl(
+      _$CompletionPromptStringImpl _value,
+      $Res Function(_$CompletionPromptStringImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1879,7 +1859,7 @@ class __$$UnionCompletionPromptStringImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionCompletionPromptStringImpl(
+    return _then(_$CompletionPromptStringImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -1890,14 +1870,13 @@ class __$$UnionCompletionPromptStringImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionCompletionPromptStringImpl extends _UnionCompletionPromptString {
-  const _$UnionCompletionPromptStringImpl(this.value, {final String? $type})
+class _$CompletionPromptStringImpl extends CompletionPromptString {
+  const _$CompletionPromptStringImpl(this.value, {final String? $type})
       : $type = $type ?? 'string',
         super._();
 
-  factory _$UnionCompletionPromptStringImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$UnionCompletionPromptStringImplFromJson(json);
+  factory _$CompletionPromptStringImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CompletionPromptStringImplFromJson(json);
 
   @override
   final String value;
@@ -1914,7 +1893,7 @@ class _$UnionCompletionPromptStringImpl extends _UnionCompletionPromptString {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionCompletionPromptStringImpl &&
+            other is _$CompletionPromptStringImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -1925,16 +1904,16 @@ class _$UnionCompletionPromptStringImpl extends _UnionCompletionPromptString {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionCompletionPromptStringImplCopyWith<_$UnionCompletionPromptStringImpl>
-      get copyWith => __$$UnionCompletionPromptStringImplCopyWithImpl<
-          _$UnionCompletionPromptStringImpl>(this, _$identity);
+  _$$CompletionPromptStringImplCopyWith<_$CompletionPromptStringImpl>
+      get copyWith => __$$CompletionPromptStringImplCopyWithImpl<
+          _$CompletionPromptStringImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<List<int>> value) array,
-    required TResult Function(List<int> value) arrayInteger,
-    required TResult Function(List<String> value) arrayString,
+    required TResult Function(List<List<int>> value) listTokens,
+    required TResult Function(List<int> value) tokens,
+    required TResult Function(List<String> value) listString,
     required TResult Function(String value) string,
   }) {
     return string(value);
@@ -1943,9 +1922,9 @@ class _$UnionCompletionPromptStringImpl extends _UnionCompletionPromptString {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<List<int>> value)? array,
-    TResult? Function(List<int> value)? arrayInteger,
-    TResult? Function(List<String> value)? arrayString,
+    TResult? Function(List<List<int>> value)? listTokens,
+    TResult? Function(List<int> value)? tokens,
+    TResult? Function(List<String> value)? listString,
     TResult? Function(String value)? string,
   }) {
     return string?.call(value);
@@ -1954,9 +1933,9 @@ class _$UnionCompletionPromptStringImpl extends _UnionCompletionPromptString {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<List<int>> value)? array,
-    TResult Function(List<int> value)? arrayInteger,
-    TResult Function(List<String> value)? arrayString,
+    TResult Function(List<List<int>> value)? listTokens,
+    TResult Function(List<int> value)? tokens,
+    TResult Function(List<String> value)? listString,
     TResult Function(String value)? string,
     required TResult orElse(),
   }) {
@@ -1969,12 +1948,10 @@ class _$UnionCompletionPromptStringImpl extends _UnionCompletionPromptString {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionCompletionPromptArray value) array,
-    required TResult Function(_UnionCompletionPromptArrayInteger value)
-        arrayInteger,
-    required TResult Function(_UnionCompletionPromptArrayString value)
-        arrayString,
-    required TResult Function(_UnionCompletionPromptString value) string,
+    required TResult Function(CompletionPromptListListInt value) listTokens,
+    required TResult Function(CompletionPromptListInt value) tokens,
+    required TResult Function(CompletionPromptListString value) listString,
+    required TResult Function(CompletionPromptString value) string,
   }) {
     return string(this);
   }
@@ -1982,10 +1959,10 @@ class _$UnionCompletionPromptStringImpl extends _UnionCompletionPromptString {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionCompletionPromptArray value)? array,
-    TResult? Function(_UnionCompletionPromptArrayInteger value)? arrayInteger,
-    TResult? Function(_UnionCompletionPromptArrayString value)? arrayString,
-    TResult? Function(_UnionCompletionPromptString value)? string,
+    TResult? Function(CompletionPromptListListInt value)? listTokens,
+    TResult? Function(CompletionPromptListInt value)? tokens,
+    TResult? Function(CompletionPromptListString value)? listString,
+    TResult? Function(CompletionPromptString value)? string,
   }) {
     return string?.call(this);
   }
@@ -1993,10 +1970,10 @@ class _$UnionCompletionPromptStringImpl extends _UnionCompletionPromptString {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionCompletionPromptArray value)? array,
-    TResult Function(_UnionCompletionPromptArrayInteger value)? arrayInteger,
-    TResult Function(_UnionCompletionPromptArrayString value)? arrayString,
-    TResult Function(_UnionCompletionPromptString value)? string,
+    TResult Function(CompletionPromptListListInt value)? listTokens,
+    TResult Function(CompletionPromptListInt value)? tokens,
+    TResult Function(CompletionPromptListString value)? listString,
+    TResult Function(CompletionPromptString value)? string,
     required TResult orElse(),
   }) {
     if (string != null) {
@@ -2007,33 +1984,33 @@ class _$UnionCompletionPromptStringImpl extends _UnionCompletionPromptString {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionCompletionPromptStringImplToJson(
+    return _$$CompletionPromptStringImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionCompletionPromptString extends CompletionPrompt {
-  const factory _UnionCompletionPromptString(final String value) =
-      _$UnionCompletionPromptStringImpl;
-  const _UnionCompletionPromptString._() : super._();
+abstract class CompletionPromptString extends CompletionPrompt {
+  const factory CompletionPromptString(final String value) =
+      _$CompletionPromptStringImpl;
+  const CompletionPromptString._() : super._();
 
-  factory _UnionCompletionPromptString.fromJson(Map<String, dynamic> json) =
-      _$UnionCompletionPromptStringImpl.fromJson;
+  factory CompletionPromptString.fromJson(Map<String, dynamic> json) =
+      _$CompletionPromptStringImpl.fromJson;
 
   @override
   String get value;
   @JsonKey(ignore: true)
-  _$$UnionCompletionPromptStringImplCopyWith<_$UnionCompletionPromptStringImpl>
+  _$$CompletionPromptStringImplCopyWith<_$CompletionPromptStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 CompletionStop _$CompletionStopFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
-    case 'arrayString':
-      return _UnionCompletionStopArrayString.fromJson(json);
+    case 'listString':
+      return CompletionStopListString.fromJson(json);
     case 'string':
-      return _UnionCompletionStopString.fromJson(json);
+      return CompletionStopString.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'CompletionStop',
@@ -2043,43 +2020,42 @@ CompletionStop _$CompletionStopFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CompletionStop {
-  Object get value => throw _privateConstructorUsedError;
+  Object? get value => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<String> value) arrayString,
-    required TResult Function(String value) string,
+    required TResult Function(List<String> value) listString,
+    required TResult Function(String? value) string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<String> value)? arrayString,
-    TResult? Function(String value)? string,
+    TResult? Function(List<String> value)? listString,
+    TResult? Function(String? value)? string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<String> value)? arrayString,
-    TResult Function(String value)? string,
+    TResult Function(List<String> value)? listString,
+    TResult Function(String? value)? string,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionCompletionStopArrayString value)
-        arrayString,
-    required TResult Function(_UnionCompletionStopString value) string,
+    required TResult Function(CompletionStopListString value) listString,
+    required TResult Function(CompletionStopString value) string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionCompletionStopArrayString value)? arrayString,
-    TResult? Function(_UnionCompletionStopString value)? string,
+    TResult? Function(CompletionStopListString value)? listString,
+    TResult? Function(CompletionStopString value)? string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionCompletionStopArrayString value)? arrayString,
-    TResult Function(_UnionCompletionStopString value)? string,
+    TResult Function(CompletionStopListString value)? listString,
+    TResult Function(CompletionStopString value)? string,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -2105,23 +2081,22 @@ class _$CompletionStopCopyWithImpl<$Res, $Val extends CompletionStop>
 }
 
 /// @nodoc
-abstract class _$$UnionCompletionStopArrayStringImplCopyWith<$Res> {
-  factory _$$UnionCompletionStopArrayStringImplCopyWith(
-          _$UnionCompletionStopArrayStringImpl value,
-          $Res Function(_$UnionCompletionStopArrayStringImpl) then) =
-      __$$UnionCompletionStopArrayStringImplCopyWithImpl<$Res>;
+abstract class _$$CompletionStopListStringImplCopyWith<$Res> {
+  factory _$$CompletionStopListStringImplCopyWith(
+          _$CompletionStopListStringImpl value,
+          $Res Function(_$CompletionStopListStringImpl) then) =
+      __$$CompletionStopListStringImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<String> value});
 }
 
 /// @nodoc
-class __$$UnionCompletionStopArrayStringImplCopyWithImpl<$Res>
-    extends _$CompletionStopCopyWithImpl<$Res,
-        _$UnionCompletionStopArrayStringImpl>
-    implements _$$UnionCompletionStopArrayStringImplCopyWith<$Res> {
-  __$$UnionCompletionStopArrayStringImplCopyWithImpl(
-      _$UnionCompletionStopArrayStringImpl _value,
-      $Res Function(_$UnionCompletionStopArrayStringImpl) _then)
+class __$$CompletionStopListStringImplCopyWithImpl<$Res>
+    extends _$CompletionStopCopyWithImpl<$Res, _$CompletionStopListStringImpl>
+    implements _$$CompletionStopListStringImplCopyWith<$Res> {
+  __$$CompletionStopListStringImplCopyWithImpl(
+      _$CompletionStopListStringImpl _value,
+      $Res Function(_$CompletionStopListStringImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2129,7 +2104,7 @@ class __$$UnionCompletionStopArrayStringImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionCompletionStopArrayStringImpl(
+    return _then(_$CompletionStopListStringImpl(
       null == value
           ? _value._value
           : value // ignore: cast_nullable_to_non_nullable
@@ -2140,17 +2115,15 @@ class __$$UnionCompletionStopArrayStringImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionCompletionStopArrayStringImpl
-    extends _UnionCompletionStopArrayString {
-  const _$UnionCompletionStopArrayStringImpl(final List<String> value,
+class _$CompletionStopListStringImpl extends CompletionStopListString {
+  const _$CompletionStopListStringImpl(final List<String> value,
       {final String? $type})
       : _value = value,
-        $type = $type ?? 'arrayString',
+        $type = $type ?? 'listString',
         super._();
 
-  factory _$UnionCompletionStopArrayStringImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$UnionCompletionStopArrayStringImplFromJson(json);
+  factory _$CompletionStopListStringImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CompletionStopListStringImplFromJson(json);
 
   final List<String> _value;
   @override
@@ -2165,14 +2138,14 @@ class _$UnionCompletionStopArrayStringImpl
 
   @override
   String toString() {
-    return 'CompletionStop.arrayString(value: $value)';
+    return 'CompletionStop.listString(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionCompletionStopArrayStringImpl &&
+            other is _$CompletionStopListStringImpl &&
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
@@ -2184,38 +2157,37 @@ class _$UnionCompletionStopArrayStringImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionCompletionStopArrayStringImplCopyWith<
-          _$UnionCompletionStopArrayStringImpl>
-      get copyWith => __$$UnionCompletionStopArrayStringImplCopyWithImpl<
-          _$UnionCompletionStopArrayStringImpl>(this, _$identity);
+  _$$CompletionStopListStringImplCopyWith<_$CompletionStopListStringImpl>
+      get copyWith => __$$CompletionStopListStringImplCopyWithImpl<
+          _$CompletionStopListStringImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<String> value) arrayString,
-    required TResult Function(String value) string,
+    required TResult Function(List<String> value) listString,
+    required TResult Function(String? value) string,
   }) {
-    return arrayString(value);
+    return listString(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<String> value)? arrayString,
-    TResult? Function(String value)? string,
+    TResult? Function(List<String> value)? listString,
+    TResult? Function(String? value)? string,
   }) {
-    return arrayString?.call(value);
+    return listString?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<String> value)? arrayString,
-    TResult Function(String value)? string,
+    TResult Function(List<String> value)? listString,
+    TResult Function(String? value)? string,
     required TResult orElse(),
   }) {
-    if (arrayString != null) {
-      return arrayString(value);
+    if (listString != null) {
+      return listString(value);
     }
     return orElse();
   }
@@ -2223,104 +2195,100 @@ class _$UnionCompletionStopArrayStringImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionCompletionStopArrayString value)
-        arrayString,
-    required TResult Function(_UnionCompletionStopString value) string,
+    required TResult Function(CompletionStopListString value) listString,
+    required TResult Function(CompletionStopString value) string,
   }) {
-    return arrayString(this);
+    return listString(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionCompletionStopArrayString value)? arrayString,
-    TResult? Function(_UnionCompletionStopString value)? string,
+    TResult? Function(CompletionStopListString value)? listString,
+    TResult? Function(CompletionStopString value)? string,
   }) {
-    return arrayString?.call(this);
+    return listString?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionCompletionStopArrayString value)? arrayString,
-    TResult Function(_UnionCompletionStopString value)? string,
+    TResult Function(CompletionStopListString value)? listString,
+    TResult Function(CompletionStopString value)? string,
     required TResult orElse(),
   }) {
-    if (arrayString != null) {
-      return arrayString(this);
+    if (listString != null) {
+      return listString(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionCompletionStopArrayStringImplToJson(
+    return _$$CompletionStopListStringImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionCompletionStopArrayString extends CompletionStop {
-  const factory _UnionCompletionStopArrayString(final List<String> value) =
-      _$UnionCompletionStopArrayStringImpl;
-  const _UnionCompletionStopArrayString._() : super._();
+abstract class CompletionStopListString extends CompletionStop {
+  const factory CompletionStopListString(final List<String> value) =
+      _$CompletionStopListStringImpl;
+  const CompletionStopListString._() : super._();
 
-  factory _UnionCompletionStopArrayString.fromJson(Map<String, dynamic> json) =
-      _$UnionCompletionStopArrayStringImpl.fromJson;
+  factory CompletionStopListString.fromJson(Map<String, dynamic> json) =
+      _$CompletionStopListStringImpl.fromJson;
 
   @override
   List<String> get value;
   @JsonKey(ignore: true)
-  _$$UnionCompletionStopArrayStringImplCopyWith<
-          _$UnionCompletionStopArrayStringImpl>
+  _$$CompletionStopListStringImplCopyWith<_$CompletionStopListStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionCompletionStopStringImplCopyWith<$Res> {
-  factory _$$UnionCompletionStopStringImplCopyWith(
-          _$UnionCompletionStopStringImpl value,
-          $Res Function(_$UnionCompletionStopStringImpl) then) =
-      __$$UnionCompletionStopStringImplCopyWithImpl<$Res>;
+abstract class _$$CompletionStopStringImplCopyWith<$Res> {
+  factory _$$CompletionStopStringImplCopyWith(_$CompletionStopStringImpl value,
+          $Res Function(_$CompletionStopStringImpl) then) =
+      __$$CompletionStopStringImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String value});
+  $Res call({String? value});
 }
 
 /// @nodoc
-class __$$UnionCompletionStopStringImplCopyWithImpl<$Res>
-    extends _$CompletionStopCopyWithImpl<$Res, _$UnionCompletionStopStringImpl>
-    implements _$$UnionCompletionStopStringImplCopyWith<$Res> {
-  __$$UnionCompletionStopStringImplCopyWithImpl(
-      _$UnionCompletionStopStringImpl _value,
-      $Res Function(_$UnionCompletionStopStringImpl) _then)
+class __$$CompletionStopStringImplCopyWithImpl<$Res>
+    extends _$CompletionStopCopyWithImpl<$Res, _$CompletionStopStringImpl>
+    implements _$$CompletionStopStringImplCopyWith<$Res> {
+  __$$CompletionStopStringImplCopyWithImpl(_$CompletionStopStringImpl _value,
+      $Res Function(_$CompletionStopStringImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? value = null,
+    Object? value = freezed,
   }) {
-    return _then(_$UnionCompletionStopStringImpl(
-      null == value
+    return _then(_$CompletionStopStringImpl(
+      freezed == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionCompletionStopStringImpl extends _UnionCompletionStopString {
-  const _$UnionCompletionStopStringImpl(this.value, {final String? $type})
+class _$CompletionStopStringImpl extends CompletionStopString {
+  const _$CompletionStopStringImpl(this.value, {final String? $type})
       : $type = $type ?? 'string',
         super._();
 
-  factory _$UnionCompletionStopStringImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UnionCompletionStopStringImplFromJson(json);
+  factory _$CompletionStopStringImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CompletionStopStringImplFromJson(json);
 
   @override
-  final String value;
+  final String? value;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
@@ -2334,7 +2302,7 @@ class _$UnionCompletionStopStringImpl extends _UnionCompletionStopString {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionCompletionStopStringImpl &&
+            other is _$CompletionStopStringImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -2345,15 +2313,16 @@ class _$UnionCompletionStopStringImpl extends _UnionCompletionStopString {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionCompletionStopStringImplCopyWith<_$UnionCompletionStopStringImpl>
-      get copyWith => __$$UnionCompletionStopStringImplCopyWithImpl<
-          _$UnionCompletionStopStringImpl>(this, _$identity);
+  _$$CompletionStopStringImplCopyWith<_$CompletionStopStringImpl>
+      get copyWith =>
+          __$$CompletionStopStringImplCopyWithImpl<_$CompletionStopStringImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<String> value) arrayString,
-    required TResult Function(String value) string,
+    required TResult Function(List<String> value) listString,
+    required TResult Function(String? value) string,
   }) {
     return string(value);
   }
@@ -2361,8 +2330,8 @@ class _$UnionCompletionStopStringImpl extends _UnionCompletionStopString {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<String> value)? arrayString,
-    TResult? Function(String value)? string,
+    TResult? Function(List<String> value)? listString,
+    TResult? Function(String? value)? string,
   }) {
     return string?.call(value);
   }
@@ -2370,8 +2339,8 @@ class _$UnionCompletionStopStringImpl extends _UnionCompletionStopString {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<String> value)? arrayString,
-    TResult Function(String value)? string,
+    TResult Function(List<String> value)? listString,
+    TResult Function(String? value)? string,
     required TResult orElse(),
   }) {
     if (string != null) {
@@ -2383,9 +2352,8 @@ class _$UnionCompletionStopStringImpl extends _UnionCompletionStopString {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionCompletionStopArrayString value)
-        arrayString,
-    required TResult Function(_UnionCompletionStopString value) string,
+    required TResult Function(CompletionStopListString value) listString,
+    required TResult Function(CompletionStopString value) string,
   }) {
     return string(this);
   }
@@ -2393,8 +2361,8 @@ class _$UnionCompletionStopStringImpl extends _UnionCompletionStopString {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionCompletionStopArrayString value)? arrayString,
-    TResult? Function(_UnionCompletionStopString value)? string,
+    TResult? Function(CompletionStopListString value)? listString,
+    TResult? Function(CompletionStopString value)? string,
   }) {
     return string?.call(this);
   }
@@ -2402,8 +2370,8 @@ class _$UnionCompletionStopStringImpl extends _UnionCompletionStopString {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionCompletionStopArrayString value)? arrayString,
-    TResult Function(_UnionCompletionStopString value)? string,
+    TResult Function(CompletionStopListString value)? listString,
+    TResult Function(CompletionStopString value)? string,
     required TResult orElse(),
   }) {
     if (string != null) {
@@ -2414,24 +2382,24 @@ class _$UnionCompletionStopStringImpl extends _UnionCompletionStopString {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionCompletionStopStringImplToJson(
+    return _$$CompletionStopStringImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionCompletionStopString extends CompletionStop {
-  const factory _UnionCompletionStopString(final String value) =
-      _$UnionCompletionStopStringImpl;
-  const _UnionCompletionStopString._() : super._();
+abstract class CompletionStopString extends CompletionStop {
+  const factory CompletionStopString(final String? value) =
+      _$CompletionStopStringImpl;
+  const CompletionStopString._() : super._();
 
-  factory _UnionCompletionStopString.fromJson(Map<String, dynamic> json) =
-      _$UnionCompletionStopStringImpl.fromJson;
+  factory CompletionStopString.fromJson(Map<String, dynamic> json) =
+      _$CompletionStopStringImpl.fromJson;
 
   @override
-  String get value;
+  String? get value;
   @JsonKey(ignore: true)
-  _$$UnionCompletionStopStringImplCopyWith<_$UnionCompletionStopStringImpl>
+  _$$CompletionStopStringImplCopyWith<_$CompletionStopStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -4314,10 +4282,10 @@ abstract class _CreateChatCompletionRequest
 
 ChatCompletionModel _$ChatCompletionModelFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
-    case 'enumeration':
-      return _UnionChatCompletionModelEnum.fromJson(json);
-    case 'string':
-      return _UnionChatCompletionModelString.fromJson(json);
+    case 'model':
+      return ChatCompletionModelEnumeration.fromJson(json);
+    case 'modelId':
+      return ChatCompletionModelString.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'ChatCompletionModel',
@@ -4330,39 +4298,39 @@ mixin _$ChatCompletionModel {
   Object get value => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(ChatCompletionModels value) model,
+    required TResult Function(String value) modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(ChatCompletionModels value)? model,
+    TResult? Function(String value)? modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(ChatCompletionModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionChatCompletionModelEnum value) enumeration,
-    required TResult Function(_UnionChatCompletionModelString value) string,
+    required TResult Function(ChatCompletionModelEnumeration value) model,
+    required TResult Function(ChatCompletionModelString value) modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionChatCompletionModelEnum value)? enumeration,
-    TResult? Function(_UnionChatCompletionModelString value)? string,
+    TResult? Function(ChatCompletionModelEnumeration value)? model,
+    TResult? Function(ChatCompletionModelString value)? modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionChatCompletionModelEnum value)? enumeration,
-    TResult Function(_UnionChatCompletionModelString value)? string,
+    TResult Function(ChatCompletionModelEnumeration value)? model,
+    TResult Function(ChatCompletionModelString value)? modelId,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -4388,23 +4356,23 @@ class _$ChatCompletionModelCopyWithImpl<$Res, $Val extends ChatCompletionModel>
 }
 
 /// @nodoc
-abstract class _$$UnionChatCompletionModelEnumImplCopyWith<$Res> {
-  factory _$$UnionChatCompletionModelEnumImplCopyWith(
-          _$UnionChatCompletionModelEnumImpl value,
-          $Res Function(_$UnionChatCompletionModelEnumImpl) then) =
-      __$$UnionChatCompletionModelEnumImplCopyWithImpl<$Res>;
+abstract class _$$ChatCompletionModelEnumerationImplCopyWith<$Res> {
+  factory _$$ChatCompletionModelEnumerationImplCopyWith(
+          _$ChatCompletionModelEnumerationImpl value,
+          $Res Function(_$ChatCompletionModelEnumerationImpl) then) =
+      __$$ChatCompletionModelEnumerationImplCopyWithImpl<$Res>;
   @useResult
   $Res call({ChatCompletionModels value});
 }
 
 /// @nodoc
-class __$$UnionChatCompletionModelEnumImplCopyWithImpl<$Res>
+class __$$ChatCompletionModelEnumerationImplCopyWithImpl<$Res>
     extends _$ChatCompletionModelCopyWithImpl<$Res,
-        _$UnionChatCompletionModelEnumImpl>
-    implements _$$UnionChatCompletionModelEnumImplCopyWith<$Res> {
-  __$$UnionChatCompletionModelEnumImplCopyWithImpl(
-      _$UnionChatCompletionModelEnumImpl _value,
-      $Res Function(_$UnionChatCompletionModelEnumImpl) _then)
+        _$ChatCompletionModelEnumerationImpl>
+    implements _$$ChatCompletionModelEnumerationImplCopyWith<$Res> {
+  __$$ChatCompletionModelEnumerationImplCopyWithImpl(
+      _$ChatCompletionModelEnumerationImpl _value,
+      $Res Function(_$ChatCompletionModelEnumerationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -4412,7 +4380,7 @@ class __$$UnionChatCompletionModelEnumImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionChatCompletionModelEnumImpl(
+    return _then(_$ChatCompletionModelEnumerationImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -4423,14 +4391,15 @@ class __$$UnionChatCompletionModelEnumImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionChatCompletionModelEnumImpl extends _UnionChatCompletionModelEnum {
-  const _$UnionChatCompletionModelEnumImpl(this.value, {final String? $type})
-      : $type = $type ?? 'enumeration',
+class _$ChatCompletionModelEnumerationImpl
+    extends ChatCompletionModelEnumeration {
+  const _$ChatCompletionModelEnumerationImpl(this.value, {final String? $type})
+      : $type = $type ?? 'model',
         super._();
 
-  factory _$UnionChatCompletionModelEnumImpl.fromJson(
+  factory _$ChatCompletionModelEnumerationImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$UnionChatCompletionModelEnumImplFromJson(json);
+      _$$ChatCompletionModelEnumerationImplFromJson(json);
 
   @override
   final ChatCompletionModels value;
@@ -4440,14 +4409,14 @@ class _$UnionChatCompletionModelEnumImpl extends _UnionChatCompletionModelEnum {
 
   @override
   String toString() {
-    return 'ChatCompletionModel.enumeration(value: $value)';
+    return 'ChatCompletionModel.model(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionChatCompletionModelEnumImpl &&
+            other is _$ChatCompletionModelEnumerationImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -4458,38 +4427,38 @@ class _$UnionChatCompletionModelEnumImpl extends _UnionChatCompletionModelEnum {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionChatCompletionModelEnumImplCopyWith<
-          _$UnionChatCompletionModelEnumImpl>
-      get copyWith => __$$UnionChatCompletionModelEnumImplCopyWithImpl<
-          _$UnionChatCompletionModelEnumImpl>(this, _$identity);
+  _$$ChatCompletionModelEnumerationImplCopyWith<
+          _$ChatCompletionModelEnumerationImpl>
+      get copyWith => __$$ChatCompletionModelEnumerationImplCopyWithImpl<
+          _$ChatCompletionModelEnumerationImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(ChatCompletionModels value) model,
+    required TResult Function(String value) modelId,
   }) {
-    return enumeration(value);
+    return model(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(ChatCompletionModels value)? model,
+    TResult? Function(String value)? modelId,
   }) {
-    return enumeration?.call(value);
+    return model?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(ChatCompletionModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(value);
+    if (model != null) {
+      return model(value);
     }
     return orElse();
   }
@@ -4497,76 +4466,76 @@ class _$UnionChatCompletionModelEnumImpl extends _UnionChatCompletionModelEnum {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionChatCompletionModelEnum value) enumeration,
-    required TResult Function(_UnionChatCompletionModelString value) string,
+    required TResult Function(ChatCompletionModelEnumeration value) model,
+    required TResult Function(ChatCompletionModelString value) modelId,
   }) {
-    return enumeration(this);
+    return model(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionChatCompletionModelEnum value)? enumeration,
-    TResult? Function(_UnionChatCompletionModelString value)? string,
+    TResult? Function(ChatCompletionModelEnumeration value)? model,
+    TResult? Function(ChatCompletionModelString value)? modelId,
   }) {
-    return enumeration?.call(this);
+    return model?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionChatCompletionModelEnum value)? enumeration,
-    TResult Function(_UnionChatCompletionModelString value)? string,
+    TResult Function(ChatCompletionModelEnumeration value)? model,
+    TResult Function(ChatCompletionModelString value)? modelId,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(this);
+    if (model != null) {
+      return model(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionChatCompletionModelEnumImplToJson(
+    return _$$ChatCompletionModelEnumerationImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionChatCompletionModelEnum extends ChatCompletionModel {
-  const factory _UnionChatCompletionModelEnum(
-      final ChatCompletionModels value) = _$UnionChatCompletionModelEnumImpl;
-  const _UnionChatCompletionModelEnum._() : super._();
+abstract class ChatCompletionModelEnumeration extends ChatCompletionModel {
+  const factory ChatCompletionModelEnumeration(
+      final ChatCompletionModels value) = _$ChatCompletionModelEnumerationImpl;
+  const ChatCompletionModelEnumeration._() : super._();
 
-  factory _UnionChatCompletionModelEnum.fromJson(Map<String, dynamic> json) =
-      _$UnionChatCompletionModelEnumImpl.fromJson;
+  factory ChatCompletionModelEnumeration.fromJson(Map<String, dynamic> json) =
+      _$ChatCompletionModelEnumerationImpl.fromJson;
 
   @override
   ChatCompletionModels get value;
   @JsonKey(ignore: true)
-  _$$UnionChatCompletionModelEnumImplCopyWith<
-          _$UnionChatCompletionModelEnumImpl>
+  _$$ChatCompletionModelEnumerationImplCopyWith<
+          _$ChatCompletionModelEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionChatCompletionModelStringImplCopyWith<$Res> {
-  factory _$$UnionChatCompletionModelStringImplCopyWith(
-          _$UnionChatCompletionModelStringImpl value,
-          $Res Function(_$UnionChatCompletionModelStringImpl) then) =
-      __$$UnionChatCompletionModelStringImplCopyWithImpl<$Res>;
+abstract class _$$ChatCompletionModelStringImplCopyWith<$Res> {
+  factory _$$ChatCompletionModelStringImplCopyWith(
+          _$ChatCompletionModelStringImpl value,
+          $Res Function(_$ChatCompletionModelStringImpl) then) =
+      __$$ChatCompletionModelStringImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String value});
 }
 
 /// @nodoc
-class __$$UnionChatCompletionModelStringImplCopyWithImpl<$Res>
+class __$$ChatCompletionModelStringImplCopyWithImpl<$Res>
     extends _$ChatCompletionModelCopyWithImpl<$Res,
-        _$UnionChatCompletionModelStringImpl>
-    implements _$$UnionChatCompletionModelStringImplCopyWith<$Res> {
-  __$$UnionChatCompletionModelStringImplCopyWithImpl(
-      _$UnionChatCompletionModelStringImpl _value,
-      $Res Function(_$UnionChatCompletionModelStringImpl) _then)
+        _$ChatCompletionModelStringImpl>
+    implements _$$ChatCompletionModelStringImplCopyWith<$Res> {
+  __$$ChatCompletionModelStringImplCopyWithImpl(
+      _$ChatCompletionModelStringImpl _value,
+      $Res Function(_$ChatCompletionModelStringImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -4574,7 +4543,7 @@ class __$$UnionChatCompletionModelStringImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionChatCompletionModelStringImpl(
+    return _then(_$ChatCompletionModelStringImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -4585,15 +4554,13 @@ class __$$UnionChatCompletionModelStringImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionChatCompletionModelStringImpl
-    extends _UnionChatCompletionModelString {
-  const _$UnionChatCompletionModelStringImpl(this.value, {final String? $type})
-      : $type = $type ?? 'string',
+class _$ChatCompletionModelStringImpl extends ChatCompletionModelString {
+  const _$ChatCompletionModelStringImpl(this.value, {final String? $type})
+      : $type = $type ?? 'modelId',
         super._();
 
-  factory _$UnionChatCompletionModelStringImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$UnionChatCompletionModelStringImplFromJson(json);
+  factory _$ChatCompletionModelStringImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ChatCompletionModelStringImplFromJson(json);
 
   @override
   final String value;
@@ -4603,14 +4570,14 @@ class _$UnionChatCompletionModelStringImpl
 
   @override
   String toString() {
-    return 'ChatCompletionModel.string(value: $value)';
+    return 'ChatCompletionModel.modelId(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionChatCompletionModelStringImpl &&
+            other is _$ChatCompletionModelStringImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -4621,38 +4588,37 @@ class _$UnionChatCompletionModelStringImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionChatCompletionModelStringImplCopyWith<
-          _$UnionChatCompletionModelStringImpl>
-      get copyWith => __$$UnionChatCompletionModelStringImplCopyWithImpl<
-          _$UnionChatCompletionModelStringImpl>(this, _$identity);
+  _$$ChatCompletionModelStringImplCopyWith<_$ChatCompletionModelStringImpl>
+      get copyWith => __$$ChatCompletionModelStringImplCopyWithImpl<
+          _$ChatCompletionModelStringImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(ChatCompletionModels value) model,
+    required TResult Function(String value) modelId,
   }) {
-    return string(value);
+    return modelId(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(ChatCompletionModels value)? model,
+    TResult? Function(String value)? modelId,
   }) {
-    return string?.call(value);
+    return modelId?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(ChatCompletionModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) {
-    if (string != null) {
-      return string(value);
+    if (modelId != null) {
+      return modelId(value);
     }
     return orElse();
   }
@@ -4660,55 +4626,54 @@ class _$UnionChatCompletionModelStringImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionChatCompletionModelEnum value) enumeration,
-    required TResult Function(_UnionChatCompletionModelString value) string,
+    required TResult Function(ChatCompletionModelEnumeration value) model,
+    required TResult Function(ChatCompletionModelString value) modelId,
   }) {
-    return string(this);
+    return modelId(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionChatCompletionModelEnum value)? enumeration,
-    TResult? Function(_UnionChatCompletionModelString value)? string,
+    TResult? Function(ChatCompletionModelEnumeration value)? model,
+    TResult? Function(ChatCompletionModelString value)? modelId,
   }) {
-    return string?.call(this);
+    return modelId?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionChatCompletionModelEnum value)? enumeration,
-    TResult Function(_UnionChatCompletionModelString value)? string,
+    TResult Function(ChatCompletionModelEnumeration value)? model,
+    TResult Function(ChatCompletionModelString value)? modelId,
     required TResult orElse(),
   }) {
-    if (string != null) {
-      return string(this);
+    if (modelId != null) {
+      return modelId(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionChatCompletionModelStringImplToJson(
+    return _$$ChatCompletionModelStringImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionChatCompletionModelString extends ChatCompletionModel {
-  const factory _UnionChatCompletionModelString(final String value) =
-      _$UnionChatCompletionModelStringImpl;
-  const _UnionChatCompletionModelString._() : super._();
+abstract class ChatCompletionModelString extends ChatCompletionModel {
+  const factory ChatCompletionModelString(final String value) =
+      _$ChatCompletionModelStringImpl;
+  const ChatCompletionModelString._() : super._();
 
-  factory _UnionChatCompletionModelString.fromJson(Map<String, dynamic> json) =
-      _$UnionChatCompletionModelStringImpl.fromJson;
+  factory ChatCompletionModelString.fromJson(Map<String, dynamic> json) =
+      _$ChatCompletionModelStringImpl.fromJson;
 
   @override
   String get value;
   @JsonKey(ignore: true)
-  _$$UnionChatCompletionModelStringImplCopyWith<
-          _$UnionChatCompletionModelStringImpl>
+  _$$ChatCompletionModelStringImplCopyWith<_$ChatCompletionModelStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -4873,10 +4838,10 @@ abstract class _ChatCompletionResponseFormat
 
 ChatCompletionStop _$ChatCompletionStopFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
-    case 'arrayString':
-      return _UnionChatCompletionStopArrayString.fromJson(json);
+    case 'listString':
+      return ChatCompletionStopListString.fromJson(json);
     case 'string':
-      return _UnionChatCompletionStopString.fromJson(json);
+      return ChatCompletionStopString.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'ChatCompletionStop',
@@ -4886,43 +4851,42 @@ ChatCompletionStop _$ChatCompletionStopFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ChatCompletionStop {
-  Object get value => throw _privateConstructorUsedError;
+  Object? get value => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<String> value) arrayString,
-    required TResult Function(String value) string,
+    required TResult Function(List<String> value) listString,
+    required TResult Function(String? value) string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<String> value)? arrayString,
-    TResult? Function(String value)? string,
+    TResult? Function(List<String> value)? listString,
+    TResult? Function(String? value)? string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<String> value)? arrayString,
-    TResult Function(String value)? string,
+    TResult Function(List<String> value)? listString,
+    TResult Function(String? value)? string,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionChatCompletionStopArrayString value)
-        arrayString,
-    required TResult Function(_UnionChatCompletionStopString value) string,
+    required TResult Function(ChatCompletionStopListString value) listString,
+    required TResult Function(ChatCompletionStopString value) string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionChatCompletionStopArrayString value)? arrayString,
-    TResult? Function(_UnionChatCompletionStopString value)? string,
+    TResult? Function(ChatCompletionStopListString value)? listString,
+    TResult? Function(ChatCompletionStopString value)? string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionChatCompletionStopArrayString value)? arrayString,
-    TResult Function(_UnionChatCompletionStopString value)? string,
+    TResult Function(ChatCompletionStopListString value)? listString,
+    TResult Function(ChatCompletionStopString value)? string,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -4948,23 +4912,23 @@ class _$ChatCompletionStopCopyWithImpl<$Res, $Val extends ChatCompletionStop>
 }
 
 /// @nodoc
-abstract class _$$UnionChatCompletionStopArrayStringImplCopyWith<$Res> {
-  factory _$$UnionChatCompletionStopArrayStringImplCopyWith(
-          _$UnionChatCompletionStopArrayStringImpl value,
-          $Res Function(_$UnionChatCompletionStopArrayStringImpl) then) =
-      __$$UnionChatCompletionStopArrayStringImplCopyWithImpl<$Res>;
+abstract class _$$ChatCompletionStopListStringImplCopyWith<$Res> {
+  factory _$$ChatCompletionStopListStringImplCopyWith(
+          _$ChatCompletionStopListStringImpl value,
+          $Res Function(_$ChatCompletionStopListStringImpl) then) =
+      __$$ChatCompletionStopListStringImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<String> value});
 }
 
 /// @nodoc
-class __$$UnionChatCompletionStopArrayStringImplCopyWithImpl<$Res>
+class __$$ChatCompletionStopListStringImplCopyWithImpl<$Res>
     extends _$ChatCompletionStopCopyWithImpl<$Res,
-        _$UnionChatCompletionStopArrayStringImpl>
-    implements _$$UnionChatCompletionStopArrayStringImplCopyWith<$Res> {
-  __$$UnionChatCompletionStopArrayStringImplCopyWithImpl(
-      _$UnionChatCompletionStopArrayStringImpl _value,
-      $Res Function(_$UnionChatCompletionStopArrayStringImpl) _then)
+        _$ChatCompletionStopListStringImpl>
+    implements _$$ChatCompletionStopListStringImplCopyWith<$Res> {
+  __$$ChatCompletionStopListStringImplCopyWithImpl(
+      _$ChatCompletionStopListStringImpl _value,
+      $Res Function(_$ChatCompletionStopListStringImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -4972,7 +4936,7 @@ class __$$UnionChatCompletionStopArrayStringImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionChatCompletionStopArrayStringImpl(
+    return _then(_$ChatCompletionStopListStringImpl(
       null == value
           ? _value._value
           : value // ignore: cast_nullable_to_non_nullable
@@ -4983,17 +4947,16 @@ class __$$UnionChatCompletionStopArrayStringImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionChatCompletionStopArrayStringImpl
-    extends _UnionChatCompletionStopArrayString {
-  const _$UnionChatCompletionStopArrayStringImpl(final List<String> value,
+class _$ChatCompletionStopListStringImpl extends ChatCompletionStopListString {
+  const _$ChatCompletionStopListStringImpl(final List<String> value,
       {final String? $type})
       : _value = value,
-        $type = $type ?? 'arrayString',
+        $type = $type ?? 'listString',
         super._();
 
-  factory _$UnionChatCompletionStopArrayStringImpl.fromJson(
+  factory _$ChatCompletionStopListStringImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$UnionChatCompletionStopArrayStringImplFromJson(json);
+      _$$ChatCompletionStopListStringImplFromJson(json);
 
   final List<String> _value;
   @override
@@ -5008,14 +4971,14 @@ class _$UnionChatCompletionStopArrayStringImpl
 
   @override
   String toString() {
-    return 'ChatCompletionStop.arrayString(value: $value)';
+    return 'ChatCompletionStop.listString(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionChatCompletionStopArrayStringImpl &&
+            other is _$ChatCompletionStopListStringImpl &&
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
@@ -5027,38 +4990,38 @@ class _$UnionChatCompletionStopArrayStringImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionChatCompletionStopArrayStringImplCopyWith<
-          _$UnionChatCompletionStopArrayStringImpl>
-      get copyWith => __$$UnionChatCompletionStopArrayStringImplCopyWithImpl<
-          _$UnionChatCompletionStopArrayStringImpl>(this, _$identity);
+  _$$ChatCompletionStopListStringImplCopyWith<
+          _$ChatCompletionStopListStringImpl>
+      get copyWith => __$$ChatCompletionStopListStringImplCopyWithImpl<
+          _$ChatCompletionStopListStringImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<String> value) arrayString,
-    required TResult Function(String value) string,
+    required TResult Function(List<String> value) listString,
+    required TResult Function(String? value) string,
   }) {
-    return arrayString(value);
+    return listString(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<String> value)? arrayString,
-    TResult? Function(String value)? string,
+    TResult? Function(List<String> value)? listString,
+    TResult? Function(String? value)? string,
   }) {
-    return arrayString?.call(value);
+    return listString?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<String> value)? arrayString,
-    TResult Function(String value)? string,
+    TResult Function(List<String> value)? listString,
+    TResult Function(String? value)? string,
     required TResult orElse(),
   }) {
-    if (arrayString != null) {
-      return arrayString(value);
+    if (listString != null) {
+      return listString(value);
     }
     return orElse();
   }
@@ -5066,108 +5029,104 @@ class _$UnionChatCompletionStopArrayStringImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionChatCompletionStopArrayString value)
-        arrayString,
-    required TResult Function(_UnionChatCompletionStopString value) string,
+    required TResult Function(ChatCompletionStopListString value) listString,
+    required TResult Function(ChatCompletionStopString value) string,
   }) {
-    return arrayString(this);
+    return listString(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionChatCompletionStopArrayString value)? arrayString,
-    TResult? Function(_UnionChatCompletionStopString value)? string,
+    TResult? Function(ChatCompletionStopListString value)? listString,
+    TResult? Function(ChatCompletionStopString value)? string,
   }) {
-    return arrayString?.call(this);
+    return listString?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionChatCompletionStopArrayString value)? arrayString,
-    TResult Function(_UnionChatCompletionStopString value)? string,
+    TResult Function(ChatCompletionStopListString value)? listString,
+    TResult Function(ChatCompletionStopString value)? string,
     required TResult orElse(),
   }) {
-    if (arrayString != null) {
-      return arrayString(this);
+    if (listString != null) {
+      return listString(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionChatCompletionStopArrayStringImplToJson(
+    return _$$ChatCompletionStopListStringImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionChatCompletionStopArrayString extends ChatCompletionStop {
-  const factory _UnionChatCompletionStopArrayString(final List<String> value) =
-      _$UnionChatCompletionStopArrayStringImpl;
-  const _UnionChatCompletionStopArrayString._() : super._();
+abstract class ChatCompletionStopListString extends ChatCompletionStop {
+  const factory ChatCompletionStopListString(final List<String> value) =
+      _$ChatCompletionStopListStringImpl;
+  const ChatCompletionStopListString._() : super._();
 
-  factory _UnionChatCompletionStopArrayString.fromJson(
-          Map<String, dynamic> json) =
-      _$UnionChatCompletionStopArrayStringImpl.fromJson;
+  factory ChatCompletionStopListString.fromJson(Map<String, dynamic> json) =
+      _$ChatCompletionStopListStringImpl.fromJson;
 
   @override
   List<String> get value;
   @JsonKey(ignore: true)
-  _$$UnionChatCompletionStopArrayStringImplCopyWith<
-          _$UnionChatCompletionStopArrayStringImpl>
+  _$$ChatCompletionStopListStringImplCopyWith<
+          _$ChatCompletionStopListStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionChatCompletionStopStringImplCopyWith<$Res> {
-  factory _$$UnionChatCompletionStopStringImplCopyWith(
-          _$UnionChatCompletionStopStringImpl value,
-          $Res Function(_$UnionChatCompletionStopStringImpl) then) =
-      __$$UnionChatCompletionStopStringImplCopyWithImpl<$Res>;
+abstract class _$$ChatCompletionStopStringImplCopyWith<$Res> {
+  factory _$$ChatCompletionStopStringImplCopyWith(
+          _$ChatCompletionStopStringImpl value,
+          $Res Function(_$ChatCompletionStopStringImpl) then) =
+      __$$ChatCompletionStopStringImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String value});
+  $Res call({String? value});
 }
 
 /// @nodoc
-class __$$UnionChatCompletionStopStringImplCopyWithImpl<$Res>
+class __$$ChatCompletionStopStringImplCopyWithImpl<$Res>
     extends _$ChatCompletionStopCopyWithImpl<$Res,
-        _$UnionChatCompletionStopStringImpl>
-    implements _$$UnionChatCompletionStopStringImplCopyWith<$Res> {
-  __$$UnionChatCompletionStopStringImplCopyWithImpl(
-      _$UnionChatCompletionStopStringImpl _value,
-      $Res Function(_$UnionChatCompletionStopStringImpl) _then)
+        _$ChatCompletionStopStringImpl>
+    implements _$$ChatCompletionStopStringImplCopyWith<$Res> {
+  __$$ChatCompletionStopStringImplCopyWithImpl(
+      _$ChatCompletionStopStringImpl _value,
+      $Res Function(_$ChatCompletionStopStringImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? value = null,
+    Object? value = freezed,
   }) {
-    return _then(_$UnionChatCompletionStopStringImpl(
-      null == value
+    return _then(_$ChatCompletionStopStringImpl(
+      freezed == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionChatCompletionStopStringImpl
-    extends _UnionChatCompletionStopString {
-  const _$UnionChatCompletionStopStringImpl(this.value, {final String? $type})
+class _$ChatCompletionStopStringImpl extends ChatCompletionStopString {
+  const _$ChatCompletionStopStringImpl(this.value, {final String? $type})
       : $type = $type ?? 'string',
         super._();
 
-  factory _$UnionChatCompletionStopStringImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$UnionChatCompletionStopStringImplFromJson(json);
+  factory _$ChatCompletionStopStringImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ChatCompletionStopStringImplFromJson(json);
 
   @override
-  final String value;
+  final String? value;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
@@ -5181,7 +5140,7 @@ class _$UnionChatCompletionStopStringImpl
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionChatCompletionStopStringImpl &&
+            other is _$ChatCompletionStopStringImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -5192,16 +5151,15 @@ class _$UnionChatCompletionStopStringImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionChatCompletionStopStringImplCopyWith<
-          _$UnionChatCompletionStopStringImpl>
-      get copyWith => __$$UnionChatCompletionStopStringImplCopyWithImpl<
-          _$UnionChatCompletionStopStringImpl>(this, _$identity);
+  _$$ChatCompletionStopStringImplCopyWith<_$ChatCompletionStopStringImpl>
+      get copyWith => __$$ChatCompletionStopStringImplCopyWithImpl<
+          _$ChatCompletionStopStringImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<String> value) arrayString,
-    required TResult Function(String value) string,
+    required TResult Function(List<String> value) listString,
+    required TResult Function(String? value) string,
   }) {
     return string(value);
   }
@@ -5209,8 +5167,8 @@ class _$UnionChatCompletionStopStringImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<String> value)? arrayString,
-    TResult? Function(String value)? string,
+    TResult? Function(List<String> value)? listString,
+    TResult? Function(String? value)? string,
   }) {
     return string?.call(value);
   }
@@ -5218,8 +5176,8 @@ class _$UnionChatCompletionStopStringImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<String> value)? arrayString,
-    TResult Function(String value)? string,
+    TResult Function(List<String> value)? listString,
+    TResult Function(String? value)? string,
     required TResult orElse(),
   }) {
     if (string != null) {
@@ -5231,9 +5189,8 @@ class _$UnionChatCompletionStopStringImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionChatCompletionStopArrayString value)
-        arrayString,
-    required TResult Function(_UnionChatCompletionStopString value) string,
+    required TResult Function(ChatCompletionStopListString value) listString,
+    required TResult Function(ChatCompletionStopString value) string,
   }) {
     return string(this);
   }
@@ -5241,8 +5198,8 @@ class _$UnionChatCompletionStopStringImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionChatCompletionStopArrayString value)? arrayString,
-    TResult? Function(_UnionChatCompletionStopString value)? string,
+    TResult? Function(ChatCompletionStopListString value)? listString,
+    TResult? Function(ChatCompletionStopString value)? string,
   }) {
     return string?.call(this);
   }
@@ -5250,8 +5207,8 @@ class _$UnionChatCompletionStopStringImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionChatCompletionStopArrayString value)? arrayString,
-    TResult Function(_UnionChatCompletionStopString value)? string,
+    TResult Function(ChatCompletionStopListString value)? listString,
+    TResult Function(ChatCompletionStopString value)? string,
     required TResult orElse(),
   }) {
     if (string != null) {
@@ -5262,35 +5219,34 @@ class _$UnionChatCompletionStopStringImpl
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionChatCompletionStopStringImplToJson(
+    return _$$ChatCompletionStopStringImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionChatCompletionStopString extends ChatCompletionStop {
-  const factory _UnionChatCompletionStopString(final String value) =
-      _$UnionChatCompletionStopStringImpl;
-  const _UnionChatCompletionStopString._() : super._();
+abstract class ChatCompletionStopString extends ChatCompletionStop {
+  const factory ChatCompletionStopString(final String? value) =
+      _$ChatCompletionStopStringImpl;
+  const ChatCompletionStopString._() : super._();
 
-  factory _UnionChatCompletionStopString.fromJson(Map<String, dynamic> json) =
-      _$UnionChatCompletionStopStringImpl.fromJson;
+  factory ChatCompletionStopString.fromJson(Map<String, dynamic> json) =
+      _$ChatCompletionStopStringImpl.fromJson;
 
   @override
-  String get value;
+  String? get value;
   @JsonKey(ignore: true)
-  _$$UnionChatCompletionStopStringImplCopyWith<
-          _$UnionChatCompletionStopStringImpl>
+  _$$ChatCompletionStopStringImplCopyWith<_$ChatCompletionStopStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 ChatCompletionToolChoiceOption _$ChatCompletionToolChoiceOptionFromJson(
     Map<String, dynamic> json) {
   switch (json['runtimeType']) {
-    case 'enumeration':
-      return _UnionChatCompletionToolChoiceOptionEnum.fromJson(json);
-    case 'chatCompletionNamedToolChoice':
-      return _UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoice
+    case 'mode':
+      return ChatCompletionToolChoiceOptionEnumeration.fromJson(json);
+    case 'tool':
+      return ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice
           .fromJson(json);
 
     default:
@@ -5307,55 +5263,46 @@ mixin _$ChatCompletionToolChoiceOption {
   Object get value => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionToolChoiceOptionEnum value)
-        enumeration,
-    required TResult Function(ChatCompletionNamedToolChoice value)
-        chatCompletionNamedToolChoice,
+    required TResult Function(ChatCompletionToolChoiceOptionEnum value) mode,
+    required TResult Function(ChatCompletionNamedToolChoice value) tool,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionToolChoiceOptionEnum value)? enumeration,
-    TResult? Function(ChatCompletionNamedToolChoice value)?
-        chatCompletionNamedToolChoice,
+    TResult? Function(ChatCompletionToolChoiceOptionEnum value)? mode,
+    TResult? Function(ChatCompletionNamedToolChoice value)? tool,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionToolChoiceOptionEnum value)? enumeration,
-    TResult Function(ChatCompletionNamedToolChoice value)?
-        chatCompletionNamedToolChoice,
+    TResult Function(ChatCompletionToolChoiceOptionEnum value)? mode,
+    TResult Function(ChatCompletionNamedToolChoice value)? tool,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionChatCompletionToolChoiceOptionEnum value)
-        enumeration,
+    required TResult Function(ChatCompletionToolChoiceOptionEnumeration value)
+        mode,
     required TResult Function(
-            _UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoice
-                value)
-        chatCompletionNamedToolChoice,
+            ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice value)
+        tool,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionChatCompletionToolChoiceOptionEnum value)?
-        enumeration,
+    TResult? Function(ChatCompletionToolChoiceOptionEnumeration value)? mode,
     TResult? Function(
-            _UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoice
-                value)?
-        chatCompletionNamedToolChoice,
+            ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice value)?
+        tool,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionChatCompletionToolChoiceOptionEnum value)?
-        enumeration,
+    TResult Function(ChatCompletionToolChoiceOptionEnumeration value)? mode,
     TResult Function(
-            _UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoice
-                value)?
-        chatCompletionNamedToolChoice,
+            ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice value)?
+        tool,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -5384,23 +5331,23 @@ class _$ChatCompletionToolChoiceOptionCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$UnionChatCompletionToolChoiceOptionEnumImplCopyWith<$Res> {
-  factory _$$UnionChatCompletionToolChoiceOptionEnumImplCopyWith(
-          _$UnionChatCompletionToolChoiceOptionEnumImpl value,
-          $Res Function(_$UnionChatCompletionToolChoiceOptionEnumImpl) then) =
-      __$$UnionChatCompletionToolChoiceOptionEnumImplCopyWithImpl<$Res>;
+abstract class _$$ChatCompletionToolChoiceOptionEnumerationImplCopyWith<$Res> {
+  factory _$$ChatCompletionToolChoiceOptionEnumerationImplCopyWith(
+          _$ChatCompletionToolChoiceOptionEnumerationImpl value,
+          $Res Function(_$ChatCompletionToolChoiceOptionEnumerationImpl) then) =
+      __$$ChatCompletionToolChoiceOptionEnumerationImplCopyWithImpl<$Res>;
   @useResult
   $Res call({ChatCompletionToolChoiceOptionEnum value});
 }
 
 /// @nodoc
-class __$$UnionChatCompletionToolChoiceOptionEnumImplCopyWithImpl<$Res>
+class __$$ChatCompletionToolChoiceOptionEnumerationImplCopyWithImpl<$Res>
     extends _$ChatCompletionToolChoiceOptionCopyWithImpl<$Res,
-        _$UnionChatCompletionToolChoiceOptionEnumImpl>
-    implements _$$UnionChatCompletionToolChoiceOptionEnumImplCopyWith<$Res> {
-  __$$UnionChatCompletionToolChoiceOptionEnumImplCopyWithImpl(
-      _$UnionChatCompletionToolChoiceOptionEnumImpl _value,
-      $Res Function(_$UnionChatCompletionToolChoiceOptionEnumImpl) _then)
+        _$ChatCompletionToolChoiceOptionEnumerationImpl>
+    implements _$$ChatCompletionToolChoiceOptionEnumerationImplCopyWith<$Res> {
+  __$$ChatCompletionToolChoiceOptionEnumerationImplCopyWithImpl(
+      _$ChatCompletionToolChoiceOptionEnumerationImpl _value,
+      $Res Function(_$ChatCompletionToolChoiceOptionEnumerationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -5408,7 +5355,7 @@ class __$$UnionChatCompletionToolChoiceOptionEnumImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionChatCompletionToolChoiceOptionEnumImpl(
+    return _then(_$ChatCompletionToolChoiceOptionEnumerationImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -5419,16 +5366,16 @@ class __$$UnionChatCompletionToolChoiceOptionEnumImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionChatCompletionToolChoiceOptionEnumImpl
-    extends _UnionChatCompletionToolChoiceOptionEnum {
-  const _$UnionChatCompletionToolChoiceOptionEnumImpl(this.value,
+class _$ChatCompletionToolChoiceOptionEnumerationImpl
+    extends ChatCompletionToolChoiceOptionEnumeration {
+  const _$ChatCompletionToolChoiceOptionEnumerationImpl(this.value,
       {final String? $type})
-      : $type = $type ?? 'enumeration',
+      : $type = $type ?? 'mode',
         super._();
 
-  factory _$UnionChatCompletionToolChoiceOptionEnumImpl.fromJson(
+  factory _$ChatCompletionToolChoiceOptionEnumerationImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$UnionChatCompletionToolChoiceOptionEnumImplFromJson(json);
+      _$$ChatCompletionToolChoiceOptionEnumerationImplFromJson(json);
 
   @override
   final ChatCompletionToolChoiceOptionEnum value;
@@ -5438,14 +5385,14 @@ class _$UnionChatCompletionToolChoiceOptionEnumImpl
 
   @override
   String toString() {
-    return 'ChatCompletionToolChoiceOption.enumeration(value: $value)';
+    return 'ChatCompletionToolChoiceOption.mode(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionChatCompletionToolChoiceOptionEnumImpl &&
+            other is _$ChatCompletionToolChoiceOptionEnumerationImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -5456,43 +5403,40 @@ class _$UnionChatCompletionToolChoiceOptionEnumImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionChatCompletionToolChoiceOptionEnumImplCopyWith<
-          _$UnionChatCompletionToolChoiceOptionEnumImpl>
+  _$$ChatCompletionToolChoiceOptionEnumerationImplCopyWith<
+          _$ChatCompletionToolChoiceOptionEnumerationImpl>
       get copyWith =>
-          __$$UnionChatCompletionToolChoiceOptionEnumImplCopyWithImpl<
-              _$UnionChatCompletionToolChoiceOptionEnumImpl>(this, _$identity);
+          __$$ChatCompletionToolChoiceOptionEnumerationImplCopyWithImpl<
+                  _$ChatCompletionToolChoiceOptionEnumerationImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionToolChoiceOptionEnum value)
-        enumeration,
-    required TResult Function(ChatCompletionNamedToolChoice value)
-        chatCompletionNamedToolChoice,
+    required TResult Function(ChatCompletionToolChoiceOptionEnum value) mode,
+    required TResult Function(ChatCompletionNamedToolChoice value) tool,
   }) {
-    return enumeration(value);
+    return mode(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionToolChoiceOptionEnum value)? enumeration,
-    TResult? Function(ChatCompletionNamedToolChoice value)?
-        chatCompletionNamedToolChoice,
+    TResult? Function(ChatCompletionToolChoiceOptionEnum value)? mode,
+    TResult? Function(ChatCompletionNamedToolChoice value)? tool,
   }) {
-    return enumeration?.call(value);
+    return mode?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionToolChoiceOptionEnum value)? enumeration,
-    TResult Function(ChatCompletionNamedToolChoice value)?
-        chatCompletionNamedToolChoice,
+    TResult Function(ChatCompletionToolChoiceOptionEnum value)? mode,
+    TResult Function(ChatCompletionNamedToolChoice value)? tool,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(value);
+    if (mode != null) {
+      return mode(value);
     }
     return orElse();
   }
@@ -5500,83 +5444,77 @@ class _$UnionChatCompletionToolChoiceOptionEnumImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionChatCompletionToolChoiceOptionEnum value)
-        enumeration,
+    required TResult Function(ChatCompletionToolChoiceOptionEnumeration value)
+        mode,
     required TResult Function(
-            _UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoice
-                value)
-        chatCompletionNamedToolChoice,
+            ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice value)
+        tool,
   }) {
-    return enumeration(this);
+    return mode(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionChatCompletionToolChoiceOptionEnum value)?
-        enumeration,
+    TResult? Function(ChatCompletionToolChoiceOptionEnumeration value)? mode,
     TResult? Function(
-            _UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoice
-                value)?
-        chatCompletionNamedToolChoice,
+            ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice value)?
+        tool,
   }) {
-    return enumeration?.call(this);
+    return mode?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionChatCompletionToolChoiceOptionEnum value)?
-        enumeration,
+    TResult Function(ChatCompletionToolChoiceOptionEnumeration value)? mode,
     TResult Function(
-            _UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoice
-                value)?
-        chatCompletionNamedToolChoice,
+            ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice value)?
+        tool,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(this);
+    if (mode != null) {
+      return mode(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionChatCompletionToolChoiceOptionEnumImplToJson(
+    return _$$ChatCompletionToolChoiceOptionEnumerationImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionChatCompletionToolChoiceOptionEnum
+abstract class ChatCompletionToolChoiceOptionEnumeration
     extends ChatCompletionToolChoiceOption {
-  const factory _UnionChatCompletionToolChoiceOptionEnum(
+  const factory ChatCompletionToolChoiceOptionEnumeration(
           final ChatCompletionToolChoiceOptionEnum value) =
-      _$UnionChatCompletionToolChoiceOptionEnumImpl;
-  const _UnionChatCompletionToolChoiceOptionEnum._() : super._();
+      _$ChatCompletionToolChoiceOptionEnumerationImpl;
+  const ChatCompletionToolChoiceOptionEnumeration._() : super._();
 
-  factory _UnionChatCompletionToolChoiceOptionEnum.fromJson(
+  factory ChatCompletionToolChoiceOptionEnumeration.fromJson(
           Map<String, dynamic> json) =
-      _$UnionChatCompletionToolChoiceOptionEnumImpl.fromJson;
+      _$ChatCompletionToolChoiceOptionEnumerationImpl.fromJson;
 
   @override
   ChatCompletionToolChoiceOptionEnum get value;
   @JsonKey(ignore: true)
-  _$$UnionChatCompletionToolChoiceOptionEnumImplCopyWith<
-          _$UnionChatCompletionToolChoiceOptionEnumImpl>
+  _$$ChatCompletionToolChoiceOptionEnumerationImplCopyWith<
+          _$ChatCompletionToolChoiceOptionEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWith<
+abstract class _$$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWith<
     $Res> {
-  factory _$$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWith(
-          _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
-              value,
+  factory _$$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWith(
+          _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl value,
           $Res Function(
-                  _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl)
+                  _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl)
               then) =
-      __$$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWithImpl<
+      __$$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWithImpl<
           $Res>;
   @useResult
   $Res call({ChatCompletionNamedToolChoice value});
@@ -5585,18 +5523,17 @@ abstract class _$$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoi
 }
 
 /// @nodoc
-class __$$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWithImpl<
+class __$$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWithImpl<
         $Res>
     extends _$ChatCompletionToolChoiceOptionCopyWithImpl<$Res,
-        _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl>
+        _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl>
     implements
-        _$$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWith<
+        _$$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWith<
             $Res> {
-  __$$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWithImpl(
-      _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
-          _value,
+  __$$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWithImpl(
+      _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl _value,
       $Res Function(
-              _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl)
+              _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl)
           _then)
       : super(_value, _then);
 
@@ -5606,7 +5543,7 @@ class __$$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCo
     Object? value = null,
   }) {
     return _then(
-        _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl(
+        _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -5625,17 +5562,17 @@ class __$$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCo
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
-    extends _UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoice {
-  const _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl(
+class _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
+    extends ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice {
+  const _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl(
       this.value,
       {final String? $type})
-      : $type = $type ?? 'chatCompletionNamedToolChoice',
+      : $type = $type ?? 'tool',
         super._();
 
-  factory _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl.fromJson(
+  factory _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplFromJson(
+      _$$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplFromJson(
           json);
 
   @override
@@ -5646,7 +5583,7 @@ class _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
 
   @override
   String toString() {
-    return 'ChatCompletionToolChoiceOption.chatCompletionNamedToolChoice(value: $value)';
+    return 'ChatCompletionToolChoiceOption.tool(value: $value)';
   }
 
   @override
@@ -5654,7 +5591,7 @@ class _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other
-                is _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl &&
+                is _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -5665,44 +5602,40 @@ class _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWith<
-          _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl>
+  _$$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWith<
+          _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl>
       get copyWith =>
-          __$$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWithImpl<
-                  _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl>(
+          __$$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWithImpl<
+                  _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl>(
               this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionToolChoiceOptionEnum value)
-        enumeration,
-    required TResult Function(ChatCompletionNamedToolChoice value)
-        chatCompletionNamedToolChoice,
+    required TResult Function(ChatCompletionToolChoiceOptionEnum value) mode,
+    required TResult Function(ChatCompletionNamedToolChoice value) tool,
   }) {
-    return chatCompletionNamedToolChoice(value);
+    return tool(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionToolChoiceOptionEnum value)? enumeration,
-    TResult? Function(ChatCompletionNamedToolChoice value)?
-        chatCompletionNamedToolChoice,
+    TResult? Function(ChatCompletionToolChoiceOptionEnum value)? mode,
+    TResult? Function(ChatCompletionNamedToolChoice value)? tool,
   }) {
-    return chatCompletionNamedToolChoice?.call(value);
+    return tool?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionToolChoiceOptionEnum value)? enumeration,
-    TResult Function(ChatCompletionNamedToolChoice value)?
-        chatCompletionNamedToolChoice,
+    TResult Function(ChatCompletionToolChoiceOptionEnum value)? mode,
+    TResult Function(ChatCompletionNamedToolChoice value)? tool,
     required TResult orElse(),
   }) {
-    if (chatCompletionNamedToolChoice != null) {
-      return chatCompletionNamedToolChoice(value);
+    if (tool != null) {
+      return tool(value);
     }
     return orElse();
   }
@@ -5710,82 +5643,77 @@ class _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionChatCompletionToolChoiceOptionEnum value)
-        enumeration,
+    required TResult Function(ChatCompletionToolChoiceOptionEnumeration value)
+        mode,
     required TResult Function(
-            _UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoice
-                value)
-        chatCompletionNamedToolChoice,
+            ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice value)
+        tool,
   }) {
-    return chatCompletionNamedToolChoice(this);
+    return tool(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionChatCompletionToolChoiceOptionEnum value)?
-        enumeration,
+    TResult? Function(ChatCompletionToolChoiceOptionEnumeration value)? mode,
     TResult? Function(
-            _UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoice
-                value)?
-        chatCompletionNamedToolChoice,
+            ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice value)?
+        tool,
   }) {
-    return chatCompletionNamedToolChoice?.call(this);
+    return tool?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionChatCompletionToolChoiceOptionEnum value)?
-        enumeration,
+    TResult Function(ChatCompletionToolChoiceOptionEnumeration value)? mode,
     TResult Function(
-            _UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoice
-                value)?
-        chatCompletionNamedToolChoice,
+            ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice value)?
+        tool,
     required TResult orElse(),
   }) {
-    if (chatCompletionNamedToolChoice != null) {
-      return chatCompletionNamedToolChoice(this);
+    if (tool != null) {
+      return tool(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplToJson(
+    return _$$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoice
+abstract class ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice
     extends ChatCompletionToolChoiceOption {
-  const factory _UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoice(
+  const factory ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice(
           final ChatCompletionNamedToolChoice value) =
-      _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl;
-  const _UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoice._()
+      _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl;
+  const ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice._()
       : super._();
 
-  factory _UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoice.fromJson(
+  factory ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice.fromJson(
           Map<String, dynamic> json) =
-      _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
+      _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
       .fromJson;
 
   @override
   ChatCompletionNamedToolChoice get value;
   @JsonKey(ignore: true)
-  _$$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWith<
-          _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl>
+  _$$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWith<
+          _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 ChatCompletionFunctionCall _$ChatCompletionFunctionCallFromJson(
     Map<String, dynamic> json) {
   switch (json['runtimeType']) {
-    case 'enumeration':
-      return _UnionChatCompletionFunctionCallEnum.fromJson(json);
-    case 'chatCompletionFunctionCallOption':
-      return _UnionChatCompletionFunctionCallChatCompletionFunctionCallOption
+    case 'mode':
+      return ChatCompletionFunctionCallEnumeration.fromJson(json);
+    case 'function':
+      return ChatCompletionFunctionCallChatCompletionFunctionCallOption
           .fromJson(json);
 
     default:
@@ -5802,52 +5730,45 @@ mixin _$ChatCompletionFunctionCall {
   Object get value => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionFunctionCallMode value) enumeration,
-    required TResult Function(ChatCompletionFunctionCallOption value)
-        chatCompletionFunctionCallOption,
+    required TResult Function(ChatCompletionFunctionCallMode value) mode,
+    required TResult Function(ChatCompletionFunctionCallOption value) function,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionFunctionCallMode value)? enumeration,
-    TResult? Function(ChatCompletionFunctionCallOption value)?
-        chatCompletionFunctionCallOption,
+    TResult? Function(ChatCompletionFunctionCallMode value)? mode,
+    TResult? Function(ChatCompletionFunctionCallOption value)? function,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionFunctionCallMode value)? enumeration,
-    TResult Function(ChatCompletionFunctionCallOption value)?
-        chatCompletionFunctionCallOption,
+    TResult Function(ChatCompletionFunctionCallMode value)? mode,
+    TResult Function(ChatCompletionFunctionCallOption value)? function,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionChatCompletionFunctionCallEnum value)
-        enumeration,
+    required TResult Function(ChatCompletionFunctionCallEnumeration value) mode,
     required TResult Function(
-            _UnionChatCompletionFunctionCallChatCompletionFunctionCallOption
-                value)
-        chatCompletionFunctionCallOption,
+            ChatCompletionFunctionCallChatCompletionFunctionCallOption value)
+        function,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionChatCompletionFunctionCallEnum value)? enumeration,
+    TResult? Function(ChatCompletionFunctionCallEnumeration value)? mode,
     TResult? Function(
-            _UnionChatCompletionFunctionCallChatCompletionFunctionCallOption
-                value)?
-        chatCompletionFunctionCallOption,
+            ChatCompletionFunctionCallChatCompletionFunctionCallOption value)?
+        function,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionChatCompletionFunctionCallEnum value)? enumeration,
+    TResult Function(ChatCompletionFunctionCallEnumeration value)? mode,
     TResult Function(
-            _UnionChatCompletionFunctionCallChatCompletionFunctionCallOption
-                value)?
-        chatCompletionFunctionCallOption,
+            ChatCompletionFunctionCallChatCompletionFunctionCallOption value)?
+        function,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -5875,23 +5796,23 @@ class _$ChatCompletionFunctionCallCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$UnionChatCompletionFunctionCallEnumImplCopyWith<$Res> {
-  factory _$$UnionChatCompletionFunctionCallEnumImplCopyWith(
-          _$UnionChatCompletionFunctionCallEnumImpl value,
-          $Res Function(_$UnionChatCompletionFunctionCallEnumImpl) then) =
-      __$$UnionChatCompletionFunctionCallEnumImplCopyWithImpl<$Res>;
+abstract class _$$ChatCompletionFunctionCallEnumerationImplCopyWith<$Res> {
+  factory _$$ChatCompletionFunctionCallEnumerationImplCopyWith(
+          _$ChatCompletionFunctionCallEnumerationImpl value,
+          $Res Function(_$ChatCompletionFunctionCallEnumerationImpl) then) =
+      __$$ChatCompletionFunctionCallEnumerationImplCopyWithImpl<$Res>;
   @useResult
   $Res call({ChatCompletionFunctionCallMode value});
 }
 
 /// @nodoc
-class __$$UnionChatCompletionFunctionCallEnumImplCopyWithImpl<$Res>
+class __$$ChatCompletionFunctionCallEnumerationImplCopyWithImpl<$Res>
     extends _$ChatCompletionFunctionCallCopyWithImpl<$Res,
-        _$UnionChatCompletionFunctionCallEnumImpl>
-    implements _$$UnionChatCompletionFunctionCallEnumImplCopyWith<$Res> {
-  __$$UnionChatCompletionFunctionCallEnumImplCopyWithImpl(
-      _$UnionChatCompletionFunctionCallEnumImpl _value,
-      $Res Function(_$UnionChatCompletionFunctionCallEnumImpl) _then)
+        _$ChatCompletionFunctionCallEnumerationImpl>
+    implements _$$ChatCompletionFunctionCallEnumerationImplCopyWith<$Res> {
+  __$$ChatCompletionFunctionCallEnumerationImplCopyWithImpl(
+      _$ChatCompletionFunctionCallEnumerationImpl _value,
+      $Res Function(_$ChatCompletionFunctionCallEnumerationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -5899,7 +5820,7 @@ class __$$UnionChatCompletionFunctionCallEnumImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionChatCompletionFunctionCallEnumImpl(
+    return _then(_$ChatCompletionFunctionCallEnumerationImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -5910,16 +5831,16 @@ class __$$UnionChatCompletionFunctionCallEnumImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionChatCompletionFunctionCallEnumImpl
-    extends _UnionChatCompletionFunctionCallEnum {
-  const _$UnionChatCompletionFunctionCallEnumImpl(this.value,
+class _$ChatCompletionFunctionCallEnumerationImpl
+    extends ChatCompletionFunctionCallEnumeration {
+  const _$ChatCompletionFunctionCallEnumerationImpl(this.value,
       {final String? $type})
-      : $type = $type ?? 'enumeration',
+      : $type = $type ?? 'mode',
         super._();
 
-  factory _$UnionChatCompletionFunctionCallEnumImpl.fromJson(
+  factory _$ChatCompletionFunctionCallEnumerationImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$UnionChatCompletionFunctionCallEnumImplFromJson(json);
+      _$$ChatCompletionFunctionCallEnumerationImplFromJson(json);
 
   @override
   final ChatCompletionFunctionCallMode value;
@@ -5929,14 +5850,14 @@ class _$UnionChatCompletionFunctionCallEnumImpl
 
   @override
   String toString() {
-    return 'ChatCompletionFunctionCall.enumeration(value: $value)';
+    return 'ChatCompletionFunctionCall.mode(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionChatCompletionFunctionCallEnumImpl &&
+            other is _$ChatCompletionFunctionCallEnumerationImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -5947,41 +5868,38 @@ class _$UnionChatCompletionFunctionCallEnumImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionChatCompletionFunctionCallEnumImplCopyWith<
-          _$UnionChatCompletionFunctionCallEnumImpl>
-      get copyWith => __$$UnionChatCompletionFunctionCallEnumImplCopyWithImpl<
-          _$UnionChatCompletionFunctionCallEnumImpl>(this, _$identity);
+  _$$ChatCompletionFunctionCallEnumerationImplCopyWith<
+          _$ChatCompletionFunctionCallEnumerationImpl>
+      get copyWith => __$$ChatCompletionFunctionCallEnumerationImplCopyWithImpl<
+          _$ChatCompletionFunctionCallEnumerationImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionFunctionCallMode value) enumeration,
-    required TResult Function(ChatCompletionFunctionCallOption value)
-        chatCompletionFunctionCallOption,
+    required TResult Function(ChatCompletionFunctionCallMode value) mode,
+    required TResult Function(ChatCompletionFunctionCallOption value) function,
   }) {
-    return enumeration(value);
+    return mode(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionFunctionCallMode value)? enumeration,
-    TResult? Function(ChatCompletionFunctionCallOption value)?
-        chatCompletionFunctionCallOption,
+    TResult? Function(ChatCompletionFunctionCallMode value)? mode,
+    TResult? Function(ChatCompletionFunctionCallOption value)? function,
   }) {
-    return enumeration?.call(value);
+    return mode?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionFunctionCallMode value)? enumeration,
-    TResult Function(ChatCompletionFunctionCallOption value)?
-        chatCompletionFunctionCallOption,
+    TResult Function(ChatCompletionFunctionCallMode value)? mode,
+    TResult Function(ChatCompletionFunctionCallOption value)? function,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(value);
+    if (mode != null) {
+      return mode(value);
     }
     return orElse();
   }
@@ -5989,81 +5907,76 @@ class _$UnionChatCompletionFunctionCallEnumImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionChatCompletionFunctionCallEnum value)
-        enumeration,
+    required TResult Function(ChatCompletionFunctionCallEnumeration value) mode,
     required TResult Function(
-            _UnionChatCompletionFunctionCallChatCompletionFunctionCallOption
-                value)
-        chatCompletionFunctionCallOption,
+            ChatCompletionFunctionCallChatCompletionFunctionCallOption value)
+        function,
   }) {
-    return enumeration(this);
+    return mode(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionChatCompletionFunctionCallEnum value)? enumeration,
+    TResult? Function(ChatCompletionFunctionCallEnumeration value)? mode,
     TResult? Function(
-            _UnionChatCompletionFunctionCallChatCompletionFunctionCallOption
-                value)?
-        chatCompletionFunctionCallOption,
+            ChatCompletionFunctionCallChatCompletionFunctionCallOption value)?
+        function,
   }) {
-    return enumeration?.call(this);
+    return mode?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionChatCompletionFunctionCallEnum value)? enumeration,
+    TResult Function(ChatCompletionFunctionCallEnumeration value)? mode,
     TResult Function(
-            _UnionChatCompletionFunctionCallChatCompletionFunctionCallOption
-                value)?
-        chatCompletionFunctionCallOption,
+            ChatCompletionFunctionCallChatCompletionFunctionCallOption value)?
+        function,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(this);
+    if (mode != null) {
+      return mode(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionChatCompletionFunctionCallEnumImplToJson(
+    return _$$ChatCompletionFunctionCallEnumerationImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionChatCompletionFunctionCallEnum
+abstract class ChatCompletionFunctionCallEnumeration
     extends ChatCompletionFunctionCall {
-  const factory _UnionChatCompletionFunctionCallEnum(
+  const factory ChatCompletionFunctionCallEnumeration(
           final ChatCompletionFunctionCallMode value) =
-      _$UnionChatCompletionFunctionCallEnumImpl;
-  const _UnionChatCompletionFunctionCallEnum._() : super._();
+      _$ChatCompletionFunctionCallEnumerationImpl;
+  const ChatCompletionFunctionCallEnumeration._() : super._();
 
-  factory _UnionChatCompletionFunctionCallEnum.fromJson(
+  factory ChatCompletionFunctionCallEnumeration.fromJson(
           Map<String, dynamic> json) =
-      _$UnionChatCompletionFunctionCallEnumImpl.fromJson;
+      _$ChatCompletionFunctionCallEnumerationImpl.fromJson;
 
   @override
   ChatCompletionFunctionCallMode get value;
   @JsonKey(ignore: true)
-  _$$UnionChatCompletionFunctionCallEnumImplCopyWith<
-          _$UnionChatCompletionFunctionCallEnumImpl>
+  _$$ChatCompletionFunctionCallEnumerationImplCopyWith<
+          _$ChatCompletionFunctionCallEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWith<
+abstract class _$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWith<
     $Res> {
-  factory _$$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWith(
-          _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl
-              value,
+  factory _$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWith(
+          _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl value,
           $Res Function(
-                  _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl)
+                  _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl)
               then) =
-      __$$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWithImpl<
+      __$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWithImpl<
           $Res>;
   @useResult
   $Res call({ChatCompletionFunctionCallOption value});
@@ -6072,18 +5985,17 @@ abstract class _$$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptio
 }
 
 /// @nodoc
-class __$$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWithImpl<
+class __$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWithImpl<
         $Res>
     extends _$ChatCompletionFunctionCallCopyWithImpl<$Res,
-        _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl>
+        _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl>
     implements
-        _$$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWith<
+        _$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWith<
             $Res> {
-  __$$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWithImpl(
-      _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl
-          _value,
+  __$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWithImpl(
+      _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl _value,
       $Res Function(
-              _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl)
+              _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl)
           _then)
       : super(_value, _then);
 
@@ -6093,7 +6005,7 @@ class __$$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCop
     Object? value = null,
   }) {
     return _then(
-        _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl(
+        _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -6113,17 +6025,17 @@ class __$$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCop
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl
-    extends _UnionChatCompletionFunctionCallChatCompletionFunctionCallOption {
-  const _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl(
+class _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl
+    extends ChatCompletionFunctionCallChatCompletionFunctionCallOption {
+  const _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl(
       this.value,
       {final String? $type})
-      : $type = $type ?? 'chatCompletionFunctionCallOption',
+      : $type = $type ?? 'function',
         super._();
 
-  factory _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl.fromJson(
+  factory _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImplFromJson(
+      _$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplFromJson(
           json);
 
   @override
@@ -6134,7 +6046,7 @@ class _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl
 
   @override
   String toString() {
-    return 'ChatCompletionFunctionCall.chatCompletionFunctionCallOption(value: $value)';
+    return 'ChatCompletionFunctionCall.function(value: $value)';
   }
 
   @override
@@ -6142,7 +6054,7 @@ class _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other
-                is _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl &&
+                is _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -6153,43 +6065,40 @@ class _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWith<
-          _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl>
+  _$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWith<
+          _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl>
       get copyWith =>
-          __$$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWithImpl<
-                  _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl>(
+          __$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWithImpl<
+                  _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl>(
               this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionFunctionCallMode value) enumeration,
-    required TResult Function(ChatCompletionFunctionCallOption value)
-        chatCompletionFunctionCallOption,
+    required TResult Function(ChatCompletionFunctionCallMode value) mode,
+    required TResult Function(ChatCompletionFunctionCallOption value) function,
   }) {
-    return chatCompletionFunctionCallOption(value);
+    return function(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionFunctionCallMode value)? enumeration,
-    TResult? Function(ChatCompletionFunctionCallOption value)?
-        chatCompletionFunctionCallOption,
+    TResult? Function(ChatCompletionFunctionCallMode value)? mode,
+    TResult? Function(ChatCompletionFunctionCallOption value)? function,
   }) {
-    return chatCompletionFunctionCallOption?.call(value);
+    return function?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionFunctionCallMode value)? enumeration,
-    TResult Function(ChatCompletionFunctionCallOption value)?
-        chatCompletionFunctionCallOption,
+    TResult Function(ChatCompletionFunctionCallMode value)? mode,
+    TResult Function(ChatCompletionFunctionCallOption value)? function,
     required TResult orElse(),
   }) {
-    if (chatCompletionFunctionCallOption != null) {
-      return chatCompletionFunctionCallOption(value);
+    if (function != null) {
+      return function(value);
     }
     return orElse();
   }
@@ -6197,70 +6106,65 @@ class _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionChatCompletionFunctionCallEnum value)
-        enumeration,
+    required TResult Function(ChatCompletionFunctionCallEnumeration value) mode,
     required TResult Function(
-            _UnionChatCompletionFunctionCallChatCompletionFunctionCallOption
-                value)
-        chatCompletionFunctionCallOption,
+            ChatCompletionFunctionCallChatCompletionFunctionCallOption value)
+        function,
   }) {
-    return chatCompletionFunctionCallOption(this);
+    return function(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionChatCompletionFunctionCallEnum value)? enumeration,
+    TResult? Function(ChatCompletionFunctionCallEnumeration value)? mode,
     TResult? Function(
-            _UnionChatCompletionFunctionCallChatCompletionFunctionCallOption
-                value)?
-        chatCompletionFunctionCallOption,
+            ChatCompletionFunctionCallChatCompletionFunctionCallOption value)?
+        function,
   }) {
-    return chatCompletionFunctionCallOption?.call(this);
+    return function?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionChatCompletionFunctionCallEnum value)? enumeration,
+    TResult Function(ChatCompletionFunctionCallEnumeration value)? mode,
     TResult Function(
-            _UnionChatCompletionFunctionCallChatCompletionFunctionCallOption
-                value)?
-        chatCompletionFunctionCallOption,
+            ChatCompletionFunctionCallChatCompletionFunctionCallOption value)?
+        function,
     required TResult orElse(),
   }) {
-    if (chatCompletionFunctionCallOption != null) {
-      return chatCompletionFunctionCallOption(this);
+    if (function != null) {
+      return function(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImplToJson(
+    return _$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionChatCompletionFunctionCallChatCompletionFunctionCallOption
+abstract class ChatCompletionFunctionCallChatCompletionFunctionCallOption
     extends ChatCompletionFunctionCall {
-  const factory _UnionChatCompletionFunctionCallChatCompletionFunctionCallOption(
+  const factory ChatCompletionFunctionCallChatCompletionFunctionCallOption(
           final ChatCompletionFunctionCallOption value) =
-      _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl;
-  const _UnionChatCompletionFunctionCallChatCompletionFunctionCallOption._()
+      _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl;
+  const ChatCompletionFunctionCallChatCompletionFunctionCallOption._()
       : super._();
 
-  factory _UnionChatCompletionFunctionCallChatCompletionFunctionCallOption.fromJson(
+  factory ChatCompletionFunctionCallChatCompletionFunctionCallOption.fromJson(
           Map<String, dynamic> json) =
-      _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl
-      .fromJson;
+      _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl.fromJson;
 
   @override
   ChatCompletionFunctionCallOption get value;
   @JsonKey(ignore: true)
-  _$$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWith<
-          _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl>
+  _$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWith<
+          _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -10276,10 +10180,10 @@ abstract class _CreateEmbeddingRequest extends CreateEmbeddingRequest {
 
 EmbeddingModel _$EmbeddingModelFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
-    case 'enumeration':
-      return _UnionEmbeddingModelEnum.fromJson(json);
-    case 'string':
-      return _UnionEmbeddingModelString.fromJson(json);
+    case 'model':
+      return EmbeddingModelEnumeration.fromJson(json);
+    case 'modelId':
+      return EmbeddingModelString.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'EmbeddingModel',
@@ -10292,39 +10196,39 @@ mixin _$EmbeddingModel {
   Object get value => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(EmbeddingModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(EmbeddingModels value) model,
+    required TResult Function(String value) modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(EmbeddingModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(EmbeddingModels value)? model,
+    TResult? Function(String value)? modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(EmbeddingModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(EmbeddingModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionEmbeddingModelEnum value) enumeration,
-    required TResult Function(_UnionEmbeddingModelString value) string,
+    required TResult Function(EmbeddingModelEnumeration value) model,
+    required TResult Function(EmbeddingModelString value) modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionEmbeddingModelEnum value)? enumeration,
-    TResult? Function(_UnionEmbeddingModelString value)? string,
+    TResult? Function(EmbeddingModelEnumeration value)? model,
+    TResult? Function(EmbeddingModelString value)? modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionEmbeddingModelEnum value)? enumeration,
-    TResult Function(_UnionEmbeddingModelString value)? string,
+    TResult Function(EmbeddingModelEnumeration value)? model,
+    TResult Function(EmbeddingModelString value)? modelId,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -10350,22 +10254,22 @@ class _$EmbeddingModelCopyWithImpl<$Res, $Val extends EmbeddingModel>
 }
 
 /// @nodoc
-abstract class _$$UnionEmbeddingModelEnumImplCopyWith<$Res> {
-  factory _$$UnionEmbeddingModelEnumImplCopyWith(
-          _$UnionEmbeddingModelEnumImpl value,
-          $Res Function(_$UnionEmbeddingModelEnumImpl) then) =
-      __$$UnionEmbeddingModelEnumImplCopyWithImpl<$Res>;
+abstract class _$$EmbeddingModelEnumerationImplCopyWith<$Res> {
+  factory _$$EmbeddingModelEnumerationImplCopyWith(
+          _$EmbeddingModelEnumerationImpl value,
+          $Res Function(_$EmbeddingModelEnumerationImpl) then) =
+      __$$EmbeddingModelEnumerationImplCopyWithImpl<$Res>;
   @useResult
   $Res call({EmbeddingModels value});
 }
 
 /// @nodoc
-class __$$UnionEmbeddingModelEnumImplCopyWithImpl<$Res>
-    extends _$EmbeddingModelCopyWithImpl<$Res, _$UnionEmbeddingModelEnumImpl>
-    implements _$$UnionEmbeddingModelEnumImplCopyWith<$Res> {
-  __$$UnionEmbeddingModelEnumImplCopyWithImpl(
-      _$UnionEmbeddingModelEnumImpl _value,
-      $Res Function(_$UnionEmbeddingModelEnumImpl) _then)
+class __$$EmbeddingModelEnumerationImplCopyWithImpl<$Res>
+    extends _$EmbeddingModelCopyWithImpl<$Res, _$EmbeddingModelEnumerationImpl>
+    implements _$$EmbeddingModelEnumerationImplCopyWith<$Res> {
+  __$$EmbeddingModelEnumerationImplCopyWithImpl(
+      _$EmbeddingModelEnumerationImpl _value,
+      $Res Function(_$EmbeddingModelEnumerationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -10373,7 +10277,7 @@ class __$$UnionEmbeddingModelEnumImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionEmbeddingModelEnumImpl(
+    return _then(_$EmbeddingModelEnumerationImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -10384,13 +10288,13 @@ class __$$UnionEmbeddingModelEnumImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionEmbeddingModelEnumImpl extends _UnionEmbeddingModelEnum {
-  const _$UnionEmbeddingModelEnumImpl(this.value, {final String? $type})
-      : $type = $type ?? 'enumeration',
+class _$EmbeddingModelEnumerationImpl extends EmbeddingModelEnumeration {
+  const _$EmbeddingModelEnumerationImpl(this.value, {final String? $type})
+      : $type = $type ?? 'model',
         super._();
 
-  factory _$UnionEmbeddingModelEnumImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UnionEmbeddingModelEnumImplFromJson(json);
+  factory _$EmbeddingModelEnumerationImpl.fromJson(Map<String, dynamic> json) =>
+      _$$EmbeddingModelEnumerationImplFromJson(json);
 
   @override
   final EmbeddingModels value;
@@ -10400,14 +10304,14 @@ class _$UnionEmbeddingModelEnumImpl extends _UnionEmbeddingModelEnum {
 
   @override
   String toString() {
-    return 'EmbeddingModel.enumeration(value: $value)';
+    return 'EmbeddingModel.model(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionEmbeddingModelEnumImpl &&
+            other is _$EmbeddingModelEnumerationImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -10418,37 +10322,37 @@ class _$UnionEmbeddingModelEnumImpl extends _UnionEmbeddingModelEnum {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionEmbeddingModelEnumImplCopyWith<_$UnionEmbeddingModelEnumImpl>
-      get copyWith => __$$UnionEmbeddingModelEnumImplCopyWithImpl<
-          _$UnionEmbeddingModelEnumImpl>(this, _$identity);
+  _$$EmbeddingModelEnumerationImplCopyWith<_$EmbeddingModelEnumerationImpl>
+      get copyWith => __$$EmbeddingModelEnumerationImplCopyWithImpl<
+          _$EmbeddingModelEnumerationImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(EmbeddingModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(EmbeddingModels value) model,
+    required TResult Function(String value) modelId,
   }) {
-    return enumeration(value);
+    return model(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(EmbeddingModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(EmbeddingModels value)? model,
+    TResult? Function(String value)? modelId,
   }) {
-    return enumeration?.call(value);
+    return model?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(EmbeddingModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(EmbeddingModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(value);
+    if (model != null) {
+      return model(value);
     }
     return orElse();
   }
@@ -10456,74 +10360,72 @@ class _$UnionEmbeddingModelEnumImpl extends _UnionEmbeddingModelEnum {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionEmbeddingModelEnum value) enumeration,
-    required TResult Function(_UnionEmbeddingModelString value) string,
+    required TResult Function(EmbeddingModelEnumeration value) model,
+    required TResult Function(EmbeddingModelString value) modelId,
   }) {
-    return enumeration(this);
+    return model(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionEmbeddingModelEnum value)? enumeration,
-    TResult? Function(_UnionEmbeddingModelString value)? string,
+    TResult? Function(EmbeddingModelEnumeration value)? model,
+    TResult? Function(EmbeddingModelString value)? modelId,
   }) {
-    return enumeration?.call(this);
+    return model?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionEmbeddingModelEnum value)? enumeration,
-    TResult Function(_UnionEmbeddingModelString value)? string,
+    TResult Function(EmbeddingModelEnumeration value)? model,
+    TResult Function(EmbeddingModelString value)? modelId,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(this);
+    if (model != null) {
+      return model(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionEmbeddingModelEnumImplToJson(
+    return _$$EmbeddingModelEnumerationImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionEmbeddingModelEnum extends EmbeddingModel {
-  const factory _UnionEmbeddingModelEnum(final EmbeddingModels value) =
-      _$UnionEmbeddingModelEnumImpl;
-  const _UnionEmbeddingModelEnum._() : super._();
+abstract class EmbeddingModelEnumeration extends EmbeddingModel {
+  const factory EmbeddingModelEnumeration(final EmbeddingModels value) =
+      _$EmbeddingModelEnumerationImpl;
+  const EmbeddingModelEnumeration._() : super._();
 
-  factory _UnionEmbeddingModelEnum.fromJson(Map<String, dynamic> json) =
-      _$UnionEmbeddingModelEnumImpl.fromJson;
+  factory EmbeddingModelEnumeration.fromJson(Map<String, dynamic> json) =
+      _$EmbeddingModelEnumerationImpl.fromJson;
 
   @override
   EmbeddingModels get value;
   @JsonKey(ignore: true)
-  _$$UnionEmbeddingModelEnumImplCopyWith<_$UnionEmbeddingModelEnumImpl>
+  _$$EmbeddingModelEnumerationImplCopyWith<_$EmbeddingModelEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionEmbeddingModelStringImplCopyWith<$Res> {
-  factory _$$UnionEmbeddingModelStringImplCopyWith(
-          _$UnionEmbeddingModelStringImpl value,
-          $Res Function(_$UnionEmbeddingModelStringImpl) then) =
-      __$$UnionEmbeddingModelStringImplCopyWithImpl<$Res>;
+abstract class _$$EmbeddingModelStringImplCopyWith<$Res> {
+  factory _$$EmbeddingModelStringImplCopyWith(_$EmbeddingModelStringImpl value,
+          $Res Function(_$EmbeddingModelStringImpl) then) =
+      __$$EmbeddingModelStringImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String value});
 }
 
 /// @nodoc
-class __$$UnionEmbeddingModelStringImplCopyWithImpl<$Res>
-    extends _$EmbeddingModelCopyWithImpl<$Res, _$UnionEmbeddingModelStringImpl>
-    implements _$$UnionEmbeddingModelStringImplCopyWith<$Res> {
-  __$$UnionEmbeddingModelStringImplCopyWithImpl(
-      _$UnionEmbeddingModelStringImpl _value,
-      $Res Function(_$UnionEmbeddingModelStringImpl) _then)
+class __$$EmbeddingModelStringImplCopyWithImpl<$Res>
+    extends _$EmbeddingModelCopyWithImpl<$Res, _$EmbeddingModelStringImpl>
+    implements _$$EmbeddingModelStringImplCopyWith<$Res> {
+  __$$EmbeddingModelStringImplCopyWithImpl(_$EmbeddingModelStringImpl _value,
+      $Res Function(_$EmbeddingModelStringImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -10531,7 +10433,7 @@ class __$$UnionEmbeddingModelStringImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionEmbeddingModelStringImpl(
+    return _then(_$EmbeddingModelStringImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -10542,13 +10444,13 @@ class __$$UnionEmbeddingModelStringImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionEmbeddingModelStringImpl extends _UnionEmbeddingModelString {
-  const _$UnionEmbeddingModelStringImpl(this.value, {final String? $type})
-      : $type = $type ?? 'string',
+class _$EmbeddingModelStringImpl extends EmbeddingModelString {
+  const _$EmbeddingModelStringImpl(this.value, {final String? $type})
+      : $type = $type ?? 'modelId',
         super._();
 
-  factory _$UnionEmbeddingModelStringImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UnionEmbeddingModelStringImplFromJson(json);
+  factory _$EmbeddingModelStringImpl.fromJson(Map<String, dynamic> json) =>
+      _$$EmbeddingModelStringImplFromJson(json);
 
   @override
   final String value;
@@ -10558,14 +10460,14 @@ class _$UnionEmbeddingModelStringImpl extends _UnionEmbeddingModelString {
 
   @override
   String toString() {
-    return 'EmbeddingModel.string(value: $value)';
+    return 'EmbeddingModel.modelId(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionEmbeddingModelStringImpl &&
+            other is _$EmbeddingModelStringImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -10576,37 +10478,38 @@ class _$UnionEmbeddingModelStringImpl extends _UnionEmbeddingModelString {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionEmbeddingModelStringImplCopyWith<_$UnionEmbeddingModelStringImpl>
-      get copyWith => __$$UnionEmbeddingModelStringImplCopyWithImpl<
-          _$UnionEmbeddingModelStringImpl>(this, _$identity);
+  _$$EmbeddingModelStringImplCopyWith<_$EmbeddingModelStringImpl>
+      get copyWith =>
+          __$$EmbeddingModelStringImplCopyWithImpl<_$EmbeddingModelStringImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(EmbeddingModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(EmbeddingModels value) model,
+    required TResult Function(String value) modelId,
   }) {
-    return string(value);
+    return modelId(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(EmbeddingModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(EmbeddingModels value)? model,
+    TResult? Function(String value)? modelId,
   }) {
-    return string?.call(value);
+    return modelId?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(EmbeddingModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(EmbeddingModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) {
-    if (string != null) {
-      return string(value);
+    if (modelId != null) {
+      return modelId(value);
     }
     return orElse();
   }
@@ -10614,67 +10517,67 @@ class _$UnionEmbeddingModelStringImpl extends _UnionEmbeddingModelString {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionEmbeddingModelEnum value) enumeration,
-    required TResult Function(_UnionEmbeddingModelString value) string,
+    required TResult Function(EmbeddingModelEnumeration value) model,
+    required TResult Function(EmbeddingModelString value) modelId,
   }) {
-    return string(this);
+    return modelId(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionEmbeddingModelEnum value)? enumeration,
-    TResult? Function(_UnionEmbeddingModelString value)? string,
+    TResult? Function(EmbeddingModelEnumeration value)? model,
+    TResult? Function(EmbeddingModelString value)? modelId,
   }) {
-    return string?.call(this);
+    return modelId?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionEmbeddingModelEnum value)? enumeration,
-    TResult Function(_UnionEmbeddingModelString value)? string,
+    TResult Function(EmbeddingModelEnumeration value)? model,
+    TResult Function(EmbeddingModelString value)? modelId,
     required TResult orElse(),
   }) {
-    if (string != null) {
-      return string(this);
+    if (modelId != null) {
+      return modelId(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionEmbeddingModelStringImplToJson(
+    return _$$EmbeddingModelStringImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionEmbeddingModelString extends EmbeddingModel {
-  const factory _UnionEmbeddingModelString(final String value) =
-      _$UnionEmbeddingModelStringImpl;
-  const _UnionEmbeddingModelString._() : super._();
+abstract class EmbeddingModelString extends EmbeddingModel {
+  const factory EmbeddingModelString(final String value) =
+      _$EmbeddingModelStringImpl;
+  const EmbeddingModelString._() : super._();
 
-  factory _UnionEmbeddingModelString.fromJson(Map<String, dynamic> json) =
-      _$UnionEmbeddingModelStringImpl.fromJson;
+  factory EmbeddingModelString.fromJson(Map<String, dynamic> json) =
+      _$EmbeddingModelStringImpl.fromJson;
 
   @override
   String get value;
   @JsonKey(ignore: true)
-  _$$UnionEmbeddingModelStringImplCopyWith<_$UnionEmbeddingModelStringImpl>
+  _$$EmbeddingModelStringImplCopyWith<_$EmbeddingModelStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 EmbeddingInput _$EmbeddingInputFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
-    case 'array':
-      return _UnionEmbeddingInputArray.fromJson(json);
-    case 'arrayInteger':
-      return _UnionEmbeddingInputArrayInteger.fromJson(json);
-    case 'arrayString':
-      return _UnionEmbeddingInputArrayString.fromJson(json);
+    case 'listTokens':
+      return EmbeddingInputListListInt.fromJson(json);
+    case 'tokens':
+      return EmbeddingInputListInt.fromJson(json);
+    case 'listString':
+      return EmbeddingInputListString.fromJson(json);
     case 'string':
-      return _UnionEmbeddingInputString.fromJson(json);
+      return EmbeddingInputString.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'EmbeddingInput',
@@ -10687,53 +10590,51 @@ mixin _$EmbeddingInput {
   Object get value => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<List<int>> value) array,
-    required TResult Function(List<int> value) arrayInteger,
-    required TResult Function(List<String> value) arrayString,
+    required TResult Function(List<List<int>> value) listTokens,
+    required TResult Function(List<int> value) tokens,
+    required TResult Function(List<String> value) listString,
     required TResult Function(String value) string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<List<int>> value)? array,
-    TResult? Function(List<int> value)? arrayInteger,
-    TResult? Function(List<String> value)? arrayString,
+    TResult? Function(List<List<int>> value)? listTokens,
+    TResult? Function(List<int> value)? tokens,
+    TResult? Function(List<String> value)? listString,
     TResult? Function(String value)? string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<List<int>> value)? array,
-    TResult Function(List<int> value)? arrayInteger,
-    TResult Function(List<String> value)? arrayString,
+    TResult Function(List<List<int>> value)? listTokens,
+    TResult Function(List<int> value)? tokens,
+    TResult Function(List<String> value)? listString,
     TResult Function(String value)? string,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionEmbeddingInputArray value) array,
-    required TResult Function(_UnionEmbeddingInputArrayInteger value)
-        arrayInteger,
-    required TResult Function(_UnionEmbeddingInputArrayString value)
-        arrayString,
-    required TResult Function(_UnionEmbeddingInputString value) string,
+    required TResult Function(EmbeddingInputListListInt value) listTokens,
+    required TResult Function(EmbeddingInputListInt value) tokens,
+    required TResult Function(EmbeddingInputListString value) listString,
+    required TResult Function(EmbeddingInputString value) string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionEmbeddingInputArray value)? array,
-    TResult? Function(_UnionEmbeddingInputArrayInteger value)? arrayInteger,
-    TResult? Function(_UnionEmbeddingInputArrayString value)? arrayString,
-    TResult? Function(_UnionEmbeddingInputString value)? string,
+    TResult? Function(EmbeddingInputListListInt value)? listTokens,
+    TResult? Function(EmbeddingInputListInt value)? tokens,
+    TResult? Function(EmbeddingInputListString value)? listString,
+    TResult? Function(EmbeddingInputString value)? string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionEmbeddingInputArray value)? array,
-    TResult Function(_UnionEmbeddingInputArrayInteger value)? arrayInteger,
-    TResult Function(_UnionEmbeddingInputArrayString value)? arrayString,
-    TResult Function(_UnionEmbeddingInputString value)? string,
+    TResult Function(EmbeddingInputListListInt value)? listTokens,
+    TResult Function(EmbeddingInputListInt value)? tokens,
+    TResult Function(EmbeddingInputListString value)? listString,
+    TResult Function(EmbeddingInputString value)? string,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -10759,22 +10660,22 @@ class _$EmbeddingInputCopyWithImpl<$Res, $Val extends EmbeddingInput>
 }
 
 /// @nodoc
-abstract class _$$UnionEmbeddingInputArrayImplCopyWith<$Res> {
-  factory _$$UnionEmbeddingInputArrayImplCopyWith(
-          _$UnionEmbeddingInputArrayImpl value,
-          $Res Function(_$UnionEmbeddingInputArrayImpl) then) =
-      __$$UnionEmbeddingInputArrayImplCopyWithImpl<$Res>;
+abstract class _$$EmbeddingInputListListIntImplCopyWith<$Res> {
+  factory _$$EmbeddingInputListListIntImplCopyWith(
+          _$EmbeddingInputListListIntImpl value,
+          $Res Function(_$EmbeddingInputListListIntImpl) then) =
+      __$$EmbeddingInputListListIntImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<List<int>> value});
 }
 
 /// @nodoc
-class __$$UnionEmbeddingInputArrayImplCopyWithImpl<$Res>
-    extends _$EmbeddingInputCopyWithImpl<$Res, _$UnionEmbeddingInputArrayImpl>
-    implements _$$UnionEmbeddingInputArrayImplCopyWith<$Res> {
-  __$$UnionEmbeddingInputArrayImplCopyWithImpl(
-      _$UnionEmbeddingInputArrayImpl _value,
-      $Res Function(_$UnionEmbeddingInputArrayImpl) _then)
+class __$$EmbeddingInputListListIntImplCopyWithImpl<$Res>
+    extends _$EmbeddingInputCopyWithImpl<$Res, _$EmbeddingInputListListIntImpl>
+    implements _$$EmbeddingInputListListIntImplCopyWith<$Res> {
+  __$$EmbeddingInputListListIntImplCopyWithImpl(
+      _$EmbeddingInputListListIntImpl _value,
+      $Res Function(_$EmbeddingInputListListIntImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -10782,7 +10683,7 @@ class __$$UnionEmbeddingInputArrayImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionEmbeddingInputArrayImpl(
+    return _then(_$EmbeddingInputListListIntImpl(
       null == value
           ? _value._value
           : value // ignore: cast_nullable_to_non_nullable
@@ -10793,15 +10694,15 @@ class __$$UnionEmbeddingInputArrayImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionEmbeddingInputArrayImpl extends _UnionEmbeddingInputArray {
-  const _$UnionEmbeddingInputArrayImpl(final List<List<int>> value,
+class _$EmbeddingInputListListIntImpl extends EmbeddingInputListListInt {
+  const _$EmbeddingInputListListIntImpl(final List<List<int>> value,
       {final String? $type})
       : _value = value,
-        $type = $type ?? 'array',
+        $type = $type ?? 'listTokens',
         super._();
 
-  factory _$UnionEmbeddingInputArrayImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UnionEmbeddingInputArrayImplFromJson(json);
+  factory _$EmbeddingInputListListIntImpl.fromJson(Map<String, dynamic> json) =>
+      _$$EmbeddingInputListListIntImplFromJson(json);
 
   final List<List<int>> _value;
   @override
@@ -10816,14 +10717,14 @@ class _$UnionEmbeddingInputArrayImpl extends _UnionEmbeddingInputArray {
 
   @override
   String toString() {
-    return 'EmbeddingInput.array(value: $value)';
+    return 'EmbeddingInput.listTokens(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionEmbeddingInputArrayImpl &&
+            other is _$EmbeddingInputListListIntImpl &&
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
@@ -10835,43 +10736,43 @@ class _$UnionEmbeddingInputArrayImpl extends _UnionEmbeddingInputArray {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionEmbeddingInputArrayImplCopyWith<_$UnionEmbeddingInputArrayImpl>
-      get copyWith => __$$UnionEmbeddingInputArrayImplCopyWithImpl<
-          _$UnionEmbeddingInputArrayImpl>(this, _$identity);
+  _$$EmbeddingInputListListIntImplCopyWith<_$EmbeddingInputListListIntImpl>
+      get copyWith => __$$EmbeddingInputListListIntImplCopyWithImpl<
+          _$EmbeddingInputListListIntImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<List<int>> value) array,
-    required TResult Function(List<int> value) arrayInteger,
-    required TResult Function(List<String> value) arrayString,
+    required TResult Function(List<List<int>> value) listTokens,
+    required TResult Function(List<int> value) tokens,
+    required TResult Function(List<String> value) listString,
     required TResult Function(String value) string,
   }) {
-    return array(value);
+    return listTokens(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<List<int>> value)? array,
-    TResult? Function(List<int> value)? arrayInteger,
-    TResult? Function(List<String> value)? arrayString,
+    TResult? Function(List<List<int>> value)? listTokens,
+    TResult? Function(List<int> value)? tokens,
+    TResult? Function(List<String> value)? listString,
     TResult? Function(String value)? string,
   }) {
-    return array?.call(value);
+    return listTokens?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<List<int>> value)? array,
-    TResult Function(List<int> value)? arrayInteger,
-    TResult Function(List<String> value)? arrayString,
+    TResult Function(List<List<int>> value)? listTokens,
+    TResult Function(List<int> value)? tokens,
+    TResult Function(List<String> value)? listString,
     TResult Function(String value)? string,
     required TResult orElse(),
   }) {
-    if (array != null) {
-      return array(value);
+    if (listTokens != null) {
+      return listTokens(value);
     }
     return orElse();
   }
@@ -10879,83 +10780,79 @@ class _$UnionEmbeddingInputArrayImpl extends _UnionEmbeddingInputArray {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionEmbeddingInputArray value) array,
-    required TResult Function(_UnionEmbeddingInputArrayInteger value)
-        arrayInteger,
-    required TResult Function(_UnionEmbeddingInputArrayString value)
-        arrayString,
-    required TResult Function(_UnionEmbeddingInputString value) string,
+    required TResult Function(EmbeddingInputListListInt value) listTokens,
+    required TResult Function(EmbeddingInputListInt value) tokens,
+    required TResult Function(EmbeddingInputListString value) listString,
+    required TResult Function(EmbeddingInputString value) string,
   }) {
-    return array(this);
+    return listTokens(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionEmbeddingInputArray value)? array,
-    TResult? Function(_UnionEmbeddingInputArrayInteger value)? arrayInteger,
-    TResult? Function(_UnionEmbeddingInputArrayString value)? arrayString,
-    TResult? Function(_UnionEmbeddingInputString value)? string,
+    TResult? Function(EmbeddingInputListListInt value)? listTokens,
+    TResult? Function(EmbeddingInputListInt value)? tokens,
+    TResult? Function(EmbeddingInputListString value)? listString,
+    TResult? Function(EmbeddingInputString value)? string,
   }) {
-    return array?.call(this);
+    return listTokens?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionEmbeddingInputArray value)? array,
-    TResult Function(_UnionEmbeddingInputArrayInteger value)? arrayInteger,
-    TResult Function(_UnionEmbeddingInputArrayString value)? arrayString,
-    TResult Function(_UnionEmbeddingInputString value)? string,
+    TResult Function(EmbeddingInputListListInt value)? listTokens,
+    TResult Function(EmbeddingInputListInt value)? tokens,
+    TResult Function(EmbeddingInputListString value)? listString,
+    TResult Function(EmbeddingInputString value)? string,
     required TResult orElse(),
   }) {
-    if (array != null) {
-      return array(this);
+    if (listTokens != null) {
+      return listTokens(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionEmbeddingInputArrayImplToJson(
+    return _$$EmbeddingInputListListIntImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionEmbeddingInputArray extends EmbeddingInput {
-  const factory _UnionEmbeddingInputArray(final List<List<int>> value) =
-      _$UnionEmbeddingInputArrayImpl;
-  const _UnionEmbeddingInputArray._() : super._();
+abstract class EmbeddingInputListListInt extends EmbeddingInput {
+  const factory EmbeddingInputListListInt(final List<List<int>> value) =
+      _$EmbeddingInputListListIntImpl;
+  const EmbeddingInputListListInt._() : super._();
 
-  factory _UnionEmbeddingInputArray.fromJson(Map<String, dynamic> json) =
-      _$UnionEmbeddingInputArrayImpl.fromJson;
+  factory EmbeddingInputListListInt.fromJson(Map<String, dynamic> json) =
+      _$EmbeddingInputListListIntImpl.fromJson;
 
   @override
   List<List<int>> get value;
   @JsonKey(ignore: true)
-  _$$UnionEmbeddingInputArrayImplCopyWith<_$UnionEmbeddingInputArrayImpl>
+  _$$EmbeddingInputListListIntImplCopyWith<_$EmbeddingInputListListIntImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionEmbeddingInputArrayIntegerImplCopyWith<$Res> {
-  factory _$$UnionEmbeddingInputArrayIntegerImplCopyWith(
-          _$UnionEmbeddingInputArrayIntegerImpl value,
-          $Res Function(_$UnionEmbeddingInputArrayIntegerImpl) then) =
-      __$$UnionEmbeddingInputArrayIntegerImplCopyWithImpl<$Res>;
+abstract class _$$EmbeddingInputListIntImplCopyWith<$Res> {
+  factory _$$EmbeddingInputListIntImplCopyWith(
+          _$EmbeddingInputListIntImpl value,
+          $Res Function(_$EmbeddingInputListIntImpl) then) =
+      __$$EmbeddingInputListIntImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<int> value});
 }
 
 /// @nodoc
-class __$$UnionEmbeddingInputArrayIntegerImplCopyWithImpl<$Res>
-    extends _$EmbeddingInputCopyWithImpl<$Res,
-        _$UnionEmbeddingInputArrayIntegerImpl>
-    implements _$$UnionEmbeddingInputArrayIntegerImplCopyWith<$Res> {
-  __$$UnionEmbeddingInputArrayIntegerImplCopyWithImpl(
-      _$UnionEmbeddingInputArrayIntegerImpl _value,
-      $Res Function(_$UnionEmbeddingInputArrayIntegerImpl) _then)
+class __$$EmbeddingInputListIntImplCopyWithImpl<$Res>
+    extends _$EmbeddingInputCopyWithImpl<$Res, _$EmbeddingInputListIntImpl>
+    implements _$$EmbeddingInputListIntImplCopyWith<$Res> {
+  __$$EmbeddingInputListIntImplCopyWithImpl(_$EmbeddingInputListIntImpl _value,
+      $Res Function(_$EmbeddingInputListIntImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -10963,7 +10860,7 @@ class __$$UnionEmbeddingInputArrayIntegerImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionEmbeddingInputArrayIntegerImpl(
+    return _then(_$EmbeddingInputListIntImpl(
       null == value
           ? _value._value
           : value // ignore: cast_nullable_to_non_nullable
@@ -10974,17 +10871,15 @@ class __$$UnionEmbeddingInputArrayIntegerImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionEmbeddingInputArrayIntegerImpl
-    extends _UnionEmbeddingInputArrayInteger {
-  const _$UnionEmbeddingInputArrayIntegerImpl(final List<int> value,
+class _$EmbeddingInputListIntImpl extends EmbeddingInputListInt {
+  const _$EmbeddingInputListIntImpl(final List<int> value,
       {final String? $type})
       : _value = value,
-        $type = $type ?? 'arrayInteger',
+        $type = $type ?? 'tokens',
         super._();
 
-  factory _$UnionEmbeddingInputArrayIntegerImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$UnionEmbeddingInputArrayIntegerImplFromJson(json);
+  factory _$EmbeddingInputListIntImpl.fromJson(Map<String, dynamic> json) =>
+      _$$EmbeddingInputListIntImplFromJson(json);
 
   final List<int> _value;
   @override
@@ -10999,14 +10894,14 @@ class _$UnionEmbeddingInputArrayIntegerImpl
 
   @override
   String toString() {
-    return 'EmbeddingInput.arrayInteger(value: $value)';
+    return 'EmbeddingInput.tokens(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionEmbeddingInputArrayIntegerImpl &&
+            other is _$EmbeddingInputListIntImpl &&
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
@@ -11018,44 +10913,43 @@ class _$UnionEmbeddingInputArrayIntegerImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionEmbeddingInputArrayIntegerImplCopyWith<
-          _$UnionEmbeddingInputArrayIntegerImpl>
-      get copyWith => __$$UnionEmbeddingInputArrayIntegerImplCopyWithImpl<
-          _$UnionEmbeddingInputArrayIntegerImpl>(this, _$identity);
+  _$$EmbeddingInputListIntImplCopyWith<_$EmbeddingInputListIntImpl>
+      get copyWith => __$$EmbeddingInputListIntImplCopyWithImpl<
+          _$EmbeddingInputListIntImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<List<int>> value) array,
-    required TResult Function(List<int> value) arrayInteger,
-    required TResult Function(List<String> value) arrayString,
+    required TResult Function(List<List<int>> value) listTokens,
+    required TResult Function(List<int> value) tokens,
+    required TResult Function(List<String> value) listString,
     required TResult Function(String value) string,
   }) {
-    return arrayInteger(value);
+    return tokens(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<List<int>> value)? array,
-    TResult? Function(List<int> value)? arrayInteger,
-    TResult? Function(List<String> value)? arrayString,
+    TResult? Function(List<List<int>> value)? listTokens,
+    TResult? Function(List<int> value)? tokens,
+    TResult? Function(List<String> value)? listString,
     TResult? Function(String value)? string,
   }) {
-    return arrayInteger?.call(value);
+    return tokens?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<List<int>> value)? array,
-    TResult Function(List<int> value)? arrayInteger,
-    TResult Function(List<String> value)? arrayString,
+    TResult Function(List<List<int>> value)? listTokens,
+    TResult Function(List<int> value)? tokens,
+    TResult Function(List<String> value)? listString,
     TResult Function(String value)? string,
     required TResult orElse(),
   }) {
-    if (arrayInteger != null) {
-      return arrayInteger(value);
+    if (tokens != null) {
+      return tokens(value);
     }
     return orElse();
   }
@@ -11063,84 +10957,80 @@ class _$UnionEmbeddingInputArrayIntegerImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionEmbeddingInputArray value) array,
-    required TResult Function(_UnionEmbeddingInputArrayInteger value)
-        arrayInteger,
-    required TResult Function(_UnionEmbeddingInputArrayString value)
-        arrayString,
-    required TResult Function(_UnionEmbeddingInputString value) string,
+    required TResult Function(EmbeddingInputListListInt value) listTokens,
+    required TResult Function(EmbeddingInputListInt value) tokens,
+    required TResult Function(EmbeddingInputListString value) listString,
+    required TResult Function(EmbeddingInputString value) string,
   }) {
-    return arrayInteger(this);
+    return tokens(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionEmbeddingInputArray value)? array,
-    TResult? Function(_UnionEmbeddingInputArrayInteger value)? arrayInteger,
-    TResult? Function(_UnionEmbeddingInputArrayString value)? arrayString,
-    TResult? Function(_UnionEmbeddingInputString value)? string,
+    TResult? Function(EmbeddingInputListListInt value)? listTokens,
+    TResult? Function(EmbeddingInputListInt value)? tokens,
+    TResult? Function(EmbeddingInputListString value)? listString,
+    TResult? Function(EmbeddingInputString value)? string,
   }) {
-    return arrayInteger?.call(this);
+    return tokens?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionEmbeddingInputArray value)? array,
-    TResult Function(_UnionEmbeddingInputArrayInteger value)? arrayInteger,
-    TResult Function(_UnionEmbeddingInputArrayString value)? arrayString,
-    TResult Function(_UnionEmbeddingInputString value)? string,
+    TResult Function(EmbeddingInputListListInt value)? listTokens,
+    TResult Function(EmbeddingInputListInt value)? tokens,
+    TResult Function(EmbeddingInputListString value)? listString,
+    TResult Function(EmbeddingInputString value)? string,
     required TResult orElse(),
   }) {
-    if (arrayInteger != null) {
-      return arrayInteger(this);
+    if (tokens != null) {
+      return tokens(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionEmbeddingInputArrayIntegerImplToJson(
+    return _$$EmbeddingInputListIntImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionEmbeddingInputArrayInteger extends EmbeddingInput {
-  const factory _UnionEmbeddingInputArrayInteger(final List<int> value) =
-      _$UnionEmbeddingInputArrayIntegerImpl;
-  const _UnionEmbeddingInputArrayInteger._() : super._();
+abstract class EmbeddingInputListInt extends EmbeddingInput {
+  const factory EmbeddingInputListInt(final List<int> value) =
+      _$EmbeddingInputListIntImpl;
+  const EmbeddingInputListInt._() : super._();
 
-  factory _UnionEmbeddingInputArrayInteger.fromJson(Map<String, dynamic> json) =
-      _$UnionEmbeddingInputArrayIntegerImpl.fromJson;
+  factory EmbeddingInputListInt.fromJson(Map<String, dynamic> json) =
+      _$EmbeddingInputListIntImpl.fromJson;
 
   @override
   List<int> get value;
   @JsonKey(ignore: true)
-  _$$UnionEmbeddingInputArrayIntegerImplCopyWith<
-          _$UnionEmbeddingInputArrayIntegerImpl>
+  _$$EmbeddingInputListIntImplCopyWith<_$EmbeddingInputListIntImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionEmbeddingInputArrayStringImplCopyWith<$Res> {
-  factory _$$UnionEmbeddingInputArrayStringImplCopyWith(
-          _$UnionEmbeddingInputArrayStringImpl value,
-          $Res Function(_$UnionEmbeddingInputArrayStringImpl) then) =
-      __$$UnionEmbeddingInputArrayStringImplCopyWithImpl<$Res>;
+abstract class _$$EmbeddingInputListStringImplCopyWith<$Res> {
+  factory _$$EmbeddingInputListStringImplCopyWith(
+          _$EmbeddingInputListStringImpl value,
+          $Res Function(_$EmbeddingInputListStringImpl) then) =
+      __$$EmbeddingInputListStringImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<String> value});
 }
 
 /// @nodoc
-class __$$UnionEmbeddingInputArrayStringImplCopyWithImpl<$Res>
-    extends _$EmbeddingInputCopyWithImpl<$Res,
-        _$UnionEmbeddingInputArrayStringImpl>
-    implements _$$UnionEmbeddingInputArrayStringImplCopyWith<$Res> {
-  __$$UnionEmbeddingInputArrayStringImplCopyWithImpl(
-      _$UnionEmbeddingInputArrayStringImpl _value,
-      $Res Function(_$UnionEmbeddingInputArrayStringImpl) _then)
+class __$$EmbeddingInputListStringImplCopyWithImpl<$Res>
+    extends _$EmbeddingInputCopyWithImpl<$Res, _$EmbeddingInputListStringImpl>
+    implements _$$EmbeddingInputListStringImplCopyWith<$Res> {
+  __$$EmbeddingInputListStringImplCopyWithImpl(
+      _$EmbeddingInputListStringImpl _value,
+      $Res Function(_$EmbeddingInputListStringImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -11148,7 +11038,7 @@ class __$$UnionEmbeddingInputArrayStringImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionEmbeddingInputArrayStringImpl(
+    return _then(_$EmbeddingInputListStringImpl(
       null == value
           ? _value._value
           : value // ignore: cast_nullable_to_non_nullable
@@ -11159,17 +11049,15 @@ class __$$UnionEmbeddingInputArrayStringImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionEmbeddingInputArrayStringImpl
-    extends _UnionEmbeddingInputArrayString {
-  const _$UnionEmbeddingInputArrayStringImpl(final List<String> value,
+class _$EmbeddingInputListStringImpl extends EmbeddingInputListString {
+  const _$EmbeddingInputListStringImpl(final List<String> value,
       {final String? $type})
       : _value = value,
-        $type = $type ?? 'arrayString',
+        $type = $type ?? 'listString',
         super._();
 
-  factory _$UnionEmbeddingInputArrayStringImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$UnionEmbeddingInputArrayStringImplFromJson(json);
+  factory _$EmbeddingInputListStringImpl.fromJson(Map<String, dynamic> json) =>
+      _$$EmbeddingInputListStringImplFromJson(json);
 
   final List<String> _value;
   @override
@@ -11184,14 +11072,14 @@ class _$UnionEmbeddingInputArrayStringImpl
 
   @override
   String toString() {
-    return 'EmbeddingInput.arrayString(value: $value)';
+    return 'EmbeddingInput.listString(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionEmbeddingInputArrayStringImpl &&
+            other is _$EmbeddingInputListStringImpl &&
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
@@ -11203,44 +11091,43 @@ class _$UnionEmbeddingInputArrayStringImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionEmbeddingInputArrayStringImplCopyWith<
-          _$UnionEmbeddingInputArrayStringImpl>
-      get copyWith => __$$UnionEmbeddingInputArrayStringImplCopyWithImpl<
-          _$UnionEmbeddingInputArrayStringImpl>(this, _$identity);
+  _$$EmbeddingInputListStringImplCopyWith<_$EmbeddingInputListStringImpl>
+      get copyWith => __$$EmbeddingInputListStringImplCopyWithImpl<
+          _$EmbeddingInputListStringImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<List<int>> value) array,
-    required TResult Function(List<int> value) arrayInteger,
-    required TResult Function(List<String> value) arrayString,
+    required TResult Function(List<List<int>> value) listTokens,
+    required TResult Function(List<int> value) tokens,
+    required TResult Function(List<String> value) listString,
     required TResult Function(String value) string,
   }) {
-    return arrayString(value);
+    return listString(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<List<int>> value)? array,
-    TResult? Function(List<int> value)? arrayInteger,
-    TResult? Function(List<String> value)? arrayString,
+    TResult? Function(List<List<int>> value)? listTokens,
+    TResult? Function(List<int> value)? tokens,
+    TResult? Function(List<String> value)? listString,
     TResult? Function(String value)? string,
   }) {
-    return arrayString?.call(value);
+    return listString?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<List<int>> value)? array,
-    TResult Function(List<int> value)? arrayInteger,
-    TResult Function(List<String> value)? arrayString,
+    TResult Function(List<List<int>> value)? listTokens,
+    TResult Function(List<int> value)? tokens,
+    TResult Function(List<String> value)? listString,
     TResult Function(String value)? string,
     required TResult orElse(),
   }) {
-    if (arrayString != null) {
-      return arrayString(value);
+    if (listString != null) {
+      return listString(value);
     }
     return orElse();
   }
@@ -11248,83 +11135,78 @@ class _$UnionEmbeddingInputArrayStringImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionEmbeddingInputArray value) array,
-    required TResult Function(_UnionEmbeddingInputArrayInteger value)
-        arrayInteger,
-    required TResult Function(_UnionEmbeddingInputArrayString value)
-        arrayString,
-    required TResult Function(_UnionEmbeddingInputString value) string,
+    required TResult Function(EmbeddingInputListListInt value) listTokens,
+    required TResult Function(EmbeddingInputListInt value) tokens,
+    required TResult Function(EmbeddingInputListString value) listString,
+    required TResult Function(EmbeddingInputString value) string,
   }) {
-    return arrayString(this);
+    return listString(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionEmbeddingInputArray value)? array,
-    TResult? Function(_UnionEmbeddingInputArrayInteger value)? arrayInteger,
-    TResult? Function(_UnionEmbeddingInputArrayString value)? arrayString,
-    TResult? Function(_UnionEmbeddingInputString value)? string,
+    TResult? Function(EmbeddingInputListListInt value)? listTokens,
+    TResult? Function(EmbeddingInputListInt value)? tokens,
+    TResult? Function(EmbeddingInputListString value)? listString,
+    TResult? Function(EmbeddingInputString value)? string,
   }) {
-    return arrayString?.call(this);
+    return listString?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionEmbeddingInputArray value)? array,
-    TResult Function(_UnionEmbeddingInputArrayInteger value)? arrayInteger,
-    TResult Function(_UnionEmbeddingInputArrayString value)? arrayString,
-    TResult Function(_UnionEmbeddingInputString value)? string,
+    TResult Function(EmbeddingInputListListInt value)? listTokens,
+    TResult Function(EmbeddingInputListInt value)? tokens,
+    TResult Function(EmbeddingInputListString value)? listString,
+    TResult Function(EmbeddingInputString value)? string,
     required TResult orElse(),
   }) {
-    if (arrayString != null) {
-      return arrayString(this);
+    if (listString != null) {
+      return listString(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionEmbeddingInputArrayStringImplToJson(
+    return _$$EmbeddingInputListStringImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionEmbeddingInputArrayString extends EmbeddingInput {
-  const factory _UnionEmbeddingInputArrayString(final List<String> value) =
-      _$UnionEmbeddingInputArrayStringImpl;
-  const _UnionEmbeddingInputArrayString._() : super._();
+abstract class EmbeddingInputListString extends EmbeddingInput {
+  const factory EmbeddingInputListString(final List<String> value) =
+      _$EmbeddingInputListStringImpl;
+  const EmbeddingInputListString._() : super._();
 
-  factory _UnionEmbeddingInputArrayString.fromJson(Map<String, dynamic> json) =
-      _$UnionEmbeddingInputArrayStringImpl.fromJson;
+  factory EmbeddingInputListString.fromJson(Map<String, dynamic> json) =
+      _$EmbeddingInputListStringImpl.fromJson;
 
   @override
   List<String> get value;
   @JsonKey(ignore: true)
-  _$$UnionEmbeddingInputArrayStringImplCopyWith<
-          _$UnionEmbeddingInputArrayStringImpl>
+  _$$EmbeddingInputListStringImplCopyWith<_$EmbeddingInputListStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionEmbeddingInputStringImplCopyWith<$Res> {
-  factory _$$UnionEmbeddingInputStringImplCopyWith(
-          _$UnionEmbeddingInputStringImpl value,
-          $Res Function(_$UnionEmbeddingInputStringImpl) then) =
-      __$$UnionEmbeddingInputStringImplCopyWithImpl<$Res>;
+abstract class _$$EmbeddingInputStringImplCopyWith<$Res> {
+  factory _$$EmbeddingInputStringImplCopyWith(_$EmbeddingInputStringImpl value,
+          $Res Function(_$EmbeddingInputStringImpl) then) =
+      __$$EmbeddingInputStringImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String value});
 }
 
 /// @nodoc
-class __$$UnionEmbeddingInputStringImplCopyWithImpl<$Res>
-    extends _$EmbeddingInputCopyWithImpl<$Res, _$UnionEmbeddingInputStringImpl>
-    implements _$$UnionEmbeddingInputStringImplCopyWith<$Res> {
-  __$$UnionEmbeddingInputStringImplCopyWithImpl(
-      _$UnionEmbeddingInputStringImpl _value,
-      $Res Function(_$UnionEmbeddingInputStringImpl) _then)
+class __$$EmbeddingInputStringImplCopyWithImpl<$Res>
+    extends _$EmbeddingInputCopyWithImpl<$Res, _$EmbeddingInputStringImpl>
+    implements _$$EmbeddingInputStringImplCopyWith<$Res> {
+  __$$EmbeddingInputStringImplCopyWithImpl(_$EmbeddingInputStringImpl _value,
+      $Res Function(_$EmbeddingInputStringImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -11332,7 +11214,7 @@ class __$$UnionEmbeddingInputStringImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionEmbeddingInputStringImpl(
+    return _then(_$EmbeddingInputStringImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -11343,13 +11225,13 @@ class __$$UnionEmbeddingInputStringImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionEmbeddingInputStringImpl extends _UnionEmbeddingInputString {
-  const _$UnionEmbeddingInputStringImpl(this.value, {final String? $type})
+class _$EmbeddingInputStringImpl extends EmbeddingInputString {
+  const _$EmbeddingInputStringImpl(this.value, {final String? $type})
       : $type = $type ?? 'string',
         super._();
 
-  factory _$UnionEmbeddingInputStringImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UnionEmbeddingInputStringImplFromJson(json);
+  factory _$EmbeddingInputStringImpl.fromJson(Map<String, dynamic> json) =>
+      _$$EmbeddingInputStringImplFromJson(json);
 
   @override
   final String value;
@@ -11366,7 +11248,7 @@ class _$UnionEmbeddingInputStringImpl extends _UnionEmbeddingInputString {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionEmbeddingInputStringImpl &&
+            other is _$EmbeddingInputStringImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -11377,16 +11259,17 @@ class _$UnionEmbeddingInputStringImpl extends _UnionEmbeddingInputString {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionEmbeddingInputStringImplCopyWith<_$UnionEmbeddingInputStringImpl>
-      get copyWith => __$$UnionEmbeddingInputStringImplCopyWithImpl<
-          _$UnionEmbeddingInputStringImpl>(this, _$identity);
+  _$$EmbeddingInputStringImplCopyWith<_$EmbeddingInputStringImpl>
+      get copyWith =>
+          __$$EmbeddingInputStringImplCopyWithImpl<_$EmbeddingInputStringImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<List<int>> value) array,
-    required TResult Function(List<int> value) arrayInteger,
-    required TResult Function(List<String> value) arrayString,
+    required TResult Function(List<List<int>> value) listTokens,
+    required TResult Function(List<int> value) tokens,
+    required TResult Function(List<String> value) listString,
     required TResult Function(String value) string,
   }) {
     return string(value);
@@ -11395,9 +11278,9 @@ class _$UnionEmbeddingInputStringImpl extends _UnionEmbeddingInputString {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<List<int>> value)? array,
-    TResult? Function(List<int> value)? arrayInteger,
-    TResult? Function(List<String> value)? arrayString,
+    TResult? Function(List<List<int>> value)? listTokens,
+    TResult? Function(List<int> value)? tokens,
+    TResult? Function(List<String> value)? listString,
     TResult? Function(String value)? string,
   }) {
     return string?.call(value);
@@ -11406,9 +11289,9 @@ class _$UnionEmbeddingInputStringImpl extends _UnionEmbeddingInputString {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<List<int>> value)? array,
-    TResult Function(List<int> value)? arrayInteger,
-    TResult Function(List<String> value)? arrayString,
+    TResult Function(List<List<int>> value)? listTokens,
+    TResult Function(List<int> value)? tokens,
+    TResult Function(List<String> value)? listString,
     TResult Function(String value)? string,
     required TResult orElse(),
   }) {
@@ -11421,12 +11304,10 @@ class _$UnionEmbeddingInputStringImpl extends _UnionEmbeddingInputString {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionEmbeddingInputArray value) array,
-    required TResult Function(_UnionEmbeddingInputArrayInteger value)
-        arrayInteger,
-    required TResult Function(_UnionEmbeddingInputArrayString value)
-        arrayString,
-    required TResult Function(_UnionEmbeddingInputString value) string,
+    required TResult Function(EmbeddingInputListListInt value) listTokens,
+    required TResult Function(EmbeddingInputListInt value) tokens,
+    required TResult Function(EmbeddingInputListString value) listString,
+    required TResult Function(EmbeddingInputString value) string,
   }) {
     return string(this);
   }
@@ -11434,10 +11315,10 @@ class _$UnionEmbeddingInputStringImpl extends _UnionEmbeddingInputString {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionEmbeddingInputArray value)? array,
-    TResult? Function(_UnionEmbeddingInputArrayInteger value)? arrayInteger,
-    TResult? Function(_UnionEmbeddingInputArrayString value)? arrayString,
-    TResult? Function(_UnionEmbeddingInputString value)? string,
+    TResult? Function(EmbeddingInputListListInt value)? listTokens,
+    TResult? Function(EmbeddingInputListInt value)? tokens,
+    TResult? Function(EmbeddingInputListString value)? listString,
+    TResult? Function(EmbeddingInputString value)? string,
   }) {
     return string?.call(this);
   }
@@ -11445,10 +11326,10 @@ class _$UnionEmbeddingInputStringImpl extends _UnionEmbeddingInputString {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionEmbeddingInputArray value)? array,
-    TResult Function(_UnionEmbeddingInputArrayInteger value)? arrayInteger,
-    TResult Function(_UnionEmbeddingInputArrayString value)? arrayString,
-    TResult Function(_UnionEmbeddingInputString value)? string,
+    TResult Function(EmbeddingInputListListInt value)? listTokens,
+    TResult Function(EmbeddingInputListInt value)? tokens,
+    TResult Function(EmbeddingInputListString value)? listString,
+    TResult Function(EmbeddingInputString value)? string,
     required TResult orElse(),
   }) {
     if (string != null) {
@@ -11459,24 +11340,24 @@ class _$UnionEmbeddingInputStringImpl extends _UnionEmbeddingInputString {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionEmbeddingInputStringImplToJson(
+    return _$$EmbeddingInputStringImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionEmbeddingInputString extends EmbeddingInput {
-  const factory _UnionEmbeddingInputString(final String value) =
-      _$UnionEmbeddingInputStringImpl;
-  const _UnionEmbeddingInputString._() : super._();
+abstract class EmbeddingInputString extends EmbeddingInput {
+  const factory EmbeddingInputString(final String value) =
+      _$EmbeddingInputStringImpl;
+  const EmbeddingInputString._() : super._();
 
-  factory _UnionEmbeddingInputString.fromJson(Map<String, dynamic> json) =
-      _$UnionEmbeddingInputStringImpl.fromJson;
+  factory EmbeddingInputString.fromJson(Map<String, dynamic> json) =
+      _$EmbeddingInputStringImpl.fromJson;
 
   @override
   String get value;
   @JsonKey(ignore: true)
-  _$$UnionEmbeddingInputStringImplCopyWith<_$UnionEmbeddingInputStringImpl>
+  _$$EmbeddingInputStringImplCopyWith<_$EmbeddingInputStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -11949,10 +11830,10 @@ abstract class _Embedding extends Embedding {
 
 EmbeddingVector _$EmbeddingVectorFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
-    case 'arrayNumber':
-      return _UnionEmbeddingVectorArrayNumber.fromJson(json);
-    case 'string':
-      return _UnionEmbeddingVectorString.fromJson(json);
+    case 'vector':
+      return EmbeddingVectorListDouble.fromJson(json);
+    case 'vectorBase64':
+      return EmbeddingVectorString.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'EmbeddingVector',
@@ -11965,40 +11846,39 @@ mixin _$EmbeddingVector {
   Object get value => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<double> value) arrayNumber,
-    required TResult Function(String value) string,
+    required TResult Function(List<double> value) vector,
+    required TResult Function(String value) vectorBase64,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<double> value)? arrayNumber,
-    TResult? Function(String value)? string,
+    TResult? Function(List<double> value)? vector,
+    TResult? Function(String value)? vectorBase64,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<double> value)? arrayNumber,
-    TResult Function(String value)? string,
+    TResult Function(List<double> value)? vector,
+    TResult Function(String value)? vectorBase64,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionEmbeddingVectorArrayNumber value)
-        arrayNumber,
-    required TResult Function(_UnionEmbeddingVectorString value) string,
+    required TResult Function(EmbeddingVectorListDouble value) vector,
+    required TResult Function(EmbeddingVectorString value) vectorBase64,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionEmbeddingVectorArrayNumber value)? arrayNumber,
-    TResult? Function(_UnionEmbeddingVectorString value)? string,
+    TResult? Function(EmbeddingVectorListDouble value)? vector,
+    TResult? Function(EmbeddingVectorString value)? vectorBase64,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionEmbeddingVectorArrayNumber value)? arrayNumber,
-    TResult Function(_UnionEmbeddingVectorString value)? string,
+    TResult Function(EmbeddingVectorListDouble value)? vector,
+    TResult Function(EmbeddingVectorString value)? vectorBase64,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -12024,23 +11904,22 @@ class _$EmbeddingVectorCopyWithImpl<$Res, $Val extends EmbeddingVector>
 }
 
 /// @nodoc
-abstract class _$$UnionEmbeddingVectorArrayNumberImplCopyWith<$Res> {
-  factory _$$UnionEmbeddingVectorArrayNumberImplCopyWith(
-          _$UnionEmbeddingVectorArrayNumberImpl value,
-          $Res Function(_$UnionEmbeddingVectorArrayNumberImpl) then) =
-      __$$UnionEmbeddingVectorArrayNumberImplCopyWithImpl<$Res>;
+abstract class _$$EmbeddingVectorListDoubleImplCopyWith<$Res> {
+  factory _$$EmbeddingVectorListDoubleImplCopyWith(
+          _$EmbeddingVectorListDoubleImpl value,
+          $Res Function(_$EmbeddingVectorListDoubleImpl) then) =
+      __$$EmbeddingVectorListDoubleImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<double> value});
 }
 
 /// @nodoc
-class __$$UnionEmbeddingVectorArrayNumberImplCopyWithImpl<$Res>
-    extends _$EmbeddingVectorCopyWithImpl<$Res,
-        _$UnionEmbeddingVectorArrayNumberImpl>
-    implements _$$UnionEmbeddingVectorArrayNumberImplCopyWith<$Res> {
-  __$$UnionEmbeddingVectorArrayNumberImplCopyWithImpl(
-      _$UnionEmbeddingVectorArrayNumberImpl _value,
-      $Res Function(_$UnionEmbeddingVectorArrayNumberImpl) _then)
+class __$$EmbeddingVectorListDoubleImplCopyWithImpl<$Res>
+    extends _$EmbeddingVectorCopyWithImpl<$Res, _$EmbeddingVectorListDoubleImpl>
+    implements _$$EmbeddingVectorListDoubleImplCopyWith<$Res> {
+  __$$EmbeddingVectorListDoubleImplCopyWithImpl(
+      _$EmbeddingVectorListDoubleImpl _value,
+      $Res Function(_$EmbeddingVectorListDoubleImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -12048,7 +11927,7 @@ class __$$UnionEmbeddingVectorArrayNumberImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionEmbeddingVectorArrayNumberImpl(
+    return _then(_$EmbeddingVectorListDoubleImpl(
       null == value
           ? _value._value
           : value // ignore: cast_nullable_to_non_nullable
@@ -12059,17 +11938,15 @@ class __$$UnionEmbeddingVectorArrayNumberImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionEmbeddingVectorArrayNumberImpl
-    extends _UnionEmbeddingVectorArrayNumber {
-  const _$UnionEmbeddingVectorArrayNumberImpl(final List<double> value,
+class _$EmbeddingVectorListDoubleImpl extends EmbeddingVectorListDouble {
+  const _$EmbeddingVectorListDoubleImpl(final List<double> value,
       {final String? $type})
       : _value = value,
-        $type = $type ?? 'arrayNumber',
+        $type = $type ?? 'vector',
         super._();
 
-  factory _$UnionEmbeddingVectorArrayNumberImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$UnionEmbeddingVectorArrayNumberImplFromJson(json);
+  factory _$EmbeddingVectorListDoubleImpl.fromJson(Map<String, dynamic> json) =>
+      _$$EmbeddingVectorListDoubleImplFromJson(json);
 
   final List<double> _value;
   @override
@@ -12084,14 +11961,14 @@ class _$UnionEmbeddingVectorArrayNumberImpl
 
   @override
   String toString() {
-    return 'EmbeddingVector.arrayNumber(value: $value)';
+    return 'EmbeddingVector.vector(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionEmbeddingVectorArrayNumberImpl &&
+            other is _$EmbeddingVectorListDoubleImpl &&
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
@@ -12103,38 +11980,37 @@ class _$UnionEmbeddingVectorArrayNumberImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionEmbeddingVectorArrayNumberImplCopyWith<
-          _$UnionEmbeddingVectorArrayNumberImpl>
-      get copyWith => __$$UnionEmbeddingVectorArrayNumberImplCopyWithImpl<
-          _$UnionEmbeddingVectorArrayNumberImpl>(this, _$identity);
+  _$$EmbeddingVectorListDoubleImplCopyWith<_$EmbeddingVectorListDoubleImpl>
+      get copyWith => __$$EmbeddingVectorListDoubleImplCopyWithImpl<
+          _$EmbeddingVectorListDoubleImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<double> value) arrayNumber,
-    required TResult Function(String value) string,
+    required TResult Function(List<double> value) vector,
+    required TResult Function(String value) vectorBase64,
   }) {
-    return arrayNumber(value);
+    return vector(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<double> value)? arrayNumber,
-    TResult? Function(String value)? string,
+    TResult? Function(List<double> value)? vector,
+    TResult? Function(String value)? vectorBase64,
   }) {
-    return arrayNumber?.call(value);
+    return vector?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<double> value)? arrayNumber,
-    TResult Function(String value)? string,
+    TResult Function(List<double> value)? vector,
+    TResult Function(String value)? vectorBase64,
     required TResult orElse(),
   }) {
-    if (arrayNumber != null) {
-      return arrayNumber(value);
+    if (vector != null) {
+      return vector(value);
     }
     return orElse();
   }
@@ -12142,77 +12018,73 @@ class _$UnionEmbeddingVectorArrayNumberImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionEmbeddingVectorArrayNumber value)
-        arrayNumber,
-    required TResult Function(_UnionEmbeddingVectorString value) string,
+    required TResult Function(EmbeddingVectorListDouble value) vector,
+    required TResult Function(EmbeddingVectorString value) vectorBase64,
   }) {
-    return arrayNumber(this);
+    return vector(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionEmbeddingVectorArrayNumber value)? arrayNumber,
-    TResult? Function(_UnionEmbeddingVectorString value)? string,
+    TResult? Function(EmbeddingVectorListDouble value)? vector,
+    TResult? Function(EmbeddingVectorString value)? vectorBase64,
   }) {
-    return arrayNumber?.call(this);
+    return vector?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionEmbeddingVectorArrayNumber value)? arrayNumber,
-    TResult Function(_UnionEmbeddingVectorString value)? string,
+    TResult Function(EmbeddingVectorListDouble value)? vector,
+    TResult Function(EmbeddingVectorString value)? vectorBase64,
     required TResult orElse(),
   }) {
-    if (arrayNumber != null) {
-      return arrayNumber(this);
+    if (vector != null) {
+      return vector(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionEmbeddingVectorArrayNumberImplToJson(
+    return _$$EmbeddingVectorListDoubleImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionEmbeddingVectorArrayNumber extends EmbeddingVector {
-  const factory _UnionEmbeddingVectorArrayNumber(final List<double> value) =
-      _$UnionEmbeddingVectorArrayNumberImpl;
-  const _UnionEmbeddingVectorArrayNumber._() : super._();
+abstract class EmbeddingVectorListDouble extends EmbeddingVector {
+  const factory EmbeddingVectorListDouble(final List<double> value) =
+      _$EmbeddingVectorListDoubleImpl;
+  const EmbeddingVectorListDouble._() : super._();
 
-  factory _UnionEmbeddingVectorArrayNumber.fromJson(Map<String, dynamic> json) =
-      _$UnionEmbeddingVectorArrayNumberImpl.fromJson;
+  factory EmbeddingVectorListDouble.fromJson(Map<String, dynamic> json) =
+      _$EmbeddingVectorListDoubleImpl.fromJson;
 
   @override
   List<double> get value;
   @JsonKey(ignore: true)
-  _$$UnionEmbeddingVectorArrayNumberImplCopyWith<
-          _$UnionEmbeddingVectorArrayNumberImpl>
+  _$$EmbeddingVectorListDoubleImplCopyWith<_$EmbeddingVectorListDoubleImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionEmbeddingVectorStringImplCopyWith<$Res> {
-  factory _$$UnionEmbeddingVectorStringImplCopyWith(
-          _$UnionEmbeddingVectorStringImpl value,
-          $Res Function(_$UnionEmbeddingVectorStringImpl) then) =
-      __$$UnionEmbeddingVectorStringImplCopyWithImpl<$Res>;
+abstract class _$$EmbeddingVectorStringImplCopyWith<$Res> {
+  factory _$$EmbeddingVectorStringImplCopyWith(
+          _$EmbeddingVectorStringImpl value,
+          $Res Function(_$EmbeddingVectorStringImpl) then) =
+      __$$EmbeddingVectorStringImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String value});
 }
 
 /// @nodoc
-class __$$UnionEmbeddingVectorStringImplCopyWithImpl<$Res>
-    extends _$EmbeddingVectorCopyWithImpl<$Res,
-        _$UnionEmbeddingVectorStringImpl>
-    implements _$$UnionEmbeddingVectorStringImplCopyWith<$Res> {
-  __$$UnionEmbeddingVectorStringImplCopyWithImpl(
-      _$UnionEmbeddingVectorStringImpl _value,
-      $Res Function(_$UnionEmbeddingVectorStringImpl) _then)
+class __$$EmbeddingVectorStringImplCopyWithImpl<$Res>
+    extends _$EmbeddingVectorCopyWithImpl<$Res, _$EmbeddingVectorStringImpl>
+    implements _$$EmbeddingVectorStringImplCopyWith<$Res> {
+  __$$EmbeddingVectorStringImplCopyWithImpl(_$EmbeddingVectorStringImpl _value,
+      $Res Function(_$EmbeddingVectorStringImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -12220,7 +12092,7 @@ class __$$UnionEmbeddingVectorStringImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionEmbeddingVectorStringImpl(
+    return _then(_$EmbeddingVectorStringImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -12231,14 +12103,13 @@ class __$$UnionEmbeddingVectorStringImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionEmbeddingVectorStringImpl extends _UnionEmbeddingVectorString {
-  const _$UnionEmbeddingVectorStringImpl(this.value, {final String? $type})
-      : $type = $type ?? 'string',
+class _$EmbeddingVectorStringImpl extends EmbeddingVectorString {
+  const _$EmbeddingVectorStringImpl(this.value, {final String? $type})
+      : $type = $type ?? 'vectorBase64',
         super._();
 
-  factory _$UnionEmbeddingVectorStringImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$UnionEmbeddingVectorStringImplFromJson(json);
+  factory _$EmbeddingVectorStringImpl.fromJson(Map<String, dynamic> json) =>
+      _$$EmbeddingVectorStringImplFromJson(json);
 
   @override
   final String value;
@@ -12248,14 +12119,14 @@ class _$UnionEmbeddingVectorStringImpl extends _UnionEmbeddingVectorString {
 
   @override
   String toString() {
-    return 'EmbeddingVector.string(value: $value)';
+    return 'EmbeddingVector.vectorBase64(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionEmbeddingVectorStringImpl &&
+            other is _$EmbeddingVectorStringImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -12266,37 +12137,37 @@ class _$UnionEmbeddingVectorStringImpl extends _UnionEmbeddingVectorString {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionEmbeddingVectorStringImplCopyWith<_$UnionEmbeddingVectorStringImpl>
-      get copyWith => __$$UnionEmbeddingVectorStringImplCopyWithImpl<
-          _$UnionEmbeddingVectorStringImpl>(this, _$identity);
+  _$$EmbeddingVectorStringImplCopyWith<_$EmbeddingVectorStringImpl>
+      get copyWith => __$$EmbeddingVectorStringImplCopyWithImpl<
+          _$EmbeddingVectorStringImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<double> value) arrayNumber,
-    required TResult Function(String value) string,
+    required TResult Function(List<double> value) vector,
+    required TResult Function(String value) vectorBase64,
   }) {
-    return string(value);
+    return vectorBase64(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<double> value)? arrayNumber,
-    TResult? Function(String value)? string,
+    TResult? Function(List<double> value)? vector,
+    TResult? Function(String value)? vectorBase64,
   }) {
-    return string?.call(value);
+    return vectorBase64?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<double> value)? arrayNumber,
-    TResult Function(String value)? string,
+    TResult Function(List<double> value)? vector,
+    TResult Function(String value)? vectorBase64,
     required TResult orElse(),
   }) {
-    if (string != null) {
-      return string(value);
+    if (vectorBase64 != null) {
+      return vectorBase64(value);
     }
     return orElse();
   }
@@ -12304,55 +12175,54 @@ class _$UnionEmbeddingVectorStringImpl extends _UnionEmbeddingVectorString {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionEmbeddingVectorArrayNumber value)
-        arrayNumber,
-    required TResult Function(_UnionEmbeddingVectorString value) string,
+    required TResult Function(EmbeddingVectorListDouble value) vector,
+    required TResult Function(EmbeddingVectorString value) vectorBase64,
   }) {
-    return string(this);
+    return vectorBase64(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionEmbeddingVectorArrayNumber value)? arrayNumber,
-    TResult? Function(_UnionEmbeddingVectorString value)? string,
+    TResult? Function(EmbeddingVectorListDouble value)? vector,
+    TResult? Function(EmbeddingVectorString value)? vectorBase64,
   }) {
-    return string?.call(this);
+    return vectorBase64?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionEmbeddingVectorArrayNumber value)? arrayNumber,
-    TResult Function(_UnionEmbeddingVectorString value)? string,
+    TResult Function(EmbeddingVectorListDouble value)? vector,
+    TResult Function(EmbeddingVectorString value)? vectorBase64,
     required TResult orElse(),
   }) {
-    if (string != null) {
-      return string(this);
+    if (vectorBase64 != null) {
+      return vectorBase64(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionEmbeddingVectorStringImplToJson(
+    return _$$EmbeddingVectorStringImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionEmbeddingVectorString extends EmbeddingVector {
-  const factory _UnionEmbeddingVectorString(final String value) =
-      _$UnionEmbeddingVectorStringImpl;
-  const _UnionEmbeddingVectorString._() : super._();
+abstract class EmbeddingVectorString extends EmbeddingVector {
+  const factory EmbeddingVectorString(final String value) =
+      _$EmbeddingVectorStringImpl;
+  const EmbeddingVectorString._() : super._();
 
-  factory _UnionEmbeddingVectorString.fromJson(Map<String, dynamic> json) =
-      _$UnionEmbeddingVectorStringImpl.fromJson;
+  factory EmbeddingVectorString.fromJson(Map<String, dynamic> json) =
+      _$EmbeddingVectorStringImpl.fromJson;
 
   @override
   String get value;
   @JsonKey(ignore: true)
-  _$$UnionEmbeddingVectorStringImplCopyWith<_$UnionEmbeddingVectorStringImpl>
+  _$$EmbeddingVectorStringImplCopyWith<_$EmbeddingVectorStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -12908,10 +12778,10 @@ abstract class _CreateFineTuningJobRequest extends CreateFineTuningJobRequest {
 
 FineTuningModel _$FineTuningModelFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
-    case 'enumeration':
-      return _UnionFineTuningModelEnum.fromJson(json);
-    case 'string':
-      return _UnionFineTuningModelString.fromJson(json);
+    case 'model':
+      return FineTuningModelEnumeration.fromJson(json);
+    case 'modelId':
+      return FineTuningModelString.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'FineTuningModel',
@@ -12924,39 +12794,39 @@ mixin _$FineTuningModel {
   Object get value => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(FineTuningModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(FineTuningModels value) model,
+    required TResult Function(String value) modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(FineTuningModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(FineTuningModels value)? model,
+    TResult? Function(String value)? modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(FineTuningModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(FineTuningModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionFineTuningModelEnum value) enumeration,
-    required TResult Function(_UnionFineTuningModelString value) string,
+    required TResult Function(FineTuningModelEnumeration value) model,
+    required TResult Function(FineTuningModelString value) modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionFineTuningModelEnum value)? enumeration,
-    TResult? Function(_UnionFineTuningModelString value)? string,
+    TResult? Function(FineTuningModelEnumeration value)? model,
+    TResult? Function(FineTuningModelString value)? modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionFineTuningModelEnum value)? enumeration,
-    TResult Function(_UnionFineTuningModelString value)? string,
+    TResult Function(FineTuningModelEnumeration value)? model,
+    TResult Function(FineTuningModelString value)? modelId,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -12982,22 +12852,23 @@ class _$FineTuningModelCopyWithImpl<$Res, $Val extends FineTuningModel>
 }
 
 /// @nodoc
-abstract class _$$UnionFineTuningModelEnumImplCopyWith<$Res> {
-  factory _$$UnionFineTuningModelEnumImplCopyWith(
-          _$UnionFineTuningModelEnumImpl value,
-          $Res Function(_$UnionFineTuningModelEnumImpl) then) =
-      __$$UnionFineTuningModelEnumImplCopyWithImpl<$Res>;
+abstract class _$$FineTuningModelEnumerationImplCopyWith<$Res> {
+  factory _$$FineTuningModelEnumerationImplCopyWith(
+          _$FineTuningModelEnumerationImpl value,
+          $Res Function(_$FineTuningModelEnumerationImpl) then) =
+      __$$FineTuningModelEnumerationImplCopyWithImpl<$Res>;
   @useResult
   $Res call({FineTuningModels value});
 }
 
 /// @nodoc
-class __$$UnionFineTuningModelEnumImplCopyWithImpl<$Res>
-    extends _$FineTuningModelCopyWithImpl<$Res, _$UnionFineTuningModelEnumImpl>
-    implements _$$UnionFineTuningModelEnumImplCopyWith<$Res> {
-  __$$UnionFineTuningModelEnumImplCopyWithImpl(
-      _$UnionFineTuningModelEnumImpl _value,
-      $Res Function(_$UnionFineTuningModelEnumImpl) _then)
+class __$$FineTuningModelEnumerationImplCopyWithImpl<$Res>
+    extends _$FineTuningModelCopyWithImpl<$Res,
+        _$FineTuningModelEnumerationImpl>
+    implements _$$FineTuningModelEnumerationImplCopyWith<$Res> {
+  __$$FineTuningModelEnumerationImplCopyWithImpl(
+      _$FineTuningModelEnumerationImpl _value,
+      $Res Function(_$FineTuningModelEnumerationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -13005,7 +12876,7 @@ class __$$UnionFineTuningModelEnumImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionFineTuningModelEnumImpl(
+    return _then(_$FineTuningModelEnumerationImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -13016,13 +12887,14 @@ class __$$UnionFineTuningModelEnumImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionFineTuningModelEnumImpl extends _UnionFineTuningModelEnum {
-  const _$UnionFineTuningModelEnumImpl(this.value, {final String? $type})
-      : $type = $type ?? 'enumeration',
+class _$FineTuningModelEnumerationImpl extends FineTuningModelEnumeration {
+  const _$FineTuningModelEnumerationImpl(this.value, {final String? $type})
+      : $type = $type ?? 'model',
         super._();
 
-  factory _$UnionFineTuningModelEnumImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UnionFineTuningModelEnumImplFromJson(json);
+  factory _$FineTuningModelEnumerationImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$FineTuningModelEnumerationImplFromJson(json);
 
   @override
   final FineTuningModels value;
@@ -13032,14 +12904,14 @@ class _$UnionFineTuningModelEnumImpl extends _UnionFineTuningModelEnum {
 
   @override
   String toString() {
-    return 'FineTuningModel.enumeration(value: $value)';
+    return 'FineTuningModel.model(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionFineTuningModelEnumImpl &&
+            other is _$FineTuningModelEnumerationImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -13050,37 +12922,37 @@ class _$UnionFineTuningModelEnumImpl extends _UnionFineTuningModelEnum {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionFineTuningModelEnumImplCopyWith<_$UnionFineTuningModelEnumImpl>
-      get copyWith => __$$UnionFineTuningModelEnumImplCopyWithImpl<
-          _$UnionFineTuningModelEnumImpl>(this, _$identity);
+  _$$FineTuningModelEnumerationImplCopyWith<_$FineTuningModelEnumerationImpl>
+      get copyWith => __$$FineTuningModelEnumerationImplCopyWithImpl<
+          _$FineTuningModelEnumerationImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(FineTuningModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(FineTuningModels value) model,
+    required TResult Function(String value) modelId,
   }) {
-    return enumeration(value);
+    return model(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(FineTuningModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(FineTuningModels value)? model,
+    TResult? Function(String value)? modelId,
   }) {
-    return enumeration?.call(value);
+    return model?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(FineTuningModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(FineTuningModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(value);
+    if (model != null) {
+      return model(value);
     }
     return orElse();
   }
@@ -13088,75 +12960,73 @@ class _$UnionFineTuningModelEnumImpl extends _UnionFineTuningModelEnum {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionFineTuningModelEnum value) enumeration,
-    required TResult Function(_UnionFineTuningModelString value) string,
+    required TResult Function(FineTuningModelEnumeration value) model,
+    required TResult Function(FineTuningModelString value) modelId,
   }) {
-    return enumeration(this);
+    return model(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionFineTuningModelEnum value)? enumeration,
-    TResult? Function(_UnionFineTuningModelString value)? string,
+    TResult? Function(FineTuningModelEnumeration value)? model,
+    TResult? Function(FineTuningModelString value)? modelId,
   }) {
-    return enumeration?.call(this);
+    return model?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionFineTuningModelEnum value)? enumeration,
-    TResult Function(_UnionFineTuningModelString value)? string,
+    TResult Function(FineTuningModelEnumeration value)? model,
+    TResult Function(FineTuningModelString value)? modelId,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(this);
+    if (model != null) {
+      return model(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionFineTuningModelEnumImplToJson(
+    return _$$FineTuningModelEnumerationImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionFineTuningModelEnum extends FineTuningModel {
-  const factory _UnionFineTuningModelEnum(final FineTuningModels value) =
-      _$UnionFineTuningModelEnumImpl;
-  const _UnionFineTuningModelEnum._() : super._();
+abstract class FineTuningModelEnumeration extends FineTuningModel {
+  const factory FineTuningModelEnumeration(final FineTuningModels value) =
+      _$FineTuningModelEnumerationImpl;
+  const FineTuningModelEnumeration._() : super._();
 
-  factory _UnionFineTuningModelEnum.fromJson(Map<String, dynamic> json) =
-      _$UnionFineTuningModelEnumImpl.fromJson;
+  factory FineTuningModelEnumeration.fromJson(Map<String, dynamic> json) =
+      _$FineTuningModelEnumerationImpl.fromJson;
 
   @override
   FineTuningModels get value;
   @JsonKey(ignore: true)
-  _$$UnionFineTuningModelEnumImplCopyWith<_$UnionFineTuningModelEnumImpl>
+  _$$FineTuningModelEnumerationImplCopyWith<_$FineTuningModelEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionFineTuningModelStringImplCopyWith<$Res> {
-  factory _$$UnionFineTuningModelStringImplCopyWith(
-          _$UnionFineTuningModelStringImpl value,
-          $Res Function(_$UnionFineTuningModelStringImpl) then) =
-      __$$UnionFineTuningModelStringImplCopyWithImpl<$Res>;
+abstract class _$$FineTuningModelStringImplCopyWith<$Res> {
+  factory _$$FineTuningModelStringImplCopyWith(
+          _$FineTuningModelStringImpl value,
+          $Res Function(_$FineTuningModelStringImpl) then) =
+      __$$FineTuningModelStringImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String value});
 }
 
 /// @nodoc
-class __$$UnionFineTuningModelStringImplCopyWithImpl<$Res>
-    extends _$FineTuningModelCopyWithImpl<$Res,
-        _$UnionFineTuningModelStringImpl>
-    implements _$$UnionFineTuningModelStringImplCopyWith<$Res> {
-  __$$UnionFineTuningModelStringImplCopyWithImpl(
-      _$UnionFineTuningModelStringImpl _value,
-      $Res Function(_$UnionFineTuningModelStringImpl) _then)
+class __$$FineTuningModelStringImplCopyWithImpl<$Res>
+    extends _$FineTuningModelCopyWithImpl<$Res, _$FineTuningModelStringImpl>
+    implements _$$FineTuningModelStringImplCopyWith<$Res> {
+  __$$FineTuningModelStringImplCopyWithImpl(_$FineTuningModelStringImpl _value,
+      $Res Function(_$FineTuningModelStringImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -13164,7 +13034,7 @@ class __$$UnionFineTuningModelStringImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionFineTuningModelStringImpl(
+    return _then(_$FineTuningModelStringImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -13175,14 +13045,13 @@ class __$$UnionFineTuningModelStringImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionFineTuningModelStringImpl extends _UnionFineTuningModelString {
-  const _$UnionFineTuningModelStringImpl(this.value, {final String? $type})
-      : $type = $type ?? 'string',
+class _$FineTuningModelStringImpl extends FineTuningModelString {
+  const _$FineTuningModelStringImpl(this.value, {final String? $type})
+      : $type = $type ?? 'modelId',
         super._();
 
-  factory _$UnionFineTuningModelStringImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$UnionFineTuningModelStringImplFromJson(json);
+  factory _$FineTuningModelStringImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FineTuningModelStringImplFromJson(json);
 
   @override
   final String value;
@@ -13192,14 +13061,14 @@ class _$UnionFineTuningModelStringImpl extends _UnionFineTuningModelString {
 
   @override
   String toString() {
-    return 'FineTuningModel.string(value: $value)';
+    return 'FineTuningModel.modelId(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionFineTuningModelStringImpl &&
+            other is _$FineTuningModelStringImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -13210,37 +13079,37 @@ class _$UnionFineTuningModelStringImpl extends _UnionFineTuningModelString {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionFineTuningModelStringImplCopyWith<_$UnionFineTuningModelStringImpl>
-      get copyWith => __$$UnionFineTuningModelStringImplCopyWithImpl<
-          _$UnionFineTuningModelStringImpl>(this, _$identity);
+  _$$FineTuningModelStringImplCopyWith<_$FineTuningModelStringImpl>
+      get copyWith => __$$FineTuningModelStringImplCopyWithImpl<
+          _$FineTuningModelStringImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(FineTuningModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(FineTuningModels value) model,
+    required TResult Function(String value) modelId,
   }) {
-    return string(value);
+    return modelId(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(FineTuningModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(FineTuningModels value)? model,
+    TResult? Function(String value)? modelId,
   }) {
-    return string?.call(value);
+    return modelId?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(FineTuningModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(FineTuningModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) {
-    if (string != null) {
-      return string(value);
+    if (modelId != null) {
+      return modelId(value);
     }
     return orElse();
   }
@@ -13248,54 +13117,54 @@ class _$UnionFineTuningModelStringImpl extends _UnionFineTuningModelString {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionFineTuningModelEnum value) enumeration,
-    required TResult Function(_UnionFineTuningModelString value) string,
+    required TResult Function(FineTuningModelEnumeration value) model,
+    required TResult Function(FineTuningModelString value) modelId,
   }) {
-    return string(this);
+    return modelId(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionFineTuningModelEnum value)? enumeration,
-    TResult? Function(_UnionFineTuningModelString value)? string,
+    TResult? Function(FineTuningModelEnumeration value)? model,
+    TResult? Function(FineTuningModelString value)? modelId,
   }) {
-    return string?.call(this);
+    return modelId?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionFineTuningModelEnum value)? enumeration,
-    TResult Function(_UnionFineTuningModelString value)? string,
+    TResult Function(FineTuningModelEnumeration value)? model,
+    TResult Function(FineTuningModelString value)? modelId,
     required TResult orElse(),
   }) {
-    if (string != null) {
-      return string(this);
+    if (modelId != null) {
+      return modelId(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionFineTuningModelStringImplToJson(
+    return _$$FineTuningModelStringImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionFineTuningModelString extends FineTuningModel {
-  const factory _UnionFineTuningModelString(final String value) =
-      _$UnionFineTuningModelStringImpl;
-  const _UnionFineTuningModelString._() : super._();
+abstract class FineTuningModelString extends FineTuningModel {
+  const factory FineTuningModelString(final String value) =
+      _$FineTuningModelStringImpl;
+  const FineTuningModelString._() : super._();
 
-  factory _UnionFineTuningModelString.fromJson(Map<String, dynamic> json) =
-      _$UnionFineTuningModelStringImpl.fromJson;
+  factory FineTuningModelString.fromJson(Map<String, dynamic> json) =
+      _$FineTuningModelStringImpl.fromJson;
 
   @override
   String get value;
   @JsonKey(ignore: true)
-  _$$UnionFineTuningModelStringImplCopyWith<_$UnionFineTuningModelStringImpl>
+  _$$FineTuningModelStringImplCopyWith<_$FineTuningModelStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -14252,10 +14121,10 @@ abstract class _FineTuningJobHyperparameters
 
 FineTuningNEpochs _$FineTuningNEpochsFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
-    case 'enumeration':
-      return _UnionFineTuningNEpochsEnum.fromJson(json);
-    case 'integer':
-      return _UnionFineTuningNEpochsInteger.fromJson(json);
+    case 'mode':
+      return FineTuningNEpochsEnumeration.fromJson(json);
+    case 'number':
+      return FineTuningNEpochsInt.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'FineTuningNEpochs',
@@ -14268,39 +14137,39 @@ mixin _$FineTuningNEpochs {
   Object get value => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(FineTuningNEpochsOptions value) enumeration,
-    required TResult Function(int value) integer,
+    required TResult Function(FineTuningNEpochsOptions value) mode,
+    required TResult Function(int value) number,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(FineTuningNEpochsOptions value)? enumeration,
-    TResult? Function(int value)? integer,
+    TResult? Function(FineTuningNEpochsOptions value)? mode,
+    TResult? Function(int value)? number,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(FineTuningNEpochsOptions value)? enumeration,
-    TResult Function(int value)? integer,
+    TResult Function(FineTuningNEpochsOptions value)? mode,
+    TResult Function(int value)? number,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionFineTuningNEpochsEnum value) enumeration,
-    required TResult Function(_UnionFineTuningNEpochsInteger value) integer,
+    required TResult Function(FineTuningNEpochsEnumeration value) mode,
+    required TResult Function(FineTuningNEpochsInt value) number,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionFineTuningNEpochsEnum value)? enumeration,
-    TResult? Function(_UnionFineTuningNEpochsInteger value)? integer,
+    TResult? Function(FineTuningNEpochsEnumeration value)? mode,
+    TResult? Function(FineTuningNEpochsInt value)? number,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionFineTuningNEpochsEnum value)? enumeration,
-    TResult Function(_UnionFineTuningNEpochsInteger value)? integer,
+    TResult Function(FineTuningNEpochsEnumeration value)? mode,
+    TResult Function(FineTuningNEpochsInt value)? number,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -14326,23 +14195,23 @@ class _$FineTuningNEpochsCopyWithImpl<$Res, $Val extends FineTuningNEpochs>
 }
 
 /// @nodoc
-abstract class _$$UnionFineTuningNEpochsEnumImplCopyWith<$Res> {
-  factory _$$UnionFineTuningNEpochsEnumImplCopyWith(
-          _$UnionFineTuningNEpochsEnumImpl value,
-          $Res Function(_$UnionFineTuningNEpochsEnumImpl) then) =
-      __$$UnionFineTuningNEpochsEnumImplCopyWithImpl<$Res>;
+abstract class _$$FineTuningNEpochsEnumerationImplCopyWith<$Res> {
+  factory _$$FineTuningNEpochsEnumerationImplCopyWith(
+          _$FineTuningNEpochsEnumerationImpl value,
+          $Res Function(_$FineTuningNEpochsEnumerationImpl) then) =
+      __$$FineTuningNEpochsEnumerationImplCopyWithImpl<$Res>;
   @useResult
   $Res call({FineTuningNEpochsOptions value});
 }
 
 /// @nodoc
-class __$$UnionFineTuningNEpochsEnumImplCopyWithImpl<$Res>
+class __$$FineTuningNEpochsEnumerationImplCopyWithImpl<$Res>
     extends _$FineTuningNEpochsCopyWithImpl<$Res,
-        _$UnionFineTuningNEpochsEnumImpl>
-    implements _$$UnionFineTuningNEpochsEnumImplCopyWith<$Res> {
-  __$$UnionFineTuningNEpochsEnumImplCopyWithImpl(
-      _$UnionFineTuningNEpochsEnumImpl _value,
-      $Res Function(_$UnionFineTuningNEpochsEnumImpl) _then)
+        _$FineTuningNEpochsEnumerationImpl>
+    implements _$$FineTuningNEpochsEnumerationImplCopyWith<$Res> {
+  __$$FineTuningNEpochsEnumerationImplCopyWithImpl(
+      _$FineTuningNEpochsEnumerationImpl _value,
+      $Res Function(_$FineTuningNEpochsEnumerationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -14350,7 +14219,7 @@ class __$$UnionFineTuningNEpochsEnumImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionFineTuningNEpochsEnumImpl(
+    return _then(_$FineTuningNEpochsEnumerationImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -14361,14 +14230,14 @@ class __$$UnionFineTuningNEpochsEnumImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionFineTuningNEpochsEnumImpl extends _UnionFineTuningNEpochsEnum {
-  const _$UnionFineTuningNEpochsEnumImpl(this.value, {final String? $type})
-      : $type = $type ?? 'enumeration',
+class _$FineTuningNEpochsEnumerationImpl extends FineTuningNEpochsEnumeration {
+  const _$FineTuningNEpochsEnumerationImpl(this.value, {final String? $type})
+      : $type = $type ?? 'mode',
         super._();
 
-  factory _$UnionFineTuningNEpochsEnumImpl.fromJson(
+  factory _$FineTuningNEpochsEnumerationImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$UnionFineTuningNEpochsEnumImplFromJson(json);
+      _$$FineTuningNEpochsEnumerationImplFromJson(json);
 
   @override
   final FineTuningNEpochsOptions value;
@@ -14378,14 +14247,14 @@ class _$UnionFineTuningNEpochsEnumImpl extends _UnionFineTuningNEpochsEnum {
 
   @override
   String toString() {
-    return 'FineTuningNEpochs.enumeration(value: $value)';
+    return 'FineTuningNEpochs.mode(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionFineTuningNEpochsEnumImpl &&
+            other is _$FineTuningNEpochsEnumerationImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -14396,37 +14265,38 @@ class _$UnionFineTuningNEpochsEnumImpl extends _UnionFineTuningNEpochsEnum {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionFineTuningNEpochsEnumImplCopyWith<_$UnionFineTuningNEpochsEnumImpl>
-      get copyWith => __$$UnionFineTuningNEpochsEnumImplCopyWithImpl<
-          _$UnionFineTuningNEpochsEnumImpl>(this, _$identity);
+  _$$FineTuningNEpochsEnumerationImplCopyWith<
+          _$FineTuningNEpochsEnumerationImpl>
+      get copyWith => __$$FineTuningNEpochsEnumerationImplCopyWithImpl<
+          _$FineTuningNEpochsEnumerationImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(FineTuningNEpochsOptions value) enumeration,
-    required TResult Function(int value) integer,
+    required TResult Function(FineTuningNEpochsOptions value) mode,
+    required TResult Function(int value) number,
   }) {
-    return enumeration(value);
+    return mode(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(FineTuningNEpochsOptions value)? enumeration,
-    TResult? Function(int value)? integer,
+    TResult? Function(FineTuningNEpochsOptions value)? mode,
+    TResult? Function(int value)? number,
   }) {
-    return enumeration?.call(value);
+    return mode?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(FineTuningNEpochsOptions value)? enumeration,
-    TResult Function(int value)? integer,
+    TResult Function(FineTuningNEpochsOptions value)? mode,
+    TResult Function(int value)? number,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(value);
+    if (mode != null) {
+      return mode(value);
     }
     return orElse();
   }
@@ -14434,75 +14304,74 @@ class _$UnionFineTuningNEpochsEnumImpl extends _UnionFineTuningNEpochsEnum {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionFineTuningNEpochsEnum value) enumeration,
-    required TResult Function(_UnionFineTuningNEpochsInteger value) integer,
+    required TResult Function(FineTuningNEpochsEnumeration value) mode,
+    required TResult Function(FineTuningNEpochsInt value) number,
   }) {
-    return enumeration(this);
+    return mode(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionFineTuningNEpochsEnum value)? enumeration,
-    TResult? Function(_UnionFineTuningNEpochsInteger value)? integer,
+    TResult? Function(FineTuningNEpochsEnumeration value)? mode,
+    TResult? Function(FineTuningNEpochsInt value)? number,
   }) {
-    return enumeration?.call(this);
+    return mode?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionFineTuningNEpochsEnum value)? enumeration,
-    TResult Function(_UnionFineTuningNEpochsInteger value)? integer,
+    TResult Function(FineTuningNEpochsEnumeration value)? mode,
+    TResult Function(FineTuningNEpochsInt value)? number,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(this);
+    if (mode != null) {
+      return mode(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionFineTuningNEpochsEnumImplToJson(
+    return _$$FineTuningNEpochsEnumerationImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionFineTuningNEpochsEnum extends FineTuningNEpochs {
-  const factory _UnionFineTuningNEpochsEnum(
-      final FineTuningNEpochsOptions value) = _$UnionFineTuningNEpochsEnumImpl;
-  const _UnionFineTuningNEpochsEnum._() : super._();
+abstract class FineTuningNEpochsEnumeration extends FineTuningNEpochs {
+  const factory FineTuningNEpochsEnumeration(
+          final FineTuningNEpochsOptions value) =
+      _$FineTuningNEpochsEnumerationImpl;
+  const FineTuningNEpochsEnumeration._() : super._();
 
-  factory _UnionFineTuningNEpochsEnum.fromJson(Map<String, dynamic> json) =
-      _$UnionFineTuningNEpochsEnumImpl.fromJson;
+  factory FineTuningNEpochsEnumeration.fromJson(Map<String, dynamic> json) =
+      _$FineTuningNEpochsEnumerationImpl.fromJson;
 
   @override
   FineTuningNEpochsOptions get value;
   @JsonKey(ignore: true)
-  _$$UnionFineTuningNEpochsEnumImplCopyWith<_$UnionFineTuningNEpochsEnumImpl>
+  _$$FineTuningNEpochsEnumerationImplCopyWith<
+          _$FineTuningNEpochsEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionFineTuningNEpochsIntegerImplCopyWith<$Res> {
-  factory _$$UnionFineTuningNEpochsIntegerImplCopyWith(
-          _$UnionFineTuningNEpochsIntegerImpl value,
-          $Res Function(_$UnionFineTuningNEpochsIntegerImpl) then) =
-      __$$UnionFineTuningNEpochsIntegerImplCopyWithImpl<$Res>;
+abstract class _$$FineTuningNEpochsIntImplCopyWith<$Res> {
+  factory _$$FineTuningNEpochsIntImplCopyWith(_$FineTuningNEpochsIntImpl value,
+          $Res Function(_$FineTuningNEpochsIntImpl) then) =
+      __$$FineTuningNEpochsIntImplCopyWithImpl<$Res>;
   @useResult
   $Res call({int value});
 }
 
 /// @nodoc
-class __$$UnionFineTuningNEpochsIntegerImplCopyWithImpl<$Res>
-    extends _$FineTuningNEpochsCopyWithImpl<$Res,
-        _$UnionFineTuningNEpochsIntegerImpl>
-    implements _$$UnionFineTuningNEpochsIntegerImplCopyWith<$Res> {
-  __$$UnionFineTuningNEpochsIntegerImplCopyWithImpl(
-      _$UnionFineTuningNEpochsIntegerImpl _value,
-      $Res Function(_$UnionFineTuningNEpochsIntegerImpl) _then)
+class __$$FineTuningNEpochsIntImplCopyWithImpl<$Res>
+    extends _$FineTuningNEpochsCopyWithImpl<$Res, _$FineTuningNEpochsIntImpl>
+    implements _$$FineTuningNEpochsIntImplCopyWith<$Res> {
+  __$$FineTuningNEpochsIntImplCopyWithImpl(_$FineTuningNEpochsIntImpl _value,
+      $Res Function(_$FineTuningNEpochsIntImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -14510,7 +14379,7 @@ class __$$UnionFineTuningNEpochsIntegerImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionFineTuningNEpochsIntegerImpl(
+    return _then(_$FineTuningNEpochsIntImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -14521,15 +14390,13 @@ class __$$UnionFineTuningNEpochsIntegerImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionFineTuningNEpochsIntegerImpl
-    extends _UnionFineTuningNEpochsInteger {
-  const _$UnionFineTuningNEpochsIntegerImpl(this.value, {final String? $type})
-      : $type = $type ?? 'integer',
+class _$FineTuningNEpochsIntImpl extends FineTuningNEpochsInt {
+  const _$FineTuningNEpochsIntImpl(this.value, {final String? $type})
+      : $type = $type ?? 'number',
         super._();
 
-  factory _$UnionFineTuningNEpochsIntegerImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$UnionFineTuningNEpochsIntegerImplFromJson(json);
+  factory _$FineTuningNEpochsIntImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FineTuningNEpochsIntImplFromJson(json);
 
   @override
   final int value;
@@ -14539,14 +14406,14 @@ class _$UnionFineTuningNEpochsIntegerImpl
 
   @override
   String toString() {
-    return 'FineTuningNEpochs.integer(value: $value)';
+    return 'FineTuningNEpochs.number(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionFineTuningNEpochsIntegerImpl &&
+            other is _$FineTuningNEpochsIntImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -14557,38 +14424,38 @@ class _$UnionFineTuningNEpochsIntegerImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionFineTuningNEpochsIntegerImplCopyWith<
-          _$UnionFineTuningNEpochsIntegerImpl>
-      get copyWith => __$$UnionFineTuningNEpochsIntegerImplCopyWithImpl<
-          _$UnionFineTuningNEpochsIntegerImpl>(this, _$identity);
+  _$$FineTuningNEpochsIntImplCopyWith<_$FineTuningNEpochsIntImpl>
+      get copyWith =>
+          __$$FineTuningNEpochsIntImplCopyWithImpl<_$FineTuningNEpochsIntImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(FineTuningNEpochsOptions value) enumeration,
-    required TResult Function(int value) integer,
+    required TResult Function(FineTuningNEpochsOptions value) mode,
+    required TResult Function(int value) number,
   }) {
-    return integer(value);
+    return number(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(FineTuningNEpochsOptions value)? enumeration,
-    TResult? Function(int value)? integer,
+    TResult? Function(FineTuningNEpochsOptions value)? mode,
+    TResult? Function(int value)? number,
   }) {
-    return integer?.call(value);
+    return number?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(FineTuningNEpochsOptions value)? enumeration,
-    TResult Function(int value)? integer,
+    TResult Function(FineTuningNEpochsOptions value)? mode,
+    TResult Function(int value)? number,
     required TResult orElse(),
   }) {
-    if (integer != null) {
-      return integer(value);
+    if (number != null) {
+      return number(value);
     }
     return orElse();
   }
@@ -14596,55 +14463,54 @@ class _$UnionFineTuningNEpochsIntegerImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionFineTuningNEpochsEnum value) enumeration,
-    required TResult Function(_UnionFineTuningNEpochsInteger value) integer,
+    required TResult Function(FineTuningNEpochsEnumeration value) mode,
+    required TResult Function(FineTuningNEpochsInt value) number,
   }) {
-    return integer(this);
+    return number(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionFineTuningNEpochsEnum value)? enumeration,
-    TResult? Function(_UnionFineTuningNEpochsInteger value)? integer,
+    TResult? Function(FineTuningNEpochsEnumeration value)? mode,
+    TResult? Function(FineTuningNEpochsInt value)? number,
   }) {
-    return integer?.call(this);
+    return number?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionFineTuningNEpochsEnum value)? enumeration,
-    TResult Function(_UnionFineTuningNEpochsInteger value)? integer,
+    TResult Function(FineTuningNEpochsEnumeration value)? mode,
+    TResult Function(FineTuningNEpochsInt value)? number,
     required TResult orElse(),
   }) {
-    if (integer != null) {
-      return integer(this);
+    if (number != null) {
+      return number(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionFineTuningNEpochsIntegerImplToJson(
+    return _$$FineTuningNEpochsIntImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionFineTuningNEpochsInteger extends FineTuningNEpochs {
-  const factory _UnionFineTuningNEpochsInteger(final int value) =
-      _$UnionFineTuningNEpochsIntegerImpl;
-  const _UnionFineTuningNEpochsInteger._() : super._();
+abstract class FineTuningNEpochsInt extends FineTuningNEpochs {
+  const factory FineTuningNEpochsInt(final int value) =
+      _$FineTuningNEpochsIntImpl;
+  const FineTuningNEpochsInt._() : super._();
 
-  factory _UnionFineTuningNEpochsInteger.fromJson(Map<String, dynamic> json) =
-      _$UnionFineTuningNEpochsIntegerImpl.fromJson;
+  factory FineTuningNEpochsInt.fromJson(Map<String, dynamic> json) =
+      _$FineTuningNEpochsIntImpl.fromJson;
 
   @override
   int get value;
   @JsonKey(ignore: true)
-  _$$UnionFineTuningNEpochsIntegerImplCopyWith<
-          _$UnionFineTuningNEpochsIntegerImpl>
+  _$$FineTuningNEpochsIntImplCopyWith<_$FineTuningNEpochsIntImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -15575,7 +15441,7 @@ class _$CreateImageRequestImpl extends _CreateImageRequest {
       {required this.prompt,
       @_CreateImageRequestModelConverter()
       @JsonKey(includeIfNull: false)
-      this.model = const CreateImageRequestModel.string('dall-e-2'),
+      this.model = const CreateImageRequestModelString('dall-e-2'),
       @JsonKey(includeIfNull: false) this.n = 1,
       this.quality = ImageQuality.standard,
       @JsonKey(
@@ -15764,10 +15630,10 @@ abstract class _CreateImageRequest extends CreateImageRequest {
 CreateImageRequestModel _$CreateImageRequestModelFromJson(
     Map<String, dynamic> json) {
   switch (json['runtimeType']) {
-    case 'enumeration':
-      return _UnionCreateImageRequestModelEnum.fromJson(json);
-    case 'string':
-      return _UnionCreateImageRequestModelString.fromJson(json);
+    case 'model':
+      return CreateImageRequestModelEnumeration.fromJson(json);
+    case 'modelId':
+      return CreateImageRequestModelString.fromJson(json);
 
     default:
       throw CheckedFromJsonException(
@@ -15783,40 +15649,39 @@ mixin _$CreateImageRequestModel {
   Object get value => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ImageModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(ImageModels value) model,
+    required TResult Function(String value) modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ImageModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(ImageModels value)? model,
+    TResult? Function(String value)? modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ImageModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(ImageModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionCreateImageRequestModelEnum value)
-        enumeration,
-    required TResult Function(_UnionCreateImageRequestModelString value) string,
+    required TResult Function(CreateImageRequestModelEnumeration value) model,
+    required TResult Function(CreateImageRequestModelString value) modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionCreateImageRequestModelEnum value)? enumeration,
-    TResult? Function(_UnionCreateImageRequestModelString value)? string,
+    TResult? Function(CreateImageRequestModelEnumeration value)? model,
+    TResult? Function(CreateImageRequestModelString value)? modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionCreateImageRequestModelEnum value)? enumeration,
-    TResult Function(_UnionCreateImageRequestModelString value)? string,
+    TResult Function(CreateImageRequestModelEnumeration value)? model,
+    TResult Function(CreateImageRequestModelString value)? modelId,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -15843,23 +15708,23 @@ class _$CreateImageRequestModelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$UnionCreateImageRequestModelEnumImplCopyWith<$Res> {
-  factory _$$UnionCreateImageRequestModelEnumImplCopyWith(
-          _$UnionCreateImageRequestModelEnumImpl value,
-          $Res Function(_$UnionCreateImageRequestModelEnumImpl) then) =
-      __$$UnionCreateImageRequestModelEnumImplCopyWithImpl<$Res>;
+abstract class _$$CreateImageRequestModelEnumerationImplCopyWith<$Res> {
+  factory _$$CreateImageRequestModelEnumerationImplCopyWith(
+          _$CreateImageRequestModelEnumerationImpl value,
+          $Res Function(_$CreateImageRequestModelEnumerationImpl) then) =
+      __$$CreateImageRequestModelEnumerationImplCopyWithImpl<$Res>;
   @useResult
   $Res call({ImageModels value});
 }
 
 /// @nodoc
-class __$$UnionCreateImageRequestModelEnumImplCopyWithImpl<$Res>
+class __$$CreateImageRequestModelEnumerationImplCopyWithImpl<$Res>
     extends _$CreateImageRequestModelCopyWithImpl<$Res,
-        _$UnionCreateImageRequestModelEnumImpl>
-    implements _$$UnionCreateImageRequestModelEnumImplCopyWith<$Res> {
-  __$$UnionCreateImageRequestModelEnumImplCopyWithImpl(
-      _$UnionCreateImageRequestModelEnumImpl _value,
-      $Res Function(_$UnionCreateImageRequestModelEnumImpl) _then)
+        _$CreateImageRequestModelEnumerationImpl>
+    implements _$$CreateImageRequestModelEnumerationImplCopyWith<$Res> {
+  __$$CreateImageRequestModelEnumerationImplCopyWithImpl(
+      _$CreateImageRequestModelEnumerationImpl _value,
+      $Res Function(_$CreateImageRequestModelEnumerationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -15867,7 +15732,7 @@ class __$$UnionCreateImageRequestModelEnumImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionCreateImageRequestModelEnumImpl(
+    return _then(_$CreateImageRequestModelEnumerationImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -15878,16 +15743,16 @@ class __$$UnionCreateImageRequestModelEnumImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionCreateImageRequestModelEnumImpl
-    extends _UnionCreateImageRequestModelEnum {
-  const _$UnionCreateImageRequestModelEnumImpl(this.value,
+class _$CreateImageRequestModelEnumerationImpl
+    extends CreateImageRequestModelEnumeration {
+  const _$CreateImageRequestModelEnumerationImpl(this.value,
       {final String? $type})
-      : $type = $type ?? 'enumeration',
+      : $type = $type ?? 'model',
         super._();
 
-  factory _$UnionCreateImageRequestModelEnumImpl.fromJson(
+  factory _$CreateImageRequestModelEnumerationImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$UnionCreateImageRequestModelEnumImplFromJson(json);
+      _$$CreateImageRequestModelEnumerationImplFromJson(json);
 
   @override
   final ImageModels value;
@@ -15897,14 +15762,14 @@ class _$UnionCreateImageRequestModelEnumImpl
 
   @override
   String toString() {
-    return 'CreateImageRequestModel.enumeration(value: $value)';
+    return 'CreateImageRequestModel.model(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionCreateImageRequestModelEnumImpl &&
+            other is _$CreateImageRequestModelEnumerationImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -15915,38 +15780,38 @@ class _$UnionCreateImageRequestModelEnumImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionCreateImageRequestModelEnumImplCopyWith<
-          _$UnionCreateImageRequestModelEnumImpl>
-      get copyWith => __$$UnionCreateImageRequestModelEnumImplCopyWithImpl<
-          _$UnionCreateImageRequestModelEnumImpl>(this, _$identity);
+  _$$CreateImageRequestModelEnumerationImplCopyWith<
+          _$CreateImageRequestModelEnumerationImpl>
+      get copyWith => __$$CreateImageRequestModelEnumerationImplCopyWithImpl<
+          _$CreateImageRequestModelEnumerationImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ImageModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(ImageModels value) model,
+    required TResult Function(String value) modelId,
   }) {
-    return enumeration(value);
+    return model(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ImageModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(ImageModels value)? model,
+    TResult? Function(String value)? modelId,
   }) {
-    return enumeration?.call(value);
+    return model?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ImageModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(ImageModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(value);
+    if (model != null) {
+      return model(value);
     }
     return orElse();
   }
@@ -15954,79 +15819,78 @@ class _$UnionCreateImageRequestModelEnumImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionCreateImageRequestModelEnum value)
-        enumeration,
-    required TResult Function(_UnionCreateImageRequestModelString value) string,
+    required TResult Function(CreateImageRequestModelEnumeration value) model,
+    required TResult Function(CreateImageRequestModelString value) modelId,
   }) {
-    return enumeration(this);
+    return model(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionCreateImageRequestModelEnum value)? enumeration,
-    TResult? Function(_UnionCreateImageRequestModelString value)? string,
+    TResult? Function(CreateImageRequestModelEnumeration value)? model,
+    TResult? Function(CreateImageRequestModelString value)? modelId,
   }) {
-    return enumeration?.call(this);
+    return model?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionCreateImageRequestModelEnum value)? enumeration,
-    TResult Function(_UnionCreateImageRequestModelString value)? string,
+    TResult Function(CreateImageRequestModelEnumeration value)? model,
+    TResult Function(CreateImageRequestModelString value)? modelId,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(this);
+    if (model != null) {
+      return model(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionCreateImageRequestModelEnumImplToJson(
+    return _$$CreateImageRequestModelEnumerationImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionCreateImageRequestModelEnum
+abstract class CreateImageRequestModelEnumeration
     extends CreateImageRequestModel {
-  const factory _UnionCreateImageRequestModelEnum(final ImageModels value) =
-      _$UnionCreateImageRequestModelEnumImpl;
-  const _UnionCreateImageRequestModelEnum._() : super._();
+  const factory CreateImageRequestModelEnumeration(final ImageModels value) =
+      _$CreateImageRequestModelEnumerationImpl;
+  const CreateImageRequestModelEnumeration._() : super._();
 
-  factory _UnionCreateImageRequestModelEnum.fromJson(
+  factory CreateImageRequestModelEnumeration.fromJson(
           Map<String, dynamic> json) =
-      _$UnionCreateImageRequestModelEnumImpl.fromJson;
+      _$CreateImageRequestModelEnumerationImpl.fromJson;
 
   @override
   ImageModels get value;
   @JsonKey(ignore: true)
-  _$$UnionCreateImageRequestModelEnumImplCopyWith<
-          _$UnionCreateImageRequestModelEnumImpl>
+  _$$CreateImageRequestModelEnumerationImplCopyWith<
+          _$CreateImageRequestModelEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionCreateImageRequestModelStringImplCopyWith<$Res> {
-  factory _$$UnionCreateImageRequestModelStringImplCopyWith(
-          _$UnionCreateImageRequestModelStringImpl value,
-          $Res Function(_$UnionCreateImageRequestModelStringImpl) then) =
-      __$$UnionCreateImageRequestModelStringImplCopyWithImpl<$Res>;
+abstract class _$$CreateImageRequestModelStringImplCopyWith<$Res> {
+  factory _$$CreateImageRequestModelStringImplCopyWith(
+          _$CreateImageRequestModelStringImpl value,
+          $Res Function(_$CreateImageRequestModelStringImpl) then) =
+      __$$CreateImageRequestModelStringImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String value});
 }
 
 /// @nodoc
-class __$$UnionCreateImageRequestModelStringImplCopyWithImpl<$Res>
+class __$$CreateImageRequestModelStringImplCopyWithImpl<$Res>
     extends _$CreateImageRequestModelCopyWithImpl<$Res,
-        _$UnionCreateImageRequestModelStringImpl>
-    implements _$$UnionCreateImageRequestModelStringImplCopyWith<$Res> {
-  __$$UnionCreateImageRequestModelStringImplCopyWithImpl(
-      _$UnionCreateImageRequestModelStringImpl _value,
-      $Res Function(_$UnionCreateImageRequestModelStringImpl) _then)
+        _$CreateImageRequestModelStringImpl>
+    implements _$$CreateImageRequestModelStringImplCopyWith<$Res> {
+  __$$CreateImageRequestModelStringImplCopyWithImpl(
+      _$CreateImageRequestModelStringImpl _value,
+      $Res Function(_$CreateImageRequestModelStringImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -16034,7 +15898,7 @@ class __$$UnionCreateImageRequestModelStringImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionCreateImageRequestModelStringImpl(
+    return _then(_$CreateImageRequestModelStringImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -16045,16 +15909,15 @@ class __$$UnionCreateImageRequestModelStringImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionCreateImageRequestModelStringImpl
-    extends _UnionCreateImageRequestModelString {
-  const _$UnionCreateImageRequestModelStringImpl(this.value,
-      {final String? $type})
-      : $type = $type ?? 'string',
+class _$CreateImageRequestModelStringImpl
+    extends CreateImageRequestModelString {
+  const _$CreateImageRequestModelStringImpl(this.value, {final String? $type})
+      : $type = $type ?? 'modelId',
         super._();
 
-  factory _$UnionCreateImageRequestModelStringImpl.fromJson(
+  factory _$CreateImageRequestModelStringImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$UnionCreateImageRequestModelStringImplFromJson(json);
+      _$$CreateImageRequestModelStringImplFromJson(json);
 
   @override
   final String value;
@@ -16064,14 +15927,14 @@ class _$UnionCreateImageRequestModelStringImpl
 
   @override
   String toString() {
-    return 'CreateImageRequestModel.string(value: $value)';
+    return 'CreateImageRequestModel.modelId(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionCreateImageRequestModelStringImpl &&
+            other is _$CreateImageRequestModelStringImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -16082,38 +15945,38 @@ class _$UnionCreateImageRequestModelStringImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionCreateImageRequestModelStringImplCopyWith<
-          _$UnionCreateImageRequestModelStringImpl>
-      get copyWith => __$$UnionCreateImageRequestModelStringImplCopyWithImpl<
-          _$UnionCreateImageRequestModelStringImpl>(this, _$identity);
+  _$$CreateImageRequestModelStringImplCopyWith<
+          _$CreateImageRequestModelStringImpl>
+      get copyWith => __$$CreateImageRequestModelStringImplCopyWithImpl<
+          _$CreateImageRequestModelStringImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ImageModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(ImageModels value) model,
+    required TResult Function(String value) modelId,
   }) {
-    return string(value);
+    return modelId(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ImageModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(ImageModels value)? model,
+    TResult? Function(String value)? modelId,
   }) {
-    return string?.call(value);
+    return modelId?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ImageModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(ImageModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) {
-    if (string != null) {
-      return string(value);
+    if (modelId != null) {
+      return modelId(value);
     }
     return orElse();
   }
@@ -16121,58 +15984,55 @@ class _$UnionCreateImageRequestModelStringImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionCreateImageRequestModelEnum value)
-        enumeration,
-    required TResult Function(_UnionCreateImageRequestModelString value) string,
+    required TResult Function(CreateImageRequestModelEnumeration value) model,
+    required TResult Function(CreateImageRequestModelString value) modelId,
   }) {
-    return string(this);
+    return modelId(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionCreateImageRequestModelEnum value)? enumeration,
-    TResult? Function(_UnionCreateImageRequestModelString value)? string,
+    TResult? Function(CreateImageRequestModelEnumeration value)? model,
+    TResult? Function(CreateImageRequestModelString value)? modelId,
   }) {
-    return string?.call(this);
+    return modelId?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionCreateImageRequestModelEnum value)? enumeration,
-    TResult Function(_UnionCreateImageRequestModelString value)? string,
+    TResult Function(CreateImageRequestModelEnumeration value)? model,
+    TResult Function(CreateImageRequestModelString value)? modelId,
     required TResult orElse(),
   }) {
-    if (string != null) {
-      return string(this);
+    if (modelId != null) {
+      return modelId(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionCreateImageRequestModelStringImplToJson(
+    return _$$CreateImageRequestModelStringImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionCreateImageRequestModelString
-    extends CreateImageRequestModel {
-  const factory _UnionCreateImageRequestModelString(final String value) =
-      _$UnionCreateImageRequestModelStringImpl;
-  const _UnionCreateImageRequestModelString._() : super._();
+abstract class CreateImageRequestModelString extends CreateImageRequestModel {
+  const factory CreateImageRequestModelString(final String value) =
+      _$CreateImageRequestModelStringImpl;
+  const CreateImageRequestModelString._() : super._();
 
-  factory _UnionCreateImageRequestModelString.fromJson(
-          Map<String, dynamic> json) =
-      _$UnionCreateImageRequestModelStringImpl.fromJson;
+  factory CreateImageRequestModelString.fromJson(Map<String, dynamic> json) =
+      _$CreateImageRequestModelStringImpl.fromJson;
 
   @override
   String get value;
   @JsonKey(ignore: true)
-  _$$UnionCreateImageRequestModelStringImplCopyWith<
-          _$UnionCreateImageRequestModelStringImpl>
+  _$$CreateImageRequestModelStringImplCopyWith<
+          _$CreateImageRequestModelStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -17298,7 +17158,7 @@ class _$CreateModerationRequestImpl extends _CreateModerationRequest {
   const _$CreateModerationRequestImpl(
       {@_ModerationModelConverter()
       @JsonKey(includeIfNull: false)
-      this.model = const ModerationModel.string('text-moderation-latest'),
+      this.model = const ModerationModelString('text-moderation-latest'),
       @_ModerationInputConverter() required this.input})
       : super._();
 
@@ -17384,10 +17244,10 @@ abstract class _CreateModerationRequest extends CreateModerationRequest {
 
 ModerationModel _$ModerationModelFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
-    case 'enumeration':
-      return _UnionModerationModelEnum.fromJson(json);
-    case 'string':
-      return _UnionModerationModelString.fromJson(json);
+    case 'model':
+      return ModerationModelEnumeration.fromJson(json);
+    case 'modelId':
+      return ModerationModelString.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'ModerationModel',
@@ -17400,39 +17260,39 @@ mixin _$ModerationModel {
   Object get value => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ModerationModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(ModerationModels value) model,
+    required TResult Function(String value) modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ModerationModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(ModerationModels value)? model,
+    TResult? Function(String value)? modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ModerationModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(ModerationModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionModerationModelEnum value) enumeration,
-    required TResult Function(_UnionModerationModelString value) string,
+    required TResult Function(ModerationModelEnumeration value) model,
+    required TResult Function(ModerationModelString value) modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionModerationModelEnum value)? enumeration,
-    TResult? Function(_UnionModerationModelString value)? string,
+    TResult? Function(ModerationModelEnumeration value)? model,
+    TResult? Function(ModerationModelString value)? modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionModerationModelEnum value)? enumeration,
-    TResult Function(_UnionModerationModelString value)? string,
+    TResult Function(ModerationModelEnumeration value)? model,
+    TResult Function(ModerationModelString value)? modelId,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -17458,22 +17318,23 @@ class _$ModerationModelCopyWithImpl<$Res, $Val extends ModerationModel>
 }
 
 /// @nodoc
-abstract class _$$UnionModerationModelEnumImplCopyWith<$Res> {
-  factory _$$UnionModerationModelEnumImplCopyWith(
-          _$UnionModerationModelEnumImpl value,
-          $Res Function(_$UnionModerationModelEnumImpl) then) =
-      __$$UnionModerationModelEnumImplCopyWithImpl<$Res>;
+abstract class _$$ModerationModelEnumerationImplCopyWith<$Res> {
+  factory _$$ModerationModelEnumerationImplCopyWith(
+          _$ModerationModelEnumerationImpl value,
+          $Res Function(_$ModerationModelEnumerationImpl) then) =
+      __$$ModerationModelEnumerationImplCopyWithImpl<$Res>;
   @useResult
   $Res call({ModerationModels value});
 }
 
 /// @nodoc
-class __$$UnionModerationModelEnumImplCopyWithImpl<$Res>
-    extends _$ModerationModelCopyWithImpl<$Res, _$UnionModerationModelEnumImpl>
-    implements _$$UnionModerationModelEnumImplCopyWith<$Res> {
-  __$$UnionModerationModelEnumImplCopyWithImpl(
-      _$UnionModerationModelEnumImpl _value,
-      $Res Function(_$UnionModerationModelEnumImpl) _then)
+class __$$ModerationModelEnumerationImplCopyWithImpl<$Res>
+    extends _$ModerationModelCopyWithImpl<$Res,
+        _$ModerationModelEnumerationImpl>
+    implements _$$ModerationModelEnumerationImplCopyWith<$Res> {
+  __$$ModerationModelEnumerationImplCopyWithImpl(
+      _$ModerationModelEnumerationImpl _value,
+      $Res Function(_$ModerationModelEnumerationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -17481,7 +17342,7 @@ class __$$UnionModerationModelEnumImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionModerationModelEnumImpl(
+    return _then(_$ModerationModelEnumerationImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -17492,13 +17353,14 @@ class __$$UnionModerationModelEnumImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionModerationModelEnumImpl extends _UnionModerationModelEnum {
-  const _$UnionModerationModelEnumImpl(this.value, {final String? $type})
-      : $type = $type ?? 'enumeration',
+class _$ModerationModelEnumerationImpl extends ModerationModelEnumeration {
+  const _$ModerationModelEnumerationImpl(this.value, {final String? $type})
+      : $type = $type ?? 'model',
         super._();
 
-  factory _$UnionModerationModelEnumImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UnionModerationModelEnumImplFromJson(json);
+  factory _$ModerationModelEnumerationImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ModerationModelEnumerationImplFromJson(json);
 
   @override
   final ModerationModels value;
@@ -17508,14 +17370,14 @@ class _$UnionModerationModelEnumImpl extends _UnionModerationModelEnum {
 
   @override
   String toString() {
-    return 'ModerationModel.enumeration(value: $value)';
+    return 'ModerationModel.model(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionModerationModelEnumImpl &&
+            other is _$ModerationModelEnumerationImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -17526,37 +17388,37 @@ class _$UnionModerationModelEnumImpl extends _UnionModerationModelEnum {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionModerationModelEnumImplCopyWith<_$UnionModerationModelEnumImpl>
-      get copyWith => __$$UnionModerationModelEnumImplCopyWithImpl<
-          _$UnionModerationModelEnumImpl>(this, _$identity);
+  _$$ModerationModelEnumerationImplCopyWith<_$ModerationModelEnumerationImpl>
+      get copyWith => __$$ModerationModelEnumerationImplCopyWithImpl<
+          _$ModerationModelEnumerationImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ModerationModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(ModerationModels value) model,
+    required TResult Function(String value) modelId,
   }) {
-    return enumeration(value);
+    return model(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ModerationModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(ModerationModels value)? model,
+    TResult? Function(String value)? modelId,
   }) {
-    return enumeration?.call(value);
+    return model?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ModerationModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(ModerationModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(value);
+    if (model != null) {
+      return model(value);
     }
     return orElse();
   }
@@ -17564,75 +17426,73 @@ class _$UnionModerationModelEnumImpl extends _UnionModerationModelEnum {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionModerationModelEnum value) enumeration,
-    required TResult Function(_UnionModerationModelString value) string,
+    required TResult Function(ModerationModelEnumeration value) model,
+    required TResult Function(ModerationModelString value) modelId,
   }) {
-    return enumeration(this);
+    return model(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionModerationModelEnum value)? enumeration,
-    TResult? Function(_UnionModerationModelString value)? string,
+    TResult? Function(ModerationModelEnumeration value)? model,
+    TResult? Function(ModerationModelString value)? modelId,
   }) {
-    return enumeration?.call(this);
+    return model?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionModerationModelEnum value)? enumeration,
-    TResult Function(_UnionModerationModelString value)? string,
+    TResult Function(ModerationModelEnumeration value)? model,
+    TResult Function(ModerationModelString value)? modelId,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(this);
+    if (model != null) {
+      return model(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionModerationModelEnumImplToJson(
+    return _$$ModerationModelEnumerationImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionModerationModelEnum extends ModerationModel {
-  const factory _UnionModerationModelEnum(final ModerationModels value) =
-      _$UnionModerationModelEnumImpl;
-  const _UnionModerationModelEnum._() : super._();
+abstract class ModerationModelEnumeration extends ModerationModel {
+  const factory ModerationModelEnumeration(final ModerationModels value) =
+      _$ModerationModelEnumerationImpl;
+  const ModerationModelEnumeration._() : super._();
 
-  factory _UnionModerationModelEnum.fromJson(Map<String, dynamic> json) =
-      _$UnionModerationModelEnumImpl.fromJson;
+  factory ModerationModelEnumeration.fromJson(Map<String, dynamic> json) =
+      _$ModerationModelEnumerationImpl.fromJson;
 
   @override
   ModerationModels get value;
   @JsonKey(ignore: true)
-  _$$UnionModerationModelEnumImplCopyWith<_$UnionModerationModelEnumImpl>
+  _$$ModerationModelEnumerationImplCopyWith<_$ModerationModelEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionModerationModelStringImplCopyWith<$Res> {
-  factory _$$UnionModerationModelStringImplCopyWith(
-          _$UnionModerationModelStringImpl value,
-          $Res Function(_$UnionModerationModelStringImpl) then) =
-      __$$UnionModerationModelStringImplCopyWithImpl<$Res>;
+abstract class _$$ModerationModelStringImplCopyWith<$Res> {
+  factory _$$ModerationModelStringImplCopyWith(
+          _$ModerationModelStringImpl value,
+          $Res Function(_$ModerationModelStringImpl) then) =
+      __$$ModerationModelStringImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String value});
 }
 
 /// @nodoc
-class __$$UnionModerationModelStringImplCopyWithImpl<$Res>
-    extends _$ModerationModelCopyWithImpl<$Res,
-        _$UnionModerationModelStringImpl>
-    implements _$$UnionModerationModelStringImplCopyWith<$Res> {
-  __$$UnionModerationModelStringImplCopyWithImpl(
-      _$UnionModerationModelStringImpl _value,
-      $Res Function(_$UnionModerationModelStringImpl) _then)
+class __$$ModerationModelStringImplCopyWithImpl<$Res>
+    extends _$ModerationModelCopyWithImpl<$Res, _$ModerationModelStringImpl>
+    implements _$$ModerationModelStringImplCopyWith<$Res> {
+  __$$ModerationModelStringImplCopyWithImpl(_$ModerationModelStringImpl _value,
+      $Res Function(_$ModerationModelStringImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -17640,7 +17500,7 @@ class __$$UnionModerationModelStringImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionModerationModelStringImpl(
+    return _then(_$ModerationModelStringImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -17651,14 +17511,13 @@ class __$$UnionModerationModelStringImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionModerationModelStringImpl extends _UnionModerationModelString {
-  const _$UnionModerationModelStringImpl(this.value, {final String? $type})
-      : $type = $type ?? 'string',
+class _$ModerationModelStringImpl extends ModerationModelString {
+  const _$ModerationModelStringImpl(this.value, {final String? $type})
+      : $type = $type ?? 'modelId',
         super._();
 
-  factory _$UnionModerationModelStringImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$UnionModerationModelStringImplFromJson(json);
+  factory _$ModerationModelStringImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ModerationModelStringImplFromJson(json);
 
   @override
   final String value;
@@ -17668,14 +17527,14 @@ class _$UnionModerationModelStringImpl extends _UnionModerationModelString {
 
   @override
   String toString() {
-    return 'ModerationModel.string(value: $value)';
+    return 'ModerationModel.modelId(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionModerationModelStringImpl &&
+            other is _$ModerationModelStringImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -17686,37 +17545,37 @@ class _$UnionModerationModelStringImpl extends _UnionModerationModelString {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionModerationModelStringImplCopyWith<_$UnionModerationModelStringImpl>
-      get copyWith => __$$UnionModerationModelStringImplCopyWithImpl<
-          _$UnionModerationModelStringImpl>(this, _$identity);
+  _$$ModerationModelStringImplCopyWith<_$ModerationModelStringImpl>
+      get copyWith => __$$ModerationModelStringImplCopyWithImpl<
+          _$ModerationModelStringImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ModerationModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(ModerationModels value) model,
+    required TResult Function(String value) modelId,
   }) {
-    return string(value);
+    return modelId(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ModerationModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(ModerationModels value)? model,
+    TResult? Function(String value)? modelId,
   }) {
-    return string?.call(value);
+    return modelId?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ModerationModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(ModerationModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) {
-    if (string != null) {
-      return string(value);
+    if (modelId != null) {
+      return modelId(value);
     }
     return orElse();
   }
@@ -17724,63 +17583,63 @@ class _$UnionModerationModelStringImpl extends _UnionModerationModelString {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionModerationModelEnum value) enumeration,
-    required TResult Function(_UnionModerationModelString value) string,
+    required TResult Function(ModerationModelEnumeration value) model,
+    required TResult Function(ModerationModelString value) modelId,
   }) {
-    return string(this);
+    return modelId(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionModerationModelEnum value)? enumeration,
-    TResult? Function(_UnionModerationModelString value)? string,
+    TResult? Function(ModerationModelEnumeration value)? model,
+    TResult? Function(ModerationModelString value)? modelId,
   }) {
-    return string?.call(this);
+    return modelId?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionModerationModelEnum value)? enumeration,
-    TResult Function(_UnionModerationModelString value)? string,
+    TResult Function(ModerationModelEnumeration value)? model,
+    TResult Function(ModerationModelString value)? modelId,
     required TResult orElse(),
   }) {
-    if (string != null) {
-      return string(this);
+    if (modelId != null) {
+      return modelId(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionModerationModelStringImplToJson(
+    return _$$ModerationModelStringImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionModerationModelString extends ModerationModel {
-  const factory _UnionModerationModelString(final String value) =
-      _$UnionModerationModelStringImpl;
-  const _UnionModerationModelString._() : super._();
+abstract class ModerationModelString extends ModerationModel {
+  const factory ModerationModelString(final String value) =
+      _$ModerationModelStringImpl;
+  const ModerationModelString._() : super._();
 
-  factory _UnionModerationModelString.fromJson(Map<String, dynamic> json) =
-      _$UnionModerationModelStringImpl.fromJson;
+  factory ModerationModelString.fromJson(Map<String, dynamic> json) =
+      _$ModerationModelStringImpl.fromJson;
 
   @override
   String get value;
   @JsonKey(ignore: true)
-  _$$UnionModerationModelStringImplCopyWith<_$UnionModerationModelStringImpl>
+  _$$ModerationModelStringImplCopyWith<_$ModerationModelStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 ModerationInput _$ModerationInputFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
-    case 'arrayString':
-      return _UnionModerationInputArrayString.fromJson(json);
+    case 'listString':
+      return ModerationInputListString.fromJson(json);
     case 'string':
-      return _UnionModerationInputString.fromJson(json);
+      return ModerationInputString.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'ModerationInput',
@@ -17793,40 +17652,39 @@ mixin _$ModerationInput {
   Object get value => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<String> value) arrayString,
+    required TResult Function(List<String> value) listString,
     required TResult Function(String value) string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<String> value)? arrayString,
+    TResult? Function(List<String> value)? listString,
     TResult? Function(String value)? string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<String> value)? arrayString,
+    TResult Function(List<String> value)? listString,
     TResult Function(String value)? string,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionModerationInputArrayString value)
-        arrayString,
-    required TResult Function(_UnionModerationInputString value) string,
+    required TResult Function(ModerationInputListString value) listString,
+    required TResult Function(ModerationInputString value) string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionModerationInputArrayString value)? arrayString,
-    TResult? Function(_UnionModerationInputString value)? string,
+    TResult? Function(ModerationInputListString value)? listString,
+    TResult? Function(ModerationInputString value)? string,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionModerationInputArrayString value)? arrayString,
-    TResult Function(_UnionModerationInputString value)? string,
+    TResult Function(ModerationInputListString value)? listString,
+    TResult Function(ModerationInputString value)? string,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -17852,23 +17710,22 @@ class _$ModerationInputCopyWithImpl<$Res, $Val extends ModerationInput>
 }
 
 /// @nodoc
-abstract class _$$UnionModerationInputArrayStringImplCopyWith<$Res> {
-  factory _$$UnionModerationInputArrayStringImplCopyWith(
-          _$UnionModerationInputArrayStringImpl value,
-          $Res Function(_$UnionModerationInputArrayStringImpl) then) =
-      __$$UnionModerationInputArrayStringImplCopyWithImpl<$Res>;
+abstract class _$$ModerationInputListStringImplCopyWith<$Res> {
+  factory _$$ModerationInputListStringImplCopyWith(
+          _$ModerationInputListStringImpl value,
+          $Res Function(_$ModerationInputListStringImpl) then) =
+      __$$ModerationInputListStringImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<String> value});
 }
 
 /// @nodoc
-class __$$UnionModerationInputArrayStringImplCopyWithImpl<$Res>
-    extends _$ModerationInputCopyWithImpl<$Res,
-        _$UnionModerationInputArrayStringImpl>
-    implements _$$UnionModerationInputArrayStringImplCopyWith<$Res> {
-  __$$UnionModerationInputArrayStringImplCopyWithImpl(
-      _$UnionModerationInputArrayStringImpl _value,
-      $Res Function(_$UnionModerationInputArrayStringImpl) _then)
+class __$$ModerationInputListStringImplCopyWithImpl<$Res>
+    extends _$ModerationInputCopyWithImpl<$Res, _$ModerationInputListStringImpl>
+    implements _$$ModerationInputListStringImplCopyWith<$Res> {
+  __$$ModerationInputListStringImplCopyWithImpl(
+      _$ModerationInputListStringImpl _value,
+      $Res Function(_$ModerationInputListStringImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -17876,7 +17733,7 @@ class __$$UnionModerationInputArrayStringImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionModerationInputArrayStringImpl(
+    return _then(_$ModerationInputListStringImpl(
       null == value
           ? _value._value
           : value // ignore: cast_nullable_to_non_nullable
@@ -17887,17 +17744,15 @@ class __$$UnionModerationInputArrayStringImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionModerationInputArrayStringImpl
-    extends _UnionModerationInputArrayString {
-  const _$UnionModerationInputArrayStringImpl(final List<String> value,
+class _$ModerationInputListStringImpl extends ModerationInputListString {
+  const _$ModerationInputListStringImpl(final List<String> value,
       {final String? $type})
       : _value = value,
-        $type = $type ?? 'arrayString',
+        $type = $type ?? 'listString',
         super._();
 
-  factory _$UnionModerationInputArrayStringImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$UnionModerationInputArrayStringImplFromJson(json);
+  factory _$ModerationInputListStringImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ModerationInputListStringImplFromJson(json);
 
   final List<String> _value;
   @override
@@ -17912,14 +17767,14 @@ class _$UnionModerationInputArrayStringImpl
 
   @override
   String toString() {
-    return 'ModerationInput.arrayString(value: $value)';
+    return 'ModerationInput.listString(value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionModerationInputArrayStringImpl &&
+            other is _$ModerationInputListStringImpl &&
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
@@ -17931,38 +17786,37 @@ class _$UnionModerationInputArrayStringImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionModerationInputArrayStringImplCopyWith<
-          _$UnionModerationInputArrayStringImpl>
-      get copyWith => __$$UnionModerationInputArrayStringImplCopyWithImpl<
-          _$UnionModerationInputArrayStringImpl>(this, _$identity);
+  _$$ModerationInputListStringImplCopyWith<_$ModerationInputListStringImpl>
+      get copyWith => __$$ModerationInputListStringImplCopyWithImpl<
+          _$ModerationInputListStringImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<String> value) arrayString,
+    required TResult Function(List<String> value) listString,
     required TResult Function(String value) string,
   }) {
-    return arrayString(value);
+    return listString(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<String> value)? arrayString,
+    TResult? Function(List<String> value)? listString,
     TResult? Function(String value)? string,
   }) {
-    return arrayString?.call(value);
+    return listString?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<String> value)? arrayString,
+    TResult Function(List<String> value)? listString,
     TResult Function(String value)? string,
     required TResult orElse(),
   }) {
-    if (arrayString != null) {
-      return arrayString(value);
+    if (listString != null) {
+      return listString(value);
     }
     return orElse();
   }
@@ -17970,77 +17824,73 @@ class _$UnionModerationInputArrayStringImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionModerationInputArrayString value)
-        arrayString,
-    required TResult Function(_UnionModerationInputString value) string,
+    required TResult Function(ModerationInputListString value) listString,
+    required TResult Function(ModerationInputString value) string,
   }) {
-    return arrayString(this);
+    return listString(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionModerationInputArrayString value)? arrayString,
-    TResult? Function(_UnionModerationInputString value)? string,
+    TResult? Function(ModerationInputListString value)? listString,
+    TResult? Function(ModerationInputString value)? string,
   }) {
-    return arrayString?.call(this);
+    return listString?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionModerationInputArrayString value)? arrayString,
-    TResult Function(_UnionModerationInputString value)? string,
+    TResult Function(ModerationInputListString value)? listString,
+    TResult Function(ModerationInputString value)? string,
     required TResult orElse(),
   }) {
-    if (arrayString != null) {
-      return arrayString(this);
+    if (listString != null) {
+      return listString(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionModerationInputArrayStringImplToJson(
+    return _$$ModerationInputListStringImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionModerationInputArrayString extends ModerationInput {
-  const factory _UnionModerationInputArrayString(final List<String> value) =
-      _$UnionModerationInputArrayStringImpl;
-  const _UnionModerationInputArrayString._() : super._();
+abstract class ModerationInputListString extends ModerationInput {
+  const factory ModerationInputListString(final List<String> value) =
+      _$ModerationInputListStringImpl;
+  const ModerationInputListString._() : super._();
 
-  factory _UnionModerationInputArrayString.fromJson(Map<String, dynamic> json) =
-      _$UnionModerationInputArrayStringImpl.fromJson;
+  factory ModerationInputListString.fromJson(Map<String, dynamic> json) =
+      _$ModerationInputListStringImpl.fromJson;
 
   @override
   List<String> get value;
   @JsonKey(ignore: true)
-  _$$UnionModerationInputArrayStringImplCopyWith<
-          _$UnionModerationInputArrayStringImpl>
+  _$$ModerationInputListStringImplCopyWith<_$ModerationInputListStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionModerationInputStringImplCopyWith<$Res> {
-  factory _$$UnionModerationInputStringImplCopyWith(
-          _$UnionModerationInputStringImpl value,
-          $Res Function(_$UnionModerationInputStringImpl) then) =
-      __$$UnionModerationInputStringImplCopyWithImpl<$Res>;
+abstract class _$$ModerationInputStringImplCopyWith<$Res> {
+  factory _$$ModerationInputStringImplCopyWith(
+          _$ModerationInputStringImpl value,
+          $Res Function(_$ModerationInputStringImpl) then) =
+      __$$ModerationInputStringImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String value});
 }
 
 /// @nodoc
-class __$$UnionModerationInputStringImplCopyWithImpl<$Res>
-    extends _$ModerationInputCopyWithImpl<$Res,
-        _$UnionModerationInputStringImpl>
-    implements _$$UnionModerationInputStringImplCopyWith<$Res> {
-  __$$UnionModerationInputStringImplCopyWithImpl(
-      _$UnionModerationInputStringImpl _value,
-      $Res Function(_$UnionModerationInputStringImpl) _then)
+class __$$ModerationInputStringImplCopyWithImpl<$Res>
+    extends _$ModerationInputCopyWithImpl<$Res, _$ModerationInputStringImpl>
+    implements _$$ModerationInputStringImplCopyWith<$Res> {
+  __$$ModerationInputStringImplCopyWithImpl(_$ModerationInputStringImpl _value,
+      $Res Function(_$ModerationInputStringImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -18048,7 +17898,7 @@ class __$$UnionModerationInputStringImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UnionModerationInputStringImpl(
+    return _then(_$ModerationInputStringImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -18059,14 +17909,13 @@ class __$$UnionModerationInputStringImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnionModerationInputStringImpl extends _UnionModerationInputString {
-  const _$UnionModerationInputStringImpl(this.value, {final String? $type})
+class _$ModerationInputStringImpl extends ModerationInputString {
+  const _$ModerationInputStringImpl(this.value, {final String? $type})
       : $type = $type ?? 'string',
         super._();
 
-  factory _$UnionModerationInputStringImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$UnionModerationInputStringImplFromJson(json);
+  factory _$ModerationInputStringImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ModerationInputStringImplFromJson(json);
 
   @override
   final String value;
@@ -18083,7 +17932,7 @@ class _$UnionModerationInputStringImpl extends _UnionModerationInputString {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionModerationInputStringImpl &&
+            other is _$ModerationInputStringImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -18094,14 +17943,14 @@ class _$UnionModerationInputStringImpl extends _UnionModerationInputString {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionModerationInputStringImplCopyWith<_$UnionModerationInputStringImpl>
-      get copyWith => __$$UnionModerationInputStringImplCopyWithImpl<
-          _$UnionModerationInputStringImpl>(this, _$identity);
+  _$$ModerationInputStringImplCopyWith<_$ModerationInputStringImpl>
+      get copyWith => __$$ModerationInputStringImplCopyWithImpl<
+          _$ModerationInputStringImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<String> value) arrayString,
+    required TResult Function(List<String> value) listString,
     required TResult Function(String value) string,
   }) {
     return string(value);
@@ -18110,7 +17959,7 @@ class _$UnionModerationInputStringImpl extends _UnionModerationInputString {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<String> value)? arrayString,
+    TResult? Function(List<String> value)? listString,
     TResult? Function(String value)? string,
   }) {
     return string?.call(value);
@@ -18119,7 +17968,7 @@ class _$UnionModerationInputStringImpl extends _UnionModerationInputString {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<String> value)? arrayString,
+    TResult Function(List<String> value)? listString,
     TResult Function(String value)? string,
     required TResult orElse(),
   }) {
@@ -18132,9 +17981,8 @@ class _$UnionModerationInputStringImpl extends _UnionModerationInputString {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_UnionModerationInputArrayString value)
-        arrayString,
-    required TResult Function(_UnionModerationInputString value) string,
+    required TResult Function(ModerationInputListString value) listString,
+    required TResult Function(ModerationInputString value) string,
   }) {
     return string(this);
   }
@@ -18142,8 +17990,8 @@ class _$UnionModerationInputStringImpl extends _UnionModerationInputString {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_UnionModerationInputArrayString value)? arrayString,
-    TResult? Function(_UnionModerationInputString value)? string,
+    TResult? Function(ModerationInputListString value)? listString,
+    TResult? Function(ModerationInputString value)? string,
   }) {
     return string?.call(this);
   }
@@ -18151,8 +17999,8 @@ class _$UnionModerationInputStringImpl extends _UnionModerationInputString {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_UnionModerationInputArrayString value)? arrayString,
-    TResult Function(_UnionModerationInputString value)? string,
+    TResult Function(ModerationInputListString value)? listString,
+    TResult Function(ModerationInputString value)? string,
     required TResult orElse(),
   }) {
     if (string != null) {
@@ -18163,24 +18011,24 @@ class _$UnionModerationInputStringImpl extends _UnionModerationInputString {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnionModerationInputStringImplToJson(
+    return _$$ModerationInputStringImplToJson(
       this,
     );
   }
 }
 
-abstract class _UnionModerationInputString extends ModerationInput {
-  const factory _UnionModerationInputString(final String value) =
-      _$UnionModerationInputStringImpl;
-  const _UnionModerationInputString._() : super._();
+abstract class ModerationInputString extends ModerationInput {
+  const factory ModerationInputString(final String value) =
+      _$ModerationInputStringImpl;
+  const ModerationInputString._() : super._();
 
-  factory _UnionModerationInputString.fromJson(Map<String, dynamic> json) =
-      _$UnionModerationInputStringImpl.fromJson;
+  factory ModerationInputString.fromJson(Map<String, dynamic> json) =
+      _$ModerationInputStringImpl.fromJson;
 
   @override
   String get value;
   @JsonKey(ignore: true)
-  _$$UnionModerationInputStringImplCopyWith<_$UnionModerationInputStringImpl>
+  _$$ModerationInputStringImplCopyWith<_$ModerationInputStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -19541,577 +19389,5 @@ abstract class _ModerationCategoriesScores extends ModerationCategoriesScores {
   @override
   @JsonKey(ignore: true)
   _$$ModerationCategoriesScoresImplCopyWith<_$ModerationCategoriesScoresImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-UnionCompletionNamedToolChoice _$UnionCompletionNamedToolChoiceFromJson(
-    Map<String, dynamic> json) {
-  return UnionCompletionNamedToolChoiceChat.fromJson(json);
-}
-
-/// @nodoc
-mixin _$UnionCompletionNamedToolChoice {
-  /// The type of the tool. Currently, only `function` is supported.
-  @JsonKey(includeIfNull: false)
-  String? get type => throw _privateConstructorUsedError;
-
-  /// Forces the model to call the specified function.
-  @JsonKey(includeIfNull: false)
-  ChatCompletionFunctionCallOption? get function =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(
-            @JsonKey(includeIfNull: false) String? type,
-            @JsonKey(includeIfNull: false)
-            ChatCompletionFunctionCallOption? function)
-        Chat,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            @JsonKey(includeIfNull: false) String? type,
-            @JsonKey(includeIfNull: false)
-            ChatCompletionFunctionCallOption? function)?
-        Chat,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            @JsonKey(includeIfNull: false) String? type,
-            @JsonKey(includeIfNull: false)
-            ChatCompletionFunctionCallOption? function)?
-        Chat,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(UnionCompletionNamedToolChoiceChat value) Chat,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(UnionCompletionNamedToolChoiceChat value)? Chat,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(UnionCompletionNamedToolChoiceChat value)? Chat,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $UnionCompletionNamedToolChoiceCopyWith<UnionCompletionNamedToolChoice>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $UnionCompletionNamedToolChoiceCopyWith<$Res> {
-  factory $UnionCompletionNamedToolChoiceCopyWith(
-          UnionCompletionNamedToolChoice value,
-          $Res Function(UnionCompletionNamedToolChoice) then) =
-      _$UnionCompletionNamedToolChoiceCopyWithImpl<$Res,
-          UnionCompletionNamedToolChoice>;
-  @useResult
-  $Res call(
-      {@JsonKey(includeIfNull: false) String? type,
-      @JsonKey(includeIfNull: false)
-      ChatCompletionFunctionCallOption? function});
-
-  $ChatCompletionFunctionCallOptionCopyWith<$Res>? get function;
-}
-
-/// @nodoc
-class _$UnionCompletionNamedToolChoiceCopyWithImpl<$Res,
-        $Val extends UnionCompletionNamedToolChoice>
-    implements $UnionCompletionNamedToolChoiceCopyWith<$Res> {
-  _$UnionCompletionNamedToolChoiceCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? type = freezed,
-    Object? function = freezed,
-  }) {
-    return _then(_value.copyWith(
-      type: freezed == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String?,
-      function: freezed == function
-          ? _value.function
-          : function // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionFunctionCallOption?,
-    ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $ChatCompletionFunctionCallOptionCopyWith<$Res>? get function {
-    if (_value.function == null) {
-      return null;
-    }
-
-    return $ChatCompletionFunctionCallOptionCopyWith<$Res>(_value.function!,
-        (value) {
-      return _then(_value.copyWith(function: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$UnionCompletionNamedToolChoiceChatImplCopyWith<$Res>
-    implements $UnionCompletionNamedToolChoiceCopyWith<$Res> {
-  factory _$$UnionCompletionNamedToolChoiceChatImplCopyWith(
-          _$UnionCompletionNamedToolChoiceChatImpl value,
-          $Res Function(_$UnionCompletionNamedToolChoiceChatImpl) then) =
-      __$$UnionCompletionNamedToolChoiceChatImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(includeIfNull: false) String? type,
-      @JsonKey(includeIfNull: false)
-      ChatCompletionFunctionCallOption? function});
-
-  @override
-  $ChatCompletionFunctionCallOptionCopyWith<$Res>? get function;
-}
-
-/// @nodoc
-class __$$UnionCompletionNamedToolChoiceChatImplCopyWithImpl<$Res>
-    extends _$UnionCompletionNamedToolChoiceCopyWithImpl<$Res,
-        _$UnionCompletionNamedToolChoiceChatImpl>
-    implements _$$UnionCompletionNamedToolChoiceChatImplCopyWith<$Res> {
-  __$$UnionCompletionNamedToolChoiceChatImplCopyWithImpl(
-      _$UnionCompletionNamedToolChoiceChatImpl _value,
-      $Res Function(_$UnionCompletionNamedToolChoiceChatImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? type = freezed,
-    Object? function = freezed,
-  }) {
-    return _then(_$UnionCompletionNamedToolChoiceChatImpl(
-      type: freezed == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String?,
-      function: freezed == function
-          ? _value.function
-          : function // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionFunctionCallOption?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$UnionCompletionNamedToolChoiceChatImpl
-    extends UnionCompletionNamedToolChoiceChat {
-  const _$UnionCompletionNamedToolChoiceChatImpl(
-      {@JsonKey(includeIfNull: false) this.type,
-      @JsonKey(includeIfNull: false) this.function})
-      : super._();
-
-  factory _$UnionCompletionNamedToolChoiceChatImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$UnionCompletionNamedToolChoiceChatImplFromJson(json);
-
-  /// The type of the tool. Currently, only `function` is supported.
-  @override
-  @JsonKey(includeIfNull: false)
-  final String? type;
-
-  /// Forces the model to call the specified function.
-  @override
-  @JsonKey(includeIfNull: false)
-  final ChatCompletionFunctionCallOption? function;
-
-  @override
-  String toString() {
-    return 'UnionCompletionNamedToolChoice.Chat(type: $type, function: $function)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$UnionCompletionNamedToolChoiceChatImpl &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.function, function) ||
-                other.function == function));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, type, function);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$UnionCompletionNamedToolChoiceChatImplCopyWith<
-          _$UnionCompletionNamedToolChoiceChatImpl>
-      get copyWith => __$$UnionCompletionNamedToolChoiceChatImplCopyWithImpl<
-          _$UnionCompletionNamedToolChoiceChatImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(
-            @JsonKey(includeIfNull: false) String? type,
-            @JsonKey(includeIfNull: false)
-            ChatCompletionFunctionCallOption? function)
-        Chat,
-  }) {
-    return Chat(type, function);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            @JsonKey(includeIfNull: false) String? type,
-            @JsonKey(includeIfNull: false)
-            ChatCompletionFunctionCallOption? function)?
-        Chat,
-  }) {
-    return Chat?.call(type, function);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            @JsonKey(includeIfNull: false) String? type,
-            @JsonKey(includeIfNull: false)
-            ChatCompletionFunctionCallOption? function)?
-        Chat,
-    required TResult orElse(),
-  }) {
-    if (Chat != null) {
-      return Chat(type, function);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(UnionCompletionNamedToolChoiceChat value) Chat,
-  }) {
-    return Chat(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(UnionCompletionNamedToolChoiceChat value)? Chat,
-  }) {
-    return Chat?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(UnionCompletionNamedToolChoiceChat value)? Chat,
-    required TResult orElse(),
-  }) {
-    if (Chat != null) {
-      return Chat(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$UnionCompletionNamedToolChoiceChatImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class UnionCompletionNamedToolChoiceChat
-    extends UnionCompletionNamedToolChoice {
-  const factory UnionCompletionNamedToolChoiceChat(
-          {@JsonKey(includeIfNull: false) final String? type,
-          @JsonKey(includeIfNull: false)
-          final ChatCompletionFunctionCallOption? function}) =
-      _$UnionCompletionNamedToolChoiceChatImpl;
-  const UnionCompletionNamedToolChoiceChat._() : super._();
-
-  factory UnionCompletionNamedToolChoiceChat.fromJson(
-          Map<String, dynamic> json) =
-      _$UnionCompletionNamedToolChoiceChatImpl.fromJson;
-
-  @override
-
-  /// The type of the tool. Currently, only `function` is supported.
-  @JsonKey(includeIfNull: false)
-  String? get type;
-  @override
-
-  /// Forces the model to call the specified function.
-  @JsonKey(includeIfNull: false)
-  ChatCompletionFunctionCallOption? get function;
-  @override
-  @JsonKey(ignore: true)
-  _$$UnionCompletionNamedToolChoiceChatImplCopyWith<
-          _$UnionCompletionNamedToolChoiceChatImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-UnionCompletionFunctionCallOption _$UnionCompletionFunctionCallOptionFromJson(
-    Map<String, dynamic> json) {
-  return UnionCompletionFunctionCallOptionChat.fromJson(json);
-}
-
-/// @nodoc
-mixin _$UnionCompletionFunctionCallOption {
-  /// The name of the function to call.
-  String get name => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String name) Chat,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String name)? Chat,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String name)? Chat,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(UnionCompletionFunctionCallOptionChat value) Chat,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(UnionCompletionFunctionCallOptionChat value)? Chat,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(UnionCompletionFunctionCallOptionChat value)? Chat,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $UnionCompletionFunctionCallOptionCopyWith<UnionCompletionFunctionCallOption>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $UnionCompletionFunctionCallOptionCopyWith<$Res> {
-  factory $UnionCompletionFunctionCallOptionCopyWith(
-          UnionCompletionFunctionCallOption value,
-          $Res Function(UnionCompletionFunctionCallOption) then) =
-      _$UnionCompletionFunctionCallOptionCopyWithImpl<$Res,
-          UnionCompletionFunctionCallOption>;
-  @useResult
-  $Res call({String name});
-}
-
-/// @nodoc
-class _$UnionCompletionFunctionCallOptionCopyWithImpl<$Res,
-        $Val extends UnionCompletionFunctionCallOption>
-    implements $UnionCompletionFunctionCallOptionCopyWith<$Res> {
-  _$UnionCompletionFunctionCallOptionCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? name = null,
-  }) {
-    return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$UnionCompletionFunctionCallOptionChatImplCopyWith<$Res>
-    implements $UnionCompletionFunctionCallOptionCopyWith<$Res> {
-  factory _$$UnionCompletionFunctionCallOptionChatImplCopyWith(
-          _$UnionCompletionFunctionCallOptionChatImpl value,
-          $Res Function(_$UnionCompletionFunctionCallOptionChatImpl) then) =
-      __$$UnionCompletionFunctionCallOptionChatImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String name});
-}
-
-/// @nodoc
-class __$$UnionCompletionFunctionCallOptionChatImplCopyWithImpl<$Res>
-    extends _$UnionCompletionFunctionCallOptionCopyWithImpl<$Res,
-        _$UnionCompletionFunctionCallOptionChatImpl>
-    implements _$$UnionCompletionFunctionCallOptionChatImplCopyWith<$Res> {
-  __$$UnionCompletionFunctionCallOptionChatImplCopyWithImpl(
-      _$UnionCompletionFunctionCallOptionChatImpl _value,
-      $Res Function(_$UnionCompletionFunctionCallOptionChatImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? name = null,
-  }) {
-    return _then(_$UnionCompletionFunctionCallOptionChatImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$UnionCompletionFunctionCallOptionChatImpl
-    extends UnionCompletionFunctionCallOptionChat {
-  const _$UnionCompletionFunctionCallOptionChatImpl({required this.name})
-      : super._();
-
-  factory _$UnionCompletionFunctionCallOptionChatImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$UnionCompletionFunctionCallOptionChatImplFromJson(json);
-
-  /// The name of the function to call.
-  @override
-  final String name;
-
-  @override
-  String toString() {
-    return 'UnionCompletionFunctionCallOption.Chat(name: $name)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$UnionCompletionFunctionCallOptionChatImpl &&
-            (identical(other.name, name) || other.name == name));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, name);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$UnionCompletionFunctionCallOptionChatImplCopyWith<
-          _$UnionCompletionFunctionCallOptionChatImpl>
-      get copyWith => __$$UnionCompletionFunctionCallOptionChatImplCopyWithImpl<
-          _$UnionCompletionFunctionCallOptionChatImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String name) Chat,
-  }) {
-    return Chat(name);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String name)? Chat,
-  }) {
-    return Chat?.call(name);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String name)? Chat,
-    required TResult orElse(),
-  }) {
-    if (Chat != null) {
-      return Chat(name);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(UnionCompletionFunctionCallOptionChat value) Chat,
-  }) {
-    return Chat(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(UnionCompletionFunctionCallOptionChat value)? Chat,
-  }) {
-    return Chat?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(UnionCompletionFunctionCallOptionChat value)? Chat,
-    required TResult orElse(),
-  }) {
-    if (Chat != null) {
-      return Chat(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$UnionCompletionFunctionCallOptionChatImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class UnionCompletionFunctionCallOptionChat
-    extends UnionCompletionFunctionCallOption {
-  const factory UnionCompletionFunctionCallOptionChat(
-          {required final String name}) =
-      _$UnionCompletionFunctionCallOptionChatImpl;
-  const UnionCompletionFunctionCallOptionChat._() : super._();
-
-  factory UnionCompletionFunctionCallOptionChat.fromJson(
-          Map<String, dynamic> json) =
-      _$UnionCompletionFunctionCallOptionChatImpl.fromJson;
-
-  @override
-
-  /// The name of the function to call.
-  String get name;
-  @override
-  @JsonKey(ignore: true)
-  _$$UnionCompletionFunctionCallOptionChatImplCopyWith<
-          _$UnionCompletionFunctionCallOptionChatImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

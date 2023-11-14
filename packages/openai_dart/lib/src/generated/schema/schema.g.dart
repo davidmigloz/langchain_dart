@@ -70,15 +70,15 @@ Json? _$JsonConverterToJson<Json, Value>(
 ) =>
     value == null ? null : toJson(value);
 
-_$UnionCompletionModelEnumImpl _$$UnionCompletionModelEnumImplFromJson(
+_$CompletionModelEnumerationImpl _$$CompletionModelEnumerationImplFromJson(
         Map<String, dynamic> json) =>
-    _$UnionCompletionModelEnumImpl(
+    _$CompletionModelEnumerationImpl(
       $enumDecode(_$CompletionModelsEnumMap, json['value']),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$UnionCompletionModelEnumImplToJson(
-        _$UnionCompletionModelEnumImpl instance) =>
+Map<String, dynamic> _$$CompletionModelEnumerationImplToJson(
+        _$CompletionModelEnumerationImpl instance) =>
     <String, dynamic>{
       'value': _$CompletionModelsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -97,103 +97,101 @@ const _$CompletionModelsEnumMap = {
   CompletionModels.textAda001: 'text-ada-001',
 };
 
-_$UnionCompletionModelStringImpl _$$UnionCompletionModelStringImplFromJson(
+_$CompletionModelStringImpl _$$CompletionModelStringImplFromJson(
         Map<String, dynamic> json) =>
-    _$UnionCompletionModelStringImpl(
+    _$CompletionModelStringImpl(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$UnionCompletionModelStringImplToJson(
-        _$UnionCompletionModelStringImpl instance) =>
+Map<String, dynamic> _$$CompletionModelStringImplToJson(
+        _$CompletionModelStringImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$UnionCompletionPromptArrayImpl _$$UnionCompletionPromptArrayImplFromJson(
+_$CompletionPromptListListIntImpl _$$CompletionPromptListListIntImplFromJson(
         Map<String, dynamic> json) =>
-    _$UnionCompletionPromptArrayImpl(
+    _$CompletionPromptListListIntImpl(
       (json['value'] as List<dynamic>)
           .map((e) => (e as List<dynamic>).map((e) => e as int).toList())
           .toList(),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$UnionCompletionPromptArrayImplToJson(
-        _$UnionCompletionPromptArrayImpl instance) =>
+Map<String, dynamic> _$$CompletionPromptListListIntImplToJson(
+        _$CompletionPromptListListIntImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$UnionCompletionPromptArrayIntegerImpl
-    _$$UnionCompletionPromptArrayIntegerImplFromJson(
-            Map<String, dynamic> json) =>
-        _$UnionCompletionPromptArrayIntegerImpl(
-          (json['value'] as List<dynamic>).map((e) => e as int).toList(),
-          $type: json['runtimeType'] as String?,
-        );
-
-Map<String, dynamic> _$$UnionCompletionPromptArrayIntegerImplToJson(
-        _$UnionCompletionPromptArrayIntegerImpl instance) =>
-    <String, dynamic>{
-      'value': instance.value,
-      'runtimeType': instance.$type,
-    };
-
-_$UnionCompletionPromptArrayStringImpl
-    _$$UnionCompletionPromptArrayStringImplFromJson(
-            Map<String, dynamic> json) =>
-        _$UnionCompletionPromptArrayStringImpl(
-          (json['value'] as List<dynamic>).map((e) => e as String).toList(),
-          $type: json['runtimeType'] as String?,
-        );
-
-Map<String, dynamic> _$$UnionCompletionPromptArrayStringImplToJson(
-        _$UnionCompletionPromptArrayStringImpl instance) =>
-    <String, dynamic>{
-      'value': instance.value,
-      'runtimeType': instance.$type,
-    };
-
-_$UnionCompletionPromptStringImpl _$$UnionCompletionPromptStringImplFromJson(
+_$CompletionPromptListIntImpl _$$CompletionPromptListIntImplFromJson(
         Map<String, dynamic> json) =>
-    _$UnionCompletionPromptStringImpl(
+    _$CompletionPromptListIntImpl(
+      (json['value'] as List<dynamic>).map((e) => e as int).toList(),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$CompletionPromptListIntImplToJson(
+        _$CompletionPromptListIntImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'runtimeType': instance.$type,
+    };
+
+_$CompletionPromptListStringImpl _$$CompletionPromptListStringImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CompletionPromptListStringImpl(
+      (json['value'] as List<dynamic>).map((e) => e as String).toList(),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$CompletionPromptListStringImplToJson(
+        _$CompletionPromptListStringImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'runtimeType': instance.$type,
+    };
+
+_$CompletionPromptStringImpl _$$CompletionPromptStringImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CompletionPromptStringImpl(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$UnionCompletionPromptStringImplToJson(
-        _$UnionCompletionPromptStringImpl instance) =>
+Map<String, dynamic> _$$CompletionPromptStringImplToJson(
+        _$CompletionPromptStringImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$UnionCompletionStopArrayStringImpl
-    _$$UnionCompletionStopArrayStringImplFromJson(Map<String, dynamic> json) =>
-        _$UnionCompletionStopArrayStringImpl(
-          (json['value'] as List<dynamic>).map((e) => e as String).toList(),
-          $type: json['runtimeType'] as String?,
-        );
-
-Map<String, dynamic> _$$UnionCompletionStopArrayStringImplToJson(
-        _$UnionCompletionStopArrayStringImpl instance) =>
-    <String, dynamic>{
-      'value': instance.value,
-      'runtimeType': instance.$type,
-    };
-
-_$UnionCompletionStopStringImpl _$$UnionCompletionStopStringImplFromJson(
+_$CompletionStopListStringImpl _$$CompletionStopListStringImplFromJson(
         Map<String, dynamic> json) =>
-    _$UnionCompletionStopStringImpl(
-      json['value'] as String,
+    _$CompletionStopListStringImpl(
+      (json['value'] as List<dynamic>).map((e) => e as String).toList(),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$UnionCompletionStopStringImplToJson(
-        _$UnionCompletionStopStringImpl instance) =>
+Map<String, dynamic> _$$CompletionStopListStringImplToJson(
+        _$CompletionStopListStringImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'runtimeType': instance.$type,
+    };
+
+_$CompletionStopStringImpl _$$CompletionStopStringImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CompletionStopStringImpl(
+      json['value'] as String?,
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$CompletionStopStringImplToJson(
+        _$CompletionStopStringImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
@@ -381,15 +379,15 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
   return val;
 }
 
-_$UnionChatCompletionModelEnumImpl _$$UnionChatCompletionModelEnumImplFromJson(
-        Map<String, dynamic> json) =>
-    _$UnionChatCompletionModelEnumImpl(
-      $enumDecode(_$ChatCompletionModelsEnumMap, json['value']),
-      $type: json['runtimeType'] as String?,
-    );
+_$ChatCompletionModelEnumerationImpl
+    _$$ChatCompletionModelEnumerationImplFromJson(Map<String, dynamic> json) =>
+        _$ChatCompletionModelEnumerationImpl(
+          $enumDecode(_$ChatCompletionModelsEnumMap, json['value']),
+          $type: json['runtimeType'] as String?,
+        );
 
-Map<String, dynamic> _$$UnionChatCompletionModelEnumImplToJson(
-        _$UnionChatCompletionModelEnumImpl instance) =>
+Map<String, dynamic> _$$ChatCompletionModelEnumerationImplToJson(
+        _$ChatCompletionModelEnumerationImpl instance) =>
     <String, dynamic>{
       'value': _$ChatCompletionModelsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -411,15 +409,15 @@ const _$ChatCompletionModelsEnumMap = {
   ChatCompletionModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
 };
 
-_$UnionChatCompletionModelStringImpl
-    _$$UnionChatCompletionModelStringImplFromJson(Map<String, dynamic> json) =>
-        _$UnionChatCompletionModelStringImpl(
-          json['value'] as String,
-          $type: json['runtimeType'] as String?,
-        );
+_$ChatCompletionModelStringImpl _$$ChatCompletionModelStringImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ChatCompletionModelStringImpl(
+      json['value'] as String,
+      $type: json['runtimeType'] as String?,
+    );
 
-Map<String, dynamic> _$$UnionChatCompletionModelStringImplToJson(
-        _$UnionChatCompletionModelStringImpl instance) =>
+Map<String, dynamic> _$$ChatCompletionModelStringImplToJson(
+        _$ChatCompletionModelStringImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
@@ -444,46 +442,45 @@ const _$ChatCompletionResponseFormatTypeEnumMap = {
   ChatCompletionResponseFormatType.jsonObject: 'json_object',
 };
 
-_$UnionChatCompletionStopArrayStringImpl
-    _$$UnionChatCompletionStopArrayStringImplFromJson(
-            Map<String, dynamic> json) =>
-        _$UnionChatCompletionStopArrayStringImpl(
-          (json['value'] as List<dynamic>).map((e) => e as String).toList(),
-          $type: json['runtimeType'] as String?,
-        );
+_$ChatCompletionStopListStringImpl _$$ChatCompletionStopListStringImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ChatCompletionStopListStringImpl(
+      (json['value'] as List<dynamic>).map((e) => e as String).toList(),
+      $type: json['runtimeType'] as String?,
+    );
 
-Map<String, dynamic> _$$UnionChatCompletionStopArrayStringImplToJson(
-        _$UnionChatCompletionStopArrayStringImpl instance) =>
+Map<String, dynamic> _$$ChatCompletionStopListStringImplToJson(
+        _$ChatCompletionStopListStringImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$UnionChatCompletionStopStringImpl
-    _$$UnionChatCompletionStopStringImplFromJson(Map<String, dynamic> json) =>
-        _$UnionChatCompletionStopStringImpl(
-          json['value'] as String,
-          $type: json['runtimeType'] as String?,
-        );
+_$ChatCompletionStopStringImpl _$$ChatCompletionStopStringImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ChatCompletionStopStringImpl(
+      json['value'] as String?,
+      $type: json['runtimeType'] as String?,
+    );
 
-Map<String, dynamic> _$$UnionChatCompletionStopStringImplToJson(
-        _$UnionChatCompletionStopStringImpl instance) =>
+Map<String, dynamic> _$$ChatCompletionStopStringImplToJson(
+        _$ChatCompletionStopStringImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$UnionChatCompletionToolChoiceOptionEnumImpl
-    _$$UnionChatCompletionToolChoiceOptionEnumImplFromJson(
+_$ChatCompletionToolChoiceOptionEnumerationImpl
+    _$$ChatCompletionToolChoiceOptionEnumerationImplFromJson(
             Map<String, dynamic> json) =>
-        _$UnionChatCompletionToolChoiceOptionEnumImpl(
+        _$ChatCompletionToolChoiceOptionEnumerationImpl(
           $enumDecode(
               _$ChatCompletionToolChoiceOptionEnumEnumMap, json['value']),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic> _$$UnionChatCompletionToolChoiceOptionEnumImplToJson(
-        _$UnionChatCompletionToolChoiceOptionEnumImpl instance) =>
+Map<String, dynamic> _$$ChatCompletionToolChoiceOptionEnumerationImplToJson(
+        _$ChatCompletionToolChoiceOptionEnumerationImpl instance) =>
     <String, dynamic>{
       'value': _$ChatCompletionToolChoiceOptionEnumEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -494,34 +491,34 @@ const _$ChatCompletionToolChoiceOptionEnumEnumMap = {
   ChatCompletionToolChoiceOptionEnum.auto: 'auto',
 };
 
-_$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
-    _$$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplFromJson(
+_$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
+    _$$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplFromJson(
             Map<String, dynamic> json) =>
-        _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl(
+        _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl(
           ChatCompletionNamedToolChoice.fromJson(
               json['value'] as Map<String, dynamic>),
           $type: json['runtimeType'] as String?,
         );
 
 Map<String, dynamic>
-    _$$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplToJson(
-            _$UnionChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
+    _$$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplToJson(
+            _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
                 instance) =>
         <String, dynamic>{
           'value': instance.value.toJson(),
           'runtimeType': instance.$type,
         };
 
-_$UnionChatCompletionFunctionCallEnumImpl
-    _$$UnionChatCompletionFunctionCallEnumImplFromJson(
+_$ChatCompletionFunctionCallEnumerationImpl
+    _$$ChatCompletionFunctionCallEnumerationImplFromJson(
             Map<String, dynamic> json) =>
-        _$UnionChatCompletionFunctionCallEnumImpl(
+        _$ChatCompletionFunctionCallEnumerationImpl(
           $enumDecode(_$ChatCompletionFunctionCallModeEnumMap, json['value']),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic> _$$UnionChatCompletionFunctionCallEnumImplToJson(
-        _$UnionChatCompletionFunctionCallEnumImpl instance) =>
+Map<String, dynamic> _$$ChatCompletionFunctionCallEnumerationImplToJson(
+        _$ChatCompletionFunctionCallEnumerationImpl instance) =>
     <String, dynamic>{
       'value': _$ChatCompletionFunctionCallModeEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -532,18 +529,18 @@ const _$ChatCompletionFunctionCallModeEnumMap = {
   ChatCompletionFunctionCallMode.auto: 'auto',
 };
 
-_$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl
-    _$$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImplFromJson(
+_$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl
+    _$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplFromJson(
             Map<String, dynamic> json) =>
-        _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl(
+        _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl(
           ChatCompletionFunctionCallOption.fromJson(
               json['value'] as Map<String, dynamic>),
           $type: json['runtimeType'] as String?,
         );
 
 Map<String, dynamic>
-    _$$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImplToJson(
-            _$UnionChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl
+    _$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplToJson(
+            _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl
                 instance) =>
         <String, dynamic>{
           'value': instance.value.toJson(),
@@ -1003,15 +1000,15 @@ const _$EmbeddingEncodingFormatEnumMap = {
   EmbeddingEncodingFormat.base64: 'base64',
 };
 
-_$UnionEmbeddingModelEnumImpl _$$UnionEmbeddingModelEnumImplFromJson(
+_$EmbeddingModelEnumerationImpl _$$EmbeddingModelEnumerationImplFromJson(
         Map<String, dynamic> json) =>
-    _$UnionEmbeddingModelEnumImpl(
+    _$EmbeddingModelEnumerationImpl(
       $enumDecode(_$EmbeddingModelsEnumMap, json['value']),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$UnionEmbeddingModelEnumImplToJson(
-        _$UnionEmbeddingModelEnumImpl instance) =>
+Map<String, dynamic> _$$EmbeddingModelEnumerationImplToJson(
+        _$EmbeddingModelEnumerationImpl instance) =>
     <String, dynamic>{
       'value': _$EmbeddingModelsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -1021,73 +1018,73 @@ const _$EmbeddingModelsEnumMap = {
   EmbeddingModels.textEmbeddingAda002: 'text-embedding-ada-002',
 };
 
-_$UnionEmbeddingModelStringImpl _$$UnionEmbeddingModelStringImplFromJson(
+_$EmbeddingModelStringImpl _$$EmbeddingModelStringImplFromJson(
         Map<String, dynamic> json) =>
-    _$UnionEmbeddingModelStringImpl(
+    _$EmbeddingModelStringImpl(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$UnionEmbeddingModelStringImplToJson(
-        _$UnionEmbeddingModelStringImpl instance) =>
+Map<String, dynamic> _$$EmbeddingModelStringImplToJson(
+        _$EmbeddingModelStringImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$UnionEmbeddingInputArrayImpl _$$UnionEmbeddingInputArrayImplFromJson(
+_$EmbeddingInputListListIntImpl _$$EmbeddingInputListListIntImplFromJson(
         Map<String, dynamic> json) =>
-    _$UnionEmbeddingInputArrayImpl(
+    _$EmbeddingInputListListIntImpl(
       (json['value'] as List<dynamic>)
           .map((e) => (e as List<dynamic>).map((e) => e as int).toList())
           .toList(),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$UnionEmbeddingInputArrayImplToJson(
-        _$UnionEmbeddingInputArrayImpl instance) =>
+Map<String, dynamic> _$$EmbeddingInputListListIntImplToJson(
+        _$EmbeddingInputListListIntImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$UnionEmbeddingInputArrayIntegerImpl
-    _$$UnionEmbeddingInputArrayIntegerImplFromJson(Map<String, dynamic> json) =>
-        _$UnionEmbeddingInputArrayIntegerImpl(
-          (json['value'] as List<dynamic>).map((e) => e as int).toList(),
-          $type: json['runtimeType'] as String?,
-        );
-
-Map<String, dynamic> _$$UnionEmbeddingInputArrayIntegerImplToJson(
-        _$UnionEmbeddingInputArrayIntegerImpl instance) =>
-    <String, dynamic>{
-      'value': instance.value,
-      'runtimeType': instance.$type,
-    };
-
-_$UnionEmbeddingInputArrayStringImpl
-    _$$UnionEmbeddingInputArrayStringImplFromJson(Map<String, dynamic> json) =>
-        _$UnionEmbeddingInputArrayStringImpl(
-          (json['value'] as List<dynamic>).map((e) => e as String).toList(),
-          $type: json['runtimeType'] as String?,
-        );
-
-Map<String, dynamic> _$$UnionEmbeddingInputArrayStringImplToJson(
-        _$UnionEmbeddingInputArrayStringImpl instance) =>
-    <String, dynamic>{
-      'value': instance.value,
-      'runtimeType': instance.$type,
-    };
-
-_$UnionEmbeddingInputStringImpl _$$UnionEmbeddingInputStringImplFromJson(
+_$EmbeddingInputListIntImpl _$$EmbeddingInputListIntImplFromJson(
         Map<String, dynamic> json) =>
-    _$UnionEmbeddingInputStringImpl(
+    _$EmbeddingInputListIntImpl(
+      (json['value'] as List<dynamic>).map((e) => e as int).toList(),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$EmbeddingInputListIntImplToJson(
+        _$EmbeddingInputListIntImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'runtimeType': instance.$type,
+    };
+
+_$EmbeddingInputListStringImpl _$$EmbeddingInputListStringImplFromJson(
+        Map<String, dynamic> json) =>
+    _$EmbeddingInputListStringImpl(
+      (json['value'] as List<dynamic>).map((e) => e as String).toList(),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$EmbeddingInputListStringImplToJson(
+        _$EmbeddingInputListStringImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'runtimeType': instance.$type,
+    };
+
+_$EmbeddingInputStringImpl _$$EmbeddingInputStringImplFromJson(
+        Map<String, dynamic> json) =>
+    _$EmbeddingInputStringImpl(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$UnionEmbeddingInputStringImplToJson(
-        _$UnionEmbeddingInputStringImpl instance) =>
+Map<String, dynamic> _$$EmbeddingInputStringImplToJson(
+        _$EmbeddingInputStringImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
@@ -1136,31 +1133,31 @@ const _$EmbeddingObjectEnumMap = {
   EmbeddingObject.embedding: 'embedding',
 };
 
-_$UnionEmbeddingVectorArrayNumberImpl
-    _$$UnionEmbeddingVectorArrayNumberImplFromJson(Map<String, dynamic> json) =>
-        _$UnionEmbeddingVectorArrayNumberImpl(
-          (json['value'] as List<dynamic>)
-              .map((e) => (e as num).toDouble())
-              .toList(),
-          $type: json['runtimeType'] as String?,
-        );
+_$EmbeddingVectorListDoubleImpl _$$EmbeddingVectorListDoubleImplFromJson(
+        Map<String, dynamic> json) =>
+    _$EmbeddingVectorListDoubleImpl(
+      (json['value'] as List<dynamic>)
+          .map((e) => (e as num).toDouble())
+          .toList(),
+      $type: json['runtimeType'] as String?,
+    );
 
-Map<String, dynamic> _$$UnionEmbeddingVectorArrayNumberImplToJson(
-        _$UnionEmbeddingVectorArrayNumberImpl instance) =>
+Map<String, dynamic> _$$EmbeddingVectorListDoubleImplToJson(
+        _$EmbeddingVectorListDoubleImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$UnionEmbeddingVectorStringImpl _$$UnionEmbeddingVectorStringImplFromJson(
+_$EmbeddingVectorStringImpl _$$EmbeddingVectorStringImplFromJson(
         Map<String, dynamic> json) =>
-    _$UnionEmbeddingVectorStringImpl(
+    _$EmbeddingVectorStringImpl(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$UnionEmbeddingVectorStringImplToJson(
-        _$UnionEmbeddingVectorStringImpl instance) =>
+Map<String, dynamic> _$$EmbeddingVectorStringImplToJson(
+        _$EmbeddingVectorStringImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
@@ -1211,15 +1208,15 @@ Map<String, dynamic> _$$CreateFineTuningJobRequestImplToJson(
   return val;
 }
 
-_$UnionFineTuningModelEnumImpl _$$UnionFineTuningModelEnumImplFromJson(
+_$FineTuningModelEnumerationImpl _$$FineTuningModelEnumerationImplFromJson(
         Map<String, dynamic> json) =>
-    _$UnionFineTuningModelEnumImpl(
+    _$FineTuningModelEnumerationImpl(
       $enumDecode(_$FineTuningModelsEnumMap, json['value']),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$UnionFineTuningModelEnumImplToJson(
-        _$UnionFineTuningModelEnumImpl instance) =>
+Map<String, dynamic> _$$FineTuningModelEnumerationImplToJson(
+        _$FineTuningModelEnumerationImpl instance) =>
     <String, dynamic>{
       'value': _$FineTuningModelsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -1231,15 +1228,15 @@ const _$FineTuningModelsEnumMap = {
   FineTuningModels.gpt35Turbo: 'gpt-3.5-turbo',
 };
 
-_$UnionFineTuningModelStringImpl _$$UnionFineTuningModelStringImplFromJson(
+_$FineTuningModelStringImpl _$$FineTuningModelStringImplFromJson(
         Map<String, dynamic> json) =>
-    _$UnionFineTuningModelStringImpl(
+    _$FineTuningModelStringImpl(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$UnionFineTuningModelStringImplToJson(
-        _$UnionFineTuningModelStringImpl instance) =>
+Map<String, dynamic> _$$FineTuningModelStringImplToJson(
+        _$FineTuningModelStringImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
@@ -1327,15 +1324,15 @@ Map<String, dynamic> _$$FineTuningJobHyperparametersImplToJson(
       'n_epochs': const _FineTuningNEpochsConverter().toJson(instance.nEpochs),
     };
 
-_$UnionFineTuningNEpochsEnumImpl _$$UnionFineTuningNEpochsEnumImplFromJson(
+_$FineTuningNEpochsEnumerationImpl _$$FineTuningNEpochsEnumerationImplFromJson(
         Map<String, dynamic> json) =>
-    _$UnionFineTuningNEpochsEnumImpl(
+    _$FineTuningNEpochsEnumerationImpl(
       $enumDecode(_$FineTuningNEpochsOptionsEnumMap, json['value']),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$UnionFineTuningNEpochsEnumImplToJson(
-        _$UnionFineTuningNEpochsEnumImpl instance) =>
+Map<String, dynamic> _$$FineTuningNEpochsEnumerationImplToJson(
+        _$FineTuningNEpochsEnumerationImpl instance) =>
     <String, dynamic>{
       'value': _$FineTuningNEpochsOptionsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -1345,15 +1342,15 @@ const _$FineTuningNEpochsOptionsEnumMap = {
   FineTuningNEpochsOptions.auto: 'auto',
 };
 
-_$UnionFineTuningNEpochsIntegerImpl
-    _$$UnionFineTuningNEpochsIntegerImplFromJson(Map<String, dynamic> json) =>
-        _$UnionFineTuningNEpochsIntegerImpl(
-          json['value'] as int,
-          $type: json['runtimeType'] as String?,
-        );
+_$FineTuningNEpochsIntImpl _$$FineTuningNEpochsIntImplFromJson(
+        Map<String, dynamic> json) =>
+    _$FineTuningNEpochsIntImpl(
+      json['value'] as int,
+      $type: json['runtimeType'] as String?,
+    );
 
-Map<String, dynamic> _$$UnionFineTuningNEpochsIntegerImplToJson(
-        _$UnionFineTuningNEpochsIntegerImpl instance) =>
+Map<String, dynamic> _$$FineTuningNEpochsIntImplToJson(
+        _$FineTuningNEpochsIntImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
@@ -1443,7 +1440,7 @@ _$CreateImageRequestImpl _$$CreateImageRequestImplFromJson(
     _$CreateImageRequestImpl(
       prompt: json['prompt'] as String,
       model: json['model'] == null
-          ? const CreateImageRequestModel.string('dall-e-2')
+          ? const CreateImageRequestModelString('dall-e-2')
           : const _CreateImageRequestModelConverter().fromJson(json['model']),
       n: json['n'] as int? ?? 1,
       quality: $enumDecodeNullable(_$ImageQualityEnumMap, json['quality']) ??
@@ -1508,16 +1505,16 @@ const _$ImageStyleEnumMap = {
   ImageStyle.natural: 'natural',
 };
 
-_$UnionCreateImageRequestModelEnumImpl
-    _$$UnionCreateImageRequestModelEnumImplFromJson(
+_$CreateImageRequestModelEnumerationImpl
+    _$$CreateImageRequestModelEnumerationImplFromJson(
             Map<String, dynamic> json) =>
-        _$UnionCreateImageRequestModelEnumImpl(
+        _$CreateImageRequestModelEnumerationImpl(
           $enumDecode(_$ImageModelsEnumMap, json['value']),
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic> _$$UnionCreateImageRequestModelEnumImplToJson(
-        _$UnionCreateImageRequestModelEnumImpl instance) =>
+Map<String, dynamic> _$$CreateImageRequestModelEnumerationImplToJson(
+        _$CreateImageRequestModelEnumerationImpl instance) =>
     <String, dynamic>{
       'value': _$ImageModelsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -1528,16 +1525,15 @@ const _$ImageModelsEnumMap = {
   ImageModels.dallE3: 'dall-e-3',
 };
 
-_$UnionCreateImageRequestModelStringImpl
-    _$$UnionCreateImageRequestModelStringImplFromJson(
-            Map<String, dynamic> json) =>
-        _$UnionCreateImageRequestModelStringImpl(
+_$CreateImageRequestModelStringImpl
+    _$$CreateImageRequestModelStringImplFromJson(Map<String, dynamic> json) =>
+        _$CreateImageRequestModelStringImpl(
           json['value'] as String,
           $type: json['runtimeType'] as String?,
         );
 
-Map<String, dynamic> _$$UnionCreateImageRequestModelStringImplToJson(
-        _$UnionCreateImageRequestModelStringImpl instance) =>
+Map<String, dynamic> _$$CreateImageRequestModelStringImplToJson(
+        _$CreateImageRequestModelStringImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
@@ -1638,7 +1634,7 @@ _$CreateModerationRequestImpl _$$CreateModerationRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateModerationRequestImpl(
       model: json['model'] == null
-          ? const ModerationModel.string('text-moderation-latest')
+          ? const ModerationModelString('text-moderation-latest')
           : const _ModerationModelConverter().fromJson(json['model']),
       input: const _ModerationInputConverter().fromJson(json['input']),
     );
@@ -1659,15 +1655,15 @@ Map<String, dynamic> _$$CreateModerationRequestImplToJson(
   return val;
 }
 
-_$UnionModerationModelEnumImpl _$$UnionModerationModelEnumImplFromJson(
+_$ModerationModelEnumerationImpl _$$ModerationModelEnumerationImplFromJson(
         Map<String, dynamic> json) =>
-    _$UnionModerationModelEnumImpl(
+    _$ModerationModelEnumerationImpl(
       $enumDecode(_$ModerationModelsEnumMap, json['value']),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$UnionModerationModelEnumImplToJson(
-        _$UnionModerationModelEnumImpl instance) =>
+Map<String, dynamic> _$$ModerationModelEnumerationImplToJson(
+        _$ModerationModelEnumerationImpl instance) =>
     <String, dynamic>{
       'value': _$ModerationModelsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -1678,43 +1674,43 @@ const _$ModerationModelsEnumMap = {
   ModerationModels.textModerationStable: 'text-moderation-stable',
 };
 
-_$UnionModerationModelStringImpl _$$UnionModerationModelStringImplFromJson(
+_$ModerationModelStringImpl _$$ModerationModelStringImplFromJson(
         Map<String, dynamic> json) =>
-    _$UnionModerationModelStringImpl(
+    _$ModerationModelStringImpl(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$UnionModerationModelStringImplToJson(
-        _$UnionModerationModelStringImpl instance) =>
+Map<String, dynamic> _$$ModerationModelStringImplToJson(
+        _$ModerationModelStringImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$UnionModerationInputArrayStringImpl
-    _$$UnionModerationInputArrayStringImplFromJson(Map<String, dynamic> json) =>
-        _$UnionModerationInputArrayStringImpl(
-          (json['value'] as List<dynamic>).map((e) => e as String).toList(),
-          $type: json['runtimeType'] as String?,
-        );
+_$ModerationInputListStringImpl _$$ModerationInputListStringImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ModerationInputListStringImpl(
+      (json['value'] as List<dynamic>).map((e) => e as String).toList(),
+      $type: json['runtimeType'] as String?,
+    );
 
-Map<String, dynamic> _$$UnionModerationInputArrayStringImplToJson(
-        _$UnionModerationInputArrayStringImpl instance) =>
+Map<String, dynamic> _$$ModerationInputListStringImplToJson(
+        _$ModerationInputListStringImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
     };
 
-_$UnionModerationInputStringImpl _$$UnionModerationInputStringImplFromJson(
+_$ModerationInputStringImpl _$$ModerationInputStringImplFromJson(
         Map<String, dynamic> json) =>
-    _$UnionModerationInputStringImpl(
+    _$ModerationInputStringImpl(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$UnionModerationInputStringImplToJson(
-        _$UnionModerationInputStringImpl instance) =>
+Map<String, dynamic> _$$ModerationInputStringImplToJson(
+        _$ModerationInputStringImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
@@ -1816,43 +1812,4 @@ Map<String, dynamic> _$$ModerationCategoriesScoresImplToJson(
       'sexual/minors': instance.sexualMinors,
       'violence': instance.violence,
       'violence/graphic': instance.violenceGraphic,
-    };
-
-_$UnionCompletionNamedToolChoiceChatImpl
-    _$$UnionCompletionNamedToolChoiceChatImplFromJson(
-            Map<String, dynamic> json) =>
-        _$UnionCompletionNamedToolChoiceChatImpl(
-          type: json['type'] as String?,
-          function: json['function'] == null
-              ? null
-              : ChatCompletionFunctionCallOption.fromJson(
-                  json['function'] as Map<String, dynamic>),
-        );
-
-Map<String, dynamic> _$$UnionCompletionNamedToolChoiceChatImplToJson(
-    _$UnionCompletionNamedToolChoiceChatImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('type', instance.type);
-  writeNotNull('function', instance.function?.toJson());
-  return val;
-}
-
-_$UnionCompletionFunctionCallOptionChatImpl
-    _$$UnionCompletionFunctionCallOptionChatImplFromJson(
-            Map<String, dynamic> json) =>
-        _$UnionCompletionFunctionCallOptionChatImpl(
-          name: json['name'] as String,
-        );
-
-Map<String, dynamic> _$$UnionCompletionFunctionCallOptionChatImplToJson(
-        _$UnionCompletionFunctionCallOptionChatImpl instance) =>
-    <String, dynamic>{
-      'name': instance.name,
     };

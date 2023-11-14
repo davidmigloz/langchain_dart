@@ -57,7 +57,7 @@ Given a list of messages comprising a conversation, the model will return a resp
 ```dart
 final res = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.string('gpt-4'),
+    model: ChatCompletionModel.modelId('gpt-4'),
     messages: [
       ChatCompletionMessage(
         role: ChatCompletionMessageRole.system,
@@ -76,15 +76,15 @@ print(res.choices.first.message.content);
 ```
 
 `ChatCompletionModel` is a sealed class that offers two ways to specify the model:
-- `ChatCompletionModel.string('model-id')`: the model ID as string (e.g. `'gpt-4'` or your fine-tuned model ID).
-- `ChatCompletionModel.enumeration(ChatCompletionModels.gpt4)`: a value from `ChatCompletionModels` enum which lists all of the available models.
+- `ChatCompletionModel.modelId('model-id')`: the model ID as string (e.g. `'gpt-4'` or your fine-tuned model ID).
+- `ChatCompletionModel.model(ChatCompletionModels.gpt4)`: a value from `ChatCompletionModels` enum which lists all of the available models.
 
 **Stream chat completion:**
 
 ```dart
 final stream = client.createChatCompletionStream(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.string('gpt-3.5-turbo'),
+    model: ChatCompletionModel.modelId('gpt-3.5-turbo'),
     messages: [
       ChatCompletionMessage(
         role: ChatCompletionMessageRole.system,
@@ -109,7 +109,7 @@ await for (final res in stream) {
 ```dart
 final res = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.enumeration(
+    model: ChatCompletionModel.model(
       ChatCompletionModels.gpt41106Preview,
     ),
     messages: [
@@ -162,7 +162,7 @@ const tool = ChatCompletionTool(
 
 final res1 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
-    model: const ChatCompletionModel.enumeration(
+    model: const ChatCompletionModel.model(
       ChatCompletionModels.gpt35Turbo,
     ),
     messages: [
@@ -176,7 +176,7 @@ final res1 = await client.createChatCompletion(
       ),
     ],
     tools: [tool],
-    toolChoice: ChatCompletionToolChoiceOption.chatCompletionNamedToolChoice(
+    toolChoice: ChatCompletionToolChoiceOption.tool(
       ChatCompletionNamedToolChoice(
         type: ChatCompletionNamedToolChoiceType.function,
         function: ChatCompletionFunctionCallOption(name: function.name),
@@ -192,7 +192,7 @@ final functionResult = getCurrentWeather(arguments['location'], arguments['unit'
 
 final res2 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.string('gpt-3.5-turbo'),
+    model: ChatCompletionModel.modelId('gpt-3.5-turbo'),
     messages: [
       ChatCompletionMessage(
         role: ChatCompletionMessageRole.system,
@@ -240,7 +240,7 @@ const function = FunctionObject(
 
 final res1 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.string('gpt-3.5-turbo'),
+    model: ChatCompletionModel.modelId('gpt-3.5-turbo'),
     messages: [
       ChatCompletionMessage(
         role: ChatCompletionMessageRole.system,
@@ -262,7 +262,7 @@ final functionResult = getCurrentWeather(arguments['location'], arguments['unit'
 
 final res2 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.string('gpt-3.5-turbo'),
+    model: ChatCompletionModel.modelId('gpt-3.5-turbo'),
     messages: [
       ChatCompletionMessage(
         role: ChatCompletionMessageRole.system,
@@ -294,10 +294,8 @@ Given a prompt, the model will return one or more predicted completions, and can
 ```dart
 final res = await client.createCompletion(
   request: CreateCompletionRequest(
-    model: CompletionModel.string('gpt-3.5-turbo-instruct'),
-    prompt: [
-      'Say this is a test',
-    ],
+    model: CompletionModel.modelId('gpt-3.5-turbo-instruct'),
+    prompt: CompletionPrompt.string('Say this is a test'),
     maxTokens: 7,
     temperature: 0,
   ),
@@ -307,14 +305,14 @@ print(res.choices.first.text);
 ```
 
 `CompletionModel` is a sealed class that offers two ways to specify the model:
-- `CompletionModel.string('model-id')`: the model ID as string (e.g. `'gpt-3.5-turbo-instruct'` or your fine-tuned model ID).
-- `CompletionModel.enumeration(CompletionModels.gpt35TurboInstruct)`: a value from `CompletionModels` enum which lists all of the available models.
+- `CompletionModel.modelId('model-id')`: the model ID as string (e.g. `'gpt-3.5-turbo-instruct'` or your fine-tuned model ID).
+- `CompletionModel.model(CompletionModels.gpt35TurboInstruct)`: a value from `CompletionModels` enum which lists all of the available models.
 
 `CompletionPrompt` is a sealed class that offers four ways to specify the prompt:
 - `CompletionPrompt.string('prompt')`: the prompt as string.
-- `CompletionPrompt.arrayInteger([...])`: the tokenized prompt.
-- `CompletionPrompt.arrayString(['prompt'])`: batch of string prompts.
-- `CompletionPrompt.array([[...]])`: batch of tokenized prompts.
+- `CompletionPrompt.tokens([...])`: the tokenized prompt.
+- `CompletionPrompt.listString(['prompt'])`: batch of string prompts.
+- `CompletionPrompt.listTokens([[...]])`: batch of tokenized prompts.
 
 **Stream completion:**
 
@@ -343,7 +341,7 @@ Get a vector representation of a given input that can be easily consumed by mach
 ```dart
 final res = await client.createEmbedding(
   request: CreateEmbeddingRequest(
-    model: EmbeddingModel.string('text-embedding-ada-002'),
+    model: EmbeddingModel.modelId('text-embedding-ada-002'),
     input: EmbeddingInput.string('The food was delicious and the waiter...'),
   ),
 );
@@ -352,21 +350,21 @@ print(res.data.first.embeddingVector);
 ```
 
 `EmbeddingModel` is a sealed class that offers two ways to specify the model:
-- `EmbeddingModel.string('model-id')`: the model ID as string.
-- `EmbeddingModel.enumeration(EmbeddingModels.textEmbeddingAda002)`: a value from `EmbeddingModels` enum which lists all of the available models.
+- `EmbeddingModel.modelId('model-id')`: the model ID as string.
+- `EmbeddingModel.model(EmbeddingModels.textEmbeddingAda002)`: a value from `EmbeddingModels` enum which lists all of the available models.
 
 `EmbeddingInput` is a sealed class that offers four ways to specify the embedding input:
 - `EmbeddingInput.string('input')`: the input as string.
-- `EmbeddingInput.arrayInteger([...])`: the tokenized input.
-- `EmbeddingInput.arrayString(['input'])`: batch of string inputs.
-- `EmbeddingInput.array([[...]])`: batch of tokenized inputs.
+- `EmbeddingInput.tokens([...])`: the tokenized input.
+- `EmbeddingInput.listString(['input'])`: batch of string inputs.
+- `EmbeddingInput.listTokens([[...]])`: batch of tokenized inputs.
 
 You can also request the embedding vector encoded as a base64 string:
 
 ```dart
 final res = await client.createEmbedding(
   request: CreateEmbeddingRequest(
-    model: EmbeddingModel.string('text-embedding-ada-002'),
+    model: EmbeddingModel.modelId('text-embedding-ada-002'),
     input: EmbeddingInput.string('The food was delicious and the waiter...'),
     encodingFormat: EmbeddingEncodingFormat.base64,
   ),
@@ -383,11 +381,11 @@ Manage fine-tuning jobs to tailor a model to your specific training data.
 
 ```dart
 const request = CreateFineTuningJobRequest(
-  model: FineTuningModel.string('gpt-3.5-turbo'),
+  model: FineTuningModel.modelId('gpt-3.5-turbo'),
   trainingFile: 'file-abc123',
   validationFile: 'file-abc123',
   hyperparameters: FineTuningJobHyperparameters(
-    nEpochs: FineTuningNEpochs.enumeration(FineTuningNEpochsOptions.auto),
+    nEpochs: FineTuningNEpochs.mode(FineTuningNEpochsOptions.auto),
   ),
 );
 final res = await client.createFineTuningJob(request: request);
@@ -432,7 +430,7 @@ Given a prompt and/or an input image, the model will generate a new image.
 ```dart
 final res = await client.createImage(
   request: CreateImageRequest(
-    model: CreateImageRequestModel.enumeration(ImageModels.dallE3),
+    model: CreateImageRequestModel.model(ImageModels.dallE3),
     prompt: 'A cute baby sea otter',
     quality: ImageQuality.hd,
     size: ImageSize.v1024x1792,
@@ -480,7 +478,7 @@ Given a input text, outputs if the model classifies it as violating OpenAI's con
 ```dart
 final res = await client.createModeration(
   request: CreateModerationRequest(
-    model: ModerationModel.string('text-moderation-latest'),
+    model: ModerationModel.modelId('text-moderation-latest'),
     input: ModerationInput.string('I want to kill them.'),
   ),
 );
@@ -491,12 +489,12 @@ print(res.results.first.categoryScores.violence);
 ```
 
 `ModerationModel` is a sealed class that offers two ways to specify the model:
-- `ModerationModel.string('model-id')`: the model ID as string.
-- `ModerationModel.enumeration(ModerationModels.textModerationLatest)`: a value from `ModerationModels` enum which lists all of the available models.
+- `ModerationModel.modelId('model-id')`: the model ID as string.
+- `ModerationModel.model(ModerationModels.textModerationLatest)`: a value from `ModerationModels` enum which lists all of the available models.
 
-`EmbeddingInput` is a sealed class that offers four ways to specify the embedding input:
+`ModerationInput` is a sealed class that offers four ways to specify the embedding input:
 - `ModerationInput.string('input')`: the input as string.
-- `EmbeddingInput.arrayString(['input'])`: batch of string inputs.
+- `ModerationInput.listString(['input'])`: batch of string inputs.
 
 ### Advance
 
