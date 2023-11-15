@@ -19,9 +19,16 @@ extension _ChatMessageMapper on ChatMessage {
           content: systemChatMessage.content,
         ),
       final HumanChatMessage humanChatMessage => ChatCompletionMessage.user(
-          content: ChatCompletionUserMessageContent.string(
-            humanChatMessage.content, // TODO add multi-modal support
-          ),
+          content: switch (humanChatMessage.content) {
+            final ChatMessageContentText c =>
+              c.toChatCompletionUserMessageContentString(),
+            final ChatMessageContentImage c =>
+              ChatCompletionUserMessageContent.parts(
+                [c.toChatCompletionMessageContentPart()],
+              ),
+            final ChatMessageContentMultiModal c =>
+              c.toChatCompletionMessageContentPart(),
+          },
         ),
       final AIChatMessage aiChatMessage => ChatCompletionMessage.assistant(
           content: aiChatMessage.content, // TODO add tools support
@@ -35,6 +42,52 @@ extension _ChatMessageMapper on ChatMessage {
         ),
       _ => throw UnsupportedError('Unsupported ChatMessage type'),
     };
+  }
+}
+
+extension _ChatMessageContentTextMapper on ChatMessageContentText {
+  ChatCompletionUserMessageContentString
+      toChatCompletionUserMessageContentString() {
+    return ChatCompletionUserMessageContentString(text);
+  }
+}
+
+extension _ChatMessageContentImageMapper on ChatMessageContentImage {
+  ChatCompletionMessageContentPartImage toChatCompletionMessageContentPart() {
+    return ChatCompletionMessageContentPartImage(
+      imageUrl: ChatCompletionMessageImageUrl(
+        url: url,
+        detail: switch (detail) {
+          ChatMessageContentImageDetail.auto =>
+            ChatCompletionMessageImageDetail.auto,
+          ChatMessageContentImageDetail.low =>
+            ChatCompletionMessageImageDetail.low,
+          ChatMessageContentImageDetail.high =>
+            ChatCompletionMessageImageDetail.high,
+        },
+      ),
+    );
+  }
+}
+
+extension _ChatMessageContentMultiModalMapper on ChatMessageContentMultiModal {
+  ChatCompletionMessageContentParts toChatCompletionMessageContentPart() {
+    final partsList = parts
+        .map(
+          (final part) => switch (part) {
+            final ChatMessageContentText c => [
+                ChatCompletionMessageContentPartText(text: c.text),
+              ],
+            final ChatMessageContentImage c => [
+                c.toChatCompletionMessageContentPart(),
+              ],
+            final ChatMessageContentMultiModal c =>
+              c.toChatCompletionMessageContentPart().value,
+          },
+        )
+        .expand((final parts) => parts)
+        .toList(growable: false);
+    return ChatCompletionMessageContentParts(partsList);
   }
 }
 
@@ -58,7 +111,10 @@ extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
 extension _ChatCompletionResponseChoiceMapper on ChatCompletionResponseChoice {
   ChatGeneration toChatGeneration() {
     return ChatGeneration(
-      message.toChatMessage(),
+      AIChatMessage(
+        content: message.content ?? '',
+        functionCall: message.functionCall?.toAIChatMessageFunctionCall(),
+      ),
       generationInfo: {
         'index': index,
         'finish_reason': finishReason,
@@ -74,37 +130,6 @@ extension _CompletionUsageMapper on CompletionUsage {
       responseTokens: completionTokens,
       totalTokens: totalTokens,
     );
-  }
-}
-
-extension _ChatCompletionMessageMapper on ChatCompletionMessage {
-  ChatMessage toChatMessage() {
-    return switch (this) {
-      ChatCompletionSystemMessage(content: final c) =>
-        ChatMessage.system(c ?? ''),
-      ChatCompletionUserMessage(
-        content: final c
-      ) => // TODO add multi-modal support
-        ChatMessage.human(c?.mapOrNull(string: (final s) => s.value) ?? ''),
-      ChatCompletionAssistantMessage(
-        content: final c,
-        functionCall: final fc,
-      ) =>
-        ChatMessage.ai(
-          c ?? '',
-          functionCall: fc?.toAIChatMessageFunctionCall(),
-        ),
-      ChatCompletionFunctionMessage(
-        content: final c,
-        name: final n,
-      ) =>
-        ChatMessage.function(
-          name: n,
-          content: c ?? '',
-        ),
-      ChatCompletionToolMessage() =>
-        throw UnimplementedError(), // TODO add tools support
-    };
   }
 }
 
@@ -183,7 +208,7 @@ extension _ChatCompletionStreamResponseChoiceMapper
     on ChatCompletionStreamResponseChoice {
   ChatGeneration toChatGeneration() {
     return ChatGeneration(
-      delta.toChatMessage(),
+      delta.toAIChatMessage(),
       generationInfo: {
         'index': index,
         'finish_reason': finishReason,
@@ -194,35 +219,11 @@ extension _ChatCompletionStreamResponseChoiceMapper
 
 extension _ChatCompletionStreamResponseDeltaMapper
     on ChatCompletionStreamResponseDelta {
-  ChatMessage toChatMessage() {
-    return switch (role) {
-      ChatCompletionMessageRole.system => ChatMessage.system(content ?? ''),
-      ChatCompletionMessageRole.user => ChatMessage.human(content ?? ''),
-      ChatCompletionMessageRole.assistant => ChatMessage.ai(
-          content ?? '',
-          functionCall: functionCall?.toAIChatMessageFunctionCall(),
-        ),
-      ChatCompletionMessageRole.function => ChatMessage.function(
-          name: '',
-          content: content ?? '',
-        ),
-      ChatCompletionMessageRole.tool => ChatMessage.function(
-          name: '',
-          content: content ?? '',
-        ),
-      null => _handleNullRole(),
-    };
-  }
-
-  ChatMessage _handleNullRole() {
-    if (functionCall != null) {
-      return ChatMessage.ai(
-        content ?? '',
-        functionCall: functionCall?.toAIChatMessageFunctionCall(),
-      );
-    } else {
-      return ChatMessage.custom(content ?? '', role: '');
-    }
+  AIChatMessage toAIChatMessage() {
+    return AIChatMessage(
+      content: content ?? '',
+      functionCall: functionCall?.toAIChatMessageFunctionCall(),
+    );
   }
 }
 

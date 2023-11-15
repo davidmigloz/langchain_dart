@@ -56,7 +56,7 @@ class StringPromptValue implements PromptValue {
 
   @override
   List<ChatMessage> toChatMessages() {
-    return [ChatMessage.human(value)];
+    return [ChatMessage.humanText(value)];
   }
 
   @override

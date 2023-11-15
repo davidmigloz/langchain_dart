@@ -29,7 +29,7 @@ void main() {
         outputValues: {'bar': 'foo'},
       );
       final expectedResult = [
-        ChatMessage.human('bar'),
+        ChatMessage.humanText('bar'),
         ChatMessage.ai('foo'),
       ];
       final result2 = await memory.loadMemoryVariables();
@@ -55,7 +55,7 @@ void main() {
 
     test('Test buffer memory with pre-loaded history', () async {
       final pastMessages = [
-        ChatMessage.human("My name's Jonas"),
+        ChatMessage.humanText("My name's Jonas"),
         ChatMessage.ai('Nice to meet you, Jonas!'),
       ];
       final memory = ConversationBufferMemory(
@@ -93,7 +93,7 @@ void main() {
         outputValues: {'bar': 'foo'},
       );
       final expectedResult = [
-        ChatMessage.human('bar'),
+        ChatMessage.humanText('bar'),
         ChatMessage.ai('foo'),
       ];
       final result1 = await memory.loadMemoryVariables();
@@ -114,7 +114,7 @@ void main() {
         outputValues: {'bar': 'foo'},
       );
       final expectedResult = [
-        ChatMessage.human('bar2'),
+        ChatMessage.humanText('bar2'),
         ChatMessage.ai('foo'),
       ];
       final result1 = await memory.loadMemoryVariables();

@@ -12,13 +12,13 @@ class ChatModelOptions extends LanguageModelOptions {
 }
 
 /// Result returned by the Chat Model.
-typedef ChatResult = LanguageModelResult<ChatMessage>;
+typedef ChatResult = LanguageModelResult<AIChatMessage>;
 
 /// {@template chat_generation}
 /// Output of a single generation.
 /// {@endtemplate}
 @immutable
-class ChatGeneration extends LanguageModelGeneration<ChatMessage> {
+class ChatGeneration extends LanguageModelGeneration<AIChatMessage> {
   /// {@macro chat_generation}
   const ChatGeneration(
     super.output, {
@@ -29,8 +29,8 @@ class ChatGeneration extends LanguageModelGeneration<ChatMessage> {
   String get outputAsString => output.content;
 
   @override
-  LanguageModelGeneration<ChatMessage> concat(
-    final LanguageModelGeneration<ChatMessage> other,
+  LanguageModelGeneration<AIChatMessage> concat(
+    final LanguageModelGeneration<AIChatMessage> other,
   ) {
     return ChatGeneration(
       output.concat(other.output),
@@ -57,34 +57,29 @@ ChatGeneration{
 @immutable
 sealed class ChatMessage {
   /// {@macro chat_message}
-  const ChatMessage({
-    required this.content,
-  });
+  const ChatMessage();
 
   /// Type of message that is a system message.
   factory ChatMessage.system(final String content) =>
       SystemChatMessage(content: content);
 
   /// Type of message that is spoken by the human.
-  factory ChatMessage.human(
-    final String content, {
-    final bool example = false,
-  }) =>
-      HumanChatMessage(
-        content: content,
-        example: example,
-      );
+  factory ChatMessage.human(final ChatMessageContent content) =>
+      HumanChatMessage(content: content);
+
+  /// This is a convenience method for [ChatMessage.human] with
+  /// [ChatMessageContent.text].
+  factory ChatMessage.humanText(final String text) =>
+      HumanChatMessage(content: ChatMessageContent.text(text));
 
   /// Type of message that is spoken by the AI.
   factory ChatMessage.ai(
     final String content, {
     final AIChatMessageFunctionCall? functionCall,
-    final bool example = false,
   }) =>
       AIChatMessage(
         content: content,
         functionCall: functionCall,
-        example: example,
       );
 
   /// Type of message that is the response of calling a function.
@@ -107,8 +102,26 @@ sealed class ChatMessage {
         role: role,
       );
 
-  /// The content of the message.
-  final String content;
+  /// Returns to content of the message as a string.
+  String get contentAsString => switch (this) {
+        final SystemChatMessage system => system.content,
+        final HumanChatMessage human => switch (human.content) {
+            final ChatMessageContentText text => text.text,
+            final ChatMessageContentImage image => image.url,
+            final ChatMessageContentMultiModal multiModal => multiModal.parts
+                .map(
+                  (final p) => switch (p) {
+                    final ChatMessageContentText text => text.text,
+                    final ChatMessageContentImage image => image.url,
+                    ChatMessageContentMultiModal _ => '',
+                  },
+                )
+                .join('\n'),
+          },
+        final AIChatMessage ai => ai.content,
+        final FunctionChatMessage function => function.content,
+        final CustomChatMessage custom => custom.content,
+      };
 
   /// Merges this message with another by concatenating the content.
   ChatMessage concat(final ChatMessage other);
@@ -121,8 +134,11 @@ sealed class ChatMessage {
 class SystemChatMessage extends ChatMessage {
   /// {@macro system_chat_message}
   const SystemChatMessage({
-    required super.content,
+    required this.content,
   });
+
+  /// The content of the message.
+  final String content;
 
   /// Default prefix for [SystemChatMessage].
   static const String defaultPrefix = 'System';
@@ -136,6 +152,9 @@ class SystemChatMessage extends ChatMessage {
 
   @override
   SystemChatMessage concat(final ChatMessage other) {
+    if (other is! SystemChatMessage) {
+      return this;
+    }
     return SystemChatMessage(content: content + other.content);
   }
 
@@ -144,8 +163,7 @@ class SystemChatMessage extends ChatMessage {
     return '''
 SystemChatMessage{
   content: $content,
-}
-''';
+}''';
   }
 }
 
@@ -156,30 +174,80 @@ SystemChatMessage{
 class HumanChatMessage extends ChatMessage {
   /// {@macro human_chat_message}
   const HumanChatMessage({
-    required super.content,
-    this.example = false,
+    required this.content,
   });
 
-  /// Whether this message is an example.
-  final bool example;
+  /// The content of the message.
+  final ChatMessageContent content;
 
   /// Default prefix for [HumanChatMessage].
   static const String defaultPrefix = 'Human';
 
   @override
   bool operator ==(covariant final HumanChatMessage other) =>
-      identical(this, other) ||
-      content == other.content && example == other.example;
+      identical(this, other) || content == other.content;
 
   @override
-  int get hashCode => content.hashCode ^ example.hashCode;
+  int get hashCode => content.hashCode;
 
   @override
   HumanChatMessage concat(final ChatMessage other) {
-    return HumanChatMessage(
-      content: content + other.content,
-      example: example,
-    );
+    if (other is! HumanChatMessage) {
+      return this;
+    }
+
+    final thisContent = content;
+    final otherContent = other.content;
+
+    if (thisContent is ChatMessageContentText) {
+      return switch (otherContent) {
+        ChatMessageContentText(text: final text) => HumanChatMessage(
+            content: ChatMessageContent.text(thisContent.text + text),
+          ),
+        final ChatMessageContentImage image => HumanChatMessage(
+            content: ChatMessageContentMultiModal(parts: [thisContent, image]),
+          ),
+        final ChatMessageContentMultiModal multiModal => HumanChatMessage(
+            content: ChatMessageContentMultiModal(
+              parts: [thisContent, ...multiModal.parts],
+            ),
+          ),
+      };
+    } else if (thisContent is ChatMessageContentImage) {
+      return switch (otherContent) {
+        final ChatMessageContentText text => HumanChatMessage(
+            content: ChatMessageContentMultiModal(parts: [thisContent, text]),
+          ),
+        final ChatMessageContentImage image => HumanChatMessage(
+            content: ChatMessageContentMultiModal(parts: [thisContent, image]),
+          ),
+        final ChatMessageContentMultiModal multiModal => HumanChatMessage(
+            content: ChatMessageContentMultiModal(
+              parts: [thisContent, ...multiModal.parts],
+            ),
+          ),
+      };
+    } else if (thisContent is ChatMessageContentMultiModal) {
+      return switch (otherContent) {
+        final ChatMessageContentText text => HumanChatMessage(
+            content: ChatMessageContentMultiModal(
+              parts: [...thisContent.parts, text],
+            ),
+          ),
+        final ChatMessageContentImage image => HumanChatMessage(
+            content: ChatMessageContentMultiModal(
+              parts: [...thisContent.parts, image],
+            ),
+          ),
+        final ChatMessageContentMultiModal multiModal => HumanChatMessage(
+            content: ChatMessageContentMultiModal(
+              parts: [...thisContent.parts, ...multiModal.parts],
+            ),
+          ),
+      };
+    } else {
+      throw ArgumentError('Unknown ChatMessageContent type: $thisContent');
+    }
   }
 
   @override
@@ -187,9 +255,7 @@ class HumanChatMessage extends ChatMessage {
     return '''
 HumanChatMessage{
   content: $content,
-  example: $example,
-}
-''';
+}''';
   }
 }
 
@@ -200,16 +266,15 @@ HumanChatMessage{
 class AIChatMessage extends ChatMessage {
   /// {@macro ai_chat_message}
   const AIChatMessage({
-    required super.content,
+    required this.content,
     this.functionCall,
-    this.example = false,
   });
+
+  /// The content of the message.
+  final String content;
 
   /// A function call that the AI wants to make.
   final AIChatMessageFunctionCall? functionCall;
-
-  /// Whether this message is an example.
-  final bool example;
 
   /// Default prefix for [AIChatMessage].
   static const String defaultPrefix = 'AI';
@@ -217,36 +282,31 @@ class AIChatMessage extends ChatMessage {
   @override
   bool operator ==(covariant final AIChatMessage other) =>
       identical(this, other) ||
-      content == other.content &&
-          functionCall == other.functionCall &&
-          example == other.example;
+      content == other.content && functionCall == other.functionCall;
 
   @override
-  int get hashCode => content.hashCode ^ example.hashCode;
+  int get hashCode => content.hashCode ^ functionCall.hashCode;
 
   @override
   AIChatMessage concat(final ChatMessage other) {
-    if (other is AIChatMessage) {
-      return AIChatMessage(
-        content: content + other.content,
-        functionCall: functionCall != null || other.functionCall != null
-            ? AIChatMessageFunctionCall(
-                name: (functionCall?.name ?? '') +
-                    (other.functionCall?.name ?? ''),
-                argumentsRaw: (functionCall?.argumentsRaw ?? '') +
-                    (other.functionCall?.argumentsRaw ?? ''),
-                arguments: {
-                  ...?functionCall?.arguments,
-                  ...?other.functionCall?.arguments,
-                },
-              )
-            : null,
-        example: example,
-      );
+    if (other is! AIChatMessage) {
+      return this;
     }
+
     return AIChatMessage(
       content: content + other.content,
-      example: example,
+      functionCall: functionCall != null || other.functionCall != null
+          ? AIChatMessageFunctionCall(
+              name:
+                  (functionCall?.name ?? '') + (other.functionCall?.name ?? ''),
+              argumentsRaw: (functionCall?.argumentsRaw ?? '') +
+                  (other.functionCall?.argumentsRaw ?? ''),
+              arguments: {
+                ...?functionCall?.arguments,
+                ...?other.functionCall?.arguments,
+              },
+            )
+          : null,
     );
   }
 
@@ -256,9 +316,7 @@ class AIChatMessage extends ChatMessage {
 AIChatMessage{
   content: $content,
   functionCall: $functionCall,
-  example: $example,
-}
-''';
+}''';
   }
 }
 
@@ -312,8 +370,7 @@ AIChatMessageFunctionCall{
   name: $name,
   argumentsRaw: $argumentsRaw,
   arguments: $arguments,
-}
-      ''';
+}''';
   }
 }
 
@@ -324,10 +381,14 @@ AIChatMessageFunctionCall{
 class FunctionChatMessage extends ChatMessage {
   /// {@macro function_chat_message}
   const FunctionChatMessage({
-    required super.content,
+    required this.content,
     required this.name,
   });
 
+  /// The response of the function call.
+  final String content;
+
+  /// The function that was called.
   final String name;
 
   /// Default prefix for [FunctionChatMessage].
@@ -342,9 +403,13 @@ class FunctionChatMessage extends ChatMessage {
 
   @override
   FunctionChatMessage concat(final ChatMessage other) {
+    if (other is! FunctionChatMessage) {
+      return this;
+    }
+
     return FunctionChatMessage(
       content: content + other.content,
-      name: name + (other is FunctionChatMessage ? other.name : ''),
+      name: name + other.name,
     );
   }
 
@@ -354,8 +419,7 @@ class FunctionChatMessage extends ChatMessage {
 FunctionChatMessage{
   name: $name,
   content: $content,
-}
-''';
+}''';
   }
 }
 
@@ -366,9 +430,12 @@ FunctionChatMessage{
 class CustomChatMessage extends ChatMessage {
   /// {@macro custom_chat_message}
   const CustomChatMessage({
-    required super.content,
+    required this.content,
     required this.role,
   });
+
+  /// The content of the message.
+  final String content;
 
   /// The role of the author of this message.
   final String role;
@@ -382,6 +449,9 @@ class CustomChatMessage extends ChatMessage {
 
   @override
   CustomChatMessage concat(final ChatMessage other) {
+    if (other is! CustomChatMessage) {
+      return this;
+    }
     return CustomChatMessage(
       role: role,
       content: content + other.content,
@@ -394,13 +464,137 @@ class CustomChatMessage extends ChatMessage {
 CustomChatMessage{
   content: $content,
   role: $role,
-}
-''';
+}''';
   }
 }
 
 /// Role of a chat message
 enum ChatMessageRole { system, human, ai, custom }
+
+/// {@template chat_message_content}
+/// The content of a message.
+/// {@endtemplate}
+@immutable
+sealed class ChatMessageContent {
+  const ChatMessageContent();
+
+  /// The content of a message that is text.
+  factory ChatMessageContent.text(final String text) =>
+      ChatMessageContentText(text: text);
+
+  /// The content of a message that is an image.
+  factory ChatMessageContent.image({
+    required final String url,
+    final ChatMessageContentImageDetail imageDetail =
+        ChatMessageContentImageDetail.auto,
+  }) =>
+      ChatMessageContentImage(
+        url: url,
+        detail: imageDetail,
+      );
+
+  /// The content of a message that is multi-modal.
+  factory ChatMessageContent.multiModal(
+    final List<ChatMessageContent> parts,
+  ) =>
+      ChatMessageContentMultiModal(parts: parts);
+}
+
+/// {@template chat_message_content_text}
+/// The content of a message that is text.
+/// {@endtemplate}
+class ChatMessageContentText extends ChatMessageContent {
+  /// {@macro chat_message_content_text}
+  const ChatMessageContentText({
+    required this.text,
+  });
+
+  /// The text content.
+  final String text;
+
+  @override
+  bool operator ==(covariant final ChatMessageContentText other) =>
+      identical(this, other) || text == other.text;
+
+  @override
+  int get hashCode => text.hashCode;
+
+  @override
+  String toString() {
+    return '''
+ChatMessageContentText{
+  text: $text,
+}''';
+  }
+}
+
+/// {@template chat_message_content_image}
+/// The content of a message that is an image.
+/// {@endtemplate}
+class ChatMessageContentImage extends ChatMessageContent {
+  /// {@macro chat_message_content_image}
+  const ChatMessageContentImage({
+    required this.url,
+    required this.detail,
+  });
+
+  /// Either a URL of the image or the base64 encoded image data.
+  final String url;
+
+  /// Specifies the detail level of the image.
+  final ChatMessageContentImageDetail detail;
+
+  @override
+  bool operator ==(covariant final ChatMessageContentImage other) =>
+      identical(this, other) || url == other.url;
+
+  @override
+  int get hashCode => url.hashCode;
+
+  @override
+  String toString() {
+    return '''
+ChatMessageContentImage{
+  url: $url,
+  imageDetail: $detail,
+}''';
+  }
+}
+
+/// {@template chat_message_content_multi_modal}
+/// The content of a message that is multi-modal.
+/// {@endtemplate
+@immutable
+class ChatMessageContentMultiModal extends ChatMessageContent {
+  /// {@macro chat_message_content_multi_modal}
+  ChatMessageContentMultiModal({
+    required this.parts,
+  }) : assert(
+          !parts.any((final p) => p is ChatMessageContentMultiModal),
+          'Multi-modal messages cannot contain other multi-modal messages.',
+        );
+
+  /// The parts of the multi-modal message.
+  final List<ChatMessageContent> parts;
+
+  @override
+  bool operator ==(covariant final ChatMessageContentMultiModal other) =>
+      identical(this, other) || parts == other.parts;
+
+  @override
+  int get hashCode => parts.hashCode;
+
+  @override
+  String toString() {
+    return '''
+ChatMessageContentMultiModal{
+  parts: $parts,
+}''';
+  }
+}
+
+/// Specifies the detail level of the image.
+enum ChatMessageContentImageDetail { auto, low, high }
 
 /// {@template chat_function}
 /// The description of a function that can be called by the chat model.

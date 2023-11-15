@@ -140,7 +140,7 @@ void main() {
         },
       );
       final pastMessages = [
-        ChatMessage.human("My name's Jonas"),
+        ChatMessage.humanText("My name's Jonas"),
         ChatMessage.ai('Nice to meet you, Jonas!'),
       ];
       final memory = await ConversationSummaryMemory.fromMessages(

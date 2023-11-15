@@ -7,7 +7,7 @@ void main() {
     test('RunnableBinding from Runnable.bind', () async {
       final prompt = PromptTemplate.fromTemplate('Hello {input}');
       const model = _FakeOptionsChatModel();
-      const outputParser = StringOutputParser<ChatMessage>();
+      const outputParser = StringOutputParser<AIChatMessage>();
       final chain = prompt |
           model.bind(const _FakeOptionsChatModelOptions('world')) |
           outputParser;
@@ -19,7 +19,7 @@ void main() {
     test('Streaming RunnableBinding', () async {
       final prompt = PromptTemplate.fromTemplate('Hello {input}');
       const model = _FakeOptionsChatModel();
-      const outputParser = StringOutputParser<ChatMessage>();
+      const outputParser = StringOutputParser<AIChatMessage>();
 
       final chain = prompt
           .pipe(model.bind(const _FakeOptionsChatModelOptions('world')))
@@ -49,7 +49,7 @@ class _FakeOptionsChatModel
     final _FakeOptionsChatModelOptions? options,
   }) {
     return Future.value(
-      messages.first.content.replaceAll(options?.stop ?? '', ''),
+      messages.first.contentAsString.replaceAll(options?.stop ?? '', ''),
     );
   }
 
@@ -63,12 +63,12 @@ class _FakeOptionsChatModel
         final prompt = input
             .toChatMessages()
             .first
-            .content
+            .contentAsString
             .replaceAll(options?.stop ?? '', '')
             .split('');
         return Stream.fromIterable(prompt).map(
           (final char) => ChatResult(
-            generations: [ChatGeneration(ChatMessage.ai(char))],
+            generations: [ChatGeneration(AIChatMessage(content: char))],
           ),
         );
       },

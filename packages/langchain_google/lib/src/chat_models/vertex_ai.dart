@@ -16,7 +16,7 @@ import 'models/models.dart';
 ///   authHttpClient: authClient,
 ///   project: 'your-project-id',
 /// );
-/// final result = await chatModel([ChatMessage.human('Hello')]);
+/// final result = await chatModel([ChatMessage.humanText('Hello')]);
 /// ```
 ///
 /// Vertex AI documentation:
@@ -102,7 +102,7 @@ import 'models/models.dart';
 ///   ),
 /// );
 /// final result = await chatModel(
-///   [ChatMessage.human('Hello')],
+///   [ChatMessage.humanText('Hello')],
 ///   options: ChatVertexAIOptions(
 ///     temperature: 0.5,
 ///    ),

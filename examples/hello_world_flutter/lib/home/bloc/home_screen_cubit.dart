@@ -50,7 +50,7 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       baseUrl: baseUrl,
     );
 
-    final result = await llm([ChatMessage.human(query)]);
+    final result = await llm([ChatMessage.humanText(query)]);
     emit(
       state.copyWith(
         status: HomeScreenStatus.idle,

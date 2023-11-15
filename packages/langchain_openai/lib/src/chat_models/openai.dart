@@ -13,7 +13,7 @@ import 'models/models.dart';
 /// final chat = ChatOpenAI(apiKey: '...', temperature: 1);
 /// final messages = [
 ///   ChatMessage.system('You are a helpful assistant that translates English to French.'),
-///   ChatMessage.human('I love programming.')
+///   ChatMessage.humanText('I love programming.')
 /// ];
 /// final res = await chat(messages);
 /// ```
@@ -360,7 +360,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     int numTokens = 0;
     for (final message in messages) {
       numTokens += tokensPerMessage;
-      numTokens += tiktoken.encode(message.content).length;
+      numTokens += tiktoken.encode(message.contentAsString).length;
       numTokens += switch (message) {
         final SystemChatMessage _ => tiktoken.encode('system').length,
         final HumanChatMessage _ => tiktoken.encode('user').length,

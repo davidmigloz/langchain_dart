@@ -5,9 +5,9 @@ void main() {
   group('FakeChatModel tests', () {
     test('Test model returns given responses', () async {
       final chatModel = FakeChatModel(responses: ['foo', 'bar']);
-      final res1 = await chatModel.generate([ChatMessage.human('Hello')]);
+      final res1 = await chatModel.generate([ChatMessage.humanText('Hello')]);
       expect(res1.firstOutputAsString, 'foo');
-      final res2 = await chatModel.generate([ChatMessage.human('World')]);
+      final res2 = await chatModel.generate([ChatMessage.humanText('World')]);
       expect(res2.firstOutputAsString, 'bar');
     });
   });

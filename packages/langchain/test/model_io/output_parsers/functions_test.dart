@@ -5,12 +5,12 @@ import 'package:langchain/langchain.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final result = ChatResult(
+  const result = ChatResult(
     generations: [
       ChatGeneration(
-        ChatMessage.ai(
-          '',
-          functionCall: const AIChatMessageFunctionCall(
+        AIChatMessage(
+          content: '',
+          functionCall: AIChatMessageFunctionCall(
             name: 'test',
             argumentsRaw: '{"foo":"bar","bar":"foo"}',
             arguments: {
@@ -23,13 +23,13 @@ void main() {
     ],
   );
 
-  final streamingResult = ChatResult(
+  const streamingResult = ChatResult(
     streaming: true,
     generations: [
       ChatGeneration(
-        ChatMessage.ai(
-          '',
-          functionCall: const AIChatMessageFunctionCall(
+        AIChatMessage(
+          content: '',
+          functionCall: AIChatMessageFunctionCall(
             name: 'test',
             argumentsRaw: '{"foo":"bar"',
             arguments: {},

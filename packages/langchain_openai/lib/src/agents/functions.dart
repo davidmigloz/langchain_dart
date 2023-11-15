@@ -166,7 +166,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
       agentInput = functionMsg;
     } else {
       agentInput = switch (inputs[agentInputKey]) {
-        final String inputStr => ChatMessage.human(inputStr),
+        final String inputStr => ChatMessage.humanText(inputStr),
         final ChatMessage inputMsg => inputMsg,
         _ => throw LangChainException(
             message: 'Agent expected a String or ChatMessage as input,'

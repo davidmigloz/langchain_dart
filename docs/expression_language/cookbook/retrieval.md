@@ -200,7 +200,8 @@ String formatChatHistory(final List<ChatMessage> chatHistory) {
       .map(
         (final msg) => switch (msg) {
           HumanChatMessage _ => 'Human: ${msg.content}',
-          _ => 'AI: ${msg.content}',
+          AIChatMessage _ => 'AI: ${msg.content}',
+          _ => '',
         },
       )
       .toList();
@@ -268,7 +269,7 @@ final conversationalQaChain = loadedMemory |
 // they will be used in the next invocation
 await memory.saveContext(
   inputValues: {
-    'question': ChatMessage.human('How much does my order cost?')
+    'question': ChatMessage.humanText('How much does my order cost?')
   },
   outputValues: {'answer': ChatMessage.ai('You have to pay 100€')},
 );

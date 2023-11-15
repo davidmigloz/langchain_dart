@@ -34,7 +34,7 @@ void main() {
         item.toChatMessages(),
         equals([
           ChatMessage.system('You are a helpful chatbot'),
-          ChatMessage.human('test'),
+          ChatMessage.humanText('test'),
         ]),
       );
     });

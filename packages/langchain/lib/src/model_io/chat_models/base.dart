@@ -1,7 +1,6 @@
 import 'package:meta/meta.dart';
 
 import '../language_models/base.dart';
-import '../language_models/models/models.dart';
 import '../prompts/models/models.dart';
 import 'models/models.dart';
 
@@ -10,7 +9,7 @@ import 'models/models.dart';
 /// It should take in chat messages and return a chat message.
 /// {@endtemplate}
 abstract class BaseChatModel<Options extends ChatModelOptions>
-    extends BaseLanguageModel<List<ChatMessage>, Options, ChatMessage> {
+    extends BaseLanguageModel<List<ChatMessage>, Options, AIChatMessage> {
   /// {@macro base_chat_model}
   const BaseChatModel();
 
@@ -22,11 +21,11 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
   /// Example:
   /// ```dart
   /// final result = await chat.invoke(
-  ///   PromptValue.chat([ChatMessage.human('say hi!')]),
+  ///   PromptValue.chat([ChatMessage.humanText('say hi!')]),
   /// );
   /// ```
   @override
-  Future<LanguageModelResult<ChatMessage>> invoke(
+  Future<ChatResult> invoke(
     final PromptValue input, {
     final Options? options,
   }) async {
@@ -40,7 +39,7 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
   ///
   /// Example:
   /// ```dart
-  /// final result = await chat.generate([ChatMessage.human('say hi!')]);
+  /// final result = await chat.generate([ChatMessage.humanText('say hi!')]);
   /// ```
   @override
   Future<ChatResult> generate(
@@ -56,7 +55,7 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
   /// Example:
   /// ```dart
   /// final result = await chat.generatePrompt(
-  ///   PromptValue.chat([ChatMessage.human('say hi!')]),
+  ///   PromptValue.chat([ChatMessage.humanText('say hi!')]),
   /// );
   /// ```
   @override
@@ -74,10 +73,10 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
   ///
   /// Example:
   /// ```dart
-  /// final result = await chat([ChatMessage.human('say hi!')]);
+  /// final result = await chat([ChatMessage.humanText('say hi!')]);
   /// ```
   @override
-  Future<ChatMessage> call(
+  Future<AIChatMessage> call(
     final List<ChatMessage> messages, {
     final Options? options,
   }) async {
@@ -100,7 +99,10 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
     final String text, {
     final Options? options,
   }) async {
-    final res = await call([ChatMessage.human(text)], options: options);
+    final res = await call(
+      [ChatMessage.humanText(text)],
+      options: options,
+    );
     return res.content;
   }
 
@@ -111,7 +113,7 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
   ///
   /// Example:
   /// ```dart
-  /// final result = await chat.predictMessages([ChatMessage.human('say hi!')]);
+  /// final result = await chat.predictMessages([ChatMessage.humanText('say hi!')]);
   /// );
   @override
   Future<ChatMessage> predictMessages(
@@ -138,7 +140,7 @@ abstract class SimpleChatModel<Options extends ChatModelOptions>
     final Options? options,
   }) async {
     final text = await callInternal(messages, options: options);
-    final message = ChatMessage.ai(text);
+    final message = AIChatMessage(content: text);
     return ChatResult(
       generations: [ChatGeneration(message)],
     );

@@ -38,7 +38,7 @@ void main() {
 
     test('Test call to ChatOpenAI', () async {
       final chat = ChatOpenAI(apiKey: openaiApiKey, maxTokens: 10);
-      final res = await chat([ChatMessage.human('Hello')]);
+      final res = await chat([ChatMessage.humanText('Hello')]);
       expect(res.content, isNotEmpty);
     });
 
@@ -46,9 +46,9 @@ void main() {
       final chat = ChatOpenAI(apiKey: openaiApiKey);
       final res = await chat.generate(
         [
-          ChatMessage.human('Hello, how are you?'),
+          ChatMessage.humanText('Hello, how are you?'),
           ChatMessage.ai('I am fine, thank you.'),
-          ChatMessage.human('Good, what is your name?'),
+          ChatMessage.humanText('Good, what is your name?'),
         ],
       );
       expect(res.generations.first.output.content, isNotEmpty);
@@ -57,7 +57,7 @@ void main() {
     test('Test model output contains metadata', () async {
       final chat = ChatOpenAI(apiKey: openaiApiKey, maxTokens: 10);
       final res = await chat.generate(
-        [ChatMessage.human('Hello, how are you?')],
+        [ChatMessage.humanText('Hello, how are you?')],
       );
       expect(res.modelOutput, isNotNull);
       expect(res.modelOutput!['created'], isNotNull);
@@ -65,7 +65,8 @@ void main() {
     });
 
     test('Test stop logic on valid configuration', () async {
-      final query = ChatMessage.human('write an ordered list of five items');
+      final query =
+          ChatMessage.humanText('write an ordered list of five items');
       final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
       final res = await chat(
         [query],
@@ -80,14 +81,14 @@ void main() {
       final systemMessage =
           ChatMessage.system('You are to chat with the user.');
       final humanMessage =
-          ChatMessage.human('write an ordered list of five items');
+          ChatMessage.humanText('write an ordered list of five items');
       final res = await chat([systemMessage, humanMessage]);
       expect(res.content, isNotEmpty);
     });
 
     test('Test ChatOpenAI wrapper with multiple completions', () async {
       final chat = ChatOpenAI(apiKey: openaiApiKey, maxTokens: 10, n: 5);
-      final humanMessage = ChatMessage.human('Hello');
+      final humanMessage = ChatMessage.humanText('Hello');
       final res = await chat.generate([humanMessage]);
       expect(res.generations.length, 5);
       for (final generation in res.generations) {
@@ -119,7 +120,7 @@ void main() {
         },
       );
 
-      final humanMessage = ChatMessage.human(
+      final humanMessage = ChatMessage.humanText(
         'What’s the weather like in Boston right now?',
       );
       final res1 = await chat.generate(
@@ -129,9 +130,7 @@ void main() {
 
       expect(res1.generations.length, 1);
       final generation1 = res1.generations.first;
-
-      expect(generation1.output, isA<AIChatMessage>());
-      final aiMessage1 = generation1.output as AIChatMessage;
+      final aiMessage1 = generation1.output;
 
       expect(aiMessage1.content, isEmpty);
       expect(aiMessage1.functionCall, isNotNull);
@@ -158,9 +157,7 @@ void main() {
 
       expect(res2.generations.length, 1);
       final generation2 = res2.generations.first;
-
-      expect(generation2.output, isA<AIChatMessage>());
-      final aiMessage2 = generation2.output as AIChatMessage;
+      final aiMessage2 = generation2.output;
 
       expect(aiMessage2.functionCall, isNull);
       expect(aiMessage2.content, contains('22'));
@@ -211,7 +208,7 @@ void main() {
             'You are a helpful, pattern-following assistant that translates '
             'corporate jargon into plain English.',
           ),
-          ChatMessage.human(
+          ChatMessage.humanText(
             "This late pivot means we don't have time to boil the ocean for the "
             'client deliverable.',
           ),
@@ -234,7 +231,7 @@ void main() {
         ),
       ]);
       final chat = ChatOpenAI(apiKey: openaiApiKey);
-      const stringOutputParser = StringOutputParser<ChatMessage>();
+      const stringOutputParser = StringOutputParser<AIChatMessage>();
 
       final chain = promptTemplate.pipe(chat).pipe(stringOutputParser);
       final stream = chain.stream({'max_num': '9'});
@@ -325,7 +322,7 @@ void main() {
           "Extract the 'name' and 'origin' of any companies mentioned in the "
           'following statement. Return a JSON list.',
         ),
-        ChatMessage.human(
+        ChatMessage.humanText(
           'Google was founded in the USA, while Deepmind was founded in the UK',
         ),
       ]);
@@ -352,6 +349,32 @@ void main() {
       final secondCompany = companies.last as Map<String, dynamic>;
       expect(secondCompany['name'], 'Deepmind');
       expect(secondCompany['origin'], 'UK');
+    });
+
+    test('Test multi-modal GPT-4 Vision', () async {
+      final prompt = PromptValue.chat([
+        ChatMessage.system(
+          'You are a helpful assistant.',
+        ),
+        ChatMessage.human(
+          ChatMessageContent.multiModal([
+            ChatMessageContent.text('What fruit is this?'),
+            ChatMessageContent.image(
+              url:
+                  'https://upload.wikimedia.org/wikipedia/commons/9/92/95apple.jpeg',
+            ),
+          ]),
+        ),
+      ]);
+      final chatModel = ChatOpenAI(
+        apiKey: openaiApiKey,
+        model: 'gpt-4-vision-preview',
+      );
+
+      final res = await chatModel.invoke(prompt);
+      expect(res.generations, hasLength(1));
+      final outputMsg = res.generations.first.output;
+      expect(outputMsg.content.toLowerCase(), contains('apple'));
     });
   });
 }

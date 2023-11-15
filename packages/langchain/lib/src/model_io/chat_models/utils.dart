@@ -13,14 +13,14 @@ extension ChatMessagesX on List<ChatMessage> {
     return map(
       (final m) {
         return switch (m) {
-          SystemChatMessage _ => '$systemPrefix: ${m.content}',
-          HumanChatMessage _ => '$humanPrefix: ${m.content}',
+          SystemChatMessage _ => '$systemPrefix: ${m.contentAsString}',
+          HumanChatMessage _ => '$humanPrefix: ${m.contentAsString}',
           AIChatMessage _ => m.functionCall == null
-              ? '$aiPrefix: ${m.content}'
+              ? '$aiPrefix: ${m.contentAsString}'
               : '$aiPrefix: ${m.functionCall!.name}(${m.functionCall!.arguments})',
           FunctionChatMessage(name: final n, content: final c) =>
             '$functionPrefix: $n=$c',
-          final CustomChatMessage m => '${m.role}: ${m.content}',
+          final CustomChatMessage m => '${m.role}: ${m.contentAsString}',
         };
       },
     ).join('\n');
