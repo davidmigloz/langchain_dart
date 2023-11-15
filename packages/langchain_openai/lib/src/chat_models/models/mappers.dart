@@ -15,22 +15,21 @@ extension ChatMessageListMapper on List<ChatMessage> {
 extension _ChatMessageMapper on ChatMessage {
   ChatCompletionMessage toChatCompletionMessage() {
     return switch (this) {
-      final SystemChatMessage systemChatMessage => ChatCompletionMessage(
-          role: ChatCompletionMessageRole.system,
+      final SystemChatMessage systemChatMessage => ChatCompletionMessage.system(
           content: systemChatMessage.content,
         ),
-      final HumanChatMessage humanChatMessage => ChatCompletionMessage(
-          role: ChatCompletionMessageRole.user,
-          content: humanChatMessage.content,
+      final HumanChatMessage humanChatMessage => ChatCompletionMessage.user(
+          content: ChatCompletionUserMessageContent.string(
+            humanChatMessage.content, // TODO add multi-modal support
+          ),
         ),
-      final AIChatMessage aiChatMessage => ChatCompletionMessage(
-          role: ChatCompletionMessageRole.assistant,
+      final AIChatMessage aiChatMessage => ChatCompletionMessage.assistant(
+          content: aiChatMessage.content, // TODO add tools support
           functionCall:
               aiChatMessage.functionCall?.toChatCompletionMessageFunctionCall(),
-          content: aiChatMessage.content,
         ),
-      final FunctionChatMessage functionChatMessage => ChatCompletionMessage(
-          role: ChatCompletionMessageRole.function,
+      final FunctionChatMessage functionChatMessage =>
+        ChatCompletionMessage.function(
           name: functionChatMessage.name,
           content: functionChatMessage.content,
         ),
@@ -80,21 +79,31 @@ extension _CompletionUsageMapper on CompletionUsage {
 
 extension _ChatCompletionMessageMapper on ChatCompletionMessage {
   ChatMessage toChatMessage() {
-    return switch (role) {
-      ChatCompletionMessageRole.system => ChatMessage.system(content ?? ''),
-      ChatCompletionMessageRole.user => ChatMessage.human(content ?? ''),
-      ChatCompletionMessageRole.assistant => ChatMessage.ai(
-          content ?? '',
-          functionCall: functionCall?.toAIChatMessageFunctionCall(),
+    return switch (this) {
+      ChatCompletionSystemMessage(content: final c) =>
+        ChatMessage.system(c ?? ''),
+      ChatCompletionUserMessage(
+        content: final c
+      ) => // TODO add multi-modal support
+        ChatMessage.human(c?.mapOrNull(string: (final s) => s.value) ?? ''),
+      ChatCompletionAssistantMessage(
+        content: final c,
+        functionCall: final fc,
+      ) =>
+        ChatMessage.ai(
+          c ?? '',
+          functionCall: fc?.toAIChatMessageFunctionCall(),
         ),
-      ChatCompletionMessageRole.function => ChatMessage.function(
-          name: name ?? '',
-          content: content ?? '',
+      ChatCompletionFunctionMessage(
+        content: final c,
+        name: final n,
+      ) =>
+        ChatMessage.function(
+          name: n,
+          content: c ?? '',
         ),
-      ChatCompletionMessageRole.tool => ChatMessage.function(
-          name: name ?? '',
-          content: content ?? '',
-        ),
+      ChatCompletionToolMessage() =>
+        throw UnimplementedError(), // TODO add tools support
     };
   }
 }
@@ -139,14 +148,13 @@ extension _ChatFunctionMapper on ChatFunction {
 extension ChatFunctionCallMapper on ChatFunctionCall {
   ChatCompletionFunctionCall toChatCompletionFunctionCall() {
     return switch (this) {
-      ChatFunctionCallNone _ => const ChatCompletionFunctionCall.enumeration(
+      ChatFunctionCallNone _ => const ChatCompletionFunctionCall.mode(
           ChatCompletionFunctionCallMode.none,
         ),
-      ChatFunctionCallAuto _ => const ChatCompletionFunctionCall.enumeration(
+      ChatFunctionCallAuto _ => const ChatCompletionFunctionCall.mode(
           ChatCompletionFunctionCallMode.auto,
         ),
-      final ChatFunctionCallForced f =>
-        ChatCompletionFunctionCall.chatCompletionFunctionCallOption(
+      final ChatFunctionCallForced f => ChatCompletionFunctionCall.function(
           ChatCompletionFunctionCallOption(name: f.functionName),
         )
     };
