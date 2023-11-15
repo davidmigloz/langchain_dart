@@ -5263,19 +5263,19 @@ mixin _$ChatCompletionToolChoiceOption {
   Object get value => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionToolChoiceOptionEnum value) mode,
+    required TResult Function(ChatCompletionToolChoiceMode value) mode,
     required TResult Function(ChatCompletionNamedToolChoice value) tool,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionToolChoiceOptionEnum value)? mode,
+    TResult? Function(ChatCompletionToolChoiceMode value)? mode,
     TResult? Function(ChatCompletionNamedToolChoice value)? tool,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionToolChoiceOptionEnum value)? mode,
+    TResult Function(ChatCompletionToolChoiceMode value)? mode,
     TResult Function(ChatCompletionNamedToolChoice value)? tool,
     required TResult orElse(),
   }) =>
@@ -5337,7 +5337,7 @@ abstract class _$$ChatCompletionToolChoiceOptionEnumerationImplCopyWith<$Res> {
           $Res Function(_$ChatCompletionToolChoiceOptionEnumerationImpl) then) =
       __$$ChatCompletionToolChoiceOptionEnumerationImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({ChatCompletionToolChoiceOptionEnum value});
+  $Res call({ChatCompletionToolChoiceMode value});
 }
 
 /// @nodoc
@@ -5359,7 +5359,7 @@ class __$$ChatCompletionToolChoiceOptionEnumerationImplCopyWithImpl<$Res>
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionToolChoiceOptionEnum,
+              as ChatCompletionToolChoiceMode,
     ));
   }
 }
@@ -5378,7 +5378,7 @@ class _$ChatCompletionToolChoiceOptionEnumerationImpl
       _$$ChatCompletionToolChoiceOptionEnumerationImplFromJson(json);
 
   @override
-  final ChatCompletionToolChoiceOptionEnum value;
+  final ChatCompletionToolChoiceMode value;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
@@ -5413,7 +5413,7 @@ class _$ChatCompletionToolChoiceOptionEnumerationImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionToolChoiceOptionEnum value) mode,
+    required TResult Function(ChatCompletionToolChoiceMode value) mode,
     required TResult Function(ChatCompletionNamedToolChoice value) tool,
   }) {
     return mode(value);
@@ -5422,7 +5422,7 @@ class _$ChatCompletionToolChoiceOptionEnumerationImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionToolChoiceOptionEnum value)? mode,
+    TResult? Function(ChatCompletionToolChoiceMode value)? mode,
     TResult? Function(ChatCompletionNamedToolChoice value)? tool,
   }) {
     return mode?.call(value);
@@ -5431,7 +5431,7 @@ class _$ChatCompletionToolChoiceOptionEnumerationImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionToolChoiceOptionEnum value)? mode,
+    TResult Function(ChatCompletionToolChoiceMode value)? mode,
     TResult Function(ChatCompletionNamedToolChoice value)? tool,
     required TResult orElse(),
   }) {
@@ -5490,7 +5490,7 @@ class _$ChatCompletionToolChoiceOptionEnumerationImpl
 abstract class ChatCompletionToolChoiceOptionEnumeration
     extends ChatCompletionToolChoiceOption {
   const factory ChatCompletionToolChoiceOptionEnumeration(
-          final ChatCompletionToolChoiceOptionEnum value) =
+          final ChatCompletionToolChoiceMode value) =
       _$ChatCompletionToolChoiceOptionEnumerationImpl;
   const ChatCompletionToolChoiceOptionEnumeration._() : super._();
 
@@ -5499,7 +5499,7 @@ abstract class ChatCompletionToolChoiceOptionEnumeration
       _$ChatCompletionToolChoiceOptionEnumerationImpl.fromJson;
 
   @override
-  ChatCompletionToolChoiceOptionEnum get value;
+  ChatCompletionToolChoiceMode get value;
   @JsonKey(ignore: true)
   _$$ChatCompletionToolChoiceOptionEnumerationImplCopyWith<
           _$ChatCompletionToolChoiceOptionEnumerationImpl>
@@ -5612,7 +5612,7 @@ class _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionToolChoiceOptionEnum value) mode,
+    required TResult Function(ChatCompletionToolChoiceMode value) mode,
     required TResult Function(ChatCompletionNamedToolChoice value) tool,
   }) {
     return tool(value);
@@ -5621,7 +5621,7 @@ class _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionToolChoiceOptionEnum value)? mode,
+    TResult? Function(ChatCompletionToolChoiceMode value)? mode,
     TResult? Function(ChatCompletionNamedToolChoice value)? tool,
   }) {
     return tool?.call(value);
@@ -5630,7 +5630,7 @@ class _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionToolChoiceOptionEnum value)? mode,
+    TResult Function(ChatCompletionToolChoiceMode value)? mode,
     TResult Function(ChatCompletionNamedToolChoice value)? tool,
     required TResult orElse(),
   }) {
@@ -6165,348 +6165,6 @@ abstract class ChatCompletionFunctionCallChatCompletionFunctionCallOption
   @JsonKey(ignore: true)
   _$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWith<
           _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-ChatCompletionMessage _$ChatCompletionMessageFromJson(
-    Map<String, dynamic> json) {
-  return _ChatCompletionMessage.fromJson(json);
-}
-
-/// @nodoc
-mixin _$ChatCompletionMessage {
-  /// The role of the messages author. One of `system`, `user`, `assistant`, or `tool` (`function` is deprecated).
-  ChatCompletionMessageRole get role => throw _privateConstructorUsedError;
-
-  /// The contents of the message. `content` is required for all messages, and may be null for assistant messages with function calls.
-  String? get content => throw _privateConstructorUsedError;
-
-  /// No Description
-  @JsonKey(name: 'tool_calls', includeIfNull: false)
-  List<ChatCompletionMessageToolCall>? get toolCalls =>
-      throw _privateConstructorUsedError;
-
-  /// Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model.
-  @JsonKey(name: 'function_call', includeIfNull: false)
-  ChatCompletionMessageFunctionCall? get functionCall =>
-      throw _privateConstructorUsedError;
-
-  /// Tool call that this message is responding to.
-  @JsonKey(name: 'tool_call_id', includeIfNull: false)
-  String? get toolCallId => throw _privateConstructorUsedError;
-
-  /// The name of the author of this message. `name` is required if role is `function`, and it should be the name of the function whose response is in the `content`. May contain a-z, A-Z, 0-9, and underscores, with a maximum length of 64 characters.
-  @JsonKey(includeIfNull: false)
-  String? get name => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $ChatCompletionMessageCopyWith<ChatCompletionMessage> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ChatCompletionMessageCopyWith<$Res> {
-  factory $ChatCompletionMessageCopyWith(ChatCompletionMessage value,
-          $Res Function(ChatCompletionMessage) then) =
-      _$ChatCompletionMessageCopyWithImpl<$Res, ChatCompletionMessage>;
-  @useResult
-  $Res call(
-      {ChatCompletionMessageRole role,
-      String? content,
-      @JsonKey(name: 'tool_calls', includeIfNull: false)
-      List<ChatCompletionMessageToolCall>? toolCalls,
-      @JsonKey(name: 'function_call', includeIfNull: false)
-      ChatCompletionMessageFunctionCall? functionCall,
-      @JsonKey(name: 'tool_call_id', includeIfNull: false) String? toolCallId,
-      @JsonKey(includeIfNull: false) String? name});
-
-  $ChatCompletionMessageFunctionCallCopyWith<$Res>? get functionCall;
-}
-
-/// @nodoc
-class _$ChatCompletionMessageCopyWithImpl<$Res,
-        $Val extends ChatCompletionMessage>
-    implements $ChatCompletionMessageCopyWith<$Res> {
-  _$ChatCompletionMessageCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? role = null,
-    Object? content = freezed,
-    Object? toolCalls = freezed,
-    Object? functionCall = freezed,
-    Object? toolCallId = freezed,
-    Object? name = freezed,
-  }) {
-    return _then(_value.copyWith(
-      role: null == role
-          ? _value.role
-          : role // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionMessageRole,
-      content: freezed == content
-          ? _value.content
-          : content // ignore: cast_nullable_to_non_nullable
-              as String?,
-      toolCalls: freezed == toolCalls
-          ? _value.toolCalls
-          : toolCalls // ignore: cast_nullable_to_non_nullable
-              as List<ChatCompletionMessageToolCall>?,
-      functionCall: freezed == functionCall
-          ? _value.functionCall
-          : functionCall // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionMessageFunctionCall?,
-      toolCallId: freezed == toolCallId
-          ? _value.toolCallId
-          : toolCallId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $ChatCompletionMessageFunctionCallCopyWith<$Res>? get functionCall {
-    if (_value.functionCall == null) {
-      return null;
-    }
-
-    return $ChatCompletionMessageFunctionCallCopyWith<$Res>(
-        _value.functionCall!, (value) {
-      return _then(_value.copyWith(functionCall: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$ChatCompletionMessageImplCopyWith<$Res>
-    implements $ChatCompletionMessageCopyWith<$Res> {
-  factory _$$ChatCompletionMessageImplCopyWith(
-          _$ChatCompletionMessageImpl value,
-          $Res Function(_$ChatCompletionMessageImpl) then) =
-      __$$ChatCompletionMessageImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {ChatCompletionMessageRole role,
-      String? content,
-      @JsonKey(name: 'tool_calls', includeIfNull: false)
-      List<ChatCompletionMessageToolCall>? toolCalls,
-      @JsonKey(name: 'function_call', includeIfNull: false)
-      ChatCompletionMessageFunctionCall? functionCall,
-      @JsonKey(name: 'tool_call_id', includeIfNull: false) String? toolCallId,
-      @JsonKey(includeIfNull: false) String? name});
-
-  @override
-  $ChatCompletionMessageFunctionCallCopyWith<$Res>? get functionCall;
-}
-
-/// @nodoc
-class __$$ChatCompletionMessageImplCopyWithImpl<$Res>
-    extends _$ChatCompletionMessageCopyWithImpl<$Res,
-        _$ChatCompletionMessageImpl>
-    implements _$$ChatCompletionMessageImplCopyWith<$Res> {
-  __$$ChatCompletionMessageImplCopyWithImpl(_$ChatCompletionMessageImpl _value,
-      $Res Function(_$ChatCompletionMessageImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? role = null,
-    Object? content = freezed,
-    Object? toolCalls = freezed,
-    Object? functionCall = freezed,
-    Object? toolCallId = freezed,
-    Object? name = freezed,
-  }) {
-    return _then(_$ChatCompletionMessageImpl(
-      role: null == role
-          ? _value.role
-          : role // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionMessageRole,
-      content: freezed == content
-          ? _value.content
-          : content // ignore: cast_nullable_to_non_nullable
-              as String?,
-      toolCalls: freezed == toolCalls
-          ? _value._toolCalls
-          : toolCalls // ignore: cast_nullable_to_non_nullable
-              as List<ChatCompletionMessageToolCall>?,
-      functionCall: freezed == functionCall
-          ? _value.functionCall
-          : functionCall // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionMessageFunctionCall?,
-      toolCallId: freezed == toolCallId
-          ? _value.toolCallId
-          : toolCallId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$ChatCompletionMessageImpl extends _ChatCompletionMessage {
-  const _$ChatCompletionMessageImpl(
-      {required this.role,
-      required this.content,
-      @JsonKey(name: 'tool_calls', includeIfNull: false)
-      final List<ChatCompletionMessageToolCall>? toolCalls,
-      @JsonKey(name: 'function_call', includeIfNull: false) this.functionCall,
-      @JsonKey(name: 'tool_call_id', includeIfNull: false) this.toolCallId,
-      @JsonKey(includeIfNull: false) this.name})
-      : _toolCalls = toolCalls,
-        super._();
-
-  factory _$ChatCompletionMessageImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ChatCompletionMessageImplFromJson(json);
-
-  /// The role of the messages author. One of `system`, `user`, `assistant`, or `tool` (`function` is deprecated).
-  @override
-  final ChatCompletionMessageRole role;
-
-  /// The contents of the message. `content` is required for all messages, and may be null for assistant messages with function calls.
-  @override
-  final String? content;
-
-  /// No Description
-  final List<ChatCompletionMessageToolCall>? _toolCalls;
-
-  /// No Description
-  @override
-  @JsonKey(name: 'tool_calls', includeIfNull: false)
-  List<ChatCompletionMessageToolCall>? get toolCalls {
-    final value = _toolCalls;
-    if (value == null) return null;
-    if (_toolCalls is EqualUnmodifiableListView) return _toolCalls;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  /// Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model.
-  @override
-  @JsonKey(name: 'function_call', includeIfNull: false)
-  final ChatCompletionMessageFunctionCall? functionCall;
-
-  /// Tool call that this message is responding to.
-  @override
-  @JsonKey(name: 'tool_call_id', includeIfNull: false)
-  final String? toolCallId;
-
-  /// The name of the author of this message. `name` is required if role is `function`, and it should be the name of the function whose response is in the `content`. May contain a-z, A-Z, 0-9, and underscores, with a maximum length of 64 characters.
-  @override
-  @JsonKey(includeIfNull: false)
-  final String? name;
-
-  @override
-  String toString() {
-    return 'ChatCompletionMessage(role: $role, content: $content, toolCalls: $toolCalls, functionCall: $functionCall, toolCallId: $toolCallId, name: $name)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ChatCompletionMessageImpl &&
-            (identical(other.role, role) || other.role == role) &&
-            (identical(other.content, content) || other.content == content) &&
-            const DeepCollectionEquality()
-                .equals(other._toolCalls, _toolCalls) &&
-            (identical(other.functionCall, functionCall) ||
-                other.functionCall == functionCall) &&
-            (identical(other.toolCallId, toolCallId) ||
-                other.toolCallId == toolCallId) &&
-            (identical(other.name, name) || other.name == name));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      role,
-      content,
-      const DeepCollectionEquality().hash(_toolCalls),
-      functionCall,
-      toolCallId,
-      name);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ChatCompletionMessageImplCopyWith<_$ChatCompletionMessageImpl>
-      get copyWith => __$$ChatCompletionMessageImplCopyWithImpl<
-          _$ChatCompletionMessageImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ChatCompletionMessageImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _ChatCompletionMessage extends ChatCompletionMessage {
-  const factory _ChatCompletionMessage(
-          {required final ChatCompletionMessageRole role,
-          required final String? content,
-          @JsonKey(name: 'tool_calls', includeIfNull: false)
-          final List<ChatCompletionMessageToolCall>? toolCalls,
-          @JsonKey(name: 'function_call', includeIfNull: false)
-          final ChatCompletionMessageFunctionCall? functionCall,
-          @JsonKey(name: 'tool_call_id', includeIfNull: false)
-          final String? toolCallId,
-          @JsonKey(includeIfNull: false) final String? name}) =
-      _$ChatCompletionMessageImpl;
-  const _ChatCompletionMessage._() : super._();
-
-  factory _ChatCompletionMessage.fromJson(Map<String, dynamic> json) =
-      _$ChatCompletionMessageImpl.fromJson;
-
-  @override
-
-  /// The role of the messages author. One of `system`, `user`, `assistant`, or `tool` (`function` is deprecated).
-  ChatCompletionMessageRole get role;
-  @override
-
-  /// The contents of the message. `content` is required for all messages, and may be null for assistant messages with function calls.
-  String? get content;
-  @override
-
-  /// No Description
-  @JsonKey(name: 'tool_calls', includeIfNull: false)
-  List<ChatCompletionMessageToolCall>? get toolCalls;
-  @override
-
-  /// Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model.
-  @JsonKey(name: 'function_call', includeIfNull: false)
-  ChatCompletionMessageFunctionCall? get functionCall;
-  @override
-
-  /// Tool call that this message is responding to.
-  @JsonKey(name: 'tool_call_id', includeIfNull: false)
-  String? get toolCallId;
-  @override
-
-  /// The name of the author of this message. `name` is required if role is `function`, and it should be the name of the function whose response is in the `content`. May contain a-z, A-Z, 0-9, and underscores, with a maximum length of 64 characters.
-  @JsonKey(includeIfNull: false)
-  String? get name;
-  @override
-  @JsonKey(ignore: true)
-  _$$ChatCompletionMessageImplCopyWith<_$ChatCompletionMessageImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -8087,15 +7745,18 @@ mixin _$ChatCompletionResponseChoice {
   /// `length` if the maximum number of tokens specified in the request was reached,
   /// `content_filter` if content was omitted due to a flag from our content filters,
   /// `tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.
-  @JsonKey(name: 'finish_reason')
-  ChatCompletionFinishReason get finishReason =>
+  @JsonKey(
+      name: 'finish_reason',
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ChatCompletionFinishReason? get finishReason =>
       throw _privateConstructorUsedError;
 
   /// The index of the choice in the list of choices.
   int get index => throw _privateConstructorUsedError;
 
-  /// A chat completion message generated by the model.
-  ChatCompletionMessage get message => throw _privateConstructorUsedError;
+  /// An assistant message in a chat conversation.
+  ChatCompletionAssistantMessage get message =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -8112,11 +7773,12 @@ abstract class $ChatCompletionResponseChoiceCopyWith<$Res> {
           ChatCompletionResponseChoice>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'finish_reason') ChatCompletionFinishReason finishReason,
+      {@JsonKey(
+          name: 'finish_reason',
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ChatCompletionFinishReason? finishReason,
       int index,
-      ChatCompletionMessage message});
-
-  $ChatCompletionMessageCopyWith<$Res> get message;
+      ChatCompletionAssistantMessage message});
 }
 
 /// @nodoc
@@ -8133,32 +7795,24 @@ class _$ChatCompletionResponseChoiceCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? finishReason = null,
+    Object? finishReason = freezed,
     Object? index = null,
-    Object? message = null,
+    Object? message = freezed,
   }) {
     return _then(_value.copyWith(
-      finishReason: null == finishReason
+      finishReason: freezed == finishReason
           ? _value.finishReason
           : finishReason // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionFinishReason,
+              as ChatCompletionFinishReason?,
       index: null == index
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
               as int,
-      message: null == message
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionMessage,
+              as ChatCompletionAssistantMessage,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $ChatCompletionMessageCopyWith<$Res> get message {
-    return $ChatCompletionMessageCopyWith<$Res>(_value.message, (value) {
-      return _then(_value.copyWith(message: value) as $Val);
-    });
   }
 }
 
@@ -8172,12 +7826,12 @@ abstract class _$$ChatCompletionResponseChoiceImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'finish_reason') ChatCompletionFinishReason finishReason,
+      {@JsonKey(
+          name: 'finish_reason',
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ChatCompletionFinishReason? finishReason,
       int index,
-      ChatCompletionMessage message});
-
-  @override
-  $ChatCompletionMessageCopyWith<$Res> get message;
+      ChatCompletionAssistantMessage message});
 }
 
 /// @nodoc
@@ -8193,23 +7847,23 @@ class __$$ChatCompletionResponseChoiceImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? finishReason = null,
+    Object? finishReason = freezed,
     Object? index = null,
-    Object? message = null,
+    Object? message = freezed,
   }) {
     return _then(_$ChatCompletionResponseChoiceImpl(
-      finishReason: null == finishReason
+      finishReason: freezed == finishReason
           ? _value.finishReason
           : finishReason // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionFinishReason,
+              as ChatCompletionFinishReason?,
       index: null == index
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
               as int,
-      message: null == message
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionMessage,
+              as ChatCompletionAssistantMessage,
     ));
   }
 }
@@ -8218,7 +7872,10 @@ class __$$ChatCompletionResponseChoiceImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ChatCompletionResponseChoiceImpl extends _ChatCompletionResponseChoice {
   const _$ChatCompletionResponseChoiceImpl(
-      {@JsonKey(name: 'finish_reason') required this.finishReason,
+      {@JsonKey(
+          name: 'finish_reason',
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      required this.finishReason,
       required this.index,
       required this.message})
       : super._();
@@ -8232,16 +7889,18 @@ class _$ChatCompletionResponseChoiceImpl extends _ChatCompletionResponseChoice {
   /// `content_filter` if content was omitted due to a flag from our content filters,
   /// `tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.
   @override
-  @JsonKey(name: 'finish_reason')
-  final ChatCompletionFinishReason finishReason;
+  @JsonKey(
+      name: 'finish_reason',
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ChatCompletionFinishReason? finishReason;
 
   /// The index of the choice in the list of choices.
   @override
   final int index;
 
-  /// A chat completion message generated by the model.
+  /// An assistant message in a chat conversation.
   @override
-  final ChatCompletionMessage message;
+  final ChatCompletionAssistantMessage message;
 
   @override
   String toString() {
@@ -8256,12 +7915,13 @@ class _$ChatCompletionResponseChoiceImpl extends _ChatCompletionResponseChoice {
             (identical(other.finishReason, finishReason) ||
                 other.finishReason == finishReason) &&
             (identical(other.index, index) || other.index == index) &&
-            (identical(other.message, message) || other.message == message));
+            const DeepCollectionEquality().equals(other.message, message));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, finishReason, index, message);
+  int get hashCode => Object.hash(runtimeType, finishReason, index,
+      const DeepCollectionEquality().hash(message));
 
   @JsonKey(ignore: true)
   @override
@@ -8282,10 +7942,12 @@ class _$ChatCompletionResponseChoiceImpl extends _ChatCompletionResponseChoice {
 abstract class _ChatCompletionResponseChoice
     extends ChatCompletionResponseChoice {
   const factory _ChatCompletionResponseChoice(
-          {@JsonKey(name: 'finish_reason')
-          required final ChatCompletionFinishReason finishReason,
+          {@JsonKey(
+              name: 'finish_reason',
+              unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+          required final ChatCompletionFinishReason? finishReason,
           required final int index,
-          required final ChatCompletionMessage message}) =
+          required final ChatCompletionAssistantMessage message}) =
       _$ChatCompletionResponseChoiceImpl;
   const _ChatCompletionResponseChoice._() : super._();
 
@@ -8298,16 +7960,18 @@ abstract class _ChatCompletionResponseChoice
   /// `length` if the maximum number of tokens specified in the request was reached,
   /// `content_filter` if content was omitted due to a flag from our content filters,
   /// `tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.
-  @JsonKey(name: 'finish_reason')
-  ChatCompletionFinishReason get finishReason;
+  @JsonKey(
+      name: 'finish_reason',
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ChatCompletionFinishReason? get finishReason;
   @override
 
   /// The index of the choice in the list of choices.
   int get index;
   @override
 
-  /// A chat completion message generated by the model.
-  ChatCompletionMessage get message;
+  /// An assistant message in a chat conversation.
+  ChatCompletionAssistantMessage get message;
   @override
   @JsonKey(ignore: true)
   _$$ChatCompletionResponseChoiceImplCopyWith<
@@ -19389,5 +19053,2662 @@ abstract class _ModerationCategoriesScores extends ModerationCategoriesScores {
   @override
   @JsonKey(ignore: true)
   _$$ModerationCategoriesScoresImplCopyWith<_$ModerationCategoriesScoresImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ChatCompletionMessage _$ChatCompletionMessageFromJson(
+    Map<String, dynamic> json) {
+  switch (json['role']) {
+    case 'system':
+      return ChatCompletionSystemMessage.fromJson(json);
+    case 'user':
+      return ChatCompletionUserMessage.fromJson(json);
+    case 'assistant':
+      return ChatCompletionAssistantMessage.fromJson(json);
+    case 'tool':
+      return ChatCompletionToolMessage.fromJson(json);
+    case 'function':
+      return ChatCompletionFunctionMessage.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'role', 'ChatCompletionMessage',
+          'Invalid union type "${json['role']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$ChatCompletionMessage {
+  /// The role of the messages author, in this case `system`.
+  ChatCompletionMessageRole get role => throw _privateConstructorUsedError;
+
+  /// The contents of the system message.
+  Object? get content => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ChatCompletionMessageRole role, String? content)
+        system,
+    required TResult Function(
+            ChatCompletionMessageRole role,
+            @_ChatCompletionUserMessageContentConverter()
+            ChatCompletionUserMessageContent? content)
+        user,
+    required TResult Function(
+            ChatCompletionMessageRole role,
+            String? content,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(name: 'function_call', includeIfNull: false)
+            ChatCompletionMessageFunctionCall? functionCall)
+        assistant,
+    required TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(name: 'tool_call_id') String toolCallId)
+        tool,
+    required TResult Function(
+            ChatCompletionMessageRole role, String? content, String name)
+        function,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult? Function(
+            ChatCompletionMessageRole role,
+            @_ChatCompletionUserMessageContentConverter()
+            ChatCompletionUserMessageContent? content)?
+        user,
+    TResult? Function(
+            ChatCompletionMessageRole role,
+            String? content,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(name: 'function_call', includeIfNull: false)
+            ChatCompletionMessageFunctionCall? functionCall)?
+        assistant,
+    TResult? Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(name: 'tool_call_id') String toolCallId)?
+        tool,
+    TResult? Function(
+            ChatCompletionMessageRole role, String? content, String name)?
+        function,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult Function(
+            ChatCompletionMessageRole role,
+            @_ChatCompletionUserMessageContentConverter()
+            ChatCompletionUserMessageContent? content)?
+        user,
+    TResult Function(
+            ChatCompletionMessageRole role,
+            String? content,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(name: 'function_call', includeIfNull: false)
+            ChatCompletionMessageFunctionCall? functionCall)?
+        assistant,
+    TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(name: 'tool_call_id') String toolCallId)?
+        tool,
+    TResult Function(
+            ChatCompletionMessageRole role, String? content, String name)?
+        function,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ChatCompletionSystemMessage value) system,
+    required TResult Function(ChatCompletionUserMessage value) user,
+    required TResult Function(ChatCompletionAssistantMessage value) assistant,
+    required TResult Function(ChatCompletionToolMessage value) tool,
+    required TResult Function(ChatCompletionFunctionMessage value) function,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionSystemMessage value)? system,
+    TResult? Function(ChatCompletionUserMessage value)? user,
+    TResult? Function(ChatCompletionAssistantMessage value)? assistant,
+    TResult? Function(ChatCompletionToolMessage value)? tool,
+    TResult? Function(ChatCompletionFunctionMessage value)? function,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ChatCompletionSystemMessage value)? system,
+    TResult Function(ChatCompletionUserMessage value)? user,
+    TResult Function(ChatCompletionAssistantMessage value)? assistant,
+    TResult Function(ChatCompletionToolMessage value)? tool,
+    TResult Function(ChatCompletionFunctionMessage value)? function,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ChatCompletionMessageCopyWith<ChatCompletionMessage> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChatCompletionMessageCopyWith<$Res> {
+  factory $ChatCompletionMessageCopyWith(ChatCompletionMessage value,
+          $Res Function(ChatCompletionMessage) then) =
+      _$ChatCompletionMessageCopyWithImpl<$Res, ChatCompletionMessage>;
+  @useResult
+  $Res call({ChatCompletionMessageRole role});
+}
+
+/// @nodoc
+class _$ChatCompletionMessageCopyWithImpl<$Res,
+        $Val extends ChatCompletionMessage>
+    implements $ChatCompletionMessageCopyWith<$Res> {
+  _$ChatCompletionMessageCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? role = null,
+  }) {
+    return _then(_value.copyWith(
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionMessageRole,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionSystemMessageImplCopyWith<$Res>
+    implements $ChatCompletionMessageCopyWith<$Res> {
+  factory _$$ChatCompletionSystemMessageImplCopyWith(
+          _$ChatCompletionSystemMessageImpl value,
+          $Res Function(_$ChatCompletionSystemMessageImpl) then) =
+      __$$ChatCompletionSystemMessageImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({ChatCompletionMessageRole role, String? content});
+}
+
+/// @nodoc
+class __$$ChatCompletionSystemMessageImplCopyWithImpl<$Res>
+    extends _$ChatCompletionMessageCopyWithImpl<$Res,
+        _$ChatCompletionSystemMessageImpl>
+    implements _$$ChatCompletionSystemMessageImplCopyWith<$Res> {
+  __$$ChatCompletionSystemMessageImplCopyWithImpl(
+      _$ChatCompletionSystemMessageImpl _value,
+      $Res Function(_$ChatCompletionSystemMessageImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? role = null,
+    Object? content = freezed,
+  }) {
+    return _then(_$ChatCompletionSystemMessageImpl(
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionMessageRole,
+      content: freezed == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
+  const _$ChatCompletionSystemMessageImpl(
+      {this.role = ChatCompletionMessageRole.system, required this.content})
+      : super._();
+
+  factory _$ChatCompletionSystemMessageImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ChatCompletionSystemMessageImplFromJson(json);
+
+  /// The role of the messages author, in this case `system`.
+  @override
+  @JsonKey()
+  final ChatCompletionMessageRole role;
+
+  /// The contents of the system message.
+  @override
+  final String? content;
+
+  @override
+  String toString() {
+    return 'ChatCompletionMessage.system(role: $role, content: $content)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionSystemMessageImpl &&
+            (identical(other.role, role) || other.role == role) &&
+            (identical(other.content, content) || other.content == content));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, role, content);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionSystemMessageImplCopyWith<_$ChatCompletionSystemMessageImpl>
+      get copyWith => __$$ChatCompletionSystemMessageImplCopyWithImpl<
+          _$ChatCompletionSystemMessageImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ChatCompletionMessageRole role, String? content)
+        system,
+    required TResult Function(
+            ChatCompletionMessageRole role,
+            @_ChatCompletionUserMessageContentConverter()
+            ChatCompletionUserMessageContent? content)
+        user,
+    required TResult Function(
+            ChatCompletionMessageRole role,
+            String? content,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(name: 'function_call', includeIfNull: false)
+            ChatCompletionMessageFunctionCall? functionCall)
+        assistant,
+    required TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(name: 'tool_call_id') String toolCallId)
+        tool,
+    required TResult Function(
+            ChatCompletionMessageRole role, String? content, String name)
+        function,
+  }) {
+    return system(role, content);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult? Function(
+            ChatCompletionMessageRole role,
+            @_ChatCompletionUserMessageContentConverter()
+            ChatCompletionUserMessageContent? content)?
+        user,
+    TResult? Function(
+            ChatCompletionMessageRole role,
+            String? content,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(name: 'function_call', includeIfNull: false)
+            ChatCompletionMessageFunctionCall? functionCall)?
+        assistant,
+    TResult? Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(name: 'tool_call_id') String toolCallId)?
+        tool,
+    TResult? Function(
+            ChatCompletionMessageRole role, String? content, String name)?
+        function,
+  }) {
+    return system?.call(role, content);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult Function(
+            ChatCompletionMessageRole role,
+            @_ChatCompletionUserMessageContentConverter()
+            ChatCompletionUserMessageContent? content)?
+        user,
+    TResult Function(
+            ChatCompletionMessageRole role,
+            String? content,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(name: 'function_call', includeIfNull: false)
+            ChatCompletionMessageFunctionCall? functionCall)?
+        assistant,
+    TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(name: 'tool_call_id') String toolCallId)?
+        tool,
+    TResult Function(
+            ChatCompletionMessageRole role, String? content, String name)?
+        function,
+    required TResult orElse(),
+  }) {
+    if (system != null) {
+      return system(role, content);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ChatCompletionSystemMessage value) system,
+    required TResult Function(ChatCompletionUserMessage value) user,
+    required TResult Function(ChatCompletionAssistantMessage value) assistant,
+    required TResult Function(ChatCompletionToolMessage value) tool,
+    required TResult Function(ChatCompletionFunctionMessage value) function,
+  }) {
+    return system(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionSystemMessage value)? system,
+    TResult? Function(ChatCompletionUserMessage value)? user,
+    TResult? Function(ChatCompletionAssistantMessage value)? assistant,
+    TResult? Function(ChatCompletionToolMessage value)? tool,
+    TResult? Function(ChatCompletionFunctionMessage value)? function,
+  }) {
+    return system?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ChatCompletionSystemMessage value)? system,
+    TResult Function(ChatCompletionUserMessage value)? user,
+    TResult Function(ChatCompletionAssistantMessage value)? assistant,
+    TResult Function(ChatCompletionToolMessage value)? tool,
+    TResult Function(ChatCompletionFunctionMessage value)? function,
+    required TResult orElse(),
+  }) {
+    if (system != null) {
+      return system(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionSystemMessageImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ChatCompletionSystemMessage extends ChatCompletionMessage {
+  const factory ChatCompletionSystemMessage(
+      {final ChatCompletionMessageRole role,
+      required final String? content}) = _$ChatCompletionSystemMessageImpl;
+  const ChatCompletionSystemMessage._() : super._();
+
+  factory ChatCompletionSystemMessage.fromJson(Map<String, dynamic> json) =
+      _$ChatCompletionSystemMessageImpl.fromJson;
+
+  @override
+
+  /// The role of the messages author, in this case `system`.
+  ChatCompletionMessageRole get role;
+  @override
+
+  /// The contents of the system message.
+  String? get content;
+  @override
+  @JsonKey(ignore: true)
+  _$$ChatCompletionSystemMessageImplCopyWith<_$ChatCompletionSystemMessageImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionUserMessageImplCopyWith<$Res>
+    implements $ChatCompletionMessageCopyWith<$Res> {
+  factory _$$ChatCompletionUserMessageImplCopyWith(
+          _$ChatCompletionUserMessageImpl value,
+          $Res Function(_$ChatCompletionUserMessageImpl) then) =
+      __$$ChatCompletionUserMessageImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {ChatCompletionMessageRole role,
+      @_ChatCompletionUserMessageContentConverter()
+      ChatCompletionUserMessageContent? content});
+
+  $ChatCompletionUserMessageContentCopyWith<$Res>? get content;
+}
+
+/// @nodoc
+class __$$ChatCompletionUserMessageImplCopyWithImpl<$Res>
+    extends _$ChatCompletionMessageCopyWithImpl<$Res,
+        _$ChatCompletionUserMessageImpl>
+    implements _$$ChatCompletionUserMessageImplCopyWith<$Res> {
+  __$$ChatCompletionUserMessageImplCopyWithImpl(
+      _$ChatCompletionUserMessageImpl _value,
+      $Res Function(_$ChatCompletionUserMessageImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? role = null,
+    Object? content = freezed,
+  }) {
+    return _then(_$ChatCompletionUserMessageImpl(
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionMessageRole,
+      content: freezed == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionUserMessageContent?,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChatCompletionUserMessageContentCopyWith<$Res>? get content {
+    if (_value.content == null) {
+      return null;
+    }
+
+    return $ChatCompletionUserMessageContentCopyWith<$Res>(_value.content!,
+        (value) {
+      return _then(_value.copyWith(content: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
+  const _$ChatCompletionUserMessageImpl(
+      {this.role = ChatCompletionMessageRole.user,
+      @_ChatCompletionUserMessageContentConverter() required this.content})
+      : super._();
+
+  factory _$ChatCompletionUserMessageImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ChatCompletionUserMessageImplFromJson(json);
+
+  /// The role of the messages author, in this case `user`.
+  @override
+  @JsonKey()
+  final ChatCompletionMessageRole role;
+
+  /// The contents of the user message.
+  @override
+  @_ChatCompletionUserMessageContentConverter()
+  final ChatCompletionUserMessageContent? content;
+
+  @override
+  String toString() {
+    return 'ChatCompletionMessage.user(role: $role, content: $content)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionUserMessageImpl &&
+            (identical(other.role, role) || other.role == role) &&
+            (identical(other.content, content) || other.content == content));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, role, content);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionUserMessageImplCopyWith<_$ChatCompletionUserMessageImpl>
+      get copyWith => __$$ChatCompletionUserMessageImplCopyWithImpl<
+          _$ChatCompletionUserMessageImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ChatCompletionMessageRole role, String? content)
+        system,
+    required TResult Function(
+            ChatCompletionMessageRole role,
+            @_ChatCompletionUserMessageContentConverter()
+            ChatCompletionUserMessageContent? content)
+        user,
+    required TResult Function(
+            ChatCompletionMessageRole role,
+            String? content,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(name: 'function_call', includeIfNull: false)
+            ChatCompletionMessageFunctionCall? functionCall)
+        assistant,
+    required TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(name: 'tool_call_id') String toolCallId)
+        tool,
+    required TResult Function(
+            ChatCompletionMessageRole role, String? content, String name)
+        function,
+  }) {
+    return user(role, content);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult? Function(
+            ChatCompletionMessageRole role,
+            @_ChatCompletionUserMessageContentConverter()
+            ChatCompletionUserMessageContent? content)?
+        user,
+    TResult? Function(
+            ChatCompletionMessageRole role,
+            String? content,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(name: 'function_call', includeIfNull: false)
+            ChatCompletionMessageFunctionCall? functionCall)?
+        assistant,
+    TResult? Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(name: 'tool_call_id') String toolCallId)?
+        tool,
+    TResult? Function(
+            ChatCompletionMessageRole role, String? content, String name)?
+        function,
+  }) {
+    return user?.call(role, content);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult Function(
+            ChatCompletionMessageRole role,
+            @_ChatCompletionUserMessageContentConverter()
+            ChatCompletionUserMessageContent? content)?
+        user,
+    TResult Function(
+            ChatCompletionMessageRole role,
+            String? content,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(name: 'function_call', includeIfNull: false)
+            ChatCompletionMessageFunctionCall? functionCall)?
+        assistant,
+    TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(name: 'tool_call_id') String toolCallId)?
+        tool,
+    TResult Function(
+            ChatCompletionMessageRole role, String? content, String name)?
+        function,
+    required TResult orElse(),
+  }) {
+    if (user != null) {
+      return user(role, content);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ChatCompletionSystemMessage value) system,
+    required TResult Function(ChatCompletionUserMessage value) user,
+    required TResult Function(ChatCompletionAssistantMessage value) assistant,
+    required TResult Function(ChatCompletionToolMessage value) tool,
+    required TResult Function(ChatCompletionFunctionMessage value) function,
+  }) {
+    return user(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionSystemMessage value)? system,
+    TResult? Function(ChatCompletionUserMessage value)? user,
+    TResult? Function(ChatCompletionAssistantMessage value)? assistant,
+    TResult? Function(ChatCompletionToolMessage value)? tool,
+    TResult? Function(ChatCompletionFunctionMessage value)? function,
+  }) {
+    return user?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ChatCompletionSystemMessage value)? system,
+    TResult Function(ChatCompletionUserMessage value)? user,
+    TResult Function(ChatCompletionAssistantMessage value)? assistant,
+    TResult Function(ChatCompletionToolMessage value)? tool,
+    TResult Function(ChatCompletionFunctionMessage value)? function,
+    required TResult orElse(),
+  }) {
+    if (user != null) {
+      return user(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionUserMessageImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ChatCompletionUserMessage extends ChatCompletionMessage {
+  const factory ChatCompletionUserMessage(
+          {final ChatCompletionMessageRole role,
+          @_ChatCompletionUserMessageContentConverter()
+          required final ChatCompletionUserMessageContent? content}) =
+      _$ChatCompletionUserMessageImpl;
+  const ChatCompletionUserMessage._() : super._();
+
+  factory ChatCompletionUserMessage.fromJson(Map<String, dynamic> json) =
+      _$ChatCompletionUserMessageImpl.fromJson;
+
+  @override
+
+  /// The role of the messages author, in this case `user`.
+  ChatCompletionMessageRole get role;
+  @override
+
+  /// The contents of the user message.
+  @_ChatCompletionUserMessageContentConverter()
+  ChatCompletionUserMessageContent? get content;
+  @override
+  @JsonKey(ignore: true)
+  _$$ChatCompletionUserMessageImplCopyWith<_$ChatCompletionUserMessageImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionAssistantMessageImplCopyWith<$Res>
+    implements $ChatCompletionMessageCopyWith<$Res> {
+  factory _$$ChatCompletionAssistantMessageImplCopyWith(
+          _$ChatCompletionAssistantMessageImpl value,
+          $Res Function(_$ChatCompletionAssistantMessageImpl) then) =
+      __$$ChatCompletionAssistantMessageImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {ChatCompletionMessageRole role,
+      String? content,
+      @JsonKey(name: 'tool_calls', includeIfNull: false)
+      List<ChatCompletionMessageToolCall>? toolCalls,
+      @JsonKey(name: 'function_call', includeIfNull: false)
+      ChatCompletionMessageFunctionCall? functionCall});
+
+  $ChatCompletionMessageFunctionCallCopyWith<$Res>? get functionCall;
+}
+
+/// @nodoc
+class __$$ChatCompletionAssistantMessageImplCopyWithImpl<$Res>
+    extends _$ChatCompletionMessageCopyWithImpl<$Res,
+        _$ChatCompletionAssistantMessageImpl>
+    implements _$$ChatCompletionAssistantMessageImplCopyWith<$Res> {
+  __$$ChatCompletionAssistantMessageImplCopyWithImpl(
+      _$ChatCompletionAssistantMessageImpl _value,
+      $Res Function(_$ChatCompletionAssistantMessageImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? role = null,
+    Object? content = freezed,
+    Object? toolCalls = freezed,
+    Object? functionCall = freezed,
+  }) {
+    return _then(_$ChatCompletionAssistantMessageImpl(
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionMessageRole,
+      content: freezed == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String?,
+      toolCalls: freezed == toolCalls
+          ? _value._toolCalls
+          : toolCalls // ignore: cast_nullable_to_non_nullable
+              as List<ChatCompletionMessageToolCall>?,
+      functionCall: freezed == functionCall
+          ? _value.functionCall
+          : functionCall // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionMessageFunctionCall?,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChatCompletionMessageFunctionCallCopyWith<$Res>? get functionCall {
+    if (_value.functionCall == null) {
+      return null;
+    }
+
+    return $ChatCompletionMessageFunctionCallCopyWith<$Res>(
+        _value.functionCall!, (value) {
+      return _then(_value.copyWith(functionCall: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionAssistantMessageImpl
+    extends ChatCompletionAssistantMessage {
+  const _$ChatCompletionAssistantMessageImpl(
+      {this.role = ChatCompletionMessageRole.assistant,
+      required this.content,
+      @JsonKey(name: 'tool_calls', includeIfNull: false)
+      final List<ChatCompletionMessageToolCall>? toolCalls,
+      @JsonKey(name: 'function_call', includeIfNull: false) this.functionCall})
+      : _toolCalls = toolCalls,
+        super._();
+
+  factory _$ChatCompletionAssistantMessageImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ChatCompletionAssistantMessageImplFromJson(json);
+
+  /// The role of the messages author, in this case `assistant`.
+  @override
+  @JsonKey()
+  final ChatCompletionMessageRole role;
+
+  /// The contents of the assistant message.
+  @override
+  final String? content;
+
+  /// No Description
+  final List<ChatCompletionMessageToolCall>? _toolCalls;
+
+  /// No Description
+  @override
+  @JsonKey(name: 'tool_calls', includeIfNull: false)
+  List<ChatCompletionMessageToolCall>? get toolCalls {
+    final value = _toolCalls;
+    if (value == null) return null;
+    if (_toolCalls is EqualUnmodifiableListView) return _toolCalls;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  /// Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model.
+  @override
+  @JsonKey(name: 'function_call', includeIfNull: false)
+  final ChatCompletionMessageFunctionCall? functionCall;
+
+  @override
+  String toString() {
+    return 'ChatCompletionMessage.assistant(role: $role, content: $content, toolCalls: $toolCalls, functionCall: $functionCall)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionAssistantMessageImpl &&
+            (identical(other.role, role) || other.role == role) &&
+            (identical(other.content, content) || other.content == content) &&
+            const DeepCollectionEquality()
+                .equals(other._toolCalls, _toolCalls) &&
+            (identical(other.functionCall, functionCall) ||
+                other.functionCall == functionCall));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, role, content,
+      const DeepCollectionEquality().hash(_toolCalls), functionCall);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionAssistantMessageImplCopyWith<
+          _$ChatCompletionAssistantMessageImpl>
+      get copyWith => __$$ChatCompletionAssistantMessageImplCopyWithImpl<
+          _$ChatCompletionAssistantMessageImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ChatCompletionMessageRole role, String? content)
+        system,
+    required TResult Function(
+            ChatCompletionMessageRole role,
+            @_ChatCompletionUserMessageContentConverter()
+            ChatCompletionUserMessageContent? content)
+        user,
+    required TResult Function(
+            ChatCompletionMessageRole role,
+            String? content,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(name: 'function_call', includeIfNull: false)
+            ChatCompletionMessageFunctionCall? functionCall)
+        assistant,
+    required TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(name: 'tool_call_id') String toolCallId)
+        tool,
+    required TResult Function(
+            ChatCompletionMessageRole role, String? content, String name)
+        function,
+  }) {
+    return assistant(role, content, toolCalls, functionCall);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult? Function(
+            ChatCompletionMessageRole role,
+            @_ChatCompletionUserMessageContentConverter()
+            ChatCompletionUserMessageContent? content)?
+        user,
+    TResult? Function(
+            ChatCompletionMessageRole role,
+            String? content,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(name: 'function_call', includeIfNull: false)
+            ChatCompletionMessageFunctionCall? functionCall)?
+        assistant,
+    TResult? Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(name: 'tool_call_id') String toolCallId)?
+        tool,
+    TResult? Function(
+            ChatCompletionMessageRole role, String? content, String name)?
+        function,
+  }) {
+    return assistant?.call(role, content, toolCalls, functionCall);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult Function(
+            ChatCompletionMessageRole role,
+            @_ChatCompletionUserMessageContentConverter()
+            ChatCompletionUserMessageContent? content)?
+        user,
+    TResult Function(
+            ChatCompletionMessageRole role,
+            String? content,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(name: 'function_call', includeIfNull: false)
+            ChatCompletionMessageFunctionCall? functionCall)?
+        assistant,
+    TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(name: 'tool_call_id') String toolCallId)?
+        tool,
+    TResult Function(
+            ChatCompletionMessageRole role, String? content, String name)?
+        function,
+    required TResult orElse(),
+  }) {
+    if (assistant != null) {
+      return assistant(role, content, toolCalls, functionCall);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ChatCompletionSystemMessage value) system,
+    required TResult Function(ChatCompletionUserMessage value) user,
+    required TResult Function(ChatCompletionAssistantMessage value) assistant,
+    required TResult Function(ChatCompletionToolMessage value) tool,
+    required TResult Function(ChatCompletionFunctionMessage value) function,
+  }) {
+    return assistant(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionSystemMessage value)? system,
+    TResult? Function(ChatCompletionUserMessage value)? user,
+    TResult? Function(ChatCompletionAssistantMessage value)? assistant,
+    TResult? Function(ChatCompletionToolMessage value)? tool,
+    TResult? Function(ChatCompletionFunctionMessage value)? function,
+  }) {
+    return assistant?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ChatCompletionSystemMessage value)? system,
+    TResult Function(ChatCompletionUserMessage value)? user,
+    TResult Function(ChatCompletionAssistantMessage value)? assistant,
+    TResult Function(ChatCompletionToolMessage value)? tool,
+    TResult Function(ChatCompletionFunctionMessage value)? function,
+    required TResult orElse(),
+  }) {
+    if (assistant != null) {
+      return assistant(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionAssistantMessageImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ChatCompletionAssistantMessage extends ChatCompletionMessage {
+  const factory ChatCompletionAssistantMessage(
+          {final ChatCompletionMessageRole role,
+          required final String? content,
+          @JsonKey(name: 'tool_calls', includeIfNull: false)
+          final List<ChatCompletionMessageToolCall>? toolCalls,
+          @JsonKey(name: 'function_call', includeIfNull: false)
+          final ChatCompletionMessageFunctionCall? functionCall}) =
+      _$ChatCompletionAssistantMessageImpl;
+  const ChatCompletionAssistantMessage._() : super._();
+
+  factory ChatCompletionAssistantMessage.fromJson(Map<String, dynamic> json) =
+      _$ChatCompletionAssistantMessageImpl.fromJson;
+
+  @override
+
+  /// The role of the messages author, in this case `assistant`.
+  ChatCompletionMessageRole get role;
+  @override
+
+  /// The contents of the assistant message.
+  String? get content;
+
+  /// No Description
+  @JsonKey(name: 'tool_calls', includeIfNull: false)
+  List<ChatCompletionMessageToolCall>? get toolCalls;
+
+  /// Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model.
+  @JsonKey(name: 'function_call', includeIfNull: false)
+  ChatCompletionMessageFunctionCall? get functionCall;
+  @override
+  @JsonKey(ignore: true)
+  _$$ChatCompletionAssistantMessageImplCopyWith<
+          _$ChatCompletionAssistantMessageImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionToolMessageImplCopyWith<$Res>
+    implements $ChatCompletionMessageCopyWith<$Res> {
+  factory _$$ChatCompletionToolMessageImplCopyWith(
+          _$ChatCompletionToolMessageImpl value,
+          $Res Function(_$ChatCompletionToolMessageImpl) then) =
+      __$$ChatCompletionToolMessageImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {ChatCompletionMessageRole role,
+      String? content,
+      @JsonKey(name: 'tool_call_id') String toolCallId});
+}
+
+/// @nodoc
+class __$$ChatCompletionToolMessageImplCopyWithImpl<$Res>
+    extends _$ChatCompletionMessageCopyWithImpl<$Res,
+        _$ChatCompletionToolMessageImpl>
+    implements _$$ChatCompletionToolMessageImplCopyWith<$Res> {
+  __$$ChatCompletionToolMessageImplCopyWithImpl(
+      _$ChatCompletionToolMessageImpl _value,
+      $Res Function(_$ChatCompletionToolMessageImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? role = null,
+    Object? content = freezed,
+    Object? toolCallId = null,
+  }) {
+    return _then(_$ChatCompletionToolMessageImpl(
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionMessageRole,
+      content: freezed == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String?,
+      toolCallId: null == toolCallId
+          ? _value.toolCallId
+          : toolCallId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
+  const _$ChatCompletionToolMessageImpl(
+      {this.role = ChatCompletionMessageRole.tool,
+      required this.content,
+      @JsonKey(name: 'tool_call_id') required this.toolCallId})
+      : super._();
+
+  factory _$ChatCompletionToolMessageImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ChatCompletionToolMessageImplFromJson(json);
+
+  /// The role of the messages author, in this case `tool`.
+  @override
+  @JsonKey()
+  final ChatCompletionMessageRole role;
+
+  /// The contents of the tool message.
+  @override
+  final String? content;
+
+  /// Tool call that this message is responding to.
+  @override
+  @JsonKey(name: 'tool_call_id')
+  final String toolCallId;
+
+  @override
+  String toString() {
+    return 'ChatCompletionMessage.tool(role: $role, content: $content, toolCallId: $toolCallId)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionToolMessageImpl &&
+            (identical(other.role, role) || other.role == role) &&
+            (identical(other.content, content) || other.content == content) &&
+            (identical(other.toolCallId, toolCallId) ||
+                other.toolCallId == toolCallId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, role, content, toolCallId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionToolMessageImplCopyWith<_$ChatCompletionToolMessageImpl>
+      get copyWith => __$$ChatCompletionToolMessageImplCopyWithImpl<
+          _$ChatCompletionToolMessageImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ChatCompletionMessageRole role, String? content)
+        system,
+    required TResult Function(
+            ChatCompletionMessageRole role,
+            @_ChatCompletionUserMessageContentConverter()
+            ChatCompletionUserMessageContent? content)
+        user,
+    required TResult Function(
+            ChatCompletionMessageRole role,
+            String? content,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(name: 'function_call', includeIfNull: false)
+            ChatCompletionMessageFunctionCall? functionCall)
+        assistant,
+    required TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(name: 'tool_call_id') String toolCallId)
+        tool,
+    required TResult Function(
+            ChatCompletionMessageRole role, String? content, String name)
+        function,
+  }) {
+    return tool(role, content, toolCallId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult? Function(
+            ChatCompletionMessageRole role,
+            @_ChatCompletionUserMessageContentConverter()
+            ChatCompletionUserMessageContent? content)?
+        user,
+    TResult? Function(
+            ChatCompletionMessageRole role,
+            String? content,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(name: 'function_call', includeIfNull: false)
+            ChatCompletionMessageFunctionCall? functionCall)?
+        assistant,
+    TResult? Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(name: 'tool_call_id') String toolCallId)?
+        tool,
+    TResult? Function(
+            ChatCompletionMessageRole role, String? content, String name)?
+        function,
+  }) {
+    return tool?.call(role, content, toolCallId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult Function(
+            ChatCompletionMessageRole role,
+            @_ChatCompletionUserMessageContentConverter()
+            ChatCompletionUserMessageContent? content)?
+        user,
+    TResult Function(
+            ChatCompletionMessageRole role,
+            String? content,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(name: 'function_call', includeIfNull: false)
+            ChatCompletionMessageFunctionCall? functionCall)?
+        assistant,
+    TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(name: 'tool_call_id') String toolCallId)?
+        tool,
+    TResult Function(
+            ChatCompletionMessageRole role, String? content, String name)?
+        function,
+    required TResult orElse(),
+  }) {
+    if (tool != null) {
+      return tool(role, content, toolCallId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ChatCompletionSystemMessage value) system,
+    required TResult Function(ChatCompletionUserMessage value) user,
+    required TResult Function(ChatCompletionAssistantMessage value) assistant,
+    required TResult Function(ChatCompletionToolMessage value) tool,
+    required TResult Function(ChatCompletionFunctionMessage value) function,
+  }) {
+    return tool(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionSystemMessage value)? system,
+    TResult? Function(ChatCompletionUserMessage value)? user,
+    TResult? Function(ChatCompletionAssistantMessage value)? assistant,
+    TResult? Function(ChatCompletionToolMessage value)? tool,
+    TResult? Function(ChatCompletionFunctionMessage value)? function,
+  }) {
+    return tool?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ChatCompletionSystemMessage value)? system,
+    TResult Function(ChatCompletionUserMessage value)? user,
+    TResult Function(ChatCompletionAssistantMessage value)? assistant,
+    TResult Function(ChatCompletionToolMessage value)? tool,
+    TResult Function(ChatCompletionFunctionMessage value)? function,
+    required TResult orElse(),
+  }) {
+    if (tool != null) {
+      return tool(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionToolMessageImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ChatCompletionToolMessage extends ChatCompletionMessage {
+  const factory ChatCompletionToolMessage(
+          {final ChatCompletionMessageRole role,
+          required final String? content,
+          @JsonKey(name: 'tool_call_id') required final String toolCallId}) =
+      _$ChatCompletionToolMessageImpl;
+  const ChatCompletionToolMessage._() : super._();
+
+  factory ChatCompletionToolMessage.fromJson(Map<String, dynamic> json) =
+      _$ChatCompletionToolMessageImpl.fromJson;
+
+  @override
+
+  /// The role of the messages author, in this case `tool`.
+  ChatCompletionMessageRole get role;
+  @override
+
+  /// The contents of the tool message.
+  String? get content;
+
+  /// Tool call that this message is responding to.
+  @JsonKey(name: 'tool_call_id')
+  String get toolCallId;
+  @override
+  @JsonKey(ignore: true)
+  _$$ChatCompletionToolMessageImplCopyWith<_$ChatCompletionToolMessageImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionFunctionMessageImplCopyWith<$Res>
+    implements $ChatCompletionMessageCopyWith<$Res> {
+  factory _$$ChatCompletionFunctionMessageImplCopyWith(
+          _$ChatCompletionFunctionMessageImpl value,
+          $Res Function(_$ChatCompletionFunctionMessageImpl) then) =
+      __$$ChatCompletionFunctionMessageImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({ChatCompletionMessageRole role, String? content, String name});
+}
+
+/// @nodoc
+class __$$ChatCompletionFunctionMessageImplCopyWithImpl<$Res>
+    extends _$ChatCompletionMessageCopyWithImpl<$Res,
+        _$ChatCompletionFunctionMessageImpl>
+    implements _$$ChatCompletionFunctionMessageImplCopyWith<$Res> {
+  __$$ChatCompletionFunctionMessageImplCopyWithImpl(
+      _$ChatCompletionFunctionMessageImpl _value,
+      $Res Function(_$ChatCompletionFunctionMessageImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? role = null,
+    Object? content = freezed,
+    Object? name = null,
+  }) {
+    return _then(_$ChatCompletionFunctionMessageImpl(
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionMessageRole,
+      content: freezed == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionFunctionMessageImpl
+    extends ChatCompletionFunctionMessage {
+  const _$ChatCompletionFunctionMessageImpl(
+      {this.role = ChatCompletionMessageRole.function,
+      required this.content,
+      required this.name})
+      : super._();
+
+  factory _$ChatCompletionFunctionMessageImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ChatCompletionFunctionMessageImplFromJson(json);
+
+  /// The role of the messages author, in this case `function`.
+  @override
+  @JsonKey()
+  final ChatCompletionMessageRole role;
+
+  /// The return value from the function call, to return to the model.
+  @override
+  final String? content;
+
+  /// The name of the function to call.
+  @override
+  final String name;
+
+  @override
+  String toString() {
+    return 'ChatCompletionMessage.function(role: $role, content: $content, name: $name)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionFunctionMessageImpl &&
+            (identical(other.role, role) || other.role == role) &&
+            (identical(other.content, content) || other.content == content) &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, role, content, name);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionFunctionMessageImplCopyWith<
+          _$ChatCompletionFunctionMessageImpl>
+      get copyWith => __$$ChatCompletionFunctionMessageImplCopyWithImpl<
+          _$ChatCompletionFunctionMessageImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ChatCompletionMessageRole role, String? content)
+        system,
+    required TResult Function(
+            ChatCompletionMessageRole role,
+            @_ChatCompletionUserMessageContentConverter()
+            ChatCompletionUserMessageContent? content)
+        user,
+    required TResult Function(
+            ChatCompletionMessageRole role,
+            String? content,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(name: 'function_call', includeIfNull: false)
+            ChatCompletionMessageFunctionCall? functionCall)
+        assistant,
+    required TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(name: 'tool_call_id') String toolCallId)
+        tool,
+    required TResult Function(
+            ChatCompletionMessageRole role, String? content, String name)
+        function,
+  }) {
+    return function(role, content, name);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult? Function(
+            ChatCompletionMessageRole role,
+            @_ChatCompletionUserMessageContentConverter()
+            ChatCompletionUserMessageContent? content)?
+        user,
+    TResult? Function(
+            ChatCompletionMessageRole role,
+            String? content,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(name: 'function_call', includeIfNull: false)
+            ChatCompletionMessageFunctionCall? functionCall)?
+        assistant,
+    TResult? Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(name: 'tool_call_id') String toolCallId)?
+        tool,
+    TResult? Function(
+            ChatCompletionMessageRole role, String? content, String name)?
+        function,
+  }) {
+    return function?.call(role, content, name);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult Function(
+            ChatCompletionMessageRole role,
+            @_ChatCompletionUserMessageContentConverter()
+            ChatCompletionUserMessageContent? content)?
+        user,
+    TResult Function(
+            ChatCompletionMessageRole role,
+            String? content,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<ChatCompletionMessageToolCall>? toolCalls,
+            @JsonKey(name: 'function_call', includeIfNull: false)
+            ChatCompletionMessageFunctionCall? functionCall)?
+        assistant,
+    TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(name: 'tool_call_id') String toolCallId)?
+        tool,
+    TResult Function(
+            ChatCompletionMessageRole role, String? content, String name)?
+        function,
+    required TResult orElse(),
+  }) {
+    if (function != null) {
+      return function(role, content, name);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ChatCompletionSystemMessage value) system,
+    required TResult Function(ChatCompletionUserMessage value) user,
+    required TResult Function(ChatCompletionAssistantMessage value) assistant,
+    required TResult Function(ChatCompletionToolMessage value) tool,
+    required TResult Function(ChatCompletionFunctionMessage value) function,
+  }) {
+    return function(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionSystemMessage value)? system,
+    TResult? Function(ChatCompletionUserMessage value)? user,
+    TResult? Function(ChatCompletionAssistantMessage value)? assistant,
+    TResult? Function(ChatCompletionToolMessage value)? tool,
+    TResult? Function(ChatCompletionFunctionMessage value)? function,
+  }) {
+    return function?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ChatCompletionSystemMessage value)? system,
+    TResult Function(ChatCompletionUserMessage value)? user,
+    TResult Function(ChatCompletionAssistantMessage value)? assistant,
+    TResult Function(ChatCompletionToolMessage value)? tool,
+    TResult Function(ChatCompletionFunctionMessage value)? function,
+    required TResult orElse(),
+  }) {
+    if (function != null) {
+      return function(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionFunctionMessageImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ChatCompletionFunctionMessage extends ChatCompletionMessage {
+  const factory ChatCompletionFunctionMessage(
+      {final ChatCompletionMessageRole role,
+      required final String? content,
+      required final String name}) = _$ChatCompletionFunctionMessageImpl;
+  const ChatCompletionFunctionMessage._() : super._();
+
+  factory ChatCompletionFunctionMessage.fromJson(Map<String, dynamic> json) =
+      _$ChatCompletionFunctionMessageImpl.fromJson;
+
+  @override
+
+  /// The role of the messages author, in this case `function`.
+  ChatCompletionMessageRole get role;
+  @override
+
+  /// The return value from the function call, to return to the model.
+  String? get content;
+
+  /// The name of the function to call.
+  String get name;
+  @override
+  @JsonKey(ignore: true)
+  _$$ChatCompletionFunctionMessageImplCopyWith<
+          _$ChatCompletionFunctionMessageImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ChatCompletionUserMessageContent _$ChatCompletionUserMessageContentFromJson(
+    Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'parts':
+      return ChatCompletionMessageContentParts.fromJson(json);
+    case 'string':
+      return ChatCompletionUserMessageContentString.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'runtimeType',
+          'ChatCompletionUserMessageContent',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$ChatCompletionUserMessageContent {
+  Object get value => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<ChatCompletionMessageContentPart> value)
+        parts,
+    required TResult Function(String value) string,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<ChatCompletionMessageContentPart> value)? parts,
+    TResult? Function(String value)? string,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<ChatCompletionMessageContentPart> value)? parts,
+    TResult Function(String value)? string,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ChatCompletionMessageContentParts value) parts,
+    required TResult Function(ChatCompletionUserMessageContentString value)
+        string,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionMessageContentParts value)? parts,
+    TResult? Function(ChatCompletionUserMessageContentString value)? string,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ChatCompletionMessageContentParts value)? parts,
+    TResult Function(ChatCompletionUserMessageContentString value)? string,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChatCompletionUserMessageContentCopyWith<$Res> {
+  factory $ChatCompletionUserMessageContentCopyWith(
+          ChatCompletionUserMessageContent value,
+          $Res Function(ChatCompletionUserMessageContent) then) =
+      _$ChatCompletionUserMessageContentCopyWithImpl<$Res,
+          ChatCompletionUserMessageContent>;
+}
+
+/// @nodoc
+class _$ChatCompletionUserMessageContentCopyWithImpl<$Res,
+        $Val extends ChatCompletionUserMessageContent>
+    implements $ChatCompletionUserMessageContentCopyWith<$Res> {
+  _$ChatCompletionUserMessageContentCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionMessageContentPartsImplCopyWith<$Res> {
+  factory _$$ChatCompletionMessageContentPartsImplCopyWith(
+          _$ChatCompletionMessageContentPartsImpl value,
+          $Res Function(_$ChatCompletionMessageContentPartsImpl) then) =
+      __$$ChatCompletionMessageContentPartsImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<ChatCompletionMessageContentPart> value});
+}
+
+/// @nodoc
+class __$$ChatCompletionMessageContentPartsImplCopyWithImpl<$Res>
+    extends _$ChatCompletionUserMessageContentCopyWithImpl<$Res,
+        _$ChatCompletionMessageContentPartsImpl>
+    implements _$$ChatCompletionMessageContentPartsImplCopyWith<$Res> {
+  __$$ChatCompletionMessageContentPartsImplCopyWithImpl(
+      _$ChatCompletionMessageContentPartsImpl _value,
+      $Res Function(_$ChatCompletionMessageContentPartsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$ChatCompletionMessageContentPartsImpl(
+      null == value
+          ? _value._value
+          : value // ignore: cast_nullable_to_non_nullable
+              as List<ChatCompletionMessageContentPart>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionMessageContentPartsImpl
+    extends ChatCompletionMessageContentParts {
+  const _$ChatCompletionMessageContentPartsImpl(
+      final List<ChatCompletionMessageContentPart> value,
+      {final String? $type})
+      : _value = value,
+        $type = $type ?? 'parts',
+        super._();
+
+  factory _$ChatCompletionMessageContentPartsImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ChatCompletionMessageContentPartsImplFromJson(json);
+
+  final List<ChatCompletionMessageContentPart> _value;
+  @override
+  List<ChatCompletionMessageContentPart> get value {
+    if (_value is EqualUnmodifiableListView) return _value;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_value);
+  }
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'ChatCompletionUserMessageContent.parts(value: $value)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionMessageContentPartsImpl &&
+            const DeepCollectionEquality().equals(other._value, _value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_value));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionMessageContentPartsImplCopyWith<
+          _$ChatCompletionMessageContentPartsImpl>
+      get copyWith => __$$ChatCompletionMessageContentPartsImplCopyWithImpl<
+          _$ChatCompletionMessageContentPartsImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<ChatCompletionMessageContentPart> value)
+        parts,
+    required TResult Function(String value) string,
+  }) {
+    return parts(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<ChatCompletionMessageContentPart> value)? parts,
+    TResult? Function(String value)? string,
+  }) {
+    return parts?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<ChatCompletionMessageContentPart> value)? parts,
+    TResult Function(String value)? string,
+    required TResult orElse(),
+  }) {
+    if (parts != null) {
+      return parts(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ChatCompletionMessageContentParts value) parts,
+    required TResult Function(ChatCompletionUserMessageContentString value)
+        string,
+  }) {
+    return parts(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionMessageContentParts value)? parts,
+    TResult? Function(ChatCompletionUserMessageContentString value)? string,
+  }) {
+    return parts?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ChatCompletionMessageContentParts value)? parts,
+    TResult Function(ChatCompletionUserMessageContentString value)? string,
+    required TResult orElse(),
+  }) {
+    if (parts != null) {
+      return parts(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionMessageContentPartsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ChatCompletionMessageContentParts
+    extends ChatCompletionUserMessageContent {
+  const factory ChatCompletionMessageContentParts(
+          final List<ChatCompletionMessageContentPart> value) =
+      _$ChatCompletionMessageContentPartsImpl;
+  const ChatCompletionMessageContentParts._() : super._();
+
+  factory ChatCompletionMessageContentParts.fromJson(
+          Map<String, dynamic> json) =
+      _$ChatCompletionMessageContentPartsImpl.fromJson;
+
+  @override
+  List<ChatCompletionMessageContentPart> get value;
+  @JsonKey(ignore: true)
+  _$$ChatCompletionMessageContentPartsImplCopyWith<
+          _$ChatCompletionMessageContentPartsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionUserMessageContentStringImplCopyWith<$Res> {
+  factory _$$ChatCompletionUserMessageContentStringImplCopyWith(
+          _$ChatCompletionUserMessageContentStringImpl value,
+          $Res Function(_$ChatCompletionUserMessageContentStringImpl) then) =
+      __$$ChatCompletionUserMessageContentStringImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String value});
+}
+
+/// @nodoc
+class __$$ChatCompletionUserMessageContentStringImplCopyWithImpl<$Res>
+    extends _$ChatCompletionUserMessageContentCopyWithImpl<$Res,
+        _$ChatCompletionUserMessageContentStringImpl>
+    implements _$$ChatCompletionUserMessageContentStringImplCopyWith<$Res> {
+  __$$ChatCompletionUserMessageContentStringImplCopyWithImpl(
+      _$ChatCompletionUserMessageContentStringImpl _value,
+      $Res Function(_$ChatCompletionUserMessageContentStringImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$ChatCompletionUserMessageContentStringImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionUserMessageContentStringImpl
+    extends ChatCompletionUserMessageContentString {
+  const _$ChatCompletionUserMessageContentStringImpl(this.value,
+      {final String? $type})
+      : $type = $type ?? 'string',
+        super._();
+
+  factory _$ChatCompletionUserMessageContentStringImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ChatCompletionUserMessageContentStringImplFromJson(json);
+
+  @override
+  final String value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'ChatCompletionUserMessageContent.string(value: $value)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionUserMessageContentStringImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionUserMessageContentStringImplCopyWith<
+          _$ChatCompletionUserMessageContentStringImpl>
+      get copyWith =>
+          __$$ChatCompletionUserMessageContentStringImplCopyWithImpl<
+              _$ChatCompletionUserMessageContentStringImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<ChatCompletionMessageContentPart> value)
+        parts,
+    required TResult Function(String value) string,
+  }) {
+    return string(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<ChatCompletionMessageContentPart> value)? parts,
+    TResult? Function(String value)? string,
+  }) {
+    return string?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<ChatCompletionMessageContentPart> value)? parts,
+    TResult Function(String value)? string,
+    required TResult orElse(),
+  }) {
+    if (string != null) {
+      return string(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ChatCompletionMessageContentParts value) parts,
+    required TResult Function(ChatCompletionUserMessageContentString value)
+        string,
+  }) {
+    return string(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionMessageContentParts value)? parts,
+    TResult? Function(ChatCompletionUserMessageContentString value)? string,
+  }) {
+    return string?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ChatCompletionMessageContentParts value)? parts,
+    TResult Function(ChatCompletionUserMessageContentString value)? string,
+    required TResult orElse(),
+  }) {
+    if (string != null) {
+      return string(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionUserMessageContentStringImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ChatCompletionUserMessageContentString
+    extends ChatCompletionUserMessageContent {
+  const factory ChatCompletionUserMessageContentString(final String value) =
+      _$ChatCompletionUserMessageContentStringImpl;
+  const ChatCompletionUserMessageContentString._() : super._();
+
+  factory ChatCompletionUserMessageContentString.fromJson(
+          Map<String, dynamic> json) =
+      _$ChatCompletionUserMessageContentStringImpl.fromJson;
+
+  @override
+  String get value;
+  @JsonKey(ignore: true)
+  _$$ChatCompletionUserMessageContentStringImplCopyWith<
+          _$ChatCompletionUserMessageContentStringImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ChatCompletionMessageContentPart _$ChatCompletionMessageContentPartFromJson(
+    Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'text':
+      return ChatCompletionMessageContentPartText.fromJson(json);
+    case 'image_url':
+      return ChatCompletionMessageContentPartImage.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'type',
+          'ChatCompletionMessageContentPart',
+          'Invalid union type "${json['type']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$ChatCompletionMessageContentPart {
+  /// The type of the content part, in this case `text`.
+  ChatCompletionMessageContentPartType get type =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            ChatCompletionMessageContentPartType type, String text)
+        text,
+    required TResult Function(ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)
+        image,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionMessageContentPartType type, String text)?
+        text,
+    TResult? Function(ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
+        image,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ChatCompletionMessageContentPartType type, String text)?
+        text,
+    TResult Function(ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
+        image,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ChatCompletionMessageContentPartText value) text,
+    required TResult Function(ChatCompletionMessageContentPartImage value)
+        image,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionMessageContentPartText value)? text,
+    TResult? Function(ChatCompletionMessageContentPartImage value)? image,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ChatCompletionMessageContentPartText value)? text,
+    TResult Function(ChatCompletionMessageContentPartImage value)? image,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ChatCompletionMessageContentPartCopyWith<ChatCompletionMessageContentPart>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChatCompletionMessageContentPartCopyWith<$Res> {
+  factory $ChatCompletionMessageContentPartCopyWith(
+          ChatCompletionMessageContentPart value,
+          $Res Function(ChatCompletionMessageContentPart) then) =
+      _$ChatCompletionMessageContentPartCopyWithImpl<$Res,
+          ChatCompletionMessageContentPart>;
+  @useResult
+  $Res call({ChatCompletionMessageContentPartType type});
+}
+
+/// @nodoc
+class _$ChatCompletionMessageContentPartCopyWithImpl<$Res,
+        $Val extends ChatCompletionMessageContentPart>
+    implements $ChatCompletionMessageContentPartCopyWith<$Res> {
+  _$ChatCompletionMessageContentPartCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionMessageContentPartType,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionMessageContentPartTextImplCopyWith<$Res>
+    implements $ChatCompletionMessageContentPartCopyWith<$Res> {
+  factory _$$ChatCompletionMessageContentPartTextImplCopyWith(
+          _$ChatCompletionMessageContentPartTextImpl value,
+          $Res Function(_$ChatCompletionMessageContentPartTextImpl) then) =
+      __$$ChatCompletionMessageContentPartTextImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({ChatCompletionMessageContentPartType type, String text});
+}
+
+/// @nodoc
+class __$$ChatCompletionMessageContentPartTextImplCopyWithImpl<$Res>
+    extends _$ChatCompletionMessageContentPartCopyWithImpl<$Res,
+        _$ChatCompletionMessageContentPartTextImpl>
+    implements _$$ChatCompletionMessageContentPartTextImplCopyWith<$Res> {
+  __$$ChatCompletionMessageContentPartTextImplCopyWithImpl(
+      _$ChatCompletionMessageContentPartTextImpl _value,
+      $Res Function(_$ChatCompletionMessageContentPartTextImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? text = null,
+  }) {
+    return _then(_$ChatCompletionMessageContentPartTextImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionMessageContentPartType,
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionMessageContentPartTextImpl
+    extends ChatCompletionMessageContentPartText {
+  const _$ChatCompletionMessageContentPartTextImpl(
+      {this.type = ChatCompletionMessageContentPartType.text,
+      required this.text})
+      : super._();
+
+  factory _$ChatCompletionMessageContentPartTextImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ChatCompletionMessageContentPartTextImplFromJson(json);
+
+  /// The type of the content part, in this case `text`.
+  @override
+  @JsonKey()
+  final ChatCompletionMessageContentPartType type;
+
+  /// The text content.
+  @override
+  final String text;
+
+  @override
+  String toString() {
+    return 'ChatCompletionMessageContentPart.text(type: $type, text: $text)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionMessageContentPartTextImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.text, text) || other.text == text));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, text);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionMessageContentPartTextImplCopyWith<
+          _$ChatCompletionMessageContentPartTextImpl>
+      get copyWith => __$$ChatCompletionMessageContentPartTextImplCopyWithImpl<
+          _$ChatCompletionMessageContentPartTextImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            ChatCompletionMessageContentPartType type, String text)
+        text,
+    required TResult Function(ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)
+        image,
+  }) {
+    return text(type, this.text);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionMessageContentPartType type, String text)?
+        text,
+    TResult? Function(ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
+        image,
+  }) {
+    return text?.call(type, this.text);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ChatCompletionMessageContentPartType type, String text)?
+        text,
+    TResult Function(ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
+        image,
+    required TResult orElse(),
+  }) {
+    if (text != null) {
+      return text(type, this.text);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ChatCompletionMessageContentPartText value) text,
+    required TResult Function(ChatCompletionMessageContentPartImage value)
+        image,
+  }) {
+    return text(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionMessageContentPartText value)? text,
+    TResult? Function(ChatCompletionMessageContentPartImage value)? image,
+  }) {
+    return text?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ChatCompletionMessageContentPartText value)? text,
+    TResult Function(ChatCompletionMessageContentPartImage value)? image,
+    required TResult orElse(),
+  }) {
+    if (text != null) {
+      return text(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionMessageContentPartTextImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ChatCompletionMessageContentPartText
+    extends ChatCompletionMessageContentPart {
+  const factory ChatCompletionMessageContentPartText(
+      {final ChatCompletionMessageContentPartType type,
+      required final String text}) = _$ChatCompletionMessageContentPartTextImpl;
+  const ChatCompletionMessageContentPartText._() : super._();
+
+  factory ChatCompletionMessageContentPartText.fromJson(
+          Map<String, dynamic> json) =
+      _$ChatCompletionMessageContentPartTextImpl.fromJson;
+
+  @override
+
+  /// The type of the content part, in this case `text`.
+  ChatCompletionMessageContentPartType get type;
+
+  /// The text content.
+  String get text;
+  @override
+  @JsonKey(ignore: true)
+  _$$ChatCompletionMessageContentPartTextImplCopyWith<
+          _$ChatCompletionMessageContentPartTextImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionMessageContentPartImageImplCopyWith<$Res>
+    implements $ChatCompletionMessageContentPartCopyWith<$Res> {
+  factory _$$ChatCompletionMessageContentPartImageImplCopyWith(
+          _$ChatCompletionMessageContentPartImageImpl value,
+          $Res Function(_$ChatCompletionMessageContentPartImageImpl) then) =
+      __$$ChatCompletionMessageContentPartImageImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {ChatCompletionMessageContentPartType type,
+      @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl});
+
+  $ChatCompletionMessageImageUrlCopyWith<$Res> get imageUrl;
+}
+
+/// @nodoc
+class __$$ChatCompletionMessageContentPartImageImplCopyWithImpl<$Res>
+    extends _$ChatCompletionMessageContentPartCopyWithImpl<$Res,
+        _$ChatCompletionMessageContentPartImageImpl>
+    implements _$$ChatCompletionMessageContentPartImageImplCopyWith<$Res> {
+  __$$ChatCompletionMessageContentPartImageImplCopyWithImpl(
+      _$ChatCompletionMessageContentPartImageImpl _value,
+      $Res Function(_$ChatCompletionMessageContentPartImageImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? imageUrl = null,
+  }) {
+    return _then(_$ChatCompletionMessageContentPartImageImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionMessageContentPartType,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionMessageImageUrl,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChatCompletionMessageImageUrlCopyWith<$Res> get imageUrl {
+    return $ChatCompletionMessageImageUrlCopyWith<$Res>(_value.imageUrl,
+        (value) {
+      return _then(_value.copyWith(imageUrl: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionMessageContentPartImageImpl
+    extends ChatCompletionMessageContentPartImage {
+  const _$ChatCompletionMessageContentPartImageImpl(
+      {this.type = ChatCompletionMessageContentPartType.imageUrl,
+      @JsonKey(name: 'image_url') required this.imageUrl})
+      : super._();
+
+  factory _$ChatCompletionMessageContentPartImageImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ChatCompletionMessageContentPartImageImplFromJson(json);
+
+  /// The type of the content part, in this case `image_url`.
+  @override
+  @JsonKey()
+  final ChatCompletionMessageContentPartType type;
+
+  /// The URL of the image.
+  @override
+  @JsonKey(name: 'image_url')
+  final ChatCompletionMessageImageUrl imageUrl;
+
+  @override
+  String toString() {
+    return 'ChatCompletionMessageContentPart.image(type: $type, imageUrl: $imageUrl)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionMessageContentPartImageImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, imageUrl);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionMessageContentPartImageImplCopyWith<
+          _$ChatCompletionMessageContentPartImageImpl>
+      get copyWith => __$$ChatCompletionMessageContentPartImageImplCopyWithImpl<
+          _$ChatCompletionMessageContentPartImageImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            ChatCompletionMessageContentPartType type, String text)
+        text,
+    required TResult Function(ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)
+        image,
+  }) {
+    return image(type, imageUrl);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionMessageContentPartType type, String text)?
+        text,
+    TResult? Function(ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
+        image,
+  }) {
+    return image?.call(type, imageUrl);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ChatCompletionMessageContentPartType type, String text)?
+        text,
+    TResult Function(ChatCompletionMessageContentPartType type,
+            @JsonKey(name: 'image_url') ChatCompletionMessageImageUrl imageUrl)?
+        image,
+    required TResult orElse(),
+  }) {
+    if (image != null) {
+      return image(type, imageUrl);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ChatCompletionMessageContentPartText value) text,
+    required TResult Function(ChatCompletionMessageContentPartImage value)
+        image,
+  }) {
+    return image(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ChatCompletionMessageContentPartText value)? text,
+    TResult? Function(ChatCompletionMessageContentPartImage value)? image,
+  }) {
+    return image?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ChatCompletionMessageContentPartText value)? text,
+    TResult Function(ChatCompletionMessageContentPartImage value)? image,
+    required TResult orElse(),
+  }) {
+    if (image != null) {
+      return image(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionMessageContentPartImageImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ChatCompletionMessageContentPartImage
+    extends ChatCompletionMessageContentPart {
+  const factory ChatCompletionMessageContentPartImage(
+          {final ChatCompletionMessageContentPartType type,
+          @JsonKey(name: 'image_url')
+          required final ChatCompletionMessageImageUrl imageUrl}) =
+      _$ChatCompletionMessageContentPartImageImpl;
+  const ChatCompletionMessageContentPartImage._() : super._();
+
+  factory ChatCompletionMessageContentPartImage.fromJson(
+          Map<String, dynamic> json) =
+      _$ChatCompletionMessageContentPartImageImpl.fromJson;
+
+  @override
+
+  /// The type of the content part, in this case `image_url`.
+  ChatCompletionMessageContentPartType get type;
+
+  /// The URL of the image.
+  @JsonKey(name: 'image_url')
+  ChatCompletionMessageImageUrl get imageUrl;
+  @override
+  @JsonKey(ignore: true)
+  _$$ChatCompletionMessageContentPartImageImplCopyWith<
+          _$ChatCompletionMessageContentPartImageImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ChatCompletionMessageImageUrl _$ChatCompletionMessageImageUrlFromJson(
+    Map<String, dynamic> json) {
+  return _ChatCompletionMessageImageUrl.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ChatCompletionMessageImageUrl {
+  /// Either a URL of the image or the base64 encoded image data.
+  String get url => throw _privateConstructorUsedError;
+
+  /// Specifies the detail level of the image.
+  ChatCompletionMessageImageDetail get detail =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ChatCompletionMessageImageUrlCopyWith<ChatCompletionMessageImageUrl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChatCompletionMessageImageUrlCopyWith<$Res> {
+  factory $ChatCompletionMessageImageUrlCopyWith(
+          ChatCompletionMessageImageUrl value,
+          $Res Function(ChatCompletionMessageImageUrl) then) =
+      _$ChatCompletionMessageImageUrlCopyWithImpl<$Res,
+          ChatCompletionMessageImageUrl>;
+  @useResult
+  $Res call({String url, ChatCompletionMessageImageDetail detail});
+}
+
+/// @nodoc
+class _$ChatCompletionMessageImageUrlCopyWithImpl<$Res,
+        $Val extends ChatCompletionMessageImageUrl>
+    implements $ChatCompletionMessageImageUrlCopyWith<$Res> {
+  _$ChatCompletionMessageImageUrlCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? url = null,
+    Object? detail = null,
+  }) {
+    return _then(_value.copyWith(
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      detail: null == detail
+          ? _value.detail
+          : detail // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionMessageImageDetail,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionMessageImageUrlImplCopyWith<$Res>
+    implements $ChatCompletionMessageImageUrlCopyWith<$Res> {
+  factory _$$ChatCompletionMessageImageUrlImplCopyWith(
+          _$ChatCompletionMessageImageUrlImpl value,
+          $Res Function(_$ChatCompletionMessageImageUrlImpl) then) =
+      __$$ChatCompletionMessageImageUrlImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String url, ChatCompletionMessageImageDetail detail});
+}
+
+/// @nodoc
+class __$$ChatCompletionMessageImageUrlImplCopyWithImpl<$Res>
+    extends _$ChatCompletionMessageImageUrlCopyWithImpl<$Res,
+        _$ChatCompletionMessageImageUrlImpl>
+    implements _$$ChatCompletionMessageImageUrlImplCopyWith<$Res> {
+  __$$ChatCompletionMessageImageUrlImplCopyWithImpl(
+      _$ChatCompletionMessageImageUrlImpl _value,
+      $Res Function(_$ChatCompletionMessageImageUrlImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? url = null,
+    Object? detail = null,
+  }) {
+    return _then(_$ChatCompletionMessageImageUrlImpl(
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      detail: null == detail
+          ? _value.detail
+          : detail // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionMessageImageDetail,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionMessageImageUrlImpl
+    extends _ChatCompletionMessageImageUrl {
+  const _$ChatCompletionMessageImageUrlImpl(
+      {required this.url, this.detail = ChatCompletionMessageImageDetail.auto})
+      : super._();
+
+  factory _$ChatCompletionMessageImageUrlImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ChatCompletionMessageImageUrlImplFromJson(json);
+
+  /// Either a URL of the image or the base64 encoded image data.
+  @override
+  final String url;
+
+  /// Specifies the detail level of the image.
+  @override
+  @JsonKey()
+  final ChatCompletionMessageImageDetail detail;
+
+  @override
+  String toString() {
+    return 'ChatCompletionMessageImageUrl(url: $url, detail: $detail)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionMessageImageUrlImpl &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.detail, detail) || other.detail == detail));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, url, detail);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionMessageImageUrlImplCopyWith<
+          _$ChatCompletionMessageImageUrlImpl>
+      get copyWith => __$$ChatCompletionMessageImageUrlImplCopyWithImpl<
+          _$ChatCompletionMessageImageUrlImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionMessageImageUrlImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ChatCompletionMessageImageUrl
+    extends ChatCompletionMessageImageUrl {
+  const factory _ChatCompletionMessageImageUrl(
+          {required final String url,
+          final ChatCompletionMessageImageDetail detail}) =
+      _$ChatCompletionMessageImageUrlImpl;
+  const _ChatCompletionMessageImageUrl._() : super._();
+
+  factory _ChatCompletionMessageImageUrl.fromJson(Map<String, dynamic> json) =
+      _$ChatCompletionMessageImageUrlImpl.fromJson;
+
+  @override
+
+  /// Either a URL of the image or the base64 encoded image data.
+  String get url;
+  @override
+
+  /// Specifies the detail level of the image.
+  ChatCompletionMessageImageDetail get detail;
+  @override
+  @JsonKey(ignore: true)
+  _$$ChatCompletionMessageImageUrlImplCopyWith<
+          _$ChatCompletionMessageImageUrlImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

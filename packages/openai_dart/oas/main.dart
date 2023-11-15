@@ -11,6 +11,7 @@ void main() async {
     destination: 'lib/src/generated/',
     replace: true,
     schemaOptions: const SchemaGeneratorOptions(
+      onSchemaName: _onSchemaName,
       onSchemaUnionFactoryName: _onSchemaUnionFactoryName,
     ),
     clientOptions: const ClientGeneratorOptions(
@@ -23,6 +24,12 @@ void main() async {
   );
 }
 
+String? _onSchemaName(final String schemaName) => switch (schemaName) {
+      'ChatCompletionUserMessageContentListChatCompletionMessageContentPart' =>
+        'ChatCompletionMessageContentParts',
+      _ => schemaName,
+    };
+
 String? _onSchemaUnionFactoryName(
   final String union,
   final String unionSubclass,
@@ -31,6 +38,14 @@ String? _onSchemaUnionFactoryName(
       // Chat Completion
       'ChatCompletionModelEnumeration' => 'model',
       'ChatCompletionModelString' => 'modelId',
+      'ChatCompletionSystemMessage' => 'system',
+      'ChatCompletionUserMessage' => 'user',
+      'ChatCompletionAssistantMessage' => 'assistant',
+      'ChatCompletionToolMessage' => 'tool',
+      'ChatCompletionFunctionMessage' => 'function',
+      'ChatCompletionMessageContentParts' => 'parts',
+      'ChatCompletionMessageContentPartText' => 'text',
+      'ChatCompletionMessageContentPartImage' => 'image',
       'ChatCompletionToolChoiceOptionEnumeration' => 'mode',
       'ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice' => 'tool',
       'ChatCompletionFunctionCallEnumeration' => 'mode',

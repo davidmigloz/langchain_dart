@@ -407,11 +407,11 @@ class _ChatCompletionStopConverter
 }
 
 // ==========================================
-// ENUM: ChatCompletionToolChoiceOptionEnum
+// ENUM: ChatCompletionToolChoiceMode
 // ==========================================
 
 /// `none` means the model will not call a function and instead generates a message. `auto` means the model can pick between generating a message or calling a function.
-enum ChatCompletionToolChoiceOptionEnum {
+enum ChatCompletionToolChoiceMode {
   @JsonValue('none')
   none,
   @JsonValue('auto')
@@ -435,7 +435,7 @@ sealed class ChatCompletionToolChoiceOption
 
   /// `none` means the model will not call a function and instead generates a message. `auto` means the model can pick between generating a message or calling a function.
   const factory ChatCompletionToolChoiceOption.mode(
-    ChatCompletionToolChoiceOptionEnum value,
+    ChatCompletionToolChoiceMode value,
   ) = ChatCompletionToolChoiceOptionEnumeration;
 
   /// No Description
@@ -459,12 +459,10 @@ class _ChatCompletionToolChoiceOptionConverter
       return null;
     }
     if (data is String &&
-        _$ChatCompletionToolChoiceOptionEnumEnumMap.values.contains(data)) {
+        _$ChatCompletionToolChoiceModeEnumMap.values.contains(data)) {
       return ChatCompletionToolChoiceOptionEnumeration(
-        _$ChatCompletionToolChoiceOptionEnumEnumMap.keys.elementAt(
-          _$ChatCompletionToolChoiceOptionEnumEnumMap.values
-              .toList()
-              .indexOf(data),
+        _$ChatCompletionToolChoiceModeEnumMap.keys.elementAt(
+          _$ChatCompletionToolChoiceModeEnumMap.values.toList().indexOf(data),
         ),
       );
     }
@@ -484,7 +482,7 @@ class _ChatCompletionToolChoiceOptionConverter
   Object? toJson(ChatCompletionToolChoiceOption? data) {
     return switch (data) {
       ChatCompletionToolChoiceOptionEnumeration(value: final v) =>
-        _$ChatCompletionToolChoiceOptionEnumEnumMap[v]!,
+        _$ChatCompletionToolChoiceModeEnumMap[v]!,
       ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice(
         value: final v
       ) =>

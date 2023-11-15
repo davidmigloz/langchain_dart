@@ -59,13 +59,11 @@ final res = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
     model: ChatCompletionModel.modelId('gpt-4'),
     messages: [
-      ChatCompletionMessage(
-        role: ChatCompletionMessageRole.system,
+      ChatCompletionMessage.system(
         content: 'You are a helpful assistant.',
       ),
-      ChatCompletionMessage(
-        role: ChatCompletionMessageRole.user,
-        content: 'Hello!',
+      ChatCompletionMessage.user(
+        content: ChatCompletionUserMessageContent.string('Hello!'),
       ),
     ],
     temperature: 0,
@@ -79,6 +77,13 @@ print(res.choices.first.message.content);
 - `ChatCompletionModel.modelId('model-id')`: the model ID as string (e.g. `'gpt-4'` or your fine-tuned model ID).
 - `ChatCompletionModel.model(ChatCompletionModels.gpt4)`: a value from `ChatCompletionModels` enum which lists all of the available models.
 
+`ChatCompletionMessage` is a sealed class that supports the following message types:
+- `ChatCompletionMessage.system()`: a system message.
+- `ChatCompletionMessage.user()`: a user message.
+- `ChatCompletionMessage.assistant()`: an assistant message.
+- `ChatCompletionMessage.tool()`: a tool message.
+- `ChatCompletionMessage.function()`: a function message.
+
 **Stream chat completion:**
 
 ```dart
@@ -86,15 +91,15 @@ final stream = client.createChatCompletionStream(
   request: CreateChatCompletionRequest(
     model: ChatCompletionModel.modelId('gpt-3.5-turbo'),
     messages: [
-      ChatCompletionMessage(
-        role: ChatCompletionMessageRole.system,
+      ChatCompletionMessage.system(
         content:
             'You are a helpful assistant that replies only with numbers '
             'in order without any spaces or commas',
       ),
-      ChatCompletionMessage(
-        role: ChatCompletionMessageRole.user,
-        content: 'List the numbers from 1 to 9',
+      ChatCompletionMessage.user(
+        content: ChatCompletionUserMessageContent.string(
+          'List the numbers from 1 to 9',
+        ),
       ),
     ],
   ),
@@ -102,6 +107,42 @@ final stream = client.createChatCompletionStream(
 await for (final res in stream) {
   print(res.choices.first.delta.content);
 }
+// 123
+// 456
+// 789
+```
+
+**Multi-modal prompt:**
+
+```dart
+final res = await client.createChatCompletion(
+  request: CreateChatCompletionRequest(
+    model: ChatCompletionModel.model(
+      ChatCompletionModels.gpt4VisionPreview,
+    ),
+    messages: [
+      ChatCompletionMessage.system(
+        content: 'You are a helpful assistant.',
+      ),
+      ChatCompletionMessage.user(
+        content: ChatCompletionUserMessageContent.parts(
+          [
+            ChatCompletionMessageContentPart.text(
+              text: 'What fruit is this?',
+            ),
+            ChatCompletionMessageContentPart.image(
+              imageUrl: ChatCompletionMessageImageUrl(
+                url: 'https://upload.wikimedia.org/wikipedia/commons/9/92/95apple.jpeg',
+              ),
+            ),
+          ],
+        ),
+      ),
+    ],
+  ),
+);
+print(res.choices.first.message.content);
+// The fruit in the image is an apple.
 ```
 
 **JSON mode:**
@@ -113,15 +154,15 @@ final res = await client.createChatCompletion(
       ChatCompletionModels.gpt41106Preview,
     ),
     messages: [
-      ChatCompletionMessage(
-        role: ChatCompletionMessageRole.system,
+      ChatCompletionMessage.system(
         content:
           'You are a helpful assistant. That extracts names from text '
           'and returns them in a JSON array.',
       ),
-      ChatCompletionMessage(
-        role: ChatCompletionMessageRole.user,
-        content: 'John, Mary, and Peter.',
+      ChatCompletionMessage.user(
+        content: ChatCompletionUserMessageContent.string(
+          'John, Mary, and Peter.',
+        ),
       ),
     ],
     temperature: 0,
@@ -166,13 +207,13 @@ final res1 = await client.createChatCompletion(
       ChatCompletionModels.gpt35Turbo,
     ),
     messages: [
-      ChatCompletionMessage(
-        role: ChatCompletionMessageRole.system,
+      ChatCompletionMessage.system(
         content: 'You are a helpful assistant.',
       ),
-      ChatCompletionMessage(
-        role: ChatCompletionMessageRole.user,
-        content: 'What’s the weather like in Boston right now?',
+      ChatCompletionMessage.user(
+        content: ChatCompletionUserMessageContent.string(
+          'What’s the weather like in Boston right now?',
+        ),
       ),
     ],
     tools: [tool],
@@ -194,16 +235,15 @@ final res2 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
     model: ChatCompletionModel.modelId('gpt-3.5-turbo'),
     messages: [
-      ChatCompletionMessage(
-        role: ChatCompletionMessageRole.system,
+      ChatCompletionMessage.system(
         content: 'You are a helpful assistant.',
       ),
-      ChatCompletionMessage(
-        role: ChatCompletionMessageRole.user,
-        content: 'What’s the weather like in Boston right now?',
+      ChatCompletionMessage.user(
+        content: ChatCompletionUserMessageContent.string(
+          'What’s the weather like in Boston right now?',
+        ),
       ),
-      ChatCompletionMessage(
-        role: ChatCompletionMessageRole.tool,
+      ChatCompletionMessage.tool(
         toolCallId: toolCall.id,
         content: json.encode(functionResult),
       ),
@@ -242,13 +282,13 @@ final res1 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
     model: ChatCompletionModel.modelId('gpt-3.5-turbo'),
     messages: [
-      ChatCompletionMessage(
-        role: ChatCompletionMessageRole.system,
+      ChatCompletionMessage.system(
         content: 'You are a helpful assistant.',
       ),
-      ChatCompletionMessage(
-        role: ChatCompletionMessageRole.user,
-        content: 'What’s the weather like in Boston right now?',
+      ChatCompletionMessage.user(
+        content: ChatCompletionUserMessageContent.string(
+          'What’s the weather like in Boston right now?',
+        ),
       ),
     ],
     functions: [function],
@@ -264,16 +304,15 @@ final res2 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
     model: ChatCompletionModel.modelId('gpt-3.5-turbo'),
     messages: [
-      ChatCompletionMessage(
-        role: ChatCompletionMessageRole.system,
+      ChatCompletionMessage.system(
         content: 'You are a helpful assistant.',
       ),
-      ChatCompletionMessage(
-        role: ChatCompletionMessageRole.user,
-        content: 'What’s the weather like in Boston right now?',
+      ChatCompletionMessage.user(
+        content: ChatCompletionUserMessageContent.string(
+          'What’s the weather like in Boston right now?',
+        ),
       ),
-      ChatCompletionMessage(
-        role: ChatCompletionMessageRole.function,
+      ChatCompletionMessage.function(
         name: function.name,
         content: json.encode(functionResult),
       ),
