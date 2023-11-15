@@ -31,18 +31,17 @@ void main() {
         final request = CreateChatCompletionRequest(
           model: ChatCompletionModel.model(model),
           messages: [
-            const ChatCompletionMessage(
-              role: ChatCompletionMessageRole.system,
+            const ChatCompletionMessage.system(
               content: 'You are a helpful assistant.',
             ),
-            const ChatCompletionMessage(
-              role: ChatCompletionMessageRole.user,
-              content: 'Hello!',
+            const ChatCompletionMessage.user(
+              content: ChatCompletionUserMessageContent.string('Hello!'),
             ),
           ],
           temperature: 0,
         );
-        final res = await client.createChatCompletion(request: request);
+        final CreateChatCompletionResponse res =
+            await client.createChatCompletion(request: request);
         expect(res.choices, hasLength(1));
         final choice = res.choices.first;
         expect(choice.index, 0);
@@ -51,7 +50,6 @@ void main() {
         expect(message.role, ChatCompletionMessageRole.assistant);
         expect(message.content, isNotEmpty);
         expect(message.functionCall, isNull);
-        expect(message.name, isNull);
         expect(res.id, isNotEmpty);
         expect(res.created, greaterThan(0));
         expect(res.model, startsWith('gpt-'));
@@ -68,15 +66,15 @@ void main() {
           ChatCompletionModels.gpt35Turbo,
         ),
         messages: [
-          ChatCompletionMessage(
-            role: ChatCompletionMessageRole.system,
+          ChatCompletionMessage.system(
             content:
                 'You are a helpful assistant that replies only with numbers '
                 'in order without any spaces or commas',
           ),
-          ChatCompletionMessage(
-            role: ChatCompletionMessageRole.user,
-            content: 'List the numbers from 1 to 9',
+          ChatCompletionMessage.user(
+            content: ChatCompletionUserMessageContent.string(
+              'List the numbers from 1 to 9',
+            ),
           ),
         ],
         maxTokens: 10,
@@ -100,13 +98,11 @@ void main() {
           ChatCompletionModels.gpt35Turbo,
         ),
         messages: [
-          ChatCompletionMessage(
-            role: ChatCompletionMessageRole.system,
+          ChatCompletionMessage.system(
             content: 'You are a helpful assistant.',
           ),
-          ChatCompletionMessage(
-            role: ChatCompletionMessageRole.user,
-            content: 'Tell me a joke',
+          ChatCompletionMessage.user(
+            content: ChatCompletionUserMessageContent.string('Tell me a joke'),
           ),
         ],
         maxTokens: 2,
@@ -125,13 +121,11 @@ void main() {
           ChatCompletionModels.gpt35Turbo,
         ),
         messages: [
-          ChatCompletionMessage(
-            role: ChatCompletionMessageRole.system,
+          ChatCompletionMessage.system(
             content: 'You are a helpful assistant.',
           ),
-          ChatCompletionMessage(
-            role: ChatCompletionMessageRole.user,
-            content: 'Tell me a joke',
+          ChatCompletionMessage.user(
+            content: ChatCompletionUserMessageContent.string('Tell me a joke'),
           ),
         ],
         maxTokens: 2,
@@ -153,15 +147,15 @@ void main() {
           ChatCompletionModels.gpt35Turbo,
         ),
         messages: [
-          ChatCompletionMessage(
-            role: ChatCompletionMessageRole.system,
+          ChatCompletionMessage.system(
             content:
                 'You are a helpful assistant that replies only with numbers '
                 'in order without any spaces or commas',
           ),
-          ChatCompletionMessage(
-            role: ChatCompletionMessageRole.user,
-            content: 'List the numbers from 1 to 9',
+          ChatCompletionMessage.user(
+            content: ChatCompletionUserMessageContent.string(
+              'List the numbers from 1 to 9',
+            ),
           ),
         ],
       );
@@ -216,13 +210,13 @@ void main() {
           ChatCompletionModels.gpt35Turbo,
         ),
         messages: [
-          const ChatCompletionMessage(
-            role: ChatCompletionMessageRole.system,
+          const ChatCompletionMessage.system(
             content: 'You are a helpful assistant.',
           ),
-          const ChatCompletionMessage(
-            role: ChatCompletionMessageRole.user,
-            content: 'What’s the weather like in Boston right now?',
+          const ChatCompletionMessage.user(
+            content: ChatCompletionUserMessageContent.string(
+              'What’s the weather like in Boston right now?',
+            ),
           ),
         ],
         tools: [tool],
@@ -241,7 +235,6 @@ void main() {
       final aiMessage1 = choice1.message;
       expect(aiMessage1.role, ChatCompletionMessageRole.assistant);
       expect(aiMessage1.content, isNull);
-      expect(aiMessage1.name, isNull);
       expect(aiMessage1.toolCalls, hasLength(1));
 
       final toolCall = aiMessage1.toolCalls!.first;
@@ -265,17 +258,16 @@ void main() {
           ChatCompletionModels.gpt35Turbo,
         ),
         messages: [
-          const ChatCompletionMessage(
-            role: ChatCompletionMessageRole.system,
+          const ChatCompletionMessage.system(
             content: 'You are a helpful assistant.',
           ),
-          const ChatCompletionMessage(
-            role: ChatCompletionMessageRole.user,
-            content: 'What’s the weather like in Boston right now?',
+          const ChatCompletionMessage.user(
+            content: ChatCompletionUserMessageContent.string(
+              'What’s the weather like in Boston right now?',
+            ),
           ),
           aiMessage1,
-          ChatCompletionMessage(
-            role: ChatCompletionMessageRole.tool,
+          ChatCompletionMessage.tool(
             toolCallId: toolCall.id,
             content: json.encode(functionResult),
           ),
@@ -293,7 +285,6 @@ void main() {
       expect(aiMessage2.content, contains('22'));
       expect(aiMessage2.toolCalls, isNull);
       expect(aiMessage2.functionCall, isNull);
-      expect(aiMessage2.name, isNull);
     });
 
     test('Test call chat completions API tools streaming', () async {
@@ -325,13 +316,13 @@ void main() {
           ChatCompletionModels.gpt35Turbo,
         ),
         messages: [
-          const ChatCompletionMessage(
-            role: ChatCompletionMessageRole.system,
+          const ChatCompletionMessage.system(
             content: 'You are a helpful assistant.',
           ),
-          const ChatCompletionMessage(
-            role: ChatCompletionMessageRole.user,
-            content: 'Tell me a long joke about bears',
+          const ChatCompletionMessage.user(
+            content: ChatCompletionUserMessageContent.string(
+              'Tell me a long joke about bears',
+            ),
           ),
         ],
         tools: [tool],
@@ -404,13 +395,13 @@ void main() {
           ChatCompletionModels.gpt35Turbo,
         ),
         messages: [
-          const ChatCompletionMessage(
-            role: ChatCompletionMessageRole.system,
+          const ChatCompletionMessage.system(
             content: 'You are a helpful assistant.',
           ),
-          const ChatCompletionMessage(
-            role: ChatCompletionMessageRole.user,
-            content: 'What’s the weather like in Boston right now?',
+          const ChatCompletionMessage.user(
+            content: ChatCompletionUserMessageContent.string(
+              'What’s the weather like in Boston right now?',
+            ),
           ),
         ],
         functions: [function],
@@ -426,7 +417,6 @@ void main() {
       final aiMessage1 = choice1.message;
       expect(aiMessage1.role, ChatCompletionMessageRole.assistant);
       expect(aiMessage1.content, isNull);
-      expect(aiMessage1.name, isNull);
       expect(aiMessage1.functionCall, isNotNull);
 
       final functionCall = aiMessage1.functionCall!;
@@ -449,16 +439,15 @@ void main() {
           ChatCompletionModels.gpt35Turbo,
         ),
         messages: [
-          const ChatCompletionMessage(
-            role: ChatCompletionMessageRole.system,
+          const ChatCompletionMessage.system(
             content: 'You are a helpful assistant.',
           ),
-          const ChatCompletionMessage(
-            role: ChatCompletionMessageRole.user,
-            content: 'What’s the weather like in Boston right now?',
+          const ChatCompletionMessage.user(
+            content: ChatCompletionUserMessageContent.string(
+              'What’s the weather like in Boston right now?',
+            ),
           ),
-          ChatCompletionMessage(
-            role: ChatCompletionMessageRole.function,
+          ChatCompletionMessage.function(
             name: function.name,
             content: json.encode(functionResult),
           ),
@@ -475,7 +464,6 @@ void main() {
       expect(aiMessage2.role, ChatCompletionMessageRole.assistant);
       expect(aiMessage2.content, contains('22'));
       expect(aiMessage2.functionCall, isNull);
-      expect(aiMessage2.name, isNull);
     });
 
     test('Test jsonObject response format', () async {
@@ -484,15 +472,15 @@ void main() {
           ChatCompletionModels.gpt41106Preview,
         ),
         messages: [
-          ChatCompletionMessage(
-            role: ChatCompletionMessageRole.system,
+          ChatCompletionMessage.system(
             content:
                 'You are a helpful assistant. That extracts names from text '
                 'and returns them in a JSON array.',
           ),
-          ChatCompletionMessage(
-            role: ChatCompletionMessageRole.user,
-            content: 'John, Mary, and Peter.',
+          ChatCompletionMessage.user(
+            content: ChatCompletionUserMessageContent.string(
+              'John, Mary, and Peter.',
+            ),
           ),
         ],
         temperature: 0,
@@ -521,13 +509,11 @@ void main() {
           ChatCompletionModels.gpt41106Preview,
         ),
         messages: [
-          ChatCompletionMessage(
-            role: ChatCompletionMessageRole.system,
+          ChatCompletionMessage.system(
             content: 'You are a helpful assistant.',
           ),
-          ChatCompletionMessage(
-            role: ChatCompletionMessageRole.user,
-            content: 'How are you?',
+          ChatCompletionMessage.user(
+            content: ChatCompletionUserMessageContent.string('How are you?'),
           ),
         ],
         temperature: 0,
@@ -543,6 +529,38 @@ void main() {
 
       expect(res1.systemFingerprint, res2.systemFingerprint);
       expect(choice1.message.content, choice2.message.content);
+    });
+
+    test('Test multi-modal GPT-4 Vision', () async {
+      const request = CreateChatCompletionRequest(
+        model: ChatCompletionModel.model(
+          ChatCompletionModels.gpt4VisionPreview,
+        ),
+        messages: [
+          ChatCompletionMessage.system(
+            content: 'You are a helpful assistant.',
+          ),
+          ChatCompletionMessage.user(
+            content: ChatCompletionUserMessageContent.parts(
+              [
+                ChatCompletionMessageContentPart.text(
+                  text: 'What fruit is this?',
+                ),
+                ChatCompletionMessageContentPart.image(
+                  imageUrl: ChatCompletionMessageImageUrl(
+                    url:
+                        'https://upload.wikimedia.org/wikipedia/commons/9/92/95apple.jpeg',
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+      final res1 = await client.createChatCompletion(request: request);
+      expect(res1.choices, hasLength(1));
+      final choice1 = res1.choices.first;
+      expect(choice1.message.content?.toLowerCase(), contains('apple'));
     });
   });
 }

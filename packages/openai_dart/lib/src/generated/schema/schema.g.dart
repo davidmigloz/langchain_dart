@@ -475,21 +475,20 @@ _$ChatCompletionToolChoiceOptionEnumerationImpl
     _$$ChatCompletionToolChoiceOptionEnumerationImplFromJson(
             Map<String, dynamic> json) =>
         _$ChatCompletionToolChoiceOptionEnumerationImpl(
-          $enumDecode(
-              _$ChatCompletionToolChoiceOptionEnumEnumMap, json['value']),
+          $enumDecode(_$ChatCompletionToolChoiceModeEnumMap, json['value']),
           $type: json['runtimeType'] as String?,
         );
 
 Map<String, dynamic> _$$ChatCompletionToolChoiceOptionEnumerationImplToJson(
         _$ChatCompletionToolChoiceOptionEnumerationImpl instance) =>
     <String, dynamic>{
-      'value': _$ChatCompletionToolChoiceOptionEnumEnumMap[instance.value]!,
+      'value': _$ChatCompletionToolChoiceModeEnumMap[instance.value]!,
       'runtimeType': instance.$type,
     };
 
-const _$ChatCompletionToolChoiceOptionEnumEnumMap = {
-  ChatCompletionToolChoiceOptionEnum.none: 'none',
-  ChatCompletionToolChoiceOptionEnum.auto: 'auto',
+const _$ChatCompletionToolChoiceModeEnumMap = {
+  ChatCompletionToolChoiceMode.none: 'none',
+  ChatCompletionToolChoiceMode.auto: 'auto',
 };
 
 _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
@@ -547,52 +546,6 @@ Map<String, dynamic>
           'value': instance.value.toJson(),
           'runtimeType': instance.$type,
         };
-
-_$ChatCompletionMessageImpl _$$ChatCompletionMessageImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ChatCompletionMessageImpl(
-      role: $enumDecode(_$ChatCompletionMessageRoleEnumMap, json['role']),
-      content: json['content'] as String?,
-      toolCalls: (json['tool_calls'] as List<dynamic>?)
-          ?.map((e) =>
-              ChatCompletionMessageToolCall.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      functionCall: json['function_call'] == null
-          ? null
-          : ChatCompletionMessageFunctionCall.fromJson(
-              json['function_call'] as Map<String, dynamic>),
-      toolCallId: json['tool_call_id'] as String?,
-      name: json['name'] as String?,
-    );
-
-Map<String, dynamic> _$$ChatCompletionMessageImplToJson(
-    _$ChatCompletionMessageImpl instance) {
-  final val = <String, dynamic>{
-    'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
-    'content': instance.content,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'tool_calls', instance.toolCalls?.map((e) => e.toJson()).toList());
-  writeNotNull('function_call', instance.functionCall?.toJson());
-  writeNotNull('tool_call_id', instance.toolCallId);
-  writeNotNull('name', instance.name);
-  return val;
-}
-
-const _$ChatCompletionMessageRoleEnumMap = {
-  ChatCompletionMessageRole.system: 'system',
-  ChatCompletionMessageRole.user: 'user',
-  ChatCompletionMessageRole.assistant: 'assistant',
-  ChatCompletionMessageRole.tool: 'tool',
-  ChatCompletionMessageRole.function: 'function',
-};
 
 _$ChatCompletionMessageFunctionCallImpl
     _$$ChatCompletionMessageFunctionCallImplFromJson(
@@ -765,10 +718,11 @@ const _$CreateChatCompletionResponseObjectEnumMap = {
 _$ChatCompletionResponseChoiceImpl _$$ChatCompletionResponseChoiceImplFromJson(
         Map<String, dynamic> json) =>
     _$ChatCompletionResponseChoiceImpl(
-      finishReason: $enumDecode(
-          _$ChatCompletionFinishReasonEnumMap, json['finish_reason']),
+      finishReason: $enumDecodeNullable(
+          _$ChatCompletionFinishReasonEnumMap, json['finish_reason'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
       index: json['index'] as int,
-      message: ChatCompletionMessage.fromJson(
+      message: ChatCompletionAssistantMessage.fromJson(
           json['message'] as Map<String, dynamic>),
     );
 
@@ -776,7 +730,7 @@ Map<String, dynamic> _$$ChatCompletionResponseChoiceImplToJson(
         _$ChatCompletionResponseChoiceImpl instance) =>
     <String, dynamic>{
       'finish_reason':
-          _$ChatCompletionFinishReasonEnumMap[instance.finishReason]!,
+          _$ChatCompletionFinishReasonEnumMap[instance.finishReason],
       'index': instance.index,
       'message': instance.message.toJson(),
     };
@@ -887,6 +841,14 @@ Map<String, dynamic> _$$ChatCompletionStreamResponseDeltaImplToJson(
   writeNotNull('role', _$ChatCompletionMessageRoleEnumMap[instance.role]);
   return val;
 }
+
+const _$ChatCompletionMessageRoleEnumMap = {
+  ChatCompletionMessageRole.system: 'system',
+  ChatCompletionMessageRole.user: 'user',
+  ChatCompletionMessageRole.assistant: 'assistant',
+  ChatCompletionMessageRole.tool: 'tool',
+  ChatCompletionMessageRole.function: 'function',
+};
 
 _$ChatCompletionStreamMessageFunctionCallImpl
     _$$ChatCompletionStreamMessageFunctionCallImplFromJson(
@@ -1814,3 +1776,208 @@ Map<String, dynamic> _$$ModerationCategoriesScoresImplToJson(
       'violence': instance.violence,
       'violence/graphic': instance.violenceGraphic,
     };
+
+_$ChatCompletionSystemMessageImpl _$$ChatCompletionSystemMessageImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ChatCompletionSystemMessageImpl(
+      role: $enumDecodeNullable(
+              _$ChatCompletionMessageRoleEnumMap, json['role']) ??
+          ChatCompletionMessageRole.system,
+      content: json['content'] as String?,
+    );
+
+Map<String, dynamic> _$$ChatCompletionSystemMessageImplToJson(
+        _$ChatCompletionSystemMessageImpl instance) =>
+    <String, dynamic>{
+      'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
+      'content': instance.content,
+    };
+
+_$ChatCompletionUserMessageImpl _$$ChatCompletionUserMessageImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ChatCompletionUserMessageImpl(
+      role: $enumDecodeNullable(
+              _$ChatCompletionMessageRoleEnumMap, json['role']) ??
+          ChatCompletionMessageRole.user,
+      content: const _ChatCompletionUserMessageContentConverter()
+          .fromJson(json['content']),
+    );
+
+Map<String, dynamic> _$$ChatCompletionUserMessageImplToJson(
+        _$ChatCompletionUserMessageImpl instance) =>
+    <String, dynamic>{
+      'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
+      'content':
+          _$JsonConverterToJson<Object?, ChatCompletionUserMessageContent>(
+              instance.content,
+              const _ChatCompletionUserMessageContentConverter().toJson),
+    };
+
+_$ChatCompletionAssistantMessageImpl
+    _$$ChatCompletionAssistantMessageImplFromJson(Map<String, dynamic> json) =>
+        _$ChatCompletionAssistantMessageImpl(
+          role: $enumDecodeNullable(
+                  _$ChatCompletionMessageRoleEnumMap, json['role']) ??
+              ChatCompletionMessageRole.assistant,
+          content: json['content'] as String?,
+          toolCalls: (json['tool_calls'] as List<dynamic>?)
+              ?.map((e) => ChatCompletionMessageToolCall.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+          functionCall: json['function_call'] == null
+              ? null
+              : ChatCompletionMessageFunctionCall.fromJson(
+                  json['function_call'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$ChatCompletionAssistantMessageImplToJson(
+    _$ChatCompletionAssistantMessageImpl instance) {
+  final val = <String, dynamic>{
+    'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
+    'content': instance.content,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'tool_calls', instance.toolCalls?.map((e) => e.toJson()).toList());
+  writeNotNull('function_call', instance.functionCall?.toJson());
+  return val;
+}
+
+_$ChatCompletionToolMessageImpl _$$ChatCompletionToolMessageImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ChatCompletionToolMessageImpl(
+      role: $enumDecodeNullable(
+              _$ChatCompletionMessageRoleEnumMap, json['role']) ??
+          ChatCompletionMessageRole.tool,
+      content: json['content'] as String?,
+      toolCallId: json['tool_call_id'] as String,
+    );
+
+Map<String, dynamic> _$$ChatCompletionToolMessageImplToJson(
+        _$ChatCompletionToolMessageImpl instance) =>
+    <String, dynamic>{
+      'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
+      'content': instance.content,
+      'tool_call_id': instance.toolCallId,
+    };
+
+_$ChatCompletionFunctionMessageImpl
+    _$$ChatCompletionFunctionMessageImplFromJson(Map<String, dynamic> json) =>
+        _$ChatCompletionFunctionMessageImpl(
+          role: $enumDecodeNullable(
+                  _$ChatCompletionMessageRoleEnumMap, json['role']) ??
+              ChatCompletionMessageRole.function,
+          content: json['content'] as String?,
+          name: json['name'] as String,
+        );
+
+Map<String, dynamic> _$$ChatCompletionFunctionMessageImplToJson(
+        _$ChatCompletionFunctionMessageImpl instance) =>
+    <String, dynamic>{
+      'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
+      'content': instance.content,
+      'name': instance.name,
+    };
+
+_$ChatCompletionMessageContentPartsImpl
+    _$$ChatCompletionMessageContentPartsImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ChatCompletionMessageContentPartsImpl(
+          (json['value'] as List<dynamic>)
+              .map((e) => ChatCompletionMessageContentPart.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$ChatCompletionMessageContentPartsImplToJson(
+        _$ChatCompletionMessageContentPartsImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value.map((e) => e.toJson()).toList(),
+      'runtimeType': instance.$type,
+    };
+
+_$ChatCompletionUserMessageContentStringImpl
+    _$$ChatCompletionUserMessageContentStringImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ChatCompletionUserMessageContentStringImpl(
+          json['value'] as String,
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$ChatCompletionUserMessageContentStringImplToJson(
+        _$ChatCompletionUserMessageContentStringImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'runtimeType': instance.$type,
+    };
+
+_$ChatCompletionMessageContentPartTextImpl
+    _$$ChatCompletionMessageContentPartTextImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ChatCompletionMessageContentPartTextImpl(
+          type: $enumDecodeNullable(
+                  _$ChatCompletionMessageContentPartTypeEnumMap,
+                  json['type']) ??
+              ChatCompletionMessageContentPartType.text,
+          text: json['text'] as String,
+        );
+
+Map<String, dynamic> _$$ChatCompletionMessageContentPartTextImplToJson(
+        _$ChatCompletionMessageContentPartTextImpl instance) =>
+    <String, dynamic>{
+      'type': _$ChatCompletionMessageContentPartTypeEnumMap[instance.type]!,
+      'text': instance.text,
+    };
+
+const _$ChatCompletionMessageContentPartTypeEnumMap = {
+  ChatCompletionMessageContentPartType.text: 'text',
+  ChatCompletionMessageContentPartType.imageUrl: 'image_url',
+};
+
+_$ChatCompletionMessageContentPartImageImpl
+    _$$ChatCompletionMessageContentPartImageImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ChatCompletionMessageContentPartImageImpl(
+          type: $enumDecodeNullable(
+                  _$ChatCompletionMessageContentPartTypeEnumMap,
+                  json['type']) ??
+              ChatCompletionMessageContentPartType.imageUrl,
+          imageUrl: ChatCompletionMessageImageUrl.fromJson(
+              json['image_url'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$ChatCompletionMessageContentPartImageImplToJson(
+        _$ChatCompletionMessageContentPartImageImpl instance) =>
+    <String, dynamic>{
+      'type': _$ChatCompletionMessageContentPartTypeEnumMap[instance.type]!,
+      'image_url': instance.imageUrl.toJson(),
+    };
+
+_$ChatCompletionMessageImageUrlImpl
+    _$$ChatCompletionMessageImageUrlImplFromJson(Map<String, dynamic> json) =>
+        _$ChatCompletionMessageImageUrlImpl(
+          url: json['url'] as String,
+          detail: $enumDecodeNullable(
+                  _$ChatCompletionMessageImageDetailEnumMap, json['detail']) ??
+              ChatCompletionMessageImageDetail.auto,
+        );
+
+Map<String, dynamic> _$$ChatCompletionMessageImageUrlImplToJson(
+        _$ChatCompletionMessageImageUrlImpl instance) =>
+    <String, dynamic>{
+      'url': instance.url,
+      'detail': _$ChatCompletionMessageImageDetailEnumMap[instance.detail]!,
+    };
+
+const _$ChatCompletionMessageImageDetailEnumMap = {
+  ChatCompletionMessageImageDetail.auto: 'auto',
+  ChatCompletionMessageImageDetail.low: 'low',
+  ChatCompletionMessageImageDetail.high: 'high',
+};
