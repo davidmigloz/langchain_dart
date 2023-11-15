@@ -36,7 +36,7 @@ void main() {
         outputValues: {'bar': 'foo'},
       );
       final expectedResult = [
-        ChatMessage.human('bar'),
+        ChatMessage.humanText('bar'),
         ChatMessage.ai('foo'),
       ];
       final result2 = await memory.loadMemoryVariables();
@@ -49,7 +49,7 @@ void main() {
 
       final expectedResult2 = [
         ChatMessage.ai('foo'),
-        ChatMessage.human('bar1'),
+        ChatMessage.humanText('bar1'),
         ChatMessage.ai('foo1'),
       ];
       final result3 = await memory.loadMemoryVariables();
@@ -58,7 +58,7 @@ void main() {
 
     test('Test buffer memory with pre-loaded history', () async {
       final pastMessages = [
-        ChatMessage.human("My name's Jonas"),
+        ChatMessage.humanText("My name's Jonas"),
         ChatMessage.ai('Nice to meet you, Jonas!'),
       ];
       const model = FakeEchoLLM();

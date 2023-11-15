@@ -34,7 +34,7 @@ final chatPromptTemplate = ChatPromptTemplate.fromPromptMessages([
   humanMessageTemplate,
 ]);
 
-final humanMessage = ChatMessage.human(
+final humanMessage = ChatMessage.humanText(
   'What is the best way to learn programming?',
 );
 final aiMessage = ChatMessage.ai('''

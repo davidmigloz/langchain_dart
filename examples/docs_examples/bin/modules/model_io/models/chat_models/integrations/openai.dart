@@ -51,7 +51,7 @@ Future<void> _chatOpenAIStreaming() async {
     ),
   ]);
   final chat = ChatOpenAI(apiKey: openaiApiKey);
-  const stringOutputParser = StringOutputParser<ChatMessage>();
+  const stringOutputParser = StringOutputParser<AIChatMessage>();
 
   final chain = promptTemplate.pipe(chat).pipe(stringOutputParser);
 
@@ -125,7 +125,7 @@ Future<void> _chatOpenAIJsonMode() async {
       "Extract the 'name' and 'origin' of any companies mentioned in the "
       'following statement. Return a JSON list.',
     ),
-    ChatMessage.human(
+    ChatMessage.humanText(
       'Google was founded in the USA, while Deepmind was founded in the UK',
     ),
   ]);

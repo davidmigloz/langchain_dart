@@ -71,7 +71,7 @@ final chatModel = ChatVertexAI(
   ),
 );
 final result = await chatModel(
-  [ChatMessage.human('Hello')],
+  [ChatMessage.humanText('Hello')],
   options: ChatVertexAIOptions(
     temperature: 0.5,
    ),
@@ -94,7 +94,7 @@ void main() async {
   );
   while (true) {
     stdout.write('> ');
-    final usrMsg = ChatMessage.human(stdin.readLineSync() ?? '');
+    final usrMsg = ChatMessage.humanText(stdin.readLineSync() ?? '');
     final aiMsg = await chat([usrMsg]);
     print(aiMsg.content);
   }

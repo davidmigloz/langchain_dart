@@ -19,7 +19,7 @@ void main(final List<String> arguments) async {
   while (true) {
     stdout.write('> ');
     final query = stdin.readLineSync() ?? '';
-    final humanMessage = ChatMessage.human(query);
+    final humanMessage = ChatMessage.humanText(query);
     final aiMessage = await llm.call([humanMessage]);
     stdout.writeln(aiMessage.content.trim());
   }

@@ -22,7 +22,7 @@ void main() {
       });
       expect(messages.toChatMessages(), [
         ChatMessage.system("Here's some context: This is a context"),
-        ChatMessage.human(
+        ChatMessage.humanText(
           "Hello Foo, I'm Bar. Thanks for the This is a context",
         ),
         ChatMessage.ai("I'm an AI. I'm Foo. I'm Bar."),
@@ -169,10 +169,22 @@ void main() {
       expect(prompt is ChatPromptValue, true);
       final messages = prompt.toChatMessages();
       expect(messages.length, 4);
-      expect(messages[0].content, "Here's some context: context");
-      expect(messages[1].content, "Hello foo, I'm bar. Thanks for the context");
-      expect(messages[2].content, "I'm an AI. I'm foo. I'm bar.");
-      expect(messages[3].content, "I'm a generic message. I'm foo. I'm bar.");
+      expect(
+        messages[0].contentAsString,
+        "Here's some context: context",
+      );
+      expect(
+        messages[1].contentAsString,
+        "Hello foo, I'm bar. Thanks for the context",
+      );
+      expect(
+        messages[2].contentAsString,
+        "I'm an AI. I'm foo. I'm bar.",
+      );
+      expect(
+        messages[3].contentAsString,
+        "I'm a generic message. I'm foo. I'm bar.",
+      );
 
       final string = prompt.toString();
       const expected =
@@ -222,17 +234,17 @@ void main() {
       });
       expect(messages.toChatMessages(), [
         ChatMessage.system("Here's some context: This is a context"),
-        ChatMessage.human("Hello Foo, I'm Bar"),
+        ChatMessage.humanText("Hello Foo, I'm Bar"),
       ]);
     });
 
     test('Test SimpleMessagePromptTemplate', () {
       const prompt = MessagesPlaceholder(variableName: 'foo');
       final values = {
-        'foo': [ChatMessage.human("Hello Foo, I'm Bar")],
+        'foo': [ChatMessage.humanText("Hello Foo, I'm Bar")],
       };
       final messages = prompt.formatMessages(values);
-      expect(messages, [ChatMessage.human("Hello Foo, I'm Bar")]);
+      expect(messages, [ChatMessage.humanText("Hello Foo, I'm Bar")]);
     });
 
     test('Test MessagesPlaceholder', () {
@@ -248,7 +260,7 @@ void main() {
         {'conversation', 'word_count'},
       );
 
-      final humanMessage = ChatMessage.human(
+      final humanMessage = ChatMessage.humanText(
         'What is the best way to learn programming?',
       );
       final aiMessage = ChatMessage.ai('''
@@ -272,17 +284,17 @@ void main() {
       expect(chatPromptValue.messages.length, 3);
       expect(chatPromptValue.messages[0], isA<HumanChatMessage>());
       expect(
-        chatPromptValue.messages[0].content,
+        chatPromptValue.messages[0].contentAsString,
         startsWith('What is the best way to learn programming?'),
       );
       expect(chatPromptValue.messages[1], isA<AIChatMessage>());
       expect(
-        chatPromptValue.messages[1].content,
+        chatPromptValue.messages[1].contentAsString,
         startsWith('1. Choose a programming language:'),
       );
       expect(chatPromptValue.messages[2], isA<HumanChatMessage>());
       expect(
-        chatPromptValue.messages[2].content,
+        chatPromptValue.messages[2].contentAsString,
         startsWith('Summarize our conversation so far in 10 words.'),
       );
     });

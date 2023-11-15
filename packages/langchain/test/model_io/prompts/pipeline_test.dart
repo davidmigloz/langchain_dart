@@ -47,7 +47,7 @@ void main() {
       );
       expect(pipelinePrompt.inputVariables, ['bar']);
       final output = pipelinePrompt.formatPrompt({'bar': 'okay'});
-      expect(output.toChatMessages()[0].content, 'jim okay');
+      expect(output.toChatMessages()[0].contentAsString, 'jim okay');
     });
   });
 }

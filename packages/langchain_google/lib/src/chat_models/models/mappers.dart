@@ -10,7 +10,12 @@ extension ChatMessageMapper on ChatMessage {
     return switch (this) {
       final HumanChatMessage humanChatMessage => VertexAITextChatModelMessage(
           author: _authorUser,
-          content: humanChatMessage.content,
+          content: switch (humanChatMessage.content) {
+            final ChatMessageContentText c => c.text,
+            _ => throw UnsupportedError(
+                'VertexAI only support ChatMessageContentText',
+              ),
+          },
         ),
       final AIChatMessage aiChatMessage => VertexAITextChatModelMessage(
           author: _authorAI,
@@ -55,7 +60,7 @@ extension _VertexAITextModelPredictionMapper
     on VertexAITextChatModelPrediction {
   ChatGeneration toChatGeneration() {
     return ChatGeneration(
-      candidates.first.toChatMessage(),
+      candidates.first.toAIChatMessage(),
       generationInfo: {
         'citations': citations,
         'safety_attributes': safetyAttributes,
@@ -66,12 +71,8 @@ extension _VertexAITextModelPredictionMapper
 
 /// Mapper for [VertexAITextChatModelMessage] to [ChatMessage].
 extension _VertexAITextChatModelMessageMapper on VertexAITextChatModelMessage {
-  ChatMessage toChatMessage() {
-    return switch (author) {
-      _authorUser => ChatMessage.human(content),
-      _authorAI => ChatMessage.ai(content),
-      _ => ChatMessage.custom(content, role: author ?? 'unknown'),
-    };
+  AIChatMessage toAIChatMessage() {
+    return AIChatMessage(content: content);
   }
 }
 

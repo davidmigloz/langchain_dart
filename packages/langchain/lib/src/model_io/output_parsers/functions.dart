@@ -15,7 +15,7 @@ import 'utils/json.dart';
 /// {@endtemplate}
 abstract class BaseOutputFunctionsParser<
         CallOptions extends BaseLangChainOptions, O extends Object?>
-    extends BaseLLMOutputParser<ChatMessage, CallOptions, O> {
+    extends BaseLLMOutputParser<AIChatMessage, CallOptions, O> {
   /// {@macro base_output_functions_parser}
   BaseOutputFunctionsParser();
 

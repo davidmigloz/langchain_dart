@@ -7,7 +7,7 @@ void main() {
     test('RunnableSequence from Runnable.pipe', () async {
       final prompt = PromptTemplate.fromTemplate('Hello {input}!');
       const model = FakeEchoChatModel();
-      const outputParser = StringOutputParser<ChatMessage>();
+      const outputParser = StringOutputParser<AIChatMessage>();
       final chain = prompt.pipe(model).pipe(outputParser);
 
       final res = await chain.invoke({'input': 'world'});
@@ -17,7 +17,7 @@ void main() {
     test('RunnableSequence from | operator', () async {
       final prompt = PromptTemplate.fromTemplate('Hello {input}!');
       const model = FakeEchoChatModel();
-      const outputParser = StringOutputParser<ChatMessage>();
+      const outputParser = StringOutputParser<AIChatMessage>();
       final chain = prompt | model | outputParser;
 
       final res = await chain.invoke({'input': 'world'});
@@ -27,7 +27,7 @@ void main() {
     test('RunnableSequence from Runnable.fromList', () async {
       final prompt = PromptTemplate.fromTemplate('Hello {input}!');
       const model = FakeEchoChatModel();
-      const outputParser = StringOutputParser<ChatMessage>();
+      const outputParser = StringOutputParser<AIChatMessage>();
       final chain = Runnable.fromList([prompt, model, outputParser]);
 
       final res = await chain.invoke({'input': 'world'});

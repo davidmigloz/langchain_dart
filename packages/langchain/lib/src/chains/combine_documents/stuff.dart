@@ -141,7 +141,7 @@ class StuffDocumentsChain extends BaseCombineDocumentsChain {
     final llmOutput = await llmChain.call(llmInputs);
     final content = llmOutput[llmChain.outputKey];
     final output = switch (content) {
-      final ChatMessage resultMsg => resultMsg.content,
+      final AIChatMessage resultMsg => resultMsg.content,
       _ => content,
     };
     return {

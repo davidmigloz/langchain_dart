@@ -52,17 +52,17 @@ print(llmRes);
 ### `messages` -> `messages` interface
 
 ```dart
-final llmRes = await llm.generatePrompt(ChatPromptValue([ChatMessage.human('say hi!')]));
+final llmRes = await llm.generatePrompt(ChatPromptValue([ChatMessage.humanText('say hi!')]));
 print(llmRes.generations.first.first.output);
 // -> 'Robot: Hi there!'
 
-final chatRes = await chatModel.generatePrompt(ChatPromptValue([ChatMessage.human('say hi!')]));
+final chatRes = await chatModel.generatePrompt(ChatPromptValue([ChatMessage.humanText('say hi!')]));
 print(chatRes.generations.first.output);
 // -> AIChatMessage{content: 'Hello there! How may I assist you today?'}
 ```
 
 As it is the main functionality of the Chat model, we also provide a shorthand:
 ```dart
-final chatRes = await chatModel([ChatMessage.human('say hi!')]);
+final chatRes = await chatModel([ChatMessage.humanText('say hi!')]);
 print(chatRes); // [ChatMessage.ai(content: '\n\nHi there! How can I help you?')]
 ```

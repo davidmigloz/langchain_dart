@@ -50,7 +50,7 @@ The response will be a message.
 
 ```dart
 final messages = [
-  ChatMessage.human(
+  ChatMessage.humanText(
     'Translate this sentence from English to French. I love programming.',
   ),
 ];
@@ -65,7 +65,7 @@ information. Here is an example of sending a system and user message to the chat
 ```dart
 final messages = [
   ChatMessage.system('You are a helpful assistant that translates English to French.'),
-  ChatMessage.human('I love programming.')
+  ChatMessage.humanText('I love programming.')
 ];
 final chatRes = await chat(messages);
 print(chatRes);

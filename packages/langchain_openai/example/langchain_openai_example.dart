@@ -26,7 +26,7 @@ Future<void> _example2() async {
 
   while (true) {
     stdout.write('> ');
-    final usrMsg = ChatMessage.human(stdin.readLineSync() ?? '');
+    final usrMsg = ChatMessage.humanText(stdin.readLineSync() ?? '');
     final aiMsg = await chat([usrMsg]);
     print(aiMsg.content);
   }

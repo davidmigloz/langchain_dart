@@ -55,7 +55,7 @@ class FakeEchoChatModel extends SimpleChatModel {
     final List<ChatMessage> messages, {
     final ChatModelOptions? options,
   }) {
-    return Future<String>.value(messages.last.content);
+    return Future<String>.value(messages.last.contentAsString);
   }
 
   @override
@@ -65,10 +65,10 @@ class FakeEchoChatModel extends SimpleChatModel {
   }) {
     return inputStream.asyncExpand(
       (final input) {
-        final prompt = input.toChatMessages().first.content.split('');
+        final prompt = input.toChatMessages().first.contentAsString.split('');
         return Stream.fromIterable(prompt).map(
           (final char) => ChatResult(
-            generations: [ChatGeneration(ChatMessage.ai(char))],
+            generations: [ChatGeneration(AIChatMessage(content: char))],
             streaming: true,
           ),
         );

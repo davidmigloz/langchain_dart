@@ -53,7 +53,7 @@ void main() async {
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         defaultOptions: const ChatVertexAIOptions(maxOutputTokens: 10),
       );
-      final res = await chat([ChatMessage.human('Hello')]);
+      final res = await chat([ChatMessage.humanText('Hello')]);
       expect(res.content, isNotEmpty);
     });
 
@@ -65,9 +65,9 @@ void main() async {
       );
       final res = await chat.generate(
         [
-          ChatMessage.human('Hello, how are you?'),
+          ChatMessage.humanText('Hello, how are you?'),
           ChatMessage.ai('I am fine, thank you.'),
-          ChatMessage.human('Good, what is your name?'),
+          ChatMessage.humanText('Good, what is your name?'),
         ],
       );
       expect(res.generations.first.output.content, isNotEmpty);
@@ -80,7 +80,7 @@ void main() async {
         defaultOptions: const ChatVertexAIOptions(maxOutputTokens: 10),
       );
       final res = await chat.generate(
-        [ChatMessage.human('Hello, how are you?')],
+        [ChatMessage.humanText('Hello, how are you?')],
       );
       expect(res.modelOutput, isNotNull);
       expect(res.modelOutput!['model'], chat.model);
@@ -99,7 +99,7 @@ void main() async {
       final systemMessage =
           ChatMessage.system('You are to chat with the user.');
       final humanMessage =
-          ChatMessage.human('write an ordered list of five items');
+          ChatMessage.humanText('write an ordered list of five items');
       final res = await chat([systemMessage, humanMessage]);
       expect(res.content, isNotEmpty);
     });
@@ -113,7 +113,7 @@ void main() async {
         ),
       );
       final res = await chat.generate([
-        ChatMessage.human(
+        ChatMessage.humanText(
           'List the numbers from 1 to 9 in order without any spaces or commas',
         ),
       ]);
@@ -123,7 +123,7 @@ void main() async {
       // call options should override defaults
       final res2 = await chat.generate(
         [
-          ChatMessage.human(
+          ChatMessage.humanText(
             'List the numbers from 1 to 9 in order without any spaces or commas',
           ),
         ],
@@ -147,13 +147,13 @@ void main() async {
         ),
       );
       final res = await chat.generate(
-        [ChatMessage.human('Suggest a name for a LLM framework for Dart')],
+        [ChatMessage.humanText('Suggest a name for a LLM framework for Dart')],
       );
       expect(res.generations.length, 3);
 
       // call options should override defaults
       final res2 = await chat.generate(
-        [ChatMessage.human('Suggest a name for a LLM framework for Dart')],
+        [ChatMessage.humanText('Suggest a name for a LLM framework for Dart')],
         options: const ChatVertexAIOptions(
           temperature: 1,
           candidateCount: 5,
@@ -200,7 +200,7 @@ void main() async {
           'You are a helpful, pattern-following assistant that translates '
           'corporate jargon into plain English.',
         ),
-        ChatMessage.human(
+        ChatMessage.humanText(
           "This late pivot means we don't have time to boil the ocean for the "
           'client deliverable.',
         ),

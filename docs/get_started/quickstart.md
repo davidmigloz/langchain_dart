@@ -94,7 +94,7 @@ Finally, let's use the `predictMessages` method to run over a list of messages.
 
 ```dart
 const text = 'What would be a good company name for a company that makes colorful socks?';
-final messages = [ChatMessage.human(text)];
+final messages = [ChatMessage.humanText(text)];
 
 final res1 = await llm.predictMessages(messages);
 print(res1); // AIChatMessage(content=Feetful of Fun)

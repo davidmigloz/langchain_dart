@@ -21,7 +21,7 @@ Future<void> _chatOpenAIStreaming() async {
   ]);
 
   final chat = ChatOpenAI(apiKey: openaiApiKey);
-  const stringOutputParser = StringOutputParser<ChatMessage>();
+  const stringOutputParser = StringOutputParser<AIChatMessage>();
   final chain = promptTemplate.pipe(chat).pipe(stringOutputParser);
 
   final stream = chain.stream({'max_num': '9'});

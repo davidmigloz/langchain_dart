@@ -423,7 +423,7 @@ final class HumanChatMessagePromptTemplate
 
   @override
   ChatMessage format([final InputValues values = const {}]) {
-    return ChatMessage.human(prompt.format(values));
+    return ChatMessage.humanText(prompt.format(values));
   }
 
   @override

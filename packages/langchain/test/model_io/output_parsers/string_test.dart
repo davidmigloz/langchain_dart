@@ -12,8 +12,8 @@ void main() {
     });
 
     test('StringOutputParser from ChatResult', () async {
-      final result = ChatResult(
-        generations: [ChatGeneration(ChatMessage.ai('Hello world!'))],
+      const result = ChatResult(
+        generations: [ChatGeneration(AIChatMessage(content: 'Hello world!'))],
       );
       final res =
           await const StringOutputParser().parseResult(result.generations);
