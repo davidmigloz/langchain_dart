@@ -406,6 +406,7 @@ const _$ChatCompletionModelsEnumMap = {
   ChatCompletionModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
   ChatCompletionModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   ChatCompletionModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
+  ChatCompletionModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
   ChatCompletionModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
 };
 

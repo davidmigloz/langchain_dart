@@ -249,6 +249,8 @@ enum ChatCompletionModels {
   gpt35Turbo0301,
   @JsonValue('gpt-3.5-turbo-0613')
   gpt35Turbo0613,
+  @JsonValue('gpt-3.5-turbo-1106')
+  gpt35Turbo1106,
   @JsonValue('gpt-3.5-turbo-16k-0613')
   gpt35Turbo16k0613,
 }
