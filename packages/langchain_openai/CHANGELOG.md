@@ -1,3 +1,12 @@
+## 0.1.0
+
+> Note: This release has breaking changes.
+
+ - **REFACTOR**(chat-models): Align openai_dart client breaking changes ([#219](https://github.com/davidmigloz/langchain_dart/issues/219)). ([172db27f](https://github.com/davidmigloz/langchain_dart/commit/172db27f6da429e16dcda55678a73e1d885bb6d9))
+ - **BREAKING** **FEAT**(chat-models): Add multi-modal messages support with OpenAI Vision ([#220](https://github.com/davidmigloz/langchain_dart/issues/220)). ([6da2e069](https://github.com/davidmigloz/langchain_dart/commit/6da2e069932782eed8c27da45c56b4c290373fac))
+
+ > [Migration guide](https://github.com/davidmigloz/langchain_dart/issues/220)
+
 ## 0.0.15+2
 
  - Update a dependency to the latest release.

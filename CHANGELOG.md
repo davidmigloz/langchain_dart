@@ -3,6 +3,61 @@
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) 
 server for more details about each release.
 
+## 2023-11-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`langchain` - `v0.1.0`](#langchain---v010)
+ - [`langchain_google` - `v0.1.0`](#langchain_google---v010)
+ - [`langchain_openai` - `v0.1.0`](#langchain_openai---v010)
+ - [`openai_dart` - `v0.1.0`](#openai_dart---v010)
+
+Packages with other changes:
+
+ - [`langchain_pinecone` - `v0.0.6+1`](#langchain_pinecone---v0061)
+ - [`langchain_chroma` - `v0.1.0+1`](#langchain_chroma---v0101)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_pinecone` - `v0.0.6+1`
+ - `langchain_chroma` - `v0.1.0+1`
+
+---
+
+#### `langchain` - `v0.1.0`
+
+ - **BREAKING** **FEAT**(chat-models): Add multi-modal messages support with OpenAI Vision ([#220](https://github.com/davidmigloz/langchain_dart/issues/220)). ([6da2e069](https://github.com/davidmigloz/langchain_dart/commit/6da2e069932782eed8c27da45c56b4c290373fac))
+
+ > [Migration guide](https://github.com/davidmigloz/langchain_dart/issues/220)
+
+#### `langchain_google` - `v0.1.0`
+
+ - **BREAKING** **FEAT**(chat-models): Add multi-modal messages support with OpenAI Vision ([#220](https://github.com/davidmigloz/langchain_dart/issues/220)). ([6da2e069](https://github.com/davidmigloz/langchain_dart/commit/6da2e069932782eed8c27da45c56b4c290373fac))
+
+ > [Migration guide](https://github.com/davidmigloz/langchain_dart/issues/220)
+
+#### `langchain_openai` - `v0.1.0`
+
+ - **REFACTOR**(chat-models): Align openai_dart client breaking changes ([#219](https://github.com/davidmigloz/langchain_dart/issues/219)). ([172db27f](https://github.com/davidmigloz/langchain_dart/commit/172db27f6da429e16dcda55678a73e1d885bb6d9))
+ - **BREAKING** **FEAT**(chat-models): Add multi-modal messages support with OpenAI Vision ([#220](https://github.com/davidmigloz/langchain_dart/issues/220)). ([6da2e069](https://github.com/davidmigloz/langchain_dart/commit/6da2e069932782eed8c27da45c56b4c290373fac))
+
+ > [Migration guide](https://github.com/davidmigloz/langchain_dart/issues/220)
+
+#### `openai_dart` - `v0.1.0`
+
+ - **BREAKING** **FEAT**(openai_dart): Add multi-modal support ([#218](https://github.com/davidmigloz/langchain_dart/issues/218)). ([14c8e7ef](https://github.com/davidmigloz/langchain_dart/commit/14c8e7ef7194400057d40422822df1127c4cb131))
+ - **BREAKING** **FEAT**(openai_dart): Rename factory const to more meaningful names ([#215](https://github.com/davidmigloz/langchain_dart/issues/215)). ([7e4602fa](https://github.com/davidmigloz/langchain_dart/commit/7e4602fa86c55bd6d82a0aac253b1165afa21aeb))
+ - **FEAT**(openai_dart): Add gpt-3.5-turbo-1106 chat model ([#217](https://github.com/davidmigloz/langchain_dart/issues/217)). ([73f37915](https://github.com/davidmigloz/langchain_dart/commit/73f37915e99d83bd458f8f8500385a24a64d3948))
+ - **REFACTOR**(openai_dart): Improve request error handling ([#214](https://github.com/davidmigloz/langchain_dart/issues/214)). ([4a9f3d33](https://github.com/davidmigloz/langchain_dart/commit/4a9f3d335124526438651149e5b91c07921617a2))
+
+ > Migration guides: [new factories](https://github.com/davidmigloz/langchain_dart/issues/215) and [multi-modal](https://github.com/davidmigloz/langchain_dart/issues/218)
+
 ## 2023-11-13
 
 ### Changes
