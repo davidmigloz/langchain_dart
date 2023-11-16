@@ -1,11 +1,14 @@
+## 0.1.0+1
+
+ - **DOCS**: Add public_member_api_docs lint rule and document missing APIs ([#223](https://github.com/davidmigloz/langchain_dart/issues/223)). ([52380433](https://github.com/davidmigloz/langchain_dart/commit/523804331783970870b023946c016be6c0797920))
+
 ## 0.1.0
 
 > Note: This release has breaking changes.
+> [Migration guide](https://github.com/davidmigloz/langchain_dart/issues/220)
 
  - **REFACTOR**(chat-models): Align openai_dart client breaking changes ([#219](https://github.com/davidmigloz/langchain_dart/issues/219)). ([172db27f](https://github.com/davidmigloz/langchain_dart/commit/172db27f6da429e16dcda55678a73e1d885bb6d9))
  - **BREAKING** **FEAT**(chat-models): Add multi-modal messages support with OpenAI Vision ([#220](https://github.com/davidmigloz/langchain_dart/issues/220)). ([6da2e069](https://github.com/davidmigloz/langchain_dart/commit/6da2e069932782eed8c27da45c56b4c290373fac))
-
- > [Migration guide](https://github.com/davidmigloz/langchain_dart/issues/220)
 
 ## 0.0.15+2
 

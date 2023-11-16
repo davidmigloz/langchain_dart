@@ -3,6 +3,66 @@
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) 
 server for more details about each release.
 
+## 2023-11-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`chromadb` - `v0.1.0+1`](#chromadb---v0101)
+ - [`langchain` - `v0.1.0+1`](#langchain---v0101)
+ - [`langchain_google` - `v0.1.0+1`](#langchain_google---v0101)
+ - [`langchain_openai` - `v0.1.0+1`](#langchain_openai---v0101)
+ - [`langchain_pinecone` - `v0.0.6+2`](#langchain_pinecone---v0062)
+ - [`openai_dart` - `v0.1.0+1`](#openai_dart---v0101)
+ - [`vertex_ai` - `v0.0.7+2`](#vertex_ai---v0072)
+ - [`langchain_chroma` - `v0.1.0+2`](#langchain_chroma---v0102)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_chroma` - `v0.1.0+2`
+
+---
+
+#### `chromadb` - `v0.1.0+1`
+
+ - **DOCS**: Add public_member_api_docs lint rule and document missing APIs ([#223](https://github.com/davidmigloz/langchain_dart/issues/223)). ([52380433](https://github.com/davidmigloz/langchain_dart/commit/523804331783970870b023946c016be6c0797920))
+
+#### `langchain` - `v0.1.0+1`
+
+ - **DOCS**: Add public_member_api_docs lint rule and document missing APIs ([#223](https://github.com/davidmigloz/langchain_dart/issues/223)). ([52380433](https://github.com/davidmigloz/langchain_dart/commit/523804331783970870b023946c016be6c0797920))
+
+#### `langchain_google` - `v0.1.0+1`
+
+ - **DOCS**: Add public_member_api_docs lint rule and document missing APIs ([#223](https://github.com/davidmigloz/langchain_dart/issues/223)). ([52380433](https://github.com/davidmigloz/langchain_dart/commit/523804331783970870b023946c016be6c0797920))
+
+#### `langchain_openai` - `v0.1.0+1`
+
+ - **DOCS**: Add public_member_api_docs lint rule and document missing APIs ([#223](https://github.com/davidmigloz/langchain_dart/issues/223)). ([52380433](https://github.com/davidmigloz/langchain_dart/commit/523804331783970870b023946c016be6c0797920))
+
+#### `langchain_pinecone` - `v0.0.6+2`
+
+ - **DOCS**: Add public_member_api_docs lint rule and document missing APIs ([#223](https://github.com/davidmigloz/langchain_dart/issues/223)). ([52380433](https://github.com/davidmigloz/langchain_dart/commit/523804331783970870b023946c016be6c0797920))
+
+#### `openai_dart` - `v0.1.0+1`
+
+ - **FIX**(openai_dart): Add missing `name` param in ChatCompletionMessage ([#222](https://github.com/davidmigloz/langchain_dart/issues/222)). ([6f186775](https://github.com/davidmigloz/langchain_dart/commit/6f186775f67cf3db5e28e4a15f896927b9af50ce))
+ - **FIX**(openai_dart): Remove dependency on io.HttpException ([#221](https://github.com/davidmigloz/langchain_dart/issues/221)). ([95369e4c](https://github.com/davidmigloz/langchain_dart/commit/95369e4c1a9b8f277390b612df7d9bb21c19d82f))
+ - **DOCS**: Add public_member_api_docs lint rule and document missing APIs ([#223](https://github.com/davidmigloz/langchain_dart/issues/223)). ([52380433](https://github.com/davidmigloz/langchain_dart/commit/523804331783970870b023946c016be6c0797920))
+
+#### `vertex_ai` - `v0.0.7+2`
+
+ - **DOCS**: Add public_member_api_docs lint rule and document missing APIs ([#223](https://github.com/davidmigloz/langchain_dart/issues/223)). ([52380433](https://github.com/davidmigloz/langchain_dart/commit/523804331783970870b023946c016be6c0797920))
+
+
 ## 2023-11-15
 
 ### Changes

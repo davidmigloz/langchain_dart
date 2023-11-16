@@ -17,7 +17,7 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  langchain: ^0.1.0
+  langchain: ^0.1.0+1
   meta: ^1.9.1
 
 dev_dependencies:
