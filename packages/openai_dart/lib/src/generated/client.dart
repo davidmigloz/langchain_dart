@@ -4,7 +4,6 @@
 // ignore_for_file: invalid_annotation_target, unused_import
 
 import 'dart:convert';
-import 'dart:io' as io;
 import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
@@ -21,7 +20,7 @@ enum HttpMethod { get, put, post, delete, options, head, patch, trace }
 // ==========================================
 
 /// HTTP exception handler for OpenAIClient
-class OpenAIClientException implements io.HttpException {
+class OpenAIClientException implements Exception {
   OpenAIClientException({
     required this.message,
     required this.uri,
@@ -30,9 +29,7 @@ class OpenAIClientException implements io.HttpException {
     this.body,
   });
 
-  @override
   final String message;
-  @override
   final Uri uri;
   final HttpMethod method;
   final int? code;
