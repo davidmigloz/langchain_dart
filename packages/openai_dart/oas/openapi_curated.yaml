@@ -333,7 +333,7 @@ components:
         model:
           title: CompletionModel
           description: &model_description |
-            ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+            ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
           anyOf:
             - type: string
               description: The ID of the model to use for this request.
@@ -415,7 +415,7 @@ components:
           description: &completions_frequency_penalty_description |
             Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
 
-            [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+            [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
         logit_bias: &completions_logit_bias
           type: object
           default: null
@@ -468,7 +468,7 @@ components:
           description: &completions_presence_penalty_description |
             Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
 
-            [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+            [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
         seed: &completions_seed_param
           type: integer
           # minimum: -9223372036854775808 # The value can't be represented exactly in JavaScript
@@ -640,7 +640,7 @@ components:
       properties:
         model:
           title: ChatCompletionModel
-          description: ID of the model to use. See the [model endpoint compatibility](/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.
+          description: ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.
           example: "gpt-3.5-turbo"
           anyOf:
             - type: string
@@ -720,7 +720,7 @@ components:
 
             Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
 
-            **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in increased latency and appearance of a "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+            **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
           properties:
             type:
               type: string
@@ -857,6 +857,9 @@ components:
           nullable: true
           description: The contents of the system message.
           type: string
+        name:
+          type: string
+          description: An optional name for the participant. Provides the model information to differentiate between participants of the same role.
       required:
         - content
     ChatCompletionUserMessage:
@@ -879,6 +882,9 @@ components:
               items:
                 $ref: "#/components/schemas/ChatCompletionMessageContentPart"
               minItems: 1
+        name:
+          type: string
+          description: An optional name for the participant. Provides the model information to differentiate between participants of the same role.
       required:
         - content
     ChatCompletionAssistantMessage:
@@ -894,6 +900,9 @@ components:
           type: string
           description: |
             The contents of the assistant message.
+        name:
+          type: string
+          description: An optional name for the participant. Provides the model information to differentiate between participants of the same role.
         tool_calls:
           $ref: "#/components/schemas/ChatCompletionMessageToolCalls"
           description: The tools that should be called, as generated by the model.
@@ -932,7 +941,6 @@ components:
           description: The role of the messages author, in this case `function`.
         content:
           type: string
-          nullable: true
           description: The return value from the function call, to return to the model.
         name:
           type: string
@@ -980,7 +988,7 @@ components:
             detail:
               type: string
               title: ChatCompletionMessageImageDetail
-              description: Specifies the detail level of the image.
+              description: Specifies the detail level of the image. Learn more in the [Vision guide](https://platform.openai.com/docs/guides/vision/low-or-high-fidelity-image-understanding).
               enum: ["auto", "low", "high"]
               default: "auto"
           required:
@@ -1034,7 +1042,7 @@ components:
         - parameters
     FunctionParameters:
       type: object
-      description: "The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.\n\nTo describe a function that accepts no parameters, provide the value `{\"type\": \"object\", \"properties\": {}}`."
+      description: "The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.\n\nTo describe a function that accepts no parameters, provide the value `{\"type\": \"object\", \"properties\": {}}`."
       additionalProperties: true
     ChatCompletionTool:
       type: object
@@ -1281,7 +1289,7 @@ components:
         input:
           title: EmbeddingInput
           description: |
-            Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. The input must not exceed the max input tokens for the model (8192 tokens for `text-embedding-ada-002`) and cannot be an empty string. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
+            Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. The input must not exceed the max input tokens for the model (8192 tokens for `text-embedding-ada-002`), cannot be an empty string, and any array must be 2048 dimensions or less. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
           example: "The quick brown fox jumped over the lazy dog"
           oneOf:
             - type: string
@@ -1291,6 +1299,7 @@ components:
             - type: array
               description: A list of string prompts.
               minItems: 1
+              maxItems: 2048
               items:
                 type: string
                 default: ""
@@ -1298,12 +1307,14 @@ components:
             - type: array
               description: A tokenized prompt.
               minItems: 1
+              maxItems: 2048
               items:
                 type: integer
               example: "[1212, 318, 257, 1332, 13]"
             - type: array
               description: A list of tokenized prompts.
               minItems: 1
+              maxItems: 2048
               items:
                 type: array
                 minItems: 1
@@ -1392,7 +1403,7 @@ components:
           title: FineTuningModel
           description: |
             The name of the model to fine-tune. You can select one of the
-            [supported models](/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
+            [supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
           example: "gpt-3.5-turbo"
           anyOf:
             - type: string

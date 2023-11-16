@@ -1784,14 +1784,25 @@ _$ChatCompletionSystemMessageImpl _$$ChatCompletionSystemMessageImplFromJson(
               _$ChatCompletionMessageRoleEnumMap, json['role']) ??
           ChatCompletionMessageRole.system,
       content: json['content'] as String?,
+      name: json['name'] as String?,
     );
 
 Map<String, dynamic> _$$ChatCompletionSystemMessageImplToJson(
-        _$ChatCompletionSystemMessageImpl instance) =>
-    <String, dynamic>{
-      'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
-      'content': instance.content,
-    };
+    _$ChatCompletionSystemMessageImpl instance) {
+  final val = <String, dynamic>{
+    'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
+    'content': instance.content,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  return val;
+}
 
 _$ChatCompletionUserMessageImpl _$$ChatCompletionUserMessageImplFromJson(
         Map<String, dynamic> json) =>
@@ -1801,17 +1812,27 @@ _$ChatCompletionUserMessageImpl _$$ChatCompletionUserMessageImplFromJson(
           ChatCompletionMessageRole.user,
       content: const _ChatCompletionUserMessageContentConverter()
           .fromJson(json['content']),
+      name: json['name'] as String?,
     );
 
 Map<String, dynamic> _$$ChatCompletionUserMessageImplToJson(
-        _$ChatCompletionUserMessageImpl instance) =>
-    <String, dynamic>{
-      'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
-      'content':
-          _$JsonConverterToJson<Object?, ChatCompletionUserMessageContent>(
-              instance.content,
-              const _ChatCompletionUserMessageContentConverter().toJson),
-    };
+    _$ChatCompletionUserMessageImpl instance) {
+  final val = <String, dynamic>{
+    'role': _$ChatCompletionMessageRoleEnumMap[instance.role]!,
+    'content': _$JsonConverterToJson<Object?, ChatCompletionUserMessageContent>(
+        instance.content,
+        const _ChatCompletionUserMessageContentConverter().toJson),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  return val;
+}
 
 _$ChatCompletionAssistantMessageImpl
     _$$ChatCompletionAssistantMessageImplFromJson(Map<String, dynamic> json) =>
@@ -1820,6 +1841,7 @@ _$ChatCompletionAssistantMessageImpl
                   _$ChatCompletionMessageRoleEnumMap, json['role']) ??
               ChatCompletionMessageRole.assistant,
           content: json['content'] as String?,
+          name: json['name'] as String?,
           toolCalls: (json['tool_calls'] as List<dynamic>?)
               ?.map((e) => ChatCompletionMessageToolCall.fromJson(
                   e as Map<String, dynamic>))
@@ -1843,6 +1865,7 @@ Map<String, dynamic> _$$ChatCompletionAssistantMessageImplToJson(
     }
   }
 
+  writeNotNull('name', instance.name);
   writeNotNull(
       'tool_calls', instance.toolCalls?.map((e) => e.toJson()).toList());
   writeNotNull('function_call', instance.functionCall?.toJson());
@@ -1873,7 +1896,7 @@ _$ChatCompletionFunctionMessageImpl
           role: $enumDecodeNullable(
                   _$ChatCompletionMessageRoleEnumMap, json['role']) ??
               ChatCompletionMessageRole.function,
-          content: json['content'] as String?,
+          content: json['content'] as String,
           name: json['name'] as String,
         );
 

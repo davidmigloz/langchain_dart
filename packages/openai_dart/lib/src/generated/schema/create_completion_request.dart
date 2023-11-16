@@ -15,7 +15,7 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
 
   /// Factory constructor for CreateCompletionRequest
   const factory CreateCompletionRequest({
-    /// ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+    /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
     @_CompletionModelConverter() required CompletionModel model,
 
     /// The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays.
@@ -35,7 +35,7 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
 
     /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
     ///
-    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
     @JsonKey(name: 'frequency_penalty', includeIfNull: false)
     @Default(0.0)
     double? frequencyPenalty,
@@ -67,7 +67,7 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
 
     /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
     ///
-    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
     @JsonKey(name: 'presence_penalty', includeIfNull: false)
     @Default(0.0)
     double? presencePenalty,
@@ -258,7 +258,7 @@ enum CompletionModels {
 // CLASS: CompletionModel
 // ==========================================
 
-/// ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+/// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
 @freezed
 sealed class CompletionModel with _$CompletionModel {
   const CompletionModel._();

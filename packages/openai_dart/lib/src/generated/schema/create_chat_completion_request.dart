@@ -15,7 +15,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
 
   /// Factory constructor for CreateChatCompletionRequest
   const factory CreateChatCompletionRequest({
-    /// ID of the model to use. See the [model endpoint compatibility](/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.
+    /// ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.
     @_ChatCompletionModelConverter() required ChatCompletionModel model,
 
     /// A list of messages comprising the conversation so far. [Example Python code](https://cookbook.openai.com/examples/how_to_format_inputs_to_chatgpt_models).
@@ -23,7 +23,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
 
     /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
     ///
-    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
     @JsonKey(name: 'frequency_penalty', includeIfNull: false)
     @Default(0.0)
     double? frequencyPenalty,
@@ -44,7 +44,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
 
     /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
     ///
-    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+    /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
     @JsonKey(name: 'presence_penalty', includeIfNull: false)
     @Default(0.0)
     double? presencePenalty,
@@ -53,7 +53,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     ///
     /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
     ///
-    /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in increased latency and appearance of a "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+    /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
     @JsonKey(name: 'response_format', includeIfNull: false)
     ChatCompletionResponseFormat? responseFormat,
 
@@ -259,7 +259,7 @@ enum ChatCompletionModels {
 // CLASS: ChatCompletionModel
 // ==========================================
 
-/// ID of the model to use. See the [model endpoint compatibility](/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.
+/// ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.
 @freezed
 sealed class ChatCompletionModel with _$ChatCompletionModel {
   const ChatCompletionModel._();
@@ -319,7 +319,7 @@ class _ChatCompletionModelConverter
 ///
 /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
 ///
-/// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in increased latency and appearance of a "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+/// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
 @freezed
 class ChatCompletionResponseFormat with _$ChatCompletionResponseFormat {
   const ChatCompletionResponseFormat._();
