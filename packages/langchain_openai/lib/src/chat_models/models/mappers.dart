@@ -5,7 +5,9 @@ import 'package:openai_dart/openai_dart.dart';
 
 import 'models.dart';
 
+/// Mapper for a list of [ChatMessage]s.
 extension ChatMessageListMapper on List<ChatMessage> {
+  /// Converts a list of [ChatMessage]s to a list of [ChatCompletionMessage]s.
   List<ChatCompletionMessage> toChatCompletionMessages() {
     return map((final message) => message.toChatCompletionMessage())
         .toList(growable: false);
@@ -91,7 +93,9 @@ extension _ChatMessageContentMultiModalMapper on ChatMessageContentMultiModal {
   }
 }
 
+/// Mapper for [CreateChatCompletionResponse].
 extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
+  /// Converts a [CreateChatCompletionResponse] to a [ChatResult].
   ChatResult toChatResult() {
     return ChatResult(
       id: id,
@@ -153,7 +157,9 @@ extension _AIChatMessageFunctionCallMapper on AIChatMessageFunctionCall {
   }
 }
 
+/// Mapper for a list of [ChatFunction]s.
 extension ChatFunctionListMapper on List<ChatFunction> {
+  /// Converts a list of [ChatFunction]s to a list of [FunctionObject]s.
   List<FunctionObject> toFunctionObjects() {
     return map((final function) => function.toFunctionObject())
         .toList(growable: false);
@@ -170,7 +176,9 @@ extension _ChatFunctionMapper on ChatFunction {
   }
 }
 
+/// Mapper for a list of [ChatCompletionFunctionCallOption]s.
 extension ChatFunctionCallMapper on ChatFunctionCall {
+  /// Converts a list of [ChatCompletionFunctionCallOption]s to a list of
   ChatCompletionFunctionCall toChatCompletionFunctionCall() {
     return switch (this) {
       ChatFunctionCallNone _ => const ChatCompletionFunctionCall.mode(
@@ -186,8 +194,10 @@ extension ChatFunctionCallMapper on ChatFunctionCall {
   }
 }
 
+/// Mapper for [CreateChatCompletionStreamResponse].
 extension CreateChatCompletionStreamResponseMapper
     on CreateChatCompletionStreamResponse {
+  /// Converts a [CreateChatCompletionStreamResponse] to a [ChatResult].
   ChatResult toChatResult() {
     return ChatResult(
       generations: choices
@@ -242,7 +252,9 @@ extension _ChatCompletionStreamMessageFunctionCallMapper
   }
 }
 
+/// Mapper for [ChatOpenAIResponseFormat].
 extension ChatOpenAIResponseFormatMapper on ChatOpenAIResponseFormat {
+  /// Converts a [ChatOpenAIResponseFormat] to a [ChatCompletionResponseFormat].
   ChatCompletionResponseFormat toChatCompletionResponseFormat() {
     return ChatCompletionResponseFormat(
       type: switch (type) {

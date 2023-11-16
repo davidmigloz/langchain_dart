@@ -4,6 +4,7 @@ import '../models/models.dart';
 
 /// Vertex AI Text Model Mapper to googleapis models.
 class VertexAITextModelGoogleApisMapper {
+  /// Maps a VertexAITextModel to a GoogleCloudAiplatformV1Model.
   static GoogleCloudAiplatformV1PredictRequest mapRequest(
     final VertexAITextModelRequest request,
   ) {
@@ -15,6 +16,7 @@ class VertexAITextModelGoogleApisMapper {
     );
   }
 
+  /// Maps a GoogleCloudAiplatformV1PredictResponse to a VertexAITextModelResponse.
   static VertexAITextModelResponse mapResponse(
     final GoogleCloudAiplatformV1PredictResponse response,
   ) {

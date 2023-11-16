@@ -15,6 +15,7 @@ class OpenAIQAWithStructureChain<CallOptions extends BaseLangChainOptions,
         S extends Object>
     extends LLMChain<ChatOpenAI, ChatOpenAIOptions,
         BaseOutputFunctionsParser<CallOptions, S>, BaseChatMemory> {
+  /// {@macro openai_qa_with_structure_chain}
   OpenAIQAWithStructureChain({
     required super.llm,
     required final ChatFunction function,

@@ -34,7 +34,11 @@ final class PipelinePromptTemplate extends BasePromptTemplate {
           inputVariables: _computeInputValues(finalPrompt, pipelinePrompts),
         );
 
+  /// The final prompt that is returned.
   final BasePromptTemplate finalPrompt;
+
+  /// Tuples of the name of the variable and the prompt template in the
+  /// pipeline.
   final List<(String name, BasePromptTemplate)> pipelinePrompts;
 
   static Set<String> _computeInputValues(

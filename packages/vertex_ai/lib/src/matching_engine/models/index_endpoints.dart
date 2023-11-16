@@ -749,6 +749,7 @@ class VertexAIIndexPrivateEndpoints {
 /// {@endtemplate}
 @immutable
 class VertexAIFindNeighborsRequestQuery {
+  /// {@macro vertex_ai_find_neighbors_request_query}
   const VertexAIFindNeighborsRequestQuery({
     required this.datapoint,
     required this.neighborCount,

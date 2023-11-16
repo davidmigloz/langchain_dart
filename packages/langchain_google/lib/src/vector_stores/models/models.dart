@@ -42,6 +42,7 @@ class VertexAIMatchingEngineSimilaritySearch
               : null,
         );
 
+  /// The key for the filter.
   static const filterKey = 'restricts';
 }
 

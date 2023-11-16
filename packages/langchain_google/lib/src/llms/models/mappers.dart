@@ -3,6 +3,7 @@ import 'package:vertex_ai/vertex_ai.dart';
 
 /// Mapper for [VertexAITextModelResponse] to [LLMResult].
 extension VertexAITextModelResponseMapper on VertexAITextModelResponse {
+  /// Converts a [VertexAITextModelResponse] to a [LLMResult].
   LLMResult toLLMResult(final String model) {
     return LLMResult(
       generations: predictions

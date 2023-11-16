@@ -18,6 +18,7 @@ class CharacterTextSplitter extends TextSplitter {
     super.addStartIndex,
   });
 
+  /// The separator that is used to split the text.
   final String separator;
 
   @override

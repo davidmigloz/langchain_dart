@@ -1,4 +1,6 @@
+/// Data loader interface.
 abstract interface class DataLoader<T> {
+  /// Loads data from the given [uris].
   Future<T> call(final List<String> uris);
 }
 

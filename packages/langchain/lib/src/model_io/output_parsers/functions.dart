@@ -48,6 +48,7 @@ abstract class BaseOutputFunctionsParser<
     );
   }
 
+  /// Parses the output of a function call.
   @protected
   Future<O> parseFunctionCall(final AIChatMessageFunctionCall? functionCall);
 }

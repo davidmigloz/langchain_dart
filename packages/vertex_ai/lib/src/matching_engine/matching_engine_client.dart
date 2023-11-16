@@ -74,6 +74,7 @@ import 'apis/apis.dart';
 /// See: https://cloud.google.com/vertex-ai/docs/generative-ai/access-control
 /// {@endtemplate}
 class VertexAIMatchingEngineClient {
+  /// {@macro vertex_ai_matching_engine_client}
   VertexAIMatchingEngineClient({
     required final http.Client httpClient,
     required this.project,

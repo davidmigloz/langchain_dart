@@ -17,6 +17,7 @@ linter:
   rules: # https://dart-lang.github.io/linter/lints/{rule}.html
     - always_declare_return_types
     - annotate_overrides
+    - annotate_redeclares
     - avoid_bool_literals_in_conditional_expressions
     #    - avoid_catches_without_on_clauses # blocked on https://github.com/dart-lang/linter/issues/3023
     #    - avoid_catching_errors # blocked on https://github.com/dart-lang/linter/issues/3023
@@ -141,6 +142,7 @@ linter:
     - prefer_typing_uninitialized_variables
     - prefer_void_to_null
     - provide_deprecation_message
+    - public_member_api_docs
     - recursive_getters
     - require_trailing_commas
     - secure_pubspec_urls

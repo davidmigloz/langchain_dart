@@ -52,7 +52,10 @@ class PromptCondition {
     required this.prompt,
   });
 
+  /// Condition for a prompt.
   final bool Function(BaseLanguageModel llm) condition;
+
+  /// Prompt to use if the condition is met.
   final BasePromptTemplate prompt;
 
   /// A prompt for a language mode that is an LLM.

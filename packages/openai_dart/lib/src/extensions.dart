@@ -1,5 +1,6 @@
 import 'generated/schema/schema.dart';
 
+/// Extension methods for [Embedding].
 extension EmbeddingX on Embedding {
   /// The embedding vector as a list of doubles.
   ///

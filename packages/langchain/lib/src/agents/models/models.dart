@@ -20,9 +20,16 @@ class AgentAction extends BaseAgentAction {
     this.messageLog = const [],
   });
 
+  /// The name of the tool to use.
   final String tool;
+
+  /// The input to the tool.
   final Map<String, dynamic> toolInput;
+
+  /// The log of the action.
   final String log;
+
+  /// The log of the messages.
   final List<ChatMessage> messageLog;
 }
 
@@ -36,7 +43,10 @@ class AgentFinish extends BaseAgentAction {
     this.log = '',
   });
 
+  /// The return values of the agent.
   final Map<String, dynamic> returnValues;
+
+  /// The log of the action.
   final String log;
 }
 
@@ -44,12 +54,16 @@ class AgentFinish extends BaseAgentAction {
 /// A action taken by the agent along with the observation of the action.
 /// {@endtemplate}
 class AgentStep {
+  /// {@macro agent_step}
   const AgentStep({
     required this.action,
     required this.observation,
   });
 
+  /// The action taken by the agent.
   final AgentAction action;
+
+  /// The observation of the action.
   final String observation;
 }
 

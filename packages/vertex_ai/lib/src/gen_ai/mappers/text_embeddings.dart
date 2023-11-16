@@ -4,6 +4,7 @@ import '../models/models.dart';
 
 /// Vertex AI Text Embeddings Model Mapper to googleapis models.
 class VertexAITextEmbeddingsModelGoogleApisMapper {
+  /// Maps a VertexAITextEmbeddingsModel to a GoogleCloudAiplatformV1Model.
   static GoogleCloudAiplatformV1PredictRequest mapRequest(
     final VertexAITextEmbeddingsModelRequest request,
   ) {
@@ -14,6 +15,8 @@ class VertexAITextEmbeddingsModelGoogleApisMapper {
     );
   }
 
+  /// Maps a GoogleCloudAiplatformV1PredictResponse to a
+  /// VertexAITextEmbeddingsModelResponse.
   static VertexAITextEmbeddingsModelResponse mapResponse(
     final GoogleCloudAiplatformV1PredictResponse response,
   ) {
