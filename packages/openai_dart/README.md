@@ -10,18 +10,42 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
 ## Features
 
 - Generated from the official OpenAI [OpenAPI specification](https://github.com/openai/openai-openapi)
-- Fully type-safe, documented and tested
+- Fully type-safe, [documented](https://pub.dev/documentation/openai_dart/latest/) and tested
+- All platforms supported (including streaming on web)
 - Authentication with organization support
 - Custom base URL and headers support (e.g. HTTP proxies)
 - Custom HTTP client support (e.g. SOCKS5 proxies or advanced use cases)
-- Endpoints:
-  * Chat (with functions and streaming support)
-  * Completions (with streaming support)
-  * Embeddings
-  * Fine-tuning
-  * Images
-  * Models
-  * Moderations
+
+**Supported endpoints:**
+
+- Chat (with functions and streaming support)
+- Completions (with streaming support)
+- Embeddings
+- Fine-tuning
+- Images
+- Models
+- Moderations
+
+## Table of contents
+
+- [Usage](#usage)
+  * [Authentication](#authentication)
+    + [Organization (optional)](#organization-optional)
+  * [Chat](#chat)
+  * [Completions](#completions)
+  * [Embeddings](#embeddings)
+  * [Fine-tuning](#fine-tuning)
+  * [Images](#images)
+  * [Models](#models)
+  * [Moderations](#moderations)
+- [Advance usage](#advance-usage)
+  * [Default HTTP client](#default-http-client)
+  * [Custom HTTP client ](#custom-http-client)
+  * [Using a proxy](#using-a-proxy)
+    + [HTTP proxy](#http-proxy)
+    + [SOCKS5 proxy](#socks5-proxy)
+- [Acknowledgements](#acknowledgements)
+- [License](#license)
 
 ## Usage
 
@@ -83,6 +107,12 @@ print(res.choices.first.message.content);
 - `ChatCompletionMessage.assistant()`: an assistant message.
 - `ChatCompletionMessage.tool()`: a tool message.
 - `ChatCompletionMessage.function()`: a function message.
+
+`ChatCompletionMessage.user()` takes a `ChatCompletionUserMessageContent` object that supports the following content types:
+- `ChatCompletionUserMessageContent.string('content')`: string content.
+- `ChatCompletionUserMessageContent.parts([...])`: multi-modal content (check the 'Multi-modal prompt' section below).
+  * `ChatCompletionMessageContentPart.text('content')`: text content.
+  * `ChatCompletionMessageContentPart.image(imageUrl: ...)`: image content.
 
 **Stream chat completion:**
 
@@ -535,16 +565,16 @@ print(res.results.first.categoryScores.violence);
 - `ModerationInput.string('input')`: the input as string.
 - `ModerationInput.listString(['input'])`: batch of string inputs.
 
-### Advance
+## Advance Usage
 
-#### Default HTTP client
+### Default HTTP client
 
 By default, the client uses the following implementation of `http.Client`:
 
 - Non-web: [`IOClient`](https://pub.dev/documentation/http/latest/io_client/IOClient-class.html)
 - Web: [`FetchClient`](https://pub.dev/documentation/fetch_client/latest/fetch_client/FetchClient-class.html) (to support streaming on web)
 
-#### Custom HTTP client 
+### Custom HTTP client 
 
 You can always provide your own implementation of `http.Client` for further customization:
 
@@ -555,9 +585,9 @@ final client = OpenAIClient(
 );
 ```
 
-#### Using a proxy
+### Using a proxy
 
-##### HTTP proxy
+#### HTTP proxy
 
 You can use your own HTTP proxy by overriding the `baseUrl` and providing your required `headers`:
 
@@ -572,7 +602,7 @@ final client = OpenAIClient(
 
 If you need further customization, you can always provide your own `http.Client`.
 
-##### SOCKS5 proxy
+#### SOCKS5 proxy
 
 To use a SOCKS5 proxy, you can use the [`socks5_proxy`](https://pub.dev/packages/socks5_proxy) package:
 

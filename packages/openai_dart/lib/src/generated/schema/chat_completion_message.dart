@@ -24,6 +24,9 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
 
     /// The contents of the system message.
     required String? content,
+
+    /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
+    @JsonKey(includeIfNull: false) String? name,
   }) = ChatCompletionSystemMessage;
 
   // ------------------------------------------
@@ -38,6 +41,9 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
     /// The contents of the user message.
     @_ChatCompletionUserMessageContentConverter()
     required ChatCompletionUserMessageContent? content,
+
+    /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
+    @JsonKey(includeIfNull: false) String? name,
   }) = ChatCompletionUserMessage;
 
   // ------------------------------------------
@@ -52,6 +58,9 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
 
     /// The contents of the assistant message.
     required String? content,
+
+    /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
+    @JsonKey(includeIfNull: false) String? name,
 
     /// No Description
     @JsonKey(name: 'tool_calls', includeIfNull: false)
@@ -88,7 +97,7 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
     @Default(ChatCompletionMessageRole.function) ChatCompletionMessageRole role,
 
     /// The return value from the function call, to return to the model.
-    required String? content,
+    required String content,
 
     /// The name of the function to call.
     required String name,

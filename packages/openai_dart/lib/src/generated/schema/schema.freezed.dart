@@ -21,7 +21,7 @@ CreateCompletionRequest _$CreateCompletionRequestFromJson(
 
 /// @nodoc
 mixin _$CreateCompletionRequest {
-  /// ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
   @_CompletionModelConverter()
   CompletionModel get model => throw _privateConstructorUsedError;
 
@@ -45,7 +45,7 @@ mixin _$CreateCompletionRequest {
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   double? get frequencyPenalty => throw _privateConstructorUsedError;
 
@@ -77,7 +77,7 @@ mixin _$CreateCompletionRequest {
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty => throw _privateConstructorUsedError;
 
@@ -469,7 +469,7 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
   factory _$CreateCompletionRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreateCompletionRequestImplFromJson(json);
 
-  /// ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
   @override
   @_CompletionModelConverter()
   final CompletionModel model;
@@ -497,7 +497,7 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
   @override
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   final double? frequencyPenalty;
@@ -547,7 +547,7 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
   @override
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   final double? presencePenalty;
@@ -698,7 +698,7 @@ abstract class _CreateCompletionRequest extends CreateCompletionRequest {
 
   @override
 
-  /// ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
   @_CompletionModelConverter()
   CompletionModel get model;
   @override
@@ -726,7 +726,7 @@ abstract class _CreateCompletionRequest extends CreateCompletionRequest {
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   double? get frequencyPenalty;
   @override
@@ -763,7 +763,7 @@ abstract class _CreateCompletionRequest extends CreateCompletionRequest {
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty;
   @override
@@ -3342,7 +3342,7 @@ CreateChatCompletionRequest _$CreateChatCompletionRequestFromJson(
 
 /// @nodoc
 mixin _$CreateChatCompletionRequest {
-  /// ID of the model to use. See the [model endpoint compatibility](/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.
+  /// ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.
   @_ChatCompletionModelConverter()
   ChatCompletionModel get model => throw _privateConstructorUsedError;
 
@@ -3352,7 +3352,7 @@ mixin _$CreateChatCompletionRequest {
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   double? get frequencyPenalty => throw _privateConstructorUsedError;
 
@@ -3374,7 +3374,7 @@ mixin _$CreateChatCompletionRequest {
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty => throw _privateConstructorUsedError;
 
@@ -3382,7 +3382,7 @@ mixin _$CreateChatCompletionRequest {
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in increased latency and appearance of a "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
   @JsonKey(name: 'response_format', includeIfNull: false)
   ChatCompletionResponseFormat? get responseFormat =>
       throw _privateConstructorUsedError;
@@ -3872,7 +3872,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
           Map<String, dynamic> json) =>
       _$$CreateChatCompletionRequestImplFromJson(json);
 
-  /// ID of the model to use. See the [model endpoint compatibility](/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.
+  /// ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.
   @override
   @_ChatCompletionModelConverter()
   final ChatCompletionModel model;
@@ -3890,7 +3890,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
   @override
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   final double? frequencyPenalty;
@@ -3927,7 +3927,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
   @override
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   final double? presencePenalty;
@@ -3936,7 +3936,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in increased latency and appearance of a "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
   @override
   @JsonKey(name: 'response_format', includeIfNull: false)
   final ChatCompletionResponseFormat? responseFormat;
@@ -4152,7 +4152,7 @@ abstract class _CreateChatCompletionRequest
 
   @override
 
-  /// ID of the model to use. See the [model endpoint compatibility](/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.
+  /// ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.
   @_ChatCompletionModelConverter()
   ChatCompletionModel get model;
   @override
@@ -4163,7 +4163,7 @@ abstract class _CreateChatCompletionRequest
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   double? get frequencyPenalty;
   @override
@@ -4189,7 +4189,7 @@ abstract class _CreateChatCompletionRequest
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
   ///
-  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/gpt/parameter-details)
+  /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty;
   @override
@@ -4198,7 +4198,7 @@ abstract class _CreateChatCompletionRequest
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in increased latency and appearance of a "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
   @JsonKey(name: 'response_format', includeIfNull: false)
   ChatCompletionResponseFormat? get responseFormat;
   @override
@@ -6520,7 +6520,7 @@ mixin _$FunctionObject {
   @JsonKey(includeIfNull: false)
   String? get description => throw _privateConstructorUsedError;
 
-  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
   ///
   /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
   Map<String, dynamic> get parameters => throw _privateConstructorUsedError;
@@ -6645,12 +6645,12 @@ class _$FunctionObjectImpl extends _FunctionObject {
   @JsonKey(includeIfNull: false)
   final String? description;
 
-  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
   ///
   /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
   final Map<String, dynamic> _parameters;
 
-  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
   ///
   /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
   @override
@@ -6718,7 +6718,7 @@ abstract class _FunctionObject extends FunctionObject {
   String? get description;
   @override
 
-  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
   ///
   /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
   Map<String, dynamic> get parameters;
@@ -9577,11 +9577,11 @@ CreateEmbeddingRequest _$CreateEmbeddingRequestFromJson(
 
 /// @nodoc
 mixin _$CreateEmbeddingRequest {
-  /// ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
   @_EmbeddingModelConverter()
   EmbeddingModel get model => throw _privateConstructorUsedError;
 
-  /// Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. The input must not exceed the max input tokens for the model (8192 tokens for `text-embedding-ada-002`) and cannot be an empty string. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
+  /// Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. The input must not exceed the max input tokens for the model (8192 tokens for `text-embedding-ada-002`), cannot be an empty string, and any array must be 2048 dimensions or less. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
   @_EmbeddingInputConverter()
   EmbeddingInput get input => throw _privateConstructorUsedError;
 
@@ -9746,12 +9746,12 @@ class _$CreateEmbeddingRequestImpl extends _CreateEmbeddingRequest {
   factory _$CreateEmbeddingRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreateEmbeddingRequestImplFromJson(json);
 
-  /// ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
   @override
   @_EmbeddingModelConverter()
   final EmbeddingModel model;
 
-  /// Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. The input must not exceed the max input tokens for the model (8192 tokens for `text-embedding-ada-002`) and cannot be an empty string. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
+  /// Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. The input must not exceed the max input tokens for the model (8192 tokens for `text-embedding-ada-002`), cannot be an empty string, and any array must be 2048 dimensions or less. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
   @override
   @_EmbeddingInputConverter()
   final EmbeddingInput input;
@@ -9818,12 +9818,12 @@ abstract class _CreateEmbeddingRequest extends CreateEmbeddingRequest {
 
   @override
 
-  /// ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
   @_EmbeddingModelConverter()
   EmbeddingModel get model;
   @override
 
-  /// Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. The input must not exceed the max input tokens for the model (8192 tokens for `text-embedding-ada-002`) and cannot be an empty string. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
+  /// Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. The input must not exceed the max input tokens for the model (8192 tokens for `text-embedding-ada-002`), cannot be an empty string, and any array must be 2048 dimensions or less. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
   @_EmbeddingInputConverter()
   EmbeddingInput get input;
   @override
@@ -12080,7 +12080,7 @@ CreateFineTuningJobRequest _$CreateFineTuningJobRequestFromJson(
 /// @nodoc
 mixin _$CreateFineTuningJobRequest {
   /// The name of the model to fine-tune. You can select one of the
-  /// [supported models](/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
+  /// [supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
   @_FineTuningModelConverter()
   FineTuningModel get model => throw _privateConstructorUsedError;
 
@@ -12295,7 +12295,7 @@ class _$CreateFineTuningJobRequestImpl extends _CreateFineTuningJobRequest {
       _$$CreateFineTuningJobRequestImplFromJson(json);
 
   /// The name of the model to fine-tune. You can select one of the
-  /// [supported models](/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
+  /// [supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
   @override
   @_FineTuningModelConverter()
   final FineTuningModel model;
@@ -12394,7 +12394,7 @@ abstract class _CreateFineTuningJobRequest extends CreateFineTuningJobRequest {
   @override
 
   /// The name of the model to fine-tune. You can select one of the
-  /// [supported models](/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
+  /// [supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
   @_FineTuningModelConverter()
   FineTuningModel get model;
   @override
@@ -19085,16 +19085,19 @@ mixin _$ChatCompletionMessage {
   Object? get content => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionMessageRole role, String? content)
+    required TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(includeIfNull: false) String? name)
         system,
     required TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content)
+            ChatCompletionUserMessageContent? content,
+            @JsonKey(includeIfNull: false) String? name)
         user,
     required TResult Function(
             ChatCompletionMessageRole role,
             String? content,
+            @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
@@ -19104,21 +19107,25 @@ mixin _$ChatCompletionMessage {
             @JsonKey(name: 'tool_call_id') String toolCallId)
         tool,
     required TResult Function(
-            ChatCompletionMessageRole role, String? content, String name)
+            ChatCompletionMessageRole role, String content, String name)
         function,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult? Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(includeIfNull: false) String? name)?
+        system,
     TResult? Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content)?
+            ChatCompletionUserMessageContent? content,
+            @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult? Function(
             ChatCompletionMessageRole role,
             String? content,
+            @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
@@ -19128,21 +19135,25 @@ mixin _$ChatCompletionMessage {
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult? Function(
-            ChatCompletionMessageRole role, String? content, String name)?
+            ChatCompletionMessageRole role, String content, String name)?
         function,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(includeIfNull: false) String? name)?
+        system,
     TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content)?
+            ChatCompletionUserMessageContent? content,
+            @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult Function(
             ChatCompletionMessageRole role,
             String? content,
+            @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
@@ -19152,7 +19163,7 @@ mixin _$ChatCompletionMessage {
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult Function(
-            ChatCompletionMessageRole role, String? content, String name)?
+            ChatCompletionMessageRole role, String content, String name)?
         function,
     required TResult orElse(),
   }) =>
@@ -19234,7 +19245,10 @@ abstract class _$$ChatCompletionSystemMessageImplCopyWith<$Res>
       __$$ChatCompletionSystemMessageImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ChatCompletionMessageRole role, String? content});
+  $Res call(
+      {ChatCompletionMessageRole role,
+      String? content,
+      @JsonKey(includeIfNull: false) String? name});
 }
 
 /// @nodoc
@@ -19252,6 +19266,7 @@ class __$$ChatCompletionSystemMessageImplCopyWithImpl<$Res>
   $Res call({
     Object? role = null,
     Object? content = freezed,
+    Object? name = freezed,
   }) {
     return _then(_$ChatCompletionSystemMessageImpl(
       role: null == role
@@ -19262,6 +19277,10 @@ class __$$ChatCompletionSystemMessageImplCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -19270,7 +19289,9 @@ class __$$ChatCompletionSystemMessageImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
   const _$ChatCompletionSystemMessageImpl(
-      {this.role = ChatCompletionMessageRole.system, required this.content})
+      {this.role = ChatCompletionMessageRole.system,
+      required this.content,
+      @JsonKey(includeIfNull: false) this.name})
       : super._();
 
   factory _$ChatCompletionSystemMessageImpl.fromJson(
@@ -19286,9 +19307,14 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
   @override
   final String? content;
 
+  /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? name;
+
   @override
   String toString() {
-    return 'ChatCompletionMessage.system(role: $role, content: $content)';
+    return 'ChatCompletionMessage.system(role: $role, content: $content, name: $name)';
   }
 
   @override
@@ -19297,12 +19323,13 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionSystemMessageImpl &&
             (identical(other.role, role) || other.role == role) &&
-            (identical(other.content, content) || other.content == content));
+            (identical(other.content, content) || other.content == content) &&
+            (identical(other.name, name) || other.name == name));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, role, content);
+  int get hashCode => Object.hash(runtimeType, role, content, name);
 
   @JsonKey(ignore: true)
   @override
@@ -19314,16 +19341,19 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionMessageRole role, String? content)
+    required TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(includeIfNull: false) String? name)
         system,
     required TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content)
+            ChatCompletionUserMessageContent? content,
+            @JsonKey(includeIfNull: false) String? name)
         user,
     required TResult Function(
             ChatCompletionMessageRole role,
             String? content,
+            @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
@@ -19333,24 +19363,28 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
             @JsonKey(name: 'tool_call_id') String toolCallId)
         tool,
     required TResult Function(
-            ChatCompletionMessageRole role, String? content, String name)
+            ChatCompletionMessageRole role, String content, String name)
         function,
   }) {
-    return system(role, content);
+    return system(role, content, name);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult? Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(includeIfNull: false) String? name)?
+        system,
     TResult? Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content)?
+            ChatCompletionUserMessageContent? content,
+            @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult? Function(
             ChatCompletionMessageRole role,
             String? content,
+            @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
@@ -19360,24 +19394,28 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult? Function(
-            ChatCompletionMessageRole role, String? content, String name)?
+            ChatCompletionMessageRole role, String content, String name)?
         function,
   }) {
-    return system?.call(role, content);
+    return system?.call(role, content, name);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(includeIfNull: false) String? name)?
+        system,
     TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content)?
+            ChatCompletionUserMessageContent? content,
+            @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult Function(
             ChatCompletionMessageRole role,
             String? content,
+            @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
@@ -19387,12 +19425,12 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult Function(
-            ChatCompletionMessageRole role, String? content, String name)?
+            ChatCompletionMessageRole role, String content, String name)?
         function,
     required TResult orElse(),
   }) {
     if (system != null) {
-      return system(role, content);
+      return system(role, content, name);
     }
     return orElse();
   }
@@ -19447,8 +19485,10 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
 
 abstract class ChatCompletionSystemMessage extends ChatCompletionMessage {
   const factory ChatCompletionSystemMessage(
-      {final ChatCompletionMessageRole role,
-      required final String? content}) = _$ChatCompletionSystemMessageImpl;
+          {final ChatCompletionMessageRole role,
+          required final String? content,
+          @JsonKey(includeIfNull: false) final String? name}) =
+      _$ChatCompletionSystemMessageImpl;
   const ChatCompletionSystemMessage._() : super._();
 
   factory ChatCompletionSystemMessage.fromJson(Map<String, dynamic> json) =
@@ -19462,6 +19502,10 @@ abstract class ChatCompletionSystemMessage extends ChatCompletionMessage {
 
   /// The contents of the system message.
   String? get content;
+
+  /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
+  @JsonKey(includeIfNull: false)
+  String? get name;
   @override
   @JsonKey(ignore: true)
   _$$ChatCompletionSystemMessageImplCopyWith<_$ChatCompletionSystemMessageImpl>
@@ -19480,7 +19524,8 @@ abstract class _$$ChatCompletionUserMessageImplCopyWith<$Res>
   $Res call(
       {ChatCompletionMessageRole role,
       @_ChatCompletionUserMessageContentConverter()
-      ChatCompletionUserMessageContent? content});
+      ChatCompletionUserMessageContent? content,
+      @JsonKey(includeIfNull: false) String? name});
 
   $ChatCompletionUserMessageContentCopyWith<$Res>? get content;
 }
@@ -19500,6 +19545,7 @@ class __$$ChatCompletionUserMessageImplCopyWithImpl<$Res>
   $Res call({
     Object? role = null,
     Object? content = freezed,
+    Object? name = freezed,
   }) {
     return _then(_$ChatCompletionUserMessageImpl(
       role: null == role
@@ -19510,6 +19556,10 @@ class __$$ChatCompletionUserMessageImplCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as ChatCompletionUserMessageContent?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 
@@ -19532,7 +19582,8 @@ class __$$ChatCompletionUserMessageImplCopyWithImpl<$Res>
 class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
   const _$ChatCompletionUserMessageImpl(
       {this.role = ChatCompletionMessageRole.user,
-      @_ChatCompletionUserMessageContentConverter() required this.content})
+      @_ChatCompletionUserMessageContentConverter() required this.content,
+      @JsonKey(includeIfNull: false) this.name})
       : super._();
 
   factory _$ChatCompletionUserMessageImpl.fromJson(Map<String, dynamic> json) =>
@@ -19548,9 +19599,14 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
   @_ChatCompletionUserMessageContentConverter()
   final ChatCompletionUserMessageContent? content;
 
+  /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? name;
+
   @override
   String toString() {
-    return 'ChatCompletionMessage.user(role: $role, content: $content)';
+    return 'ChatCompletionMessage.user(role: $role, content: $content, name: $name)';
   }
 
   @override
@@ -19559,12 +19615,13 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionUserMessageImpl &&
             (identical(other.role, role) || other.role == role) &&
-            (identical(other.content, content) || other.content == content));
+            (identical(other.content, content) || other.content == content) &&
+            (identical(other.name, name) || other.name == name));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, role, content);
+  int get hashCode => Object.hash(runtimeType, role, content, name);
 
   @JsonKey(ignore: true)
   @override
@@ -19576,16 +19633,19 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionMessageRole role, String? content)
+    required TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(includeIfNull: false) String? name)
         system,
     required TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content)
+            ChatCompletionUserMessageContent? content,
+            @JsonKey(includeIfNull: false) String? name)
         user,
     required TResult Function(
             ChatCompletionMessageRole role,
             String? content,
+            @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
@@ -19595,24 +19655,28 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
             @JsonKey(name: 'tool_call_id') String toolCallId)
         tool,
     required TResult Function(
-            ChatCompletionMessageRole role, String? content, String name)
+            ChatCompletionMessageRole role, String content, String name)
         function,
   }) {
-    return user(role, content);
+    return user(role, content, name);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult? Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(includeIfNull: false) String? name)?
+        system,
     TResult? Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content)?
+            ChatCompletionUserMessageContent? content,
+            @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult? Function(
             ChatCompletionMessageRole role,
             String? content,
+            @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
@@ -19622,24 +19686,28 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult? Function(
-            ChatCompletionMessageRole role, String? content, String name)?
+            ChatCompletionMessageRole role, String content, String name)?
         function,
   }) {
-    return user?.call(role, content);
+    return user?.call(role, content, name);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(includeIfNull: false) String? name)?
+        system,
     TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content)?
+            ChatCompletionUserMessageContent? content,
+            @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult Function(
             ChatCompletionMessageRole role,
             String? content,
+            @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
@@ -19649,12 +19717,12 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult Function(
-            ChatCompletionMessageRole role, String? content, String name)?
+            ChatCompletionMessageRole role, String content, String name)?
         function,
     required TResult orElse(),
   }) {
     if (user != null) {
-      return user(role, content);
+      return user(role, content, name);
     }
     return orElse();
   }
@@ -19711,7 +19779,8 @@ abstract class ChatCompletionUserMessage extends ChatCompletionMessage {
   const factory ChatCompletionUserMessage(
           {final ChatCompletionMessageRole role,
           @_ChatCompletionUserMessageContentConverter()
-          required final ChatCompletionUserMessageContent? content}) =
+          required final ChatCompletionUserMessageContent? content,
+          @JsonKey(includeIfNull: false) final String? name}) =
       _$ChatCompletionUserMessageImpl;
   const ChatCompletionUserMessage._() : super._();
 
@@ -19727,6 +19796,10 @@ abstract class ChatCompletionUserMessage extends ChatCompletionMessage {
   /// The contents of the user message.
   @_ChatCompletionUserMessageContentConverter()
   ChatCompletionUserMessageContent? get content;
+
+  /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
+  @JsonKey(includeIfNull: false)
+  String? get name;
   @override
   @JsonKey(ignore: true)
   _$$ChatCompletionUserMessageImplCopyWith<_$ChatCompletionUserMessageImpl>
@@ -19745,6 +19818,7 @@ abstract class _$$ChatCompletionAssistantMessageImplCopyWith<$Res>
   $Res call(
       {ChatCompletionMessageRole role,
       String? content,
+      @JsonKey(includeIfNull: false) String? name,
       @JsonKey(name: 'tool_calls', includeIfNull: false)
       List<ChatCompletionMessageToolCall>? toolCalls,
       @JsonKey(name: 'function_call', includeIfNull: false)
@@ -19768,6 +19842,7 @@ class __$$ChatCompletionAssistantMessageImplCopyWithImpl<$Res>
   $Res call({
     Object? role = null,
     Object? content = freezed,
+    Object? name = freezed,
     Object? toolCalls = freezed,
     Object? functionCall = freezed,
   }) {
@@ -19779,6 +19854,10 @@ class __$$ChatCompletionAssistantMessageImplCopyWithImpl<$Res>
       content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String?,
       toolCalls: freezed == toolCalls
           ? _value._toolCalls
@@ -19812,6 +19891,7 @@ class _$ChatCompletionAssistantMessageImpl
   const _$ChatCompletionAssistantMessageImpl(
       {this.role = ChatCompletionMessageRole.assistant,
       required this.content,
+      @JsonKey(includeIfNull: false) this.name,
       @JsonKey(name: 'tool_calls', includeIfNull: false)
       final List<ChatCompletionMessageToolCall>? toolCalls,
       @JsonKey(name: 'function_call', includeIfNull: false) this.functionCall})
@@ -19830,6 +19910,11 @@ class _$ChatCompletionAssistantMessageImpl
   /// The contents of the assistant message.
   @override
   final String? content;
+
+  /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? name;
 
   /// No Description
   final List<ChatCompletionMessageToolCall>? _toolCalls;
@@ -19852,7 +19937,7 @@ class _$ChatCompletionAssistantMessageImpl
 
   @override
   String toString() {
-    return 'ChatCompletionMessage.assistant(role: $role, content: $content, toolCalls: $toolCalls, functionCall: $functionCall)';
+    return 'ChatCompletionMessage.assistant(role: $role, content: $content, name: $name, toolCalls: $toolCalls, functionCall: $functionCall)';
   }
 
   @override
@@ -19862,6 +19947,7 @@ class _$ChatCompletionAssistantMessageImpl
             other is _$ChatCompletionAssistantMessageImpl &&
             (identical(other.role, role) || other.role == role) &&
             (identical(other.content, content) || other.content == content) &&
+            (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality()
                 .equals(other._toolCalls, _toolCalls) &&
             (identical(other.functionCall, functionCall) ||
@@ -19870,7 +19956,7 @@ class _$ChatCompletionAssistantMessageImpl
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, role, content,
+  int get hashCode => Object.hash(runtimeType, role, content, name,
       const DeepCollectionEquality().hash(_toolCalls), functionCall);
 
   @JsonKey(ignore: true)
@@ -19884,16 +19970,19 @@ class _$ChatCompletionAssistantMessageImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionMessageRole role, String? content)
+    required TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(includeIfNull: false) String? name)
         system,
     required TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content)
+            ChatCompletionUserMessageContent? content,
+            @JsonKey(includeIfNull: false) String? name)
         user,
     required TResult Function(
             ChatCompletionMessageRole role,
             String? content,
+            @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
@@ -19903,24 +19992,28 @@ class _$ChatCompletionAssistantMessageImpl
             @JsonKey(name: 'tool_call_id') String toolCallId)
         tool,
     required TResult Function(
-            ChatCompletionMessageRole role, String? content, String name)
+            ChatCompletionMessageRole role, String content, String name)
         function,
   }) {
-    return assistant(role, content, toolCalls, functionCall);
+    return assistant(role, content, name, toolCalls, functionCall);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult? Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(includeIfNull: false) String? name)?
+        system,
     TResult? Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content)?
+            ChatCompletionUserMessageContent? content,
+            @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult? Function(
             ChatCompletionMessageRole role,
             String? content,
+            @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
@@ -19930,24 +20023,28 @@ class _$ChatCompletionAssistantMessageImpl
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult? Function(
-            ChatCompletionMessageRole role, String? content, String name)?
+            ChatCompletionMessageRole role, String content, String name)?
         function,
   }) {
-    return assistant?.call(role, content, toolCalls, functionCall);
+    return assistant?.call(role, content, name, toolCalls, functionCall);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(includeIfNull: false) String? name)?
+        system,
     TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content)?
+            ChatCompletionUserMessageContent? content,
+            @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult Function(
             ChatCompletionMessageRole role,
             String? content,
+            @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
@@ -19957,12 +20054,12 @@ class _$ChatCompletionAssistantMessageImpl
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult Function(
-            ChatCompletionMessageRole role, String? content, String name)?
+            ChatCompletionMessageRole role, String content, String name)?
         function,
     required TResult orElse(),
   }) {
     if (assistant != null) {
-      return assistant(role, content, toolCalls, functionCall);
+      return assistant(role, content, name, toolCalls, functionCall);
     }
     return orElse();
   }
@@ -20019,6 +20116,7 @@ abstract class ChatCompletionAssistantMessage extends ChatCompletionMessage {
   const factory ChatCompletionAssistantMessage(
           {final ChatCompletionMessageRole role,
           required final String? content,
+          @JsonKey(includeIfNull: false) final String? name,
           @JsonKey(name: 'tool_calls', includeIfNull: false)
           final List<ChatCompletionMessageToolCall>? toolCalls,
           @JsonKey(name: 'function_call', includeIfNull: false)
@@ -20037,6 +20135,10 @@ abstract class ChatCompletionAssistantMessage extends ChatCompletionMessage {
 
   /// The contents of the assistant message.
   String? get content;
+
+  /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
+  @JsonKey(includeIfNull: false)
+  String? get name;
 
   /// No Description
   @JsonKey(name: 'tool_calls', includeIfNull: false)
@@ -20157,16 +20259,19 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionMessageRole role, String? content)
+    required TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(includeIfNull: false) String? name)
         system,
     required TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content)
+            ChatCompletionUserMessageContent? content,
+            @JsonKey(includeIfNull: false) String? name)
         user,
     required TResult Function(
             ChatCompletionMessageRole role,
             String? content,
+            @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
@@ -20176,7 +20281,7 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
             @JsonKey(name: 'tool_call_id') String toolCallId)
         tool,
     required TResult Function(
-            ChatCompletionMessageRole role, String? content, String name)
+            ChatCompletionMessageRole role, String content, String name)
         function,
   }) {
     return tool(role, content, toolCallId);
@@ -20185,15 +20290,19 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult? Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(includeIfNull: false) String? name)?
+        system,
     TResult? Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content)?
+            ChatCompletionUserMessageContent? content,
+            @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult? Function(
             ChatCompletionMessageRole role,
             String? content,
+            @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
@@ -20203,7 +20312,7 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult? Function(
-            ChatCompletionMessageRole role, String? content, String name)?
+            ChatCompletionMessageRole role, String content, String name)?
         function,
   }) {
     return tool?.call(role, content, toolCallId);
@@ -20212,15 +20321,19 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(includeIfNull: false) String? name)?
+        system,
     TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content)?
+            ChatCompletionUserMessageContent? content,
+            @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult Function(
             ChatCompletionMessageRole role,
             String? content,
+            @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
@@ -20230,7 +20343,7 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult Function(
-            ChatCompletionMessageRole role, String? content, String name)?
+            ChatCompletionMessageRole role, String content, String name)?
         function,
     required TResult orElse(),
   }) {
@@ -20326,7 +20439,7 @@ abstract class _$$ChatCompletionFunctionMessageImplCopyWith<$Res>
       __$$ChatCompletionFunctionMessageImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ChatCompletionMessageRole role, String? content, String name});
+  $Res call({ChatCompletionMessageRole role, String content, String name});
 }
 
 /// @nodoc
@@ -20343,7 +20456,7 @@ class __$$ChatCompletionFunctionMessageImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? role = null,
-    Object? content = freezed,
+    Object? content = null,
     Object? name = null,
   }) {
     return _then(_$ChatCompletionFunctionMessageImpl(
@@ -20351,10 +20464,10 @@ class __$$ChatCompletionFunctionMessageImplCopyWithImpl<$Res>
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as ChatCompletionMessageRole,
-      content: freezed == content
+      content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -20384,7 +20497,7 @@ class _$ChatCompletionFunctionMessageImpl
 
   /// The return value from the function call, to return to the model.
   @override
-  final String? content;
+  final String content;
 
   /// The name of the function to call.
   @override
@@ -20420,16 +20533,19 @@ class _$ChatCompletionFunctionMessageImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionMessageRole role, String? content)
+    required TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(includeIfNull: false) String? name)
         system,
     required TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content)
+            ChatCompletionUserMessageContent? content,
+            @JsonKey(includeIfNull: false) String? name)
         user,
     required TResult Function(
             ChatCompletionMessageRole role,
             String? content,
+            @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
@@ -20439,7 +20555,7 @@ class _$ChatCompletionFunctionMessageImpl
             @JsonKey(name: 'tool_call_id') String toolCallId)
         tool,
     required TResult Function(
-            ChatCompletionMessageRole role, String? content, String name)
+            ChatCompletionMessageRole role, String content, String name)
         function,
   }) {
     return function(role, content, name);
@@ -20448,15 +20564,19 @@ class _$ChatCompletionFunctionMessageImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult? Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(includeIfNull: false) String? name)?
+        system,
     TResult? Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content)?
+            ChatCompletionUserMessageContent? content,
+            @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult? Function(
             ChatCompletionMessageRole role,
             String? content,
+            @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
@@ -20466,7 +20586,7 @@ class _$ChatCompletionFunctionMessageImpl
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult? Function(
-            ChatCompletionMessageRole role, String? content, String name)?
+            ChatCompletionMessageRole role, String content, String name)?
         function,
   }) {
     return function?.call(role, content, name);
@@ -20475,15 +20595,19 @@ class _$ChatCompletionFunctionMessageImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionMessageRole role, String? content)? system,
+    TResult Function(ChatCompletionMessageRole role, String? content,
+            @JsonKey(includeIfNull: false) String? name)?
+        system,
     TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content)?
+            ChatCompletionUserMessageContent? content,
+            @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult Function(
             ChatCompletionMessageRole role,
             String? content,
+            @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
@@ -20493,7 +20617,7 @@ class _$ChatCompletionFunctionMessageImpl
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult Function(
-            ChatCompletionMessageRole role, String? content, String name)?
+            ChatCompletionMessageRole role, String content, String name)?
         function,
     required TResult orElse(),
   }) {
@@ -20554,7 +20678,7 @@ class _$ChatCompletionFunctionMessageImpl
 abstract class ChatCompletionFunctionMessage extends ChatCompletionMessage {
   const factory ChatCompletionFunctionMessage(
       {final ChatCompletionMessageRole role,
-      required final String? content,
+      required final String content,
       required final String name}) = _$ChatCompletionFunctionMessageImpl;
   const ChatCompletionFunctionMessage._() : super._();
 
@@ -20568,7 +20692,7 @@ abstract class ChatCompletionFunctionMessage extends ChatCompletionMessage {
   @override
 
   /// The return value from the function call, to return to the model.
-  String? get content;
+  String get content;
 
   /// The name of the function to call.
   String get name;
@@ -21540,7 +21664,7 @@ mixin _$ChatCompletionMessageImageUrl {
   /// Either a URL of the image or the base64 encoded image data.
   String get url => throw _privateConstructorUsedError;
 
-  /// Specifies the detail level of the image.
+  /// Specifies the detail level of the image. Learn more in the [Vision guide](https://platform.openai.com/docs/guides/vision/low-or-high-fidelity-image-understanding).
   ChatCompletionMessageImageDetail get detail =>
       throw _privateConstructorUsedError;
 
@@ -21648,7 +21772,7 @@ class _$ChatCompletionMessageImageUrlImpl
   @override
   final String url;
 
-  /// Specifies the detail level of the image.
+  /// Specifies the detail level of the image. Learn more in the [Vision guide](https://platform.openai.com/docs/guides/vision/low-or-high-fidelity-image-understanding).
   @override
   @JsonKey()
   final ChatCompletionMessageImageDetail detail;
@@ -21704,7 +21828,7 @@ abstract class _ChatCompletionMessageImageUrl
   String get url;
   @override
 
-  /// Specifies the detail level of the image.
+  /// Specifies the detail level of the image. Learn more in the [Vision guide](https://platform.openai.com/docs/guides/vision/low-or-high-fidelity-image-understanding).
   ChatCompletionMessageImageDetail get detail;
   @override
   @JsonKey(ignore: true)
