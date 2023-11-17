@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`openai_dart` - `v0.1.1+1`](#openai_dart---v0111)
+ - [`langchain_openai` - `v0.1.1+1`](#langchain_openai---v0111)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_openai` - `v0.1.1+1`
+
+---
+
+#### `openai_dart` - `v0.1.1+1`
+
+ - **FIX**(openai_dart): Fetch requests with big payloads dropping connection ([#226](https://github.com/davidmigloz/langchain_dart/issues/226)). ([1e771098](https://github.com/davidmigloz/langchain_dart/commit/1e771098d1090dd79846fca6520a1195efc5ac1e))
+
+
+## 2023-11-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`langchain` - `v0.1.0+2`](#langchain---v0102)
  - [`langchain_openai` - `v0.1.1`](#langchain_openai---v011)
  - [`openai_dart` - `v0.1.1`](#openai_dart---v011)
