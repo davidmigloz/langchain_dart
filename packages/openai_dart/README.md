@@ -13,8 +13,9 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
 - Fully type-safe, [documented](https://pub.dev/documentation/openai_dart/latest/) and tested
 - All platforms supported (including streaming on web)
 - Authentication with organization support
-- Custom base URL and headers support (e.g. HTTP proxies)
+- Custom base URL, headers and query params support (e.g. HTTP proxies)
 - Custom HTTP client support (e.g. SOCKS5 proxies or advanced use cases)
+- Partial Azure OpenAI API support
 
 **Supported endpoints:**
 
@@ -39,6 +40,7 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
   * [Models](#models)
   * [Moderations](#moderations)
 - [Advance usage](#advance-usage)
+  * [Azure OpenAI Service](#azure-openai-service) 
   * [Default HTTP client](#default-http-client)
   * [Custom HTTP client ](#custom-http-client)
   * [Using a proxy](#using-a-proxy)
@@ -566,6 +568,27 @@ print(res.results.first.categoryScores.violence);
 - `ModerationInput.listString(['input'])`: batch of string inputs.
 
 ## Advance Usage
+
+### Azure OpenAI Service
+
+OpenAI's models are also available as an [Azure service](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview). 
+
+Although the Azure OpenAI API is similar to the official OpenAI API, there are subtle differences between them. This client is intended to be used with the official OpenAI API, but most of the functionality should work with the Azure OpenAI API as well.
+
+If you want to use this client with the Azure OpenAI API (at your own risk), you can do so by instantiating the client as follows:
+
+```dart
+final client = OpenAIClient(
+  baseUrl: 'https://YOUR_RESOURCE_NAME.openai.azure.com/openai/deployments/YOUR_DEPLOYMENT_NAME',
+  headers: { 'api-key': 'YOUR_API_KEY' },
+  queryParams: { 'api-version': 'API_VERSION' },
+);
+```
+
+- `YOUR_RESOURCE_NAME`: This value can be found in the Keys & Endpoint section when examining your resource from the Azure portal.
+- `YOUR_DEPLOYMENT_NAME`: This value will correspond to the custom name you chose for your deployment when you deployed a model. This value can be found under Resource Management > Deployments in the Azure portal.
+- `YOUR_API_KEY`: This value can be found in the Keys & Endpoint section when examining your resource from the Azure portal.
+- `API_VERSION`: The Azure OpenAI API version to use (e.g. `2023-05-15`). Try to use the [latest version available](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference), it will probably be the closest to the official OpenAI API.
 
 ### Default HTTP client
 
