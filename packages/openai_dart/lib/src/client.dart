@@ -99,6 +99,11 @@ class OpenAIClient extends g.OpenAIClient {
               CreateChatCompletionStreamResponse.fromJson(json.decode(d)),
         );
   }
+
+  @override
+  Future<http.BaseRequest> onRequest(final http.BaseRequest request) {
+    return onRequestHandler(request);
+  }
 }
 
 class _OpenAIStreamTransformer
