@@ -63,7 +63,7 @@ provided by a separate package.
 | [langchain](https://pub.dev/packages/langchain)                   | [![langchain](https://img.shields.io/pub/v/langchain.svg)](https://pub.dev/packages/langchain)                            | Core LangChain API                                         | ★      | ★          | ★      | ★              |
 | [langchain_chroma](https://pub.dev/packages/langchain_chroma)     | [![langchain_chroma](https://img.shields.io/pub/v/langchain_chroma.svg)](https://pub.dev/packages/langchain_chroma)       | Chroma DB integration                                      |        | ✔          |        |                |
 | [langchain_google](https://pub.dev/packages/langchain_google)     | [![langchain_google](https://img.shields.io/pub/v/langchain_google.svg)](https://pub.dev/packages/langchain_google)       | Google integration (VertexAI, PaLM, Matching Engine, etc.) | ✔      | ✔          |        |                |
-| [langchain_openai](https://pub.dev/packages/langchain_openai)     | [![langchain_openai](https://img.shields.io/pub/v/langchain_openai.svg)](https://pub.dev/packages/langchain_openai)       | OpenAI integration (GPT-3, GPT-4, Functions, etc.)         | ✔      | ✔          | ✔      | ✔              |
+| [langchain_openai](https://pub.dev/packages/langchain_openai)     | [![langchain_openai](https://img.shields.io/pub/v/langchain_openai.svg)](https://pub.dev/packages/langchain_openai)       | OpenAI integration (GPT-3, GPT-4, Functions, Vision, etc.) | ✔      | ✔          | ✔      | ✔              |
 | [langchain_pinecone](https://pub.dev/packages/langchain_pinecone) | [![langchain_pinecone](https://img.shields.io/pub/v/langchain_pinecone.svg)](https://pub.dev/packages/langchain_pinecone) | Pinecone DB integration                                    |        | ✔          |        |                |
 
 The following packages are maintained (and used internally) by LangChain.dart,
@@ -151,8 +151,8 @@ your first contribution in no time!
 
 ## Related projects
 
-- [LangChain](https://github.com/hwchase17/langchain): The original Python LangChain project.
-- [LangChain.js](https://github.com/hwchase17/langchainjs): A JavaScript port of LangChain.
+- [LangChain](https://github.com/langchain-ai/langchain): The original Python LangChain project.
+- [LangChain.js](https://github.com/langchain-ai/langchainjs): A JavaScript port of LangChain.
 - [LangChain.go](https://github.com/tmc/langchaingo): A Go port of LangChain.
 - [LangChain.rb](https://github.com/andreibondarev/langchainrb): A Ruby port of LangChain.
 
