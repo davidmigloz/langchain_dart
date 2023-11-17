@@ -3,6 +3,47 @@
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) 
 server for more details about each release.
 
+## 2023-11-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain` - `v0.1.0+2`](#langchain---v0102)
+ - [`langchain_openai` - `v0.1.1`](#langchain_openai---v011)
+ - [`openai_dart` - `v0.1.1`](#openai_dart---v011)
+ - [`langchain_pinecone` - `v0.0.6+3`](#langchain_pinecone---v0063)
+ - [`langchain_chroma` - `v0.1.0+3`](#langchain_chroma---v0103)
+ - [`langchain_google` - `v0.1.0+2`](#langchain_google---v0102)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_pinecone` - `v0.0.6+3`
+ - `langchain_chroma` - `v0.1.0+3`
+ - `langchain_google` - `v0.1.0+2`
+
+---
+
+#### `langchain` - `v0.1.0+2`
+
+ - **DOCS**: Update README.md ([#225](https://github.com/davidmigloz/langchain_dart/issues/225)). ([afff8567](https://github.com/davidmigloz/langchain_dart/commit/afff856723f15022bcc3f0ba0285ff1ffed51c68))
+
+#### `langchain_openai` - `v0.1.1`
+
+ - **FEAT**(openai_dart): Add Azure OpenAI API support ([#224](https://github.com/davidmigloz/langchain_dart/issues/224)). ([333fb7af](https://github.com/davidmigloz/langchain_dart/commit/333fb7af4b1edbdc716221609f2dc8f3923822cf))
+
+#### `openai_dart` - `v0.1.1`
+
+ - **FEAT**(openai_dart): Add Azure OpenAI API support ([#224](https://github.com/davidmigloz/langchain_dart/issues/224)). ([333fb7af](https://github.com/davidmigloz/langchain_dart/commit/333fb7af4b1edbdc716221609f2dc8f3923822cf))
+
 ## 2023-11-16
 
 ### Changes

@@ -1,3 +1,7 @@
+## 0.0.6+3
+
+ - Update a dependency to the latest release.
+
 ## 0.0.6+2
 
  - **DOCS**: Add public_member_api_docs lint rule and document missing APIs ([#223](https://github.com/davidmigloz/langchain_dart/issues/223)). ([52380433](https://github.com/davidmigloz/langchain_dart/commit/523804331783970870b023946c016be6c0797920))
