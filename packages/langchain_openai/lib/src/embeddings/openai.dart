@@ -34,6 +34,36 @@ import 'package:openai_dart/openai_dart.dart';
 ///
 /// ### Advance
 ///
+/// #### Azure OpenAI Service
+///
+/// OpenAI's models are also available as an [Azure service](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview).
+///
+/// Although the Azure OpenAI API is similar to the official OpenAI API, there
+/// are subtle differences between them. This client is intended to be used
+/// with the official OpenAI API, but most of the functionality should work
+/// with the Azure OpenAI API as well.
+///
+/// If you want to use this client with the Azure OpenAI API (at your own risk),
+/// you can do so by instantiating the client as follows:
+///
+/// ```dart
+/// final client = OpenAIEmbeddings(
+///   baseUrl: 'https://YOUR_RESOURCE_NAME.openai.azure.com/openai/deployments/YOUR_DEPLOYMENT_NAME',
+///   headers: { 'api-key': 'YOUR_API_KEY' },
+///   queryParams: { 'api-version': 'API_VERSION' },
+/// );
+/// ```
+///
+/// - `YOUR_RESOURCE_NAME`: This value can be found in the Keys & Endpoint
+///    section when examining your resource from the Azure portal.
+/// - `YOUR_DEPLOYMENT_NAME`: This value will correspond to the custom name
+///    you chose for your deployment when you deployed a model. This value can be found under Resource Management > Deployments in the Azure portal.
+/// - `YOUR_API_KEY`: This value can be found in the Keys & Endpoint section
+///    when examining your resource from the Azure portal.
+/// - `API_VERSION`: The Azure OpenAI API version to use (e.g. `2023-05-15`).
+///    Try to use the [latest version available](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference),
+///    it will probably be the closest to the official OpenAI API.
+///
 /// #### Custom HTTP client
 ///
 /// You can always provide your own implementation of `http.Client` for further
@@ -84,6 +114,9 @@ class OpenAIEmbeddings implements Embeddings {
   ///   override this to use a different API URL, or to use a proxy.
   /// - `headers`: global headers to send with every request. You can use
   ///   this to set custom headers, or to override the default headers.
+  /// - `queryParams`: global query parameters to send with every request. You
+  ///   can use this to set custom query parameters (e.g. Azure OpenAI API
+  ///   required to attach a `version` query parameter to every request).
   /// - `client`: the HTTP client to use. You can set your own HTTP client if
   ///   you need further customization (e.g. to use a Socks5 proxy).
   OpenAIEmbeddings({
@@ -91,6 +124,7 @@ class OpenAIEmbeddings implements Embeddings {
     final String? organization,
     final String? baseUrl,
     final Map<String, String>? headers,
+    final Map<String, dynamic>? queryParams,
     final http.Client? client,
     this.model = 'text-embedding-ada-002',
     this.batchSize = 512,
@@ -100,6 +134,7 @@ class OpenAIEmbeddings implements Embeddings {
           organization: organization,
           baseUrl: baseUrl,
           headers: headers,
+          queryParams: queryParams,
           client: client,
         );
 

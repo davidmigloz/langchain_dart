@@ -66,11 +66,13 @@ class OpenAIClient {
   ///
   /// - [OpenAIClient.baseUrl] Override base URL (default: server url defined in spec)
   /// - [OpenAIClient.headers] Global headers to be sent with every request
+  /// - [OpenAIClient.queryParams] Global query parameters to be sent with every request
   /// - [OpenAIClient.client] Override HTTP client to use for requests
   OpenAIClient({
     this.bearerToken = '',
     this.baseUrl,
     this.headers = const {},
+    this.queryParams = const {},
     http.Client? client,
   })  : assert(
           baseUrl == null || baseUrl.startsWith('http'),
@@ -87,6 +89,9 @@ class OpenAIClient {
 
   /// Global headers to be sent with every request
   final Map<String, String> headers;
+
+  /// Global query parameters to be sent with every request
+  final Map<String, dynamic> queryParams;
 
   /// HTTP client for requests
   final http.Client client;
@@ -157,6 +162,9 @@ class OpenAIClient {
       baseUrl.isNotEmpty,
       'baseUrl is required, but none defined in spec or provided by user',
     );
+
+    // Add global query parameters
+    queryParams = {...queryParams, ...this.queryParams};
 
     // Ensure query parameters are strings or iterable of strings
     queryParams = queryParams.map((key, value) {

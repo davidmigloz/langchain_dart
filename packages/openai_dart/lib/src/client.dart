@@ -24,6 +24,9 @@ class OpenAIClient extends g.OpenAIClient {
   ///   override this to use a different API URL, or to use a proxy.
   /// - `headers`: global headers to send with every request. You can use
   ///   this to set custom headers, or to override the default headers.
+  /// - `queryParams`: global query parameters to send with every request. You
+  ///   can use this to set custom query parameters (e.g. Azure OpenAI API
+  ///   required to attach a `version` query parameter to every request).
   /// - `client`: the HTTP client to use. You can set your own HTTP client if
   ///   you need further customization (e.g. to use a Socks5 proxy).
   OpenAIClient({
@@ -31,6 +34,7 @@ class OpenAIClient extends g.OpenAIClient {
     final String? organization,
     final String? baseUrl,
     final Map<String, String>? headers,
+    final Map<String, dynamic>? queryParams,
     final http.Client? client,
   }) : super(
           bearerToken: apiKey ?? '',
@@ -39,6 +43,7 @@ class OpenAIClient extends g.OpenAIClient {
             if (organization != null) 'OpenAI-Organization': organization,
             ...?headers,
           },
+          queryParams: queryParams ?? const {},
           client: client ?? createDefaultHttpClient(),
         );
 
