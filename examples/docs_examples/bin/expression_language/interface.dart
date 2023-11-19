@@ -17,7 +17,7 @@ void main(final List<String> arguments) async {
   await _runnableTypesRunnableFunction();
   await _runnableTypesRunnablePassthrough();
   await _runnableTypesRunnableItemFromMap();
-  await _runnableTypesRunnableMapFromItem();
+  await _runnableTypesRunnableMapFromInput();
 }
 
 Future<void> _runnableInterfaceInvoke() async {
@@ -233,7 +233,7 @@ Answer in the following language: {language}''');
   // crédito.
 }
 
-Future<void> _runnableTypesRunnableMapFromItem() async {
+Future<void> _runnableTypesRunnableMapFromInput() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
   final model = ChatOpenAI(apiKey: openaiApiKey);
 
@@ -241,7 +241,7 @@ Future<void> _runnableTypesRunnableMapFromItem() async {
     'Tell me a joke about {foo}',
   );
 
-  final chain = Runnable.getMapFromItem('foo') |
+  final chain = Runnable.getMapFromInput('foo') |
       promptTemplate |
       model |
       const StringOutputParser();
