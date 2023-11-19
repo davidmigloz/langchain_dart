@@ -18,6 +18,7 @@ void main(final List<String> arguments) async {
   await _runnableTypesRunnablePassthrough();
   await _runnableTypesRunnableItemFromMap();
   await _runnableTypesRunnableMapFromInput();
+  await _runnableTypesRunnableMapInput();
 }
 
 Future<void> _runnableInterfaceInvoke() async {
@@ -249,4 +250,56 @@ Future<void> _runnableTypesRunnableMapFromInput() async {
   final res = await chain.invoke('bears');
   print(res);
   // Why don't bears wear shoes? Because they have bear feet!
+}
+
+Future<void> _runnableTypesRunnableMapInput() async {
+  final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
+
+  final prompt = ChatPromptTemplate.fromPromptMessages([
+    SystemChatMessagePromptTemplate.fromTemplate(
+      'You are a helpful assistant',
+    ),
+    HumanChatMessagePromptTemplate.fromTemplate('{input}'),
+    const MessagesPlaceholder(variableName: 'agent_scratchpad'),
+  ]);
+
+  final tool = CalculatorTool();
+
+  final model = ChatOpenAI(
+    apiKey: openaiApiKey,
+    temperature: 0,
+  ).bind(ChatOpenAIOptions(functions: [tool.toChatFunction()]));
+
+  const outputParser = OpenAIFunctionsAgentOutputParser();
+
+  List<ChatMessage> buildScratchpad(final List<AgentStep> intermediateSteps) {
+    return intermediateSteps
+        .map((final s) {
+          return s.action.messageLog +
+              [
+                ChatMessage.function(
+                  name: s.action.tool,
+                  content: s.observation,
+                ),
+              ];
+        })
+        .expand((final m) => m)
+        .toList(growable: false);
+  }
+
+  final agent = Agent.fromRunnable(
+    Runnable.mapInput(
+      (final AgentPlanInput planInput) => <String, dynamic>{
+        'input': planInput.inputs['input'],
+        'agent_scratchpad': buildScratchpad(planInput.intermediateSteps),
+      },
+    ).pipe(prompt).pipe(model).pipe(outputParser),
+    tools: [tool],
+  );
+  final executor = AgentExecutor(agent: agent);
+
+  final res = await executor.invoke({
+    'input': 'What is 40 raised to the 0.43 power?',
+  });
+  print(res['output']);
 }

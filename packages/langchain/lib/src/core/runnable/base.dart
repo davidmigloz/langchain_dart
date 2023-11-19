@@ -6,6 +6,7 @@ import '../base.dart';
 import 'binding.dart';
 import 'function.dart';
 import 'input_getter.dart';
+import 'input_map.dart';
 import 'map.dart';
 import 'passthrough.dart';
 import 'sequence.dart';
@@ -91,6 +92,15 @@ abstract class Runnable<RunInput extends Object?,
   static Runnable<RunInput, BaseLangChainOptions, Map<String, dynamic>>
       getMapFromInput<RunInput extends Object>([final String key = 'input']) {
     return RunnableMapFromInput<RunInput>(key);
+  }
+
+  /// Creates a [RunnableMapInput] which allows you to map the input to a
+  /// different value.
+  static Runnable<RunInput, BaseLangChainOptions, RunOutput>
+      mapInput<RunInput extends Object, RunOutput extends Object>(
+    final RunOutput Function(RunInput input) inputMapper,
+  ) {
+    return RunnableMapInput<RunInput, RunOutput>(inputMapper);
   }
 
   /// Invokes the [Runnable] on the given [input].
