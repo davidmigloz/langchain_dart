@@ -115,7 +115,7 @@ void main() {
       );
 
       final chain1 = _FakeChain(
-        inputVariables: {'foo', 'bla'},
+        inputVariables: {'foo'},
         outputVariables: {'bar'},
         memory: memory,
       );
@@ -309,7 +309,9 @@ class _FakeChain extends BaseChain {
   Future<ChainValues> callInternal(final ChainValues inputs) async {
     final Map<String, dynamic> outputs = {};
     for (final variable in outputVariables) {
-      final variables = [for (final k in inputVariables) inputs[k]];
+      final variables = [
+        for (final k in {...inputVariables, ...?memory?.memoryKeys}) inputs[k],
+      ];
       outputs[variable] = "${variables.join(' ')}foo";
     }
     return outputs;

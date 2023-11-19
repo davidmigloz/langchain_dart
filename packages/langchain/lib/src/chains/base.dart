@@ -60,6 +60,12 @@ abstract class BaseChain<MemoryType extends BaseMemory>
     return outputKeys.first;
   }
 
+  /// Default input key for the input of the chain.
+  static const String defaultInputKey = 'input';
+
+  /// Default output key for the output of the chain.
+  static const defaultOutputKey = 'output';
+
   /// Runs the core logic of this chain with the given input.
   ///
   /// - [input] is the input to this chain.
@@ -86,27 +92,28 @@ abstract class BaseChain<MemoryType extends BaseMemory>
     final dynamic input, {
     final bool returnOnlyOutputs = false,
   }) async {
-    Map<String, dynamic> chainValues;
+    ChainValues chainValues;
 
-    final inputKeys =
-        this.inputKeys.difference(this.memory?.memoryKeys ?? const {});
+    if (input is Map) {
+      chainValues = input.cast();
+    } else {
+      chainValues = {inputKeys.firstOrNull ?? defaultInputKey: input};
+    }
 
-    if (inputKeys.isEmpty) {
-      chainValues = const {};
-    } else if (_isValidInputMap(inputKeys, input)) {
-      final inputMap = input as ChainValues;
-      if (!returnOnlyOutputs && _hasDuplicatedInputOutputKeys(inputMap)) {
+    if (inputKeys.isNotEmpty) {
+      if (chainValues.length < inputKeys.length) {
         throw ArgumentError(
-          'The same key cannot be used for both input and output key.',
+          'This chain ($chainType) requires ${inputKeys.length} input values '
+          'but only ${chainValues.length} were provided.',
         );
       }
-      chainValues = {...inputMap};
-    } else if (inputKeys.length == 1) {
-      chainValues = {inputKeys.first: input};
-    } else {
-      throw ArgumentError(
-        'This chain ($chainType) requires ${inputKeys.length} input values.',
-      );
+      final chainValuesKeys = chainValues.keys.toSet();
+      final inputKeysDiff = inputKeys.difference(chainValuesKeys);
+      if (inputKeysDiff.isNotEmpty) {
+        throw ArgumentError(
+          'This chain ($chainType) also requires $inputKeysDiff input values.',
+        );
+      }
     }
 
     final memory = this.memory;
@@ -124,19 +131,27 @@ abstract class BaseChain<MemoryType extends BaseMemory>
       );
     }
 
+    if (outputKeys.isNotEmpty) {
+      if (outputValues.length < outputKeys.length) {
+        throw ArgumentError(
+          'This chain ($chainType) expects ${outputKeys.length} output values '
+          'but only ${outputValues.length} were returned.',
+        );
+      }
+      final outputValuesKeys = outputValues.keys.toSet();
+      final outputKeysDiff = outputKeys.difference(outputValuesKeys);
+      if (outputKeysDiff.isNotEmpty) {
+        throw ArgumentError(
+          'This chain ($chainType) also expects $outputKeysDiff output values.',
+        );
+      }
+    }
+
     if (returnOnlyOutputs) {
       return outputValues;
     }
 
     return {...chainValues, ...outputValues};
-  }
-
-  bool _hasDuplicatedInputOutputKeys(final ChainValues values) {
-    final inputKeysSet = values.keys.toSet();
-    final outputKeysSet = outputKeys.toSet();
-
-    final intersection = inputKeysSet.intersection(outputKeysSet);
-    return intersection.isNotEmpty;
   }
 
   /// Call method to be implemented by subclasses (called by [call]).
@@ -169,26 +184,5 @@ abstract class BaseChain<MemoryType extends BaseMemory>
     final outputKey = runOutputKey;
     final returnValues = await call(input, returnOnlyOutputs: true);
     return returnValues[outputKey].toString();
-  }
-
-  bool _isValidInputMap(final Set<String> inputKeys, final dynamic input) {
-    if (input is! Map) {
-      return false;
-    }
-
-    final inputMap = input as Map<String, dynamic>;
-    final inputKeysSet = inputMap.keys.toSet();
-    final inputKeysSetLength = inputKeysSet.length;
-
-    if (inputKeysSetLength < inputKeys.length) {
-      return false;
-    }
-
-    final inputKeysDiff = inputKeys.difference(inputKeysSet);
-    if (inputKeysDiff.isNotEmpty) {
-      return false;
-    }
-
-    return true;
   }
 }
