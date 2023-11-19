@@ -25,7 +25,8 @@ The type of the input and output varies by component:
 | `RunnableFunction`          | Runnable input type    | Runnable output type   |
 | `RunnablePassthrough`       | Runnable input type    | Runnable input type    |
 | `RunnableItemFromMap`       | `Map<String, dynamic>` | Runnable output type   |
-| `RunnableMapFromInput`       | Runnable input type    | `Map<String, dynamic>` |
+| `RunnableMapFromInput`      | Runnable input type    | `Map<String, dynamic>` |
+| `RunnableMapInput`          | Runnable input type    | Runnable output type   |
 
 You can combine `Runnable` objects into sequences in three ways:
 
@@ -350,4 +351,26 @@ final chain = Runnable.getMapFromInput('foo') |
 final res = await chain.invoke('bears');
 print(res);
 // Why don't bears wear shoes? Because they have bear feet!
+```
+
+### RunnableMapInput
+
+A `RunnableMapInput` allows you to map the input to a different value.
+
+You can create a `RunnableMapInput` using the `Runnable.mapInput` static method.
+
+When you call `invoke` on a `RunnableMapInput`, it will take the input it receives and returns the output returned by the given `inputMapper` function.
+
+Example:
+
+```dart
+final agent = Agent.fromRunnable(
+  Runnable.mapInput(
+    (final AgentPlanInput planInput) => <String, dynamic>{
+      'input': planInput.inputs['input'],
+      'agent_scratchpad': buildScratchpad(planInput.intermediateSteps),
+    },
+  ).pipe(prompt).pipe(model).pipe(outputParser),
+  tools: [tool],
+);
 ```
