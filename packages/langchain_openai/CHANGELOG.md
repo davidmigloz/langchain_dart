@@ -1,3 +1,8 @@
+## 0.1.2
+
+ - **FEAT**(tools): Add support for OpenAIDallETool ([#231](https://github.com/davidmigloz/langchain_dart/issues/231)). ([541e8d77](https://github.com/davidmigloz/langchain_dart/commit/541e8d77d76246b25ffa8c4d3715b5ca728cfc3a))
+ - **FEAT**(agents): Support implementing custom agents using LCEL ([#230](https://github.com/davidmigloz/langchain_dart/issues/230)). ([625eeeb4](https://github.com/davidmigloz/langchain_dart/commit/625eeeb4ffa9d92c6fd8da003fa471f5d4752257))
+
 ## 0.1.1+1
 
  - **FIX**(openai_dart): Fetch requests with big payloads dropping connection ([#226](https://github.com/davidmigloz/langchain_dart/issues/226)). ([1e771098](https://github.com/davidmigloz/langchain_dart/commit/1e771098d1090dd79846fca6520a1195efc5ac1e))
@@ -12,7 +17,7 @@
 
 ## 0.1.0
 
-> Note: This release has breaking changes.
+> Note: This release has breaking changes.  
 > [Migration guide](https://github.com/davidmigloz/langchain_dart/issues/220)
 
  - **REFACTOR**(chat-models): Align openai_dart client breaking changes ([#219](https://github.com/davidmigloz/langchain_dart/issues/219)). ([172db27f](https://github.com/davidmigloz/langchain_dart/commit/172db27f6da429e16dcda55678a73e1d885bb6d9))

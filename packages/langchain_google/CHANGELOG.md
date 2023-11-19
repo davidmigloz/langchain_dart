@@ -1,3 +1,7 @@
+## 0.1.0+3
+
+ - Update a dependency to the latest release.
+
 ## 0.1.0+2
 
  - Update a dependency to the latest release.
@@ -8,7 +12,7 @@
 
 ## 0.1.0
 
-> Note: This release has breaking changes.
+> Note: This release has breaking changes.  
 > [Migration guide](https://github.com/davidmigloz/langchain_dart/issues/220)
 
  - **BREAKING** **FEAT**(chat-models): Add multi-modal messages support with OpenAI Vision ([#220](https://github.com/davidmigloz/langchain_dart/issues/220)). ([6da2e069](https://github.com/davidmigloz/langchain_dart/commit/6da2e069932782eed8c27da45c56b4c290373fac))
