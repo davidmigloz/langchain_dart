@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import '../chains/base.dart';
 import '../model_io/chat_models/models/models.dart';
 import '../utils/exception.dart';
 import 'base.dart';
@@ -68,12 +69,17 @@ abstract base class BaseChatMemory implements BaseMemory {
         inputKey ?? getPromptInputKey(inputValues, memoryKeys);
     String outputKey;
     if (this.outputKey == null) {
-      if (outputValues.length != 1) {
+      if (outputValues.isEmpty) {
+        outputKey = '';
+      } else if (outputValues.length == 1) {
+        outputKey = outputValues.keys.first;
+      } else if (outputValues.containsKey(BaseChain.defaultOutputKey)) {
+        outputKey = BaseChain.defaultOutputKey;
+      } else {
         throw LangChainException(
           message: 'One output key expected, got ${outputValues.keys}',
         );
       }
-      outputKey = outputValues.keys.first;
     } else {
       outputKey = this.outputKey!;
     }

@@ -65,7 +65,8 @@ class LLMChain<
   String get chainType => 'llm';
 
   @override
-  Set<String> get inputKeys => prompt.inputVariables;
+  Set<String> get inputKeys =>
+      prompt.inputVariables.difference(memory?.memoryKeys ?? {});
 
   @override
   Set<String> get outputKeys =>
