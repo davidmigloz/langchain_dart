@@ -93,4 +93,6 @@
     - [Agent types](/modules/agents/agent_types/agent_types.md)
       - [OpenAI functions](/modules/agents/agent_types/openai_functions_agent.md)
     - [Tools](/modules/agents/tools/tools.md)
+      - [Calculator](/modules/agents/tools/calculator.md)
+      - [DALL-E Image Generator](/modules/agents/tools/openai_dall_e.md)
     - [Toolkits](/modules/agents/toolkits/toolkits.md)
