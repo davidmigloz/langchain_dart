@@ -230,7 +230,7 @@ Future<void> _simplifyingInput() async {
     'Tell me a joke about {foo}',
   );
 
-  final chain = Runnable.getMapFromItem('foo') |
+  final chain = Runnable.getMapFromInput('foo') |
       promptTemplate |
       model |
       const StringOutputParser();

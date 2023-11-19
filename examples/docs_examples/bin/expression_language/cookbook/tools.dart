@@ -22,11 +22,11 @@ INPUT:
 
 MATH EXPRESSION:''');
 
-  final chain = Runnable.getMapFromItem('input') |
+  final chain = Runnable.getMapFromInput() |
       promptTemplate |
       model |
       stringOutputParser |
-      Runnable.getMapFromItem('input') |
+      Runnable.getMapFromInput() |
       CalculatorTool();
 
   final res = await chain.invoke(

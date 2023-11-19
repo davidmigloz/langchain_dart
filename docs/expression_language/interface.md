@@ -25,7 +25,7 @@ The type of the input and output varies by component:
 | `RunnableFunction`          | Runnable input type    | Runnable output type   |
 | `RunnablePassthrough`       | Runnable input type    | Runnable input type    |
 | `RunnableItemFromMap`       | `Map<String, dynamic>` | Runnable output type   |
-| `RunnableMapFromItem`       | Runnable input type    | `Map<String, dynamic>` |
+| `RunnableMapFromInput`       | Runnable input type    | `Map<String, dynamic>` |
 
 You can combine `Runnable` objects into sequences in three ways:
 
@@ -316,13 +316,13 @@ print(res);
 // Aceptamos los siguientes métodos de pago: iDEAL, PayPal y tarjeta de crédito.
 ```
 
-### RunnableMapFromItem
+### RunnableMapFromInput
 
-A `RunnableMapFromItem` allows you to output a map with the given key and the input as value.
+A `RunnableMapFromInput` allows you to output a map with the given key and the input as value.
 
-You can create a `RunnableMapFromItem` using the `Runnable.getMapFromItem` static method.
+You can create a `RunnableMapFromInput` using the `Runnable.getMapFromInput` static method.
 
-When you call `invoke` on a `RunnableMapFromItem`, it will take the input it receives and returns a map with the given key and the input as value.
+When you call `invoke` on a `RunnableMapFromInput`, it will take the input it receives and returns a map with the given key and the input as value.
 
 It is equivalent to:
 
@@ -342,7 +342,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplate(
   'Tell me a joke about {foo}',
 );
 
-final chain = Runnable.getMapFromItem('foo') |
+final chain = Runnable.getMapFromInput('foo') |
     promptTemplate |
     model |
     const StringOutputParser();

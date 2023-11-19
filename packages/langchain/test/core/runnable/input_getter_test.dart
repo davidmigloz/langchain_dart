@@ -11,8 +11,8 @@ void main() {
       expect(res, 'foo1');
     });
 
-    test('RunnableMapFromItem from Runnable.getMapFromItem', () async {
-      final chain = Runnable.getMapFromItem('foo');
+    test('RunnableMapFromInput from Runnable.getMapFromInput', () async {
+      final chain = Runnable.getMapFromInput('foo');
 
       final res = await chain.invoke('foo1');
       expect(res, {'foo': 'foo1'});
@@ -30,8 +30,8 @@ void main() {
       expect(item, 'foo1');
     });
 
-    test('Streaming RunnableMapFromItem', () async {
-      final chain = Runnable.getMapFromItem('foo');
+    test('Streaming RunnableMapFromInput', () async {
+      final chain = Runnable.getMapFromInput('foo');
       final stream = chain.stream('foo1');
 
       final streamList = await stream.toList();

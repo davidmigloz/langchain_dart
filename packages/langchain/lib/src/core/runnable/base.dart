@@ -86,13 +86,11 @@ abstract class Runnable<RunInput extends Object?,
     return RunnableItemFromMap<RunOutput>(key);
   }
 
-  /// Creates a [RunnableMapFromItem] which output a map with the given key and
+  /// Creates a [RunnableMapFromInput] which output a map with the given key and
   /// the input as value.
   static Runnable<RunInput, BaseLangChainOptions, Map<String, dynamic>>
-      getMapFromItem<RunInput extends Object>(
-    final String key,
-  ) {
-    return RunnableMapFromItem<RunInput>(key);
+      getMapFromInput<RunInput extends Object>([final String key = 'input']) {
+    return RunnableMapFromInput<RunInput>(key);
   }
 
   /// Invokes the [Runnable] on the given [input].

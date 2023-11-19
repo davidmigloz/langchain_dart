@@ -64,7 +64,7 @@ final promptTemplate4 = ChatPromptTemplate.fromTemplate(
 
 final modelParser = model | const StringOutputParser();
 
-final colorGenerator = Runnable.getMapFromItem('attribute') |
+final colorGenerator = Runnable.getMapFromInput('attribute') |
     promptTemplate1 |
     Runnable.fromMap({
       'color': modelParser,
@@ -104,11 +104,11 @@ final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 final model = ChatOpenAI(apiKey: openaiApiKey);
 const stringOutputParser = StringOutputParser();
 
-final planner = Runnable.getMapFromItem('input') |
+final planner = Runnable.getMapFromInput() |
     ChatPromptTemplate.fromTemplate('Generate an argument about: {input}') |
     model |
     stringOutputParser |
-    Runnable.getMapFromItem('base_response');
+    Runnable.getMapFromInput('base_response');
 
 final argumentsFor = ChatPromptTemplate.fromTemplate(
       'List the pros or positive aspects of {base_response}',

@@ -235,7 +235,7 @@ final chain = map | promptTemplate | model | const StringOutputParser();
 However, this is a bit verbose. We can simplify it by using `Runnable.getItemFromMap` which does the same under the hood:
 
 ```dart
-final chain = Runnable.getMapFromItem('foo') |
+final chain = Runnable.getMapFromInput('foo') |
     promptTemplate |
     model |
     const StringOutputParser();

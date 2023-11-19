@@ -10,7 +10,7 @@ void main() {
       const outputParser = StringOutputParser<AIChatMessage>();
       final chain = Runnable.fromMap({
         'in': Runnable.passthrough(),
-        'out': Runnable.getMapFromItem('input') | prompt | model | outputParser,
+        'out': Runnable.getMapFromInput() | prompt | model | outputParser,
       });
 
       final res = await chain.invoke('world');

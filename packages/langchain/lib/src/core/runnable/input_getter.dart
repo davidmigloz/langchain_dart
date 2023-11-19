@@ -60,14 +60,14 @@ class RunnableItemFromMap<RunOutput extends Object>
   }
 }
 
-/// {@template runnable_map_from_item}
-/// A [RunnableMapFromItem] allows you to output a map with the given key and
+/// {@template runnable_map_from_input}
+/// A [RunnableMapFromInput] allows you to output a map with the given key and
 /// the input as value.
 ///
-/// You can create a [RunnableMapFromItem] using the [Runnable.getMapFromItem]
+/// You can create a [RunnableMapFromInput] using the [Runnable.getMapFromInput]
 /// static method.
 ///
-/// When you call [invoke] on a [RunnableMapFromItem], it will take the input
+/// When you call [invoke] on a [RunnableMapFromInput], it will take the input
 /// it receives and returns a map with the given key and the input as value.
 ///
 /// It is equivalent to:
@@ -88,7 +88,7 @@ class RunnableItemFromMap<RunOutput extends Object>
 ///   'Tell me a joke about {foo}',
 /// );
 ///
-/// final chain = Runnable.getMapFromItem('foo') |
+/// final chain = Runnable.getMapFromInput('foo') |
 ///     promptTemplate |
 ///     model |
 ///     const StringOutputParser();
@@ -98,17 +98,17 @@ class RunnableItemFromMap<RunOutput extends Object>
 /// // Why don't bears wear shoes? Because they have bear feet!
 /// ```
 /// {@endtemplate}
-class RunnableMapFromItem<RunInput extends Object>
+class RunnableMapFromInput<RunInput extends Object>
     extends Runnable<RunInput, BaseLangChainOptions, Map<String, dynamic>> {
-  /// {@macro runnable_map_from_item}
-  const RunnableMapFromItem(this.key);
+  /// {@macro runnable_map_from_input}
+  const RunnableMapFromInput(this.key);
 
   /// The key where to place the input in the output map.
   final String key;
 
-  /// Invokes the [RunnableMapFromItem] on the given [input].
+  /// Invokes the [RunnableMapFromInput] on the given [input].
   ///
-  /// - [input] - the input to invoke the [RunnableMapFromItem] on.
+  /// - [input] - the input to invoke the [RunnableMapFromInput] on.
   /// - [options] - not used.
   @override
   Future<Map<String, dynamic>> invoke(
