@@ -12,7 +12,10 @@ to LLM and returns the LLM output.
 ## Get started
 
 ```dart
-final llm = OpenAI(apiKey: openaiApiKey, temperature: 0.9);
+final llm = OpenAI(
+  apiKey: openaiApiKey,
+  defaultOptions: const OpenAIOptions(temperature: 0.9),
+);
 final prompt = PromptTemplate.fromTemplate(
   'What is a good name for a company that makes {product}?',
 );

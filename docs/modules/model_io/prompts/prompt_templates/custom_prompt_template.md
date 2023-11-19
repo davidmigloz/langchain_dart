@@ -98,7 +98,10 @@ Now that we have created a custom prompt template, we can use it to generate
 prompts for our task.
 
 ```dart
-final openai = OpenAI(apiKey: openaiApiKey, temperature: 0.9);
+final openai = OpenAI(
+  apiKey: openaiApiKey,
+  defaultOptions: const OpenAIOptions(temperature: 0.9),
+);
 
 const fnExplainer = FunctionExplainerPromptTemplate();
 final prompt = fnExplainer.formatPrompt({

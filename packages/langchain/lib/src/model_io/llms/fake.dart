@@ -29,7 +29,10 @@ class FakeListLLM extends SimpleLLM {
   }
 
   @override
-  Future<List<int>> tokenize(final PromptValue promptValue) async {
+  Future<List<int>> tokenize(
+    final PromptValue promptValue, {
+    final LLMOptions? options,
+  }) async {
     return promptValue
         .toString()
         .split(' ')
@@ -76,7 +79,10 @@ class FakeEchoLLM extends SimpleLLM {
   }
 
   @override
-  Future<List<int>> tokenize(final PromptValue promptValue) async {
+  Future<List<int>> tokenize(
+    final PromptValue promptValue, {
+    final LLMOptions? options,
+  }) async {
     return promptValue
         .toString()
         .split(' ')
@@ -116,7 +122,10 @@ class FakeHandlerLLM extends SimpleLLM {
   }
 
   @override
-  Future<List<int>> tokenize(final PromptValue promptValue) async {
+  Future<List<int>> tokenize(
+    final PromptValue promptValue, {
+    final LLMOptions? options,
+  }) async {
     return promptValue
         .toString()
         .split(' ')

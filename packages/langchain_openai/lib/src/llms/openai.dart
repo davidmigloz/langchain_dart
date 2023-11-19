@@ -10,7 +10,10 @@ import 'models/models.dart';
 ///
 /// Example:
 /// ```dart
-/// final llm = OpenAI(apiKey: '...', temperature: 1);
+/// final llm = OpenAI(
+///  apiKey: openaiApiKey,
+///  defaultOptions: const OpenAIOptions(temperature: 1),
+/// );
 /// final res = await llm('Tell me a joke');
 /// ```
 ///
@@ -109,20 +112,8 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   /// - `apiKey`: your OpenAI API key. You can find your API key in the
   ///   [OpenAI dashboard](https://platform.openai.com/account/api-keys).
   /// - `organization`: your OpenAI organization ID (if applicable).
-  /// - [OpenAI.model]
-  /// - [OpenAI.bestOf]
-  /// - [OpenAI.frequencyPenalty]
-  /// - [OpenAI.logitBias]
-  /// - [OpenAI.logprobs]
-  /// - [OpenAI.maxTokens]
-  /// - [OpenAI.n]
-  /// - [OpenAI.presencePenalty]
-  /// - [OpenAI.seed]
-  /// - [OpenAI.suffix]
-  /// - [OpenAI.temperature]
-  /// - [OpenAI.topP]
-  /// - [OpenAI.user]
   /// - [OpenAI.encoding]
+  /// - [OpenAI.defaultOptions]
   ///
   /// Advance configuration options:
   /// - `baseUrl`: the base URL to use. Defaults to OpenAI's API URL. You can
@@ -141,19 +132,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    this.model = 'text-davinci-003',
-    this.bestOf = 1,
-    this.frequencyPenalty = 0,
-    this.logitBias,
-    this.logprobs,
-    this.maxTokens = 256,
-    this.n = 1,
-    this.presencePenalty = 0,
-    this.seed,
-    this.suffix,
-    this.temperature = 1,
-    this.topP = 1,
-    this.user,
+    this.defaultOptions = const OpenAIOptions(),
     this.encoding,
   }) : _client = OpenAIClient(
           apiKey: apiKey ?? '',
@@ -167,92 +146,8 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   /// A client for interacting with OpenAI API.
   final OpenAIClient _client;
 
-  /// ID of the model to use (e.g. 'text-davinci-003').
-  ///
-  /// See https://platform.openai.com/docs/api-reference/completions/create#completions-create-model
-  final String model;
-
-  /// Generates best_of completions server-side and returns the "best"
-  /// (the one with the highest log probability per token).
-  ///
-  /// See https://platform.openai.com/docs/api-reference/completions/create#completions-create-best_of
-  final int bestOf;
-
-  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
-  /// their existing frequency in the text so far, decreasing the model's
-  /// likelihood to repeat the same line verbatim.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/completions/create#completions-create-frequency_penalty
-  final double frequencyPenalty;
-
-  /// Modify the likelihood of specified tokens appearing in the completion.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/completions/create#completions-create-logit_bias
-  final Map<String, int>? logitBias;
-
-  /// Include the log probabilities on the `logprobs` most likely tokens, as
-  /// well the chosen tokens. For example, if `logprobs` is 5, the API will
-  /// return a list of the 5 most likely tokens. The API will always return the
-  /// `logprob` of the sampled token, so there may be up to `logprobs+1`
-  /// elements in the response.
-  ///
-  /// The maximum value for logprobs is 5.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/completions/create#completions-create-logprobs
-  final int? logprobs;
-
-  /// The maximum number of tokens to generate in the completion.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/completions/create#completions-create-max_tokens
-  final int? maxTokens;
-
-  /// How many completions to generate for each prompt.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/completions/create#completions-create-n
-  final int n;
-
-  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
-  /// whether they appear in the text so far, increasing the model's likelihood
-  /// to talk about new topics.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/completions/create#completions-create-presence_penalty
-  final double presencePenalty;
-
-  /// If specified, our system will make a best effort to sample
-  /// deterministically, such that repeated requests with the same seed and
-  /// parameters should return the same result.
-  ///
-  /// Determinism is not guaranteed, and you should refer to the
-  /// `system_fingerprint` response parameter to monitor changes in the backend.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/completions/create#completions-create-seed
-  final int? seed;
-
-  /// The suffix that comes after a completion of inserted text.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/completions/create#completions-create-suffix
-  final String? suffix;
-
-  /// What sampling temperature to use, between 0 and 2.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/completions/create#completions-create-temperature
-  final double temperature;
-
-  /// An alternative to sampling with temperature, called nucleus sampling,
-  /// where the model considers the results of the tokens with top_p
-  /// probability mass.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/completions/create#completions-create-top_p
-  final double topP;
-
-  /// A unique identifier representing your end-user, which can help OpenAI to
-  /// monitor and detect abuse.
-  ///
-  /// If you need to send different users in different requests, you can set
-  /// this field in [OpenAIOptions.user] instead.
-  ///
-  /// Ref: https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids
-  final String? user;
+  /// The default options to use when calling the completions API.
+  final OpenAIOptions defaultOptions;
 
   /// The encoding to use by tiktoken when [tokenize] is called.
   ///
@@ -282,25 +177,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     final OpenAIOptions? options,
   }) async {
     final completion = await _client.createCompletion(
-      request: CreateCompletionRequest(
-        model: CompletionModel.modelId(model),
-        prompt: CompletionPrompt.string(prompt),
-        bestOf: bestOf,
-        frequencyPenalty: frequencyPenalty,
-        logitBias: logitBias,
-        logprobs: logprobs,
-        maxTokens: maxTokens,
-        n: n,
-        presencePenalty: presencePenalty,
-        seed: seed,
-        stop: options?.stop != null
-            ? CompletionStop.listString(options!.stop!)
-            : null,
-        suffix: suffix,
-        temperature: temperature,
-        topP: topP,
-        user: options?.user ?? user,
-      ),
+      request: _createCompletionRequest(prompt, options: options),
     );
     return completion.toLLMResult();
   }
@@ -312,24 +189,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   }) {
     return _client
         .createCompletionStream(
-          request: CreateCompletionRequest(
-            model: CompletionModel.modelId(model),
-            prompt: CompletionPrompt.string(input.toString()),
-            bestOf: bestOf,
-            frequencyPenalty: frequencyPenalty,
-            logitBias: logitBias,
-            logprobs: logprobs,
-            maxTokens: maxTokens,
-            n: n,
-            presencePenalty: presencePenalty,
-            stop: options?.stop != null
-                ? CompletionStop.listString(options!.stop!)
-                : null,
-            suffix: suffix,
-            temperature: temperature,
-            topP: topP,
-            user: options?.user ?? user,
-          ),
+          request: _createCompletionRequest(input.toString(), options: options),
         )
         .map((final completion) => completion.toLLMResult(streaming: true));
   }
@@ -344,16 +204,52 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     });
   }
 
+  /// Creates a [CreateCompletionRequest] from the given input.
+  CreateCompletionRequest _createCompletionRequest(
+    final String prompt, {
+    final OpenAIOptions? options,
+  }) {
+    return CreateCompletionRequest(
+      model: CompletionModel.modelId(options?.model ?? defaultOptions.model),
+      prompt: CompletionPrompt.string(prompt),
+      bestOf: options?.bestOf ?? defaultOptions.bestOf,
+      frequencyPenalty:
+          options?.frequencyPenalty ?? defaultOptions.frequencyPenalty,
+      logitBias: options?.logitBias ?? defaultOptions.logitBias,
+      logprobs: options?.logprobs ?? defaultOptions.logprobs,
+      maxTokens: options?.maxTokens ?? defaultOptions.maxTokens,
+      n: options?.n ?? defaultOptions.n,
+      presencePenalty:
+          options?.presencePenalty ?? defaultOptions.presencePenalty,
+      seed: options?.seed ?? defaultOptions.seed,
+      stop: (options?.stop ?? defaultOptions.stop) != null
+          ? CompletionStop.listString(options?.stop ?? defaultOptions.stop!)
+          : null,
+      suffix: options?.suffix ?? defaultOptions.suffix,
+      temperature: options?.temperature ?? defaultOptions.temperature,
+      topP: options?.topP ?? defaultOptions.topP,
+      user: options?.user ?? defaultOptions.user,
+    );
+  }
+
   /// Tokenizes the given prompt using tiktoken with the encoding used by the
   /// [model]. If an encoding model is specified in [encoding] field, that
   /// encoding is used instead.
   ///
   /// - [promptValue] The prompt to tokenize.
   @override
-  Future<List<int>> tokenize(final PromptValue promptValue) async {
+  Future<List<int>> tokenize(
+    final PromptValue promptValue, {
+    final OpenAIOptions? options,
+  }) async {
     final encoding = this.encoding != null
         ? getEncoding(this.encoding!)
-        : encodingForModel(model);
+        : encodingForModel(options?.model ?? defaultOptions.model);
     return encoding.encode(promptValue.toString());
+  }
+
+  /// Closes the client and cleans up any resources associated with it.
+  void close() {
+    _client.endSession();
   }
 }

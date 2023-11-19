@@ -187,7 +187,10 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
   ///
   /// - [promptValue] The prompt to tokenize.
   @override
-  Future<List<int>> tokenize(final PromptValue promptValue) async {
+  Future<List<int>> tokenize(
+    final PromptValue promptValue, {
+    final VertexAIOptions? options,
+  }) async {
     final encoding = encodingForModel('text-davinci-003');
     return encoding.encode(promptValue.toString());
   }

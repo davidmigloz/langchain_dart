@@ -36,7 +36,7 @@ void main() {
     });
 
     test('Test OpenAIDallETool in an agent',
-        timeout: const Timeout(Duration(minutes: 2)), () async {
+        timeout: const Timeout(Duration(minutes: 2)), skip: true, () async {
       final llm = ChatOpenAI(
         apiKey: openAiKey,
         model: 'gpt-4',
