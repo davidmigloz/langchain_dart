@@ -1,5 +1,22 @@
 import '../../../langchain.dart';
 
+/// {@template agent_plan_input}
+/// Input to the agent's plan method.
+/// {@endtemplate}
+class AgentPlanInput {
+  /// {@macro agent_plan_input}
+  const AgentPlanInput(
+    this.inputs,
+    this.intermediateSteps,
+  );
+
+  /// The input values to the agent.
+  final ChainValues inputs;
+
+  /// The actions the agent has taken to date, along with their observations.
+  final List<AgentStep> intermediateSteps;
+}
+
 /// {@template base_agent_action}
 /// Base class for agent actions.
 /// {@endtemplate}
