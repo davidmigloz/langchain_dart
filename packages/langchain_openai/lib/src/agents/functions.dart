@@ -69,7 +69,8 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
   OpenAIFunctionsAgent({
     required this.llmChain,
     required super.tools,
-  })  : assert(
+  })  : _parser = const OpenAIFunctionsAgentOutputParser(),
+        assert(
           llmChain.memory != null ||
               llmChain.prompt.inputVariables
                   .contains(BaseActionAgent.agentScratchpadInputKey),
@@ -93,6 +94,9 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
   /// The memory must have [BaseChatMemory.returnMessages] set to true for
   /// the agent to work properly.
   final LLMChain<ChatOpenAI, ChatOpenAIOptions, void, BaseChatMemory> llmChain;
+
+  /// Parser to use to parse the output of the LLM.
+  final OpenAIFunctionsAgentOutputParser _parser;
 
   /// The key for the input to the agent.
   static const agentInputKey = 'input';
@@ -140,21 +144,21 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
   }
 
   @override
-  Future<List<BaseAgentAction>> plan(
-    final List<AgentStep> intermediateSteps,
-    final InputValues inputs,
-  ) async {
-    final llmChainInputs = _constructLlmChainInputs(intermediateSteps, inputs);
-    final output = await llmChain.call(llmChainInputs);
-    final predictedMessage = output[LLMChain.defaultOutputKey] as ChatMessage;
-    return [_parseOutput(predictedMessage)];
+  Future<List<BaseAgentAction>> plan(final AgentPlanInput input) async {
+    final llmChainInputs = _constructLlmChainInputs(
+      input.intermediateSteps,
+      input.inputs,
+    );
+    final ChainValues output = await llmChain.invoke(llmChainInputs);
+    final predictedMessage = output[LLMChain.defaultOutputKey] as AIChatMessage;
+    return _parser.parseMessage(predictedMessage);
   }
 
   Map<String, dynamic> _constructLlmChainInputs(
     final List<AgentStep> intermediateSteps,
     final InputValues inputs,
   ) {
-    final ChatMessage agentInput;
+    final dynamic agentInput;
 
     // If there is a memory, we pass the last agent step as a function message.
     // Otherwise, we pass the input as a human message.
@@ -169,6 +173,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
       agentInput = switch (inputs[agentInputKey]) {
         final String inputStr => ChatMessage.humanText(inputStr),
         final ChatMessage inputMsg => inputMsg,
+        final List<ChatMessage> inputMsgs => inputMsgs,
         _ => throw LangChainException(
             message: 'Agent expected a String or ChatMessage as input,'
                 ' got ${inputs[agentInputKey]}',
@@ -201,30 +206,6 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
     ];
   }
 
-  BaseAgentAction _parseOutput(final ChatMessage message) {
-    if (message is! AIChatMessage) {
-      throw LangChainException(message: 'Expected an AI message got $message');
-    }
-
-    final functionCall = message.functionCall;
-
-    if (functionCall != null) {
-      return AgentAction(
-        tool: functionCall.name,
-        toolInput: functionCall.arguments,
-        log: 'Invoking: `${functionCall.name}` '
-            'with `${functionCall.arguments}`\n'
-            'Responded: ${message.content}\n',
-        messageLog: [message],
-      );
-    } else {
-      return AgentFinish(
-        returnValues: {'output': message.content},
-        log: message.content,
-      );
-    }
-  }
-
   @override
   String get agentType => 'openai-functions';
 
@@ -255,5 +236,51 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
           variableName: BaseActionAgent.agentScratchpadInputKey,
         ),
     ]);
+  }
+}
+
+/// {@template openai_functions_agent_output_parser}
+/// Parser for [OpenAIFunctionsAgent].
+///
+/// It parses the output of the LLM and returns the corresponding
+/// [BaseAgentAction] to be executed.
+/// {@endtemplate}
+class OpenAIFunctionsAgentOutputParser extends BaseLLMOutputParser<
+    AIChatMessage, ChatOpenAIOptions, List<BaseAgentAction>> {
+  /// {@macro openai_functions_agent_output_parser}
+  const OpenAIFunctionsAgentOutputParser();
+
+  @override
+  Future<List<BaseAgentAction>> parseResult(
+    final List<LanguageModelGeneration<AIChatMessage>> result,
+  ) async {
+    final generation = result.first;
+    final message = generation.output;
+    return parseMessage(message);
+  }
+
+  /// Parses the [message] and returns the corresponding [BaseAgentAction].
+  Future<List<BaseAgentAction>> parseMessage(
+    final AIChatMessage message,
+  ) async {
+    final functionCall = message.functionCall;
+
+    BaseAgentAction action;
+    if (functionCall != null) {
+      action = AgentAction(
+        tool: functionCall.name,
+        toolInput: functionCall.arguments,
+        log: 'Invoking: `${functionCall.name}` '
+            'with `${functionCall.arguments}`\n'
+            'Responded: ${message.content}\n',
+        messageLog: [message],
+      );
+    } else {
+      action = AgentFinish(
+        returnValues: {'output': message.content},
+        log: message.content,
+      );
+    }
+    return [action];
   }
 }

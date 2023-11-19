@@ -178,7 +178,7 @@ class AgentExecutor extends BaseChain {
 
     try {
       // Call the LLM to see what to do
-      actions = await agent.plan(intermediateSteps, inputs);
+      actions = await agent.plan(AgentPlanInput(inputs, intermediateSteps));
     } on OutputParserException catch (e) {
       if (handleParsingErrors == null) rethrow;
       actions = [

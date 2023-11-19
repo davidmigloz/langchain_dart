@@ -116,6 +116,30 @@ void main() {
         'fallback',
       );
     });
+
+    test('Test RunnableAgent', () async {
+      final agent = Agent.fromRunnable(
+        Runnable.mapInput(
+          (final AgentPlanInput planInput) => {
+            'input': planInput.inputs,
+            'intermediateSteps': planInput.intermediateSteps,
+          },
+        ).pipe(
+          Runnable.mapInput(
+            (final _) => [
+              const AgentFinish(
+                returnValues: {BaseActionAgent.agentReturnKey: 'mock'},
+              ),
+            ],
+          ),
+        ),
+        tools: [],
+      );
+
+      final executor = AgentExecutor(agent: agent);
+      final result = await executor.run('test');
+      expect(result, 'mock');
+    });
   });
 }
 
@@ -152,10 +176,7 @@ final class _SingleActionMockAgent extends BaseActionAgent {
   Set<String> get inputKeys => {'mock-input-key'};
 
   @override
-  Future<List<BaseAgentAction>> plan(
-    final List<AgentStep> intermediateSteps,
-    final InputValues inputs,
-  ) async {
+  Future<List<BaseAgentAction>> plan(final AgentPlanInput input) async {
     if (throwOutputParserException) {
       throw const OutputParserException(message: 'mock');
     }
@@ -181,10 +202,7 @@ final class _MultiActionMockAgent extends BaseMultiActionAgent {
   Set<String> get inputKeys => {'mock-input-key'};
 
   @override
-  Future<List<BaseAgentAction>> plan(
-    final List<AgentStep> intermediateSteps,
-    final InputValues inputs,
-  ) async {
+  Future<List<BaseAgentAction>> plan(final AgentPlanInput input) async {
     planCount++;
     return actions;
   }

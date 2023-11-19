@@ -1,11 +1,29 @@
-import '../model_io/prompts/models/models.dart';
+import '../core/core.dart';
 import '../utils/exception.dart';
 import 'agents.dart';
+
+/// {@template agent}
+/// An agent is a component that takes an input and a set of tools and decides
+/// what to do to get to the desired output.
+/// {@endtemplate}
+abstract class Agent {
+  /// {@macro agent}
+  const Agent();
+
+  /// Creates an agent from a [Runnable].
+  static BaseMultiActionAgent fromRunnable(
+    final Runnable<AgentPlanInput, BaseLangChainOptions, List<BaseAgentAction>>
+        runnable, {
+    required final List<BaseTool> tools,
+  }) {
+    return RunnableAgent(runnable, tools: tools);
+  }
+}
 
 /// {@template base_action_agent}
 /// Base class for action agents.
 /// {@endtemplate}
-abstract class BaseActionAgent {
+abstract class BaseActionAgent extends Agent {
   /// {@macro base_action_agent}
   const BaseActionAgent({required this.tools});
 
@@ -29,19 +47,12 @@ abstract class BaseActionAgent {
   /// The tools this agent can use.
   final List<BaseTool> tools;
 
-  /// Given input, decided what to do.
-  ///
-  /// - [intermediateSteps] steps the LLM has taken to date, along with
-  ///   observations.
-  /// - [inputs] user input to the agent.
+  /// Given the input and previous steps, returns the next action to take.
   ///
   /// Returns either [AgentAction] specifying what tool to use or
   /// [AgentFinish] specifying the agent's final return value.
   /// The list should always have length 1.
-  Future<List<BaseAgentAction>> plan(
-    final List<AgentStep> intermediateSteps,
-    final InputValues inputs,
-  );
+  Future<List<BaseAgentAction>> plan(final AgentPlanInput input);
 
   /// Return response when agent has been stopped due to max iterations.
   AgentFinish returnStoppedResponse(
@@ -77,4 +88,27 @@ abstract class BaseSingleActionAgent extends BaseActionAgent {
 abstract class BaseMultiActionAgent extends BaseActionAgent {
   /// {@macro base_multi_action_agent}
   const BaseMultiActionAgent({required super.tools});
+}
+
+/// {@template runnable_agent}
+/// An agent implemented from a [Runnable].
+/// {@endtemplate}
+class RunnableAgent extends BaseMultiActionAgent {
+  /// {@macro runnable_agent}
+  const RunnableAgent(this.runnable, {required super.tools});
+
+  /// The runnable that implements the agent.
+  final Runnable<AgentPlanInput, BaseLangChainOptions, List<BaseAgentAction>>
+      runnable;
+
+  @override
+  String get agentType => 'runnable-agent';
+
+  @override
+  Set<String> get inputKeys => const {};
+
+  @override
+  Future<List<BaseAgentAction>> plan(final AgentPlanInput input) {
+    return runnable.invoke(input);
+  }
 }

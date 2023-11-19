@@ -104,4 +104,53 @@ void main() {
       );
     });
   });
+
+  group('OpenAIFunctionsAgent LCEL equivalent test', () {
+    final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
+
+    final prompt = ChatPromptTemplate.fromPromptMessages([
+      SystemChatMessagePromptTemplate.fromTemplate(
+        'You are a helpful assistant',
+      ),
+      HumanChatMessagePromptTemplate.fromTemplate('{input}'),
+      const MessagesPlaceholder(variableName: 'agent_scratchpad'),
+    ]);
+
+    final tool = CalculatorTool();
+
+    final model = ChatOpenAI(
+      apiKey: openaiApiKey,
+      temperature: 0,
+    ).bind(ChatOpenAIOptions(functions: [tool.toChatFunction()]));
+
+    final agent = Agent.fromRunnable(
+      Runnable.mapInput(
+        (final AgentPlanInput planInput) => <String, dynamic>{
+          'input': planInput.inputs['input'],
+          'agent_scratchpad': planInput.intermediateSteps
+              .map((final s) {
+                return s.action.messageLog +
+                    [
+                      ChatMessage.function(
+                        name: s.action.tool,
+                        content: s.observation,
+                      ),
+                    ];
+              })
+              .expand((final m) => m)
+              .toList(growable: false),
+        },
+      ).pipe(prompt).pipe(model).pipe(const OpenAIFunctionsAgentOutputParser()),
+      tools: [tool],
+    );
+
+    final executor = AgentExecutor(agent: agent);
+
+    test('Test OpenAIFunctionsAgent LCEL equivalent', () async {
+      final res = await executor.invoke({
+        'input': 'What is 40 raised to the 0.43 power?',
+      });
+      expect(res['output'], contains('4.88'));
+    });
+  });
 }
