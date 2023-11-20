@@ -4,10 +4,12 @@ import 'dart:typed_data';
 
 import 'base.dart';
 
-/// {@template local_file_store}
+/// {@template local_file_store_io}
 /// A simple file system implementation of a [BaseStore].
 ///
 /// Given a [rootPath], each key is mapped to a file relative to that path.
+///
+/// Note: [LocalFileStore] is not supported for web.
 ///
 /// Example:
 /// ```dart
@@ -15,7 +17,7 @@ import 'base.dart';
 /// ```
 /// {@endtemplate}
 class LocalFileStore implements BaseStore<String, Uint8List> {
-  /// {@macro local_file_store}
+  /// {@macro local_file_store_io}
   LocalFileStore(this.rootPath);
 
   /// The root path of the store.
