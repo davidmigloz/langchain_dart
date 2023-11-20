@@ -1,3 +1,7 @@
+## 0.1.2+2
+
+ - Update a dependency to the latest release.
+
 ## 0.1.2+1
 
  - **FIX**(openai_dart): Decode JSON responses as UTF-8 ([#234](https://github.com/davidmigloz/langchain_dart/issues/234)). ([0bca67f4](https://github.com/davidmigloz/langchain_dart/commit/0bca67f4ea682ebd5a8b9d3c7319c9511229b0ba))

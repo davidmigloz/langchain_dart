@@ -1,6 +1,6 @@
 name: langchain_pinecone
 description: LangChain.dart integration module for Pinecone fully-managed vector database.
-version: 0.0.6+4
+version: 0.0.6+5
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_pinecone
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues
 homepage: https://github.com/davidmigloz/langchain_dart
@@ -18,11 +18,11 @@ environment:
 
 dependencies:
   http: ^1.1.0
-  langchain: ^0.1.1
+  langchain: ^0.1.1+1
   meta: ^1.9.1
-  pinecone: ^0.7.0
+  pinecone: ^0.7.2
   uuid: ^4.0.0
 
 dev_dependencies:
   test: ^1.24.3
-  langchain_openai: ^0.1.2+1
+  langchain_openai: ^0.1.2+2

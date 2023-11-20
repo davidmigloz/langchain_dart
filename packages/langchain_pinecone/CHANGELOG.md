@@ -1,3 +1,7 @@
+## 0.0.6+5
+
+ - **FIX**(vector_stores): Decode JSON responses as UTF-8 in Pinecone ([#236](https://github.com/davidmigloz/langchain_dart/issues/236)). ([edb427b1](https://github.com/davidmigloz/langchain_dart/commit/edb427b16e6cd938adcaaa7cf641f4df6632f479))
+
 ## 0.0.6+4
 
  - Update a dependency to the latest release.
