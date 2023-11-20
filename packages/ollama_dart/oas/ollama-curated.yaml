@@ -1,0 +1,624 @@
+openapi: 3.0.3
+info:
+  title: Ollama API
+  description: API Spec for Ollama API server
+  version: 0.1.9
+
+servers:
+  - url: http://localhost:11434/api
+    description: local server
+  - url: http://localhost:11434/api
+    description: public server
+tags:
+  - name: inference
+    description: Prompt AI to generate output
+paths:
+  /generate:
+    post:
+      tags:
+      - inference
+      summary: Generate a response for a given prompt with a provided model. 
+      description: This is a streaming endpoint, so will be a series of responses. The final response object will include statistics and additional data from the request.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateRequest'
+      responses: 
+        '200':
+          description: Successful operation
+          content:
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/GenerateResponse'
+  
+  /create:
+    post:
+      tags:
+      - model management
+      summary: Create a model from a Modelfile. 
+      description: It is recommended to set modelfile to the content of the Modelfile rather than just set path. This is a requirement for remote create. Remote model creation should also create any file blobs, fields such as FROM and ADAPTER, explicitly with the server using Create a Blob and the value to the path indicated in the response.
+      operationId: create
+      requestBody:
+        description: Create a new model from a modelfile
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRequest'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/CreateResponse'
+
+  /blobs/{digest}:
+    head:
+      tags:
+        - model management
+      summary: Check if a blob is known to the server.
+      description: Check to see if a blob exists on the Ollama server which is useful when creating models
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+          required: true
+          description: the SHA256 digest of the blob
+          example: sha256:c8edda1f17edd2f1b60253b773d837bda7b9d249a61245931a4d7c9a8d350250
+      response:
+        '200':
+          description: Blob exists on the server
+        '404':
+          description: Blob was not found
+    post:
+      tags:
+        - model management
+      summary: Create a blob from a file. Returns the server file path.
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      response:
+        '201':
+          description: Blob was successfully created
+
+  /tags:
+    get:
+      tags:
+      - model management
+      summary: List Local Models
+      description: List models that are available locally.
+      operationId: listTags
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagResponse'
+
+  /show:
+    post:
+      tags:
+      - model management
+      summary: Show Model Information
+      description: Show details about a model including modelfile, template, parameters, license, and system prompt.
+      operationId: showModel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShowRequest'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShowResponse'
+
+  /copy:
+    post:
+      tags:
+      - model management
+      summary: Copy a Model
+      description: Copy a model. Creates a model with another name from an existing model.
+      operationId: copyModel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CopyRequest'
+      responses:
+        '200':
+          description: OK
+
+  /delete:
+    delete:
+      tags:
+      - model management
+      summary: Delete a Model
+      description: Delete a model and its data.
+      operationId: deleteModel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteRequest'
+      responses:
+        '200':
+          description: OK
+
+  /pull:
+    post:
+      tags:
+      - model management
+      summary: Pull a Model
+      description: Download a model from the ollama library. Cancelled pulls are resumed from where they left off, and multiple calls will share the same download progress.
+      operationId: pullModel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PullRequest'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PullResponse'
+  
+  /push:
+    post:
+      tags:
+      - model management
+      summary: Push a Model
+      description: Upload a model to a model library. Requires registering for ollama.ai and adding a public key first.
+      operationId: pushModel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PushRequest'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PushResponse'
+
+  /embeddings:
+    post:
+      tags:
+      - model management
+      summary: Generate embeddings from a model
+      description: Generate embeddings from a model
+      operationId: postEmbedding
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmbeddingRequest'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmbeddingResponse'
+
+components:
+  schemas:
+    GenerateRequest:
+      type: object
+      properties:
+        model:
+          type: string
+          description: (required) the model name
+          example: llama2:7b
+        prompt:
+          type: string
+          description: the prompt to generate a response for\nRAW- [INST] why is the sky blue? [/INST]\nJSON- What color is the sky at different times of the day? Respond using JSON\n
+          example: Why is the sky blue?
+        system:
+          type: string
+          description: system prompt to (overrides what is defined in the Modelfile)
+        template:
+          type: string
+          description: the full prompt or prompt template (overrides what is defined in the Modelfile)
+        context:
+          type: array
+          description: the context parameter returned from a previous request to /generate, this can be used to keep a short conversational memory
+          items:
+            type: integer
+        stream:
+          type: boolean
+          description: if false the response will be returned as a single response object, rather than a stream of objects
+        raw: 
+          type: boolean
+          description: if true no formatting will be applied to the prompt and no context will be returned. You may choose to use the raw parameter if you are specifying a full templated prompt in your request to the API, and are managing history yourself.
+        format:
+          type: string
+          description: the format to return a response in. Currently the only accepted value is json.\nEnable JSON mode by setting the format parameter to json and specifying the model should use JSON in the prompt. This will structure the response as valid JSON.
+          enum:
+            - json
+        options:
+          $ref: '#/components/schemas/Options'
+      required:
+      - model
+      - prompt
+    GenerateResponse:
+      type: object
+      properties:
+        model:
+          type: string
+          description: Model names follow a model:tag format. Some examples are orca-mini:3b-q4_1 and llama2:70b. The tag is optional and, if not provided, will default to latest. The tag is used to identify a specific version.
+          example: llama2:7b
+        created_at:
+          type: string
+          format: date-time
+          description: Date on which a model was created
+          example: 2023-08-04T19:22:45.499127Z
+        response:
+          type: string
+          description: a response for a given prompt with a provided model. when finished, empty if the response was streamed, if not streamed, this will contain the full response.
+          example: The sky appears blue because of a phenomenon called Rayleigh scattering.
+        done:
+          type: boolean
+          description: whether the response has completed.
+          example: true
+        context:
+          type: array
+          description: the context parameter returned from a previous request to /generate, this can be used to keep a short conversational memory
+          items: 
+            type: integer
+          example: [1, 2, 3]
+        sample_count:
+          type: integer
+          description: number of samples generated
+          example: 114
+        sample_duration:
+          type: integer
+          description: time spent generating samples
+          example: 81442000
+        total_duration:
+          type: integer
+          description: time spent generating the response
+          example: 5589157167
+        load_duration:
+          type: integer
+          description: time spent in nanoseconds loading the model
+          example: 3013701500
+        prompt_eval_count:
+          type: integer
+          description: number of tokens in the prompt
+          example: 46
+        prompt_eval_duration:
+          type: integer
+          description: time spent in nanoseconds evaluating the prompt
+          example: 1160282000
+        eval_count:
+          type: integer
+          description: number of tokens the response
+          example: 113
+        eval_duration:
+          type: integer
+          description: time in nanoseconds spent generating the response
+          example: 1325948000
+    
+    CreateRequest:
+      type: object
+      properties:
+        name:  
+          type: string
+          description: (required) the model name
+          example: mario
+        modelfile:  
+          type: string
+          description: contents of the Modelfile
+          example: FROM llama2\nSYSTEM You are mario from Super Mario Bros.
+        path:  
+          type: string
+          description: "path to the Modelfile (deprecated: please use modelfile instead)"
+          example: FROM llama2
+        stream:  
+          type: boolean
+          description: (optional) if false the response will be returned as a single response object, rather than a stream of objects
+          example: true
+      required:
+      - name
+      - modelfile
+    CreateResponse:
+      description: A stream of JSON objects. When finished, status is success.
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status creating the model
+          enum:
+            - creating system layer
+            - parsing modelfile
+            - success
+          example: parsing modelfile
+    
+    Options:
+      type: object
+      description: additional model parameters listed in the documentation for the Modelfile such as temperature
+      properties:
+        num_keep:
+          type: integer
+        seed:
+          type: integer
+        num_predict:
+          type: integer
+        top_k:
+          type: integer
+        top_p:
+          type: number
+          format: float
+        tfs_z:
+          type: number
+          format: float
+        typical_p:
+          type: number
+          format: float  
+        repeat_last_n:
+          type: integer
+        temperature:
+          type: number
+          format: float
+        repeat_penalty:
+          type: number
+          format: float
+        presence_penalty:
+          type: number
+          format: float
+        frequency_penalty:
+          type: number
+          format: float
+        mirostat:
+          type: integer
+        mirostat_tau:
+          type: number
+          format: float
+        mirostat_eta:
+          type: number
+          format: float
+        penalize_newline:
+          type: boolean
+        stop:
+          type: array
+          items:
+            type: string
+        numa:
+          type: boolean
+        num_ctx:
+          type: integer
+        num_batch:
+          type: integer
+        num_gqa:
+          type: integer
+        num_gpu:
+          type: integer
+        main_gpu:
+          type: integer
+        low_vram:
+          type: boolean
+        f16_kv:
+          type: boolean
+        logits_all:
+          type: boolean
+        vocab_only:
+          type: boolean
+        use_mmap:
+          type: boolean
+        use_mlock:
+          type: boolean
+        embedding_only:
+          type: boolean
+        rope_frequency_base:
+          type: number
+          format: float
+        rope_frequency_scale:
+          type: number
+          format: float
+        num_thread:
+          type: integer
+
+    Tag:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Model name
+          example: llama2:7b
+        modified_at:
+          type: string
+          format: date-time
+          description: Model modification date
+          example: 2023-08-02T17:02:23.713454393-07:00
+        size:
+          type: integer
+          description: Size of the model on disk
+          example: 7323310500
+    TagResponse:
+      description: A single JSON object will be returned.
+      type: object
+      properties:
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+
+    ShowRequest:
+      description: Show details about a model including modelfile, template, parameters, license, and system prompt.
+      type: object
+      properties:
+        name:  
+          type: string
+          description: (required) name of the model to show
+          example: llama2:7b
+      required:
+      - name
+    ShowResponse:
+      description: details about a model including modelfile, template, parameters, license, and system prompt.
+      type: object
+      properties:
+        license:
+          type: string
+          description: the model's license
+          example: <contents of license block>
+        modelfile:
+          type: string
+          description: the modelfile associated with the model
+          example: 'Modelfile generated by \"ollama show\"\n# To build a new Modelfile based on this one, replace the FROM line with:\n# FROM llama2:latest\n\nFROM /Users/username/.ollama/models/blobs/sha256:8daa9615cce30c259a9555b1cc250d461d1bc69980a274b44d7eda0be78076d8\nTEMPLATE \"\"\"[INST] {{ if and .First .System }}<<SYS>>{{ .System }}<</SYS>>\n\n{{ end }}{{ .Prompt }} [/INST] \"\"\"\nSYSTEM \"\"\"\"\"\"\nPARAMETER stop [INST]\nPARAMETER stop [/INST]\nPARAMETER stop <<SYS>>\nPARAMETER stop <</SYS>>\n"'
+        parameters:
+          type: string
+          description: model parameters
+          example: 'stop                           [INST]\nstop                           [/INST]\nstop                           <<SYS>>\nstop                           <</SYS>>'
+        template:
+          type: string
+          description: the prompt template for the model
+          example: '[INST] {{ if and .First .System }}<<SYS>>{{ .System }}<</SYS>>\n\n{{ end }}{{ .Prompt }} [/INST]'
+
+    CopyRequest:
+      description: Creates a model with another name from an existing model.
+      type: object
+      properties:
+        source:
+          type: string
+          example: llama2:7b
+        destination: 
+          type: string
+          example: llama2-backup
+      required:
+      - source
+      - destination
+    DeleteRequest:
+      description: Deletes a model and its data
+      type: object
+      properties:
+        name:  
+          type: string
+          description: (required) name of the model to delete
+          example: llama2:13b
+      required:
+      - name
+
+    PullRequest:
+      description: Download a model from the ollama library. Cancelled pulls are resumed from where they left off, and multiple calls will share the same download progress.
+      type: object
+      properties:
+        name:  
+          type: string
+          description: name of the model to pull
+          example: llama2:7b
+        insecure:  
+          type: boolean
+          description: (optional) allow insecure connections to the library. Only use this if you are pulling from your own library during development.
+          example: true
+        stream:  
+          type: boolean
+          description: (optional) if false the response will be returned as a single response object, rather than a stream of objects
+          example: true
+      required:
+      - name
+    PullResponse:
+      description: If stream is not specified, or set to true, a stream of JSON objects is returned
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - pulling manifest
+          - downloading digestname
+          - verifying sha256 digest
+          - writing manifest
+          - removing any unused layers
+          - success
+          example: pulling manifest
+        digest:
+          type: string
+          description: the model's digest
+          example: 'sha256:bc07c81de745696fdf5afca05e065818a8149fb0c77266fb584d9b2cba3711a'
+        total:
+          type: integer
+          description: total size of the model
+          example: 2142590208
+        completed:
+          type: integer
+          description: total bytes transferred
+          example: 2142590208
+      
+    PushRequest:
+      description: Upload a model to a model library. Requires registering for ollama.ai and adding a public key first.
+      type: object
+      properties:
+        name:  
+          type: string
+          description: name of the model to push in the form of <namespace>/<model>:<tag>
+          example: 'mattw/pygmalion:latest'
+        insecure:  
+          type: boolean
+          description: (optional) allow insecure connections to the library. Only use this if you are pushing to your library during development.
+          example: true
+        stream:  
+          type: boolean
+          description: (optional) if false the response will be returned as a single response object, rather than a stream of objects
+          example: true
+      required:
+      - name
+    PushResponse:
+      type: object
+      description: Schema for pushing a model
+      properties:
+        status:
+          type: string
+          enum:
+          - retrieving manifest
+          - starting upload
+          - pushing manifest
+          - success
+          example: 'success'
+        digest:
+          type: string
+          description: the model's digest
+          example: 'sha256:bc07c81de745696fdf5afca05e065818a8149fb0c77266fb584d9b2cba3711a'
+        total:
+          type: integer
+          description: total size of the model
+          example: 2142590208
+
+    EmbeddingRequest:
+      description: Generate embeddings from a model
+      type: object
+      properties:
+        model:  
+          type: string
+          description: name of model to generate embeddings from
+          example: llama2:7b
+        prompt:  
+          type: string
+          description: text to generate embeddings for
+          example: 'Here is an article about llamas...'
+        options:  
+          $ref: '#/components/schemas/Options'
+      required:
+      - model
+      - prompt
+    EmbeddingResponse:
+      description: Returns the embedding information
+      type: object
+      properties:
+        embedding:
+          type: array
+          items:
+            type: number
+            format: double
+          example: [0.5670403838157654, 0.009260174818336964, 0.23178744316101074, -0.2916173040866852, -0.8924556970596313,0.8785552978515625, -0.34576427936553955, 0.5742510557174683, -0.04222835972905159, -0.137906014919281]
