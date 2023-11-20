@@ -1,3 +1,7 @@
+## 0.1.0+2
+
+ - **FIX**(chromadb): Decode JSON responses as UTF-8 ([#234](https://github.com/davidmigloz/langchain_dart/issues/234)) ([#235](https://github.com/davidmigloz/langchain_dart/issues/235)). ([29347763](https://github.com/davidmigloz/langchain_dart/commit/29347763fe04cb7c9199e33c643dbc585de0a7b8))
+
 ## 0.1.0+1
 
  - **DOCS**: Add public_member_api_docs lint rule and document missing APIs ([#223](https://github.com/davidmigloz/langchain_dart/issues/223)). ([52380433](https://github.com/davidmigloz/langchain_dart/commit/523804331783970870b023946c016be6c0797920))

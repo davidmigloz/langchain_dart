@@ -1,3 +1,7 @@
+## 0.1.0+5
+
+ - **FIX**(chromadb): Decode JSON responses as UTF-8 ([#234](https://github.com/davidmigloz/langchain_dart/issues/234)) ([#235](https://github.com/davidmigloz/langchain_dart/issues/235)). ([29347763](https://github.com/davidmigloz/langchain_dart/commit/29347763fe04cb7c9199e33c643dbc585de0a7b8))
+
 ## 0.1.0+4
 
  - Update a dependency to the latest release.

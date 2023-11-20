@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`chromadb` - `v0.1.0+2`](#chromadb---v0102)
+ - [`langchain_chroma` - `v0.1.0+5`](#langchain_chroma---v0105)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_chroma` - `v0.1.0+5`
+
+---
+
+#### `chromadb` - `v0.1.0+2`
+
+ - **FIX**(chromadb): Decode JSON responses as UTF-8 ([#234](https://github.com/davidmigloz/langchain_dart/issues/234)) ([#235](https://github.com/davidmigloz/langchain_dart/issues/235)). ([29347763](https://github.com/davidmigloz/langchain_dart/commit/29347763fe04cb7c9199e33c643dbc585de0a7b8))
+
+
+## 2023-11-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`openai_dart` - `v0.1.1+2`](#openai_dart---v0112)
  - [`langchain_openai` - `v0.1.2+1`](#langchain_openai---v0121)
 
