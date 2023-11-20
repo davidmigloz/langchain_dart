@@ -11,8 +11,8 @@ dependencies:
     sdk: flutter
   equatable: ^2.0.5
   flutter_bloc: ^8.1.3
-  langchain: ^0.1.1
-  langchain_openai: ^0.1.2+1
+  langchain: ^0.1.1+1
+  langchain_openai: ^0.1.2+2
 
 flutter:
   uses-material-design: true

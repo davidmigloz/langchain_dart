@@ -15,6 +15,43 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`langchain` - `v0.1.1+1`](#langchain---v0111)
+ - [`langchain_pinecone` - `v0.0.6+5`](#langchain_pinecone---v0065)
+ - [`langchain_openai` - `v0.1.2+2`](#langchain_openai---v0122)
+ - [`langchain_chroma` - `v0.1.0+6`](#langchain_chroma---v0106)
+ - [`langchain_google` - `v0.1.0+4`](#langchain_google---v0104)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_openai` - `v0.1.2+2`
+ - `langchain_chroma` - `v0.1.0+6`
+ - `langchain_google` - `v0.1.0+4`
+
+---
+
+#### `langchain` - `v0.1.1+1`
+
+ - **FIX**(storage): Conditionally import dart:io in LocalFileStore ([#237](https://github.com/davidmigloz/langchain_dart/issues/237)). ([71d337e6](https://github.com/davidmigloz/langchain_dart/commit/71d337e62af49f173369e402fa6a72e363fd8724))
+
+#### `langchain_pinecone` - `v0.0.6+5`
+
+ - **FIX**(vector_stores): Decode JSON responses as UTF-8 in Pinecone ([#236](https://github.com/davidmigloz/langchain_dart/issues/236)). ([edb427b1](https://github.com/davidmigloz/langchain_dart/commit/edb427b16e6cd938adcaaa7cf641f4df6632f479))
+
+
+## 2023-11-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`chromadb` - `v0.1.0+2`](#chromadb---v0102)
  - [`langchain_chroma` - `v0.1.0+5`](#langchain_chroma---v0105)
 
