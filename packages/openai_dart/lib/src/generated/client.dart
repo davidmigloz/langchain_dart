@@ -138,6 +138,14 @@ class OpenAIClient {
   }
 
   // ------------------------------------------
+  // METHOD: _jsonDecode
+  // ------------------------------------------
+
+  dynamic _jsonDecode(http.Response r) {
+    return json.decode(utf8.decode(r.bodyBytes));
+  }
+
+  // ------------------------------------------
   // METHOD: _request
   // ------------------------------------------
 
@@ -378,7 +386,7 @@ class OpenAIClient {
       responseType: 'application/json',
       body: request,
     );
-    return CreateChatCompletionResponse.fromJson(json.decode(r.body));
+    return CreateChatCompletionResponse.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -402,7 +410,7 @@ class OpenAIClient {
       responseType: 'application/json',
       body: request,
     );
-    return CreateCompletionResponse.fromJson(json.decode(r.body));
+    return CreateCompletionResponse.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -426,7 +434,7 @@ class OpenAIClient {
       responseType: 'application/json',
       body: request,
     );
-    return CreateEmbeddingResponse.fromJson(json.decode(r.body));
+    return CreateEmbeddingResponse.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -456,7 +464,7 @@ class OpenAIClient {
         'limit': limit,
       },
     );
-    return ListPaginatedFineTuningJobsResponse.fromJson(json.decode(r.body));
+    return ListPaginatedFineTuningJobsResponse.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -480,7 +488,7 @@ class OpenAIClient {
       responseType: 'application/json',
       body: request,
     );
-    return FineTuningJob.fromJson(json.decode(r.body));
+    return FineTuningJob.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -503,7 +511,7 @@ class OpenAIClient {
       requestType: '',
       responseType: 'application/json',
     );
-    return FineTuningJob.fromJson(json.decode(r.body));
+    return FineTuningJob.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -536,7 +544,7 @@ class OpenAIClient {
         'limit': limit,
       },
     );
-    return ListFineTuningJobEventsResponse.fromJson(json.decode(r.body));
+    return ListFineTuningJobEventsResponse.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -559,7 +567,7 @@ class OpenAIClient {
       requestType: '',
       responseType: 'application/json',
     );
-    return FineTuningJob.fromJson(json.decode(r.body));
+    return FineTuningJob.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -583,7 +591,7 @@ class OpenAIClient {
       responseType: 'application/json',
       body: request,
     );
-    return ImagesResponse.fromJson(json.decode(r.body));
+    return ImagesResponse.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -602,7 +610,7 @@ class OpenAIClient {
       requestType: '',
       responseType: 'application/json',
     );
-    return ListModelsResponse.fromJson(json.decode(r.body));
+    return ListModelsResponse.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -625,7 +633,7 @@ class OpenAIClient {
       requestType: '',
       responseType: 'application/json',
     );
-    return Model.fromJson(json.decode(r.body));
+    return Model.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -648,7 +656,7 @@ class OpenAIClient {
       requestType: '',
       responseType: 'application/json',
     );
-    return DeleteModelResponse.fromJson(json.decode(r.body));
+    return DeleteModelResponse.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -672,6 +680,6 @@ class OpenAIClient {
       responseType: 'application/json',
       body: request,
     );
-    return CreateModerationResponse.fromJson(json.decode(r.body));
+    return CreateModerationResponse.fromJson(_jsonDecode(r));
   }
 }
