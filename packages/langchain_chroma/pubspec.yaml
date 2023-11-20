@@ -25,4 +25,4 @@ dependencies:
 
 dev_dependencies:
   test: ^1.24.3
-  langchain_openai: ^0.1.2
+  langchain_openai: ^0.1.2+1
