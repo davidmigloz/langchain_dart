@@ -5,37 +5,46 @@ import 'package:ollama_dart/ollama_dart.dart';
 void main() async {
   final client = OllamaClient();
 
-  // final GenerateResponse response = await client.postGenerate(
-  //   request: const GenerateRequest(
-  //     model: 'mistral:latest',
-  //     prompt: 'Why is the sky blue?',
-  //     stream: false,
-  //   ),
-  // );
-  // print(response);
+  /// Uncomment a section to perform the API call
 
-  // final Stream<GenerateResponse> responseStreamed = client.generateStream(
-  //   request: const GenerateRequest(
-  //     model: 'mistral:latest',
-  //     prompt: 'Why is the sky blue?',
-  //   ),
-  // );
+  ///
+  /// GENERATE A RESPONSE FROM A MODEL
+  ///
+  final GenerateResponse response = await client.postGenerate(
+    request: const GenerateRequest(
+      model: 'mistral:latest',
+      prompt: 'Why is the sky blue?',
+      stream: false,
+    ),
+  );
+  print(response);
 
-  // String generatedText = '';
-  // final DateTime start = DateTime.now();
-  // responseStreamed.listen((final GenerateResponse generated) {
-  //   if (generated.createdAt?.isNotEmpty ?? false) {
-  //     print(
-  //       '🤖 thinking: ${DateTime.parse(generated.createdAt ?? '').difference(start).inMilliseconds / 1000} seconds elapsed',
-  //     );
-  //   }
+  final Stream<GenerateResponse> responseStreamed = client.generateStream(
+    request: const GenerateRequest(
+      model: 'mistral:latest',
+      prompt: 'Why is the sky blue?',
+    ),
+  );
 
-  //   if (generated.done ?? false) {
-  //     print(generatedText);
-  //   } else {
-  //     generatedText += generated.response ?? '';
-  //   }
-  // });
+  String generatedText = '';
+  final DateTime start = DateTime.now();
+  responseStreamed.listen((final GenerateResponse generated) {
+    if (generated.createdAt?.isNotEmpty ?? false) {
+      print(
+        '🤖 thinking: ${DateTime.parse(generated.createdAt ?? '').difference(start).inMilliseconds / 1000} seconds elapsed',
+      );
+    }
+
+    if (generated.done ?? false) {
+      print(generatedText);
+    } else {
+      generatedText += generated.response ?? '';
+    }
+  });
+
+  ///
+  /// PULL A MODEL
+  ///
 
   // const String modelName = 'codellama:13b';
 
@@ -55,6 +64,10 @@ void main() async {
   //   }
   // });
 
+  ///
+  /// CREATE A NEW MODEL
+  ///
+
   // const String createModelName = 'supermario';
   // client
   //     .createModelStream(
@@ -70,18 +83,22 @@ void main() async {
   //   );
   // });
 
-      // const String modelName = 'mario';
-      // const String modelfile =
-      //     'FROM mistral:latest\nSYSTEM You are mario from Super Mario Bros.';
+  // const String modelName = 'mario';
+  // const String modelfile =
+  //     'FROM mistral:latest\nSYSTEM You are mario from Super Mario Bros.';
 
-      // final CreateResponse response = await client.create(
-      //   request: const CreateRequest(
-      //     name: modelName,
-      //     modelfile: modelfile,
-      //     stream: false,
-      //   ),
-      // );
-      // print(response.status);
+  // final CreateResponse response = await client.create(
+  //   request: const CreateRequest(
+  //     name: modelName,
+  //     modelfile: modelfile,
+  //     stream: false,
+  //   ),
+  // );
+  // print(response.status);
+
+  ///
+  /// COPY A MODEL
+  ///
 
   // const String copyName = '$modelName-backup2';
 
@@ -98,6 +115,10 @@ void main() async {
 
   // print(response.statusCode);
 
+  ///
+  /// DELETE A MODEL
+  ///
+  ///
   // await client.deleteModel(
   //   request: DeleteRequest(name: copyName),
   // );
@@ -106,6 +127,10 @@ void main() async {
   //   request: const DeleteRequest(name: copyName),
   // );
   // print(deleteResponse.statusCode);
+
+  ///
+  /// LIST LOCAL MODELS
+  ///
 
   // final TagResponse tags = await client.listTags();
   // print(tags.models);
