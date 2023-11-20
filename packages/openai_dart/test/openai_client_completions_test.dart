@@ -174,5 +174,16 @@ void main() {
       expect(res1.systemFingerprint, res2.systemFingerprint);
       expect(choice1.text, choice2.text);
     });
+
+    test('Test UTF-8 response', () async {
+      const request = CreateCompletionRequest(
+        model: CompletionModel.model(CompletionModels.gpt35TurboInstruct),
+        prompt: CompletionPrompt.string('How do you write Spain in Spanish?'),
+        temperature: 0,
+      );
+      final res = await client.createCompletion(request: request);
+      expect(res.choices, hasLength(1));
+      expect(res.choices.first.text.trim(), contains('España'));
+    });
   });
 }
