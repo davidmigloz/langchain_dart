@@ -16,10 +16,12 @@ class ChromaClient {
     this.database = 'default_database',
     final String baseUrl = 'http://localhost:8000',
     final Map<String, String>? headers,
+    final Map<String, dynamic>? queryParams,
     final http.Client? client,
   }) : _api = ChromaApiClient(
           baseUrl: baseUrl,
           headers: headers ?? const {},
+          queryParams: queryParams ?? const {},
           client: client,
         );
 

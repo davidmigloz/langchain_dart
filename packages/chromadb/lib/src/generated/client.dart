@@ -4,7 +4,6 @@
 // ignore_for_file: invalid_annotation_target, unused_import
 
 import 'dart:convert';
-import 'dart:io' as io;
 import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
@@ -21,7 +20,7 @@ enum HttpMethod { get, put, post, delete, options, head, patch, trace }
 // ==========================================
 
 /// HTTP exception handler for ChromaApiClient
-class ChromaApiClientException implements io.HttpException {
+class ChromaApiClientException implements Exception {
   ChromaApiClientException({
     required this.message,
     required this.uri,
@@ -30,9 +29,7 @@ class ChromaApiClientException implements io.HttpException {
     this.body,
   });
 
-  @override
   final String message;
-  @override
   final Uri uri;
   final HttpMethod method;
   final int? code;
@@ -69,10 +66,12 @@ class ChromaApiClient {
   ///
   /// - [ChromaApiClient.baseUrl] Override base URL (default: server url defined in spec)
   /// - [ChromaApiClient.headers] Global headers to be sent with every request
+  /// - [ChromaApiClient.queryParams] Global query parameters to be sent with every request
   /// - [ChromaApiClient.client] Override HTTP client to use for requests
   ChromaApiClient({
     this.baseUrl,
     this.headers = const {},
+    this.queryParams = const {},
     http.Client? client,
   })  : assert(
           baseUrl == null || baseUrl.startsWith('http'),
@@ -89,6 +88,9 @@ class ChromaApiClient {
 
   /// Global headers to be sent with every request
   final Map<String, String> headers;
+
+  /// Global query parameters to be sent with every request
+  final Map<String, dynamic> queryParams;
 
   /// HTTP client for requests
   final http.Client client;
@@ -132,12 +134,20 @@ class ChromaApiClient {
   }
 
   // ------------------------------------------
-  // METHOD: makeRequestStream
+  // METHOD: _jsonDecode
   // ------------------------------------------
 
-  /// Reusable request stream method
+  dynamic _jsonDecode(http.Response r) {
+    return json.decode(utf8.decode(r.bodyBytes));
+  }
+
+  // ------------------------------------------
+  // METHOD: _request
+  // ------------------------------------------
+
+  /// Reusable request method
   @protected
-  Future<http.StreamedResponse> makeRequestStream({
+  Future<http.StreamedResponse> _request({
     required String baseUrl,
     required String path,
     required HttpMethod method,
@@ -156,6 +166,9 @@ class ChromaApiClient {
       baseUrl.isNotEmpty,
       'baseUrl is required, but none defined in spec or provided by user',
     );
+
+    // Add global query parameters
+    queryParams = {...queryParams, ...this.queryParams};
 
     // Ensure query parameters are strings or iterable of strings
     queryParams = queryParams.map((key, value) {
@@ -189,46 +202,75 @@ class ChromaApiClient {
     headers.addAll(this.headers);
 
     // Build the request object
+    http.BaseRequest request;
+    if (isMultipart) {
+      // Handle multipart request
+      request = http.MultipartRequest(method.name, uri);
+      request = request as http.MultipartRequest;
+      if (body is List<http.MultipartFile>) {
+        request.files.addAll(body);
+      } else {
+        request.files.add(body as http.MultipartFile);
+      }
+    } else {
+      // Handle normal request
+      request = http.Request(method.name, uri);
+      request = request as http.Request;
+      try {
+        if (body != null) {
+          request.body = json.encode(body);
+        }
+      } catch (e) {
+        // Handle request encoding error
+        throw ChromaApiClientException(
+          uri: uri,
+          method: method,
+          message: 'Could not encode: ${body.runtimeType}',
+          body: e,
+        );
+      }
+    }
+
+    // Add request headers
+    request.headers.addAll(headers);
+
+    // Handle user request middleware
+    request = await onRequest(request);
+
+    // Submit request
+    return await client.send(request);
+  }
+
+  // ------------------------------------------
+  // METHOD: makeRequestStream
+  // ------------------------------------------
+
+  /// Reusable request stream method
+  @protected
+  Future<http.StreamedResponse> makeRequestStream({
+    required String baseUrl,
+    required String path,
+    required HttpMethod method,
+    Map<String, dynamic> queryParams = const {},
+    Map<String, String> headerParams = const {},
+    bool isMultipart = false,
+    String requestType = '',
+    String responseType = '',
+    Object? body,
+  }) async {
+    final uri = Uri.parse((this.baseUrl ?? baseUrl) + path);
     late http.StreamedResponse response;
     try {
-      http.BaseRequest request;
-      if (isMultipart) {
-        // Handle multipart request
-        request = http.MultipartRequest(method.name, uri);
-        request = request as http.MultipartRequest;
-        if (body is List<http.MultipartFile>) {
-          request.files.addAll(body);
-        } else {
-          request.files.add(body as http.MultipartFile);
-        }
-      } else {
-        // Handle normal request
-        request = http.Request(method.name, uri);
-        request = request as http.Request;
-        try {
-          if (body != null) {
-            request.body = json.encode(body);
-          }
-        } catch (e) {
-          // Handle request encoding error
-          throw ChromaApiClientException(
-            uri: uri,
-            method: method,
-            message: 'Could not encode: ${body.runtimeType}',
-            body: e,
-          );
-        }
-      }
-
-      // Add request headers
-      request.headers.addAll(headers);
-
-      // Handle user request middleware
-      request = await onRequest(request);
-
-      // Submit request
-      response = await client.send(request);
-
+      response = await _request(
+        baseUrl: baseUrl,
+        path: path,
+        method: method,
+        queryParams: queryParams,
+        headerParams: headerParams,
+        requestType: requestType,
+        responseType: responseType,
+        body: body,
+      );
       // Handle user response middleware
       response = await onStreamedResponse(response);
     } catch (e) {
@@ -273,8 +315,10 @@ class ChromaApiClient {
     String responseType = '',
     Object? body,
   }) async {
+    final uri = Uri.parse((this.baseUrl ?? baseUrl) + path);
+    late http.Response response;
     try {
-      final streamedResponse = await makeRequestStream(
+      final streamedResponse = await _request(
         baseUrl: baseUrl,
         path: path,
         method: method,
@@ -284,21 +328,32 @@ class ChromaApiClient {
         responseType: responseType,
         body: body,
       );
-      final response = await http.Response.fromStream(streamedResponse);
-
+      response = await http.Response.fromStream(streamedResponse);
       // Handle user response middleware
-      return await onResponse(response);
-    } on ChromaApiClientException {
-      rethrow;
+      response = await onResponse(response);
     } catch (e) {
       // Handle request and response errors
       throw ChromaApiClientException(
-        uri: Uri.parse((this.baseUrl ?? baseUrl) + path),
+        uri: uri,
         method: method,
         message: 'Response error',
         body: e,
       );
     }
+
+    // Check for successful response
+    if ((response.statusCode ~/ 100) == 2) {
+      return response;
+    }
+
+    // Handle unsuccessful response
+    throw ChromaApiClientException(
+      uri: uri,
+      method: method,
+      message: 'Unsuccessful response',
+      code: response.statusCode,
+      body: response.body,
+    );
   }
 
   // ------------------------------------------
@@ -317,7 +372,7 @@ class ChromaApiClient {
       requestType: '',
       responseType: 'application/json',
     );
-    return Map<String, int>.from(json.decode(r.body));
+    return Map<String, int>.from(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -336,7 +391,7 @@ class ChromaApiClient {
       requestType: '',
       responseType: 'application/json',
     );
-    return json.decode(r.body);
+    return _jsonDecode(r);
   }
 
   // ------------------------------------------
@@ -374,7 +429,7 @@ class ChromaApiClient {
       requestType: '',
       responseType: 'application/json',
     );
-    return Map<String, int>.from(json.decode(r.body));
+    return Map<String, int>.from(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -423,7 +478,7 @@ class ChromaApiClient {
         'tenant': tenant,
       },
     );
-    final list = json.decode(r.body) as List;
+    final list = _jsonDecode(r) as List;
     return list.map((e) => DatabaseType.fromJson(e)).toList();
   }
 
@@ -453,7 +508,7 @@ class ChromaApiClient {
         'tenant': tenant,
       },
     );
-    return DatabaseType.fromJson(json.decode(r.body));
+    return DatabaseType.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -477,7 +532,7 @@ class ChromaApiClient {
       responseType: 'application/json',
       body: request,
     );
-    final list = json.decode(r.body) as List;
+    final list = _jsonDecode(r) as List;
     return list.map((e) => TenantType.fromJson(e)).toList();
   }
 
@@ -501,7 +556,7 @@ class ChromaApiClient {
       requestType: '',
       responseType: 'application/json',
     );
-    return TenantType.fromJson(json.decode(r.body));
+    return TenantType.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -531,7 +586,7 @@ class ChromaApiClient {
         'database': database,
       },
     );
-    final list = json.decode(r.body) as List;
+    final list = _jsonDecode(r) as List;
     return list.map((e) => CollectionType.fromJson(e)).toList();
   }
 
@@ -566,7 +621,7 @@ class ChromaApiClient {
         'database': database,
       },
     );
-    return CollectionType.fromJson(json.decode(r.body));
+    return CollectionType.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -674,7 +729,7 @@ class ChromaApiClient {
       responseType: 'application/json',
       body: request,
     );
-    return GetResponse.fromJson(json.decode(r.body));
+    return GetResponse.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -701,7 +756,7 @@ class ChromaApiClient {
       responseType: 'application/json',
       body: request,
     );
-    return List<String>.from(json.decode(r.body));
+    return List<String>.from(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -724,7 +779,7 @@ class ChromaApiClient {
       requestType: '',
       responseType: 'application/json',
     );
-    return json.decode(r.body);
+    return _jsonDecode(r);
   }
 
   // ------------------------------------------
@@ -751,7 +806,7 @@ class ChromaApiClient {
       responseType: 'application/json',
       body: request,
     );
-    return QueryResponse.fromJson(json.decode(r.body));
+    return QueryResponse.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -784,7 +839,7 @@ class ChromaApiClient {
         'database': database,
       },
     );
-    return CollectionType.fromJson(json.decode(r.body));
+    return CollectionType.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
