@@ -353,7 +353,10 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   ///
   /// - [promptValue] The prompt to tokenize.
   @override
-  Future<List<int>> tokenize(final PromptValue promptValue) async {
+  Future<List<int>> tokenize(
+    final PromptValue promptValue, {
+    final ChatOpenAIOptions? options,
+  }) async {
     return _getTiktoken().encode(promptValue.toString());
   }
 

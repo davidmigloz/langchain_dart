@@ -29,7 +29,10 @@ class FakeChatModel extends SimpleChatModel {
   }
 
   @override
-  Future<List<int>> tokenize(final PromptValue promptValue) async {
+  Future<List<int>> tokenize(
+    final PromptValue promptValue, {
+    final ChatModelOptions? options,
+  }) async {
     return promptValue
         .toString()
         .split(' ')
@@ -77,7 +80,10 @@ class FakeEchoChatModel extends SimpleChatModel {
   }
 
   @override
-  Future<List<int>> tokenize(final PromptValue promptValue) async {
+  Future<List<int>> tokenize(
+    final PromptValue promptValue, {
+    final ChatModelOptions? options,
+  }) async {
     return promptValue
         .toString()
         .split(' ')

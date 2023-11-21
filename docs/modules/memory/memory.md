@@ -85,7 +85,10 @@ print(await memory.loadMemoryVariables());
 Finally, let’s take a look at using this in a chain:
 
 ```dart
-final llm = OpenAI(apiKey: openaiApiKey, temperature: 0);
+final llm = OpenAI(
+  apiKey: openaiApiKey,
+  defaultOptions: const OpenAIOptions(temperature: 0),
+);
 final conversation = ConversationChain(
   llm: llm,
   memory: ConversationBufferMemory(),

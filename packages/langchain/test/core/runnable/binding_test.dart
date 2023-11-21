@@ -76,7 +76,10 @@ class _FakeOptionsChatModel
   }
 
   @override
-  Future<List<int>> tokenize(final PromptValue promptValue) async {
+  Future<List<int>> tokenize(
+    final PromptValue promptValue, {
+    final _FakeOptionsChatModelOptions? options,
+  }) async {
     return promptValue
         .toString()
         .split(' ')

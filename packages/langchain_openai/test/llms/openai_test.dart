@@ -14,60 +14,88 @@ void main() {
     test('Test OpenAI parameters', () async {
       final llm = OpenAI(
         apiKey: openaiApiKey,
-        model: 'foo',
-        maxTokens: 10,
-        temperature: 0.1,
-        topP: 0.1,
-        n: 10,
-        presencePenalty: 0.1,
-        frequencyPenalty: 0.1,
-        bestOf: 10,
-        logitBias: {'foo': 1},
-        user: 'foo',
+        defaultOptions: const OpenAIOptions(
+          model: 'foo',
+          maxTokens: 10,
+          temperature: 0.1,
+          topP: 0.1,
+          n: 10,
+          presencePenalty: 0.1,
+          frequencyPenalty: 0.1,
+          bestOf: 10,
+          logitBias: {'foo': 1},
+          user: 'foo',
+        ),
       );
-      expect(llm.model, 'foo');
-      expect(llm.maxTokens, 10);
-      expect(llm.temperature, 0.1);
-      expect(llm.topP, 0.1);
-      expect(llm.n, 10);
-      expect(llm.presencePenalty, 0.1);
-      expect(llm.frequencyPenalty, 0.1);
-      expect(llm.bestOf, 10);
-      expect(llm.logitBias, {'foo': 1.0});
-      expect(llm.user, 'foo');
+      expect(llm.defaultOptions.model, 'foo');
+      expect(llm.defaultOptions.maxTokens, 10);
+      expect(llm.defaultOptions.temperature, 0.1);
+      expect(llm.defaultOptions.topP, 0.1);
+      expect(llm.defaultOptions.n, 10);
+      expect(llm.defaultOptions.presencePenalty, 0.1);
+      expect(llm.defaultOptions.frequencyPenalty, 0.1);
+      expect(llm.defaultOptions.bestOf, 10);
+      expect(llm.defaultOptions.logitBias, {'foo': 1.0});
+      expect(llm.defaultOptions.user, 'foo');
     });
 
     test('Test call to OpenAI', () async {
-      final llm = OpenAI(apiKey: openaiApiKey, maxTokens: 10);
+      final llm = OpenAI(
+        apiKey: openaiApiKey,
+        defaultOptions: const OpenAIOptions(maxTokens: 10),
+      );
       final output = await llm('Say foo:');
       expect(output, isNotEmpty);
     });
 
+    test('Test close OpenAI', () async {
+      final llm = OpenAI(
+        apiKey: openaiApiKey,
+        defaultOptions: const OpenAIOptions(maxTokens: 10),
+      );
+      final output = await llm('Say foo:');
+      expect(output, isNotEmpty);
+      llm.close();
+      expect(() => llm('Say foo:'), throwsA(isA<OpenAIClientException>()));
+    });
+
     test('Test generate to OpenAI', () async {
-      final llm = OpenAI(apiKey: openaiApiKey, maxTokens: 10);
+      final llm = OpenAI(
+        apiKey: openaiApiKey,
+        defaultOptions: const OpenAIOptions(maxTokens: 10),
+      );
       final res = await llm.generate('Hello, how are you?');
       expect(res.generations.length, 1);
     });
 
     test('Test model output contains metadata', () async {
-      final llm = OpenAI(apiKey: openaiApiKey, maxTokens: 10);
+      final llm = OpenAI(
+        apiKey: openaiApiKey,
+        defaultOptions: const OpenAIOptions(maxTokens: 10),
+      );
       final res = await llm.generate('Hello, how are you?');
       expect(res.modelOutput, isNotNull);
       expect(res.modelOutput!['id'], isNotEmpty);
       expect(res.modelOutput!['created'], isNotNull);
-      expect(res.modelOutput!['model'], llm.model);
+      expect(res.modelOutput!['model'], llm.defaultOptions.model);
     });
 
     test('Test stop logic on valid configuration', () async {
       const query = 'write an ordered list of five items';
-      final llm = OpenAI(apiKey: openaiApiKey, temperature: 0);
+      final llm = OpenAI(
+        apiKey: openaiApiKey,
+        defaultOptions: const OpenAIOptions(temperature: 0.0),
+      );
       final res = await llm(query, options: const OpenAIOptions(stop: ['3']));
       expect(res.contains('2.'), isTrue);
       expect(res.contains('3.'), isFalse);
     });
 
     test('Test OpenAI wrapper with multiple completions', () async {
-      final llm = OpenAI(apiKey: openaiApiKey, n: 5, bestOf: 5);
+      final llm = OpenAI(
+        apiKey: openaiApiKey,
+        defaultOptions: const OpenAIOptions(n: 5, bestOf: 5),
+      );
       final res = await llm.generate('Hello, how are you?');
       expect(res.generations.length, 5);
       for (final generation in res.generations) {
@@ -124,8 +152,10 @@ void main() {
       final prompt = PromptValue.string('How are you?');
       final llm = OpenAI(
         apiKey: openaiApiKey,
-        temperature: 0,
-        seed: 9999,
+        defaultOptions: const OpenAIOptions(
+          temperature: 0,
+          seed: 9999,
+        ),
       );
 
       final res1 = await llm.invoke(prompt);

@@ -137,7 +137,10 @@ Now, we can try running the chain that we called:
 
 ```dart
 final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
-final llm = OpenAI(apiKey: openaiApiKey, temperature: 0.9);
+final llm = OpenAI(
+  apiKey: openaiApiKey,
+  defaultOptions: const OpenAIOptions(temperature: 0.9),
+);
 
 final prompt1 = PromptTemplate.fromTemplate(
 'What is a good name for a company that makes {product}?',

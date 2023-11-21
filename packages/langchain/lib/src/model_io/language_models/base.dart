@@ -54,7 +54,10 @@ abstract class BaseLanguageModel<Input extends Object,
   /// model.
   ///
   /// - [promptValue] The prompt to tokenize.
-  Future<List<int>> tokenize(final PromptValue promptValue);
+  Future<List<int>> tokenize(
+    final PromptValue promptValue, {
+    final Options? options,
+  });
 
   /// Returns the number of tokens resulting from [tokenize] the given prompt.
   ///
