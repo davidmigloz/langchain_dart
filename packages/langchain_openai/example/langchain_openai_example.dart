@@ -25,7 +25,12 @@ Future<void> _example1() async {
 /// This is the most basic one.
 Future<void> _example2() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
-  final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
+  final chat = ChatOpenAI(
+    apiKey: openaiApiKey,
+    defaultOptions: const ChatOpenAIOptions(
+      temperature: 0,
+    ),
+  );
 
   while (true) {
     stdout.write('> ');

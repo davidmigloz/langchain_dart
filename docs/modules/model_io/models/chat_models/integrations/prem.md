@@ -6,10 +6,7 @@ the OpenAI API.
 
 ```dart
 const localUrl = 'http://localhost:8000'; // Check Prem app for the actual URL
-final chat = ChatOpenAI(
-    baseUrl: localUrl,
-    temperature: 0,
-);
+final chat = ChatOpenAI(baseUrl: localUrl);
 
 const template = 'You are a helpful assistant that translates {input_language} to {output_language}.';
 final systemMessagePrompt = SystemChatMessagePromptTemplate.fromTemplate(template);

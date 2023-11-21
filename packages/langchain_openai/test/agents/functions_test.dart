@@ -14,8 +14,7 @@ void main() {
     test('Test OpenAIFunctionsAgent', () async {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
-        model: 'gpt-3.5-turbo-0613',
-        temperature: 0,
+        defaultOptions: const ChatOpenAIOptions(temperature: 0),
       );
 
       final tool = CalculatorTool();
@@ -34,8 +33,7 @@ void main() {
     Future<void> testMemory({required final bool returnMessages}) async {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
-        model: 'gpt-3.5-turbo-0613',
-        temperature: 0,
+        defaultOptions: const ChatOpenAIOptions(temperature: 0),
       );
 
       final tool = BaseTool.fromFunction(
@@ -120,7 +118,7 @@ void main() {
 
     final model = ChatOpenAI(
       apiKey: openaiApiKey,
-      temperature: 0,
+      defaultOptions: const ChatOpenAIOptions(temperature: 0),
     ).bind(ChatOpenAIOptions(functions: [tool.toChatFunction()]));
 
     final agent = Agent.fromRunnable(

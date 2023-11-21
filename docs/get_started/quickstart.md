@@ -126,7 +126,10 @@ However, the advantages of using these over raw string formatting are several. Y
 `PromptTemplates` can also be used to produce a list of messages. In this case, the prompt not only contains information about the content, but also each message (its role, its position in the list, etc) Here, what happens most often is a `ChatPromptTemplate` is a list of `ChatMessagePromptTemplates`. Each `ChatMessagePromptTemplate` contains instructions for how to format that `ChatMessage` - its role, and then also its content. Let's take a look at this below:
 
 ```dart
-final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
+final chat = final chat = ChatOpenAI(
+  apiKey: openaiApiKey,
+  defaultOptions: const ChatOpenAIOptions(temperature: 0),
+);
 
 const systemTemplate = 'You are a helpful assistant that translates {input_language} to {output_language}.';
 final systemMessagePrompt = SystemChatMessagePromptTemplate.fromTemplate(systemTemplate);

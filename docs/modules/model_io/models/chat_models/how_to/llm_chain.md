@@ -5,7 +5,12 @@ You can use the existing `LLMChain` in a very similar way as
 model.
 
 ```dart
-final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
+final chat = final chat = ChatOpenAI(
+  apiKey: openaiApiKey,
+  defaultOptions: const ChatOpenAIOptions(
+    temperature: 0,
+  ),
+);
 
 const template = 'You are a helpful assistant that translates {input_language} to {output_language}.';
 final systemMessagePrompt = SystemChatMessagePromptTemplate.fromTemplate(template);

@@ -1,14 +1,17 @@
 # Getting Started
 
-
-
 ## Different ways of calling chains
 
 All classes inherited from `BaseChain` offer a few ways of running chain logic. The most direct one 
 is by `call()` (a chain is a [callable object](https://dart.dev/language/callable-objects)):
 
 ```dart
-final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
+final chat = final chat = ChatOpenAI(
+  apiKey: openaiApiKey,
+  defaultOptions: const ChatOpenAIOptions(
+    temperature: 0,
+  ),
+);
 const template = 'Tell me a {adjective} joke';
 final prompt = PromptTemplate.fromTemplate(template);
 final chain = LLMChain(llm: chat, prompt: prompt);
@@ -58,7 +61,12 @@ Tips: You can easily integrate a Chain object as a Tool in your Agent via its ru
 persist data across multiple calls. In other words, it makes `Chain` a stateful object.
 
 ```dart
-final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
+final chat = final chat = ChatOpenAI(
+  apiKey: openaiApiKey,
+  defaultOptions: const ChatOpenAIOptions(
+    temperature: 0,
+  ),
+);
 final memory = ConversationBufferMemory(returnMessages: true);
 final conversation = ConversationChain(llm: chat, memory: memory);
 

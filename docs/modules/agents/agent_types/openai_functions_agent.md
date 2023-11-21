@@ -15,8 +15,10 @@ The OpenAI Functions Agent is designed to work with these models.
 ```dart
 final llm = ChatOpenAI(
   apiKey: openaiApiKey,
-  model: 'gpt-4',
-  temperature: 0,
+  defaultOptions: const ChatOpenAIOptions(
+    model: 'gpt-4',
+    temperature: 0,
+  ),
 );
 final tool = CalculatorTool();
 final agent = OpenAIFunctionsAgent.fromLLMAndTools(llm: llm, tools: [tool]);
@@ -32,7 +34,7 @@ Let's see an example of how to do this:
 ```dart
 final llm = ChatOpenAI(
   apiKey: openaiApiKey,
-  temperature: 0,
+  defaultOptions: const ChatOpenAIOptions(temperature: 0),
 );
 
 final tool = BaseTool.fromFunction(
@@ -91,8 +93,11 @@ final tool = CalculatorTool();
 
 final model = ChatOpenAI(
   apiKey: openaiApiKey,
-  temperature: 0,
-).bind(ChatOpenAIOptions(functions: [tool.toChatFunction()]));
+  defaultOptions: ChatOpenAIOptions(
+    temperature: 0,
+    functions: [tool.toChatFunction()],
+  ),
+);
 
 const outputParser = OpenAIFunctionsAgentOutputParser();
 

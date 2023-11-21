@@ -267,7 +267,7 @@ Future<void> _runnableTypesRunnableMapInput() async {
 
   final model = ChatOpenAI(
     apiKey: openaiApiKey,
-    temperature: 0,
+    defaultOptions: const ChatOpenAIOptions(temperature: 0),
   ).bind(ChatOpenAIOptions(functions: [tool.toChatFunction()]));
 
   const outputParser = OpenAIFunctionsAgentOutputParser();

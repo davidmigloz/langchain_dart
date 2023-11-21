@@ -11,7 +11,12 @@ class SonnetsService {
           'OPENAI_API_KEY environment variable.');
       exit(64);
     }
-    _llm = ChatOpenAI(apiKey: openAiApiKey, temperature: 0.9);
+    _llm = ChatOpenAI(
+      apiKey: openAiApiKey,
+      defaultOptions: const ChatOpenAIOptions(
+        temperature: 0.9,
+      ),
+    );
   }
 
   late final ChatOpenAI _llm;

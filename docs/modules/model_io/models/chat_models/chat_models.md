@@ -31,7 +31,12 @@ import 'package:langchain_openai/langchain_openai.dart';
 
 We can then instantiate the chat model:
 ```dart
-final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
+final chat = final chat = ChatOpenAI(
+  apiKey: openaiApiKey,
+  defaultOptions: const ChatOpenAIOptions(
+    temperature: 0,
+  ),
+);
 ```
 
 ### Messages

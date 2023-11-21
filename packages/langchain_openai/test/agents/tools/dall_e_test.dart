@@ -39,8 +39,10 @@ void main() {
         timeout: const Timeout(Duration(minutes: 2)), skip: true, () async {
       final llm = ChatOpenAI(
         apiKey: openAiKey,
-        model: 'gpt-4',
-        temperature: 0,
+        defaultOptions: const ChatOpenAIOptions(
+          model: 'gpt-4',
+          temperature: 0,
+        ),
       );
 
       final tools = [

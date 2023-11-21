@@ -9,8 +9,10 @@ Example:
 ```dart
 final llm = ChatOpenAI(
   apiKey: openAiKey,
-  model: 'gpt-4',
-  temperature: 0,
+  defaultOptions: const ChatOpenAIOptions(
+    model: 'gpt-4',
+    temperature: 0,
+  ),
 );
 final tools = [
   CalculatorTool(),

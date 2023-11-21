@@ -29,9 +29,8 @@ final docSearch = await MemoryVectorStore.fromDocuments(
   embeddings: embeddings,
 );
 final llm = ChatOpenAI(
-  apiKey: openaiApiKey,
-  model: 'gpt-3.5-turbo-0613',
-  temperature: 0,
+  apiKey: openAiKey,
+  defaultOptions: const ChatOpenAIOptions(temperature: 0),
 );
 final qaChain = OpenAIQAWithSourcesChain(llm: llm);
 final docPrompt = PromptTemplate.fromTemplate(

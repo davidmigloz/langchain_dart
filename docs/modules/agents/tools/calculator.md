@@ -8,7 +8,10 @@ Example:
 final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 final llm = ChatOpenAI(
   apiKey: openaiApiKey,
-  temperature: 0,
+  defaultOptions: const ChatOpenAIOptions(
+    model: 'gpt-4',
+    temperature: 0,
+  ),
 );
 final tool = CalculatorTool();
 final agent = OpenAIFunctionsAgent.fromLLMAndTools(llm: llm, tools: [tool]);

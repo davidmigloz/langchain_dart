@@ -10,7 +10,12 @@ void main(final List<String> arguments) async {
 
 Future<void> _calculator() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
-  final model = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
+  final model = ChatOpenAI(
+    apiKey: openaiApiKey,
+    defaultOptions: const ChatOpenAIOptions(
+      temperature: 0,
+    ),
+  );
   const stringOutputParser = StringOutputParser();
 
   final promptTemplate = ChatPromptTemplate.fromTemplate('''

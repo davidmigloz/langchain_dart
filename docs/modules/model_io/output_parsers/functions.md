@@ -27,7 +27,12 @@ const function = ChatFunction(
 final promptTemplate = ChatPromptTemplate.fromTemplate(
   'tell me a long joke about {foo}',
 );
-final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0).bind(
+final chat = ChatOpenAI(
+  apiKey: openaiApiKey,
+  defaultOptions: const ChatOpenAIOptions(
+    temperature: 0,
+  ),
+).bind(
   ChatOpenAIOptions(
     functions: const [function],
     functionCall: ChatFunctionCall.forced(functionName: 'joke'),
