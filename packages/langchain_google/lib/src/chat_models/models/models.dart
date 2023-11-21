@@ -6,6 +6,8 @@ import 'package:langchain/langchain.dart';
 class ChatVertexAIOptions extends ChatModelOptions {
   /// {@macro chat_vertex_ai_options}
   const ChatVertexAIOptions({
+    this.publisher = 'google',
+    this.model = 'chat-bison',
     this.maxOutputTokens = 1024,
     this.temperature = 0.2,
     this.topP = 0.95,
@@ -14,6 +16,22 @@ class ChatVertexAIOptions extends ChatModelOptions {
     this.candidateCount = 1,
     this.examples,
   });
+
+  /// The publisher of the model.
+  ///
+  /// Use `google` for first-party models.
+  final String publisher;
+
+  /// The text model to use.
+  ///
+  /// To use the latest model version, specify the model name without a version
+  /// number (e.g. `chat-bison`).
+  /// To use a stable model version, specify the model version number
+  /// (e.g. `chat-bison@001`).
+  ///
+  /// You can find a list of available models here:
+  /// https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models
+  final String model;
 
   /// Maximum number of tokens that can be generated in the response. A token
   /// is approximately four characters. 100 tokens correspond to roughly
