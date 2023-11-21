@@ -116,8 +116,6 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
     required final String project,
     final String location = 'us-central1',
     final String? rootUrl,
-    this.publisher = 'google',
-    this.model = 'chat-bison',
     this.defaultOptions = const ChatVertexAIOptions(),
   }) : client = VertexAIGenAIClient(
           httpClient: httpClient,
@@ -128,22 +126,6 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
 
   /// A client for interacting with Vertex AI API.
   final VertexAIGenAIClient client;
-
-  /// The publisher of the model.
-  ///
-  /// Use `google` for first-party models.
-  final String publisher;
-
-  /// The text model to use.
-  ///
-  /// To use the latest model version, specify the model name without a version
-  /// number (e.g. `chat-bison`).
-  /// To use a stable model version, specify the model version number
-  /// (e.g. `chat-bison@001`).
-  ///
-  /// You can find a list of available models here:
-  /// https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models
-  final String model;
 
   /// The default options to use when calling the model.
   final ChatVertexAIOptions defaultOptions;
@@ -181,8 +163,8 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
       context: context,
       examples: examples,
       messages: vertexMessages,
-      publisher: publisher,
-      model: model,
+      publisher: options?.publisher ?? defaultOptions.publisher,
+      model: options?.model ?? defaultOptions.model,
       parameters: VertexAITextChatModelRequestParams(
         maxOutputTokens:
             options?.maxOutputTokens ?? defaultOptions.maxOutputTokens,
@@ -194,7 +176,7 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
             options?.candidateCount ?? defaultOptions.candidateCount,
       ),
     );
-    return result.toChatResult(id, model);
+    return result.toChatResult(id, options?.model ?? defaultOptions.model);
   }
 
   /// Tokenizes the given prompt using tiktoken.
