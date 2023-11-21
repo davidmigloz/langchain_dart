@@ -5,23 +5,25 @@
 part of ollama_schema;
 
 // ==========================================
-// CLASS: ShowRequest
+// CLASS: ModelInfoRequest
 // ==========================================
 
-/// Show details about a model including modelfile, template, parameters, license, and system prompt.
+/// Request class for the show model info endpoint.
 @freezed
-class ShowRequest with _$ShowRequest {
-  const ShowRequest._();
+class ModelInfoRequest with _$ModelInfoRequest {
+  const ModelInfoRequest._();
 
-  /// Factory constructor for ShowRequest
-  const factory ShowRequest({
-    /// (required) name of the model to show
+  /// Factory constructor for ModelInfoRequest
+  const factory ModelInfoRequest({
+    /// The model name.
+    ///
+    /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
     required String name,
-  }) = _ShowRequest;
+  }) = _ModelInfoRequest;
 
   /// Object construction from a JSON representation
-  factory ShowRequest.fromJson(Map<String, dynamic> json) =>
-      _$ShowRequestFromJson(json);
+  factory ModelInfoRequest.fromJson(Map<String, dynamic> json) =>
+      _$ModelInfoRequestFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = ['name'];

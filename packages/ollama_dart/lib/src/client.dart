@@ -38,7 +38,7 @@ class OllamaClient extends g.OllamaClient {
   // METHOD: generateCompletionStream
   // ------------------------------------------
 
-  /// Streams the generated response for a given prompt with a provided model.
+  /// Generate a response for a given prompt with a provided model streaming the response.
   ///
   /// The final response object will include statistics and additional data from the request.
   ///
@@ -67,13 +67,15 @@ class OllamaClient extends g.OllamaClient {
   // METHOD: createModelStream
   // ------------------------------------------
 
-  /// Create a model from a Modelfile. It is recommended to set modelfile to the content of the Modelfile rather than just set path. This is a requirement for remote create. Remote model creation should also create any file blobs, fields such as FROM and ADAPTER, explicitly with the server using Create a Blob and the value to the path indicated in the response.
+  /// Create a model from a Modelfile streaming the response.
   ///
-  /// `request`: Request object for the creating a new model
+  /// It is recommended to set `modelfile` to the content of the Modelfile rather than just set `path`. This is a requirement for remote create. Remote model creation should also create any file blobs, fields such as `FROM` and `ADAPTER`, explicitly with the server using Create a Blob and the value to the path indicated in the response.
+  ///
+  /// `request`: Create a new model from a Modelfile.
   ///
   /// `POST` `http://localhost:11434/api/create`
-  Stream<CreateResponse> createModelStream({
-    required final CreateRequest request,
+  Stream<CreateModelResponse> createModelStream({
+    required final CreateModelRequest request,
   }) async* {
     final r = await makeRequestStream(
       baseUrl: 'http://localhost:11434/api',
@@ -84,7 +86,7 @@ class OllamaClient extends g.OllamaClient {
       body: request.copyWith(stream: true),
     );
     yield* r.stream.map(
-      (final d) => CreateResponse.fromJson(
+      (final d) => CreateModelResponse.fromJson(
         json.decode(const Utf8Decoder().convert(d)),
       ),
     );
@@ -94,13 +96,15 @@ class OllamaClient extends g.OllamaClient {
   // METHOD: pullModelStream
   // ------------------------------------------
 
-  /// Download a model from the ollama library. Cancelled pulls are resumed from where they left off, and multiple calls will share the same download progress.
+  /// Download a model from the ollama library streaming the response.
   ///
-  /// `request`: Request object for pulling a model
+  /// Cancelled pulls are resumed from where they left off, and multiple calls will share the same download progress.
+  ///
+  /// `request`: Request class for pulling a model.
   ///
   /// `POST` `http://localhost:11434/api/pull`
-  Stream<PullResponse> pullModelStream({
-    required final PullRequest request,
+  Stream<PullModelResponse> pullModelStream({
+    required final PullModelRequest request,
   }) async* {
     final r = await makeRequestStream(
       baseUrl: 'http://localhost:11434/api',
@@ -111,7 +115,7 @@ class OllamaClient extends g.OllamaClient {
       body: request.copyWith(stream: true),
     );
     yield* r.stream.map(
-      (final d) => PullResponse.fromJson(
+      (final d) => PullModelResponse.fromJson(
         json.decode(const Utf8Decoder().convert(d)),
       ),
     );
@@ -121,13 +125,15 @@ class OllamaClient extends g.OllamaClient {
   // METHOD: pushModelStream
   // ------------------------------------------
 
-  /// Upload a model to a model library. Requires registering for ollama.ai and adding a public key first.
+  /// Upload a model to a model library streaming the response.
   ///
-  /// `request`: Request object for pushing models
+  /// Requires registering for ollama.ai and adding a public key first.
+  ///
+  /// `request`: Request class for pushing a model.
   ///
   /// `POST` `http://localhost:11434/api/push`
-  Stream<PushResponse> pushModelStream({
-    required final PushRequest request,
+  Stream<PushModelResponse> pushModelStream({
+    required final PushModelRequest request,
   }) async* {
     final r = await makeRequestStream(
       baseUrl: 'http://localhost:11434/api',
@@ -138,55 +144,9 @@ class OllamaClient extends g.OllamaClient {
       body: request.copyWith(stream: true),
     );
     yield* r.stream.map(
-      (final d) => PushResponse.fromJson(
+      (final d) => PushModelResponse.fromJson(
         json.decode(const Utf8Decoder().convert(d)),
       ),
     );
-  }
-
-  // ------------------------------------------
-  // METHOD: copyModelWithResponse
-  // ------------------------------------------
-
-  /// Copy a model. Creates a model with another name from an existing model. Returns status code 200 on successful copy.
-  ///
-  /// `request`: Request object for copying models
-  ///
-  /// `POST` `http://localhost:11434/api/copy
-  /// ]`
-  Future<http.Response> copyModelWithResponse({
-    required final CopyRequest request,
-  }) async {
-    final r = await makeRequest(
-      baseUrl: 'http://localhost:11434/api',
-      path: '/copy',
-      method: g.HttpMethod.post,
-      requestType: 'application/json',
-      body: request,
-    );
-    return r;
-  }
-
-  // ------------------------------------------
-  // METHOD: deleteModelWithResponse
-  // ------------------------------------------
-
-  /// Delete a model. Deletes a model from local storage. Returns status code 200 on successful delete.
-  ///
-  /// `request`: Request object for deleting models
-  ///
-  /// `POST` `http://localhost:11434/api/delete
-  /// ]`
-  Future<http.Response> deleteModelWithResponse({
-    required final DeleteRequest request,
-  }) async {
-    final r = await makeRequest(
-      baseUrl: 'http://localhost:11434/api',
-      path: '/delete',
-      method: g.HttpMethod.delete,
-      requestType: 'application/json',
-      body: request,
-    );
-    return r;
   }
 }

@@ -14,6 +14,8 @@ tags:
     description: Given a prompt, the model will generate a completion.
   - name: Embeddings
     description: Get a vector representation of a given input.
+  - name: Models
+    description: List and describe the various models available.
 
 paths:
   /generate:
@@ -21,7 +23,7 @@ paths:
       operationId: generateCompletion
       tags:
       - Completions
-      summary: Generate a response for a given prompt with a provided model. 
+      summary: Generate a response for a given prompt with a provided model.
       description: The final response object will include statistics and additional data from the request.
       requestBody:
         content:
@@ -30,7 +32,7 @@ paths:
               $ref: '#/components/schemas/GenerateCompletionRequest'
       responses: 
         '200':
-          description: Successful operation
+          description: Successful operation.
           content:
             application/x-ndjson:
               schema:
@@ -48,38 +50,134 @@ paths:
               $ref: '#/components/schemas/GenerateEmbeddingRequest'
       responses:
         '200':
-          description: Successful operation
+          description: Successful operation.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenerateEmbeddingResponse'
-  # TODO finish reviewing endpoints below this comment
   /create:
     post:
+      operationId: createModel
       tags:
-      - model management
-      summary: Create a model from a Modelfile. 
-      description: It is recommended to set modelfile to the content of the Modelfile rather than just set path. This is a requirement for remote create. Remote model creation should also create any file blobs, fields such as FROM and ADAPTER, explicitly with the server using Create a Blob and the value to the path indicated in the response.
-      operationId: create
+        - Models
+      summary: Create a model from a Modelfile.
+      description: It is recommended to set `modelfile` to the content of the Modelfile rather than just set `path`. This is a requirement for remote create. Remote model creation should also create any file blobs, fields such as `FROM` and `ADAPTER`, explicitly with the server using Create a Blob and the value to the path indicated in the response.
       requestBody:
-        description: Create a new model from a modelfile
+        description: Create a new model from a Modelfile.
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateRequest'
+              $ref: '#/components/schemas/CreateModelRequest'
       responses:
         '200':
-          description: Successful operation
+          description: Successful operation.
           content:
             application/x-ndjson:
               schema:
-                $ref: '#/components/schemas/CreateResponse'
+                $ref: '#/components/schemas/CreateModelResponse'
+  /tags:
+    get:
+      operationId: listModels
+      tags:
+        - Models
+      summary: List models that are available locally.
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelsResponse'
+  /show:
+    post:
+      operationId: showModelInfo
+      tags:
+        - Models
+      summary: Show details about a model including modelfile, template, parameters, license, and system prompt.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelInfoRequest'
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelInfo'
+  /copy:
+    post:
+      operationId: copyModel
+      tags:
+        - Models
+      summary: Creates a model with another name from an existing model.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CopyModelRequest'
+      responses:
+        '200':
+          description: Successful operation.
+  /delete:
+    delete:
+      operationId: deleteModel
+      tags:
+        - Models
+      summary: Delete a model and its data.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteModelRequest'
+      responses:
+        '200':
+          description: Successful operation.
+  /pull:
+    post:
+      operationId: pullModel
+      tags:
+        - Models
+      summary: Download a model from the ollama library.
+      description: Cancelled pulls are resumed from where they left off, and multiple calls will share the same download progress.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PullModelRequest'
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PullModelResponse'
+  /push:
+    post:
+      operationId: pushModel
+      tags:
+        - Models
+      summary: Upload a model to a model library.
+      description: Requires registering for ollama.ai and adding a public key first.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PushModelRequest'
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PushModelResponse'
   /blobs/{digest}:
     head:
+      operationId: checkBlob
       tags:
-        - model management
-      summary: Check if a blob is known to the server.
-      description: Check to see if a blob exists on the Ollama server which is useful when creating models
+        - Models
+      summary: Check to see if a blob exists on the Ollama server which is useful when creating models.
       parameters:
         - in: query
           name: name
@@ -88,131 +186,33 @@ paths:
           required: true
           description: the SHA256 digest of the blob
           example: sha256:c8edda1f17edd2f1b60253b773d837bda7b9d249a61245931a4d7c9a8d350250
-      response:
+      responses:
         '200':
           description: Blob exists on the server
         '404':
           description: Blob was not found
     post:
+      operationId: createBlob
       tags:
-        - model management
+        - Models
       summary: Create a blob from a file. Returns the server file path.
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+          required: true
+          description: the SHA256 digest of the blob
+          example: sha256:c8edda1f17edd2f1b60253b773d837bda7b9d249a61245931a4d7c9a8d350250
       requestBody:
         content:
           application/octet-stream:
             schema:
               type: string
               format: binary
-      response:
+      responses:
         '201':
           description: Blob was successfully created
-
-  /tags:
-    get:
-      tags:
-      - model management
-      summary: List Local Models
-      description: List models that are available locally.
-      operationId: listTags
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TagResponse'
-
-  /show:
-    post:
-      tags:
-      - model management
-      summary: Show Model Information
-      description: Show details about a model including modelfile, template, parameters, license, and system prompt.
-      operationId: showModel
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ShowRequest'
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ShowResponse'
-
-  /copy:
-    post:
-      tags:
-      - model management
-      summary: Copy a Model
-      description: Copy a model. Creates a model with another name from an existing model.
-      operationId: copyModel
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CopyRequest'
-      responses:
-        '200':
-          description: OK
-
-  /delete:
-    delete:
-      tags:
-      - model management
-      summary: Delete a Model
-      description: Delete a model and its data.
-      operationId: deleteModel
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DeleteRequest'
-      responses:
-        '200':
-          description: OK
-
-  /pull:
-    post:
-      tags:
-      - model management
-      summary: Pull a Model
-      description: Download a model from the ollama library. Cancelled pulls are resumed from where they left off, and multiple calls will share the same download progress.
-      operationId: pullModel
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PullRequest'
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PullResponse'
-  
-  /push:
-    post:
-      tags:
-      - model management
-      summary: Push a Model
-      description: Upload a model to a model library. Requires registering for ollama.ai and adding a public key first.
-      operationId: pushModel
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PushRequest'
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PushResponse'
 
 components:
   schemas:
@@ -222,7 +222,7 @@ components:
       properties:
         model:
           type: string
-          description: | 
+          description: &model_name | 
             The model name. 
             
             Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
@@ -254,7 +254,8 @@ components:
             You may choose to use the `raw` parameter if you are specifying a full templated prompt in your request to the API, and are managing history yourself.
         stream:
           type: boolean
-          description: If `false` the response will be returned as a single response object, rather than a stream of objects.
+          description: &stream | 
+            If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
           default: false
       required:
       - model
@@ -423,7 +424,7 @@ components:
       properties:
         model:
           type: string
-          description: The name of the model used to generate the response.
+          description: *model_name
           example: llama2:7b
         created_at:
           type: string
@@ -483,10 +484,7 @@ components:
       properties:
         model:
           type: string
-          description: |
-            The model name. 
-            
-            Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+          description: *model_name
           example: llama2:7b
         prompt:
           type: string
@@ -508,193 +506,201 @@ components:
             type: number
             format: double
           example: [0.5670403838157654, 0.009260174818336964, ...]
-    # TODO finish reviewing schemas below this comment
-    CreateRequest:
+    CreateModelRequest:
       type: object
+      description: Create model request object.
       properties:
         name:  
           type: string
-          description: (required) the model name
+          description: *model_name
           example: mario
         modelfile:  
           type: string
-          description: contents of the Modelfile
+          description: The contents of the Modelfile.
           example: FROM llama2\nSYSTEM You are mario from Super Mario Bros.
-        path:  
-          type: string
-          description: "path to the Modelfile (deprecated: please use modelfile instead)"
-          example: FROM llama2
         stream:  
           type: boolean
-          description: (optional) if false the response will be returned as a single response object, rather than a stream of objects
-          example: true
+          description: *stream
           default: false
       required:
       - name
       - modelfile
-    CreateResponse:
-      description: A stream of JSON objects. When finished, status is success.
+    CreateModelResponse:
+      description: Response object for creating a model. When finished, `status` is `success`.
       type: object
       properties:
         status:
-          type: string
-          description: Status creating the model
-          enum:
-            - creating system layer
-            - parsing modelfile
-            - success
-          example: parsing modelfile
-    Tag:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Model name
-          example: llama2:7b
-        modified_at:
-          type: string
-          format: date-time
-          description: Model modification date
-          example: 2023-08-02T17:02:23.713454393-07:00
-        size:
-          type: integer
-          description: Size of the model on disk
-          example: 7323310500
-    TagResponse:
-      description: A single JSON object will be returned.
+          $ref: '#/components/schemas/CreateModelStatus'
+    CreateModelStatus:
+      type: string
+      description: Status creating the model
+      enum:
+        - creating system layer
+        - parsing modelfile
+        - success
+    ModelsResponse:
+      description: Response class for the list models endpoint.
       type: object
       properties:
         models:
           type: array
+          description: List of models available locally.
           items:
-            $ref: '#/components/schemas/Tag'
-    ShowRequest:
-      description: Show details about a model including modelfile, template, parameters, license, and system prompt.
+            $ref: '#/components/schemas/Model'
+    Model:
+      type: object
+      description: A model available locally.
+      properties:
+        name:
+          type: string
+          description: *model_name
+          example: llama2:7b
+        modified_at:
+          type: string
+          format: date-time
+          description: Model modification date.
+          example: 2023-08-02T17:02:23.713454393-07:00
+        size:
+          type: integer
+          description: Size of the model on disk.
+          example: 7323310500
+    ModelInfoRequest:
+      description: Request class for the show model info endpoint.
       type: object
       properties:
         name:  
           type: string
-          description: (required) name of the model to show
+          description: *model_name
           example: llama2:7b
       required:
       - name
-    ShowResponse:
-      description: details about a model including modelfile, template, parameters, license, and system prompt.
+    ModelInfo:
+      description: Details about a model including modelfile, template, parameters, license, and system prompt.
       type: object
       properties:
         license:
           type: string
-          description: the model's license
+          description: The model's license.
           example: <contents of license block>
         modelfile:
           type: string
-          description: the modelfile associated with the model
+          description: The modelfile associated with the model.
           example: 'Modelfile generated by \"ollama show\"\n# To build a new Modelfile based on this one, replace the FROM line with:\n# FROM llama2:latest\n\nFROM /Users/username/.ollama/models/blobs/sha256:8daa9615cce30c259a9555b1cc250d461d1bc69980a274b44d7eda0be78076d8\nTEMPLATE \"\"\"[INST] {{ if and .First .System }}<<SYS>>{{ .System }}<</SYS>>\n\n{{ end }}{{ .Prompt }} [/INST] \"\"\"\nSYSTEM \"\"\"\"\"\"\nPARAMETER stop [INST]\nPARAMETER stop [/INST]\nPARAMETER stop <<SYS>>\nPARAMETER stop <</SYS>>\n"'
         parameters:
           type: string
-          description: model parameters
-          example: 'stop                           [INST]\nstop                           [/INST]\nstop                           <<SYS>>\nstop                           <</SYS>>'
+          description: The model parameters.
+          example: 'stop [INST]\nstop [/INST]\nstop <<SYS>>\nstop <</SYS>>'
         template:
           type: string
-          description: the prompt template for the model
+          description: The prompt template for the model.
           example: '[INST] {{ if and .First .System }}<<SYS>>{{ .System }}<</SYS>>\n\n{{ end }}{{ .Prompt }} [/INST]'
-    CopyRequest:
-      description: Creates a model with another name from an existing model.
+    CopyModelRequest:
+      description: Request class for copying a model.
       type: object
       properties:
         source:
           type: string
+          description: Name of the model to copy.
           example: llama2:7b
         destination: 
           type: string
+          description: Name of the new model.
           example: llama2-backup
       required:
       - source
       - destination
-    DeleteRequest:
-      description: Deletes a model and its data
+    DeleteModelRequest:
+      description: Request class for deleting a model.
       type: object
       properties:
         name:  
           type: string
-          description: (required) name of the model to delete
+          description: *model_name
           example: llama2:13b
       required:
       - name
-    PullRequest:
-      description: Download a model from the ollama library. Cancelled pulls are resumed from where they left off, and multiple calls will share the same download progress.
+    PullModelRequest:
+      description: Request class for pulling a model.
       type: object
       properties:
         name:  
           type: string
-          description: name of the model to pull
+          description: *model_name
           example: llama2:7b
         insecure:  
           type: boolean
-          description: (optional) allow insecure connections to the library. Only use this if you are pulling from your own library during development.
-          example: true
+          description: |
+            Allow insecure connections to the library. 
+            
+            Only use this if you are pulling from your own library during development.
+          default: false
         stream:  
           type: boolean
-          description: (optional) if false the response will be returned as a single response object, rather than a stream of objects
-          example: true
+          description: *stream
+          default: false
       required:
       - name
-    PullResponse:
-      description: If stream is not specified, or set to true, a stream of JSON objects is returned
+    PullModelResponse:
+      description: | 
+        Response class for pulling a model. 
+        
+        The first object is the manifest. Then there is a series of downloading responses. Until any of the download is completed, the `completed` key may not be included. 
+        
+        The number of files to be downloaded depends on the number of layers specified in the manifest.
       type: object
       properties:
         status:
-          type: string
-          enum:
-          - pulling manifest
-          - downloading digestname
-          - verifying sha256 digest
-          - writing manifest
-          - removing any unused layers
-          - success
-          example: pulling manifest
+          $ref: '#/components/schemas/PullModelStatus'
         digest:
           type: string
-          description: the model's digest
+          description: The model's digest.
           example: 'sha256:bc07c81de745696fdf5afca05e065818a8149fb0c77266fb584d9b2cba3711a'
         total:
           type: integer
-          description: total size of the model
+          description: Total size of the model.
           example: 2142590208
         completed:
           type: integer
-          description: total bytes transferred
+          description: Total bytes transferred.
           example: 2142590208
-    PushRequest:
-      description: Upload a model to a model library. Requires registering for ollama.ai and adding a public key first.
+    PullModelStatus:
+      type: string
+      description: Status pulling the model.
+      enum:
+        - pulling manifest
+        - downloading digestname
+        - verifying sha256 digest
+        - writing manifest
+        - removing any unused layers
+        - success
+      example: pulling manifest
+    PushModelRequest:
+      description: Request class for pushing a model.
       type: object
       properties:
         name:  
           type: string
-          description: name of the model to push in the form of <namespace>/<model>:<tag>
+          description: The name of the model to push in the form of <namespace>/<model>:<tag>.
           example: 'mattw/pygmalion:latest'
         insecure:  
           type: boolean
-          description: (optional) allow insecure connections to the library. Only use this if you are pushing to your library during development.
-          example: true
-        stream:  
+          description: | 
+            Allow insecure connections to the library. 
+            
+            Only use this if you are pushing to your library during development.
+          default: false
+        stream:
           type: boolean
-          description: (optional) if false the response will be returned as a single response object, rather than a stream of objects
-          example: true
+          description: *stream
+          default: false
       required:
       - name
-    PushResponse:
+    PushModelResponse:
       type: object
-      description: Schema for pushing a model
+      description: Response class for pushing a model.
       properties:
         status:
-          type: string
-          enum:
-          - retrieving manifest
-          - starting upload
-          - pushing manifest
-          - success
-          example: 'success'
+          $ref: '#/components/schemas/PushModelStatus'
         digest:
           type: string
           description: the model's digest
@@ -703,3 +709,11 @@ components:
           type: integer
           description: total size of the model
           example: 2142590208
+    PushModelStatus:
+      type: string
+      description: Status pushing the model.
+      enum:
+        - retrieving manifest
+        - starting upload
+        - pushing manifest
+        - success

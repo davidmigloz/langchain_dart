@@ -5,26 +5,26 @@
 part of ollama_schema;
 
 // ==========================================
-// CLASS: CopyRequest
+// CLASS: CopyModelRequest
 // ==========================================
 
-/// Creates a model with another name from an existing model.
+/// Request class for copying a model.
 @freezed
-class CopyRequest with _$CopyRequest {
-  const CopyRequest._();
+class CopyModelRequest with _$CopyModelRequest {
+  const CopyModelRequest._();
 
-  /// Factory constructor for CopyRequest
-  const factory CopyRequest({
-    /// No Description
+  /// Factory constructor for CopyModelRequest
+  const factory CopyModelRequest({
+    /// Name of the model to copy.
     required String source,
 
-    /// No Description
+    /// Name of the new model.
     required String destination,
-  }) = _CopyRequest;
+  }) = _CopyModelRequest;
 
   /// Object construction from a JSON representation
-  factory CopyRequest.fromJson(Map<String, dynamic> json) =>
-      _$CopyRequestFromJson(json);
+  factory CopyModelRequest.fromJson(Map<String, dynamic> json) =>
+      _$CopyModelRequestFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = ['source', 'destination'];

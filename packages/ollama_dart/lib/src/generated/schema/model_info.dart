@@ -5,32 +5,32 @@
 part of ollama_schema;
 
 // ==========================================
-// CLASS: ShowResponse
+// CLASS: ModelInfo
 // ==========================================
 
-/// details about a model including modelfile, template, parameters, license, and system prompt.
+/// Details about a model including modelfile, template, parameters, license, and system prompt.
 @freezed
-class ShowResponse with _$ShowResponse {
-  const ShowResponse._();
+class ModelInfo with _$ModelInfo {
+  const ModelInfo._();
 
-  /// Factory constructor for ShowResponse
-  const factory ShowResponse({
-    /// the model's license
+  /// Factory constructor for ModelInfo
+  const factory ModelInfo({
+    /// The model's license.
     @JsonKey(includeIfNull: false) String? license,
 
-    /// the modelfile associated with the model
+    /// The modelfile associated with the model.
     @JsonKey(includeIfNull: false) String? modelfile,
 
-    /// model parameters
+    /// The model parameters.
     @JsonKey(includeIfNull: false) String? parameters,
 
-    /// the prompt template for the model
+    /// The prompt template for the model.
     @JsonKey(includeIfNull: false) String? template,
-  }) = _ShowResponse;
+  }) = _ModelInfo;
 
   /// Object construction from a JSON representation
-  factory ShowResponse.fromJson(Map<String, dynamic> json) =>
-      _$ShowResponseFromJson(json);
+  factory ModelInfo.fromJson(Map<String, dynamic> json) =>
+      _$ModelInfoFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [

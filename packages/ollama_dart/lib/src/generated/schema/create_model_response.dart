@@ -5,27 +5,27 @@
 part of ollama_schema;
 
 // ==========================================
-// CLASS: CreateResponse
+// CLASS: CreateModelResponse
 // ==========================================
 
-/// A stream of JSON objects. When finished, status is success.
+/// Response object for creating a model. When finished, `status` is `success`.
 @freezed
-class CreateResponse with _$CreateResponse {
-  const CreateResponse._();
+class CreateModelResponse with _$CreateModelResponse {
+  const CreateModelResponse._();
 
-  /// Factory constructor for CreateResponse
-  const factory CreateResponse({
+  /// Factory constructor for CreateModelResponse
+  const factory CreateModelResponse({
     /// Status creating the model
     @JsonKey(
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
     )
-    CreateResponseStatus? status,
-  }) = _CreateResponse;
+    CreateModelStatus? status,
+  }) = _CreateModelResponse;
 
   /// Object construction from a JSON representation
-  factory CreateResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateResponseFromJson(json);
+  factory CreateModelResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateModelResponseFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = ['status'];
@@ -41,18 +41,4 @@ class CreateResponse with _$CreateResponse {
       'status': status,
     };
   }
-}
-
-// ==========================================
-// ENUM: CreateResponseStatus
-// ==========================================
-
-/// Status creating the model
-enum CreateResponseStatus {
-  @JsonValue('creating system layer')
-  creatingSystemLayer,
-  @JsonValue('parsing modelfile')
-  parsingModelfile,
-  @JsonValue('success')
-  success,
 }

@@ -5,28 +5,30 @@
 part of ollama_schema;
 
 // ==========================================
-// CLASS: Tag
+// CLASS: Model
 // ==========================================
 
-/// No Description
+/// A model available locally.
 @freezed
-class Tag with _$Tag {
-  const Tag._();
+class Model with _$Model {
+  const Model._();
 
-  /// Factory constructor for Tag
-  const factory Tag({
-    /// Model name
+  /// Factory constructor for Model
+  const factory Model({
+    /// The model name.
+    ///
+    /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
     @JsonKey(includeIfNull: false) String? name,
 
-    /// Model modification date
+    /// Model modification date.
     @JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt,
 
-    /// Size of the model on disk
+    /// Size of the model on disk.
     @JsonKey(includeIfNull: false) int? size,
-  }) = _Tag;
+  }) = _Model;
 
   /// Object construction from a JSON representation
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Model.fromJson(Map<String, dynamic> json) => _$ModelFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = ['name', 'modified_at', 'size'];

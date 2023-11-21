@@ -51,7 +51,7 @@ class GenerateCompletionRequest with _$GenerateCompletionRequest {
     /// You may choose to use the `raw` parameter if you are specifying a full templated prompt in your request to the API, and are managing history yourself.
     @JsonKey(includeIfNull: false) bool? raw,
 
-    /// If `false` the response will be returned as a single response object, rather than a stream of objects.
+    /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
     @Default(false) bool stream,
   }) = _GenerateCompletionRequest;
 

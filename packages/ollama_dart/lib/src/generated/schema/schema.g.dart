@@ -228,39 +228,31 @@ Map<String, dynamic> _$$GenerateEmbeddingResponseImplToJson(
   return val;
 }
 
-_$CreateRequestImpl _$$CreateRequestImplFromJson(Map<String, dynamic> json) =>
-    _$CreateRequestImpl(
+_$CreateModelRequestImpl _$$CreateModelRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CreateModelRequestImpl(
       name: json['name'] as String,
       modelfile: json['modelfile'] as String,
-      path: json['path'] as String?,
       stream: json['stream'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$CreateRequestImplToJson(_$CreateRequestImpl instance) {
-  final val = <String, dynamic>{
-    'name': instance.name,
-    'modelfile': instance.modelfile,
-  };
+Map<String, dynamic> _$$CreateModelRequestImplToJson(
+        _$CreateModelRequestImpl instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'modelfile': instance.modelfile,
+      'stream': instance.stream,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('path', instance.path);
-  val['stream'] = instance.stream;
-  return val;
-}
-
-_$CreateResponseImpl _$$CreateResponseImplFromJson(Map<String, dynamic> json) =>
-    _$CreateResponseImpl(
-      status: $enumDecodeNullable(_$CreateResponseStatusEnumMap, json['status'],
+_$CreateModelResponseImpl _$$CreateModelResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CreateModelResponseImpl(
+      status: $enumDecodeNullable(_$CreateModelStatusEnumMap, json['status'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
     );
 
-Map<String, dynamic> _$$CreateResponseImplToJson(
-    _$CreateResponseImpl instance) {
+Map<String, dynamic> _$$CreateModelResponseImplToJson(
+    _$CreateModelResponseImpl instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -269,23 +261,44 @@ Map<String, dynamic> _$$CreateResponseImplToJson(
     }
   }
 
-  writeNotNull('status', _$CreateResponseStatusEnumMap[instance.status]);
+  writeNotNull('status', _$CreateModelStatusEnumMap[instance.status]);
   return val;
 }
 
-const _$CreateResponseStatusEnumMap = {
-  CreateResponseStatus.creatingSystemLayer: 'creating system layer',
-  CreateResponseStatus.parsingModelfile: 'parsing modelfile',
-  CreateResponseStatus.success: 'success',
+const _$CreateModelStatusEnumMap = {
+  CreateModelStatus.creatingSystemLayer: 'creating system layer',
+  CreateModelStatus.parsingModelfile: 'parsing modelfile',
+  CreateModelStatus.success: 'success',
 };
 
-_$TagImpl _$$TagImplFromJson(Map<String, dynamic> json) => _$TagImpl(
+_$ModelsResponseImpl _$$ModelsResponseImplFromJson(Map<String, dynamic> json) =>
+    _$ModelsResponseImpl(
+      models: (json['models'] as List<dynamic>?)
+          ?.map((e) => Model.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$ModelsResponseImplToJson(
+    _$ModelsResponseImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('models', instance.models);
+  return val;
+}
+
+_$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(
       name: json['name'] as String?,
       modifiedAt: json['modified_at'] as String?,
       size: json['size'] as int?,
     );
 
-Map<String, dynamic> _$$TagImplToJson(_$TagImpl instance) {
+Map<String, dynamic> _$$ModelImplToJson(_$ModelImpl instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -300,45 +313,27 @@ Map<String, dynamic> _$$TagImplToJson(_$TagImpl instance) {
   return val;
 }
 
-_$TagResponseImpl _$$TagResponseImplFromJson(Map<String, dynamic> json) =>
-    _$TagResponseImpl(
-      models: (json['models'] as List<dynamic>?)
-          ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$$TagResponseImplToJson(_$TagResponseImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('models', instance.models);
-  return val;
-}
-
-_$ShowRequestImpl _$$ShowRequestImplFromJson(Map<String, dynamic> json) =>
-    _$ShowRequestImpl(
+_$ModelInfoRequestImpl _$$ModelInfoRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ModelInfoRequestImpl(
       name: json['name'] as String,
     );
 
-Map<String, dynamic> _$$ShowRequestImplToJson(_$ShowRequestImpl instance) =>
+Map<String, dynamic> _$$ModelInfoRequestImplToJson(
+        _$ModelInfoRequestImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
     };
 
-_$ShowResponseImpl _$$ShowResponseImplFromJson(Map<String, dynamic> json) =>
-    _$ShowResponseImpl(
+_$ModelInfoImpl _$$ModelInfoImplFromJson(Map<String, dynamic> json) =>
+    _$ModelInfoImpl(
       license: json['license'] as String?,
       modelfile: json['modelfile'] as String?,
       parameters: json['parameters'] as String?,
       template: json['template'] as String?,
     );
 
-Map<String, dynamic> _$$ShowResponseImplToJson(_$ShowResponseImpl instance) {
+Map<String, dynamic> _$$ModelInfoImplToJson(_$ModelInfoImpl instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -354,61 +349,60 @@ Map<String, dynamic> _$$ShowResponseImplToJson(_$ShowResponseImpl instance) {
   return val;
 }
 
-_$CopyRequestImpl _$$CopyRequestImplFromJson(Map<String, dynamic> json) =>
-    _$CopyRequestImpl(
+_$CopyModelRequestImpl _$$CopyModelRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CopyModelRequestImpl(
       source: json['source'] as String,
       destination: json['destination'] as String,
     );
 
-Map<String, dynamic> _$$CopyRequestImplToJson(_$CopyRequestImpl instance) =>
+Map<String, dynamic> _$$CopyModelRequestImplToJson(
+        _$CopyModelRequestImpl instance) =>
     <String, dynamic>{
       'source': instance.source,
       'destination': instance.destination,
     };
 
-_$DeleteRequestImpl _$$DeleteRequestImplFromJson(Map<String, dynamic> json) =>
-    _$DeleteRequestImpl(
+_$DeleteModelRequestImpl _$$DeleteModelRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$DeleteModelRequestImpl(
       name: json['name'] as String,
     );
 
-Map<String, dynamic> _$$DeleteRequestImplToJson(_$DeleteRequestImpl instance) =>
+Map<String, dynamic> _$$DeleteModelRequestImplToJson(
+        _$DeleteModelRequestImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
     };
 
-_$PullRequestImpl _$$PullRequestImplFromJson(Map<String, dynamic> json) =>
-    _$PullRequestImpl(
+_$PullModelRequestImpl _$$PullModelRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PullModelRequestImpl(
       name: json['name'] as String,
-      insecure: json['insecure'] as bool?,
-      stream: json['stream'] as bool?,
+      insecure: json['insecure'] as bool? ?? false,
+      stream: json['stream'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$PullRequestImplToJson(_$PullRequestImpl instance) {
-  final val = <String, dynamic>{
-    'name': instance.name,
-  };
+Map<String, dynamic> _$$PullModelRequestImplToJson(
+        _$PullModelRequestImpl instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'insecure': instance.insecure,
+      'stream': instance.stream,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('insecure', instance.insecure);
-  writeNotNull('stream', instance.stream);
-  return val;
-}
-
-_$PullResponseImpl _$$PullResponseImplFromJson(Map<String, dynamic> json) =>
-    _$PullResponseImpl(
-      status: $enumDecodeNullable(_$PullResponseStatusEnumMap, json['status'],
+_$PullModelResponseImpl _$$PullModelResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PullModelResponseImpl(
+      status: $enumDecodeNullable(_$PullModelStatusEnumMap, json['status'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
       digest: json['digest'] as String?,
       total: json['total'] as int?,
       completed: json['completed'] as int?,
     );
 
-Map<String, dynamic> _$$PullResponseImplToJson(_$PullResponseImpl instance) {
+Map<String, dynamic> _$$PullModelResponseImplToJson(
+    _$PullModelResponseImpl instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -417,54 +411,49 @@ Map<String, dynamic> _$$PullResponseImplToJson(_$PullResponseImpl instance) {
     }
   }
 
-  writeNotNull('status', _$PullResponseStatusEnumMap[instance.status]);
+  writeNotNull('status', _$PullModelStatusEnumMap[instance.status]);
   writeNotNull('digest', instance.digest);
   writeNotNull('total', instance.total);
   writeNotNull('completed', instance.completed);
   return val;
 }
 
-const _$PullResponseStatusEnumMap = {
-  PullResponseStatus.pullingManifest: 'pulling manifest',
-  PullResponseStatus.downloadingDigestname: 'downloading digestname',
-  PullResponseStatus.verifyingSha256Digest: 'verifying sha256 digest',
-  PullResponseStatus.writingManifest: 'writing manifest',
-  PullResponseStatus.removingAnyUnusedLayers: 'removing any unused layers',
-  PullResponseStatus.success: 'success',
+const _$PullModelStatusEnumMap = {
+  PullModelStatus.pullingManifest: 'pulling manifest',
+  PullModelStatus.downloadingDigestname: 'downloading digestname',
+  PullModelStatus.verifyingSha256Digest: 'verifying sha256 digest',
+  PullModelStatus.writingManifest: 'writing manifest',
+  PullModelStatus.removingAnyUnusedLayers: 'removing any unused layers',
+  PullModelStatus.success: 'success',
 };
 
-_$PushRequestImpl _$$PushRequestImplFromJson(Map<String, dynamic> json) =>
-    _$PushRequestImpl(
+_$PushModelRequestImpl _$$PushModelRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PushModelRequestImpl(
       name: json['name'] as String,
-      insecure: json['insecure'] as bool?,
-      stream: json['stream'] as bool?,
+      insecure: json['insecure'] as bool? ?? false,
+      stream: json['stream'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$PushRequestImplToJson(_$PushRequestImpl instance) {
-  final val = <String, dynamic>{
-    'name': instance.name,
-  };
+Map<String, dynamic> _$$PushModelRequestImplToJson(
+        _$PushModelRequestImpl instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'insecure': instance.insecure,
+      'stream': instance.stream,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('insecure', instance.insecure);
-  writeNotNull('stream', instance.stream);
-  return val;
-}
-
-_$PushResponseImpl _$$PushResponseImplFromJson(Map<String, dynamic> json) =>
-    _$PushResponseImpl(
-      status: $enumDecodeNullable(_$PushResponseStatusEnumMap, json['status'],
+_$PushModelResponseImpl _$$PushModelResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PushModelResponseImpl(
+      status: $enumDecodeNullable(_$PushModelStatusEnumMap, json['status'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
       digest: json['digest'] as String?,
       total: json['total'] as int?,
     );
 
-Map<String, dynamic> _$$PushResponseImplToJson(_$PushResponseImpl instance) {
+Map<String, dynamic> _$$PushModelResponseImplToJson(
+    _$PushModelResponseImpl instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -473,15 +462,15 @@ Map<String, dynamic> _$$PushResponseImplToJson(_$PushResponseImpl instance) {
     }
   }
 
-  writeNotNull('status', _$PushResponseStatusEnumMap[instance.status]);
+  writeNotNull('status', _$PushModelStatusEnumMap[instance.status]);
   writeNotNull('digest', instance.digest);
   writeNotNull('total', instance.total);
   return val;
 }
 
-const _$PushResponseStatusEnumMap = {
-  PushResponseStatus.retrievingManifest: 'retrieving manifest',
-  PushResponseStatus.startingUpload: 'starting upload',
-  PushResponseStatus.pushingManifest: 'pushing manifest',
-  PushResponseStatus.success: 'success',
+const _$PushModelStatusEnumMap = {
+  PushModelStatus.retrievingManifest: 'retrieving manifest',
+  PushModelStatus.startingUpload: 'starting upload',
+  PushModelStatus.pushingManifest: 'pushing manifest',
+  PushModelStatus.success: 'success',
 };

@@ -4,9 +4,23 @@ import 'package:ollama_dart/ollama_dart.dart';
 Future<void> main() async {
   final client = OllamaClient();
 
+  // Completions
   await _generateCompletion(client);
   await _generateCompletionStream(client);
+
+  // Embeddings
   await _generateEmbedding(client);
+
+  // Models
+  await _createModel(client);
+  await _createModelStream(client);
+  await _listModels(client);
+  await _showModelInfo(client);
+  await _pullModel(client);
+  await _pullModelStream(client);
+  await _pushModel(client);
+  await _pushModelStream(client);
+  await _checkBlob(client);
 
   client.endSession();
 }
@@ -45,104 +59,77 @@ Future<void> _generateEmbedding(final OllamaClient client) async {
   print(generated.embedding);
 }
 
-// TODO update
-Future<void> _models(final OllamaClient client) async {
-  ///
-  /// PULL A MODEL
-  ///
+Future<void> _createModel(final OllamaClient client) async {
+  final res = await client.createModel(
+    request: const CreateModelRequest(
+      name: 'mario',
+      modelfile:
+          'FROM mistral:latest\nSYSTEM You are mario from Super Mario Bros.',
+    ),
+  );
+  print(res.status);
+}
 
-  // const String modelName = 'codellama:13b';
+Future<void> _createModelStream(final OllamaClient client) async {
+  final stream = client.createModelStream(
+    request: const CreateModelRequest(
+      name: 'mario',
+      modelfile:
+          'FROM mistral:latest\nSYSTEM You are mario from Super Mario Bros.',
+    ),
+  );
+  await for (final res in stream) {
+    print(res.status);
+  }
+}
 
-  // Stream<PullResponse> response =
-  //     client.pullModelStream(request: PullRequest(name: modelName));
+Future<void> _listModels(final OllamaClient client) async {
+  final res = await client.listModels();
+  print(res.models);
+}
 
-  // response.listen((PullResponse response) {
-  //   if (response.status != null && response == PullResponseStatus.success) {
-  //     print('finished pulling model: $modelName!!');
-  //   } else {
-  //     int completed = response.completed ?? 0;
-  //     int total = response.total ?? 1;
-  //     double finished = (completed.toDouble() / total.toDouble()) * 100;
-  //     print(
-  //       "$modelName: (${response.status ?? 'downloading'}) ${finished.toInt()}% [${"|" * finished.toInt()}] ${(total / 1024e3.toDouble()).toStringAsFixed(2)} GB",
-  //     );
-  //   }
-  // });
+Future<void> _showModelInfo(final OllamaClient client) async {
+  final res = await client.showModelInfo(
+    request: const ModelInfoRequest(name: 'mistral:latest'),
+  );
+  print(res);
+}
 
-  ///
-  /// CREATE A NEW MODEL
-  ///
+Future<void> _pullModel(final OllamaClient client) async {
+  final res = await client.pullModel(
+    request: const PullModelRequest(name: 'yarn-llama2:13b-128k-q4_1'),
+  );
+  print(res.status);
+}
 
-  // const String createModelName = 'supermario';
-  // client
-  //     .createModelStream(
-  //   request: const CreateRequest(
-  //     name: createModelName,
-  //     modelfile:
-  //         'FROM mistral:latest\nSYSTEM You are mario from Super Mario Bros.',
-  //   ),
-  // )
-  //     .listen((final CreateResponse generated) {
-  //   print(
-  //     '🤖 creating model: $createModelName (${generated.status ?? 'processing'})',
-  //   );
-  // });
+Future<void> _pullModelStream(final OllamaClient client) async {
+  final stream = client.pullModelStream(
+    request: const PullModelRequest(name: 'yarn-llama2:13b-128k-q4_1'),
+  );
+  await for (final res in stream) {
+    print(res.status);
+  }
+}
 
-  // const String modelName = 'mario';
-  // const String modelfile =
-  //     'FROM mistral:latest\nSYSTEM You are mario from Super Mario Bros.';
+Future<void> _pushModel(final OllamaClient client) async {
+  final res = await client.pushModel(
+    request: const PushModelRequest(name: 'mattw/pygmalion:latest'),
+  );
+  print(res.status);
+}
 
-  // final CreateResponse response = await client.create(
-  //   request: const CreateRequest(
-  //     name: modelName,
-  //     modelfile: modelfile,
-  //     stream: false,
-  //   ),
-  // );
-  // print(response.status);
+Future<void> _pushModelStream(final OllamaClient client) async {
+  final stream = client.pushModelStream(
+    request: const PushModelRequest(name: 'mattw/pygmalion:latest'),
+  );
+  await for (final res in stream) {
+    print(res.status);
+  }
+}
 
-  ///
-  /// COPY A MODEL
-  ///
-
-  // const String copyName = '$modelName-backup2';
-
-  // await client.copyModel(
-  //   request: CopyRequest(source: modelName, destination: copyName),
-  // );
-
-  // final Response response = await client.copyModelWithResponse(
-  //   request: const CopyRequest(
-  //     source: modelName,
-  //     destination: copyName,
-  //   ),
-  // );
-
-  // print(response.statusCode);
-
-  ///
-  /// DELETE A MODEL
-  ///
-  ///
-  // await client.deleteModel(
-  //   request: DeleteRequest(name: copyName),
-  // );
-
-  // final Response deleteResponse = await client.deleteModelWithResponse(
-  //   request: const DeleteRequest(name: copyName),
-  // );
-  // print(deleteResponse.statusCode);
-
-  ///
-  /// LIST LOCAL MODELS
-  ///
-
-  // final TagResponse tags = await client.listTags();
-  // print(tags.models);
-
-  // final ShowResponse response = await client.showModel(
-  //   request: const ShowRequest(name: modelName),
-  // );
-
-  // print(response.toMap());
+Future<void> _checkBlob(final OllamaClient client) async {
+  await client.checkBlob(
+    name:
+        'sha256:29fdb92e57cf0827ded04ae6461b5931d01fa595843f55d36f5b275a52087dd2',
+  );
 }

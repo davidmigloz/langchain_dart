@@ -16,40 +16,29 @@ Unofficial Dart client for [Ollama](https://ollama.ai/) API.
 
 **Supported endpoints:**
 
-- Prompt Response (with streaming support)
-- Models
-  - List
-  - Show Information
-  - Create
-  - Copy
-  - Delete
-  - Pull
-  - Push
+- Completions (with streaming support)
 - Embeddings
-  - Generate
+- Models
 
 ## Table of contents
-[//]: # (TODO update)
 
-- [Ollama Dart Client](#ollama-dart-client)
-  - [Features](#features)
-  - [Table of contents](#table-of-contents)
-  - [Usage](#usage)
-    - [Chat](#chat)
-      - [Chat with Streamed Response](#chat-with-streamed-response)
-      - [Chat with Non-streamed Response](#chat-with-non-streamed-response)
-    - [Models](#models)
-      - [Create Model with streamed Response](#create-model-with-streamed-response)
-      - [Create Model with Non-streamed Response](#create-model-with-non-streamed-response)
-    - [Embeddings](#embeddings)
-  - [Advance Usage](#advance-usage)
-    - [Default HTTP client](#default-http-client)
-    - [Custom HTTP client](#custom-http-client)
-    - [Using a proxy](#using-a-proxy)
-      - [HTTP proxy](#http-proxy)
-      - [SOCKS5 proxy](#socks5-proxy)
-  - [Acknowledgements](#acknowledgements)
-  - [License](#license)
+- [Usage](#usage)
+  * [Completions](#completions)
+  * [Embeddings](#embeddings)
+  * [Models](#models)
+    + [Create model](#create-model)
+    + [List models](#list-models)
+    + [Show Model Information](#show-model-information)
+    + [Pull a Model](#pull-a-model)
+    + [Push a Model](#push-a-model)
+- [Advance Usage](#advance-usage)
+  * [Default HTTP client](#default-http-client)
+  * [Custom HTTP client ](#custom-http-client)
+  * [Using a proxy](#using-a-proxy)
+    + [HTTP proxy](#http-proxy)
+    + [SOCKS5 proxy](#socks5-proxy)
+- [Acknowledgements](#acknowledgements)
+- [License](#license)
 
 ## Usage
 
@@ -106,161 +95,111 @@ print(generated.embedding);
 ```
 
 ### Models
-[//]: # (TODO update)
 
-List and describe the various models available in the API.
+#### Create model
 
-*** List Local Models ***
+Creates a new local model using a modelfile.
+
+```dart
+await client.createModel(
+  request: const CreateModelRequest(
+    name: 'mario',
+    modelfile: 'FROM mistral:latest\nSYSTEM You are mario from Super Mario Bros.',
+  ),
+);
+```
+
+You can also stream the status of the model creation:
+
+```dart
+final stream = client.createModelStream(
+  request: const CreateModelRequest(
+    name: 'mario',
+    modelfile: 'FROM mistral:latest\nSYSTEM You are mario from Super Mario Bros.',
+  ),
+);
+await for (final res in stream) {
+print(res.status);
+}
+```
+
+#### List models
 
 List models that are available locally.
 
 ```dart
-  TagResponse tags = await client.listTags();
-  print(tags.models);
-
-  /// Output:
-  ///
-  /// TagResponse(
-  ///    models: [
-  ///       Tag(
-  ///         name: codellama:13b, 
-  ///         modifiedAt: 2023-09-19T23:18:56.540889126+02:00, 
-  ///         size: 7323409954,
-  ///       )
-  ///   ]
-  /// )
+final res = await client.listModels();
+print(res.models);
 ```
 
-*** Show Model Information ***
+#### Show Model Information
 
 Show details about a model including modelfile, template, parameters, license, and system prompt.
 
 ```dart
-  ShowResponse response = await client.showModel(
-    request: ShowRequest(name: modelName),
-  );
-
-  print(response);
-  /// Output:
-  /// ShowResponse{
-  ///   license: "LLAMA 2 COMMUNITY LICENSE AGREEMENT...",
-  ///   parameters: "rope_frequency_base            100000",
-  ///   template: "[INST] {{ if and .First .System }}\u003c\u003cSYS\u003e\u003e{{ .System }}\u003c\u003c/SYS\u003e\u003e\n\n{{ end }}{{ .Prompt }} [/INST] "
-  /// }
+final res = await client.showModelInfo(
+  request: const ModelInfoRequest(name: 'mistral:latest'),
+);
+print(res);
 ```
-*** Create a Model ***
 
-Creates a new local model using a modelfile. It is recommended to set modelfile to the content of the Modelfile rather than just set path. This is a requirement for remote create. Remote model creation should also create any file blobs, fields such as FROM and ADAPTER, explicitly with the server using Create a Blob and the value to the path indicated in the response.
+#### Pull a Model
 
-#### Create Model with streamed Response
+Download a model from the ollama library. Cancelled pulls are resumed from where they left off, and multiple calls will share the same download progress.
 
 ```dart
-  const String createModelName = 'supermario';
-  client
-      .createModelStream(
-    request: const CreateRequest(
-      name: createModelName,
-      modelfile:
-          'FROM mistral:latest\nSYSTEM You are mario from Super Mario Bros.',
-    ),
-  )
-      .listen((final CreateResponse generated) {
-    print(
-      '🤖 creating model: $createModelName (${generated.status ?? 'processing'})',
-    );
-  });
+final res = await client.pullModel(
+  request: const PullModelRequest(name: 'yarn-llama2:13b-128k-q4_1'),
+);
+print(res.status);
 ```
 
-#### Create Model with Non-streamed Response
+You can also stream the pulling status:
 
 ```dart
-  const String modelName = 'mario';
-  const String modelfile =
-      'FROM mistral:latest\nSYSTEM You are mario from Super Mario Bros.';
-    final CreateResponse response = await client.create(
-    request: const CreateRequest(
-      name: modelName,
-      modelfile: modelfile,
-      stream: false,
-    ),
-  );
-  print(response.status);
-  /// Output:
-  /// CreateResponseStatus.success
+final stream = client.pullModelStream(
+  request: const PullModelRequest(name: 'yarn-llama2:13b-128k-q4_1'),
+);
+await for (final res in stream) {
+  print(res.status);
+}
 ```
 
-*** Download a Model ***
+#### Push a Model
 
-Downlad a model from the Ollama servers
+Upload a model to a model library. 
+
+Requires registering for ollama.ai and adding a public key first.
 
 ```dart
-   Stream<PullResponse> response =
-       client.pullModelStream(request: PullRequest(name: modelName));
-
-   response.listen((PullResponse response) {
-     if (response.status != null && response == PullResponseStatus.success) {
-       print('finished pulling model: $modelName!!');
-     } else {
-       int completed = response.completed ?? 0;
-       int total = response.total ?? 1;
-       double finished = (completed.toDouble() / total.toDouble()) * 100;
-       print(
-         "$modelName: (${response.status ?? 'downloading'}) ${finished.toInt()}% [${"|" * finished.toInt()}] ${(total / 1024e3.toDouble()).toStringAsFixed(2)} GB",
-       );
-     }
-   });
+final res = await client.pushModel(
+  request: const PushModelRequest(name: 'mattw/pygmalion:latest'),
+);
+print(res.status);
 ```
 
-***Copy a Model***
-
-Copy a model. Creates a model with another name from an existing model.
+You can also stream the pushing status:
 
 ```dart
-  const String copyName = 'codellama:7b-backup';
-  await client.copyModel(
-    request: const CopyRequest(
-      source: modelName, 
-      destination: copyName,
-      ),
-  );
+final stream = client.pushModelStream(
+  request: const PushModelRequest(name: 'mattw/pygmalion:latest'),
+);
+await for (final res in stream) {
+  print(res.status);
+}
 ```
 
-To copy a model and return a http response object, use the method `copyModelWithResponse`:
-```dart
-  const String copyName = 'codellama:7b-backup';
-  final Response response = await client.copyModelWithResponse(
-    request: const CopyRequest(
-     source: modelName,
-     destination: copyName,
-    ),
-  );
+#### Check if a Blob Exists
 
- print(response.statusCode);
- /// Output:
- /// Status code: 200, empty body
-```
-
-*** Delete a Model ***
-
-Delete a model and its data.
+Check if a blob is known to the server.
 
 ```dart
-  String copyName = 'codellama:7b-backup';
-  await client.deleteModel(
-    request: DeleteRequest(name: copyName),
-  );
+await client.checkBlob(
+  name: 'sha256:29fdb92e57cf0827ded04ae6461b5931d01fa595843f55d36f5b275a52087dd2',
+);
 ```
 
-To delete a model and return a http response object, use the method `deleteModelWithResponse`:
-```dart
-  const String copyName = 'codellama:7b-backup';
-  final Response deleteResponse = await client.deleteModelWithResponse(
-     request: const DeleteRequest(name: copyName),
-  );
-  print(deleteResponse.statusCode);
- /// Output:
- /// Status code: 200, null body
-```
+If the blob doesn't exist, an `OllamaClientException` exception will be thrown.
 
 ## Advance Usage
 

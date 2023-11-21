@@ -407,18 +407,18 @@ class OllamaClient {
   }
 
   // ------------------------------------------
-  // METHOD: create
+  // METHOD: createModel
   // ------------------------------------------
 
   /// Create a model from a Modelfile.
   ///
-  /// It is recommended to set modelfile to the content of the Modelfile rather than just set path. This is a requirement for remote create. Remote model creation should also create any file blobs, fields such as FROM and ADAPTER, explicitly with the server using Create a Blob and the value to the path indicated in the response.
+  /// It is recommended to set `modelfile` to the content of the Modelfile rather than just set `path`. This is a requirement for remote create. Remote model creation should also create any file blobs, fields such as `FROM` and `ADAPTER`, explicitly with the server using Create a Blob and the value to the path indicated in the response.
   ///
-  /// `request`: Create a new model from a modelfile
+  /// `request`: Create a new model from a Modelfile.
   ///
   /// `POST` `http://localhost:11434/api/create`
-  Future<CreateResponse> create({
-    CreateRequest? request,
+  Future<CreateModelResponse> createModel({
+    CreateModelRequest? request,
   }) async {
     final r = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
@@ -429,69 +429,17 @@ class OllamaClient {
       responseType: 'application/x-ndjson',
       body: request,
     );
-    return CreateResponse.fromJson(_jsonDecode(r));
+    return CreateModelResponse.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
-  // METHOD: postBlobsDigest
+  // METHOD: listModels
   // ------------------------------------------
 
-  /// Create a blob from a file. Returns the server file path.
-  ///
-  /// `request`: No description
-  ///
-  /// `POST` `http://localhost:11434/api/blobs/{digest}`
-  Future<void> postBlobsDigest({
-    String? request,
-  }) async {
-    final _ = await makeRequest(
-      baseUrl: 'http://localhost:11434/api',
-      path: '/blobs/{digest}',
-      method: HttpMethod.post,
-      isMultipart: false,
-      requestType: 'application/octet-stream',
-      responseType: '',
-      body: request,
-    );
-  }
-
-  // ------------------------------------------
-  // METHOD: headBlobsDigest
-  // ------------------------------------------
-
-  /// Check if a blob is known to the server.
-  ///
-  /// Check to see if a blob exists on the Ollama server which is useful when creating models
-  ///
-  /// `name`: the SHA256 digest of the blob
-  ///
-  /// `HEAD` `http://localhost:11434/api/blobs/{digest}`
-  Future<void> headBlobsDigest({
-    required String name,
-  }) async {
-    final _ = await makeRequest(
-      baseUrl: 'http://localhost:11434/api',
-      path: '/blobs/{digest}',
-      method: HttpMethod.head,
-      isMultipart: false,
-      requestType: '',
-      responseType: '',
-      queryParams: {
-        'name': name,
-      },
-    );
-  }
-
-  // ------------------------------------------
-  // METHOD: listTags
-  // ------------------------------------------
-
-  /// List Local Models
-  ///
   /// List models that are available locally.
   ///
   /// `GET` `http://localhost:11434/api/tags`
-  Future<TagResponse> listTags() async {
+  Future<ModelsResponse> listModels() async {
     final r = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
       path: '/tags',
@@ -500,22 +448,20 @@ class OllamaClient {
       requestType: '',
       responseType: 'application/json',
     );
-    return TagResponse.fromJson(_jsonDecode(r));
+    return ModelsResponse.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
-  // METHOD: showModel
+  // METHOD: showModelInfo
   // ------------------------------------------
 
-  /// Show Model Information
-  ///
   /// Show details about a model including modelfile, template, parameters, license, and system prompt.
   ///
-  /// `request`: Show details about a model including modelfile, template, parameters, license, and system prompt.
+  /// `request`: Request class for the show model info endpoint.
   ///
   /// `POST` `http://localhost:11434/api/show`
-  Future<ShowResponse> showModel({
-    ShowRequest? request,
+  Future<ModelInfo> showModelInfo({
+    ModelInfoRequest? request,
   }) async {
     final r = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
@@ -526,22 +472,20 @@ class OllamaClient {
       responseType: 'application/json',
       body: request,
     );
-    return ShowResponse.fromJson(_jsonDecode(r));
+    return ModelInfo.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
   // METHOD: copyModel
   // ------------------------------------------
 
-  /// Copy a Model
+  /// Creates a model with another name from an existing model.
   ///
-  /// Copy a model. Creates a model with another name from an existing model.
-  ///
-  /// `request`: Creates a model with another name from an existing model.
+  /// `request`: Request class for copying a model.
   ///
   /// `POST` `http://localhost:11434/api/copy`
   Future<void> copyModel({
-    CopyRequest? request,
+    CopyModelRequest? request,
   }) async {
     final _ = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
@@ -558,15 +502,13 @@ class OllamaClient {
   // METHOD: deleteModel
   // ------------------------------------------
 
-  /// Delete a Model
-  ///
   /// Delete a model and its data.
   ///
-  /// `request`: Deletes a model and its data
+  /// `request`: Request class for deleting a model.
   ///
   /// `DELETE` `http://localhost:11434/api/delete`
   Future<void> deleteModel({
-    DeleteRequest? request,
+    DeleteModelRequest? request,
   }) async {
     final _ = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
@@ -583,15 +525,15 @@ class OllamaClient {
   // METHOD: pullModel
   // ------------------------------------------
 
-  /// Pull a Model
+  /// Download a model from the ollama library.
   ///
-  /// Download a model from the ollama library. Cancelled pulls are resumed from where they left off, and multiple calls will share the same download progress.
+  /// Cancelled pulls are resumed from where they left off, and multiple calls will share the same download progress.
   ///
-  /// `request`: Download a model from the ollama library. Cancelled pulls are resumed from where they left off, and multiple calls will share the same download progress.
+  /// `request`: Request class for pulling a model.
   ///
   /// `POST` `http://localhost:11434/api/pull`
-  Future<PullResponse> pullModel({
-    PullRequest? request,
+  Future<PullModelResponse> pullModel({
+    PullModelRequest? request,
   }) async {
     final r = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
@@ -602,22 +544,22 @@ class OllamaClient {
       responseType: 'application/json',
       body: request,
     );
-    return PullResponse.fromJson(_jsonDecode(r));
+    return PullModelResponse.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
   // METHOD: pushModel
   // ------------------------------------------
 
-  /// Push a Model
+  /// Upload a model to a model library.
   ///
-  /// Upload a model to a model library. Requires registering for ollama.ai and adding a public key first.
+  /// Requires registering for ollama.ai and adding a public key first.
   ///
-  /// `request`: Upload a model to a model library. Requires registering for ollama.ai and adding a public key first.
+  /// `request`: Request class for pushing a model.
   ///
   /// `POST` `http://localhost:11434/api/push`
-  Future<PushResponse> pushModel({
-    PushRequest? request,
+  Future<PushModelResponse> pushModel({
+    PushModelRequest? request,
   }) async {
     final r = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
@@ -628,6 +570,60 @@ class OllamaClient {
       responseType: 'application/json',
       body: request,
     );
-    return PushResponse.fromJson(_jsonDecode(r));
+    return PushModelResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: createBlob
+  // ------------------------------------------
+
+  /// Create a blob from a file. Returns the server file path.
+  ///
+  /// `name`: the SHA256 digest of the blob
+  ///
+  /// `request`: No description
+  ///
+  /// `POST` `http://localhost:11434/api/blobs/{digest}`
+  Future<void> createBlob({
+    required String name,
+    String? request,
+  }) async {
+    final _ = await makeRequest(
+      baseUrl: 'http://localhost:11434/api',
+      path: '/blobs/{digest}',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/octet-stream',
+      responseType: '',
+      body: request,
+      queryParams: {
+        'name': name,
+      },
+    );
+  }
+
+  // ------------------------------------------
+  // METHOD: checkBlob
+  // ------------------------------------------
+
+  /// Check to see if a blob exists on the Ollama server which is useful when creating models.
+  ///
+  /// `name`: the SHA256 digest of the blob
+  ///
+  /// `HEAD` `http://localhost:11434/api/blobs/{digest}`
+  Future<void> checkBlob({
+    required String name,
+  }) async {
+    final _ = await makeRequest(
+      baseUrl: 'http://localhost:11434/api',
+      path: '/blobs/{digest}',
+      method: HttpMethod.head,
+      isMultipart: false,
+      requestType: '',
+      responseType: '',
+      queryParams: {
+        'name': name,
+      },
+    );
   }
 }

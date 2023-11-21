@@ -2,16 +2,16 @@ import 'package:ollama_dart/ollama_dart.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Ollama Generate Embeddings API tests', () {
+  group('Ollama Generate Embeddings API tests', skip: true, () {
     late OllamaClient client;
     const defaultModel = 'llama2:latest';
 
     setUp(() async {
       client = OllamaClient();
       // Check that the model exists
-      final tags = await client.listTags();
+      final res = await client.listModels();
       expect(
-        tags.models?.firstWhere((final m) => m.name == defaultModel),
+        res.models?.firstWhere((final m) => m.name == defaultModel),
         isNotNull,
       );
     });

@@ -10,7 +10,7 @@ topics:
   - ai
   - nlp
   - llms
-  - gpt
+  - ollama
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

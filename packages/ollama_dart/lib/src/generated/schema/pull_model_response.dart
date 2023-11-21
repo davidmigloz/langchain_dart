@@ -5,36 +5,40 @@
 part of ollama_schema;
 
 // ==========================================
-// CLASS: PullResponse
+// CLASS: PullModelResponse
 // ==========================================
 
-/// If stream is not specified, or set to true, a stream of JSON objects is returned
+/// Response class for pulling a model.
+///
+/// The first object is the manifest. Then there is a series of downloading responses. Until any of the download is completed, the `completed` key may not be included.
+///
+/// The number of files to be downloaded depends on the number of layers specified in the manifest.
 @freezed
-class PullResponse with _$PullResponse {
-  const PullResponse._();
+class PullModelResponse with _$PullModelResponse {
+  const PullModelResponse._();
 
-  /// Factory constructor for PullResponse
-  const factory PullResponse({
-    ///
+  /// Factory constructor for PullModelResponse
+  const factory PullModelResponse({
+    /// Status pulling the model.
     @JsonKey(
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
     )
-    PullResponseStatus? status,
+    PullModelStatus? status,
 
-    /// the model's digest
+    /// The model's digest.
     @JsonKey(includeIfNull: false) String? digest,
 
-    /// total size of the model
+    /// Total size of the model.
     @JsonKey(includeIfNull: false) int? total,
 
-    /// total bytes transferred
+    /// Total bytes transferred.
     @JsonKey(includeIfNull: false) int? completed,
-  }) = _PullResponse;
+  }) = _PullModelResponse;
 
   /// Object construction from a JSON representation
-  factory PullResponse.fromJson(Map<String, dynamic> json) =>
-      _$PullResponseFromJson(json);
+  factory PullModelResponse.fromJson(Map<String, dynamic> json) =>
+      _$PullModelResponseFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
@@ -58,24 +62,4 @@ class PullResponse with _$PullResponse {
       'completed': completed,
     };
   }
-}
-
-// ==========================================
-// ENUM: PullResponseStatus
-// ==========================================
-
-/// No Description
-enum PullResponseStatus {
-  @JsonValue('pulling manifest')
-  pullingManifest,
-  @JsonValue('downloading digestname')
-  downloadingDigestname,
-  @JsonValue('verifying sha256 digest')
-  verifyingSha256Digest,
-  @JsonValue('writing manifest')
-  writingManifest,
-  @JsonValue('removing any unused layers')
-  removingAnyUnusedLayers,
-  @JsonValue('success')
-  success,
 }

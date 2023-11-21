@@ -5,23 +5,23 @@
 part of ollama_schema;
 
 // ==========================================
-// CLASS: TagResponse
+// CLASS: ModelsResponse
 // ==========================================
 
-/// A single JSON object will be returned.
+/// Response class for the list models endpoint.
 @freezed
-class TagResponse with _$TagResponse {
-  const TagResponse._();
+class ModelsResponse with _$ModelsResponse {
+  const ModelsResponse._();
 
-  /// Factory constructor for TagResponse
-  const factory TagResponse({
-    /// No Description
-    @JsonKey(includeIfNull: false) List<Tag>? models,
-  }) = _TagResponse;
+  /// Factory constructor for ModelsResponse
+  const factory ModelsResponse({
+    /// List of models available locally.
+    @JsonKey(includeIfNull: false) List<Model>? models,
+  }) = _ModelsResponse;
 
   /// Object construction from a JSON representation
-  factory TagResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResponseFromJson(json);
+  factory ModelsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ModelsResponseFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = ['models'];

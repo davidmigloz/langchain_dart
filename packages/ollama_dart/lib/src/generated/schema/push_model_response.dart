@@ -5,33 +5,33 @@
 part of ollama_schema;
 
 // ==========================================
-// CLASS: PushResponse
+// CLASS: PushModelResponse
 // ==========================================
 
-/// Schema for pushing a model
+/// Response class for pushing a model.
 @freezed
-class PushResponse with _$PushResponse {
-  const PushResponse._();
+class PushModelResponse with _$PushModelResponse {
+  const PushModelResponse._();
 
-  /// Factory constructor for PushResponse
-  const factory PushResponse({
-    ///
+  /// Factory constructor for PushModelResponse
+  const factory PushModelResponse({
+    /// Status pushing the model.
     @JsonKey(
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
     )
-    PushResponseStatus? status,
+    PushModelStatus? status,
 
     /// the model's digest
     @JsonKey(includeIfNull: false) String? digest,
 
     /// total size of the model
     @JsonKey(includeIfNull: false) int? total,
-  }) = _PushResponse;
+  }) = _PushModelResponse;
 
   /// Object construction from a JSON representation
-  factory PushResponse.fromJson(Map<String, dynamic> json) =>
-      _$PushResponseFromJson(json);
+  factory PushModelResponse.fromJson(Map<String, dynamic> json) =>
+      _$PushModelResponseFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = ['status', 'digest', 'total'];
@@ -49,20 +49,4 @@ class PushResponse with _$PushResponse {
       'total': total,
     };
   }
-}
-
-// ==========================================
-// ENUM: PushResponseStatus
-// ==========================================
-
-/// No Description
-enum PushResponseStatus {
-  @JsonValue('retrieving manifest')
-  retrievingManifest,
-  @JsonValue('starting upload')
-  startingUpload,
-  @JsonValue('pushing manifest')
-  pushingManifest,
-  @JsonValue('success')
-  success,
 }

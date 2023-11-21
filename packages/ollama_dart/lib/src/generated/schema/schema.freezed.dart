@@ -60,7 +60,7 @@ mixin _$GenerateCompletionRequest {
   @JsonKey(includeIfNull: false)
   bool? get raw => throw _privateConstructorUsedError;
 
-  /// If `false` the response will be returned as a single response object, rather than a stream of objects.
+  /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   bool get stream => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -338,7 +338,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
   @JsonKey(includeIfNull: false)
   final bool? raw;
 
-  /// If `false` the response will be returned as a single response object, rather than a stream of objects.
+  /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   @override
   @JsonKey()
   final bool stream;
@@ -462,7 +462,7 @@ abstract class _GenerateCompletionRequest extends GenerateCompletionRequest {
   bool? get raw;
   @override
 
-  /// If `false` the response will be returned as a single response object, rather than a stream of objects.
+  /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   bool get stream;
   @override
   @JsonKey(ignore: true)
@@ -1649,7 +1649,9 @@ GenerateCompletionResponse _$GenerateCompletionResponseFromJson(
 
 /// @nodoc
 mixin _$GenerateCompletionResponse {
-  /// The name of the model used to generate the response.
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @JsonKey(includeIfNull: false)
   String? get model => throw _privateConstructorUsedError;
 
@@ -1957,7 +1959,9 @@ class _$GenerateCompletionResponseImpl extends _GenerateCompletionResponse {
           Map<String, dynamic> json) =>
       _$$GenerateCompletionResponseImplFromJson(json);
 
-  /// The name of the model used to generate the response.
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   @JsonKey(includeIfNull: false)
   final String? model;
@@ -2129,7 +2133,9 @@ abstract class _GenerateCompletionResponse extends GenerateCompletionResponse {
 
   @override
 
-  /// The name of the model used to generate the response.
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @JsonKey(includeIfNull: false)
   String? get model;
   @override
@@ -2595,48 +2601,42 @@ abstract class _GenerateEmbeddingResponse extends GenerateEmbeddingResponse {
       get copyWith => throw _privateConstructorUsedError;
 }
 
-CreateRequest _$CreateRequestFromJson(Map<String, dynamic> json) {
-  return _CreateRequest.fromJson(json);
+CreateModelRequest _$CreateModelRequestFromJson(Map<String, dynamic> json) {
+  return _CreateModelRequest.fromJson(json);
 }
 
 /// @nodoc
-mixin _$CreateRequest {
-  /// (required) the model name
+mixin _$CreateModelRequest {
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get name => throw _privateConstructorUsedError;
 
-  /// contents of the Modelfile
+  /// The contents of the Modelfile.
   String get modelfile => throw _privateConstructorUsedError;
 
-  /// path to the Modelfile (deprecated: please use modelfile instead)
-  @JsonKey(includeIfNull: false)
-  String? get path => throw _privateConstructorUsedError;
-
-  /// (optional) if false the response will be returned as a single response object, rather than a stream of objects
+  /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   bool get stream => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $CreateRequestCopyWith<CreateRequest> get copyWith =>
+  $CreateModelRequestCopyWith<CreateModelRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CreateRequestCopyWith<$Res> {
-  factory $CreateRequestCopyWith(
-          CreateRequest value, $Res Function(CreateRequest) then) =
-      _$CreateRequestCopyWithImpl<$Res, CreateRequest>;
+abstract class $CreateModelRequestCopyWith<$Res> {
+  factory $CreateModelRequestCopyWith(
+          CreateModelRequest value, $Res Function(CreateModelRequest) then) =
+      _$CreateModelRequestCopyWithImpl<$Res, CreateModelRequest>;
   @useResult
-  $Res call(
-      {String name,
-      String modelfile,
-      @JsonKey(includeIfNull: false) String? path,
-      bool stream});
+  $Res call({String name, String modelfile, bool stream});
 }
 
 /// @nodoc
-class _$CreateRequestCopyWithImpl<$Res, $Val extends CreateRequest>
-    implements $CreateRequestCopyWith<$Res> {
-  _$CreateRequestCopyWithImpl(this._value, this._then);
+class _$CreateModelRequestCopyWithImpl<$Res, $Val extends CreateModelRequest>
+    implements $CreateModelRequestCopyWith<$Res> {
+  _$CreateModelRequestCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -2648,7 +2648,6 @@ class _$CreateRequestCopyWithImpl<$Res, $Val extends CreateRequest>
   $Res call({
     Object? name = null,
     Object? modelfile = null,
-    Object? path = freezed,
     Object? stream = null,
   }) {
     return _then(_value.copyWith(
@@ -2660,10 +2659,6 @@ class _$CreateRequestCopyWithImpl<$Res, $Val extends CreateRequest>
           ? _value.modelfile
           : modelfile // ignore: cast_nullable_to_non_nullable
               as String,
-      path: freezed == path
-          ? _value.path
-          : path // ignore: cast_nullable_to_non_nullable
-              as String?,
       stream: null == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
@@ -2673,26 +2668,22 @@ class _$CreateRequestCopyWithImpl<$Res, $Val extends CreateRequest>
 }
 
 /// @nodoc
-abstract class _$$CreateRequestImplCopyWith<$Res>
-    implements $CreateRequestCopyWith<$Res> {
-  factory _$$CreateRequestImplCopyWith(
-          _$CreateRequestImpl value, $Res Function(_$CreateRequestImpl) then) =
-      __$$CreateRequestImplCopyWithImpl<$Res>;
+abstract class _$$CreateModelRequestImplCopyWith<$Res>
+    implements $CreateModelRequestCopyWith<$Res> {
+  factory _$$CreateModelRequestImplCopyWith(_$CreateModelRequestImpl value,
+          $Res Function(_$CreateModelRequestImpl) then) =
+      __$$CreateModelRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String name,
-      String modelfile,
-      @JsonKey(includeIfNull: false) String? path,
-      bool stream});
+  $Res call({String name, String modelfile, bool stream});
 }
 
 /// @nodoc
-class __$$CreateRequestImplCopyWithImpl<$Res>
-    extends _$CreateRequestCopyWithImpl<$Res, _$CreateRequestImpl>
-    implements _$$CreateRequestImplCopyWith<$Res> {
-  __$$CreateRequestImplCopyWithImpl(
-      _$CreateRequestImpl _value, $Res Function(_$CreateRequestImpl) _then)
+class __$$CreateModelRequestImplCopyWithImpl<$Res>
+    extends _$CreateModelRequestCopyWithImpl<$Res, _$CreateModelRequestImpl>
+    implements _$$CreateModelRequestImplCopyWith<$Res> {
+  __$$CreateModelRequestImplCopyWithImpl(_$CreateModelRequestImpl _value,
+      $Res Function(_$CreateModelRequestImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2700,10 +2691,9 @@ class __$$CreateRequestImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? modelfile = null,
-    Object? path = freezed,
     Object? stream = null,
   }) {
-    return _then(_$CreateRequestImpl(
+    return _then(_$CreateModelRequestImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -2712,10 +2702,6 @@ class __$$CreateRequestImplCopyWithImpl<$Res>
           ? _value.modelfile
           : modelfile // ignore: cast_nullable_to_non_nullable
               as String,
-      path: freezed == path
-          ? _value.path
-          : path // ignore: cast_nullable_to_non_nullable
-              as String?,
       stream: null == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
@@ -2726,138 +2712,128 @@ class __$$CreateRequestImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CreateRequestImpl extends _CreateRequest {
-  const _$CreateRequestImpl(
-      {required this.name,
-      required this.modelfile,
-      @JsonKey(includeIfNull: false) this.path,
-      this.stream = false})
+class _$CreateModelRequestImpl extends _CreateModelRequest {
+  const _$CreateModelRequestImpl(
+      {required this.name, required this.modelfile, this.stream = false})
       : super._();
 
-  factory _$CreateRequestImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CreateRequestImplFromJson(json);
+  factory _$CreateModelRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CreateModelRequestImplFromJson(json);
 
-  /// (required) the model name
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   final String name;
 
-  /// contents of the Modelfile
+  /// The contents of the Modelfile.
   @override
   final String modelfile;
 
-  /// path to the Modelfile (deprecated: please use modelfile instead)
-  @override
-  @JsonKey(includeIfNull: false)
-  final String? path;
-
-  /// (optional) if false the response will be returned as a single response object, rather than a stream of objects
+  /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   @override
   @JsonKey()
   final bool stream;
 
   @override
   String toString() {
-    return 'CreateRequest(name: $name, modelfile: $modelfile, path: $path, stream: $stream)';
+    return 'CreateModelRequest(name: $name, modelfile: $modelfile, stream: $stream)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CreateRequestImpl &&
+            other is _$CreateModelRequestImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.modelfile, modelfile) ||
                 other.modelfile == modelfile) &&
-            (identical(other.path, path) || other.path == path) &&
             (identical(other.stream, stream) || other.stream == stream));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, modelfile, path, stream);
+  int get hashCode => Object.hash(runtimeType, name, modelfile, stream);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CreateRequestImplCopyWith<_$CreateRequestImpl> get copyWith =>
-      __$$CreateRequestImplCopyWithImpl<_$CreateRequestImpl>(this, _$identity);
+  _$$CreateModelRequestImplCopyWith<_$CreateModelRequestImpl> get copyWith =>
+      __$$CreateModelRequestImplCopyWithImpl<_$CreateModelRequestImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CreateRequestImplToJson(
+    return _$$CreateModelRequestImplToJson(
       this,
     );
   }
 }
 
-abstract class _CreateRequest extends CreateRequest {
-  const factory _CreateRequest(
+abstract class _CreateModelRequest extends CreateModelRequest {
+  const factory _CreateModelRequest(
       {required final String name,
       required final String modelfile,
-      @JsonKey(includeIfNull: false) final String? path,
-      final bool stream}) = _$CreateRequestImpl;
-  const _CreateRequest._() : super._();
+      final bool stream}) = _$CreateModelRequestImpl;
+  const _CreateModelRequest._() : super._();
 
-  factory _CreateRequest.fromJson(Map<String, dynamic> json) =
-      _$CreateRequestImpl.fromJson;
+  factory _CreateModelRequest.fromJson(Map<String, dynamic> json) =
+      _$CreateModelRequestImpl.fromJson;
 
   @override
 
-  /// (required) the model name
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get name;
   @override
 
-  /// contents of the Modelfile
+  /// The contents of the Modelfile.
   String get modelfile;
   @override
 
-  /// path to the Modelfile (deprecated: please use modelfile instead)
-  @JsonKey(includeIfNull: false)
-  String? get path;
-  @override
-
-  /// (optional) if false the response will be returned as a single response object, rather than a stream of objects
+  /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   bool get stream;
   @override
   @JsonKey(ignore: true)
-  _$$CreateRequestImplCopyWith<_$CreateRequestImpl> get copyWith =>
+  _$$CreateModelRequestImplCopyWith<_$CreateModelRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-CreateResponse _$CreateResponseFromJson(Map<String, dynamic> json) {
-  return _CreateResponse.fromJson(json);
+CreateModelResponse _$CreateModelResponseFromJson(Map<String, dynamic> json) {
+  return _CreateModelResponse.fromJson(json);
 }
 
 /// @nodoc
-mixin _$CreateResponse {
+mixin _$CreateModelResponse {
   /// Status creating the model
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-  CreateResponseStatus? get status => throw _privateConstructorUsedError;
+  CreateModelStatus? get status => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $CreateResponseCopyWith<CreateResponse> get copyWith =>
+  $CreateModelResponseCopyWith<CreateModelResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CreateResponseCopyWith<$Res> {
-  factory $CreateResponseCopyWith(
-          CreateResponse value, $Res Function(CreateResponse) then) =
-      _$CreateResponseCopyWithImpl<$Res, CreateResponse>;
+abstract class $CreateModelResponseCopyWith<$Res> {
+  factory $CreateModelResponseCopyWith(
+          CreateModelResponse value, $Res Function(CreateModelResponse) then) =
+      _$CreateModelResponseCopyWithImpl<$Res, CreateModelResponse>;
   @useResult
   $Res call(
       {@JsonKey(
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      CreateResponseStatus? status});
+      CreateModelStatus? status});
 }
 
 /// @nodoc
-class _$CreateResponseCopyWithImpl<$Res, $Val extends CreateResponse>
-    implements $CreateResponseCopyWith<$Res> {
-  _$CreateResponseCopyWithImpl(this._value, this._then);
+class _$CreateModelResponseCopyWithImpl<$Res, $Val extends CreateModelResponse>
+    implements $CreateModelResponseCopyWith<$Res> {
+  _$CreateModelResponseCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -2873,32 +2849,32 @@ class _$CreateResponseCopyWithImpl<$Res, $Val extends CreateResponse>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as CreateResponseStatus?,
+              as CreateModelStatus?,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$CreateResponseImplCopyWith<$Res>
-    implements $CreateResponseCopyWith<$Res> {
-  factory _$$CreateResponseImplCopyWith(_$CreateResponseImpl value,
-          $Res Function(_$CreateResponseImpl) then) =
-      __$$CreateResponseImplCopyWithImpl<$Res>;
+abstract class _$$CreateModelResponseImplCopyWith<$Res>
+    implements $CreateModelResponseCopyWith<$Res> {
+  factory _$$CreateModelResponseImplCopyWith(_$CreateModelResponseImpl value,
+          $Res Function(_$CreateModelResponseImpl) then) =
+      __$$CreateModelResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {@JsonKey(
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      CreateResponseStatus? status});
+      CreateModelStatus? status});
 }
 
 /// @nodoc
-class __$$CreateResponseImplCopyWithImpl<$Res>
-    extends _$CreateResponseCopyWithImpl<$Res, _$CreateResponseImpl>
-    implements _$$CreateResponseImplCopyWith<$Res> {
-  __$$CreateResponseImplCopyWithImpl(
-      _$CreateResponseImpl _value, $Res Function(_$CreateResponseImpl) _then)
+class __$$CreateModelResponseImplCopyWithImpl<$Res>
+    extends _$CreateModelResponseCopyWithImpl<$Res, _$CreateModelResponseImpl>
+    implements _$$CreateModelResponseImplCopyWith<$Res> {
+  __$$CreateModelResponseImplCopyWithImpl(_$CreateModelResponseImpl _value,
+      $Res Function(_$CreateModelResponseImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2906,44 +2882,44 @@ class __$$CreateResponseImplCopyWithImpl<$Res>
   $Res call({
     Object? status = freezed,
   }) {
-    return _then(_$CreateResponseImpl(
+    return _then(_$CreateModelResponseImpl(
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as CreateResponseStatus?,
+              as CreateModelStatus?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$CreateResponseImpl extends _CreateResponse {
-  const _$CreateResponseImpl(
+class _$CreateModelResponseImpl extends _CreateModelResponse {
+  const _$CreateModelResponseImpl(
       {@JsonKey(
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       this.status})
       : super._();
 
-  factory _$CreateResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CreateResponseImplFromJson(json);
+  factory _$CreateModelResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CreateModelResponseImplFromJson(json);
 
   /// Status creating the model
   @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-  final CreateResponseStatus? status;
+  final CreateModelStatus? status;
 
   @override
   String toString() {
-    return 'CreateResponse(status: $status)';
+    return 'CreateModelResponse(status: $status)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CreateResponseImpl &&
+            other is _$CreateModelResponseImpl &&
             (identical(other.status, status) || other.status == status));
   }
 
@@ -2954,271 +2930,70 @@ class _$CreateResponseImpl extends _CreateResponse {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CreateResponseImplCopyWith<_$CreateResponseImpl> get copyWith =>
-      __$$CreateResponseImplCopyWithImpl<_$CreateResponseImpl>(
+  _$$CreateModelResponseImplCopyWith<_$CreateModelResponseImpl> get copyWith =>
+      __$$CreateModelResponseImplCopyWithImpl<_$CreateModelResponseImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CreateResponseImplToJson(
+    return _$$CreateModelResponseImplToJson(
       this,
     );
   }
 }
 
-abstract class _CreateResponse extends CreateResponse {
-  const factory _CreateResponse(
+abstract class _CreateModelResponse extends CreateModelResponse {
+  const factory _CreateModelResponse(
       {@JsonKey(
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      final CreateResponseStatus? status}) = _$CreateResponseImpl;
-  const _CreateResponse._() : super._();
+      final CreateModelStatus? status}) = _$CreateModelResponseImpl;
+  const _CreateModelResponse._() : super._();
 
-  factory _CreateResponse.fromJson(Map<String, dynamic> json) =
-      _$CreateResponseImpl.fromJson;
+  factory _CreateModelResponse.fromJson(Map<String, dynamic> json) =
+      _$CreateModelResponseImpl.fromJson;
 
   @override
 
   /// Status creating the model
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-  CreateResponseStatus? get status;
+  CreateModelStatus? get status;
   @override
   @JsonKey(ignore: true)
-  _$$CreateResponseImplCopyWith<_$CreateResponseImpl> get copyWith =>
+  _$$CreateModelResponseImplCopyWith<_$CreateModelResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-Tag _$TagFromJson(Map<String, dynamic> json) {
-  return _Tag.fromJson(json);
+ModelsResponse _$ModelsResponseFromJson(Map<String, dynamic> json) {
+  return _ModelsResponse.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Tag {
-  /// Model name
+mixin _$ModelsResponse {
+  /// List of models available locally.
   @JsonKey(includeIfNull: false)
-  String? get name => throw _privateConstructorUsedError;
-
-  /// Model modification date
-  @JsonKey(name: 'modified_at', includeIfNull: false)
-  String? get modifiedAt => throw _privateConstructorUsedError;
-
-  /// Size of the model on disk
-  @JsonKey(includeIfNull: false)
-  int? get size => throw _privateConstructorUsedError;
+  List<Model>? get models => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $TagCopyWith<Tag> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $TagCopyWith<$Res> {
-  factory $TagCopyWith(Tag value, $Res Function(Tag) then) =
-      _$TagCopyWithImpl<$Res, Tag>;
-  @useResult
-  $Res call(
-      {@JsonKey(includeIfNull: false) String? name,
-      @JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt,
-      @JsonKey(includeIfNull: false) int? size});
-}
-
-/// @nodoc
-class _$TagCopyWithImpl<$Res, $Val extends Tag> implements $TagCopyWith<$Res> {
-  _$TagCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? name = freezed,
-    Object? modifiedAt = freezed,
-    Object? size = freezed,
-  }) {
-    return _then(_value.copyWith(
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      modifiedAt: freezed == modifiedAt
-          ? _value.modifiedAt
-          : modifiedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      size: freezed == size
-          ? _value.size
-          : size // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$TagImplCopyWith<$Res> implements $TagCopyWith<$Res> {
-  factory _$$TagImplCopyWith(_$TagImpl value, $Res Function(_$TagImpl) then) =
-      __$$TagImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(includeIfNull: false) String? name,
-      @JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt,
-      @JsonKey(includeIfNull: false) int? size});
-}
-
-/// @nodoc
-class __$$TagImplCopyWithImpl<$Res> extends _$TagCopyWithImpl<$Res, _$TagImpl>
-    implements _$$TagImplCopyWith<$Res> {
-  __$$TagImplCopyWithImpl(_$TagImpl _value, $Res Function(_$TagImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? name = freezed,
-    Object? modifiedAt = freezed,
-    Object? size = freezed,
-  }) {
-    return _then(_$TagImpl(
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      modifiedAt: freezed == modifiedAt
-          ? _value.modifiedAt
-          : modifiedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      size: freezed == size
-          ? _value.size
-          : size // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$TagImpl extends _Tag {
-  const _$TagImpl(
-      {@JsonKey(includeIfNull: false) this.name,
-      @JsonKey(name: 'modified_at', includeIfNull: false) this.modifiedAt,
-      @JsonKey(includeIfNull: false) this.size})
-      : super._();
-
-  factory _$TagImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TagImplFromJson(json);
-
-  /// Model name
-  @override
-  @JsonKey(includeIfNull: false)
-  final String? name;
-
-  /// Model modification date
-  @override
-  @JsonKey(name: 'modified_at', includeIfNull: false)
-  final String? modifiedAt;
-
-  /// Size of the model on disk
-  @override
-  @JsonKey(includeIfNull: false)
-  final int? size;
-
-  @override
-  String toString() {
-    return 'Tag(name: $name, modifiedAt: $modifiedAt, size: $size)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TagImpl &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.modifiedAt, modifiedAt) ||
-                other.modifiedAt == modifiedAt) &&
-            (identical(other.size, size) || other.size == size));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, name, modifiedAt, size);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TagImplCopyWith<_$TagImpl> get copyWith =>
-      __$$TagImplCopyWithImpl<_$TagImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TagImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _Tag extends Tag {
-  const factory _Tag(
-      {@JsonKey(includeIfNull: false) final String? name,
-      @JsonKey(name: 'modified_at', includeIfNull: false)
-      final String? modifiedAt,
-      @JsonKey(includeIfNull: false) final int? size}) = _$TagImpl;
-  const _Tag._() : super._();
-
-  factory _Tag.fromJson(Map<String, dynamic> json) = _$TagImpl.fromJson;
-
-  @override
-
-  /// Model name
-  @JsonKey(includeIfNull: false)
-  String? get name;
-  @override
-
-  /// Model modification date
-  @JsonKey(name: 'modified_at', includeIfNull: false)
-  String? get modifiedAt;
-  @override
-
-  /// Size of the model on disk
-  @JsonKey(includeIfNull: false)
-  int? get size;
-  @override
-  @JsonKey(ignore: true)
-  _$$TagImplCopyWith<_$TagImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-TagResponse _$TagResponseFromJson(Map<String, dynamic> json) {
-  return _TagResponse.fromJson(json);
-}
-
-/// @nodoc
-mixin _$TagResponse {
-  /// No Description
-  @JsonKey(includeIfNull: false)
-  List<Tag>? get models => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $TagResponseCopyWith<TagResponse> get copyWith =>
+  $ModelsResponseCopyWith<ModelsResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TagResponseCopyWith<$Res> {
-  factory $TagResponseCopyWith(
-          TagResponse value, $Res Function(TagResponse) then) =
-      _$TagResponseCopyWithImpl<$Res, TagResponse>;
+abstract class $ModelsResponseCopyWith<$Res> {
+  factory $ModelsResponseCopyWith(
+          ModelsResponse value, $Res Function(ModelsResponse) then) =
+      _$ModelsResponseCopyWithImpl<$Res, ModelsResponse>;
   @useResult
-  $Res call({@JsonKey(includeIfNull: false) List<Tag>? models});
+  $Res call({@JsonKey(includeIfNull: false) List<Model>? models});
 }
 
 /// @nodoc
-class _$TagResponseCopyWithImpl<$Res, $Val extends TagResponse>
-    implements $TagResponseCopyWith<$Res> {
-  _$TagResponseCopyWithImpl(this._value, this._then);
+class _$ModelsResponseCopyWithImpl<$Res, $Val extends ModelsResponse>
+    implements $ModelsResponseCopyWith<$Res> {
+  _$ModelsResponseCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -3234,28 +3009,28 @@ class _$TagResponseCopyWithImpl<$Res, $Val extends TagResponse>
       models: freezed == models
           ? _value.models
           : models // ignore: cast_nullable_to_non_nullable
-              as List<Tag>?,
+              as List<Model>?,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$TagResponseImplCopyWith<$Res>
-    implements $TagResponseCopyWith<$Res> {
-  factory _$$TagResponseImplCopyWith(
-          _$TagResponseImpl value, $Res Function(_$TagResponseImpl) then) =
-      __$$TagResponseImplCopyWithImpl<$Res>;
+abstract class _$$ModelsResponseImplCopyWith<$Res>
+    implements $ModelsResponseCopyWith<$Res> {
+  factory _$$ModelsResponseImplCopyWith(_$ModelsResponseImpl value,
+          $Res Function(_$ModelsResponseImpl) then) =
+      __$$ModelsResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(includeIfNull: false) List<Tag>? models});
+  $Res call({@JsonKey(includeIfNull: false) List<Model>? models});
 }
 
 /// @nodoc
-class __$$TagResponseImplCopyWithImpl<$Res>
-    extends _$TagResponseCopyWithImpl<$Res, _$TagResponseImpl>
-    implements _$$TagResponseImplCopyWith<$Res> {
-  __$$TagResponseImplCopyWithImpl(
-      _$TagResponseImpl _value, $Res Function(_$TagResponseImpl) _then)
+class __$$ModelsResponseImplCopyWithImpl<$Res>
+    extends _$ModelsResponseCopyWithImpl<$Res, _$ModelsResponseImpl>
+    implements _$$ModelsResponseImplCopyWith<$Res> {
+  __$$ModelsResponseImplCopyWithImpl(
+      _$ModelsResponseImpl _value, $Res Function(_$ModelsResponseImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -3263,33 +3038,33 @@ class __$$TagResponseImplCopyWithImpl<$Res>
   $Res call({
     Object? models = freezed,
   }) {
-    return _then(_$TagResponseImpl(
+    return _then(_$ModelsResponseImpl(
       models: freezed == models
           ? _value._models
           : models // ignore: cast_nullable_to_non_nullable
-              as List<Tag>?,
+              as List<Model>?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$TagResponseImpl extends _TagResponse {
-  const _$TagResponseImpl(
-      {@JsonKey(includeIfNull: false) final List<Tag>? models})
+class _$ModelsResponseImpl extends _ModelsResponse {
+  const _$ModelsResponseImpl(
+      {@JsonKey(includeIfNull: false) final List<Model>? models})
       : _models = models,
         super._();
 
-  factory _$TagResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TagResponseImplFromJson(json);
+  factory _$ModelsResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ModelsResponseImplFromJson(json);
 
-  /// No Description
-  final List<Tag>? _models;
+  /// List of models available locally.
+  final List<Model>? _models;
 
-  /// No Description
+  /// List of models available locally.
   @override
   @JsonKey(includeIfNull: false)
-  List<Tag>? get models {
+  List<Model>? get models {
     final value = _models;
     if (value == null) return null;
     if (_models is EqualUnmodifiableListView) return _models;
@@ -3299,14 +3074,14 @@ class _$TagResponseImpl extends _TagResponse {
 
   @override
   String toString() {
-    return 'TagResponse(models: $models)';
+    return 'ModelsResponse(models: $models)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TagResponseImpl &&
+            other is _$ModelsResponseImpl &&
             const DeepCollectionEquality().equals(other._models, _models));
   }
 
@@ -3318,65 +3093,279 @@ class _$TagResponseImpl extends _TagResponse {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$TagResponseImplCopyWith<_$TagResponseImpl> get copyWith =>
-      __$$TagResponseImplCopyWithImpl<_$TagResponseImpl>(this, _$identity);
+  _$$ModelsResponseImplCopyWith<_$ModelsResponseImpl> get copyWith =>
+      __$$ModelsResponseImplCopyWithImpl<_$ModelsResponseImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$TagResponseImplToJson(
+    return _$$ModelsResponseImplToJson(
       this,
     );
   }
 }
 
-abstract class _TagResponse extends TagResponse {
-  const factory _TagResponse(
-          {@JsonKey(includeIfNull: false) final List<Tag>? models}) =
-      _$TagResponseImpl;
-  const _TagResponse._() : super._();
+abstract class _ModelsResponse extends ModelsResponse {
+  const factory _ModelsResponse(
+          {@JsonKey(includeIfNull: false) final List<Model>? models}) =
+      _$ModelsResponseImpl;
+  const _ModelsResponse._() : super._();
 
-  factory _TagResponse.fromJson(Map<String, dynamic> json) =
-      _$TagResponseImpl.fromJson;
+  factory _ModelsResponse.fromJson(Map<String, dynamic> json) =
+      _$ModelsResponseImpl.fromJson;
 
   @override
 
-  /// No Description
+  /// List of models available locally.
   @JsonKey(includeIfNull: false)
-  List<Tag>? get models;
+  List<Model>? get models;
   @override
   @JsonKey(ignore: true)
-  _$$TagResponseImplCopyWith<_$TagResponseImpl> get copyWith =>
+  _$$ModelsResponseImplCopyWith<_$ModelsResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-ShowRequest _$ShowRequestFromJson(Map<String, dynamic> json) {
-  return _ShowRequest.fromJson(json);
+Model _$ModelFromJson(Map<String, dynamic> json) {
+  return _Model.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ShowRequest {
-  /// (required) name of the model to show
+mixin _$Model {
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  @JsonKey(includeIfNull: false)
+  String? get name => throw _privateConstructorUsedError;
+
+  /// Model modification date.
+  @JsonKey(name: 'modified_at', includeIfNull: false)
+  String? get modifiedAt => throw _privateConstructorUsedError;
+
+  /// Size of the model on disk.
+  @JsonKey(includeIfNull: false)
+  int? get size => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ModelCopyWith<Model> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ModelCopyWith<$Res> {
+  factory $ModelCopyWith(Model value, $Res Function(Model) then) =
+      _$ModelCopyWithImpl<$Res, Model>;
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? name,
+      @JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt,
+      @JsonKey(includeIfNull: false) int? size});
+}
+
+/// @nodoc
+class _$ModelCopyWithImpl<$Res, $Val extends Model>
+    implements $ModelCopyWith<$Res> {
+  _$ModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = freezed,
+    Object? modifiedAt = freezed,
+    Object? size = freezed,
+  }) {
+    return _then(_value.copyWith(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      modifiedAt: freezed == modifiedAt
+          ? _value.modifiedAt
+          : modifiedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      size: freezed == size
+          ? _value.size
+          : size // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ModelImplCopyWith<$Res> implements $ModelCopyWith<$Res> {
+  factory _$$ModelImplCopyWith(
+          _$ModelImpl value, $Res Function(_$ModelImpl) then) =
+      __$$ModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? name,
+      @JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt,
+      @JsonKey(includeIfNull: false) int? size});
+}
+
+/// @nodoc
+class __$$ModelImplCopyWithImpl<$Res>
+    extends _$ModelCopyWithImpl<$Res, _$ModelImpl>
+    implements _$$ModelImplCopyWith<$Res> {
+  __$$ModelImplCopyWithImpl(
+      _$ModelImpl _value, $Res Function(_$ModelImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = freezed,
+    Object? modifiedAt = freezed,
+    Object? size = freezed,
+  }) {
+    return _then(_$ModelImpl(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      modifiedAt: freezed == modifiedAt
+          ? _value.modifiedAt
+          : modifiedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      size: freezed == size
+          ? _value.size
+          : size // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ModelImpl extends _Model {
+  const _$ModelImpl(
+      {@JsonKey(includeIfNull: false) this.name,
+      @JsonKey(name: 'modified_at', includeIfNull: false) this.modifiedAt,
+      @JsonKey(includeIfNull: false) this.size})
+      : super._();
+
+  factory _$ModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ModelImplFromJson(json);
+
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? name;
+
+  /// Model modification date.
+  @override
+  @JsonKey(name: 'modified_at', includeIfNull: false)
+  final String? modifiedAt;
+
+  /// Size of the model on disk.
+  @override
+  @JsonKey(includeIfNull: false)
+  final int? size;
+
+  @override
+  String toString() {
+    return 'Model(name: $name, modifiedAt: $modifiedAt, size: $size)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ModelImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.modifiedAt, modifiedAt) ||
+                other.modifiedAt == modifiedAt) &&
+            (identical(other.size, size) || other.size == size));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, name, modifiedAt, size);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ModelImplCopyWith<_$ModelImpl> get copyWith =>
+      __$$ModelImplCopyWithImpl<_$ModelImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Model extends Model {
+  const factory _Model(
+      {@JsonKey(includeIfNull: false) final String? name,
+      @JsonKey(name: 'modified_at', includeIfNull: false)
+      final String? modifiedAt,
+      @JsonKey(includeIfNull: false) final int? size}) = _$ModelImpl;
+  const _Model._() : super._();
+
+  factory _Model.fromJson(Map<String, dynamic> json) = _$ModelImpl.fromJson;
+
+  @override
+
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  @JsonKey(includeIfNull: false)
+  String? get name;
+  @override
+
+  /// Model modification date.
+  @JsonKey(name: 'modified_at', includeIfNull: false)
+  String? get modifiedAt;
+  @override
+
+  /// Size of the model on disk.
+  @JsonKey(includeIfNull: false)
+  int? get size;
+  @override
+  @JsonKey(ignore: true)
+  _$$ModelImplCopyWith<_$ModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ModelInfoRequest _$ModelInfoRequestFromJson(Map<String, dynamic> json) {
+  return _ModelInfoRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ModelInfoRequest {
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ShowRequestCopyWith<ShowRequest> get copyWith =>
+  $ModelInfoRequestCopyWith<ModelInfoRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ShowRequestCopyWith<$Res> {
-  factory $ShowRequestCopyWith(
-          ShowRequest value, $Res Function(ShowRequest) then) =
-      _$ShowRequestCopyWithImpl<$Res, ShowRequest>;
+abstract class $ModelInfoRequestCopyWith<$Res> {
+  factory $ModelInfoRequestCopyWith(
+          ModelInfoRequest value, $Res Function(ModelInfoRequest) then) =
+      _$ModelInfoRequestCopyWithImpl<$Res, ModelInfoRequest>;
   @useResult
   $Res call({String name});
 }
 
 /// @nodoc
-class _$ShowRequestCopyWithImpl<$Res, $Val extends ShowRequest>
-    implements $ShowRequestCopyWith<$Res> {
-  _$ShowRequestCopyWithImpl(this._value, this._then);
+class _$ModelInfoRequestCopyWithImpl<$Res, $Val extends ModelInfoRequest>
+    implements $ModelInfoRequestCopyWith<$Res> {
+  _$ModelInfoRequestCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -3398,22 +3387,22 @@ class _$ShowRequestCopyWithImpl<$Res, $Val extends ShowRequest>
 }
 
 /// @nodoc
-abstract class _$$ShowRequestImplCopyWith<$Res>
-    implements $ShowRequestCopyWith<$Res> {
-  factory _$$ShowRequestImplCopyWith(
-          _$ShowRequestImpl value, $Res Function(_$ShowRequestImpl) then) =
-      __$$ShowRequestImplCopyWithImpl<$Res>;
+abstract class _$$ModelInfoRequestImplCopyWith<$Res>
+    implements $ModelInfoRequestCopyWith<$Res> {
+  factory _$$ModelInfoRequestImplCopyWith(_$ModelInfoRequestImpl value,
+          $Res Function(_$ModelInfoRequestImpl) then) =
+      __$$ModelInfoRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String name});
 }
 
 /// @nodoc
-class __$$ShowRequestImplCopyWithImpl<$Res>
-    extends _$ShowRequestCopyWithImpl<$Res, _$ShowRequestImpl>
-    implements _$$ShowRequestImplCopyWith<$Res> {
-  __$$ShowRequestImplCopyWithImpl(
-      _$ShowRequestImpl _value, $Res Function(_$ShowRequestImpl) _then)
+class __$$ModelInfoRequestImplCopyWithImpl<$Res>
+    extends _$ModelInfoRequestCopyWithImpl<$Res, _$ModelInfoRequestImpl>
+    implements _$$ModelInfoRequestImplCopyWith<$Res> {
+  __$$ModelInfoRequestImplCopyWithImpl(_$ModelInfoRequestImpl _value,
+      $Res Function(_$ModelInfoRequestImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -3421,7 +3410,7 @@ class __$$ShowRequestImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
   }) {
-    return _then(_$ShowRequestImpl(
+    return _then(_$ModelInfoRequestImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -3432,26 +3421,28 @@ class __$$ShowRequestImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ShowRequestImpl extends _ShowRequest {
-  const _$ShowRequestImpl({required this.name}) : super._();
+class _$ModelInfoRequestImpl extends _ModelInfoRequest {
+  const _$ModelInfoRequestImpl({required this.name}) : super._();
 
-  factory _$ShowRequestImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ShowRequestImplFromJson(json);
+  factory _$ModelInfoRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ModelInfoRequestImplFromJson(json);
 
-  /// (required) name of the model to show
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   final String name;
 
   @override
   String toString() {
-    return 'ShowRequest(name: $name)';
+    return 'ModelInfoRequest(name: $name)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ShowRequestImpl &&
+            other is _$ModelInfoRequestImpl &&
             (identical(other.name, name) || other.name == name));
   }
 
@@ -3462,67 +3453,70 @@ class _$ShowRequestImpl extends _ShowRequest {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ShowRequestImplCopyWith<_$ShowRequestImpl> get copyWith =>
-      __$$ShowRequestImplCopyWithImpl<_$ShowRequestImpl>(this, _$identity);
+  _$$ModelInfoRequestImplCopyWith<_$ModelInfoRequestImpl> get copyWith =>
+      __$$ModelInfoRequestImplCopyWithImpl<_$ModelInfoRequestImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ShowRequestImplToJson(
+    return _$$ModelInfoRequestImplToJson(
       this,
     );
   }
 }
 
-abstract class _ShowRequest extends ShowRequest {
-  const factory _ShowRequest({required final String name}) = _$ShowRequestImpl;
-  const _ShowRequest._() : super._();
+abstract class _ModelInfoRequest extends ModelInfoRequest {
+  const factory _ModelInfoRequest({required final String name}) =
+      _$ModelInfoRequestImpl;
+  const _ModelInfoRequest._() : super._();
 
-  factory _ShowRequest.fromJson(Map<String, dynamic> json) =
-      _$ShowRequestImpl.fromJson;
+  factory _ModelInfoRequest.fromJson(Map<String, dynamic> json) =
+      _$ModelInfoRequestImpl.fromJson;
 
   @override
 
-  /// (required) name of the model to show
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get name;
   @override
   @JsonKey(ignore: true)
-  _$$ShowRequestImplCopyWith<_$ShowRequestImpl> get copyWith =>
+  _$$ModelInfoRequestImplCopyWith<_$ModelInfoRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-ShowResponse _$ShowResponseFromJson(Map<String, dynamic> json) {
-  return _ShowResponse.fromJson(json);
+ModelInfo _$ModelInfoFromJson(Map<String, dynamic> json) {
+  return _ModelInfo.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ShowResponse {
-  /// the model's license
+mixin _$ModelInfo {
+  /// The model's license.
   @JsonKey(includeIfNull: false)
   String? get license => throw _privateConstructorUsedError;
 
-  /// the modelfile associated with the model
+  /// The modelfile associated with the model.
   @JsonKey(includeIfNull: false)
   String? get modelfile => throw _privateConstructorUsedError;
 
-  /// model parameters
+  /// The model parameters.
   @JsonKey(includeIfNull: false)
   String? get parameters => throw _privateConstructorUsedError;
 
-  /// the prompt template for the model
+  /// The prompt template for the model.
   @JsonKey(includeIfNull: false)
   String? get template => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ShowResponseCopyWith<ShowResponse> get copyWith =>
+  $ModelInfoCopyWith<ModelInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ShowResponseCopyWith<$Res> {
-  factory $ShowResponseCopyWith(
-          ShowResponse value, $Res Function(ShowResponse) then) =
-      _$ShowResponseCopyWithImpl<$Res, ShowResponse>;
+abstract class $ModelInfoCopyWith<$Res> {
+  factory $ModelInfoCopyWith(ModelInfo value, $Res Function(ModelInfo) then) =
+      _$ModelInfoCopyWithImpl<$Res, ModelInfo>;
   @useResult
   $Res call(
       {@JsonKey(includeIfNull: false) String? license,
@@ -3532,9 +3526,9 @@ abstract class $ShowResponseCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ShowResponseCopyWithImpl<$Res, $Val extends ShowResponse>
-    implements $ShowResponseCopyWith<$Res> {
-  _$ShowResponseCopyWithImpl(this._value, this._then);
+class _$ModelInfoCopyWithImpl<$Res, $Val extends ModelInfo>
+    implements $ModelInfoCopyWith<$Res> {
+  _$ModelInfoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -3571,11 +3565,11 @@ class _$ShowResponseCopyWithImpl<$Res, $Val extends ShowResponse>
 }
 
 /// @nodoc
-abstract class _$$ShowResponseImplCopyWith<$Res>
-    implements $ShowResponseCopyWith<$Res> {
-  factory _$$ShowResponseImplCopyWith(
-          _$ShowResponseImpl value, $Res Function(_$ShowResponseImpl) then) =
-      __$$ShowResponseImplCopyWithImpl<$Res>;
+abstract class _$$ModelInfoImplCopyWith<$Res>
+    implements $ModelInfoCopyWith<$Res> {
+  factory _$$ModelInfoImplCopyWith(
+          _$ModelInfoImpl value, $Res Function(_$ModelInfoImpl) then) =
+      __$$ModelInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -3586,11 +3580,11 @@ abstract class _$$ShowResponseImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$ShowResponseImplCopyWithImpl<$Res>
-    extends _$ShowResponseCopyWithImpl<$Res, _$ShowResponseImpl>
-    implements _$$ShowResponseImplCopyWith<$Res> {
-  __$$ShowResponseImplCopyWithImpl(
-      _$ShowResponseImpl _value, $Res Function(_$ShowResponseImpl) _then)
+class __$$ModelInfoImplCopyWithImpl<$Res>
+    extends _$ModelInfoCopyWithImpl<$Res, _$ModelInfoImpl>
+    implements _$$ModelInfoImplCopyWith<$Res> {
+  __$$ModelInfoImplCopyWithImpl(
+      _$ModelInfoImpl _value, $Res Function(_$ModelInfoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -3601,7 +3595,7 @@ class __$$ShowResponseImplCopyWithImpl<$Res>
     Object? parameters = freezed,
     Object? template = freezed,
   }) {
-    return _then(_$ShowResponseImpl(
+    return _then(_$ModelInfoImpl(
       license: freezed == license
           ? _value.license
           : license // ignore: cast_nullable_to_non_nullable
@@ -3624,47 +3618,47 @@ class __$$ShowResponseImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ShowResponseImpl extends _ShowResponse {
-  const _$ShowResponseImpl(
+class _$ModelInfoImpl extends _ModelInfo {
+  const _$ModelInfoImpl(
       {@JsonKey(includeIfNull: false) this.license,
       @JsonKey(includeIfNull: false) this.modelfile,
       @JsonKey(includeIfNull: false) this.parameters,
       @JsonKey(includeIfNull: false) this.template})
       : super._();
 
-  factory _$ShowResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ShowResponseImplFromJson(json);
+  factory _$ModelInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ModelInfoImplFromJson(json);
 
-  /// the model's license
+  /// The model's license.
   @override
   @JsonKey(includeIfNull: false)
   final String? license;
 
-  /// the modelfile associated with the model
+  /// The modelfile associated with the model.
   @override
   @JsonKey(includeIfNull: false)
   final String? modelfile;
 
-  /// model parameters
+  /// The model parameters.
   @override
   @JsonKey(includeIfNull: false)
   final String? parameters;
 
-  /// the prompt template for the model
+  /// The prompt template for the model.
   @override
   @JsonKey(includeIfNull: false)
   final String? template;
 
   @override
   String toString() {
-    return 'ShowResponse(license: $license, modelfile: $modelfile, parameters: $parameters, template: $template)';
+    return 'ModelInfo(license: $license, modelfile: $modelfile, parameters: $parameters, template: $template)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ShowResponseImpl &&
+            other is _$ModelInfoImpl &&
             (identical(other.license, license) || other.license == license) &&
             (identical(other.modelfile, modelfile) ||
                 other.modelfile == modelfile) &&
@@ -3682,86 +3676,85 @@ class _$ShowResponseImpl extends _ShowResponse {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ShowResponseImplCopyWith<_$ShowResponseImpl> get copyWith =>
-      __$$ShowResponseImplCopyWithImpl<_$ShowResponseImpl>(this, _$identity);
+  _$$ModelInfoImplCopyWith<_$ModelInfoImpl> get copyWith =>
+      __$$ModelInfoImplCopyWithImpl<_$ModelInfoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ShowResponseImplToJson(
+    return _$$ModelInfoImplToJson(
       this,
     );
   }
 }
 
-abstract class _ShowResponse extends ShowResponse {
-  const factory _ShowResponse(
-          {@JsonKey(includeIfNull: false) final String? license,
-          @JsonKey(includeIfNull: false) final String? modelfile,
-          @JsonKey(includeIfNull: false) final String? parameters,
-          @JsonKey(includeIfNull: false) final String? template}) =
-      _$ShowResponseImpl;
-  const _ShowResponse._() : super._();
+abstract class _ModelInfo extends ModelInfo {
+  const factory _ModelInfo(
+      {@JsonKey(includeIfNull: false) final String? license,
+      @JsonKey(includeIfNull: false) final String? modelfile,
+      @JsonKey(includeIfNull: false) final String? parameters,
+      @JsonKey(includeIfNull: false) final String? template}) = _$ModelInfoImpl;
+  const _ModelInfo._() : super._();
 
-  factory _ShowResponse.fromJson(Map<String, dynamic> json) =
-      _$ShowResponseImpl.fromJson;
+  factory _ModelInfo.fromJson(Map<String, dynamic> json) =
+      _$ModelInfoImpl.fromJson;
 
   @override
 
-  /// the model's license
+  /// The model's license.
   @JsonKey(includeIfNull: false)
   String? get license;
   @override
 
-  /// the modelfile associated with the model
+  /// The modelfile associated with the model.
   @JsonKey(includeIfNull: false)
   String? get modelfile;
   @override
 
-  /// model parameters
+  /// The model parameters.
   @JsonKey(includeIfNull: false)
   String? get parameters;
   @override
 
-  /// the prompt template for the model
+  /// The prompt template for the model.
   @JsonKey(includeIfNull: false)
   String? get template;
   @override
   @JsonKey(ignore: true)
-  _$$ShowResponseImplCopyWith<_$ShowResponseImpl> get copyWith =>
+  _$$ModelInfoImplCopyWith<_$ModelInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-CopyRequest _$CopyRequestFromJson(Map<String, dynamic> json) {
-  return _CopyRequest.fromJson(json);
+CopyModelRequest _$CopyModelRequestFromJson(Map<String, dynamic> json) {
+  return _CopyModelRequest.fromJson(json);
 }
 
 /// @nodoc
-mixin _$CopyRequest {
-  /// No Description
+mixin _$CopyModelRequest {
+  /// Name of the model to copy.
   String get source => throw _privateConstructorUsedError;
 
-  /// No Description
+  /// Name of the new model.
   String get destination => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $CopyRequestCopyWith<CopyRequest> get copyWith =>
+  $CopyModelRequestCopyWith<CopyModelRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CopyRequestCopyWith<$Res> {
-  factory $CopyRequestCopyWith(
-          CopyRequest value, $Res Function(CopyRequest) then) =
-      _$CopyRequestCopyWithImpl<$Res, CopyRequest>;
+abstract class $CopyModelRequestCopyWith<$Res> {
+  factory $CopyModelRequestCopyWith(
+          CopyModelRequest value, $Res Function(CopyModelRequest) then) =
+      _$CopyModelRequestCopyWithImpl<$Res, CopyModelRequest>;
   @useResult
   $Res call({String source, String destination});
 }
 
 /// @nodoc
-class _$CopyRequestCopyWithImpl<$Res, $Val extends CopyRequest>
-    implements $CopyRequestCopyWith<$Res> {
-  _$CopyRequestCopyWithImpl(this._value, this._then);
+class _$CopyModelRequestCopyWithImpl<$Res, $Val extends CopyModelRequest>
+    implements $CopyModelRequestCopyWith<$Res> {
+  _$CopyModelRequestCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -3788,22 +3781,22 @@ class _$CopyRequestCopyWithImpl<$Res, $Val extends CopyRequest>
 }
 
 /// @nodoc
-abstract class _$$CopyRequestImplCopyWith<$Res>
-    implements $CopyRequestCopyWith<$Res> {
-  factory _$$CopyRequestImplCopyWith(
-          _$CopyRequestImpl value, $Res Function(_$CopyRequestImpl) then) =
-      __$$CopyRequestImplCopyWithImpl<$Res>;
+abstract class _$$CopyModelRequestImplCopyWith<$Res>
+    implements $CopyModelRequestCopyWith<$Res> {
+  factory _$$CopyModelRequestImplCopyWith(_$CopyModelRequestImpl value,
+          $Res Function(_$CopyModelRequestImpl) then) =
+      __$$CopyModelRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String source, String destination});
 }
 
 /// @nodoc
-class __$$CopyRequestImplCopyWithImpl<$Res>
-    extends _$CopyRequestCopyWithImpl<$Res, _$CopyRequestImpl>
-    implements _$$CopyRequestImplCopyWith<$Res> {
-  __$$CopyRequestImplCopyWithImpl(
-      _$CopyRequestImpl _value, $Res Function(_$CopyRequestImpl) _then)
+class __$$CopyModelRequestImplCopyWithImpl<$Res>
+    extends _$CopyModelRequestCopyWithImpl<$Res, _$CopyModelRequestImpl>
+    implements _$$CopyModelRequestImplCopyWith<$Res> {
+  __$$CopyModelRequestImplCopyWithImpl(_$CopyModelRequestImpl _value,
+      $Res Function(_$CopyModelRequestImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -3812,7 +3805,7 @@ class __$$CopyRequestImplCopyWithImpl<$Res>
     Object? source = null,
     Object? destination = null,
   }) {
-    return _then(_$CopyRequestImpl(
+    return _then(_$CopyModelRequestImpl(
       source: null == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
@@ -3827,31 +3820,32 @@ class __$$CopyRequestImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CopyRequestImpl extends _CopyRequest {
-  const _$CopyRequestImpl({required this.source, required this.destination})
+class _$CopyModelRequestImpl extends _CopyModelRequest {
+  const _$CopyModelRequestImpl(
+      {required this.source, required this.destination})
       : super._();
 
-  factory _$CopyRequestImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CopyRequestImplFromJson(json);
+  factory _$CopyModelRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CopyModelRequestImplFromJson(json);
 
-  /// No Description
+  /// Name of the model to copy.
   @override
   final String source;
 
-  /// No Description
+  /// Name of the new model.
   @override
   final String destination;
 
   @override
   String toString() {
-    return 'CopyRequest(source: $source, destination: $destination)';
+    return 'CopyModelRequest(source: $source, destination: $destination)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CopyRequestImpl &&
+            other is _$CopyModelRequestImpl &&
             (identical(other.source, source) || other.source == source) &&
             (identical(other.destination, destination) ||
                 other.destination == destination));
@@ -3864,68 +3858,71 @@ class _$CopyRequestImpl extends _CopyRequest {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CopyRequestImplCopyWith<_$CopyRequestImpl> get copyWith =>
-      __$$CopyRequestImplCopyWithImpl<_$CopyRequestImpl>(this, _$identity);
+  _$$CopyModelRequestImplCopyWith<_$CopyModelRequestImpl> get copyWith =>
+      __$$CopyModelRequestImplCopyWithImpl<_$CopyModelRequestImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CopyRequestImplToJson(
+    return _$$CopyModelRequestImplToJson(
       this,
     );
   }
 }
 
-abstract class _CopyRequest extends CopyRequest {
-  const factory _CopyRequest(
+abstract class _CopyModelRequest extends CopyModelRequest {
+  const factory _CopyModelRequest(
       {required final String source,
-      required final String destination}) = _$CopyRequestImpl;
-  const _CopyRequest._() : super._();
+      required final String destination}) = _$CopyModelRequestImpl;
+  const _CopyModelRequest._() : super._();
 
-  factory _CopyRequest.fromJson(Map<String, dynamic> json) =
-      _$CopyRequestImpl.fromJson;
+  factory _CopyModelRequest.fromJson(Map<String, dynamic> json) =
+      _$CopyModelRequestImpl.fromJson;
 
   @override
 
-  /// No Description
+  /// Name of the model to copy.
   String get source;
   @override
 
-  /// No Description
+  /// Name of the new model.
   String get destination;
   @override
   @JsonKey(ignore: true)
-  _$$CopyRequestImplCopyWith<_$CopyRequestImpl> get copyWith =>
+  _$$CopyModelRequestImplCopyWith<_$CopyModelRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-DeleteRequest _$DeleteRequestFromJson(Map<String, dynamic> json) {
-  return _DeleteRequest.fromJson(json);
+DeleteModelRequest _$DeleteModelRequestFromJson(Map<String, dynamic> json) {
+  return _DeleteModelRequest.fromJson(json);
 }
 
 /// @nodoc
-mixin _$DeleteRequest {
-  /// (required) name of the model to delete
+mixin _$DeleteModelRequest {
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $DeleteRequestCopyWith<DeleteRequest> get copyWith =>
+  $DeleteModelRequestCopyWith<DeleteModelRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $DeleteRequestCopyWith<$Res> {
-  factory $DeleteRequestCopyWith(
-          DeleteRequest value, $Res Function(DeleteRequest) then) =
-      _$DeleteRequestCopyWithImpl<$Res, DeleteRequest>;
+abstract class $DeleteModelRequestCopyWith<$Res> {
+  factory $DeleteModelRequestCopyWith(
+          DeleteModelRequest value, $Res Function(DeleteModelRequest) then) =
+      _$DeleteModelRequestCopyWithImpl<$Res, DeleteModelRequest>;
   @useResult
   $Res call({String name});
 }
 
 /// @nodoc
-class _$DeleteRequestCopyWithImpl<$Res, $Val extends DeleteRequest>
-    implements $DeleteRequestCopyWith<$Res> {
-  _$DeleteRequestCopyWithImpl(this._value, this._then);
+class _$DeleteModelRequestCopyWithImpl<$Res, $Val extends DeleteModelRequest>
+    implements $DeleteModelRequestCopyWith<$Res> {
+  _$DeleteModelRequestCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -3947,22 +3944,22 @@ class _$DeleteRequestCopyWithImpl<$Res, $Val extends DeleteRequest>
 }
 
 /// @nodoc
-abstract class _$$DeleteRequestImplCopyWith<$Res>
-    implements $DeleteRequestCopyWith<$Res> {
-  factory _$$DeleteRequestImplCopyWith(
-          _$DeleteRequestImpl value, $Res Function(_$DeleteRequestImpl) then) =
-      __$$DeleteRequestImplCopyWithImpl<$Res>;
+abstract class _$$DeleteModelRequestImplCopyWith<$Res>
+    implements $DeleteModelRequestCopyWith<$Res> {
+  factory _$$DeleteModelRequestImplCopyWith(_$DeleteModelRequestImpl value,
+          $Res Function(_$DeleteModelRequestImpl) then) =
+      __$$DeleteModelRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String name});
 }
 
 /// @nodoc
-class __$$DeleteRequestImplCopyWithImpl<$Res>
-    extends _$DeleteRequestCopyWithImpl<$Res, _$DeleteRequestImpl>
-    implements _$$DeleteRequestImplCopyWith<$Res> {
-  __$$DeleteRequestImplCopyWithImpl(
-      _$DeleteRequestImpl _value, $Res Function(_$DeleteRequestImpl) _then)
+class __$$DeleteModelRequestImplCopyWithImpl<$Res>
+    extends _$DeleteModelRequestCopyWithImpl<$Res, _$DeleteModelRequestImpl>
+    implements _$$DeleteModelRequestImplCopyWith<$Res> {
+  __$$DeleteModelRequestImplCopyWithImpl(_$DeleteModelRequestImpl _value,
+      $Res Function(_$DeleteModelRequestImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -3970,7 +3967,7 @@ class __$$DeleteRequestImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
   }) {
-    return _then(_$DeleteRequestImpl(
+    return _then(_$DeleteModelRequestImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -3981,26 +3978,28 @@ class __$$DeleteRequestImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$DeleteRequestImpl extends _DeleteRequest {
-  const _$DeleteRequestImpl({required this.name}) : super._();
+class _$DeleteModelRequestImpl extends _DeleteModelRequest {
+  const _$DeleteModelRequestImpl({required this.name}) : super._();
 
-  factory _$DeleteRequestImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DeleteRequestImplFromJson(json);
+  factory _$DeleteModelRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DeleteModelRequestImplFromJson(json);
 
-  /// (required) name of the model to delete
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   final String name;
 
   @override
   String toString() {
-    return 'DeleteRequest(name: $name)';
+    return 'DeleteModelRequest(name: $name)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DeleteRequestImpl &&
+            other is _$DeleteModelRequestImpl &&
             (identical(other.name, name) || other.name == name));
   }
 
@@ -4011,74 +4010,76 @@ class _$DeleteRequestImpl extends _DeleteRequest {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$DeleteRequestImplCopyWith<_$DeleteRequestImpl> get copyWith =>
-      __$$DeleteRequestImplCopyWithImpl<_$DeleteRequestImpl>(this, _$identity);
+  _$$DeleteModelRequestImplCopyWith<_$DeleteModelRequestImpl> get copyWith =>
+      __$$DeleteModelRequestImplCopyWithImpl<_$DeleteModelRequestImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$DeleteRequestImplToJson(
+    return _$$DeleteModelRequestImplToJson(
       this,
     );
   }
 }
 
-abstract class _DeleteRequest extends DeleteRequest {
-  const factory _DeleteRequest({required final String name}) =
-      _$DeleteRequestImpl;
-  const _DeleteRequest._() : super._();
+abstract class _DeleteModelRequest extends DeleteModelRequest {
+  const factory _DeleteModelRequest({required final String name}) =
+      _$DeleteModelRequestImpl;
+  const _DeleteModelRequest._() : super._();
 
-  factory _DeleteRequest.fromJson(Map<String, dynamic> json) =
-      _$DeleteRequestImpl.fromJson;
+  factory _DeleteModelRequest.fromJson(Map<String, dynamic> json) =
+      _$DeleteModelRequestImpl.fromJson;
 
   @override
 
-  /// (required) name of the model to delete
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get name;
   @override
   @JsonKey(ignore: true)
-  _$$DeleteRequestImplCopyWith<_$DeleteRequestImpl> get copyWith =>
+  _$$DeleteModelRequestImplCopyWith<_$DeleteModelRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-PullRequest _$PullRequestFromJson(Map<String, dynamic> json) {
-  return _PullRequest.fromJson(json);
+PullModelRequest _$PullModelRequestFromJson(Map<String, dynamic> json) {
+  return _PullModelRequest.fromJson(json);
 }
 
 /// @nodoc
-mixin _$PullRequest {
-  /// name of the model to pull
+mixin _$PullModelRequest {
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get name => throw _privateConstructorUsedError;
 
-  /// (optional) allow insecure connections to the library. Only use this if you are pulling from your own library during development.
-  @JsonKey(includeIfNull: false)
-  bool? get insecure => throw _privateConstructorUsedError;
+  /// Allow insecure connections to the library.
+  ///
+  /// Only use this if you are pulling from your own library during development.
+  bool get insecure => throw _privateConstructorUsedError;
 
-  /// (optional) if false the response will be returned as a single response object, rather than a stream of objects
-  @JsonKey(includeIfNull: false)
-  bool? get stream => throw _privateConstructorUsedError;
+  /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
+  bool get stream => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PullRequestCopyWith<PullRequest> get copyWith =>
+  $PullModelRequestCopyWith<PullModelRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PullRequestCopyWith<$Res> {
-  factory $PullRequestCopyWith(
-          PullRequest value, $Res Function(PullRequest) then) =
-      _$PullRequestCopyWithImpl<$Res, PullRequest>;
+abstract class $PullModelRequestCopyWith<$Res> {
+  factory $PullModelRequestCopyWith(
+          PullModelRequest value, $Res Function(PullModelRequest) then) =
+      _$PullModelRequestCopyWithImpl<$Res, PullModelRequest>;
   @useResult
-  $Res call(
-      {String name,
-      @JsonKey(includeIfNull: false) bool? insecure,
-      @JsonKey(includeIfNull: false) bool? stream});
+  $Res call({String name, bool insecure, bool stream});
 }
 
 /// @nodoc
-class _$PullRequestCopyWithImpl<$Res, $Val extends PullRequest>
-    implements $PullRequestCopyWith<$Res> {
-  _$PullRequestCopyWithImpl(this._value, this._then);
+class _$PullModelRequestCopyWithImpl<$Res, $Val extends PullModelRequest>
+    implements $PullModelRequestCopyWith<$Res> {
+  _$PullModelRequestCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -4089,108 +4090,107 @@ class _$PullRequestCopyWithImpl<$Res, $Val extends PullRequest>
   @override
   $Res call({
     Object? name = null,
-    Object? insecure = freezed,
-    Object? stream = freezed,
+    Object? insecure = null,
+    Object? stream = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      insecure: freezed == insecure
+      insecure: null == insecure
           ? _value.insecure
           : insecure // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      stream: freezed == stream
+              as bool,
+      stream: null == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$PullRequestImplCopyWith<$Res>
-    implements $PullRequestCopyWith<$Res> {
-  factory _$$PullRequestImplCopyWith(
-          _$PullRequestImpl value, $Res Function(_$PullRequestImpl) then) =
-      __$$PullRequestImplCopyWithImpl<$Res>;
+abstract class _$$PullModelRequestImplCopyWith<$Res>
+    implements $PullModelRequestCopyWith<$Res> {
+  factory _$$PullModelRequestImplCopyWith(_$PullModelRequestImpl value,
+          $Res Function(_$PullModelRequestImpl) then) =
+      __$$PullModelRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String name,
-      @JsonKey(includeIfNull: false) bool? insecure,
-      @JsonKey(includeIfNull: false) bool? stream});
+  $Res call({String name, bool insecure, bool stream});
 }
 
 /// @nodoc
-class __$$PullRequestImplCopyWithImpl<$Res>
-    extends _$PullRequestCopyWithImpl<$Res, _$PullRequestImpl>
-    implements _$$PullRequestImplCopyWith<$Res> {
-  __$$PullRequestImplCopyWithImpl(
-      _$PullRequestImpl _value, $Res Function(_$PullRequestImpl) _then)
+class __$$PullModelRequestImplCopyWithImpl<$Res>
+    extends _$PullModelRequestCopyWithImpl<$Res, _$PullModelRequestImpl>
+    implements _$$PullModelRequestImplCopyWith<$Res> {
+  __$$PullModelRequestImplCopyWithImpl(_$PullModelRequestImpl _value,
+      $Res Function(_$PullModelRequestImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? name = null,
-    Object? insecure = freezed,
-    Object? stream = freezed,
+    Object? insecure = null,
+    Object? stream = null,
   }) {
-    return _then(_$PullRequestImpl(
+    return _then(_$PullModelRequestImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      insecure: freezed == insecure
+      insecure: null == insecure
           ? _value.insecure
           : insecure // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      stream: freezed == stream
+              as bool,
+      stream: null == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$PullRequestImpl extends _PullRequest {
-  const _$PullRequestImpl(
-      {required this.name,
-      @JsonKey(includeIfNull: false) this.insecure,
-      @JsonKey(includeIfNull: false) this.stream})
+class _$PullModelRequestImpl extends _PullModelRequest {
+  const _$PullModelRequestImpl(
+      {required this.name, this.insecure = false, this.stream = false})
       : super._();
 
-  factory _$PullRequestImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PullRequestImplFromJson(json);
+  factory _$PullModelRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PullModelRequestImplFromJson(json);
 
-  /// name of the model to pull
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   final String name;
 
-  /// (optional) allow insecure connections to the library. Only use this if you are pulling from your own library during development.
+  /// Allow insecure connections to the library.
+  ///
+  /// Only use this if you are pulling from your own library during development.
   @override
-  @JsonKey(includeIfNull: false)
-  final bool? insecure;
+  @JsonKey()
+  final bool insecure;
 
-  /// (optional) if false the response will be returned as a single response object, rather than a stream of objects
+  /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   @override
-  @JsonKey(includeIfNull: false)
-  final bool? stream;
+  @JsonKey()
+  final bool stream;
 
   @override
   String toString() {
-    return 'PullRequest(name: $name, insecure: $insecure, stream: $stream)';
+    return 'PullModelRequest(name: $name, insecure: $insecure, stream: $stream)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PullRequestImpl &&
+            other is _$PullModelRequestImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.insecure, insecure) ||
                 other.insecure == insecure) &&
@@ -4204,96 +4204,99 @@ class _$PullRequestImpl extends _PullRequest {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$PullRequestImplCopyWith<_$PullRequestImpl> get copyWith =>
-      __$$PullRequestImplCopyWithImpl<_$PullRequestImpl>(this, _$identity);
+  _$$PullModelRequestImplCopyWith<_$PullModelRequestImpl> get copyWith =>
+      __$$PullModelRequestImplCopyWithImpl<_$PullModelRequestImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PullRequestImplToJson(
+    return _$$PullModelRequestImplToJson(
       this,
     );
   }
 }
 
-abstract class _PullRequest extends PullRequest {
-  const factory _PullRequest(
+abstract class _PullModelRequest extends PullModelRequest {
+  const factory _PullModelRequest(
       {required final String name,
-      @JsonKey(includeIfNull: false) final bool? insecure,
-      @JsonKey(includeIfNull: false) final bool? stream}) = _$PullRequestImpl;
-  const _PullRequest._() : super._();
+      final bool insecure,
+      final bool stream}) = _$PullModelRequestImpl;
+  const _PullModelRequest._() : super._();
 
-  factory _PullRequest.fromJson(Map<String, dynamic> json) =
-      _$PullRequestImpl.fromJson;
+  factory _PullModelRequest.fromJson(Map<String, dynamic> json) =
+      _$PullModelRequestImpl.fromJson;
 
   @override
 
-  /// name of the model to pull
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get name;
   @override
 
-  /// (optional) allow insecure connections to the library. Only use this if you are pulling from your own library during development.
-  @JsonKey(includeIfNull: false)
-  bool? get insecure;
+  /// Allow insecure connections to the library.
+  ///
+  /// Only use this if you are pulling from your own library during development.
+  bool get insecure;
   @override
 
-  /// (optional) if false the response will be returned as a single response object, rather than a stream of objects
-  @JsonKey(includeIfNull: false)
-  bool? get stream;
+  /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
+  bool get stream;
   @override
   @JsonKey(ignore: true)
-  _$$PullRequestImplCopyWith<_$PullRequestImpl> get copyWith =>
+  _$$PullModelRequestImplCopyWith<_$PullModelRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-PullResponse _$PullResponseFromJson(Map<String, dynamic> json) {
-  return _PullResponse.fromJson(json);
+PullModelResponse _$PullModelResponseFromJson(Map<String, dynamic> json) {
+  return _PullModelResponse.fromJson(json);
 }
 
 /// @nodoc
-mixin _$PullResponse {
-  ///
+mixin _$PullModelResponse {
+  /// Status pulling the model.
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-  PullResponseStatus? get status => throw _privateConstructorUsedError;
+  PullModelStatus? get status => throw _privateConstructorUsedError;
 
-  /// the model's digest
+  /// The model's digest.
   @JsonKey(includeIfNull: false)
   String? get digest => throw _privateConstructorUsedError;
 
-  /// total size of the model
+  /// Total size of the model.
   @JsonKey(includeIfNull: false)
   int? get total => throw _privateConstructorUsedError;
 
-  /// total bytes transferred
+  /// Total bytes transferred.
   @JsonKey(includeIfNull: false)
   int? get completed => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PullResponseCopyWith<PullResponse> get copyWith =>
+  $PullModelResponseCopyWith<PullModelResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PullResponseCopyWith<$Res> {
-  factory $PullResponseCopyWith(
-          PullResponse value, $Res Function(PullResponse) then) =
-      _$PullResponseCopyWithImpl<$Res, PullResponse>;
+abstract class $PullModelResponseCopyWith<$Res> {
+  factory $PullModelResponseCopyWith(
+          PullModelResponse value, $Res Function(PullModelResponse) then) =
+      _$PullModelResponseCopyWithImpl<$Res, PullModelResponse>;
   @useResult
   $Res call(
       {@JsonKey(
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      PullResponseStatus? status,
+      PullModelStatus? status,
       @JsonKey(includeIfNull: false) String? digest,
       @JsonKey(includeIfNull: false) int? total,
       @JsonKey(includeIfNull: false) int? completed});
 }
 
 /// @nodoc
-class _$PullResponseCopyWithImpl<$Res, $Val extends PullResponse>
-    implements $PullResponseCopyWith<$Res> {
-  _$PullResponseCopyWithImpl(this._value, this._then);
+class _$PullModelResponseCopyWithImpl<$Res, $Val extends PullModelResponse>
+    implements $PullModelResponseCopyWith<$Res> {
+  _$PullModelResponseCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -4312,7 +4315,7 @@ class _$PullResponseCopyWithImpl<$Res, $Val extends PullResponse>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as PullResponseStatus?,
+              as PullModelStatus?,
       digest: freezed == digest
           ? _value.digest
           : digest // ignore: cast_nullable_to_non_nullable
@@ -4330,29 +4333,29 @@ class _$PullResponseCopyWithImpl<$Res, $Val extends PullResponse>
 }
 
 /// @nodoc
-abstract class _$$PullResponseImplCopyWith<$Res>
-    implements $PullResponseCopyWith<$Res> {
-  factory _$$PullResponseImplCopyWith(
-          _$PullResponseImpl value, $Res Function(_$PullResponseImpl) then) =
-      __$$PullResponseImplCopyWithImpl<$Res>;
+abstract class _$$PullModelResponseImplCopyWith<$Res>
+    implements $PullModelResponseCopyWith<$Res> {
+  factory _$$PullModelResponseImplCopyWith(_$PullModelResponseImpl value,
+          $Res Function(_$PullModelResponseImpl) then) =
+      __$$PullModelResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {@JsonKey(
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      PullResponseStatus? status,
+      PullModelStatus? status,
       @JsonKey(includeIfNull: false) String? digest,
       @JsonKey(includeIfNull: false) int? total,
       @JsonKey(includeIfNull: false) int? completed});
 }
 
 /// @nodoc
-class __$$PullResponseImplCopyWithImpl<$Res>
-    extends _$PullResponseCopyWithImpl<$Res, _$PullResponseImpl>
-    implements _$$PullResponseImplCopyWith<$Res> {
-  __$$PullResponseImplCopyWithImpl(
-      _$PullResponseImpl _value, $Res Function(_$PullResponseImpl) _then)
+class __$$PullModelResponseImplCopyWithImpl<$Res>
+    extends _$PullModelResponseCopyWithImpl<$Res, _$PullModelResponseImpl>
+    implements _$$PullModelResponseImplCopyWith<$Res> {
+  __$$PullModelResponseImplCopyWithImpl(_$PullModelResponseImpl _value,
+      $Res Function(_$PullModelResponseImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -4363,11 +4366,11 @@ class __$$PullResponseImplCopyWithImpl<$Res>
     Object? total = freezed,
     Object? completed = freezed,
   }) {
-    return _then(_$PullResponseImpl(
+    return _then(_$PullModelResponseImpl(
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as PullResponseStatus?,
+              as PullModelStatus?,
       digest: freezed == digest
           ? _value.digest
           : digest // ignore: cast_nullable_to_non_nullable
@@ -4386,8 +4389,8 @@ class __$$PullResponseImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$PullResponseImpl extends _PullResponse {
-  const _$PullResponseImpl(
+class _$PullModelResponseImpl extends _PullModelResponse {
+  const _$PullModelResponseImpl(
       {@JsonKey(
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
@@ -4397,40 +4400,40 @@ class _$PullResponseImpl extends _PullResponse {
       @JsonKey(includeIfNull: false) this.completed})
       : super._();
 
-  factory _$PullResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PullResponseImplFromJson(json);
+  factory _$PullModelResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PullModelResponseImplFromJson(json);
 
-  ///
+  /// Status pulling the model.
   @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-  final PullResponseStatus? status;
+  final PullModelStatus? status;
 
-  /// the model's digest
+  /// The model's digest.
   @override
   @JsonKey(includeIfNull: false)
   final String? digest;
 
-  /// total size of the model
+  /// Total size of the model.
   @override
   @JsonKey(includeIfNull: false)
   final int? total;
 
-  /// total bytes transferred
+  /// Total bytes transferred.
   @override
   @JsonKey(includeIfNull: false)
   final int? completed;
 
   @override
   String toString() {
-    return 'PullResponse(status: $status, digest: $digest, total: $total, completed: $completed)';
+    return 'PullModelResponse(status: $status, digest: $digest, total: $total, completed: $completed)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PullResponseImpl &&
+            other is _$PullModelResponseImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.digest, digest) || other.digest == digest) &&
             (identical(other.total, total) || other.total == total) &&
@@ -4446,98 +4449,96 @@ class _$PullResponseImpl extends _PullResponse {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$PullResponseImplCopyWith<_$PullResponseImpl> get copyWith =>
-      __$$PullResponseImplCopyWithImpl<_$PullResponseImpl>(this, _$identity);
+  _$$PullModelResponseImplCopyWith<_$PullModelResponseImpl> get copyWith =>
+      __$$PullModelResponseImplCopyWithImpl<_$PullModelResponseImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PullResponseImplToJson(
+    return _$$PullModelResponseImplToJson(
       this,
     );
   }
 }
 
-abstract class _PullResponse extends PullResponse {
-  const factory _PullResponse(
+abstract class _PullModelResponse extends PullModelResponse {
+  const factory _PullModelResponse(
           {@JsonKey(
               includeIfNull: false,
               unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-          final PullResponseStatus? status,
+          final PullModelStatus? status,
           @JsonKey(includeIfNull: false) final String? digest,
           @JsonKey(includeIfNull: false) final int? total,
           @JsonKey(includeIfNull: false) final int? completed}) =
-      _$PullResponseImpl;
-  const _PullResponse._() : super._();
+      _$PullModelResponseImpl;
+  const _PullModelResponse._() : super._();
 
-  factory _PullResponse.fromJson(Map<String, dynamic> json) =
-      _$PullResponseImpl.fromJson;
+  factory _PullModelResponse.fromJson(Map<String, dynamic> json) =
+      _$PullModelResponseImpl.fromJson;
 
   @override
 
-  ///
+  /// Status pulling the model.
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-  PullResponseStatus? get status;
+  PullModelStatus? get status;
   @override
 
-  /// the model's digest
+  /// The model's digest.
   @JsonKey(includeIfNull: false)
   String? get digest;
   @override
 
-  /// total size of the model
+  /// Total size of the model.
   @JsonKey(includeIfNull: false)
   int? get total;
   @override
 
-  /// total bytes transferred
+  /// Total bytes transferred.
   @JsonKey(includeIfNull: false)
   int? get completed;
   @override
   @JsonKey(ignore: true)
-  _$$PullResponseImplCopyWith<_$PullResponseImpl> get copyWith =>
+  _$$PullModelResponseImplCopyWith<_$PullModelResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-PushRequest _$PushRequestFromJson(Map<String, dynamic> json) {
-  return _PushRequest.fromJson(json);
+PushModelRequest _$PushModelRequestFromJson(Map<String, dynamic> json) {
+  return _PushModelRequest.fromJson(json);
 }
 
 /// @nodoc
-mixin _$PushRequest {
-  /// name of the model to push in the form of <namespace>/<model>:<tag>
+mixin _$PushModelRequest {
+  /// The name of the model to push in the form of <namespace>/<model>:<tag>.
   String get name => throw _privateConstructorUsedError;
 
-  /// (optional) allow insecure connections to the library. Only use this if you are pushing to your library during development.
-  @JsonKey(includeIfNull: false)
-  bool? get insecure => throw _privateConstructorUsedError;
+  /// Allow insecure connections to the library.
+  ///
+  /// Only use this if you are pushing to your library during development.
+  bool get insecure => throw _privateConstructorUsedError;
 
-  /// (optional) if false the response will be returned as a single response object, rather than a stream of objects
-  @JsonKey(includeIfNull: false)
-  bool? get stream => throw _privateConstructorUsedError;
+  /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
+  bool get stream => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PushRequestCopyWith<PushRequest> get copyWith =>
+  $PushModelRequestCopyWith<PushModelRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PushRequestCopyWith<$Res> {
-  factory $PushRequestCopyWith(
-          PushRequest value, $Res Function(PushRequest) then) =
-      _$PushRequestCopyWithImpl<$Res, PushRequest>;
+abstract class $PushModelRequestCopyWith<$Res> {
+  factory $PushModelRequestCopyWith(
+          PushModelRequest value, $Res Function(PushModelRequest) then) =
+      _$PushModelRequestCopyWithImpl<$Res, PushModelRequest>;
   @useResult
-  $Res call(
-      {String name,
-      @JsonKey(includeIfNull: false) bool? insecure,
-      @JsonKey(includeIfNull: false) bool? stream});
+  $Res call({String name, bool insecure, bool stream});
 }
 
 /// @nodoc
-class _$PushRequestCopyWithImpl<$Res, $Val extends PushRequest>
-    implements $PushRequestCopyWith<$Res> {
-  _$PushRequestCopyWithImpl(this._value, this._then);
+class _$PushModelRequestCopyWithImpl<$Res, $Val extends PushModelRequest>
+    implements $PushModelRequestCopyWith<$Res> {
+  _$PushModelRequestCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -4548,108 +4549,105 @@ class _$PushRequestCopyWithImpl<$Res, $Val extends PushRequest>
   @override
   $Res call({
     Object? name = null,
-    Object? insecure = freezed,
-    Object? stream = freezed,
+    Object? insecure = null,
+    Object? stream = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      insecure: freezed == insecure
+      insecure: null == insecure
           ? _value.insecure
           : insecure // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      stream: freezed == stream
+              as bool,
+      stream: null == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$PushRequestImplCopyWith<$Res>
-    implements $PushRequestCopyWith<$Res> {
-  factory _$$PushRequestImplCopyWith(
-          _$PushRequestImpl value, $Res Function(_$PushRequestImpl) then) =
-      __$$PushRequestImplCopyWithImpl<$Res>;
+abstract class _$$PushModelRequestImplCopyWith<$Res>
+    implements $PushModelRequestCopyWith<$Res> {
+  factory _$$PushModelRequestImplCopyWith(_$PushModelRequestImpl value,
+          $Res Function(_$PushModelRequestImpl) then) =
+      __$$PushModelRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String name,
-      @JsonKey(includeIfNull: false) bool? insecure,
-      @JsonKey(includeIfNull: false) bool? stream});
+  $Res call({String name, bool insecure, bool stream});
 }
 
 /// @nodoc
-class __$$PushRequestImplCopyWithImpl<$Res>
-    extends _$PushRequestCopyWithImpl<$Res, _$PushRequestImpl>
-    implements _$$PushRequestImplCopyWith<$Res> {
-  __$$PushRequestImplCopyWithImpl(
-      _$PushRequestImpl _value, $Res Function(_$PushRequestImpl) _then)
+class __$$PushModelRequestImplCopyWithImpl<$Res>
+    extends _$PushModelRequestCopyWithImpl<$Res, _$PushModelRequestImpl>
+    implements _$$PushModelRequestImplCopyWith<$Res> {
+  __$$PushModelRequestImplCopyWithImpl(_$PushModelRequestImpl _value,
+      $Res Function(_$PushModelRequestImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? name = null,
-    Object? insecure = freezed,
-    Object? stream = freezed,
+    Object? insecure = null,
+    Object? stream = null,
   }) {
-    return _then(_$PushRequestImpl(
+    return _then(_$PushModelRequestImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      insecure: freezed == insecure
+      insecure: null == insecure
           ? _value.insecure
           : insecure // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      stream: freezed == stream
+              as bool,
+      stream: null == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$PushRequestImpl extends _PushRequest {
-  const _$PushRequestImpl(
-      {required this.name,
-      @JsonKey(includeIfNull: false) this.insecure,
-      @JsonKey(includeIfNull: false) this.stream})
+class _$PushModelRequestImpl extends _PushModelRequest {
+  const _$PushModelRequestImpl(
+      {required this.name, this.insecure = false, this.stream = false})
       : super._();
 
-  factory _$PushRequestImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PushRequestImplFromJson(json);
+  factory _$PushModelRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PushModelRequestImplFromJson(json);
 
-  /// name of the model to push in the form of <namespace>/<model>:<tag>
+  /// The name of the model to push in the form of <namespace>/<model>:<tag>.
   @override
   final String name;
 
-  /// (optional) allow insecure connections to the library. Only use this if you are pushing to your library during development.
+  /// Allow insecure connections to the library.
+  ///
+  /// Only use this if you are pushing to your library during development.
   @override
-  @JsonKey(includeIfNull: false)
-  final bool? insecure;
+  @JsonKey()
+  final bool insecure;
 
-  /// (optional) if false the response will be returned as a single response object, rather than a stream of objects
+  /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   @override
-  @JsonKey(includeIfNull: false)
-  final bool? stream;
+  @JsonKey()
+  final bool stream;
 
   @override
   String toString() {
-    return 'PushRequest(name: $name, insecure: $insecure, stream: $stream)';
+    return 'PushModelRequest(name: $name, insecure: $insecure, stream: $stream)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PushRequestImpl &&
+            other is _$PushModelRequestImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.insecure, insecure) ||
                 other.insecure == insecure) &&
@@ -4663,57 +4661,58 @@ class _$PushRequestImpl extends _PushRequest {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$PushRequestImplCopyWith<_$PushRequestImpl> get copyWith =>
-      __$$PushRequestImplCopyWithImpl<_$PushRequestImpl>(this, _$identity);
+  _$$PushModelRequestImplCopyWith<_$PushModelRequestImpl> get copyWith =>
+      __$$PushModelRequestImplCopyWithImpl<_$PushModelRequestImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PushRequestImplToJson(
+    return _$$PushModelRequestImplToJson(
       this,
     );
   }
 }
 
-abstract class _PushRequest extends PushRequest {
-  const factory _PushRequest(
+abstract class _PushModelRequest extends PushModelRequest {
+  const factory _PushModelRequest(
       {required final String name,
-      @JsonKey(includeIfNull: false) final bool? insecure,
-      @JsonKey(includeIfNull: false) final bool? stream}) = _$PushRequestImpl;
-  const _PushRequest._() : super._();
+      final bool insecure,
+      final bool stream}) = _$PushModelRequestImpl;
+  const _PushModelRequest._() : super._();
 
-  factory _PushRequest.fromJson(Map<String, dynamic> json) =
-      _$PushRequestImpl.fromJson;
+  factory _PushModelRequest.fromJson(Map<String, dynamic> json) =
+      _$PushModelRequestImpl.fromJson;
 
   @override
 
-  /// name of the model to push in the form of <namespace>/<model>:<tag>
+  /// The name of the model to push in the form of <namespace>/<model>:<tag>.
   String get name;
   @override
 
-  /// (optional) allow insecure connections to the library. Only use this if you are pushing to your library during development.
-  @JsonKey(includeIfNull: false)
-  bool? get insecure;
+  /// Allow insecure connections to the library.
+  ///
+  /// Only use this if you are pushing to your library during development.
+  bool get insecure;
   @override
 
-  /// (optional) if false the response will be returned as a single response object, rather than a stream of objects
-  @JsonKey(includeIfNull: false)
-  bool? get stream;
+  /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
+  bool get stream;
   @override
   @JsonKey(ignore: true)
-  _$$PushRequestImplCopyWith<_$PushRequestImpl> get copyWith =>
+  _$$PushModelRequestImplCopyWith<_$PushModelRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-PushResponse _$PushResponseFromJson(Map<String, dynamic> json) {
-  return _PushResponse.fromJson(json);
+PushModelResponse _$PushModelResponseFromJson(Map<String, dynamic> json) {
+  return _PushModelResponse.fromJson(json);
 }
 
 /// @nodoc
-mixin _$PushResponse {
-  ///
+mixin _$PushModelResponse {
+  /// Status pushing the model.
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-  PushResponseStatus? get status => throw _privateConstructorUsedError;
+  PushModelStatus? get status => throw _privateConstructorUsedError;
 
   /// the model's digest
   @JsonKey(includeIfNull: false)
@@ -4725,29 +4724,29 @@ mixin _$PushResponse {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PushResponseCopyWith<PushResponse> get copyWith =>
+  $PushModelResponseCopyWith<PushModelResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PushResponseCopyWith<$Res> {
-  factory $PushResponseCopyWith(
-          PushResponse value, $Res Function(PushResponse) then) =
-      _$PushResponseCopyWithImpl<$Res, PushResponse>;
+abstract class $PushModelResponseCopyWith<$Res> {
+  factory $PushModelResponseCopyWith(
+          PushModelResponse value, $Res Function(PushModelResponse) then) =
+      _$PushModelResponseCopyWithImpl<$Res, PushModelResponse>;
   @useResult
   $Res call(
       {@JsonKey(
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      PushResponseStatus? status,
+      PushModelStatus? status,
       @JsonKey(includeIfNull: false) String? digest,
       @JsonKey(includeIfNull: false) int? total});
 }
 
 /// @nodoc
-class _$PushResponseCopyWithImpl<$Res, $Val extends PushResponse>
-    implements $PushResponseCopyWith<$Res> {
-  _$PushResponseCopyWithImpl(this._value, this._then);
+class _$PushModelResponseCopyWithImpl<$Res, $Val extends PushModelResponse>
+    implements $PushModelResponseCopyWith<$Res> {
+  _$PushModelResponseCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -4765,7 +4764,7 @@ class _$PushResponseCopyWithImpl<$Res, $Val extends PushResponse>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as PushResponseStatus?,
+              as PushModelStatus?,
       digest: freezed == digest
           ? _value.digest
           : digest // ignore: cast_nullable_to_non_nullable
@@ -4779,28 +4778,28 @@ class _$PushResponseCopyWithImpl<$Res, $Val extends PushResponse>
 }
 
 /// @nodoc
-abstract class _$$PushResponseImplCopyWith<$Res>
-    implements $PushResponseCopyWith<$Res> {
-  factory _$$PushResponseImplCopyWith(
-          _$PushResponseImpl value, $Res Function(_$PushResponseImpl) then) =
-      __$$PushResponseImplCopyWithImpl<$Res>;
+abstract class _$$PushModelResponseImplCopyWith<$Res>
+    implements $PushModelResponseCopyWith<$Res> {
+  factory _$$PushModelResponseImplCopyWith(_$PushModelResponseImpl value,
+          $Res Function(_$PushModelResponseImpl) then) =
+      __$$PushModelResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {@JsonKey(
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      PushResponseStatus? status,
+      PushModelStatus? status,
       @JsonKey(includeIfNull: false) String? digest,
       @JsonKey(includeIfNull: false) int? total});
 }
 
 /// @nodoc
-class __$$PushResponseImplCopyWithImpl<$Res>
-    extends _$PushResponseCopyWithImpl<$Res, _$PushResponseImpl>
-    implements _$$PushResponseImplCopyWith<$Res> {
-  __$$PushResponseImplCopyWithImpl(
-      _$PushResponseImpl _value, $Res Function(_$PushResponseImpl) _then)
+class __$$PushModelResponseImplCopyWithImpl<$Res>
+    extends _$PushModelResponseCopyWithImpl<$Res, _$PushModelResponseImpl>
+    implements _$$PushModelResponseImplCopyWith<$Res> {
+  __$$PushModelResponseImplCopyWithImpl(_$PushModelResponseImpl _value,
+      $Res Function(_$PushModelResponseImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -4810,11 +4809,11 @@ class __$$PushResponseImplCopyWithImpl<$Res>
     Object? digest = freezed,
     Object? total = freezed,
   }) {
-    return _then(_$PushResponseImpl(
+    return _then(_$PushModelResponseImpl(
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as PushResponseStatus?,
+              as PushModelStatus?,
       digest: freezed == digest
           ? _value.digest
           : digest // ignore: cast_nullable_to_non_nullable
@@ -4829,8 +4828,8 @@ class __$$PushResponseImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$PushResponseImpl extends _PushResponse {
-  const _$PushResponseImpl(
+class _$PushModelResponseImpl extends _PushModelResponse {
+  const _$PushModelResponseImpl(
       {@JsonKey(
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
@@ -4839,14 +4838,14 @@ class _$PushResponseImpl extends _PushResponse {
       @JsonKey(includeIfNull: false) this.total})
       : super._();
 
-  factory _$PushResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PushResponseImplFromJson(json);
+  factory _$PushModelResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PushModelResponseImplFromJson(json);
 
-  ///
+  /// Status pushing the model.
   @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-  final PushResponseStatus? status;
+  final PushModelStatus? status;
 
   /// the model's digest
   @override
@@ -4860,14 +4859,14 @@ class _$PushResponseImpl extends _PushResponse {
 
   @override
   String toString() {
-    return 'PushResponse(status: $status, digest: $digest, total: $total)';
+    return 'PushModelResponse(status: $status, digest: $digest, total: $total)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PushResponseImpl &&
+            other is _$PushModelResponseImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.digest, digest) || other.digest == digest) &&
             (identical(other.total, total) || other.total == total));
@@ -4880,36 +4879,38 @@ class _$PushResponseImpl extends _PushResponse {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$PushResponseImplCopyWith<_$PushResponseImpl> get copyWith =>
-      __$$PushResponseImplCopyWithImpl<_$PushResponseImpl>(this, _$identity);
+  _$$PushModelResponseImplCopyWith<_$PushModelResponseImpl> get copyWith =>
+      __$$PushModelResponseImplCopyWithImpl<_$PushModelResponseImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PushResponseImplToJson(
+    return _$$PushModelResponseImplToJson(
       this,
     );
   }
 }
 
-abstract class _PushResponse extends PushResponse {
-  const factory _PushResponse(
-      {@JsonKey(
-          includeIfNull: false,
-          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      final PushResponseStatus? status,
-      @JsonKey(includeIfNull: false) final String? digest,
-      @JsonKey(includeIfNull: false) final int? total}) = _$PushResponseImpl;
-  const _PushResponse._() : super._();
+abstract class _PushModelResponse extends PushModelResponse {
+  const factory _PushModelResponse(
+          {@JsonKey(
+              includeIfNull: false,
+              unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+          final PushModelStatus? status,
+          @JsonKey(includeIfNull: false) final String? digest,
+          @JsonKey(includeIfNull: false) final int? total}) =
+      _$PushModelResponseImpl;
+  const _PushModelResponse._() : super._();
 
-  factory _PushResponse.fromJson(Map<String, dynamic> json) =
-      _$PushResponseImpl.fromJson;
+  factory _PushModelResponse.fromJson(Map<String, dynamic> json) =
+      _$PushModelResponseImpl.fromJson;
 
   @override
 
-  ///
+  /// Status pushing the model.
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-  PushResponseStatus? get status;
+  PushModelStatus? get status;
   @override
 
   /// the model's digest
@@ -4922,6 +4923,6 @@ abstract class _PushResponse extends PushResponse {
   int? get total;
   @override
   @JsonKey(ignore: true)
-  _$$PushResponseImplCopyWith<_$PushResponseImpl> get copyWith =>
+  _$$PushModelResponseImplCopyWith<_$PushModelResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
