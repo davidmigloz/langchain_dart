@@ -3,6 +3,27 @@
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) 
 server for more details about each release.
 
+## 2023-11-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`ollama_dart` - `v0.0.1`](#ollama_dart---v001)
+
+---
+
+#### `ollama_dart` - `v0.0.1`
+
+ - **FEAT**(ollama_dart): Implement ollama_dart, a Dart client for Ollama API ([#238](https://github.com/davidmigloz/langchain_dart/issues/238)). ([d213aa9c](https://github.com/davidmigloz/langchain_dart/commit/d213aa9c5dec0aea11d656b5f16ddf3174f5b789))
+
+
 ## 2023-11-20
 
 ### Changes
