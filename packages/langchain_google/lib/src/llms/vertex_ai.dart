@@ -117,8 +117,6 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
     required final String project,
     final String location = 'us-central1',
     final String? rootUrl,
-    this.publisher = 'google',
-    this.model = 'text-bison',
     this.defaultOptions = const VertexAIOptions(),
   }) : client = VertexAIGenAIClient(
           httpClient: httpClient,
@@ -129,22 +127,6 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
 
   /// A client for interacting with Vertex AI API.
   final VertexAIGenAIClient client;
-
-  /// The publisher of the model.
-  ///
-  /// Use `google` for first-party models.
-  final String publisher;
-
-  /// The text model to use.
-  ///
-  /// To use the latest model version, specify the model name without a version
-  /// number (e.g. `text-bison`).
-  /// To use a stable model version, specify the model version number
-  /// (e.g. `text-bison@001`).
-  ///
-  /// You can find a list of available models here:
-  /// https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models
-  final String model;
 
   /// The default options to use when calling the model.
   final VertexAIOptions defaultOptions;
@@ -162,8 +144,8 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
   }) async {
     final result = await client.text.predict(
       prompt: prompt,
-      publisher: publisher,
-      model: model,
+      publisher: options?.publisher ?? defaultOptions.publisher,
+      model: options?.model ?? defaultOptions.model,
       parameters: VertexAITextModelRequestParams(
         maxOutputTokens:
             options?.maxOutputTokens ?? defaultOptions.maxOutputTokens,
@@ -175,7 +157,7 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
             options?.candidateCount ?? defaultOptions.candidateCount,
       ),
     );
-    return result.toLLMResult(model);
+    return result.toLLMResult(options?.model ?? defaultOptions.model);
   }
 
   /// Tokenizes the given prompt using tiktoken.
