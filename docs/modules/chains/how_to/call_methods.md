@@ -5,7 +5,12 @@ The most direct one is by `call()` (a chain is a
 [callable object](https://dart.dev/language/callable-objects)):
 
 ```dart
-final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
+final chat = final chat = ChatOpenAI(
+  apiKey: openaiApiKey,
+  defaultOptions: const ChatOpenAIOptions(
+    temperature: 0,
+  ),
+);
 const template = 'Tell me a {adjective} joke';
 final prompt = PromptTemplate.fromTemplate(template);
 final chain = LLMChain(llm: chat, prompt: prompt);
@@ -59,7 +64,12 @@ run method.
 `Chain` a stateful object.
 
 ```dart
-final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
+final chat = final chat = ChatOpenAI(
+  apiKey: openaiApiKey,
+  defaultOptions: const ChatOpenAIOptions(
+    temperature: 0,
+  ),
+);
 final memory = ConversationBufferMemory(returnMessages: true);
 final conversation = ConversationChain(llm: chat, memory: memory);
 

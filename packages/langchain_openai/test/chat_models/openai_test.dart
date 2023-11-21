@@ -15,29 +15,36 @@ void main() {
     test('Test ChatOpenAI parameters', () async {
       final chat = ChatOpenAI(
         apiKey: openaiApiKey,
-        model: 'foo',
-        temperature: 0.1,
-        topP: 0.1,
-        n: 10,
-        maxTokens: 10,
-        presencePenalty: 0.1,
-        frequencyPenalty: 0.1,
-        logitBias: {'foo': 1},
-        user: 'foo',
+        defaultOptions: const ChatOpenAIOptions(
+          model: 'foo',
+          temperature: 0.1,
+          topP: 0.1,
+          n: 10,
+          maxTokens: 10,
+          presencePenalty: 0.1,
+          frequencyPenalty: 0.1,
+          logitBias: {'foo': 1},
+          user: 'foo',
+        ),
       );
-      expect(chat.model, 'foo');
-      expect(chat.maxTokens, 10);
-      expect(chat.temperature, 0.1);
-      expect(chat.topP, 0.1);
-      expect(chat.n, 10);
-      expect(chat.presencePenalty, 0.1);
-      expect(chat.frequencyPenalty, 0.1);
-      expect(chat.logitBias, {'foo': 1.0});
-      expect(chat.user, 'foo');
+      expect(chat.defaultOptions.model, 'foo');
+      expect(chat.defaultOptions.maxTokens, 10);
+      expect(chat.defaultOptions.temperature, 0.1);
+      expect(chat.defaultOptions.topP, 0.1);
+      expect(chat.defaultOptions.n, 10);
+      expect(chat.defaultOptions.presencePenalty, 0.1);
+      expect(chat.defaultOptions.frequencyPenalty, 0.1);
+      expect(chat.defaultOptions.logitBias, {'foo': 1.0});
+      expect(chat.defaultOptions.user, 'foo');
     });
 
     test('Test call to ChatOpenAI', () async {
-      final chat = ChatOpenAI(apiKey: openaiApiKey, maxTokens: 10);
+      final chat = ChatOpenAI(
+        apiKey: openaiApiKey,
+        defaultOptions: const ChatOpenAIOptions(
+          maxTokens: 10,
+        ),
+      );
       final res = await chat([ChatMessage.humanText('Hello')]);
       expect(res.content, isNotEmpty);
     });
@@ -55,19 +62,29 @@ void main() {
     });
 
     test('Test model output contains metadata', () async {
-      final chat = ChatOpenAI(apiKey: openaiApiKey, maxTokens: 10);
+      final chat = ChatOpenAI(
+        apiKey: openaiApiKey,
+        defaultOptions: const ChatOpenAIOptions(
+          maxTokens: 10,
+        ),
+      );
       final res = await chat.generate(
         [ChatMessage.humanText('Hello, how are you?')],
       );
       expect(res.modelOutput, isNotNull);
       expect(res.modelOutput!['created'], isNotNull);
-      expect(res.modelOutput!['model'], startsWith(chat.model));
+      expect(res.modelOutput!['model'], startsWith(chat.defaultOptions.model));
     });
 
     test('Test stop logic on valid configuration', () async {
       final query =
           ChatMessage.humanText('write an ordered list of five items');
-      final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
+      final chat = ChatOpenAI(
+        apiKey: openaiApiKey,
+        defaultOptions: const ChatOpenAIOptions(
+          temperature: 0,
+        ),
+      );
       final res = await chat(
         [query],
         options: const ChatOpenAIOptions(stop: ['3']),
@@ -77,7 +94,12 @@ void main() {
     });
 
     test('Test ChatOpenAI wrapper with system message', () async {
-      final chat = ChatOpenAI(apiKey: openaiApiKey, maxTokens: 10);
+      final chat = ChatOpenAI(
+        apiKey: openaiApiKey,
+        defaultOptions: const ChatOpenAIOptions(
+          maxTokens: 10,
+        ),
+      );
       final systemMessage =
           ChatMessage.system('You are to chat with the user.');
       final humanMessage =
@@ -87,7 +109,13 @@ void main() {
     });
 
     test('Test ChatOpenAI wrapper with multiple completions', () async {
-      final chat = ChatOpenAI(apiKey: openaiApiKey, maxTokens: 10, n: 5);
+      final chat = ChatOpenAI(
+        apiKey: openaiApiKey,
+        defaultOptions: const ChatOpenAIOptions(
+          maxTokens: 10,
+          n: 5,
+        ),
+      );
       final humanMessage = ChatMessage.humanText('Hello');
       final res = await chat.generate([humanMessage]);
       expect(res.generations.length, 5);
@@ -199,9 +227,11 @@ void main() {
       for (final model in models) {
         final chat = ChatOpenAI(
           apiKey: openaiApiKey,
-          model: model,
-          temperature: 0,
-          maxTokens: 1,
+          defaultOptions: ChatOpenAIOptions(
+            model: model,
+            temperature: 0,
+            maxTokens: 1,
+          ),
         );
         final messages = [
           ChatMessage.system(
@@ -269,7 +299,10 @@ void main() {
       final promptTemplate = ChatPromptTemplate.fromTemplate(
         'tell me a long joke about {foo}',
       );
-      final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0).bind(
+      final chat = ChatOpenAI(
+        apiKey: openaiApiKey,
+        defaultOptions: const ChatOpenAIOptions(temperature: 0),
+      ).bind(
         ChatOpenAIOptions(
           functions: const [function],
           functionCall: ChatFunctionCall.forced(functionName: 'joke'),
@@ -297,8 +330,10 @@ void main() {
       final prompt = PromptValue.string('How are you?');
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
-        temperature: 0,
-        seed: 9999,
+        defaultOptions: const ChatOpenAIOptions(
+          temperature: 0,
+          seed: 9999,
+        ),
       );
 
       final res1 = await llm.invoke(prompt);
@@ -328,11 +363,13 @@ void main() {
       ]);
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
-        model: 'gpt-4-1106-preview',
-        temperature: 0,
-        seed: 9999,
-        responseFormat: const ChatOpenAIResponseFormat(
-          type: ChatOpenAIResponseFormatType.jsonObject,
+        defaultOptions: const ChatOpenAIOptions(
+          model: 'gpt-4-1106-preview',
+          temperature: 0,
+          seed: 9999,
+          responseFormat: ChatOpenAIResponseFormat(
+            type: ChatOpenAIResponseFormatType.jsonObject,
+          ),
         ),
       );
 
@@ -368,7 +405,9 @@ void main() {
       ]);
       final chatModel = ChatOpenAI(
         apiKey: openaiApiKey,
-        model: 'gpt-4-vision-preview',
+        defaultOptions: const ChatOpenAIOptions(
+          model: 'gpt-4-vision-preview',
+        ),
       );
 
       final res = await chatModel.invoke(prompt);

@@ -113,18 +113,8 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   /// - `apiKey`: your OpenAI API key. You can find your API key in the
   ///   [OpenAI dashboard](https://platform.openai.com/account/api-keys).
   /// - `organization`: your OpenAI organization ID (if applicable).
-  /// - [ChatOpenAI.model]
-  /// - [ChatOpenAI.frequencyPenalty]
-  /// - [ChatOpenAI.logitBias]
-  /// - [ChatOpenAI.maxTokens]
-  /// - [ChatOpenAI.n]
-  /// - [ChatOpenAI.presencePenalty]
-  /// - [ChatOpenAI.responseFormat]
-  /// - [ChatOpenAI.seed]
-  /// - [ChatOpenAI.temperature]
-  /// - [ChatOpenAI.topP]
-  /// - [ChatOpenAI.user]
   /// - [ChatOpenAI.encoding]
+  /// - [OpenAI.defaultOptions]
   ///
   /// Advance configuration options:
   /// - `baseUrl`: the base URL to use. Defaults to OpenAI's API URL. You can
@@ -143,17 +133,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    this.model = 'gpt-3.5-turbo',
-    this.frequencyPenalty = 0,
-    this.logitBias,
-    this.maxTokens,
-    this.n = 1,
-    this.presencePenalty = 0,
-    this.responseFormat,
-    this.seed,
-    this.temperature = 1,
-    this.topP = 1,
-    this.user,
+    this.defaultOptions = const ChatOpenAIOptions(),
     this.encoding,
   }) : _client = OpenAIClient(
           apiKey: apiKey ?? '',
@@ -167,87 +147,8 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   /// A client for interacting with OpenAI API.
   final OpenAIClient _client;
 
-  /// ID of the model to use (e.g. 'gpt-3.5-turbo').
-  ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-model
-  final String model;
-
-  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
-  /// their existing frequency in the text so far, decreasing the model's
-  /// likelihood to repeat the same line verbatim.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-frequency_penalty
-  final double frequencyPenalty;
-
-  /// Modify the likelihood of specified tokens appearing in the completion.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-logit_bias
-  final Map<String, int>? logitBias;
-
-  /// The maximum number of tokens to generate in the chat completion.
-  /// Defaults to inf.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-max_tokens
-  final int? maxTokens;
-
-  /// How many chat completion choices to generate for each input message.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-n
-  final int n;
-
-  /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
-  /// whether they appear in the text so far, increasing the model's likelihood
-  /// to talk about new topics.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-presence_penalty
-  final double presencePenalty;
-
-  /// An object specifying the format that the model must output.
-  ///
-  /// Setting to [ChatOpenAIResponseFormatType.jsonObject] enables JSON mode,
-  /// which guarantees the message the model generates is valid JSON.
-  ///
-  /// Important: when using JSON mode you must still instruct the model to
-  /// produce JSON yourself via some conversation message, for example via your
-  /// system message. If you don't do this, the model may generate an unending
-  /// stream of whitespace until the generation reaches the token limit, which
-  /// may take a lot of time and give the appearance of a "stuck" request.
-  /// Also note that the message content may be partial (i.e. cut off) if
-  /// `finish_reason="length"`, which indicates the generation exceeded
-  /// `max_tokens` or the conversation exceeded the max context length.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-response_format
-  final ChatOpenAIResponseFormat? responseFormat;
-
-  /// This feature is in Beta. If specified, our system will make a best effort
-  /// to sample deterministically, such that repeated requests with the same
-  /// seed and parameters should return the same result. Determinism is not
-  /// guaranteed, and you should refer to the system_fingerprint response
-  /// parameter to monitor changes in the backend.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-seed
-  final int? seed;
-
-  /// What sampling temperature to use, between 0 and 2.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-temperature
-  final double temperature;
-
-  /// An alternative to sampling with temperature, called nucleus sampling,
-  /// where the model considers the results of the tokens with top_p
-  /// probability mass.
-  ///
-  /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-top_p
-  final double topP;
-
-  /// A unique identifier representing your end-user, which can help OpenAI to
-  /// monitor and detect abuse.
-  ///
-  /// If you need to send different users in different requests, you can set
-  /// this field in [ChatOpenAIOptions] instead.
-  ///
-  /// Ref: https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids
-  final String? user;
+  /// The default options to use when calling the completions API.
+  final ChatOpenAIOptions defaultOptions;
 
   /// The encoding to use by tiktoken when [tokenize] is called.
   ///
@@ -276,31 +177,8 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final List<ChatMessage> messages, {
     final ChatOpenAIOptions? options,
   }) async {
-    final messagesDtos = messages.toChatCompletionMessages();
-    final functionsDtos = options?.functions?.toFunctionObjects();
-    final functionCall = options?.functionCall?.toChatCompletionFunctionCall();
-    final resFormat = responseFormat?.toChatCompletionResponseFormat();
-
     final completion = await _client.createChatCompletion(
-      request: CreateChatCompletionRequest(
-        model: ChatCompletionModel.modelId(model),
-        messages: messagesDtos,
-        functions: functionsDtos,
-        functionCall: functionCall,
-        frequencyPenalty: frequencyPenalty,
-        logitBias: logitBias,
-        maxTokens: maxTokens,
-        n: n,
-        presencePenalty: presencePenalty,
-        responseFormat: resFormat,
-        seed: seed,
-        stop: options?.stop != null
-            ? ChatCompletionStop.listString(options!.stop!)
-            : null,
-        temperature: temperature,
-        topP: topP,
-        user: options?.user ?? user,
-      ),
+      request: _createChatCompletionRequest(messages, options: options),
     );
     return completion.toChatResult();
   }
@@ -310,28 +188,11 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final PromptValue input, {
     final ChatOpenAIOptions? options,
   }) {
-    final messagesDtos = input.toChatMessages().toChatCompletionMessages();
-    final functionsDtos = options?.functions?.toFunctionObjects();
-    final functionCall = options?.functionCall?.toChatCompletionFunctionCall();
-
     return _client
         .createChatCompletionStream(
-          request: CreateChatCompletionRequest(
-            model: ChatCompletionModel.modelId(model),
-            messages: messagesDtos,
-            functions: functionsDtos,
-            functionCall: functionCall,
-            frequencyPenalty: frequencyPenalty,
-            logitBias: logitBias,
-            maxTokens: maxTokens,
-            n: n,
-            presencePenalty: presencePenalty,
-            stop: options?.stop != null
-                ? ChatCompletionStop.listString(options!.stop!)
-                : null,
-            temperature: temperature,
-            topP: topP,
-            user: options?.user ?? user,
+          request: _createChatCompletionRequest(
+            input.toChatMessages(),
+            options: options,
           ),
         )
         .map((final completion) => completion.toChatResult());
@@ -347,6 +208,43 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     });
   }
 
+  /// Creates a [CreateChatCompletionRequest] from the given input.
+  CreateChatCompletionRequest _createChatCompletionRequest(
+    final List<ChatMessage> messages, {
+    final ChatOpenAIOptions? options,
+  }) {
+    final messagesDtos = messages.toChatCompletionMessages();
+    final functionsDtos = options?.functions?.toFunctionObjects();
+    final functionCall = options?.functionCall?.toChatCompletionFunctionCall();
+    final responseFormat =
+        options?.responseFormat ?? defaultOptions.responseFormat;
+    final responseFormatDto = responseFormat?.toChatCompletionResponseFormat();
+
+    return CreateChatCompletionRequest(
+      model: ChatCompletionModel.modelId(
+        options?.model ?? defaultOptions.model,
+      ),
+      messages: messagesDtos,
+      functions: functionsDtos,
+      functionCall: functionCall,
+      frequencyPenalty:
+          options?.frequencyPenalty ?? defaultOptions.frequencyPenalty,
+      logitBias: options?.logitBias ?? defaultOptions.logitBias,
+      maxTokens: options?.maxTokens ?? defaultOptions.maxTokens,
+      n: options?.n ?? defaultOptions.n,
+      presencePenalty:
+          options?.presencePenalty ?? defaultOptions.presencePenalty,
+      responseFormat: responseFormatDto,
+      seed: options?.seed ?? defaultOptions.seed,
+      stop: (options?.stop ?? defaultOptions.stop) != null
+          ? ChatCompletionStop.listString(options?.stop ?? defaultOptions.stop!)
+          : null,
+      temperature: options?.temperature ?? defaultOptions.temperature,
+      topP: options?.topP ?? defaultOptions.topP,
+      user: options?.user ?? defaultOptions.user,
+    );
+  }
+
   /// Tokenizes the given prompt using tiktoken with the encoding used by the
   /// [model]. If an encoding model is specified in [encoding] field, that
   /// encoding is used instead.
@@ -357,12 +255,14 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final PromptValue promptValue, {
     final ChatOpenAIOptions? options,
   }) async {
-    return _getTiktoken().encode(promptValue.toString());
+    final model = options?.model ?? defaultOptions.model;
+    return _getTiktoken(model).encode(promptValue.toString());
   }
 
   @override
   Future<int> countTokens(final PromptValue promptValue) async {
-    final tiktoken = _getTiktoken();
+    final model = defaultOptions.model;
+    final tiktoken = _getTiktoken(model);
     final messages = promptValue.toChatMessages();
 
     // Ref: https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb
@@ -420,7 +320,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   }
 
   /// Returns the tiktoken model to use for the given model.
-  Tiktoken _getTiktoken() {
+  Tiktoken _getTiktoken(final String model) {
     return encoding != null ? getEncoding(encoding!) : encodingForModel(model);
   }
 }

@@ -12,7 +12,12 @@ void main(final List<String> arguments) async {
     exit(1);
   }
 
-  final llm = ChatOpenAI(apiKey: openAiApiKey, temperature: 0.9);
+  final llm = ChatOpenAI(
+    apiKey: openAiApiKey,
+    defaultOptions: const ChatOpenAIOptions(
+      temperature: 0.9,
+    ),
+  );
 
   stdout.writeln('How can I help you?');
 

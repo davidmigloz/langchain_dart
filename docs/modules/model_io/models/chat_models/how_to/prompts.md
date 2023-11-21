@@ -14,7 +14,7 @@ you were to use this template, this is what it would look like:
 ```dart
 const template = 'You are a helpful assistant that translates {input_language} to {output_language}.';
 final systemMessagePrompt = SystemChatMessagePromptTemplate.fromTemplate(template);
-const  humanTemplate = '{text}';
+const humanTemplate = '{text}';
 final humanMessagePrompt = HumanChatMessagePromptTemplate.fromTemplate(humanTemplate);
 
 final chatPrompt = ChatPromptTemplate.fromPromptMessages(

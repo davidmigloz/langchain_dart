@@ -74,7 +74,12 @@ print(res);
 You can use a chat model in an LLMChain as well:
 
 ```dart
-final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
+final chat = final chat = ChatOpenAI(
+  apiKey: openaiApiKey,
+  defaultOptions: const ChatOpenAIOptions(
+    temperature: 0,
+  ),
+);
 
 const template = 'What is a good name for a company that makes {product}?';
 final humanMessagePrompt = HumanChatMessagePromptTemplate.fromTemplate(template);

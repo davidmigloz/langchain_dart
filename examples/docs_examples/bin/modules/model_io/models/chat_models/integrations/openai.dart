@@ -14,7 +14,12 @@ void main(final List<String> arguments) async {
 Future<void> _chatOpenAI() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 
-  final chatModel = ChatOpenAI(apiKey: openaiApiKey, temperature: 0);
+  final chatModel = ChatOpenAI(
+    apiKey: openaiApiKey,
+    defaultOptions: const ChatOpenAIOptions(
+      temperature: 0,
+    ),
+  );
 
   const template =
       'You are a helpful assistant that translates {input_language} to {output_language}.';
@@ -86,7 +91,12 @@ Future<void> _chatOpenAIStreamingFunctions() async {
   final promptTemplate = ChatPromptTemplate.fromTemplate(
     'tell me a long joke about {foo}',
   );
-  final chat = ChatOpenAI(apiKey: openaiApiKey, temperature: 0).bind(
+  final chat = ChatOpenAI(
+    apiKey: openaiApiKey,
+    defaultOptions: const ChatOpenAIOptions(
+      temperature: 0,
+    ),
+  ).bind(
     ChatOpenAIOptions(
       functions: const [function],
       functionCall: ChatFunctionCall.forced(functionName: 'joke'),
@@ -131,10 +141,12 @@ Future<void> _chatOpenAIJsonMode() async {
   ]);
   final llm = ChatOpenAI(
     apiKey: openaiApiKey,
-    model: 'gpt-4-1106-preview',
-    temperature: 0,
-    responseFormat: const ChatOpenAIResponseFormat(
-      type: ChatOpenAIResponseFormatType.jsonObject,
+    defaultOptions: const ChatOpenAIOptions(
+      model: 'gpt-4-1106-preview',
+      temperature: 0,
+      responseFormat: ChatOpenAIResponseFormat(
+        type: ChatOpenAIResponseFormatType.jsonObject,
+      ),
     ),
   );
   final res = await llm.invoke(prompt);

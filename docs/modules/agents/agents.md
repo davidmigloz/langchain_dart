@@ -73,11 +73,9 @@ and the executor be an action agent.
 First, let's load the language model we're going to use to control the agent.
 
 ```dart
-
 final llm = ChatOpenAI(
-  apiKey: openaiApiKey,
-  model: 'gpt-3.5-turbo-0613',
-  temperature: 0,
+  apiKey: openAiKey,
+  defaultOptions: const ChatOpenAIOptions(temperature: 0),
 );
 ```
 
@@ -85,7 +83,6 @@ Next, let's load some tools to use. In this case, we're going to use a
 calculator.
 
 ```dart
-
 final tool = CalculatorTool();
 final tools = [tool];
 ```
