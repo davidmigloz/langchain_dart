@@ -119,7 +119,7 @@ final stream = client.createModelStream(
   ),
 );
 await for (final res in stream) {
-print(res.status);
+  print(res.status);
 }
 ```
 

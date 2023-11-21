@@ -72,6 +72,7 @@ although they can also be used independently:
 | Package                                             | Version                                                                                              | Description              | 
 |-----------------------------------------------------|------------------------------------------------------------------------------------------------------|--------------------------|
 | [chromadb](https://pub.dev/packages/chromadb)       | [![chromadb](https://img.shields.io/pub/v/chromadb.svg)](https://pub.dev/packages/chromadb)          | Chroma DB API client     |
+| [ollama_dart)https://pub.dev/packages/ollama_dart)  | [![ollama_dart](https://img.shields.io/pub/v/ollama_dart.svg)](https://pub.dev/packages/ollama_dart) | Ollama API client        |
 | [openai_dart](https://pub.dev/packages/openai_dart) | [![openai_dart](https://img.shields.io/pub/v/openai_dart.svg)](https://pub.dev/packages/openai_dart) | OpenAI API client        |
 | [vertex_ai](https://pub.dev/packages/vertex_ai)     | [![vertex_ai](https://img.shields.io/pub/v/vertex_ai.svg)](https://pub.dev/packages/vertex_ai)       | GCP Vertex AI API client |
 
