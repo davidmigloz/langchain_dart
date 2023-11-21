@@ -25,7 +25,7 @@ class CreateRequest with _$CreateRequest {
     @JsonKey(includeIfNull: false) String? path,
 
     /// (optional) if false the response will be returned as a single response object, rather than a stream of objects
-    @JsonKey(includeIfNull: false) bool? stream,
+    @Default(false) bool stream,
   }) = _CreateRequest;
 
   /// Object construction from a JSON representation

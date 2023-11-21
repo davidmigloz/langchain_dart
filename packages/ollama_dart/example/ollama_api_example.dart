@@ -1,47 +1,52 @@
 // ignore_for_file: avoid_print
-// import 'package:http/http.dart';
 import 'package:ollama_dart/ollama_dart.dart';
 
-void main() async {
+Future<void> main() async {
   final client = OllamaClient();
 
-  /// Uncomment a section to perform the API call
+  await _generateCompletion(client);
+  await _generateCompletionStream(client);
+  await _generateEmbedding(client);
 
-  ///
-  /// GENERATE A RESPONSE FROM A MODEL
-  ///
-  final GenerateResponse response = await client.postGenerate(
-    request: const GenerateRequest(
-      model: 'mistral:latest',
-      prompt: 'Why is the sky blue?',
-      stream: false,
-    ),
-  );
-  print(response);
+  client.endSession();
+}
 
-  final Stream<GenerateResponse> responseStreamed = client.generateStream(
-    request: const GenerateRequest(
+Future<void> _generateCompletion(final OllamaClient client) async {
+  final generated = await client.generateCompletion(
+    request: const GenerateCompletionRequest(
       model: 'mistral:latest',
       prompt: 'Why is the sky blue?',
     ),
   );
+  print(generated.response);
+}
 
-  String generatedText = '';
-  final DateTime start = DateTime.now();
-  responseStreamed.listen((final GenerateResponse generated) {
-    if (generated.createdAt?.isNotEmpty ?? false) {
-      print(
-        '🤖 thinking: ${DateTime.parse(generated.createdAt ?? '').difference(start).inMilliseconds / 1000} seconds elapsed',
-      );
-    }
+Future<void> _generateCompletionStream(final OllamaClient client) async {
+  final stream = client.generateCompletionStream(
+    request: const GenerateCompletionRequest(
+      model: 'mistral:latest',
+      prompt: 'Why is the sky blue?',
+    ),
+  );
+  String text = '';
+  await for (final res in stream) {
+    text += res.response?.trim() ?? '';
+  }
+  print(text);
+}
 
-    if (generated.done ?? false) {
-      print(generatedText);
-    } else {
-      generatedText += generated.response ?? '';
-    }
-  });
+Future<void> _generateEmbedding(final OllamaClient client) async {
+  final generated = await client.generateEmbedding(
+    request: const GenerateEmbeddingRequest(
+      model: 'mistral:latest',
+      prompt: 'Why is the sky blue?',
+    ),
+  );
+  print(generated.embedding);
+}
 
+// TODO update
+Future<void> _models(final OllamaClient client) async {
   ///
   /// PULL A MODEL
   ///

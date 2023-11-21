@@ -11,7 +11,7 @@ Unofficial Dart client for [Ollama](https://ollama.ai/) API.
 
 - Fully type-safe, [documented](https://pub.dev/documentation/ollama_dart/latest/) and tested
 - All platforms supported (including streaming on web)
-- Custom base URL and headers support (e.g. HTTP proxies)
+- Custom base URL, headers and query params support (e.g. HTTP proxies)
 - Custom HTTP client support (e.g. SOCKS5 proxies or advanced use cases)
 
 **Supported endpoints:**
@@ -29,6 +29,7 @@ Unofficial Dart client for [Ollama](https://ollama.ai/) API.
   - Generate
 
 ## Table of contents
+[//]: # (TODO update)
 
 - [Ollama Dart Client](#ollama-dart-client)
   - [Features](#features)
@@ -52,57 +53,60 @@ Unofficial Dart client for [Ollama](https://ollama.ai/) API.
 
 ## Usage
 
-View the detailed [documenation](https://github.com/jmorganca/ollama/blob/main/docs/api.md) https://github.com/jmorganca/ollama/blob/main/docs/api.md
+Refer to the [documentation](https://github.com/jmorganca/ollama/blob/main/docs/api.md) for more information about the API.
 
-### Chat
+### Completions
 
-Given a prompt, the model will return a response. By default the endpoint returns a streamed (chunked) response, and the final response will return some statistics about the generated response.
+Given a prompt, the model will generate a response.
 
-**Generate prompt response:**
+**Generate completion:**
 
-#### Chat with Streamed Response
 ```dart
-  Stream<GenerateResponse> response = client.generateStream(
-    request: GenerateRequest(
-      model: 'mistral:latest',
-      prompt: 'Why is the sky blue?',
-    ),
-  );
-
-  String generatedText = '';
-  DateTime start = DateTime.now();
-  response.listen((GenerateResponse generated) {
-    if (generated.createdAt?.isNotEmpty == true) {
-      print(
-        '🤖 thinking: ${DateTime.parse(generated.createdAt ?? '').difference(start).inMilliseconds / 1000} seconds elapsed',
-      );
-    }
-
-    if (generated.done == true) {
-      print(generatedText);
-    } else {
-      generatedText += generated.response ?? '';
-    }
-  });
-  /// Output: The sky appears blue because of a phenomenon called Rayleigh scattering. When sunlight reaches Earth's atmosphere, it interacts with particles like nitrogen and oxygen molecules and tiny bits of dust and water droplets. This causes the light to scatter in multiple directions.
+final generated = await client.generateCompletion(
+  request: const GenerateCompletionRequest(
+    model: 'mistral:latest',
+    prompt: 'Why is the sky blue?',
+  ),
+);
+print(generated.response);
+// The sky appears blue because of a phenomenon called Rayleigh scattering...
 ```
 
-#### Chat with Non-streamed Response
+**Stream completion:**
 
-If `stream` is `false`, endpoint will return a single object with some response generation statistics
 ```dart
-  final GenerateResponse generated = await client.postGenerate(
-    request: const GenerateRequest(
-      model: 'mistral:latest',
-      prompt: 'Why is the sky blue?',
-      stream: false,
-    ),
-  );
-  print(generated.response);
-  /// The sky appears blue because of a phenomenon called Rayleigh scattering. When sunlight reaches Earth's atmosphere, it interacts with particles like nitrogen and oxygen molecules and tiny bits of dust and water droplets. This causes the light to scatter in multiple directions.
+final stream = client.generateCompletionStream(
+  request: const GenerateCompletionRequest(
+    model: 'mistral:latest',
+    prompt: 'Why is the sky blue?',
+  ),
+);
+String text = '';
+await for (final res in stream) {
+  text += res.response?.trim() ?? '';
+}
+print(text);
+```
+
+### Embeddings
+
+Given a prompt, the model will generate an embedding representing the prompt.
+
+**Generate embedding:**
+
+```dart
+final generated = await client.generateEmbedding(
+  request: const GenerateEmbeddingRequest(
+    model: 'mistral:latest',
+    prompt: 'Here is an article about llamas...',
+  ),
+);
+print(generated.embedding);
+// [8.566641807556152, 5.315540313720703, ...]
 ```
 
 ### Models
+[//]: # (TODO update)
 
 List and describe the various models available in the API.
 
@@ -149,6 +153,7 @@ Show details about a model including modelfile, template, parameters, license, a
 Creates a new local model using a modelfile. It is recommended to set modelfile to the content of the Modelfile rather than just set path. This is a requirement for remote create. Remote model creation should also create any file blobs, fields such as FROM and ADAPTER, explicitly with the server using Create a Blob and the value to the path indicated in the response.
 
 #### Create Model with streamed Response
+
 ```dart
   const String createModelName = 'supermario';
   client
@@ -167,6 +172,7 @@ Creates a new local model using a modelfile. It is recommended to set modelfile 
 ```
 
 #### Create Model with Non-streamed Response
+
 ```dart
   const String modelName = 'mario';
   const String modelfile =
@@ -256,33 +262,11 @@ To delete a model and return a http response object, use the method `deleteModel
  /// Status code: 200, null body
 ```
 
-### Embeddings
-
-Get a vector representation of a given input that can be easily consumed by machine learning models and algorithms.
-
-**Create embedding:**
-
-```dart
-  const String modelName = 'mistral:latest';
-  const String prompt = 'Here is an article about llamas...';
-  
-  final EmbeddingResponse response = await client.postEmbedding(
-    request: const EmbeddingRequest(model: modelName, prompt: prompt),
-  );
-
-  print(response);
-
-  // EmbeddingResponse(
-  //    embedding: 
-  //      [8.566641807556152, 5.315540313720703, -5.834218978881836, 1.9205751419067383, -3.7230489253997803, -4.666356563568115, -1.557918667793274, -0.13203682005405426]
-  //  )
-```
-
 ## Advance Usage
 
 ### Default HTTP client
 
-By default, the client uses `localhost:11434` as the `baseUrl` and the following implementations of `http.Client`:
+By default, the client uses `http://localhost:11434/api` as the `baseUrl` and the following implementations of `http.Client`:
 
 - Non-web: [`IOClient`](https://pub.dev/documentation/http/latest/io_client/IOClient-class.html)
 - Web: [`FetchClient`](https://pub.dev/documentation/fetch_client/latest/fetch_client/FetchClient-class.html) (to support streaming on web)

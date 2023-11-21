@@ -1,37 +1,59 @@
 openapi: 3.0.3
+
 info:
   title: Ollama API
-  description: API Spec for Ollama API server
+  description: API Spec for Ollama API. Please see https://github.com/jmorganca/ollama/blob/main/docs/api.md for more details.
   version: 0.1.9
 
 servers:
   - url: http://localhost:11434/api
-    description: local server
-  - url: http://localhost:11434/api
-    description: public server
+    description: Ollama server URL
+
 tags:
-  - name: inference
-    description: Prompt AI to generate output
+  - name: Completions
+    description: Given a prompt, the model will generate a completion.
+  - name: Embeddings
+    description: Get a vector representation of a given input.
+
 paths:
   /generate:
     post:
+      operationId: generateCompletion
       tags:
-      - inference
+      - Completions
       summary: Generate a response for a given prompt with a provided model. 
-      description: This is a streaming endpoint, so will be a series of responses. The final response object will include statistics and additional data from the request.
+      description: The final response object will include statistics and additional data from the request.
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/GenerateRequest'
+              $ref: '#/components/schemas/GenerateCompletionRequest'
       responses: 
         '200':
           description: Successful operation
           content:
             application/x-ndjson:
               schema:
-                $ref: '#/components/schemas/GenerateResponse'
-  
+                $ref: '#/components/schemas/GenerateCompletionResponse'
+  /embeddings:
+    post:
+      operationId: generateEmbedding
+      tags:
+        - Embeddings
+      summary: Generate embeddings from a model.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateEmbeddingRequest'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateEmbeddingResponse'
+  # TODO finish reviewing endpoints below this comment
   /create:
     post:
       tags:
@@ -52,7 +74,6 @@ paths:
             application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/CreateResponse'
-
   /blobs/{digest}:
     head:
       tags:
@@ -193,125 +214,301 @@ paths:
               schema:
                 $ref: '#/components/schemas/PushResponse'
 
-  /embeddings:
-    post:
-      tags:
-      - model management
-      summary: Generate embeddings from a model
-      description: Generate embeddings from a model
-      operationId: postEmbedding
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EmbeddingRequest'
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EmbeddingResponse'
-
 components:
   schemas:
-    GenerateRequest:
+    GenerateCompletionRequest:
       type: object
+      description: Request class for the generate endpoint.
       properties:
         model:
           type: string
-          description: (required) the model name
+          description: | 
+            The model name. 
+            
+            Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
           example: llama2:7b
         prompt:
           type: string
-          description: the prompt to generate a response for\nRAW- [INST] why is the sky blue? [/INST]\nJSON- What color is the sky at different times of the day? Respond using JSON\n
+          description: The prompt to generate a response.
           example: Why is the sky blue?
         system:
           type: string
-          description: system prompt to (overrides what is defined in the Modelfile)
+          description: The system prompt to (overrides what is defined in the Modelfile).
         template:
           type: string
-          description: the full prompt or prompt template (overrides what is defined in the Modelfile)
+          description: The full prompt or prompt template (overrides what is defined in the Modelfile).
         context:
           type: array
-          description: the context parameter returned from a previous request to /generate, this can be used to keep a short conversational memory
+          description: The context parameter returned from a previous request to [generateCompletion], this can be used to keep a short conversational memory.
           items:
             type: integer
-        stream:
-          type: boolean
-          description: if false the response will be returned as a single response object, rather than a stream of objects
+        options:
+          $ref: '#/components/schemas/RequestOptions'
+        format:
+          $ref: '#/components/schemas/ResponseFormat'
         raw: 
           type: boolean
-          description: if true no formatting will be applied to the prompt and no context will be returned. You may choose to use the raw parameter if you are specifying a full templated prompt in your request to the API, and are managing history yourself.
-        format:
-          type: string
-          description: the format to return a response in. Currently the only accepted value is json.\nEnable JSON mode by setting the format parameter to json and specifying the model should use JSON in the prompt. This will structure the response as valid JSON.
-          enum:
-            - json
-        options:
-          $ref: '#/components/schemas/Options'
+          description: |
+            If `true` no formatting will be applied to the prompt and no context will be returned. 
+            
+            You may choose to use the `raw` parameter if you are specifying a full templated prompt in your request to the API, and are managing history yourself.
+        stream:
+          type: boolean
+          description: If `false` the response will be returned as a single response object, rather than a stream of objects.
+          default: false
       required:
       - model
       - prompt
-    GenerateResponse:
+    RequestOptions:
       type: object
+      description: Additional model parameters listed in the documentation for the Modelfile such as `temperature`.
+      properties:
+        num_keep:
+          type: integer
+          description: |
+            Number of tokens to keep from the prompt.
+        seed:
+          type: integer
+          description: |
+            Sets the random number seed to use for generation. Setting this to a specific number will make the model generate the same text for the same prompt. (Default: 0)
+        num_predict:
+          type: integer
+          description: |
+            Maximum number of tokens to predict when generating text. (Default: 128, -1 = infinite generation, -2 = fill context)
+        top_k:
+          type: integer
+          description: |
+            Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers, while a lower value (e.g. 10) will be more conservative. (Default: 40)
+        top_p:
+          type: number
+          format: float
+          description: |
+            Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
+        tfs_z:
+          type: number
+          format: float
+          description: |
+            Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
+        typical_p:
+          type: number
+          format: float
+          description: |
+            Typical p is used to reduce the impact of less probable tokens from the output.
+        repeat_last_n:
+          type: integer
+          description: |
+            Sets how far back for the model to look back to prevent repetition. (Default: 64, 0 = disabled, -1 = num_ctx)
+        temperature:
+          type: number
+          format: float
+          description: |
+            The temperature of the model. Increasing the temperature will make the model answer more creatively. (Default: 0.8)
+        repeat_penalty:
+          type: number
+          format: float
+          description: |
+            Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more strongly, while a lower value (e.g., 0.9) will be more lenient. (Default: 1.1)
+        presence_penalty:
+          type: number
+          format: float
+          description: |
+            Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
+        frequency_penalty:
+          type: number
+          format: float
+          description: |
+            Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+        mirostat:
+          type: integer
+          description: |
+            Enable Mirostat sampling for controlling perplexity. (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
+        mirostat_tau:
+          type: number
+          format: float
+          description: |
+            Controls the balance between coherence and diversity of the output. A lower value will result in more focused and coherent text. (Default: 5.0)
+        mirostat_eta:
+          type: number
+          format: float
+          description: |
+            Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate will result in slower adjustments, while a higher learning rate will make the algorithm more responsive. (Default: 0.1)
+        penalize_newline:
+          type: boolean
+          description: |
+            Penalize newlines in the output. (Default: false)
+        stop:
+          type: array
+          description: Sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
+          items:
+            type: string
+        numa:
+          type: boolean
+          description: |
+            Enable NUMA support. (Default: false)
+        num_ctx:
+          type: integer
+          description: |
+            Sets the size of the context window used to generate the next token.
+        num_batch:
+          type: integer
+          description: |
+            Sets the number of batches to use for generation. (Default: 1)
+        num_gqa:
+          type: integer
+          description: |
+            The number of GQA groups in the transformer layer. Required for some models, for example it is 8 for `llama2:70b`.
+        num_gpu:
+          type: integer
+          description: |
+            The number of layers to send to the GPU(s). On macOS it defaults to 1 to enable metal support, 0 to disable.
+        main_gpu:
+          type: integer
+          description: |
+            The GPU to use for the main model. Default is 0.
+        low_vram:
+          type: boolean
+          description: |
+            Enable low VRAM mode. (Default: false)
+        f16_kv:
+          type: boolean
+          description: |
+            Enable f16 key/value. (Default: false)
+        logits_all:
+          type: boolean
+          description: |
+            Enable logits all. (Default: false)
+        vocab_only:
+          type: boolean
+          description: |
+            Enable vocab only. (Default: false)
+        use_mmap:
+          type: boolean
+          description: |
+            Enable mmap. (Default: false)
+        use_mlock:
+          type: boolean
+          description: |
+            Enable mlock. (Default: false)
+        embedding_only:
+          type: boolean
+          description: |
+            Enable embedding only. (Default: false)
+        rope_frequency_base:
+          type: number
+          format: float
+          description: |
+            The base of the rope frequency scale. (Default: 1.0)
+        rope_frequency_scale:
+          type: number
+          format: float
+          description: |
+            The scale of the rope frequency. (Default: 1.0)
+        num_thread:
+          type: integer
+          description: |
+            Sets the number of threads to use during computation. By default, Ollama will detect this for optimal performance. It is recommended to set this value to the number of physical CPU cores your system has (as opposed to the logical number of cores).
+    ResponseFormat:
+      type: string
+      description: |
+        The format to return a response in. Currently the only accepted value is json.
+
+        Enable JSON mode by setting the format parameter to json. This will structure the response as valid JSON.
+
+        Note: it's important to instruct the model to use JSON in the prompt. Otherwise, the model may generate large amounts whitespace.
+      enum:
+        - json
+    GenerateCompletionResponse:
+      type: object
+      description: The response class for the generate endpoint.
       properties:
         model:
           type: string
-          description: Model names follow a model:tag format. Some examples are orca-mini:3b-q4_1 and llama2:70b. The tag is optional and, if not provided, will default to latest. The tag is used to identify a specific version.
+          description: The name of the model used to generate the response.
           example: llama2:7b
         created_at:
           type: string
           format: date-time
-          description: Date on which a model was created
+          description: Date on which a model was created.
           example: 2023-08-04T19:22:45.499127Z
         response:
           type: string
-          description: a response for a given prompt with a provided model. when finished, empty if the response was streamed, if not streamed, this will contain the full response.
+          description: The response for a given prompt with a provided model.
           example: The sky appears blue because of a phenomenon called Rayleigh scattering.
         done:
           type: boolean
-          description: whether the response has completed.
+          description: Whether the response has completed.
           example: true
         context:
           type: array
-          description: the context parameter returned from a previous request to /generate, this can be used to keep a short conversational memory
+          description: |
+            An encoding of the conversation used in this response, this can be sent in the next request to keep a conversational memory.
           items: 
             type: integer
           example: [1, 2, 3]
         sample_count:
           type: integer
-          description: number of samples generated
+          description: Number of samples generated.
           example: 114
         sample_duration:
           type: integer
-          description: time spent generating samples
+          description: Time spent generating samples.
           example: 81442000
         total_duration:
           type: integer
-          description: time spent generating the response
+          description: Time spent generating the response.
           example: 5589157167
         load_duration:
           type: integer
-          description: time spent in nanoseconds loading the model
+          description: Time spent in nanoseconds loading the model.
           example: 3013701500
         prompt_eval_count:
           type: integer
-          description: number of tokens in the prompt
+          description: Number of tokens in the prompt.
           example: 46
         prompt_eval_duration:
           type: integer
-          description: time spent in nanoseconds evaluating the prompt
+          description: Time spent in nanoseconds evaluating the prompt.
           example: 1160282000
         eval_count:
           type: integer
-          description: number of tokens the response
+          description: Number of tokens the response.
           example: 113
         eval_duration:
           type: integer
-          description: time in nanoseconds spent generating the response
+          description: Time in nanoseconds spent generating the response.
           example: 1325948000
-    
+    GenerateEmbeddingRequest:
+      description: Generate embeddings from a model.
+      type: object
+      properties:
+        model:
+          type: string
+          description: |
+            The model name. 
+            
+            Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+          example: llama2:7b
+        prompt:
+          type: string
+          description: Text to generate embeddings for.
+          example: 'Here is an article about llamas...'
+        options:
+          $ref: '#/components/schemas/RequestOptions'
+      required:
+        - model
+        - prompt
+    GenerateEmbeddingResponse:
+      type: object
+      description: Returns the embedding information.
+      properties:
+        embedding:
+          type: array
+          description: The embedding for the prompt.
+          items:
+            type: number
+            format: double
+          example: [0.5670403838157654, 0.009260174818336964, ...]
+    # TODO finish reviewing schemas below this comment
     CreateRequest:
       type: object
       properties:
@@ -331,6 +528,7 @@ components:
           type: boolean
           description: (optional) if false the response will be returned as a single response object, rather than a stream of objects
           example: true
+          default: false
       required:
       - name
       - modelfile
@@ -346,91 +544,6 @@ components:
             - parsing modelfile
             - success
           example: parsing modelfile
-    
-    Options:
-      type: object
-      description: additional model parameters listed in the documentation for the Modelfile such as temperature
-      properties:
-        num_keep:
-          type: integer
-        seed:
-          type: integer
-        num_predict:
-          type: integer
-        top_k:
-          type: integer
-        top_p:
-          type: number
-          format: float
-        tfs_z:
-          type: number
-          format: float
-        typical_p:
-          type: number
-          format: float  
-        repeat_last_n:
-          type: integer
-        temperature:
-          type: number
-          format: float
-        repeat_penalty:
-          type: number
-          format: float
-        presence_penalty:
-          type: number
-          format: float
-        frequency_penalty:
-          type: number
-          format: float
-        mirostat:
-          type: integer
-        mirostat_tau:
-          type: number
-          format: float
-        mirostat_eta:
-          type: number
-          format: float
-        penalize_newline:
-          type: boolean
-        stop:
-          type: array
-          items:
-            type: string
-        numa:
-          type: boolean
-        num_ctx:
-          type: integer
-        num_batch:
-          type: integer
-        num_gqa:
-          type: integer
-        num_gpu:
-          type: integer
-        main_gpu:
-          type: integer
-        low_vram:
-          type: boolean
-        f16_kv:
-          type: boolean
-        logits_all:
-          type: boolean
-        vocab_only:
-          type: boolean
-        use_mmap:
-          type: boolean
-        use_mlock:
-          type: boolean
-        embedding_only:
-          type: boolean
-        rope_frequency_base:
-          type: number
-          format: float
-        rope_frequency_scale:
-          type: number
-          format: float
-        num_thread:
-          type: integer
-
     Tag:
       type: object
       properties:
@@ -455,7 +568,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Tag'
-
     ShowRequest:
       description: Show details about a model including modelfile, template, parameters, license, and system prompt.
       type: object
@@ -486,7 +598,6 @@ components:
           type: string
           description: the prompt template for the model
           example: '[INST] {{ if and .First .System }}<<SYS>>{{ .System }}<</SYS>>\n\n{{ end }}{{ .Prompt }} [/INST]'
-
     CopyRequest:
       description: Creates a model with another name from an existing model.
       type: object
@@ -510,7 +621,6 @@ components:
           example: llama2:13b
       required:
       - name
-
     PullRequest:
       description: Download a model from the ollama library. Cancelled pulls are resumed from where they left off, and multiple calls will share the same download progress.
       type: object
@@ -555,7 +665,6 @@ components:
           type: integer
           description: total bytes transferred
           example: 2142590208
-      
     PushRequest:
       description: Upload a model to a model library. Requires registering for ollama.ai and adding a public key first.
       type: object
@@ -594,31 +703,3 @@ components:
           type: integer
           description: total size of the model
           example: 2142590208
-
-    EmbeddingRequest:
-      description: Generate embeddings from a model
-      type: object
-      properties:
-        model:  
-          type: string
-          description: name of model to generate embeddings from
-          example: llama2:7b
-        prompt:  
-          type: string
-          description: text to generate embeddings for
-          example: 'Here is an article about llamas...'
-        options:  
-          $ref: '#/components/schemas/Options'
-      required:
-      - model
-      - prompt
-    EmbeddingResponse:
-      description: Returns the embedding information
-      type: object
-      properties:
-        embedding:
-          type: array
-          items:
-            type: number
-            format: double
-          example: [0.5670403838157654, 0.009260174818336964, 0.23178744316101074, -0.2916173040866852, -0.8924556970596313,0.8785552978515625, -0.34576427936553955, 0.5742510557174683, -0.04222835972905159, -0.137906014919281]

@@ -1,3 +1,4 @@
+// ignore_for_file: use_super_parameters
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -13,38 +14,42 @@ class OllamaClient extends g.OllamaClient {
   /// Create a new Ollama API client.
   ///
   /// Advance configuration options:
-  /// - `baseUrl`: the base URL to use. Defaults to [defaultHost]. You can
-  ///   override this to use a different API URL, or to use a proxy.
+  /// - `baseUrl`: the base URL to use. Defaults to `http://localhost:11434/api`.
+  ///   You can override this to use a different API URL, or to use a proxy.
   /// - `headers`: global headers to send with every request. You can use
   ///   this to set custom headers, or to override the default headers.
+  /// - `queryParams`: global query parameters to send with every request. You
+  ///   can use this to set custom query parameters.
   /// - `client`: the HTTP client to use. You can set your own HTTP client if
   ///   you need further customization (e.g. to use a Socks5 proxy).
   OllamaClient({
-    super.baseUrl,
+    final String? baseUrl,
     final Map<String, String>? headers,
+    final Map<String, dynamic>? queryParams,
     final http.Client? client,
   }) : super(
+          baseUrl: baseUrl,
           headers: headers ?? const {},
+          queryParams: queryParams ?? const {},
           client: client ?? createDefaultHttpClient(),
         );
 
-  /// Host used when not provided in the class constructor
-  final defaultHost = 'http://localhost:11434/api';
-
   // ------------------------------------------
-  // METHOD: generateStream
+  // METHOD: generateCompletionStream
   // ------------------------------------------
 
-  /// Generate a response for a given prompt with a provided model. This is a streaming endpoint, so will be a series of responses. The final response object will include statistics and additional data from the request.
+  /// Streams the generated response for a given prompt with a provided model.
   ///
-  /// `request`: Request object for the Create completion endpoint.
+  /// The final response object will include statistics and additional data from the request.
+  ///
+  /// `request`: Request class for the generate endpoint.
   ///
   /// `POST` `http://localhost:11434/api/generate`
-  Stream<GenerateResponse> generateStream({
-    required final GenerateRequest request,
+  Stream<GenerateCompletionResponse> generateCompletionStream({
+    required final GenerateCompletionRequest request,
   }) async* {
     final r = await makeRequestStream(
-      baseUrl: baseUrl ?? defaultHost,
+      baseUrl: 'http://localhost:11434/api',
       path: '/generate',
       method: g.HttpMethod.post,
       requestType: 'application/json',
@@ -52,7 +57,7 @@ class OllamaClient extends g.OllamaClient {
       body: request.copyWith(stream: true),
     );
     yield* r.stream.map(
-      (final d) => GenerateResponse.fromJson(
+      (final d) => GenerateCompletionResponse.fromJson(
         json.decode(const Utf8Decoder().convert(d)),
       ),
     );
@@ -71,7 +76,7 @@ class OllamaClient extends g.OllamaClient {
     required final CreateRequest request,
   }) async* {
     final r = await makeRequestStream(
-      baseUrl: baseUrl ?? defaultHost,
+      baseUrl: 'http://localhost:11434/api',
       path: '/create',
       method: g.HttpMethod.post,
       requestType: 'application/json',
@@ -98,7 +103,7 @@ class OllamaClient extends g.OllamaClient {
     required final PullRequest request,
   }) async* {
     final r = await makeRequestStream(
-      baseUrl: baseUrl ?? defaultHost,
+      baseUrl: 'http://localhost:11434/api',
       path: '/pull',
       method: g.HttpMethod.post,
       requestType: 'application/json',
@@ -125,7 +130,7 @@ class OllamaClient extends g.OllamaClient {
     required final PushRequest request,
   }) async* {
     final r = await makeRequestStream(
-      baseUrl: baseUrl ?? defaultHost,
+      baseUrl: 'http://localhost:11434/api',
       path: '/push',
       method: g.HttpMethod.post,
       requestType: 'application/json',
@@ -153,7 +158,7 @@ class OllamaClient extends g.OllamaClient {
     required final CopyRequest request,
   }) async {
     final r = await makeRequest(
-      baseUrl: baseUrl ?? defaultHost,
+      baseUrl: 'http://localhost:11434/api',
       path: '/copy',
       method: g.HttpMethod.post,
       requestType: 'application/json',
@@ -176,7 +181,7 @@ class OllamaClient extends g.OllamaClient {
     required final DeleteRequest request,
   }) async {
     final r = await makeRequest(
-      baseUrl: baseUrl ?? defaultHost,
+      baseUrl: 'http://localhost:11434/api',
       path: '/delete',
       method: g.HttpMethod.delete,
       requestType: 'application/json',

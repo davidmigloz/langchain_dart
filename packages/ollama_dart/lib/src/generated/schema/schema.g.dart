@@ -6,27 +6,26 @@ part of 'schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$GenerateRequestImpl _$$GenerateRequestImplFromJson(
+_$GenerateCompletionRequestImpl _$$GenerateCompletionRequestImplFromJson(
         Map<String, dynamic> json) =>
-    _$GenerateRequestImpl(
+    _$GenerateCompletionRequestImpl(
       model: json['model'] as String,
       prompt: json['prompt'] as String,
       system: json['system'] as String?,
       template: json['template'] as String?,
       context:
           (json['context'] as List<dynamic>?)?.map((e) => e as int).toList(),
-      stream: json['stream'] as bool?,
-      raw: json['raw'] as bool?,
-      format: $enumDecodeNullable(
-          _$GenerateRequestFormatEnumMap, json['format'],
-          unknownValue: JsonKey.nullForUndefinedEnumValue),
       options: json['options'] == null
           ? null
-          : Options.fromJson(json['options'] as Map<String, dynamic>),
+          : RequestOptions.fromJson(json['options'] as Map<String, dynamic>),
+      format: $enumDecodeNullable(_$ResponseFormatEnumMap, json['format'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      raw: json['raw'] as bool?,
+      stream: json['stream'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$GenerateRequestImplToJson(
-    _$GenerateRequestImpl instance) {
+Map<String, dynamic> _$$GenerateCompletionRequestImplToJson(
+    _$GenerateCompletionRequestImpl instance) {
   final val = <String, dynamic>{
     'model': instance.model,
     'prompt': instance.prompt,
@@ -41,115 +40,19 @@ Map<String, dynamic> _$$GenerateRequestImplToJson(
   writeNotNull('system', instance.system);
   writeNotNull('template', instance.template);
   writeNotNull('context', instance.context);
-  writeNotNull('stream', instance.stream);
-  writeNotNull('raw', instance.raw);
-  writeNotNull('format', _$GenerateRequestFormatEnumMap[instance.format]);
   writeNotNull('options', instance.options);
+  writeNotNull('format', _$ResponseFormatEnumMap[instance.format]);
+  writeNotNull('raw', instance.raw);
+  val['stream'] = instance.stream;
   return val;
 }
 
-const _$GenerateRequestFormatEnumMap = {
-  GenerateRequestFormat.json: 'json',
+const _$ResponseFormatEnumMap = {
+  ResponseFormat.json: 'json',
 };
 
-_$GenerateResponseImpl _$$GenerateResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$GenerateResponseImpl(
-      model: json['model'] as String?,
-      createdAt: json['created_at'] as String?,
-      response: json['response'] as String?,
-      done: json['done'] as bool?,
-      context:
-          (json['context'] as List<dynamic>?)?.map((e) => e as int).toList(),
-      sampleCount: json['sample_count'] as int?,
-      sampleDuration: json['sample_duration'] as int?,
-      totalDuration: json['total_duration'] as int?,
-      loadDuration: json['load_duration'] as int?,
-      promptEvalCount: json['prompt_eval_count'] as int?,
-      promptEvalDuration: json['prompt_eval_duration'] as int?,
-      evalCount: json['eval_count'] as int?,
-      evalDuration: json['eval_duration'] as int?,
-    );
-
-Map<String, dynamic> _$$GenerateResponseImplToJson(
-    _$GenerateResponseImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('model', instance.model);
-  writeNotNull('created_at', instance.createdAt);
-  writeNotNull('response', instance.response);
-  writeNotNull('done', instance.done);
-  writeNotNull('context', instance.context);
-  writeNotNull('sample_count', instance.sampleCount);
-  writeNotNull('sample_duration', instance.sampleDuration);
-  writeNotNull('total_duration', instance.totalDuration);
-  writeNotNull('load_duration', instance.loadDuration);
-  writeNotNull('prompt_eval_count', instance.promptEvalCount);
-  writeNotNull('prompt_eval_duration', instance.promptEvalDuration);
-  writeNotNull('eval_count', instance.evalCount);
-  writeNotNull('eval_duration', instance.evalDuration);
-  return val;
-}
-
-_$CreateRequestImpl _$$CreateRequestImplFromJson(Map<String, dynamic> json) =>
-    _$CreateRequestImpl(
-      name: json['name'] as String,
-      modelfile: json['modelfile'] as String,
-      path: json['path'] as String?,
-      stream: json['stream'] as bool?,
-    );
-
-Map<String, dynamic> _$$CreateRequestImplToJson(_$CreateRequestImpl instance) {
-  final val = <String, dynamic>{
-    'name': instance.name,
-    'modelfile': instance.modelfile,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('path', instance.path);
-  writeNotNull('stream', instance.stream);
-  return val;
-}
-
-_$CreateResponseImpl _$$CreateResponseImplFromJson(Map<String, dynamic> json) =>
-    _$CreateResponseImpl(
-      status: $enumDecodeNullable(_$CreateResponseStatusEnumMap, json['status'],
-          unknownValue: JsonKey.nullForUndefinedEnumValue),
-    );
-
-Map<String, dynamic> _$$CreateResponseImplToJson(
-    _$CreateResponseImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('status', _$CreateResponseStatusEnumMap[instance.status]);
-  return val;
-}
-
-const _$CreateResponseStatusEnumMap = {
-  CreateResponseStatus.creatingSystemLayer: 'creating system layer',
-  CreateResponseStatus.parsingModelfile: 'parsing modelfile',
-  CreateResponseStatus.success: 'success',
-};
-
-_$OptionsImpl _$$OptionsImplFromJson(Map<String, dynamic> json) =>
-    _$OptionsImpl(
+_$RequestOptionsImpl _$$RequestOptionsImplFromJson(Map<String, dynamic> json) =>
+    _$RequestOptionsImpl(
       numKeep: json['num_keep'] as int?,
       seed: json['seed'] as int?,
       numPredict: json['num_predict'] as int?,
@@ -185,7 +88,8 @@ _$OptionsImpl _$$OptionsImplFromJson(Map<String, dynamic> json) =>
       numThread: json['num_thread'] as int?,
     );
 
-Map<String, dynamic> _$$OptionsImplToJson(_$OptionsImpl instance) {
+Map<String, dynamic> _$$RequestOptionsImplToJson(
+    _$RequestOptionsImpl instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -229,6 +133,151 @@ Map<String, dynamic> _$$OptionsImplToJson(_$OptionsImpl instance) {
   writeNotNull('num_thread', instance.numThread);
   return val;
 }
+
+_$GenerateCompletionResponseImpl _$$GenerateCompletionResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$GenerateCompletionResponseImpl(
+      model: json['model'] as String?,
+      createdAt: json['created_at'] as String?,
+      response: json['response'] as String?,
+      done: json['done'] as bool?,
+      context:
+          (json['context'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      sampleCount: json['sample_count'] as int?,
+      sampleDuration: json['sample_duration'] as int?,
+      totalDuration: json['total_duration'] as int?,
+      loadDuration: json['load_duration'] as int?,
+      promptEvalCount: json['prompt_eval_count'] as int?,
+      promptEvalDuration: json['prompt_eval_duration'] as int?,
+      evalCount: json['eval_count'] as int?,
+      evalDuration: json['eval_duration'] as int?,
+    );
+
+Map<String, dynamic> _$$GenerateCompletionResponseImplToJson(
+    _$GenerateCompletionResponseImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('model', instance.model);
+  writeNotNull('created_at', instance.createdAt);
+  writeNotNull('response', instance.response);
+  writeNotNull('done', instance.done);
+  writeNotNull('context', instance.context);
+  writeNotNull('sample_count', instance.sampleCount);
+  writeNotNull('sample_duration', instance.sampleDuration);
+  writeNotNull('total_duration', instance.totalDuration);
+  writeNotNull('load_duration', instance.loadDuration);
+  writeNotNull('prompt_eval_count', instance.promptEvalCount);
+  writeNotNull('prompt_eval_duration', instance.promptEvalDuration);
+  writeNotNull('eval_count', instance.evalCount);
+  writeNotNull('eval_duration', instance.evalDuration);
+  return val;
+}
+
+_$GenerateEmbeddingRequestImpl _$$GenerateEmbeddingRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$GenerateEmbeddingRequestImpl(
+      model: json['model'] as String,
+      prompt: json['prompt'] as String,
+      options: json['options'] == null
+          ? null
+          : RequestOptions.fromJson(json['options'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$GenerateEmbeddingRequestImplToJson(
+    _$GenerateEmbeddingRequestImpl instance) {
+  final val = <String, dynamic>{
+    'model': instance.model,
+    'prompt': instance.prompt,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('options', instance.options);
+  return val;
+}
+
+_$GenerateEmbeddingResponseImpl _$$GenerateEmbeddingResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$GenerateEmbeddingResponseImpl(
+      embedding: (json['embedding'] as List<dynamic>?)
+          ?.map((e) => (e as num).toDouble())
+          .toList(),
+    );
+
+Map<String, dynamic> _$$GenerateEmbeddingResponseImplToJson(
+    _$GenerateEmbeddingResponseImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('embedding', instance.embedding);
+  return val;
+}
+
+_$CreateRequestImpl _$$CreateRequestImplFromJson(Map<String, dynamic> json) =>
+    _$CreateRequestImpl(
+      name: json['name'] as String,
+      modelfile: json['modelfile'] as String,
+      path: json['path'] as String?,
+      stream: json['stream'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$$CreateRequestImplToJson(_$CreateRequestImpl instance) {
+  final val = <String, dynamic>{
+    'name': instance.name,
+    'modelfile': instance.modelfile,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('path', instance.path);
+  val['stream'] = instance.stream;
+  return val;
+}
+
+_$CreateResponseImpl _$$CreateResponseImplFromJson(Map<String, dynamic> json) =>
+    _$CreateResponseImpl(
+      status: $enumDecodeNullable(_$CreateResponseStatusEnumMap, json['status'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+    );
+
+Map<String, dynamic> _$$CreateResponseImplToJson(
+    _$CreateResponseImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('status', _$CreateResponseStatusEnumMap[instance.status]);
+  return val;
+}
+
+const _$CreateResponseStatusEnumMap = {
+  CreateResponseStatus.creatingSystemLayer: 'creating system layer',
+  CreateResponseStatus.parsingModelfile: 'parsing modelfile',
+  CreateResponseStatus.success: 'success',
+};
 
 _$TagImpl _$$TagImplFromJson(Map<String, dynamic> json) => _$TagImpl(
       name: json['name'] as String?,
@@ -436,52 +485,3 @@ const _$PushResponseStatusEnumMap = {
   PushResponseStatus.pushingManifest: 'pushing manifest',
   PushResponseStatus.success: 'success',
 };
-
-_$EmbeddingRequestImpl _$$EmbeddingRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$EmbeddingRequestImpl(
-      model: json['model'] as String,
-      prompt: json['prompt'] as String,
-      options: json['options'] == null
-          ? null
-          : Options.fromJson(json['options'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$$EmbeddingRequestImplToJson(
-    _$EmbeddingRequestImpl instance) {
-  final val = <String, dynamic>{
-    'model': instance.model,
-    'prompt': instance.prompt,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('options', instance.options);
-  return val;
-}
-
-_$EmbeddingResponseImpl _$$EmbeddingResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$EmbeddingResponseImpl(
-      embedding: (json['embedding'] as List<dynamic>?)
-          ?.map((e) => (e as num).toDouble())
-          .toList(),
-    );
-
-Map<String, dynamic> _$$EmbeddingResponseImplToJson(
-    _$EmbeddingResponseImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('embedding', instance.embedding);
-  return val;
-}

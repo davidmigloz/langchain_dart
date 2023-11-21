@@ -60,7 +60,7 @@ class OllamaClientException implements Exception {
 
 /// Client for Ollama API (v.0.1.9)
 ///
-/// API Spec for Ollama API server
+/// API Spec for Ollama API. Please see https://github.com/jmorganca/ollama/blob/main/docs/api.md for more details.
 class OllamaClient {
   /// Creates a new OllamaClient instance.
   ///
@@ -357,18 +357,18 @@ class OllamaClient {
   }
 
   // ------------------------------------------
-  // METHOD: postGenerate
+  // METHOD: generateCompletion
   // ------------------------------------------
 
   /// Generate a response for a given prompt with a provided model.
   ///
-  /// This is a streaming endpoint, so will be a series of responses. The final response object will include statistics and additional data from the request.
+  /// The final response object will include statistics and additional data from the request.
   ///
-  /// `request`: No description
+  /// `request`: Request class for the generate endpoint.
   ///
   /// `POST` `http://localhost:11434/api/generate`
-  Future<GenerateResponse> postGenerate({
-    GenerateRequest? request,
+  Future<GenerateCompletionResponse> generateCompletion({
+    GenerateCompletionRequest? request,
   }) async {
     final r = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
@@ -379,7 +379,31 @@ class OllamaClient {
       responseType: 'application/x-ndjson',
       body: request,
     );
-    return GenerateResponse.fromJson(_jsonDecode(r));
+    return GenerateCompletionResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: generateEmbedding
+  // ------------------------------------------
+
+  /// Generate embeddings from a model.
+  ///
+  /// `request`: Generate embeddings from a model.
+  ///
+  /// `POST` `http://localhost:11434/api/embeddings`
+  Future<GenerateEmbeddingResponse> generateEmbedding({
+    GenerateEmbeddingRequest? request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:11434/api',
+      path: '/embeddings',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return GenerateEmbeddingResponse.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -605,31 +629,5 @@ class OllamaClient {
       body: request,
     );
     return PushResponse.fromJson(_jsonDecode(r));
-  }
-
-  // ------------------------------------------
-  // METHOD: postEmbedding
-  // ------------------------------------------
-
-  /// Generate embeddings from a model
-  ///
-  /// Generate embeddings from a model
-  ///
-  /// `request`: Generate embeddings from a model
-  ///
-  /// `POST` `http://localhost:11434/api/embeddings`
-  Future<EmbeddingResponse> postEmbedding({
-    EmbeddingRequest? request,
-  }) async {
-    final r = await makeRequest(
-      baseUrl: 'http://localhost:11434/api',
-      path: '/embeddings',
-      method: HttpMethod.post,
-      isMultipart: false,
-      requestType: 'application/json',
-      responseType: 'application/json',
-      body: request,
-    );
-    return EmbeddingResponse.fromJson(_jsonDecode(r));
   }
 }

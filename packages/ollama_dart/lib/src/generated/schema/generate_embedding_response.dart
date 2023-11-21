@@ -5,23 +5,23 @@
 part of ollama_schema;
 
 // ==========================================
-// CLASS: EmbeddingResponse
+// CLASS: GenerateEmbeddingResponse
 // ==========================================
 
-/// Returns the embedding information
+/// Returns the embedding information.
 @freezed
-class EmbeddingResponse with _$EmbeddingResponse {
-  const EmbeddingResponse._();
+class GenerateEmbeddingResponse with _$GenerateEmbeddingResponse {
+  const GenerateEmbeddingResponse._();
 
-  /// Factory constructor for EmbeddingResponse
-  const factory EmbeddingResponse({
-    /// No Description
+  /// Factory constructor for GenerateEmbeddingResponse
+  const factory GenerateEmbeddingResponse({
+    /// The embedding for the prompt.
     @JsonKey(includeIfNull: false) List<double>? embedding,
-  }) = _EmbeddingResponse;
+  }) = _GenerateEmbeddingResponse;
 
   /// Object construction from a JSON representation
-  factory EmbeddingResponse.fromJson(Map<String, dynamic> json) =>
-      _$EmbeddingResponseFromJson(json);
+  factory GenerateEmbeddingResponse.fromJson(Map<String, dynamic> json) =>
+      _$GenerateEmbeddingResponseFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = ['embedding'];

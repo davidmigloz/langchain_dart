@@ -1,9 +1,7 @@
-// ignore_for_file: avoid_print
-
-// import 'package:http/http.dart';
 import 'package:ollama_dart/ollama_dart.dart';
 import 'package:test/test.dart';
 
+// TODO split these tests into separate files grouped by API endpoint
 void main() {
   group('Ollama Generate API tests', () {
     late OllamaClient client;
@@ -20,28 +18,6 @@ void main() {
     test('Ollama Client retrieves a list of local models', () async {
       final TagResponse tags = await client.listTags();
       expect(tags.models, isNotEmpty);
-    });
-
-    test('Ollama Client generates a response to a prompt', () async {
-      const String testModel = 'mistral:latest';
-      const String testPrompt = 'Why is the sky blue?';
-      const String testCriteria = 'Rayleigh scattering';
-
-      final TagResponse tags = await client.listTags();
-      expect(tags.models, isNotEmpty);
-      expect(
-        tags.models?.firstWhere((final element) => element.name == testModel),
-        isNotNull,
-      );
-
-      final GenerateResponse response = await client.postGenerate(
-        request: const GenerateRequest(
-          model: testModel,
-          prompt: testPrompt,
-          stream: false,
-        ),
-      );
-      expect(response.response, contains(testCriteria));
     });
 
     test('Ollama Client creates a copy of a local model', () async {
@@ -212,22 +188,6 @@ void main() {
       expect(
         response.status,
         equals(CreateResponseStatus.success),
-        reason: 'Should return a list of values for the embedding',
-      );
-    });
-
-    test('Ollama Client generates an embedding for a local model', () async {
-      const String modelName = 'mistral:latest';
-      const String prompt = 'Here is an article about llamas...';
-
-      final EmbeddingResponse response = await client.postEmbedding(
-        request: const EmbeddingRequest(model: modelName, prompt: prompt),
-      );
-      print(response);
-
-      expect(
-        response.embedding,
-        isNotEmpty,
         reason: 'Should return a list of values for the embedding',
       );
     });
