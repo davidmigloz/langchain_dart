@@ -28,7 +28,7 @@ jobs:
         uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
           channel: 'stable'
-          flutter-version: '3.13.0'
+          flutter-version: '3.16.0'
           cache: true
 
       - name: Set-up Flutter
