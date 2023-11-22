@@ -7,7 +7,10 @@ void main() {
       final echoTool = BaseTool.fromFunction(
         name: 'echo-int',
         description: 'echo-int',
-        func: (final Map<String, dynamic> toolInput) =>
+        func: (
+          final Map<String, dynamic> toolInput, {
+          final ToolOptions? options,
+        }) =>
             toolInput['input'].toString(),
         inputJsonSchema: const {'type': 'integer'},
       );
@@ -21,7 +24,11 @@ void main() {
       final echoTool = Tool.fromFunction(
         name: 'echo',
         description: 'echo',
-        func: (final String toolInput) => toolInput,
+        func: (
+          final String toolInput, {
+          final ToolOptions? options,
+        }) =>
+            toolInput,
       );
 
       expect(echoTool.name, 'echo');

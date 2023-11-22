@@ -143,7 +143,7 @@ void main() {
   });
 }
 
-final class _MockTool extends Tool {
+final class _MockTool extends Tool<ToolOptions> {
   _MockTool({
     super.name = 'tool',
     super.returnDirect = false,
@@ -152,7 +152,10 @@ final class _MockTool extends Tool {
         );
 
   @override
-  FutureOr<String> runInternalString(final String toolInput) {
+  FutureOr<String> runInternalString(
+    final String toolInput, {
+    final ToolOptions? options,
+  }) {
     return '$name-output';
   }
 }

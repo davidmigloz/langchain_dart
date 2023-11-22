@@ -11,8 +11,8 @@ import 'models/models.dart';
 /// The input to the tool needs to be described by [inputJsonSchema].
 /// {@endtemplate}
 @immutable
-abstract base class BaseTool
-    extends BaseLangChain<Map<String, dynamic>, BaseLangChainOptions, String> {
+abstract base class BaseTool<Options extends ToolOptions>
+    extends BaseLangChain<Map<String, dynamic>, Options, String> {
   /// {@macro base_tool}
   BaseTool({
     required this.name,
@@ -56,16 +56,18 @@ abstract base class BaseTool
   ///   the AgentExecutor will stop looping.
   /// - [handleToolError] is a function that handles the content of the
   ///   [ToolException] thrown by the tool.
-  factory BaseTool.fromFunction({
+  static BaseTool fromFunction<Options extends ToolOptions>({
     required final String name,
     required final String description,
-    required final FutureOr<String> Function(Map<String, dynamic> toolInput)
-        func,
+    required final FutureOr<String> Function(
+      Map<String, dynamic> toolInput, {
+      Options? options,
+    }) func,
     required final Map<String, dynamic> inputJsonSchema,
     final bool returnDirect = false,
     final String Function(ToolException)? handleToolError,
   }) {
-    return _BaseToolFunc(
+    return _BaseToolFunc<Options>(
       name: name,
       description: description,
       func: func,
@@ -78,19 +80,23 @@ abstract base class BaseTool
   /// Runs the tool.
   ///
   /// - [input] is the input to the tool.
-  /// - [options] not used.
+  /// - [options] is the options to pass to the tool.
   @override
   Future<String> invoke(
     final Map<String, dynamic> input, {
-    final BaseLangChainOptions? options,
+    final Options? options,
   }) async {
     return run(input);
   }
 
   /// Runs the tool.
   ///
-  /// - [toolInput] is the input to the tool.
-  FutureOr<String> run(final Map<String, dynamic> toolInput) {
+  /// - [toolInput] the input to the tool.
+  /// - [options] the options to pass to the tool.
+  FutureOr<String> run(
+    final Map<String, dynamic> toolInput, {
+    final Options? options,
+  }) {
     try {
       return runInternal(toolInput);
     } on ToolException catch (e) {
@@ -107,16 +113,19 @@ abstract base class BaseTool
   /// Actual implementation of [run] method logic.
   @protected
   FutureOr<String> runInternal(
-    final Map<String, dynamic> toolInput,
-  );
+    final Map<String, dynamic> toolInput, {
+    final Options? options,
+  });
 
   /// Runs the tool (same as [run] but using callable class syntax).
   ///
-  /// - [toolInput] is the input to the tool.
+  /// - [toolInput] the input to the tool.
+  /// - [options] the options to pass to the tool.
   FutureOr<String> call({
     required final Map<String, dynamic> toolInput,
+    final Options? options,
   }) {
-    return run(toolInput);
+    return run(toolInput, options: options);
   }
 
   /// Converts the tool to a [ChatFunction].
@@ -140,7 +149,8 @@ abstract base class BaseTool
 /// A tool that accepts a function as input.
 /// Used in [BaseTool.fromFunction].
 /// {@endtemplate}
-final class _BaseToolFunc extends BaseTool {
+final class _BaseToolFunc<Options extends ToolOptions>
+    extends BaseTool<Options> {
   /// {@macro base_tool_func}
   _BaseToolFunc({
     required super.name,
@@ -152,11 +162,17 @@ final class _BaseToolFunc extends BaseTool {
   });
 
   /// The function to run when the tool is called.
-  final FutureOr<String> Function(Map<String, dynamic> toolInput) func;
+  final FutureOr<String> Function(
+    Map<String, dynamic> toolInput, {
+    Options? options,
+  }) func;
 
   @override
-  FutureOr<String> runInternal(final Map<String, dynamic> toolInput) {
-    return func(toolInput);
+  FutureOr<String> runInternal(
+    final Map<String, dynamic> toolInput, {
+    final Options? options,
+  }) {
+    return func(toolInput, options: options);
   }
 }
 
@@ -164,7 +180,8 @@ final class _BaseToolFunc extends BaseTool {
 /// This class wraps functions that accept a single string input and returns a
 /// string output.
 /// {@endtemplate}
-abstract base class Tool extends BaseTool {
+abstract base class Tool<Options extends ToolOptions>
+    extends BaseTool<Options> {
   /// {@macro tool}
   Tool({
     required super.name,
@@ -199,14 +216,17 @@ abstract base class Tool extends BaseTool {
   ///   the AgentExecutor will stop looping.
   /// - [handleToolError] is a function that handles the content of the
   ///   [ToolException] thrown by the tool.
-  factory Tool.fromFunction({
+  static Tool fromFunction<Options extends ToolOptions>({
     required final String name,
     required final String description,
-    required final FutureOr<String> Function(String toolInput) func,
+    required final FutureOr<String> Function(
+      String toolInput, {
+      Options? options,
+    }) func,
     final bool returnDirect = false,
     final String Function(ToolException)? handleToolError,
   }) {
-    return _ToolFunc(
+    return _ToolFunc<Options>(
       name: name,
       description: description,
       func: func,
@@ -216,20 +236,26 @@ abstract base class Tool extends BaseTool {
   }
 
   @override
-  FutureOr<String> runInternal(final Map<String, dynamic> toolInput) {
-    return runInternalString(toolInput[Tool.inputVar]);
+  FutureOr<String> runInternal(
+    final Map<String, dynamic> toolInput, {
+    final Options? options,
+  }) {
+    return runInternalString(toolInput[Tool.inputVar], options: options);
   }
 
   /// Actual implementation of [run] method logic with string input.
   @protected
-  FutureOr<String> runInternalString(final String toolInput);
+  FutureOr<String> runInternalString(
+    final String toolInput, {
+    final Options? options,
+  });
 }
 
 /// {@template tool_func}
 /// Implementation of [Tool] that accepts a function as input.
 /// Used in [Tool.fromFunction].
 /// {@endtemplate}
-final class _ToolFunc extends Tool {
+final class _ToolFunc<Options extends ToolOptions> extends Tool<Options> {
   /// {@macro tool_func}
   _ToolFunc({
     required super.name,
@@ -239,10 +265,16 @@ final class _ToolFunc extends Tool {
     super.handleToolError,
   });
 
-  final FutureOr<String> Function(String toolInput) func;
+  final FutureOr<String> Function(
+    String toolInput, {
+    Options? options,
+  }) func;
 
   @override
-  FutureOr<String> runInternalString(final String toolInput) {
-    return func(toolInput);
+  FutureOr<String> runInternalString(
+    final String toolInput, {
+    final Options? options,
+  }) {
+    return func(toolInput, options: options);
   }
 }

@@ -54,7 +54,10 @@ final tool = BaseTool.fromFunction(
     },
     'required': ['query'],
   },
-  func: (final Map<String, dynamic> toolInput) async {
+  func: (
+      final Map<String, dynamic> toolInput, {
+      final ToolOptions? options,
+  }) async {
     final query = toolInput['query'];
     final n = toolInput['n'];
     return callYourSearchFunction(query, n);
