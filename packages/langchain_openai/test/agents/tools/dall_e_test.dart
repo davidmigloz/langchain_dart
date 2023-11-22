@@ -15,8 +15,10 @@ void main() {
     test('Test generate image returned as URL', () async {
       final tool = OpenAIDallETool(
         apiKey: openAiKey,
-        model: 'dall-e-2',
-        size: ImageSize.v256x256,
+        defaultOptions: const OpenAIDallEToolOptions(
+          model: 'dall-e-2',
+          size: ImageSize.v256x256,
+        ),
       );
       final res = await tool.invoke({Tool.inputVar: 'A cute baby sea otter'});
       expect(res, startsWith('http'));
@@ -26,9 +28,11 @@ void main() {
     test('Test generate image returned as base64', () async {
       final tool = OpenAIDallETool(
         apiKey: openAiKey,
-        model: 'dall-e-2',
-        size: ImageSize.v256x256,
-        responseFormat: ImageResponseFormat.b64Json,
+        defaultOptions: const OpenAIDallEToolOptions(
+          model: 'dall-e-2',
+          size: ImageSize.v256x256,
+          responseFormat: ImageResponseFormat.b64Json,
+        ),
       );
       final res = await tool.invoke({Tool.inputVar: 'A cute baby sea otter'});
       expect(res, isNot(startsWith('http')));
@@ -45,12 +49,14 @@ void main() {
         ),
       );
 
-      final tools = [
+      final List<BaseTool<ToolOptions>> tools = [
         CalculatorTool(),
         OpenAIDallETool(
           apiKey: openAiKey,
-          model: 'dall-e-2',
-          size: ImageSize.v256x256,
+          defaultOptions: const OpenAIDallEToolOptions(
+            model: 'dall-e-2',
+            size: ImageSize.v256x256,
+          ),
         ),
       ];
 
