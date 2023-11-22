@@ -13,7 +13,7 @@ void main() async {
       temperature: 0,
     ),
   );
-  final tools = [
+  final tools = <BaseTool>[
     CalculatorTool(),
     OpenAIDallETool(apiKey: openAiKey),
   ];
