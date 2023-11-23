@@ -76,9 +76,7 @@ class RunnableMap<RunInput extends Object>
       steps.entries.map((final entry) {
         return entry.value
             .streamFromInputStream(inputStream, options: options)
-            .map(
-              (final output) => {entry.key: output},
-            );
+            .map((final output) => {entry.key: output});
       }),
     );
   }

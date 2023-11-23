@@ -82,5 +82,60 @@ void main() {
       expect(sources, isNotEmpty);
       expect(sources.first, endsWith('-pl'));
     });
+
+    test('Test custom RetrievalQA streaming pipeline', () async {
+      const filePath = './test/chains/assets/state_of_the_union.txt';
+      const loader = TextLoader(filePath);
+      final documents = await loader.load();
+
+      const textSplitter = RecursiveCharacterTextSplitter(
+        chunkSize: 800,
+        chunkOverlap: 0,
+      );
+      final texts = textSplitter.splitDocuments(documents);
+
+      final embeddings = OpenAIEmbeddings(apiKey: openaiApiKey);
+      final vectorStore = await MemoryVectorStore.fromDocuments(
+        documents: texts,
+        embeddings: embeddings,
+      );
+      final retriever = vectorStore.asRetriever();
+      final docCombiner = Runnable.fromFunction<List<Document>, String>(
+        (final docs, final _) =>
+            docs.map((final d) => d.pageContent).join('\n'),
+      );
+
+      final promptTemplate = PromptTemplate.fromTemplate('''
+Answer the question based only on the following context:
+```
+{context}
+```
+Question: {question}
+      ''');
+
+      final chatModel = ChatOpenAI(
+        apiKey: openaiApiKey,
+        defaultOptions: const ChatOpenAIOptions(
+          temperature: 0,
+        ),
+      );
+      const outputParser = StringOutputParser<AIChatMessage>();
+
+      final chain = Runnable.fromMap<String>({
+        'context': retriever.pipe(docCombiner),
+        'question': Runnable.passthrough(),
+      }).pipe(promptTemplate).pipe(chatModel).pipe(outputParser);
+
+      final stream = chain.stream('What did President Biden say about Russia?');
+
+      String content = '';
+      int count = 0;
+      await for (final res in stream) {
+        content += res;
+        count++;
+      }
+      expect(count, greaterThan(1));
+      expect(content, isNotEmpty);
+    });
   });
 }
