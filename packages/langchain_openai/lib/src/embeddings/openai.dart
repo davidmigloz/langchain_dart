@@ -157,6 +157,12 @@ class OpenAIEmbeddings implements Embeddings {
   /// Ref: https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids
   final String? user;
 
+  /// Set or replace the API key.
+  set apiKey(final String value) => _client.apiKey = value;
+
+  /// Get the API key.
+  String get apiKey => _client.apiKey;
+
   @override
   Future<List<List<double>>> embedDocuments(
     final List<Document> documents,
