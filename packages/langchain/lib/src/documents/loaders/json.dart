@@ -72,11 +72,11 @@ class JsonLoader extends BaseDocumentLoader {
     final fileContent = await file.readAsString();
     final jsonData = json.decode(fileContent);
 
-    for (final match in basePath.read(jsonData)) {
+    for (final value in basePath.readValues(jsonData)) {
       final doc = Document(
-        pageContent: match.value.toString(),
+        pageContent: value.toString(),
         metadata:
-            metadataBuilder?.call(match.value, fileMetadata) ?? fileMetadata,
+            metadataBuilder?.call(value, fileMetadata) ?? fileMetadata,
       );
       yield doc;
     }
