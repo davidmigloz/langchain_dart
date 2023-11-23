@@ -6,19 +6,68 @@ import 'package:tiktoken/tiktoken.dart';
 import 'models/mappers.dart';
 import 'models/models.dart';
 
-/// Wrapper around OpenAI Completions API.
+/// Wrapper around [OpenAI Completions API](https://platform.openai.com/docs/api-reference/completions).
 ///
 /// Example:
 /// ```dart
-/// final llm = OpenAI(
-///  apiKey: openaiApiKey,
-///  defaultOptions: const OpenAIOptions(temperature: 1),
-/// );
-/// final res = await llm('Tell me a joke');
+/// final llm = OpenAI(apiKey: '...');
+/// final prompt = PromptValue.string('Tell me a joke');
+/// final res = await llm.invoke(prompt);
 /// ```
 ///
 /// - [Completions guide](https://platform.openai.com/docs/guides/gpt/completions-api)
 /// - [Completions API docs](https://platform.openai.com/docs/api-reference/completions)
+///
+/// ### Call options
+///
+/// You can configure the parameters that will be used when calling the
+/// completions API in several ways:
+///
+/// **Default options:**
+///
+/// Use the [defaultOptions] parameter to set the default options. These
+/// options will be used unless you override them when generating completions.
+///
+/// ```dart
+/// final llm = OpenAI(
+///   apiKey: openaiApiKey,
+///   defaultOptions: const OpenAIOptions(
+///     temperature: 0.9,
+///     maxTokens: 100,
+///   ),
+/// );
+/// ```
+///
+/// **Call options:**
+///
+/// You can override the default options when invoking the model:
+///
+/// ```dart
+/// final res = await llm.invoke(
+///   prompt,
+///   options: const OpenAIOptions(seed: 9999),
+/// );
+/// ```
+///
+/// **Bind:**
+///
+/// You can also change the options in a [Runnable] pipeline using the bind
+/// method.
+///
+/// In this example, we are using two totally different models for each
+/// question:
+///
+/// ```dart
+/// final chatModel = ChatOpenAI(apiKey: openaiApiKey,);
+/// const outputParser = StringOutputParser();
+/// final prompt1 = PromptTemplate.fromTemplate('How are you {name}?');
+/// final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
+/// final chain = Runnable.fromMap({
+///   'q1': prompt1 | chatModel.bind(const ChatOpenAIOptions(model: 'gpt-4')) | outputParser,
+///   'q2': prompt2| chatModel.bind(const ChatOpenAIOptions(model: 'gpt-3.5-turbo')) | outputParser,
+/// });
+/// final res = await chain.invoke({'name': 'David'});
+/// ```
 ///
 /// ### Authentication
 ///
@@ -167,6 +216,12 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   /// For an exhaustive list check:
   /// https://github.com/mvitlov/tiktoken/blob/master/lib/tiktoken.dart
   final String? encoding;
+
+  /// Set or replace the API key.
+  set apiKey(final String value) => _client.apiKey = value;
+
+  /// Get the API key.
+  String get apiKey => _client.apiKey;
 
   @override
   String get modelType => 'openai';

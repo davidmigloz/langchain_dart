@@ -47,6 +47,12 @@ class OpenAIClient extends g.OpenAIClient {
           client: client ?? createDefaultHttpClient(),
         );
 
+  /// Set or replace the API key.
+  set apiKey(final String value) => bearerToken = value;
+
+  /// Get the API key.
+  String get apiKey => bearerToken;
+
   // ------------------------------------------
   // METHOD: createCompletionStream
   // ------------------------------------------
