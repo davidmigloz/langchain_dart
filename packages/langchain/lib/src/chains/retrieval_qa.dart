@@ -72,7 +72,7 @@ class RetrievalQAChain extends BaseChain {
   });
 
   /// Retriever to use.
-  final BaseRetriever retriever;
+  final Retriever retriever;
 
   /// Chain to use to combine the documents.
   final BaseCombineDocumentsChain combineDocumentsChain;
@@ -111,7 +111,7 @@ class RetrievalQAChain extends BaseChain {
   String get chainType => 'retrieval_qa';
 
   /// Creates a [RetrievalQAChain] from a [BaseLanguageModel] and a
-  /// [BaseRetriever].
+  /// [Retriever].
   ///
   /// By default, it uses a prompt template optimized for question answering
   /// that includes the retrieved documents and the question.
@@ -134,7 +134,7 @@ class RetrievalQAChain extends BaseChain {
   /// [prompt]. Use 'context' and 'question' as the variable names.
   factory RetrievalQAChain.fromLlm({
     required final BaseLanguageModel llm,
-    required final BaseRetriever retriever,
+    required final Retriever retriever,
     final PromptTemplate? prompt,
   }) {
     return RetrievalQAChain(

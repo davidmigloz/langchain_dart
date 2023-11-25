@@ -164,7 +164,9 @@ In this example, we will add a memory to the chain and return the source documen
 
 ```dart
 final retriever = vectorStore.asRetriever(
-  searchType: const VectorStoreSimilaritySearch(k: 1),
+  defaultOptions: const VectorStoreRetrieverOptions(
+    searchType: VectorStoreSimilaritySearch(k: 1),
+  ),
 );
 final model = ChatOpenAI(apiKey: openaiApiKey);
 final stringOutputParser = const StringOutputParser();

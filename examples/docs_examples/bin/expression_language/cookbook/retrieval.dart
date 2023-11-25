@@ -190,7 +190,9 @@ Future<void> _conversationalRetrievalChainMemoryAndDocs() async {
   final vectorStore = Chroma(embeddings: embeddings);
 
   final retriever = vectorStore.asRetriever(
-    searchType: const VectorStoreSimilaritySearch(k: 1),
+    defaultOptions: const VectorStoreRetrieverOptions(
+      searchType: VectorStoreSimilaritySearch(k: 1),
+    ),
   );
   final model = ChatOpenAI(apiKey: openaiApiKey);
   const stringOutputParser = StringOutputParser();
