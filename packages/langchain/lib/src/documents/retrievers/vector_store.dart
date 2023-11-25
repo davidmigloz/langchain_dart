@@ -1,25 +1,33 @@
 import '../models/models.dart';
 import '../vector_stores/vector_stores.dart';
 import 'base.dart';
+import 'models/models.dart';
 
 /// {@template vector_store_retriever}
 /// A retriever that uses a vector store to retrieve documents.
 /// {@endtemplate}
-class VectorStoreRetriever<V extends VectorStore> extends BaseRetriever {
+class VectorStoreRetriever<V extends VectorStore>
+    extends Retriever<VectorStoreRetrieverOptions> {
   /// {@macro vector_store_retriever}
   const VectorStoreRetriever({
     required this.vectorStore,
-    this.searchType = const VectorStoreSimilaritySearch(),
+    this.defaultOptions = const VectorStoreRetrieverOptions(),
   });
 
   /// The vector store to retrieve documents from.
   final V vectorStore;
 
-  /// The type of search to perform.
-  final VectorStoreSearchType searchType;
+  /// Default options for this retriever.
+  final VectorStoreRetrieverOptions defaultOptions;
 
   @override
-  Future<List<Document>> getRelevantDocuments(final String query) {
-    return vectorStore.search(query: query, searchType: searchType);
+  Future<List<Document>> getRelevantDocuments(
+    final String query, {
+    final VectorStoreRetrieverOptions? options,
+  }) {
+    return vectorStore.search(
+      query: query,
+      searchType: options?.searchType ?? defaultOptions.searchType,
+    );
   }
 }
