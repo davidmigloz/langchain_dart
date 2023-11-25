@@ -55,16 +55,26 @@ and Flutter, enabling developers to harness their combined potential effectively
 ## Packages
 
 LangChain.dart has a modular design where the core [langchain](https://pub.dev/packages/langchain)
-package provides the LangChain API and each integration with a model provider, data store, etc. is
+package provides the LangChain API and each integration with a model provider, database, etc. is
 provided by a separate package.
 
-| Package                                                           | Version                                                                                                                   | Description                                                | Models | Data conn. | Chains | Agents & Tools |
-|-------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------|--------|------------|--------|----------------|
-| [langchain](https://pub.dev/packages/langchain)                   | [![langchain](https://img.shields.io/pub/v/langchain.svg)](https://pub.dev/packages/langchain)                            | Core LangChain API                                         | ★      | ★          | ★      | ★              |
-| [langchain_chroma](https://pub.dev/packages/langchain_chroma)     | [![langchain_chroma](https://img.shields.io/pub/v/langchain_chroma.svg)](https://pub.dev/packages/langchain_chroma)       | Chroma DB integration                                      |        | ✔          |        |                |
-| [langchain_google](https://pub.dev/packages/langchain_google)     | [![langchain_google](https://img.shields.io/pub/v/langchain_google.svg)](https://pub.dev/packages/langchain_google)       | Google integration (VertexAI, PaLM, Matching Engine, etc.) | ✔      | ✔          |        |                |
-| [langchain_openai](https://pub.dev/packages/langchain_openai)     | [![langchain_openai](https://img.shields.io/pub/v/langchain_openai.svg)](https://pub.dev/packages/langchain_openai)       | OpenAI integration (GPT-3, GPT-4, Functions, Vision, etc.) | ✔      | ✔          | ✔      | ✔              |
-| [langchain_pinecone](https://pub.dev/packages/langchain_pinecone) | [![langchain_pinecone](https://img.shields.io/pub/v/langchain_pinecone.svg)](https://pub.dev/packages/langchain_pinecone) | Pinecone DB integration                                    |        | ✔          |        |                |
+| Package                                                           | Version                                                                    | Description                                                                            |
+|-------------------------------------------------------------------|----------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
+| [langchain](https://pub.dev/packages/langchain)                   | ![langchain](https://img.shields.io/pub/v/langchain.svg)                   | Core LangChain API (base components abstraction, logic for chaining them (LCEL), etc.) |
+| [langchain_openai](https://pub.dev/packages/langchain_openai)     | ![langchain_openai](https://img.shields.io/pub/v/langchain_openai.svg)     | OpenAI integration (GPT-3.5, GPT-4, Embeddings, Functions, Vision, DALL·E 3, etc.)     |
+| [langchain_google](https://pub.dev/packages/langchain_google)     | ![langchain_google](https://img.shields.io/pub/v/langchain_google.svg)     | Google integration (VertexAI, PaLM 2 (bison), Embeddings, Vector Search, etc.)         |
+| [langchain_pinecone](https://pub.dev/packages/langchain_pinecone) | ![langchain_pinecone](https://img.shields.io/pub/v/langchain_pinecone.svg) | Pinecone vector database integration                                                   |
+| [langchain_chroma](https://pub.dev/packages/langchain_chroma)     | ![langchain_chroma](https://img.shields.io/pub/v/langchain_chroma.svg)     | Chroma vector database integration                                                     |
+
+Functionality provided by each package:
+
+| Package                                                           | LLMs | Chat models | Embeddings | Vector stores | Chains | Agents | Tools |
+|-------------------------------------------------------------------|------|-------------|------------|---------------|--------|--------|-------|
+| [langchain](https://pub.dev/packages/langchain)                   | ★    | ★           | ★          | ★             | ★      | ★      | ★     |
+| [langchain_openai](https://pub.dev/packages/langchain_openai)     | ✔    | ✔           | ✔          |               | ✔      | ✔      | ✔     |
+| [langchain_google](https://pub.dev/packages/langchain_google)     | ✔    | ✔           | ✔          | ✔             |        |        |       |
+| [langchain_pinecone](https://pub.dev/packages/langchain_pinecone) |      |             |            | ✔             |        |        |       |
+| [langchain_chroma](https://pub.dev/packages/langchain_chroma)     |      |             |            | ✔             |        |        |       |
 
 The following packages are maintained (and used internally) by LangChain.dart,
 although they can also be used independently:
@@ -88,15 +98,20 @@ dependencies:
   langchain_openai: {version}
 ```
 
-The most basic building block of LangChain.dart is calling an LLM on some input:
+The most basic building block of LangChain.dart is calling an LLM on some prompt:
 
 ```dart
 final llm = OpenAI(apiKey: openaiApiKey);
-final result = await llm('Hello world!');
+final prompt = PromptValue.string('Hello world!');
+final result = await openai.invoke(prompt);
 // Hello everyone! I'm new here and excited to be part of this community.
 ```
 
-But you can build complex pipelines by chaining together multiple components:
+But you can build complex pipelines by chaining together multiple components.
+
+For example, the following pipeline does the following:
+1. Asks the model where the given person is from.
+2. Uses the answer to ask the model to return the country where the city is located in the given language.
 
 ```dart
 final promptTemplate1 = ChatPromptTemplate.fromTemplate(
@@ -124,6 +139,14 @@ final res = await chain.invoke({
 print(res);
 // La ciudad de Manacor se encuentra en España.
 ```
+
+This is just a very simple example of a pipeline using
+[LangChain Expression Language (LCEL)](https://langchaindart.com/#/expression_language/expression_language).
+You can construct far more intricate pipelines by connecting various components,
+such as a Retrieval-Augmented Generation (RAG) pipeline that would accept a user
+query, retrieve relevant documents from a vector store, format them using
+templates, prompt the model, and parse the output in a specific manner using an
+output parser.
 
 ## Documentation
 
