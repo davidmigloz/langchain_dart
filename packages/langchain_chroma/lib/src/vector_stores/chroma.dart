@@ -79,7 +79,7 @@ import 'models/models.dart';
 ///   config: ChromaSimilaritySearch(
 ///     k: 5,
 ///     scoreThreshold: 0.8,
-///     where: {'class: 'cat'},
+///     where: {'class': 'cat'},
 ///   ),
 /// );
 /// ```
