@@ -112,5 +112,23 @@ void main() {
       expect(generation, contains('123'));
       expect(generation, isNot(contains('456789')));
     });
+
+    test('Test response seed', () async {
+      const request = GenerateCompletionRequest(
+        model: defaultModel,
+        prompt: 'Why is the sky blue?',
+        options: RequestOptions(
+          seed: 9999,
+        ),
+      );
+
+      final res1 = await client.generateCompletion(request: request);
+      final text1 = res1.response;
+
+      final res2 = await client.generateCompletion(request: request);
+      final text2 = res2.response;
+
+      expect(text1, text2);
+    });
   });
 }
