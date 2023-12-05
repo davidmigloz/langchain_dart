@@ -36,6 +36,8 @@ import 'models/models.dart';
 ///     maxTokens: 100,
 ///   ),
 /// );
+/// final prompt = PromptValue.string('Hello world!');
+/// final result = await openai.invoke(prompt);
 /// ```
 ///
 /// **Call options:**
@@ -58,13 +60,13 @@ import 'models/models.dart';
 /// question:
 ///
 /// ```dart
-/// final chatModel = ChatOpenAI(apiKey: openaiApiKey,);
+/// final llm = OpenAI(apiKey: openaiApiKey);
 /// const outputParser = StringOutputParser();
 /// final prompt1 = PromptTemplate.fromTemplate('How are you {name}?');
 /// final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
 /// final chain = Runnable.fromMap({
-///   'q1': prompt1 | chatModel.bind(const ChatOpenAIOptions(model: 'gpt-4')) | outputParser,
-///   'q2': prompt2| chatModel.bind(const ChatOpenAIOptions(model: 'gpt-3.5-turbo')) | outputParser,
+///   'q1': prompt1 | llm.bind(const OpenAIOptions(model: 'gpt-3.5-turbo-instruct')) | outputParser,
+///   'q2': prompt2| llm.bind(const OpenAIOptions(model: 'text-davinci-003')) | outputParser,
 /// });
 /// final res = await chain.invoke({'name': 'David'});
 /// ```
@@ -196,7 +198,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   final OpenAIClient _client;
 
   /// The default options to use when calling the completions API.
-  final OpenAIOptions defaultOptions;
+  OpenAIOptions defaultOptions;
 
   /// The encoding to use by tiktoken when [tokenize] is called.
   ///
@@ -215,7 +217,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   ///
   /// For an exhaustive list check:
   /// https://github.com/mvitlov/tiktoken/blob/master/lib/tiktoken.dart
-  final String? encoding;
+  String? encoding;
 
   /// Set or replace the API key.
   set apiKey(final String value) => _client.apiKey = value;

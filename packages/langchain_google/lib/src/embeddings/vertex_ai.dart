@@ -140,7 +140,7 @@ class VertexAIEmbeddings implements Embeddings {
   /// Use `google` for first-party models.
   final String publisher;
 
-  /// The text model to use.
+  /// The embeddings model to use.
   ///
   /// To use the latest model version, specify the model name without a version
   /// number (e.g. `textembedding-gecko`).

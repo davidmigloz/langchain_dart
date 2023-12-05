@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_equals_and_hash_code_on_mutable_classes
 import 'dart:async';
 
 import 'package:meta/meta.dart';
@@ -10,7 +11,6 @@ import 'models/models.dart';
 /// Base class LangChain tools must extend.
 /// The input to the tool needs to be described by [inputJsonSchema].
 /// {@endtemplate}
-@immutable
 abstract base class BaseTool<Options extends ToolOptions>
     extends BaseLangChain<Map<String, dynamic>, Options, String> {
   /// {@macro base_tool}

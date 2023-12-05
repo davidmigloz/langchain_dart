@@ -74,7 +74,7 @@ final class OpenAIDallETool extends Tool<OpenAIDallEToolOptions> {
   final OpenAIClient _client;
 
   /// The default options to use when calling the DALL-E tool.
-  final OpenAIDallEToolOptions defaultOptions;
+  OpenAIDallEToolOptions defaultOptions;
 
   /// Set or replace the API key.
   set apiKey(final String value) => _client.apiKey = value;

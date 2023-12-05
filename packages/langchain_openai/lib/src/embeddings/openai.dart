@@ -144,18 +144,18 @@ class OpenAIEmbeddings implements Embeddings {
   /// ID of the model to use (e.g. 'text-embedding-ada-002').
   ///
   /// See https://platform.openai.com/docs/api-reference/embeddings/create#embeddings-create-model
-  final String model;
+  String model;
 
   /// The maximum number of documents to embed in a single request.
   /// This is limited by max input tokens for the model
   /// (e.g. 8191 tokens for text-embedding-ada-002).
-  final int batchSize;
+  int batchSize;
 
   /// A unique identifier representing your end-user, which can help OpenAI to
   /// monitor and detect abuse.
   ///
   /// Ref: https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids
-  final String? user;
+  String? user;
 
   /// Set or replace the API key.
   set apiKey(final String value) => _client.apiKey = value;
