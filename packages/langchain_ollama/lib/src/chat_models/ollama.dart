@@ -3,10 +3,12 @@ import 'package:langchain/langchain.dart';
 import 'package:ollama_dart/ollama_dart.dart';
 import 'package:tiktoken/tiktoken.dart';
 
+import '../llms/models/mappers.dart';
 import 'models/mappers.dart';
 import 'models/models.dart';
 
-/// Wrapper around [Ollama](https://ollama.ai) Completions API.
+/// Wrapper around [Ollama](https://ollama.ai) Completions API that enables
+/// to interact with the LLMs in a chat-like fashion.
 ///
 /// Ollama allows you to run open-source large language models,
 /// such as Llama 2, locally.
@@ -16,28 +18,27 @@ import 'models/models.dart';
 ///
 /// Example:
 /// ```dart
-/// final llm = Ollama(
-///   defaultOption: const OllamaOptions(
-///     model: 'llama2',
-///     temperature: 1,
-///   ),
-/// );
-/// final prompt = PromptValue.string('Hello world!');
-/// final result = await openai.invoke(prompt);
+/// final chatModel = ChatOllama();
+/// final messages = [
+///   ChatMessage.system('You are a helpful assistant that translates English to French.'),
+///   ChatMessage.humanText('I love programming.'),
+/// ];
+/// final prompt = PromptValue.chat(messages);
+/// final res = await llm.invoke(prompt);
 /// ```
 ///
 /// - [Ollama API docs](https://github.com/jmorganca/ollama/blob/main/docs/api.md#generate-a-completion)
 ///
 /// ### Ollama base URL
 ///
-/// By default, [Ollama] uses 'http://localhost:11434/api' as base URL
+/// By default, [ChatOllama] uses 'http://localhost:11434/api' as base URL
 /// (default Ollama API URL). But if you are running Ollama on a different
 /// one, you can override it using the [baseUrl] parameter.
 ///
 /// ### Call options
 ///
 /// You can configure the parameters that will be used when calling the
-/// completions API in several ways:
+/// chat completions API in several ways:
 ///
 /// **Default options:**
 ///
@@ -45,15 +46,13 @@ import 'models/models.dart';
 /// options will be used unless you override them when generating completions.
 ///
 /// ```dart
-/// final llm = Ollama(
-///   defaultOptions: const OllamaOptions(
+/// final chatModel = ChatOllama(
+///   defaultOptions: const ChatOllamaOptions(
 ///     model: 'llama2',
 ///     temperature: 0,
 ///     format: 'json',
 ///   ),
 /// );
-/// final prompt = PromptValue.string('Hello world!');
-/// final result = await openai.invoke(prompt);
 /// ```
 ///
 /// **Call options:**
@@ -61,9 +60,9 @@ import 'models/models.dart';
 /// You can override the default options when invoking the model:
 ///
 /// ```dart
-/// final res = await llm.invoke(
+/// final res = await chatModel.invoke(
 ///   prompt,
-///   options: const OllamaOptions(seed: 9999),
+///   options: const ChatOllamaOptions(seed: 9999),
 /// );
 /// ```
 ///
@@ -76,13 +75,13 @@ import 'models/models.dart';
 /// question:
 ///
 /// ```dart
-/// final llm = Ollama();
+/// final chatModel = ChatOllama();
 /// const outputParser = StringOutputParser();
 /// final prompt1 = PromptTemplate.fromTemplate('How are you {name}?');
 /// final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
 /// final chain = Runnable.fromMap({
-///   'q1': prompt1 | llm.bind(const OllamaOptions(model: 'llama2')) | outputParser,
-///   'q2': prompt2| llm.bind(const OllamaOptions(model: 'mistral')) | outputParser,
+///   'q1': prompt1 | chatModel.bind(const ChatOllamaOptions(model: 'llama2')) | outputParser,
+///   'q2': prompt2| chatModel.bind(const ChatOllamaOptions(model: 'mistral')) | outputParser,
 /// });
 /// final res = await chain.invoke({'name': 'David'});
 /// ```
@@ -95,7 +94,7 @@ import 'models/models.dart';
 /// customization:
 ///
 /// ```dart
-/// final client = Ollama(
+/// final client = ChatOllama(
 ///   client: MyHttpClient(),
 /// );
 /// ```
@@ -108,7 +107,7 @@ import 'models/models.dart';
 /// your required `headers`:
 ///
 /// ```dart
-/// final client = Ollama(
+/// final client = ChatOllama(
 ///   baseUrl: 'https://my-proxy.com',
 ///   headers: {'x-my-proxy-header': 'value'},
 ///   queryParams: {'x-my-proxy-query-param': 'value'},
@@ -123,12 +122,12 @@ import 'models/models.dart';
 /// To use a SOCKS5 proxy, you can use the
 /// [`socks5_proxy`](https://pub.dev/packages/socks5_proxy) package and a
 /// custom `http.Client`.
-class Ollama extends BaseLLM<OllamaOptions> {
-  /// Create a new [Ollama] instance.
+class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
+  /// Create a new [ChatOllama] instance.
   ///
   /// Main configuration options:
   /// - `baseUrl`: the base URL of Ollama API.
-  /// - [Ollama.defaultOptions]
+  /// - [ChatOllama.defaultOptions]
   ///
   /// Advance configuration options:
   /// - `headers`: global headers to send with every request. You can use
@@ -137,13 +136,13 @@ class Ollama extends BaseLLM<OllamaOptions> {
   ///   can use this to set custom query parameters.
   /// - `client`: the HTTP client to use. You can set your own HTTP client if
   ///   you need further customization (e.g. to use a Socks5 proxy).
-  /// - [Ollama.encoding]
-  Ollama({
+  /// - [ChatOllama.encoding]
+  ChatOllama({
     final String baseUrl = 'http://localhost:11434/api',
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    this.defaultOptions = const OllamaOptions(),
+    this.defaultOptions = const ChatOllamaOptions(),
     this.encoding = 'cl100k_base',
   }) : _client = OllamaClient(
           baseUrl: baseUrl,
@@ -156,7 +155,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
   final OllamaClient _client;
 
   /// The default options to use when calling the completions API.
-  OllamaOptions defaultOptions;
+  ChatOllamaOptions defaultOptions;
 
   /// The encoding to use by tiktoken when [tokenize] is called.
   ///
@@ -165,36 +164,39 @@ class Ollama extends BaseLLM<OllamaOptions> {
   String? encoding;
 
   @override
-  String get modelType => 'ollama';
+  String get modelType => 'chat-ollama';
 
   @override
-  Future<LLMResult> generate(
-    final String prompt, {
-    final OllamaOptions? options,
+  Future<ChatResult> generate(
+    final List<ChatMessage> messages, {
+    final ChatOllamaOptions? options,
   }) async {
     final completion = await _client.generateCompletion(
-      request: _generateCompletionRequest(prompt, options: options),
+      request: _generateCompletionRequest(
+        messages.toStringPrompt(),
+        options: options,
+      ),
     );
-    return completion.toLLMResult();
+    return completion.toChatResult();
   }
 
   @override
-  Stream<LLMResult> stream(
+  Stream<ChatResult> stream(
     final PromptValue input, {
-    final OllamaOptions? options,
+    final ChatOllamaOptions? options,
   }) {
     return _client
         .generateCompletionStream(
           request:
               _generateCompletionRequest(input.toString(), options: options),
         )
-        .map((final completion) => completion.toLLMResult(streaming: true));
+        .map((final completion) => completion.toChatResult(streaming: true));
   }
 
   @override
-  Stream<LLMResult> streamFromInputStream(
+  Stream<ChatResult> streamFromInputStream(
     final Stream<PromptValue> inputStream, {
-    final OllamaOptions? options,
+    final ChatOllamaOptions? options,
   }) {
     return inputStream.asyncExpand((final input) {
       return stream(input, options: options);
@@ -205,7 +207,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
   GenerateCompletionRequest _generateCompletionRequest(
     final String prompt, {
     final bool stream = false,
-    final OllamaOptions? options,
+    final ChatOllamaOptions? options,
   }) {
     return GenerateCompletionRequest(
       model: options?.model ?? defaultOptions.model,
@@ -273,7 +275,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
   @override
   Future<List<int>> tokenize(
     final PromptValue promptValue, {
-    final OllamaOptions? options,
+    final ChatOllamaOptions? options,
   }) async {
     final encoding = this.encoding != null
         ? getEncoding(this.encoding!)

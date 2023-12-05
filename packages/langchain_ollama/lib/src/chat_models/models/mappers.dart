@@ -1,14 +1,30 @@
 import 'package:langchain/langchain.dart';
 import 'package:ollama_dart/ollama_dart.dart';
 
-import 'models.dart';
+/// Mapper for [GenerateCompletionResponse].
+extension OllamaChatMessagesMapper on List<ChatMessage> {
+  /// Converts a [List<ChatMessage>] to a [String].
+  String toStringPrompt() {
+    return map((final msg) {
+      return switch (msg) {
+        SystemChatMessage() => '<<SYS>> ${msg.content} <</SYS>>',
+        HumanChatMessage() => '[INST] ${msg.content} [/INST]',
+        AIChatMessage() => msg.content,
+        CustomChatMessage() => '\n\n${msg.role.toUpperCase()}: ${msg.content}',
+        _ => throw UnsupportedError(
+            'Unsupported message type passed to Ollama $msg',
+          ),
+      };
+    }).join('\n');
+  }
+}
 
 /// Mapper for [GenerateCompletionResponse].
-extension LLMResultMapper on GenerateCompletionResponse {
-  /// Converts a [GenerateCompletionResponse] to a [LLMResult].
-  LLMResult toLLMResult({final bool streaming = false}) {
-    return LLMResult(
-      generations: [_toLLMGeneration()],
+extension ChatResultMapper on GenerateCompletionResponse {
+  /// Converts a [GenerateCompletionResponse] to a [ChatResult].
+  ChatResult toChatResult({final bool streaming = false}) {
+    return ChatResult(
+      generations: [_toChatGeneration()],
       usage: _toLanguageModelUsage(),
       modelOutput: {
         'created_at': createdAt,
@@ -18,9 +34,11 @@ extension LLMResultMapper on GenerateCompletionResponse {
     );
   }
 
-  LLMGeneration _toLLMGeneration() {
-    return LLMGeneration(
-      response ?? '',
+  ChatGeneration _toChatGeneration() {
+    return ChatGeneration(
+      AIChatMessage(
+        content: response ?? '',
+      ),
       generationInfo: {
         'done': done,
         'context': context,
@@ -45,12 +63,4 @@ extension LLMResultMapper on GenerateCompletionResponse {
           : null,
     );
   }
-}
-
-/// Mapper for [OllamaResponseFormat] to [ResponseFormat].
-extension OllamaResponseFormatMapper on OllamaResponseFormat {
-  /// Converts a [OllamaResponseFormat] to a [ResponseFormat].
-  ResponseFormat? toResponseFormat() => ResponseFormat.values
-      .where((final f) => f.name.toLowerCase() == name.toLowerCase())
-      .firstOrNull;
 }
