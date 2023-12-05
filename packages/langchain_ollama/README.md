@@ -11,7 +11,11 @@
 ## Features
 
 - LLMs:
-  * `Ollama`: wrapper around Ollama Large Language Model API.
+  * `Ollama`: wrapper around Ollama Completions API.
+- Chat models:
+  * `ChatOllama`: wrapper around Ollama Completions API in a chat-like fashion.
+- Embeddings:
+  * `OllamaEmbeddings`: wrapper around Ollama Embeddings API.
 
 ## License
 

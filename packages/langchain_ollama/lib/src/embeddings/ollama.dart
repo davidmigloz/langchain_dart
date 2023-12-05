@@ -18,6 +18,12 @@ import 'package:ollama_dart/ollama_dart.dart';
 ///
 /// - [Ollama API docs](https://github.com/jmorganca/ollama/blob/main/docs/api.md#generate-embeddings)
 ///
+/// ### Setup
+///
+/// 1. Download and install [Ollama](https://ollama.ai)
+/// 2. Fetch a model via `ollama pull <model family>`
+///   * e.g., for `Llama-7b`: `ollama pull llama2`
+///
 /// ### Advance
 ///
 /// #### Custom HTTP client

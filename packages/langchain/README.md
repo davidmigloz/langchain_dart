@@ -63,6 +63,7 @@ provided by a separate package.
 | [langchain](https://pub.dev/packages/langchain)                   | ![langchain](https://img.shields.io/pub/v/langchain.svg)                   | Core LangChain API (base components abstraction, logic for chaining them (LCEL), etc.) |
 | [langchain_openai](https://pub.dev/packages/langchain_openai)     | ![langchain_openai](https://img.shields.io/pub/v/langchain_openai.svg)     | OpenAI integration (GPT-3.5, GPT-4, Embeddings, Functions, Vision, DALL·E 3, etc.)     |
 | [langchain_google](https://pub.dev/packages/langchain_google)     | ![langchain_google](https://img.shields.io/pub/v/langchain_google.svg)     | Google integration (VertexAI, PaLM 2 (bison), Embeddings, Vector Search, etc.)         |
+| [langchain_ollama](https://pub.dev/packages/langchain_ollama)     | ![langchain_ollama](https://img.shields.io/pub/v/langchain_ollama.svg)     | Ollama integration (Llama 2, Code Llama, Mistral, Vicuna, Orca, Starling, etc.)        |
 | [langchain_pinecone](https://pub.dev/packages/langchain_pinecone) | ![langchain_pinecone](https://img.shields.io/pub/v/langchain_pinecone.svg) | Pinecone vector database integration                                                   |
 | [langchain_chroma](https://pub.dev/packages/langchain_chroma)     | ![langchain_chroma](https://img.shields.io/pub/v/langchain_chroma.svg)     | Chroma vector database integration                                                     |
 
@@ -73,6 +74,7 @@ Functionality provided by each package:
 | [langchain](https://pub.dev/packages/langchain)                   | ★    | ★           | ★          | ★             | ★      | ★      | ★     |
 | [langchain_openai](https://pub.dev/packages/langchain_openai)     | ✔    | ✔           | ✔          |               | ✔      | ✔      | ✔     |
 | [langchain_google](https://pub.dev/packages/langchain_google)     | ✔    | ✔           | ✔          | ✔             |        |        |       |
+| [langchain_ollama](https://pub.dev/packages/langchain_ollama)     | ✔    | ✔           | ✔          |               |        |        |       |
 | [langchain_pinecone](https://pub.dev/packages/langchain_pinecone) |      |             |            | ✔             |        |        |       |
 | [langchain_chroma](https://pub.dev/packages/langchain_chroma)     |      |             |            | ✔             |        |        |       |
 

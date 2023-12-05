@@ -87,6 +87,12 @@ import 'models/models.dart';
 /// final res = await chain.invoke({'name': 'David'});
 /// ```
 ///
+/// ### Setup
+///
+/// 1. Download and install [Ollama](https://ollama.ai)
+/// 2. Fetch a model via `ollama pull <model family>`
+///   * e.g., for `Llama-7b`: `ollama pull llama2`
+///
 /// ### Advance
 ///
 /// #### Custom HTTP client

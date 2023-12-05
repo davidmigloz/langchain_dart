@@ -29,6 +29,12 @@ import 'models/models.dart';
 ///
 /// - [Ollama API docs](https://github.com/jmorganca/ollama/blob/main/docs/api.md#generate-a-completion)
 ///
+/// ### Setup
+///
+/// 1. Download and install [Ollama](https://ollama.ai)
+/// 2. Fetch a model via `ollama pull <model family>`
+///   * e.g., for `Llama-7b`: `ollama pull llama2`
+///
 /// ### Ollama base URL
 ///
 /// By default, [ChatOllama] uses 'http://localhost:11434/api' as base URL
