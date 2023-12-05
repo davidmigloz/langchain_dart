@@ -6,7 +6,13 @@ import 'package:tiktoken/tiktoken.dart';
 import 'models/mappers.dart';
 import 'models/models.dart';
 
-/// Wrapper around Ollama Completions API.
+/// Wrapper around [Ollama](https://ollama.ai) Completions API.
+///
+/// Ollama allows you to run open-source large language models,
+/// such as Llama 2, locally.
+///
+/// For a complete list of supported models and model variants, see the
+/// [Ollama model library](https://ollama.ai/library).
 ///
 /// Example:
 /// ```dart
@@ -14,11 +20,72 @@ import 'models/models.dart';
 ///   model: 'llama2',
 ///   defaultOption: const OllamaOptions(temperature: 1),
 /// );
-/// final res = await llm('Tell me a joke');
+/// final prompt = PromptValue.string('Hello world!');
+/// final result = await openai.invoke(prompt);
 /// ```
 ///
 /// - [Ollama API docs](https://github.com/jmorganca/ollama/blob/main/docs/api.md#generate-a-completion)
 ///
+/// ### Ollama base URL
+///
+/// By default, [Ollama] uses 'http://localhost:11434/api' as base URL
+/// (default Ollama API URL). But if you are running Ollama on a different
+/// one, you can override it using the [baseUrl] parameter.
+///
+/// ### Call options
+///
+/// You can configure the parameters that will be used when calling the
+/// completions API in several ways:
+///
+/// **Default options:**
+///
+/// Use the [defaultOptions] parameter to set the default options. These
+/// options will be used unless you override them when generating completions.
+///
+/// ```dart
+/// final llm = Ollama(
+///   model: 'llama2',
+///   defaultOptions: const OllamaOptions(
+///     temperature: 0,
+///     format: 'json',
+///   ),
+/// );
+/// final prompt = PromptValue.string('Hello world!');
+/// final result = await openai.invoke(prompt);
+/// ```
+///
+/// **Call options:**
+///
+/// You can override the default options when invoking the model:
+///
+/// ```dart
+/// final res = await llm.invoke(
+///   prompt,
+///   options: const OllamaOptions(seed: 9999),
+/// );
+/// ```
+///
+/// **Bind:**
+///
+/// You can also change the options in a [Runnable] pipeline using the bind
+/// method.
+///
+/// In this example, we are using two totally different models for each
+/// question:
+///
+/// ```dart
+/// final llm = Ollama();
+/// const outputParser = StringOutputParser();
+/// final prompt1 = PromptTemplate.fromTemplate('How are you {name}?');
+/// final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
+/// final chain = Runnable.fromMap({
+///   'q1': prompt1 | llm.bind(const OllamaOptions(model: 'llama2')) | outputParser,
+///   'q2': prompt2| llm.bind(const OllamaOptions(model: 'mistral')) | outputParser,
+/// });
+/// final res = await chain.invoke({'name': 'David'});
+/// ```
+///
+/// ### Advance
 ///
 /// #### Custom HTTP client
 ///
@@ -42,6 +109,7 @@ import 'models/models.dart';
 /// final client = Ollama(
 ///   baseUrl: 'https://my-proxy.com',
 ///   headers: {'x-my-proxy-header': 'value'},
+///   queryParams: {'x-my-proxy-query-param': 'value'},
 /// );
 /// ```
 ///
@@ -57,9 +125,6 @@ class Ollama extends BaseLLM<OllamaOptions> {
   /// Create a new [Ollama] instance.
   ///
   /// Main configuration options:
-  /// - `model`: the base model to use. Since Ollama does not ship with a
-  ///   model included, the user must specify an already-installed model which
-  ///   the client can fall-back on
   /// - [Ollama.defaultOptions]
   ///
   /// Advance configuration options:
@@ -74,8 +139,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
   ///   you need further customization (e.g. to use a Socks5 proxy).
   /// - [Ollama.encoding]
   Ollama({
-    final String? baseUrl,
-    this.model = 'llama2',
+    final String baseUrl = 'http://localhost:11434/api',
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
@@ -92,43 +156,46 @@ class Ollama extends BaseLLM<OllamaOptions> {
   final OllamaClient _client;
 
   /// The default options to use when calling the completions API.
-  final OllamaOptions defaultOptions;
-
-  /// The default model to use when calling the completions API.
-  final String model;
+  OllamaOptions defaultOptions;
 
   /// The encoding to use by tiktoken when [tokenize] is called.
-  final String? encoding;
+  ///
+  /// Ollama does not provide any API to count tokens, so we use tiktoken
+  /// to get an estimation of the number of tokens in a prompt.
+  String? encoding;
 
   @override
-  Future<LLMResult> generate(String prompt, {OllamaOptions? options}) async {
+  String get modelType => 'ollama';
+
+  @override
+  Future<LLMResult> generate(
+    final String prompt, {
+    final OllamaOptions? options,
+  }) async {
     final completion = await _client.generateCompletion(
-        request: _generateCompletionRequest(
-      prompt,
-      options: options,
-    ));
+      request: _generateCompletionRequest(prompt, options: options),
+    );
     return completion.toLLMResult();
   }
 
   @override
-  Stream<LanguageModelResult<String>> stream(PromptValue input,
-      {OllamaOptions? options}) {
+  Stream<LanguageModelResult<String>> stream(
+    final PromptValue input, {
+    final OllamaOptions? options,
+  }) {
     return _client
         .generateCompletionStream(
-          request: _generateCompletionRequest(
-            input.toString(),
-            options: options,
-          ),
+          request:
+              _generateCompletionRequest(input.toString(), options: options),
         )
-        .map((final completion) => completion.toLLMResult(
-              streaming: true,
-            ));
+        .map((final completion) => completion.toLLMResult(streaming: true));
   }
 
   @override
   Stream<LanguageModelResult<String>> streamFromInputStream(
-      Stream<PromptValue> inputStream,
-      {OllamaOptions? options}) {
+    final Stream<PromptValue> inputStream, {
+    final OllamaOptions? options,
+  }) {
     return inputStream.asyncExpand((final input) {
       return stream(input, options: options);
     });
@@ -141,14 +208,14 @@ class Ollama extends BaseLLM<OllamaOptions> {
     final OllamaOptions? options,
   }) {
     return GenerateCompletionRequest(
+      model: options?.model ?? defaultOptions.model,
       prompt: prompt,
-      model: options?.model ?? model,
-      stream: stream,
       system: options?.system,
       template: options?.template,
       context: options?.context,
-      format: ResponseFormatMapper.fromString(options?.format),
+      format: options?.format?.toResponseFormat(),
       raw: options?.raw,
+      stream: stream,
       options: RequestOptions(
         numKeep: options?.numKeep ?? defaultOptions.numKeep,
         seed: options?.seed ?? defaultOptions.seed,
@@ -192,11 +259,14 @@ class Ollama extends BaseLLM<OllamaOptions> {
     );
   }
 
-  @override
-  String get modelType => 'ollama';
-
-  /// Tokenizes the given prompt using tiktoken with the encoding used by the
-  /// [model]. If an encoding model is specified in [encoding] field, that
+  /// Tokenizes the given prompt using tiktoken.
+  ///
+  /// Currently Ollama does not provide a tokenizer for the models it supports.
+  /// So we use tiktoken and [encoding] model to get an approximation
+  /// for counting tokens. Mind that the actual tokens will be totally
+  /// different from the ones used by the Ollama model.
+  ///
+  /// If an encoding model is specified in [encoding] field, that
   /// encoding is used instead.
   ///
   /// - [promptValue] The prompt to tokenize.

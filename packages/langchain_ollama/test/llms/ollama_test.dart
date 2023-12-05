@@ -1,6 +1,4 @@
-@TestOn('vm')
-library; // Uses dart:
-
+// ignore_for_file: avoid_redundant_argument_values
 import 'package:langchain/langchain.dart';
 import 'package:langchain_ollama/src/llms/models/models.dart';
 import 'package:langchain_ollama/src/llms/ollama.dart';
@@ -8,18 +6,28 @@ import 'package:test/test.dart';
 
 void main() {
   group('Ollama tests', () {
+    late Ollama llm;
+    const defaultModel = 'llama2:latest';
+
+    setUp(() async {
+      llm = Ollama(
+        defaultOptions: const OllamaOptions(
+          model: defaultModel,
+        ),
+      );
+    });
+
+    tearDown(() {
+      llm.close();
+    });
+
     test('Test Ollama parameters', () async {
-      final llm = Ollama(
-          defaultOptions: const OllamaOptions(
+      llm.defaultOptions = const OllamaOptions(
         model: 'foo',
         system: 'system prompt',
-        template: 'TEMPLATE \"\"\"',
-        context: [
-          1,
-          2,
-          3,
-        ],
-        format: 'json',
+        template: 'TEMPLATE """',
+        context: [1, 2, 3],
+        format: OllamaResponseFormat.json,
         raw: true,
         numKeep: 0,
         seed: 1,
@@ -37,7 +45,7 @@ void main() {
         mirostatTau: 13.0,
         mirostatEta: 14.0,
         penalizeNewline: false,
-        stop: ["stop <start_message>", "stop <stop_message>"],
+        stop: ['stop <start_message>', 'stop <stop_message>'],
         numa: true,
         numCtx: 15,
         numBatch: 16,
@@ -54,20 +62,16 @@ void main() {
         ropeFrequencyBase: 19.0,
         ropeFrequencyScale: 20.0,
         numThread: 21,
-      ));
+      );
 
       expect(llm.defaultOptions.model, 'foo');
       expect(
         llm.defaultOptions.system,
         'system prompt',
       );
-      expect(llm.defaultOptions.template, 'TEMPLATE \"\"\"');
-      expect(llm.defaultOptions.context, [
-        1,
-        2,
-        3,
-      ]);
-      expect(llm.defaultOptions.format, 'json');
+      expect(llm.defaultOptions.template, 'TEMPLATE """');
+      expect(llm.defaultOptions.context, [1, 2, 3]);
+      expect(llm.defaultOptions.format, OllamaResponseFormat.json);
       expect(llm.defaultOptions.raw, true);
       expect(llm.defaultOptions.numKeep, 0);
       expect(llm.defaultOptions.seed, 1);
@@ -85,8 +89,10 @@ void main() {
       expect(llm.defaultOptions.mirostatTau, 13.0);
       expect(llm.defaultOptions.mirostatEta, 14.0);
       expect(llm.defaultOptions.penalizeNewline, false);
-      expect(llm.defaultOptions.stop,
-          ["stop <start_message>", "stop <stop_message>"]);
+      expect(
+        llm.defaultOptions.stop,
+        ['stop <start_message>', 'stop <stop_message>'],
+      );
       expect(llm.defaultOptions.numa, true);
       expect(llm.defaultOptions.numCtx, 15);
       expect(llm.defaultOptions.numBatch, 16);
@@ -106,35 +112,43 @@ void main() {
     });
 
     test('Test call to Ollama', () async {
-      final llm = Ollama();
       final output = await llm('Say foo:');
       expect(output, isNotEmpty);
     });
 
     test('Test generate to Ollama', () async {
-      final llm = Ollama();
       final res = await llm.generate('Hello, how are you?');
       expect(res.generations.length, 1);
     });
 
     test('Test model output contains metadata', () async {
-      final llm = Ollama();
-      final res = await llm.generate('Hello, how are you?');
+      final res = await llm.invoke(
+        PromptValue.string(
+          'List the numbers from 1 to 9 in order. '
+          'Output ONLY the numbers in one line without any spaces or commas. '
+          'NUMBERS:',
+        ),
+      );
+      expect(
+        res.firstOutputAsString.replaceAll(RegExp(r'[\s\n]'), ''),
+        contains('123456789'),
+      );
       expect(res.modelOutput, isNotNull);
+      expect(res.modelOutput!['model'], defaultModel);
       expect(res.modelOutput!['created_at'], isNotNull);
-      expect(res.modelOutput!['model'], llm.model);
-      expect(res.modelOutput!['total_duration'], isNotNull);
-      expect(res.modelOutput!['load_duration'], isNotNull);
-      expect(res.modelOutput!['prompt_eval_count'], isNotNull);
-      expect(res.modelOutput!['prompt_eval_duration'], isNotNull);
-      expect(res.modelOutput!['eval_count'], isNotNull);
-      expect(res.modelOutput!['eval_duration'], isNotNull);
-      expect(res.modelOutput!['done'], isNotNull);
+      final generation = res.generations.first;
+      expect(generation.generationInfo, isNotNull);
+      expect(generation.generationInfo!['done'], isTrue);
+      expect(generation.generationInfo!['context'], isNotEmpty);
+      expect(generation.generationInfo!['total_duration'], greaterThan(0));
+      expect(generation.generationInfo!['load_duration'], greaterThan(0));
+      expect(generation.generationInfo!['prompt_eval_count'], greaterThan(0));
+      expect(generation.generationInfo!['eval_count'], greaterThan(0));
+      expect(generation.generationInfo!['eval_duration'], greaterThan(0));
     });
 
     test('Test stop logic on valid configuration', () async {
       const query = 'write an ordered list of five items';
-      final llm = Ollama();
       final res = await llm(
         query,
         options: const OllamaOptions(
@@ -147,7 +161,6 @@ void main() {
     });
 
     test('Test tokenize', () async {
-      final llm = Ollama();
       const text = 'antidisestablishmentarianism';
 
       final tokens = await llm.tokenize(PromptValue.string(text));
@@ -155,7 +168,7 @@ void main() {
     });
 
     test('Test different encoding than the model', () async {
-      final llm = Ollama(encoding: 'p50k_base');
+      llm.encoding = 'p50k_base';
       const text = 'antidisestablishmentarianism';
 
       final tokens = await llm.tokenize(PromptValue.string(text));
@@ -163,7 +176,6 @@ void main() {
     });
 
     test('Test countTokens', () async {
-      final llm = Ollama();
       const text = 'Hello, how are you?';
 
       final numTokens = await llm.countTokens(PromptValue.string(text));
@@ -172,9 +184,10 @@ void main() {
 
     test('Test streaming', () async {
       final promptTemplate = PromptTemplate.fromTemplate(
-        'List the numbers from 1 to {max_num} in order without any spaces or commas',
+        'List the numbers from 1 to {max_num} in order. '
+        'Output ONLY the numbers in one line without any spaces or commas. '
+        'NUMBERS:',
       );
-      final llm = Ollama();
       const stringOutputParser = StringOutputParser<String>();
 
       final chain = promptTemplate.pipe(llm).pipe(stringOutputParser);
@@ -184,20 +197,46 @@ void main() {
       String content = '';
       int count = 0;
       await for (final res in stream) {
-        content += res;
+        content += res.trim();
         count++;
       }
       expect(count, greaterThan(1));
-      expect(content, contains('1\n2\n3\n4\n5\n6\n7\n8\n9'));
+      expect(content, contains('123456789'));
+    });
+
+    test('Test raw mode', () async {
+      final res = await llm.invoke(
+        PromptValue.string(
+          '[INST] List the numbers from 1 to 9 in order. '
+          'Output ONLY the numbers in one line without any spaces or commas. '
+          'NUMBERS: [/INST]',
+        ),
+        options: const OllamaOptions(raw: true),
+      );
+      expect(
+        res.firstOutputAsString.replaceAll(RegExp(r'[\s\n]'), ''),
+        contains('123456789'),
+      );
+    });
+
+    test('Test JSON mode', () async {
+      final res = await llm.invoke(
+        PromptValue.string(
+          'List the numbers from 1 to 9 in order. Respond using JSON.',
+        ),
+        options: const OllamaOptions(format: OllamaResponseFormat.json),
+      );
+      expect(
+        res.firstOutputAsString.replaceAll(RegExp(r'[\s\n]'), ''),
+        contains('[1,2,3,4,5,6,7,8,9]'),
+      );
     });
 
     test('Test response seed', skip: true, () async {
-      final prompt = PromptValue.string('How are you?');
-      final llm = Ollama();
-
-      final options = OllamaOptions(
-        seed: 9999,
+      final prompt = PromptValue.string(
+        'Why is the sky blue? Reply in one sentence.',
       );
+      const options = OllamaOptions(seed: 9999);
 
       final res1 = await llm.invoke(
         prompt,
@@ -212,11 +251,6 @@ void main() {
       );
       expect(res2.generations, hasLength(1));
       final generation2 = res2.generations.first;
-
-      expect(
-        res1.modelOutput?['system_fingerprint'],
-        res2.modelOutput?['system_fingerprint'],
-      );
       expect(generation1.output, generation2.output);
     });
   });

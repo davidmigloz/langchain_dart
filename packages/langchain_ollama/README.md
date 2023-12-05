@@ -6,7 +6,7 @@
 [![](https://dcbadge.vercel.app/api/server/x4qbhqecVR?style=flat)](https://discord.gg/x4qbhqecVR)
 [![MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://github.com/davidmigloz/langchain_dart/blob/main/LICENSE)
 
-Ollama module for [LangChain.dart](https://github.com/davidmigloz/langchain_dart).
+[Ollama](https://ollama.ai) module for [LangChain.dart](https://github.com/davidmigloz/langchain_dart).
 
 ## Features
 
@@ -15,5 +15,5 @@ Ollama module for [LangChain.dart](https://github.com/davidmigloz/langchain_dart
 
 ## License
 
-LangChain.dart is licensed under the
+LangChain.dart is licensed under the 
 [MIT License](https://github.com/davidmigloz/langchain_dart/blob/main/LICENSE).
