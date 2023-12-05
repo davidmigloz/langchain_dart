@@ -125,16 +125,14 @@ class Ollama extends BaseLLM<OllamaOptions> {
   /// Create a new [Ollama] instance.
   ///
   /// Main configuration options:
+  /// - `baseUrl`: the base URL of Ollama API.
   /// - [Ollama.defaultOptions]
   ///
   /// Advance configuration options:
-  /// - `baseUrl`: the base URL to use. Defaults to localhost:11434. You can
-  ///   override this to use a different API URL, or to use a proxy.
   /// - `headers`: global headers to send with every request. You can use
   ///   this to set custom headers, or to override the default headers.
   /// - `queryParams`: global query parameters to send with every request. You
-  ///   can use this to set custom query parameters (e.g. Azure OpenAI API
-  ///   required to attach a `version` query parameter to every request).
+  ///   can use this to set custom query parameters.
   /// - `client`: the HTTP client to use. You can set your own HTTP client if
   ///   you need further customization (e.g. to use a Socks5 proxy).
   /// - [Ollama.encoding]
