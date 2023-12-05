@@ -3,6 +3,90 @@
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) 
 server for more details about each release.
 
+## 2023-12-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`langchain` - `v0.2.0`](#langchain---v020)
+ - [`langchain_google` - `v0.2.0`](#langchain_google---v020)
+ - [`langchain_openai` - `v0.2.0`](#langchain_openai---v020)
+
+Packages with other changes:
+
+ - [`langchain_chroma` - `v0.1.0+7`](#langchain_chroma---v0107)
+ - [`langchain_ollama` - `v0.0.1`](#langchain_ollama---v001)
+ - [`ollama_dart` - `v0.0.1+1`](#ollama_dart---v0011)
+ - [`openai_dart` - `v0.1.2`](#openai_dart---v012)
+ - [`langchain_pinecone` - `v0.0.6+6`](#langchain_pinecone---v0066)
+
+---
+
+#### `langchain` - `v0.2.0`
+
+> Migration guides:
+> - [`Retriever`](https://github.com/davidmigloz/langchain_dart/issues/248)
+> - [`Tools`](https://github.com/davidmigloz/langchain_dart/issues/243)
+
+ - **BREAKING** **FEAT**(retrievers): Move all retriever config options to RetrieverOptions ([#248](https://github.com/davidmigloz/langchain_dart/issues/248)). ([f5785b77](https://github.com/davidmigloz/langchain_dart/commit/f5785b772c11750bb57f4b143f978a84743f9222))
+ - **BREAKING** **FEAT**(tools): Allow to pass call options to tools ([#243](https://github.com/davidmigloz/langchain_dart/issues/243)). ([4a01adb9](https://github.com/davidmigloz/langchain_dart/commit/4a01adb9346b33cdb148d0f0aa7196e2b16867a9))
+ - **FEAT**: Allow to mutate default options ([#256](https://github.com/davidmigloz/langchain_dart/issues/256)). ([cb5e4058](https://github.com/davidmigloz/langchain_dart/commit/cb5e4058fb89f33c8495ac22fb240ce92daa683c))
+ - **REFACTOR**(doc-loaders): Use JsonPath.readValues in JsonLoader ([#245](https://github.com/davidmigloz/langchain_dart/issues/245)). ([3e159254](https://github.com/davidmigloz/langchain_dart/commit/3e159254379d03b70655f274b6fe81fc07a5095f))
+ - **FIX**(memory): Out of rage error in ConversationBufferWindowMemory ([#249](https://github.com/davidmigloz/langchain_dart/issues/249)). ([1b38bff7](https://github.com/davidmigloz/langchain_dart/commit/1b38bff7eff10327cd0154c0a8d47bd363870e2d))
+ - **FIX**(prompts): PromptTemplate stream should only emit if it has all inputs ([#247](https://github.com/davidmigloz/langchain_dart/issues/247)). ([a56a2ec5](https://github.com/davidmigloz/langchain_dart/commit/a56a2ec5e084d5c140b0e8469707ecaa19dfdaff))
+
+#### `langchain_google` - `v0.2.0`
+
+> Migration guides:
+> - [`VertexAI`](https://github.com/davidmigloz/langchain_dart/issues/241)
+> - [`ChatVertexAI`](https://github.com/davidmigloz/langchain_dart/issues/242)
+
+ - **BREAKING** **FEAT**(llms): Move all model config options to VertexAIOptions ([#241](https://github.com/davidmigloz/langchain_dart/issues/241)). ([a714882a](https://github.com/davidmigloz/langchain_dart/commit/a714882a3026c7f381b6853d6b61506060b0775e))
+ - **BREAKING** **FEAT**(chat-models): Move all model config options to ChatVertexAIOptions ([#242](https://github.com/davidmigloz/langchain_dart/issues/242)). ([89bef8a2](https://github.com/davidmigloz/langchain_dart/commit/89bef8a22fb0b74ffd9d7a4028c64b2d94d38578))
+ - **FEAT**: Allow to mutate default options ([#256](https://github.com/davidmigloz/langchain_dart/issues/256)). ([cb5e4058](https://github.com/davidmigloz/langchain_dart/commit/cb5e4058fb89f33c8495ac22fb240ce92daa683c))
+
+#### `langchain_openai` - `v0.2.0`
+
+> Migration guides:
+> - [`OpenAI`](https://github.com/davidmigloz/langchain_dart/issues/232)
+> - [`ChatOpenAI`](https://github.com/davidmigloz/langchain_dart/issues/240)
+> - [`OpenAIDallETool`](https://github.com/davidmigloz/langchain_dart/issues/244)
+
+ - **BREAKING** **FEAT**(llms): Move all model config options to OpenAIOptions ([#232](https://github.com/davidmigloz/langchain_dart/issues/232)). ([16e3e8e4](https://github.com/davidmigloz/langchain_dart/commit/16e3e8e449790444f2c1370f08430d42f15b6f5c))
+ - **BREAKING** **FEAT**(chat-models): Move all model config options to ChatOpenAIOptions ([#240](https://github.com/davidmigloz/langchain_dart/issues/240)). ([dd6a21a7](https://github.com/davidmigloz/langchain_dart/commit/dd6a21a75de28a0e605b287f75d9770bce4bb706))
+ - **BREAKING** **FEAT**(tools): Allow to pass call options to tools ([#243](https://github.com/davidmigloz/langchain_dart/issues/243)). ([4a01adb9](https://github.com/davidmigloz/langchain_dart/commit/4a01adb9346b33cdb148d0f0aa7196e2b16867a9))
+ - **BREAKING** **FEAT**(tools): Move all DallE config options to OpenAIDallEToolOptions ([#244](https://github.com/davidmigloz/langchain_dart/issues/244)). ([c24877c6](https://github.com/davidmigloz/langchain_dart/commit/c24877c6bb1063a06d2be7320cbf8ef94fa04ae0))
+ - **FEAT**: Allow to mutate default options ([#256](https://github.com/davidmigloz/langchain_dart/issues/256)). ([cb5e4058](https://github.com/davidmigloz/langchain_dart/commit/cb5e4058fb89f33c8495ac22fb240ce92daa683c))
+ - **FEAT**: Allow to update OpenAI key without having to recreate the wrapper ([#246](https://github.com/davidmigloz/langchain_dart/issues/246)). ([05739bd1](https://github.com/davidmigloz/langchain_dart/commit/05739bd1a43a82e1e5ba24543ccc985d48d48286))
+ - **FIX**(prompts): PromptTemplate stream should only emit if it has all inputs ([#247](https://github.com/davidmigloz/langchain_dart/issues/247)). ([a56a2ec5](https://github.com/davidmigloz/langchain_dart/commit/a56a2ec5e084d5c140b0e8469707ecaa19dfdaff))
+
+#### `langchain_chroma` - `v0.1.0+7`
+
+ - **DOCS**(vector_stores): Fix typo in Chroma docs. ([dd97db40](https://github.com/davidmigloz/langchain_dart/commit/dd97db400892fc42cd4d395ace93a40b313247c1))
+
+#### `langchain_ollama` - `v0.0.1`
+
+ - **FEAT**(chat-models): Add support for ChatOllama chat model ([#255](https://github.com/davidmigloz/langchain_dart/issues/255)). ([5b156910](https://github.com/davidmigloz/langchain_dart/commit/5b1569104a3e31fcba078e05b81e7a61b67a24dd))
+ - **FEAT**(embeddings): Add support for OllamaEmbeddings ([#254](https://github.com/davidmigloz/langchain_dart/issues/254)). ([b69701c7](https://github.com/davidmigloz/langchain_dart/commit/b69701c720ba63269ca3541881df4afa4c75504b))
+ - **FEAT**(llms): Add support for Ollama LLM ([#253](https://github.com/davidmigloz/langchain_dart/issues/253)). ([23362fdd](https://github.com/davidmigloz/langchain_dart/commit/23362fddf06c056fb2f497a6d1d1648e21895eb8))
+ - **DOCS**: Update Ollama docs. ([8161f6c9](https://github.com/davidmigloz/langchain_dart/commit/8161f6c99a6d5169e6df48bb0cfc95374ec4c664))
+
+#### `ollama_dart` - `v0.0.1+1`
+
+ - **DOCS**: Update README.me. ([be20dbaf](https://github.com/davidmigloz/langchain_dart/commit/be20dbaf4568c773aca88f1339a489092b3a5551))
+
+#### `openai_dart` - `v0.1.2`
+
+ - **FEAT**: Allow to update OpenAI key without having to recreate the wrapper ([#246](https://github.com/davidmigloz/langchain_dart/issues/246)). ([05739bd1](https://github.com/davidmigloz/langchain_dart/commit/05739bd1a43a82e1e5ba24543ccc985d48d48286))
+
+#### `langchain_pinecone` - `v0.0.6+6`
+
+ - Update a dependency to the latest release.
+
+
 ## 2023-11-21
 
 ### Changes
@@ -151,7 +235,7 @@ Packages with dependency updates only:
  - **FEAT**(agents): Support implementing custom agents using LCEL ([#230](https://github.com/davidmigloz/langchain_dart/issues/230)). ([625eeeb4](https://github.com/davidmigloz/langchain_dart/commit/625eeeb4ffa9d92c6fd8da003fa471f5d4752257))
  - **FEAT**(lcel): Add support for Runnable.mapInput() ([#229](https://github.com/davidmigloz/langchain_dart/issues/229)). ([7cc832ca](https://github.com/davidmigloz/langchain_dart/commit/7cc832ca82bd86b4031ca5f2c796e136ca646375))
  - **REFACTOR**(lcel): Rename RunnableMapFromItem to RunnableMapFromInput ([#228](https://github.com/davidmigloz/langchain_dart/issues/228)). ([7330cfcd](https://github.com/davidmigloz/langchain_dart/commit/7330cfcd0c7e19c831da1454c3ff4cc03d079cf7))
- - **REFACTOR**(chains): Improve handeling of input and output keys in chains ([#227](https://github.com/davidmigloz/langchain_dart/issues/227)). ([acf76b24](https://github.com/davidmigloz/langchain_dart/commit/acf76b240a076cf4b1f153bdaba9127580369d9e))
+ - **REFACTOR**(chains): Improve handling of input and output keys in chains ([#227](https://github.com/davidmigloz/langchain_dart/issues/227)). ([acf76b24](https://github.com/davidmigloz/langchain_dart/commit/acf76b240a076cf4b1f153bdaba9127580369d9e))
 
 #### `langchain_openai` - `v0.1.2`
 

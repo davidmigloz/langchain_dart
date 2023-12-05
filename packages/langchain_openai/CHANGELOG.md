@@ -1,3 +1,20 @@
+## 0.2.0
+
+> Note: This release has breaking changes.
+>
+> Migration guides:  
+> - [`OpenAI`](https://github.com/davidmigloz/langchain_dart/issues/232)
+> - [`ChatOpenAI`](https://github.com/davidmigloz/langchain_dart/issues/240)
+> - [`OpenAIDallETool`](https://github.com/davidmigloz/langchain_dart/issues/244)
+
+ - **BREAKING** **FEAT**(llms): Move all model config options to OpenAIOptions ([#232](https://github.com/davidmigloz/langchain_dart/issues/232)). ([16e3e8e4](https://github.com/davidmigloz/langchain_dart/commit/16e3e8e449790444f2c1370f08430d42f15b6f5c))
+ - **BREAKING** **FEAT**(chat-models): Move all model config options to ChatOpenAIOptions ([#240](https://github.com/davidmigloz/langchain_dart/issues/240)). ([dd6a21a7](https://github.com/davidmigloz/langchain_dart/commit/dd6a21a75de28a0e605b287f75d9770bce4bb706))
+ - **BREAKING** **FEAT**(tools): Allow to pass call options to tools ([#243](https://github.com/davidmigloz/langchain_dart/issues/243)). ([4a01adb9](https://github.com/davidmigloz/langchain_dart/commit/4a01adb9346b33cdb148d0f0aa7196e2b16867a9))
+ - **BREAKING** **FEAT**(tools): Move all DallE config options to OpenAIDallEToolOptions ([#244](https://github.com/davidmigloz/langchain_dart/issues/244)). ([c24877c6](https://github.com/davidmigloz/langchain_dart/commit/c24877c6bb1063a06d2be7320cbf8ef94fa04ae0))
+ - **FEAT**: Allow to mutate default options ([#256](https://github.com/davidmigloz/langchain_dart/issues/256)). ([cb5e4058](https://github.com/davidmigloz/langchain_dart/commit/cb5e4058fb89f33c8495ac22fb240ce92daa683c))
+ - **FEAT**: Allow to update OpenAI key without having to recreate the wrapper ([#246](https://github.com/davidmigloz/langchain_dart/issues/246)). ([05739bd1](https://github.com/davidmigloz/langchain_dart/commit/05739bd1a43a82e1e5ba24543ccc985d48d48286))
+ - **FIX**(prompts): PromptTemplate stream should only emit if it has all inputs ([#247](https://github.com/davidmigloz/langchain_dart/issues/247)). ([a56a2ec5](https://github.com/davidmigloz/langchain_dart/commit/a56a2ec5e084d5c140b0e8469707ecaa19dfdaff))
+
 ## 0.1.2+2
 
  - Update a dependency to the latest release.

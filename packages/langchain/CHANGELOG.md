@@ -1,3 +1,18 @@
+## 0.2.0
+
+> Note: This release has breaking changes.
+>
+> Migration guides:
+> - [`Retriever`](https://github.com/davidmigloz/langchain_dart/issues/248)
+> - [`Tools`](https://github.com/davidmigloz/langchain_dart/issues/243)
+
+ - **BREAKING** **FEAT**(retrievers): Move all retriever config options to RetrieverOptions ([#248](https://github.com/davidmigloz/langchain_dart/issues/248)). ([f5785b77](https://github.com/davidmigloz/langchain_dart/commit/f5785b772c11750bb57f4b143f978a84743f9222))
+ - **BREAKING** **FEAT**(tools): Allow to pass call options to tools ([#243](https://github.com/davidmigloz/langchain_dart/issues/243)). ([4a01adb9](https://github.com/davidmigloz/langchain_dart/commit/4a01adb9346b33cdb148d0f0aa7196e2b16867a9))
+ - **FEAT**: Allow to mutate default options ([#256](https://github.com/davidmigloz/langchain_dart/issues/256)). ([cb5e4058](https://github.com/davidmigloz/langchain_dart/commit/cb5e4058fb89f33c8495ac22fb240ce92daa683c))
+ - **REFACTOR**(doc-loaders): Use JsonPath.readValues in JsonLoader ([#245](https://github.com/davidmigloz/langchain_dart/issues/245)). ([3e159254](https://github.com/davidmigloz/langchain_dart/commit/3e159254379d03b70655f274b6fe81fc07a5095f))
+ - **FIX**(memory): Out of rage error in ConversationBufferWindowMemory ([#249](https://github.com/davidmigloz/langchain_dart/issues/249)). ([1b38bff7](https://github.com/davidmigloz/langchain_dart/commit/1b38bff7eff10327cd0154c0a8d47bd363870e2d))
+ - **FIX**(prompts): PromptTemplate stream should only emit if it has all inputs ([#247](https://github.com/davidmigloz/langchain_dart/issues/247)). ([a56a2ec5](https://github.com/davidmigloz/langchain_dart/commit/a56a2ec5e084d5c140b0e8469707ecaa19dfdaff))
+
 ## 0.1.1+1
 
  - **FIX**(storage): Conditionally import dart:io in LocalFileStore ([#237](https://github.com/davidmigloz/langchain_dart/issues/237)). ([71d337e6](https://github.com/davidmigloz/langchain_dart/commit/71d337e62af49f173369e402fa6a72e363fd8724))
@@ -8,7 +23,7 @@
  - **FEAT**(agents): Support implementing custom agents using LCEL ([#230](https://github.com/davidmigloz/langchain_dart/issues/230)). ([625eeeb4](https://github.com/davidmigloz/langchain_dart/commit/625eeeb4ffa9d92c6fd8da003fa471f5d4752257))
  - **FEAT**(lcel): Add support for Runnable.mapInput() ([#229](https://github.com/davidmigloz/langchain_dart/issues/229)). ([7cc832ca](https://github.com/davidmigloz/langchain_dart/commit/7cc832ca82bd86b4031ca5f2c796e136ca646375))
  - **REFACTOR**(lcel): Rename RunnableMapFromItem to RunnableMapFromInput ([#228](https://github.com/davidmigloz/langchain_dart/issues/228)). ([7330cfcd](https://github.com/davidmigloz/langchain_dart/commit/7330cfcd0c7e19c831da1454c3ff4cc03d079cf7))
- - **REFACTOR**(chains): Improve handeling of input and output keys in chains ([#227](https://github.com/davidmigloz/langchain_dart/issues/227)). ([acf76b24](https://github.com/davidmigloz/langchain_dart/commit/acf76b240a076cf4b1f153bdaba9127580369d9e))
+ - **REFACTOR**(chains): Improve handling of input and output keys in chains ([#227](https://github.com/davidmigloz/langchain_dart/issues/227)). ([acf76b24](https://github.com/davidmigloz/langchain_dart/commit/acf76b240a076cf4b1f153bdaba9127580369d9e))
 
 ## 0.1.0+2
 

@@ -1,3 +1,15 @@
+## 0.2.0
+
+> Note: This release has breaking changes.
+> 
+> Migration guides:
+> - [`VertexAI`](https://github.com/davidmigloz/langchain_dart/issues/241)
+> - [`ChatVertexAI`](https://github.com/davidmigloz/langchain_dart/issues/242)
+
+ - **BREAKING** **FEAT**(llms): Move all model config options to VertexAIOptions ([#241](https://github.com/davidmigloz/langchain_dart/issues/241)). ([a714882a](https://github.com/davidmigloz/langchain_dart/commit/a714882a3026c7f381b6853d6b61506060b0775e))
+ - **BREAKING** **FEAT**(chat-models): Move all model config options to ChatVertexAIOptions ([#242](https://github.com/davidmigloz/langchain_dart/issues/242)). ([89bef8a2](https://github.com/davidmigloz/langchain_dart/commit/89bef8a22fb0b74ffd9d7a4028c64b2d94d38578))
+ - **FEAT**: Allow to mutate default options ([#256](https://github.com/davidmigloz/langchain_dart/issues/256)). ([cb5e4058](https://github.com/davidmigloz/langchain_dart/commit/cb5e4058fb89f33c8495ac22fb240ce92daa683c))
+
 ## 0.1.0+4
 
  - Update a dependency to the latest release.

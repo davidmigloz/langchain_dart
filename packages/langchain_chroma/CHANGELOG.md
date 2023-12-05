@@ -1,3 +1,7 @@
+## 0.1.0+7
+
+ - **DOCS**(vector_stores): Fix typo in Chroma docs. ([dd97db40](https://github.com/davidmigloz/langchain_dart/commit/dd97db400892fc42cd4d395ace93a40b313247c1))
+
 ## 0.1.0+6
 
  - Update a dependency to the latest release.
