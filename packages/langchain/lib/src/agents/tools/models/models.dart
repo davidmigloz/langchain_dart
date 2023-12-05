@@ -1,5 +1,14 @@
+import '../../../model_io/language_models/models/models.dart';
 import '../../../utils/exception.dart';
 import '../base.dart';
+
+/// {@template tool_options}
+/// Generation options to pass into the Tool.
+/// {@endtemplate}
+class ToolOptions extends LanguageModelOptions {
+  /// {@macro tool_options}
+  const ToolOptions();
+}
 
 /// {@template tool_exception}
 /// An exception that a tool throws when execution error occurs.

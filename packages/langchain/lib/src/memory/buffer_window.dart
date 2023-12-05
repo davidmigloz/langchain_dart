@@ -5,15 +5,17 @@ import 'chat.dart';
 import 'models/models.dart';
 
 /// {@template conversation_buffer_window_memory}
-/// Buffer for storing a conversation in-memory inside a limited size window
-/// and then retrieving the messages at a later time.
+/// [ConversationBufferWindowMemory] is a type of memory that stores a
+/// conversation in [chatHistory] and then retrieves the last [k] interactions
+/// with the model (i.e. the last [k] input messages and the last [k] output
+/// messages).
 ///
 /// It uses [ChatMessageHistory] as in-memory storage by default.
 ///
 /// Example:
 /// ```dart
 /// final memory = ConversationBufferWindowMemory(k: 10);
-/// await memory.saveContext({'foo': 'bar'}, {'bar': 'foo'});
+/// await memory.saveContext({'input': 'bar'}, {'output': 'foo'});
 /// final res = await memory.loadMemoryVariables();
 /// // {'history': 'Human: bar\nAI: foo'}
 /// ```
@@ -33,23 +35,23 @@ final class ConversationBufferWindowMemory extends BaseChatMemory {
     this.functionPrefix = FunctionChatMessage.defaultPrefix,
   });
 
-  /// Number of messages to keep in the buffer.
+  /// Number of interactions to store in the buffer.
   final int k;
 
   /// The memory key to use for the chat history.
   /// This will be passed as input variable to the prompt.
   final String memoryKey;
 
-  /// The prefix to use for system messages.
+  /// The prefix to use for system messages if [returnMessages] is false.
   final String systemPrefix;
 
-  /// The prefix to use for human messages.
+  /// The prefix to use for human messages if [returnMessages] is false.
   final String humanPrefix;
 
-  /// The prefix to use for AI messages.
+  /// The prefix to use for AI messages if [returnMessages] is false.
   final String aiPrefix;
 
-  /// The prefix to use for function messages.
+  /// The prefix to use for function messages if [returnMessages] is false.
   final String functionPrefix;
 
   @override
@@ -75,7 +77,7 @@ final class ConversationBufferWindowMemory extends BaseChatMemory {
 
   Future<List<ChatMessage>> _getChatMessages() async {
     final historyMessages = await chatHistory.getChatMessages();
-    return historyMessages.length > k
+    return historyMessages.length > k * 2
         ? historyMessages.sublist(historyMessages.length - k * 2)
         : historyMessages;
   }

@@ -67,6 +67,37 @@ abstract base class BasePromptTemplate
     return Future.value(formatPrompt(input));
   }
 
+  @override
+  Stream<PromptValue> streamFromInputStream(
+    final Stream<InputValues> inputStream, {
+    final BaseLangChainOptions? options,
+  }) {
+    final userKeys = inputVariables.difference(
+      partialVariables?.keys.toSet() ?? {},
+    );
+    final userInput = <String, dynamic>{};
+    return inputStream
+        .asyncMap((final InputValues inputValues) {
+          for (final input in inputValues.entries) {
+            final key = input.key;
+            final value = input.value;
+            if (value is String) {
+              userInput[key] = (userInput[key] as String? ?? '') + value;
+            } else {
+              userInput[key] = value;
+            }
+          }
+          final hasAllUserValues = userKeys.every(userInput.containsKey);
+          if (hasAllUserValues) {
+            return formatPrompt(userInput);
+          } else {
+            return null;
+          }
+        })
+        .where((final res) => res != null)
+        .cast();
+  }
+
   /// Format the prompt given the input values and return a formatted string.
   ///
   /// - [values] - Any arguments to be passed to the prompt template.

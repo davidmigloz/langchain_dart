@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_unused_constructor_parameters
 import '../embeddings/base.dart';
 import '../models/models.dart';
+import '../retrievers/models/models.dart';
 import '../retrievers/vector_store.dart';
 import 'models/models.dart';
 
@@ -170,16 +171,14 @@ abstract class VectorStore {
 
   /// Returns a [VectorStoreRetriever] that uses this vector store.
   ///
-  /// - [searchType] is the type of search to perform, either
-  ///   [VectorStoreSearchType.similarity] (default) or
-  ///   [VectorStoreSearchType.mmr].
+  /// - [defaultOptions] are the default options for the retriever.
   VectorStoreRetriever asRetriever({
-    final VectorStoreSearchType searchType =
-        const VectorStoreSimilaritySearch(),
+    final VectorStoreRetrieverOptions defaultOptions =
+        const VectorStoreRetrieverOptions(),
   }) {
     return VectorStoreRetriever(
       vectorStore: this,
-      searchType: searchType,
+      defaultOptions: defaultOptions,
     );
   }
 }
