@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_redundant_argument_values
 import 'package:langchain/langchain.dart';
-import 'package:langchain_ollama/src/llms/models/models.dart';
-import 'package:langchain_ollama/src/llms/ollama.dart';
+import 'package:langchain_ollama/langchain_ollama.dart';
 import 'package:test/test.dart';
 
 void main() {
