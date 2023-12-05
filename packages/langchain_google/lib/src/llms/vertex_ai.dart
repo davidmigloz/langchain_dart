@@ -129,7 +129,7 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
   final VertexAIGenAIClient client;
 
   /// The default options to use when calling the model.
-  final VertexAIOptions defaultOptions;
+  VertexAIOptions defaultOptions;
 
   /// Scope required for Vertex AI API calls.
   static const cloudPlatformScope = VertexAIGenAIClient.cloudPlatformScope;

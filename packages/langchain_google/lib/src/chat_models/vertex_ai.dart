@@ -128,7 +128,7 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
   final VertexAIGenAIClient client;
 
   /// The default options to use when calling the model.
-  final ChatVertexAIOptions defaultOptions;
+  ChatVertexAIOptions defaultOptions;
 
   /// Scope required for Vertex AI API calls.
   static const cloudPlatformScope = VertexAIGenAIClient.cloudPlatformScope;
