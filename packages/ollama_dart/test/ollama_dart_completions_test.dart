@@ -116,7 +116,7 @@ void main() {
     test('Test response seed', () async {
       const request = GenerateCompletionRequest(
         model: defaultModel,
-        prompt: 'Why is the sky blue?',
+        prompt: 'Why is the sky blue? Reply in one sentence.',
         options: RequestOptions(
           seed: 9999,
         ),
