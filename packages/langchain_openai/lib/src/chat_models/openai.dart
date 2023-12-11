@@ -272,8 +272,11 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final ChatOpenAIOptions? options,
   }) {
     final messagesDtos = messages.toChatCompletionMessages();
-    final functionsDtos = options?.functions?.toFunctionObjects();
-    final functionCall = options?.functionCall?.toChatCompletionFunctionCall();
+    final functionsDtos = options?.functions?.toFunctionObjects() ??
+        defaultOptions.functions?.toFunctionObjects();
+    final functionCall =
+        options?.functionCall?.toChatCompletionFunctionCall() ??
+            defaultOptions.functionCall?.toChatCompletionFunctionCall();
     final responseFormat =
         options?.responseFormat ?? defaultOptions.responseFormat;
     final responseFormatDto = responseFormat?.toChatCompletionResponseFormat();
