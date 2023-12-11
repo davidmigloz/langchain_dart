@@ -186,6 +186,7 @@ abstract base class Tool<Options extends ToolOptions>
   Tool({
     required super.name,
     required super.description,
+    final String inputDescription = 'The input to the tool',
     super.returnDirect = false,
     super.handleToolError,
   }) : super(
@@ -194,7 +195,7 @@ abstract base class Tool<Options extends ToolOptions>
             'properties': {
               inputVar: {
                 'type': 'string',
-                'description': 'The input to the tool',
+                'description': inputDescription,
               },
             },
             'required': ['input'],
@@ -219,6 +220,7 @@ abstract base class Tool<Options extends ToolOptions>
   static Tool fromFunction<Options extends ToolOptions>({
     required final String name,
     required final String description,
+    final String inputDescription = 'The input to the tool',
     required final FutureOr<String> Function(
       String toolInput, {
       Options? options,
@@ -229,6 +231,7 @@ abstract base class Tool<Options extends ToolOptions>
     return _ToolFunc<Options>(
       name: name,
       description: description,
+      inputDescription: inputDescription,
       func: func,
       returnDirect: returnDirect,
       handleToolError: handleToolError,
@@ -260,6 +263,7 @@ final class _ToolFunc<Options extends ToolOptions> extends Tool<Options> {
   _ToolFunc({
     required super.name,
     required super.description,
+    super.inputDescription,
     required this.func,
     super.returnDirect = false,
     super.handleToolError,
