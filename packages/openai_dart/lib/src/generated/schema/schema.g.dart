@@ -621,30 +621,18 @@ const _$ChatCompletionToolTypeEnumMap = {
 _$ChatCompletionNamedToolChoiceImpl
     _$$ChatCompletionNamedToolChoiceImplFromJson(Map<String, dynamic> json) =>
         _$ChatCompletionNamedToolChoiceImpl(
-          type: $enumDecodeNullable(
-              _$ChatCompletionNamedToolChoiceTypeEnumMap, json['type'],
-              unknownValue: JsonKey.nullForUndefinedEnumValue),
-          function: json['function'] == null
-              ? null
-              : ChatCompletionFunctionCallOption.fromJson(
-                  json['function'] as Map<String, dynamic>),
+          type: $enumDecode(
+              _$ChatCompletionNamedToolChoiceTypeEnumMap, json['type']),
+          function: ChatCompletionFunctionCallOption.fromJson(
+              json['function'] as Map<String, dynamic>),
         );
 
 Map<String, dynamic> _$$ChatCompletionNamedToolChoiceImplToJson(
-    _$ChatCompletionNamedToolChoiceImpl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'type', _$ChatCompletionNamedToolChoiceTypeEnumMap[instance.type]);
-  writeNotNull('function', instance.function?.toJson());
-  return val;
-}
+        _$ChatCompletionNamedToolChoiceImpl instance) =>
+    <String, dynamic>{
+      'type': _$ChatCompletionNamedToolChoiceTypeEnumMap[instance.type]!,
+      'function': instance.function.toJson(),
+    };
 
 const _$ChatCompletionNamedToolChoiceTypeEnumMap = {
   ChatCompletionNamedToolChoiceType.function: 'function',

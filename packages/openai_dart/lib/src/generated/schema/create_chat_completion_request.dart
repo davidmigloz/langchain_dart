@@ -39,7 +39,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// The total length of input tokens and generated tokens is limited by the model's context length. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
     @JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,
 
-    /// How many chat completion choices to generate for each input message.
+    /// How many chat completion choices to generate for each input message. Note that you will be charged based on the number of generated tokens across all of the choices. Keep `n` as `1` to minimize costs.
     @JsonKey(includeIfNull: false) @Default(1) int? n,
 
     /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.

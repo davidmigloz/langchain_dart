@@ -16,14 +16,10 @@ class ChatCompletionNamedToolChoice with _$ChatCompletionNamedToolChoice {
   /// Factory constructor for ChatCompletionNamedToolChoice
   const factory ChatCompletionNamedToolChoice({
     /// The type of the tool. Currently, only `function` is supported.
-    @JsonKey(
-      includeIfNull: false,
-      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
-    )
-    ChatCompletionNamedToolChoiceType? type,
+    required ChatCompletionNamedToolChoiceType type,
 
     /// Forces the model to call the specified function.
-    @JsonKey(includeIfNull: false) ChatCompletionFunctionCallOption? function,
+    required ChatCompletionFunctionCallOption function,
   }) = _ChatCompletionNamedToolChoice;
 
   /// Object construction from a JSON representation

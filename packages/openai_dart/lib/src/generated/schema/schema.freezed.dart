@@ -3368,7 +3368,7 @@ mixin _$CreateChatCompletionRequest {
   @JsonKey(name: 'max_tokens', includeIfNull: false)
   int? get maxTokens => throw _privateConstructorUsedError;
 
-  /// How many chat completion choices to generate for each input message.
+  /// How many chat completion choices to generate for each input message. Note that you will be charged based on the number of generated tokens across all of the choices. Keep `n` as `1` to minimize costs.
   @JsonKey(includeIfNull: false)
   int? get n => throw _privateConstructorUsedError;
 
@@ -3920,7 +3920,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   @JsonKey(name: 'max_tokens', includeIfNull: false)
   final int? maxTokens;
 
-  /// How many chat completion choices to generate for each input message.
+  /// How many chat completion choices to generate for each input message. Note that you will be charged based on the number of generated tokens across all of the choices. Keep `n` as `1` to minimize costs.
   @override
   @JsonKey(includeIfNull: false)
   final int? n;
@@ -4182,7 +4182,7 @@ abstract class _CreateChatCompletionRequest
   int? get maxTokens;
   @override
 
-  /// How many chat completion choices to generate for each input message.
+  /// How many chat completion choices to generate for each input message. Note that you will be charged based on the number of generated tokens across all of the choices. Keep `n` as `1` to minimize costs.
   @JsonKey(includeIfNull: false)
   int? get n;
   @override
@@ -6520,7 +6520,7 @@ mixin _$FunctionObject {
   @JsonKey(includeIfNull: false)
   String? get description => throw _privateConstructorUsedError;
 
-  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
   ///
   /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
   Map<String, dynamic> get parameters => throw _privateConstructorUsedError;
@@ -6645,12 +6645,12 @@ class _$FunctionObjectImpl extends _FunctionObject {
   @JsonKey(includeIfNull: false)
   final String? description;
 
-  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
   ///
   /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
   final Map<String, dynamic> _parameters;
 
-  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
   ///
   /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
   @override
@@ -6718,7 +6718,7 @@ abstract class _FunctionObject extends FunctionObject {
   String? get description;
   @override
 
-  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
   ///
   /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
   Map<String, dynamic> get parameters;
@@ -6917,14 +6917,11 @@ ChatCompletionNamedToolChoice _$ChatCompletionNamedToolChoiceFromJson(
 /// @nodoc
 mixin _$ChatCompletionNamedToolChoice {
   /// The type of the tool. Currently, only `function` is supported.
-  @JsonKey(
-      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-  ChatCompletionNamedToolChoiceType? get type =>
+  ChatCompletionNamedToolChoiceType get type =>
       throw _privateConstructorUsedError;
 
   /// Forces the model to call the specified function.
-  @JsonKey(includeIfNull: false)
-  ChatCompletionFunctionCallOption? get function =>
+  ChatCompletionFunctionCallOption get function =>
       throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -6942,14 +6939,10 @@ abstract class $ChatCompletionNamedToolChoiceCopyWith<$Res> {
           ChatCompletionNamedToolChoice>;
   @useResult
   $Res call(
-      {@JsonKey(
-          includeIfNull: false,
-          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      ChatCompletionNamedToolChoiceType? type,
-      @JsonKey(includeIfNull: false)
-      ChatCompletionFunctionCallOption? function});
+      {ChatCompletionNamedToolChoiceType type,
+      ChatCompletionFunctionCallOption function});
 
-  $ChatCompletionFunctionCallOptionCopyWith<$Res>? get function;
+  $ChatCompletionFunctionCallOptionCopyWith<$Res> get function;
 }
 
 /// @nodoc
@@ -6966,29 +6959,25 @@ class _$ChatCompletionNamedToolChoiceCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
-    Object? function = freezed,
+    Object? type = null,
+    Object? function = null,
   }) {
     return _then(_value.copyWith(
-      type: freezed == type
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionNamedToolChoiceType?,
-      function: freezed == function
+              as ChatCompletionNamedToolChoiceType,
+      function: null == function
           ? _value.function
           : function // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionFunctionCallOption?,
+              as ChatCompletionFunctionCallOption,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $ChatCompletionFunctionCallOptionCopyWith<$Res>? get function {
-    if (_value.function == null) {
-      return null;
-    }
-
-    return $ChatCompletionFunctionCallOptionCopyWith<$Res>(_value.function!,
+  $ChatCompletionFunctionCallOptionCopyWith<$Res> get function {
+    return $ChatCompletionFunctionCallOptionCopyWith<$Res>(_value.function,
         (value) {
       return _then(_value.copyWith(function: value) as $Val);
     });
@@ -7005,15 +6994,11 @@ abstract class _$$ChatCompletionNamedToolChoiceImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(
-          includeIfNull: false,
-          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      ChatCompletionNamedToolChoiceType? type,
-      @JsonKey(includeIfNull: false)
-      ChatCompletionFunctionCallOption? function});
+      {ChatCompletionNamedToolChoiceType type,
+      ChatCompletionFunctionCallOption function});
 
   @override
-  $ChatCompletionFunctionCallOptionCopyWith<$Res>? get function;
+  $ChatCompletionFunctionCallOptionCopyWith<$Res> get function;
 }
 
 /// @nodoc
@@ -7029,18 +7014,18 @@ class __$$ChatCompletionNamedToolChoiceImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
-    Object? function = freezed,
+    Object? type = null,
+    Object? function = null,
   }) {
     return _then(_$ChatCompletionNamedToolChoiceImpl(
-      type: freezed == type
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionNamedToolChoiceType?,
-      function: freezed == function
+              as ChatCompletionNamedToolChoiceType,
+      function: null == function
           ? _value.function
           : function // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionFunctionCallOption?,
+              as ChatCompletionFunctionCallOption,
     ));
   }
 }
@@ -7050,11 +7035,7 @@ class __$$ChatCompletionNamedToolChoiceImplCopyWithImpl<$Res>
 class _$ChatCompletionNamedToolChoiceImpl
     extends _ChatCompletionNamedToolChoice {
   const _$ChatCompletionNamedToolChoiceImpl(
-      {@JsonKey(
-          includeIfNull: false,
-          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      this.type,
-      @JsonKey(includeIfNull: false) this.function})
+      {required this.type, required this.function})
       : super._();
 
   factory _$ChatCompletionNamedToolChoiceImpl.fromJson(
@@ -7063,14 +7044,11 @@ class _$ChatCompletionNamedToolChoiceImpl
 
   /// The type of the tool. Currently, only `function` is supported.
   @override
-  @JsonKey(
-      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-  final ChatCompletionNamedToolChoiceType? type;
+  final ChatCompletionNamedToolChoiceType type;
 
   /// Forces the model to call the specified function.
   @override
-  @JsonKey(includeIfNull: false)
-  final ChatCompletionFunctionCallOption? function;
+  final ChatCompletionFunctionCallOption function;
 
   @override
   String toString() {
@@ -7110,12 +7088,8 @@ class _$ChatCompletionNamedToolChoiceImpl
 abstract class _ChatCompletionNamedToolChoice
     extends ChatCompletionNamedToolChoice {
   const factory _ChatCompletionNamedToolChoice(
-          {@JsonKey(
-              includeIfNull: false,
-              unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-          final ChatCompletionNamedToolChoiceType? type,
-          @JsonKey(includeIfNull: false)
-          final ChatCompletionFunctionCallOption? function}) =
+          {required final ChatCompletionNamedToolChoiceType type,
+          required final ChatCompletionFunctionCallOption function}) =
       _$ChatCompletionNamedToolChoiceImpl;
   const _ChatCompletionNamedToolChoice._() : super._();
 
@@ -7125,14 +7099,11 @@ abstract class _ChatCompletionNamedToolChoice
   @override
 
   /// The type of the tool. Currently, only `function` is supported.
-  @JsonKey(
-      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-  ChatCompletionNamedToolChoiceType? get type;
+  ChatCompletionNamedToolChoiceType get type;
   @override
 
   /// Forces the model to call the specified function.
-  @JsonKey(includeIfNull: false)
-  ChatCompletionFunctionCallOption? get function;
+  ChatCompletionFunctionCallOption get function;
   @override
   @JsonKey(ignore: true)
   _$$ChatCompletionNamedToolChoiceImplCopyWith<
@@ -20495,7 +20466,7 @@ class _$ChatCompletionFunctionMessageImpl
   @JsonKey()
   final ChatCompletionMessageRole role;
 
-  /// The return value from the function call, to return to the model.
+  /// The contents of the function message.
   @override
   final String content;
 
@@ -20691,7 +20662,7 @@ abstract class ChatCompletionFunctionMessage extends ChatCompletionMessage {
   ChatCompletionMessageRole get role;
   @override
 
-  /// The return value from the function call, to return to the model.
+  /// The contents of the function message.
   String get content;
 
   /// The name of the function to call.
