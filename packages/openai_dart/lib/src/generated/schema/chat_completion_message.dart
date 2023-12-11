@@ -96,7 +96,7 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
     /// The role of the messages author, in this case `function`.
     @Default(ChatCompletionMessageRole.function) ChatCompletionMessageRole role,
 
-    /// The return value from the function call, to return to the model.
+    /// The contents of the function message.
     required String content,
 
     /// The name of the function to call.
