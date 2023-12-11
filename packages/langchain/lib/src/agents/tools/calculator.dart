@@ -27,9 +27,9 @@ final class CalculatorTool extends Tool<ToolOptions> {
   CalculatorTool()
       : super(
           name: 'calculator',
-          description: 'Useful for getting the result of a math expression. '
-              'The input to this tool should be a valid mathematical '
-              'expression that could be executed by a simple calculator.',
+          description: 'Useful for getting the result of a math expression '
+              'that could be executed by a simple calculator.',
+          inputDescription: 'A valid mathematical expression to evaluate',
         );
 
   final _parser = Parser();
