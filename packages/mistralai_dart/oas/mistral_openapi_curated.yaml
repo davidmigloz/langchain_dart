@@ -1,0 +1,469 @@
+openapi: 3.0.0
+
+info:
+  title: Mistral AI API
+  description: API Spec for Mistral API. Please see https://docs.mistral.ai/api for more details.
+  version: 0.0.1
+
+servers:
+  - url: https://api.mistral.ai/v1
+    description: Mistral AI server URL
+
+tags:
+  - name: Chat
+    description: Given a list of messages comprising a conversation, the model will return a response.
+  - name: Embeddings
+    description: Get a vector representation of a given input.
+  - name: Models
+    description: List and describe the various models available.
+
+paths:
+  /chat/completions:
+    post:
+      operationId: createChatCompletion
+      tags:
+        - Chat
+      summary: Create Chat Completions.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatCompletionRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatCompletionResponse'
+  /embeddings:
+    post:
+      operationId: createEmbedding
+      tags:
+        - Embeddings
+      summary: Create Embeddings.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmbeddingRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmbeddingResponse'
+  /models:
+    get:
+      operationId: listModels
+      tags:
+        - Models
+      summary: List Available Models.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelList'
+
+components:
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: http
+      scheme: 'bearer'
+
+  schemas:
+    ChatCompletionRequest:
+      type: object
+      description: Request class for the chat completion endpoint.
+      properties:
+        model:
+          title: ChatCompletionModel
+          description: >
+            ID of the model to use. You can use the [List Available
+            Models](https://docs.mistral.ai/api#operation/listModels) API to see all of your available
+            models, or see our [Model overview](https://docs.mistral.ai/models) for model descriptions.
+          anyOf:
+            - type: string
+              description: The ID of the model to use for this request.
+            - type: string
+              title: ChatCompletionModels
+              description: |
+                Available chat completion models. Mind that the list may not be exhaustive nor up-to-date.
+              enum:
+                - mistral-medium
+                - mistral-small
+                - mistral-tiny
+        messages:
+          description: >
+            The prompt(s) to generate completions for, encoded as a list of dict
+            with role and content.
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatCompletionMessage'
+        temperature:
+          type: number
+          minimum: 0
+          maximum: 2
+          default: 0.7
+          example: 0.7
+          nullable: true
+          description: >
+            What sampling temperature to use, between 0.0 and 2.0. Higher values
+            like 0.8 will make the output more random, while lower values like
+            0.2 will make it more focused and deterministic.
+
+
+            We generally recommend altering this or `top_p` but not both.
+        top_p:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 1
+          example: 1
+          nullable: true
+          description: >
+            Nucleus sampling, where the model considers the results of the
+            tokens with `top_p` probability mass. So 0.1 means only the tokens
+            comprising the top 10% probability mass are considered.
+
+
+            We generally recommend altering this or `temperature` but not both.
+        max_tokens:
+          type: integer
+          minimum: 0
+          default: null
+          example: 16
+          nullable: true
+          description: >
+            The maximum number of tokens to generate in the completion.
+
+
+            The token count of your prompt plus `max_tokens` cannot exceed the
+            model's context length.
+        stream:
+          type: boolean
+          default: false
+          nullable: true
+          description: >
+            Whether to stream back partial progress. If set, tokens will be sent
+            as data-only server-sent events as they become available, with the
+            stream terminated by a data: [DONE] message. Otherwise, the server
+            will hold the request open until the timeout or until completion,
+            with the response containing the full result as JSON.
+        safe_mode:
+          type: boolean
+          default: false
+          description: |
+            Whether to inject a safety prompt before all conversations.
+        random_seed:
+          type: integer
+          default: null
+          description: >
+            The seed to use for random sampling. If set, different calls will
+            generate deterministic results.
+      required:
+        - model
+        - messages
+    ChatCompletionResponse:
+      type: object
+      description: Response class for the chat completion endpoint.
+      properties:
+        id:
+          type: string
+          description: The unique identifier for this completion.
+          example: cmpl-e5cc70bb28c444948073e77776eb30ef
+        object:
+          type: string
+          description: The object type, which is always `chat.completion`.
+          example: chat.completion
+        created:
+          type: integer
+          description: The timestamp of when this completion was created.
+          example: 1702256327
+        model:
+          type: string
+          description: The model used for this completion.
+          example: mistral-tiny
+        choices:
+          type: array
+          description: The list of choices for this completion.
+          items:
+            type: object
+            title: ChatCompletionChoice
+            description: A choice in a chat completion.
+            required:
+              - index
+              - text
+              - finish_reason
+            properties:
+              index:
+                type: integer
+                description: The index of this choice.
+                example: 0
+              message:
+                $ref: '#/components/schemas/ChatCompletionMessage'
+              finish_reason:
+                $ref: '#/components/schemas/ChatCompletionFinishReason'
+        usage:
+          $ref: '#/components/schemas/ChatCompletionUsage'
+      required:
+        - id
+        - object
+        - created
+        - model
+        - choices
+        - usage
+    ChatCompletionMessage:
+      type: object
+      description: A message in a chat conversation.
+      properties:
+        role:
+          $ref: '#/components/schemas/ChatCompletionMessageRole'
+        content:
+          type: string
+          description: The message content.
+          example: What is the best French cheese?
+      required:
+        - role
+        - content
+    ChatCompletionMessageRole:
+      type: string
+      enum:
+          - agent
+          - user
+          - assistant
+      description: The role of the message.
+      example: user
+    ChatCompletionFinishReason:
+      type: string
+      enum:
+        - stop
+        - length
+        - model_length
+      description: The reason the model stopped generating tokens.
+      example: stop
+    ChatCompletionUsage:
+      type: object
+      description: The usage statistics for this completion.
+      properties:
+        prompt_tokens:
+          type: integer
+          description: The number of tokens in the prompt.
+          example: 14
+        completion_tokens:
+          type: integer
+          description: The number of tokens in the completion.
+          example: 93
+        total_tokens:
+          type: integer
+          description: The total number of tokens generated.
+          example: 107
+      required:
+        - prompt_tokens
+        - completion_tokens
+        - total_tokens
+    ChatCompletionStreamResponse:
+      type: object
+      description: Represents a streamed chunk of a chat completion response returned by model, based on the provided input.
+      properties:
+        id:
+          type: string
+          description: The unique identifier for this completion.
+          example: cmpl-e5cc70bb28c444948073e77776eb30ef
+        object:
+          type: string
+          description: The object type, which is always `chat.completion.chunk`.
+          example: chat.completion.chunk
+        created:
+          type: integer
+          description: The timestamp of when this completion was created.
+          example: 1702256327
+        model:
+          type: string
+          description: The model used for this completion.
+          example: mistral-tiny
+        choices:
+          type: array
+          description: The list of choices for this completion.
+          items:
+            type: object
+            title: ChatCompletionStreamChoice
+            description: A choice in a chat completion stream.
+            required:
+              - index
+              - delta
+            properties:
+              index:
+                type: integer
+                description: The index of this choice.
+                example: 0
+              delta:
+                $ref: '#/components/schemas/ChatCompletionStreamDelta'
+              finish_reason:
+                $ref: '#/components/schemas/ChatCompletionFinishReason'
+      required:
+        - id
+        - model
+        - choices
+    ChatCompletionStreamDelta:
+      type: object
+      description: A chat completion delta generated by streamed model responses.
+      properties:
+        role:
+          $ref: '#/components/schemas/ChatCompletionMessageRole'
+        content:
+          type: string
+          description: The message content.
+          example: What is the best French cheese?
+    EmbeddingRequest:
+      type: object
+      description: Request class for the embedding endpoint.
+      properties:
+        model:
+          title: EmbeddingModel
+          description: >
+            ID of the model to use. You can use the [List Available
+            Models](https://docs.mistral.ai/api#operation/listModels) API to see all of your available
+            models, or see our [Model overview](https://docs.mistral.ai/models) for model descriptions.
+          anyOf:
+            - type: string
+              description: The ID of the model to use for this request.
+            - type: string
+              title: EmbeddingModels
+              description: |
+                Available embedding models. Mind that the list may not be exhaustive nor up-to-date.
+              enum:
+                - mistral-embed
+        input:
+          type: array
+          items:
+            type: string
+          example:
+            - Hello
+            - world
+          description: |
+            The list of strings to embed.
+        encoding_format:
+          type: string
+          title: EmbeddingEncodingFormat
+          enum:
+            - float
+          default: float
+          example: float
+          description: |
+            The format of the output data.
+      required:
+        - model
+        - input
+    EmbeddingResponse:
+      type: object
+      description: Response class for the embedding endpoint.
+      properties:
+        id:
+          type: string
+          description: The unique identifier for this embedding response.
+          example: embd-aad6fc62b17349b192ef09225058bc45
+        object:
+          type: string
+          description: The object type, which is always `list`.
+          example: list
+        data:
+          type: array
+          description: The list of embeddings.
+          items:
+            $ref: '#/components/schemas/Embedding'
+        model:
+          type: string
+          description: The model used for this embedding.
+        usage:
+          type: object
+          title: EmbeddingUsage
+          description: The usage statistics for this embedding.
+          properties:
+            prompt_tokens:
+              type: integer
+              description: The number of tokens in the prompt.
+              example: 9
+            total_tokens:
+              type: integer
+              description: The total number of tokens generated.
+              example: 9
+          required:
+            - prompt_tokens
+            - total_tokens
+      required:
+        - id
+        - object
+        - data
+        - model
+        - usage
+    Embedding:
+      type: object
+      description: A generated embedding.
+      properties:
+        object:
+          type: string
+          description: The object type, which is always `embedding`.
+          example: embedding
+        embedding:
+          type: array
+          description: The embedding vector.
+          items:
+            type: number
+          example:
+            - 0.1
+            - 0.2
+            - 0.3
+        index:
+          type: integer
+          description: The index of this embedding.
+          example: 0
+      required:
+        - object
+        - embedding
+        - index
+    ModelList:
+      type: object
+      description: Response class for the list models endpoint.
+      properties:
+        object:
+          type: string
+          description: The object type, which is always `list`.
+        data:
+          type: array
+          description: The list of models.
+          items:
+            $ref: '#/components/schemas/Model'
+      required:
+        - object
+        - data
+    Model:
+      type: object
+      description: A model.
+      properties:
+        id:
+          type: string
+          description: The unique identifier for this model.
+        object:
+          type: string
+          description: The object type, which is always `model`.
+        created:
+          type: integer
+          description: The timestamp of when this model was created.
+        owned_by:
+          type: string
+          description: The organization who owns this model.
+      required:
+        - id
+        - object
+        - created
+        - owned_by
+
+security:
+  - ApiKeyAuth: [ ]
