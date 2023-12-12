@@ -1,0 +1,6 @@
+# melos_managed_dependency_overrides: langchain,mistralai_dart
+dependency_overrides:
+  langchain:
+    path: ../langchain
+  mistralai_dart:
+    path: ../mistralai_dart

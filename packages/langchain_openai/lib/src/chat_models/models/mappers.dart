@@ -42,7 +42,8 @@ extension _ChatMessageMapper on ChatMessage {
           name: functionChatMessage.name,
           content: functionChatMessage.content,
         ),
-      _ => throw UnsupportedError('Unsupported ChatMessage type'),
+      CustomChatMessage() =>
+        throw UnsupportedError('OpenAI does not support custom messages'),
     };
   }
 }

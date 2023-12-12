@@ -2,11 +2,11 @@ import 'package:langchain/langchain.dart';
 
 import '../../llms/models/models.dart';
 
-/// {@template chat_model_options}
+/// {@template chat_ollama_options}
 /// Options to pass into ChatOllama.
 /// {@endtemplate}
 class ChatOllamaOptions extends ChatModelOptions implements OllamaOptions {
-  /// {@macro chat_model_options}
+  /// {@macro chat_ollama_options}
   const ChatOllamaOptions({
     this.model = 'llama2',
     this.system,
