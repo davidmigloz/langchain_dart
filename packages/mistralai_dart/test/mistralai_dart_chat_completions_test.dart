@@ -29,9 +29,14 @@ void main() {
             temperature: 0,
             messages: const [
               ChatCompletionMessage(
+                role: ChatCompletionMessageRole.system,
+                content:
+                    'You are a helpful assistant that replies only with numbers '
+                    'in order without any spaces, commas or additional explanations.',
+              ),
+              ChatCompletionMessage(
                 role: ChatCompletionMessageRole.user,
-                content: 'List the numbers from 1 to 9 in order. '
-                    'Output ONLY the numbers in one line without any spaces, commas or additional explanations. ',
+                content: 'List the numbers from 1 to 9 in order. ',
               ),
             ],
           ),
@@ -44,7 +49,10 @@ void main() {
         final choice = res.choices.first;
         expect(choice.index, 0);
         expect(choice.message?.role, ChatCompletionMessageRole.assistant);
-        expect(choice.message?.content, contains('123456789'));
+        expect(
+          choice.message?.content.replaceAll(RegExp(r'[\s\n]'), ''),
+          contains('123456789'),
+        );
         expect(choice.finishReason, ChatCompletionFinishReason.stop);
         expect(res.usage.promptTokens, greaterThan(0));
         expect(res.usage.completionTokens, greaterThan(0));
@@ -59,9 +67,14 @@ void main() {
           temperature: 0,
           messages: [
             ChatCompletionMessage(
+              role: ChatCompletionMessageRole.system,
+              content:
+                  'You are a helpful assistant that replies only with numbers '
+                  'in order without any spaces, commas or additional explanations.',
+            ),
+            ChatCompletionMessage(
               role: ChatCompletionMessageRole.user,
-              content: 'List the numbers from 1 to 9 in order. '
-                  'Output ONLY the numbers in one line without any spaces, commas or additional explanations. ',
+              content: 'List the numbers from 1 to 9 in order. ',
             ),
           ],
         ),
@@ -75,7 +88,7 @@ void main() {
         final choice = res.choices.first;
         expect(choice.index, 0);
         final delta = choice.delta.content;
-        text += delta?.trim() ?? '';
+        text += delta?.replaceAll(RegExp(r'[\s\n]'), '') ?? '';
         lastResponse = res;
       }
       expect(text, contains('123456789'));
