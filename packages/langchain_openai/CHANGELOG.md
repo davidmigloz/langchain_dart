@@ -1,3 +1,7 @@
+## 0.2.0+1
+
+ - **FIX**(chat-models): Fix ChatOpenAI not considering functions from default options ([#257](https://github.com/davidmigloz/langchain_dart/issues/257)). ([cd864783](https://github.com/davidmigloz/langchain_dart/commit/cd864783f7190f7e8aa8988ba5c2cb5f7bfb3fad))
+
 ## 0.2.0
 
 > Note: This release has breaking changes.

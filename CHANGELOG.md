@@ -3,11 +3,82 @@
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) 
 server for more details about each release.
 
+## 2023-12-12
+
+### Changes
+
+---
+
+New packages:
+
+ - [`mistralai_dart` - `v0.0.1`](#mistralai_dart---v001)
+ - [`langchain_mistralai` - `v0.0.1`](#langchain_mistralai---v001)
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain` - `v0.2.1`](#langchain---v021)
+ - [`langchain_ollama` - `v0.0.1+1`](#langchain_ollama---v0011)
+ - [`langchain_openai` - `v0.2.0+1`](#langchain_openai---v0201)
+ - [`openai_dart` - `v0.1.2+1`](#openai_dart---v0121)
+ - [`langchain_pinecone` - `v0.0.6+7`](#langchain_pinecone---v0067)
+ - [`langchain_chroma` - `v0.1.0+8`](#langchain_chroma---v0108)
+ - [`langchain_google` - `v0.2.0+1`](#langchain_google---v0201)
+
+---
+
+#### `langchain` - `v0.2.1`
+
+ - **FEAT**(tools): Support customizing Tool input description ([#258](https://github.com/davidmigloz/langchain_dart/issues/258)). ([a9a1b2a0](https://github.com/davidmigloz/langchain_dart/commit/a9a1b2a0f4fa5fee320e9ca5b46a99a0b834035c))
+ - **DOCS**: Update Mistral AI documentation ([#265](https://github.com/davidmigloz/langchain_dart/issues/265)). ([59b4127e](https://github.com/davidmigloz/langchain_dart/commit/59b4127eddb7a04bafa34b11b071336ab336e7a9))
+
+#### `langchain_mistralai` - `v0.0.1`
+
+ - **FEAT**(chat-models): Add support for ChatMistralAI wrapper ([#262](https://github.com/davidmigloz/langchain_dart/issues/262)). ([1364afec](https://github.com/davidmigloz/langchain_dart/commit/1364afec6ea56043ae17d5460276b10bf19b124e))
+ - **FEAT**(embeddings): Add support for MistralAIEmbeddings ([#254](https://github.com/davidmigloz/langchain_dart/issues/254)) ([#264](https://github.com/davidmigloz/langchain_dart/issues/264)). ([1c6bb1a3](https://github.com/davidmigloz/langchain_dart/commit/1c6bb1a3089c94340267f1091d226c3696efc1f1))
+
+#### `langchain_ollama` - `v0.0.1+1`
+
+ - **REFACTOR**(chat-models): Minor changes in ChatOllama. ([725b8ff0](https://github.com/davidmigloz/langchain_dart/commit/725b8ff0dde5507378a6f2f54e5979f2f596aa2f))
+
+#### `langchain_openai` - `v0.2.0+1`
+
+ - **FIX**(chat-models): Fix ChatOpenAI not considering functions from default options ([#257](https://github.com/davidmigloz/langchain_dart/issues/257)). ([cd864783](https://github.com/davidmigloz/langchain_dart/commit/cd864783f7190f7e8aa8988ba5c2cb5f7bfb3fad))
+
+#### `mistralai_dart` - `v0.0.1`
+
+ - **FIX**(mistralai_dart): Wrong role used as system role ([#263](https://github.com/davidmigloz/langchain_dart/issues/263)). ([7d68a871](https://github.com/davidmigloz/langchain_dart/commit/7d68a871a7bdd940544aa20e2514099a215da782))
+ - **FEAT**(mistralai_dart): Implement Dart client for Mistral AI API ([#261](https://github.com/davidmigloz/langchain_dart/issues/261)). ([f4954c59](https://github.com/davidmigloz/langchain_dart/commit/f4954c59f17c6427d554db7b380073302fb08175))
+
+#### `openai_dart` - `v0.1.2+1`
+
+ - **FIX**(openai_dart): Make ChatCompletionNamedToolChoice fields required ([#259](https://github.com/davidmigloz/langchain_dart/issues/259)). ([4c7d0436](https://github.com/davidmigloz/langchain_dart/commit/4c7d0436070ede83369b9a667ca4c6d2cac99f1a))
+
+#### `langchain_pinecone` - `v0.0.6+7`
+
+ - Update a dependency to the latest release.
+
+#### `langchain_chroma` - `v0.1.0+8`
+
+ - Update a dependency to the latest release.
+
+#### `langchain_google` - `v0.2.0+1`
+
+ - Update a dependency to the latest release.
+
+
 ## 2023-12-05
 
 ### Changes
 
 ---
+
+New packages:
+
+ - [`langchain_ollama` - `v0.0.1`](#langchain_ollama---v001)
 
 Packages with breaking changes:
 
@@ -18,7 +89,6 @@ Packages with breaking changes:
 Packages with other changes:
 
  - [`langchain_chroma` - `v0.1.0+7`](#langchain_chroma---v0107)
- - [`langchain_ollama` - `v0.0.1`](#langchain_ollama---v001)
  - [`ollama_dart` - `v0.0.1+1`](#ollama_dart---v0011)
  - [`openai_dart` - `v0.1.2`](#openai_dart---v012)
  - [`langchain_pinecone` - `v0.0.6+6`](#langchain_pinecone---v0066)
@@ -93,13 +163,13 @@ Packages with other changes:
 
 ---
 
+New packages:
+
+ - [`ollama_dart` - `v0.0.1`](#ollama_dart---v001)
+
 Packages with breaking changes:
 
  - There are no breaking changes in this release.
-
-Packages with other changes:
-
- - [`ollama_dart` - `v0.0.1`](#ollama_dart---v001)
 
 ---
 

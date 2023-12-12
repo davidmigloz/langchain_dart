@@ -1,3 +1,8 @@
+## 0.2.1
+
+ - **FEAT**(tools): Support customizing Tool input description ([#258](https://github.com/davidmigloz/langchain_dart/issues/258)). ([a9a1b2a0](https://github.com/davidmigloz/langchain_dart/commit/a9a1b2a0f4fa5fee320e9ca5b46a99a0b834035c))
+ - **DOCS**: Update Mistral AI documentation ([#265](https://github.com/davidmigloz/langchain_dart/issues/265)). ([59b4127e](https://github.com/davidmigloz/langchain_dart/commit/59b4127eddb7a04bafa34b11b071336ab336e7a9))
+
 ## 0.2.0
 
 > Note: This release has breaking changes.

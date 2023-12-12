@@ -1,6 +1,6 @@
 name: langchain_chroma
 description: LangChain.dart integration module for Chroma open-source embedding database.
-version: 0.1.0+7
+version: 0.1.0+8
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_chroma
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues
 homepage: https://github.com/davidmigloz/langchain_dart
@@ -19,10 +19,10 @@ environment:
 dependencies:
   chromadb: ^0.1.0+2
   http: ^1.1.0
-  langchain: ^0.2.0
+  langchain: ^0.2.1
   meta: ^1.9.1
   uuid: ^4.0.0
 
 dev_dependencies:
   test: ^1.24.3
-  langchain_openai: ^0.2.0
+  langchain_openai: ^0.2.0+1

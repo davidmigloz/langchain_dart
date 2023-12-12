@@ -1,3 +1,7 @@
+## 0.0.1+1
+
+ - **REFACTOR**(chat-models): Minor changes in ChatOllama. ([725b8ff0](https://github.com/davidmigloz/langchain_dart/commit/725b8ff0dde5507378a6f2f54e5979f2f596aa2f))
+
 ## 0.0.1
 
  - **FEAT**(chat-models): Add support for ChatOllama chat model ([#255](https://github.com/davidmigloz/langchain_dart/issues/255)). ([5b156910](https://github.com/davidmigloz/langchain_dart/commit/5b1569104a3e31fcba078e05b81e7a61b67a24dd))
