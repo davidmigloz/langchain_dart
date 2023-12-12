@@ -1,12 +1,9 @@
 // ignore_for_file: avoid_print, avoid_redundant_argument_values
-import 'dart:io';
-
 import 'package:langchain/langchain.dart';
 import 'package:langchain_ollama/langchain_ollama.dart';
-import 'package:langchain_openai/langchain_openai.dart';
 
 void main(final List<String> arguments) async {
-  // await _ollama();
+  await _ollama();
   await _ollamaStreaming();
 }
 
