@@ -235,7 +235,7 @@ components:
     ChatCompletionMessageRole:
       type: string
       enum:
-          - agent
+          - system
           - user
           - assistant
       description: The role of the message.

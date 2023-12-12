@@ -155,7 +155,7 @@ Map<String, dynamic> _$$ChatCompletionMessageImplToJson(
     };
 
 const _$ChatCompletionMessageRoleEnumMap = {
-  ChatCompletionMessageRole.agent: 'agent',
+  ChatCompletionMessageRole.system: 'system',
   ChatCompletionMessageRole.user: 'user',
   ChatCompletionMessageRole.assistant: 'assistant',
 };

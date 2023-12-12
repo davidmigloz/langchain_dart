@@ -10,8 +10,8 @@ part of mistral_a_i_schema;
 
 /// The role of the message.
 enum ChatCompletionMessageRole {
-  @JsonValue('agent')
-  agent,
+  @JsonValue('system')
+  system,
   @JsonValue('user')
   user,
   @JsonValue('assistant')
