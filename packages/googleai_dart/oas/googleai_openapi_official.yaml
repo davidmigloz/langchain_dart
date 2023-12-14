@@ -1,0 +1,1247 @@
+openapi: 3.1.0
+info:
+  contact:
+    name: StackQL Studios
+    url: https://github.com/stackql/google-discovery-to-openapi
+    email: info@stackql.io
+  title: Generative Language API
+  description: >-
+    The PaLM API allows developers to build generative AI applications using the
+    PaLM model. Large Language Models (LLMs) are a powerful, versatile type of
+    machine learning model that enables computers to comprehend and generate
+    natural language through a series of prompts. The PaLM API is based on
+    Google's next generation LLM, PaLM. It excels at a variety of different
+    tasks like code generation, reasoning, and writing. You can use the PaLM API
+    to build generative AI applications for use cases like content generation,
+    dialogue agents, summarization and classification systems, and more.
+  version: v1
+  x-discovery-doc-revision: '20231211'
+  x-generated-date: '2023-12-14'
+externalDocs:
+  url: https://developers.generativeai.google/api
+servers:
+  - url: https://generativelanguage.googleapis.com
+components:
+  schemas:
+    TuningSnapshot:
+      type: object
+      description: Record for a single tuning step.
+      properties:
+        step:
+          description: Output only. The tuning step.
+          format: int32
+          readOnly: true
+          type: integer
+        computeTime:
+          format: google-datetime
+          type: string
+          readOnly: true
+          description: Output only. The timestamp when this metric was computed.
+        epoch:
+          type: integer
+          readOnly: true
+          format: int32
+          description: Output only. The epoch this step was part of.
+        meanLoss:
+          description: Output only. The mean loss of the training examples for this step.
+          format: float
+          readOnly: true
+          type: number
+      id: TuningSnapshot
+    CreateTunedModelMetadata:
+      description: >-
+        Metadata about the state and progress of creating a tuned model returned
+        from the long-running operation
+      properties:
+        totalSteps:
+          type: integer
+          description: The total number of tuning steps.
+          format: int32
+        tunedModel:
+          type: string
+          description: Name of the tuned model associated with the tuning operation.
+        completedSteps:
+          format: int32
+          type: integer
+          description: The number of steps completed.
+        snapshots:
+          description: Metrics collected during tuning.
+          type: array
+          items:
+            $ref: '#/components/schemas/TuningSnapshot'
+        completedPercent:
+          description: The completed percentage for the tuning operation.
+          format: float
+          type: number
+      id: CreateTunedModelMetadata
+      type: object
+    GenerationConfig:
+      type: object
+      properties:
+        topP:
+          format: float
+          description: >-
+            Optional. The maximum cumulative probability of tokens to consider
+            when sampling. The model uses combined Top-k and nucleus sampling.
+            Tokens are sorted based on their assigned probabilities so that only
+            the most likely tokens are considered. Top-k sampling directly
+            limits the maximum number of tokens to consider, while Nucleus
+            sampling limits number of tokens based on the cumulative
+            probability. Note: The default value varies by model, see the
+            `Model.top_p` attribute of the `Model` returned the `getModel`
+            function.
+          type: number
+        topK:
+          type: integer
+          description: >-
+            Optional. The maximum number of tokens to consider when sampling.
+            The model uses combined Top-k and nucleus sampling. Top-k sampling
+            considers the set of `top_k` most probable tokens. Defaults to 40.
+            Note: The default value varies by model, see the `Model.top_k`
+            attribute of the `Model` returned the `getModel` function.
+          format: int32
+        candidateCount:
+          description: >-
+            Optional. Number of generated responses to return. This value must
+            be between [1, 8], inclusive. If unset, this will default to 1.
+          format: int32
+          type: integer
+        maxOutputTokens:
+          description: >-
+            Optional. The maximum number of tokens to include in a candidate. If
+            unset, this will default to output_token_limit specified in the
+            `Model` specification.
+          type: integer
+          format: int32
+        temperature:
+          type: number
+          format: float
+          description: >-
+            Optional. Controls the randomness of the output. Note: The default
+            value varies by model, see the `Model.temperature` attribute of the
+            `Model` returned the `getModel` function. Values can range from
+            [0.0,1.0], inclusive. A value closer to 1.0 will produce responses
+            that are more varied and creative, while a value closer to 0.0 will
+            typically result in more straightforward responses from the model.
+        stopSequences:
+          description: >-
+            Optional. The set of character sequences (up to 5) that will stop
+            output generation. If specified, the API will stop at the first
+            appearance of a stop sequence. The stop sequence will not be
+            included as part of the response.
+          items:
+            type: string
+          type: array
+      description: >-
+        Configuration options for model generation and outputs. Not all
+        parameters may be configurable for every model.
+      id: GenerationConfig
+    ListOperationsResponse:
+      properties:
+        nextPageToken:
+          description: The standard List next-page token.
+          type: string
+        operations:
+          description: >-
+            A list of operations that matches the specified filter in the
+            request.
+          items:
+            $ref: '#/components/schemas/Operation'
+          type: array
+      description: The response message for Operations.ListOperations.
+      id: ListOperationsResponse
+      type: object
+    Model:
+      description: Information about a Generative Language Model.
+      properties:
+        name:
+          description: >-
+            Required. The resource name of the `Model`. Format: `models/{model}`
+            with a `{model}` naming convention of: * "{base_model_id}-{version}"
+            Examples: * `models/chat-bison-001`
+          type: string
+        displayName:
+          type: string
+          description: >-
+            The human-readable name of the model. E.g. "Chat Bison". The name
+            can be up to 128 characters long and can consist of any UTF-8
+            characters.
+        description:
+          type: string
+          description: A short description of the model.
+        topK:
+          description: >-
+            For Top-k sampling. Top-k sampling considers the set of `top_k` most
+            probable tokens. This value specifies default to be used by the
+            backend while making the call to the model.
+          type: integer
+          format: int32
+        version:
+          type: string
+          description: >-
+            Required. The version number of the model. This represents the major
+            version
+        temperature:
+          description: >-
+            Controls the randomness of the output. Values can range over
+            `[0.0,1.0]`, inclusive. A value closer to `1.0` will produce
+            responses that are more varied, while a value closer to `0.0` will
+            typically result in less surprising responses from the model. This
+            value specifies default to be used by the backend while making the
+            call to the model.
+          format: float
+          type: number
+        topP:
+          format: float
+          type: number
+          description: >-
+            For Nucleus sampling. Nucleus sampling considers the smallest set of
+            tokens whose probability sum is at least `top_p`. This value
+            specifies default to be used by the backend while making the call to
+            the model.
+        baseModelId:
+          description: >-
+            Required. The name of the base model, pass this to the generation
+            request. Examples: * `chat-bison`
+          type: string
+        inputTokenLimit:
+          format: int32
+          type: integer
+          description: Maximum number of input tokens allowed for this model.
+        outputTokenLimit:
+          type: integer
+          description: Maximum number of output tokens available for this model.
+          format: int32
+        supportedGenerationMethods:
+          type: array
+          description: >-
+            The model's supported generation methods. The method names are
+            defined as Pascal case strings, such as `generateMessage` which
+            correspond to API methods.
+          items:
+            type: string
+      id: Model
+      type: object
+    SafetyRating:
+      description: >-
+        Safety rating for a piece of content. The safety rating contains the
+        category of harm and the harm probability level in that category for a
+        piece of content. Content is classified for safety across a number of
+        harm categories and the probability of the harm classification is
+        included here.
+      id: SafetyRating
+      type: object
+      properties:
+        category:
+          type: string
+          enum:
+            - HARM_CATEGORY_UNSPECIFIED
+            - HARM_CATEGORY_DEROGATORY
+            - HARM_CATEGORY_TOXICITY
+            - HARM_CATEGORY_VIOLENCE
+            - HARM_CATEGORY_SEXUAL
+            - HARM_CATEGORY_MEDICAL
+            - HARM_CATEGORY_DANGEROUS
+            - HARM_CATEGORY_HARASSMENT
+            - HARM_CATEGORY_HATE_SPEECH
+            - HARM_CATEGORY_SEXUALLY_EXPLICIT
+            - HARM_CATEGORY_DANGEROUS_CONTENT
+          description: Required. The category for this rating.
+          enumDescriptions:
+            - Category is unspecified.
+            - >-
+              Negative or harmful comments targeting identity and/or protected
+              attribute.
+            - Content that is rude, disrepspectful, or profane.
+            - >-
+              Describes scenarios depictng violence against an individual or
+              group, or general descriptions of gore.
+            - Contains references to sexual acts or other lewd content.
+            - Promotes unchecked medical advice.
+            - >-
+              Dangerous content that promotes, facilitates, or encourages
+              harmful acts.
+            - Harasment content.
+            - Hate speech and content.
+            - Sexually explicit content.
+            - Dangerous content.
+        probability:
+          enum:
+            - HARM_PROBABILITY_UNSPECIFIED
+            - NEGLIGIBLE
+            - LOW
+            - MEDIUM
+            - HIGH
+          type: string
+          enumDescriptions:
+            - Probability is unspecified.
+            - Content has a negligible chance of being unsafe.
+            - Content has a low chance of being unsafe.
+            - Content has a medium chance of being unsafe.
+            - Content has a high chance of being unsafe.
+          description: Required. The probability of harm for this content.
+        blocked:
+          type: boolean
+          description: Was this content blocked because of this rating?
+    Part:
+      type: object
+      properties:
+        inlineData:
+          $ref: '#/components/schemas/Blob'
+          description: Inline media bytes.
+        text:
+          description: Inline text.
+          type: string
+      id: Part
+      description: >-
+        A datatype containing media that is part of a multi-part `Content`
+        message. A `Part` consists of data which has an associated datatype. A
+        `Part` can only contain one of the accepted types in `Part.data`. A
+        `Part` must have a fixed IANA MIME type identifying the type and subtype
+        of the media if the `inline_data` field is filled with raw bytes.
+    Empty:
+      id: Empty
+      properties: {}
+      description: >-
+        A generic empty message that you can re-use to avoid defining duplicated
+        empty messages in your APIs. A typical example is to use it as the
+        request or the response type of an API method. For instance: service Foo
+        { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }
+      type: object
+    GenerateContentRequest:
+      id: GenerateContentRequest
+      description: Request to generate a completion from the model.
+      type: object
+      properties:
+        generationConfig:
+          $ref: '#/components/schemas/GenerationConfig'
+          description: Optional. Configuration options for model generation and outputs.
+        contents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Content'
+          description: >-
+            Required. The content of the current conversation with the model.
+            For single-turn queries, this is a single instance. For multi-turn
+            queries, this is a repeated field that contains conversation history
+            + latest request.
+        safetySettings:
+          description: >-
+            Optional. A list of unique `SafetySetting` instances for blocking
+            unsafe content. This will be enforced on the
+            `GenerateContentRequest.contents` and
+            `GenerateContentResponse.candidates`. There should not be more than
+            one setting for each `SafetyCategory` type. The API will block any
+            contents and responses that fail to meet the thresholds set by these
+            settings. This list overrides the default settings for each
+            `SafetyCategory` specified in the safety_settings. If there is no
+            `SafetySetting` for a given `SafetyCategory` provided in the list,
+            the API will use the default safety setting for that category. Harm
+            categories HARM_CATEGORY_HATE_SPEECH,
+            HARM_CATEGORY_SEXUALLY_EXPLICIT, HARM_CATEGORY_DANGEROUS_CONTENT,
+            HARM_CATEGORY_HARASSMENT are supported.
+          items:
+            $ref: '#/components/schemas/SafetySetting'
+          type: array
+    EmbedContentResponse:
+      properties:
+        embedding:
+          $ref: '#/components/schemas/ContentEmbedding'
+          description: Output only. The embedding generated from the input content.
+          readOnly: true
+      type: object
+      id: EmbedContentResponse
+      description: The response to an `EmbedContentRequest`.
+    Content:
+      type: object
+      description: >-
+        The base structured datatype containing multi-part content of a message.
+        A `Content` includes a `role` field designating the producer of the
+        `Content` and a `parts` field containing multi-part data that contains
+        the content of the message turn.
+      id: Content
+      properties:
+        role:
+          description: >-
+            Optional. The producer of the content. Must be either 'user' or
+            'model'. Useful to set for multi-turn conversations, otherwise can
+            be left blank or unset.
+          type: string
+        parts:
+          items:
+            $ref: '#/components/schemas/Part'
+          description: >-
+            Ordered `Parts` that constitute a single message. Parts may have
+            different MIME types.
+          type: array
+    CancelOperationRequest:
+      id: CancelOperationRequest
+      description: The request message for Operations.CancelOperation.
+      properties: {}
+      type: object
+    EmbedContentRequest:
+      properties:
+        content:
+          $ref: '#/components/schemas/Content'
+          description: >-
+            Required. The content to embed. Only the `parts.text` fields will be
+            counted.
+        taskType:
+          enumDescriptions:
+            - Unset value, which will default to one of the other enum values.
+            - Specifies the given text is a query in a search/retrieval setting.
+            - >-
+              Specifies the given text is a document from the corpus being
+              searched.
+            - Specifies the given text will be used for STS.
+            - Specifies that the given text will be classified.
+            - Specifies that the embeddings will be used for clustering.
+          description: >-
+            Optional. Optional task type for which the embeddings will be used.
+            Can only be set for `models/embedding-001`.
+          enum:
+            - TASK_TYPE_UNSPECIFIED
+            - RETRIEVAL_QUERY
+            - RETRIEVAL_DOCUMENT
+            - SEMANTIC_SIMILARITY
+            - CLASSIFICATION
+            - CLUSTERING
+          type: string
+        model:
+          type: string
+          description: >-
+            Required. The model's resource name. This serves as an ID for the
+            Model to use. This name should match a model name returned by the
+            `ListModels` method. Format: `models/{model}`
+        title:
+          type: string
+          description: >-
+            Optional. An optional title for the text. Only applicable when
+            TaskType is `RETRIEVAL_DOCUMENT`.
+      id: EmbedContentRequest
+      description: Request containing the `Content` for the model to embed.
+      type: object
+    ListModelsResponse:
+      description: Response from `ListModel` containing a paginated list of Models.
+      properties:
+        nextPageToken:
+          description: >-
+            A token, which can be sent as `page_token` to retrieve the next
+            page. If this field is omitted, there are no more pages.
+          type: string
+        models:
+          type: array
+          description: The returned Models.
+          items:
+            $ref: '#/components/schemas/Model'
+      type: object
+      id: ListModelsResponse
+    BatchEmbedContentsRequest:
+      properties:
+        requests:
+          type: array
+          description: >-
+            Required. Embed requests for the batch. The model in each of these
+            requests must match the model specified
+            `BatchEmbedContentsRequest.model`.
+          items:
+            $ref: '#/components/schemas/EmbedContentRequest'
+      type: object
+      description: Batch request to get embeddings from the model for a list of prompts.
+      id: BatchEmbedContentsRequest
+    ContentEmbedding:
+      properties:
+        values:
+          description: The embedding values.
+          items:
+            format: float
+            type: number
+          type: array
+      id: ContentEmbedding
+      type: object
+      description: A list of floats representing an embedding.
+    PromptFeedback:
+      properties:
+        safetyRatings:
+          type: array
+          items:
+            $ref: '#/components/schemas/SafetyRating'
+          description: >-
+            Ratings for safety of the prompt. There is at most one rating per
+            category.
+        blockReason:
+          enum:
+            - BLOCK_REASON_UNSPECIFIED
+            - SAFETY
+            - OTHER
+          enumDescriptions:
+            - Default value. This value is unused.
+            - >-
+              Prompt was blocked due to safety reasons. You can inspect
+              `safety_ratings` to understand which safety category blocked it.
+            - Prompt was blocked due to unknown reaasons.
+          description: >-
+            Optional. If set, the prompt was blocked and no candidates are
+            returned. Rephrase your prompt.
+          type: string
+      id: PromptFeedback
+      type: object
+      description: >-
+        A set of the feedback metadata the prompt specified in
+        `GenerateContentRequest.content`.
+    Operation:
+      properties:
+        name:
+          type: string
+          description: >-
+            The server-assigned name, which is only unique within the same
+            service that originally returns it. If you use the default HTTP
+            mapping, the `name` should be a resource name ending with
+            `operations/{unique_id}`.
+        response:
+          type: object
+          additionalProperties:
+            type: any
+            description: Properties of the object. Contains field @type with type URL.
+          description: >-
+            The normal, successful response of the operation. If the original
+            method returns no data on success, such as `Delete`, the response is
+            `google.protobuf.Empty`. If the original method is standard
+            `Get`/`Create`/`Update`, the response should be the resource. For
+            other methods, the response should have the type `XxxResponse`,
+            where `Xxx` is the original method name. For example, if the
+            original method name is `TakeSnapshot()`, the inferred response type
+            is `TakeSnapshotResponse`.
+        done:
+          type: boolean
+          description: >-
+            If the value is `false`, it means the operation is still in
+            progress. If `true`, the operation is completed, and either `error`
+            or `response` is available.
+        metadata:
+          additionalProperties:
+            description: Properties of the object. Contains field @type with type URL.
+            type: any
+          description: >-
+            Service-specific metadata associated with the operation. It
+            typically contains progress information and common metadata such as
+            create time. Some services might not provide such metadata. Any
+            method that returns a long-running operation should document the
+            metadata type, if any.
+          type: object
+        error:
+          $ref: '#/components/schemas/Status'
+          description: >-
+            The error result of the operation in case of failure or
+            cancellation.
+      type: object
+      description: >-
+        This resource represents a long-running operation that is the result of
+        a network API call.
+      id: Operation
+    GenerateContentResponse:
+      description: >-
+        Response from the model supporting multiple candidates. Note on safety
+        ratings and content filtering. They are reported for both prompt in
+        `GenerateContentResponse.prompt_feedback` and for each candidate in
+        `finish_reason` and in `safety_ratings`. The API contract is that: -
+        either all requested candidates are returned or no candidates at all -
+        no candidates are returned only if there was something wrong with the
+        prompt (see `prompt_feedback`) - feedback on each candidate is reported
+        on `finish_reason` and `safety_ratings`.
+      type: object
+      id: GenerateContentResponse
+      properties:
+        promptFeedback:
+          $ref: '#/components/schemas/PromptFeedback'
+          description: Returns the prompt's feedback related to the content filters.
+        candidates:
+          type: array
+          description: Candidate responses from the model.
+          items:
+            $ref: '#/components/schemas/Candidate'
+    SafetySetting:
+      id: SafetySetting
+      type: object
+      properties:
+        category:
+          enum:
+            - HARM_CATEGORY_UNSPECIFIED
+            - HARM_CATEGORY_DEROGATORY
+            - HARM_CATEGORY_TOXICITY
+            - HARM_CATEGORY_VIOLENCE
+            - HARM_CATEGORY_SEXUAL
+            - HARM_CATEGORY_MEDICAL
+            - HARM_CATEGORY_DANGEROUS
+            - HARM_CATEGORY_HARASSMENT
+            - HARM_CATEGORY_HATE_SPEECH
+            - HARM_CATEGORY_SEXUALLY_EXPLICIT
+            - HARM_CATEGORY_DANGEROUS_CONTENT
+          type: string
+          description: Required. The category for this setting.
+          enumDescriptions:
+            - Category is unspecified.
+            - >-
+              Negative or harmful comments targeting identity and/or protected
+              attribute.
+            - Content that is rude, disrepspectful, or profane.
+            - >-
+              Describes scenarios depictng violence against an individual or
+              group, or general descriptions of gore.
+            - Contains references to sexual acts or other lewd content.
+            - Promotes unchecked medical advice.
+            - >-
+              Dangerous content that promotes, facilitates, or encourages
+              harmful acts.
+            - Harasment content.
+            - Hate speech and content.
+            - Sexually explicit content.
+            - Dangerous content.
+        threshold:
+          description: >-
+            Required. Controls the probability threshold at which harm is
+            blocked.
+          enumDescriptions:
+            - Threshold is unspecified.
+            - Content with NEGLIGIBLE will be allowed.
+            - Content with NEGLIGIBLE and LOW will be allowed.
+            - Content with NEGLIGIBLE, LOW, and MEDIUM will be allowed.
+            - All content will be allowed.
+          type: string
+          enum:
+            - HARM_BLOCK_THRESHOLD_UNSPECIFIED
+            - BLOCK_LOW_AND_ABOVE
+            - BLOCK_MEDIUM_AND_ABOVE
+            - BLOCK_ONLY_HIGH
+            - BLOCK_NONE
+      description: >-
+        Safety setting, affecting the safety-blocking behavior. Passing a safety
+        setting for a category changes the allowed proability that content is
+        blocked.
+    Candidate:
+      id: Candidate
+      properties:
+        content:
+          description: Output only. Generated content returned from the model.
+          readOnly: true
+          $ref: '#/components/schemas/Content'
+        finishReason:
+          enum:
+            - FINISH_REASON_UNSPECIFIED
+            - STOP
+            - MAX_TOKENS
+            - SAFETY
+            - RECITATION
+            - OTHER
+          readOnly: true
+          enumDescriptions:
+            - Default value. This value is unused.
+            - Natural stop point of the model or provided stop sequence.
+            - >-
+              The maximum number of tokens as specified in the request was
+              reached.
+            - The candidate content was flagged for safety reasons.
+            - The candidate content was flagged for recitation reasons.
+            - Unknown reason.
+          type: string
+          description: >-
+            Optional. Output only. The reason why the model stopped generating
+            tokens. If empty, the model has not stopped generating the tokens.
+        citationMetadata:
+          $ref: '#/components/schemas/CitationMetadata'
+          readOnly: true
+          description: >-
+            Output only. Citation information for model-generated candidate.
+            This field may be populated with recitation information for any text
+            included in the `content`. These are passages that are "recited"
+            from copyrighted material in the foundational LLM's training data.
+        index:
+          format: int32
+          type: integer
+          readOnly: true
+          description: Output only. Index of the candidate in the list of candidates.
+        tokenCount:
+          description: Output only. Token count for this candidate.
+          format: int32
+          type: integer
+          readOnly: true
+        safetyRatings:
+          type: array
+          description: >-
+            List of ratings for the safety of a response candidate. There is at
+            most one rating per category.
+          items:
+            $ref: '#/components/schemas/SafetyRating'
+      type: object
+      description: A response candidate generated from the model.
+    CountTokensResponse:
+      type: object
+      properties:
+        totalTokens:
+          type: integer
+          format: int32
+          description: >-
+            The number of tokens that the `model` tokenizes the `prompt` into.
+            Always non-negative.
+      id: CountTokensResponse
+      description: >-
+        A response from `CountTokens`. It returns the model's `token_count` for
+        the `prompt`.
+    CountTokensRequest:
+      id: CountTokensRequest
+      properties:
+        contents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Content'
+          description: Required. The input given to the model as a prompt.
+      description: >-
+        Counts the number of tokens in the `prompt` sent to a model. Models may
+        tokenize text differently, so each model may return a different
+        `token_count`.
+      type: object
+    BatchEmbedContentsResponse:
+      id: BatchEmbedContentsResponse
+      type: object
+      properties:
+        embeddings:
+          readOnly: true
+          description: >-
+            Output only. The embeddings for each request, in the same order as
+            provided in the batch request.
+          type: array
+          items:
+            $ref: '#/components/schemas/ContentEmbedding'
+      description: The response to a `BatchEmbedContentsRequest`.
+    CitationMetadata:
+      type: object
+      properties:
+        citationSources:
+          description: Citations to sources for a specific response.
+          type: array
+          items:
+            $ref: '#/components/schemas/CitationSource'
+      id: CitationMetadata
+      description: A collection of source attributions for a piece of content.
+    Blob:
+      type: object
+      id: Blob
+      description: >-
+        Raw media bytes. Text should not be sent as raw bytes, use the 'text'
+        field.
+      properties:
+        mimeType:
+          type: string
+          description: >-
+            The IANA standard MIME type of the source data. Accepted types
+            include: "image/png", "image/jpeg", "image/heic", "image/heif",
+            "image/webp".
+        data:
+          type: string
+          description: Raw bytes for media formats.
+          format: byte
+    CitationSource:
+      description: A citation to a source for a portion of a specific response.
+      type: object
+      id: CitationSource
+      properties:
+        endIndex:
+          type: integer
+          description: Optional. End of the attributed segment, exclusive.
+          format: int32
+        license:
+          description: >-
+            Optional. License for the GitHub project that is attributed as a
+            source for segment. License info is required for code citations.
+          type: string
+        uri:
+          type: string
+          description: >-
+            Optional. URI that is attributed as a source for a portion of the
+            text.
+        startIndex:
+          description: >-
+            Optional. Start of segment of the response that is attributed to
+            this source. Index indicates the start of the segment, measured in
+            bytes.
+          format: int32
+          type: integer
+    Status:
+      id: Status
+      description: >-
+        The `Status` type defines a logical error model that is suitable for
+        different programming environments, including REST APIs and RPC APIs. It
+        is used by [gRPC](https://github.com/grpc). Each `Status` message
+        contains three pieces of data: error code, error message, and error
+        details. You can find out more about this error model and how to work
+        with it in the [API Design
+        Guide](https://cloud.google.com/apis/design/errors).
+      properties:
+        details:
+          description: >-
+            A list of messages that carry the error details. There is a common
+            set of message types for APIs to use.
+          items:
+            additionalProperties:
+              description: Properties of the object. Contains field @type with type URL.
+              type: any
+            type: object
+          type: array
+        code:
+          description: The status code, which should be an enum value of google.rpc.Code.
+          format: int32
+          type: integer
+        message:
+          description: >-
+            A developer-facing error message, which should be in English. Any
+            user-facing error message should be localized and sent in the
+            google.rpc.Status.details field, or localized by the client.
+          type: string
+      type: object
+  parameters:
+    upload_protocol:
+      description: Upload protocol for media (e.g. "raw", "multipart").
+      in: query
+      name: upload_protocol
+      schema:
+        type: string
+    _.xgafv:
+      description: V1 error format.
+      in: query
+      name: $.xgafv
+      schema:
+        type: string
+        enum:
+          - '1'
+          - '2'
+    uploadType:
+      description: Legacy upload protocol for media (e.g. "media", "multipart").
+      in: query
+      name: uploadType
+      schema:
+        type: string
+    prettyPrint:
+      description: Returns response with indentations and line breaks.
+      in: query
+      name: prettyPrint
+      schema:
+        type: boolean
+    key:
+      description: >-
+        API key. Your API key identifies your project and provides you with API
+        access, quota, and reports. Required unless you provide an OAuth 2.0
+        token.
+      in: query
+      name: key
+      schema:
+        type: string
+    access_token:
+      description: OAuth access token.
+      in: query
+      name: access_token
+      schema:
+        type: string
+    callback:
+      description: JSONP
+      in: query
+      name: callback
+      schema:
+        type: string
+    alt:
+      description: Data format for response.
+      in: query
+      name: alt
+      schema:
+        type: string
+        enum:
+          - json
+          - media
+          - proto
+    fields:
+      description: Selector specifying which fields to include in a partial response.
+      in: query
+      name: fields
+      schema:
+        type: string
+    quotaUser:
+      description: >-
+        Available to use for quota purposes for server-side applications. Can be
+        any arbitrary string assigned to a user, but should not exceed 40
+        characters.
+      in: query
+      name: quotaUser
+      schema:
+        type: string
+    oauth_token:
+      description: OAuth 2.0 token for the current user.
+      in: query
+      name: oauth_token
+      schema:
+        type: string
+paths:
+  /v1/tunedModels/{tunedModelsId}/operations/{operationsId}:cancel:
+    parameters: &ref_0
+      - $ref: '#/components/parameters/upload_protocol'
+      - $ref: '#/components/parameters/_.xgafv'
+      - $ref: '#/components/parameters/uploadType'
+      - $ref: '#/components/parameters/prettyPrint'
+      - $ref: '#/components/parameters/key'
+      - $ref: '#/components/parameters/access_token'
+      - $ref: '#/components/parameters/callback'
+      - $ref: '#/components/parameters/alt'
+      - $ref: '#/components/parameters/fields'
+      - $ref: '#/components/parameters/quotaUser'
+      - $ref: '#/components/parameters/oauth_token'
+    post:
+      description: >-
+        Starts asynchronous cancellation on a long-running operation. The server
+        makes a best effort to cancel the operation, but success is not
+        guaranteed. If the server doesn't support this method, it returns
+        `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation
+        or other methods to check whether the cancellation succeeded or whether
+        the operation completed despite cancellation. On successful
+        cancellation, the operation is not deleted; instead, it becomes an
+        operation with an Operation.error value with a google.rpc.Status.code of
+        1, corresponding to `Code.CANCELLED`.
+      operationId: generativelanguage.tunedModels.operations.cancel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelOperationRequest'
+      security: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+      parameters:
+        - in: path
+          name: tunedModelsId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: operationsId
+          required: true
+          schema:
+            type: string
+      x-stackQL-resource: operations
+      x-stackQL-method: cancel
+      x-stackQL-verb: exec
+  /v1/tunedModels/{tunedModelsId}/operations:
+    parameters: *ref_0
+    get:
+      description: >-
+        Lists operations that match the specified filter in the request. If the
+        server doesn't support this method, it returns `UNIMPLEMENTED`.
+      operationId: generativelanguage.tunedModels.operations.list
+      security: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOperationsResponse'
+      parameters:
+        - in: path
+          name: tunedModelsId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+        - in: query
+          name: filter
+          schema:
+            type: string
+        - in: query
+          name: pageToken
+          schema:
+            type: string
+      x-stackQL-resource: operations
+      x-stackQL-method: list
+      x-stackQL-verb: select
+      x-stackQL-objectKey: $.operations
+  /v1/tunedModels/{tunedModelsId}/operations/{operationsId}:
+    parameters: *ref_0
+    get:
+      description: >-
+        Gets the latest state of a long-running operation. Clients can use this
+        method to poll the operation result at intervals as recommended by the
+        API service.
+      operationId: generativelanguage.tunedModels.operations.get
+      security: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Operation'
+      parameters:
+        - in: path
+          name: tunedModelsId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: operationsId
+          required: true
+          schema:
+            type: string
+      x-stackQL-resource: operations
+      x-stackQL-method: get
+      x-stackQL-verb: select
+  /v1/models/{modelsId}:generateContent:
+    parameters: *ref_0
+    post:
+      description: >-
+        Generates a response from the model given an input
+        `GenerateContentRequest`.
+      operationId: generativelanguage.models.generateContent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateContentRequest'
+      security: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateContentResponse'
+      parameters:
+        - in: path
+          name: modelsId
+          required: true
+          schema:
+            type: string
+      x-stackQL-resource: models
+      x-stackQL-method: generate_content
+      x-stackQL-verb: exec
+  /v1/models/{modelsId}:countTokens:
+    parameters: *ref_0
+    post:
+      description: Runs a model's tokenizer on input content and returns the token count.
+      operationId: generativelanguage.models.countTokens
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CountTokensRequest'
+      security: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountTokensResponse'
+      parameters:
+        - in: path
+          name: modelsId
+          required: true
+          schema:
+            type: string
+      x-stackQL-resource: models
+      x-stackQL-method: count_tokens
+      x-stackQL-verb: exec
+  /v1/models:
+    parameters: *ref_0
+    get:
+      description: Lists models available through the API.
+      operationId: generativelanguage.models.list
+      security: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListModelsResponse'
+      parameters:
+        - in: query
+          name: pageToken
+          schema:
+            type: string
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+      x-stackQL-resource: models
+      x-stackQL-method: list
+      x-stackQL-verb: select
+      x-stackQL-objectKey: $.models
+  /v1/models/{modelsId}:
+    parameters: *ref_0
+    get:
+      description: Gets information about a specific Model.
+      operationId: generativelanguage.models.get
+      security: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model'
+      parameters:
+        - in: path
+          name: modelsId
+          required: true
+          schema:
+            type: string
+      x-stackQL-resource: models
+      x-stackQL-method: get
+      x-stackQL-verb: select
+  /v1/models/{modelsId}:batchEmbedContents:
+    parameters: *ref_0
+    post:
+      description: >-
+        Generates multiple embeddings from the model given input text in a
+        synchronous call.
+      operationId: generativelanguage.models.batchEmbedContents
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchEmbedContentsRequest'
+      security: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchEmbedContentsResponse'
+      parameters:
+        - in: path
+          name: modelsId
+          required: true
+          schema:
+            type: string
+      x-stackQL-resource: models
+      x-stackQL-method: batch_embed_contents
+      x-stackQL-verb: exec
+  /v1/models/{modelsId}:streamGenerateContent:
+    parameters: *ref_0
+    post:
+      description: >-
+        Generates a streamed response from the model given an input
+        `GenerateContentRequest`.
+      operationId: generativelanguage.models.streamGenerateContent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateContentRequest'
+      security: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateContentResponse'
+      parameters:
+        - in: path
+          name: modelsId
+          required: true
+          schema:
+            type: string
+      x-stackQL-resource: models
+      x-stackQL-method: stream_generate_content
+      x-stackQL-verb: exec
+  /v1/models/{modelsId}:embedContent:
+    parameters: *ref_0
+    post:
+      description: Generates an embedding from the model given an input `Content`.
+      operationId: generativelanguage.models.embedContent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmbedContentRequest'
+      security: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmbedContentResponse'
+      parameters:
+        - in: path
+          name: modelsId
+          required: true
+          schema:
+            type: string
+      x-stackQL-resource: models
+      x-stackQL-method: embed_content
+      x-stackQL-verb: exec
+  /v1/operations:
+    parameters: *ref_0
+    get:
+      description: >-
+        Lists operations that match the specified filter in the request. If the
+        server doesn't support this method, it returns `UNIMPLEMENTED`.
+      operationId: generativelanguage.operations.list
+      security: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOperationsResponse'
+      parameters:
+        - in: query
+          name: pageToken
+          schema:
+            type: string
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+        - in: query
+          name: filter
+          schema:
+            type: string
+      x-stackQL-resource: operations
+      x-stackQL-method: list
+      x-stackQL-verb: select
+      x-stackQL-objectKey: $.operations
+  /v1/operations/{operationsId}:
+    parameters: *ref_0
+    delete:
+      description: >-
+        Deletes a long-running operation. This method indicates that the client
+        is no longer interested in the operation result. It does not cancel the
+        operation. If the server doesn't support this method, it returns
+        `google.rpc.Code.UNIMPLEMENTED`.
+      operationId: generativelanguage.operations.delete
+      security: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+      parameters:
+        - in: path
+          name: operationsId
+          required: true
+          schema:
+            type: string
+      x-stackQL-resource: operations
+      x-stackQL-method: delete
+      x-stackQL-verb: delete
