@@ -102,7 +102,8 @@ void main() {
             Content(
               parts: [
                 Part(
-                  text: 'Tell me a joke',
+                  text: 'List the numbers from 1 to 9 in order '
+                      'without any spaces, commas or additional explanations.',
                 ),
               ],
             ),
@@ -128,10 +129,7 @@ void main() {
           contents: [
             Content(
               parts: [
-                Part(
-                  text: 'List the numbers from 1 to 9 in order '
-                      'without any spaces, commas or additional explanations.',
-                ),
+                Part(text: 'Tell me a joke'),
               ],
             ),
           ],

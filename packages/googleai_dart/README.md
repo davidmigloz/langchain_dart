@@ -5,7 +5,7 @@
 [![](https://dcbadge.vercel.app/api/server/x4qbhqecVR?style=flat)](https://discord.gg/x4qbhqecVR)
 [![MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://github.com/davidmigloz/langchain_dart/blob/main/LICENSE)
 
-Unofficial Dart client for [Google AI](https://ai.google.dev) API (Gemini and PaLM family models).
+Unofficial Dart client for [Google AI](https://ai.google.dev) for Developer (Gemini API).
 
 ## Features
 
@@ -15,6 +15,7 @@ Unofficial Dart client for [Google AI](https://ai.google.dev) API (Gemini and Pa
 - Custom base URL, headers and query params support (e.g. HTTP proxies)
 - Custom HTTP client support (e.g. SOCKS5 proxies or advanced use cases)
 
+> [!NOTE]
 > Streaming support coming soon.
 
 **Supported endpoints:**
@@ -56,6 +57,7 @@ Refer to the [documentation](https://ai.google.dev/docs) for more information ab
 
 The Google AI API uses API keys for authentication. Visit [Google AI Studio dashboard](https://makersuite.google.com/app/apikey) page to retrieve the API key you'll use in your requests.
 
+> [!CAUTION]
 > **Remember that your API key is a secret!**  
 > Do not share it with others or expose it in any client-side code (browsers, apps). Production requests must be routed through your own backend server where your API key can be securely loaded from an environment variable or key management service.
 
@@ -123,7 +125,8 @@ print(res.candidates?.first.content?.parts?.first.text);
 
 Using Gemini, you can build freeform conversations across multiple turns.
 
-> Note: The gemini-pro-vision model (for text-and-image input) is not yet optimized for multi-turn conversations. 
+> [!NOTE]
+> The gemini-pro-vision model (for text-and-image input) is not yet optimized for multi-turn conversations. 
 > Make sure to use gemini-pro and text-only input for chat use cases.
 
 ```dart

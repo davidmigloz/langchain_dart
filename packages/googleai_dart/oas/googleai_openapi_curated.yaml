@@ -873,15 +873,6 @@ paths:
             type: string
   /tunedModels/{tunedModelId}/operations/{operationId}:
     get:
-      description: New endpoint
-      responses:
-        200:
-          description: New response
-          content:
-            application/json:
-              schema:
-                :
-    get:
       description: >-
         Gets the latest state of a long-running operation. Clients can use this
         method to poll the operation result at intervals as recommended by the
@@ -909,15 +900,6 @@ paths:
           schema:
             type: string
   /models/{modelId}:generateContent:
-    get:
-      description: New endpoint
-      responses:
-        200:
-          description: New response
-          content:
-            application/json:
-              schema:
-                :
     post:
       description: >
         Generates a response from the model given an input
