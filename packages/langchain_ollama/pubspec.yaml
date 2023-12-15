@@ -1,6 +1,6 @@
 name: langchain_ollama
 description: LangChain.dart integration module for Ollama (run Llama 2, Mistral, Vicuna and other models locally).
-version: 0.0.1+1
+version: 0.0.1+2
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_ollama
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues
 homepage: https://github.com/davidmigloz/langchain_dart
@@ -19,7 +19,7 @@ environment:
 dependencies:
   collection: ^1.17.1
   http: ^1.1.0
-  langchain: ^0.2.1
+  langchain: ^0.3.0
   meta: ^1.9.1
   ollama_dart: ^0.0.1+1
   tiktoken: ^1.0.3

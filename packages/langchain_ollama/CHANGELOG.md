@@ -1,3 +1,7 @@
+## 0.0.1+2
+
+ - Update a dependency to the latest release.
+
 ## 0.0.1+1
 
  - **REFACTOR**(chat-models): Minor changes in ChatOllama. ([725b8ff0](https://github.com/davidmigloz/langchain_dart/commit/725b8ff0dde5507378a6f2f54e5979f2f596aa2f))

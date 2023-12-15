@@ -1,3 +1,10 @@
+## 0.3.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **REFACTOR**(chat-models): Make MIME Type mandatory for base64 images in prompt ([#269](https://github.com/davidmigloz/langchain_dart/issues/269)). ([2fe076bb](https://github.com/davidmigloz/langchain_dart/commit/2fe076bb8d2ddacfee6ec077c3f564bff919dace))
+ - **FEAT**: Allow to pass options to countTokens method ([#268](https://github.com/davidmigloz/langchain_dart/issues/268)). ([4ecb123b](https://github.com/davidmigloz/langchain_dart/commit/4ecb123bd34f0b01d377045b97dace89676d5d16))
+
 ## 0.2.0+1
 
  - **FIX**(chat-models): Fix ChatOpenAI not considering functions from default options ([#257](https://github.com/davidmigloz/langchain_dart/issues/257)). ([cd864783](https://github.com/davidmigloz/langchain_dart/commit/cd864783f7190f7e8aa8988ba5c2cb5f7bfb3fad))

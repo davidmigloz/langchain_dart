@@ -1,3 +1,7 @@
+## 0.1.0+9
+
+ - **DOCS**: Update README.md and docs ([#272](https://github.com/davidmigloz/langchain_dart/issues/272)). ([306a1fdd](https://github.com/davidmigloz/langchain_dart/commit/306a1fdd6504ef28dc2066953ae575e975ab9025))
+
 ## 0.1.0+8
 
  - Update a dependency to the latest release.

@@ -3,6 +3,68 @@
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) 
 server for more details about each release.
 
+## 2023-12-15
+
+### Changes
+
+---
+
+New packages:
+ - [`googleai_dart` - `v0.0.1`](#googleai_dart---v001)
+
+Packages with breaking changes:
+
+ - [`langchain` - `v0.3.0`](#langchain---v030)
+ - [`langchain_openai` - `v0.3.0`](#langchain_openai---v030)
+
+Packages with other changes:
+
+ - [`langchain_chroma` - `v0.1.0+9`](#langchain_chroma---v0109)
+ - [`langchain_google` - `v0.2.1`](#langchain_google---v021)
+ - [`langchain_ollama` - `v0.0.1+2`](#langchain_ollama---v0012)
+ - [`langchain_mistralai` - `v0.0.1+1`](#langchain_mistralai---v0011)
+ - [`langchain_pinecone` - `v0.0.6+8`](#langchain_pinecone---v0068)
+
+---
+
+#### `langchain` - `v0.3.0`
+
+ - **BREAKING** **REFACTOR**(chat-models): Make MIME Type mandatory for base64 images in prompt ([#269](https://github.com/davidmigloz/langchain_dart/issues/269)). ([2fe076bb](https://github.com/davidmigloz/langchain_dart/commit/2fe076bb8d2ddacfee6ec077c3f564bff919dace))
+ - **FEAT**: Allow to pass options to countTokens method ([#268](https://github.com/davidmigloz/langchain_dart/issues/268)). ([4ecb123b](https://github.com/davidmigloz/langchain_dart/commit/4ecb123bd34f0b01d377045b97dace89676d5d16))
+ - **DOCS**: Update README.md and docs ([#272](https://github.com/davidmigloz/langchain_dart/issues/272)). ([306a1fdd](https://github.com/davidmigloz/langchain_dart/commit/306a1fdd6504ef28dc2066953ae575e975ab9025))
+
+> [Migration guide](https://github.com/davidmigloz/langchain_dart/issues/269)
+
+#### `langchain_openai` - `v0.3.0`
+
+ - **BREAKING** **REFACTOR**(chat-models): Make MIME Type mandatory for base64 images in prompt ([#269](https://github.com/davidmigloz/langchain_dart/issues/269)). ([2fe076bb](https://github.com/davidmigloz/langchain_dart/commit/2fe076bb8d2ddacfee6ec077c3f564bff919dace))
+ - **FEAT**: Allow to pass options to countTokens method ([#268](https://github.com/davidmigloz/langchain_dart/issues/268)). ([4ecb123b](https://github.com/davidmigloz/langchain_dart/commit/4ecb123bd34f0b01d377045b97dace89676d5d16))
+
+#### `googleai_dart` - `v0.0.1`
+
+ - **FEAT**(googleai_dart): Implement Dart client for Google AI API ([#267](https://github.com/davidmigloz/langchain_dart/issues/267)). ([99083cd2](https://github.com/davidmigloz/langchain_dart/commit/99083cd22ec35b3256b800ce76df328b9c9165e4))
+
+#### `langchain_chroma` - `v0.1.0+9`
+
+ - **DOCS**: Update README.md and docs ([#272](https://github.com/davidmigloz/langchain_dart/issues/272)). ([306a1fdd](https://github.com/davidmigloz/langchain_dart/commit/306a1fdd6504ef28dc2066953ae575e975ab9025))
+
+#### `langchain_google` - `v0.2.1`
+
+ - **FEAT**(chat-models): Add support for ChatGoogleGenerativeAI wrapper (Gemini API) ([#270](https://github.com/davidmigloz/langchain_dart/issues/270)). ([5d006c12](https://github.com/davidmigloz/langchain_dart/commit/5d006c121172192765b1a76582588c05b779e9c0))
+
+#### `langchain_ollama` - `v0.0.1+2`
+
+ - Update a dependency to the latest release.
+
+#### `langchain_mistralai` - `v0.0.1+1`
+
+ - Update a dependency to the latest release.
+
+#### `langchain_pinecone` - `v0.0.6+8`
+
+ - Update a dependency to the latest release.
+
+
 ## 2023-12-12
 
 ### Changes

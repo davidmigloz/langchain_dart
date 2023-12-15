@@ -1,3 +1,7 @@
+## 0.0.1+1
+
+ - Update a dependency to the latest release.
+
 ## 0.0.1
 
  - **FEAT**(chat-models): Add support for ChatMistralAI wrapper ([#262](https://github.com/davidmigloz/langchain_dart/issues/262)). ([1364afec](https://github.com/davidmigloz/langchain_dart/commit/1364afec6ea56043ae17d5460276b10bf19b124e))

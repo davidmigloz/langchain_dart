@@ -1,3 +1,7 @@
+## 0.2.1
+
+ - **FEAT**(chat-models): Add support for ChatGoogleGenerativeAI wrapper (Gemini API) ([#270](https://github.com/davidmigloz/langchain_dart/issues/270)). ([5d006c12](https://github.com/davidmigloz/langchain_dart/commit/5d006c121172192765b1a76582588c05b779e9c0))
+
 ## 0.2.0+1
 
  - Update a dependency to the latest release.

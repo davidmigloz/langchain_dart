@@ -1,3 +1,12 @@
+## 0.3.0
+
+> Note: This release has breaking changes.  
+> [Migration guide](https://github.com/davidmigloz/langchain_dart/issues/269) 
+
+ - **BREAKING** **REFACTOR**(chat-models): Make MIME Type mandatory for base64 images in prompt ([#269](https://github.com/davidmigloz/langchain_dart/issues/269)). ([2fe076bb](https://github.com/davidmigloz/langchain_dart/commit/2fe076bb8d2ddacfee6ec077c3f564bff919dace))
+ - **FEAT**: Allow to pass options to countTokens method ([#268](https://github.com/davidmigloz/langchain_dart/issues/268)). ([4ecb123b](https://github.com/davidmigloz/langchain_dart/commit/4ecb123bd34f0b01d377045b97dace89676d5d16))
+ - **DOCS**: Update README.md and docs ([#272](https://github.com/davidmigloz/langchain_dart/issues/272)). ([306a1fdd](https://github.com/davidmigloz/langchain_dart/commit/306a1fdd6504ef28dc2066953ae575e975ab9025))
+
 ## 0.2.1
 
  - **FEAT**(tools): Support customizing Tool input description ([#258](https://github.com/davidmigloz/langchain_dart/issues/258)). ([a9a1b2a0](https://github.com/davidmigloz/langchain_dart/commit/a9a1b2a0f4fa5fee320e9ca5b46a99a0b834035c))
