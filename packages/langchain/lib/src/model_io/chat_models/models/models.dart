@@ -107,12 +107,12 @@ sealed class ChatMessage {
         final SystemChatMessage system => system.content,
         final HumanChatMessage human => switch (human.content) {
             final ChatMessageContentText text => text.text,
-            final ChatMessageContentImage image => image.url,
+            final ChatMessageContentImage image => image.data,
             final ChatMessageContentMultiModal multiModal => multiModal.parts
                 .map(
                   (final p) => switch (p) {
                     final ChatMessageContentText text => text.text,
-                    final ChatMessageContentImage image => image.url,
+                    final ChatMessageContentImage image => image.data,
                     ChatMessageContentMultiModal _ => '',
                   },
                 )
@@ -495,13 +495,20 @@ sealed class ChatMessageContent {
       ChatMessageContentText(text: text);
 
   /// The content of a message that is an image.
+  ///
+  /// More info about the possible values:
+  /// - [ChatMessageContentImage.data]
+  /// - [ChatMessageContentImage.mimeType]
+  /// - [ChatMessageContentImage.detail]
   factory ChatMessageContent.image({
-    required final String url,
+    required final String data,
+    final String? mimeType,
     final ChatMessageContentImageDetail imageDetail =
         ChatMessageContentImageDetail.auto,
   }) =>
       ChatMessageContentImage(
-        url: url,
+        data: data,
+        mimeType: mimeType,
         detail: imageDetail,
       );
 
@@ -546,28 +553,44 @@ ChatMessageContentText{
 class ChatMessageContentImage extends ChatMessageContent {
   /// {@macro chat_message_content_image}
   const ChatMessageContentImage({
-    required this.url,
-    required this.detail,
+    required this.data,
+    this.mimeType,
+    this.detail = ChatMessageContentImageDetail.auto,
   });
 
-  /// Either a URL of the image or the base64 encoded image data.
-  final String url;
+  /// Depending on the model, this can be either:
+  /// - The base64 encoded image data
+  /// - A URL of the image.
+  final String data;
+
+  /// The IANA standard MIME type of the source data.
+  /// The accepted types vary per model.
+  ///
+  /// Examples of MIME types:
+  /// - `image/png`
+  /// - `image/jpeg`
+  /// - `image/heic`
+  /// - `image/heif`
+  /// - `image/webp`
+  final String? mimeType;
 
   /// Specifies the detail level of the image.
   final ChatMessageContentImageDetail detail;
 
   @override
   bool operator ==(covariant final ChatMessageContentImage other) =>
-      identical(this, other) || url == other.url;
+      identical(this, other) ||
+      data == other.data && data == other.data && detail == other.detail;
 
   @override
-  int get hashCode => url.hashCode;
+  int get hashCode => data.hashCode ^ mimeType.hashCode ^ detail.hashCode;
 
   @override
   String toString() {
     return '''
 ChatMessageContentImage{
-  url: $url,
+  url: $data,
+  mimeType: $mimeType,
   imageDetail: $detail,
 }''';
   }

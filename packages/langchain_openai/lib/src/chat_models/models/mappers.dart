@@ -57,6 +57,21 @@ extension _ChatMessageContentTextMapper on ChatMessageContentText {
 
 extension _ChatMessageContentImageMapper on ChatMessageContentImage {
   ChatCompletionMessageContentPartImage toChatCompletionMessageContentPart() {
+    final imageData = data.trim();
+    final isUrl = imageData.startsWith('http');
+    String url;
+    if (isUrl) {
+      url = imageData;
+    } else {
+      if (mimeType == null) {
+        throw ArgumentError(
+          "When passing a Base64 encoded image, you need to specify the mimeType (e.g. 'image/png')",
+          'ChatMessageContentImage.mimeType',
+        );
+      }
+      url = 'data:$mimeType;base64,$imageData';
+    }
+
     return ChatCompletionMessageContentPartImage(
       imageUrl: ChatCompletionMessageImageUrl(
         url: url,
