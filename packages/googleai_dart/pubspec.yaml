@@ -31,5 +31,5 @@ dev_dependencies:
   openapi_spec:
     git:
       url: https://github.com/davidmigloz/openapi_spec
-      ref: b3c3a5518fee569534587dd9296e50a66e51b358
+      ref: langchain
   test: ^1.24.3
