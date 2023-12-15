@@ -1,3 +1,7 @@
+## 0.2.1+1
+
+ - **DOCS**: Update langchain_google README. ([5b2acfa1](https://github.com/davidmigloz/langchain_dart/commit/5b2acfa1667e63774526cb10e9adf53ff8c79530))
+
 ## 0.2.1
 
  - **FEAT**(chat-models): Add support for ChatGoogleGenerativeAI wrapper (Gemini API) ([#270](https://github.com/davidmigloz/langchain_dart/issues/270)). ([5d006c12](https://github.com/davidmigloz/langchain_dart/commit/5d006c121172192765b1a76582588c05b779e9c0))
