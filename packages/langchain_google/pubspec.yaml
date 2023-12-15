@@ -19,6 +19,7 @@ environment:
 dependencies:
   collection: ^1.17.1
   gcloud: ^0.8.11
+  googleai_dart: ^0.0.1-dev.1
   googleapis: ^11.4.0
   googleapis_auth: ^1.4.1
   http: ^1.1.0
