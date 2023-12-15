@@ -1,3 +1,7 @@
+## 0.0.1+2
+
+ - **FIX**: Fetch web requests with big payloads dropping connection ([#273](https://github.com/davidmigloz/langchain_dart/issues/273)). ([425889dc](https://github.com/davidmigloz/langchain_dart/commit/425889dc24a74790a7072c75f0bdb0d19ab40cf6))
+
 ## 0.0.1+1
 
  - **DOCS**: Update README.me. ([be20dbaf](https://github.com/davidmigloz/langchain_dart/commit/be20dbaf4568c773aca88f1339a489092b3a5551))

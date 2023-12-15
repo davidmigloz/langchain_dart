@@ -1,3 +1,7 @@
+## 0.2.1+2
+
+ - Update a dependency to the latest release.
+
 ## 0.2.1+1
 
  - **DOCS**: Update langchain_google README. ([5b2acfa1](https://github.com/davidmigloz/langchain_dart/commit/5b2acfa1667e63774526cb10e9adf53ff8c79530))

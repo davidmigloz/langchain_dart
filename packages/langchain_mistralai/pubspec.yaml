@@ -1,6 +1,6 @@
 name: langchain_mistralai
 description: LangChain.dart integration module for Mistral AI (Mistral-7B, Mixtral 8x7B, embeddings, etc.).
-version: 0.0.1+1
+version: 0.0.1+2
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_mistralai
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues
 homepage: https://github.com/davidmigloz/langchain_dart
@@ -21,7 +21,7 @@ dependencies:
   http: ^1.1.0
   langchain: ^0.3.0
   meta: ^1.9.1
-  mistralai_dart: ^0.0.1
+  mistralai_dart: ^0.0.1+1
   tiktoken: ^1.0.3
 
 dev_dependencies:
