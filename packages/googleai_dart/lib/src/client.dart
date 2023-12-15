@@ -38,4 +38,9 @@ class GoogleAIClient extends g.GoogleAIClient {
           },
           client: client ?? createDefaultHttpClient(),
         );
+
+  @override
+  Future<http.BaseRequest> onRequest(final http.BaseRequest request) {
+    return onRequestHandler(request);
+  }
 }

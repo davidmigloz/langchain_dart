@@ -67,6 +67,11 @@ class MistralAIClient extends g.MistralAIClient {
           (final d) => ChatCompletionStreamResponse.fromJson(json.decode(d)),
         );
   }
+
+  @override
+  Future<http.BaseRequest> onRequest(final http.BaseRequest request) {
+    return onRequestHandler(request);
+  }
 }
 
 class _MistralAIStreamTransformer
