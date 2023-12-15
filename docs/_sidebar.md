@@ -47,6 +47,7 @@
         - Integrations
           - [OpenAI](/modules/model_io/models/chat_models/integrations/openai.md)
           - [GCP Vertex AI](/modules/model_io/models/chat_models/integrations/gcp_vertex_ai.md)
+          - [Google AI](/modules/model_io/models/chat_models/integrations/googleai.md)
           - [Ollama](/modules/model_io/models/chat_models/integrations/ollama.md)
           - [Mistral AI](/modules/model_io/models/chat_models/integrations/mistralai.md)
           - [Prem App](/modules/model_io/models/chat_models/integrations/prem.md)
