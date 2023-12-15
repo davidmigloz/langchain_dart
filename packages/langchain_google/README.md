@@ -11,14 +11,12 @@ Google module for [LangChain.dart](https://github.com/davidmigloz/langchain_dart
 ## Features
 
 - LLMs:
-  * `VertexAI`: wrapper around GCP Vertex AI text models API (aka PaLM API for 
-    text).
+  * `VertexAI`: wrapper around GCP Vertex AI text models API (aka PaLM API for text).
 - Chat models:
-  * `ChatVertexAI`: wrapper around GCP Vertex AI text chat models API (aka PaLM 
-    API for chat).
+  * `ChatVertexAI`: wrapper around GCP Vertex AI text chat models API (aka PaLM API for chat).
+  * `ChatGoogleGenerativeAI`: wrapper around [Google AI for Developers](https://ai.google.dev) API (Gemini).
 - Embeddings:
-  * `VertexAIEmbeddings`: wrapper around GCP Vertex AI text embedding models 
-    API.
+  * `VertexAIEmbeddings`: wrapper around GCP Vertex AI text embedding models API.
 - Vector stores:
   * `VertexAIMatchingEngine` vector store that uses GCP Vertex AI Matching 
     Engine and Cloud Storage.
