@@ -5,3 +5,8 @@ import 'package:http/retry.dart';
 http.Client createDefaultHttpClient() {
   return RetryClient(http.Client());
 }
+
+/// Middleware for HTTP requests.
+Future<http.BaseRequest> onRequestHandler(final http.BaseRequest request) {
+  return Future.value(request);
+}

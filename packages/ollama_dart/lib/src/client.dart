@@ -149,4 +149,9 @@ class OllamaClient extends g.OllamaClient {
       ),
     );
   }
+
+  @override
+  Future<http.BaseRequest> onRequest(final http.BaseRequest request) {
+    return onRequestHandler(request);
+  }
 }
