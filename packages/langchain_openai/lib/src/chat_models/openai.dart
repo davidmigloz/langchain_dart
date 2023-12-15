@@ -321,8 +321,11 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   }
 
   @override
-  Future<int> countTokens(final PromptValue promptValue) async {
-    final model = defaultOptions.model;
+  Future<int> countTokens(
+    final PromptValue promptValue, {
+    final ChatOpenAIOptions? options,
+  }) async {
+    final model = options?.model ?? defaultOptions.model;
     final tiktoken = _getTiktoken(model);
     final messages = promptValue.toChatMessages();
 

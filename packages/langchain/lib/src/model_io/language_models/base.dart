@@ -73,8 +73,11 @@ abstract class BaseLanguageModel<Input extends Object,
   ///
   /// Note: subclasses can override this method to provide a more accurate
   /// implementation.
-  Future<int> countTokens(final PromptValue promptValue) async {
-    final tokens = await tokenize(promptValue);
+  Future<int> countTokens(
+    final PromptValue promptValue, {
+    final Options? options,
+  }) async {
+    final tokens = await tokenize(promptValue, options: options);
     return tokens.length;
   }
 
