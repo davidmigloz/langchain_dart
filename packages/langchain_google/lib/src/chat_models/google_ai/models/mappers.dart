@@ -13,10 +13,9 @@ extension ChatMessagesMapper on List<ChatMessage> {
   List<Content> toContentList() {
     return map(
       (final message) => switch (message) {
-        // Gemini does not support system messages yet, so we include it as user message
-        final SystemChatMessage msg => Content(
-            role: _authorUser,
-            parts: [Part(text: msg.content)],
+        SystemChatMessage() => throw UnsupportedError(
+            'Google AI does not support system messages at the moment. '
+            'Attach your system message in the human message.',
           ),
         final HumanChatMessage msg => Content(
             role: _authorUser,
