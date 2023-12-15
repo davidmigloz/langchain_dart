@@ -5,7 +5,7 @@
 [![](https://dcbadge.vercel.app/api/server/x4qbhqecVR?style=flat)](https://discord.gg/x4qbhqecVR)
 [![MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://github.com/davidmigloz/langchain_dart/blob/main/LICENSE)
 
-Unofficial Dart client for [Google AI](https://ai.google.dev) for Developer (Gemini API).
+Unofficial Dart client for [Google AI](https://ai.google.dev) for Developers (Gemini API).
 
 ## Features
 

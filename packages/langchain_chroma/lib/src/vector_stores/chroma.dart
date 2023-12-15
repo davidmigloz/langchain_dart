@@ -38,6 +38,15 @@ import 'models/models.dart';
 /// docker run -p 8000:8000 chromadb/chroma
 /// ```
 ///
+/// If you are interacting with Chroma server from a web browser,
+/// you may need to configure the CORS policy. You can do this by
+/// passing the following environment variable:
+/// ```
+/// docker run -p 8000:8000 -e 'CHROMA_SERVER_CORS_ALLOW_ORIGINS=["*"]' chromadb/chroma
+/// ```
+/// The previous command will allow all origins to access the Chroma server
+/// (do not use in production).
+///
 /// By default, the Chroma client will connect to a server running on
 /// `http://localhost:8000`. To connect to a different server, pass the
 /// `baseUrl` parameter to the constructor.
