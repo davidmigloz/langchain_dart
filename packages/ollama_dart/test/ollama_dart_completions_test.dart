@@ -5,6 +5,7 @@ void main() {
   group('Ollama Generate Completions API tests', skip: true, () {
     late OllamaClient client;
     const defaultModel = 'llama2:latest';
+    const visionModel = 'llava:latest';
 
     setUp(() async {
       client = OllamaClient();
@@ -12,6 +13,11 @@ void main() {
       final res = await client.listModels();
       expect(
         res.models?.firstWhere((final m) => m.name == defaultModel),
+        isNotNull,
+      );
+
+      expect(
+        res.models?.firstWhere((final m) => m.name == visionModel),
         isNotNull,
       );
     });
@@ -129,6 +135,20 @@ void main() {
       final text2 = res2.response;
 
       expect(text1, text2);
+    });
+
+    test('Test completion with image', () async {
+      const request = GenerateCompletionRequest(
+        model: visionModel,
+        prompt: 'What is in the image?',
+        images: [
+          'iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAIAAAD0YtNRAAAABnRSTlMA/AD+APzoM1ogAAAAWklEQVR4AWP48+8PLkR7uUdzcMvtU8EhdykHKAciEXL3pvw5FQIURaBDJkARoDhY3zEXiCgCHbNBmAlUiyaBkENoxZSDWnOtBmoAQu7TnT+3WuDOA7KBIkAGAGwiNeqjusp/AAAAAElFTkSuQmCC',
+        ],
+      );
+
+      final res1 = await client.generateCompletion(request: request);
+      final text1 = res1.response;
+      expect(text1?.toLowerCase(), contains('star'));
     });
   });
 }

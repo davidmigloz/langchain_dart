@@ -383,6 +383,32 @@ class OllamaClient {
   }
 
   // ------------------------------------------
+  // METHOD: generateChatCompletion
+  // ------------------------------------------
+
+  /// Generate the next message in a chat with a provided model.
+  ///
+  /// This is a streaming endpoint, so there will be a series of responses. The final response object will include statistics and additional data from the request.
+  ///
+  /// `request`: Request class for the chat endpont.
+  ///
+  /// `POST` `http://localhost:11434/api/chat`
+  Future<GenerateChatCompletionResponse> generateChatCompletion({
+    GenerateChatCompletionRequest? request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:11434/api',
+      path: '/chat',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/x-ndjson',
+      body: request,
+    );
+    return GenerateChatCompletionResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
   // METHOD: generateEmbedding
   // ------------------------------------------
 

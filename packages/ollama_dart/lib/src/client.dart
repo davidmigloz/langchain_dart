@@ -64,6 +64,35 @@ class OllamaClient extends g.OllamaClient {
   }
 
   // ------------------------------------------
+  // METHOD: generateChatCompletionStream
+  // ------------------------------------------
+
+  /// Generate a chat response for a given prompt with a provided model streaming the response.
+  ///
+  /// The final response object will include statistics and additional data from the request.
+  ///
+  /// `request`: Request class for the generate endpoint.
+  ///
+  /// `POST` `http://localhost:11434/api/chat`
+  Stream<GenerateChatCompletionResponse> generateChatCompletionStream({
+    required final GenerateChatCompletionRequest request,
+  }) async* {
+    final r = await makeRequestStream(
+      baseUrl: 'http://localhost:11434/api',
+      path: '/chat',
+      method: g.HttpMethod.post,
+      requestType: 'application/json',
+      responseType: 'application/x-ndjson',
+      body: request.copyWith(stream: true),
+    );
+    yield* r.stream.map(
+      (final d) => GenerateChatCompletionResponse.fromJson(
+        json.decode(const Utf8Decoder().convert(d)),
+      ),
+    );
+  }
+
+  // ------------------------------------------
   // METHOD: createModelStream
   // ------------------------------------------
 

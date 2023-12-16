@@ -37,6 +37,27 @@ paths:
             application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/GenerateCompletionResponse'
+  
+  /chat:
+    post:
+      operationId: generateChatCompletion
+      tags:
+      - Chat
+      summary: Generate the next message in a chat with a provided model.
+      description: This is a streaming endpoint, so there will be a series of responses. The final response object will include statistics and additional data from the request.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateChatCompletionRequest'
+      responses: 
+        '200':
+          description: Successful operation.
+          content:
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/GenerateChatCompletionResponse'
+  
   /embeddings:
     post:
       operationId: generateEmbedding
@@ -231,6 +252,12 @@ components:
           type: string
           description: The prompt to generate a response.
           example: Why is the sky blue?
+        images:
+          type: array
+          description: (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
+          items:
+            ref: '#/components/schemas/Image'
+          example: ["iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAIAAAD0YtNRAAAABnRSTlMA/AD+APzoM1ogAAAAWklEQVR4AWP48+8PLkR7uUdzcMvtU8EhdykHKAciEXL3pvw5FQIURaBDJkARoDhY3zEXiCgCHbNBmAlUiyaBkENoxZSDWnOtBmoAQu7TnT+3WuDOA7KBIkAGAGwiNeqjusp/AAAAAElFTkSuQmCC"]
         system:
           type: string
           description: The system prompt to (overrides what is defined in the Modelfile).
@@ -478,6 +505,109 @@ components:
           type: integer
           description: Time in nanoseconds spent generating the response.
           example: 1325948000
+    GenerateChatCompletionRequest:
+      type: object
+      description: Request class for the chat endpont.
+      properties:
+        model: 
+          type: string
+          description: *model_name 
+          example: llama2:7b
+        messages: 
+          type: array
+          description: The messages of the chat, this can be used to keep a chat memory
+          items:
+            $ref: '#/components/schemas/Message'
+        format:
+          $ref: '#/components/schemas/ResponseFormat'
+        options:
+          $ref: '#/components/schemas/RequestOptions'
+        template:
+          type: string
+          description: The full prompt or prompt template (overrides what is defined in the Modelfile).
+        stream:
+          type: boolean
+          description: *stream
+          default: false
+      required:
+      - model
+      - messages
+    GenerateChatCompletionResponse:
+      type: object
+      description: 
+      properties:
+        message:
+          $ref: '#/components/schemas/Message'
+        model:
+          type: string
+          description: *model_name
+          example: llama2:7b
+        created_at:
+          type: string
+          format: date-time
+          description: Date on which a model was created.
+          example: 2023-08-04T19:22:45.499127Z
+        done:
+          type: boolean
+          description: Whether the response has completed.
+          example: true
+        sample_count:
+          type: integer
+          description: Number of samples generated.
+          example: 114
+        sample_duration:
+          type: integer
+          description: Time spent generating samples.
+          example: 81442000
+        total_duration:
+          type: integer
+          description: Time spent generating the response.
+          example: 5589157167
+        load_duration:
+          type: integer
+          description: Time spent in nanoseconds loading the model.
+          example: 3013701500
+        prompt_eval_count:
+          type: integer
+          description: Number of tokens in the prompt.
+          example: 46
+        prompt_eval_duration:
+          type: integer
+          description: Time spent in nanoseconds evaluating the prompt.
+          example: 1160282000
+        eval_count:
+          type: integer
+          description: Number of tokens the response.
+          example: 113
+        eval_duration:
+          type: integer
+          description: Time in nanoseconds spent generating the response.
+          example: 1325948000
+    Message:
+      type: object
+      description: A message in the chat endpoint
+      properties:
+        role:
+          type: string
+          description: The role of the message
+          enum: ["system", "user", "assistant"]
+        content:
+          type: string
+          description: The content of the message
+          example: Why is the sky blue?
+        images:
+          type: array
+          description: (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
+          items:
+            ref: '#/components/schemas/Image'
+          example: ["iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAIAAAD0YtNRAAAABnRSTlMA/AD+APzoM1ogAAAAWklEQVR4AWP48+8PLkR7uUdzcMvtU8EhdykHKAciEXL3pvw5FQIURaBDJkARoDhY3zEXiCgCHbNBmAlUiyaBkENoxZSDWnOtBmoAQu7TnT+3WuDOA7KBIkAGAGwiNeqjusp/AAAAAElFTkSuQmCC"]
+      required:
+      - role
+      - content
+    Image:
+      type: string
+      description: Base64-encoded image (for multimodal models such as llava)
+      example: iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAIAAAD0YtNRAAAABnRSTlMA/AD+APzoM1ogAAAAWklEQVR4AWP48+8PLkR7uUdzcMvtU8EhdykHKAciEXL3pvw5FQIURaBDJkARoDhY3zEXiCgCHbNBmAlUiyaBkENoxZSDWnOtBmoAQu7TnT+3WuDOA7KBIkAGAGwiNeqjusp/AAAAAElFTkSuQmCC
     GenerateEmbeddingRequest:
       description: Generate embeddings from a model.
       type: object

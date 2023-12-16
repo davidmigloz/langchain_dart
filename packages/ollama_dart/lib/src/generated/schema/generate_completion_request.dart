@@ -23,6 +23,9 @@ class GenerateCompletionRequest with _$GenerateCompletionRequest {
     /// The prompt to generate a response.
     required String prompt,
 
+    /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
+    @JsonKey(includeIfNull: false) List<dynamic>? images,
+
     /// The system prompt to (overrides what is defined in the Modelfile).
     @JsonKey(includeIfNull: false) String? system,
 
@@ -63,6 +66,7 @@ class GenerateCompletionRequest with _$GenerateCompletionRequest {
   static const List<String> propertyNames = [
     'model',
     'prompt',
+    'images',
     'system',
     'template',
     'context',
@@ -82,6 +86,7 @@ class GenerateCompletionRequest with _$GenerateCompletionRequest {
     return {
       'model': model,
       'prompt': prompt,
+      'images': images,
       'system': system,
       'template': template,
       'context': context,
