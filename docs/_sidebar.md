@@ -1,6 +1,7 @@
 - [Get started](/)
   - [Installation](/get_started/installation.md)
   - [Quickstart](/get_started/quickstart.md)
+  - [Security](/get_started/security.md)
 - [LangChain Expression Language](/expression_language/expression_language.md)
   - [Interface](/expression_language/interface.md)
   - Cookbook

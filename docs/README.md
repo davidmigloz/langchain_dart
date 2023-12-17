@@ -12,10 +12,16 @@
 
 The main value prop of LangChain are:
 
-1. **Components:** abstractions for working with language models, along with a collection of implementations for each abstraction. Components are modular and easy-to-use, whether you are using the rest of the LangChain framework or not.
-2. **Off-the-shelf chains:** a structured assembly of components for accomplishing specific higher-level tasks.
+1. **Components:** composable tools and integrations for working with language models. Components are modular and easy-to-use.
+2. **Off-the-shelf chains:** built-in assemblages of components for accomplishing higher-level tasks.
 
-Off-the-shelf chains make it easy to get started. For more complex applications and nuanced use-cases, components make it easy to customize existing chains or build new ones.
+Off-the-shelf chains make it easy to get started. Components make it easy to customize existing chains and build new ones.
+
+The LangChain.dart framework is made up of several different packages:
+
+LangChain.dart has a modular design where the core [langchain](https://pub.dev/packages/langchain)
+package provides the LangChain API and each integration with a model provider, database, etc. is
+provided by a separate package.
 
 ## Getting Started
 
@@ -26,9 +32,17 @@ We recommend following our [Quickstart guide](/get_started/getting_started.md) t
 > **Note:** These docs are for the [LangChain Dart package](https://github.com/davidmigloz/langchain_dart). 
 > For documentation on LangChain Python [click here](https://python.langchain.com), and for LangChain.js [click here](https://js.langchain.com).
 
+## LangChain Expression Language (LCEL)
+
+LCEL is a declarative way to compose chains. LCEL was designed from day 1 to support putting prototypes in production, with no code changes, from the simplest “prompt + LLM” chain to the most complex chains.
+
+- [Overview](/expression_language/expression_language): LCEL and its benefits
+- [Interface](/expression_language/interface): The standard interface for LCEL objects
+- [Cookbook](https://langchaindart.com/#/expression_language/cookbook/prompt_llm_parser): Example code for accomplishing common tasks
+
 ## Modules
 
-LangChain provides standard, extendable interfaces and external integrations for the following modules, listed from least to most complex:
+LangChain.dart provides standard, extendable interfaces and integrations for the following modules:
 
 ![LangChain.dart](https://raw.githubusercontent.com/davidmigloz/langchain_dart/main/docs/img/langchain.dart.png)
 
@@ -38,45 +52,36 @@ Interface with language models.
 **[Retrieval]()**  
 Interface with application-specific data.
 
-**[Chains](/modules/chains/chains.md)**  
-Construct sequences of calls.
-
 **[Agents](/modules/agents/agents.md)**  
-Let chains choose which tools to use given high-level directives.
-
-**[Memory](/modules/memory/memory.md)**  
-Persist application state between runs of a chain.
-
-**[Callbacks]()**  
-Log and stream intermediate steps of any chain.
+Let models choose which tools to use given high-level directives
 
 ## Examples, ecosystem, and resources
 
-### [Use cases](https://python.langchain.com/docs/use_cases/)
+### Use cases
 
-Walkthroughs and best-practices for common end-to-end use cases, like:
+Walkthroughes and best-practices for [common end-to-end use cases](https://python.langchain.com/docs/use_cases), like:
 
-- [Chatbots](https://python.langchain.com/docs/use_cases/chatbots)
-- [Answering questions using sources](https://python.langchain.com/docs/use_cases/question_answering)
-- [Analyzing structured data](https://python.langchain.com/docs/use_cases/tabular.html)
+- [Document question answering](https://python.langchain.com/docs/use_cases/question_answering/)
+- [Chatbots](https://python.langchain.com/docs/use_cases/chatbots/)
+- [Analyzing structured data](https://python.langchain.com/docs/use_cases/qa_structured/sql/)
 - and much more...
 
-### [Guides](https://python.langchain.com/docs/guides)
+### Guides
 
-Learn best practices for developing with LangChain.
+[Best practices](https://python.langchain.com/docs/guides) for developing with LangChain.
 
-### [Ecosystem](https://python.langchain.com/docs/ecosystem)
+### Ecosystem
 
-LangChain is part of a rich ecosystem of tools that integrate with our framework and build on top of it. Check out our growing list of integrations and dependent repos.
-
-### [Additional resources](https://python.langchain.com/docs/additional_resources)
-
-Our community is full of prolific developers, creative builders, and fantastic teachers. Check out [YouTube tutorials](https://python.langchain.com/docs/ecosystem/youtube.html) for great tutorials from folks in the community, and [Gallery](https://github.com/kyrolabs/awesome-langchain) for a list of awesome LangChain projects, compiled by the folks at [KyroLabs](https://kyrolabs.com).
-
-### Support
-
-Join us on [GitHub](https://github.com/davidmigloz/langchain_dart) or [Discord](https://discord.gg/6adMQxSpJS) to ask questions, share feedback, meet other developers building with LangChain, and dream about the future of LLM’s.
+LangChain is part of a [rich ecosystem](https://python.langchain.com/docs/ecosystem) of tools that integrate with our framework and build on top of it. Check out our growing list of integrations and dependent repos.
 
 ## API reference
 
 Head to the [reference section](https://pub.dev/documentation/langchain/latest) for full documentation of all classes and methods in the LangChain Dart package.
+
+## Developer's guide
+
+Check out the [developer's guide](https://github.com/davidmigloz/langchain_dart/blob/main/CONTRIBUTING.md) for guidelines on contributing and help getting your dev environment set up.
+
+### Community
+
+Our community is full of prolific developers, creative builders, and fantastic teachers. Join us on [GitHub](https://github.com/davidmigloz/langchain_dart) or [Discord](https://discord.gg/6adMQxSpJS) to ask questions, share feedback, meet other developers building with LangChain.dart, and dream about the future of LLM’s.
