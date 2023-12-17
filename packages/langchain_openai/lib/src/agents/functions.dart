@@ -122,7 +122,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
     final BaseChatMemory? memory,
     final SystemChatMessagePromptTemplate systemChatMessage =
         _systemChatMessagePromptTemplate,
-    final List<BaseChatMessagePromptTemplate>? extraPromptMessages,
+    final List<ChatMessagePromptTemplate>? extraPromptMessages,
   }) {
     return OpenAIFunctionsAgent(
       llmChain: LLMChain(
@@ -222,7 +222,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
   static BasePromptTemplate createPrompt({
     final SystemChatMessagePromptTemplate systemChatMessage =
         _systemChatMessagePromptTemplate,
-    final List<BaseChatMessagePromptTemplate>? extraPromptMessages,
+    final List<ChatMessagePromptTemplate>? extraPromptMessages,
     final BaseChatMemory? memory,
   }) {
     return ChatPromptTemplate.fromPromptMessages([

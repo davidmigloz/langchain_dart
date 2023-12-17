@@ -7,45 +7,64 @@ import 'models/models.dart';
 import 'template.dart';
 
 /// {@template prompt_template}
-/// Schema to represent a prompt for an LLM.
+/// A prompt template for a language model.
+///
+/// A prompt template consists of a string template. It accepts a set of parameters
+/// from the user that can be used to generate a prompt for a language model.
 ///
 /// Example:
 /// ```dart
-/// final prompt = PromptTemplate(
-///   inputVariables: ['foo'],
-///   template: 'Say {foo}',
+/// final promptTemplate = PromptTemplate(
+///   inputVariables: ['product'],
+///   template: 'What is a good name for a company that makes {product}?',
+/// );
+/// final prompt = promptTemplate.formatPrompt({'product': 'colorful socks'});
+/// final res = await llm.invoke(prompt);
+/// ```
+///
+/// Note: the default constructor does not validate the template. You can use
+/// [PromptTemplate.validateTemplate] to validate the template.
+///
+/// You can also use the following convenience factory constructors to create a prompt template:
+///
+/// - [PromptTemplate.fromTemplate] creates a prompt template from a string template automatically
+///   extracting the input variables.
+///
+/// ```dart
+/// final promptTemplate = PromptTemplate.fromTemplate(
+///   'What is a good name for a company that makes {product}?',
 /// );
 /// ```
-/// {@endtemplate}
 ///
-/// The default constructor does not validate the template. You can use
-/// [PromptTemplate.validateTemplate] to validate the template.
+/// - [PromptTemplate.fromExamples] to create prompt templates from a list of examples.
+/// - [PromptTemplate.fromFile] to create a prompt template from a file.
+/// {@endtemplate}
 @immutable
-final class PromptTemplate extends BaseStringPromptTemplate {
+final class PromptTemplate extends BasePromptTemplate {
   /// {@macro prompt_template}
   const PromptTemplate({
     required super.inputVariables,
     super.partialVariables,
     required this.template,
-    this.templateFormat = TemplateFormat.fString,
   });
 
-  /// Creates a prompt template from a string template.
+  /// Creates a prompt template from a string template automatically extracting the input variables.
   ///
   /// Example:
   /// ```dart
-  /// final prompt = PromptTemplate.fromTemplate('Say {foo}');
+  /// final promptTemplate = PromptTemplate.fromTemplate(
+  ///   'What is a good name for a company that makes {product}?',
+  /// );
+  /// final prompt = promptTemplate.formatPrompt({'product': 'colorful socks'});
+  /// final res = await llm.invoke(prompt);
   /// ```
   ///
   /// - [template] the template string.
   /// - [partialVariables] the partial variables to use for the template.
-  /// - [templateFormat] the format of the template (only fString format is
-  ///   supported for now).
   /// - [validateTemplate] whether to validate the template.
   factory PromptTemplate.fromTemplate(
     final String template, {
     final PartialValues? partialVariables,
-    final TemplateFormat templateFormat = TemplateFormat.fString,
     final bool validateTemplate = true,
   }) {
     final t = PromptTemplate(
@@ -56,7 +75,6 @@ final class PromptTemplate extends BaseStringPromptTemplate {
           .difference(partialVariables?.keys.toSet() ?? {}),
       partialVariables: partialVariables,
       template: template,
-      templateFormat: templateFormat,
     );
     if (validateTemplate) {
       t.validateTemplate();
@@ -100,13 +118,10 @@ final class PromptTemplate extends BaseStringPromptTemplate {
   ///
   /// - [templateFile] the path to the file containing the prompt template.
   /// - [partialVariables] the partial variables to use for the template.
-  /// - [templateFormat] the format of the template (only fString format is
-  ///   supported for now).
   /// - [validateTemplate] whether to validate the template.
   static Future<PromptTemplate> fromFile(
     final String templateFile, {
     final PartialValues? partialVariables,
-    final TemplateFormat templateFormat = TemplateFormat.fString,
     final bool validateTemplate = true,
   }) async {
     final file = XFile(templateFile);
@@ -114,16 +129,12 @@ final class PromptTemplate extends BaseStringPromptTemplate {
     return PromptTemplate.fromTemplate(
       template,
       partialVariables: partialVariables,
-      templateFormat: templateFormat,
       validateTemplate: validateTemplate,
     );
   }
 
   /// The prompt template.
   final String template;
-
-  /// The format of the prompt template.
-  final TemplateFormat templateFormat;
 
   @override
   String get type => 'prompt';
@@ -137,7 +148,6 @@ final class PromptTemplate extends BaseStringPromptTemplate {
   void validateTemplate() {
     checkValidPromptTemplate(
       template: template,
-      templateFormat: templateFormat,
       inputVariables: inputVariables,
       partialVariables: partialVariables?.keys,
     );
@@ -148,9 +158,13 @@ final class PromptTemplate extends BaseStringPromptTemplate {
     final allValues = mergePartialAndUserVariables(values);
     return renderTemplate(
       template: template,
-      templateFormat: templateFormat,
       inputValues: allValues,
     );
+  }
+
+  @override
+  PromptValue formatPrompt(final InputValues values) {
+    return PromptValue.string(format(values));
   }
 
   @override
@@ -167,16 +181,12 @@ final class PromptTemplate extends BaseStringPromptTemplate {
               partialVariables,
               other.partialVariables,
             ) &&
-            template == other.template &&
-            templateFormat == other.templateFormat;
+            template == other.template;
   }
 
   @override
   int get hashCode =>
-      inputVariables.hashCode ^
-      partialVariables.hashCode ^
-      template.hashCode ^
-      templateFormat.hashCode;
+      inputVariables.hashCode ^ partialVariables.hashCode ^ template.hashCode;
 
   @override
   String toString() {
@@ -185,7 +195,6 @@ PromptTemplate{
   template: $template, 
   inputVariables: $inputVariables,
   partialVariables: $partialVariables,
-  templateFormat: $templateFormat, 
 }''';
   }
 
@@ -194,13 +203,11 @@ PromptTemplate{
     final Set<String>? inputVariables,
     final Map<String, dynamic>? partialVariables,
     final String? template,
-    final TemplateFormat? templateFormat,
   }) {
     return PromptTemplate(
       inputVariables: inputVariables ?? this.inputVariables,
       partialVariables: partialVariables ?? this.partialVariables,
       template: template ?? this.template,
-      templateFormat: templateFormat ?? this.templateFormat,
     );
   }
 }

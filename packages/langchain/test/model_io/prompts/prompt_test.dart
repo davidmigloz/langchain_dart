@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_redundant_argument_values
 import 'package:langchain/langchain.dart';
-import 'package:langchain/src/model_io/prompts/template.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -114,19 +113,6 @@ void main() {
         () => const PromptTemplate(
           inputVariables: inputVariables,
           template: template,
-        ).validateTemplate(),
-        throwsA(isA<TemplateValidationException>()),
-      );
-    });
-
-    test('Test error is raised when jinja2 template format is used', () {
-      const template = 'This is a {foo} test.';
-      const inputVariables = {'foo'};
-      expect(
-        () => const PromptTemplate(
-          inputVariables: inputVariables,
-          template: template,
-          templateFormat: TemplateFormat.jinja2,
         ).validateTemplate(),
         throwsA(isA<TemplateValidationException>()),
       );
