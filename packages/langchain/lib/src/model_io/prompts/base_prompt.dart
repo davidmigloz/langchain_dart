@@ -152,21 +152,3 @@ BasePromptTemplate{
     final Map<String, dynamic>? partialVariables,
   });
 }
-
-/// {@template base_string_prompt_template}
-/// Base class to generate a prompt from a string.
-/// {@endtemplate}
-@immutable
-abstract base class BaseStringPromptTemplate extends BasePromptTemplate {
-  /// {@macro base_string_prompt_template}
-  const BaseStringPromptTemplate({
-    required super.inputVariables,
-    super.partialVariables,
-  });
-
-  @override
-  PromptValue formatPrompt(final InputValues values) {
-    final formattedPrompt = format(values);
-    return StringPromptValue(formattedPrompt);
-  }
-}

@@ -18,11 +18,12 @@ import 'prompt.dart';
 /// ```dart
 /// final promptA = PromptTemplate.fromTemplate('{foo}');
 /// final promptB = PromptTemplate.fromTemplate('{bar}');
-/// final pipelinePrompt = PipelinePromptTemplate(
+/// final pipelinePromptTemplate = PipelinePromptTemplate(
 ///   finalPrompt: promptB,
 ///   pipelinePrompts: [('bar', promptA)],
 /// );
-/// final output = pipelinePrompt.format({'foo': 'jim'});
+/// final prompt = pipelinePromptTemplate.formatPrompt({'foo': 'jim'});
+/// final res = await llm.invoke(prompt);
 /// ```
 /// {@endtemplate}
 final class PipelinePromptTemplate extends BasePromptTemplate {

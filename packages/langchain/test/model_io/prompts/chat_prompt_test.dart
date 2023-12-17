@@ -33,6 +33,77 @@ void main() {
       ]);
     });
 
+    test('Test ChatPromptTemplate.fromTemplates', () {
+      final chatPrompt = ChatPromptTemplate.fromTemplates(
+        const [
+          (ChatMessageType.system, "Here's some context: {context}"),
+          (
+            ChatMessageType.human,
+            "Hello {foo}, I'm {bar}. Thanks for the {context}"
+          ),
+          (ChatMessageType.ai, "I'm an AI. I'm {foo}. I'm {bar}."),
+          (
+            ChatMessageType.custom,
+            "I'm a generic message. I'm {foo}. I'm {bar}."
+          ),
+        ],
+        customRole: 'test',
+      );
+      final messages = chatPrompt.formatPrompt({
+        'context': 'This is a context',
+        'foo': 'Foo',
+        'bar': 'Bar',
+      });
+      expect(messages.toChatMessages(), [
+        ChatMessage.system("Here's some context: This is a context"),
+        ChatMessage.humanText(
+          "Hello Foo, I'm Bar. Thanks for the This is a context",
+        ),
+        ChatMessage.ai("I'm an AI. I'm Foo. I'm Bar."),
+        ChatMessage.custom(
+          "I'm a generic message. I'm Foo. I'm Bar.",
+          role: 'test',
+        ),
+      ]);
+    });
+
+    test('Test ChatPromptTemplate.fromPromptMessages with factory constructors',
+        () {
+      final chatPrompt = ChatPromptTemplate.fromPromptMessages(
+        [
+          ChatMessagePromptTemplate.system(
+            "Here's some context: {context}",
+          ),
+          ChatMessagePromptTemplate.human(
+            "Hello {foo}, I'm {bar}. Thanks for the {context}",
+          ),
+          ChatMessagePromptTemplate.ai(
+            "I'm an AI. I'm {foo}. I'm {bar}.",
+          ),
+          ChatMessagePromptTemplate.custom(
+            "I'm a generic message. I'm {foo}. I'm {bar}.",
+            role: 'test',
+          ),
+        ],
+      );
+      final messages = chatPrompt.formatPrompt({
+        'context': 'This is a context',
+        'foo': 'Foo',
+        'bar': 'Bar',
+      });
+      expect(messages.toChatMessages(), [
+        ChatMessage.system("Here's some context: This is a context"),
+        ChatMessage.humanText(
+          "Hello Foo, I'm Bar. Thanks for the This is a context",
+        ),
+        ChatMessage.ai("I'm an AI. I'm Foo. I'm Bar."),
+        ChatMessage.custom(
+          "I'm a generic message. I'm Foo. I'm Bar.",
+          role: 'test',
+        ),
+      ]);
+    });
+
     test('Test format with invalid input variables', () {
       const systemPrompt = PromptTemplate(
         template: "Here's some context: {context}",
@@ -301,7 +372,7 @@ void main() {
   });
 }
 
-List<BaseChatMessagePromptTemplate> _createMessages() {
+List<ChatMessagePromptTemplate> _createMessages() {
   return [
     SystemChatMessagePromptTemplate.fromTemplate(
       "Here's some context: {context}",

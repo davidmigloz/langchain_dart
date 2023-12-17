@@ -41,7 +41,20 @@ class LanguageModelResult<O extends Object> {
   /// Whether the result of the language model is being streamed.
   final bool streaming;
 
+  /// Returns the first output.
+  ///
+  /// This is a convenience method for getting the first output.
+  /// - If you are using an `LLM`, this will be a String.
+  /// - If you are using a `ChatModel`, this will be a `ChatMessage`.
+  O get firstOutput {
+    return generations.first.output;
+  }
+
   /// Returns the first output as a string.
+  ///
+  /// This is a convenience method for getting the first output as a string.
+  /// - If you are using an `LLM`, this will be the output String.
+  /// - If you are using a `ChatModel`, this will be the content of the output `ChatMessage`.
   String get firstOutputAsString {
     return generations.firstOrNull?.outputAsString ?? '';
   }

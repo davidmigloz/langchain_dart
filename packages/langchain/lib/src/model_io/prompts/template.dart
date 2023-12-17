@@ -1,39 +1,20 @@
 import 'package:meta/meta.dart';
 
 import '../../utils/exception.dart';
-import 'base_chat_prompt.dart';
+import 'base_chat_message_prompt.dart';
 import 'chat_prompt.dart';
 import 'models/models.dart';
 import 'prompt.dart';
-
-/// Format of a template.
-/// Currently only f-strings are supported.
-enum TemplateFormat {
-  /// Python f-strings format (aka. formatted string literals).
-  /// E.g.: "Hello, my name is {name} and I'm {age} years old."
-  fString,
-
-  /// Jinja2 templating engine format.
-  /// E.g.: "Hello, my name is {{ name }} and I'm {{ age }} years old."
-  jinja2,
-}
 
 /// Checks if the template is a valid [PromptTemplate].
 ///
 /// Throws a [TemplateValidationException] if it is not.
 void checkValidPromptTemplate({
   required final String template,
-  required final TemplateFormat templateFormat,
   required final Set<String> inputVariables,
   required final Iterable<String>? partialVariables,
 }) {
   try {
-    // Check format
-    if (templateFormat == TemplateFormat.jinja2) {
-      throw const TemplateValidationException(
-        message: 'Jinja2 not implemented yet',
-      );
-    }
     // Check reversed keywords
     if (inputVariables.contains('stop') ||
         (partialVariables?.contains('stop') ?? false)) {
@@ -73,7 +54,6 @@ void checkValidPromptTemplate({
     );
     renderTemplate(
       template: template,
-      templateFormat: templateFormat,
       inputValues: dummyInputs,
     );
   } on TemplateValidationException {
@@ -87,7 +67,7 @@ void checkValidPromptTemplate({
 ///
 /// Throws a [TemplateValidationException] if it is not.
 void checkValidChatPromptTemplate({
-  required final List<BaseChatMessagePromptTemplate> promptMessages,
+  required final List<ChatMessagePromptTemplate> promptMessages,
   required final Set<String> inputVariables,
   required final Iterable<String>? partialVariables,
 }) {
@@ -140,15 +120,9 @@ final class TemplateValidationException extends LangChainException {
 /// Renders a template with the given values.
 String renderTemplate({
   required final String template,
-  required final TemplateFormat templateFormat,
   required final InputValues inputValues,
 }) {
-  return switch (templateFormat) {
-    TemplateFormat.fString => renderFStringTemplate(template, inputValues),
-    TemplateFormat.jinja2 => throw const TemplateValidationException(
-        message: 'Jinja2 not implemented yet',
-      ),
-  };
+  return renderFStringTemplate(template, inputValues);
 }
 
 /// Render a template in fString format.
