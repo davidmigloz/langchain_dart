@@ -7,11 +7,6 @@ analyzer:
     missing_return: error
     todo: ignore
     sdk_version_since: ignore # TODO remove when fixed https://github.com/dart-lang/sdk/issues/52327
-  exclude:
-    - "**/generated_plugin_registrant.dart"
-    - "**/generated/**"
-    - "**/*.gen.dart"
-    - "**/*.g.dart"
 
 linter:
   rules: # https://dart-lang.github.io/linter/lints/{rule}.html
