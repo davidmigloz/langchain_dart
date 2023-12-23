@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: prefer_final_parameters, require_trailing_commas, non_constant_identifier_names, unnecessary_null_checks
+
 part of 'schema.dart';
 
 // **************************************************************************
@@ -40,7 +42,7 @@ Map<String, dynamic> _$$GenerateCompletionRequestImplToJson(
   writeNotNull('system', instance.system);
   writeNotNull('template', instance.template);
   writeNotNull('context', instance.context);
-  writeNotNull('options', instance.options);
+  writeNotNull('options', instance.options?.toJson());
   writeNotNull('format', _$ResponseFormatEnumMap[instance.format]);
   writeNotNull('raw', instance.raw);
   val['stream'] = instance.stream;
@@ -202,7 +204,7 @@ Map<String, dynamic> _$$GenerateEmbeddingRequestImplToJson(
     }
   }
 
-  writeNotNull('options', instance.options);
+  writeNotNull('options', instance.options?.toJson());
   return val;
 }
 
@@ -288,7 +290,7 @@ Map<String, dynamic> _$$ModelsResponseImplToJson(
     }
   }
 
-  writeNotNull('models', instance.models);
+  writeNotNull('models', instance.models?.map((e) => e.toJson()).toList());
   return val;
 }
 

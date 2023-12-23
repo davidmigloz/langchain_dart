@@ -4,6 +4,7 @@ targets:
       source_gen|combining_builder:
         options:
           ignore_for_file:
+            - prefer_const_constructors
             - prefer_final_parameters
             - require_trailing_commas
             - non_constant_identifier_names

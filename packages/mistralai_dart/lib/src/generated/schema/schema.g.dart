@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: prefer_final_parameters, require_trailing_commas, non_constant_identifier_names, unnecessary_null_checks
+
 part of 'schema.dart';
 
 // **************************************************************************
@@ -25,7 +27,7 @@ Map<String, dynamic> _$$ChatCompletionRequestImplToJson(
     _$ChatCompletionRequestImpl instance) {
   final val = <String, dynamic>{
     'model': const _ChatCompletionModelConverter().toJson(instance.model),
-    'messages': instance.messages,
+    'messages': instance.messages.map((e) => e.toJson()).toList(),
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -99,8 +101,8 @@ Map<String, dynamic> _$$ChatCompletionResponseImplToJson(
       'object': instance.object,
       'created': instance.created,
       'model': instance.model,
-      'choices': instance.choices,
-      'usage': instance.usage,
+      'choices': instance.choices.map((e) => e.toJson()).toList(),
+      'usage': instance.usage.toJson(),
     };
 
 _$ChatCompletionResponseChoicesInnerImpl
@@ -128,7 +130,7 @@ Map<String, dynamic> _$$ChatCompletionResponseChoicesInnerImplToJson(
     }
   }
 
-  writeNotNull('message', instance.message);
+  writeNotNull('message', instance.message?.toJson());
   val['finish_reason'] =
       _$ChatCompletionFinishReasonEnumMap[instance.finishReason]!;
   return val;
@@ -204,7 +206,7 @@ Map<String, dynamic> _$$ChatCompletionStreamResponseImplToJson(
   writeNotNull('object', instance.object);
   writeNotNull('created', instance.created);
   val['model'] = instance.model;
-  val['choices'] = instance.choices;
+  val['choices'] = instance.choices.map((e) => e.toJson()).toList();
   return val;
 }
 
@@ -224,7 +226,7 @@ Map<String, dynamic> _$$ChatCompletionStreamResponseChoicesInnerImplToJson(
     _$ChatCompletionStreamResponseChoicesInnerImpl instance) {
   final val = <String, dynamic>{
     'index': instance.index,
-    'delta': instance.delta,
+    'delta': instance.delta.toJson(),
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -334,9 +336,9 @@ Map<String, dynamic> _$$EmbeddingResponseImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'object': instance.object,
-      'data': instance.data,
+      'data': instance.data.map((e) => e.toJson()).toList(),
       'model': instance.model,
-      'usage': instance.usage,
+      'usage': instance.usage.toJson(),
     };
 
 _$EmbeddingUsageImpl _$$EmbeddingUsageImplFromJson(Map<String, dynamic> json) =>
@@ -379,7 +381,7 @@ _$ModelListImpl _$$ModelListImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$ModelListImplToJson(_$ModelListImpl instance) =>
     <String, dynamic>{
       'object': instance.object,
-      'data': instance.data,
+      'data': instance.data.map((e) => e.toJson()).toList(),
     };
 
 _$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(

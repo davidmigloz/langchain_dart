@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: prefer_const_constructors, prefer_final_parameters, require_trailing_commas, non_constant_identifier_names, unnecessary_null_checks
+
 part of 'schema.dart';
 
 // **************************************************************************
@@ -56,7 +58,8 @@ Map<String, dynamic> _$$CreateTunedModelMetadataImplToJson(
   writeNotNull('totalSteps', instance.totalSteps);
   writeNotNull('tunedModel', instance.tunedModel);
   writeNotNull('completedSteps', instance.completedSteps);
-  writeNotNull('snapshots', instance.snapshots);
+  writeNotNull(
+      'snapshots', instance.snapshots?.map((e) => e.toJson()).toList());
   writeNotNull('completedPercent', instance.completedPercent);
   return val;
 }
@@ -113,7 +116,8 @@ Map<String, dynamic> _$$ListOperationsResponseImplToJson(
   }
 
   writeNotNull('nextPageToken', instance.nextPageToken);
-  writeNotNull('operations', instance.operations);
+  writeNotNull(
+      'operations', instance.operations?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -226,7 +230,7 @@ Map<String, dynamic> _$$PartImplToJson(_$PartImpl instance) {
     }
   }
 
-  writeNotNull('inlineData', instance.inlineData);
+  writeNotNull('inlineData', instance.inlineData?.toJson());
   writeNotNull('text', instance.text);
   return val;
 }
@@ -261,9 +265,10 @@ Map<String, dynamic> _$$GenerateContentRequestImplToJson(
     }
   }
 
-  writeNotNull('generationConfig', instance.generationConfig);
-  writeNotNull('contents', instance.contents);
-  writeNotNull('safetySettings', instance.safetySettings);
+  writeNotNull('generationConfig', instance.generationConfig?.toJson());
+  writeNotNull('contents', instance.contents?.map((e) => e.toJson()).toList());
+  writeNotNull('safetySettings',
+      instance.safetySettings?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -286,7 +291,7 @@ Map<String, dynamic> _$$EmbedContentResponseImplToJson(
     }
   }
 
-  writeNotNull('embedding', instance.embedding);
+  writeNotNull('embedding', instance.embedding?.toJson());
   return val;
 }
 
@@ -308,7 +313,7 @@ Map<String, dynamic> _$$ContentImplToJson(_$ContentImpl instance) {
   }
 
   writeNotNull('role', instance.role);
-  writeNotNull('parts', instance.parts);
+  writeNotNull('parts', instance.parts?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -343,7 +348,7 @@ Map<String, dynamic> _$$EmbedContentRequestImplToJson(
     }
   }
 
-  writeNotNull('content', instance.content);
+  writeNotNull('content', instance.content?.toJson());
   writeNotNull(
       'taskType', _$EmbedContentRequestTaskTypeEnumMap[instance.taskType]);
   writeNotNull('model', instance.model);
@@ -380,7 +385,7 @@ Map<String, dynamic> _$$ListModelsResponseImplToJson(
   }
 
   writeNotNull('nextPageToken', instance.nextPageToken);
-  writeNotNull('models', instance.models);
+  writeNotNull('models', instance.models?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -402,7 +407,7 @@ Map<String, dynamic> _$$BatchEmbedContentsRequestImplToJson(
     }
   }
 
-  writeNotNull('requests', instance.requests);
+  writeNotNull('requests', instance.requests?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -448,7 +453,8 @@ Map<String, dynamic> _$$PromptFeedbackImplToJson(
     }
   }
 
-  writeNotNull('safetyRatings', instance.safetyRatings);
+  writeNotNull(
+      'safetyRatings', instance.safetyRatings?.map((e) => e.toJson()).toList());
   writeNotNull(
       'blockReason', _$PromptFeedbackBlockReasonEnumMap[instance.blockReason]);
   return val;
@@ -484,7 +490,7 @@ Map<String, dynamic> _$$OperationImplToJson(_$OperationImpl instance) {
   writeNotNull('response', instance.response);
   writeNotNull('done', instance.done);
   writeNotNull('metadata', instance.metadata);
-  writeNotNull('error', instance.error);
+  writeNotNull('error', instance.error?.toJson());
   return val;
 }
 
@@ -510,8 +516,9 @@ Map<String, dynamic> _$$GenerateContentResponseImplToJson(
     }
   }
 
-  writeNotNull('promptFeedback', instance.promptFeedback);
-  writeNotNull('candidates', instance.candidates);
+  writeNotNull('promptFeedback', instance.promptFeedback?.toJson());
+  writeNotNull(
+      'candidates', instance.candidates?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -593,13 +600,14 @@ Map<String, dynamic> _$$CandidateImplToJson(_$CandidateImpl instance) {
     }
   }
 
-  writeNotNull('content', instance.content);
+  writeNotNull('content', instance.content?.toJson());
   writeNotNull(
       'finishReason', _$CandidateFinishReasonEnumMap[instance.finishReason]);
-  writeNotNull('citationMetadata', instance.citationMetadata);
+  writeNotNull('citationMetadata', instance.citationMetadata?.toJson());
   writeNotNull('index', instance.index);
   writeNotNull('tokenCount', instance.tokenCount);
-  writeNotNull('safetyRatings', instance.safetyRatings);
+  writeNotNull(
+      'safetyRatings', instance.safetyRatings?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -650,7 +658,7 @@ Map<String, dynamic> _$$CountTokensRequestImplToJson(
     }
   }
 
-  writeNotNull('contents', instance.contents);
+  writeNotNull('contents', instance.contents?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -672,7 +680,8 @@ Map<String, dynamic> _$$BatchEmbedContentsResponseImplToJson(
     }
   }
 
-  writeNotNull('embeddings', instance.embeddings);
+  writeNotNull(
+      'embeddings', instance.embeddings?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -694,7 +703,8 @@ Map<String, dynamic> _$$CitationMetadataImplToJson(
     }
   }
 
-  writeNotNull('citationSources', instance.citationSources);
+  writeNotNull('citationSources',
+      instance.citationSources?.map((e) => e.toJson()).toList());
   return val;
 }
 
