@@ -289,6 +289,14 @@ void main() {
       expect(step3.metadata, isNull);
     }
 
+    Future<void> cleanUp(
+      final String assistantId,
+      final String threadId,
+    ) async {
+      await client.deleteThread(threadId: threadId);
+      await client.deleteAssistant(assistantId: assistantId);
+    }
+
     test('Test assistant', () async {
       final assistantId = await createAssistant();
       final threadId = await createThread();
@@ -298,6 +306,7 @@ void main() {
       await checkRunStatus(threadId, runId);
       await checkAssistantResponse(threadId);
       await checkThreadRunSteps(threadId, runId);
+      await cleanUp(assistantId, threadId);
     });
   });
 }
