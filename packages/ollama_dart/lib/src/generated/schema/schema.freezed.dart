@@ -31,7 +31,7 @@ mixin _$GenerateCompletionRequest {
 
   /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
   @JsonKey(includeIfNull: false)
-  List<dynamic>? get images => throw _privateConstructorUsedError;
+  List<String>? get images => throw _privateConstructorUsedError;
 
   /// The system prompt to (overrides what is defined in the Modelfile).
   @JsonKey(includeIfNull: false)
@@ -82,7 +82,7 @@ abstract class $GenerateCompletionRequestCopyWith<$Res> {
   $Res call(
       {String model,
       String prompt,
-      @JsonKey(includeIfNull: false) List<dynamic>? images,
+      @JsonKey(includeIfNull: false) List<String>? images,
       @JsonKey(includeIfNull: false) String? system,
       @JsonKey(includeIfNull: false) String? template,
       @JsonKey(includeIfNull: false) List<int>? context,
@@ -134,7 +134,7 @@ class _$GenerateCompletionRequestCopyWithImpl<$Res,
       images: freezed == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<String>?,
       system: freezed == system
           ? _value.system
           : system // ignore: cast_nullable_to_non_nullable
@@ -191,7 +191,7 @@ abstract class _$$GenerateCompletionRequestImplCopyWith<$Res>
   $Res call(
       {String model,
       String prompt,
-      @JsonKey(includeIfNull: false) List<dynamic>? images,
+      @JsonKey(includeIfNull: false) List<String>? images,
       @JsonKey(includeIfNull: false) String? system,
       @JsonKey(includeIfNull: false) String? template,
       @JsonKey(includeIfNull: false) List<int>? context,
@@ -243,7 +243,7 @@ class __$$GenerateCompletionRequestImplCopyWithImpl<$Res>
       images: freezed == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<String>?,
       system: freezed == system
           ? _value.system
           : system // ignore: cast_nullable_to_non_nullable
@@ -282,7 +282,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
   const _$GenerateCompletionRequestImpl(
       {required this.model,
       required this.prompt,
-      @JsonKey(includeIfNull: false) final List<dynamic>? images,
+      @JsonKey(includeIfNull: false) final List<String>? images,
       @JsonKey(includeIfNull: false) this.system,
       @JsonKey(includeIfNull: false) this.template,
       @JsonKey(includeIfNull: false) final List<int>? context,
@@ -311,12 +311,12 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
   final String prompt;
 
   /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
-  final List<dynamic>? _images;
+  final List<String>? _images;
 
   /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
   @override
   @JsonKey(includeIfNull: false)
-  List<dynamic>? get images {
+  List<String>? get images {
     final value = _images;
     if (value == null) return null;
     if (_images is EqualUnmodifiableListView) return _images;
@@ -432,7 +432,7 @@ abstract class _GenerateCompletionRequest extends GenerateCompletionRequest {
   const factory _GenerateCompletionRequest(
       {required final String model,
       required final String prompt,
-      @JsonKey(includeIfNull: false) final List<dynamic>? images,
+      @JsonKey(includeIfNull: false) final List<String>? images,
       @JsonKey(includeIfNull: false) final String? system,
       @JsonKey(includeIfNull: false) final String? template,
       @JsonKey(includeIfNull: false) final List<int>? context,
@@ -462,7 +462,7 @@ abstract class _GenerateCompletionRequest extends GenerateCompletionRequest {
 
   /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
   @JsonKey(includeIfNull: false)
-  List<dynamic>? get images;
+  List<String>? get images;
   @override
 
   /// The system prompt to (overrides what is defined in the Modelfile).
@@ -3166,7 +3166,7 @@ mixin _$Message {
 
   /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
   @JsonKey(includeIfNull: false)
-  List<dynamic>? get images => throw _privateConstructorUsedError;
+  List<String>? get images => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -3181,7 +3181,7 @@ abstract class $MessageCopyWith<$Res> {
   $Res call(
       {MessageRole role,
       String content,
-      @JsonKey(includeIfNull: false) List<dynamic>? images});
+      @JsonKey(includeIfNull: false) List<String>? images});
 }
 
 /// @nodoc
@@ -3213,7 +3213,7 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
       images: freezed == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<String>?,
     ) as $Val);
   }
 }
@@ -3228,7 +3228,7 @@ abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
   $Res call(
       {MessageRole role,
       String content,
-      @JsonKey(includeIfNull: false) List<dynamic>? images});
+      @JsonKey(includeIfNull: false) List<String>? images});
 }
 
 /// @nodoc
@@ -3258,7 +3258,7 @@ class __$$MessageImplCopyWithImpl<$Res>
       images: freezed == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<String>?,
     ));
   }
 }
@@ -3269,7 +3269,7 @@ class _$MessageImpl extends _Message {
   const _$MessageImpl(
       {required this.role,
       required this.content,
-      @JsonKey(includeIfNull: false) final List<dynamic>? images})
+      @JsonKey(includeIfNull: false) final List<String>? images})
       : _images = images,
         super._();
 
@@ -3285,12 +3285,12 @@ class _$MessageImpl extends _Message {
   final String content;
 
   /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
-  final List<dynamic>? _images;
+  final List<String>? _images;
 
   /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
   @override
   @JsonKey(includeIfNull: false)
-  List<dynamic>? get images {
+  List<String>? get images {
     final value = _images;
     if (value == null) return null;
     if (_images is EqualUnmodifiableListView) return _images;
@@ -3336,7 +3336,7 @@ abstract class _Message extends Message {
   const factory _Message(
           {required final MessageRole role,
           required final String content,
-          @JsonKey(includeIfNull: false) final List<dynamic>? images}) =
+          @JsonKey(includeIfNull: false) final List<String>? images}) =
       _$MessageImpl;
   const _Message._() : super._();
 
@@ -3354,7 +3354,7 @@ abstract class _Message extends Message {
 
   /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
   @JsonKey(includeIfNull: false)
-  List<dynamic>? get images;
+  List<String>? get images;
   @override
   @JsonKey(ignore: true)
   _$$MessageImplCopyWith<_$MessageImpl> get copyWith =>

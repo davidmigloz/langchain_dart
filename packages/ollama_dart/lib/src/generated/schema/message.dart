@@ -22,7 +22,7 @@ class Message with _$Message {
     required String content,
 
     /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
-    @JsonKey(includeIfNull: false) List<dynamic>? images,
+    @JsonKey(includeIfNull: false) List<String>? images,
   }) = _Message;
 
   /// Object construction from a JSON representation

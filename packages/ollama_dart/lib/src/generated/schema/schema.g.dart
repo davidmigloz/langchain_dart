@@ -13,7 +13,8 @@ _$GenerateCompletionRequestImpl _$$GenerateCompletionRequestImplFromJson(
     _$GenerateCompletionRequestImpl(
       model: json['model'] as String,
       prompt: json['prompt'] as String,
-      images: json['images'] as List<dynamic>?,
+      images:
+          (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       system: json['system'] as String?,
       template: json['template'] as String?,
       context:
@@ -204,7 +205,7 @@ Map<String, dynamic> _$$GenerateChatCompletionRequestImplToJson(
     _$GenerateChatCompletionRequestImpl instance) {
   final val = <String, dynamic>{
     'model': instance.model,
-    'messages': instance.messages,
+    'messages': instance.messages.map((e) => e.toJson()).toList(),
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -214,7 +215,7 @@ Map<String, dynamic> _$$GenerateChatCompletionRequestImplToJson(
   }
 
   writeNotNull('format', _$ResponseFormatEnumMap[instance.format]);
-  writeNotNull('options', instance.options);
+  writeNotNull('options', instance.options?.toJson());
   writeNotNull('template', instance.template);
   val['stream'] = instance.stream;
   return val;
@@ -249,7 +250,7 @@ Map<String, dynamic> _$$GenerateChatCompletionResponseImplToJson(
     }
   }
 
-  writeNotNull('message', instance.message);
+  writeNotNull('message', instance.message?.toJson());
   writeNotNull('model', instance.model);
   writeNotNull('created_at', instance.createdAt);
   writeNotNull('done', instance.done);
@@ -268,7 +269,8 @@ _$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
     _$MessageImpl(
       role: $enumDecode(_$MessageRoleEnumMap, json['role']),
       content: json['content'] as String,
-      images: json['images'] as List<dynamic>?,
+      images:
+          (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) {

@@ -24,7 +24,7 @@ class GenerateCompletionRequest with _$GenerateCompletionRequest {
     required String prompt,
 
     /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
-    @JsonKey(includeIfNull: false) List<dynamic>? images,
+    @JsonKey(includeIfNull: false) List<String>? images,
 
     /// The system prompt to (overrides what is defined in the Modelfile).
     @JsonKey(includeIfNull: false) String? system,

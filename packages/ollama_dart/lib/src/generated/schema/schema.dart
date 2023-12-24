@@ -17,7 +17,6 @@ part 'generate_completion_response.dart';
 part 'generate_chat_completion_request.dart';
 part 'generate_chat_completion_response.dart';
 part 'message.dart';
-part 'image.dart';
 part 'generate_embedding_request.dart';
 part 'generate_embedding_response.dart';
 part 'create_model_request.dart';

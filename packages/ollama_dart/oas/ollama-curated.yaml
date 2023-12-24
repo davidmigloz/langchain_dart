@@ -12,6 +12,8 @@ servers:
 tags:
   - name: Completions
     description: Given a prompt, the model will generate a completion.
+  - name: Chat
+    description: Given a list of messages comprising a conversation, the model will return a response.
   - name: Embeddings
     description: Get a vector representation of a given input.
   - name: Models
@@ -22,7 +24,7 @@ paths:
     post:
       operationId: generateCompletion
       tags:
-      - Completions
+        - Completions
       summary: Generate a response for a given prompt with a provided model.
       description: The final response object will include statistics and additional data from the request.
       requestBody:
@@ -30,19 +32,18 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/GenerateCompletionRequest'
-      responses: 
+      responses:
         '200':
           description: Successful operation.
           content:
             application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/GenerateCompletionResponse'
-  
   /chat:
     post:
       operationId: generateChatCompletion
       tags:
-      - Chat
+        - Chat
       summary: Generate the next message in a chat with a provided model.
       description: This is a streaming endpoint, so there will be a series of responses. The final response object will include statistics and additional data from the request.
       requestBody:
@@ -50,14 +51,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/GenerateChatCompletionRequest'
-      responses: 
+      responses:
         '200':
           description: Successful operation.
           content:
             application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/GenerateChatCompletionResponse'
-  
   /embeddings:
     post:
       operationId: generateEmbedding
@@ -243,7 +243,7 @@ components:
       properties:
         model:
           type: string
-          description: &model_name | 
+          description: &model_name |
             The model name. 
             
             Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
@@ -256,8 +256,9 @@ components:
           type: array
           description: (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
           items:
-            ref: '#/components/schemas/Image'
-          example: ["iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAIAAAD0YtNRAAAABnRSTlMA/AD+APzoM1ogAAAAWklEQVR4AWP48+8PLkR7uUdzcMvtU8EhdykHKAciEXL3pvw5FQIURaBDJkARoDhY3zEXiCgCHbNBmAlUiyaBkENoxZSDWnOtBmoAQu7TnT+3WuDOA7KBIkAGAGwiNeqjusp/AAAAAElFTkSuQmCC"]
+            type: string
+            description: Base64-encoded image (for multimodal models such as llava)
+            example: iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAIAAAD0YtNRAAAABnRSTlMA/AD+APzoM1ogAAAAWklEQVR4AWP48+8PLkR7uUdzcMvtU8EhdykHKAciEXL3pvw5FQIURaBDJkARoDhY3zEXiCgCHbNBmAlUiyaBkENoxZSDWnOtBmoAQu7TnT+3WuDOA7KBIkAGAGwiNeqjusp/AAAAAElFTkSuQmCC
         system:
           type: string
           description: The system prompt to (overrides what is defined in the Modelfile).
@@ -273,7 +274,7 @@ components:
           $ref: '#/components/schemas/RequestOptions'
         format:
           $ref: '#/components/schemas/ResponseFormat'
-        raw: 
+        raw:
           type: boolean
           description: |
             If `true` no formatting will be applied to the prompt and no context will be returned. 
@@ -281,12 +282,12 @@ components:
             You may choose to use the `raw` parameter if you are specifying a full templated prompt in your request to the API, and are managing history yourself.
         stream:
           type: boolean
-          description: &stream | 
+          description: &stream |
             If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
           default: false
       required:
-      - model
-      - prompt
+        - model
+        - prompt
     RequestOptions:
       type: object
       description: Additional model parameters listed in the documentation for the Modelfile such as `temperature`.
@@ -470,9 +471,9 @@ components:
           type: array
           description: |
             An encoding of the conversation used in this response, this can be sent in the next request to keep a conversational memory.
-          items: 
+          items:
             type: integer
-          example: [1, 2, 3]
+          example: [ 1, 2, 3 ]
         sample_count:
           type: integer
           description: Number of samples generated.
@@ -509,11 +510,11 @@ components:
       type: object
       description: Request class for the chat endpont.
       properties:
-        model: 
+        model:
           type: string
-          description: *model_name 
+          description: *model_name
           example: llama2:7b
-        messages: 
+        messages:
           type: array
           description: The messages of the chat, this can be used to keep a chat memory
           items:
@@ -530,11 +531,11 @@ components:
           description: *stream
           default: false
       required:
-      - model
-      - messages
+        - model
+        - messages
     GenerateChatCompletionResponse:
       type: object
-      description: 
+      description: The response class for the chat endpoint.
       properties:
         message:
           $ref: '#/components/schemas/Message'
@@ -590,7 +591,7 @@ components:
         role:
           type: string
           description: The role of the message
-          enum: ["system", "user", "assistant"]
+          enum: [ "system", "user", "assistant" ]
         content:
           type: string
           description: The content of the message
@@ -599,15 +600,12 @@ components:
           type: array
           description: (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
           items:
-            ref: '#/components/schemas/Image'
-          example: ["iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAIAAAD0YtNRAAAABnRSTlMA/AD+APzoM1ogAAAAWklEQVR4AWP48+8PLkR7uUdzcMvtU8EhdykHKAciEXL3pvw5FQIURaBDJkARoDhY3zEXiCgCHbNBmAlUiyaBkENoxZSDWnOtBmoAQu7TnT+3WuDOA7KBIkAGAGwiNeqjusp/AAAAAElFTkSuQmCC"]
+            type: string
+            description: Base64-encoded image (for multimodal models such as llava)
+            example: iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAIAAAD0YtNRAAAABnRSTlMA/AD+APzoM1ogAAAAWklEQVR4AWP48+8PLkR7uUdzcMvtU8EhdykHKAciEXL3pvw5FQIURaBDJkARoDhY3zEXiCgCHbNBmAlUiyaBkENoxZSDWnOtBmoAQu7TnT+3WuDOA7KBIkAGAGwiNeqjusp/AAAAAElFTkSuQmCC
       required:
-      - role
-      - content
-    Image:
-      type: string
-      description: Base64-encoded image (for multimodal models such as llava)
-      example: iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAIAAAD0YtNRAAAABnRSTlMA/AD+APzoM1ogAAAAWklEQVR4AWP48+8PLkR7uUdzcMvtU8EhdykHKAciEXL3pvw5FQIURaBDJkARoDhY3zEXiCgCHbNBmAlUiyaBkENoxZSDWnOtBmoAQu7TnT+3WuDOA7KBIkAGAGwiNeqjusp/AAAAAElFTkSuQmCC
+        - role
+        - content
     GenerateEmbeddingRequest:
       description: Generate embeddings from a model.
       type: object
@@ -635,26 +633,26 @@ components:
           items:
             type: number
             format: double
-          example: [0.5670403838157654, 0.009260174818336964, ...]
+          example: [ 0.5670403838157654, 0.009260174818336964, ... ]
     CreateModelRequest:
       type: object
       description: Create model request object.
       properties:
-        name:  
+        name:
           type: string
           description: *model_name
           example: mario
-        modelfile:  
+        modelfile:
           type: string
           description: The contents of the Modelfile.
           example: FROM llama2\nSYSTEM You are mario from Super Mario Bros.
-        stream:  
+        stream:
           type: boolean
           description: *stream
           default: false
       required:
-      - name
-      - modelfile
+        - name
+        - modelfile
     CreateModelResponse:
       description: Response object for creating a model. When finished, `status` is `success`.
       type: object
@@ -698,12 +696,12 @@ components:
       description: Request class for the show model info endpoint.
       type: object
       properties:
-        name:  
+        name:
           type: string
           description: *model_name
           example: llama2:7b
       required:
-      - name
+        - name
     ModelInfo:
       description: Details about a model including modelfile, template, parameters, license, and system prompt.
       type: object
@@ -732,46 +730,46 @@ components:
           type: string
           description: Name of the model to copy.
           example: llama2:7b
-        destination: 
+        destination:
           type: string
           description: Name of the new model.
           example: llama2-backup
       required:
-      - source
-      - destination
+        - source
+        - destination
     DeleteModelRequest:
       description: Request class for deleting a model.
       type: object
       properties:
-        name:  
+        name:
           type: string
           description: *model_name
           example: llama2:13b
       required:
-      - name
+        - name
     PullModelRequest:
       description: Request class for pulling a model.
       type: object
       properties:
-        name:  
+        name:
           type: string
           description: *model_name
           example: llama2:7b
-        insecure:  
+        insecure:
           type: boolean
           description: |
             Allow insecure connections to the library. 
             
             Only use this if you are pulling from your own library during development.
           default: false
-        stream:  
+        stream:
           type: boolean
           description: *stream
           default: false
       required:
-      - name
+        - name
     PullModelResponse:
-      description: | 
+      description: |
         Response class for pulling a model. 
         
         The first object is the manifest. Then there is a series of downloading responses. Until any of the download is completed, the `completed` key may not be included. 
@@ -808,13 +806,13 @@ components:
       description: Request class for pushing a model.
       type: object
       properties:
-        name:  
+        name:
           type: string
           description: The name of the model to push in the form of <namespace>/<model>:<tag>.
           example: 'mattw/pygmalion:latest'
-        insecure:  
+        insecure:
           type: boolean
-          description: | 
+          description: |
             Allow insecure connections to the library. 
             
             Only use this if you are pushing to your library during development.
@@ -824,7 +822,7 @@ components:
           description: *stream
           default: false
       required:
-      - name
+        - name
     PushModelResponse:
       type: object
       description: Response class for pushing a model.

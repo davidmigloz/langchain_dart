@@ -12,10 +12,10 @@ Future<void> main() async {
   await _generateChatCompletionWithHistory(client);
   await _generateChatCompletionStream(client);
 
-  // // Embeddings
+  // Embeddings
   await _generateEmbedding(client);
 
-  // // Models
+  // Models
   await _createModel(client);
   await _createModelStream(client);
   await _listModels(client);

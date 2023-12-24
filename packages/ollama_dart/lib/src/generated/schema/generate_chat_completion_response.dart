@@ -8,7 +8,7 @@ part of ollama_schema;
 // CLASS: GenerateChatCompletionResponse
 // ==========================================
 
-/// No Description
+/// The response class for the chat endpoint.
 @freezed
 class GenerateChatCompletionResponse with _$GenerateChatCompletionResponse {
   const GenerateChatCompletionResponse._();
