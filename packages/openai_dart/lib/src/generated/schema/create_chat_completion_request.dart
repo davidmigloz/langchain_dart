@@ -34,7 +34,13 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     @JsonKey(name: 'logit_bias', includeIfNull: false)
     Map<String, int>? logitBias,
 
-    /// The maximum number of [tokens](https://platform.openai.com/tokenizer) to generate in the chat completion.
+    /// Whether to return log probabilities of the output tokens or not. If true, returns the log probabilities of each output token returned in the `content` of `message`. This option is currently not available on the `gpt-4-vision-preview` model.
+    @JsonKey(includeIfNull: false) bool? logprobs,
+
+    /// An integer between 0 and 5 specifying the number of most likely tokens to return at each token position, each with an associated log probability. `logprobs` must be set to `true` if this parameter is used.
+    @JsonKey(name: 'top_logprobs', includeIfNull: false) int? topLogprobs,
+
+    /// The maximum number of [tokens](https://platform.openai.com/tokenizer) that can be generated in the chat completion.
     ///
     /// The total length of input tokens and generated tokens is limited by the model's context length. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
     @JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,
@@ -49,7 +55,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     @Default(0.0)
     double? presencePenalty,
 
-    /// An object specifying the format that the model must output.
+    /// An object specifying the format that the model must output. Compatible with `gpt-4-1106-preview` and `gpt-3.5-turbo-1106`.
     ///
     /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
     ///
@@ -103,7 +109,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// `auto` means the model can pick between generating a message or calling a function.
     /// Specifying a particular function via [ChatCompletionFunctionCallOption] forces the model to call that function.
     ///
-    /// `none` is the default when no functions are present. `auto`` is the default if functions are present.
+    /// `none` is the default when no functions are present. `auto` is the default if functions are present.
     @_ChatCompletionFunctionCallConverter()
     @JsonKey(name: 'function_call', includeIfNull: false)
     ChatCompletionFunctionCall? functionCall,
@@ -124,6 +130,8 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     'messages',
     'frequency_penalty',
     'logit_bias',
+    'logprobs',
+    'top_logprobs',
     'max_tokens',
     'n',
     'presence_penalty',
@@ -144,6 +152,8 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
   static const frequencyPenaltyDefaultValue = 0.0;
   static const frequencyPenaltyMinValue = -2.0;
   static const frequencyPenaltyMaxValue = 2.0;
+  static const topLogprobsMinValue = 0;
+  static const topLogprobsMaxValue = 5;
   static const nDefaultValue = 1;
   static const nMinValue = 1;
   static const nMaxValue = 128;
@@ -166,6 +176,12 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     if (frequencyPenalty != null &&
         frequencyPenalty! > frequencyPenaltyMaxValue) {
       return "The value of 'frequencyPenalty' cannot be > $frequencyPenaltyMaxValue";
+    }
+    if (topLogprobs != null && topLogprobs! < topLogprobsMinValue) {
+      return "The value of 'topLogprobs' cannot be < $topLogprobsMinValue";
+    }
+    if (topLogprobs != null && topLogprobs! > topLogprobsMaxValue) {
+      return "The value of 'topLogprobs' cannot be > $topLogprobsMaxValue";
     }
     if (n != null && n! < nMinValue) {
       return "The value of 'n' cannot be < $nMinValue";
@@ -201,6 +217,8 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
       'messages': messages,
       'frequency_penalty': frequencyPenalty,
       'logit_bias': logitBias,
+      'logprobs': logprobs,
+      'top_logprobs': topLogprobs,
       'max_tokens': maxTokens,
       'n': n,
       'presence_penalty': presencePenalty,
@@ -315,7 +333,7 @@ class _ChatCompletionModelConverter
 // CLASS: ChatCompletionResponseFormat
 // ==========================================
 
-/// An object specifying the format that the model must output.
+/// An object specifying the format that the model must output. Compatible with `gpt-4-1106-preview` and `gpt-3.5-turbo-1106`.
 ///
 /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
 ///
@@ -515,7 +533,7 @@ enum ChatCompletionFunctionCallMode {
 /// `auto` means the model can pick between generating a message or calling a function.
 /// Specifying a particular function via [ChatCompletionFunctionCallOption] forces the model to call that function.
 ///
-/// `none` is the default when no functions are present. `auto`` is the default if functions are present.
+/// `none` is the default when no functions are present. `auto` is the default if functions are present.
 @freezed
 sealed class ChatCompletionFunctionCall with _$ChatCompletionFunctionCall {
   const ChatCompletionFunctionCall._();

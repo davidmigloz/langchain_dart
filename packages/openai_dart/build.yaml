@@ -7,6 +7,7 @@ targets:
             - prefer_final_parameters
             - require_trailing_commas
             - non_constant_identifier_names
+            - unnecessary_null_checks
       json_serializable:
         options:
           explicit_to_json: true

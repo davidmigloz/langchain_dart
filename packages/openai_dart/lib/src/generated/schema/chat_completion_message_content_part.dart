@@ -9,7 +9,7 @@ part of open_a_i_schema;
 // ==========================================
 
 /// A content part of a user message.
-@Freezed(unionKey: 'type')
+@Freezed(unionKey: 'type', unionValueCase: FreezedUnionCase.snake)
 sealed class ChatCompletionMessageContentPart
     with _$ChatCompletionMessageContentPart {
   const ChatCompletionMessageContentPart._();

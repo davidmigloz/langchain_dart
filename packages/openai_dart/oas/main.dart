@@ -74,5 +74,17 @@ String? _onSchemaUnionFactoryName(
       // Moderations
       'ModerationModelEnumeration' => 'model',
       'ModerationModelString' => 'modelId',
+      // Assistant
+      'MessageContentImageFileObject' => 'imageFile',
+      'MessageContentTextObject' => 'text',
+      'MessageContentTextAnnotationsFileCitationObject' => 'fileCitation',
+      'MessageContentTextAnnotationsFilePathObject' => 'filePath',
+      'RunStepDetailsToolCallsCodeObject' => 'codeInterpreter',
+      'RunStepDetailsToolCallsRetrievalObject' => 'retrieval',
+      'RunStepDetailsToolCallsFunctionObject' => 'function',
+      'RunStepDetailsToolCallsCodeOutputLogsObject' => 'logs',
+      'RunStepDetailsToolCallsCodeOutputImageObject' => 'image',
+      'RunStepDetailsMessageCreationObject' => 'messageCreation',
+      'RunStepDetailsToolCallsObject' => 'toolCalls',
       _ => null,
     };

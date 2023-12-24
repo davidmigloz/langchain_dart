@@ -57,13 +57,13 @@ mixin _$CreateCompletionRequest {
   @JsonKey(name: 'logit_bias', includeIfNull: false)
   Map<String, int>? get logitBias => throw _privateConstructorUsedError;
 
-  /// Include the log probabilities on the `logprobs` most likely tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response.
+  /// Include the log probabilities on the `logprobs` most likely output tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response.
   ///
   /// The maximum value for `logprobs` is 5.
   @JsonKey(includeIfNull: false)
   int? get logprobs => throw _privateConstructorUsedError;
 
-  /// The maximum number of [tokens](https://platform.openai.com/tokenizer) to generate in the completion.
+  /// The maximum number of [tokens](https://platform.openai.com/tokenizer) that can be generated in the completion.
   ///
   /// The token count of your prompt plus `max_tokens` cannot exceed the model's context length. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
   @JsonKey(name: 'max_tokens', includeIfNull: false)
@@ -524,14 +524,14 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
     return EqualUnmodifiableMapView(value);
   }
 
-  /// Include the log probabilities on the `logprobs` most likely tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response.
+  /// Include the log probabilities on the `logprobs` most likely output tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response.
   ///
   /// The maximum value for `logprobs` is 5.
   @override
   @JsonKey(includeIfNull: false)
   final int? logprobs;
 
-  /// The maximum number of [tokens](https://platform.openai.com/tokenizer) to generate in the completion.
+  /// The maximum number of [tokens](https://platform.openai.com/tokenizer) that can be generated in the completion.
   ///
   /// The token count of your prompt plus `max_tokens` cannot exceed the model's context length. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
   @override
@@ -600,7 +600,7 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateCompletionRequestImpl &&
@@ -740,14 +740,14 @@ abstract class _CreateCompletionRequest extends CreateCompletionRequest {
   Map<String, int>? get logitBias;
   @override
 
-  /// Include the log probabilities on the `logprobs` most likely tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response.
+  /// Include the log probabilities on the `logprobs` most likely output tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response.
   ///
   /// The maximum value for `logprobs` is 5.
   @JsonKey(includeIfNull: false)
   int? get logprobs;
   @override
 
-  /// The maximum number of [tokens](https://platform.openai.com/tokenizer) to generate in the completion.
+  /// The maximum number of [tokens](https://platform.openai.com/tokenizer) that can be generated in the completion.
   ///
   /// The token count of your prompt plus `max_tokens` cannot exceed the model's context length. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
   @JsonKey(name: 'max_tokens', includeIfNull: false)
@@ -946,7 +946,7 @@ class _$CompletionModelEnumerationImpl extends CompletionModelEnumeration {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CompletionModelEnumerationImpl &&
@@ -1103,7 +1103,7 @@ class _$CompletionModelStringImpl extends CompletionModelString {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CompletionModelStringImpl &&
@@ -1361,7 +1361,7 @@ class _$CompletionPromptListListIntImpl extends CompletionPromptListListInt {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CompletionPromptListListIntImpl &&
@@ -1539,7 +1539,7 @@ class _$CompletionPromptListIntImpl extends CompletionPromptListInt {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CompletionPromptListIntImpl &&
@@ -1719,7 +1719,7 @@ class _$CompletionPromptListStringImpl extends CompletionPromptListString {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CompletionPromptListStringImpl &&
@@ -1890,7 +1890,7 @@ class _$CompletionPromptStringImpl extends CompletionPromptString {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CompletionPromptStringImpl &&
@@ -2142,7 +2142,7 @@ class _$CompletionStopListStringImpl extends CompletionStopListString {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CompletionStopListStringImpl &&
@@ -2299,7 +2299,7 @@ class _$CompletionStopStringImpl extends CompletionStopString {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CompletionStopStringImpl &&
@@ -2668,7 +2668,7 @@ class _$CreateCompletionResponseImpl extends _CreateCompletionResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateCompletionResponseImpl &&
@@ -2963,7 +2963,7 @@ class _$CompletionChoiceImpl extends _CompletionChoice {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CompletionChoiceImpl &&
@@ -3257,7 +3257,7 @@ class _$CompletionLogprobsImpl extends _CompletionLogprobs {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CompletionLogprobsImpl &&
@@ -3362,7 +3362,15 @@ mixin _$CreateChatCompletionRequest {
   @JsonKey(name: 'logit_bias', includeIfNull: false)
   Map<String, int>? get logitBias => throw _privateConstructorUsedError;
 
-  /// The maximum number of [tokens](https://platform.openai.com/tokenizer) to generate in the chat completion.
+  /// Whether to return log probabilities of the output tokens or not. If true, returns the log probabilities of each output token returned in the `content` of `message`. This option is currently not available on the `gpt-4-vision-preview` model.
+  @JsonKey(includeIfNull: false)
+  bool? get logprobs => throw _privateConstructorUsedError;
+
+  /// An integer between 0 and 5 specifying the number of most likely tokens to return at each token position, each with an associated log probability. `logprobs` must be set to `true` if this parameter is used.
+  @JsonKey(name: 'top_logprobs', includeIfNull: false)
+  int? get topLogprobs => throw _privateConstructorUsedError;
+
+  /// The maximum number of [tokens](https://platform.openai.com/tokenizer) that can be generated in the chat completion.
   ///
   /// The total length of input tokens and generated tokens is limited by the model's context length. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
   @JsonKey(name: 'max_tokens', includeIfNull: false)
@@ -3378,7 +3386,7 @@ mixin _$CreateChatCompletionRequest {
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty => throw _privateConstructorUsedError;
 
-  /// An object specifying the format that the model must output.
+  /// An object specifying the format that the model must output. Compatible with `gpt-4-1106-preview` and `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -3440,7 +3448,7 @@ mixin _$CreateChatCompletionRequest {
   /// `auto` means the model can pick between generating a message or calling a function.
   /// Specifying a particular function via [ChatCompletionFunctionCallOption] forces the model to call that function.
   ///
-  /// `none` is the default when no functions are present. `auto`` is the default if functions are present.
+  /// `none` is the default when no functions are present. `auto` is the default if functions are present.
   @_ChatCompletionFunctionCallConverter()
   @JsonKey(name: 'function_call', includeIfNull: false)
   ChatCompletionFunctionCall? get functionCall =>
@@ -3473,6 +3481,8 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
       double? frequencyPenalty,
       @JsonKey(name: 'logit_bias', includeIfNull: false)
       Map<String, int>? logitBias,
+      @JsonKey(includeIfNull: false) bool? logprobs,
+      @JsonKey(name: 'top_logprobs', includeIfNull: false) int? topLogprobs,
       @JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,
       @JsonKey(includeIfNull: false) int? n,
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
@@ -3521,6 +3531,8 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
     Object? messages = null,
     Object? frequencyPenalty = freezed,
     Object? logitBias = freezed,
+    Object? logprobs = freezed,
+    Object? topLogprobs = freezed,
     Object? maxTokens = freezed,
     Object? n = freezed,
     Object? presencePenalty = freezed,
@@ -3553,6 +3565,14 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
           ? _value.logitBias
           : logitBias // ignore: cast_nullable_to_non_nullable
               as Map<String, int>?,
+      logprobs: freezed == logprobs
+          ? _value.logprobs
+          : logprobs // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      topLogprobs: freezed == topLogprobs
+          ? _value.topLogprobs
+          : topLogprobs // ignore: cast_nullable_to_non_nullable
+              as int?,
       maxTokens: freezed == maxTokens
           ? _value.maxTokens
           : maxTokens // ignore: cast_nullable_to_non_nullable
@@ -3688,6 +3708,8 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
       double? frequencyPenalty,
       @JsonKey(name: 'logit_bias', includeIfNull: false)
       Map<String, int>? logitBias,
+      @JsonKey(includeIfNull: false) bool? logprobs,
+      @JsonKey(name: 'top_logprobs', includeIfNull: false) int? topLogprobs,
       @JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,
       @JsonKey(includeIfNull: false) int? n,
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
@@ -3740,6 +3762,8 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
     Object? messages = null,
     Object? frequencyPenalty = freezed,
     Object? logitBias = freezed,
+    Object? logprobs = freezed,
+    Object? topLogprobs = freezed,
     Object? maxTokens = freezed,
     Object? n = freezed,
     Object? presencePenalty = freezed,
@@ -3772,6 +3796,14 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
           ? _value._logitBias
           : logitBias // ignore: cast_nullable_to_non_nullable
               as Map<String, int>?,
+      logprobs: freezed == logprobs
+          ? _value.logprobs
+          : logprobs // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      topLogprobs: freezed == topLogprobs
+          ? _value.topLogprobs
+          : topLogprobs // ignore: cast_nullable_to_non_nullable
+              as int?,
       maxTokens: freezed == maxTokens
           ? _value.maxTokens
           : maxTokens // ignore: cast_nullable_to_non_nullable
@@ -3842,6 +3874,8 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
       this.frequencyPenalty = 0.0,
       @JsonKey(name: 'logit_bias', includeIfNull: false)
       final Map<String, int>? logitBias,
+      @JsonKey(includeIfNull: false) this.logprobs,
+      @JsonKey(name: 'top_logprobs', includeIfNull: false) this.topLogprobs,
       @JsonKey(name: 'max_tokens', includeIfNull: false) this.maxTokens,
       @JsonKey(includeIfNull: false) this.n = 1,
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
@@ -3913,7 +3947,17 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
     return EqualUnmodifiableMapView(value);
   }
 
-  /// The maximum number of [tokens](https://platform.openai.com/tokenizer) to generate in the chat completion.
+  /// Whether to return log probabilities of the output tokens or not. If true, returns the log probabilities of each output token returned in the `content` of `message`. This option is currently not available on the `gpt-4-vision-preview` model.
+  @override
+  @JsonKey(includeIfNull: false)
+  final bool? logprobs;
+
+  /// An integer between 0 and 5 specifying the number of most likely tokens to return at each token position, each with an associated log probability. `logprobs` must be set to `true` if this parameter is used.
+  @override
+  @JsonKey(name: 'top_logprobs', includeIfNull: false)
+  final int? topLogprobs;
+
+  /// The maximum number of [tokens](https://platform.openai.com/tokenizer) that can be generated in the chat completion.
   ///
   /// The total length of input tokens and generated tokens is limited by the model's context length. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
   @override
@@ -3932,7 +3976,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   final double? presencePenalty;
 
-  /// An object specifying the format that the model must output.
+  /// An object specifying the format that the model must output. Compatible with `gpt-4-1106-preview` and `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -4010,7 +4054,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   /// `auto` means the model can pick between generating a message or calling a function.
   /// Specifying a particular function via [ChatCompletionFunctionCallOption] forces the model to call that function.
   ///
-  /// `none` is the default when no functions are present. `auto`` is the default if functions are present.
+  /// `none` is the default when no functions are present. `auto` is the default if functions are present.
   @override
   @_ChatCompletionFunctionCallConverter()
   @JsonKey(name: 'function_call', includeIfNull: false)
@@ -4036,11 +4080,11 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
 
   @override
   String toString() {
-    return 'CreateChatCompletionRequest(model: $model, messages: $messages, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, maxTokens: $maxTokens, n: $n, presencePenalty: $presencePenalty, responseFormat: $responseFormat, seed: $seed, stop: $stop, stream: $stream, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, user: $user, functionCall: $functionCall, functions: $functions)';
+    return 'CreateChatCompletionRequest(model: $model, messages: $messages, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, n: $n, presencePenalty: $presencePenalty, responseFormat: $responseFormat, seed: $seed, stop: $stop, stream: $stream, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, user: $user, functionCall: $functionCall, functions: $functions)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateChatCompletionRequestImpl &&
@@ -4050,6 +4094,10 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
                 other.frequencyPenalty == frequencyPenalty) &&
             const DeepCollectionEquality()
                 .equals(other._logitBias, _logitBias) &&
+            (identical(other.logprobs, logprobs) ||
+                other.logprobs == logprobs) &&
+            (identical(other.topLogprobs, topLogprobs) ||
+                other.topLogprobs == topLogprobs) &&
             (identical(other.maxTokens, maxTokens) ||
                 other.maxTokens == maxTokens) &&
             (identical(other.n, n) || other.n == n) &&
@@ -4075,26 +4123,29 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      model,
-      const DeepCollectionEquality().hash(_messages),
-      frequencyPenalty,
-      const DeepCollectionEquality().hash(_logitBias),
-      maxTokens,
-      n,
-      presencePenalty,
-      responseFormat,
-      seed,
-      stop,
-      stream,
-      temperature,
-      topP,
-      const DeepCollectionEquality().hash(_tools),
-      toolChoice,
-      user,
-      functionCall,
-      const DeepCollectionEquality().hash(_functions));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        model,
+        const DeepCollectionEquality().hash(_messages),
+        frequencyPenalty,
+        const DeepCollectionEquality().hash(_logitBias),
+        logprobs,
+        topLogprobs,
+        maxTokens,
+        n,
+        presencePenalty,
+        responseFormat,
+        seed,
+        stop,
+        stream,
+        temperature,
+        topP,
+        const DeepCollectionEquality().hash(_tools),
+        toolChoice,
+        user,
+        functionCall,
+        const DeepCollectionEquality().hash(_functions)
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -4121,6 +4172,9 @@ abstract class _CreateChatCompletionRequest
       final double? frequencyPenalty,
       @JsonKey(name: 'logit_bias', includeIfNull: false)
       final Map<String, int>? logitBias,
+      @JsonKey(includeIfNull: false) final bool? logprobs,
+      @JsonKey(name: 'top_logprobs', includeIfNull: false)
+      final int? topLogprobs,
       @JsonKey(name: 'max_tokens', includeIfNull: false) final int? maxTokens,
       @JsonKey(includeIfNull: false) final int? n,
       @JsonKey(name: 'presence_penalty', includeIfNull: false)
@@ -4175,7 +4229,17 @@ abstract class _CreateChatCompletionRequest
   Map<String, int>? get logitBias;
   @override
 
-  /// The maximum number of [tokens](https://platform.openai.com/tokenizer) to generate in the chat completion.
+  /// Whether to return log probabilities of the output tokens or not. If true, returns the log probabilities of each output token returned in the `content` of `message`. This option is currently not available on the `gpt-4-vision-preview` model.
+  @JsonKey(includeIfNull: false)
+  bool? get logprobs;
+  @override
+
+  /// An integer between 0 and 5 specifying the number of most likely tokens to return at each token position, each with an associated log probability. `logprobs` must be set to `true` if this parameter is used.
+  @JsonKey(name: 'top_logprobs', includeIfNull: false)
+  int? get topLogprobs;
+  @override
+
+  /// The maximum number of [tokens](https://platform.openai.com/tokenizer) that can be generated in the chat completion.
   ///
   /// The total length of input tokens and generated tokens is limited by the model's context length. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
   @JsonKey(name: 'max_tokens', includeIfNull: false)
@@ -4194,7 +4258,7 @@ abstract class _CreateChatCompletionRequest
   double? get presencePenalty;
   @override
 
-  /// An object specifying the format that the model must output.
+  /// An object specifying the format that the model must output. Compatible with `gpt-4-1106-preview` and `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -4263,7 +4327,7 @@ abstract class _CreateChatCompletionRequest
   /// `auto` means the model can pick between generating a message or calling a function.
   /// Specifying a particular function via [ChatCompletionFunctionCallOption] forces the model to call that function.
   ///
-  /// `none` is the default when no functions are present. `auto`` is the default if functions are present.
+  /// `none` is the default when no functions are present. `auto` is the default if functions are present.
   @_ChatCompletionFunctionCallConverter()
   @JsonKey(name: 'function_call', includeIfNull: false)
   ChatCompletionFunctionCall? get functionCall;
@@ -4413,7 +4477,7 @@ class _$ChatCompletionModelEnumerationImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionModelEnumerationImpl &&
@@ -4574,7 +4638,7 @@ class _$ChatCompletionModelStringImpl extends ChatCompletionModelString {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionModelStringImpl &&
@@ -4788,7 +4852,7 @@ class _$ChatCompletionResponseFormatImpl extends _ChatCompletionResponseFormat {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionResponseFormatImpl &&
@@ -4975,7 +5039,7 @@ class _$ChatCompletionStopListStringImpl extends ChatCompletionStopListString {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionStopListStringImpl &&
@@ -5137,7 +5201,7 @@ class _$ChatCompletionStopStringImpl extends ChatCompletionStopString {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionStopStringImpl &&
@@ -5389,7 +5453,7 @@ class _$ChatCompletionToolChoiceOptionEnumerationImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionToolChoiceOptionEnumerationImpl &&
@@ -5587,7 +5651,7 @@ class _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other
@@ -5854,7 +5918,7 @@ class _$ChatCompletionFunctionCallEnumerationImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionFunctionCallEnumerationImpl &&
@@ -6050,7 +6114,7 @@ class _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other
@@ -6295,7 +6359,7 @@ class _$ChatCompletionMessageFunctionCallImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionMessageFunctionCallImpl &&
@@ -6459,7 +6523,7 @@ class _$ChatCompletionFunctionCallOptionImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionFunctionCallOptionImpl &&
@@ -6522,8 +6586,9 @@ mixin _$FunctionObject {
 
   /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
   ///
-  /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
-  Map<String, dynamic> get parameters => throw _privateConstructorUsedError;
+  /// Omitting `parameters` defines a function with an empty parameter list.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get parameters => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -6540,7 +6605,7 @@ abstract class $FunctionObjectCopyWith<$Res> {
   $Res call(
       {String name,
       @JsonKey(includeIfNull: false) String? description,
-      Map<String, dynamic> parameters});
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? parameters});
 }
 
 /// @nodoc
@@ -6558,7 +6623,7 @@ class _$FunctionObjectCopyWithImpl<$Res, $Val extends FunctionObject>
   $Res call({
     Object? name = null,
     Object? description = freezed,
-    Object? parameters = null,
+    Object? parameters = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -6569,10 +6634,10 @@ class _$FunctionObjectCopyWithImpl<$Res, $Val extends FunctionObject>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      parameters: null == parameters
+      parameters: freezed == parameters
           ? _value.parameters
           : parameters // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+              as Map<String, dynamic>?,
     ) as $Val);
   }
 }
@@ -6588,7 +6653,7 @@ abstract class _$$FunctionObjectImplCopyWith<$Res>
   $Res call(
       {String name,
       @JsonKey(includeIfNull: false) String? description,
-      Map<String, dynamic> parameters});
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? parameters});
 }
 
 /// @nodoc
@@ -6604,7 +6669,7 @@ class __$$FunctionObjectImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? description = freezed,
-    Object? parameters = null,
+    Object? parameters = freezed,
   }) {
     return _then(_$FunctionObjectImpl(
       name: null == name
@@ -6615,10 +6680,10 @@ class __$$FunctionObjectImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      parameters: null == parameters
+      parameters: freezed == parameters
           ? _value._parameters
           : parameters // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+              as Map<String, dynamic>?,
     ));
   }
 }
@@ -6629,7 +6694,7 @@ class _$FunctionObjectImpl extends _FunctionObject {
   const _$FunctionObjectImpl(
       {required this.name,
       @JsonKey(includeIfNull: false) this.description,
-      required final Map<String, dynamic> parameters})
+      @JsonKey(includeIfNull: false) final Map<String, dynamic>? parameters})
       : _parameters = parameters,
         super._();
 
@@ -6647,17 +6712,20 @@ class _$FunctionObjectImpl extends _FunctionObject {
 
   /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
   ///
-  /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
-  final Map<String, dynamic> _parameters;
+  /// Omitting `parameters` defines a function with an empty parameter list.
+  final Map<String, dynamic>? _parameters;
 
   /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
   ///
-  /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
+  /// Omitting `parameters` defines a function with an empty parameter list.
   @override
-  Map<String, dynamic> get parameters {
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get parameters {
+    final value = _parameters;
+    if (value == null) return null;
     if (_parameters is EqualUnmodifiableMapView) return _parameters;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_parameters);
+    return EqualUnmodifiableMapView(value);
   }
 
   @override
@@ -6666,7 +6734,7 @@ class _$FunctionObjectImpl extends _FunctionObject {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FunctionObjectImpl &&
@@ -6701,7 +6769,8 @@ abstract class _FunctionObject extends FunctionObject {
   const factory _FunctionObject(
       {required final String name,
       @JsonKey(includeIfNull: false) final String? description,
-      required final Map<String, dynamic> parameters}) = _$FunctionObjectImpl;
+      @JsonKey(includeIfNull: false)
+      final Map<String, dynamic>? parameters}) = _$FunctionObjectImpl;
   const _FunctionObject._() : super._();
 
   factory _FunctionObject.fromJson(Map<String, dynamic> json) =
@@ -6720,8 +6789,9 @@ abstract class _FunctionObject extends FunctionObject {
 
   /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
   ///
-  /// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
-  Map<String, dynamic> get parameters;
+  /// Omitting `parameters` defines a function with an empty parameter list.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get parameters;
   @override
   @JsonKey(ignore: true)
   _$$FunctionObjectImplCopyWith<_$FunctionObjectImpl> get copyWith =>
@@ -6858,7 +6928,7 @@ class _$ChatCompletionToolImpl extends _ChatCompletionTool {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionToolImpl &&
@@ -7056,7 +7126,7 @@ class _$ChatCompletionNamedToolChoiceImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionNamedToolChoiceImpl &&
@@ -7277,7 +7347,7 @@ class _$ChatCompletionMessageToolCallImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionMessageToolCallImpl &&
@@ -7607,7 +7677,7 @@ class _$CreateChatCompletionResponseImpl extends _CreateChatCompletionResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateChatCompletionResponseImpl &&
@@ -7729,6 +7799,9 @@ mixin _$ChatCompletionResponseChoice {
   ChatCompletionAssistantMessage get message =>
       throw _privateConstructorUsedError;
 
+  /// Log probability information for the choice.
+  ChatCompletionLogprobs? get logprobs => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ChatCompletionResponseChoiceCopyWith<ChatCompletionResponseChoice>
@@ -7749,7 +7822,10 @@ abstract class $ChatCompletionResponseChoiceCopyWith<$Res> {
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       ChatCompletionFinishReason? finishReason,
       int index,
-      ChatCompletionAssistantMessage message});
+      ChatCompletionAssistantMessage message,
+      ChatCompletionLogprobs? logprobs});
+
+  $ChatCompletionLogprobsCopyWith<$Res>? get logprobs;
 }
 
 /// @nodoc
@@ -7769,6 +7845,7 @@ class _$ChatCompletionResponseChoiceCopyWithImpl<$Res,
     Object? finishReason = freezed,
     Object? index = null,
     Object? message = freezed,
+    Object? logprobs = freezed,
   }) {
     return _then(_value.copyWith(
       finishReason: freezed == finishReason
@@ -7783,7 +7860,23 @@ class _$ChatCompletionResponseChoiceCopyWithImpl<$Res,
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as ChatCompletionAssistantMessage,
+      logprobs: freezed == logprobs
+          ? _value.logprobs
+          : logprobs // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionLogprobs?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChatCompletionLogprobsCopyWith<$Res>? get logprobs {
+    if (_value.logprobs == null) {
+      return null;
+    }
+
+    return $ChatCompletionLogprobsCopyWith<$Res>(_value.logprobs!, (value) {
+      return _then(_value.copyWith(logprobs: value) as $Val);
+    });
   }
 }
 
@@ -7802,7 +7895,11 @@ abstract class _$$ChatCompletionResponseChoiceImplCopyWith<$Res>
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       ChatCompletionFinishReason? finishReason,
       int index,
-      ChatCompletionAssistantMessage message});
+      ChatCompletionAssistantMessage message,
+      ChatCompletionLogprobs? logprobs});
+
+  @override
+  $ChatCompletionLogprobsCopyWith<$Res>? get logprobs;
 }
 
 /// @nodoc
@@ -7821,6 +7918,7 @@ class __$$ChatCompletionResponseChoiceImplCopyWithImpl<$Res>
     Object? finishReason = freezed,
     Object? index = null,
     Object? message = freezed,
+    Object? logprobs = freezed,
   }) {
     return _then(_$ChatCompletionResponseChoiceImpl(
       finishReason: freezed == finishReason
@@ -7835,6 +7933,10 @@ class __$$ChatCompletionResponseChoiceImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as ChatCompletionAssistantMessage,
+      logprobs: freezed == logprobs
+          ? _value.logprobs
+          : logprobs // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionLogprobs?,
     ));
   }
 }
@@ -7848,7 +7950,8 @@ class _$ChatCompletionResponseChoiceImpl extends _ChatCompletionResponseChoice {
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       required this.finishReason,
       required this.index,
-      required this.message})
+      required this.message,
+      required this.logprobs})
       : super._();
 
   factory _$ChatCompletionResponseChoiceImpl.fromJson(
@@ -7873,26 +7976,32 @@ class _$ChatCompletionResponseChoiceImpl extends _ChatCompletionResponseChoice {
   @override
   final ChatCompletionAssistantMessage message;
 
+  /// Log probability information for the choice.
+  @override
+  final ChatCompletionLogprobs? logprobs;
+
   @override
   String toString() {
-    return 'ChatCompletionResponseChoice(finishReason: $finishReason, index: $index, message: $message)';
+    return 'ChatCompletionResponseChoice(finishReason: $finishReason, index: $index, message: $message, logprobs: $logprobs)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionResponseChoiceImpl &&
             (identical(other.finishReason, finishReason) ||
                 other.finishReason == finishReason) &&
             (identical(other.index, index) || other.index == index) &&
-            const DeepCollectionEquality().equals(other.message, message));
+            const DeepCollectionEquality().equals(other.message, message) &&
+            (identical(other.logprobs, logprobs) ||
+                other.logprobs == logprobs));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, finishReason, index,
-      const DeepCollectionEquality().hash(message));
+      const DeepCollectionEquality().hash(message), logprobs);
 
   @JsonKey(ignore: true)
   @override
@@ -7918,7 +8027,8 @@ abstract class _ChatCompletionResponseChoice
               unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
           required final ChatCompletionFinishReason? finishReason,
           required final int index,
-          required final ChatCompletionAssistantMessage message}) =
+          required final ChatCompletionAssistantMessage message,
+          required final ChatCompletionLogprobs? logprobs}) =
       _$ChatCompletionResponseChoiceImpl;
   const _ChatCompletionResponseChoice._() : super._();
 
@@ -7944,9 +8054,657 @@ abstract class _ChatCompletionResponseChoice
   /// An assistant message in a chat conversation.
   ChatCompletionAssistantMessage get message;
   @override
+
+  /// Log probability information for the choice.
+  ChatCompletionLogprobs? get logprobs;
+  @override
   @JsonKey(ignore: true)
   _$$ChatCompletionResponseChoiceImplCopyWith<
           _$ChatCompletionResponseChoiceImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ChatCompletionLogprobs _$ChatCompletionLogprobsFromJson(
+    Map<String, dynamic> json) {
+  return _ChatCompletionLogprobs.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ChatCompletionLogprobs {
+  /// A list of message content tokens with log probability information.
+  List<ChatCompletionTokenLogprob>? get content =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ChatCompletionLogprobsCopyWith<ChatCompletionLogprobs> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChatCompletionLogprobsCopyWith<$Res> {
+  factory $ChatCompletionLogprobsCopyWith(ChatCompletionLogprobs value,
+          $Res Function(ChatCompletionLogprobs) then) =
+      _$ChatCompletionLogprobsCopyWithImpl<$Res, ChatCompletionLogprobs>;
+  @useResult
+  $Res call({List<ChatCompletionTokenLogprob>? content});
+}
+
+/// @nodoc
+class _$ChatCompletionLogprobsCopyWithImpl<$Res,
+        $Val extends ChatCompletionLogprobs>
+    implements $ChatCompletionLogprobsCopyWith<$Res> {
+  _$ChatCompletionLogprobsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? content = freezed,
+  }) {
+    return _then(_value.copyWith(
+      content: freezed == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as List<ChatCompletionTokenLogprob>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionLogprobsImplCopyWith<$Res>
+    implements $ChatCompletionLogprobsCopyWith<$Res> {
+  factory _$$ChatCompletionLogprobsImplCopyWith(
+          _$ChatCompletionLogprobsImpl value,
+          $Res Function(_$ChatCompletionLogprobsImpl) then) =
+      __$$ChatCompletionLogprobsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<ChatCompletionTokenLogprob>? content});
+}
+
+/// @nodoc
+class __$$ChatCompletionLogprobsImplCopyWithImpl<$Res>
+    extends _$ChatCompletionLogprobsCopyWithImpl<$Res,
+        _$ChatCompletionLogprobsImpl>
+    implements _$$ChatCompletionLogprobsImplCopyWith<$Res> {
+  __$$ChatCompletionLogprobsImplCopyWithImpl(
+      _$ChatCompletionLogprobsImpl _value,
+      $Res Function(_$ChatCompletionLogprobsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? content = freezed,
+  }) {
+    return _then(_$ChatCompletionLogprobsImpl(
+      content: freezed == content
+          ? _value._content
+          : content // ignore: cast_nullable_to_non_nullable
+              as List<ChatCompletionTokenLogprob>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionLogprobsImpl extends _ChatCompletionLogprobs {
+  const _$ChatCompletionLogprobsImpl(
+      {required final List<ChatCompletionTokenLogprob>? content})
+      : _content = content,
+        super._();
+
+  factory _$ChatCompletionLogprobsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ChatCompletionLogprobsImplFromJson(json);
+
+  /// A list of message content tokens with log probability information.
+  final List<ChatCompletionTokenLogprob>? _content;
+
+  /// A list of message content tokens with log probability information.
+  @override
+  List<ChatCompletionTokenLogprob>? get content {
+    final value = _content;
+    if (value == null) return null;
+    if (_content is EqualUnmodifiableListView) return _content;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'ChatCompletionLogprobs(content: $content)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionLogprobsImpl &&
+            const DeepCollectionEquality().equals(other._content, _content));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_content));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionLogprobsImplCopyWith<_$ChatCompletionLogprobsImpl>
+      get copyWith => __$$ChatCompletionLogprobsImplCopyWithImpl<
+          _$ChatCompletionLogprobsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionLogprobsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ChatCompletionLogprobs extends ChatCompletionLogprobs {
+  const factory _ChatCompletionLogprobs(
+          {required final List<ChatCompletionTokenLogprob>? content}) =
+      _$ChatCompletionLogprobsImpl;
+  const _ChatCompletionLogprobs._() : super._();
+
+  factory _ChatCompletionLogprobs.fromJson(Map<String, dynamic> json) =
+      _$ChatCompletionLogprobsImpl.fromJson;
+
+  @override
+
+  /// A list of message content tokens with log probability information.
+  List<ChatCompletionTokenLogprob>? get content;
+  @override
+  @JsonKey(ignore: true)
+  _$$ChatCompletionLogprobsImplCopyWith<_$ChatCompletionLogprobsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ChatCompletionTokenLogprob _$ChatCompletionTokenLogprobFromJson(
+    Map<String, dynamic> json) {
+  return _ChatCompletionTokenLogprob.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ChatCompletionTokenLogprob {
+  /// The token.
+  String get token => throw _privateConstructorUsedError;
+
+  /// The log probability of this token.
+  double get logprob => throw _privateConstructorUsedError;
+
+  /// A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token.
+  List<int>? get bytes => throw _privateConstructorUsedError;
+
+  /// List of the most likely tokens and their log probability, at this token position. In rare cases, there may be fewer than the number of requested `top_logprobs` returned.
+  @JsonKey(name: 'top_logprobs')
+  List<ChatCompletionTokenTopLogprob> get topLogprobs =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ChatCompletionTokenLogprobCopyWith<ChatCompletionTokenLogprob>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChatCompletionTokenLogprobCopyWith<$Res> {
+  factory $ChatCompletionTokenLogprobCopyWith(ChatCompletionTokenLogprob value,
+          $Res Function(ChatCompletionTokenLogprob) then) =
+      _$ChatCompletionTokenLogprobCopyWithImpl<$Res,
+          ChatCompletionTokenLogprob>;
+  @useResult
+  $Res call(
+      {String token,
+      double logprob,
+      List<int>? bytes,
+      @JsonKey(name: 'top_logprobs')
+      List<ChatCompletionTokenTopLogprob> topLogprobs});
+}
+
+/// @nodoc
+class _$ChatCompletionTokenLogprobCopyWithImpl<$Res,
+        $Val extends ChatCompletionTokenLogprob>
+    implements $ChatCompletionTokenLogprobCopyWith<$Res> {
+  _$ChatCompletionTokenLogprobCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? token = null,
+    Object? logprob = null,
+    Object? bytes = freezed,
+    Object? topLogprobs = null,
+  }) {
+    return _then(_value.copyWith(
+      token: null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String,
+      logprob: null == logprob
+          ? _value.logprob
+          : logprob // ignore: cast_nullable_to_non_nullable
+              as double,
+      bytes: freezed == bytes
+          ? _value.bytes
+          : bytes // ignore: cast_nullable_to_non_nullable
+              as List<int>?,
+      topLogprobs: null == topLogprobs
+          ? _value.topLogprobs
+          : topLogprobs // ignore: cast_nullable_to_non_nullable
+              as List<ChatCompletionTokenTopLogprob>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionTokenLogprobImplCopyWith<$Res>
+    implements $ChatCompletionTokenLogprobCopyWith<$Res> {
+  factory _$$ChatCompletionTokenLogprobImplCopyWith(
+          _$ChatCompletionTokenLogprobImpl value,
+          $Res Function(_$ChatCompletionTokenLogprobImpl) then) =
+      __$$ChatCompletionTokenLogprobImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String token,
+      double logprob,
+      List<int>? bytes,
+      @JsonKey(name: 'top_logprobs')
+      List<ChatCompletionTokenTopLogprob> topLogprobs});
+}
+
+/// @nodoc
+class __$$ChatCompletionTokenLogprobImplCopyWithImpl<$Res>
+    extends _$ChatCompletionTokenLogprobCopyWithImpl<$Res,
+        _$ChatCompletionTokenLogprobImpl>
+    implements _$$ChatCompletionTokenLogprobImplCopyWith<$Res> {
+  __$$ChatCompletionTokenLogprobImplCopyWithImpl(
+      _$ChatCompletionTokenLogprobImpl _value,
+      $Res Function(_$ChatCompletionTokenLogprobImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? token = null,
+    Object? logprob = null,
+    Object? bytes = freezed,
+    Object? topLogprobs = null,
+  }) {
+    return _then(_$ChatCompletionTokenLogprobImpl(
+      token: null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String,
+      logprob: null == logprob
+          ? _value.logprob
+          : logprob // ignore: cast_nullable_to_non_nullable
+              as double,
+      bytes: freezed == bytes
+          ? _value._bytes
+          : bytes // ignore: cast_nullable_to_non_nullable
+              as List<int>?,
+      topLogprobs: null == topLogprobs
+          ? _value._topLogprobs
+          : topLogprobs // ignore: cast_nullable_to_non_nullable
+              as List<ChatCompletionTokenTopLogprob>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionTokenLogprobImpl extends _ChatCompletionTokenLogprob {
+  const _$ChatCompletionTokenLogprobImpl(
+      {required this.token,
+      required this.logprob,
+      required final List<int>? bytes,
+      @JsonKey(name: 'top_logprobs')
+      required final List<ChatCompletionTokenTopLogprob> topLogprobs})
+      : _bytes = bytes,
+        _topLogprobs = topLogprobs,
+        super._();
+
+  factory _$ChatCompletionTokenLogprobImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ChatCompletionTokenLogprobImplFromJson(json);
+
+  /// The token.
+  @override
+  final String token;
+
+  /// The log probability of this token.
+  @override
+  final double logprob;
+
+  /// A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token.
+  final List<int>? _bytes;
+
+  /// A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token.
+  @override
+  List<int>? get bytes {
+    final value = _bytes;
+    if (value == null) return null;
+    if (_bytes is EqualUnmodifiableListView) return _bytes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  /// List of the most likely tokens and their log probability, at this token position. In rare cases, there may be fewer than the number of requested `top_logprobs` returned.
+  final List<ChatCompletionTokenTopLogprob> _topLogprobs;
+
+  /// List of the most likely tokens and their log probability, at this token position. In rare cases, there may be fewer than the number of requested `top_logprobs` returned.
+  @override
+  @JsonKey(name: 'top_logprobs')
+  List<ChatCompletionTokenTopLogprob> get topLogprobs {
+    if (_topLogprobs is EqualUnmodifiableListView) return _topLogprobs;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_topLogprobs);
+  }
+
+  @override
+  String toString() {
+    return 'ChatCompletionTokenLogprob(token: $token, logprob: $logprob, bytes: $bytes, topLogprobs: $topLogprobs)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionTokenLogprobImpl &&
+            (identical(other.token, token) || other.token == token) &&
+            (identical(other.logprob, logprob) || other.logprob == logprob) &&
+            const DeepCollectionEquality().equals(other._bytes, _bytes) &&
+            const DeepCollectionEquality()
+                .equals(other._topLogprobs, _topLogprobs));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      token,
+      logprob,
+      const DeepCollectionEquality().hash(_bytes),
+      const DeepCollectionEquality().hash(_topLogprobs));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionTokenLogprobImplCopyWith<_$ChatCompletionTokenLogprobImpl>
+      get copyWith => __$$ChatCompletionTokenLogprobImplCopyWithImpl<
+          _$ChatCompletionTokenLogprobImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionTokenLogprobImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ChatCompletionTokenLogprob extends ChatCompletionTokenLogprob {
+  const factory _ChatCompletionTokenLogprob(
+          {required final String token,
+          required final double logprob,
+          required final List<int>? bytes,
+          @JsonKey(name: 'top_logprobs')
+          required final List<ChatCompletionTokenTopLogprob> topLogprobs}) =
+      _$ChatCompletionTokenLogprobImpl;
+  const _ChatCompletionTokenLogprob._() : super._();
+
+  factory _ChatCompletionTokenLogprob.fromJson(Map<String, dynamic> json) =
+      _$ChatCompletionTokenLogprobImpl.fromJson;
+
+  @override
+
+  /// The token.
+  String get token;
+  @override
+
+  /// The log probability of this token.
+  double get logprob;
+  @override
+
+  /// A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token.
+  List<int>? get bytes;
+  @override
+
+  /// List of the most likely tokens and their log probability, at this token position. In rare cases, there may be fewer than the number of requested `top_logprobs` returned.
+  @JsonKey(name: 'top_logprobs')
+  List<ChatCompletionTokenTopLogprob> get topLogprobs;
+  @override
+  @JsonKey(ignore: true)
+  _$$ChatCompletionTokenLogprobImplCopyWith<_$ChatCompletionTokenLogprobImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ChatCompletionTokenTopLogprob _$ChatCompletionTokenTopLogprobFromJson(
+    Map<String, dynamic> json) {
+  return _ChatCompletionTokenTopLogprob.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ChatCompletionTokenTopLogprob {
+  /// The token.
+  String get token => throw _privateConstructorUsedError;
+
+  /// The log probability of this token.
+  double get logprob => throw _privateConstructorUsedError;
+
+  /// A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token.
+  List<int>? get bytes => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ChatCompletionTokenTopLogprobCopyWith<ChatCompletionTokenTopLogprob>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChatCompletionTokenTopLogprobCopyWith<$Res> {
+  factory $ChatCompletionTokenTopLogprobCopyWith(
+          ChatCompletionTokenTopLogprob value,
+          $Res Function(ChatCompletionTokenTopLogprob) then) =
+      _$ChatCompletionTokenTopLogprobCopyWithImpl<$Res,
+          ChatCompletionTokenTopLogprob>;
+  @useResult
+  $Res call({String token, double logprob, List<int>? bytes});
+}
+
+/// @nodoc
+class _$ChatCompletionTokenTopLogprobCopyWithImpl<$Res,
+        $Val extends ChatCompletionTokenTopLogprob>
+    implements $ChatCompletionTokenTopLogprobCopyWith<$Res> {
+  _$ChatCompletionTokenTopLogprobCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? token = null,
+    Object? logprob = null,
+    Object? bytes = freezed,
+  }) {
+    return _then(_value.copyWith(
+      token: null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String,
+      logprob: null == logprob
+          ? _value.logprob
+          : logprob // ignore: cast_nullable_to_non_nullable
+              as double,
+      bytes: freezed == bytes
+          ? _value.bytes
+          : bytes // ignore: cast_nullable_to_non_nullable
+              as List<int>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionTokenTopLogprobImplCopyWith<$Res>
+    implements $ChatCompletionTokenTopLogprobCopyWith<$Res> {
+  factory _$$ChatCompletionTokenTopLogprobImplCopyWith(
+          _$ChatCompletionTokenTopLogprobImpl value,
+          $Res Function(_$ChatCompletionTokenTopLogprobImpl) then) =
+      __$$ChatCompletionTokenTopLogprobImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String token, double logprob, List<int>? bytes});
+}
+
+/// @nodoc
+class __$$ChatCompletionTokenTopLogprobImplCopyWithImpl<$Res>
+    extends _$ChatCompletionTokenTopLogprobCopyWithImpl<$Res,
+        _$ChatCompletionTokenTopLogprobImpl>
+    implements _$$ChatCompletionTokenTopLogprobImplCopyWith<$Res> {
+  __$$ChatCompletionTokenTopLogprobImplCopyWithImpl(
+      _$ChatCompletionTokenTopLogprobImpl _value,
+      $Res Function(_$ChatCompletionTokenTopLogprobImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? token = null,
+    Object? logprob = null,
+    Object? bytes = freezed,
+  }) {
+    return _then(_$ChatCompletionTokenTopLogprobImpl(
+      token: null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String,
+      logprob: null == logprob
+          ? _value.logprob
+          : logprob // ignore: cast_nullable_to_non_nullable
+              as double,
+      bytes: freezed == bytes
+          ? _value._bytes
+          : bytes // ignore: cast_nullable_to_non_nullable
+              as List<int>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionTokenTopLogprobImpl
+    extends _ChatCompletionTokenTopLogprob {
+  const _$ChatCompletionTokenTopLogprobImpl(
+      {required this.token,
+      required this.logprob,
+      required final List<int>? bytes})
+      : _bytes = bytes,
+        super._();
+
+  factory _$ChatCompletionTokenTopLogprobImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ChatCompletionTokenTopLogprobImplFromJson(json);
+
+  /// The token.
+  @override
+  final String token;
+
+  /// The log probability of this token.
+  @override
+  final double logprob;
+
+  /// A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token.
+  final List<int>? _bytes;
+
+  /// A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token.
+  @override
+  List<int>? get bytes {
+    final value = _bytes;
+    if (value == null) return null;
+    if (_bytes is EqualUnmodifiableListView) return _bytes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'ChatCompletionTokenTopLogprob(token: $token, logprob: $logprob, bytes: $bytes)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionTokenTopLogprobImpl &&
+            (identical(other.token, token) || other.token == token) &&
+            (identical(other.logprob, logprob) || other.logprob == logprob) &&
+            const DeepCollectionEquality().equals(other._bytes, _bytes));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, token, logprob, const DeepCollectionEquality().hash(_bytes));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionTokenTopLogprobImplCopyWith<
+          _$ChatCompletionTokenTopLogprobImpl>
+      get copyWith => __$$ChatCompletionTokenTopLogprobImplCopyWithImpl<
+          _$ChatCompletionTokenTopLogprobImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionTokenTopLogprobImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ChatCompletionTokenTopLogprob
+    extends ChatCompletionTokenTopLogprob {
+  const factory _ChatCompletionTokenTopLogprob(
+      {required final String token,
+      required final double logprob,
+      required final List<int>? bytes}) = _$ChatCompletionTokenTopLogprobImpl;
+  const _ChatCompletionTokenTopLogprob._() : super._();
+
+  factory _ChatCompletionTokenTopLogprob.fromJson(Map<String, dynamic> json) =
+      _$ChatCompletionTokenTopLogprobImpl.fromJson;
+
+  @override
+
+  /// The token.
+  String get token;
+  @override
+
+  /// The log probability of this token.
+  double get logprob;
+  @override
+
+  /// A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token.
+  List<int>? get bytes;
+  @override
+  @JsonKey(ignore: true)
+  _$$ChatCompletionTokenTopLogprobImplCopyWith<
+          _$ChatCompletionTokenTopLogprobImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -8182,7 +8940,7 @@ class _$CreateChatCompletionStreamResponseImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateChatCompletionStreamResponseImpl &&
@@ -8284,6 +9042,11 @@ mixin _$ChatCompletionStreamResponseChoice {
   ChatCompletionStreamResponseDelta get delta =>
       throw _privateConstructorUsedError;
 
+  /// Log probability information for the choice.
+  @JsonKey(includeIfNull: false)
+  ChatCompletionStreamResponseChoiceLogprobs? get logprobs =>
+      throw _privateConstructorUsedError;
+
   /// The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
   /// `length` if the maximum number of tokens specified in the request was reached,
   /// `content_filter` if content was omitted due to a flag from our content filters,
@@ -8314,6 +9077,8 @@ abstract class $ChatCompletionStreamResponseChoiceCopyWith<$Res> {
   @useResult
   $Res call(
       {ChatCompletionStreamResponseDelta delta,
+      @JsonKey(includeIfNull: false)
+      ChatCompletionStreamResponseChoiceLogprobs? logprobs,
       @JsonKey(
           name: 'finish_reason',
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
@@ -8321,6 +9086,7 @@ abstract class $ChatCompletionStreamResponseChoiceCopyWith<$Res> {
       int index});
 
   $ChatCompletionStreamResponseDeltaCopyWith<$Res> get delta;
+  $ChatCompletionStreamResponseChoiceLogprobsCopyWith<$Res>? get logprobs;
 }
 
 /// @nodoc
@@ -8338,6 +9104,7 @@ class _$ChatCompletionStreamResponseChoiceCopyWithImpl<$Res,
   @override
   $Res call({
     Object? delta = null,
+    Object? logprobs = freezed,
     Object? finishReason = freezed,
     Object? index = null,
   }) {
@@ -8346,6 +9113,10 @@ class _$ChatCompletionStreamResponseChoiceCopyWithImpl<$Res,
           ? _value.delta
           : delta // ignore: cast_nullable_to_non_nullable
               as ChatCompletionStreamResponseDelta,
+      logprobs: freezed == logprobs
+          ? _value.logprobs
+          : logprobs // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionStreamResponseChoiceLogprobs?,
       finishReason: freezed == finishReason
           ? _value.finishReason
           : finishReason // ignore: cast_nullable_to_non_nullable
@@ -8365,6 +9136,19 @@ class _$ChatCompletionStreamResponseChoiceCopyWithImpl<$Res,
       return _then(_value.copyWith(delta: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChatCompletionStreamResponseChoiceLogprobsCopyWith<$Res>? get logprobs {
+    if (_value.logprobs == null) {
+      return null;
+    }
+
+    return $ChatCompletionStreamResponseChoiceLogprobsCopyWith<$Res>(
+        _value.logprobs!, (value) {
+      return _then(_value.copyWith(logprobs: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -8378,6 +9162,8 @@ abstract class _$$ChatCompletionStreamResponseChoiceImplCopyWith<$Res>
   @useResult
   $Res call(
       {ChatCompletionStreamResponseDelta delta,
+      @JsonKey(includeIfNull: false)
+      ChatCompletionStreamResponseChoiceLogprobs? logprobs,
       @JsonKey(
           name: 'finish_reason',
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
@@ -8386,6 +9172,8 @@ abstract class _$$ChatCompletionStreamResponseChoiceImplCopyWith<$Res>
 
   @override
   $ChatCompletionStreamResponseDeltaCopyWith<$Res> get delta;
+  @override
+  $ChatCompletionStreamResponseChoiceLogprobsCopyWith<$Res>? get logprobs;
 }
 
 /// @nodoc
@@ -8402,6 +9190,7 @@ class __$$ChatCompletionStreamResponseChoiceImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? delta = null,
+    Object? logprobs = freezed,
     Object? finishReason = freezed,
     Object? index = null,
   }) {
@@ -8410,6 +9199,10 @@ class __$$ChatCompletionStreamResponseChoiceImplCopyWithImpl<$Res>
           ? _value.delta
           : delta // ignore: cast_nullable_to_non_nullable
               as ChatCompletionStreamResponseDelta,
+      logprobs: freezed == logprobs
+          ? _value.logprobs
+          : logprobs // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionStreamResponseChoiceLogprobs?,
       finishReason: freezed == finishReason
           ? _value.finishReason
           : finishReason // ignore: cast_nullable_to_non_nullable
@@ -8428,6 +9221,7 @@ class _$ChatCompletionStreamResponseChoiceImpl
     extends _ChatCompletionStreamResponseChoice {
   const _$ChatCompletionStreamResponseChoiceImpl(
       {required this.delta,
+      @JsonKey(includeIfNull: false) this.logprobs,
       @JsonKey(
           name: 'finish_reason',
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
@@ -8442,6 +9236,11 @@ class _$ChatCompletionStreamResponseChoiceImpl
   /// A chat completion delta generated by streamed model responses.
   @override
   final ChatCompletionStreamResponseDelta delta;
+
+  /// Log probability information for the choice.
+  @override
+  @JsonKey(includeIfNull: false)
+  final ChatCompletionStreamResponseChoiceLogprobs? logprobs;
 
   /// The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
   /// `length` if the maximum number of tokens specified in the request was reached,
@@ -8459,15 +9258,17 @@ class _$ChatCompletionStreamResponseChoiceImpl
 
   @override
   String toString() {
-    return 'ChatCompletionStreamResponseChoice(delta: $delta, finishReason: $finishReason, index: $index)';
+    return 'ChatCompletionStreamResponseChoice(delta: $delta, logprobs: $logprobs, finishReason: $finishReason, index: $index)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionStreamResponseChoiceImpl &&
             (identical(other.delta, delta) || other.delta == delta) &&
+            (identical(other.logprobs, logprobs) ||
+                other.logprobs == logprobs) &&
             (identical(other.finishReason, finishReason) ||
                 other.finishReason == finishReason) &&
             (identical(other.index, index) || other.index == index));
@@ -8475,7 +9276,8 @@ class _$ChatCompletionStreamResponseChoiceImpl
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, delta, finishReason, index);
+  int get hashCode =>
+      Object.hash(runtimeType, delta, logprobs, finishReason, index);
 
   @JsonKey(ignore: true)
   @override
@@ -8497,6 +9299,8 @@ abstract class _ChatCompletionStreamResponseChoice
     extends ChatCompletionStreamResponseChoice {
   const factory _ChatCompletionStreamResponseChoice(
       {required final ChatCompletionStreamResponseDelta delta,
+      @JsonKey(includeIfNull: false)
+      final ChatCompletionStreamResponseChoiceLogprobs? logprobs,
       @JsonKey(
           name: 'finish_reason',
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
@@ -8512,6 +9316,11 @@ abstract class _ChatCompletionStreamResponseChoice
 
   /// A chat completion delta generated by streamed model responses.
   ChatCompletionStreamResponseDelta get delta;
+  @override
+
+  /// Log probability information for the choice.
+  @JsonKey(includeIfNull: false)
+  ChatCompletionStreamResponseChoiceLogprobs? get logprobs;
   @override
 
   /// The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
@@ -8530,6 +9339,183 @@ abstract class _ChatCompletionStreamResponseChoice
   @JsonKey(ignore: true)
   _$$ChatCompletionStreamResponseChoiceImplCopyWith<
           _$ChatCompletionStreamResponseChoiceImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ChatCompletionStreamResponseChoiceLogprobs
+    _$ChatCompletionStreamResponseChoiceLogprobsFromJson(
+        Map<String, dynamic> json) {
+  return _ChatCompletionStreamResponseChoiceLogprobs.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ChatCompletionStreamResponseChoiceLogprobs {
+  /// A list of message content tokens with log probability information.
+  List<ChatCompletionTokenLogprob>? get content =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ChatCompletionStreamResponseChoiceLogprobsCopyWith<
+          ChatCompletionStreamResponseChoiceLogprobs>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChatCompletionStreamResponseChoiceLogprobsCopyWith<$Res> {
+  factory $ChatCompletionStreamResponseChoiceLogprobsCopyWith(
+          ChatCompletionStreamResponseChoiceLogprobs value,
+          $Res Function(ChatCompletionStreamResponseChoiceLogprobs) then) =
+      _$ChatCompletionStreamResponseChoiceLogprobsCopyWithImpl<$Res,
+          ChatCompletionStreamResponseChoiceLogprobs>;
+  @useResult
+  $Res call({List<ChatCompletionTokenLogprob>? content});
+}
+
+/// @nodoc
+class _$ChatCompletionStreamResponseChoiceLogprobsCopyWithImpl<$Res,
+        $Val extends ChatCompletionStreamResponseChoiceLogprobs>
+    implements $ChatCompletionStreamResponseChoiceLogprobsCopyWith<$Res> {
+  _$ChatCompletionStreamResponseChoiceLogprobsCopyWithImpl(
+      this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? content = freezed,
+  }) {
+    return _then(_value.copyWith(
+      content: freezed == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as List<ChatCompletionTokenLogprob>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionStreamResponseChoiceLogprobsImplCopyWith<$Res>
+    implements $ChatCompletionStreamResponseChoiceLogprobsCopyWith<$Res> {
+  factory _$$ChatCompletionStreamResponseChoiceLogprobsImplCopyWith(
+          _$ChatCompletionStreamResponseChoiceLogprobsImpl value,
+          $Res Function(_$ChatCompletionStreamResponseChoiceLogprobsImpl)
+              then) =
+      __$$ChatCompletionStreamResponseChoiceLogprobsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<ChatCompletionTokenLogprob>? content});
+}
+
+/// @nodoc
+class __$$ChatCompletionStreamResponseChoiceLogprobsImplCopyWithImpl<$Res>
+    extends _$ChatCompletionStreamResponseChoiceLogprobsCopyWithImpl<$Res,
+        _$ChatCompletionStreamResponseChoiceLogprobsImpl>
+    implements _$$ChatCompletionStreamResponseChoiceLogprobsImplCopyWith<$Res> {
+  __$$ChatCompletionStreamResponseChoiceLogprobsImplCopyWithImpl(
+      _$ChatCompletionStreamResponseChoiceLogprobsImpl _value,
+      $Res Function(_$ChatCompletionStreamResponseChoiceLogprobsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? content = freezed,
+  }) {
+    return _then(_$ChatCompletionStreamResponseChoiceLogprobsImpl(
+      content: freezed == content
+          ? _value._content
+          : content // ignore: cast_nullable_to_non_nullable
+              as List<ChatCompletionTokenLogprob>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionStreamResponseChoiceLogprobsImpl
+    extends _ChatCompletionStreamResponseChoiceLogprobs {
+  const _$ChatCompletionStreamResponseChoiceLogprobsImpl(
+      {required final List<ChatCompletionTokenLogprob>? content})
+      : _content = content,
+        super._();
+
+  factory _$ChatCompletionStreamResponseChoiceLogprobsImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ChatCompletionStreamResponseChoiceLogprobsImplFromJson(json);
+
+  /// A list of message content tokens with log probability information.
+  final List<ChatCompletionTokenLogprob>? _content;
+
+  /// A list of message content tokens with log probability information.
+  @override
+  List<ChatCompletionTokenLogprob>? get content {
+    final value = _content;
+    if (value == null) return null;
+    if (_content is EqualUnmodifiableListView) return _content;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'ChatCompletionStreamResponseChoiceLogprobs(content: $content)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionStreamResponseChoiceLogprobsImpl &&
+            const DeepCollectionEquality().equals(other._content, _content));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_content));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionStreamResponseChoiceLogprobsImplCopyWith<
+          _$ChatCompletionStreamResponseChoiceLogprobsImpl>
+      get copyWith =>
+          __$$ChatCompletionStreamResponseChoiceLogprobsImplCopyWithImpl<
+                  _$ChatCompletionStreamResponseChoiceLogprobsImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionStreamResponseChoiceLogprobsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ChatCompletionStreamResponseChoiceLogprobs
+    extends ChatCompletionStreamResponseChoiceLogprobs {
+  const factory _ChatCompletionStreamResponseChoiceLogprobs(
+          {required final List<ChatCompletionTokenLogprob>? content}) =
+      _$ChatCompletionStreamResponseChoiceLogprobsImpl;
+  const _ChatCompletionStreamResponseChoiceLogprobs._() : super._();
+
+  factory _ChatCompletionStreamResponseChoiceLogprobs.fromJson(
+          Map<String, dynamic> json) =
+      _$ChatCompletionStreamResponseChoiceLogprobsImpl.fromJson;
+
+  @override
+
+  /// A list of message content tokens with log probability information.
+  List<ChatCompletionTokenLogprob>? get content;
+  @override
+  @JsonKey(ignore: true)
+  _$$ChatCompletionStreamResponseChoiceLogprobsImplCopyWith<
+          _$ChatCompletionStreamResponseChoiceLogprobsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -8759,7 +9745,7 @@ class _$ChatCompletionStreamResponseDeltaImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionStreamResponseDeltaImpl &&
@@ -8978,7 +9964,7 @@ class _$ChatCompletionStreamMessageFunctionCallImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionStreamMessageFunctionCallImpl &&
@@ -9251,7 +10237,7 @@ class _$ChatCompletionStreamMessageToolCallChunkImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionStreamMessageToolCallChunkImpl &&
@@ -9477,7 +10463,7 @@ class _$CompletionUsageImpl extends _CompletionUsage {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CompletionUsageImpl &&
@@ -9743,7 +10729,7 @@ class _$CreateEmbeddingRequestImpl extends _CreateEmbeddingRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateEmbeddingRequestImpl &&
@@ -9943,7 +10929,7 @@ class _$EmbeddingModelEnumerationImpl extends EmbeddingModelEnumeration {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EmbeddingModelEnumerationImpl &&
@@ -10099,7 +11085,7 @@ class _$EmbeddingModelStringImpl extends EmbeddingModelString {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EmbeddingModelStringImpl &&
@@ -10356,7 +11342,7 @@ class _$EmbeddingInputListListIntImpl extends EmbeddingInputListListInt {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EmbeddingInputListListIntImpl &&
@@ -10533,7 +11519,7 @@ class _$EmbeddingInputListIntImpl extends EmbeddingInputListInt {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EmbeddingInputListIntImpl &&
@@ -10711,7 +11697,7 @@ class _$EmbeddingInputListStringImpl extends EmbeddingInputListString {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EmbeddingInputListStringImpl &&
@@ -10880,7 +11866,7 @@ class _$EmbeddingInputStringImpl extends EmbeddingInputString {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EmbeddingInputStringImpl &&
@@ -11186,7 +12172,7 @@ class _$CreateEmbeddingResponseImpl extends _CreateEmbeddingResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateEmbeddingResponseImpl &&
@@ -11406,7 +12392,7 @@ class _$EmbeddingImpl extends _Embedding {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EmbeddingImpl &&
@@ -11600,7 +12586,7 @@ class _$EmbeddingVectorListDoubleImpl extends EmbeddingVectorListDouble {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EmbeddingVectorListDoubleImpl &&
@@ -11758,7 +12744,7 @@ class _$EmbeddingVectorStringImpl extends EmbeddingVectorString {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EmbeddingVectorStringImpl &&
@@ -11988,7 +12974,7 @@ class _$EmbeddingUsageImpl extends _EmbeddingUsage {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EmbeddingUsageImpl &&
@@ -12314,7 +13300,7 @@ class _$CreateFineTuningJobRequestImpl extends _CreateFineTuningJobRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateFineTuningJobRequestImpl &&
@@ -12543,7 +13529,7 @@ class _$FineTuningModelEnumerationImpl extends FineTuningModelEnumeration {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FineTuningModelEnumerationImpl &&
@@ -12700,7 +13686,7 @@ class _$FineTuningModelStringImpl extends FineTuningModelString {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FineTuningModelStringImpl &&
@@ -13220,7 +14206,7 @@ class _$FineTuningJobImpl extends _FineTuningJob {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FineTuningJobImpl &&
@@ -13509,7 +14495,7 @@ class _$FineTuningJobErrorImpl extends _FineTuningJobError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FineTuningJobErrorImpl &&
@@ -13701,7 +14687,7 @@ class _$FineTuningJobHyperparametersImpl extends _FineTuningJobHyperparameters {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FineTuningJobHyperparametersImpl &&
@@ -13886,7 +14872,7 @@ class _$FineTuningNEpochsEnumerationImpl extends FineTuningNEpochsEnumeration {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FineTuningNEpochsEnumerationImpl &&
@@ -14045,7 +15031,7 @@ class _$FineTuningNEpochsIntImpl extends FineTuningNEpochsInt {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FineTuningNEpochsIntImpl &&
@@ -14313,7 +15299,7 @@ class _$ListPaginatedFineTuningJobsResponseImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ListPaginatedFineTuningJobsResponseImpl &&
@@ -14516,7 +15502,7 @@ class _$ListFineTuningJobEventsResponseImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ListFineTuningJobEventsResponseImpl &&
@@ -14756,7 +15742,7 @@ class _$FineTuningJobEventImpl extends _FineTuningJobEvent {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FineTuningJobEventImpl &&
@@ -15149,7 +16135,7 @@ class _$CreateImageRequestImpl extends _CreateImageRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateImageRequestImpl &&
@@ -15401,7 +16387,7 @@ class _$CreateImageRequestModelEnumerationImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateImageRequestModelEnumerationImpl &&
@@ -15566,7 +16552,7 @@ class _$CreateImageRequestModelStringImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateImageRequestModelStringImpl &&
@@ -15797,7 +16783,7 @@ class _$ImagesResponseImpl extends _ImagesResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ImagesResponseImpl &&
@@ -15997,7 +16983,7 @@ class _$ImageImpl extends _Image {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ImageImpl &&
@@ -16218,7 +17204,7 @@ class _$ModelImpl extends _Model {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ModelImpl &&
@@ -16405,7 +17391,7 @@ class _$ListModelsResponseImpl extends _ListModelsResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ListModelsResponseImpl &&
@@ -16591,7 +17577,7 @@ class _$DeleteModelResponseImpl extends _DeleteModelResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DeleteModelResponseImpl &&
@@ -16819,7 +17805,7 @@ class _$CreateModerationRequestImpl extends _CreateModerationRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateModerationRequestImpl &&
@@ -17009,7 +17995,7 @@ class _$ModerationModelEnumerationImpl extends ModerationModelEnumeration {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ModerationModelEnumerationImpl &&
@@ -17166,7 +18152,7 @@ class _$ModerationModelStringImpl extends ModerationModelString {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ModerationModelStringImpl &&
@@ -17406,7 +18392,7 @@ class _$ModerationInputListStringImpl extends ModerationInputListString {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ModerationInputListStringImpl &&
@@ -17564,7 +18550,7 @@ class _$ModerationInputStringImpl extends ModerationInputString {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ModerationInputStringImpl &&
@@ -17817,7 +18803,7 @@ class _$CreateModerationResponseImpl extends _CreateModerationResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateModerationResponseImpl &&
@@ -18048,7 +19034,7 @@ class _$ModerationImpl extends _Moderation {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ModerationImpl &&
@@ -18115,7 +19101,7 @@ ModerationCategories _$ModerationCategoriesFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ModerationCategories {
-  /// Content that expresses, incites, or promotes hate based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste. Hateful content aimed at non-protected groups (e.g., chess players) is harrassment.
+  /// Content that expresses, incites, or promotes hate based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste. Hateful content aimed at non-protected groups (e.g., chess players) is harassment.
   bool get hate => throw _privateConstructorUsedError;
 
   /// Hateful content that also includes violence or serious harm towards the targeted group based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste.
@@ -18372,7 +19358,7 @@ class _$ModerationCategoriesImpl extends _ModerationCategories {
   factory _$ModerationCategoriesImpl.fromJson(Map<String, dynamic> json) =>
       _$$ModerationCategoriesImplFromJson(json);
 
-  /// Content that expresses, incites, or promotes hate based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste. Hateful content aimed at non-protected groups (e.g., chess players) is harrassment.
+  /// Content that expresses, incites, or promotes hate based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste. Hateful content aimed at non-protected groups (e.g., chess players) is harassment.
   @override
   final bool hate;
 
@@ -18429,7 +19415,7 @@ class _$ModerationCategoriesImpl extends _ModerationCategories {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ModerationCategoriesImpl &&
@@ -18510,7 +19496,7 @@ abstract class _ModerationCategories extends ModerationCategories {
 
   @override
 
-  /// Content that expresses, incites, or promotes hate based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste. Hateful content aimed at non-protected groups (e.g., chess players) is harrassment.
+  /// Content that expresses, incites, or promotes hate based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste. Hateful content aimed at non-protected groups (e.g., chess players) is harassment.
   bool get hate;
   @override
 
@@ -18891,7 +19877,7 @@ class _$ModerationCategoriesScoresImpl extends _ModerationCategoriesScores {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ModerationCategoriesScoresImpl &&
@@ -19027,6 +20013,10834 @@ abstract class _ModerationCategoriesScores extends ModerationCategoriesScores {
       get copyWith => throw _privateConstructorUsedError;
 }
 
+AssistantObject _$AssistantObjectFromJson(Map<String, dynamic> json) {
+  return _AssistantObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AssistantObject {
+  /// The identifier, which can be referenced in API endpoints.
+  String get id => throw _privateConstructorUsedError;
+
+  /// The object type, which is always `assistant`.
+  AssistantObjectObject get object => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the assistant was created.
+  @JsonKey(name: 'created_at')
+  int get createdAt => throw _privateConstructorUsedError;
+
+  /// The name of the assistant. The maximum length is 256 characters.
+  String? get name => throw _privateConstructorUsedError;
+
+  /// The description of the assistant. The maximum length is 512 characters.
+  String? get description => throw _privateConstructorUsedError;
+
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  String get model => throw _privateConstructorUsedError;
+
+  /// The system instructions that the assistant uses. The maximum length is 32768 characters.
+  String? get instructions => throw _privateConstructorUsedError;
+
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  List<AssistantTools> get tools => throw _privateConstructorUsedError;
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds => throw _privateConstructorUsedError;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AssistantObjectCopyWith<AssistantObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AssistantObjectCopyWith<$Res> {
+  factory $AssistantObjectCopyWith(
+          AssistantObject value, $Res Function(AssistantObject) then) =
+      _$AssistantObjectCopyWithImpl<$Res, AssistantObject>;
+  @useResult
+  $Res call(
+      {String id,
+      AssistantObjectObject object,
+      @JsonKey(name: 'created_at') int createdAt,
+      String? name,
+      String? description,
+      String model,
+      String? instructions,
+      List<AssistantTools> tools,
+      @JsonKey(name: 'file_ids') List<String> fileIds,
+      Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class _$AssistantObjectCopyWithImpl<$Res, $Val extends AssistantObject>
+    implements $AssistantObjectCopyWith<$Res> {
+  _$AssistantObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? createdAt = null,
+    Object? name = freezed,
+    Object? description = freezed,
+    Object? model = null,
+    Object? instructions = freezed,
+    Object? tools = null,
+    Object? fileIds = null,
+    Object? metadata = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as AssistantObjectObject,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String,
+      instructions: freezed == instructions
+          ? _value.instructions
+          : instructions // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tools: null == tools
+          ? _value.tools
+          : tools // ignore: cast_nullable_to_non_nullable
+              as List<AssistantTools>,
+      fileIds: null == fileIds
+          ? _value.fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AssistantObjectImplCopyWith<$Res>
+    implements $AssistantObjectCopyWith<$Res> {
+  factory _$$AssistantObjectImplCopyWith(_$AssistantObjectImpl value,
+          $Res Function(_$AssistantObjectImpl) then) =
+      __$$AssistantObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      AssistantObjectObject object,
+      @JsonKey(name: 'created_at') int createdAt,
+      String? name,
+      String? description,
+      String model,
+      String? instructions,
+      List<AssistantTools> tools,
+      @JsonKey(name: 'file_ids') List<String> fileIds,
+      Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class __$$AssistantObjectImplCopyWithImpl<$Res>
+    extends _$AssistantObjectCopyWithImpl<$Res, _$AssistantObjectImpl>
+    implements _$$AssistantObjectImplCopyWith<$Res> {
+  __$$AssistantObjectImplCopyWithImpl(
+      _$AssistantObjectImpl _value, $Res Function(_$AssistantObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? createdAt = null,
+    Object? name = freezed,
+    Object? description = freezed,
+    Object? model = null,
+    Object? instructions = freezed,
+    Object? tools = null,
+    Object? fileIds = null,
+    Object? metadata = freezed,
+  }) {
+    return _then(_$AssistantObjectImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as AssistantObjectObject,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String,
+      instructions: freezed == instructions
+          ? _value.instructions
+          : instructions // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tools: null == tools
+          ? _value._tools
+          : tools // ignore: cast_nullable_to_non_nullable
+              as List<AssistantTools>,
+      fileIds: null == fileIds
+          ? _value._fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      metadata: freezed == metadata
+          ? _value._metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AssistantObjectImpl extends _AssistantObject {
+  const _$AssistantObjectImpl(
+      {required this.id,
+      required this.object,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      required this.name,
+      required this.description,
+      required this.model,
+      required this.instructions,
+      required final List<AssistantTools> tools,
+      @JsonKey(name: 'file_ids') required final List<String> fileIds,
+      required final Map<String, dynamic>? metadata})
+      : _tools = tools,
+        _fileIds = fileIds,
+        _metadata = metadata,
+        super._();
+
+  factory _$AssistantObjectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AssistantObjectImplFromJson(json);
+
+  /// The identifier, which can be referenced in API endpoints.
+  @override
+  final String id;
+
+  /// The object type, which is always `assistant`.
+  @override
+  final AssistantObjectObject object;
+
+  /// The Unix timestamp (in seconds) for when the assistant was created.
+  @override
+  @JsonKey(name: 'created_at')
+  final int createdAt;
+
+  /// The name of the assistant. The maximum length is 256 characters.
+  @override
+  final String? name;
+
+  /// The description of the assistant. The maximum length is 512 characters.
+  @override
+  final String? description;
+
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  @override
+  final String model;
+
+  /// The system instructions that the assistant uses. The maximum length is 32768 characters.
+  @override
+  final String? instructions;
+
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  final List<AssistantTools> _tools;
+
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  @override
+  List<AssistantTools> get tools {
+    if (_tools is EqualUnmodifiableListView) return _tools;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tools);
+  }
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
+  final List<String> _fileIds;
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
+  @override
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds {
+    if (_fileIds is EqualUnmodifiableListView) return _fileIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_fileIds);
+  }
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  final Map<String, dynamic>? _metadata;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
+  Map<String, dynamic>? get metadata {
+    final value = _metadata;
+    if (value == null) return null;
+    if (_metadata is EqualUnmodifiableMapView) return _metadata;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  @override
+  String toString() {
+    return 'AssistantObject(id: $id, object: $object, createdAt: $createdAt, name: $name, description: $description, model: $model, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AssistantObjectImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.object, object) || other.object == object) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.model, model) || other.model == model) &&
+            (identical(other.instructions, instructions) ||
+                other.instructions == instructions) &&
+            const DeepCollectionEquality().equals(other._tools, _tools) &&
+            const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
+            const DeepCollectionEquality().equals(other._metadata, _metadata));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      object,
+      createdAt,
+      name,
+      description,
+      model,
+      instructions,
+      const DeepCollectionEquality().hash(_tools),
+      const DeepCollectionEquality().hash(_fileIds),
+      const DeepCollectionEquality().hash(_metadata));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AssistantObjectImplCopyWith<_$AssistantObjectImpl> get copyWith =>
+      __$$AssistantObjectImplCopyWithImpl<_$AssistantObjectImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AssistantObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AssistantObject extends AssistantObject {
+  const factory _AssistantObject(
+      {required final String id,
+      required final AssistantObjectObject object,
+      @JsonKey(name: 'created_at') required final int createdAt,
+      required final String? name,
+      required final String? description,
+      required final String model,
+      required final String? instructions,
+      required final List<AssistantTools> tools,
+      @JsonKey(name: 'file_ids') required final List<String> fileIds,
+      required final Map<String, dynamic>? metadata}) = _$AssistantObjectImpl;
+  const _AssistantObject._() : super._();
+
+  factory _AssistantObject.fromJson(Map<String, dynamic> json) =
+      _$AssistantObjectImpl.fromJson;
+
+  @override
+
+  /// The identifier, which can be referenced in API endpoints.
+  String get id;
+  @override
+
+  /// The object type, which is always `assistant`.
+  AssistantObjectObject get object;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the assistant was created.
+  @JsonKey(name: 'created_at')
+  int get createdAt;
+  @override
+
+  /// The name of the assistant. The maximum length is 256 characters.
+  String? get name;
+  @override
+
+  /// The description of the assistant. The maximum length is 512 characters.
+  String? get description;
+  @override
+
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  String get model;
+  @override
+
+  /// The system instructions that the assistant uses. The maximum length is 32768 characters.
+  String? get instructions;
+  @override
+
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  List<AssistantTools> get tools;
+  @override
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds;
+  @override
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  Map<String, dynamic>? get metadata;
+  @override
+  @JsonKey(ignore: true)
+  _$$AssistantObjectImplCopyWith<_$AssistantObjectImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+CreateAssistantRequest _$CreateAssistantRequestFromJson(
+    Map<String, dynamic> json) {
+  return _CreateAssistantRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CreateAssistantRequest {
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  @_CreateAssistantRequestModelConverter()
+  CreateAssistantRequestModel get model => throw _privateConstructorUsedError;
+
+  /// The name of the assistant. The maximum length is 256 characters.
+  @JsonKey(includeIfNull: false)
+  String? get name => throw _privateConstructorUsedError;
+
+  /// The description of the assistant. The maximum length is 512 characters.
+  @JsonKey(includeIfNull: false)
+  String? get description => throw _privateConstructorUsedError;
+
+  /// The system instructions that the assistant uses. The maximum length is 32768 characters.
+  @JsonKey(includeIfNull: false)
+  String? get instructions => throw _privateConstructorUsedError;
+
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  List<AssistantTools> get tools => throw _privateConstructorUsedError;
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds => throw _privateConstructorUsedError;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CreateAssistantRequestCopyWith<CreateAssistantRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateAssistantRequestCopyWith<$Res> {
+  factory $CreateAssistantRequestCopyWith(CreateAssistantRequest value,
+          $Res Function(CreateAssistantRequest) then) =
+      _$CreateAssistantRequestCopyWithImpl<$Res, CreateAssistantRequest>;
+  @useResult
+  $Res call(
+      {@_CreateAssistantRequestModelConverter()
+      CreateAssistantRequestModel model,
+      @JsonKey(includeIfNull: false) String? name,
+      @JsonKey(includeIfNull: false) String? description,
+      @JsonKey(includeIfNull: false) String? instructions,
+      List<AssistantTools> tools,
+      @JsonKey(name: 'file_ids') List<String> fileIds,
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+
+  $CreateAssistantRequestModelCopyWith<$Res> get model;
+}
+
+/// @nodoc
+class _$CreateAssistantRequestCopyWithImpl<$Res,
+        $Val extends CreateAssistantRequest>
+    implements $CreateAssistantRequestCopyWith<$Res> {
+  _$CreateAssistantRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? model = null,
+    Object? name = freezed,
+    Object? description = freezed,
+    Object? instructions = freezed,
+    Object? tools = null,
+    Object? fileIds = null,
+    Object? metadata = freezed,
+  }) {
+    return _then(_value.copyWith(
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as CreateAssistantRequestModel,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      instructions: freezed == instructions
+          ? _value.instructions
+          : instructions // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tools: null == tools
+          ? _value.tools
+          : tools // ignore: cast_nullable_to_non_nullable
+              as List<AssistantTools>,
+      fileIds: null == fileIds
+          ? _value.fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CreateAssistantRequestModelCopyWith<$Res> get model {
+    return $CreateAssistantRequestModelCopyWith<$Res>(_value.model, (value) {
+      return _then(_value.copyWith(model: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$CreateAssistantRequestImplCopyWith<$Res>
+    implements $CreateAssistantRequestCopyWith<$Res> {
+  factory _$$CreateAssistantRequestImplCopyWith(
+          _$CreateAssistantRequestImpl value,
+          $Res Function(_$CreateAssistantRequestImpl) then) =
+      __$$CreateAssistantRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@_CreateAssistantRequestModelConverter()
+      CreateAssistantRequestModel model,
+      @JsonKey(includeIfNull: false) String? name,
+      @JsonKey(includeIfNull: false) String? description,
+      @JsonKey(includeIfNull: false) String? instructions,
+      List<AssistantTools> tools,
+      @JsonKey(name: 'file_ids') List<String> fileIds,
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+
+  @override
+  $CreateAssistantRequestModelCopyWith<$Res> get model;
+}
+
+/// @nodoc
+class __$$CreateAssistantRequestImplCopyWithImpl<$Res>
+    extends _$CreateAssistantRequestCopyWithImpl<$Res,
+        _$CreateAssistantRequestImpl>
+    implements _$$CreateAssistantRequestImplCopyWith<$Res> {
+  __$$CreateAssistantRequestImplCopyWithImpl(
+      _$CreateAssistantRequestImpl _value,
+      $Res Function(_$CreateAssistantRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? model = null,
+    Object? name = freezed,
+    Object? description = freezed,
+    Object? instructions = freezed,
+    Object? tools = null,
+    Object? fileIds = null,
+    Object? metadata = freezed,
+  }) {
+    return _then(_$CreateAssistantRequestImpl(
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as CreateAssistantRequestModel,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      instructions: freezed == instructions
+          ? _value.instructions
+          : instructions // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tools: null == tools
+          ? _value._tools
+          : tools // ignore: cast_nullable_to_non_nullable
+              as List<AssistantTools>,
+      fileIds: null == fileIds
+          ? _value._fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      metadata: freezed == metadata
+          ? _value._metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
+  const _$CreateAssistantRequestImpl(
+      {@_CreateAssistantRequestModelConverter() required this.model,
+      @JsonKey(includeIfNull: false) this.name,
+      @JsonKey(includeIfNull: false) this.description,
+      @JsonKey(includeIfNull: false) this.instructions,
+      final List<AssistantTools> tools = const [],
+      @JsonKey(name: 'file_ids') final List<String> fileIds = const [],
+      @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata})
+      : _tools = tools,
+        _fileIds = fileIds,
+        _metadata = metadata,
+        super._();
+
+  factory _$CreateAssistantRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CreateAssistantRequestImplFromJson(json);
+
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  @override
+  @_CreateAssistantRequestModelConverter()
+  final CreateAssistantRequestModel model;
+
+  /// The name of the assistant. The maximum length is 256 characters.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? name;
+
+  /// The description of the assistant. The maximum length is 512 characters.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? description;
+
+  /// The system instructions that the assistant uses. The maximum length is 32768 characters.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? instructions;
+
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  final List<AssistantTools> _tools;
+
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  @override
+  @JsonKey()
+  List<AssistantTools> get tools {
+    if (_tools is EqualUnmodifiableListView) return _tools;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tools);
+  }
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
+  final List<String> _fileIds;
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
+  @override
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds {
+    if (_fileIds is EqualUnmodifiableListView) return _fileIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_fileIds);
+  }
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  final Map<String, dynamic>? _metadata;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata {
+    final value = _metadata;
+    if (value == null) return null;
+    if (_metadata is EqualUnmodifiableMapView) return _metadata;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  @override
+  String toString() {
+    return 'CreateAssistantRequest(model: $model, name: $name, description: $description, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateAssistantRequestImpl &&
+            (identical(other.model, model) || other.model == model) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.instructions, instructions) ||
+                other.instructions == instructions) &&
+            const DeepCollectionEquality().equals(other._tools, _tools) &&
+            const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
+            const DeepCollectionEquality().equals(other._metadata, _metadata));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      model,
+      name,
+      description,
+      instructions,
+      const DeepCollectionEquality().hash(_tools),
+      const DeepCollectionEquality().hash(_fileIds),
+      const DeepCollectionEquality().hash(_metadata));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateAssistantRequestImplCopyWith<_$CreateAssistantRequestImpl>
+      get copyWith => __$$CreateAssistantRequestImplCopyWithImpl<
+          _$CreateAssistantRequestImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateAssistantRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CreateAssistantRequest extends CreateAssistantRequest {
+  const factory _CreateAssistantRequest(
+      {@_CreateAssistantRequestModelConverter()
+      required final CreateAssistantRequestModel model,
+      @JsonKey(includeIfNull: false) final String? name,
+      @JsonKey(includeIfNull: false) final String? description,
+      @JsonKey(includeIfNull: false) final String? instructions,
+      final List<AssistantTools> tools,
+      @JsonKey(name: 'file_ids') final List<String> fileIds,
+      @JsonKey(includeIfNull: false)
+      final Map<String, dynamic>? metadata}) = _$CreateAssistantRequestImpl;
+  const _CreateAssistantRequest._() : super._();
+
+  factory _CreateAssistantRequest.fromJson(Map<String, dynamic> json) =
+      _$CreateAssistantRequestImpl.fromJson;
+
+  @override
+
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  @_CreateAssistantRequestModelConverter()
+  CreateAssistantRequestModel get model;
+  @override
+
+  /// The name of the assistant. The maximum length is 256 characters.
+  @JsonKey(includeIfNull: false)
+  String? get name;
+  @override
+
+  /// The description of the assistant. The maximum length is 512 characters.
+  @JsonKey(includeIfNull: false)
+  String? get description;
+  @override
+
+  /// The system instructions that the assistant uses. The maximum length is 32768 characters.
+  @JsonKey(includeIfNull: false)
+  String? get instructions;
+  @override
+
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  List<AssistantTools> get tools;
+  @override
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds;
+  @override
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata;
+  @override
+  @JsonKey(ignore: true)
+  _$$CreateAssistantRequestImplCopyWith<_$CreateAssistantRequestImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+CreateAssistantRequestModel _$CreateAssistantRequestModelFromJson(
+    Map<String, dynamic> json) {
+  return CreateAssistantRequestModelString.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CreateAssistantRequestModel {
+  String get value => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String value) string,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String value)? string,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String value)? string,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(CreateAssistantRequestModelString value) string,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateAssistantRequestModelString value)? string,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateAssistantRequestModelString value)? string,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CreateAssistantRequestModelCopyWith<CreateAssistantRequestModel>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateAssistantRequestModelCopyWith<$Res> {
+  factory $CreateAssistantRequestModelCopyWith(
+          CreateAssistantRequestModel value,
+          $Res Function(CreateAssistantRequestModel) then) =
+      _$CreateAssistantRequestModelCopyWithImpl<$Res,
+          CreateAssistantRequestModel>;
+  @useResult
+  $Res call({String value});
+}
+
+/// @nodoc
+class _$CreateAssistantRequestModelCopyWithImpl<$Res,
+        $Val extends CreateAssistantRequestModel>
+    implements $CreateAssistantRequestModelCopyWith<$Res> {
+  _$CreateAssistantRequestModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_value.copyWith(
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CreateAssistantRequestModelStringImplCopyWith<$Res>
+    implements $CreateAssistantRequestModelCopyWith<$Res> {
+  factory _$$CreateAssistantRequestModelStringImplCopyWith(
+          _$CreateAssistantRequestModelStringImpl value,
+          $Res Function(_$CreateAssistantRequestModelStringImpl) then) =
+      __$$CreateAssistantRequestModelStringImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String value});
+}
+
+/// @nodoc
+class __$$CreateAssistantRequestModelStringImplCopyWithImpl<$Res>
+    extends _$CreateAssistantRequestModelCopyWithImpl<$Res,
+        _$CreateAssistantRequestModelStringImpl>
+    implements _$$CreateAssistantRequestModelStringImplCopyWith<$Res> {
+  __$$CreateAssistantRequestModelStringImplCopyWithImpl(
+      _$CreateAssistantRequestModelStringImpl _value,
+      $Res Function(_$CreateAssistantRequestModelStringImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$CreateAssistantRequestModelStringImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateAssistantRequestModelStringImpl
+    extends CreateAssistantRequestModelString {
+  const _$CreateAssistantRequestModelStringImpl(this.value) : super._();
+
+  factory _$CreateAssistantRequestModelStringImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$CreateAssistantRequestModelStringImplFromJson(json);
+
+  @override
+  final String value;
+
+  @override
+  String toString() {
+    return 'CreateAssistantRequestModel.string(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateAssistantRequestModelStringImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateAssistantRequestModelStringImplCopyWith<
+          _$CreateAssistantRequestModelStringImpl>
+      get copyWith => __$$CreateAssistantRequestModelStringImplCopyWithImpl<
+          _$CreateAssistantRequestModelStringImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String value) string,
+  }) {
+    return string(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String value)? string,
+  }) {
+    return string?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String value)? string,
+    required TResult orElse(),
+  }) {
+    if (string != null) {
+      return string(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(CreateAssistantRequestModelString value) string,
+  }) {
+    return string(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateAssistantRequestModelString value)? string,
+  }) {
+    return string?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateAssistantRequestModelString value)? string,
+    required TResult orElse(),
+  }) {
+    if (string != null) {
+      return string(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateAssistantRequestModelStringImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class CreateAssistantRequestModelString
+    extends CreateAssistantRequestModel {
+  const factory CreateAssistantRequestModelString(final String value) =
+      _$CreateAssistantRequestModelStringImpl;
+  const CreateAssistantRequestModelString._() : super._();
+
+  factory CreateAssistantRequestModelString.fromJson(
+          Map<String, dynamic> json) =
+      _$CreateAssistantRequestModelStringImpl.fromJson;
+
+  @override
+  String get value;
+  @override
+  @JsonKey(ignore: true)
+  _$$CreateAssistantRequestModelStringImplCopyWith<
+          _$CreateAssistantRequestModelStringImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ModifyAssistantRequest _$ModifyAssistantRequestFromJson(
+    Map<String, dynamic> json) {
+  return _ModifyAssistantRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ModifyAssistantRequest {
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  @JsonKey(includeIfNull: false)
+  String? get model => throw _privateConstructorUsedError;
+
+  /// The name of the assistant. The maximum length is 256 characters.
+  @JsonKey(includeIfNull: false)
+  String? get name => throw _privateConstructorUsedError;
+
+  /// The description of the assistant. The maximum length is 512 characters.
+  @JsonKey(includeIfNull: false)
+  String? get description => throw _privateConstructorUsedError;
+
+  /// The system instructions that the assistant uses. The maximum length is 32768 characters.
+  @JsonKey(includeIfNull: false)
+  String? get instructions => throw _privateConstructorUsedError;
+
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  List<AssistantTools> get tools => throw _privateConstructorUsedError;
+
+  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order. If a file was previosuly attached to the list but does not show up in the list, it will be deleted from the assistant.
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds => throw _privateConstructorUsedError;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ModifyAssistantRequestCopyWith<ModifyAssistantRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ModifyAssistantRequestCopyWith<$Res> {
+  factory $ModifyAssistantRequestCopyWith(ModifyAssistantRequest value,
+          $Res Function(ModifyAssistantRequest) then) =
+      _$ModifyAssistantRequestCopyWithImpl<$Res, ModifyAssistantRequest>;
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? model,
+      @JsonKey(includeIfNull: false) String? name,
+      @JsonKey(includeIfNull: false) String? description,
+      @JsonKey(includeIfNull: false) String? instructions,
+      List<AssistantTools> tools,
+      @JsonKey(name: 'file_ids') List<String> fileIds,
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class _$ModifyAssistantRequestCopyWithImpl<$Res,
+        $Val extends ModifyAssistantRequest>
+    implements $ModifyAssistantRequestCopyWith<$Res> {
+  _$ModifyAssistantRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? model = freezed,
+    Object? name = freezed,
+    Object? description = freezed,
+    Object? instructions = freezed,
+    Object? tools = null,
+    Object? fileIds = null,
+    Object? metadata = freezed,
+  }) {
+    return _then(_value.copyWith(
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      instructions: freezed == instructions
+          ? _value.instructions
+          : instructions // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tools: null == tools
+          ? _value.tools
+          : tools // ignore: cast_nullable_to_non_nullable
+              as List<AssistantTools>,
+      fileIds: null == fileIds
+          ? _value.fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ModifyAssistantRequestImplCopyWith<$Res>
+    implements $ModifyAssistantRequestCopyWith<$Res> {
+  factory _$$ModifyAssistantRequestImplCopyWith(
+          _$ModifyAssistantRequestImpl value,
+          $Res Function(_$ModifyAssistantRequestImpl) then) =
+      __$$ModifyAssistantRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? model,
+      @JsonKey(includeIfNull: false) String? name,
+      @JsonKey(includeIfNull: false) String? description,
+      @JsonKey(includeIfNull: false) String? instructions,
+      List<AssistantTools> tools,
+      @JsonKey(name: 'file_ids') List<String> fileIds,
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class __$$ModifyAssistantRequestImplCopyWithImpl<$Res>
+    extends _$ModifyAssistantRequestCopyWithImpl<$Res,
+        _$ModifyAssistantRequestImpl>
+    implements _$$ModifyAssistantRequestImplCopyWith<$Res> {
+  __$$ModifyAssistantRequestImplCopyWithImpl(
+      _$ModifyAssistantRequestImpl _value,
+      $Res Function(_$ModifyAssistantRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? model = freezed,
+    Object? name = freezed,
+    Object? description = freezed,
+    Object? instructions = freezed,
+    Object? tools = null,
+    Object? fileIds = null,
+    Object? metadata = freezed,
+  }) {
+    return _then(_$ModifyAssistantRequestImpl(
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      instructions: freezed == instructions
+          ? _value.instructions
+          : instructions // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tools: null == tools
+          ? _value._tools
+          : tools // ignore: cast_nullable_to_non_nullable
+              as List<AssistantTools>,
+      fileIds: null == fileIds
+          ? _value._fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      metadata: freezed == metadata
+          ? _value._metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
+  const _$ModifyAssistantRequestImpl(
+      {@JsonKey(includeIfNull: false) this.model,
+      @JsonKey(includeIfNull: false) this.name,
+      @JsonKey(includeIfNull: false) this.description,
+      @JsonKey(includeIfNull: false) this.instructions,
+      final List<AssistantTools> tools = const [],
+      @JsonKey(name: 'file_ids') final List<String> fileIds = const [],
+      @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata})
+      : _tools = tools,
+        _fileIds = fileIds,
+        _metadata = metadata,
+        super._();
+
+  factory _$ModifyAssistantRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ModifyAssistantRequestImplFromJson(json);
+
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? model;
+
+  /// The name of the assistant. The maximum length is 256 characters.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? name;
+
+  /// The description of the assistant. The maximum length is 512 characters.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? description;
+
+  /// The system instructions that the assistant uses. The maximum length is 32768 characters.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? instructions;
+
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  final List<AssistantTools> _tools;
+
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  @override
+  @JsonKey()
+  List<AssistantTools> get tools {
+    if (_tools is EqualUnmodifiableListView) return _tools;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tools);
+  }
+
+  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order. If a file was previosuly attached to the list but does not show up in the list, it will be deleted from the assistant.
+  final List<String> _fileIds;
+
+  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order. If a file was previosuly attached to the list but does not show up in the list, it will be deleted from the assistant.
+  @override
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds {
+    if (_fileIds is EqualUnmodifiableListView) return _fileIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_fileIds);
+  }
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  final Map<String, dynamic>? _metadata;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata {
+    final value = _metadata;
+    if (value == null) return null;
+    if (_metadata is EqualUnmodifiableMapView) return _metadata;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  @override
+  String toString() {
+    return 'ModifyAssistantRequest(model: $model, name: $name, description: $description, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ModifyAssistantRequestImpl &&
+            (identical(other.model, model) || other.model == model) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.instructions, instructions) ||
+                other.instructions == instructions) &&
+            const DeepCollectionEquality().equals(other._tools, _tools) &&
+            const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
+            const DeepCollectionEquality().equals(other._metadata, _metadata));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      model,
+      name,
+      description,
+      instructions,
+      const DeepCollectionEquality().hash(_tools),
+      const DeepCollectionEquality().hash(_fileIds),
+      const DeepCollectionEquality().hash(_metadata));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ModifyAssistantRequestImplCopyWith<_$ModifyAssistantRequestImpl>
+      get copyWith => __$$ModifyAssistantRequestImplCopyWithImpl<
+          _$ModifyAssistantRequestImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ModifyAssistantRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ModifyAssistantRequest extends ModifyAssistantRequest {
+  const factory _ModifyAssistantRequest(
+      {@JsonKey(includeIfNull: false) final String? model,
+      @JsonKey(includeIfNull: false) final String? name,
+      @JsonKey(includeIfNull: false) final String? description,
+      @JsonKey(includeIfNull: false) final String? instructions,
+      final List<AssistantTools> tools,
+      @JsonKey(name: 'file_ids') final List<String> fileIds,
+      @JsonKey(includeIfNull: false)
+      final Map<String, dynamic>? metadata}) = _$ModifyAssistantRequestImpl;
+  const _ModifyAssistantRequest._() : super._();
+
+  factory _ModifyAssistantRequest.fromJson(Map<String, dynamic> json) =
+      _$ModifyAssistantRequestImpl.fromJson;
+
+  @override
+
+  /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  @JsonKey(includeIfNull: false)
+  String? get model;
+  @override
+
+  /// The name of the assistant. The maximum length is 256 characters.
+  @JsonKey(includeIfNull: false)
+  String? get name;
+  @override
+
+  /// The description of the assistant. The maximum length is 512 characters.
+  @JsonKey(includeIfNull: false)
+  String? get description;
+  @override
+
+  /// The system instructions that the assistant uses. The maximum length is 32768 characters.
+  @JsonKey(includeIfNull: false)
+  String? get instructions;
+  @override
+
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  List<AssistantTools> get tools;
+  @override
+
+  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order. If a file was previosuly attached to the list but does not show up in the list, it will be deleted from the assistant.
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds;
+  @override
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata;
+  @override
+  @JsonKey(ignore: true)
+  _$$ModifyAssistantRequestImplCopyWith<_$ModifyAssistantRequestImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+DeleteAssistantResponse _$DeleteAssistantResponseFromJson(
+    Map<String, dynamic> json) {
+  return _DeleteAssistantResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$DeleteAssistantResponse {
+  /// The assistant identifier.
+  String get id => throw _privateConstructorUsedError;
+
+  /// Whether the assistant was deleted.
+  bool get deleted => throw _privateConstructorUsedError;
+
+  /// The object type, which is always `assistant.deleted`.
+  DeleteAssistantResponseObject get object =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $DeleteAssistantResponseCopyWith<DeleteAssistantResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DeleteAssistantResponseCopyWith<$Res> {
+  factory $DeleteAssistantResponseCopyWith(DeleteAssistantResponse value,
+          $Res Function(DeleteAssistantResponse) then) =
+      _$DeleteAssistantResponseCopyWithImpl<$Res, DeleteAssistantResponse>;
+  @useResult
+  $Res call({String id, bool deleted, DeleteAssistantResponseObject object});
+}
+
+/// @nodoc
+class _$DeleteAssistantResponseCopyWithImpl<$Res,
+        $Val extends DeleteAssistantResponse>
+    implements $DeleteAssistantResponseCopyWith<$Res> {
+  _$DeleteAssistantResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? deleted = null,
+    Object? object = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      deleted: null == deleted
+          ? _value.deleted
+          : deleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as DeleteAssistantResponseObject,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DeleteAssistantResponseImplCopyWith<$Res>
+    implements $DeleteAssistantResponseCopyWith<$Res> {
+  factory _$$DeleteAssistantResponseImplCopyWith(
+          _$DeleteAssistantResponseImpl value,
+          $Res Function(_$DeleteAssistantResponseImpl) then) =
+      __$$DeleteAssistantResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id, bool deleted, DeleteAssistantResponseObject object});
+}
+
+/// @nodoc
+class __$$DeleteAssistantResponseImplCopyWithImpl<$Res>
+    extends _$DeleteAssistantResponseCopyWithImpl<$Res,
+        _$DeleteAssistantResponseImpl>
+    implements _$$DeleteAssistantResponseImplCopyWith<$Res> {
+  __$$DeleteAssistantResponseImplCopyWithImpl(
+      _$DeleteAssistantResponseImpl _value,
+      $Res Function(_$DeleteAssistantResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? deleted = null,
+    Object? object = null,
+  }) {
+    return _then(_$DeleteAssistantResponseImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      deleted: null == deleted
+          ? _value.deleted
+          : deleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as DeleteAssistantResponseObject,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DeleteAssistantResponseImpl extends _DeleteAssistantResponse {
+  const _$DeleteAssistantResponseImpl(
+      {required this.id, required this.deleted, required this.object})
+      : super._();
+
+  factory _$DeleteAssistantResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DeleteAssistantResponseImplFromJson(json);
+
+  /// The assistant identifier.
+  @override
+  final String id;
+
+  /// Whether the assistant was deleted.
+  @override
+  final bool deleted;
+
+  /// The object type, which is always `assistant.deleted`.
+  @override
+  final DeleteAssistantResponseObject object;
+
+  @override
+  String toString() {
+    return 'DeleteAssistantResponse(id: $id, deleted: $deleted, object: $object)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DeleteAssistantResponseImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.deleted, deleted) || other.deleted == deleted) &&
+            (identical(other.object, object) || other.object == object));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, deleted, object);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DeleteAssistantResponseImplCopyWith<_$DeleteAssistantResponseImpl>
+      get copyWith => __$$DeleteAssistantResponseImplCopyWithImpl<
+          _$DeleteAssistantResponseImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DeleteAssistantResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _DeleteAssistantResponse extends DeleteAssistantResponse {
+  const factory _DeleteAssistantResponse(
+          {required final String id,
+          required final bool deleted,
+          required final DeleteAssistantResponseObject object}) =
+      _$DeleteAssistantResponseImpl;
+  const _DeleteAssistantResponse._() : super._();
+
+  factory _DeleteAssistantResponse.fromJson(Map<String, dynamic> json) =
+      _$DeleteAssistantResponseImpl.fromJson;
+
+  @override
+
+  /// The assistant identifier.
+  String get id;
+  @override
+
+  /// Whether the assistant was deleted.
+  bool get deleted;
+  @override
+
+  /// The object type, which is always `assistant.deleted`.
+  DeleteAssistantResponseObject get object;
+  @override
+  @JsonKey(ignore: true)
+  _$$DeleteAssistantResponseImplCopyWith<_$DeleteAssistantResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ListAssistantsResponse _$ListAssistantsResponseFromJson(
+    Map<String, dynamic> json) {
+  return _ListAssistantsResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ListAssistantsResponse {
+  /// The object type, which is always `list`.
+  String get object => throw _privateConstructorUsedError;
+
+  /// The list of assistants.
+  List<AssistantObject> get data => throw _privateConstructorUsedError;
+
+  /// The ID of the first assistant in the list.
+  @JsonKey(name: 'first_id')
+  String get firstId => throw _privateConstructorUsedError;
+
+  /// The ID of the last assistant in the list.
+  @JsonKey(name: 'last_id')
+  String get lastId => throw _privateConstructorUsedError;
+
+  /// Whether there are more assistants to retrieve.
+  @JsonKey(name: 'has_more')
+  bool get hasMore => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ListAssistantsResponseCopyWith<ListAssistantsResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ListAssistantsResponseCopyWith<$Res> {
+  factory $ListAssistantsResponseCopyWith(ListAssistantsResponse value,
+          $Res Function(ListAssistantsResponse) then) =
+      _$ListAssistantsResponseCopyWithImpl<$Res, ListAssistantsResponse>;
+  @useResult
+  $Res call(
+      {String object,
+      List<AssistantObject> data,
+      @JsonKey(name: 'first_id') String firstId,
+      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class _$ListAssistantsResponseCopyWithImpl<$Res,
+        $Val extends ListAssistantsResponse>
+    implements $ListAssistantsResponseCopyWith<$Res> {
+  _$ListAssistantsResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = null,
+    Object? data = null,
+    Object? firstId = null,
+    Object? lastId = null,
+    Object? hasMore = null,
+  }) {
+    return _then(_value.copyWith(
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<AssistantObject>,
+      firstId: null == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastId: null == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ListAssistantsResponseImplCopyWith<$Res>
+    implements $ListAssistantsResponseCopyWith<$Res> {
+  factory _$$ListAssistantsResponseImplCopyWith(
+          _$ListAssistantsResponseImpl value,
+          $Res Function(_$ListAssistantsResponseImpl) then) =
+      __$$ListAssistantsResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String object,
+      List<AssistantObject> data,
+      @JsonKey(name: 'first_id') String firstId,
+      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class __$$ListAssistantsResponseImplCopyWithImpl<$Res>
+    extends _$ListAssistantsResponseCopyWithImpl<$Res,
+        _$ListAssistantsResponseImpl>
+    implements _$$ListAssistantsResponseImplCopyWith<$Res> {
+  __$$ListAssistantsResponseImplCopyWithImpl(
+      _$ListAssistantsResponseImpl _value,
+      $Res Function(_$ListAssistantsResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = null,
+    Object? data = null,
+    Object? firstId = null,
+    Object? lastId = null,
+    Object? hasMore = null,
+  }) {
+    return _then(_$ListAssistantsResponseImpl(
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<AssistantObject>,
+      firstId: null == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastId: null == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ListAssistantsResponseImpl extends _ListAssistantsResponse {
+  const _$ListAssistantsResponseImpl(
+      {required this.object,
+      required final List<AssistantObject> data,
+      @JsonKey(name: 'first_id') required this.firstId,
+      @JsonKey(name: 'last_id') required this.lastId,
+      @JsonKey(name: 'has_more') required this.hasMore})
+      : _data = data,
+        super._();
+
+  factory _$ListAssistantsResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ListAssistantsResponseImplFromJson(json);
+
+  /// The object type, which is always `list`.
+  @override
+  final String object;
+
+  /// The list of assistants.
+  final List<AssistantObject> _data;
+
+  /// The list of assistants.
+  @override
+  List<AssistantObject> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_data);
+  }
+
+  /// The ID of the first assistant in the list.
+  @override
+  @JsonKey(name: 'first_id')
+  final String firstId;
+
+  /// The ID of the last assistant in the list.
+  @override
+  @JsonKey(name: 'last_id')
+  final String lastId;
+
+  /// Whether there are more assistants to retrieve.
+  @override
+  @JsonKey(name: 'has_more')
+  final bool hasMore;
+
+  @override
+  String toString() {
+    return 'ListAssistantsResponse(object: $object, data: $data, firstId: $firstId, lastId: $lastId, hasMore: $hasMore)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ListAssistantsResponseImpl &&
+            (identical(other.object, object) || other.object == object) &&
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.firstId, firstId) || other.firstId == firstId) &&
+            (identical(other.lastId, lastId) || other.lastId == lastId) &&
+            (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, object,
+      const DeepCollectionEquality().hash(_data), firstId, lastId, hasMore);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ListAssistantsResponseImplCopyWith<_$ListAssistantsResponseImpl>
+      get copyWith => __$$ListAssistantsResponseImplCopyWithImpl<
+          _$ListAssistantsResponseImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ListAssistantsResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ListAssistantsResponse extends ListAssistantsResponse {
+  const factory _ListAssistantsResponse(
+          {required final String object,
+          required final List<AssistantObject> data,
+          @JsonKey(name: 'first_id') required final String firstId,
+          @JsonKey(name: 'last_id') required final String lastId,
+          @JsonKey(name: 'has_more') required final bool hasMore}) =
+      _$ListAssistantsResponseImpl;
+  const _ListAssistantsResponse._() : super._();
+
+  factory _ListAssistantsResponse.fromJson(Map<String, dynamic> json) =
+      _$ListAssistantsResponseImpl.fromJson;
+
+  @override
+
+  /// The object type, which is always `list`.
+  String get object;
+  @override
+
+  /// The list of assistants.
+  List<AssistantObject> get data;
+  @override
+
+  /// The ID of the first assistant in the list.
+  @JsonKey(name: 'first_id')
+  String get firstId;
+  @override
+
+  /// The ID of the last assistant in the list.
+  @JsonKey(name: 'last_id')
+  String get lastId;
+  @override
+
+  /// Whether there are more assistants to retrieve.
+  @JsonKey(name: 'has_more')
+  bool get hasMore;
+  @override
+  @JsonKey(ignore: true)
+  _$$ListAssistantsResponseImplCopyWith<_$ListAssistantsResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RunObject _$RunObjectFromJson(Map<String, dynamic> json) {
+  return _RunObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunObject {
+  /// The identifier, which can be referenced in API endpoints.
+  String get id => throw _privateConstructorUsedError;
+
+  /// The object type, which is always `thread.run`.
+  RunObjectObject get object => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the run was created.
+  @JsonKey(name: 'created_at')
+  int get createdAt => throw _privateConstructorUsedError;
+
+  /// The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was executed on as a part of this run.
+  @JsonKey(name: 'thread_id')
+  String get threadId => throw _privateConstructorUsedError;
+
+  /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for execution of this run.
+  @JsonKey(name: 'assistant_id')
+  String get assistantId => throw _privateConstructorUsedError;
+
+  /// The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, or `expired`.
+  RunStatus get status => throw _privateConstructorUsedError;
+
+  /// Details on the action required to continue the run. Will be `null` if no action is required.
+  @JsonKey(name: 'required_action')
+  RunRequiredAction? get requiredAction => throw _privateConstructorUsedError;
+
+  /// The last error associated with this run. Will be `null` if there are no errors.
+  @JsonKey(name: 'last_error')
+  RunLastError? get lastError => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the run will expire.
+  @JsonKey(name: 'expires_at')
+  int? get expiresAt => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the run was started.
+  @JsonKey(name: 'started_at')
+  int? get startedAt => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the run was cancelled.
+  @JsonKey(name: 'cancelled_at')
+  int? get cancelledAt => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the run failed.
+  @JsonKey(name: 'failed_at')
+  int? get failedAt => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the run was completed.
+  @JsonKey(name: 'completed_at')
+  int? get completedAt => throw _privateConstructorUsedError;
+
+  /// The model that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
+  String get model => throw _privateConstructorUsedError;
+
+  /// The instructions that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
+  String get instructions => throw _privateConstructorUsedError;
+
+  /// The list of tools that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
+  List<AssistantTools> get tools => throw _privateConstructorUsedError;
+
+  /// The list of [File](https://platform.openai.com/docs/api-reference/files) IDs the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds => throw _privateConstructorUsedError;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunObjectCopyWith<RunObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunObjectCopyWith<$Res> {
+  factory $RunObjectCopyWith(RunObject value, $Res Function(RunObject) then) =
+      _$RunObjectCopyWithImpl<$Res, RunObject>;
+  @useResult
+  $Res call(
+      {String id,
+      RunObjectObject object,
+      @JsonKey(name: 'created_at') int createdAt,
+      @JsonKey(name: 'thread_id') String threadId,
+      @JsonKey(name: 'assistant_id') String assistantId,
+      RunStatus status,
+      @JsonKey(name: 'required_action') RunRequiredAction? requiredAction,
+      @JsonKey(name: 'last_error') RunLastError? lastError,
+      @JsonKey(name: 'expires_at') int? expiresAt,
+      @JsonKey(name: 'started_at') int? startedAt,
+      @JsonKey(name: 'cancelled_at') int? cancelledAt,
+      @JsonKey(name: 'failed_at') int? failedAt,
+      @JsonKey(name: 'completed_at') int? completedAt,
+      String model,
+      String instructions,
+      List<AssistantTools> tools,
+      @JsonKey(name: 'file_ids') List<String> fileIds,
+      Map<String, dynamic>? metadata});
+
+  $RunRequiredActionCopyWith<$Res>? get requiredAction;
+  $RunLastErrorCopyWith<$Res>? get lastError;
+}
+
+/// @nodoc
+class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
+    implements $RunObjectCopyWith<$Res> {
+  _$RunObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? createdAt = null,
+    Object? threadId = null,
+    Object? assistantId = null,
+    Object? status = null,
+    Object? requiredAction = freezed,
+    Object? lastError = freezed,
+    Object? expiresAt = freezed,
+    Object? startedAt = freezed,
+    Object? cancelledAt = freezed,
+    Object? failedAt = freezed,
+    Object? completedAt = freezed,
+    Object? model = null,
+    Object? instructions = null,
+    Object? tools = null,
+    Object? fileIds = null,
+    Object? metadata = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as RunObjectObject,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      threadId: null == threadId
+          ? _value.threadId
+          : threadId // ignore: cast_nullable_to_non_nullable
+              as String,
+      assistantId: null == assistantId
+          ? _value.assistantId
+          : assistantId // ignore: cast_nullable_to_non_nullable
+              as String,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as RunStatus,
+      requiredAction: freezed == requiredAction
+          ? _value.requiredAction
+          : requiredAction // ignore: cast_nullable_to_non_nullable
+              as RunRequiredAction?,
+      lastError: freezed == lastError
+          ? _value.lastError
+          : lastError // ignore: cast_nullable_to_non_nullable
+              as RunLastError?,
+      expiresAt: freezed == expiresAt
+          ? _value.expiresAt
+          : expiresAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      startedAt: freezed == startedAt
+          ? _value.startedAt
+          : startedAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      cancelledAt: freezed == cancelledAt
+          ? _value.cancelledAt
+          : cancelledAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      failedAt: freezed == failedAt
+          ? _value.failedAt
+          : failedAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String,
+      instructions: null == instructions
+          ? _value.instructions
+          : instructions // ignore: cast_nullable_to_non_nullable
+              as String,
+      tools: null == tools
+          ? _value.tools
+          : tools // ignore: cast_nullable_to_non_nullable
+              as List<AssistantTools>,
+      fileIds: null == fileIds
+          ? _value.fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunRequiredActionCopyWith<$Res>? get requiredAction {
+    if (_value.requiredAction == null) {
+      return null;
+    }
+
+    return $RunRequiredActionCopyWith<$Res>(_value.requiredAction!, (value) {
+      return _then(_value.copyWith(requiredAction: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunLastErrorCopyWith<$Res>? get lastError {
+    if (_value.lastError == null) {
+      return null;
+    }
+
+    return $RunLastErrorCopyWith<$Res>(_value.lastError!, (value) {
+      return _then(_value.copyWith(lastError: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$RunObjectImplCopyWith<$Res>
+    implements $RunObjectCopyWith<$Res> {
+  factory _$$RunObjectImplCopyWith(
+          _$RunObjectImpl value, $Res Function(_$RunObjectImpl) then) =
+      __$$RunObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      RunObjectObject object,
+      @JsonKey(name: 'created_at') int createdAt,
+      @JsonKey(name: 'thread_id') String threadId,
+      @JsonKey(name: 'assistant_id') String assistantId,
+      RunStatus status,
+      @JsonKey(name: 'required_action') RunRequiredAction? requiredAction,
+      @JsonKey(name: 'last_error') RunLastError? lastError,
+      @JsonKey(name: 'expires_at') int? expiresAt,
+      @JsonKey(name: 'started_at') int? startedAt,
+      @JsonKey(name: 'cancelled_at') int? cancelledAt,
+      @JsonKey(name: 'failed_at') int? failedAt,
+      @JsonKey(name: 'completed_at') int? completedAt,
+      String model,
+      String instructions,
+      List<AssistantTools> tools,
+      @JsonKey(name: 'file_ids') List<String> fileIds,
+      Map<String, dynamic>? metadata});
+
+  @override
+  $RunRequiredActionCopyWith<$Res>? get requiredAction;
+  @override
+  $RunLastErrorCopyWith<$Res>? get lastError;
+}
+
+/// @nodoc
+class __$$RunObjectImplCopyWithImpl<$Res>
+    extends _$RunObjectCopyWithImpl<$Res, _$RunObjectImpl>
+    implements _$$RunObjectImplCopyWith<$Res> {
+  __$$RunObjectImplCopyWithImpl(
+      _$RunObjectImpl _value, $Res Function(_$RunObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? createdAt = null,
+    Object? threadId = null,
+    Object? assistantId = null,
+    Object? status = null,
+    Object? requiredAction = freezed,
+    Object? lastError = freezed,
+    Object? expiresAt = freezed,
+    Object? startedAt = freezed,
+    Object? cancelledAt = freezed,
+    Object? failedAt = freezed,
+    Object? completedAt = freezed,
+    Object? model = null,
+    Object? instructions = null,
+    Object? tools = null,
+    Object? fileIds = null,
+    Object? metadata = freezed,
+  }) {
+    return _then(_$RunObjectImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as RunObjectObject,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      threadId: null == threadId
+          ? _value.threadId
+          : threadId // ignore: cast_nullable_to_non_nullable
+              as String,
+      assistantId: null == assistantId
+          ? _value.assistantId
+          : assistantId // ignore: cast_nullable_to_non_nullable
+              as String,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as RunStatus,
+      requiredAction: freezed == requiredAction
+          ? _value.requiredAction
+          : requiredAction // ignore: cast_nullable_to_non_nullable
+              as RunRequiredAction?,
+      lastError: freezed == lastError
+          ? _value.lastError
+          : lastError // ignore: cast_nullable_to_non_nullable
+              as RunLastError?,
+      expiresAt: freezed == expiresAt
+          ? _value.expiresAt
+          : expiresAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      startedAt: freezed == startedAt
+          ? _value.startedAt
+          : startedAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      cancelledAt: freezed == cancelledAt
+          ? _value.cancelledAt
+          : cancelledAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      failedAt: freezed == failedAt
+          ? _value.failedAt
+          : failedAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String,
+      instructions: null == instructions
+          ? _value.instructions
+          : instructions // ignore: cast_nullable_to_non_nullable
+              as String,
+      tools: null == tools
+          ? _value._tools
+          : tools // ignore: cast_nullable_to_non_nullable
+              as List<AssistantTools>,
+      fileIds: null == fileIds
+          ? _value._fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      metadata: freezed == metadata
+          ? _value._metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunObjectImpl extends _RunObject {
+  const _$RunObjectImpl(
+      {required this.id,
+      required this.object,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'thread_id') required this.threadId,
+      @JsonKey(name: 'assistant_id') required this.assistantId,
+      required this.status,
+      @JsonKey(name: 'required_action') required this.requiredAction,
+      @JsonKey(name: 'last_error') required this.lastError,
+      @JsonKey(name: 'expires_at') required this.expiresAt,
+      @JsonKey(name: 'started_at') required this.startedAt,
+      @JsonKey(name: 'cancelled_at') required this.cancelledAt,
+      @JsonKey(name: 'failed_at') required this.failedAt,
+      @JsonKey(name: 'completed_at') required this.completedAt,
+      required this.model,
+      required this.instructions,
+      required final List<AssistantTools> tools,
+      @JsonKey(name: 'file_ids') required final List<String> fileIds,
+      required final Map<String, dynamic>? metadata})
+      : _tools = tools,
+        _fileIds = fileIds,
+        _metadata = metadata,
+        super._();
+
+  factory _$RunObjectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RunObjectImplFromJson(json);
+
+  /// The identifier, which can be referenced in API endpoints.
+  @override
+  final String id;
+
+  /// The object type, which is always `thread.run`.
+  @override
+  final RunObjectObject object;
+
+  /// The Unix timestamp (in seconds) for when the run was created.
+  @override
+  @JsonKey(name: 'created_at')
+  final int createdAt;
+
+  /// The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was executed on as a part of this run.
+  @override
+  @JsonKey(name: 'thread_id')
+  final String threadId;
+
+  /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for execution of this run.
+  @override
+  @JsonKey(name: 'assistant_id')
+  final String assistantId;
+
+  /// The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, or `expired`.
+  @override
+  final RunStatus status;
+
+  /// Details on the action required to continue the run. Will be `null` if no action is required.
+  @override
+  @JsonKey(name: 'required_action')
+  final RunRequiredAction? requiredAction;
+
+  /// The last error associated with this run. Will be `null` if there are no errors.
+  @override
+  @JsonKey(name: 'last_error')
+  final RunLastError? lastError;
+
+  /// The Unix timestamp (in seconds) for when the run will expire.
+  @override
+  @JsonKey(name: 'expires_at')
+  final int? expiresAt;
+
+  /// The Unix timestamp (in seconds) for when the run was started.
+  @override
+  @JsonKey(name: 'started_at')
+  final int? startedAt;
+
+  /// The Unix timestamp (in seconds) for when the run was cancelled.
+  @override
+  @JsonKey(name: 'cancelled_at')
+  final int? cancelledAt;
+
+  /// The Unix timestamp (in seconds) for when the run failed.
+  @override
+  @JsonKey(name: 'failed_at')
+  final int? failedAt;
+
+  /// The Unix timestamp (in seconds) for when the run was completed.
+  @override
+  @JsonKey(name: 'completed_at')
+  final int? completedAt;
+
+  /// The model that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
+  @override
+  final String model;
+
+  /// The instructions that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
+  @override
+  final String instructions;
+
+  /// The list of tools that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
+  final List<AssistantTools> _tools;
+
+  /// The list of tools that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
+  @override
+  List<AssistantTools> get tools {
+    if (_tools is EqualUnmodifiableListView) return _tools;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tools);
+  }
+
+  /// The list of [File](https://platform.openai.com/docs/api-reference/files) IDs the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
+  final List<String> _fileIds;
+
+  /// The list of [File](https://platform.openai.com/docs/api-reference/files) IDs the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
+  @override
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds {
+    if (_fileIds is EqualUnmodifiableListView) return _fileIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_fileIds);
+  }
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  final Map<String, dynamic>? _metadata;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
+  Map<String, dynamic>? get metadata {
+    final value = _metadata;
+    if (value == null) return null;
+    if (_metadata is EqualUnmodifiableMapView) return _metadata;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  @override
+  String toString() {
+    return 'RunObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, assistantId: $assistantId, status: $status, requiredAction: $requiredAction, lastError: $lastError, expiresAt: $expiresAt, startedAt: $startedAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, model: $model, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunObjectImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.object, object) || other.object == object) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.threadId, threadId) ||
+                other.threadId == threadId) &&
+            (identical(other.assistantId, assistantId) ||
+                other.assistantId == assistantId) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.requiredAction, requiredAction) ||
+                other.requiredAction == requiredAction) &&
+            (identical(other.lastError, lastError) ||
+                other.lastError == lastError) &&
+            (identical(other.expiresAt, expiresAt) ||
+                other.expiresAt == expiresAt) &&
+            (identical(other.startedAt, startedAt) ||
+                other.startedAt == startedAt) &&
+            (identical(other.cancelledAt, cancelledAt) ||
+                other.cancelledAt == cancelledAt) &&
+            (identical(other.failedAt, failedAt) ||
+                other.failedAt == failedAt) &&
+            (identical(other.completedAt, completedAt) ||
+                other.completedAt == completedAt) &&
+            (identical(other.model, model) || other.model == model) &&
+            (identical(other.instructions, instructions) ||
+                other.instructions == instructions) &&
+            const DeepCollectionEquality().equals(other._tools, _tools) &&
+            const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
+            const DeepCollectionEquality().equals(other._metadata, _metadata));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      object,
+      createdAt,
+      threadId,
+      assistantId,
+      status,
+      requiredAction,
+      lastError,
+      expiresAt,
+      startedAt,
+      cancelledAt,
+      failedAt,
+      completedAt,
+      model,
+      instructions,
+      const DeepCollectionEquality().hash(_tools),
+      const DeepCollectionEquality().hash(_fileIds),
+      const DeepCollectionEquality().hash(_metadata));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunObjectImplCopyWith<_$RunObjectImpl> get copyWith =>
+      __$$RunObjectImplCopyWithImpl<_$RunObjectImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunObject extends RunObject {
+  const factory _RunObject(
+      {required final String id,
+      required final RunObjectObject object,
+      @JsonKey(name: 'created_at') required final int createdAt,
+      @JsonKey(name: 'thread_id') required final String threadId,
+      @JsonKey(name: 'assistant_id') required final String assistantId,
+      required final RunStatus status,
+      @JsonKey(name: 'required_action')
+      required final RunRequiredAction? requiredAction,
+      @JsonKey(name: 'last_error') required final RunLastError? lastError,
+      @JsonKey(name: 'expires_at') required final int? expiresAt,
+      @JsonKey(name: 'started_at') required final int? startedAt,
+      @JsonKey(name: 'cancelled_at') required final int? cancelledAt,
+      @JsonKey(name: 'failed_at') required final int? failedAt,
+      @JsonKey(name: 'completed_at') required final int? completedAt,
+      required final String model,
+      required final String instructions,
+      required final List<AssistantTools> tools,
+      @JsonKey(name: 'file_ids') required final List<String> fileIds,
+      required final Map<String, dynamic>? metadata}) = _$RunObjectImpl;
+  const _RunObject._() : super._();
+
+  factory _RunObject.fromJson(Map<String, dynamic> json) =
+      _$RunObjectImpl.fromJson;
+
+  @override
+
+  /// The identifier, which can be referenced in API endpoints.
+  String get id;
+  @override
+
+  /// The object type, which is always `thread.run`.
+  RunObjectObject get object;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the run was created.
+  @JsonKey(name: 'created_at')
+  int get createdAt;
+  @override
+
+  /// The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was executed on as a part of this run.
+  @JsonKey(name: 'thread_id')
+  String get threadId;
+  @override
+
+  /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for execution of this run.
+  @JsonKey(name: 'assistant_id')
+  String get assistantId;
+  @override
+
+  /// The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, or `expired`.
+  RunStatus get status;
+  @override
+
+  /// Details on the action required to continue the run. Will be `null` if no action is required.
+  @JsonKey(name: 'required_action')
+  RunRequiredAction? get requiredAction;
+  @override
+
+  /// The last error associated with this run. Will be `null` if there are no errors.
+  @JsonKey(name: 'last_error')
+  RunLastError? get lastError;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the run will expire.
+  @JsonKey(name: 'expires_at')
+  int? get expiresAt;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the run was started.
+  @JsonKey(name: 'started_at')
+  int? get startedAt;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the run was cancelled.
+  @JsonKey(name: 'cancelled_at')
+  int? get cancelledAt;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the run failed.
+  @JsonKey(name: 'failed_at')
+  int? get failedAt;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the run was completed.
+  @JsonKey(name: 'completed_at')
+  int? get completedAt;
+  @override
+
+  /// The model that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
+  String get model;
+  @override
+
+  /// The instructions that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
+  String get instructions;
+  @override
+
+  /// The list of tools that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
+  List<AssistantTools> get tools;
+  @override
+
+  /// The list of [File](https://platform.openai.com/docs/api-reference/files) IDs the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds;
+  @override
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  Map<String, dynamic>? get metadata;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunObjectImplCopyWith<_$RunObjectImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+RunRequiredAction _$RunRequiredActionFromJson(Map<String, dynamic> json) {
+  return _RunRequiredAction.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunRequiredAction {
+  /// For now, this is always `submit_tool_outputs`.
+  RunRequiredActionType get type => throw _privateConstructorUsedError;
+
+  /// Details on the tool outputs needed for this run to continue.
+  @JsonKey(name: 'submit_tool_outputs')
+  RunSubmitToolOutputs get submitToolOutputs =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunRequiredActionCopyWith<RunRequiredAction> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunRequiredActionCopyWith<$Res> {
+  factory $RunRequiredActionCopyWith(
+          RunRequiredAction value, $Res Function(RunRequiredAction) then) =
+      _$RunRequiredActionCopyWithImpl<$Res, RunRequiredAction>;
+  @useResult
+  $Res call(
+      {RunRequiredActionType type,
+      @JsonKey(name: 'submit_tool_outputs')
+      RunSubmitToolOutputs submitToolOutputs});
+
+  $RunSubmitToolOutputsCopyWith<$Res> get submitToolOutputs;
+}
+
+/// @nodoc
+class _$RunRequiredActionCopyWithImpl<$Res, $Val extends RunRequiredAction>
+    implements $RunRequiredActionCopyWith<$Res> {
+  _$RunRequiredActionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? submitToolOutputs = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as RunRequiredActionType,
+      submitToolOutputs: null == submitToolOutputs
+          ? _value.submitToolOutputs
+          : submitToolOutputs // ignore: cast_nullable_to_non_nullable
+              as RunSubmitToolOutputs,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunSubmitToolOutputsCopyWith<$Res> get submitToolOutputs {
+    return $RunSubmitToolOutputsCopyWith<$Res>(_value.submitToolOutputs,
+        (value) {
+      return _then(_value.copyWith(submitToolOutputs: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$RunRequiredActionImplCopyWith<$Res>
+    implements $RunRequiredActionCopyWith<$Res> {
+  factory _$$RunRequiredActionImplCopyWith(_$RunRequiredActionImpl value,
+          $Res Function(_$RunRequiredActionImpl) then) =
+      __$$RunRequiredActionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {RunRequiredActionType type,
+      @JsonKey(name: 'submit_tool_outputs')
+      RunSubmitToolOutputs submitToolOutputs});
+
+  @override
+  $RunSubmitToolOutputsCopyWith<$Res> get submitToolOutputs;
+}
+
+/// @nodoc
+class __$$RunRequiredActionImplCopyWithImpl<$Res>
+    extends _$RunRequiredActionCopyWithImpl<$Res, _$RunRequiredActionImpl>
+    implements _$$RunRequiredActionImplCopyWith<$Res> {
+  __$$RunRequiredActionImplCopyWithImpl(_$RunRequiredActionImpl _value,
+      $Res Function(_$RunRequiredActionImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? submitToolOutputs = null,
+  }) {
+    return _then(_$RunRequiredActionImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as RunRequiredActionType,
+      submitToolOutputs: null == submitToolOutputs
+          ? _value.submitToolOutputs
+          : submitToolOutputs // ignore: cast_nullable_to_non_nullable
+              as RunSubmitToolOutputs,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunRequiredActionImpl extends _RunRequiredAction {
+  const _$RunRequiredActionImpl(
+      {required this.type,
+      @JsonKey(name: 'submit_tool_outputs') required this.submitToolOutputs})
+      : super._();
+
+  factory _$RunRequiredActionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RunRequiredActionImplFromJson(json);
+
+  /// For now, this is always `submit_tool_outputs`.
+  @override
+  final RunRequiredActionType type;
+
+  /// Details on the tool outputs needed for this run to continue.
+  @override
+  @JsonKey(name: 'submit_tool_outputs')
+  final RunSubmitToolOutputs submitToolOutputs;
+
+  @override
+  String toString() {
+    return 'RunRequiredAction(type: $type, submitToolOutputs: $submitToolOutputs)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunRequiredActionImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.submitToolOutputs, submitToolOutputs) ||
+                other.submitToolOutputs == submitToolOutputs));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, submitToolOutputs);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunRequiredActionImplCopyWith<_$RunRequiredActionImpl> get copyWith =>
+      __$$RunRequiredActionImplCopyWithImpl<_$RunRequiredActionImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunRequiredActionImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunRequiredAction extends RunRequiredAction {
+  const factory _RunRequiredAction(
+          {required final RunRequiredActionType type,
+          @JsonKey(name: 'submit_tool_outputs')
+          required final RunSubmitToolOutputs submitToolOutputs}) =
+      _$RunRequiredActionImpl;
+  const _RunRequiredAction._() : super._();
+
+  factory _RunRequiredAction.fromJson(Map<String, dynamic> json) =
+      _$RunRequiredActionImpl.fromJson;
+
+  @override
+
+  /// For now, this is always `submit_tool_outputs`.
+  RunRequiredActionType get type;
+  @override
+
+  /// Details on the tool outputs needed for this run to continue.
+  @JsonKey(name: 'submit_tool_outputs')
+  RunSubmitToolOutputs get submitToolOutputs;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunRequiredActionImplCopyWith<_$RunRequiredActionImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+RunLastError _$RunLastErrorFromJson(Map<String, dynamic> json) {
+  return _RunLastError.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunLastError {
+  /// One of `server_error` or `rate_limit_exceeded`.
+  RunLastErrorCode get code => throw _privateConstructorUsedError;
+
+  /// A human-readable description of the error.
+  String get message => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunLastErrorCopyWith<RunLastError> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunLastErrorCopyWith<$Res> {
+  factory $RunLastErrorCopyWith(
+          RunLastError value, $Res Function(RunLastError) then) =
+      _$RunLastErrorCopyWithImpl<$Res, RunLastError>;
+  @useResult
+  $Res call({RunLastErrorCode code, String message});
+}
+
+/// @nodoc
+class _$RunLastErrorCopyWithImpl<$Res, $Val extends RunLastError>
+    implements $RunLastErrorCopyWith<$Res> {
+  _$RunLastErrorCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? code = null,
+    Object? message = null,
+  }) {
+    return _then(_value.copyWith(
+      code: null == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as RunLastErrorCode,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunLastErrorImplCopyWith<$Res>
+    implements $RunLastErrorCopyWith<$Res> {
+  factory _$$RunLastErrorImplCopyWith(
+          _$RunLastErrorImpl value, $Res Function(_$RunLastErrorImpl) then) =
+      __$$RunLastErrorImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({RunLastErrorCode code, String message});
+}
+
+/// @nodoc
+class __$$RunLastErrorImplCopyWithImpl<$Res>
+    extends _$RunLastErrorCopyWithImpl<$Res, _$RunLastErrorImpl>
+    implements _$$RunLastErrorImplCopyWith<$Res> {
+  __$$RunLastErrorImplCopyWithImpl(
+      _$RunLastErrorImpl _value, $Res Function(_$RunLastErrorImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? code = null,
+    Object? message = null,
+  }) {
+    return _then(_$RunLastErrorImpl(
+      code: null == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as RunLastErrorCode,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunLastErrorImpl extends _RunLastError {
+  const _$RunLastErrorImpl({required this.code, required this.message})
+      : super._();
+
+  factory _$RunLastErrorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RunLastErrorImplFromJson(json);
+
+  /// One of `server_error` or `rate_limit_exceeded`.
+  @override
+  final RunLastErrorCode code;
+
+  /// A human-readable description of the error.
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'RunLastError(code: $code, message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunLastErrorImpl &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, code, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunLastErrorImplCopyWith<_$RunLastErrorImpl> get copyWith =>
+      __$$RunLastErrorImplCopyWithImpl<_$RunLastErrorImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunLastErrorImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunLastError extends RunLastError {
+  const factory _RunLastError(
+      {required final RunLastErrorCode code,
+      required final String message}) = _$RunLastErrorImpl;
+  const _RunLastError._() : super._();
+
+  factory _RunLastError.fromJson(Map<String, dynamic> json) =
+      _$RunLastErrorImpl.fromJson;
+
+  @override
+
+  /// One of `server_error` or `rate_limit_exceeded`.
+  RunLastErrorCode get code;
+  @override
+
+  /// A human-readable description of the error.
+  String get message;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunLastErrorImplCopyWith<_$RunLastErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+RunSubmitToolOutputs _$RunSubmitToolOutputsFromJson(Map<String, dynamic> json) {
+  return _RunSubmitToolOutputs.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunSubmitToolOutputs {
+  /// A list of the relevant tool calls.
+  @JsonKey(name: 'tool_calls')
+  List<RunToolCallObject> get toolCalls => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunSubmitToolOutputsCopyWith<RunSubmitToolOutputs> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunSubmitToolOutputsCopyWith<$Res> {
+  factory $RunSubmitToolOutputsCopyWith(RunSubmitToolOutputs value,
+          $Res Function(RunSubmitToolOutputs) then) =
+      _$RunSubmitToolOutputsCopyWithImpl<$Res, RunSubmitToolOutputs>;
+  @useResult
+  $Res call({@JsonKey(name: 'tool_calls') List<RunToolCallObject> toolCalls});
+}
+
+/// @nodoc
+class _$RunSubmitToolOutputsCopyWithImpl<$Res,
+        $Val extends RunSubmitToolOutputs>
+    implements $RunSubmitToolOutputsCopyWith<$Res> {
+  _$RunSubmitToolOutputsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? toolCalls = null,
+  }) {
+    return _then(_value.copyWith(
+      toolCalls: null == toolCalls
+          ? _value.toolCalls
+          : toolCalls // ignore: cast_nullable_to_non_nullable
+              as List<RunToolCallObject>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunSubmitToolOutputsImplCopyWith<$Res>
+    implements $RunSubmitToolOutputsCopyWith<$Res> {
+  factory _$$RunSubmitToolOutputsImplCopyWith(_$RunSubmitToolOutputsImpl value,
+          $Res Function(_$RunSubmitToolOutputsImpl) then) =
+      __$$RunSubmitToolOutputsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'tool_calls') List<RunToolCallObject> toolCalls});
+}
+
+/// @nodoc
+class __$$RunSubmitToolOutputsImplCopyWithImpl<$Res>
+    extends _$RunSubmitToolOutputsCopyWithImpl<$Res, _$RunSubmitToolOutputsImpl>
+    implements _$$RunSubmitToolOutputsImplCopyWith<$Res> {
+  __$$RunSubmitToolOutputsImplCopyWithImpl(_$RunSubmitToolOutputsImpl _value,
+      $Res Function(_$RunSubmitToolOutputsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? toolCalls = null,
+  }) {
+    return _then(_$RunSubmitToolOutputsImpl(
+      toolCalls: null == toolCalls
+          ? _value._toolCalls
+          : toolCalls // ignore: cast_nullable_to_non_nullable
+              as List<RunToolCallObject>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunSubmitToolOutputsImpl extends _RunSubmitToolOutputs {
+  const _$RunSubmitToolOutputsImpl(
+      {@JsonKey(name: 'tool_calls')
+      required final List<RunToolCallObject> toolCalls})
+      : _toolCalls = toolCalls,
+        super._();
+
+  factory _$RunSubmitToolOutputsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RunSubmitToolOutputsImplFromJson(json);
+
+  /// A list of the relevant tool calls.
+  final List<RunToolCallObject> _toolCalls;
+
+  /// A list of the relevant tool calls.
+  @override
+  @JsonKey(name: 'tool_calls')
+  List<RunToolCallObject> get toolCalls {
+    if (_toolCalls is EqualUnmodifiableListView) return _toolCalls;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_toolCalls);
+  }
+
+  @override
+  String toString() {
+    return 'RunSubmitToolOutputs(toolCalls: $toolCalls)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunSubmitToolOutputsImpl &&
+            const DeepCollectionEquality()
+                .equals(other._toolCalls, _toolCalls));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_toolCalls));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunSubmitToolOutputsImplCopyWith<_$RunSubmitToolOutputsImpl>
+      get copyWith =>
+          __$$RunSubmitToolOutputsImplCopyWithImpl<_$RunSubmitToolOutputsImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunSubmitToolOutputsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunSubmitToolOutputs extends RunSubmitToolOutputs {
+  const factory _RunSubmitToolOutputs(
+          {@JsonKey(name: 'tool_calls')
+          required final List<RunToolCallObject> toolCalls}) =
+      _$RunSubmitToolOutputsImpl;
+  const _RunSubmitToolOutputs._() : super._();
+
+  factory _RunSubmitToolOutputs.fromJson(Map<String, dynamic> json) =
+      _$RunSubmitToolOutputsImpl.fromJson;
+
+  @override
+
+  /// A list of the relevant tool calls.
+  @JsonKey(name: 'tool_calls')
+  List<RunToolCallObject> get toolCalls;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunSubmitToolOutputsImplCopyWith<_$RunSubmitToolOutputsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+CreateRunRequest _$CreateRunRequestFromJson(Map<String, dynamic> json) {
+  return _CreateRunRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CreateRunRequest {
+  /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run.
+  @JsonKey(name: 'assistant_id')
+  String get assistantId => throw _privateConstructorUsedError;
+
+  /// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+  @JsonKey(includeIfNull: false)
+  String? get model => throw _privateConstructorUsedError;
+
+  /// Overrides the [instructions](https://platform.openai.com/docs/api-reference/assistants/createAssistant) of the assistant. This is useful for modifying the behavior on a per-run basis.
+  @JsonKey(includeIfNull: false)
+  String? get instructions => throw _privateConstructorUsedError;
+
+  /// Appends additional instructions at the end of the instructions for the run. This is useful for modifying the behavior on a per-run basis without overriding other instructions.
+  @JsonKey(name: 'additional_instructions', includeIfNull: false)
+  String? get additionalInstructions => throw _privateConstructorUsedError;
+
+  /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
+  @JsonKey(includeIfNull: false)
+  List<AssistantTools>? get tools => throw _privateConstructorUsedError;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CreateRunRequestCopyWith<CreateRunRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateRunRequestCopyWith<$Res> {
+  factory $CreateRunRequestCopyWith(
+          CreateRunRequest value, $Res Function(CreateRunRequest) then) =
+      _$CreateRunRequestCopyWithImpl<$Res, CreateRunRequest>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'assistant_id') String assistantId,
+      @JsonKey(includeIfNull: false) String? model,
+      @JsonKey(includeIfNull: false) String? instructions,
+      @JsonKey(name: 'additional_instructions', includeIfNull: false)
+      String? additionalInstructions,
+      @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
+    implements $CreateRunRequestCopyWith<$Res> {
+  _$CreateRunRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? assistantId = null,
+    Object? model = freezed,
+    Object? instructions = freezed,
+    Object? additionalInstructions = freezed,
+    Object? tools = freezed,
+    Object? metadata = freezed,
+  }) {
+    return _then(_value.copyWith(
+      assistantId: null == assistantId
+          ? _value.assistantId
+          : assistantId // ignore: cast_nullable_to_non_nullable
+              as String,
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String?,
+      instructions: freezed == instructions
+          ? _value.instructions
+          : instructions // ignore: cast_nullable_to_non_nullable
+              as String?,
+      additionalInstructions: freezed == additionalInstructions
+          ? _value.additionalInstructions
+          : additionalInstructions // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tools: freezed == tools
+          ? _value.tools
+          : tools // ignore: cast_nullable_to_non_nullable
+              as List<AssistantTools>?,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CreateRunRequestImplCopyWith<$Res>
+    implements $CreateRunRequestCopyWith<$Res> {
+  factory _$$CreateRunRequestImplCopyWith(_$CreateRunRequestImpl value,
+          $Res Function(_$CreateRunRequestImpl) then) =
+      __$$CreateRunRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'assistant_id') String assistantId,
+      @JsonKey(includeIfNull: false) String? model,
+      @JsonKey(includeIfNull: false) String? instructions,
+      @JsonKey(name: 'additional_instructions', includeIfNull: false)
+      String? additionalInstructions,
+      @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class __$$CreateRunRequestImplCopyWithImpl<$Res>
+    extends _$CreateRunRequestCopyWithImpl<$Res, _$CreateRunRequestImpl>
+    implements _$$CreateRunRequestImplCopyWith<$Res> {
+  __$$CreateRunRequestImplCopyWithImpl(_$CreateRunRequestImpl _value,
+      $Res Function(_$CreateRunRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? assistantId = null,
+    Object? model = freezed,
+    Object? instructions = freezed,
+    Object? additionalInstructions = freezed,
+    Object? tools = freezed,
+    Object? metadata = freezed,
+  }) {
+    return _then(_$CreateRunRequestImpl(
+      assistantId: null == assistantId
+          ? _value.assistantId
+          : assistantId // ignore: cast_nullable_to_non_nullable
+              as String,
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String?,
+      instructions: freezed == instructions
+          ? _value.instructions
+          : instructions // ignore: cast_nullable_to_non_nullable
+              as String?,
+      additionalInstructions: freezed == additionalInstructions
+          ? _value.additionalInstructions
+          : additionalInstructions // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tools: freezed == tools
+          ? _value._tools
+          : tools // ignore: cast_nullable_to_non_nullable
+              as List<AssistantTools>?,
+      metadata: freezed == metadata
+          ? _value._metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateRunRequestImpl extends _CreateRunRequest {
+  const _$CreateRunRequestImpl(
+      {@JsonKey(name: 'assistant_id') required this.assistantId,
+      @JsonKey(includeIfNull: false) this.model,
+      @JsonKey(includeIfNull: false) this.instructions,
+      @JsonKey(name: 'additional_instructions', includeIfNull: false)
+      this.additionalInstructions,
+      @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
+      @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata})
+      : _tools = tools,
+        _metadata = metadata,
+        super._();
+
+  factory _$CreateRunRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CreateRunRequestImplFromJson(json);
+
+  /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run.
+  @override
+  @JsonKey(name: 'assistant_id')
+  final String assistantId;
+
+  /// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? model;
+
+  /// Overrides the [instructions](https://platform.openai.com/docs/api-reference/assistants/createAssistant) of the assistant. This is useful for modifying the behavior on a per-run basis.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? instructions;
+
+  /// Appends additional instructions at the end of the instructions for the run. This is useful for modifying the behavior on a per-run basis without overriding other instructions.
+  @override
+  @JsonKey(name: 'additional_instructions', includeIfNull: false)
+  final String? additionalInstructions;
+
+  /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
+  final List<AssistantTools>? _tools;
+
+  /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<AssistantTools>? get tools {
+    final value = _tools;
+    if (value == null) return null;
+    if (_tools is EqualUnmodifiableListView) return _tools;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  final Map<String, dynamic>? _metadata;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata {
+    final value = _metadata;
+    if (value == null) return null;
+    if (_metadata is EqualUnmodifiableMapView) return _metadata;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  @override
+  String toString() {
+    return 'CreateRunRequest(assistantId: $assistantId, model: $model, instructions: $instructions, additionalInstructions: $additionalInstructions, tools: $tools, metadata: $metadata)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateRunRequestImpl &&
+            (identical(other.assistantId, assistantId) ||
+                other.assistantId == assistantId) &&
+            (identical(other.model, model) || other.model == model) &&
+            (identical(other.instructions, instructions) ||
+                other.instructions == instructions) &&
+            (identical(other.additionalInstructions, additionalInstructions) ||
+                other.additionalInstructions == additionalInstructions) &&
+            const DeepCollectionEquality().equals(other._tools, _tools) &&
+            const DeepCollectionEquality().equals(other._metadata, _metadata));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      assistantId,
+      model,
+      instructions,
+      additionalInstructions,
+      const DeepCollectionEquality().hash(_tools),
+      const DeepCollectionEquality().hash(_metadata));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateRunRequestImplCopyWith<_$CreateRunRequestImpl> get copyWith =>
+      __$$CreateRunRequestImplCopyWithImpl<_$CreateRunRequestImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateRunRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CreateRunRequest extends CreateRunRequest {
+  const factory _CreateRunRequest(
+      {@JsonKey(name: 'assistant_id') required final String assistantId,
+      @JsonKey(includeIfNull: false) final String? model,
+      @JsonKey(includeIfNull: false) final String? instructions,
+      @JsonKey(name: 'additional_instructions', includeIfNull: false)
+      final String? additionalInstructions,
+      @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
+      @JsonKey(includeIfNull: false)
+      final Map<String, dynamic>? metadata}) = _$CreateRunRequestImpl;
+  const _CreateRunRequest._() : super._();
+
+  factory _CreateRunRequest.fromJson(Map<String, dynamic> json) =
+      _$CreateRunRequestImpl.fromJson;
+
+  @override
+
+  /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run.
+  @JsonKey(name: 'assistant_id')
+  String get assistantId;
+  @override
+
+  /// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+  @JsonKey(includeIfNull: false)
+  String? get model;
+  @override
+
+  /// Overrides the [instructions](https://platform.openai.com/docs/api-reference/assistants/createAssistant) of the assistant. This is useful for modifying the behavior on a per-run basis.
+  @JsonKey(includeIfNull: false)
+  String? get instructions;
+  @override
+
+  /// Appends additional instructions at the end of the instructions for the run. This is useful for modifying the behavior on a per-run basis without overriding other instructions.
+  @JsonKey(name: 'additional_instructions', includeIfNull: false)
+  String? get additionalInstructions;
+  @override
+
+  /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
+  @JsonKey(includeIfNull: false)
+  List<AssistantTools>? get tools;
+  @override
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata;
+  @override
+  @JsonKey(ignore: true)
+  _$$CreateRunRequestImplCopyWith<_$CreateRunRequestImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ListRunsResponse _$ListRunsResponseFromJson(Map<String, dynamic> json) {
+  return _ListRunsResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ListRunsResponse {
+  /// The object type, which is always `list`.
+  String get object => throw _privateConstructorUsedError;
+
+  /// The list of runs.
+  List<RunObject> get data => throw _privateConstructorUsedError;
+
+  /// The ID of the first run in the list.
+  @JsonKey(name: 'first_id')
+  String get firstId => throw _privateConstructorUsedError;
+
+  /// The ID of the last run in the list.
+  @JsonKey(name: 'last_id')
+  String get lastId => throw _privateConstructorUsedError;
+
+  /// Whether there are more runs to retrieve.
+  @JsonKey(name: 'has_more')
+  bool get hasMore => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ListRunsResponseCopyWith<ListRunsResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ListRunsResponseCopyWith<$Res> {
+  factory $ListRunsResponseCopyWith(
+          ListRunsResponse value, $Res Function(ListRunsResponse) then) =
+      _$ListRunsResponseCopyWithImpl<$Res, ListRunsResponse>;
+  @useResult
+  $Res call(
+      {String object,
+      List<RunObject> data,
+      @JsonKey(name: 'first_id') String firstId,
+      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class _$ListRunsResponseCopyWithImpl<$Res, $Val extends ListRunsResponse>
+    implements $ListRunsResponseCopyWith<$Res> {
+  _$ListRunsResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = null,
+    Object? data = null,
+    Object? firstId = null,
+    Object? lastId = null,
+    Object? hasMore = null,
+  }) {
+    return _then(_value.copyWith(
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<RunObject>,
+      firstId: null == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastId: null == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ListRunsResponseImplCopyWith<$Res>
+    implements $ListRunsResponseCopyWith<$Res> {
+  factory _$$ListRunsResponseImplCopyWith(_$ListRunsResponseImpl value,
+          $Res Function(_$ListRunsResponseImpl) then) =
+      __$$ListRunsResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String object,
+      List<RunObject> data,
+      @JsonKey(name: 'first_id') String firstId,
+      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class __$$ListRunsResponseImplCopyWithImpl<$Res>
+    extends _$ListRunsResponseCopyWithImpl<$Res, _$ListRunsResponseImpl>
+    implements _$$ListRunsResponseImplCopyWith<$Res> {
+  __$$ListRunsResponseImplCopyWithImpl(_$ListRunsResponseImpl _value,
+      $Res Function(_$ListRunsResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = null,
+    Object? data = null,
+    Object? firstId = null,
+    Object? lastId = null,
+    Object? hasMore = null,
+  }) {
+    return _then(_$ListRunsResponseImpl(
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<RunObject>,
+      firstId: null == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastId: null == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ListRunsResponseImpl extends _ListRunsResponse {
+  const _$ListRunsResponseImpl(
+      {required this.object,
+      required final List<RunObject> data,
+      @JsonKey(name: 'first_id') required this.firstId,
+      @JsonKey(name: 'last_id') required this.lastId,
+      @JsonKey(name: 'has_more') required this.hasMore})
+      : _data = data,
+        super._();
+
+  factory _$ListRunsResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ListRunsResponseImplFromJson(json);
+
+  /// The object type, which is always `list`.
+  @override
+  final String object;
+
+  /// The list of runs.
+  final List<RunObject> _data;
+
+  /// The list of runs.
+  @override
+  List<RunObject> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_data);
+  }
+
+  /// The ID of the first run in the list.
+  @override
+  @JsonKey(name: 'first_id')
+  final String firstId;
+
+  /// The ID of the last run in the list.
+  @override
+  @JsonKey(name: 'last_id')
+  final String lastId;
+
+  /// Whether there are more runs to retrieve.
+  @override
+  @JsonKey(name: 'has_more')
+  final bool hasMore;
+
+  @override
+  String toString() {
+    return 'ListRunsResponse(object: $object, data: $data, firstId: $firstId, lastId: $lastId, hasMore: $hasMore)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ListRunsResponseImpl &&
+            (identical(other.object, object) || other.object == object) &&
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.firstId, firstId) || other.firstId == firstId) &&
+            (identical(other.lastId, lastId) || other.lastId == lastId) &&
+            (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, object,
+      const DeepCollectionEquality().hash(_data), firstId, lastId, hasMore);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ListRunsResponseImplCopyWith<_$ListRunsResponseImpl> get copyWith =>
+      __$$ListRunsResponseImplCopyWithImpl<_$ListRunsResponseImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ListRunsResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ListRunsResponse extends ListRunsResponse {
+  const factory _ListRunsResponse(
+          {required final String object,
+          required final List<RunObject> data,
+          @JsonKey(name: 'first_id') required final String firstId,
+          @JsonKey(name: 'last_id') required final String lastId,
+          @JsonKey(name: 'has_more') required final bool hasMore}) =
+      _$ListRunsResponseImpl;
+  const _ListRunsResponse._() : super._();
+
+  factory _ListRunsResponse.fromJson(Map<String, dynamic> json) =
+      _$ListRunsResponseImpl.fromJson;
+
+  @override
+
+  /// The object type, which is always `list`.
+  String get object;
+  @override
+
+  /// The list of runs.
+  List<RunObject> get data;
+  @override
+
+  /// The ID of the first run in the list.
+  @JsonKey(name: 'first_id')
+  String get firstId;
+  @override
+
+  /// The ID of the last run in the list.
+  @JsonKey(name: 'last_id')
+  String get lastId;
+  @override
+
+  /// Whether there are more runs to retrieve.
+  @JsonKey(name: 'has_more')
+  bool get hasMore;
+  @override
+  @JsonKey(ignore: true)
+  _$$ListRunsResponseImplCopyWith<_$ListRunsResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ModifyRunRequest _$ModifyRunRequestFromJson(Map<String, dynamic> json) {
+  return _ModifyRunRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ModifyRunRequest {
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ModifyRunRequestCopyWith<ModifyRunRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ModifyRunRequestCopyWith<$Res> {
+  factory $ModifyRunRequestCopyWith(
+          ModifyRunRequest value, $Res Function(ModifyRunRequest) then) =
+      _$ModifyRunRequestCopyWithImpl<$Res, ModifyRunRequest>;
+  @useResult
+  $Res call({@JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class _$ModifyRunRequestCopyWithImpl<$Res, $Val extends ModifyRunRequest>
+    implements $ModifyRunRequestCopyWith<$Res> {
+  _$ModifyRunRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? metadata = freezed,
+  }) {
+    return _then(_value.copyWith(
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ModifyRunRequestImplCopyWith<$Res>
+    implements $ModifyRunRequestCopyWith<$Res> {
+  factory _$$ModifyRunRequestImplCopyWith(_$ModifyRunRequestImpl value,
+          $Res Function(_$ModifyRunRequestImpl) then) =
+      __$$ModifyRunRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class __$$ModifyRunRequestImplCopyWithImpl<$Res>
+    extends _$ModifyRunRequestCopyWithImpl<$Res, _$ModifyRunRequestImpl>
+    implements _$$ModifyRunRequestImplCopyWith<$Res> {
+  __$$ModifyRunRequestImplCopyWithImpl(_$ModifyRunRequestImpl _value,
+      $Res Function(_$ModifyRunRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? metadata = freezed,
+  }) {
+    return _then(_$ModifyRunRequestImpl(
+      metadata: freezed == metadata
+          ? _value._metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ModifyRunRequestImpl extends _ModifyRunRequest {
+  const _$ModifyRunRequestImpl(
+      {@JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata})
+      : _metadata = metadata,
+        super._();
+
+  factory _$ModifyRunRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ModifyRunRequestImplFromJson(json);
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  final Map<String, dynamic>? _metadata;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata {
+    final value = _metadata;
+    if (value == null) return null;
+    if (_metadata is EqualUnmodifiableMapView) return _metadata;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  @override
+  String toString() {
+    return 'ModifyRunRequest(metadata: $metadata)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ModifyRunRequestImpl &&
+            const DeepCollectionEquality().equals(other._metadata, _metadata));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_metadata));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ModifyRunRequestImplCopyWith<_$ModifyRunRequestImpl> get copyWith =>
+      __$$ModifyRunRequestImplCopyWithImpl<_$ModifyRunRequestImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ModifyRunRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ModifyRunRequest extends ModifyRunRequest {
+  const factory _ModifyRunRequest(
+      {@JsonKey(includeIfNull: false)
+      final Map<String, dynamic>? metadata}) = _$ModifyRunRequestImpl;
+  const _ModifyRunRequest._() : super._();
+
+  factory _ModifyRunRequest.fromJson(Map<String, dynamic> json) =
+      _$ModifyRunRequestImpl.fromJson;
+
+  @override
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata;
+  @override
+  @JsonKey(ignore: true)
+  _$$ModifyRunRequestImplCopyWith<_$ModifyRunRequestImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+SubmitToolOutputsRunRequest _$SubmitToolOutputsRunRequestFromJson(
+    Map<String, dynamic> json) {
+  return _SubmitToolOutputsRunRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$SubmitToolOutputsRunRequest {
+  /// A list of tools for which the outputs are being submitted.
+  @JsonKey(name: 'tool_outputs')
+  List<RunSubmitToolOutput> get toolOutputs =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $SubmitToolOutputsRunRequestCopyWith<SubmitToolOutputsRunRequest>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SubmitToolOutputsRunRequestCopyWith<$Res> {
+  factory $SubmitToolOutputsRunRequestCopyWith(
+          SubmitToolOutputsRunRequest value,
+          $Res Function(SubmitToolOutputsRunRequest) then) =
+      _$SubmitToolOutputsRunRequestCopyWithImpl<$Res,
+          SubmitToolOutputsRunRequest>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'tool_outputs') List<RunSubmitToolOutput> toolOutputs});
+}
+
+/// @nodoc
+class _$SubmitToolOutputsRunRequestCopyWithImpl<$Res,
+        $Val extends SubmitToolOutputsRunRequest>
+    implements $SubmitToolOutputsRunRequestCopyWith<$Res> {
+  _$SubmitToolOutputsRunRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? toolOutputs = null,
+  }) {
+    return _then(_value.copyWith(
+      toolOutputs: null == toolOutputs
+          ? _value.toolOutputs
+          : toolOutputs // ignore: cast_nullable_to_non_nullable
+              as List<RunSubmitToolOutput>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$SubmitToolOutputsRunRequestImplCopyWith<$Res>
+    implements $SubmitToolOutputsRunRequestCopyWith<$Res> {
+  factory _$$SubmitToolOutputsRunRequestImplCopyWith(
+          _$SubmitToolOutputsRunRequestImpl value,
+          $Res Function(_$SubmitToolOutputsRunRequestImpl) then) =
+      __$$SubmitToolOutputsRunRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'tool_outputs') List<RunSubmitToolOutput> toolOutputs});
+}
+
+/// @nodoc
+class __$$SubmitToolOutputsRunRequestImplCopyWithImpl<$Res>
+    extends _$SubmitToolOutputsRunRequestCopyWithImpl<$Res,
+        _$SubmitToolOutputsRunRequestImpl>
+    implements _$$SubmitToolOutputsRunRequestImplCopyWith<$Res> {
+  __$$SubmitToolOutputsRunRequestImplCopyWithImpl(
+      _$SubmitToolOutputsRunRequestImpl _value,
+      $Res Function(_$SubmitToolOutputsRunRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? toolOutputs = null,
+  }) {
+    return _then(_$SubmitToolOutputsRunRequestImpl(
+      toolOutputs: null == toolOutputs
+          ? _value._toolOutputs
+          : toolOutputs // ignore: cast_nullable_to_non_nullable
+              as List<RunSubmitToolOutput>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SubmitToolOutputsRunRequestImpl extends _SubmitToolOutputsRunRequest {
+  const _$SubmitToolOutputsRunRequestImpl(
+      {@JsonKey(name: 'tool_outputs')
+      required final List<RunSubmitToolOutput> toolOutputs})
+      : _toolOutputs = toolOutputs,
+        super._();
+
+  factory _$SubmitToolOutputsRunRequestImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$SubmitToolOutputsRunRequestImplFromJson(json);
+
+  /// A list of tools for which the outputs are being submitted.
+  final List<RunSubmitToolOutput> _toolOutputs;
+
+  /// A list of tools for which the outputs are being submitted.
+  @override
+  @JsonKey(name: 'tool_outputs')
+  List<RunSubmitToolOutput> get toolOutputs {
+    if (_toolOutputs is EqualUnmodifiableListView) return _toolOutputs;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_toolOutputs);
+  }
+
+  @override
+  String toString() {
+    return 'SubmitToolOutputsRunRequest(toolOutputs: $toolOutputs)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SubmitToolOutputsRunRequestImpl &&
+            const DeepCollectionEquality()
+                .equals(other._toolOutputs, _toolOutputs));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_toolOutputs));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SubmitToolOutputsRunRequestImplCopyWith<_$SubmitToolOutputsRunRequestImpl>
+      get copyWith => __$$SubmitToolOutputsRunRequestImplCopyWithImpl<
+          _$SubmitToolOutputsRunRequestImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SubmitToolOutputsRunRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _SubmitToolOutputsRunRequest
+    extends SubmitToolOutputsRunRequest {
+  const factory _SubmitToolOutputsRunRequest(
+          {@JsonKey(name: 'tool_outputs')
+          required final List<RunSubmitToolOutput> toolOutputs}) =
+      _$SubmitToolOutputsRunRequestImpl;
+  const _SubmitToolOutputsRunRequest._() : super._();
+
+  factory _SubmitToolOutputsRunRequest.fromJson(Map<String, dynamic> json) =
+      _$SubmitToolOutputsRunRequestImpl.fromJson;
+
+  @override
+
+  /// A list of tools for which the outputs are being submitted.
+  @JsonKey(name: 'tool_outputs')
+  List<RunSubmitToolOutput> get toolOutputs;
+  @override
+  @JsonKey(ignore: true)
+  _$$SubmitToolOutputsRunRequestImplCopyWith<_$SubmitToolOutputsRunRequestImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RunSubmitToolOutput _$RunSubmitToolOutputFromJson(Map<String, dynamic> json) {
+  return _RunSubmitToolOutput.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunSubmitToolOutput {
+  /// The ID of the tool call in the `required_action` object within the run object the output is being submitted for.
+  @JsonKey(name: 'tool_call_id', includeIfNull: false)
+  String? get toolCallId => throw _privateConstructorUsedError;
+
+  /// The output of the tool call to be submitted to continue the run.
+  @JsonKey(includeIfNull: false)
+  String? get output => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunSubmitToolOutputCopyWith<RunSubmitToolOutput> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunSubmitToolOutputCopyWith<$Res> {
+  factory $RunSubmitToolOutputCopyWith(
+          RunSubmitToolOutput value, $Res Function(RunSubmitToolOutput) then) =
+      _$RunSubmitToolOutputCopyWithImpl<$Res, RunSubmitToolOutput>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'tool_call_id', includeIfNull: false) String? toolCallId,
+      @JsonKey(includeIfNull: false) String? output});
+}
+
+/// @nodoc
+class _$RunSubmitToolOutputCopyWithImpl<$Res, $Val extends RunSubmitToolOutput>
+    implements $RunSubmitToolOutputCopyWith<$Res> {
+  _$RunSubmitToolOutputCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? toolCallId = freezed,
+    Object? output = freezed,
+  }) {
+    return _then(_value.copyWith(
+      toolCallId: freezed == toolCallId
+          ? _value.toolCallId
+          : toolCallId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      output: freezed == output
+          ? _value.output
+          : output // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunSubmitToolOutputImplCopyWith<$Res>
+    implements $RunSubmitToolOutputCopyWith<$Res> {
+  factory _$$RunSubmitToolOutputImplCopyWith(_$RunSubmitToolOutputImpl value,
+          $Res Function(_$RunSubmitToolOutputImpl) then) =
+      __$$RunSubmitToolOutputImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'tool_call_id', includeIfNull: false) String? toolCallId,
+      @JsonKey(includeIfNull: false) String? output});
+}
+
+/// @nodoc
+class __$$RunSubmitToolOutputImplCopyWithImpl<$Res>
+    extends _$RunSubmitToolOutputCopyWithImpl<$Res, _$RunSubmitToolOutputImpl>
+    implements _$$RunSubmitToolOutputImplCopyWith<$Res> {
+  __$$RunSubmitToolOutputImplCopyWithImpl(_$RunSubmitToolOutputImpl _value,
+      $Res Function(_$RunSubmitToolOutputImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? toolCallId = freezed,
+    Object? output = freezed,
+  }) {
+    return _then(_$RunSubmitToolOutputImpl(
+      toolCallId: freezed == toolCallId
+          ? _value.toolCallId
+          : toolCallId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      output: freezed == output
+          ? _value.output
+          : output // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunSubmitToolOutputImpl extends _RunSubmitToolOutput {
+  const _$RunSubmitToolOutputImpl(
+      {@JsonKey(name: 'tool_call_id', includeIfNull: false) this.toolCallId,
+      @JsonKey(includeIfNull: false) this.output})
+      : super._();
+
+  factory _$RunSubmitToolOutputImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RunSubmitToolOutputImplFromJson(json);
+
+  /// The ID of the tool call in the `required_action` object within the run object the output is being submitted for.
+  @override
+  @JsonKey(name: 'tool_call_id', includeIfNull: false)
+  final String? toolCallId;
+
+  /// The output of the tool call to be submitted to continue the run.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? output;
+
+  @override
+  String toString() {
+    return 'RunSubmitToolOutput(toolCallId: $toolCallId, output: $output)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunSubmitToolOutputImpl &&
+            (identical(other.toolCallId, toolCallId) ||
+                other.toolCallId == toolCallId) &&
+            (identical(other.output, output) || other.output == output));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, toolCallId, output);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunSubmitToolOutputImplCopyWith<_$RunSubmitToolOutputImpl> get copyWith =>
+      __$$RunSubmitToolOutputImplCopyWithImpl<_$RunSubmitToolOutputImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunSubmitToolOutputImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunSubmitToolOutput extends RunSubmitToolOutput {
+  const factory _RunSubmitToolOutput(
+          {@JsonKey(name: 'tool_call_id', includeIfNull: false)
+          final String? toolCallId,
+          @JsonKey(includeIfNull: false) final String? output}) =
+      _$RunSubmitToolOutputImpl;
+  const _RunSubmitToolOutput._() : super._();
+
+  factory _RunSubmitToolOutput.fromJson(Map<String, dynamic> json) =
+      _$RunSubmitToolOutputImpl.fromJson;
+
+  @override
+
+  /// The ID of the tool call in the `required_action` object within the run object the output is being submitted for.
+  @JsonKey(name: 'tool_call_id', includeIfNull: false)
+  String? get toolCallId;
+  @override
+
+  /// The output of the tool call to be submitted to continue the run.
+  @JsonKey(includeIfNull: false)
+  String? get output;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunSubmitToolOutputImplCopyWith<_$RunSubmitToolOutputImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+RunToolCallObject _$RunToolCallObjectFromJson(Map<String, dynamic> json) {
+  return _RunToolCallObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunToolCallObject {
+  /// The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://platform.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint.
+  String get id => throw _privateConstructorUsedError;
+
+  /// The type of tool call the output is required for. For now, this is always `function`.
+  RunToolCallObjectType get type => throw _privateConstructorUsedError;
+
+  /// The function definition.
+  RunToolCallFunction get function => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunToolCallObjectCopyWith<RunToolCallObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunToolCallObjectCopyWith<$Res> {
+  factory $RunToolCallObjectCopyWith(
+          RunToolCallObject value, $Res Function(RunToolCallObject) then) =
+      _$RunToolCallObjectCopyWithImpl<$Res, RunToolCallObject>;
+  @useResult
+  $Res call(
+      {String id, RunToolCallObjectType type, RunToolCallFunction function});
+
+  $RunToolCallFunctionCopyWith<$Res> get function;
+}
+
+/// @nodoc
+class _$RunToolCallObjectCopyWithImpl<$Res, $Val extends RunToolCallObject>
+    implements $RunToolCallObjectCopyWith<$Res> {
+  _$RunToolCallObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? type = null,
+    Object? function = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as RunToolCallObjectType,
+      function: null == function
+          ? _value.function
+          : function // ignore: cast_nullable_to_non_nullable
+              as RunToolCallFunction,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunToolCallFunctionCopyWith<$Res> get function {
+    return $RunToolCallFunctionCopyWith<$Res>(_value.function, (value) {
+      return _then(_value.copyWith(function: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$RunToolCallObjectImplCopyWith<$Res>
+    implements $RunToolCallObjectCopyWith<$Res> {
+  factory _$$RunToolCallObjectImplCopyWith(_$RunToolCallObjectImpl value,
+          $Res Function(_$RunToolCallObjectImpl) then) =
+      __$$RunToolCallObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id, RunToolCallObjectType type, RunToolCallFunction function});
+
+  @override
+  $RunToolCallFunctionCopyWith<$Res> get function;
+}
+
+/// @nodoc
+class __$$RunToolCallObjectImplCopyWithImpl<$Res>
+    extends _$RunToolCallObjectCopyWithImpl<$Res, _$RunToolCallObjectImpl>
+    implements _$$RunToolCallObjectImplCopyWith<$Res> {
+  __$$RunToolCallObjectImplCopyWithImpl(_$RunToolCallObjectImpl _value,
+      $Res Function(_$RunToolCallObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? type = null,
+    Object? function = null,
+  }) {
+    return _then(_$RunToolCallObjectImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as RunToolCallObjectType,
+      function: null == function
+          ? _value.function
+          : function // ignore: cast_nullable_to_non_nullable
+              as RunToolCallFunction,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunToolCallObjectImpl extends _RunToolCallObject {
+  const _$RunToolCallObjectImpl(
+      {required this.id, required this.type, required this.function})
+      : super._();
+
+  factory _$RunToolCallObjectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RunToolCallObjectImplFromJson(json);
+
+  /// The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://platform.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint.
+  @override
+  final String id;
+
+  /// The type of tool call the output is required for. For now, this is always `function`.
+  @override
+  final RunToolCallObjectType type;
+
+  /// The function definition.
+  @override
+  final RunToolCallFunction function;
+
+  @override
+  String toString() {
+    return 'RunToolCallObject(id: $id, type: $type, function: $function)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunToolCallObjectImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.function, function) ||
+                other.function == function));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, type, function);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunToolCallObjectImplCopyWith<_$RunToolCallObjectImpl> get copyWith =>
+      __$$RunToolCallObjectImplCopyWithImpl<_$RunToolCallObjectImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunToolCallObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunToolCallObject extends RunToolCallObject {
+  const factory _RunToolCallObject(
+      {required final String id,
+      required final RunToolCallObjectType type,
+      required final RunToolCallFunction function}) = _$RunToolCallObjectImpl;
+  const _RunToolCallObject._() : super._();
+
+  factory _RunToolCallObject.fromJson(Map<String, dynamic> json) =
+      _$RunToolCallObjectImpl.fromJson;
+
+  @override
+
+  /// The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://platform.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint.
+  String get id;
+  @override
+
+  /// The type of tool call the output is required for. For now, this is always `function`.
+  RunToolCallObjectType get type;
+  @override
+
+  /// The function definition.
+  RunToolCallFunction get function;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunToolCallObjectImplCopyWith<_$RunToolCallObjectImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+RunToolCallFunction _$RunToolCallFunctionFromJson(Map<String, dynamic> json) {
+  return _RunToolCallFunction.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunToolCallFunction {
+  /// The name of the function.
+  String get name => throw _privateConstructorUsedError;
+
+  /// The arguments that the model expects you to pass to the function.
+  String get arguments => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunToolCallFunctionCopyWith<RunToolCallFunction> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunToolCallFunctionCopyWith<$Res> {
+  factory $RunToolCallFunctionCopyWith(
+          RunToolCallFunction value, $Res Function(RunToolCallFunction) then) =
+      _$RunToolCallFunctionCopyWithImpl<$Res, RunToolCallFunction>;
+  @useResult
+  $Res call({String name, String arguments});
+}
+
+/// @nodoc
+class _$RunToolCallFunctionCopyWithImpl<$Res, $Val extends RunToolCallFunction>
+    implements $RunToolCallFunctionCopyWith<$Res> {
+  _$RunToolCallFunctionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? arguments = null,
+  }) {
+    return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      arguments: null == arguments
+          ? _value.arguments
+          : arguments // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunToolCallFunctionImplCopyWith<$Res>
+    implements $RunToolCallFunctionCopyWith<$Res> {
+  factory _$$RunToolCallFunctionImplCopyWith(_$RunToolCallFunctionImpl value,
+          $Res Function(_$RunToolCallFunctionImpl) then) =
+      __$$RunToolCallFunctionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String name, String arguments});
+}
+
+/// @nodoc
+class __$$RunToolCallFunctionImplCopyWithImpl<$Res>
+    extends _$RunToolCallFunctionCopyWithImpl<$Res, _$RunToolCallFunctionImpl>
+    implements _$$RunToolCallFunctionImplCopyWith<$Res> {
+  __$$RunToolCallFunctionImplCopyWithImpl(_$RunToolCallFunctionImpl _value,
+      $Res Function(_$RunToolCallFunctionImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? arguments = null,
+  }) {
+    return _then(_$RunToolCallFunctionImpl(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      arguments: null == arguments
+          ? _value.arguments
+          : arguments // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunToolCallFunctionImpl extends _RunToolCallFunction {
+  const _$RunToolCallFunctionImpl({required this.name, required this.arguments})
+      : super._();
+
+  factory _$RunToolCallFunctionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RunToolCallFunctionImplFromJson(json);
+
+  /// The name of the function.
+  @override
+  final String name;
+
+  /// The arguments that the model expects you to pass to the function.
+  @override
+  final String arguments;
+
+  @override
+  String toString() {
+    return 'RunToolCallFunction(name: $name, arguments: $arguments)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunToolCallFunctionImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.arguments, arguments) ||
+                other.arguments == arguments));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, name, arguments);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunToolCallFunctionImplCopyWith<_$RunToolCallFunctionImpl> get copyWith =>
+      __$$RunToolCallFunctionImplCopyWithImpl<_$RunToolCallFunctionImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunToolCallFunctionImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunToolCallFunction extends RunToolCallFunction {
+  const factory _RunToolCallFunction(
+      {required final String name,
+      required final String arguments}) = _$RunToolCallFunctionImpl;
+  const _RunToolCallFunction._() : super._();
+
+  factory _RunToolCallFunction.fromJson(Map<String, dynamic> json) =
+      _$RunToolCallFunctionImpl.fromJson;
+
+  @override
+
+  /// The name of the function.
+  String get name;
+  @override
+
+  /// The arguments that the model expects you to pass to the function.
+  String get arguments;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunToolCallFunctionImplCopyWith<_$RunToolCallFunctionImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+CreateThreadAndRunRequest _$CreateThreadAndRunRequestFromJson(
+    Map<String, dynamic> json) {
+  return _CreateThreadAndRunRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CreateThreadAndRunRequest {
+  /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run.
+  @JsonKey(name: 'assistant_id')
+  String get assistantId => throw _privateConstructorUsedError;
+
+  /// If no thread is provided, an empty thread will be created.
+  @JsonKey(includeIfNull: false)
+  CreateThreadRequest? get thread => throw _privateConstructorUsedError;
+
+  /// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+  @JsonKey(includeIfNull: false)
+  String? get model => throw _privateConstructorUsedError;
+
+  /// Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis.
+  @JsonKey(includeIfNull: false)
+  String? get instructions => throw _privateConstructorUsedError;
+
+  /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
+  @JsonKey(includeIfNull: false)
+  List<AssistantTools>? get tools => throw _privateConstructorUsedError;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CreateThreadAndRunRequestCopyWith<CreateThreadAndRunRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateThreadAndRunRequestCopyWith<$Res> {
+  factory $CreateThreadAndRunRequestCopyWith(CreateThreadAndRunRequest value,
+          $Res Function(CreateThreadAndRunRequest) then) =
+      _$CreateThreadAndRunRequestCopyWithImpl<$Res, CreateThreadAndRunRequest>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'assistant_id') String assistantId,
+      @JsonKey(includeIfNull: false) CreateThreadRequest? thread,
+      @JsonKey(includeIfNull: false) String? model,
+      @JsonKey(includeIfNull: false) String? instructions,
+      @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+
+  $CreateThreadRequestCopyWith<$Res>? get thread;
+}
+
+/// @nodoc
+class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
+        $Val extends CreateThreadAndRunRequest>
+    implements $CreateThreadAndRunRequestCopyWith<$Res> {
+  _$CreateThreadAndRunRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? assistantId = null,
+    Object? thread = freezed,
+    Object? model = freezed,
+    Object? instructions = freezed,
+    Object? tools = freezed,
+    Object? metadata = freezed,
+  }) {
+    return _then(_value.copyWith(
+      assistantId: null == assistantId
+          ? _value.assistantId
+          : assistantId // ignore: cast_nullable_to_non_nullable
+              as String,
+      thread: freezed == thread
+          ? _value.thread
+          : thread // ignore: cast_nullable_to_non_nullable
+              as CreateThreadRequest?,
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String?,
+      instructions: freezed == instructions
+          ? _value.instructions
+          : instructions // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tools: freezed == tools
+          ? _value.tools
+          : tools // ignore: cast_nullable_to_non_nullable
+              as List<AssistantTools>?,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CreateThreadRequestCopyWith<$Res>? get thread {
+    if (_value.thread == null) {
+      return null;
+    }
+
+    return $CreateThreadRequestCopyWith<$Res>(_value.thread!, (value) {
+      return _then(_value.copyWith(thread: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$CreateThreadAndRunRequestImplCopyWith<$Res>
+    implements $CreateThreadAndRunRequestCopyWith<$Res> {
+  factory _$$CreateThreadAndRunRequestImplCopyWith(
+          _$CreateThreadAndRunRequestImpl value,
+          $Res Function(_$CreateThreadAndRunRequestImpl) then) =
+      __$$CreateThreadAndRunRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'assistant_id') String assistantId,
+      @JsonKey(includeIfNull: false) CreateThreadRequest? thread,
+      @JsonKey(includeIfNull: false) String? model,
+      @JsonKey(includeIfNull: false) String? instructions,
+      @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+
+  @override
+  $CreateThreadRequestCopyWith<$Res>? get thread;
+}
+
+/// @nodoc
+class __$$CreateThreadAndRunRequestImplCopyWithImpl<$Res>
+    extends _$CreateThreadAndRunRequestCopyWithImpl<$Res,
+        _$CreateThreadAndRunRequestImpl>
+    implements _$$CreateThreadAndRunRequestImplCopyWith<$Res> {
+  __$$CreateThreadAndRunRequestImplCopyWithImpl(
+      _$CreateThreadAndRunRequestImpl _value,
+      $Res Function(_$CreateThreadAndRunRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? assistantId = null,
+    Object? thread = freezed,
+    Object? model = freezed,
+    Object? instructions = freezed,
+    Object? tools = freezed,
+    Object? metadata = freezed,
+  }) {
+    return _then(_$CreateThreadAndRunRequestImpl(
+      assistantId: null == assistantId
+          ? _value.assistantId
+          : assistantId // ignore: cast_nullable_to_non_nullable
+              as String,
+      thread: freezed == thread
+          ? _value.thread
+          : thread // ignore: cast_nullable_to_non_nullable
+              as CreateThreadRequest?,
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String?,
+      instructions: freezed == instructions
+          ? _value.instructions
+          : instructions // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tools: freezed == tools
+          ? _value._tools
+          : tools // ignore: cast_nullable_to_non_nullable
+              as List<AssistantTools>?,
+      metadata: freezed == metadata
+          ? _value._metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
+  const _$CreateThreadAndRunRequestImpl(
+      {@JsonKey(name: 'assistant_id') required this.assistantId,
+      @JsonKey(includeIfNull: false) this.thread,
+      @JsonKey(includeIfNull: false) this.model,
+      @JsonKey(includeIfNull: false) this.instructions,
+      @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
+      @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata})
+      : _tools = tools,
+        _metadata = metadata,
+        super._();
+
+  factory _$CreateThreadAndRunRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CreateThreadAndRunRequestImplFromJson(json);
+
+  /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run.
+  @override
+  @JsonKey(name: 'assistant_id')
+  final String assistantId;
+
+  /// If no thread is provided, an empty thread will be created.
+  @override
+  @JsonKey(includeIfNull: false)
+  final CreateThreadRequest? thread;
+
+  /// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? model;
+
+  /// Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? instructions;
+
+  /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
+  final List<AssistantTools>? _tools;
+
+  /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<AssistantTools>? get tools {
+    final value = _tools;
+    if (value == null) return null;
+    if (_tools is EqualUnmodifiableListView) return _tools;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  final Map<String, dynamic>? _metadata;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata {
+    final value = _metadata;
+    if (value == null) return null;
+    if (_metadata is EqualUnmodifiableMapView) return _metadata;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  @override
+  String toString() {
+    return 'CreateThreadAndRunRequest(assistantId: $assistantId, thread: $thread, model: $model, instructions: $instructions, tools: $tools, metadata: $metadata)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateThreadAndRunRequestImpl &&
+            (identical(other.assistantId, assistantId) ||
+                other.assistantId == assistantId) &&
+            (identical(other.thread, thread) || other.thread == thread) &&
+            (identical(other.model, model) || other.model == model) &&
+            (identical(other.instructions, instructions) ||
+                other.instructions == instructions) &&
+            const DeepCollectionEquality().equals(other._tools, _tools) &&
+            const DeepCollectionEquality().equals(other._metadata, _metadata));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      assistantId,
+      thread,
+      model,
+      instructions,
+      const DeepCollectionEquality().hash(_tools),
+      const DeepCollectionEquality().hash(_metadata));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateThreadAndRunRequestImplCopyWith<_$CreateThreadAndRunRequestImpl>
+      get copyWith => __$$CreateThreadAndRunRequestImplCopyWithImpl<
+          _$CreateThreadAndRunRequestImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateThreadAndRunRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
+  const factory _CreateThreadAndRunRequest(
+      {@JsonKey(name: 'assistant_id') required final String assistantId,
+      @JsonKey(includeIfNull: false) final CreateThreadRequest? thread,
+      @JsonKey(includeIfNull: false) final String? model,
+      @JsonKey(includeIfNull: false) final String? instructions,
+      @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
+      @JsonKey(includeIfNull: false)
+      final Map<String, dynamic>? metadata}) = _$CreateThreadAndRunRequestImpl;
+  const _CreateThreadAndRunRequest._() : super._();
+
+  factory _CreateThreadAndRunRequest.fromJson(Map<String, dynamic> json) =
+      _$CreateThreadAndRunRequestImpl.fromJson;
+
+  @override
+
+  /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run.
+  @JsonKey(name: 'assistant_id')
+  String get assistantId;
+  @override
+
+  /// If no thread is provided, an empty thread will be created.
+  @JsonKey(includeIfNull: false)
+  CreateThreadRequest? get thread;
+  @override
+
+  /// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+  @JsonKey(includeIfNull: false)
+  String? get model;
+  @override
+
+  /// Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis.
+  @JsonKey(includeIfNull: false)
+  String? get instructions;
+  @override
+
+  /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
+  @JsonKey(includeIfNull: false)
+  List<AssistantTools>? get tools;
+  @override
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata;
+  @override
+  @JsonKey(ignore: true)
+  _$$CreateThreadAndRunRequestImplCopyWith<_$CreateThreadAndRunRequestImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ThreadObject _$ThreadObjectFromJson(Map<String, dynamic> json) {
+  return _ThreadObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ThreadObject {
+  /// The identifier, which can be referenced in API endpoints.
+  String get id => throw _privateConstructorUsedError;
+
+  /// The object type, which is always `thread`.
+  ThreadObjectObject get object => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the thread was created.
+  @JsonKey(name: 'created_at')
+  int get createdAt => throw _privateConstructorUsedError;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ThreadObjectCopyWith<ThreadObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ThreadObjectCopyWith<$Res> {
+  factory $ThreadObjectCopyWith(
+          ThreadObject value, $Res Function(ThreadObject) then) =
+      _$ThreadObjectCopyWithImpl<$Res, ThreadObject>;
+  @useResult
+  $Res call(
+      {String id,
+      ThreadObjectObject object,
+      @JsonKey(name: 'created_at') int createdAt,
+      Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class _$ThreadObjectCopyWithImpl<$Res, $Val extends ThreadObject>
+    implements $ThreadObjectCopyWith<$Res> {
+  _$ThreadObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? createdAt = null,
+    Object? metadata = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as ThreadObjectObject,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ThreadObjectImplCopyWith<$Res>
+    implements $ThreadObjectCopyWith<$Res> {
+  factory _$$ThreadObjectImplCopyWith(
+          _$ThreadObjectImpl value, $Res Function(_$ThreadObjectImpl) then) =
+      __$$ThreadObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      ThreadObjectObject object,
+      @JsonKey(name: 'created_at') int createdAt,
+      Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class __$$ThreadObjectImplCopyWithImpl<$Res>
+    extends _$ThreadObjectCopyWithImpl<$Res, _$ThreadObjectImpl>
+    implements _$$ThreadObjectImplCopyWith<$Res> {
+  __$$ThreadObjectImplCopyWithImpl(
+      _$ThreadObjectImpl _value, $Res Function(_$ThreadObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? createdAt = null,
+    Object? metadata = freezed,
+  }) {
+    return _then(_$ThreadObjectImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as ThreadObjectObject,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      metadata: freezed == metadata
+          ? _value._metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ThreadObjectImpl extends _ThreadObject {
+  const _$ThreadObjectImpl(
+      {required this.id,
+      required this.object,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      required final Map<String, dynamic>? metadata})
+      : _metadata = metadata,
+        super._();
+
+  factory _$ThreadObjectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ThreadObjectImplFromJson(json);
+
+  /// The identifier, which can be referenced in API endpoints.
+  @override
+  final String id;
+
+  /// The object type, which is always `thread`.
+  @override
+  final ThreadObjectObject object;
+
+  /// The Unix timestamp (in seconds) for when the thread was created.
+  @override
+  @JsonKey(name: 'created_at')
+  final int createdAt;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  final Map<String, dynamic>? _metadata;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
+  Map<String, dynamic>? get metadata {
+    final value = _metadata;
+    if (value == null) return null;
+    if (_metadata is EqualUnmodifiableMapView) return _metadata;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  @override
+  String toString() {
+    return 'ThreadObject(id: $id, object: $object, createdAt: $createdAt, metadata: $metadata)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ThreadObjectImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.object, object) || other.object == object) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            const DeepCollectionEquality().equals(other._metadata, _metadata));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, object, createdAt,
+      const DeepCollectionEquality().hash(_metadata));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ThreadObjectImplCopyWith<_$ThreadObjectImpl> get copyWith =>
+      __$$ThreadObjectImplCopyWithImpl<_$ThreadObjectImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ThreadObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ThreadObject extends ThreadObject {
+  const factory _ThreadObject(
+      {required final String id,
+      required final ThreadObjectObject object,
+      @JsonKey(name: 'created_at') required final int createdAt,
+      required final Map<String, dynamic>? metadata}) = _$ThreadObjectImpl;
+  const _ThreadObject._() : super._();
+
+  factory _ThreadObject.fromJson(Map<String, dynamic> json) =
+      _$ThreadObjectImpl.fromJson;
+
+  @override
+
+  /// The identifier, which can be referenced in API endpoints.
+  String get id;
+  @override
+
+  /// The object type, which is always `thread`.
+  ThreadObjectObject get object;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the thread was created.
+  @JsonKey(name: 'created_at')
+  int get createdAt;
+  @override
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  Map<String, dynamic>? get metadata;
+  @override
+  @JsonKey(ignore: true)
+  _$$ThreadObjectImplCopyWith<_$ThreadObjectImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+CreateThreadRequest _$CreateThreadRequestFromJson(Map<String, dynamic> json) {
+  return _CreateThreadRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CreateThreadRequest {
+  /// A list of [messages](https://platform.openai.com/docs/api-reference/messages) to start the thread with.
+  @JsonKey(includeIfNull: false)
+  List<CreateMessageRequest>? get messages =>
+      throw _privateConstructorUsedError;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CreateThreadRequestCopyWith<CreateThreadRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateThreadRequestCopyWith<$Res> {
+  factory $CreateThreadRequestCopyWith(
+          CreateThreadRequest value, $Res Function(CreateThreadRequest) then) =
+      _$CreateThreadRequestCopyWithImpl<$Res, CreateThreadRequest>;
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) List<CreateMessageRequest>? messages,
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class _$CreateThreadRequestCopyWithImpl<$Res, $Val extends CreateThreadRequest>
+    implements $CreateThreadRequestCopyWith<$Res> {
+  _$CreateThreadRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? messages = freezed,
+    Object? metadata = freezed,
+  }) {
+    return _then(_value.copyWith(
+      messages: freezed == messages
+          ? _value.messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<CreateMessageRequest>?,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CreateThreadRequestImplCopyWith<$Res>
+    implements $CreateThreadRequestCopyWith<$Res> {
+  factory _$$CreateThreadRequestImplCopyWith(_$CreateThreadRequestImpl value,
+          $Res Function(_$CreateThreadRequestImpl) then) =
+      __$$CreateThreadRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) List<CreateMessageRequest>? messages,
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class __$$CreateThreadRequestImplCopyWithImpl<$Res>
+    extends _$CreateThreadRequestCopyWithImpl<$Res, _$CreateThreadRequestImpl>
+    implements _$$CreateThreadRequestImplCopyWith<$Res> {
+  __$$CreateThreadRequestImplCopyWithImpl(_$CreateThreadRequestImpl _value,
+      $Res Function(_$CreateThreadRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? messages = freezed,
+    Object? metadata = freezed,
+  }) {
+    return _then(_$CreateThreadRequestImpl(
+      messages: freezed == messages
+          ? _value._messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<CreateMessageRequest>?,
+      metadata: freezed == metadata
+          ? _value._metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateThreadRequestImpl extends _CreateThreadRequest {
+  const _$CreateThreadRequestImpl(
+      {@JsonKey(includeIfNull: false)
+      final List<CreateMessageRequest>? messages,
+      @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata})
+      : _messages = messages,
+        _metadata = metadata,
+        super._();
+
+  factory _$CreateThreadRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CreateThreadRequestImplFromJson(json);
+
+  /// A list of [messages](https://platform.openai.com/docs/api-reference/messages) to start the thread with.
+  final List<CreateMessageRequest>? _messages;
+
+  /// A list of [messages](https://platform.openai.com/docs/api-reference/messages) to start the thread with.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<CreateMessageRequest>? get messages {
+    final value = _messages;
+    if (value == null) return null;
+    if (_messages is EqualUnmodifiableListView) return _messages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  final Map<String, dynamic>? _metadata;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata {
+    final value = _metadata;
+    if (value == null) return null;
+    if (_metadata is EqualUnmodifiableMapView) return _metadata;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  @override
+  String toString() {
+    return 'CreateThreadRequest(messages: $messages, metadata: $metadata)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateThreadRequestImpl &&
+            const DeepCollectionEquality().equals(other._messages, _messages) &&
+            const DeepCollectionEquality().equals(other._metadata, _metadata));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_messages),
+      const DeepCollectionEquality().hash(_metadata));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateThreadRequestImplCopyWith<_$CreateThreadRequestImpl> get copyWith =>
+      __$$CreateThreadRequestImplCopyWithImpl<_$CreateThreadRequestImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateThreadRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CreateThreadRequest extends CreateThreadRequest {
+  const factory _CreateThreadRequest(
+      {@JsonKey(includeIfNull: false)
+      final List<CreateMessageRequest>? messages,
+      @JsonKey(includeIfNull: false)
+      final Map<String, dynamic>? metadata}) = _$CreateThreadRequestImpl;
+  const _CreateThreadRequest._() : super._();
+
+  factory _CreateThreadRequest.fromJson(Map<String, dynamic> json) =
+      _$CreateThreadRequestImpl.fromJson;
+
+  @override
+
+  /// A list of [messages](https://platform.openai.com/docs/api-reference/messages) to start the thread with.
+  @JsonKey(includeIfNull: false)
+  List<CreateMessageRequest>? get messages;
+  @override
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata;
+  @override
+  @JsonKey(ignore: true)
+  _$$CreateThreadRequestImplCopyWith<_$CreateThreadRequestImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ModifyThreadRequest _$ModifyThreadRequestFromJson(Map<String, dynamic> json) {
+  return _ModifyThreadRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ModifyThreadRequest {
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ModifyThreadRequestCopyWith<ModifyThreadRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ModifyThreadRequestCopyWith<$Res> {
+  factory $ModifyThreadRequestCopyWith(
+          ModifyThreadRequest value, $Res Function(ModifyThreadRequest) then) =
+      _$ModifyThreadRequestCopyWithImpl<$Res, ModifyThreadRequest>;
+  @useResult
+  $Res call({@JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class _$ModifyThreadRequestCopyWithImpl<$Res, $Val extends ModifyThreadRequest>
+    implements $ModifyThreadRequestCopyWith<$Res> {
+  _$ModifyThreadRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? metadata = freezed,
+  }) {
+    return _then(_value.copyWith(
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ModifyThreadRequestImplCopyWith<$Res>
+    implements $ModifyThreadRequestCopyWith<$Res> {
+  factory _$$ModifyThreadRequestImplCopyWith(_$ModifyThreadRequestImpl value,
+          $Res Function(_$ModifyThreadRequestImpl) then) =
+      __$$ModifyThreadRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class __$$ModifyThreadRequestImplCopyWithImpl<$Res>
+    extends _$ModifyThreadRequestCopyWithImpl<$Res, _$ModifyThreadRequestImpl>
+    implements _$$ModifyThreadRequestImplCopyWith<$Res> {
+  __$$ModifyThreadRequestImplCopyWithImpl(_$ModifyThreadRequestImpl _value,
+      $Res Function(_$ModifyThreadRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? metadata = freezed,
+  }) {
+    return _then(_$ModifyThreadRequestImpl(
+      metadata: freezed == metadata
+          ? _value._metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ModifyThreadRequestImpl extends _ModifyThreadRequest {
+  const _$ModifyThreadRequestImpl(
+      {@JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata})
+      : _metadata = metadata,
+        super._();
+
+  factory _$ModifyThreadRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ModifyThreadRequestImplFromJson(json);
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  final Map<String, dynamic>? _metadata;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata {
+    final value = _metadata;
+    if (value == null) return null;
+    if (_metadata is EqualUnmodifiableMapView) return _metadata;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  @override
+  String toString() {
+    return 'ModifyThreadRequest(metadata: $metadata)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ModifyThreadRequestImpl &&
+            const DeepCollectionEquality().equals(other._metadata, _metadata));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_metadata));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ModifyThreadRequestImplCopyWith<_$ModifyThreadRequestImpl> get copyWith =>
+      __$$ModifyThreadRequestImplCopyWithImpl<_$ModifyThreadRequestImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ModifyThreadRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ModifyThreadRequest extends ModifyThreadRequest {
+  const factory _ModifyThreadRequest(
+      {@JsonKey(includeIfNull: false)
+      final Map<String, dynamic>? metadata}) = _$ModifyThreadRequestImpl;
+  const _ModifyThreadRequest._() : super._();
+
+  factory _ModifyThreadRequest.fromJson(Map<String, dynamic> json) =
+      _$ModifyThreadRequestImpl.fromJson;
+
+  @override
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata;
+  @override
+  @JsonKey(ignore: true)
+  _$$ModifyThreadRequestImplCopyWith<_$ModifyThreadRequestImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+DeleteThreadResponse _$DeleteThreadResponseFromJson(Map<String, dynamic> json) {
+  return _DeleteThreadResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$DeleteThreadResponse {
+  /// The thread identifier.
+  String get id => throw _privateConstructorUsedError;
+
+  /// Whether the thread was deleted.
+  bool get deleted => throw _privateConstructorUsedError;
+
+  /// The object type, which is always `thread.deleted`.
+  DeleteThreadResponseObject get object => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $DeleteThreadResponseCopyWith<DeleteThreadResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DeleteThreadResponseCopyWith<$Res> {
+  factory $DeleteThreadResponseCopyWith(DeleteThreadResponse value,
+          $Res Function(DeleteThreadResponse) then) =
+      _$DeleteThreadResponseCopyWithImpl<$Res, DeleteThreadResponse>;
+  @useResult
+  $Res call({String id, bool deleted, DeleteThreadResponseObject object});
+}
+
+/// @nodoc
+class _$DeleteThreadResponseCopyWithImpl<$Res,
+        $Val extends DeleteThreadResponse>
+    implements $DeleteThreadResponseCopyWith<$Res> {
+  _$DeleteThreadResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? deleted = null,
+    Object? object = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      deleted: null == deleted
+          ? _value.deleted
+          : deleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as DeleteThreadResponseObject,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DeleteThreadResponseImplCopyWith<$Res>
+    implements $DeleteThreadResponseCopyWith<$Res> {
+  factory _$$DeleteThreadResponseImplCopyWith(_$DeleteThreadResponseImpl value,
+          $Res Function(_$DeleteThreadResponseImpl) then) =
+      __$$DeleteThreadResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id, bool deleted, DeleteThreadResponseObject object});
+}
+
+/// @nodoc
+class __$$DeleteThreadResponseImplCopyWithImpl<$Res>
+    extends _$DeleteThreadResponseCopyWithImpl<$Res, _$DeleteThreadResponseImpl>
+    implements _$$DeleteThreadResponseImplCopyWith<$Res> {
+  __$$DeleteThreadResponseImplCopyWithImpl(_$DeleteThreadResponseImpl _value,
+      $Res Function(_$DeleteThreadResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? deleted = null,
+    Object? object = null,
+  }) {
+    return _then(_$DeleteThreadResponseImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      deleted: null == deleted
+          ? _value.deleted
+          : deleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as DeleteThreadResponseObject,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DeleteThreadResponseImpl extends _DeleteThreadResponse {
+  const _$DeleteThreadResponseImpl(
+      {required this.id, required this.deleted, required this.object})
+      : super._();
+
+  factory _$DeleteThreadResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DeleteThreadResponseImplFromJson(json);
+
+  /// The thread identifier.
+  @override
+  final String id;
+
+  /// Whether the thread was deleted.
+  @override
+  final bool deleted;
+
+  /// The object type, which is always `thread.deleted`.
+  @override
+  final DeleteThreadResponseObject object;
+
+  @override
+  String toString() {
+    return 'DeleteThreadResponse(id: $id, deleted: $deleted, object: $object)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DeleteThreadResponseImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.deleted, deleted) || other.deleted == deleted) &&
+            (identical(other.object, object) || other.object == object));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, deleted, object);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DeleteThreadResponseImplCopyWith<_$DeleteThreadResponseImpl>
+      get copyWith =>
+          __$$DeleteThreadResponseImplCopyWithImpl<_$DeleteThreadResponseImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DeleteThreadResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _DeleteThreadResponse extends DeleteThreadResponse {
+  const factory _DeleteThreadResponse(
+          {required final String id,
+          required final bool deleted,
+          required final DeleteThreadResponseObject object}) =
+      _$DeleteThreadResponseImpl;
+  const _DeleteThreadResponse._() : super._();
+
+  factory _DeleteThreadResponse.fromJson(Map<String, dynamic> json) =
+      _$DeleteThreadResponseImpl.fromJson;
+
+  @override
+
+  /// The thread identifier.
+  String get id;
+  @override
+
+  /// Whether the thread was deleted.
+  bool get deleted;
+  @override
+
+  /// The object type, which is always `thread.deleted`.
+  DeleteThreadResponseObject get object;
+  @override
+  @JsonKey(ignore: true)
+  _$$DeleteThreadResponseImplCopyWith<_$DeleteThreadResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ListThreadsResponse _$ListThreadsResponseFromJson(Map<String, dynamic> json) {
+  return _ListThreadsResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ListThreadsResponse {
+  /// The object type, which is always `list`.
+  String get object => throw _privateConstructorUsedError;
+
+  /// The list of threads.
+  List<ThreadObject> get data => throw _privateConstructorUsedError;
+
+  /// The ID of the first thread in the list.
+  @JsonKey(name: 'first_id')
+  String get firstId => throw _privateConstructorUsedError;
+
+  /// The ID of the last thread in the list.
+  @JsonKey(name: 'last_id')
+  String get lastId => throw _privateConstructorUsedError;
+
+  /// Whether there are more threads to retrieve.
+  @JsonKey(name: 'has_more')
+  bool get hasMore => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ListThreadsResponseCopyWith<ListThreadsResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ListThreadsResponseCopyWith<$Res> {
+  factory $ListThreadsResponseCopyWith(
+          ListThreadsResponse value, $Res Function(ListThreadsResponse) then) =
+      _$ListThreadsResponseCopyWithImpl<$Res, ListThreadsResponse>;
+  @useResult
+  $Res call(
+      {String object,
+      List<ThreadObject> data,
+      @JsonKey(name: 'first_id') String firstId,
+      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class _$ListThreadsResponseCopyWithImpl<$Res, $Val extends ListThreadsResponse>
+    implements $ListThreadsResponseCopyWith<$Res> {
+  _$ListThreadsResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = null,
+    Object? data = null,
+    Object? firstId = null,
+    Object? lastId = null,
+    Object? hasMore = null,
+  }) {
+    return _then(_value.copyWith(
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<ThreadObject>,
+      firstId: null == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastId: null == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ListThreadsResponseImplCopyWith<$Res>
+    implements $ListThreadsResponseCopyWith<$Res> {
+  factory _$$ListThreadsResponseImplCopyWith(_$ListThreadsResponseImpl value,
+          $Res Function(_$ListThreadsResponseImpl) then) =
+      __$$ListThreadsResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String object,
+      List<ThreadObject> data,
+      @JsonKey(name: 'first_id') String firstId,
+      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class __$$ListThreadsResponseImplCopyWithImpl<$Res>
+    extends _$ListThreadsResponseCopyWithImpl<$Res, _$ListThreadsResponseImpl>
+    implements _$$ListThreadsResponseImplCopyWith<$Res> {
+  __$$ListThreadsResponseImplCopyWithImpl(_$ListThreadsResponseImpl _value,
+      $Res Function(_$ListThreadsResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = null,
+    Object? data = null,
+    Object? firstId = null,
+    Object? lastId = null,
+    Object? hasMore = null,
+  }) {
+    return _then(_$ListThreadsResponseImpl(
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<ThreadObject>,
+      firstId: null == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastId: null == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ListThreadsResponseImpl extends _ListThreadsResponse {
+  const _$ListThreadsResponseImpl(
+      {required this.object,
+      required final List<ThreadObject> data,
+      @JsonKey(name: 'first_id') required this.firstId,
+      @JsonKey(name: 'last_id') required this.lastId,
+      @JsonKey(name: 'has_more') required this.hasMore})
+      : _data = data,
+        super._();
+
+  factory _$ListThreadsResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ListThreadsResponseImplFromJson(json);
+
+  /// The object type, which is always `list`.
+  @override
+  final String object;
+
+  /// The list of threads.
+  final List<ThreadObject> _data;
+
+  /// The list of threads.
+  @override
+  List<ThreadObject> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_data);
+  }
+
+  /// The ID of the first thread in the list.
+  @override
+  @JsonKey(name: 'first_id')
+  final String firstId;
+
+  /// The ID of the last thread in the list.
+  @override
+  @JsonKey(name: 'last_id')
+  final String lastId;
+
+  /// Whether there are more threads to retrieve.
+  @override
+  @JsonKey(name: 'has_more')
+  final bool hasMore;
+
+  @override
+  String toString() {
+    return 'ListThreadsResponse(object: $object, data: $data, firstId: $firstId, lastId: $lastId, hasMore: $hasMore)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ListThreadsResponseImpl &&
+            (identical(other.object, object) || other.object == object) &&
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.firstId, firstId) || other.firstId == firstId) &&
+            (identical(other.lastId, lastId) || other.lastId == lastId) &&
+            (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, object,
+      const DeepCollectionEquality().hash(_data), firstId, lastId, hasMore);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ListThreadsResponseImplCopyWith<_$ListThreadsResponseImpl> get copyWith =>
+      __$$ListThreadsResponseImplCopyWithImpl<_$ListThreadsResponseImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ListThreadsResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ListThreadsResponse extends ListThreadsResponse {
+  const factory _ListThreadsResponse(
+          {required final String object,
+          required final List<ThreadObject> data,
+          @JsonKey(name: 'first_id') required final String firstId,
+          @JsonKey(name: 'last_id') required final String lastId,
+          @JsonKey(name: 'has_more') required final bool hasMore}) =
+      _$ListThreadsResponseImpl;
+  const _ListThreadsResponse._() : super._();
+
+  factory _ListThreadsResponse.fromJson(Map<String, dynamic> json) =
+      _$ListThreadsResponseImpl.fromJson;
+
+  @override
+
+  /// The object type, which is always `list`.
+  String get object;
+  @override
+
+  /// The list of threads.
+  List<ThreadObject> get data;
+  @override
+
+  /// The ID of the first thread in the list.
+  @JsonKey(name: 'first_id')
+  String get firstId;
+  @override
+
+  /// The ID of the last thread in the list.
+  @JsonKey(name: 'last_id')
+  String get lastId;
+  @override
+
+  /// Whether there are more threads to retrieve.
+  @JsonKey(name: 'has_more')
+  bool get hasMore;
+  @override
+  @JsonKey(ignore: true)
+  _$$ListThreadsResponseImplCopyWith<_$ListThreadsResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+MessageObject _$MessageObjectFromJson(Map<String, dynamic> json) {
+  return _MessageObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageObject {
+  /// The identifier, which can be referenced in API endpoints.
+  String get id => throw _privateConstructorUsedError;
+
+  /// The object type, which is always `thread.message`.
+  MessageObjectObject get object => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the message was created.
+  @JsonKey(name: 'created_at')
+  int get createdAt => throw _privateConstructorUsedError;
+
+  /// The [thread](https://platform.openai.com/docs/api-reference/threads) ID that this message belongs to.
+  @JsonKey(name: 'thread_id')
+  String get threadId => throw _privateConstructorUsedError;
+
+  /// The entity that produced the message. One of `user` or `assistant`.
+  MessageObjectRole get role => throw _privateConstructorUsedError;
+
+  /// The content of the message in array of text and/or images.
+  List<MessageContent> get content => throw _privateConstructorUsedError;
+
+  /// If applicable, the ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) that authored this message.
+  @JsonKey(name: 'assistant_id')
+  String? get assistantId => throw _privateConstructorUsedError;
+
+  /// If applicable, the ID of the [run](https://platform.openai.com/docs/api-reference/runs) associated with the authoring of this message.
+  @JsonKey(name: 'run_id')
+  String? get runId => throw _privateConstructorUsedError;
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds => throw _privateConstructorUsedError;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageObjectCopyWith<MessageObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageObjectCopyWith<$Res> {
+  factory $MessageObjectCopyWith(
+          MessageObject value, $Res Function(MessageObject) then) =
+      _$MessageObjectCopyWithImpl<$Res, MessageObject>;
+  @useResult
+  $Res call(
+      {String id,
+      MessageObjectObject object,
+      @JsonKey(name: 'created_at') int createdAt,
+      @JsonKey(name: 'thread_id') String threadId,
+      MessageObjectRole role,
+      List<MessageContent> content,
+      @JsonKey(name: 'assistant_id') String? assistantId,
+      @JsonKey(name: 'run_id') String? runId,
+      @JsonKey(name: 'file_ids') List<String> fileIds,
+      Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class _$MessageObjectCopyWithImpl<$Res, $Val extends MessageObject>
+    implements $MessageObjectCopyWith<$Res> {
+  _$MessageObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? createdAt = null,
+    Object? threadId = null,
+    Object? role = null,
+    Object? content = null,
+    Object? assistantId = freezed,
+    Object? runId = freezed,
+    Object? fileIds = null,
+    Object? metadata = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as MessageObjectObject,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      threadId: null == threadId
+          ? _value.threadId
+          : threadId // ignore: cast_nullable_to_non_nullable
+              as String,
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as MessageObjectRole,
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as List<MessageContent>,
+      assistantId: freezed == assistantId
+          ? _value.assistantId
+          : assistantId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      runId: freezed == runId
+          ? _value.runId
+          : runId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      fileIds: null == fileIds
+          ? _value.fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageObjectImplCopyWith<$Res>
+    implements $MessageObjectCopyWith<$Res> {
+  factory _$$MessageObjectImplCopyWith(
+          _$MessageObjectImpl value, $Res Function(_$MessageObjectImpl) then) =
+      __$$MessageObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      MessageObjectObject object,
+      @JsonKey(name: 'created_at') int createdAt,
+      @JsonKey(name: 'thread_id') String threadId,
+      MessageObjectRole role,
+      List<MessageContent> content,
+      @JsonKey(name: 'assistant_id') String? assistantId,
+      @JsonKey(name: 'run_id') String? runId,
+      @JsonKey(name: 'file_ids') List<String> fileIds,
+      Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class __$$MessageObjectImplCopyWithImpl<$Res>
+    extends _$MessageObjectCopyWithImpl<$Res, _$MessageObjectImpl>
+    implements _$$MessageObjectImplCopyWith<$Res> {
+  __$$MessageObjectImplCopyWithImpl(
+      _$MessageObjectImpl _value, $Res Function(_$MessageObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? createdAt = null,
+    Object? threadId = null,
+    Object? role = null,
+    Object? content = null,
+    Object? assistantId = freezed,
+    Object? runId = freezed,
+    Object? fileIds = null,
+    Object? metadata = freezed,
+  }) {
+    return _then(_$MessageObjectImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as MessageObjectObject,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      threadId: null == threadId
+          ? _value.threadId
+          : threadId // ignore: cast_nullable_to_non_nullable
+              as String,
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as MessageObjectRole,
+      content: null == content
+          ? _value._content
+          : content // ignore: cast_nullable_to_non_nullable
+              as List<MessageContent>,
+      assistantId: freezed == assistantId
+          ? _value.assistantId
+          : assistantId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      runId: freezed == runId
+          ? _value.runId
+          : runId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      fileIds: null == fileIds
+          ? _value._fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      metadata: freezed == metadata
+          ? _value._metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageObjectImpl extends _MessageObject {
+  const _$MessageObjectImpl(
+      {required this.id,
+      required this.object,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'thread_id') required this.threadId,
+      required this.role,
+      required final List<MessageContent> content,
+      @JsonKey(name: 'assistant_id') required this.assistantId,
+      @JsonKey(name: 'run_id') required this.runId,
+      @JsonKey(name: 'file_ids') required final List<String> fileIds,
+      required final Map<String, dynamic>? metadata})
+      : _content = content,
+        _fileIds = fileIds,
+        _metadata = metadata,
+        super._();
+
+  factory _$MessageObjectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageObjectImplFromJson(json);
+
+  /// The identifier, which can be referenced in API endpoints.
+  @override
+  final String id;
+
+  /// The object type, which is always `thread.message`.
+  @override
+  final MessageObjectObject object;
+
+  /// The Unix timestamp (in seconds) for when the message was created.
+  @override
+  @JsonKey(name: 'created_at')
+  final int createdAt;
+
+  /// The [thread](https://platform.openai.com/docs/api-reference/threads) ID that this message belongs to.
+  @override
+  @JsonKey(name: 'thread_id')
+  final String threadId;
+
+  /// The entity that produced the message. One of `user` or `assistant`.
+  @override
+  final MessageObjectRole role;
+
+  /// The content of the message in array of text and/or images.
+  final List<MessageContent> _content;
+
+  /// The content of the message in array of text and/or images.
+  @override
+  List<MessageContent> get content {
+    if (_content is EqualUnmodifiableListView) return _content;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_content);
+  }
+
+  /// If applicable, the ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) that authored this message.
+  @override
+  @JsonKey(name: 'assistant_id')
+  final String? assistantId;
+
+  /// If applicable, the ID of the [run](https://platform.openai.com/docs/api-reference/runs) associated with the authoring of this message.
+  @override
+  @JsonKey(name: 'run_id')
+  final String? runId;
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
+  final List<String> _fileIds;
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
+  @override
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds {
+    if (_fileIds is EqualUnmodifiableListView) return _fileIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_fileIds);
+  }
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  final Map<String, dynamic>? _metadata;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
+  Map<String, dynamic>? get metadata {
+    final value = _metadata;
+    if (value == null) return null;
+    if (_metadata is EqualUnmodifiableMapView) return _metadata;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  @override
+  String toString() {
+    return 'MessageObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, role: $role, content: $content, assistantId: $assistantId, runId: $runId, fileIds: $fileIds, metadata: $metadata)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageObjectImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.object, object) || other.object == object) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.threadId, threadId) ||
+                other.threadId == threadId) &&
+            (identical(other.role, role) || other.role == role) &&
+            const DeepCollectionEquality().equals(other._content, _content) &&
+            (identical(other.assistantId, assistantId) ||
+                other.assistantId == assistantId) &&
+            (identical(other.runId, runId) || other.runId == runId) &&
+            const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
+            const DeepCollectionEquality().equals(other._metadata, _metadata));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      object,
+      createdAt,
+      threadId,
+      role,
+      const DeepCollectionEquality().hash(_content),
+      assistantId,
+      runId,
+      const DeepCollectionEquality().hash(_fileIds),
+      const DeepCollectionEquality().hash(_metadata));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageObjectImplCopyWith<_$MessageObjectImpl> get copyWith =>
+      __$$MessageObjectImplCopyWithImpl<_$MessageObjectImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageObject extends MessageObject {
+  const factory _MessageObject(
+      {required final String id,
+      required final MessageObjectObject object,
+      @JsonKey(name: 'created_at') required final int createdAt,
+      @JsonKey(name: 'thread_id') required final String threadId,
+      required final MessageObjectRole role,
+      required final List<MessageContent> content,
+      @JsonKey(name: 'assistant_id') required final String? assistantId,
+      @JsonKey(name: 'run_id') required final String? runId,
+      @JsonKey(name: 'file_ids') required final List<String> fileIds,
+      required final Map<String, dynamic>? metadata}) = _$MessageObjectImpl;
+  const _MessageObject._() : super._();
+
+  factory _MessageObject.fromJson(Map<String, dynamic> json) =
+      _$MessageObjectImpl.fromJson;
+
+  @override
+
+  /// The identifier, which can be referenced in API endpoints.
+  String get id;
+  @override
+
+  /// The object type, which is always `thread.message`.
+  MessageObjectObject get object;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the message was created.
+  @JsonKey(name: 'created_at')
+  int get createdAt;
+  @override
+
+  /// The [thread](https://platform.openai.com/docs/api-reference/threads) ID that this message belongs to.
+  @JsonKey(name: 'thread_id')
+  String get threadId;
+  @override
+
+  /// The entity that produced the message. One of `user` or `assistant`.
+  MessageObjectRole get role;
+  @override
+
+  /// The content of the message in array of text and/or images.
+  List<MessageContent> get content;
+  @override
+
+  /// If applicable, the ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) that authored this message.
+  @JsonKey(name: 'assistant_id')
+  String? get assistantId;
+  @override
+
+  /// If applicable, the ID of the [run](https://platform.openai.com/docs/api-reference/runs) associated with the authoring of this message.
+  @JsonKey(name: 'run_id')
+  String? get runId;
+  @override
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds;
+  @override
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  Map<String, dynamic>? get metadata;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageObjectImplCopyWith<_$MessageObjectImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+CreateMessageRequest _$CreateMessageRequestFromJson(Map<String, dynamic> json) {
+  return _CreateMessageRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CreateMessageRequest {
+  /// The role of the entity that is creating the message. Currently only `user` is supported.
+  CreateMessageRequestRole get role => throw _privateConstructorUsedError;
+
+  /// The content of the message.
+  String get content => throw _privateConstructorUsedError;
+
+  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the message should use. There can be a maximum of 10 files attached to a message. Useful for tools like `retrieval` and `code_interpreter` that can access and use files.
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds => throw _privateConstructorUsedError;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CreateMessageRequestCopyWith<CreateMessageRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateMessageRequestCopyWith<$Res> {
+  factory $CreateMessageRequestCopyWith(CreateMessageRequest value,
+          $Res Function(CreateMessageRequest) then) =
+      _$CreateMessageRequestCopyWithImpl<$Res, CreateMessageRequest>;
+  @useResult
+  $Res call(
+      {CreateMessageRequestRole role,
+      String content,
+      @JsonKey(name: 'file_ids') List<String> fileIds,
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class _$CreateMessageRequestCopyWithImpl<$Res,
+        $Val extends CreateMessageRequest>
+    implements $CreateMessageRequestCopyWith<$Res> {
+  _$CreateMessageRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? role = null,
+    Object? content = null,
+    Object? fileIds = null,
+    Object? metadata = freezed,
+  }) {
+    return _then(_value.copyWith(
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as CreateMessageRequestRole,
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String,
+      fileIds: null == fileIds
+          ? _value.fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CreateMessageRequestImplCopyWith<$Res>
+    implements $CreateMessageRequestCopyWith<$Res> {
+  factory _$$CreateMessageRequestImplCopyWith(_$CreateMessageRequestImpl value,
+          $Res Function(_$CreateMessageRequestImpl) then) =
+      __$$CreateMessageRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {CreateMessageRequestRole role,
+      String content,
+      @JsonKey(name: 'file_ids') List<String> fileIds,
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class __$$CreateMessageRequestImplCopyWithImpl<$Res>
+    extends _$CreateMessageRequestCopyWithImpl<$Res, _$CreateMessageRequestImpl>
+    implements _$$CreateMessageRequestImplCopyWith<$Res> {
+  __$$CreateMessageRequestImplCopyWithImpl(_$CreateMessageRequestImpl _value,
+      $Res Function(_$CreateMessageRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? role = null,
+    Object? content = null,
+    Object? fileIds = null,
+    Object? metadata = freezed,
+  }) {
+    return _then(_$CreateMessageRequestImpl(
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as CreateMessageRequestRole,
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String,
+      fileIds: null == fileIds
+          ? _value._fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      metadata: freezed == metadata
+          ? _value._metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateMessageRequestImpl extends _CreateMessageRequest {
+  const _$CreateMessageRequestImpl(
+      {required this.role,
+      required this.content,
+      @JsonKey(name: 'file_ids') final List<String> fileIds = const [],
+      @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata})
+      : _fileIds = fileIds,
+        _metadata = metadata,
+        super._();
+
+  factory _$CreateMessageRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CreateMessageRequestImplFromJson(json);
+
+  /// The role of the entity that is creating the message. Currently only `user` is supported.
+  @override
+  final CreateMessageRequestRole role;
+
+  /// The content of the message.
+  @override
+  final String content;
+
+  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the message should use. There can be a maximum of 10 files attached to a message. Useful for tools like `retrieval` and `code_interpreter` that can access and use files.
+  final List<String> _fileIds;
+
+  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the message should use. There can be a maximum of 10 files attached to a message. Useful for tools like `retrieval` and `code_interpreter` that can access and use files.
+  @override
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds {
+    if (_fileIds is EqualUnmodifiableListView) return _fileIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_fileIds);
+  }
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  final Map<String, dynamic>? _metadata;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata {
+    final value = _metadata;
+    if (value == null) return null;
+    if (_metadata is EqualUnmodifiableMapView) return _metadata;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  @override
+  String toString() {
+    return 'CreateMessageRequest(role: $role, content: $content, fileIds: $fileIds, metadata: $metadata)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateMessageRequestImpl &&
+            (identical(other.role, role) || other.role == role) &&
+            (identical(other.content, content) || other.content == content) &&
+            const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
+            const DeepCollectionEquality().equals(other._metadata, _metadata));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      role,
+      content,
+      const DeepCollectionEquality().hash(_fileIds),
+      const DeepCollectionEquality().hash(_metadata));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateMessageRequestImplCopyWith<_$CreateMessageRequestImpl>
+      get copyWith =>
+          __$$CreateMessageRequestImplCopyWithImpl<_$CreateMessageRequestImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateMessageRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CreateMessageRequest extends CreateMessageRequest {
+  const factory _CreateMessageRequest(
+      {required final CreateMessageRequestRole role,
+      required final String content,
+      @JsonKey(name: 'file_ids') final List<String> fileIds,
+      @JsonKey(includeIfNull: false)
+      final Map<String, dynamic>? metadata}) = _$CreateMessageRequestImpl;
+  const _CreateMessageRequest._() : super._();
+
+  factory _CreateMessageRequest.fromJson(Map<String, dynamic> json) =
+      _$CreateMessageRequestImpl.fromJson;
+
+  @override
+
+  /// The role of the entity that is creating the message. Currently only `user` is supported.
+  CreateMessageRequestRole get role;
+  @override
+
+  /// The content of the message.
+  String get content;
+  @override
+
+  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the message should use. There can be a maximum of 10 files attached to a message. Useful for tools like `retrieval` and `code_interpreter` that can access and use files.
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds;
+  @override
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata;
+  @override
+  @JsonKey(ignore: true)
+  _$$CreateMessageRequestImplCopyWith<_$CreateMessageRequestImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ModifyMessageRequest _$ModifyMessageRequestFromJson(Map<String, dynamic> json) {
+  return _ModifyMessageRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ModifyMessageRequest {
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ModifyMessageRequestCopyWith<ModifyMessageRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ModifyMessageRequestCopyWith<$Res> {
+  factory $ModifyMessageRequestCopyWith(ModifyMessageRequest value,
+          $Res Function(ModifyMessageRequest) then) =
+      _$ModifyMessageRequestCopyWithImpl<$Res, ModifyMessageRequest>;
+  @useResult
+  $Res call({@JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class _$ModifyMessageRequestCopyWithImpl<$Res,
+        $Val extends ModifyMessageRequest>
+    implements $ModifyMessageRequestCopyWith<$Res> {
+  _$ModifyMessageRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? metadata = freezed,
+  }) {
+    return _then(_value.copyWith(
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ModifyMessageRequestImplCopyWith<$Res>
+    implements $ModifyMessageRequestCopyWith<$Res> {
+  factory _$$ModifyMessageRequestImplCopyWith(_$ModifyMessageRequestImpl value,
+          $Res Function(_$ModifyMessageRequestImpl) then) =
+      __$$ModifyMessageRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+}
+
+/// @nodoc
+class __$$ModifyMessageRequestImplCopyWithImpl<$Res>
+    extends _$ModifyMessageRequestCopyWithImpl<$Res, _$ModifyMessageRequestImpl>
+    implements _$$ModifyMessageRequestImplCopyWith<$Res> {
+  __$$ModifyMessageRequestImplCopyWithImpl(_$ModifyMessageRequestImpl _value,
+      $Res Function(_$ModifyMessageRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? metadata = freezed,
+  }) {
+    return _then(_$ModifyMessageRequestImpl(
+      metadata: freezed == metadata
+          ? _value._metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ModifyMessageRequestImpl extends _ModifyMessageRequest {
+  const _$ModifyMessageRequestImpl(
+      {@JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata})
+      : _metadata = metadata,
+        super._();
+
+  factory _$ModifyMessageRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ModifyMessageRequestImplFromJson(json);
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  final Map<String, dynamic>? _metadata;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata {
+    final value = _metadata;
+    if (value == null) return null;
+    if (_metadata is EqualUnmodifiableMapView) return _metadata;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  @override
+  String toString() {
+    return 'ModifyMessageRequest(metadata: $metadata)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ModifyMessageRequestImpl &&
+            const DeepCollectionEquality().equals(other._metadata, _metadata));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_metadata));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ModifyMessageRequestImplCopyWith<_$ModifyMessageRequestImpl>
+      get copyWith =>
+          __$$ModifyMessageRequestImplCopyWithImpl<_$ModifyMessageRequestImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ModifyMessageRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ModifyMessageRequest extends ModifyMessageRequest {
+  const factory _ModifyMessageRequest(
+      {@JsonKey(includeIfNull: false)
+      final Map<String, dynamic>? metadata}) = _$ModifyMessageRequestImpl;
+  const _ModifyMessageRequest._() : super._();
+
+  factory _ModifyMessageRequest.fromJson(Map<String, dynamic> json) =
+      _$ModifyMessageRequestImpl.fromJson;
+
+  @override
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get metadata;
+  @override
+  @JsonKey(ignore: true)
+  _$$ModifyMessageRequestImplCopyWith<_$ModifyMessageRequestImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+DeleteMessageResponse _$DeleteMessageResponseFromJson(
+    Map<String, dynamic> json) {
+  return _DeleteMessageResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$DeleteMessageResponse {
+  /// The message identifier.
+  String get id => throw _privateConstructorUsedError;
+
+  /// Whether the message was deleted.
+  bool get deleted => throw _privateConstructorUsedError;
+
+  /// The object type, which is always `thread.message.deleted`.
+  DeleteMessageResponseObject get object => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $DeleteMessageResponseCopyWith<DeleteMessageResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DeleteMessageResponseCopyWith<$Res> {
+  factory $DeleteMessageResponseCopyWith(DeleteMessageResponse value,
+          $Res Function(DeleteMessageResponse) then) =
+      _$DeleteMessageResponseCopyWithImpl<$Res, DeleteMessageResponse>;
+  @useResult
+  $Res call({String id, bool deleted, DeleteMessageResponseObject object});
+}
+
+/// @nodoc
+class _$DeleteMessageResponseCopyWithImpl<$Res,
+        $Val extends DeleteMessageResponse>
+    implements $DeleteMessageResponseCopyWith<$Res> {
+  _$DeleteMessageResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? deleted = null,
+    Object? object = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      deleted: null == deleted
+          ? _value.deleted
+          : deleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as DeleteMessageResponseObject,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DeleteMessageResponseImplCopyWith<$Res>
+    implements $DeleteMessageResponseCopyWith<$Res> {
+  factory _$$DeleteMessageResponseImplCopyWith(
+          _$DeleteMessageResponseImpl value,
+          $Res Function(_$DeleteMessageResponseImpl) then) =
+      __$$DeleteMessageResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id, bool deleted, DeleteMessageResponseObject object});
+}
+
+/// @nodoc
+class __$$DeleteMessageResponseImplCopyWithImpl<$Res>
+    extends _$DeleteMessageResponseCopyWithImpl<$Res,
+        _$DeleteMessageResponseImpl>
+    implements _$$DeleteMessageResponseImplCopyWith<$Res> {
+  __$$DeleteMessageResponseImplCopyWithImpl(_$DeleteMessageResponseImpl _value,
+      $Res Function(_$DeleteMessageResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? deleted = null,
+    Object? object = null,
+  }) {
+    return _then(_$DeleteMessageResponseImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      deleted: null == deleted
+          ? _value.deleted
+          : deleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as DeleteMessageResponseObject,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DeleteMessageResponseImpl extends _DeleteMessageResponse {
+  const _$DeleteMessageResponseImpl(
+      {required this.id, required this.deleted, required this.object})
+      : super._();
+
+  factory _$DeleteMessageResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DeleteMessageResponseImplFromJson(json);
+
+  /// The message identifier.
+  @override
+  final String id;
+
+  /// Whether the message was deleted.
+  @override
+  final bool deleted;
+
+  /// The object type, which is always `thread.message.deleted`.
+  @override
+  final DeleteMessageResponseObject object;
+
+  @override
+  String toString() {
+    return 'DeleteMessageResponse(id: $id, deleted: $deleted, object: $object)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DeleteMessageResponseImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.deleted, deleted) || other.deleted == deleted) &&
+            (identical(other.object, object) || other.object == object));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, deleted, object);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DeleteMessageResponseImplCopyWith<_$DeleteMessageResponseImpl>
+      get copyWith => __$$DeleteMessageResponseImplCopyWithImpl<
+          _$DeleteMessageResponseImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DeleteMessageResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _DeleteMessageResponse extends DeleteMessageResponse {
+  const factory _DeleteMessageResponse(
+          {required final String id,
+          required final bool deleted,
+          required final DeleteMessageResponseObject object}) =
+      _$DeleteMessageResponseImpl;
+  const _DeleteMessageResponse._() : super._();
+
+  factory _DeleteMessageResponse.fromJson(Map<String, dynamic> json) =
+      _$DeleteMessageResponseImpl.fromJson;
+
+  @override
+
+  /// The message identifier.
+  String get id;
+  @override
+
+  /// Whether the message was deleted.
+  bool get deleted;
+  @override
+
+  /// The object type, which is always `thread.message.deleted`.
+  DeleteMessageResponseObject get object;
+  @override
+  @JsonKey(ignore: true)
+  _$$DeleteMessageResponseImplCopyWith<_$DeleteMessageResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ListMessagesResponse _$ListMessagesResponseFromJson(Map<String, dynamic> json) {
+  return _ListMessagesResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ListMessagesResponse {
+  /// The object type, which is always `list`.
+  String get object => throw _privateConstructorUsedError;
+
+  /// The list of messages.
+  List<MessageObject> get data => throw _privateConstructorUsedError;
+
+  /// The ID of the first message in the list.
+  @JsonKey(name: 'first_id')
+  String get firstId => throw _privateConstructorUsedError;
+
+  /// The ID of the last message in the list.
+  @JsonKey(name: 'last_id')
+  String get lastId => throw _privateConstructorUsedError;
+
+  /// Whether there are more messages to retrieve.
+  @JsonKey(name: 'has_more')
+  bool get hasMore => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ListMessagesResponseCopyWith<ListMessagesResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ListMessagesResponseCopyWith<$Res> {
+  factory $ListMessagesResponseCopyWith(ListMessagesResponse value,
+          $Res Function(ListMessagesResponse) then) =
+      _$ListMessagesResponseCopyWithImpl<$Res, ListMessagesResponse>;
+  @useResult
+  $Res call(
+      {String object,
+      List<MessageObject> data,
+      @JsonKey(name: 'first_id') String firstId,
+      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class _$ListMessagesResponseCopyWithImpl<$Res,
+        $Val extends ListMessagesResponse>
+    implements $ListMessagesResponseCopyWith<$Res> {
+  _$ListMessagesResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = null,
+    Object? data = null,
+    Object? firstId = null,
+    Object? lastId = null,
+    Object? hasMore = null,
+  }) {
+    return _then(_value.copyWith(
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<MessageObject>,
+      firstId: null == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastId: null == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ListMessagesResponseImplCopyWith<$Res>
+    implements $ListMessagesResponseCopyWith<$Res> {
+  factory _$$ListMessagesResponseImplCopyWith(_$ListMessagesResponseImpl value,
+          $Res Function(_$ListMessagesResponseImpl) then) =
+      __$$ListMessagesResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String object,
+      List<MessageObject> data,
+      @JsonKey(name: 'first_id') String firstId,
+      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class __$$ListMessagesResponseImplCopyWithImpl<$Res>
+    extends _$ListMessagesResponseCopyWithImpl<$Res, _$ListMessagesResponseImpl>
+    implements _$$ListMessagesResponseImplCopyWith<$Res> {
+  __$$ListMessagesResponseImplCopyWithImpl(_$ListMessagesResponseImpl _value,
+      $Res Function(_$ListMessagesResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = null,
+    Object? data = null,
+    Object? firstId = null,
+    Object? lastId = null,
+    Object? hasMore = null,
+  }) {
+    return _then(_$ListMessagesResponseImpl(
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<MessageObject>,
+      firstId: null == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastId: null == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ListMessagesResponseImpl extends _ListMessagesResponse {
+  const _$ListMessagesResponseImpl(
+      {required this.object,
+      required final List<MessageObject> data,
+      @JsonKey(name: 'first_id') required this.firstId,
+      @JsonKey(name: 'last_id') required this.lastId,
+      @JsonKey(name: 'has_more') required this.hasMore})
+      : _data = data,
+        super._();
+
+  factory _$ListMessagesResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ListMessagesResponseImplFromJson(json);
+
+  /// The object type, which is always `list`.
+  @override
+  final String object;
+
+  /// The list of messages.
+  final List<MessageObject> _data;
+
+  /// The list of messages.
+  @override
+  List<MessageObject> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_data);
+  }
+
+  /// The ID of the first message in the list.
+  @override
+  @JsonKey(name: 'first_id')
+  final String firstId;
+
+  /// The ID of the last message in the list.
+  @override
+  @JsonKey(name: 'last_id')
+  final String lastId;
+
+  /// Whether there are more messages to retrieve.
+  @override
+  @JsonKey(name: 'has_more')
+  final bool hasMore;
+
+  @override
+  String toString() {
+    return 'ListMessagesResponse(object: $object, data: $data, firstId: $firstId, lastId: $lastId, hasMore: $hasMore)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ListMessagesResponseImpl &&
+            (identical(other.object, object) || other.object == object) &&
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.firstId, firstId) || other.firstId == firstId) &&
+            (identical(other.lastId, lastId) || other.lastId == lastId) &&
+            (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, object,
+      const DeepCollectionEquality().hash(_data), firstId, lastId, hasMore);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ListMessagesResponseImplCopyWith<_$ListMessagesResponseImpl>
+      get copyWith =>
+          __$$ListMessagesResponseImplCopyWithImpl<_$ListMessagesResponseImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ListMessagesResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ListMessagesResponse extends ListMessagesResponse {
+  const factory _ListMessagesResponse(
+          {required final String object,
+          required final List<MessageObject> data,
+          @JsonKey(name: 'first_id') required final String firstId,
+          @JsonKey(name: 'last_id') required final String lastId,
+          @JsonKey(name: 'has_more') required final bool hasMore}) =
+      _$ListMessagesResponseImpl;
+  const _ListMessagesResponse._() : super._();
+
+  factory _ListMessagesResponse.fromJson(Map<String, dynamic> json) =
+      _$ListMessagesResponseImpl.fromJson;
+
+  @override
+
+  /// The object type, which is always `list`.
+  String get object;
+  @override
+
+  /// The list of messages.
+  List<MessageObject> get data;
+  @override
+
+  /// The ID of the first message in the list.
+  @JsonKey(name: 'first_id')
+  String get firstId;
+  @override
+
+  /// The ID of the last message in the list.
+  @JsonKey(name: 'last_id')
+  String get lastId;
+  @override
+
+  /// Whether there are more messages to retrieve.
+  @JsonKey(name: 'has_more')
+  bool get hasMore;
+  @override
+  @JsonKey(ignore: true)
+  _$$ListMessagesResponseImplCopyWith<_$ListMessagesResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+MessageContentImageFile _$MessageContentImageFileFromJson(
+    Map<String, dynamic> json) {
+  return _MessageContentImageFile.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageContentImageFile {
+  /// The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content.
+  @JsonKey(name: 'file_id')
+  String get fileId => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageContentImageFileCopyWith<MessageContentImageFile> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageContentImageFileCopyWith<$Res> {
+  factory $MessageContentImageFileCopyWith(MessageContentImageFile value,
+          $Res Function(MessageContentImageFile) then) =
+      _$MessageContentImageFileCopyWithImpl<$Res, MessageContentImageFile>;
+  @useResult
+  $Res call({@JsonKey(name: 'file_id') String fileId});
+}
+
+/// @nodoc
+class _$MessageContentImageFileCopyWithImpl<$Res,
+        $Val extends MessageContentImageFile>
+    implements $MessageContentImageFileCopyWith<$Res> {
+  _$MessageContentImageFileCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = null,
+  }) {
+    return _then(_value.copyWith(
+      fileId: null == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageContentImageFileImplCopyWith<$Res>
+    implements $MessageContentImageFileCopyWith<$Res> {
+  factory _$$MessageContentImageFileImplCopyWith(
+          _$MessageContentImageFileImpl value,
+          $Res Function(_$MessageContentImageFileImpl) then) =
+      __$$MessageContentImageFileImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'file_id') String fileId});
+}
+
+/// @nodoc
+class __$$MessageContentImageFileImplCopyWithImpl<$Res>
+    extends _$MessageContentImageFileCopyWithImpl<$Res,
+        _$MessageContentImageFileImpl>
+    implements _$$MessageContentImageFileImplCopyWith<$Res> {
+  __$$MessageContentImageFileImplCopyWithImpl(
+      _$MessageContentImageFileImpl _value,
+      $Res Function(_$MessageContentImageFileImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = null,
+  }) {
+    return _then(_$MessageContentImageFileImpl(
+      fileId: null == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageContentImageFileImpl extends _MessageContentImageFile {
+  const _$MessageContentImageFileImpl(
+      {@JsonKey(name: 'file_id') required this.fileId})
+      : super._();
+
+  factory _$MessageContentImageFileImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageContentImageFileImplFromJson(json);
+
+  /// The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content.
+  @override
+  @JsonKey(name: 'file_id')
+  final String fileId;
+
+  @override
+  String toString() {
+    return 'MessageContentImageFile(fileId: $fileId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageContentImageFileImpl &&
+            (identical(other.fileId, fileId) || other.fileId == fileId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, fileId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageContentImageFileImplCopyWith<_$MessageContentImageFileImpl>
+      get copyWith => __$$MessageContentImageFileImplCopyWithImpl<
+          _$MessageContentImageFileImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageContentImageFileImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageContentImageFile extends MessageContentImageFile {
+  const factory _MessageContentImageFile(
+          {@JsonKey(name: 'file_id') required final String fileId}) =
+      _$MessageContentImageFileImpl;
+  const _MessageContentImageFile._() : super._();
+
+  factory _MessageContentImageFile.fromJson(Map<String, dynamic> json) =
+      _$MessageContentImageFileImpl.fromJson;
+
+  @override
+
+  /// The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content.
+  @JsonKey(name: 'file_id')
+  String get fileId;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageContentImageFileImplCopyWith<_$MessageContentImageFileImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+MessageContentText _$MessageContentTextFromJson(Map<String, dynamic> json) {
+  return _MessageContentText.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageContentText {
+  /// The data that makes up the text.
+  String get value => throw _privateConstructorUsedError;
+
+  /// A list of annotations that point to specific quotes from specific files.
+  List<MessageContentTextAnnotations> get annotations =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageContentTextCopyWith<MessageContentText> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageContentTextCopyWith<$Res> {
+  factory $MessageContentTextCopyWith(
+          MessageContentText value, $Res Function(MessageContentText) then) =
+      _$MessageContentTextCopyWithImpl<$Res, MessageContentText>;
+  @useResult
+  $Res call({String value, List<MessageContentTextAnnotations> annotations});
+}
+
+/// @nodoc
+class _$MessageContentTextCopyWithImpl<$Res, $Val extends MessageContentText>
+    implements $MessageContentTextCopyWith<$Res> {
+  _$MessageContentTextCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+    Object? annotations = null,
+  }) {
+    return _then(_value.copyWith(
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+      annotations: null == annotations
+          ? _value.annotations
+          : annotations // ignore: cast_nullable_to_non_nullable
+              as List<MessageContentTextAnnotations>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageContentTextImplCopyWith<$Res>
+    implements $MessageContentTextCopyWith<$Res> {
+  factory _$$MessageContentTextImplCopyWith(_$MessageContentTextImpl value,
+          $Res Function(_$MessageContentTextImpl) then) =
+      __$$MessageContentTextImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String value, List<MessageContentTextAnnotations> annotations});
+}
+
+/// @nodoc
+class __$$MessageContentTextImplCopyWithImpl<$Res>
+    extends _$MessageContentTextCopyWithImpl<$Res, _$MessageContentTextImpl>
+    implements _$$MessageContentTextImplCopyWith<$Res> {
+  __$$MessageContentTextImplCopyWithImpl(_$MessageContentTextImpl _value,
+      $Res Function(_$MessageContentTextImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+    Object? annotations = null,
+  }) {
+    return _then(_$MessageContentTextImpl(
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+      annotations: null == annotations
+          ? _value._annotations
+          : annotations // ignore: cast_nullable_to_non_nullable
+              as List<MessageContentTextAnnotations>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageContentTextImpl extends _MessageContentText {
+  const _$MessageContentTextImpl(
+      {required this.value,
+      required final List<MessageContentTextAnnotations> annotations})
+      : _annotations = annotations,
+        super._();
+
+  factory _$MessageContentTextImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageContentTextImplFromJson(json);
+
+  /// The data that makes up the text.
+  @override
+  final String value;
+
+  /// A list of annotations that point to specific quotes from specific files.
+  final List<MessageContentTextAnnotations> _annotations;
+
+  /// A list of annotations that point to specific quotes from specific files.
+  @override
+  List<MessageContentTextAnnotations> get annotations {
+    if (_annotations is EqualUnmodifiableListView) return _annotations;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_annotations);
+  }
+
+  @override
+  String toString() {
+    return 'MessageContentText(value: $value, annotations: $annotations)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageContentTextImpl &&
+            (identical(other.value, value) || other.value == value) &&
+            const DeepCollectionEquality()
+                .equals(other._annotations, _annotations));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, value, const DeepCollectionEquality().hash(_annotations));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageContentTextImplCopyWith<_$MessageContentTextImpl> get copyWith =>
+      __$$MessageContentTextImplCopyWithImpl<_$MessageContentTextImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageContentTextImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageContentText extends MessageContentText {
+  const factory _MessageContentText(
+          {required final String value,
+          required final List<MessageContentTextAnnotations> annotations}) =
+      _$MessageContentTextImpl;
+  const _MessageContentText._() : super._();
+
+  factory _MessageContentText.fromJson(Map<String, dynamic> json) =
+      _$MessageContentTextImpl.fromJson;
+
+  @override
+
+  /// The data that makes up the text.
+  String get value;
+  @override
+
+  /// A list of annotations that point to specific quotes from specific files.
+  List<MessageContentTextAnnotations> get annotations;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageContentTextImplCopyWith<_$MessageContentTextImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+MessageContentTextAnnotationsFileCitation
+    _$MessageContentTextAnnotationsFileCitationFromJson(
+        Map<String, dynamic> json) {
+  return _MessageContentTextAnnotationsFileCitation.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageContentTextAnnotationsFileCitation {
+  /// The ID of the specific File the citation is from.
+  @JsonKey(name: 'file_id')
+  String get fileId => throw _privateConstructorUsedError;
+
+  /// The specific quote in the file.
+  String get quote => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageContentTextAnnotationsFileCitationCopyWith<
+          MessageContentTextAnnotationsFileCitation>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageContentTextAnnotationsFileCitationCopyWith<$Res> {
+  factory $MessageContentTextAnnotationsFileCitationCopyWith(
+          MessageContentTextAnnotationsFileCitation value,
+          $Res Function(MessageContentTextAnnotationsFileCitation) then) =
+      _$MessageContentTextAnnotationsFileCitationCopyWithImpl<$Res,
+          MessageContentTextAnnotationsFileCitation>;
+  @useResult
+  $Res call({@JsonKey(name: 'file_id') String fileId, String quote});
+}
+
+/// @nodoc
+class _$MessageContentTextAnnotationsFileCitationCopyWithImpl<$Res,
+        $Val extends MessageContentTextAnnotationsFileCitation>
+    implements $MessageContentTextAnnotationsFileCitationCopyWith<$Res> {
+  _$MessageContentTextAnnotationsFileCitationCopyWithImpl(
+      this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = null,
+    Object? quote = null,
+  }) {
+    return _then(_value.copyWith(
+      fileId: null == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String,
+      quote: null == quote
+          ? _value.quote
+          : quote // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageContentTextAnnotationsFileCitationImplCopyWith<$Res>
+    implements $MessageContentTextAnnotationsFileCitationCopyWith<$Res> {
+  factory _$$MessageContentTextAnnotationsFileCitationImplCopyWith(
+          _$MessageContentTextAnnotationsFileCitationImpl value,
+          $Res Function(_$MessageContentTextAnnotationsFileCitationImpl) then) =
+      __$$MessageContentTextAnnotationsFileCitationImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'file_id') String fileId, String quote});
+}
+
+/// @nodoc
+class __$$MessageContentTextAnnotationsFileCitationImplCopyWithImpl<$Res>
+    extends _$MessageContentTextAnnotationsFileCitationCopyWithImpl<$Res,
+        _$MessageContentTextAnnotationsFileCitationImpl>
+    implements _$$MessageContentTextAnnotationsFileCitationImplCopyWith<$Res> {
+  __$$MessageContentTextAnnotationsFileCitationImplCopyWithImpl(
+      _$MessageContentTextAnnotationsFileCitationImpl _value,
+      $Res Function(_$MessageContentTextAnnotationsFileCitationImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = null,
+    Object? quote = null,
+  }) {
+    return _then(_$MessageContentTextAnnotationsFileCitationImpl(
+      fileId: null == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String,
+      quote: null == quote
+          ? _value.quote
+          : quote // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageContentTextAnnotationsFileCitationImpl
+    extends _MessageContentTextAnnotationsFileCitation {
+  const _$MessageContentTextAnnotationsFileCitationImpl(
+      {@JsonKey(name: 'file_id') required this.fileId, required this.quote})
+      : super._();
+
+  factory _$MessageContentTextAnnotationsFileCitationImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageContentTextAnnotationsFileCitationImplFromJson(json);
+
+  /// The ID of the specific File the citation is from.
+  @override
+  @JsonKey(name: 'file_id')
+  final String fileId;
+
+  /// The specific quote in the file.
+  @override
+  final String quote;
+
+  @override
+  String toString() {
+    return 'MessageContentTextAnnotationsFileCitation(fileId: $fileId, quote: $quote)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageContentTextAnnotationsFileCitationImpl &&
+            (identical(other.fileId, fileId) || other.fileId == fileId) &&
+            (identical(other.quote, quote) || other.quote == quote));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, fileId, quote);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageContentTextAnnotationsFileCitationImplCopyWith<
+          _$MessageContentTextAnnotationsFileCitationImpl>
+      get copyWith =>
+          __$$MessageContentTextAnnotationsFileCitationImplCopyWithImpl<
+                  _$MessageContentTextAnnotationsFileCitationImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageContentTextAnnotationsFileCitationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageContentTextAnnotationsFileCitation
+    extends MessageContentTextAnnotationsFileCitation {
+  const factory _MessageContentTextAnnotationsFileCitation(
+          {@JsonKey(name: 'file_id') required final String fileId,
+          required final String quote}) =
+      _$MessageContentTextAnnotationsFileCitationImpl;
+  const _MessageContentTextAnnotationsFileCitation._() : super._();
+
+  factory _MessageContentTextAnnotationsFileCitation.fromJson(
+          Map<String, dynamic> json) =
+      _$MessageContentTextAnnotationsFileCitationImpl.fromJson;
+
+  @override
+
+  /// The ID of the specific File the citation is from.
+  @JsonKey(name: 'file_id')
+  String get fileId;
+  @override
+
+  /// The specific quote in the file.
+  String get quote;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageContentTextAnnotationsFileCitationImplCopyWith<
+          _$MessageContentTextAnnotationsFileCitationImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RunStepObject _$RunStepObjectFromJson(Map<String, dynamic> json) {
+  return _RunStepObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunStepObject {
+  /// The identifier of the run step, which can be referenced in API endpoints.
+  String get id => throw _privateConstructorUsedError;
+
+  /// The object type, which is always `thread.run.step`.
+  RunStepObjectObject get object => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the run step was created.
+  @JsonKey(name: 'created_at')
+  int get createdAt => throw _privateConstructorUsedError;
+
+  /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) associated with the run step.
+  @JsonKey(name: 'assistant_id')
+  String get assistantId => throw _privateConstructorUsedError;
+
+  /// The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was run.
+  @JsonKey(name: 'thread_id')
+  String get threadId => throw _privateConstructorUsedError;
+
+  /// The ID of the [run](https://platform.openai.com/docs/api-reference/runs) that this run step is a part of.
+  @JsonKey(name: 'run_id')
+  String get runId => throw _privateConstructorUsedError;
+
+  /// The type of run step, which can be either `message_creation` or `tool_calls`.
+  RunStepType get type => throw _privateConstructorUsedError;
+
+  /// The status of the run step, which can be either `in_progress`, `cancelled`, `failed`, `completed`, or `expired`.
+  RunStepStatus get status => throw _privateConstructorUsedError;
+
+  /// The details of the run step.
+  /// Any of: [RunStepDetailsMessageCreationObject], [RunStepDetailsToolCallsObject]
+  @JsonKey(name: 'step_details')
+  RunStepDetails get stepDetails => throw _privateConstructorUsedError;
+
+  /// The last error associated with this run step. Will be `null` if there are no errors.
+  @JsonKey(name: 'last_error')
+  RunStepLastError? get lastError => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the run step expired. A step is considered expired if the parent run is expired.
+  @JsonKey(name: 'expired_at')
+  int? get expiredAt => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the run step was cancelled.
+  @JsonKey(name: 'cancelled_at')
+  int? get cancelledAt => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the run step failed.
+  @JsonKey(name: 'failed_at')
+  int? get failedAt => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the run step completed.
+  @JsonKey(name: 'completed_at')
+  int? get completedAt => throw _privateConstructorUsedError;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunStepObjectCopyWith<RunStepObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepObjectCopyWith<$Res> {
+  factory $RunStepObjectCopyWith(
+          RunStepObject value, $Res Function(RunStepObject) then) =
+      _$RunStepObjectCopyWithImpl<$Res, RunStepObject>;
+  @useResult
+  $Res call(
+      {String id,
+      RunStepObjectObject object,
+      @JsonKey(name: 'created_at') int createdAt,
+      @JsonKey(name: 'assistant_id') String assistantId,
+      @JsonKey(name: 'thread_id') String threadId,
+      @JsonKey(name: 'run_id') String runId,
+      RunStepType type,
+      RunStepStatus status,
+      @JsonKey(name: 'step_details') RunStepDetails stepDetails,
+      @JsonKey(name: 'last_error') RunStepLastError? lastError,
+      @JsonKey(name: 'expired_at') int? expiredAt,
+      @JsonKey(name: 'cancelled_at') int? cancelledAt,
+      @JsonKey(name: 'failed_at') int? failedAt,
+      @JsonKey(name: 'completed_at') int? completedAt,
+      Map<String, dynamic>? metadata});
+
+  $RunStepDetailsCopyWith<$Res> get stepDetails;
+  $RunStepLastErrorCopyWith<$Res>? get lastError;
+}
+
+/// @nodoc
+class _$RunStepObjectCopyWithImpl<$Res, $Val extends RunStepObject>
+    implements $RunStepObjectCopyWith<$Res> {
+  _$RunStepObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? createdAt = null,
+    Object? assistantId = null,
+    Object? threadId = null,
+    Object? runId = null,
+    Object? type = null,
+    Object? status = null,
+    Object? stepDetails = null,
+    Object? lastError = freezed,
+    Object? expiredAt = freezed,
+    Object? cancelledAt = freezed,
+    Object? failedAt = freezed,
+    Object? completedAt = freezed,
+    Object? metadata = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as RunStepObjectObject,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      assistantId: null == assistantId
+          ? _value.assistantId
+          : assistantId // ignore: cast_nullable_to_non_nullable
+              as String,
+      threadId: null == threadId
+          ? _value.threadId
+          : threadId // ignore: cast_nullable_to_non_nullable
+              as String,
+      runId: null == runId
+          ? _value.runId
+          : runId // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as RunStepType,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as RunStepStatus,
+      stepDetails: null == stepDetails
+          ? _value.stepDetails
+          : stepDetails // ignore: cast_nullable_to_non_nullable
+              as RunStepDetails,
+      lastError: freezed == lastError
+          ? _value.lastError
+          : lastError // ignore: cast_nullable_to_non_nullable
+              as RunStepLastError?,
+      expiredAt: freezed == expiredAt
+          ? _value.expiredAt
+          : expiredAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      cancelledAt: freezed == cancelledAt
+          ? _value.cancelledAt
+          : cancelledAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      failedAt: freezed == failedAt
+          ? _value.failedAt
+          : failedAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunStepDetailsCopyWith<$Res> get stepDetails {
+    return $RunStepDetailsCopyWith<$Res>(_value.stepDetails, (value) {
+      return _then(_value.copyWith(stepDetails: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunStepLastErrorCopyWith<$Res>? get lastError {
+    if (_value.lastError == null) {
+      return null;
+    }
+
+    return $RunStepLastErrorCopyWith<$Res>(_value.lastError!, (value) {
+      return _then(_value.copyWith(lastError: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepObjectImplCopyWith<$Res>
+    implements $RunStepObjectCopyWith<$Res> {
+  factory _$$RunStepObjectImplCopyWith(
+          _$RunStepObjectImpl value, $Res Function(_$RunStepObjectImpl) then) =
+      __$$RunStepObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      RunStepObjectObject object,
+      @JsonKey(name: 'created_at') int createdAt,
+      @JsonKey(name: 'assistant_id') String assistantId,
+      @JsonKey(name: 'thread_id') String threadId,
+      @JsonKey(name: 'run_id') String runId,
+      RunStepType type,
+      RunStepStatus status,
+      @JsonKey(name: 'step_details') RunStepDetails stepDetails,
+      @JsonKey(name: 'last_error') RunStepLastError? lastError,
+      @JsonKey(name: 'expired_at') int? expiredAt,
+      @JsonKey(name: 'cancelled_at') int? cancelledAt,
+      @JsonKey(name: 'failed_at') int? failedAt,
+      @JsonKey(name: 'completed_at') int? completedAt,
+      Map<String, dynamic>? metadata});
+
+  @override
+  $RunStepDetailsCopyWith<$Res> get stepDetails;
+  @override
+  $RunStepLastErrorCopyWith<$Res>? get lastError;
+}
+
+/// @nodoc
+class __$$RunStepObjectImplCopyWithImpl<$Res>
+    extends _$RunStepObjectCopyWithImpl<$Res, _$RunStepObjectImpl>
+    implements _$$RunStepObjectImplCopyWith<$Res> {
+  __$$RunStepObjectImplCopyWithImpl(
+      _$RunStepObjectImpl _value, $Res Function(_$RunStepObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? createdAt = null,
+    Object? assistantId = null,
+    Object? threadId = null,
+    Object? runId = null,
+    Object? type = null,
+    Object? status = null,
+    Object? stepDetails = null,
+    Object? lastError = freezed,
+    Object? expiredAt = freezed,
+    Object? cancelledAt = freezed,
+    Object? failedAt = freezed,
+    Object? completedAt = freezed,
+    Object? metadata = freezed,
+  }) {
+    return _then(_$RunStepObjectImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as RunStepObjectObject,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      assistantId: null == assistantId
+          ? _value.assistantId
+          : assistantId // ignore: cast_nullable_to_non_nullable
+              as String,
+      threadId: null == threadId
+          ? _value.threadId
+          : threadId // ignore: cast_nullable_to_non_nullable
+              as String,
+      runId: null == runId
+          ? _value.runId
+          : runId // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as RunStepType,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as RunStepStatus,
+      stepDetails: null == stepDetails
+          ? _value.stepDetails
+          : stepDetails // ignore: cast_nullable_to_non_nullable
+              as RunStepDetails,
+      lastError: freezed == lastError
+          ? _value.lastError
+          : lastError // ignore: cast_nullable_to_non_nullable
+              as RunStepLastError?,
+      expiredAt: freezed == expiredAt
+          ? _value.expiredAt
+          : expiredAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      cancelledAt: freezed == cancelledAt
+          ? _value.cancelledAt
+          : cancelledAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      failedAt: freezed == failedAt
+          ? _value.failedAt
+          : failedAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      metadata: freezed == metadata
+          ? _value._metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepObjectImpl extends _RunStepObject {
+  const _$RunStepObjectImpl(
+      {required this.id,
+      required this.object,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'assistant_id') required this.assistantId,
+      @JsonKey(name: 'thread_id') required this.threadId,
+      @JsonKey(name: 'run_id') required this.runId,
+      required this.type,
+      required this.status,
+      @JsonKey(name: 'step_details') required this.stepDetails,
+      @JsonKey(name: 'last_error') required this.lastError,
+      @JsonKey(name: 'expired_at') required this.expiredAt,
+      @JsonKey(name: 'cancelled_at') required this.cancelledAt,
+      @JsonKey(name: 'failed_at') required this.failedAt,
+      @JsonKey(name: 'completed_at') required this.completedAt,
+      required final Map<String, dynamic>? metadata})
+      : _metadata = metadata,
+        super._();
+
+  factory _$RunStepObjectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RunStepObjectImplFromJson(json);
+
+  /// The identifier of the run step, which can be referenced in API endpoints.
+  @override
+  final String id;
+
+  /// The object type, which is always `thread.run.step`.
+  @override
+  final RunStepObjectObject object;
+
+  /// The Unix timestamp (in seconds) for when the run step was created.
+  @override
+  @JsonKey(name: 'created_at')
+  final int createdAt;
+
+  /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) associated with the run step.
+  @override
+  @JsonKey(name: 'assistant_id')
+  final String assistantId;
+
+  /// The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was run.
+  @override
+  @JsonKey(name: 'thread_id')
+  final String threadId;
+
+  /// The ID of the [run](https://platform.openai.com/docs/api-reference/runs) that this run step is a part of.
+  @override
+  @JsonKey(name: 'run_id')
+  final String runId;
+
+  /// The type of run step, which can be either `message_creation` or `tool_calls`.
+  @override
+  final RunStepType type;
+
+  /// The status of the run step, which can be either `in_progress`, `cancelled`, `failed`, `completed`, or `expired`.
+  @override
+  final RunStepStatus status;
+
+  /// The details of the run step.
+  /// Any of: [RunStepDetailsMessageCreationObject], [RunStepDetailsToolCallsObject]
+  @override
+  @JsonKey(name: 'step_details')
+  final RunStepDetails stepDetails;
+
+  /// The last error associated with this run step. Will be `null` if there are no errors.
+  @override
+  @JsonKey(name: 'last_error')
+  final RunStepLastError? lastError;
+
+  /// The Unix timestamp (in seconds) for when the run step expired. A step is considered expired if the parent run is expired.
+  @override
+  @JsonKey(name: 'expired_at')
+  final int? expiredAt;
+
+  /// The Unix timestamp (in seconds) for when the run step was cancelled.
+  @override
+  @JsonKey(name: 'cancelled_at')
+  final int? cancelledAt;
+
+  /// The Unix timestamp (in seconds) for when the run step failed.
+  @override
+  @JsonKey(name: 'failed_at')
+  final int? failedAt;
+
+  /// The Unix timestamp (in seconds) for when the run step completed.
+  @override
+  @JsonKey(name: 'completed_at')
+  final int? completedAt;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  final Map<String, dynamic>? _metadata;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
+  Map<String, dynamic>? get metadata {
+    final value = _metadata;
+    if (value == null) return null;
+    if (_metadata is EqualUnmodifiableMapView) return _metadata;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  @override
+  String toString() {
+    return 'RunStepObject(id: $id, object: $object, createdAt: $createdAt, assistantId: $assistantId, threadId: $threadId, runId: $runId, type: $type, status: $status, stepDetails: $stepDetails, lastError: $lastError, expiredAt: $expiredAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, metadata: $metadata)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepObjectImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.object, object) || other.object == object) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.assistantId, assistantId) ||
+                other.assistantId == assistantId) &&
+            (identical(other.threadId, threadId) ||
+                other.threadId == threadId) &&
+            (identical(other.runId, runId) || other.runId == runId) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.stepDetails, stepDetails) ||
+                other.stepDetails == stepDetails) &&
+            (identical(other.lastError, lastError) ||
+                other.lastError == lastError) &&
+            (identical(other.expiredAt, expiredAt) ||
+                other.expiredAt == expiredAt) &&
+            (identical(other.cancelledAt, cancelledAt) ||
+                other.cancelledAt == cancelledAt) &&
+            (identical(other.failedAt, failedAt) ||
+                other.failedAt == failedAt) &&
+            (identical(other.completedAt, completedAt) ||
+                other.completedAt == completedAt) &&
+            const DeepCollectionEquality().equals(other._metadata, _metadata));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      object,
+      createdAt,
+      assistantId,
+      threadId,
+      runId,
+      type,
+      status,
+      stepDetails,
+      lastError,
+      expiredAt,
+      cancelledAt,
+      failedAt,
+      completedAt,
+      const DeepCollectionEquality().hash(_metadata));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepObjectImplCopyWith<_$RunStepObjectImpl> get copyWith =>
+      __$$RunStepObjectImplCopyWithImpl<_$RunStepObjectImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunStepObject extends RunStepObject {
+  const factory _RunStepObject(
+      {required final String id,
+      required final RunStepObjectObject object,
+      @JsonKey(name: 'created_at') required final int createdAt,
+      @JsonKey(name: 'assistant_id') required final String assistantId,
+      @JsonKey(name: 'thread_id') required final String threadId,
+      @JsonKey(name: 'run_id') required final String runId,
+      required final RunStepType type,
+      required final RunStepStatus status,
+      @JsonKey(name: 'step_details') required final RunStepDetails stepDetails,
+      @JsonKey(name: 'last_error') required final RunStepLastError? lastError,
+      @JsonKey(name: 'expired_at') required final int? expiredAt,
+      @JsonKey(name: 'cancelled_at') required final int? cancelledAt,
+      @JsonKey(name: 'failed_at') required final int? failedAt,
+      @JsonKey(name: 'completed_at') required final int? completedAt,
+      required final Map<String, dynamic>? metadata}) = _$RunStepObjectImpl;
+  const _RunStepObject._() : super._();
+
+  factory _RunStepObject.fromJson(Map<String, dynamic> json) =
+      _$RunStepObjectImpl.fromJson;
+
+  @override
+
+  /// The identifier of the run step, which can be referenced in API endpoints.
+  String get id;
+  @override
+
+  /// The object type, which is always `thread.run.step`.
+  RunStepObjectObject get object;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the run step was created.
+  @JsonKey(name: 'created_at')
+  int get createdAt;
+  @override
+
+  /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) associated with the run step.
+  @JsonKey(name: 'assistant_id')
+  String get assistantId;
+  @override
+
+  /// The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was run.
+  @JsonKey(name: 'thread_id')
+  String get threadId;
+  @override
+
+  /// The ID of the [run](https://platform.openai.com/docs/api-reference/runs) that this run step is a part of.
+  @JsonKey(name: 'run_id')
+  String get runId;
+  @override
+
+  /// The type of run step, which can be either `message_creation` or `tool_calls`.
+  RunStepType get type;
+  @override
+
+  /// The status of the run step, which can be either `in_progress`, `cancelled`, `failed`, `completed`, or `expired`.
+  RunStepStatus get status;
+  @override
+
+  /// The details of the run step.
+  /// Any of: [RunStepDetailsMessageCreationObject], [RunStepDetailsToolCallsObject]
+  @JsonKey(name: 'step_details')
+  RunStepDetails get stepDetails;
+  @override
+
+  /// The last error associated with this run step. Will be `null` if there are no errors.
+  @JsonKey(name: 'last_error')
+  RunStepLastError? get lastError;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the run step expired. A step is considered expired if the parent run is expired.
+  @JsonKey(name: 'expired_at')
+  int? get expiredAt;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the run step was cancelled.
+  @JsonKey(name: 'cancelled_at')
+  int? get cancelledAt;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the run step failed.
+  @JsonKey(name: 'failed_at')
+  int? get failedAt;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the run step completed.
+  @JsonKey(name: 'completed_at')
+  int? get completedAt;
+  @override
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  Map<String, dynamic>? get metadata;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepObjectImplCopyWith<_$RunStepObjectImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+RunStepLastError _$RunStepLastErrorFromJson(Map<String, dynamic> json) {
+  return _RunStepLastError.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunStepLastError {
+  /// One of `server_error` or `rate_limit_exceeded`.
+  RunStepLastErrorCode get code => throw _privateConstructorUsedError;
+
+  /// A human-readable description of the error.
+  String get message => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunStepLastErrorCopyWith<RunStepLastError> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepLastErrorCopyWith<$Res> {
+  factory $RunStepLastErrorCopyWith(
+          RunStepLastError value, $Res Function(RunStepLastError) then) =
+      _$RunStepLastErrorCopyWithImpl<$Res, RunStepLastError>;
+  @useResult
+  $Res call({RunStepLastErrorCode code, String message});
+}
+
+/// @nodoc
+class _$RunStepLastErrorCopyWithImpl<$Res, $Val extends RunStepLastError>
+    implements $RunStepLastErrorCopyWith<$Res> {
+  _$RunStepLastErrorCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? code = null,
+    Object? message = null,
+  }) {
+    return _then(_value.copyWith(
+      code: null == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as RunStepLastErrorCode,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepLastErrorImplCopyWith<$Res>
+    implements $RunStepLastErrorCopyWith<$Res> {
+  factory _$$RunStepLastErrorImplCopyWith(_$RunStepLastErrorImpl value,
+          $Res Function(_$RunStepLastErrorImpl) then) =
+      __$$RunStepLastErrorImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({RunStepLastErrorCode code, String message});
+}
+
+/// @nodoc
+class __$$RunStepLastErrorImplCopyWithImpl<$Res>
+    extends _$RunStepLastErrorCopyWithImpl<$Res, _$RunStepLastErrorImpl>
+    implements _$$RunStepLastErrorImplCopyWith<$Res> {
+  __$$RunStepLastErrorImplCopyWithImpl(_$RunStepLastErrorImpl _value,
+      $Res Function(_$RunStepLastErrorImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? code = null,
+    Object? message = null,
+  }) {
+    return _then(_$RunStepLastErrorImpl(
+      code: null == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as RunStepLastErrorCode,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepLastErrorImpl extends _RunStepLastError {
+  const _$RunStepLastErrorImpl({required this.code, required this.message})
+      : super._();
+
+  factory _$RunStepLastErrorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RunStepLastErrorImplFromJson(json);
+
+  /// One of `server_error` or `rate_limit_exceeded`.
+  @override
+  final RunStepLastErrorCode code;
+
+  /// A human-readable description of the error.
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'RunStepLastError(code: $code, message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepLastErrorImpl &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, code, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepLastErrorImplCopyWith<_$RunStepLastErrorImpl> get copyWith =>
+      __$$RunStepLastErrorImplCopyWithImpl<_$RunStepLastErrorImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepLastErrorImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunStepLastError extends RunStepLastError {
+  const factory _RunStepLastError(
+      {required final RunStepLastErrorCode code,
+      required final String message}) = _$RunStepLastErrorImpl;
+  const _RunStepLastError._() : super._();
+
+  factory _RunStepLastError.fromJson(Map<String, dynamic> json) =
+      _$RunStepLastErrorImpl.fromJson;
+
+  @override
+
+  /// One of `server_error` or `rate_limit_exceeded`.
+  RunStepLastErrorCode get code;
+  @override
+
+  /// A human-readable description of the error.
+  String get message;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepLastErrorImplCopyWith<_$RunStepLastErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ListRunStepsResponse _$ListRunStepsResponseFromJson(Map<String, dynamic> json) {
+  return _ListRunStepsResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ListRunStepsResponse {
+  /// The object type, which is always `list`.
+  String get object => throw _privateConstructorUsedError;
+
+  /// The list of run steps.
+  List<RunStepObject> get data => throw _privateConstructorUsedError;
+
+  /// The ID of the first run step in the list.
+  @JsonKey(name: 'first_id')
+  String get firstId => throw _privateConstructorUsedError;
+
+  /// The ID of the last run step in the list.
+  @JsonKey(name: 'last_id')
+  String get lastId => throw _privateConstructorUsedError;
+
+  /// Whether there are more run steps to retrieve.
+  @JsonKey(name: 'has_more')
+  bool get hasMore => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ListRunStepsResponseCopyWith<ListRunStepsResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ListRunStepsResponseCopyWith<$Res> {
+  factory $ListRunStepsResponseCopyWith(ListRunStepsResponse value,
+          $Res Function(ListRunStepsResponse) then) =
+      _$ListRunStepsResponseCopyWithImpl<$Res, ListRunStepsResponse>;
+  @useResult
+  $Res call(
+      {String object,
+      List<RunStepObject> data,
+      @JsonKey(name: 'first_id') String firstId,
+      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class _$ListRunStepsResponseCopyWithImpl<$Res,
+        $Val extends ListRunStepsResponse>
+    implements $ListRunStepsResponseCopyWith<$Res> {
+  _$ListRunStepsResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = null,
+    Object? data = null,
+    Object? firstId = null,
+    Object? lastId = null,
+    Object? hasMore = null,
+  }) {
+    return _then(_value.copyWith(
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<RunStepObject>,
+      firstId: null == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastId: null == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ListRunStepsResponseImplCopyWith<$Res>
+    implements $ListRunStepsResponseCopyWith<$Res> {
+  factory _$$ListRunStepsResponseImplCopyWith(_$ListRunStepsResponseImpl value,
+          $Res Function(_$ListRunStepsResponseImpl) then) =
+      __$$ListRunStepsResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String object,
+      List<RunStepObject> data,
+      @JsonKey(name: 'first_id') String firstId,
+      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class __$$ListRunStepsResponseImplCopyWithImpl<$Res>
+    extends _$ListRunStepsResponseCopyWithImpl<$Res, _$ListRunStepsResponseImpl>
+    implements _$$ListRunStepsResponseImplCopyWith<$Res> {
+  __$$ListRunStepsResponseImplCopyWithImpl(_$ListRunStepsResponseImpl _value,
+      $Res Function(_$ListRunStepsResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = null,
+    Object? data = null,
+    Object? firstId = null,
+    Object? lastId = null,
+    Object? hasMore = null,
+  }) {
+    return _then(_$ListRunStepsResponseImpl(
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<RunStepObject>,
+      firstId: null == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastId: null == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ListRunStepsResponseImpl extends _ListRunStepsResponse {
+  const _$ListRunStepsResponseImpl(
+      {required this.object,
+      required final List<RunStepObject> data,
+      @JsonKey(name: 'first_id') required this.firstId,
+      @JsonKey(name: 'last_id') required this.lastId,
+      @JsonKey(name: 'has_more') required this.hasMore})
+      : _data = data,
+        super._();
+
+  factory _$ListRunStepsResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ListRunStepsResponseImplFromJson(json);
+
+  /// The object type, which is always `list`.
+  @override
+  final String object;
+
+  /// The list of run steps.
+  final List<RunStepObject> _data;
+
+  /// The list of run steps.
+  @override
+  List<RunStepObject> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_data);
+  }
+
+  /// The ID of the first run step in the list.
+  @override
+  @JsonKey(name: 'first_id')
+  final String firstId;
+
+  /// The ID of the last run step in the list.
+  @override
+  @JsonKey(name: 'last_id')
+  final String lastId;
+
+  /// Whether there are more run steps to retrieve.
+  @override
+  @JsonKey(name: 'has_more')
+  final bool hasMore;
+
+  @override
+  String toString() {
+    return 'ListRunStepsResponse(object: $object, data: $data, firstId: $firstId, lastId: $lastId, hasMore: $hasMore)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ListRunStepsResponseImpl &&
+            (identical(other.object, object) || other.object == object) &&
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.firstId, firstId) || other.firstId == firstId) &&
+            (identical(other.lastId, lastId) || other.lastId == lastId) &&
+            (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, object,
+      const DeepCollectionEquality().hash(_data), firstId, lastId, hasMore);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ListRunStepsResponseImplCopyWith<_$ListRunStepsResponseImpl>
+      get copyWith =>
+          __$$ListRunStepsResponseImplCopyWithImpl<_$ListRunStepsResponseImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ListRunStepsResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ListRunStepsResponse extends ListRunStepsResponse {
+  const factory _ListRunStepsResponse(
+          {required final String object,
+          required final List<RunStepObject> data,
+          @JsonKey(name: 'first_id') required final String firstId,
+          @JsonKey(name: 'last_id') required final String lastId,
+          @JsonKey(name: 'has_more') required final bool hasMore}) =
+      _$ListRunStepsResponseImpl;
+  const _ListRunStepsResponse._() : super._();
+
+  factory _ListRunStepsResponse.fromJson(Map<String, dynamic> json) =
+      _$ListRunStepsResponseImpl.fromJson;
+
+  @override
+
+  /// The object type, which is always `list`.
+  String get object;
+  @override
+
+  /// The list of run steps.
+  List<RunStepObject> get data;
+  @override
+
+  /// The ID of the first run step in the list.
+  @JsonKey(name: 'first_id')
+  String get firstId;
+  @override
+
+  /// The ID of the last run step in the list.
+  @JsonKey(name: 'last_id')
+  String get lastId;
+  @override
+
+  /// Whether there are more run steps to retrieve.
+  @JsonKey(name: 'has_more')
+  bool get hasMore;
+  @override
+  @JsonKey(ignore: true)
+  _$$ListRunStepsResponseImplCopyWith<_$ListRunStepsResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RunStepDetailsMessageCreation _$RunStepDetailsMessageCreationFromJson(
+    Map<String, dynamic> json) {
+  return _RunStepDetailsMessageCreation.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunStepDetailsMessageCreation {
+  /// The ID of the message that was created by this run step.
+  @JsonKey(name: 'message_id')
+  String get messageId => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunStepDetailsMessageCreationCopyWith<RunStepDetailsMessageCreation>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDetailsMessageCreationCopyWith<$Res> {
+  factory $RunStepDetailsMessageCreationCopyWith(
+          RunStepDetailsMessageCreation value,
+          $Res Function(RunStepDetailsMessageCreation) then) =
+      _$RunStepDetailsMessageCreationCopyWithImpl<$Res,
+          RunStepDetailsMessageCreation>;
+  @useResult
+  $Res call({@JsonKey(name: 'message_id') String messageId});
+}
+
+/// @nodoc
+class _$RunStepDetailsMessageCreationCopyWithImpl<$Res,
+        $Val extends RunStepDetailsMessageCreation>
+    implements $RunStepDetailsMessageCreationCopyWith<$Res> {
+  _$RunStepDetailsMessageCreationCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? messageId = null,
+  }) {
+    return _then(_value.copyWith(
+      messageId: null == messageId
+          ? _value.messageId
+          : messageId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepDetailsMessageCreationImplCopyWith<$Res>
+    implements $RunStepDetailsMessageCreationCopyWith<$Res> {
+  factory _$$RunStepDetailsMessageCreationImplCopyWith(
+          _$RunStepDetailsMessageCreationImpl value,
+          $Res Function(_$RunStepDetailsMessageCreationImpl) then) =
+      __$$RunStepDetailsMessageCreationImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'message_id') String messageId});
+}
+
+/// @nodoc
+class __$$RunStepDetailsMessageCreationImplCopyWithImpl<$Res>
+    extends _$RunStepDetailsMessageCreationCopyWithImpl<$Res,
+        _$RunStepDetailsMessageCreationImpl>
+    implements _$$RunStepDetailsMessageCreationImplCopyWith<$Res> {
+  __$$RunStepDetailsMessageCreationImplCopyWithImpl(
+      _$RunStepDetailsMessageCreationImpl _value,
+      $Res Function(_$RunStepDetailsMessageCreationImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? messageId = null,
+  }) {
+    return _then(_$RunStepDetailsMessageCreationImpl(
+      messageId: null == messageId
+          ? _value.messageId
+          : messageId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDetailsMessageCreationImpl
+    extends _RunStepDetailsMessageCreation {
+  const _$RunStepDetailsMessageCreationImpl(
+      {@JsonKey(name: 'message_id') required this.messageId})
+      : super._();
+
+  factory _$RunStepDetailsMessageCreationImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDetailsMessageCreationImplFromJson(json);
+
+  /// The ID of the message that was created by this run step.
+  @override
+  @JsonKey(name: 'message_id')
+  final String messageId;
+
+  @override
+  String toString() {
+    return 'RunStepDetailsMessageCreation(messageId: $messageId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDetailsMessageCreationImpl &&
+            (identical(other.messageId, messageId) ||
+                other.messageId == messageId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, messageId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDetailsMessageCreationImplCopyWith<
+          _$RunStepDetailsMessageCreationImpl>
+      get copyWith => __$$RunStepDetailsMessageCreationImplCopyWithImpl<
+          _$RunStepDetailsMessageCreationImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDetailsMessageCreationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunStepDetailsMessageCreation
+    extends RunStepDetailsMessageCreation {
+  const factory _RunStepDetailsMessageCreation(
+          {@JsonKey(name: 'message_id') required final String messageId}) =
+      _$RunStepDetailsMessageCreationImpl;
+  const _RunStepDetailsMessageCreation._() : super._();
+
+  factory _RunStepDetailsMessageCreation.fromJson(Map<String, dynamic> json) =
+      _$RunStepDetailsMessageCreationImpl.fromJson;
+
+  @override
+
+  /// The ID of the message that was created by this run step.
+  @JsonKey(name: 'message_id')
+  String get messageId;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDetailsMessageCreationImplCopyWith<
+          _$RunStepDetailsMessageCreationImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RunStepDetailsToolCallsCodeObjectCodeInterpreter
+    _$RunStepDetailsToolCallsCodeObjectCodeInterpreterFromJson(
+        Map<String, dynamic> json) {
+  return _RunStepDetailsToolCallsCodeObjectCodeInterpreter.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunStepDetailsToolCallsCodeObjectCodeInterpreter {
+  /// The input to the Code Interpreter tool call.
+  String get input => throw _privateConstructorUsedError;
+
+  /// The outputs from the Code Interpreter tool call. Code Interpreter can output one or more items, including text (`logs`) or images (`image`). Each of these are represented by a different object type.
+  List<RunStepDetailsToolCallsCodeOutput> get outputs =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith<
+          RunStepDetailsToolCallsCodeObjectCodeInterpreter>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith<$Res> {
+  factory $RunStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith(
+          RunStepDetailsToolCallsCodeObjectCodeInterpreter value,
+          $Res Function(RunStepDetailsToolCallsCodeObjectCodeInterpreter)
+              then) =
+      _$RunStepDetailsToolCallsCodeObjectCodeInterpreterCopyWithImpl<$Res,
+          RunStepDetailsToolCallsCodeObjectCodeInterpreter>;
+  @useResult
+  $Res call({String input, List<RunStepDetailsToolCallsCodeOutput> outputs});
+}
+
+/// @nodoc
+class _$RunStepDetailsToolCallsCodeObjectCodeInterpreterCopyWithImpl<$Res,
+        $Val extends RunStepDetailsToolCallsCodeObjectCodeInterpreter>
+    implements $RunStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith<$Res> {
+  _$RunStepDetailsToolCallsCodeObjectCodeInterpreterCopyWithImpl(
+      this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? input = null,
+    Object? outputs = null,
+  }) {
+    return _then(_value.copyWith(
+      input: null == input
+          ? _value.input
+          : input // ignore: cast_nullable_to_non_nullable
+              as String,
+      outputs: null == outputs
+          ? _value.outputs
+          : outputs // ignore: cast_nullable_to_non_nullable
+              as List<RunStepDetailsToolCallsCodeOutput>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWith<
+        $Res>
+    implements $RunStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith<$Res> {
+  factory _$$RunStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWith(
+          _$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl value,
+          $Res Function(_$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl)
+              then) =
+      __$$RunStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWithImpl<
+          $Res>;
+  @override
+  @useResult
+  $Res call({String input, List<RunStepDetailsToolCallsCodeOutput> outputs});
+}
+
+/// @nodoc
+class __$$RunStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWithImpl<$Res>
+    extends _$RunStepDetailsToolCallsCodeObjectCodeInterpreterCopyWithImpl<$Res,
+        _$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl>
+    implements
+        _$$RunStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWith<$Res> {
+  __$$RunStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWithImpl(
+      _$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl _value,
+      $Res Function(_$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? input = null,
+    Object? outputs = null,
+  }) {
+    return _then(_$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl(
+      input: null == input
+          ? _value.input
+          : input // ignore: cast_nullable_to_non_nullable
+              as String,
+      outputs: null == outputs
+          ? _value._outputs
+          : outputs // ignore: cast_nullable_to_non_nullable
+              as List<RunStepDetailsToolCallsCodeOutput>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl
+    extends _RunStepDetailsToolCallsCodeObjectCodeInterpreter {
+  const _$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl(
+      {required this.input,
+      required final List<RunStepDetailsToolCallsCodeOutput> outputs})
+      : _outputs = outputs,
+        super._();
+
+  factory _$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDetailsToolCallsCodeObjectCodeInterpreterImplFromJson(json);
+
+  /// The input to the Code Interpreter tool call.
+  @override
+  final String input;
+
+  /// The outputs from the Code Interpreter tool call. Code Interpreter can output one or more items, including text (`logs`) or images (`image`). Each of these are represented by a different object type.
+  final List<RunStepDetailsToolCallsCodeOutput> _outputs;
+
+  /// The outputs from the Code Interpreter tool call. Code Interpreter can output one or more items, including text (`logs`) or images (`image`). Each of these are represented by a different object type.
+  @override
+  List<RunStepDetailsToolCallsCodeOutput> get outputs {
+    if (_outputs is EqualUnmodifiableListView) return _outputs;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_outputs);
+  }
+
+  @override
+  String toString() {
+    return 'RunStepDetailsToolCallsCodeObjectCodeInterpreter(input: $input, outputs: $outputs)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl &&
+            (identical(other.input, input) || other.input == input) &&
+            const DeepCollectionEquality().equals(other._outputs, _outputs));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, input, const DeepCollectionEquality().hash(_outputs));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWith<
+          _$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl>
+      get copyWith =>
+          __$$RunStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWithImpl<
+                  _$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDetailsToolCallsCodeObjectCodeInterpreterImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunStepDetailsToolCallsCodeObjectCodeInterpreter
+    extends RunStepDetailsToolCallsCodeObjectCodeInterpreter {
+  const factory _RunStepDetailsToolCallsCodeObjectCodeInterpreter(
+          {required final String input,
+          required final List<RunStepDetailsToolCallsCodeOutput> outputs}) =
+      _$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl;
+  const _RunStepDetailsToolCallsCodeObjectCodeInterpreter._() : super._();
+
+  factory _RunStepDetailsToolCallsCodeObjectCodeInterpreter.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl.fromJson;
+
+  @override
+
+  /// The input to the Code Interpreter tool call.
+  String get input;
+  @override
+
+  /// The outputs from the Code Interpreter tool call. Code Interpreter can output one or more items, including text (`logs`) or images (`image`). Each of these are represented by a different object type.
+  List<RunStepDetailsToolCallsCodeOutput> get outputs;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWith<
+          _$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RunStepDetailsToolCallsCodeOutputImage
+    _$RunStepDetailsToolCallsCodeOutputImageFromJson(
+        Map<String, dynamic> json) {
+  return _RunStepDetailsToolCallsCodeOutputImage.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunStepDetailsToolCallsCodeOutputImage {
+  /// The [file](https://platform.openai.com/docs/api-reference/files) ID of the image.
+  @JsonKey(name: 'file_id')
+  String get fileId => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunStepDetailsToolCallsCodeOutputImageCopyWith<
+          RunStepDetailsToolCallsCodeOutputImage>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDetailsToolCallsCodeOutputImageCopyWith<$Res> {
+  factory $RunStepDetailsToolCallsCodeOutputImageCopyWith(
+          RunStepDetailsToolCallsCodeOutputImage value,
+          $Res Function(RunStepDetailsToolCallsCodeOutputImage) then) =
+      _$RunStepDetailsToolCallsCodeOutputImageCopyWithImpl<$Res,
+          RunStepDetailsToolCallsCodeOutputImage>;
+  @useResult
+  $Res call({@JsonKey(name: 'file_id') String fileId});
+}
+
+/// @nodoc
+class _$RunStepDetailsToolCallsCodeOutputImageCopyWithImpl<$Res,
+        $Val extends RunStepDetailsToolCallsCodeOutputImage>
+    implements $RunStepDetailsToolCallsCodeOutputImageCopyWith<$Res> {
+  _$RunStepDetailsToolCallsCodeOutputImageCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = null,
+  }) {
+    return _then(_value.copyWith(
+      fileId: null == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepDetailsToolCallsCodeOutputImageImplCopyWith<$Res>
+    implements $RunStepDetailsToolCallsCodeOutputImageCopyWith<$Res> {
+  factory _$$RunStepDetailsToolCallsCodeOutputImageImplCopyWith(
+          _$RunStepDetailsToolCallsCodeOutputImageImpl value,
+          $Res Function(_$RunStepDetailsToolCallsCodeOutputImageImpl) then) =
+      __$$RunStepDetailsToolCallsCodeOutputImageImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'file_id') String fileId});
+}
+
+/// @nodoc
+class __$$RunStepDetailsToolCallsCodeOutputImageImplCopyWithImpl<$Res>
+    extends _$RunStepDetailsToolCallsCodeOutputImageCopyWithImpl<$Res,
+        _$RunStepDetailsToolCallsCodeOutputImageImpl>
+    implements _$$RunStepDetailsToolCallsCodeOutputImageImplCopyWith<$Res> {
+  __$$RunStepDetailsToolCallsCodeOutputImageImplCopyWithImpl(
+      _$RunStepDetailsToolCallsCodeOutputImageImpl _value,
+      $Res Function(_$RunStepDetailsToolCallsCodeOutputImageImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = null,
+  }) {
+    return _then(_$RunStepDetailsToolCallsCodeOutputImageImpl(
+      fileId: null == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDetailsToolCallsCodeOutputImageImpl
+    extends _RunStepDetailsToolCallsCodeOutputImage {
+  const _$RunStepDetailsToolCallsCodeOutputImageImpl(
+      {@JsonKey(name: 'file_id') required this.fileId})
+      : super._();
+
+  factory _$RunStepDetailsToolCallsCodeOutputImageImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDetailsToolCallsCodeOutputImageImplFromJson(json);
+
+  /// The [file](https://platform.openai.com/docs/api-reference/files) ID of the image.
+  @override
+  @JsonKey(name: 'file_id')
+  final String fileId;
+
+  @override
+  String toString() {
+    return 'RunStepDetailsToolCallsCodeOutputImage(fileId: $fileId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDetailsToolCallsCodeOutputImageImpl &&
+            (identical(other.fileId, fileId) || other.fileId == fileId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, fileId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDetailsToolCallsCodeOutputImageImplCopyWith<
+          _$RunStepDetailsToolCallsCodeOutputImageImpl>
+      get copyWith =>
+          __$$RunStepDetailsToolCallsCodeOutputImageImplCopyWithImpl<
+              _$RunStepDetailsToolCallsCodeOutputImageImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDetailsToolCallsCodeOutputImageImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunStepDetailsToolCallsCodeOutputImage
+    extends RunStepDetailsToolCallsCodeOutputImage {
+  const factory _RunStepDetailsToolCallsCodeOutputImage(
+          {@JsonKey(name: 'file_id') required final String fileId}) =
+      _$RunStepDetailsToolCallsCodeOutputImageImpl;
+  const _RunStepDetailsToolCallsCodeOutputImage._() : super._();
+
+  factory _RunStepDetailsToolCallsCodeOutputImage.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDetailsToolCallsCodeOutputImageImpl.fromJson;
+
+  @override
+
+  /// The [file](https://platform.openai.com/docs/api-reference/files) ID of the image.
+  @JsonKey(name: 'file_id')
+  String get fileId;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDetailsToolCallsCodeOutputImageImplCopyWith<
+          _$RunStepDetailsToolCallsCodeOutputImageImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+AssistantFileObject _$AssistantFileObjectFromJson(Map<String, dynamic> json) {
+  return _AssistantFileObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AssistantFileObject {
+  /// The identifier, which can be referenced in API endpoints.
+  String get id => throw _privateConstructorUsedError;
+
+  /// The object type, which is always `assistant.file`.
+  AssistantFileObjectObject get object => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the assistant file was created.
+  @JsonKey(name: 'created_at')
+  int get createdAt => throw _privateConstructorUsedError;
+
+  /// The assistant ID that the file is attached to.
+  @JsonKey(name: 'assistant_id')
+  String get assistantId => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AssistantFileObjectCopyWith<AssistantFileObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AssistantFileObjectCopyWith<$Res> {
+  factory $AssistantFileObjectCopyWith(
+          AssistantFileObject value, $Res Function(AssistantFileObject) then) =
+      _$AssistantFileObjectCopyWithImpl<$Res, AssistantFileObject>;
+  @useResult
+  $Res call(
+      {String id,
+      AssistantFileObjectObject object,
+      @JsonKey(name: 'created_at') int createdAt,
+      @JsonKey(name: 'assistant_id') String assistantId});
+}
+
+/// @nodoc
+class _$AssistantFileObjectCopyWithImpl<$Res, $Val extends AssistantFileObject>
+    implements $AssistantFileObjectCopyWith<$Res> {
+  _$AssistantFileObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? createdAt = null,
+    Object? assistantId = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as AssistantFileObjectObject,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      assistantId: null == assistantId
+          ? _value.assistantId
+          : assistantId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AssistantFileObjectImplCopyWith<$Res>
+    implements $AssistantFileObjectCopyWith<$Res> {
+  factory _$$AssistantFileObjectImplCopyWith(_$AssistantFileObjectImpl value,
+          $Res Function(_$AssistantFileObjectImpl) then) =
+      __$$AssistantFileObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      AssistantFileObjectObject object,
+      @JsonKey(name: 'created_at') int createdAt,
+      @JsonKey(name: 'assistant_id') String assistantId});
+}
+
+/// @nodoc
+class __$$AssistantFileObjectImplCopyWithImpl<$Res>
+    extends _$AssistantFileObjectCopyWithImpl<$Res, _$AssistantFileObjectImpl>
+    implements _$$AssistantFileObjectImplCopyWith<$Res> {
+  __$$AssistantFileObjectImplCopyWithImpl(_$AssistantFileObjectImpl _value,
+      $Res Function(_$AssistantFileObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? createdAt = null,
+    Object? assistantId = null,
+  }) {
+    return _then(_$AssistantFileObjectImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as AssistantFileObjectObject,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      assistantId: null == assistantId
+          ? _value.assistantId
+          : assistantId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AssistantFileObjectImpl extends _AssistantFileObject {
+  const _$AssistantFileObjectImpl(
+      {required this.id,
+      required this.object,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'assistant_id') required this.assistantId})
+      : super._();
+
+  factory _$AssistantFileObjectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AssistantFileObjectImplFromJson(json);
+
+  /// The identifier, which can be referenced in API endpoints.
+  @override
+  final String id;
+
+  /// The object type, which is always `assistant.file`.
+  @override
+  final AssistantFileObjectObject object;
+
+  /// The Unix timestamp (in seconds) for when the assistant file was created.
+  @override
+  @JsonKey(name: 'created_at')
+  final int createdAt;
+
+  /// The assistant ID that the file is attached to.
+  @override
+  @JsonKey(name: 'assistant_id')
+  final String assistantId;
+
+  @override
+  String toString() {
+    return 'AssistantFileObject(id: $id, object: $object, createdAt: $createdAt, assistantId: $assistantId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AssistantFileObjectImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.object, object) || other.object == object) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.assistantId, assistantId) ||
+                other.assistantId == assistantId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, object, createdAt, assistantId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AssistantFileObjectImplCopyWith<_$AssistantFileObjectImpl> get copyWith =>
+      __$$AssistantFileObjectImplCopyWithImpl<_$AssistantFileObjectImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AssistantFileObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AssistantFileObject extends AssistantFileObject {
+  const factory _AssistantFileObject(
+          {required final String id,
+          required final AssistantFileObjectObject object,
+          @JsonKey(name: 'created_at') required final int createdAt,
+          @JsonKey(name: 'assistant_id') required final String assistantId}) =
+      _$AssistantFileObjectImpl;
+  const _AssistantFileObject._() : super._();
+
+  factory _AssistantFileObject.fromJson(Map<String, dynamic> json) =
+      _$AssistantFileObjectImpl.fromJson;
+
+  @override
+
+  /// The identifier, which can be referenced in API endpoints.
+  String get id;
+  @override
+
+  /// The object type, which is always `assistant.file`.
+  AssistantFileObjectObject get object;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the assistant file was created.
+  @JsonKey(name: 'created_at')
+  int get createdAt;
+  @override
+
+  /// The assistant ID that the file is attached to.
+  @JsonKey(name: 'assistant_id')
+  String get assistantId;
+  @override
+  @JsonKey(ignore: true)
+  _$$AssistantFileObjectImplCopyWith<_$AssistantFileObjectImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+CreateAssistantFileRequest _$CreateAssistantFileRequestFromJson(
+    Map<String, dynamic> json) {
+  return _CreateAssistantFileRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CreateAssistantFileRequest {
+  /// A [File](https://platform.openai.com/docs/api-reference/files) ID (with `purpose="assistants"`) that the assistant should use. Useful for tools like `retrieval` and `code_interpreter` that can access files.
+  @JsonKey(name: 'file_id')
+  String get fileId => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CreateAssistantFileRequestCopyWith<CreateAssistantFileRequest>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateAssistantFileRequestCopyWith<$Res> {
+  factory $CreateAssistantFileRequestCopyWith(CreateAssistantFileRequest value,
+          $Res Function(CreateAssistantFileRequest) then) =
+      _$CreateAssistantFileRequestCopyWithImpl<$Res,
+          CreateAssistantFileRequest>;
+  @useResult
+  $Res call({@JsonKey(name: 'file_id') String fileId});
+}
+
+/// @nodoc
+class _$CreateAssistantFileRequestCopyWithImpl<$Res,
+        $Val extends CreateAssistantFileRequest>
+    implements $CreateAssistantFileRequestCopyWith<$Res> {
+  _$CreateAssistantFileRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = null,
+  }) {
+    return _then(_value.copyWith(
+      fileId: null == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CreateAssistantFileRequestImplCopyWith<$Res>
+    implements $CreateAssistantFileRequestCopyWith<$Res> {
+  factory _$$CreateAssistantFileRequestImplCopyWith(
+          _$CreateAssistantFileRequestImpl value,
+          $Res Function(_$CreateAssistantFileRequestImpl) then) =
+      __$$CreateAssistantFileRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'file_id') String fileId});
+}
+
+/// @nodoc
+class __$$CreateAssistantFileRequestImplCopyWithImpl<$Res>
+    extends _$CreateAssistantFileRequestCopyWithImpl<$Res,
+        _$CreateAssistantFileRequestImpl>
+    implements _$$CreateAssistantFileRequestImplCopyWith<$Res> {
+  __$$CreateAssistantFileRequestImplCopyWithImpl(
+      _$CreateAssistantFileRequestImpl _value,
+      $Res Function(_$CreateAssistantFileRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = null,
+  }) {
+    return _then(_$CreateAssistantFileRequestImpl(
+      fileId: null == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateAssistantFileRequestImpl extends _CreateAssistantFileRequest {
+  const _$CreateAssistantFileRequestImpl(
+      {@JsonKey(name: 'file_id') required this.fileId})
+      : super._();
+
+  factory _$CreateAssistantFileRequestImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$CreateAssistantFileRequestImplFromJson(json);
+
+  /// A [File](https://platform.openai.com/docs/api-reference/files) ID (with `purpose="assistants"`) that the assistant should use. Useful for tools like `retrieval` and `code_interpreter` that can access files.
+  @override
+  @JsonKey(name: 'file_id')
+  final String fileId;
+
+  @override
+  String toString() {
+    return 'CreateAssistantFileRequest(fileId: $fileId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateAssistantFileRequestImpl &&
+            (identical(other.fileId, fileId) || other.fileId == fileId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, fileId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateAssistantFileRequestImplCopyWith<_$CreateAssistantFileRequestImpl>
+      get copyWith => __$$CreateAssistantFileRequestImplCopyWithImpl<
+          _$CreateAssistantFileRequestImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateAssistantFileRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CreateAssistantFileRequest extends CreateAssistantFileRequest {
+  const factory _CreateAssistantFileRequest(
+          {@JsonKey(name: 'file_id') required final String fileId}) =
+      _$CreateAssistantFileRequestImpl;
+  const _CreateAssistantFileRequest._() : super._();
+
+  factory _CreateAssistantFileRequest.fromJson(Map<String, dynamic> json) =
+      _$CreateAssistantFileRequestImpl.fromJson;
+
+  @override
+
+  /// A [File](https://platform.openai.com/docs/api-reference/files) ID (with `purpose="assistants"`) that the assistant should use. Useful for tools like `retrieval` and `code_interpreter` that can access files.
+  @JsonKey(name: 'file_id')
+  String get fileId;
+  @override
+  @JsonKey(ignore: true)
+  _$$CreateAssistantFileRequestImplCopyWith<_$CreateAssistantFileRequestImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+DeleteAssistantFileResponse _$DeleteAssistantFileResponseFromJson(
+    Map<String, dynamic> json) {
+  return _DeleteAssistantFileResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$DeleteAssistantFileResponse {
+  /// The ID of the assistant file.
+  String get id => throw _privateConstructorUsedError;
+
+  /// Whether the assistant file was deleted.
+  bool get deleted => throw _privateConstructorUsedError;
+
+  /// The object type, which is always `assistant.file.deleted`.
+  DeleteAssistantFileResponseObject get object =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $DeleteAssistantFileResponseCopyWith<DeleteAssistantFileResponse>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DeleteAssistantFileResponseCopyWith<$Res> {
+  factory $DeleteAssistantFileResponseCopyWith(
+          DeleteAssistantFileResponse value,
+          $Res Function(DeleteAssistantFileResponse) then) =
+      _$DeleteAssistantFileResponseCopyWithImpl<$Res,
+          DeleteAssistantFileResponse>;
+  @useResult
+  $Res call(
+      {String id, bool deleted, DeleteAssistantFileResponseObject object});
+}
+
+/// @nodoc
+class _$DeleteAssistantFileResponseCopyWithImpl<$Res,
+        $Val extends DeleteAssistantFileResponse>
+    implements $DeleteAssistantFileResponseCopyWith<$Res> {
+  _$DeleteAssistantFileResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? deleted = null,
+    Object? object = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      deleted: null == deleted
+          ? _value.deleted
+          : deleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as DeleteAssistantFileResponseObject,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DeleteAssistantFileResponseImplCopyWith<$Res>
+    implements $DeleteAssistantFileResponseCopyWith<$Res> {
+  factory _$$DeleteAssistantFileResponseImplCopyWith(
+          _$DeleteAssistantFileResponseImpl value,
+          $Res Function(_$DeleteAssistantFileResponseImpl) then) =
+      __$$DeleteAssistantFileResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id, bool deleted, DeleteAssistantFileResponseObject object});
+}
+
+/// @nodoc
+class __$$DeleteAssistantFileResponseImplCopyWithImpl<$Res>
+    extends _$DeleteAssistantFileResponseCopyWithImpl<$Res,
+        _$DeleteAssistantFileResponseImpl>
+    implements _$$DeleteAssistantFileResponseImplCopyWith<$Res> {
+  __$$DeleteAssistantFileResponseImplCopyWithImpl(
+      _$DeleteAssistantFileResponseImpl _value,
+      $Res Function(_$DeleteAssistantFileResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? deleted = null,
+    Object? object = null,
+  }) {
+    return _then(_$DeleteAssistantFileResponseImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      deleted: null == deleted
+          ? _value.deleted
+          : deleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as DeleteAssistantFileResponseObject,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DeleteAssistantFileResponseImpl extends _DeleteAssistantFileResponse {
+  const _$DeleteAssistantFileResponseImpl(
+      {required this.id, required this.deleted, required this.object})
+      : super._();
+
+  factory _$DeleteAssistantFileResponseImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$DeleteAssistantFileResponseImplFromJson(json);
+
+  /// The ID of the assistant file.
+  @override
+  final String id;
+
+  /// Whether the assistant file was deleted.
+  @override
+  final bool deleted;
+
+  /// The object type, which is always `assistant.file.deleted`.
+  @override
+  final DeleteAssistantFileResponseObject object;
+
+  @override
+  String toString() {
+    return 'DeleteAssistantFileResponse(id: $id, deleted: $deleted, object: $object)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DeleteAssistantFileResponseImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.deleted, deleted) || other.deleted == deleted) &&
+            (identical(other.object, object) || other.object == object));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, deleted, object);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DeleteAssistantFileResponseImplCopyWith<_$DeleteAssistantFileResponseImpl>
+      get copyWith => __$$DeleteAssistantFileResponseImplCopyWithImpl<
+          _$DeleteAssistantFileResponseImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DeleteAssistantFileResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _DeleteAssistantFileResponse
+    extends DeleteAssistantFileResponse {
+  const factory _DeleteAssistantFileResponse(
+          {required final String id,
+          required final bool deleted,
+          required final DeleteAssistantFileResponseObject object}) =
+      _$DeleteAssistantFileResponseImpl;
+  const _DeleteAssistantFileResponse._() : super._();
+
+  factory _DeleteAssistantFileResponse.fromJson(Map<String, dynamic> json) =
+      _$DeleteAssistantFileResponseImpl.fromJson;
+
+  @override
+
+  /// The ID of the assistant file.
+  String get id;
+  @override
+
+  /// Whether the assistant file was deleted.
+  bool get deleted;
+  @override
+
+  /// The object type, which is always `assistant.file.deleted`.
+  DeleteAssistantFileResponseObject get object;
+  @override
+  @JsonKey(ignore: true)
+  _$$DeleteAssistantFileResponseImplCopyWith<_$DeleteAssistantFileResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ListAssistantFilesResponse _$ListAssistantFilesResponseFromJson(
+    Map<String, dynamic> json) {
+  return _ListAssistantFilesResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ListAssistantFilesResponse {
+  /// The object type, which is always `list`.
+  String get object => throw _privateConstructorUsedError;
+
+  /// A list of assistant files.
+  List<AssistantFileObject> get data => throw _privateConstructorUsedError;
+
+  /// The ID of the first assistant file in the list.
+  @JsonKey(name: 'first_id')
+  String get firstId => throw _privateConstructorUsedError;
+
+  /// The ID of the last assistant file in the list.
+  @JsonKey(name: 'last_id')
+  String get lastId => throw _privateConstructorUsedError;
+
+  /// Whether there are more assistant files available.
+  @JsonKey(name: 'has_more')
+  bool get hasMore => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ListAssistantFilesResponseCopyWith<ListAssistantFilesResponse>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ListAssistantFilesResponseCopyWith<$Res> {
+  factory $ListAssistantFilesResponseCopyWith(ListAssistantFilesResponse value,
+          $Res Function(ListAssistantFilesResponse) then) =
+      _$ListAssistantFilesResponseCopyWithImpl<$Res,
+          ListAssistantFilesResponse>;
+  @useResult
+  $Res call(
+      {String object,
+      List<AssistantFileObject> data,
+      @JsonKey(name: 'first_id') String firstId,
+      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class _$ListAssistantFilesResponseCopyWithImpl<$Res,
+        $Val extends ListAssistantFilesResponse>
+    implements $ListAssistantFilesResponseCopyWith<$Res> {
+  _$ListAssistantFilesResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = null,
+    Object? data = null,
+    Object? firstId = null,
+    Object? lastId = null,
+    Object? hasMore = null,
+  }) {
+    return _then(_value.copyWith(
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<AssistantFileObject>,
+      firstId: null == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastId: null == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ListAssistantFilesResponseImplCopyWith<$Res>
+    implements $ListAssistantFilesResponseCopyWith<$Res> {
+  factory _$$ListAssistantFilesResponseImplCopyWith(
+          _$ListAssistantFilesResponseImpl value,
+          $Res Function(_$ListAssistantFilesResponseImpl) then) =
+      __$$ListAssistantFilesResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String object,
+      List<AssistantFileObject> data,
+      @JsonKey(name: 'first_id') String firstId,
+      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class __$$ListAssistantFilesResponseImplCopyWithImpl<$Res>
+    extends _$ListAssistantFilesResponseCopyWithImpl<$Res,
+        _$ListAssistantFilesResponseImpl>
+    implements _$$ListAssistantFilesResponseImplCopyWith<$Res> {
+  __$$ListAssistantFilesResponseImplCopyWithImpl(
+      _$ListAssistantFilesResponseImpl _value,
+      $Res Function(_$ListAssistantFilesResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = null,
+    Object? data = null,
+    Object? firstId = null,
+    Object? lastId = null,
+    Object? hasMore = null,
+  }) {
+    return _then(_$ListAssistantFilesResponseImpl(
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<AssistantFileObject>,
+      firstId: null == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastId: null == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ListAssistantFilesResponseImpl extends _ListAssistantFilesResponse {
+  const _$ListAssistantFilesResponseImpl(
+      {required this.object,
+      required final List<AssistantFileObject> data,
+      @JsonKey(name: 'first_id') required this.firstId,
+      @JsonKey(name: 'last_id') required this.lastId,
+      @JsonKey(name: 'has_more') required this.hasMore})
+      : _data = data,
+        super._();
+
+  factory _$ListAssistantFilesResponseImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ListAssistantFilesResponseImplFromJson(json);
+
+  /// The object type, which is always `list`.
+  @override
+  final String object;
+
+  /// A list of assistant files.
+  final List<AssistantFileObject> _data;
+
+  /// A list of assistant files.
+  @override
+  List<AssistantFileObject> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_data);
+  }
+
+  /// The ID of the first assistant file in the list.
+  @override
+  @JsonKey(name: 'first_id')
+  final String firstId;
+
+  /// The ID of the last assistant file in the list.
+  @override
+  @JsonKey(name: 'last_id')
+  final String lastId;
+
+  /// Whether there are more assistant files available.
+  @override
+  @JsonKey(name: 'has_more')
+  final bool hasMore;
+
+  @override
+  String toString() {
+    return 'ListAssistantFilesResponse(object: $object, data: $data, firstId: $firstId, lastId: $lastId, hasMore: $hasMore)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ListAssistantFilesResponseImpl &&
+            (identical(other.object, object) || other.object == object) &&
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.firstId, firstId) || other.firstId == firstId) &&
+            (identical(other.lastId, lastId) || other.lastId == lastId) &&
+            (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, object,
+      const DeepCollectionEquality().hash(_data), firstId, lastId, hasMore);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ListAssistantFilesResponseImplCopyWith<_$ListAssistantFilesResponseImpl>
+      get copyWith => __$$ListAssistantFilesResponseImplCopyWithImpl<
+          _$ListAssistantFilesResponseImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ListAssistantFilesResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ListAssistantFilesResponse extends ListAssistantFilesResponse {
+  const factory _ListAssistantFilesResponse(
+          {required final String object,
+          required final List<AssistantFileObject> data,
+          @JsonKey(name: 'first_id') required final String firstId,
+          @JsonKey(name: 'last_id') required final String lastId,
+          @JsonKey(name: 'has_more') required final bool hasMore}) =
+      _$ListAssistantFilesResponseImpl;
+  const _ListAssistantFilesResponse._() : super._();
+
+  factory _ListAssistantFilesResponse.fromJson(Map<String, dynamic> json) =
+      _$ListAssistantFilesResponseImpl.fromJson;
+
+  @override
+
+  /// The object type, which is always `list`.
+  String get object;
+  @override
+
+  /// A list of assistant files.
+  List<AssistantFileObject> get data;
+  @override
+
+  /// The ID of the first assistant file in the list.
+  @JsonKey(name: 'first_id')
+  String get firstId;
+  @override
+
+  /// The ID of the last assistant file in the list.
+  @JsonKey(name: 'last_id')
+  String get lastId;
+  @override
+
+  /// Whether there are more assistant files available.
+  @JsonKey(name: 'has_more')
+  bool get hasMore;
+  @override
+  @JsonKey(ignore: true)
+  _$$ListAssistantFilesResponseImplCopyWith<_$ListAssistantFilesResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+MessageFileObject _$MessageFileObjectFromJson(Map<String, dynamic> json) {
+  return _MessageFileObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageFileObject {
+  /// The identifier, which can be referenced in API endpoints.
+  String get id => throw _privateConstructorUsedError;
+
+  /// The object type, which is always `thread.message.file`.
+  MessageFileObjectObject get object => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the message file was created.
+  @JsonKey(name: 'created_at')
+  int get createdAt => throw _privateConstructorUsedError;
+
+  /// The ID of the [message](https://platform.openai.com/docs/api-reference/messages) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to.
+  @JsonKey(name: 'message_id')
+  String get messageId => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageFileObjectCopyWith<MessageFileObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageFileObjectCopyWith<$Res> {
+  factory $MessageFileObjectCopyWith(
+          MessageFileObject value, $Res Function(MessageFileObject) then) =
+      _$MessageFileObjectCopyWithImpl<$Res, MessageFileObject>;
+  @useResult
+  $Res call(
+      {String id,
+      MessageFileObjectObject object,
+      @JsonKey(name: 'created_at') int createdAt,
+      @JsonKey(name: 'message_id') String messageId});
+}
+
+/// @nodoc
+class _$MessageFileObjectCopyWithImpl<$Res, $Val extends MessageFileObject>
+    implements $MessageFileObjectCopyWith<$Res> {
+  _$MessageFileObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? createdAt = null,
+    Object? messageId = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as MessageFileObjectObject,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      messageId: null == messageId
+          ? _value.messageId
+          : messageId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageFileObjectImplCopyWith<$Res>
+    implements $MessageFileObjectCopyWith<$Res> {
+  factory _$$MessageFileObjectImplCopyWith(_$MessageFileObjectImpl value,
+          $Res Function(_$MessageFileObjectImpl) then) =
+      __$$MessageFileObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      MessageFileObjectObject object,
+      @JsonKey(name: 'created_at') int createdAt,
+      @JsonKey(name: 'message_id') String messageId});
+}
+
+/// @nodoc
+class __$$MessageFileObjectImplCopyWithImpl<$Res>
+    extends _$MessageFileObjectCopyWithImpl<$Res, _$MessageFileObjectImpl>
+    implements _$$MessageFileObjectImplCopyWith<$Res> {
+  __$$MessageFileObjectImplCopyWithImpl(_$MessageFileObjectImpl _value,
+      $Res Function(_$MessageFileObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? createdAt = null,
+    Object? messageId = null,
+  }) {
+    return _then(_$MessageFileObjectImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as MessageFileObjectObject,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      messageId: null == messageId
+          ? _value.messageId
+          : messageId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageFileObjectImpl extends _MessageFileObject {
+  const _$MessageFileObjectImpl(
+      {required this.id,
+      required this.object,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'message_id') required this.messageId})
+      : super._();
+
+  factory _$MessageFileObjectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageFileObjectImplFromJson(json);
+
+  /// The identifier, which can be referenced in API endpoints.
+  @override
+  final String id;
+
+  /// The object type, which is always `thread.message.file`.
+  @override
+  final MessageFileObjectObject object;
+
+  /// The Unix timestamp (in seconds) for when the message file was created.
+  @override
+  @JsonKey(name: 'created_at')
+  final int createdAt;
+
+  /// The ID of the [message](https://platform.openai.com/docs/api-reference/messages) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to.
+  @override
+  @JsonKey(name: 'message_id')
+  final String messageId;
+
+  @override
+  String toString() {
+    return 'MessageFileObject(id: $id, object: $object, createdAt: $createdAt, messageId: $messageId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageFileObjectImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.object, object) || other.object == object) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.messageId, messageId) ||
+                other.messageId == messageId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, object, createdAt, messageId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageFileObjectImplCopyWith<_$MessageFileObjectImpl> get copyWith =>
+      __$$MessageFileObjectImplCopyWithImpl<_$MessageFileObjectImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageFileObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageFileObject extends MessageFileObject {
+  const factory _MessageFileObject(
+          {required final String id,
+          required final MessageFileObjectObject object,
+          @JsonKey(name: 'created_at') required final int createdAt,
+          @JsonKey(name: 'message_id') required final String messageId}) =
+      _$MessageFileObjectImpl;
+  const _MessageFileObject._() : super._();
+
+  factory _MessageFileObject.fromJson(Map<String, dynamic> json) =
+      _$MessageFileObjectImpl.fromJson;
+
+  @override
+
+  /// The identifier, which can be referenced in API endpoints.
+  String get id;
+  @override
+
+  /// The object type, which is always `thread.message.file`.
+  MessageFileObjectObject get object;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the message file was created.
+  @JsonKey(name: 'created_at')
+  int get createdAt;
+  @override
+
+  /// The ID of the [message](https://platform.openai.com/docs/api-reference/messages) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to.
+  @JsonKey(name: 'message_id')
+  String get messageId;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageFileObjectImplCopyWith<_$MessageFileObjectImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ListMessageFilesResponse _$ListMessageFilesResponseFromJson(
+    Map<String, dynamic> json) {
+  return _ListMessageFilesResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ListMessageFilesResponse {
+  /// The object type, which is always `list`.
+  String get object => throw _privateConstructorUsedError;
+
+  /// A list of message files.
+  List<MessageFileObject> get data => throw _privateConstructorUsedError;
+
+  /// The ID of the first message file in the list.
+  @JsonKey(name: 'first_id')
+  String get firstId => throw _privateConstructorUsedError;
+
+  /// The ID of the last message file in the list.
+  @JsonKey(name: 'last_id')
+  String get lastId => throw _privateConstructorUsedError;
+
+  /// Whether there are more message files available.
+  @JsonKey(name: 'has_more')
+  bool get hasMore => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ListMessageFilesResponseCopyWith<ListMessageFilesResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ListMessageFilesResponseCopyWith<$Res> {
+  factory $ListMessageFilesResponseCopyWith(ListMessageFilesResponse value,
+          $Res Function(ListMessageFilesResponse) then) =
+      _$ListMessageFilesResponseCopyWithImpl<$Res, ListMessageFilesResponse>;
+  @useResult
+  $Res call(
+      {String object,
+      List<MessageFileObject> data,
+      @JsonKey(name: 'first_id') String firstId,
+      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class _$ListMessageFilesResponseCopyWithImpl<$Res,
+        $Val extends ListMessageFilesResponse>
+    implements $ListMessageFilesResponseCopyWith<$Res> {
+  _$ListMessageFilesResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = null,
+    Object? data = null,
+    Object? firstId = null,
+    Object? lastId = null,
+    Object? hasMore = null,
+  }) {
+    return _then(_value.copyWith(
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<MessageFileObject>,
+      firstId: null == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastId: null == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ListMessageFilesResponseImplCopyWith<$Res>
+    implements $ListMessageFilesResponseCopyWith<$Res> {
+  factory _$$ListMessageFilesResponseImplCopyWith(
+          _$ListMessageFilesResponseImpl value,
+          $Res Function(_$ListMessageFilesResponseImpl) then) =
+      __$$ListMessageFilesResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String object,
+      List<MessageFileObject> data,
+      @JsonKey(name: 'first_id') String firstId,
+      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class __$$ListMessageFilesResponseImplCopyWithImpl<$Res>
+    extends _$ListMessageFilesResponseCopyWithImpl<$Res,
+        _$ListMessageFilesResponseImpl>
+    implements _$$ListMessageFilesResponseImplCopyWith<$Res> {
+  __$$ListMessageFilesResponseImplCopyWithImpl(
+      _$ListMessageFilesResponseImpl _value,
+      $Res Function(_$ListMessageFilesResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = null,
+    Object? data = null,
+    Object? firstId = null,
+    Object? lastId = null,
+    Object? hasMore = null,
+  }) {
+    return _then(_$ListMessageFilesResponseImpl(
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<MessageFileObject>,
+      firstId: null == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastId: null == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ListMessageFilesResponseImpl extends _ListMessageFilesResponse {
+  const _$ListMessageFilesResponseImpl(
+      {required this.object,
+      required final List<MessageFileObject> data,
+      @JsonKey(name: 'first_id') required this.firstId,
+      @JsonKey(name: 'last_id') required this.lastId,
+      @JsonKey(name: 'has_more') required this.hasMore})
+      : _data = data,
+        super._();
+
+  factory _$ListMessageFilesResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ListMessageFilesResponseImplFromJson(json);
+
+  /// The object type, which is always `list`.
+  @override
+  final String object;
+
+  /// A list of message files.
+  final List<MessageFileObject> _data;
+
+  /// A list of message files.
+  @override
+  List<MessageFileObject> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_data);
+  }
+
+  /// The ID of the first message file in the list.
+  @override
+  @JsonKey(name: 'first_id')
+  final String firstId;
+
+  /// The ID of the last message file in the list.
+  @override
+  @JsonKey(name: 'last_id')
+  final String lastId;
+
+  /// Whether there are more message files available.
+  @override
+  @JsonKey(name: 'has_more')
+  final bool hasMore;
+
+  @override
+  String toString() {
+    return 'ListMessageFilesResponse(object: $object, data: $data, firstId: $firstId, lastId: $lastId, hasMore: $hasMore)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ListMessageFilesResponseImpl &&
+            (identical(other.object, object) || other.object == object) &&
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.firstId, firstId) || other.firstId == firstId) &&
+            (identical(other.lastId, lastId) || other.lastId == lastId) &&
+            (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, object,
+      const DeepCollectionEquality().hash(_data), firstId, lastId, hasMore);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ListMessageFilesResponseImplCopyWith<_$ListMessageFilesResponseImpl>
+      get copyWith => __$$ListMessageFilesResponseImplCopyWithImpl<
+          _$ListMessageFilesResponseImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ListMessageFilesResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ListMessageFilesResponse extends ListMessageFilesResponse {
+  const factory _ListMessageFilesResponse(
+          {required final String object,
+          required final List<MessageFileObject> data,
+          @JsonKey(name: 'first_id') required final String firstId,
+          @JsonKey(name: 'last_id') required final String lastId,
+          @JsonKey(name: 'has_more') required final bool hasMore}) =
+      _$ListMessageFilesResponseImpl;
+  const _ListMessageFilesResponse._() : super._();
+
+  factory _ListMessageFilesResponse.fromJson(Map<String, dynamic> json) =
+      _$ListMessageFilesResponseImpl.fromJson;
+
+  @override
+
+  /// The object type, which is always `list`.
+  String get object;
+  @override
+
+  /// A list of message files.
+  List<MessageFileObject> get data;
+  @override
+
+  /// The ID of the first message file in the list.
+  @JsonKey(name: 'first_id')
+  String get firstId;
+  @override
+
+  /// The ID of the last message file in the list.
+  @JsonKey(name: 'last_id')
+  String get lastId;
+  @override
+
+  /// Whether there are more message files available.
+  @JsonKey(name: 'has_more')
+  bool get hasMore;
+  @override
+  @JsonKey(ignore: true)
+  _$$ListMessageFilesResponseImplCopyWith<_$ListMessageFilesResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 ChatCompletionMessage _$ChatCompletionMessageFromJson(
     Map<String, dynamic> json) {
   switch (json['role']) {
@@ -19056,85 +30870,85 @@ mixin _$ChatCompletionMessage {
   Object? get content => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionMessageRole role, String? content,
+    required TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(includeIfNull: false) String? name)
         system,
     required TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content,
+            ChatCompletionUserMessageContent content,
             @JsonKey(includeIfNull: false) String? name)
         user,
     required TResult Function(
             ChatCompletionMessageRole role,
-            String? content,
+            @JsonKey(includeIfNull: false) String? content,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall)
         assistant,
-    required TResult Function(ChatCompletionMessageRole role, String? content,
+    required TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)
         tool,
     required TResult Function(
-            ChatCompletionMessageRole role, String content, String name)
+            ChatCompletionMessageRole role, String? content, String name)
         function,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionMessageRole role, String? content,
+    TResult? Function(ChatCompletionMessageRole role, String content,
             @JsonKey(includeIfNull: false) String? name)?
         system,
     TResult? Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content,
+            ChatCompletionUserMessageContent content,
             @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult? Function(
             ChatCompletionMessageRole role,
-            String? content,
+            @JsonKey(includeIfNull: false) String? content,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall)?
         assistant,
-    TResult? Function(ChatCompletionMessageRole role, String? content,
+    TResult? Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult? Function(
-            ChatCompletionMessageRole role, String content, String name)?
+            ChatCompletionMessageRole role, String? content, String name)?
         function,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionMessageRole role, String? content,
+    TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(includeIfNull: false) String? name)?
         system,
     TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content,
+            ChatCompletionUserMessageContent content,
             @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult Function(
             ChatCompletionMessageRole role,
-            String? content,
+            @JsonKey(includeIfNull: false) String? content,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall)?
         assistant,
-    TResult Function(ChatCompletionMessageRole role, String? content,
+    TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult Function(
-            ChatCompletionMessageRole role, String content, String name)?
+            ChatCompletionMessageRole role, String? content, String name)?
         function,
     required TResult orElse(),
   }) =>
@@ -19218,7 +31032,7 @@ abstract class _$$ChatCompletionSystemMessageImplCopyWith<$Res>
   @useResult
   $Res call(
       {ChatCompletionMessageRole role,
-      String? content,
+      String content,
       @JsonKey(includeIfNull: false) String? name});
 }
 
@@ -19236,7 +31050,7 @@ class __$$ChatCompletionSystemMessageImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? role = null,
-    Object? content = freezed,
+    Object? content = null,
     Object? name = freezed,
   }) {
     return _then(_$ChatCompletionSystemMessageImpl(
@@ -19244,10 +31058,10 @@ class __$$ChatCompletionSystemMessageImplCopyWithImpl<$Res>
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as ChatCompletionMessageRole,
-      content: freezed == content
+      content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -19276,7 +31090,7 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
 
   /// The contents of the system message.
   @override
-  final String? content;
+  final String content;
 
   /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
   @override
@@ -19289,7 +31103,7 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionSystemMessageImpl &&
@@ -19312,29 +31126,29 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionMessageRole role, String? content,
+    required TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(includeIfNull: false) String? name)
         system,
     required TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content,
+            ChatCompletionUserMessageContent content,
             @JsonKey(includeIfNull: false) String? name)
         user,
     required TResult Function(
             ChatCompletionMessageRole role,
-            String? content,
+            @JsonKey(includeIfNull: false) String? content,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall)
         assistant,
-    required TResult Function(ChatCompletionMessageRole role, String? content,
+    required TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)
         tool,
     required TResult Function(
-            ChatCompletionMessageRole role, String content, String name)
+            ChatCompletionMessageRole role, String? content, String name)
         function,
   }) {
     return system(role, content, name);
@@ -19343,29 +31157,29 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionMessageRole role, String? content,
+    TResult? Function(ChatCompletionMessageRole role, String content,
             @JsonKey(includeIfNull: false) String? name)?
         system,
     TResult? Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content,
+            ChatCompletionUserMessageContent content,
             @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult? Function(
             ChatCompletionMessageRole role,
-            String? content,
+            @JsonKey(includeIfNull: false) String? content,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall)?
         assistant,
-    TResult? Function(ChatCompletionMessageRole role, String? content,
+    TResult? Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult? Function(
-            ChatCompletionMessageRole role, String content, String name)?
+            ChatCompletionMessageRole role, String? content, String name)?
         function,
   }) {
     return system?.call(role, content, name);
@@ -19374,29 +31188,29 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionMessageRole role, String? content,
+    TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(includeIfNull: false) String? name)?
         system,
     TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content,
+            ChatCompletionUserMessageContent content,
             @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult Function(
             ChatCompletionMessageRole role,
-            String? content,
+            @JsonKey(includeIfNull: false) String? content,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall)?
         assistant,
-    TResult Function(ChatCompletionMessageRole role, String? content,
+    TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult Function(
-            ChatCompletionMessageRole role, String content, String name)?
+            ChatCompletionMessageRole role, String? content, String name)?
         function,
     required TResult orElse(),
   }) {
@@ -19457,7 +31271,7 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
 abstract class ChatCompletionSystemMessage extends ChatCompletionMessage {
   const factory ChatCompletionSystemMessage(
           {final ChatCompletionMessageRole role,
-          required final String? content,
+          required final String content,
           @JsonKey(includeIfNull: false) final String? name}) =
       _$ChatCompletionSystemMessageImpl;
   const ChatCompletionSystemMessage._() : super._();
@@ -19472,7 +31286,7 @@ abstract class ChatCompletionSystemMessage extends ChatCompletionMessage {
   @override
 
   /// The contents of the system message.
-  String? get content;
+  String get content;
 
   /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
   @JsonKey(includeIfNull: false)
@@ -19495,10 +31309,10 @@ abstract class _$$ChatCompletionUserMessageImplCopyWith<$Res>
   $Res call(
       {ChatCompletionMessageRole role,
       @_ChatCompletionUserMessageContentConverter()
-      ChatCompletionUserMessageContent? content,
+      ChatCompletionUserMessageContent content,
       @JsonKey(includeIfNull: false) String? name});
 
-  $ChatCompletionUserMessageContentCopyWith<$Res>? get content;
+  $ChatCompletionUserMessageContentCopyWith<$Res> get content;
 }
 
 /// @nodoc
@@ -19515,7 +31329,7 @@ class __$$ChatCompletionUserMessageImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? role = null,
-    Object? content = freezed,
+    Object? content = null,
     Object? name = freezed,
   }) {
     return _then(_$ChatCompletionUserMessageImpl(
@@ -19523,10 +31337,10 @@ class __$$ChatCompletionUserMessageImplCopyWithImpl<$Res>
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as ChatCompletionMessageRole,
-      content: freezed == content
+      content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
-              as ChatCompletionUserMessageContent?,
+              as ChatCompletionUserMessageContent,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -19536,12 +31350,8 @@ class __$$ChatCompletionUserMessageImplCopyWithImpl<$Res>
 
   @override
   @pragma('vm:prefer-inline')
-  $ChatCompletionUserMessageContentCopyWith<$Res>? get content {
-    if (_value.content == null) {
-      return null;
-    }
-
-    return $ChatCompletionUserMessageContentCopyWith<$Res>(_value.content!,
+  $ChatCompletionUserMessageContentCopyWith<$Res> get content {
+    return $ChatCompletionUserMessageContentCopyWith<$Res>(_value.content,
         (value) {
       return _then(_value.copyWith(content: value));
     });
@@ -19568,7 +31378,7 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
   /// The contents of the user message.
   @override
   @_ChatCompletionUserMessageContentConverter()
-  final ChatCompletionUserMessageContent? content;
+  final ChatCompletionUserMessageContent content;
 
   /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
   @override
@@ -19581,7 +31391,7 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionUserMessageImpl &&
@@ -19604,29 +31414,29 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionMessageRole role, String? content,
+    required TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(includeIfNull: false) String? name)
         system,
     required TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content,
+            ChatCompletionUserMessageContent content,
             @JsonKey(includeIfNull: false) String? name)
         user,
     required TResult Function(
             ChatCompletionMessageRole role,
-            String? content,
+            @JsonKey(includeIfNull: false) String? content,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall)
         assistant,
-    required TResult Function(ChatCompletionMessageRole role, String? content,
+    required TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)
         tool,
     required TResult Function(
-            ChatCompletionMessageRole role, String content, String name)
+            ChatCompletionMessageRole role, String? content, String name)
         function,
   }) {
     return user(role, content, name);
@@ -19635,29 +31445,29 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionMessageRole role, String? content,
+    TResult? Function(ChatCompletionMessageRole role, String content,
             @JsonKey(includeIfNull: false) String? name)?
         system,
     TResult? Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content,
+            ChatCompletionUserMessageContent content,
             @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult? Function(
             ChatCompletionMessageRole role,
-            String? content,
+            @JsonKey(includeIfNull: false) String? content,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall)?
         assistant,
-    TResult? Function(ChatCompletionMessageRole role, String? content,
+    TResult? Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult? Function(
-            ChatCompletionMessageRole role, String content, String name)?
+            ChatCompletionMessageRole role, String? content, String name)?
         function,
   }) {
     return user?.call(role, content, name);
@@ -19666,29 +31476,29 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionMessageRole role, String? content,
+    TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(includeIfNull: false) String? name)?
         system,
     TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content,
+            ChatCompletionUserMessageContent content,
             @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult Function(
             ChatCompletionMessageRole role,
-            String? content,
+            @JsonKey(includeIfNull: false) String? content,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall)?
         assistant,
-    TResult Function(ChatCompletionMessageRole role, String? content,
+    TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult Function(
-            ChatCompletionMessageRole role, String content, String name)?
+            ChatCompletionMessageRole role, String? content, String name)?
         function,
     required TResult orElse(),
   }) {
@@ -19750,7 +31560,7 @@ abstract class ChatCompletionUserMessage extends ChatCompletionMessage {
   const factory ChatCompletionUserMessage(
           {final ChatCompletionMessageRole role,
           @_ChatCompletionUserMessageContentConverter()
-          required final ChatCompletionUserMessageContent? content,
+          required final ChatCompletionUserMessageContent content,
           @JsonKey(includeIfNull: false) final String? name}) =
       _$ChatCompletionUserMessageImpl;
   const ChatCompletionUserMessage._() : super._();
@@ -19766,7 +31576,7 @@ abstract class ChatCompletionUserMessage extends ChatCompletionMessage {
 
   /// The contents of the user message.
   @_ChatCompletionUserMessageContentConverter()
-  ChatCompletionUserMessageContent? get content;
+  ChatCompletionUserMessageContent get content;
 
   /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
   @JsonKey(includeIfNull: false)
@@ -19788,7 +31598,7 @@ abstract class _$$ChatCompletionAssistantMessageImplCopyWith<$Res>
   @useResult
   $Res call(
       {ChatCompletionMessageRole role,
-      String? content,
+      @JsonKey(includeIfNull: false) String? content,
       @JsonKey(includeIfNull: false) String? name,
       @JsonKey(name: 'tool_calls', includeIfNull: false)
       List<ChatCompletionMessageToolCall>? toolCalls,
@@ -19861,7 +31671,7 @@ class _$ChatCompletionAssistantMessageImpl
     extends ChatCompletionAssistantMessage {
   const _$ChatCompletionAssistantMessageImpl(
       {this.role = ChatCompletionMessageRole.assistant,
-      required this.content,
+      @JsonKey(includeIfNull: false) this.content,
       @JsonKey(includeIfNull: false) this.name,
       @JsonKey(name: 'tool_calls', includeIfNull: false)
       final List<ChatCompletionMessageToolCall>? toolCalls,
@@ -19878,8 +31688,9 @@ class _$ChatCompletionAssistantMessageImpl
   @JsonKey()
   final ChatCompletionMessageRole role;
 
-  /// The contents of the assistant message.
+  /// The contents of the assistant message. Required unless `tool_calls` or `function_call` is specified.
   @override
+  @JsonKey(includeIfNull: false)
   final String? content;
 
   /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
@@ -19912,7 +31723,7 @@ class _$ChatCompletionAssistantMessageImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionAssistantMessageImpl &&
@@ -19941,29 +31752,29 @@ class _$ChatCompletionAssistantMessageImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionMessageRole role, String? content,
+    required TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(includeIfNull: false) String? name)
         system,
     required TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content,
+            ChatCompletionUserMessageContent content,
             @JsonKey(includeIfNull: false) String? name)
         user,
     required TResult Function(
             ChatCompletionMessageRole role,
-            String? content,
+            @JsonKey(includeIfNull: false) String? content,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall)
         assistant,
-    required TResult Function(ChatCompletionMessageRole role, String? content,
+    required TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)
         tool,
     required TResult Function(
-            ChatCompletionMessageRole role, String content, String name)
+            ChatCompletionMessageRole role, String? content, String name)
         function,
   }) {
     return assistant(role, content, name, toolCalls, functionCall);
@@ -19972,29 +31783,29 @@ class _$ChatCompletionAssistantMessageImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionMessageRole role, String? content,
+    TResult? Function(ChatCompletionMessageRole role, String content,
             @JsonKey(includeIfNull: false) String? name)?
         system,
     TResult? Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content,
+            ChatCompletionUserMessageContent content,
             @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult? Function(
             ChatCompletionMessageRole role,
-            String? content,
+            @JsonKey(includeIfNull: false) String? content,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall)?
         assistant,
-    TResult? Function(ChatCompletionMessageRole role, String? content,
+    TResult? Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult? Function(
-            ChatCompletionMessageRole role, String content, String name)?
+            ChatCompletionMessageRole role, String? content, String name)?
         function,
   }) {
     return assistant?.call(role, content, name, toolCalls, functionCall);
@@ -20003,29 +31814,29 @@ class _$ChatCompletionAssistantMessageImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionMessageRole role, String? content,
+    TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(includeIfNull: false) String? name)?
         system,
     TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content,
+            ChatCompletionUserMessageContent content,
             @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult Function(
             ChatCompletionMessageRole role,
-            String? content,
+            @JsonKey(includeIfNull: false) String? content,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall)?
         assistant,
-    TResult Function(ChatCompletionMessageRole role, String? content,
+    TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult Function(
-            ChatCompletionMessageRole role, String content, String name)?
+            ChatCompletionMessageRole role, String? content, String name)?
         function,
     required TResult orElse(),
   }) {
@@ -20086,7 +31897,7 @@ class _$ChatCompletionAssistantMessageImpl
 abstract class ChatCompletionAssistantMessage extends ChatCompletionMessage {
   const factory ChatCompletionAssistantMessage(
           {final ChatCompletionMessageRole role,
-          required final String? content,
+          @JsonKey(includeIfNull: false) final String? content,
           @JsonKey(includeIfNull: false) final String? name,
           @JsonKey(name: 'tool_calls', includeIfNull: false)
           final List<ChatCompletionMessageToolCall>? toolCalls,
@@ -20104,7 +31915,8 @@ abstract class ChatCompletionAssistantMessage extends ChatCompletionMessage {
   ChatCompletionMessageRole get role;
   @override
 
-  /// The contents of the assistant message.
+  /// The contents of the assistant message. Required unless `tool_calls` or `function_call` is specified.
+  @JsonKey(includeIfNull: false)
   String? get content;
 
   /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
@@ -20136,7 +31948,7 @@ abstract class _$$ChatCompletionToolMessageImplCopyWith<$Res>
   @useResult
   $Res call(
       {ChatCompletionMessageRole role,
-      String? content,
+      String content,
       @JsonKey(name: 'tool_call_id') String toolCallId});
 }
 
@@ -20154,7 +31966,7 @@ class __$$ChatCompletionToolMessageImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? role = null,
-    Object? content = freezed,
+    Object? content = null,
     Object? toolCallId = null,
   }) {
     return _then(_$ChatCompletionToolMessageImpl(
@@ -20162,10 +31974,10 @@ class __$$ChatCompletionToolMessageImplCopyWithImpl<$Res>
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as ChatCompletionMessageRole,
-      content: freezed == content
+      content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       toolCallId: null == toolCallId
           ? _value.toolCallId
           : toolCallId // ignore: cast_nullable_to_non_nullable
@@ -20193,7 +32005,7 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
 
   /// The contents of the tool message.
   @override
-  final String? content;
+  final String content;
 
   /// Tool call that this message is responding to.
   @override
@@ -20206,7 +32018,7 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionToolMessageImpl &&
@@ -20230,29 +32042,29 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionMessageRole role, String? content,
+    required TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(includeIfNull: false) String? name)
         system,
     required TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content,
+            ChatCompletionUserMessageContent content,
             @JsonKey(includeIfNull: false) String? name)
         user,
     required TResult Function(
             ChatCompletionMessageRole role,
-            String? content,
+            @JsonKey(includeIfNull: false) String? content,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall)
         assistant,
-    required TResult Function(ChatCompletionMessageRole role, String? content,
+    required TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)
         tool,
     required TResult Function(
-            ChatCompletionMessageRole role, String content, String name)
+            ChatCompletionMessageRole role, String? content, String name)
         function,
   }) {
     return tool(role, content, toolCallId);
@@ -20261,29 +32073,29 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionMessageRole role, String? content,
+    TResult? Function(ChatCompletionMessageRole role, String content,
             @JsonKey(includeIfNull: false) String? name)?
         system,
     TResult? Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content,
+            ChatCompletionUserMessageContent content,
             @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult? Function(
             ChatCompletionMessageRole role,
-            String? content,
+            @JsonKey(includeIfNull: false) String? content,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall)?
         assistant,
-    TResult? Function(ChatCompletionMessageRole role, String? content,
+    TResult? Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult? Function(
-            ChatCompletionMessageRole role, String content, String name)?
+            ChatCompletionMessageRole role, String? content, String name)?
         function,
   }) {
     return tool?.call(role, content, toolCallId);
@@ -20292,29 +32104,29 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionMessageRole role, String? content,
+    TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(includeIfNull: false) String? name)?
         system,
     TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content,
+            ChatCompletionUserMessageContent content,
             @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult Function(
             ChatCompletionMessageRole role,
-            String? content,
+            @JsonKey(includeIfNull: false) String? content,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall)?
         assistant,
-    TResult Function(ChatCompletionMessageRole role, String? content,
+    TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult Function(
-            ChatCompletionMessageRole role, String content, String name)?
+            ChatCompletionMessageRole role, String? content, String name)?
         function,
     required TResult orElse(),
   }) {
@@ -20375,7 +32187,7 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
 abstract class ChatCompletionToolMessage extends ChatCompletionMessage {
   const factory ChatCompletionToolMessage(
           {final ChatCompletionMessageRole role,
-          required final String? content,
+          required final String content,
           @JsonKey(name: 'tool_call_id') required final String toolCallId}) =
       _$ChatCompletionToolMessageImpl;
   const ChatCompletionToolMessage._() : super._();
@@ -20390,7 +32202,7 @@ abstract class ChatCompletionToolMessage extends ChatCompletionMessage {
   @override
 
   /// The contents of the tool message.
-  String? get content;
+  String get content;
 
   /// Tool call that this message is responding to.
   @JsonKey(name: 'tool_call_id')
@@ -20410,7 +32222,7 @@ abstract class _$$ChatCompletionFunctionMessageImplCopyWith<$Res>
       __$$ChatCompletionFunctionMessageImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ChatCompletionMessageRole role, String content, String name});
+  $Res call({ChatCompletionMessageRole role, String? content, String name});
 }
 
 /// @nodoc
@@ -20427,7 +32239,7 @@ class __$$ChatCompletionFunctionMessageImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? role = null,
-    Object? content = null,
+    Object? content = freezed,
     Object? name = null,
   }) {
     return _then(_$ChatCompletionFunctionMessageImpl(
@@ -20435,10 +32247,10 @@ class __$$ChatCompletionFunctionMessageImplCopyWithImpl<$Res>
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as ChatCompletionMessageRole,
-      content: null == content
+      content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -20468,7 +32280,7 @@ class _$ChatCompletionFunctionMessageImpl
 
   /// The contents of the function message.
   @override
-  final String content;
+  final String? content;
 
   /// The name of the function to call.
   @override
@@ -20480,7 +32292,7 @@ class _$ChatCompletionFunctionMessageImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionFunctionMessageImpl &&
@@ -20504,29 +32316,29 @@ class _$ChatCompletionFunctionMessageImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChatCompletionMessageRole role, String? content,
+    required TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(includeIfNull: false) String? name)
         system,
     required TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content,
+            ChatCompletionUserMessageContent content,
             @JsonKey(includeIfNull: false) String? name)
         user,
     required TResult Function(
             ChatCompletionMessageRole role,
-            String? content,
+            @JsonKey(includeIfNull: false) String? content,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall)
         assistant,
-    required TResult Function(ChatCompletionMessageRole role, String? content,
+    required TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)
         tool,
     required TResult Function(
-            ChatCompletionMessageRole role, String content, String name)
+            ChatCompletionMessageRole role, String? content, String name)
         function,
   }) {
     return function(role, content, name);
@@ -20535,29 +32347,29 @@ class _$ChatCompletionFunctionMessageImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChatCompletionMessageRole role, String? content,
+    TResult? Function(ChatCompletionMessageRole role, String content,
             @JsonKey(includeIfNull: false) String? name)?
         system,
     TResult? Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content,
+            ChatCompletionUserMessageContent content,
             @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult? Function(
             ChatCompletionMessageRole role,
-            String? content,
+            @JsonKey(includeIfNull: false) String? content,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall)?
         assistant,
-    TResult? Function(ChatCompletionMessageRole role, String? content,
+    TResult? Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult? Function(
-            ChatCompletionMessageRole role, String content, String name)?
+            ChatCompletionMessageRole role, String? content, String name)?
         function,
   }) {
     return function?.call(role, content, name);
@@ -20566,29 +32378,29 @@ class _$ChatCompletionFunctionMessageImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChatCompletionMessageRole role, String? content,
+    TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(includeIfNull: false) String? name)?
         system,
     TResult Function(
             ChatCompletionMessageRole role,
             @_ChatCompletionUserMessageContentConverter()
-            ChatCompletionUserMessageContent? content,
+            ChatCompletionUserMessageContent content,
             @JsonKey(includeIfNull: false) String? name)?
         user,
     TResult Function(
             ChatCompletionMessageRole role,
-            String? content,
+            @JsonKey(includeIfNull: false) String? content,
             @JsonKey(includeIfNull: false) String? name,
             @JsonKey(name: 'tool_calls', includeIfNull: false)
             List<ChatCompletionMessageToolCall>? toolCalls,
             @JsonKey(name: 'function_call', includeIfNull: false)
             ChatCompletionMessageFunctionCall? functionCall)?
         assistant,
-    TResult Function(ChatCompletionMessageRole role, String? content,
+    TResult Function(ChatCompletionMessageRole role, String content,
             @JsonKey(name: 'tool_call_id') String toolCallId)?
         tool,
     TResult Function(
-            ChatCompletionMessageRole role, String content, String name)?
+            ChatCompletionMessageRole role, String? content, String name)?
         function,
     required TResult orElse(),
   }) {
@@ -20649,7 +32461,7 @@ class _$ChatCompletionFunctionMessageImpl
 abstract class ChatCompletionFunctionMessage extends ChatCompletionMessage {
   const factory ChatCompletionFunctionMessage(
       {final ChatCompletionMessageRole role,
-      required final String content,
+      required final String? content,
       required final String name}) = _$ChatCompletionFunctionMessageImpl;
   const ChatCompletionFunctionMessage._() : super._();
 
@@ -20663,7 +32475,7 @@ abstract class ChatCompletionFunctionMessage extends ChatCompletionMessage {
   @override
 
   /// The contents of the function message.
-  String get content;
+  String? get content;
 
   /// The name of the function to call.
   String get name;
@@ -20824,7 +32636,7 @@ class _$ChatCompletionMessageContentPartsImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionMessageContentPartsImpl &&
@@ -20994,7 +32806,7 @@ class _$ChatCompletionUserMessageContentStringImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionUserMessageContentStringImpl &&
@@ -21286,7 +33098,7 @@ class _$ChatCompletionMessageContentPartTextImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionMessageContentPartTextImpl &&
@@ -21495,7 +33307,7 @@ class _$ChatCompletionMessageContentPartImageImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionMessageContentPartImageImpl &&
@@ -21754,7 +33566,7 @@ class _$ChatCompletionMessageImageUrlImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionMessageImageUrlImpl &&
@@ -21805,5 +33617,4291 @@ abstract class _ChatCompletionMessageImageUrl
   @JsonKey(ignore: true)
   _$$ChatCompletionMessageImageUrlImplCopyWith<
           _$ChatCompletionMessageImageUrlImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+AssistantTools _$AssistantToolsFromJson(Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'code_interpreter':
+      return AssistantToolsCodeInterpreter.fromJson(json);
+    case 'retrieval':
+      return AssistantToolsRetrieval.fromJson(json);
+    case 'function':
+      return AssistantToolsFunction.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'type', 'AssistantTools',
+          'Invalid union type "${json['type']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$AssistantTools {
+  /// The type of tool being defined: `code_interpreter`
+  String get type => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type) codeInterpreter,
+    required TResult Function(String type) retrieval,
+    required TResult Function(String type, FunctionObject function) function,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type)? codeInterpreter,
+    TResult? Function(String type)? retrieval,
+    TResult? Function(String type, FunctionObject function)? function,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type)? codeInterpreter,
+    TResult Function(String type)? retrieval,
+    TResult Function(String type, FunctionObject function)? function,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AssistantToolsCodeInterpreter value)
+        codeInterpreter,
+    required TResult Function(AssistantToolsRetrieval value) retrieval,
+    required TResult Function(AssistantToolsFunction value) function,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AssistantToolsCodeInterpreter value)? codeInterpreter,
+    TResult? Function(AssistantToolsRetrieval value)? retrieval,
+    TResult? Function(AssistantToolsFunction value)? function,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AssistantToolsCodeInterpreter value)? codeInterpreter,
+    TResult Function(AssistantToolsRetrieval value)? retrieval,
+    TResult Function(AssistantToolsFunction value)? function,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AssistantToolsCopyWith<AssistantTools> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AssistantToolsCopyWith<$Res> {
+  factory $AssistantToolsCopyWith(
+          AssistantTools value, $Res Function(AssistantTools) then) =
+      _$AssistantToolsCopyWithImpl<$Res, AssistantTools>;
+  @useResult
+  $Res call({String type});
+}
+
+/// @nodoc
+class _$AssistantToolsCopyWithImpl<$Res, $Val extends AssistantTools>
+    implements $AssistantToolsCopyWith<$Res> {
+  _$AssistantToolsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AssistantToolsCodeInterpreterImplCopyWith<$Res>
+    implements $AssistantToolsCopyWith<$Res> {
+  factory _$$AssistantToolsCodeInterpreterImplCopyWith(
+          _$AssistantToolsCodeInterpreterImpl value,
+          $Res Function(_$AssistantToolsCodeInterpreterImpl) then) =
+      __$$AssistantToolsCodeInterpreterImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String type});
+}
+
+/// @nodoc
+class __$$AssistantToolsCodeInterpreterImplCopyWithImpl<$Res>
+    extends _$AssistantToolsCopyWithImpl<$Res,
+        _$AssistantToolsCodeInterpreterImpl>
+    implements _$$AssistantToolsCodeInterpreterImplCopyWith<$Res> {
+  __$$AssistantToolsCodeInterpreterImplCopyWithImpl(
+      _$AssistantToolsCodeInterpreterImpl _value,
+      $Res Function(_$AssistantToolsCodeInterpreterImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_$AssistantToolsCodeInterpreterImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AssistantToolsCodeInterpreterImpl
+    extends AssistantToolsCodeInterpreter {
+  const _$AssistantToolsCodeInterpreterImpl({this.type = 'code_interpreter'})
+      : super._();
+
+  factory _$AssistantToolsCodeInterpreterImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$AssistantToolsCodeInterpreterImplFromJson(json);
+
+  /// The type of tool being defined: `code_interpreter`
+  @override
+  @JsonKey()
+  final String type;
+
+  @override
+  String toString() {
+    return 'AssistantTools.codeInterpreter(type: $type)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AssistantToolsCodeInterpreterImpl &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AssistantToolsCodeInterpreterImplCopyWith<
+          _$AssistantToolsCodeInterpreterImpl>
+      get copyWith => __$$AssistantToolsCodeInterpreterImplCopyWithImpl<
+          _$AssistantToolsCodeInterpreterImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type) codeInterpreter,
+    required TResult Function(String type) retrieval,
+    required TResult Function(String type, FunctionObject function) function,
+  }) {
+    return codeInterpreter(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type)? codeInterpreter,
+    TResult? Function(String type)? retrieval,
+    TResult? Function(String type, FunctionObject function)? function,
+  }) {
+    return codeInterpreter?.call(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type)? codeInterpreter,
+    TResult Function(String type)? retrieval,
+    TResult Function(String type, FunctionObject function)? function,
+    required TResult orElse(),
+  }) {
+    if (codeInterpreter != null) {
+      return codeInterpreter(type);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AssistantToolsCodeInterpreter value)
+        codeInterpreter,
+    required TResult Function(AssistantToolsRetrieval value) retrieval,
+    required TResult Function(AssistantToolsFunction value) function,
+  }) {
+    return codeInterpreter(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AssistantToolsCodeInterpreter value)? codeInterpreter,
+    TResult? Function(AssistantToolsRetrieval value)? retrieval,
+    TResult? Function(AssistantToolsFunction value)? function,
+  }) {
+    return codeInterpreter?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AssistantToolsCodeInterpreter value)? codeInterpreter,
+    TResult Function(AssistantToolsRetrieval value)? retrieval,
+    TResult Function(AssistantToolsFunction value)? function,
+    required TResult orElse(),
+  }) {
+    if (codeInterpreter != null) {
+      return codeInterpreter(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AssistantToolsCodeInterpreterImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class AssistantToolsCodeInterpreter extends AssistantTools {
+  const factory AssistantToolsCodeInterpreter({final String type}) =
+      _$AssistantToolsCodeInterpreterImpl;
+  const AssistantToolsCodeInterpreter._() : super._();
+
+  factory AssistantToolsCodeInterpreter.fromJson(Map<String, dynamic> json) =
+      _$AssistantToolsCodeInterpreterImpl.fromJson;
+
+  @override
+
+  /// The type of tool being defined: `code_interpreter`
+  String get type;
+  @override
+  @JsonKey(ignore: true)
+  _$$AssistantToolsCodeInterpreterImplCopyWith<
+          _$AssistantToolsCodeInterpreterImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$AssistantToolsRetrievalImplCopyWith<$Res>
+    implements $AssistantToolsCopyWith<$Res> {
+  factory _$$AssistantToolsRetrievalImplCopyWith(
+          _$AssistantToolsRetrievalImpl value,
+          $Res Function(_$AssistantToolsRetrievalImpl) then) =
+      __$$AssistantToolsRetrievalImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String type});
+}
+
+/// @nodoc
+class __$$AssistantToolsRetrievalImplCopyWithImpl<$Res>
+    extends _$AssistantToolsCopyWithImpl<$Res, _$AssistantToolsRetrievalImpl>
+    implements _$$AssistantToolsRetrievalImplCopyWith<$Res> {
+  __$$AssistantToolsRetrievalImplCopyWithImpl(
+      _$AssistantToolsRetrievalImpl _value,
+      $Res Function(_$AssistantToolsRetrievalImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_$AssistantToolsRetrievalImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AssistantToolsRetrievalImpl extends AssistantToolsRetrieval {
+  const _$AssistantToolsRetrievalImpl({this.type = 'retrieval'}) : super._();
+
+  factory _$AssistantToolsRetrievalImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AssistantToolsRetrievalImplFromJson(json);
+
+  /// The type of tool being defined: `retrieval`
+  @override
+  @JsonKey()
+  final String type;
+
+  @override
+  String toString() {
+    return 'AssistantTools.retrieval(type: $type)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AssistantToolsRetrievalImpl &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AssistantToolsRetrievalImplCopyWith<_$AssistantToolsRetrievalImpl>
+      get copyWith => __$$AssistantToolsRetrievalImplCopyWithImpl<
+          _$AssistantToolsRetrievalImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type) codeInterpreter,
+    required TResult Function(String type) retrieval,
+    required TResult Function(String type, FunctionObject function) function,
+  }) {
+    return retrieval(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type)? codeInterpreter,
+    TResult? Function(String type)? retrieval,
+    TResult? Function(String type, FunctionObject function)? function,
+  }) {
+    return retrieval?.call(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type)? codeInterpreter,
+    TResult Function(String type)? retrieval,
+    TResult Function(String type, FunctionObject function)? function,
+    required TResult orElse(),
+  }) {
+    if (retrieval != null) {
+      return retrieval(type);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AssistantToolsCodeInterpreter value)
+        codeInterpreter,
+    required TResult Function(AssistantToolsRetrieval value) retrieval,
+    required TResult Function(AssistantToolsFunction value) function,
+  }) {
+    return retrieval(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AssistantToolsCodeInterpreter value)? codeInterpreter,
+    TResult? Function(AssistantToolsRetrieval value)? retrieval,
+    TResult? Function(AssistantToolsFunction value)? function,
+  }) {
+    return retrieval?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AssistantToolsCodeInterpreter value)? codeInterpreter,
+    TResult Function(AssistantToolsRetrieval value)? retrieval,
+    TResult Function(AssistantToolsFunction value)? function,
+    required TResult orElse(),
+  }) {
+    if (retrieval != null) {
+      return retrieval(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AssistantToolsRetrievalImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class AssistantToolsRetrieval extends AssistantTools {
+  const factory AssistantToolsRetrieval({final String type}) =
+      _$AssistantToolsRetrievalImpl;
+  const AssistantToolsRetrieval._() : super._();
+
+  factory AssistantToolsRetrieval.fromJson(Map<String, dynamic> json) =
+      _$AssistantToolsRetrievalImpl.fromJson;
+
+  @override
+
+  /// The type of tool being defined: `retrieval`
+  String get type;
+  @override
+  @JsonKey(ignore: true)
+  _$$AssistantToolsRetrievalImplCopyWith<_$AssistantToolsRetrievalImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$AssistantToolsFunctionImplCopyWith<$Res>
+    implements $AssistantToolsCopyWith<$Res> {
+  factory _$$AssistantToolsFunctionImplCopyWith(
+          _$AssistantToolsFunctionImpl value,
+          $Res Function(_$AssistantToolsFunctionImpl) then) =
+      __$$AssistantToolsFunctionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String type, FunctionObject function});
+
+  $FunctionObjectCopyWith<$Res> get function;
+}
+
+/// @nodoc
+class __$$AssistantToolsFunctionImplCopyWithImpl<$Res>
+    extends _$AssistantToolsCopyWithImpl<$Res, _$AssistantToolsFunctionImpl>
+    implements _$$AssistantToolsFunctionImplCopyWith<$Res> {
+  __$$AssistantToolsFunctionImplCopyWithImpl(
+      _$AssistantToolsFunctionImpl _value,
+      $Res Function(_$AssistantToolsFunctionImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? function = null,
+  }) {
+    return _then(_$AssistantToolsFunctionImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      function: null == function
+          ? _value.function
+          : function // ignore: cast_nullable_to_non_nullable
+              as FunctionObject,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FunctionObjectCopyWith<$Res> get function {
+    return $FunctionObjectCopyWith<$Res>(_value.function, (value) {
+      return _then(_value.copyWith(function: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AssistantToolsFunctionImpl extends AssistantToolsFunction {
+  const _$AssistantToolsFunctionImpl(
+      {this.type = 'function', required this.function})
+      : super._();
+
+  factory _$AssistantToolsFunctionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AssistantToolsFunctionImplFromJson(json);
+
+  /// The type of tool being defined: `function`
+  @override
+  @JsonKey()
+  final String type;
+
+  /// A function that the model may call.
+  @override
+  final FunctionObject function;
+
+  @override
+  String toString() {
+    return 'AssistantTools.function(type: $type, function: $function)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AssistantToolsFunctionImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.function, function) ||
+                other.function == function));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, function);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AssistantToolsFunctionImplCopyWith<_$AssistantToolsFunctionImpl>
+      get copyWith => __$$AssistantToolsFunctionImplCopyWithImpl<
+          _$AssistantToolsFunctionImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type) codeInterpreter,
+    required TResult Function(String type) retrieval,
+    required TResult Function(String type, FunctionObject function) function,
+  }) {
+    return function(type, this.function);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type)? codeInterpreter,
+    TResult? Function(String type)? retrieval,
+    TResult? Function(String type, FunctionObject function)? function,
+  }) {
+    return function?.call(type, this.function);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type)? codeInterpreter,
+    TResult Function(String type)? retrieval,
+    TResult Function(String type, FunctionObject function)? function,
+    required TResult orElse(),
+  }) {
+    if (function != null) {
+      return function(type, this.function);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AssistantToolsCodeInterpreter value)
+        codeInterpreter,
+    required TResult Function(AssistantToolsRetrieval value) retrieval,
+    required TResult Function(AssistantToolsFunction value) function,
+  }) {
+    return function(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AssistantToolsCodeInterpreter value)? codeInterpreter,
+    TResult? Function(AssistantToolsRetrieval value)? retrieval,
+    TResult? Function(AssistantToolsFunction value)? function,
+  }) {
+    return function?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AssistantToolsCodeInterpreter value)? codeInterpreter,
+    TResult Function(AssistantToolsRetrieval value)? retrieval,
+    TResult Function(AssistantToolsFunction value)? function,
+    required TResult orElse(),
+  }) {
+    if (function != null) {
+      return function(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AssistantToolsFunctionImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class AssistantToolsFunction extends AssistantTools {
+  const factory AssistantToolsFunction(
+      {final String type,
+      required final FunctionObject function}) = _$AssistantToolsFunctionImpl;
+  const AssistantToolsFunction._() : super._();
+
+  factory AssistantToolsFunction.fromJson(Map<String, dynamic> json) =
+      _$AssistantToolsFunctionImpl.fromJson;
+
+  @override
+
+  /// The type of tool being defined: `function`
+  String get type;
+
+  /// A function that the model may call.
+  FunctionObject get function;
+  @override
+  @JsonKey(ignore: true)
+  _$$AssistantToolsFunctionImplCopyWith<_$AssistantToolsFunctionImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+MessageContent _$MessageContentFromJson(Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'image_file':
+      return MessageContentImageFileObject.fromJson(json);
+    case 'text':
+      return MessageContentTextObject.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'type', 'MessageContent',
+          'Invalid union type "${json['type']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$MessageContent {
+  /// Always `image_file`.
+  String get type => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type,
+            @JsonKey(name: 'image_file') MessageContentImageFile imageFile)
+        imageFile,
+    required TResult Function(String type, MessageContentText text) text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type,
+            @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
+        imageFile,
+    TResult? Function(String type, MessageContentText text)? text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type,
+            @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
+        imageFile,
+    TResult Function(String type, MessageContentText text)? text,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(MessageContentImageFileObject value) imageFile,
+    required TResult Function(MessageContentTextObject value) text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MessageContentImageFileObject value)? imageFile,
+    TResult? Function(MessageContentTextObject value)? text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MessageContentImageFileObject value)? imageFile,
+    TResult Function(MessageContentTextObject value)? text,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageContentCopyWith<MessageContent> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageContentCopyWith<$Res> {
+  factory $MessageContentCopyWith(
+          MessageContent value, $Res Function(MessageContent) then) =
+      _$MessageContentCopyWithImpl<$Res, MessageContent>;
+  @useResult
+  $Res call({String type});
+}
+
+/// @nodoc
+class _$MessageContentCopyWithImpl<$Res, $Val extends MessageContent>
+    implements $MessageContentCopyWith<$Res> {
+  _$MessageContentCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageContentImageFileObjectImplCopyWith<$Res>
+    implements $MessageContentCopyWith<$Res> {
+  factory _$$MessageContentImageFileObjectImplCopyWith(
+          _$MessageContentImageFileObjectImpl value,
+          $Res Function(_$MessageContentImageFileObjectImpl) then) =
+      __$$MessageContentImageFileObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String type,
+      @JsonKey(name: 'image_file') MessageContentImageFile imageFile});
+
+  $MessageContentImageFileCopyWith<$Res> get imageFile;
+}
+
+/// @nodoc
+class __$$MessageContentImageFileObjectImplCopyWithImpl<$Res>
+    extends _$MessageContentCopyWithImpl<$Res,
+        _$MessageContentImageFileObjectImpl>
+    implements _$$MessageContentImageFileObjectImplCopyWith<$Res> {
+  __$$MessageContentImageFileObjectImplCopyWithImpl(
+      _$MessageContentImageFileObjectImpl _value,
+      $Res Function(_$MessageContentImageFileObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? imageFile = null,
+  }) {
+    return _then(_$MessageContentImageFileObjectImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageFile: null == imageFile
+          ? _value.imageFile
+          : imageFile // ignore: cast_nullable_to_non_nullable
+              as MessageContentImageFile,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageContentImageFileCopyWith<$Res> get imageFile {
+    return $MessageContentImageFileCopyWith<$Res>(_value.imageFile, (value) {
+      return _then(_value.copyWith(imageFile: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageContentImageFileObjectImpl
+    extends MessageContentImageFileObject {
+  const _$MessageContentImageFileObjectImpl(
+      {required this.type,
+      @JsonKey(name: 'image_file') required this.imageFile})
+      : super._();
+
+  factory _$MessageContentImageFileObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageContentImageFileObjectImplFromJson(json);
+
+  /// Always `image_file`.
+  @override
+  final String type;
+
+  /// The image file that is part of a message.
+  @override
+  @JsonKey(name: 'image_file')
+  final MessageContentImageFile imageFile;
+
+  @override
+  String toString() {
+    return 'MessageContent.imageFile(type: $type, imageFile: $imageFile)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageContentImageFileObjectImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.imageFile, imageFile) ||
+                other.imageFile == imageFile));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, imageFile);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageContentImageFileObjectImplCopyWith<
+          _$MessageContentImageFileObjectImpl>
+      get copyWith => __$$MessageContentImageFileObjectImplCopyWithImpl<
+          _$MessageContentImageFileObjectImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type,
+            @JsonKey(name: 'image_file') MessageContentImageFile imageFile)
+        imageFile,
+    required TResult Function(String type, MessageContentText text) text,
+  }) {
+    return imageFile(type, this.imageFile);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type,
+            @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
+        imageFile,
+    TResult? Function(String type, MessageContentText text)? text,
+  }) {
+    return imageFile?.call(type, this.imageFile);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type,
+            @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
+        imageFile,
+    TResult Function(String type, MessageContentText text)? text,
+    required TResult orElse(),
+  }) {
+    if (imageFile != null) {
+      return imageFile(type, this.imageFile);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(MessageContentImageFileObject value) imageFile,
+    required TResult Function(MessageContentTextObject value) text,
+  }) {
+    return imageFile(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MessageContentImageFileObject value)? imageFile,
+    TResult? Function(MessageContentTextObject value)? text,
+  }) {
+    return imageFile?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MessageContentImageFileObject value)? imageFile,
+    TResult Function(MessageContentTextObject value)? text,
+    required TResult orElse(),
+  }) {
+    if (imageFile != null) {
+      return imageFile(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageContentImageFileObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class MessageContentImageFileObject extends MessageContent {
+  const factory MessageContentImageFileObject(
+          {required final String type,
+          @JsonKey(name: 'image_file')
+          required final MessageContentImageFile imageFile}) =
+      _$MessageContentImageFileObjectImpl;
+  const MessageContentImageFileObject._() : super._();
+
+  factory MessageContentImageFileObject.fromJson(Map<String, dynamic> json) =
+      _$MessageContentImageFileObjectImpl.fromJson;
+
+  @override
+
+  /// Always `image_file`.
+  String get type;
+
+  /// The image file that is part of a message.
+  @JsonKey(name: 'image_file')
+  MessageContentImageFile get imageFile;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageContentImageFileObjectImplCopyWith<
+          _$MessageContentImageFileObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$MessageContentTextObjectImplCopyWith<$Res>
+    implements $MessageContentCopyWith<$Res> {
+  factory _$$MessageContentTextObjectImplCopyWith(
+          _$MessageContentTextObjectImpl value,
+          $Res Function(_$MessageContentTextObjectImpl) then) =
+      __$$MessageContentTextObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String type, MessageContentText text});
+
+  $MessageContentTextCopyWith<$Res> get text;
+}
+
+/// @nodoc
+class __$$MessageContentTextObjectImplCopyWithImpl<$Res>
+    extends _$MessageContentCopyWithImpl<$Res, _$MessageContentTextObjectImpl>
+    implements _$$MessageContentTextObjectImplCopyWith<$Res> {
+  __$$MessageContentTextObjectImplCopyWithImpl(
+      _$MessageContentTextObjectImpl _value,
+      $Res Function(_$MessageContentTextObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? text = null,
+  }) {
+    return _then(_$MessageContentTextObjectImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as MessageContentText,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageContentTextCopyWith<$Res> get text {
+    return $MessageContentTextCopyWith<$Res>(_value.text, (value) {
+      return _then(_value.copyWith(text: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageContentTextObjectImpl extends MessageContentTextObject {
+  const _$MessageContentTextObjectImpl({required this.type, required this.text})
+      : super._();
+
+  factory _$MessageContentTextObjectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageContentTextObjectImplFromJson(json);
+
+  /// Always `text`.
+  @override
+  final String type;
+
+  /// The text content that is part of a message.
+  @override
+  final MessageContentText text;
+
+  @override
+  String toString() {
+    return 'MessageContent.text(type: $type, text: $text)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageContentTextObjectImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.text, text) || other.text == text));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, text);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageContentTextObjectImplCopyWith<_$MessageContentTextObjectImpl>
+      get copyWith => __$$MessageContentTextObjectImplCopyWithImpl<
+          _$MessageContentTextObjectImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type,
+            @JsonKey(name: 'image_file') MessageContentImageFile imageFile)
+        imageFile,
+    required TResult Function(String type, MessageContentText text) text,
+  }) {
+    return text(type, this.text);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type,
+            @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
+        imageFile,
+    TResult? Function(String type, MessageContentText text)? text,
+  }) {
+    return text?.call(type, this.text);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type,
+            @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
+        imageFile,
+    TResult Function(String type, MessageContentText text)? text,
+    required TResult orElse(),
+  }) {
+    if (text != null) {
+      return text(type, this.text);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(MessageContentImageFileObject value) imageFile,
+    required TResult Function(MessageContentTextObject value) text,
+  }) {
+    return text(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MessageContentImageFileObject value)? imageFile,
+    TResult? Function(MessageContentTextObject value)? text,
+  }) {
+    return text?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MessageContentImageFileObject value)? imageFile,
+    TResult Function(MessageContentTextObject value)? text,
+    required TResult orElse(),
+  }) {
+    if (text != null) {
+      return text(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageContentTextObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class MessageContentTextObject extends MessageContent {
+  const factory MessageContentTextObject(
+      {required final String type,
+      required final MessageContentText text}) = _$MessageContentTextObjectImpl;
+  const MessageContentTextObject._() : super._();
+
+  factory MessageContentTextObject.fromJson(Map<String, dynamic> json) =
+      _$MessageContentTextObjectImpl.fromJson;
+
+  @override
+
+  /// Always `text`.
+  String get type;
+
+  /// The text content that is part of a message.
+  MessageContentText get text;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageContentTextObjectImplCopyWith<_$MessageContentTextObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+MessageContentTextAnnotations _$MessageContentTextAnnotationsFromJson(
+    Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'file_citation':
+      return MessageContentTextAnnotationsFileCitationObject.fromJson(json);
+    case 'file_path':
+      return MessageContentTextAnnotationsFilePathObject.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'type',
+          'MessageContentTextAnnotations',
+          'Invalid union type "${json['type']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$MessageContentTextAnnotations {
+  /// Always `file_citation`.
+  Enum get type => throw _privateConstructorUsedError;
+
+  /// The text in the message content that needs to be replaced.
+  String get text => throw _privateConstructorUsedError;
+
+  /// The start index of the text in the message content that needs to be replaced.
+  @JsonKey(name: 'start_index')
+  int get startIndex => throw _privateConstructorUsedError;
+
+  /// The end index of the text in the message content that needs to be replaced.
+  @JsonKey(name: 'end_index')
+  int get endIndex => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            MessageContentTextAnnotationsFileCitationObjectType type,
+            String text,
+            @JsonKey(name: 'file_citation')
+            MessageContentTextAnnotationsFileCitation fileCitation,
+            @JsonKey(name: 'start_index') int startIndex,
+            @JsonKey(name: 'end_index') int endIndex)
+        fileCitation,
+    required TResult Function(
+            MessageContentTextAnnotationsFilePathObjectType type,
+            String text,
+            @JsonKey(name: 'file_path')
+            MessageContentTextAnnotationsFilePath filePath,
+            @JsonKey(name: 'start_index') int startIndex,
+            @JsonKey(name: 'end_index') int endIndex)
+        filePath,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            MessageContentTextAnnotationsFileCitationObjectType type,
+            String text,
+            @JsonKey(name: 'file_citation')
+            MessageContentTextAnnotationsFileCitation fileCitation,
+            @JsonKey(name: 'start_index') int startIndex,
+            @JsonKey(name: 'end_index') int endIndex)?
+        fileCitation,
+    TResult? Function(
+            MessageContentTextAnnotationsFilePathObjectType type,
+            String text,
+            @JsonKey(name: 'file_path')
+            MessageContentTextAnnotationsFilePath filePath,
+            @JsonKey(name: 'start_index') int startIndex,
+            @JsonKey(name: 'end_index') int endIndex)?
+        filePath,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            MessageContentTextAnnotationsFileCitationObjectType type,
+            String text,
+            @JsonKey(name: 'file_citation')
+            MessageContentTextAnnotationsFileCitation fileCitation,
+            @JsonKey(name: 'start_index') int startIndex,
+            @JsonKey(name: 'end_index') int endIndex)?
+        fileCitation,
+    TResult Function(
+            MessageContentTextAnnotationsFilePathObjectType type,
+            String text,
+            @JsonKey(name: 'file_path')
+            MessageContentTextAnnotationsFilePath filePath,
+            @JsonKey(name: 'start_index') int startIndex,
+            @JsonKey(name: 'end_index') int endIndex)?
+        filePath,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            MessageContentTextAnnotationsFileCitationObject value)
+        fileCitation,
+    required TResult Function(MessageContentTextAnnotationsFilePathObject value)
+        filePath,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MessageContentTextAnnotationsFileCitationObject value)?
+        fileCitation,
+    TResult? Function(MessageContentTextAnnotationsFilePathObject value)?
+        filePath,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MessageContentTextAnnotationsFileCitationObject value)?
+        fileCitation,
+    TResult Function(MessageContentTextAnnotationsFilePathObject value)?
+        filePath,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageContentTextAnnotationsCopyWith<MessageContentTextAnnotations>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageContentTextAnnotationsCopyWith<$Res> {
+  factory $MessageContentTextAnnotationsCopyWith(
+          MessageContentTextAnnotations value,
+          $Res Function(MessageContentTextAnnotations) then) =
+      _$MessageContentTextAnnotationsCopyWithImpl<$Res,
+          MessageContentTextAnnotations>;
+  @useResult
+  $Res call(
+      {String text,
+      @JsonKey(name: 'start_index') int startIndex,
+      @JsonKey(name: 'end_index') int endIndex});
+}
+
+/// @nodoc
+class _$MessageContentTextAnnotationsCopyWithImpl<$Res,
+        $Val extends MessageContentTextAnnotations>
+    implements $MessageContentTextAnnotationsCopyWith<$Res> {
+  _$MessageContentTextAnnotationsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? text = null,
+    Object? startIndex = null,
+    Object? endIndex = null,
+  }) {
+    return _then(_value.copyWith(
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      startIndex: null == startIndex
+          ? _value.startIndex
+          : startIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      endIndex: null == endIndex
+          ? _value.endIndex
+          : endIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageContentTextAnnotationsFileCitationObjectImplCopyWith<
+    $Res> implements $MessageContentTextAnnotationsCopyWith<$Res> {
+  factory _$$MessageContentTextAnnotationsFileCitationObjectImplCopyWith(
+          _$MessageContentTextAnnotationsFileCitationObjectImpl value,
+          $Res Function(_$MessageContentTextAnnotationsFileCitationObjectImpl)
+              then) =
+      __$$MessageContentTextAnnotationsFileCitationObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {MessageContentTextAnnotationsFileCitationObjectType type,
+      String text,
+      @JsonKey(name: 'file_citation')
+      MessageContentTextAnnotationsFileCitation fileCitation,
+      @JsonKey(name: 'start_index') int startIndex,
+      @JsonKey(name: 'end_index') int endIndex});
+
+  $MessageContentTextAnnotationsFileCitationCopyWith<$Res> get fileCitation;
+}
+
+/// @nodoc
+class __$$MessageContentTextAnnotationsFileCitationObjectImplCopyWithImpl<$Res>
+    extends _$MessageContentTextAnnotationsCopyWithImpl<$Res,
+        _$MessageContentTextAnnotationsFileCitationObjectImpl>
+    implements
+        _$$MessageContentTextAnnotationsFileCitationObjectImplCopyWith<$Res> {
+  __$$MessageContentTextAnnotationsFileCitationObjectImplCopyWithImpl(
+      _$MessageContentTextAnnotationsFileCitationObjectImpl _value,
+      $Res Function(_$MessageContentTextAnnotationsFileCitationObjectImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? text = null,
+    Object? fileCitation = null,
+    Object? startIndex = null,
+    Object? endIndex = null,
+  }) {
+    return _then(_$MessageContentTextAnnotationsFileCitationObjectImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as MessageContentTextAnnotationsFileCitationObjectType,
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      fileCitation: null == fileCitation
+          ? _value.fileCitation
+          : fileCitation // ignore: cast_nullable_to_non_nullable
+              as MessageContentTextAnnotationsFileCitation,
+      startIndex: null == startIndex
+          ? _value.startIndex
+          : startIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      endIndex: null == endIndex
+          ? _value.endIndex
+          : endIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageContentTextAnnotationsFileCitationCopyWith<$Res> get fileCitation {
+    return $MessageContentTextAnnotationsFileCitationCopyWith<$Res>(
+        _value.fileCitation, (value) {
+      return _then(_value.copyWith(fileCitation: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageContentTextAnnotationsFileCitationObjectImpl
+    extends MessageContentTextAnnotationsFileCitationObject {
+  const _$MessageContentTextAnnotationsFileCitationObjectImpl(
+      {required this.type,
+      required this.text,
+      @JsonKey(name: 'file_citation') required this.fileCitation,
+      @JsonKey(name: 'start_index') required this.startIndex,
+      @JsonKey(name: 'end_index') required this.endIndex})
+      : super._();
+
+  factory _$MessageContentTextAnnotationsFileCitationObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageContentTextAnnotationsFileCitationObjectImplFromJson(json);
+
+  /// Always `file_citation`.
+  @override
+  final MessageContentTextAnnotationsFileCitationObjectType type;
+
+  /// The text in the message content that needs to be replaced.
+  @override
+  final String text;
+
+  /// A citation within the message that points to a specific quote from a specific File associated with the assistant or the message.
+  @override
+  @JsonKey(name: 'file_citation')
+  final MessageContentTextAnnotationsFileCitation fileCitation;
+
+  /// The start index of the text in the message content that needs to be replaced.
+  @override
+  @JsonKey(name: 'start_index')
+  final int startIndex;
+
+  /// The end index of the text in the message content that needs to be replaced.
+  @override
+  @JsonKey(name: 'end_index')
+  final int endIndex;
+
+  @override
+  String toString() {
+    return 'MessageContentTextAnnotations.fileCitation(type: $type, text: $text, fileCitation: $fileCitation, startIndex: $startIndex, endIndex: $endIndex)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageContentTextAnnotationsFileCitationObjectImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.text, text) || other.text == text) &&
+            (identical(other.fileCitation, fileCitation) ||
+                other.fileCitation == fileCitation) &&
+            (identical(other.startIndex, startIndex) ||
+                other.startIndex == startIndex) &&
+            (identical(other.endIndex, endIndex) ||
+                other.endIndex == endIndex));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, type, text, fileCitation, startIndex, endIndex);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageContentTextAnnotationsFileCitationObjectImplCopyWith<
+          _$MessageContentTextAnnotationsFileCitationObjectImpl>
+      get copyWith =>
+          __$$MessageContentTextAnnotationsFileCitationObjectImplCopyWithImpl<
+                  _$MessageContentTextAnnotationsFileCitationObjectImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            MessageContentTextAnnotationsFileCitationObjectType type,
+            String text,
+            @JsonKey(name: 'file_citation')
+            MessageContentTextAnnotationsFileCitation fileCitation,
+            @JsonKey(name: 'start_index') int startIndex,
+            @JsonKey(name: 'end_index') int endIndex)
+        fileCitation,
+    required TResult Function(
+            MessageContentTextAnnotationsFilePathObjectType type,
+            String text,
+            @JsonKey(name: 'file_path')
+            MessageContentTextAnnotationsFilePath filePath,
+            @JsonKey(name: 'start_index') int startIndex,
+            @JsonKey(name: 'end_index') int endIndex)
+        filePath,
+  }) {
+    return fileCitation(type, text, this.fileCitation, startIndex, endIndex);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            MessageContentTextAnnotationsFileCitationObjectType type,
+            String text,
+            @JsonKey(name: 'file_citation')
+            MessageContentTextAnnotationsFileCitation fileCitation,
+            @JsonKey(name: 'start_index') int startIndex,
+            @JsonKey(name: 'end_index') int endIndex)?
+        fileCitation,
+    TResult? Function(
+            MessageContentTextAnnotationsFilePathObjectType type,
+            String text,
+            @JsonKey(name: 'file_path')
+            MessageContentTextAnnotationsFilePath filePath,
+            @JsonKey(name: 'start_index') int startIndex,
+            @JsonKey(name: 'end_index') int endIndex)?
+        filePath,
+  }) {
+    return fileCitation?.call(
+        type, text, this.fileCitation, startIndex, endIndex);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            MessageContentTextAnnotationsFileCitationObjectType type,
+            String text,
+            @JsonKey(name: 'file_citation')
+            MessageContentTextAnnotationsFileCitation fileCitation,
+            @JsonKey(name: 'start_index') int startIndex,
+            @JsonKey(name: 'end_index') int endIndex)?
+        fileCitation,
+    TResult Function(
+            MessageContentTextAnnotationsFilePathObjectType type,
+            String text,
+            @JsonKey(name: 'file_path')
+            MessageContentTextAnnotationsFilePath filePath,
+            @JsonKey(name: 'start_index') int startIndex,
+            @JsonKey(name: 'end_index') int endIndex)?
+        filePath,
+    required TResult orElse(),
+  }) {
+    if (fileCitation != null) {
+      return fileCitation(type, text, this.fileCitation, startIndex, endIndex);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            MessageContentTextAnnotationsFileCitationObject value)
+        fileCitation,
+    required TResult Function(MessageContentTextAnnotationsFilePathObject value)
+        filePath,
+  }) {
+    return fileCitation(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MessageContentTextAnnotationsFileCitationObject value)?
+        fileCitation,
+    TResult? Function(MessageContentTextAnnotationsFilePathObject value)?
+        filePath,
+  }) {
+    return fileCitation?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MessageContentTextAnnotationsFileCitationObject value)?
+        fileCitation,
+    TResult Function(MessageContentTextAnnotationsFilePathObject value)?
+        filePath,
+    required TResult orElse(),
+  }) {
+    if (fileCitation != null) {
+      return fileCitation(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageContentTextAnnotationsFileCitationObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class MessageContentTextAnnotationsFileCitationObject
+    extends MessageContentTextAnnotations {
+  const factory MessageContentTextAnnotationsFileCitationObject(
+      {required final MessageContentTextAnnotationsFileCitationObjectType type,
+      required final String text,
+      @JsonKey(name: 'file_citation')
+      required final MessageContentTextAnnotationsFileCitation fileCitation,
+      @JsonKey(name: 'start_index') required final int startIndex,
+      @JsonKey(name: 'end_index')
+      required final int
+          endIndex}) = _$MessageContentTextAnnotationsFileCitationObjectImpl;
+  const MessageContentTextAnnotationsFileCitationObject._() : super._();
+
+  factory MessageContentTextAnnotationsFileCitationObject.fromJson(
+          Map<String, dynamic> json) =
+      _$MessageContentTextAnnotationsFileCitationObjectImpl.fromJson;
+
+  @override
+
+  /// Always `file_citation`.
+  MessageContentTextAnnotationsFileCitationObjectType get type;
+  @override
+
+  /// The text in the message content that needs to be replaced.
+  String get text;
+
+  /// A citation within the message that points to a specific quote from a specific File associated with the assistant or the message.
+  @JsonKey(name: 'file_citation')
+  MessageContentTextAnnotationsFileCitation get fileCitation;
+  @override
+
+  /// The start index of the text in the message content that needs to be replaced.
+  @JsonKey(name: 'start_index')
+  int get startIndex;
+  @override
+
+  /// The end index of the text in the message content that needs to be replaced.
+  @JsonKey(name: 'end_index')
+  int get endIndex;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageContentTextAnnotationsFileCitationObjectImplCopyWith<
+          _$MessageContentTextAnnotationsFileCitationObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$MessageContentTextAnnotationsFilePathObjectImplCopyWith<$Res>
+    implements $MessageContentTextAnnotationsCopyWith<$Res> {
+  factory _$$MessageContentTextAnnotationsFilePathObjectImplCopyWith(
+          _$MessageContentTextAnnotationsFilePathObjectImpl value,
+          $Res Function(_$MessageContentTextAnnotationsFilePathObjectImpl)
+              then) =
+      __$$MessageContentTextAnnotationsFilePathObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {MessageContentTextAnnotationsFilePathObjectType type,
+      String text,
+      @JsonKey(name: 'file_path')
+      MessageContentTextAnnotationsFilePath filePath,
+      @JsonKey(name: 'start_index') int startIndex,
+      @JsonKey(name: 'end_index') int endIndex});
+
+  $MessageContentTextAnnotationsFilePathCopyWith<$Res> get filePath;
+}
+
+/// @nodoc
+class __$$MessageContentTextAnnotationsFilePathObjectImplCopyWithImpl<$Res>
+    extends _$MessageContentTextAnnotationsCopyWithImpl<$Res,
+        _$MessageContentTextAnnotationsFilePathObjectImpl>
+    implements
+        _$$MessageContentTextAnnotationsFilePathObjectImplCopyWith<$Res> {
+  __$$MessageContentTextAnnotationsFilePathObjectImplCopyWithImpl(
+      _$MessageContentTextAnnotationsFilePathObjectImpl _value,
+      $Res Function(_$MessageContentTextAnnotationsFilePathObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? text = null,
+    Object? filePath = null,
+    Object? startIndex = null,
+    Object? endIndex = null,
+  }) {
+    return _then(_$MessageContentTextAnnotationsFilePathObjectImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as MessageContentTextAnnotationsFilePathObjectType,
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      filePath: null == filePath
+          ? _value.filePath
+          : filePath // ignore: cast_nullable_to_non_nullable
+              as MessageContentTextAnnotationsFilePath,
+      startIndex: null == startIndex
+          ? _value.startIndex
+          : startIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      endIndex: null == endIndex
+          ? _value.endIndex
+          : endIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageContentTextAnnotationsFilePathCopyWith<$Res> get filePath {
+    return $MessageContentTextAnnotationsFilePathCopyWith<$Res>(_value.filePath,
+        (value) {
+      return _then(_value.copyWith(filePath: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageContentTextAnnotationsFilePathObjectImpl
+    extends MessageContentTextAnnotationsFilePathObject {
+  const _$MessageContentTextAnnotationsFilePathObjectImpl(
+      {required this.type,
+      required this.text,
+      @JsonKey(name: 'file_path') required this.filePath,
+      @JsonKey(name: 'start_index') required this.startIndex,
+      @JsonKey(name: 'end_index') required this.endIndex})
+      : super._();
+
+  factory _$MessageContentTextAnnotationsFilePathObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageContentTextAnnotationsFilePathObjectImplFromJson(json);
+
+  /// Always `file_path`.
+  @override
+  final MessageContentTextAnnotationsFilePathObjectType type;
+
+  /// The text in the message content that needs to be replaced.
+  @override
+  final String text;
+
+  /// No Description
+  @override
+  @JsonKey(name: 'file_path')
+  final MessageContentTextAnnotationsFilePath filePath;
+
+  /// No Description
+  @override
+  @JsonKey(name: 'start_index')
+  final int startIndex;
+
+  /// No Description
+  @override
+  @JsonKey(name: 'end_index')
+  final int endIndex;
+
+  @override
+  String toString() {
+    return 'MessageContentTextAnnotations.filePath(type: $type, text: $text, filePath: $filePath, startIndex: $startIndex, endIndex: $endIndex)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageContentTextAnnotationsFilePathObjectImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.text, text) || other.text == text) &&
+            (identical(other.filePath, filePath) ||
+                other.filePath == filePath) &&
+            (identical(other.startIndex, startIndex) ||
+                other.startIndex == startIndex) &&
+            (identical(other.endIndex, endIndex) ||
+                other.endIndex == endIndex));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, type, text, filePath, startIndex, endIndex);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageContentTextAnnotationsFilePathObjectImplCopyWith<
+          _$MessageContentTextAnnotationsFilePathObjectImpl>
+      get copyWith =>
+          __$$MessageContentTextAnnotationsFilePathObjectImplCopyWithImpl<
+                  _$MessageContentTextAnnotationsFilePathObjectImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            MessageContentTextAnnotationsFileCitationObjectType type,
+            String text,
+            @JsonKey(name: 'file_citation')
+            MessageContentTextAnnotationsFileCitation fileCitation,
+            @JsonKey(name: 'start_index') int startIndex,
+            @JsonKey(name: 'end_index') int endIndex)
+        fileCitation,
+    required TResult Function(
+            MessageContentTextAnnotationsFilePathObjectType type,
+            String text,
+            @JsonKey(name: 'file_path')
+            MessageContentTextAnnotationsFilePath filePath,
+            @JsonKey(name: 'start_index') int startIndex,
+            @JsonKey(name: 'end_index') int endIndex)
+        filePath,
+  }) {
+    return filePath(type, text, this.filePath, startIndex, endIndex);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            MessageContentTextAnnotationsFileCitationObjectType type,
+            String text,
+            @JsonKey(name: 'file_citation')
+            MessageContentTextAnnotationsFileCitation fileCitation,
+            @JsonKey(name: 'start_index') int startIndex,
+            @JsonKey(name: 'end_index') int endIndex)?
+        fileCitation,
+    TResult? Function(
+            MessageContentTextAnnotationsFilePathObjectType type,
+            String text,
+            @JsonKey(name: 'file_path')
+            MessageContentTextAnnotationsFilePath filePath,
+            @JsonKey(name: 'start_index') int startIndex,
+            @JsonKey(name: 'end_index') int endIndex)?
+        filePath,
+  }) {
+    return filePath?.call(type, text, this.filePath, startIndex, endIndex);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            MessageContentTextAnnotationsFileCitationObjectType type,
+            String text,
+            @JsonKey(name: 'file_citation')
+            MessageContentTextAnnotationsFileCitation fileCitation,
+            @JsonKey(name: 'start_index') int startIndex,
+            @JsonKey(name: 'end_index') int endIndex)?
+        fileCitation,
+    TResult Function(
+            MessageContentTextAnnotationsFilePathObjectType type,
+            String text,
+            @JsonKey(name: 'file_path')
+            MessageContentTextAnnotationsFilePath filePath,
+            @JsonKey(name: 'start_index') int startIndex,
+            @JsonKey(name: 'end_index') int endIndex)?
+        filePath,
+    required TResult orElse(),
+  }) {
+    if (filePath != null) {
+      return filePath(type, text, this.filePath, startIndex, endIndex);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            MessageContentTextAnnotationsFileCitationObject value)
+        fileCitation,
+    required TResult Function(MessageContentTextAnnotationsFilePathObject value)
+        filePath,
+  }) {
+    return filePath(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MessageContentTextAnnotationsFileCitationObject value)?
+        fileCitation,
+    TResult? Function(MessageContentTextAnnotationsFilePathObject value)?
+        filePath,
+  }) {
+    return filePath?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MessageContentTextAnnotationsFileCitationObject value)?
+        fileCitation,
+    TResult Function(MessageContentTextAnnotationsFilePathObject value)?
+        filePath,
+    required TResult orElse(),
+  }) {
+    if (filePath != null) {
+      return filePath(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageContentTextAnnotationsFilePathObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class MessageContentTextAnnotationsFilePathObject
+    extends MessageContentTextAnnotations {
+  const factory MessageContentTextAnnotationsFilePathObject(
+          {required final MessageContentTextAnnotationsFilePathObjectType type,
+          required final String text,
+          @JsonKey(name: 'file_path')
+          required final MessageContentTextAnnotationsFilePath filePath,
+          @JsonKey(name: 'start_index') required final int startIndex,
+          @JsonKey(name: 'end_index') required final int endIndex}) =
+      _$MessageContentTextAnnotationsFilePathObjectImpl;
+  const MessageContentTextAnnotationsFilePathObject._() : super._();
+
+  factory MessageContentTextAnnotationsFilePathObject.fromJson(
+          Map<String, dynamic> json) =
+      _$MessageContentTextAnnotationsFilePathObjectImpl.fromJson;
+
+  @override
+
+  /// Always `file_path`.
+  MessageContentTextAnnotationsFilePathObjectType get type;
+  @override
+
+  /// The text in the message content that needs to be replaced.
+  String get text;
+
+  /// No Description
+  @JsonKey(name: 'file_path')
+  MessageContentTextAnnotationsFilePath get filePath;
+  @override
+
+  /// No Description
+  @JsonKey(name: 'start_index')
+  int get startIndex;
+  @override
+
+  /// No Description
+  @JsonKey(name: 'end_index')
+  int get endIndex;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageContentTextAnnotationsFilePathObjectImplCopyWith<
+          _$MessageContentTextAnnotationsFilePathObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+MessageContentTextAnnotationsFilePath
+    _$MessageContentTextAnnotationsFilePathFromJson(Map<String, dynamic> json) {
+  return _MessageContentTextAnnotationsFilePath.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageContentTextAnnotationsFilePath {
+  /// The ID of the file that was generated.
+  @JsonKey(name: 'file_id')
+  String get fileId => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageContentTextAnnotationsFilePathCopyWith<
+          MessageContentTextAnnotationsFilePath>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageContentTextAnnotationsFilePathCopyWith<$Res> {
+  factory $MessageContentTextAnnotationsFilePathCopyWith(
+          MessageContentTextAnnotationsFilePath value,
+          $Res Function(MessageContentTextAnnotationsFilePath) then) =
+      _$MessageContentTextAnnotationsFilePathCopyWithImpl<$Res,
+          MessageContentTextAnnotationsFilePath>;
+  @useResult
+  $Res call({@JsonKey(name: 'file_id') String fileId});
+}
+
+/// @nodoc
+class _$MessageContentTextAnnotationsFilePathCopyWithImpl<$Res,
+        $Val extends MessageContentTextAnnotationsFilePath>
+    implements $MessageContentTextAnnotationsFilePathCopyWith<$Res> {
+  _$MessageContentTextAnnotationsFilePathCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = null,
+  }) {
+    return _then(_value.copyWith(
+      fileId: null == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageContentTextAnnotationsFilePathImplCopyWith<$Res>
+    implements $MessageContentTextAnnotationsFilePathCopyWith<$Res> {
+  factory _$$MessageContentTextAnnotationsFilePathImplCopyWith(
+          _$MessageContentTextAnnotationsFilePathImpl value,
+          $Res Function(_$MessageContentTextAnnotationsFilePathImpl) then) =
+      __$$MessageContentTextAnnotationsFilePathImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'file_id') String fileId});
+}
+
+/// @nodoc
+class __$$MessageContentTextAnnotationsFilePathImplCopyWithImpl<$Res>
+    extends _$MessageContentTextAnnotationsFilePathCopyWithImpl<$Res,
+        _$MessageContentTextAnnotationsFilePathImpl>
+    implements _$$MessageContentTextAnnotationsFilePathImplCopyWith<$Res> {
+  __$$MessageContentTextAnnotationsFilePathImplCopyWithImpl(
+      _$MessageContentTextAnnotationsFilePathImpl _value,
+      $Res Function(_$MessageContentTextAnnotationsFilePathImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = null,
+  }) {
+    return _then(_$MessageContentTextAnnotationsFilePathImpl(
+      fileId: null == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageContentTextAnnotationsFilePathImpl
+    extends _MessageContentTextAnnotationsFilePath {
+  const _$MessageContentTextAnnotationsFilePathImpl(
+      {@JsonKey(name: 'file_id') required this.fileId})
+      : super._();
+
+  factory _$MessageContentTextAnnotationsFilePathImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageContentTextAnnotationsFilePathImplFromJson(json);
+
+  /// The ID of the file that was generated.
+  @override
+  @JsonKey(name: 'file_id')
+  final String fileId;
+
+  @override
+  String toString() {
+    return 'MessageContentTextAnnotationsFilePath(fileId: $fileId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageContentTextAnnotationsFilePathImpl &&
+            (identical(other.fileId, fileId) || other.fileId == fileId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, fileId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageContentTextAnnotationsFilePathImplCopyWith<
+          _$MessageContentTextAnnotationsFilePathImpl>
+      get copyWith => __$$MessageContentTextAnnotationsFilePathImplCopyWithImpl<
+          _$MessageContentTextAnnotationsFilePathImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageContentTextAnnotationsFilePathImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageContentTextAnnotationsFilePath
+    extends MessageContentTextAnnotationsFilePath {
+  const factory _MessageContentTextAnnotationsFilePath(
+          {@JsonKey(name: 'file_id') required final String fileId}) =
+      _$MessageContentTextAnnotationsFilePathImpl;
+  const _MessageContentTextAnnotationsFilePath._() : super._();
+
+  factory _MessageContentTextAnnotationsFilePath.fromJson(
+          Map<String, dynamic> json) =
+      _$MessageContentTextAnnotationsFilePathImpl.fromJson;
+
+  @override
+
+  /// The ID of the file that was generated.
+  @JsonKey(name: 'file_id')
+  String get fileId;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageContentTextAnnotationsFilePathImplCopyWith<
+          _$MessageContentTextAnnotationsFilePathImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RunStepDetails _$RunStepDetailsFromJson(Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'message_creation':
+      return RunStepDetailsMessageCreationObject.fromJson(json);
+    case 'tool_calls':
+      return RunStepDetailsToolCallsObject.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'type', 'RunStepDetails',
+          'Invalid union type "${json['type']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$RunStepDetails {
+  /// Always `message_creation`.
+  Enum get type => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            RunStepDetailsMessageCreationObjectType type,
+            @JsonKey(name: 'message_creation')
+            RunStepDetailsMessageCreation messageCreation)
+        messageCreation,
+    required TResult Function(
+            RunStepDetailsToolCallsObjectType type,
+            @JsonKey(name: 'tool_calls')
+            List<RunStepDetailsToolCalls> toolCalls)
+        toolCalls,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            RunStepDetailsMessageCreationObjectType type,
+            @JsonKey(name: 'message_creation')
+            RunStepDetailsMessageCreation messageCreation)?
+        messageCreation,
+    TResult? Function(
+            RunStepDetailsToolCallsObjectType type,
+            @JsonKey(name: 'tool_calls')
+            List<RunStepDetailsToolCalls> toolCalls)?
+        toolCalls,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            RunStepDetailsMessageCreationObjectType type,
+            @JsonKey(name: 'message_creation')
+            RunStepDetailsMessageCreation messageCreation)?
+        messageCreation,
+    TResult Function(
+            RunStepDetailsToolCallsObjectType type,
+            @JsonKey(name: 'tool_calls')
+            List<RunStepDetailsToolCalls> toolCalls)?
+        toolCalls,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunStepDetailsMessageCreationObject value)
+        messageCreation,
+    required TResult Function(RunStepDetailsToolCallsObject value) toolCalls,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunStepDetailsMessageCreationObject value)?
+        messageCreation,
+    TResult? Function(RunStepDetailsToolCallsObject value)? toolCalls,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunStepDetailsMessageCreationObject value)?
+        messageCreation,
+    TResult Function(RunStepDetailsToolCallsObject value)? toolCalls,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDetailsCopyWith<$Res> {
+  factory $RunStepDetailsCopyWith(
+          RunStepDetails value, $Res Function(RunStepDetails) then) =
+      _$RunStepDetailsCopyWithImpl<$Res, RunStepDetails>;
+}
+
+/// @nodoc
+class _$RunStepDetailsCopyWithImpl<$Res, $Val extends RunStepDetails>
+    implements $RunStepDetailsCopyWith<$Res> {
+  _$RunStepDetailsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$RunStepDetailsMessageCreationObjectImplCopyWith<$Res> {
+  factory _$$RunStepDetailsMessageCreationObjectImplCopyWith(
+          _$RunStepDetailsMessageCreationObjectImpl value,
+          $Res Function(_$RunStepDetailsMessageCreationObjectImpl) then) =
+      __$$RunStepDetailsMessageCreationObjectImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call(
+      {RunStepDetailsMessageCreationObjectType type,
+      @JsonKey(name: 'message_creation')
+      RunStepDetailsMessageCreation messageCreation});
+
+  $RunStepDetailsMessageCreationCopyWith<$Res> get messageCreation;
+}
+
+/// @nodoc
+class __$$RunStepDetailsMessageCreationObjectImplCopyWithImpl<$Res>
+    extends _$RunStepDetailsCopyWithImpl<$Res,
+        _$RunStepDetailsMessageCreationObjectImpl>
+    implements _$$RunStepDetailsMessageCreationObjectImplCopyWith<$Res> {
+  __$$RunStepDetailsMessageCreationObjectImplCopyWithImpl(
+      _$RunStepDetailsMessageCreationObjectImpl _value,
+      $Res Function(_$RunStepDetailsMessageCreationObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? messageCreation = null,
+  }) {
+    return _then(_$RunStepDetailsMessageCreationObjectImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as RunStepDetailsMessageCreationObjectType,
+      messageCreation: null == messageCreation
+          ? _value.messageCreation
+          : messageCreation // ignore: cast_nullable_to_non_nullable
+              as RunStepDetailsMessageCreation,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunStepDetailsMessageCreationCopyWith<$Res> get messageCreation {
+    return $RunStepDetailsMessageCreationCopyWith<$Res>(_value.messageCreation,
+        (value) {
+      return _then(_value.copyWith(messageCreation: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDetailsMessageCreationObjectImpl
+    extends RunStepDetailsMessageCreationObject {
+  const _$RunStepDetailsMessageCreationObjectImpl(
+      {required this.type,
+      @JsonKey(name: 'message_creation') required this.messageCreation})
+      : super._();
+
+  factory _$RunStepDetailsMessageCreationObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDetailsMessageCreationObjectImplFromJson(json);
+
+  /// Always `message_creation`.
+  @override
+  final RunStepDetailsMessageCreationObjectType type;
+
+  /// Details of the message creation by the run step.
+  @override
+  @JsonKey(name: 'message_creation')
+  final RunStepDetailsMessageCreation messageCreation;
+
+  @override
+  String toString() {
+    return 'RunStepDetails.messageCreation(type: $type, messageCreation: $messageCreation)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDetailsMessageCreationObjectImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.messageCreation, messageCreation) ||
+                other.messageCreation == messageCreation));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, messageCreation);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDetailsMessageCreationObjectImplCopyWith<
+          _$RunStepDetailsMessageCreationObjectImpl>
+      get copyWith => __$$RunStepDetailsMessageCreationObjectImplCopyWithImpl<
+          _$RunStepDetailsMessageCreationObjectImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            RunStepDetailsMessageCreationObjectType type,
+            @JsonKey(name: 'message_creation')
+            RunStepDetailsMessageCreation messageCreation)
+        messageCreation,
+    required TResult Function(
+            RunStepDetailsToolCallsObjectType type,
+            @JsonKey(name: 'tool_calls')
+            List<RunStepDetailsToolCalls> toolCalls)
+        toolCalls,
+  }) {
+    return messageCreation(type, this.messageCreation);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            RunStepDetailsMessageCreationObjectType type,
+            @JsonKey(name: 'message_creation')
+            RunStepDetailsMessageCreation messageCreation)?
+        messageCreation,
+    TResult? Function(
+            RunStepDetailsToolCallsObjectType type,
+            @JsonKey(name: 'tool_calls')
+            List<RunStepDetailsToolCalls> toolCalls)?
+        toolCalls,
+  }) {
+    return messageCreation?.call(type, this.messageCreation);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            RunStepDetailsMessageCreationObjectType type,
+            @JsonKey(name: 'message_creation')
+            RunStepDetailsMessageCreation messageCreation)?
+        messageCreation,
+    TResult Function(
+            RunStepDetailsToolCallsObjectType type,
+            @JsonKey(name: 'tool_calls')
+            List<RunStepDetailsToolCalls> toolCalls)?
+        toolCalls,
+    required TResult orElse(),
+  }) {
+    if (messageCreation != null) {
+      return messageCreation(type, this.messageCreation);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunStepDetailsMessageCreationObject value)
+        messageCreation,
+    required TResult Function(RunStepDetailsToolCallsObject value) toolCalls,
+  }) {
+    return messageCreation(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunStepDetailsMessageCreationObject value)?
+        messageCreation,
+    TResult? Function(RunStepDetailsToolCallsObject value)? toolCalls,
+  }) {
+    return messageCreation?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunStepDetailsMessageCreationObject value)?
+        messageCreation,
+    TResult Function(RunStepDetailsToolCallsObject value)? toolCalls,
+    required TResult orElse(),
+  }) {
+    if (messageCreation != null) {
+      return messageCreation(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDetailsMessageCreationObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunStepDetailsMessageCreationObject extends RunStepDetails {
+  const factory RunStepDetailsMessageCreationObject(
+          {required final RunStepDetailsMessageCreationObjectType type,
+          @JsonKey(name: 'message_creation')
+          required final RunStepDetailsMessageCreation messageCreation}) =
+      _$RunStepDetailsMessageCreationObjectImpl;
+  const RunStepDetailsMessageCreationObject._() : super._();
+
+  factory RunStepDetailsMessageCreationObject.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDetailsMessageCreationObjectImpl.fromJson;
+
+  @override
+
+  /// Always `message_creation`.
+  RunStepDetailsMessageCreationObjectType get type;
+
+  /// Details of the message creation by the run step.
+  @JsonKey(name: 'message_creation')
+  RunStepDetailsMessageCreation get messageCreation;
+  @JsonKey(ignore: true)
+  _$$RunStepDetailsMessageCreationObjectImplCopyWith<
+          _$RunStepDetailsMessageCreationObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RunStepDetailsToolCallsObjectImplCopyWith<$Res> {
+  factory _$$RunStepDetailsToolCallsObjectImplCopyWith(
+          _$RunStepDetailsToolCallsObjectImpl value,
+          $Res Function(_$RunStepDetailsToolCallsObjectImpl) then) =
+      __$$RunStepDetailsToolCallsObjectImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call(
+      {RunStepDetailsToolCallsObjectType type,
+      @JsonKey(name: 'tool_calls') List<RunStepDetailsToolCalls> toolCalls});
+}
+
+/// @nodoc
+class __$$RunStepDetailsToolCallsObjectImplCopyWithImpl<$Res>
+    extends _$RunStepDetailsCopyWithImpl<$Res,
+        _$RunStepDetailsToolCallsObjectImpl>
+    implements _$$RunStepDetailsToolCallsObjectImplCopyWith<$Res> {
+  __$$RunStepDetailsToolCallsObjectImplCopyWithImpl(
+      _$RunStepDetailsToolCallsObjectImpl _value,
+      $Res Function(_$RunStepDetailsToolCallsObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? toolCalls = null,
+  }) {
+    return _then(_$RunStepDetailsToolCallsObjectImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as RunStepDetailsToolCallsObjectType,
+      toolCalls: null == toolCalls
+          ? _value._toolCalls
+          : toolCalls // ignore: cast_nullable_to_non_nullable
+              as List<RunStepDetailsToolCalls>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDetailsToolCallsObjectImpl
+    extends RunStepDetailsToolCallsObject {
+  const _$RunStepDetailsToolCallsObjectImpl(
+      {required this.type,
+      @JsonKey(name: 'tool_calls')
+      required final List<RunStepDetailsToolCalls> toolCalls})
+      : _toolCalls = toolCalls,
+        super._();
+
+  factory _$RunStepDetailsToolCallsObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDetailsToolCallsObjectImplFromJson(json);
+
+  /// Always `tool_calls`.
+  @override
+  final RunStepDetailsToolCallsObjectType type;
+
+  /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
+  final List<RunStepDetailsToolCalls> _toolCalls;
+
+  /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
+  @override
+  @JsonKey(name: 'tool_calls')
+  List<RunStepDetailsToolCalls> get toolCalls {
+    if (_toolCalls is EqualUnmodifiableListView) return _toolCalls;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_toolCalls);
+  }
+
+  @override
+  String toString() {
+    return 'RunStepDetails.toolCalls(type: $type, toolCalls: $toolCalls)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDetailsToolCallsObjectImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            const DeepCollectionEquality()
+                .equals(other._toolCalls, _toolCalls));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, type, const DeepCollectionEquality().hash(_toolCalls));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDetailsToolCallsObjectImplCopyWith<
+          _$RunStepDetailsToolCallsObjectImpl>
+      get copyWith => __$$RunStepDetailsToolCallsObjectImplCopyWithImpl<
+          _$RunStepDetailsToolCallsObjectImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            RunStepDetailsMessageCreationObjectType type,
+            @JsonKey(name: 'message_creation')
+            RunStepDetailsMessageCreation messageCreation)
+        messageCreation,
+    required TResult Function(
+            RunStepDetailsToolCallsObjectType type,
+            @JsonKey(name: 'tool_calls')
+            List<RunStepDetailsToolCalls> toolCalls)
+        toolCalls,
+  }) {
+    return toolCalls(type, this.toolCalls);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            RunStepDetailsMessageCreationObjectType type,
+            @JsonKey(name: 'message_creation')
+            RunStepDetailsMessageCreation messageCreation)?
+        messageCreation,
+    TResult? Function(
+            RunStepDetailsToolCallsObjectType type,
+            @JsonKey(name: 'tool_calls')
+            List<RunStepDetailsToolCalls> toolCalls)?
+        toolCalls,
+  }) {
+    return toolCalls?.call(type, this.toolCalls);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            RunStepDetailsMessageCreationObjectType type,
+            @JsonKey(name: 'message_creation')
+            RunStepDetailsMessageCreation messageCreation)?
+        messageCreation,
+    TResult Function(
+            RunStepDetailsToolCallsObjectType type,
+            @JsonKey(name: 'tool_calls')
+            List<RunStepDetailsToolCalls> toolCalls)?
+        toolCalls,
+    required TResult orElse(),
+  }) {
+    if (toolCalls != null) {
+      return toolCalls(type, this.toolCalls);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunStepDetailsMessageCreationObject value)
+        messageCreation,
+    required TResult Function(RunStepDetailsToolCallsObject value) toolCalls,
+  }) {
+    return toolCalls(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunStepDetailsMessageCreationObject value)?
+        messageCreation,
+    TResult? Function(RunStepDetailsToolCallsObject value)? toolCalls,
+  }) {
+    return toolCalls?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunStepDetailsMessageCreationObject value)?
+        messageCreation,
+    TResult Function(RunStepDetailsToolCallsObject value)? toolCalls,
+    required TResult orElse(),
+  }) {
+    if (toolCalls != null) {
+      return toolCalls(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDetailsToolCallsObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunStepDetailsToolCallsObject extends RunStepDetails {
+  const factory RunStepDetailsToolCallsObject(
+          {required final RunStepDetailsToolCallsObjectType type,
+          @JsonKey(name: 'tool_calls')
+          required final List<RunStepDetailsToolCalls> toolCalls}) =
+      _$RunStepDetailsToolCallsObjectImpl;
+  const RunStepDetailsToolCallsObject._() : super._();
+
+  factory RunStepDetailsToolCallsObject.fromJson(Map<String, dynamic> json) =
+      _$RunStepDetailsToolCallsObjectImpl.fromJson;
+
+  @override
+
+  /// Always `tool_calls`.
+  RunStepDetailsToolCallsObjectType get type;
+
+  /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
+  @JsonKey(name: 'tool_calls')
+  List<RunStepDetailsToolCalls> get toolCalls;
+  @JsonKey(ignore: true)
+  _$$RunStepDetailsToolCallsObjectImplCopyWith<
+          _$RunStepDetailsToolCallsObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RunStepDetailsToolCalls _$RunStepDetailsToolCallsFromJson(
+    Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'code_interpreter':
+      return RunStepDetailsToolCallsCodeObject.fromJson(json);
+    case 'retrieval':
+      return RunStepDetailsToolCallsRetrievalObject.fromJson(json);
+    case 'function':
+      return RunStepDetailsToolCallsFunctionObject.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'type', 'RunStepDetailsToolCalls',
+          'Invalid union type "${json['type']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$RunStepDetailsToolCalls {
+  /// The ID of the tool call.
+  String get id => throw _privateConstructorUsedError;
+
+  /// The type of tool call. This is always going to be `code_interpreter` for this type of tool call.
+  Enum get type => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String id,
+            RunStepDetailsToolCallsCodeObjectType type,
+            @JsonKey(name: 'code_interpreter')
+            RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
+        codeInterpreter,
+    required TResult Function(
+            String id,
+            RunStepDetailsToolCallsRetrievalObjectType type,
+            Map<String, dynamic> retrieval)
+        retrieval,
+    required TResult Function(
+            String id,
+            RunStepDetailsToolCallsFunctionObjectType type,
+            RunStepDetailsToolCallsFunction function)
+        function,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            String id,
+            RunStepDetailsToolCallsCodeObjectType type,
+            @JsonKey(name: 'code_interpreter')
+            RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
+        codeInterpreter,
+    TResult? Function(
+            String id,
+            RunStepDetailsToolCallsRetrievalObjectType type,
+            Map<String, dynamic> retrieval)?
+        retrieval,
+    TResult? Function(String id, RunStepDetailsToolCallsFunctionObjectType type,
+            RunStepDetailsToolCallsFunction function)?
+        function,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            String id,
+            RunStepDetailsToolCallsCodeObjectType type,
+            @JsonKey(name: 'code_interpreter')
+            RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
+        codeInterpreter,
+    TResult Function(String id, RunStepDetailsToolCallsRetrievalObjectType type,
+            Map<String, dynamic> retrieval)?
+        retrieval,
+    TResult Function(String id, RunStepDetailsToolCallsFunctionObjectType type,
+            RunStepDetailsToolCallsFunction function)?
+        function,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunStepDetailsToolCallsCodeObject value)
+        codeInterpreter,
+    required TResult Function(RunStepDetailsToolCallsRetrievalObject value)
+        retrieval,
+    required TResult Function(RunStepDetailsToolCallsFunctionObject value)
+        function,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
+    TResult? Function(RunStepDetailsToolCallsRetrievalObject value)? retrieval,
+    TResult? Function(RunStepDetailsToolCallsFunctionObject value)? function,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
+    TResult Function(RunStepDetailsToolCallsRetrievalObject value)? retrieval,
+    TResult Function(RunStepDetailsToolCallsFunctionObject value)? function,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunStepDetailsToolCallsCopyWith<RunStepDetailsToolCalls> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDetailsToolCallsCopyWith<$Res> {
+  factory $RunStepDetailsToolCallsCopyWith(RunStepDetailsToolCalls value,
+          $Res Function(RunStepDetailsToolCalls) then) =
+      _$RunStepDetailsToolCallsCopyWithImpl<$Res, RunStepDetailsToolCalls>;
+  @useResult
+  $Res call({String id});
+}
+
+/// @nodoc
+class _$RunStepDetailsToolCallsCopyWithImpl<$Res,
+        $Val extends RunStepDetailsToolCalls>
+    implements $RunStepDetailsToolCallsCopyWith<$Res> {
+  _$RunStepDetailsToolCallsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepDetailsToolCallsCodeObjectImplCopyWith<$Res>
+    implements $RunStepDetailsToolCallsCopyWith<$Res> {
+  factory _$$RunStepDetailsToolCallsCodeObjectImplCopyWith(
+          _$RunStepDetailsToolCallsCodeObjectImpl value,
+          $Res Function(_$RunStepDetailsToolCallsCodeObjectImpl) then) =
+      __$$RunStepDetailsToolCallsCodeObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      RunStepDetailsToolCallsCodeObjectType type,
+      @JsonKey(name: 'code_interpreter')
+      RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter});
+
+  $RunStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith<$Res>
+      get codeInterpreter;
+}
+
+/// @nodoc
+class __$$RunStepDetailsToolCallsCodeObjectImplCopyWithImpl<$Res>
+    extends _$RunStepDetailsToolCallsCopyWithImpl<$Res,
+        _$RunStepDetailsToolCallsCodeObjectImpl>
+    implements _$$RunStepDetailsToolCallsCodeObjectImplCopyWith<$Res> {
+  __$$RunStepDetailsToolCallsCodeObjectImplCopyWithImpl(
+      _$RunStepDetailsToolCallsCodeObjectImpl _value,
+      $Res Function(_$RunStepDetailsToolCallsCodeObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? type = null,
+    Object? codeInterpreter = null,
+  }) {
+    return _then(_$RunStepDetailsToolCallsCodeObjectImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as RunStepDetailsToolCallsCodeObjectType,
+      codeInterpreter: null == codeInterpreter
+          ? _value.codeInterpreter
+          : codeInterpreter // ignore: cast_nullable_to_non_nullable
+              as RunStepDetailsToolCallsCodeObjectCodeInterpreter,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith<$Res>
+      get codeInterpreter {
+    return $RunStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith<$Res>(
+        _value.codeInterpreter, (value) {
+      return _then(_value.copyWith(codeInterpreter: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDetailsToolCallsCodeObjectImpl
+    extends RunStepDetailsToolCallsCodeObject {
+  const _$RunStepDetailsToolCallsCodeObjectImpl(
+      {required this.id,
+      required this.type,
+      @JsonKey(name: 'code_interpreter') required this.codeInterpreter})
+      : super._();
+
+  factory _$RunStepDetailsToolCallsCodeObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDetailsToolCallsCodeObjectImplFromJson(json);
+
+  /// The ID of the tool call.
+  @override
+  final String id;
+
+  /// The type of tool call. This is always going to be `code_interpreter` for this type of tool call.
+  @override
+  final RunStepDetailsToolCallsCodeObjectType type;
+
+  /// The Code Interpreter tool call definition.
+  @override
+  @JsonKey(name: 'code_interpreter')
+  final RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter;
+
+  @override
+  String toString() {
+    return 'RunStepDetailsToolCalls.codeInterpreter(id: $id, type: $type, codeInterpreter: $codeInterpreter)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDetailsToolCallsCodeObjectImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.codeInterpreter, codeInterpreter) ||
+                other.codeInterpreter == codeInterpreter));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, type, codeInterpreter);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDetailsToolCallsCodeObjectImplCopyWith<
+          _$RunStepDetailsToolCallsCodeObjectImpl>
+      get copyWith => __$$RunStepDetailsToolCallsCodeObjectImplCopyWithImpl<
+          _$RunStepDetailsToolCallsCodeObjectImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String id,
+            RunStepDetailsToolCallsCodeObjectType type,
+            @JsonKey(name: 'code_interpreter')
+            RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
+        codeInterpreter,
+    required TResult Function(
+            String id,
+            RunStepDetailsToolCallsRetrievalObjectType type,
+            Map<String, dynamic> retrieval)
+        retrieval,
+    required TResult Function(
+            String id,
+            RunStepDetailsToolCallsFunctionObjectType type,
+            RunStepDetailsToolCallsFunction function)
+        function,
+  }) {
+    return codeInterpreter(id, type, this.codeInterpreter);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            String id,
+            RunStepDetailsToolCallsCodeObjectType type,
+            @JsonKey(name: 'code_interpreter')
+            RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
+        codeInterpreter,
+    TResult? Function(
+            String id,
+            RunStepDetailsToolCallsRetrievalObjectType type,
+            Map<String, dynamic> retrieval)?
+        retrieval,
+    TResult? Function(String id, RunStepDetailsToolCallsFunctionObjectType type,
+            RunStepDetailsToolCallsFunction function)?
+        function,
+  }) {
+    return codeInterpreter?.call(id, type, this.codeInterpreter);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            String id,
+            RunStepDetailsToolCallsCodeObjectType type,
+            @JsonKey(name: 'code_interpreter')
+            RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
+        codeInterpreter,
+    TResult Function(String id, RunStepDetailsToolCallsRetrievalObjectType type,
+            Map<String, dynamic> retrieval)?
+        retrieval,
+    TResult Function(String id, RunStepDetailsToolCallsFunctionObjectType type,
+            RunStepDetailsToolCallsFunction function)?
+        function,
+    required TResult orElse(),
+  }) {
+    if (codeInterpreter != null) {
+      return codeInterpreter(id, type, this.codeInterpreter);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunStepDetailsToolCallsCodeObject value)
+        codeInterpreter,
+    required TResult Function(RunStepDetailsToolCallsRetrievalObject value)
+        retrieval,
+    required TResult Function(RunStepDetailsToolCallsFunctionObject value)
+        function,
+  }) {
+    return codeInterpreter(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
+    TResult? Function(RunStepDetailsToolCallsRetrievalObject value)? retrieval,
+    TResult? Function(RunStepDetailsToolCallsFunctionObject value)? function,
+  }) {
+    return codeInterpreter?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
+    TResult Function(RunStepDetailsToolCallsRetrievalObject value)? retrieval,
+    TResult Function(RunStepDetailsToolCallsFunctionObject value)? function,
+    required TResult orElse(),
+  }) {
+    if (codeInterpreter != null) {
+      return codeInterpreter(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDetailsToolCallsCodeObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunStepDetailsToolCallsCodeObject
+    extends RunStepDetailsToolCalls {
+  const factory RunStepDetailsToolCallsCodeObject(
+      {required final String id,
+      required final RunStepDetailsToolCallsCodeObjectType type,
+      @JsonKey(name: 'code_interpreter')
+      required final RunStepDetailsToolCallsCodeObjectCodeInterpreter
+          codeInterpreter}) = _$RunStepDetailsToolCallsCodeObjectImpl;
+  const RunStepDetailsToolCallsCodeObject._() : super._();
+
+  factory RunStepDetailsToolCallsCodeObject.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDetailsToolCallsCodeObjectImpl.fromJson;
+
+  @override
+
+  /// The ID of the tool call.
+  String get id;
+  @override
+
+  /// The type of tool call. This is always going to be `code_interpreter` for this type of tool call.
+  RunStepDetailsToolCallsCodeObjectType get type;
+
+  /// The Code Interpreter tool call definition.
+  @JsonKey(name: 'code_interpreter')
+  RunStepDetailsToolCallsCodeObjectCodeInterpreter get codeInterpreter;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDetailsToolCallsCodeObjectImplCopyWith<
+          _$RunStepDetailsToolCallsCodeObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RunStepDetailsToolCallsRetrievalObjectImplCopyWith<$Res>
+    implements $RunStepDetailsToolCallsCopyWith<$Res> {
+  factory _$$RunStepDetailsToolCallsRetrievalObjectImplCopyWith(
+          _$RunStepDetailsToolCallsRetrievalObjectImpl value,
+          $Res Function(_$RunStepDetailsToolCallsRetrievalObjectImpl) then) =
+      __$$RunStepDetailsToolCallsRetrievalObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      RunStepDetailsToolCallsRetrievalObjectType type,
+      Map<String, dynamic> retrieval});
+}
+
+/// @nodoc
+class __$$RunStepDetailsToolCallsRetrievalObjectImplCopyWithImpl<$Res>
+    extends _$RunStepDetailsToolCallsCopyWithImpl<$Res,
+        _$RunStepDetailsToolCallsRetrievalObjectImpl>
+    implements _$$RunStepDetailsToolCallsRetrievalObjectImplCopyWith<$Res> {
+  __$$RunStepDetailsToolCallsRetrievalObjectImplCopyWithImpl(
+      _$RunStepDetailsToolCallsRetrievalObjectImpl _value,
+      $Res Function(_$RunStepDetailsToolCallsRetrievalObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? type = null,
+    Object? retrieval = null,
+  }) {
+    return _then(_$RunStepDetailsToolCallsRetrievalObjectImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as RunStepDetailsToolCallsRetrievalObjectType,
+      retrieval: null == retrieval
+          ? _value._retrieval
+          : retrieval // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDetailsToolCallsRetrievalObjectImpl
+    extends RunStepDetailsToolCallsRetrievalObject {
+  const _$RunStepDetailsToolCallsRetrievalObjectImpl(
+      {required this.id,
+      required this.type,
+      required final Map<String, dynamic> retrieval})
+      : _retrieval = retrieval,
+        super._();
+
+  factory _$RunStepDetailsToolCallsRetrievalObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDetailsToolCallsRetrievalObjectImplFromJson(json);
+
+  /// The ID of the tool call object.
+  @override
+  final String id;
+
+  /// The type of tool call. This is always going to be `retrieval` for this type of tool call.
+  @override
+  final RunStepDetailsToolCallsRetrievalObjectType type;
+
+  /// For now, this is always going to be an empty object.
+  final Map<String, dynamic> _retrieval;
+
+  /// For now, this is always going to be an empty object.
+  @override
+  Map<String, dynamic> get retrieval {
+    if (_retrieval is EqualUnmodifiableMapView) return _retrieval;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_retrieval);
+  }
+
+  @override
+  String toString() {
+    return 'RunStepDetailsToolCalls.retrieval(id: $id, type: $type, retrieval: $retrieval)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDetailsToolCallsRetrievalObjectImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type) &&
+            const DeepCollectionEquality()
+                .equals(other._retrieval, _retrieval));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, id, type, const DeepCollectionEquality().hash(_retrieval));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDetailsToolCallsRetrievalObjectImplCopyWith<
+          _$RunStepDetailsToolCallsRetrievalObjectImpl>
+      get copyWith =>
+          __$$RunStepDetailsToolCallsRetrievalObjectImplCopyWithImpl<
+              _$RunStepDetailsToolCallsRetrievalObjectImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String id,
+            RunStepDetailsToolCallsCodeObjectType type,
+            @JsonKey(name: 'code_interpreter')
+            RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
+        codeInterpreter,
+    required TResult Function(
+            String id,
+            RunStepDetailsToolCallsRetrievalObjectType type,
+            Map<String, dynamic> retrieval)
+        retrieval,
+    required TResult Function(
+            String id,
+            RunStepDetailsToolCallsFunctionObjectType type,
+            RunStepDetailsToolCallsFunction function)
+        function,
+  }) {
+    return retrieval(id, type, this.retrieval);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            String id,
+            RunStepDetailsToolCallsCodeObjectType type,
+            @JsonKey(name: 'code_interpreter')
+            RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
+        codeInterpreter,
+    TResult? Function(
+            String id,
+            RunStepDetailsToolCallsRetrievalObjectType type,
+            Map<String, dynamic> retrieval)?
+        retrieval,
+    TResult? Function(String id, RunStepDetailsToolCallsFunctionObjectType type,
+            RunStepDetailsToolCallsFunction function)?
+        function,
+  }) {
+    return retrieval?.call(id, type, this.retrieval);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            String id,
+            RunStepDetailsToolCallsCodeObjectType type,
+            @JsonKey(name: 'code_interpreter')
+            RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
+        codeInterpreter,
+    TResult Function(String id, RunStepDetailsToolCallsRetrievalObjectType type,
+            Map<String, dynamic> retrieval)?
+        retrieval,
+    TResult Function(String id, RunStepDetailsToolCallsFunctionObjectType type,
+            RunStepDetailsToolCallsFunction function)?
+        function,
+    required TResult orElse(),
+  }) {
+    if (retrieval != null) {
+      return retrieval(id, type, this.retrieval);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunStepDetailsToolCallsCodeObject value)
+        codeInterpreter,
+    required TResult Function(RunStepDetailsToolCallsRetrievalObject value)
+        retrieval,
+    required TResult Function(RunStepDetailsToolCallsFunctionObject value)
+        function,
+  }) {
+    return retrieval(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
+    TResult? Function(RunStepDetailsToolCallsRetrievalObject value)? retrieval,
+    TResult? Function(RunStepDetailsToolCallsFunctionObject value)? function,
+  }) {
+    return retrieval?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
+    TResult Function(RunStepDetailsToolCallsRetrievalObject value)? retrieval,
+    TResult Function(RunStepDetailsToolCallsFunctionObject value)? function,
+    required TResult orElse(),
+  }) {
+    if (retrieval != null) {
+      return retrieval(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDetailsToolCallsRetrievalObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunStepDetailsToolCallsRetrievalObject
+    extends RunStepDetailsToolCalls {
+  const factory RunStepDetailsToolCallsRetrievalObject(
+          {required final String id,
+          required final RunStepDetailsToolCallsRetrievalObjectType type,
+          required final Map<String, dynamic> retrieval}) =
+      _$RunStepDetailsToolCallsRetrievalObjectImpl;
+  const RunStepDetailsToolCallsRetrievalObject._() : super._();
+
+  factory RunStepDetailsToolCallsRetrievalObject.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDetailsToolCallsRetrievalObjectImpl.fromJson;
+
+  @override
+
+  /// The ID of the tool call object.
+  String get id;
+  @override
+
+  /// The type of tool call. This is always going to be `retrieval` for this type of tool call.
+  RunStepDetailsToolCallsRetrievalObjectType get type;
+
+  /// For now, this is always going to be an empty object.
+  Map<String, dynamic> get retrieval;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDetailsToolCallsRetrievalObjectImplCopyWith<
+          _$RunStepDetailsToolCallsRetrievalObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RunStepDetailsToolCallsFunctionObjectImplCopyWith<$Res>
+    implements $RunStepDetailsToolCallsCopyWith<$Res> {
+  factory _$$RunStepDetailsToolCallsFunctionObjectImplCopyWith(
+          _$RunStepDetailsToolCallsFunctionObjectImpl value,
+          $Res Function(_$RunStepDetailsToolCallsFunctionObjectImpl) then) =
+      __$$RunStepDetailsToolCallsFunctionObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      RunStepDetailsToolCallsFunctionObjectType type,
+      RunStepDetailsToolCallsFunction function});
+
+  $RunStepDetailsToolCallsFunctionCopyWith<$Res> get function;
+}
+
+/// @nodoc
+class __$$RunStepDetailsToolCallsFunctionObjectImplCopyWithImpl<$Res>
+    extends _$RunStepDetailsToolCallsCopyWithImpl<$Res,
+        _$RunStepDetailsToolCallsFunctionObjectImpl>
+    implements _$$RunStepDetailsToolCallsFunctionObjectImplCopyWith<$Res> {
+  __$$RunStepDetailsToolCallsFunctionObjectImplCopyWithImpl(
+      _$RunStepDetailsToolCallsFunctionObjectImpl _value,
+      $Res Function(_$RunStepDetailsToolCallsFunctionObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? type = null,
+    Object? function = null,
+  }) {
+    return _then(_$RunStepDetailsToolCallsFunctionObjectImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as RunStepDetailsToolCallsFunctionObjectType,
+      function: null == function
+          ? _value.function
+          : function // ignore: cast_nullable_to_non_nullable
+              as RunStepDetailsToolCallsFunction,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunStepDetailsToolCallsFunctionCopyWith<$Res> get function {
+    return $RunStepDetailsToolCallsFunctionCopyWith<$Res>(_value.function,
+        (value) {
+      return _then(_value.copyWith(function: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDetailsToolCallsFunctionObjectImpl
+    extends RunStepDetailsToolCallsFunctionObject {
+  const _$RunStepDetailsToolCallsFunctionObjectImpl(
+      {required this.id, required this.type, required this.function})
+      : super._();
+
+  factory _$RunStepDetailsToolCallsFunctionObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDetailsToolCallsFunctionObjectImplFromJson(json);
+
+  /// The ID of the tool call object.
+  @override
+  final String id;
+
+  /// The type of tool call. This is always going to be `function` for this type of tool call.
+  @override
+  final RunStepDetailsToolCallsFunctionObjectType type;
+
+  /// The definition of the function that was called.
+  @override
+  final RunStepDetailsToolCallsFunction function;
+
+  @override
+  String toString() {
+    return 'RunStepDetailsToolCalls.function(id: $id, type: $type, function: $function)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDetailsToolCallsFunctionObjectImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.function, function) ||
+                other.function == function));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, type, function);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDetailsToolCallsFunctionObjectImplCopyWith<
+          _$RunStepDetailsToolCallsFunctionObjectImpl>
+      get copyWith => __$$RunStepDetailsToolCallsFunctionObjectImplCopyWithImpl<
+          _$RunStepDetailsToolCallsFunctionObjectImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String id,
+            RunStepDetailsToolCallsCodeObjectType type,
+            @JsonKey(name: 'code_interpreter')
+            RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
+        codeInterpreter,
+    required TResult Function(
+            String id,
+            RunStepDetailsToolCallsRetrievalObjectType type,
+            Map<String, dynamic> retrieval)
+        retrieval,
+    required TResult Function(
+            String id,
+            RunStepDetailsToolCallsFunctionObjectType type,
+            RunStepDetailsToolCallsFunction function)
+        function,
+  }) {
+    return function(id, type, this.function);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            String id,
+            RunStepDetailsToolCallsCodeObjectType type,
+            @JsonKey(name: 'code_interpreter')
+            RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
+        codeInterpreter,
+    TResult? Function(
+            String id,
+            RunStepDetailsToolCallsRetrievalObjectType type,
+            Map<String, dynamic> retrieval)?
+        retrieval,
+    TResult? Function(String id, RunStepDetailsToolCallsFunctionObjectType type,
+            RunStepDetailsToolCallsFunction function)?
+        function,
+  }) {
+    return function?.call(id, type, this.function);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            String id,
+            RunStepDetailsToolCallsCodeObjectType type,
+            @JsonKey(name: 'code_interpreter')
+            RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
+        codeInterpreter,
+    TResult Function(String id, RunStepDetailsToolCallsRetrievalObjectType type,
+            Map<String, dynamic> retrieval)?
+        retrieval,
+    TResult Function(String id, RunStepDetailsToolCallsFunctionObjectType type,
+            RunStepDetailsToolCallsFunction function)?
+        function,
+    required TResult orElse(),
+  }) {
+    if (function != null) {
+      return function(id, type, this.function);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunStepDetailsToolCallsCodeObject value)
+        codeInterpreter,
+    required TResult Function(RunStepDetailsToolCallsRetrievalObject value)
+        retrieval,
+    required TResult Function(RunStepDetailsToolCallsFunctionObject value)
+        function,
+  }) {
+    return function(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
+    TResult? Function(RunStepDetailsToolCallsRetrievalObject value)? retrieval,
+    TResult? Function(RunStepDetailsToolCallsFunctionObject value)? function,
+  }) {
+    return function?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
+    TResult Function(RunStepDetailsToolCallsRetrievalObject value)? retrieval,
+    TResult Function(RunStepDetailsToolCallsFunctionObject value)? function,
+    required TResult orElse(),
+  }) {
+    if (function != null) {
+      return function(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDetailsToolCallsFunctionObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunStepDetailsToolCallsFunctionObject
+    extends RunStepDetailsToolCalls {
+  const factory RunStepDetailsToolCallsFunctionObject(
+          {required final String id,
+          required final RunStepDetailsToolCallsFunctionObjectType type,
+          required final RunStepDetailsToolCallsFunction function}) =
+      _$RunStepDetailsToolCallsFunctionObjectImpl;
+  const RunStepDetailsToolCallsFunctionObject._() : super._();
+
+  factory RunStepDetailsToolCallsFunctionObject.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDetailsToolCallsFunctionObjectImpl.fromJson;
+
+  @override
+
+  /// The ID of the tool call object.
+  String get id;
+  @override
+
+  /// The type of tool call. This is always going to be `function` for this type of tool call.
+  RunStepDetailsToolCallsFunctionObjectType get type;
+
+  /// The definition of the function that was called.
+  RunStepDetailsToolCallsFunction get function;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDetailsToolCallsFunctionObjectImplCopyWith<
+          _$RunStepDetailsToolCallsFunctionObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RunStepDetailsToolCallsFunction _$RunStepDetailsToolCallsFunctionFromJson(
+    Map<String, dynamic> json) {
+  return _RunStepDetailsToolCallsFunction.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunStepDetailsToolCallsFunction {
+  /// The name of the function.
+  String get name => throw _privateConstructorUsedError;
+
+  /// The arguments passed to the function.
+  String get arguments => throw _privateConstructorUsedError;
+
+  /// The output of the function. This will be `null` if the outputs have not been [submitted](https://platform.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
+  String? get output => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunStepDetailsToolCallsFunctionCopyWith<RunStepDetailsToolCallsFunction>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDetailsToolCallsFunctionCopyWith<$Res> {
+  factory $RunStepDetailsToolCallsFunctionCopyWith(
+          RunStepDetailsToolCallsFunction value,
+          $Res Function(RunStepDetailsToolCallsFunction) then) =
+      _$RunStepDetailsToolCallsFunctionCopyWithImpl<$Res,
+          RunStepDetailsToolCallsFunction>;
+  @useResult
+  $Res call({String name, String arguments, String? output});
+}
+
+/// @nodoc
+class _$RunStepDetailsToolCallsFunctionCopyWithImpl<$Res,
+        $Val extends RunStepDetailsToolCallsFunction>
+    implements $RunStepDetailsToolCallsFunctionCopyWith<$Res> {
+  _$RunStepDetailsToolCallsFunctionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? arguments = null,
+    Object? output = freezed,
+  }) {
+    return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      arguments: null == arguments
+          ? _value.arguments
+          : arguments // ignore: cast_nullable_to_non_nullable
+              as String,
+      output: freezed == output
+          ? _value.output
+          : output // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepDetailsToolCallsFunctionImplCopyWith<$Res>
+    implements $RunStepDetailsToolCallsFunctionCopyWith<$Res> {
+  factory _$$RunStepDetailsToolCallsFunctionImplCopyWith(
+          _$RunStepDetailsToolCallsFunctionImpl value,
+          $Res Function(_$RunStepDetailsToolCallsFunctionImpl) then) =
+      __$$RunStepDetailsToolCallsFunctionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String name, String arguments, String? output});
+}
+
+/// @nodoc
+class __$$RunStepDetailsToolCallsFunctionImplCopyWithImpl<$Res>
+    extends _$RunStepDetailsToolCallsFunctionCopyWithImpl<$Res,
+        _$RunStepDetailsToolCallsFunctionImpl>
+    implements _$$RunStepDetailsToolCallsFunctionImplCopyWith<$Res> {
+  __$$RunStepDetailsToolCallsFunctionImplCopyWithImpl(
+      _$RunStepDetailsToolCallsFunctionImpl _value,
+      $Res Function(_$RunStepDetailsToolCallsFunctionImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? arguments = null,
+    Object? output = freezed,
+  }) {
+    return _then(_$RunStepDetailsToolCallsFunctionImpl(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      arguments: null == arguments
+          ? _value.arguments
+          : arguments // ignore: cast_nullable_to_non_nullable
+              as String,
+      output: freezed == output
+          ? _value.output
+          : output // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDetailsToolCallsFunctionImpl
+    extends _RunStepDetailsToolCallsFunction {
+  const _$RunStepDetailsToolCallsFunctionImpl(
+      {required this.name, required this.arguments, required this.output})
+      : super._();
+
+  factory _$RunStepDetailsToolCallsFunctionImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDetailsToolCallsFunctionImplFromJson(json);
+
+  /// The name of the function.
+  @override
+  final String name;
+
+  /// The arguments passed to the function.
+  @override
+  final String arguments;
+
+  /// The output of the function. This will be `null` if the outputs have not been [submitted](https://platform.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
+  @override
+  final String? output;
+
+  @override
+  String toString() {
+    return 'RunStepDetailsToolCallsFunction(name: $name, arguments: $arguments, output: $output)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDetailsToolCallsFunctionImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.arguments, arguments) ||
+                other.arguments == arguments) &&
+            (identical(other.output, output) || other.output == output));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, name, arguments, output);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDetailsToolCallsFunctionImplCopyWith<
+          _$RunStepDetailsToolCallsFunctionImpl>
+      get copyWith => __$$RunStepDetailsToolCallsFunctionImplCopyWithImpl<
+          _$RunStepDetailsToolCallsFunctionImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDetailsToolCallsFunctionImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunStepDetailsToolCallsFunction
+    extends RunStepDetailsToolCallsFunction {
+  const factory _RunStepDetailsToolCallsFunction(
+      {required final String name,
+      required final String arguments,
+      required final String? output}) = _$RunStepDetailsToolCallsFunctionImpl;
+  const _RunStepDetailsToolCallsFunction._() : super._();
+
+  factory _RunStepDetailsToolCallsFunction.fromJson(Map<String, dynamic> json) =
+      _$RunStepDetailsToolCallsFunctionImpl.fromJson;
+
+  @override
+
+  /// The name of the function.
+  String get name;
+  @override
+
+  /// The arguments passed to the function.
+  String get arguments;
+  @override
+
+  /// The output of the function. This will be `null` if the outputs have not been [submitted](https://platform.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
+  String? get output;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDetailsToolCallsFunctionImplCopyWith<
+          _$RunStepDetailsToolCallsFunctionImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RunStepDetailsToolCallsCodeOutput _$RunStepDetailsToolCallsCodeOutputFromJson(
+    Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'logs':
+      return RunStepDetailsToolCallsCodeOutputLogsObject.fromJson(json);
+    case 'image':
+      return RunStepDetailsToolCallsCodeOutputImageObject.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'type',
+          'RunStepDetailsToolCallsCodeOutput',
+          'Invalid union type "${json['type']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$RunStepDetailsToolCallsCodeOutput {
+  /// Always `logs`.
+  Enum get type => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs)
+        logs,
+    required TResult Function(
+            RunStepDetailsToolCallsCodeOutputImageObjectType type,
+            RunStepDetailsToolCallsCodeOutputImage image)
+        image,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs)?
+        logs,
+    TResult? Function(RunStepDetailsToolCallsCodeOutputImageObjectType type,
+            RunStepDetailsToolCallsCodeOutputImage image)?
+        image,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs)?
+        logs,
+    TResult Function(RunStepDetailsToolCallsCodeOutputImageObjectType type,
+            RunStepDetailsToolCallsCodeOutputImage image)?
+        image,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunStepDetailsToolCallsCodeOutputLogsObject value)
+        logs,
+    required TResult Function(
+            RunStepDetailsToolCallsCodeOutputImageObject value)
+        image,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunStepDetailsToolCallsCodeOutputLogsObject value)? logs,
+    TResult? Function(RunStepDetailsToolCallsCodeOutputImageObject value)?
+        image,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunStepDetailsToolCallsCodeOutputLogsObject value)? logs,
+    TResult Function(RunStepDetailsToolCallsCodeOutputImageObject value)? image,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDetailsToolCallsCodeOutputCopyWith<$Res> {
+  factory $RunStepDetailsToolCallsCodeOutputCopyWith(
+          RunStepDetailsToolCallsCodeOutput value,
+          $Res Function(RunStepDetailsToolCallsCodeOutput) then) =
+      _$RunStepDetailsToolCallsCodeOutputCopyWithImpl<$Res,
+          RunStepDetailsToolCallsCodeOutput>;
+}
+
+/// @nodoc
+class _$RunStepDetailsToolCallsCodeOutputCopyWithImpl<$Res,
+        $Val extends RunStepDetailsToolCallsCodeOutput>
+    implements $RunStepDetailsToolCallsCodeOutputCopyWith<$Res> {
+  _$RunStepDetailsToolCallsCodeOutputCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$RunStepDetailsToolCallsCodeOutputLogsObjectImplCopyWith<
+    $Res> {
+  factory _$$RunStepDetailsToolCallsCodeOutputLogsObjectImplCopyWith(
+          _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl value,
+          $Res Function(_$RunStepDetailsToolCallsCodeOutputLogsObjectImpl)
+              then) =
+      __$$RunStepDetailsToolCallsCodeOutputLogsObjectImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call(
+      {RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs});
+}
+
+/// @nodoc
+class __$$RunStepDetailsToolCallsCodeOutputLogsObjectImplCopyWithImpl<$Res>
+    extends _$RunStepDetailsToolCallsCodeOutputCopyWithImpl<$Res,
+        _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl>
+    implements
+        _$$RunStepDetailsToolCallsCodeOutputLogsObjectImplCopyWith<$Res> {
+  __$$RunStepDetailsToolCallsCodeOutputLogsObjectImplCopyWithImpl(
+      _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl _value,
+      $Res Function(_$RunStepDetailsToolCallsCodeOutputLogsObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? logs = null,
+  }) {
+    return _then(_$RunStepDetailsToolCallsCodeOutputLogsObjectImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as RunStepDetailsToolCallsCodeOutputLogsObjectType,
+      logs: null == logs
+          ? _value.logs
+          : logs // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl
+    extends RunStepDetailsToolCallsCodeOutputLogsObject {
+  const _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl(
+      {required this.type, required this.logs})
+      : super._();
+
+  factory _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDetailsToolCallsCodeOutputLogsObjectImplFromJson(json);
+
+  /// Always `logs`.
+  @override
+  final RunStepDetailsToolCallsCodeOutputLogsObjectType type;
+
+  /// The text output from the Code Interpreter tool call.
+  @override
+  final String logs;
+
+  @override
+  String toString() {
+    return 'RunStepDetailsToolCallsCodeOutput.logs(type: $type, logs: $logs)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.logs, logs) || other.logs == logs));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, logs);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDetailsToolCallsCodeOutputLogsObjectImplCopyWith<
+          _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl>
+      get copyWith =>
+          __$$RunStepDetailsToolCallsCodeOutputLogsObjectImplCopyWithImpl<
+                  _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs)
+        logs,
+    required TResult Function(
+            RunStepDetailsToolCallsCodeOutputImageObjectType type,
+            RunStepDetailsToolCallsCodeOutputImage image)
+        image,
+  }) {
+    return logs(type, this.logs);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs)?
+        logs,
+    TResult? Function(RunStepDetailsToolCallsCodeOutputImageObjectType type,
+            RunStepDetailsToolCallsCodeOutputImage image)?
+        image,
+  }) {
+    return logs?.call(type, this.logs);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs)?
+        logs,
+    TResult Function(RunStepDetailsToolCallsCodeOutputImageObjectType type,
+            RunStepDetailsToolCallsCodeOutputImage image)?
+        image,
+    required TResult orElse(),
+  }) {
+    if (logs != null) {
+      return logs(type, this.logs);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunStepDetailsToolCallsCodeOutputLogsObject value)
+        logs,
+    required TResult Function(
+            RunStepDetailsToolCallsCodeOutputImageObject value)
+        image,
+  }) {
+    return logs(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunStepDetailsToolCallsCodeOutputLogsObject value)? logs,
+    TResult? Function(RunStepDetailsToolCallsCodeOutputImageObject value)?
+        image,
+  }) {
+    return logs?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunStepDetailsToolCallsCodeOutputLogsObject value)? logs,
+    TResult Function(RunStepDetailsToolCallsCodeOutputImageObject value)? image,
+    required TResult orElse(),
+  }) {
+    if (logs != null) {
+      return logs(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDetailsToolCallsCodeOutputLogsObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunStepDetailsToolCallsCodeOutputLogsObject
+    extends RunStepDetailsToolCallsCodeOutput {
+  const factory RunStepDetailsToolCallsCodeOutputLogsObject(
+          {required final RunStepDetailsToolCallsCodeOutputLogsObjectType type,
+          required final String logs}) =
+      _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl;
+  const RunStepDetailsToolCallsCodeOutputLogsObject._() : super._();
+
+  factory RunStepDetailsToolCallsCodeOutputLogsObject.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl.fromJson;
+
+  @override
+
+  /// Always `logs`.
+  RunStepDetailsToolCallsCodeOutputLogsObjectType get type;
+
+  /// The text output from the Code Interpreter tool call.
+  String get logs;
+  @JsonKey(ignore: true)
+  _$$RunStepDetailsToolCallsCodeOutputLogsObjectImplCopyWith<
+          _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RunStepDetailsToolCallsCodeOutputImageObjectImplCopyWith<
+    $Res> {
+  factory _$$RunStepDetailsToolCallsCodeOutputImageObjectImplCopyWith(
+          _$RunStepDetailsToolCallsCodeOutputImageObjectImpl value,
+          $Res Function(_$RunStepDetailsToolCallsCodeOutputImageObjectImpl)
+              then) =
+      __$$RunStepDetailsToolCallsCodeOutputImageObjectImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call(
+      {RunStepDetailsToolCallsCodeOutputImageObjectType type,
+      RunStepDetailsToolCallsCodeOutputImage image});
+
+  $RunStepDetailsToolCallsCodeOutputImageCopyWith<$Res> get image;
+}
+
+/// @nodoc
+class __$$RunStepDetailsToolCallsCodeOutputImageObjectImplCopyWithImpl<$Res>
+    extends _$RunStepDetailsToolCallsCodeOutputCopyWithImpl<$Res,
+        _$RunStepDetailsToolCallsCodeOutputImageObjectImpl>
+    implements
+        _$$RunStepDetailsToolCallsCodeOutputImageObjectImplCopyWith<$Res> {
+  __$$RunStepDetailsToolCallsCodeOutputImageObjectImplCopyWithImpl(
+      _$RunStepDetailsToolCallsCodeOutputImageObjectImpl _value,
+      $Res Function(_$RunStepDetailsToolCallsCodeOutputImageObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? image = null,
+  }) {
+    return _then(_$RunStepDetailsToolCallsCodeOutputImageObjectImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as RunStepDetailsToolCallsCodeOutputImageObjectType,
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as RunStepDetailsToolCallsCodeOutputImage,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunStepDetailsToolCallsCodeOutputImageCopyWith<$Res> get image {
+    return $RunStepDetailsToolCallsCodeOutputImageCopyWith<$Res>(_value.image,
+        (value) {
+      return _then(_value.copyWith(image: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDetailsToolCallsCodeOutputImageObjectImpl
+    extends RunStepDetailsToolCallsCodeOutputImageObject {
+  const _$RunStepDetailsToolCallsCodeOutputImageObjectImpl(
+      {required this.type, required this.image})
+      : super._();
+
+  factory _$RunStepDetailsToolCallsCodeOutputImageObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDetailsToolCallsCodeOutputImageObjectImplFromJson(json);
+
+  /// Always `image`.
+  @override
+  final RunStepDetailsToolCallsCodeOutputImageObjectType type;
+
+  /// Code interpreter image output.
+  @override
+  final RunStepDetailsToolCallsCodeOutputImage image;
+
+  @override
+  String toString() {
+    return 'RunStepDetailsToolCallsCodeOutput.image(type: $type, image: $image)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDetailsToolCallsCodeOutputImageObjectImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.image, image) || other.image == image));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, image);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDetailsToolCallsCodeOutputImageObjectImplCopyWith<
+          _$RunStepDetailsToolCallsCodeOutputImageObjectImpl>
+      get copyWith =>
+          __$$RunStepDetailsToolCallsCodeOutputImageObjectImplCopyWithImpl<
+                  _$RunStepDetailsToolCallsCodeOutputImageObjectImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs)
+        logs,
+    required TResult Function(
+            RunStepDetailsToolCallsCodeOutputImageObjectType type,
+            RunStepDetailsToolCallsCodeOutputImage image)
+        image,
+  }) {
+    return image(type, this.image);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs)?
+        logs,
+    TResult? Function(RunStepDetailsToolCallsCodeOutputImageObjectType type,
+            RunStepDetailsToolCallsCodeOutputImage image)?
+        image,
+  }) {
+    return image?.call(type, this.image);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs)?
+        logs,
+    TResult Function(RunStepDetailsToolCallsCodeOutputImageObjectType type,
+            RunStepDetailsToolCallsCodeOutputImage image)?
+        image,
+    required TResult orElse(),
+  }) {
+    if (image != null) {
+      return image(type, this.image);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunStepDetailsToolCallsCodeOutputLogsObject value)
+        logs,
+    required TResult Function(
+            RunStepDetailsToolCallsCodeOutputImageObject value)
+        image,
+  }) {
+    return image(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunStepDetailsToolCallsCodeOutputLogsObject value)? logs,
+    TResult? Function(RunStepDetailsToolCallsCodeOutputImageObject value)?
+        image,
+  }) {
+    return image?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunStepDetailsToolCallsCodeOutputLogsObject value)? logs,
+    TResult Function(RunStepDetailsToolCallsCodeOutputImageObject value)? image,
+    required TResult orElse(),
+  }) {
+    if (image != null) {
+      return image(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDetailsToolCallsCodeOutputImageObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunStepDetailsToolCallsCodeOutputImageObject
+    extends RunStepDetailsToolCallsCodeOutput {
+  const factory RunStepDetailsToolCallsCodeOutputImageObject(
+          {required final RunStepDetailsToolCallsCodeOutputImageObjectType type,
+          required final RunStepDetailsToolCallsCodeOutputImage image}) =
+      _$RunStepDetailsToolCallsCodeOutputImageObjectImpl;
+  const RunStepDetailsToolCallsCodeOutputImageObject._() : super._();
+
+  factory RunStepDetailsToolCallsCodeOutputImageObject.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDetailsToolCallsCodeOutputImageObjectImpl.fromJson;
+
+  @override
+
+  /// Always `image`.
+  RunStepDetailsToolCallsCodeOutputImageObjectType get type;
+
+  /// Code interpreter image output.
+  RunStepDetailsToolCallsCodeOutputImage get image;
+  @JsonKey(ignore: true)
+  _$$RunStepDetailsToolCallsCodeOutputImageObjectImplCopyWith<
+          _$RunStepDetailsToolCallsCodeOutputImageObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

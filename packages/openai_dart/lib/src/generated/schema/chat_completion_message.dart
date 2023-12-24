@@ -9,7 +9,7 @@ part of open_a_i_schema;
 // ==========================================
 
 /// A message in a chat conversation.
-@Freezed(unionKey: 'role')
+@Freezed(unionKey: 'role', unionValueCase: FreezedUnionCase.snake)
 sealed class ChatCompletionMessage with _$ChatCompletionMessage {
   const ChatCompletionMessage._();
 
@@ -23,7 +23,7 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
     @Default(ChatCompletionMessageRole.system) ChatCompletionMessageRole role,
 
     /// The contents of the system message.
-    required String? content,
+    required String content,
 
     /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
     @JsonKey(includeIfNull: false) String? name,
@@ -40,7 +40,7 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
 
     /// The contents of the user message.
     @_ChatCompletionUserMessageContentConverter()
-    required ChatCompletionUserMessageContent? content,
+    required ChatCompletionUserMessageContent content,
 
     /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
     @JsonKey(includeIfNull: false) String? name,
@@ -56,8 +56,8 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
     @Default(ChatCompletionMessageRole.assistant)
     ChatCompletionMessageRole role,
 
-    /// The contents of the assistant message.
-    required String? content,
+    /// The contents of the assistant message. Required unless `tool_calls` or `function_call` is specified.
+    @JsonKey(includeIfNull: false) String? content,
 
     /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
     @JsonKey(includeIfNull: false) String? name,
@@ -81,7 +81,7 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
     @Default(ChatCompletionMessageRole.tool) ChatCompletionMessageRole role,
 
     /// The contents of the tool message.
-    required String? content,
+    required String content,
 
     /// Tool call that this message is responding to.
     @JsonKey(name: 'tool_call_id') required String toolCallId,
@@ -97,7 +97,7 @@ sealed class ChatCompletionMessage with _$ChatCompletionMessage {
     @Default(ChatCompletionMessageRole.function) ChatCompletionMessageRole role,
 
     /// The contents of the function message.
-    required String content,
+    required String? content,
 
     /// The name of the function to call.
     required String name,
