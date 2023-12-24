@@ -13,6 +13,8 @@ _$GenerateCompletionRequestImpl _$$GenerateCompletionRequestImplFromJson(
     _$GenerateCompletionRequestImpl(
       model: json['model'] as String,
       prompt: json['prompt'] as String,
+      images:
+          (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       system: json['system'] as String?,
       template: json['template'] as String?,
       context:
@@ -39,6 +41,7 @@ Map<String, dynamic> _$$GenerateCompletionRequestImplToJson(
     }
   }
 
+  writeNotNull('images', instance.images);
   writeNotNull('system', instance.system);
   writeNotNull('template', instance.template);
   writeNotNull('context', instance.context);
@@ -145,8 +148,6 @@ _$GenerateCompletionResponseImpl _$$GenerateCompletionResponseImplFromJson(
       done: json['done'] as bool?,
       context:
           (json['context'] as List<dynamic>?)?.map((e) => e as int).toList(),
-      sampleCount: json['sample_count'] as int?,
-      sampleDuration: json['sample_duration'] as int?,
       totalDuration: json['total_duration'] as int?,
       loadDuration: json['load_duration'] as int?,
       promptEvalCount: json['prompt_eval_count'] as int?,
@@ -170,8 +171,6 @@ Map<String, dynamic> _$$GenerateCompletionResponseImplToJson(
   writeNotNull('response', instance.response);
   writeNotNull('done', instance.done);
   writeNotNull('context', instance.context);
-  writeNotNull('sample_count', instance.sampleCount);
-  writeNotNull('sample_duration', instance.sampleDuration);
   writeNotNull('total_duration', instance.totalDuration);
   writeNotNull('load_duration', instance.loadDuration);
   writeNotNull('prompt_eval_count', instance.promptEvalCount);
@@ -180,6 +179,111 @@ Map<String, dynamic> _$$GenerateCompletionResponseImplToJson(
   writeNotNull('eval_duration', instance.evalDuration);
   return val;
 }
+
+_$GenerateChatCompletionRequestImpl
+    _$$GenerateChatCompletionRequestImplFromJson(Map<String, dynamic> json) =>
+        _$GenerateChatCompletionRequestImpl(
+          model: json['model'] as String,
+          messages: (json['messages'] as List<dynamic>)
+              .map((e) => Message.fromJson(e as Map<String, dynamic>))
+              .toList(),
+          format: $enumDecodeNullable(_$ResponseFormatEnumMap, json['format'],
+              unknownValue: JsonKey.nullForUndefinedEnumValue),
+          options: json['options'] == null
+              ? null
+              : RequestOptions.fromJson(
+                  json['options'] as Map<String, dynamic>),
+          stream: json['stream'] as bool? ?? false,
+        );
+
+Map<String, dynamic> _$$GenerateChatCompletionRequestImplToJson(
+    _$GenerateChatCompletionRequestImpl instance) {
+  final val = <String, dynamic>{
+    'model': instance.model,
+    'messages': instance.messages.map((e) => e.toJson()).toList(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('format', _$ResponseFormatEnumMap[instance.format]);
+  writeNotNull('options', instance.options?.toJson());
+  val['stream'] = instance.stream;
+  return val;
+}
+
+_$GenerateChatCompletionResponseImpl
+    _$$GenerateChatCompletionResponseImplFromJson(Map<String, dynamic> json) =>
+        _$GenerateChatCompletionResponseImpl(
+          message: json['message'] == null
+              ? null
+              : Message.fromJson(json['message'] as Map<String, dynamic>),
+          model: json['model'] as String?,
+          createdAt: json['created_at'] as String?,
+          done: json['done'] as bool?,
+          totalDuration: json['total_duration'] as int?,
+          loadDuration: json['load_duration'] as int?,
+          promptEvalCount: json['prompt_eval_count'] as int?,
+          promptEvalDuration: json['prompt_eval_duration'] as int?,
+          evalCount: json['eval_count'] as int?,
+          evalDuration: json['eval_duration'] as int?,
+        );
+
+Map<String, dynamic> _$$GenerateChatCompletionResponseImplToJson(
+    _$GenerateChatCompletionResponseImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('message', instance.message?.toJson());
+  writeNotNull('model', instance.model);
+  writeNotNull('created_at', instance.createdAt);
+  writeNotNull('done', instance.done);
+  writeNotNull('total_duration', instance.totalDuration);
+  writeNotNull('load_duration', instance.loadDuration);
+  writeNotNull('prompt_eval_count', instance.promptEvalCount);
+  writeNotNull('prompt_eval_duration', instance.promptEvalDuration);
+  writeNotNull('eval_count', instance.evalCount);
+  writeNotNull('eval_duration', instance.evalDuration);
+  return val;
+}
+
+_$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
+    _$MessageImpl(
+      role: $enumDecode(_$MessageRoleEnumMap, json['role']),
+      content: json['content'] as String,
+      images:
+          (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    );
+
+Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) {
+  final val = <String, dynamic>{
+    'role': _$MessageRoleEnumMap[instance.role]!,
+    'content': instance.content,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('images', instance.images);
+  return val;
+}
+
+const _$MessageRoleEnumMap = {
+  MessageRole.system: 'system',
+  MessageRole.user: 'user',
+  MessageRole.assistant: 'assistant',
+};
 
 _$GenerateEmbeddingRequestImpl _$$GenerateEmbeddingRequestImplFromJson(
         Map<String, dynamic> json) =>

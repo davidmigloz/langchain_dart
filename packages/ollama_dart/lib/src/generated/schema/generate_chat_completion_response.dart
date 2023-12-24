@@ -5,16 +5,19 @@
 part of ollama_schema;
 
 // ==========================================
-// CLASS: GenerateCompletionResponse
+// CLASS: GenerateChatCompletionResponse
 // ==========================================
 
-/// The response class for the generate endpoint.
+/// The response class for the chat endpoint.
 @freezed
-class GenerateCompletionResponse with _$GenerateCompletionResponse {
-  const GenerateCompletionResponse._();
+class GenerateChatCompletionResponse with _$GenerateChatCompletionResponse {
+  const GenerateChatCompletionResponse._();
 
-  /// Factory constructor for GenerateCompletionResponse
-  const factory GenerateCompletionResponse({
+  /// Factory constructor for GenerateChatCompletionResponse
+  const factory GenerateChatCompletionResponse({
+    /// A message in the chat endpoint
+    @JsonKey(includeIfNull: false) Message? message,
+
     /// The model name.
     ///
     /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
@@ -23,14 +26,8 @@ class GenerateCompletionResponse with _$GenerateCompletionResponse {
     /// Date on which a model was created.
     @JsonKey(name: 'created_at', includeIfNull: false) String? createdAt,
 
-    /// The response for a given prompt with a provided model.
-    @JsonKey(includeIfNull: false) String? response,
-
     /// Whether the response has completed.
     @JsonKey(includeIfNull: false) bool? done,
-
-    /// An encoding of the conversation used in this response, this can be sent in the next request to keep a conversational memory.
-    @JsonKey(includeIfNull: false) List<int>? context,
 
     /// Time spent generating the response.
     @JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,
@@ -51,19 +48,18 @@ class GenerateCompletionResponse with _$GenerateCompletionResponse {
 
     /// Time in nanoseconds spent generating the response.
     @JsonKey(name: 'eval_duration', includeIfNull: false) int? evalDuration,
-  }) = _GenerateCompletionResponse;
+  }) = _GenerateChatCompletionResponse;
 
   /// Object construction from a JSON representation
-  factory GenerateCompletionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GenerateCompletionResponseFromJson(json);
+  factory GenerateChatCompletionResponse.fromJson(Map<String, dynamic> json) =>
+      _$GenerateChatCompletionResponseFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
+    'message',
     'model',
     'created_at',
-    'response',
     'done',
-    'context',
     'total_duration',
     'load_duration',
     'prompt_eval_count',
@@ -80,11 +76,10 @@ class GenerateCompletionResponse with _$GenerateCompletionResponse {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
+      'message': message,
       'model': model,
       'created_at': createdAt,
-      'response': response,
       'done': done,
-      'context': context,
       'total_duration': totalDuration,
       'load_duration': loadDuration,
       'prompt_eval_count': promptEvalCount,

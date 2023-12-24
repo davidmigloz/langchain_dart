@@ -29,6 +29,10 @@ mixin _$GenerateCompletionRequest {
   /// The prompt to generate a response.
   String get prompt => throw _privateConstructorUsedError;
 
+  /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
+  @JsonKey(includeIfNull: false)
+  List<String>? get images => throw _privateConstructorUsedError;
+
   /// The system prompt to (overrides what is defined in the Modelfile).
   @JsonKey(includeIfNull: false)
   String? get system => throw _privateConstructorUsedError;
@@ -78,6 +82,7 @@ abstract class $GenerateCompletionRequestCopyWith<$Res> {
   $Res call(
       {String model,
       String prompt,
+      @JsonKey(includeIfNull: false) List<String>? images,
       @JsonKey(includeIfNull: false) String? system,
       @JsonKey(includeIfNull: false) String? template,
       @JsonKey(includeIfNull: false) List<int>? context,
@@ -108,6 +113,7 @@ class _$GenerateCompletionRequestCopyWithImpl<$Res,
   $Res call({
     Object? model = null,
     Object? prompt = null,
+    Object? images = freezed,
     Object? system = freezed,
     Object? template = freezed,
     Object? context = freezed,
@@ -125,6 +131,10 @@ class _$GenerateCompletionRequestCopyWithImpl<$Res,
           ? _value.prompt
           : prompt // ignore: cast_nullable_to_non_nullable
               as String,
+      images: freezed == images
+          ? _value.images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       system: freezed == system
           ? _value.system
           : system // ignore: cast_nullable_to_non_nullable
@@ -181,6 +191,7 @@ abstract class _$$GenerateCompletionRequestImplCopyWith<$Res>
   $Res call(
       {String model,
       String prompt,
+      @JsonKey(includeIfNull: false) List<String>? images,
       @JsonKey(includeIfNull: false) String? system,
       @JsonKey(includeIfNull: false) String? template,
       @JsonKey(includeIfNull: false) List<int>? context,
@@ -211,6 +222,7 @@ class __$$GenerateCompletionRequestImplCopyWithImpl<$Res>
   $Res call({
     Object? model = null,
     Object? prompt = null,
+    Object? images = freezed,
     Object? system = freezed,
     Object? template = freezed,
     Object? context = freezed,
@@ -228,6 +240,10 @@ class __$$GenerateCompletionRequestImplCopyWithImpl<$Res>
           ? _value.prompt
           : prompt // ignore: cast_nullable_to_non_nullable
               as String,
+      images: freezed == images
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       system: freezed == system
           ? _value.system
           : system // ignore: cast_nullable_to_non_nullable
@@ -266,6 +282,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
   const _$GenerateCompletionRequestImpl(
       {required this.model,
       required this.prompt,
+      @JsonKey(includeIfNull: false) final List<String>? images,
       @JsonKey(includeIfNull: false) this.system,
       @JsonKey(includeIfNull: false) this.template,
       @JsonKey(includeIfNull: false) final List<int>? context,
@@ -276,7 +293,8 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
       this.format,
       @JsonKey(includeIfNull: false) this.raw,
       this.stream = false})
-      : _context = context,
+      : _images = images,
+        _context = context,
         super._();
 
   factory _$GenerateCompletionRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -291,6 +309,20 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
   /// The prompt to generate a response.
   @override
   final String prompt;
+
+  /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
+  final List<String>? _images;
+
+  /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
+  @override
+  @JsonKey(includeIfNull: false)
+  List<String>? get images {
+    final value = _images;
+    if (value == null) return null;
+    if (_images is EqualUnmodifiableListView) return _images;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   /// The system prompt to (overrides what is defined in the Modelfile).
   @override
@@ -345,7 +377,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
 
   @override
   String toString() {
-    return 'GenerateCompletionRequest(model: $model, prompt: $prompt, system: $system, template: $template, context: $context, options: $options, format: $format, raw: $raw, stream: $stream)';
+    return 'GenerateCompletionRequest(model: $model, prompt: $prompt, images: $images, system: $system, template: $template, context: $context, options: $options, format: $format, raw: $raw, stream: $stream)';
   }
 
   @override
@@ -355,6 +387,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
             other is _$GenerateCompletionRequestImpl &&
             (identical(other.model, model) || other.model == model) &&
             (identical(other.prompt, prompt) || other.prompt == prompt) &&
+            const DeepCollectionEquality().equals(other._images, _images) &&
             (identical(other.system, system) || other.system == system) &&
             (identical(other.template, template) ||
                 other.template == template) &&
@@ -371,6 +404,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
       runtimeType,
       model,
       prompt,
+      const DeepCollectionEquality().hash(_images),
       system,
       template,
       const DeepCollectionEquality().hash(_context),
@@ -398,6 +432,7 @@ abstract class _GenerateCompletionRequest extends GenerateCompletionRequest {
   const factory _GenerateCompletionRequest(
       {required final String model,
       required final String prompt,
+      @JsonKey(includeIfNull: false) final List<String>? images,
       @JsonKey(includeIfNull: false) final String? system,
       @JsonKey(includeIfNull: false) final String? template,
       @JsonKey(includeIfNull: false) final List<int>? context,
@@ -423,6 +458,11 @@ abstract class _GenerateCompletionRequest extends GenerateCompletionRequest {
 
   /// The prompt to generate a response.
   String get prompt;
+  @override
+
+  /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
+  @JsonKey(includeIfNull: false)
+  List<String>? get images;
   @override
 
   /// The system prompt to (overrides what is defined in the Modelfile).
@@ -1671,14 +1711,6 @@ mixin _$GenerateCompletionResponse {
   @JsonKey(includeIfNull: false)
   List<int>? get context => throw _privateConstructorUsedError;
 
-  /// Number of samples generated.
-  @JsonKey(name: 'sample_count', includeIfNull: false)
-  int? get sampleCount => throw _privateConstructorUsedError;
-
-  /// Time spent generating samples.
-  @JsonKey(name: 'sample_duration', includeIfNull: false)
-  int? get sampleDuration => throw _privateConstructorUsedError;
-
   /// Time spent generating the response.
   @JsonKey(name: 'total_duration', includeIfNull: false)
   int? get totalDuration => throw _privateConstructorUsedError;
@@ -1722,9 +1754,6 @@ abstract class $GenerateCompletionResponseCopyWith<$Res> {
       @JsonKey(includeIfNull: false) String? response,
       @JsonKey(includeIfNull: false) bool? done,
       @JsonKey(includeIfNull: false) List<int>? context,
-      @JsonKey(name: 'sample_count', includeIfNull: false) int? sampleCount,
-      @JsonKey(name: 'sample_duration', includeIfNull: false)
-      int? sampleDuration,
       @JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,
       @JsonKey(name: 'load_duration', includeIfNull: false) int? loadDuration,
       @JsonKey(name: 'prompt_eval_count', includeIfNull: false)
@@ -1754,8 +1783,6 @@ class _$GenerateCompletionResponseCopyWithImpl<$Res,
     Object? response = freezed,
     Object? done = freezed,
     Object? context = freezed,
-    Object? sampleCount = freezed,
-    Object? sampleDuration = freezed,
     Object? totalDuration = freezed,
     Object? loadDuration = freezed,
     Object? promptEvalCount = freezed,
@@ -1784,14 +1811,6 @@ class _$GenerateCompletionResponseCopyWithImpl<$Res,
           ? _value.context
           : context // ignore: cast_nullable_to_non_nullable
               as List<int>?,
-      sampleCount: freezed == sampleCount
-          ? _value.sampleCount
-          : sampleCount // ignore: cast_nullable_to_non_nullable
-              as int?,
-      sampleDuration: freezed == sampleDuration
-          ? _value.sampleDuration
-          : sampleDuration // ignore: cast_nullable_to_non_nullable
-              as int?,
       totalDuration: freezed == totalDuration
           ? _value.totalDuration
           : totalDuration // ignore: cast_nullable_to_non_nullable
@@ -1835,9 +1854,6 @@ abstract class _$$GenerateCompletionResponseImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) String? response,
       @JsonKey(includeIfNull: false) bool? done,
       @JsonKey(includeIfNull: false) List<int>? context,
-      @JsonKey(name: 'sample_count', includeIfNull: false) int? sampleCount,
-      @JsonKey(name: 'sample_duration', includeIfNull: false)
-      int? sampleDuration,
       @JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,
       @JsonKey(name: 'load_duration', includeIfNull: false) int? loadDuration,
       @JsonKey(name: 'prompt_eval_count', includeIfNull: false)
@@ -1866,8 +1882,6 @@ class __$$GenerateCompletionResponseImplCopyWithImpl<$Res>
     Object? response = freezed,
     Object? done = freezed,
     Object? context = freezed,
-    Object? sampleCount = freezed,
-    Object? sampleDuration = freezed,
     Object? totalDuration = freezed,
     Object? loadDuration = freezed,
     Object? promptEvalCount = freezed,
@@ -1896,14 +1910,6 @@ class __$$GenerateCompletionResponseImplCopyWithImpl<$Res>
           ? _value._context
           : context // ignore: cast_nullable_to_non_nullable
               as List<int>?,
-      sampleCount: freezed == sampleCount
-          ? _value.sampleCount
-          : sampleCount // ignore: cast_nullable_to_non_nullable
-              as int?,
-      sampleDuration: freezed == sampleDuration
-          ? _value.sampleDuration
-          : sampleDuration // ignore: cast_nullable_to_non_nullable
-              as int?,
       totalDuration: freezed == totalDuration
           ? _value.totalDuration
           : totalDuration // ignore: cast_nullable_to_non_nullable
@@ -1941,9 +1947,6 @@ class _$GenerateCompletionResponseImpl extends _GenerateCompletionResponse {
       @JsonKey(includeIfNull: false) this.response,
       @JsonKey(includeIfNull: false) this.done,
       @JsonKey(includeIfNull: false) final List<int>? context,
-      @JsonKey(name: 'sample_count', includeIfNull: false) this.sampleCount,
-      @JsonKey(name: 'sample_duration', includeIfNull: false)
-      this.sampleDuration,
       @JsonKey(name: 'total_duration', includeIfNull: false) this.totalDuration,
       @JsonKey(name: 'load_duration', includeIfNull: false) this.loadDuration,
       @JsonKey(name: 'prompt_eval_count', includeIfNull: false)
@@ -1995,16 +1998,6 @@ class _$GenerateCompletionResponseImpl extends _GenerateCompletionResponse {
     return EqualUnmodifiableListView(value);
   }
 
-  /// Number of samples generated.
-  @override
-  @JsonKey(name: 'sample_count', includeIfNull: false)
-  final int? sampleCount;
-
-  /// Time spent generating samples.
-  @override
-  @JsonKey(name: 'sample_duration', includeIfNull: false)
-  final int? sampleDuration;
-
   /// Time spent generating the response.
   @override
   @JsonKey(name: 'total_duration', includeIfNull: false)
@@ -2037,7 +2030,7 @@ class _$GenerateCompletionResponseImpl extends _GenerateCompletionResponse {
 
   @override
   String toString() {
-    return 'GenerateCompletionResponse(model: $model, createdAt: $createdAt, response: $response, done: $done, context: $context, sampleCount: $sampleCount, sampleDuration: $sampleDuration, totalDuration: $totalDuration, loadDuration: $loadDuration, promptEvalCount: $promptEvalCount, promptEvalDuration: $promptEvalDuration, evalCount: $evalCount, evalDuration: $evalDuration)';
+    return 'GenerateCompletionResponse(model: $model, createdAt: $createdAt, response: $response, done: $done, context: $context, totalDuration: $totalDuration, loadDuration: $loadDuration, promptEvalCount: $promptEvalCount, promptEvalDuration: $promptEvalDuration, evalCount: $evalCount, evalDuration: $evalDuration)';
   }
 
   @override
@@ -2052,10 +2045,6 @@ class _$GenerateCompletionResponseImpl extends _GenerateCompletionResponse {
                 other.response == response) &&
             (identical(other.done, done) || other.done == done) &&
             const DeepCollectionEquality().equals(other._context, _context) &&
-            (identical(other.sampleCount, sampleCount) ||
-                other.sampleCount == sampleCount) &&
-            (identical(other.sampleDuration, sampleDuration) ||
-                other.sampleDuration == sampleDuration) &&
             (identical(other.totalDuration, totalDuration) ||
                 other.totalDuration == totalDuration) &&
             (identical(other.loadDuration, loadDuration) ||
@@ -2079,8 +2068,6 @@ class _$GenerateCompletionResponseImpl extends _GenerateCompletionResponse {
       response,
       done,
       const DeepCollectionEquality().hash(_context),
-      sampleCount,
-      sampleDuration,
       totalDuration,
       loadDuration,
       promptEvalCount,
@@ -2111,10 +2098,6 @@ abstract class _GenerateCompletionResponse extends GenerateCompletionResponse {
       @JsonKey(includeIfNull: false) final String? response,
       @JsonKey(includeIfNull: false) final bool? done,
       @JsonKey(includeIfNull: false) final List<int>? context,
-      @JsonKey(name: 'sample_count', includeIfNull: false)
-      final int? sampleCount,
-      @JsonKey(name: 'sample_duration', includeIfNull: false)
-      final int? sampleDuration,
       @JsonKey(name: 'total_duration', includeIfNull: false)
       final int? totalDuration,
       @JsonKey(name: 'load_duration', includeIfNull: false)
@@ -2160,16 +2143,6 @@ abstract class _GenerateCompletionResponse extends GenerateCompletionResponse {
   List<int>? get context;
   @override
 
-  /// Number of samples generated.
-  @JsonKey(name: 'sample_count', includeIfNull: false)
-  int? get sampleCount;
-  @override
-
-  /// Time spent generating samples.
-  @JsonKey(name: 'sample_duration', includeIfNull: false)
-  int? get sampleDuration;
-  @override
-
   /// Time spent generating the response.
   @JsonKey(name: 'total_duration', includeIfNull: false)
   int? get totalDuration;
@@ -2202,6 +2175,1020 @@ abstract class _GenerateCompletionResponse extends GenerateCompletionResponse {
   @JsonKey(ignore: true)
   _$$GenerateCompletionResponseImplCopyWith<_$GenerateCompletionResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+GenerateChatCompletionRequest _$GenerateChatCompletionRequestFromJson(
+    Map<String, dynamic> json) {
+  return _GenerateChatCompletionRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$GenerateChatCompletionRequest {
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  String get model => throw _privateConstructorUsedError;
+
+  /// The messages of the chat, this can be used to keep a chat memory
+  List<Message> get messages => throw _privateConstructorUsedError;
+
+  /// The format to return a response in. Currently the only accepted value is json.
+  ///
+  /// Enable JSON mode by setting the format parameter to json. This will structure the response as valid JSON.
+  ///
+  /// Note: it's important to instruct the model to use JSON in the prompt. Otherwise, the model may generate large amounts whitespace.
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ResponseFormat? get format => throw _privateConstructorUsedError;
+
+  /// Additional model parameters listed in the documentation for the Modelfile such as `temperature`.
+  @JsonKey(includeIfNull: false)
+  RequestOptions? get options => throw _privateConstructorUsedError;
+
+  /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
+  bool get stream => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GenerateChatCompletionRequestCopyWith<GenerateChatCompletionRequest>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GenerateChatCompletionRequestCopyWith<$Res> {
+  factory $GenerateChatCompletionRequestCopyWith(
+          GenerateChatCompletionRequest value,
+          $Res Function(GenerateChatCompletionRequest) then) =
+      _$GenerateChatCompletionRequestCopyWithImpl<$Res,
+          GenerateChatCompletionRequest>;
+  @useResult
+  $Res call(
+      {String model,
+      List<Message> messages,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ResponseFormat? format,
+      @JsonKey(includeIfNull: false) RequestOptions? options,
+      bool stream});
+
+  $RequestOptionsCopyWith<$Res>? get options;
+}
+
+/// @nodoc
+class _$GenerateChatCompletionRequestCopyWithImpl<$Res,
+        $Val extends GenerateChatCompletionRequest>
+    implements $GenerateChatCompletionRequestCopyWith<$Res> {
+  _$GenerateChatCompletionRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? model = null,
+    Object? messages = null,
+    Object? format = freezed,
+    Object? options = freezed,
+    Object? stream = null,
+  }) {
+    return _then(_value.copyWith(
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String,
+      messages: null == messages
+          ? _value.messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<Message>,
+      format: freezed == format
+          ? _value.format
+          : format // ignore: cast_nullable_to_non_nullable
+              as ResponseFormat?,
+      options: freezed == options
+          ? _value.options
+          : options // ignore: cast_nullable_to_non_nullable
+              as RequestOptions?,
+      stream: null == stream
+          ? _value.stream
+          : stream // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RequestOptionsCopyWith<$Res>? get options {
+    if (_value.options == null) {
+      return null;
+    }
+
+    return $RequestOptionsCopyWith<$Res>(_value.options!, (value) {
+      return _then(_value.copyWith(options: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$GenerateChatCompletionRequestImplCopyWith<$Res>
+    implements $GenerateChatCompletionRequestCopyWith<$Res> {
+  factory _$$GenerateChatCompletionRequestImplCopyWith(
+          _$GenerateChatCompletionRequestImpl value,
+          $Res Function(_$GenerateChatCompletionRequestImpl) then) =
+      __$$GenerateChatCompletionRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String model,
+      List<Message> messages,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ResponseFormat? format,
+      @JsonKey(includeIfNull: false) RequestOptions? options,
+      bool stream});
+
+  @override
+  $RequestOptionsCopyWith<$Res>? get options;
+}
+
+/// @nodoc
+class __$$GenerateChatCompletionRequestImplCopyWithImpl<$Res>
+    extends _$GenerateChatCompletionRequestCopyWithImpl<$Res,
+        _$GenerateChatCompletionRequestImpl>
+    implements _$$GenerateChatCompletionRequestImplCopyWith<$Res> {
+  __$$GenerateChatCompletionRequestImplCopyWithImpl(
+      _$GenerateChatCompletionRequestImpl _value,
+      $Res Function(_$GenerateChatCompletionRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? model = null,
+    Object? messages = null,
+    Object? format = freezed,
+    Object? options = freezed,
+    Object? stream = null,
+  }) {
+    return _then(_$GenerateChatCompletionRequestImpl(
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String,
+      messages: null == messages
+          ? _value._messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<Message>,
+      format: freezed == format
+          ? _value.format
+          : format // ignore: cast_nullable_to_non_nullable
+              as ResponseFormat?,
+      options: freezed == options
+          ? _value.options
+          : options // ignore: cast_nullable_to_non_nullable
+              as RequestOptions?,
+      stream: null == stream
+          ? _value.stream
+          : stream // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$GenerateChatCompletionRequestImpl
+    extends _GenerateChatCompletionRequest {
+  const _$GenerateChatCompletionRequestImpl(
+      {required this.model,
+      required final List<Message> messages,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.format,
+      @JsonKey(includeIfNull: false) this.options,
+      this.stream = false})
+      : _messages = messages,
+        super._();
+
+  factory _$GenerateChatCompletionRequestImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$GenerateChatCompletionRequestImplFromJson(json);
+
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  @override
+  final String model;
+
+  /// The messages of the chat, this can be used to keep a chat memory
+  final List<Message> _messages;
+
+  /// The messages of the chat, this can be used to keep a chat memory
+  @override
+  List<Message> get messages {
+    if (_messages is EqualUnmodifiableListView) return _messages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_messages);
+  }
+
+  /// The format to return a response in. Currently the only accepted value is json.
+  ///
+  /// Enable JSON mode by setting the format parameter to json. This will structure the response as valid JSON.
+  ///
+  /// Note: it's important to instruct the model to use JSON in the prompt. Otherwise, the model may generate large amounts whitespace.
+  @override
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ResponseFormat? format;
+
+  /// Additional model parameters listed in the documentation for the Modelfile such as `temperature`.
+  @override
+  @JsonKey(includeIfNull: false)
+  final RequestOptions? options;
+
+  /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
+  @override
+  @JsonKey()
+  final bool stream;
+
+  @override
+  String toString() {
+    return 'GenerateChatCompletionRequest(model: $model, messages: $messages, format: $format, options: $options, stream: $stream)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GenerateChatCompletionRequestImpl &&
+            (identical(other.model, model) || other.model == model) &&
+            const DeepCollectionEquality().equals(other._messages, _messages) &&
+            (identical(other.format, format) || other.format == format) &&
+            (identical(other.options, options) || other.options == options) &&
+            (identical(other.stream, stream) || other.stream == stream));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, model,
+      const DeepCollectionEquality().hash(_messages), format, options, stream);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GenerateChatCompletionRequestImplCopyWith<
+          _$GenerateChatCompletionRequestImpl>
+      get copyWith => __$$GenerateChatCompletionRequestImplCopyWithImpl<
+          _$GenerateChatCompletionRequestImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$GenerateChatCompletionRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _GenerateChatCompletionRequest
+    extends GenerateChatCompletionRequest {
+  const factory _GenerateChatCompletionRequest(
+      {required final String model,
+      required final List<Message> messages,
+      @JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final ResponseFormat? format,
+      @JsonKey(includeIfNull: false) final RequestOptions? options,
+      final bool stream}) = _$GenerateChatCompletionRequestImpl;
+  const _GenerateChatCompletionRequest._() : super._();
+
+  factory _GenerateChatCompletionRequest.fromJson(Map<String, dynamic> json) =
+      _$GenerateChatCompletionRequestImpl.fromJson;
+
+  @override
+
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  String get model;
+  @override
+
+  /// The messages of the chat, this can be used to keep a chat memory
+  List<Message> get messages;
+  @override
+
+  /// The format to return a response in. Currently the only accepted value is json.
+  ///
+  /// Enable JSON mode by setting the format parameter to json. This will structure the response as valid JSON.
+  ///
+  /// Note: it's important to instruct the model to use JSON in the prompt. Otherwise, the model may generate large amounts whitespace.
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ResponseFormat? get format;
+  @override
+
+  /// Additional model parameters listed in the documentation for the Modelfile such as `temperature`.
+  @JsonKey(includeIfNull: false)
+  RequestOptions? get options;
+  @override
+
+  /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
+  bool get stream;
+  @override
+  @JsonKey(ignore: true)
+  _$$GenerateChatCompletionRequestImplCopyWith<
+          _$GenerateChatCompletionRequestImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+GenerateChatCompletionResponse _$GenerateChatCompletionResponseFromJson(
+    Map<String, dynamic> json) {
+  return _GenerateChatCompletionResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$GenerateChatCompletionResponse {
+  /// A message in the chat endpoint
+  @JsonKey(includeIfNull: false)
+  Message? get message => throw _privateConstructorUsedError;
+
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  @JsonKey(includeIfNull: false)
+  String? get model => throw _privateConstructorUsedError;
+
+  /// Date on which a model was created.
+  @JsonKey(name: 'created_at', includeIfNull: false)
+  String? get createdAt => throw _privateConstructorUsedError;
+
+  /// Whether the response has completed.
+  @JsonKey(includeIfNull: false)
+  bool? get done => throw _privateConstructorUsedError;
+
+  /// Time spent generating the response.
+  @JsonKey(name: 'total_duration', includeIfNull: false)
+  int? get totalDuration => throw _privateConstructorUsedError;
+
+  /// Time spent in nanoseconds loading the model.
+  @JsonKey(name: 'load_duration', includeIfNull: false)
+  int? get loadDuration => throw _privateConstructorUsedError;
+
+  /// Number of tokens in the prompt.
+  @JsonKey(name: 'prompt_eval_count', includeIfNull: false)
+  int? get promptEvalCount => throw _privateConstructorUsedError;
+
+  /// Time spent in nanoseconds evaluating the prompt.
+  @JsonKey(name: 'prompt_eval_duration', includeIfNull: false)
+  int? get promptEvalDuration => throw _privateConstructorUsedError;
+
+  /// Number of tokens the response.
+  @JsonKey(name: 'eval_count', includeIfNull: false)
+  int? get evalCount => throw _privateConstructorUsedError;
+
+  /// Time in nanoseconds spent generating the response.
+  @JsonKey(name: 'eval_duration', includeIfNull: false)
+  int? get evalDuration => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GenerateChatCompletionResponseCopyWith<GenerateChatCompletionResponse>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GenerateChatCompletionResponseCopyWith<$Res> {
+  factory $GenerateChatCompletionResponseCopyWith(
+          GenerateChatCompletionResponse value,
+          $Res Function(GenerateChatCompletionResponse) then) =
+      _$GenerateChatCompletionResponseCopyWithImpl<$Res,
+          GenerateChatCompletionResponse>;
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) Message? message,
+      @JsonKey(includeIfNull: false) String? model,
+      @JsonKey(name: 'created_at', includeIfNull: false) String? createdAt,
+      @JsonKey(includeIfNull: false) bool? done,
+      @JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,
+      @JsonKey(name: 'load_duration', includeIfNull: false) int? loadDuration,
+      @JsonKey(name: 'prompt_eval_count', includeIfNull: false)
+      int? promptEvalCount,
+      @JsonKey(name: 'prompt_eval_duration', includeIfNull: false)
+      int? promptEvalDuration,
+      @JsonKey(name: 'eval_count', includeIfNull: false) int? evalCount,
+      @JsonKey(name: 'eval_duration', includeIfNull: false) int? evalDuration});
+
+  $MessageCopyWith<$Res>? get message;
+}
+
+/// @nodoc
+class _$GenerateChatCompletionResponseCopyWithImpl<$Res,
+        $Val extends GenerateChatCompletionResponse>
+    implements $GenerateChatCompletionResponseCopyWith<$Res> {
+  _$GenerateChatCompletionResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = freezed,
+    Object? model = freezed,
+    Object? createdAt = freezed,
+    Object? done = freezed,
+    Object? totalDuration = freezed,
+    Object? loadDuration = freezed,
+    Object? promptEvalCount = freezed,
+    Object? promptEvalDuration = freezed,
+    Object? evalCount = freezed,
+    Object? evalDuration = freezed,
+  }) {
+    return _then(_value.copyWith(
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as Message?,
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      done: freezed == done
+          ? _value.done
+          : done // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      totalDuration: freezed == totalDuration
+          ? _value.totalDuration
+          : totalDuration // ignore: cast_nullable_to_non_nullable
+              as int?,
+      loadDuration: freezed == loadDuration
+          ? _value.loadDuration
+          : loadDuration // ignore: cast_nullable_to_non_nullable
+              as int?,
+      promptEvalCount: freezed == promptEvalCount
+          ? _value.promptEvalCount
+          : promptEvalCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      promptEvalDuration: freezed == promptEvalDuration
+          ? _value.promptEvalDuration
+          : promptEvalDuration // ignore: cast_nullable_to_non_nullable
+              as int?,
+      evalCount: freezed == evalCount
+          ? _value.evalCount
+          : evalCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      evalDuration: freezed == evalDuration
+          ? _value.evalDuration
+          : evalDuration // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageCopyWith<$Res>? get message {
+    if (_value.message == null) {
+      return null;
+    }
+
+    return $MessageCopyWith<$Res>(_value.message!, (value) {
+      return _then(_value.copyWith(message: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$GenerateChatCompletionResponseImplCopyWith<$Res>
+    implements $GenerateChatCompletionResponseCopyWith<$Res> {
+  factory _$$GenerateChatCompletionResponseImplCopyWith(
+          _$GenerateChatCompletionResponseImpl value,
+          $Res Function(_$GenerateChatCompletionResponseImpl) then) =
+      __$$GenerateChatCompletionResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) Message? message,
+      @JsonKey(includeIfNull: false) String? model,
+      @JsonKey(name: 'created_at', includeIfNull: false) String? createdAt,
+      @JsonKey(includeIfNull: false) bool? done,
+      @JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,
+      @JsonKey(name: 'load_duration', includeIfNull: false) int? loadDuration,
+      @JsonKey(name: 'prompt_eval_count', includeIfNull: false)
+      int? promptEvalCount,
+      @JsonKey(name: 'prompt_eval_duration', includeIfNull: false)
+      int? promptEvalDuration,
+      @JsonKey(name: 'eval_count', includeIfNull: false) int? evalCount,
+      @JsonKey(name: 'eval_duration', includeIfNull: false) int? evalDuration});
+
+  @override
+  $MessageCopyWith<$Res>? get message;
+}
+
+/// @nodoc
+class __$$GenerateChatCompletionResponseImplCopyWithImpl<$Res>
+    extends _$GenerateChatCompletionResponseCopyWithImpl<$Res,
+        _$GenerateChatCompletionResponseImpl>
+    implements _$$GenerateChatCompletionResponseImplCopyWith<$Res> {
+  __$$GenerateChatCompletionResponseImplCopyWithImpl(
+      _$GenerateChatCompletionResponseImpl _value,
+      $Res Function(_$GenerateChatCompletionResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = freezed,
+    Object? model = freezed,
+    Object? createdAt = freezed,
+    Object? done = freezed,
+    Object? totalDuration = freezed,
+    Object? loadDuration = freezed,
+    Object? promptEvalCount = freezed,
+    Object? promptEvalDuration = freezed,
+    Object? evalCount = freezed,
+    Object? evalDuration = freezed,
+  }) {
+    return _then(_$GenerateChatCompletionResponseImpl(
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as Message?,
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      done: freezed == done
+          ? _value.done
+          : done // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      totalDuration: freezed == totalDuration
+          ? _value.totalDuration
+          : totalDuration // ignore: cast_nullable_to_non_nullable
+              as int?,
+      loadDuration: freezed == loadDuration
+          ? _value.loadDuration
+          : loadDuration // ignore: cast_nullable_to_non_nullable
+              as int?,
+      promptEvalCount: freezed == promptEvalCount
+          ? _value.promptEvalCount
+          : promptEvalCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      promptEvalDuration: freezed == promptEvalDuration
+          ? _value.promptEvalDuration
+          : promptEvalDuration // ignore: cast_nullable_to_non_nullable
+              as int?,
+      evalCount: freezed == evalCount
+          ? _value.evalCount
+          : evalCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      evalDuration: freezed == evalDuration
+          ? _value.evalDuration
+          : evalDuration // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$GenerateChatCompletionResponseImpl
+    extends _GenerateChatCompletionResponse {
+  const _$GenerateChatCompletionResponseImpl(
+      {@JsonKey(includeIfNull: false) this.message,
+      @JsonKey(includeIfNull: false) this.model,
+      @JsonKey(name: 'created_at', includeIfNull: false) this.createdAt,
+      @JsonKey(includeIfNull: false) this.done,
+      @JsonKey(name: 'total_duration', includeIfNull: false) this.totalDuration,
+      @JsonKey(name: 'load_duration', includeIfNull: false) this.loadDuration,
+      @JsonKey(name: 'prompt_eval_count', includeIfNull: false)
+      this.promptEvalCount,
+      @JsonKey(name: 'prompt_eval_duration', includeIfNull: false)
+      this.promptEvalDuration,
+      @JsonKey(name: 'eval_count', includeIfNull: false) this.evalCount,
+      @JsonKey(name: 'eval_duration', includeIfNull: false) this.evalDuration})
+      : super._();
+
+  factory _$GenerateChatCompletionResponseImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$GenerateChatCompletionResponseImplFromJson(json);
+
+  /// A message in the chat endpoint
+  @override
+  @JsonKey(includeIfNull: false)
+  final Message? message;
+
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? model;
+
+  /// Date on which a model was created.
+  @override
+  @JsonKey(name: 'created_at', includeIfNull: false)
+  final String? createdAt;
+
+  /// Whether the response has completed.
+  @override
+  @JsonKey(includeIfNull: false)
+  final bool? done;
+
+  /// Time spent generating the response.
+  @override
+  @JsonKey(name: 'total_duration', includeIfNull: false)
+  final int? totalDuration;
+
+  /// Time spent in nanoseconds loading the model.
+  @override
+  @JsonKey(name: 'load_duration', includeIfNull: false)
+  final int? loadDuration;
+
+  /// Number of tokens in the prompt.
+  @override
+  @JsonKey(name: 'prompt_eval_count', includeIfNull: false)
+  final int? promptEvalCount;
+
+  /// Time spent in nanoseconds evaluating the prompt.
+  @override
+  @JsonKey(name: 'prompt_eval_duration', includeIfNull: false)
+  final int? promptEvalDuration;
+
+  /// Number of tokens the response.
+  @override
+  @JsonKey(name: 'eval_count', includeIfNull: false)
+  final int? evalCount;
+
+  /// Time in nanoseconds spent generating the response.
+  @override
+  @JsonKey(name: 'eval_duration', includeIfNull: false)
+  final int? evalDuration;
+
+  @override
+  String toString() {
+    return 'GenerateChatCompletionResponse(message: $message, model: $model, createdAt: $createdAt, done: $done, totalDuration: $totalDuration, loadDuration: $loadDuration, promptEvalCount: $promptEvalCount, promptEvalDuration: $promptEvalDuration, evalCount: $evalCount, evalDuration: $evalDuration)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GenerateChatCompletionResponseImpl &&
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.model, model) || other.model == model) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.done, done) || other.done == done) &&
+            (identical(other.totalDuration, totalDuration) ||
+                other.totalDuration == totalDuration) &&
+            (identical(other.loadDuration, loadDuration) ||
+                other.loadDuration == loadDuration) &&
+            (identical(other.promptEvalCount, promptEvalCount) ||
+                other.promptEvalCount == promptEvalCount) &&
+            (identical(other.promptEvalDuration, promptEvalDuration) ||
+                other.promptEvalDuration == promptEvalDuration) &&
+            (identical(other.evalCount, evalCount) ||
+                other.evalCount == evalCount) &&
+            (identical(other.evalDuration, evalDuration) ||
+                other.evalDuration == evalDuration));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      message,
+      model,
+      createdAt,
+      done,
+      totalDuration,
+      loadDuration,
+      promptEvalCount,
+      promptEvalDuration,
+      evalCount,
+      evalDuration);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GenerateChatCompletionResponseImplCopyWith<
+          _$GenerateChatCompletionResponseImpl>
+      get copyWith => __$$GenerateChatCompletionResponseImplCopyWithImpl<
+          _$GenerateChatCompletionResponseImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$GenerateChatCompletionResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _GenerateChatCompletionResponse
+    extends GenerateChatCompletionResponse {
+  const factory _GenerateChatCompletionResponse(
+      {@JsonKey(includeIfNull: false) final Message? message,
+      @JsonKey(includeIfNull: false) final String? model,
+      @JsonKey(name: 'created_at', includeIfNull: false)
+      final String? createdAt,
+      @JsonKey(includeIfNull: false) final bool? done,
+      @JsonKey(name: 'total_duration', includeIfNull: false)
+      final int? totalDuration,
+      @JsonKey(name: 'load_duration', includeIfNull: false)
+      final int? loadDuration,
+      @JsonKey(name: 'prompt_eval_count', includeIfNull: false)
+      final int? promptEvalCount,
+      @JsonKey(name: 'prompt_eval_duration', includeIfNull: false)
+      final int? promptEvalDuration,
+      @JsonKey(name: 'eval_count', includeIfNull: false) final int? evalCount,
+      @JsonKey(name: 'eval_duration', includeIfNull: false)
+      final int? evalDuration}) = _$GenerateChatCompletionResponseImpl;
+  const _GenerateChatCompletionResponse._() : super._();
+
+  factory _GenerateChatCompletionResponse.fromJson(Map<String, dynamic> json) =
+      _$GenerateChatCompletionResponseImpl.fromJson;
+
+  @override
+
+  /// A message in the chat endpoint
+  @JsonKey(includeIfNull: false)
+  Message? get message;
+  @override
+
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  @JsonKey(includeIfNull: false)
+  String? get model;
+  @override
+
+  /// Date on which a model was created.
+  @JsonKey(name: 'created_at', includeIfNull: false)
+  String? get createdAt;
+  @override
+
+  /// Whether the response has completed.
+  @JsonKey(includeIfNull: false)
+  bool? get done;
+  @override
+
+  /// Time spent generating the response.
+  @JsonKey(name: 'total_duration', includeIfNull: false)
+  int? get totalDuration;
+  @override
+
+  /// Time spent in nanoseconds loading the model.
+  @JsonKey(name: 'load_duration', includeIfNull: false)
+  int? get loadDuration;
+  @override
+
+  /// Number of tokens in the prompt.
+  @JsonKey(name: 'prompt_eval_count', includeIfNull: false)
+  int? get promptEvalCount;
+  @override
+
+  /// Time spent in nanoseconds evaluating the prompt.
+  @JsonKey(name: 'prompt_eval_duration', includeIfNull: false)
+  int? get promptEvalDuration;
+  @override
+
+  /// Number of tokens the response.
+  @JsonKey(name: 'eval_count', includeIfNull: false)
+  int? get evalCount;
+  @override
+
+  /// Time in nanoseconds spent generating the response.
+  @JsonKey(name: 'eval_duration', includeIfNull: false)
+  int? get evalDuration;
+  @override
+  @JsonKey(ignore: true)
+  _$$GenerateChatCompletionResponseImplCopyWith<
+          _$GenerateChatCompletionResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+Message _$MessageFromJson(Map<String, dynamic> json) {
+  return _Message.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Message {
+  /// The role of the message
+  MessageRole get role => throw _privateConstructorUsedError;
+
+  /// The content of the message
+  String get content => throw _privateConstructorUsedError;
+
+  /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
+  @JsonKey(includeIfNull: false)
+  List<String>? get images => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageCopyWith<Message> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageCopyWith<$Res> {
+  factory $MessageCopyWith(Message value, $Res Function(Message) then) =
+      _$MessageCopyWithImpl<$Res, Message>;
+  @useResult
+  $Res call(
+      {MessageRole role,
+      String content,
+      @JsonKey(includeIfNull: false) List<String>? images});
+}
+
+/// @nodoc
+class _$MessageCopyWithImpl<$Res, $Val extends Message>
+    implements $MessageCopyWith<$Res> {
+  _$MessageCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? role = null,
+    Object? content = null,
+    Object? images = freezed,
+  }) {
+    return _then(_value.copyWith(
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as MessageRole,
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String,
+      images: freezed == images
+          ? _value.images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
+  factory _$$MessageImplCopyWith(
+          _$MessageImpl value, $Res Function(_$MessageImpl) then) =
+      __$$MessageImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {MessageRole role,
+      String content,
+      @JsonKey(includeIfNull: false) List<String>? images});
+}
+
+/// @nodoc
+class __$$MessageImplCopyWithImpl<$Res>
+    extends _$MessageCopyWithImpl<$Res, _$MessageImpl>
+    implements _$$MessageImplCopyWith<$Res> {
+  __$$MessageImplCopyWithImpl(
+      _$MessageImpl _value, $Res Function(_$MessageImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? role = null,
+    Object? content = null,
+    Object? images = freezed,
+  }) {
+    return _then(_$MessageImpl(
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as MessageRole,
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String,
+      images: freezed == images
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageImpl extends _Message {
+  const _$MessageImpl(
+      {required this.role,
+      required this.content,
+      @JsonKey(includeIfNull: false) final List<String>? images})
+      : _images = images,
+        super._();
+
+  factory _$MessageImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageImplFromJson(json);
+
+  /// The role of the message
+  @override
+  final MessageRole role;
+
+  /// The content of the message
+  @override
+  final String content;
+
+  /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
+  final List<String>? _images;
+
+  /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
+  @override
+  @JsonKey(includeIfNull: false)
+  List<String>? get images {
+    final value = _images;
+    if (value == null) return null;
+    if (_images is EqualUnmodifiableListView) return _images;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'Message(role: $role, content: $content, images: $images)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageImpl &&
+            (identical(other.role, role) || other.role == role) &&
+            (identical(other.content, content) || other.content == content) &&
+            const DeepCollectionEquality().equals(other._images, _images));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, role, content, const DeepCollectionEquality().hash(_images));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageImplCopyWith<_$MessageImpl> get copyWith =>
+      __$$MessageImplCopyWithImpl<_$MessageImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Message extends Message {
+  const factory _Message(
+          {required final MessageRole role,
+          required final String content,
+          @JsonKey(includeIfNull: false) final List<String>? images}) =
+      _$MessageImpl;
+  const _Message._() : super._();
+
+  factory _Message.fromJson(Map<String, dynamic> json) = _$MessageImpl.fromJson;
+
+  @override
+
+  /// The role of the message
+  MessageRole get role;
+  @override
+
+  /// The content of the message
+  String get content;
+  @override
+
+  /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
+  @JsonKey(includeIfNull: false)
+  List<String>? get images;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageImplCopyWith<_$MessageImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 GenerateEmbeddingRequest _$GenerateEmbeddingRequestFromJson(
