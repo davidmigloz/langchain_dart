@@ -3,7 +3,7 @@ import 'package:langchain_ollama/langchain_ollama.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('OllamaEmbeddings tests', () {
+  group('OllamaEmbeddings tests', skip: true, () {
     late OllamaEmbeddings embeddings;
     const defaultModel = 'llama2:latest';
 

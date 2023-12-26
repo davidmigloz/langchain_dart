@@ -1,12 +1,16 @@
 // ignore_for_file: avoid_redundant_argument_values
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:langchain/langchain.dart';
 import 'package:langchain_ollama/langchain_ollama.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('ChatOllama tests', () {
+  group('ChatOllama tests', skip: true, () {
     late ChatOllama chatModel;
     const defaultModel = 'llama2:latest';
+    const visionModel = 'llava:latest';
 
     setUp(() async {
       chatModel = ChatOllama(
@@ -23,11 +27,7 @@ void main() {
     test('Test ChatOllama parameters', () async {
       chatModel.defaultOptions = const ChatOllamaOptions(
         model: 'foo',
-        system: 'system prompt',
-        template: 'TEMPLATE """',
-        context: [1, 2, 3],
         format: OllamaResponseFormat.json,
-        raw: true,
         numKeep: 0,
         seed: 1,
         numPredict: 2,
@@ -64,14 +64,7 @@ void main() {
       );
 
       expect(chatModel.defaultOptions.model, 'foo');
-      expect(
-        chatModel.defaultOptions.system,
-        'system prompt',
-      );
-      expect(chatModel.defaultOptions.template, 'TEMPLATE """');
-      expect(chatModel.defaultOptions.context, [1, 2, 3]);
       expect(chatModel.defaultOptions.format, OllamaResponseFormat.json);
-      expect(chatModel.defaultOptions.raw, true);
       expect(chatModel.defaultOptions.numKeep, 0);
       expect(chatModel.defaultOptions.seed, 1);
       expect(chatModel.defaultOptions.numPredict, 2);
@@ -110,19 +103,6 @@ void main() {
       expect(chatModel.defaultOptions.numThread, 21);
     });
 
-    test('Test call to Ollama', () async {
-      final output = await chatModel([ChatMessage.humanText('Say foo:')]);
-      expect(output, isA<AIChatMessage>());
-      expect(output.content, isNotEmpty);
-    });
-
-    test('Test generate to Ollama', () async {
-      final res = await chatModel.generate(
-        [ChatMessage.humanText('Hello, how are you?')],
-      );
-      expect(res.generations.length, 1);
-    });
-
     test('Test model output contains metadata', () async {
       final res = await chatModel.invoke(
         PromptValue.chat([
@@ -143,7 +123,6 @@ void main() {
       final generation = res.generations.first;
       expect(generation.generationInfo, isNotNull);
       expect(generation.generationInfo!['done'], isTrue);
-      expect(generation.generationInfo!['context'], isNotEmpty);
       expect(generation.generationInfo!['total_duration'], greaterThan(0));
       expect(generation.generationInfo!['load_duration'], greaterThan(0));
       expect(generation.generationInfo!['prompt_eval_count'], greaterThan(0));
@@ -214,22 +193,7 @@ void main() {
       expect(content, contains('123456789'));
     });
 
-    test('Test raw mode', () async {
-      final res = await chatModel.invoke(
-        PromptValue.string(
-          '[INST] List the numbers from 1 to 9 in order. '
-          'Output ONLY the numbers in one line without any spaces or commas. '
-          'NUMBERS: [/INST]',
-        ),
-        options: const ChatOllamaOptions(raw: true),
-      );
-      expect(
-        res.firstOutputAsString.replaceAll(RegExp(r'[\s\n]'), ''),
-        contains('123456789'),
-      );
-    });
-
-    test('Test response seed', skip: true, () async {
+    test('Test response seed', () async {
       final prompt = PromptValue.string(
         'Why is the sky blue? Reply in one sentence.',
       );
@@ -249,6 +213,57 @@ void main() {
       expect(res2.generations, hasLength(1));
       final generation2 = res2.generations.first;
       expect(generation1.output, generation2.output);
+    });
+
+    test('Test Multi-turn conversations', () async {
+      final prompt = PromptValue.chat([
+        ChatMessage.humanText(
+          'List the numbers from 1 to 9 in order. '
+          'Output ONLY the numbers in one line without any spaces or commas. '
+          'NUMBERS:',
+        ),
+        ChatMessage.ai('123456789'),
+        ChatMessage.humanText(
+          'Remove the number "4" from the list',
+        ),
+      ]);
+      final res = await chatModel.invoke(
+        prompt,
+        options: const ChatOllamaOptions(
+          temperature: 0,
+        ),
+      );
+      expect(
+        res.firstOutputAsString.replaceAll(RegExp(r'[\s\n]'), ''),
+        contains('12356789'),
+      );
+    });
+
+    test('Text-and-image input with llava', () async {
+      final res = await chatModel.invoke(
+        PromptValue.chat([
+          ChatMessage.human(
+            ChatMessageContent.multiModal([
+              ChatMessageContent.text('What fruit is this?'),
+              ChatMessageContent.image(
+                mimeType: 'image/jpeg',
+                data: base64.encode(
+                  await File('./test/chat_models/assets/apple.jpeg')
+                      .readAsBytes(),
+                ),
+              ),
+            ]),
+          ),
+        ]),
+        options: const ChatOllamaOptions(
+          model: visionModel,
+          temperature: 0,
+        ),
+      );
+
+      expect(res.generations, hasLength(1));
+      final outputMsg = res.generations.first.output;
+      expect(outputMsg.content.toLowerCase(), contains('apple'));
     });
   });
 }

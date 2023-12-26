@@ -1,1 +1,1 @@
-export 'ollama.dart';
+export 'ollama_embeddings.dart';

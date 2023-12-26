@@ -9,7 +9,7 @@ import 'models/models.dart';
 /// Wrapper around [Ollama](https://ollama.ai) Completions API.
 ///
 /// Ollama allows you to run open-source large language models,
-/// such as Llama 2, locally.
+/// such as Llama 2 or LLaVA, locally.
 ///
 /// For a complete list of supported models and model variants, see the
 /// [Ollama model library](https://ollama.ai/library).

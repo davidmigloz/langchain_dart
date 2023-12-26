@@ -12,7 +12,7 @@ For a complete list of supported models and model variants, see the [Ollama mode
 
 ## Setup
 
-Rollow [these instructions](https://github.com/jmorganca/ollama) to set up and run a local Ollama instance:
+Follow [these instructions](https://github.com/jmorganca/ollama) to set up and run a local Ollama instance:
 
 1. Download and install [Ollama](https://ollama.ai)
 2. Fetch a model via `ollama pull <model family>`
@@ -21,25 +21,22 @@ Rollow [these instructions](https://github.com/jmorganca/ollama) to set up and r
 ## Usage
 
 ```dart
+final promptTemplate = ChatPromptTemplate.fromTemplates([
+  (
+  ChatMessageType.system,
+  'You are a helpful assistant that translates {input_language} to {output_language}.',
+  ),
+  (ChatMessageType.human, '{text}'),
+]);
+
 final chatModel = ChatOllama(
-  defaultOptions: const ChatOllamaOptions(
+  defaultOptions: ChatOllamaOptions(
     model: 'llama2',
     temperature: 0,
   ),
 );
 
-const template =
-    'You are a helpful assistant that translates {input_language} to {output_language}.';
-final systemMessagePrompt =
-    SystemChatMessagePromptTemplate.fromTemplate(template);
-const humanTemplate = '{text}';
-final humanMessagePrompt =
-    HumanChatMessagePromptTemplate.fromTemplate(humanTemplate);
-final chatPrompt = ChatPromptTemplate.fromPromptMessages(
-  [systemMessagePrompt, humanMessagePrompt],
-);
-
-final chain = chatPrompt | chatModel | const StringOutputParser();
+final chain = promptTemplate | chatModel | StringOutputParser();
 
 final res = await chain.invoke({
   'input_language': 'English',
@@ -53,24 +50,21 @@ print(res);
 ## Streaming
 
 ```dart
-final promptTemplate = ChatPromptTemplate.fromPromptMessages([
-  SystemChatMessagePromptTemplate.fromTemplate(
-    'You are a helpful assistant that replies only with numbers '
-    'in order without any spaces or commas',
+final promptTemplate = ChatPromptTemplate.fromTemplates([
+  (
+  ChatMessageType.system,
+  'You are a helpful assistant that replies only with numbers '
+      'in order without any spaces or commas',
   ),
-  HumanChatMessagePromptTemplate.fromTemplate(
-    'List the numbers from 1 to {max_num}',
-  ),
+  (ChatMessageType.human,    'List the numbers from 1 to {max_num}'),
 ]);
 final chat = ChatOllama(
-  defaultOptions: const ChatOllamaOptions(
-    model: 'llama2:latest',
+  defaultOptions: ChatOllamaOptions(
+    model: 'llama2',
     temperature: 0,
   ),
 );
-const stringOutputParser = StringOutputParser<AIChatMessage>();
-
-final chain = promptTemplate.pipe(chat).pipe(stringOutputParser);
+final chain = promptTemplate.pipe(chat).pipe(StringOutputParser());
 
 final stream = chain.stream({'max_num': '9'});
 await stream.forEach(print);
@@ -79,4 +73,56 @@ await stream.forEach(print);
 // 3
 // ..
 // 9
+```
+
+## JSON mode
+
+You can enforce the model to produce a JSON output, useful for extracting structured data.
+
+```dart
+final promptTemplate = ChatPromptTemplate.fromTemplates(const [
+  (ChatMessageType.system, 'Respond using JSON'),
+  (ChatMessageType.human, '{question}'),
+]);
+final chat = ChatOllama(
+  defaultOptions: const ChatOllamaOptions(
+    model: 'llama2',
+    temperature: 0,
+    format: OllamaResponseFormat.json,
+  ),
+);
+
+final chain = promptTemplate.pipe(chat);
+
+final res = await chain.invoke(
+  {'question': 'What color is the sky at different times of the day?'},
+);
+print(res.firstOutputAsString);
+// {"morning": {"sky": "pink", "sun": "rise"}, "daytime": {"sky": "blue", "sun": "high"}, "afternoon": ...}
+```
+
+## Multimodal support
+
+Ollama has support for multi-modal LLMs, such as [bakllava](https://ollama.ai/library/bakllava) and [llava](https://ollama.ai/library/llava).
+
+```dart
+final chatModel = ChatOllama(
+  defaultOptions: const ChatOllamaOptions(
+    model: 'llava',
+    temperature: 0,
+  ),
+);
+final prompt = ChatMessage.human(
+  ChatMessageContent.multiModal([
+    ChatMessageContent.text('What fruit is this?'),
+    ChatMessageContent.image(
+      data: base64.encode(
+        await File('./bin/assets/apple.jpeg').readAsBytes(),
+      ),
+    ),
+  ]),
+);
+final res = await chatModel.invoke(PromptValue.chat([prompt]));
+print(res.firstOutputAsString);
+// -> 'An Apple'
 ```
