@@ -2,6 +2,7 @@ import 'package:http/http.dart' as http;
 import 'package:langchain/langchain.dart';
 import 'package:ollama_dart/ollama_dart.dart';
 import 'package:tiktoken/tiktoken.dart';
+import 'package:uuid/uuid.dart';
 
 import '../llms/models/mappers.dart';
 import 'models/mappers.dart';
@@ -11,7 +12,7 @@ import 'models/models.dart';
 /// to interact with the LLMs in a chat-like fashion.
 ///
 /// Ollama allows you to run open-source large language models,
-/// such as Llama 2, locally.
+/// such as Llama 2 or LLaVA, locally.
 ///
 /// For a complete list of supported models and model variants, see the
 /// [Ollama model library](https://ollama.ai/library).
@@ -169,6 +170,9 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
   /// to get an estimation of the number of tokens in a prompt.
   String? encoding;
 
+  /// A UUID generator.
+  late final Uuid _uuid = const Uuid();
+
   @override
   String get modelType => 'chat-ollama';
 
@@ -177,13 +181,14 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
     final List<ChatMessage> messages, {
     final ChatOllamaOptions? options,
   }) async {
-    final completion = await _client.generateCompletion(
+    final id = _uuid.v4();
+    final completion = await _client.generateChatCompletion(
       request: _generateCompletionRequest(
-        messages.toStringPrompt(),
+        messages,
         options: options,
       ),
     );
-    return completion.toChatResult();
+    return completion.toChatResult(id);
   }
 
   @override
@@ -191,12 +196,17 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
     final PromptValue input, {
     final ChatOllamaOptions? options,
   }) {
+    final id = _uuid.v4();
     return _client
-        .generateCompletionStream(
-          request:
-              _generateCompletionRequest(input.toString(), options: options),
+        .generateChatCompletionStream(
+          request: _generateCompletionRequest(
+            input.toChatMessages(),
+            options: options,
+          ),
         )
-        .map((final completion) => completion.toChatResult(streaming: true));
+        .map(
+          (final completion) => completion.toChatResult(id, streaming: true),
+        );
   }
 
   @override
@@ -209,20 +219,16 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
     });
   }
 
-  /// Creates a [GenerateCompletionRequest] from the given input.
-  GenerateCompletionRequest _generateCompletionRequest(
-    final String prompt, {
+  /// Creates a [GenerateChatCompletionRequest] from the given input.
+  GenerateChatCompletionRequest _generateCompletionRequest(
+    final List<ChatMessage> messages, {
     final bool stream = false,
     final ChatOllamaOptions? options,
   }) {
-    return GenerateCompletionRequest(
+    return GenerateChatCompletionRequest(
       model: options?.model ?? defaultOptions.model,
-      prompt: prompt,
-      system: options?.system,
-      template: options?.template,
-      context: options?.context,
+      messages: messages.toMessages(),
       format: options?.format?.toResponseFormat(),
-      raw: options?.raw,
       stream: stream,
       options: RequestOptions(
         numKeep: options?.numKeep ?? defaultOptions.numKeep,

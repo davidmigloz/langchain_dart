@@ -24,8 +24,6 @@ extension LLMResultMapper on GenerateCompletionResponse {
       generationInfo: {
         'done': done,
         'context': context,
-        'sample_count': sampleCount,
-        'sample_duration': sampleDuration,
         'total_duration': totalDuration,
         'load_duration': loadDuration,
         'prompt_eval_count': promptEvalCount,

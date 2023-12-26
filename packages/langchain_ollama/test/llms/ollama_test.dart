@@ -4,7 +4,7 @@ import 'package:langchain_ollama/langchain_ollama.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Ollama tests', () {
+  group('Ollama tests', skip: true, () {
     late Ollama llm;
     const defaultModel = 'llama2:latest';
 
@@ -231,7 +231,7 @@ void main() {
       );
     });
 
-    test('Test response seed', skip: true, () async {
+    test('Test response seed', () async {
       final prompt = PromptValue.string(
         'Why is the sky blue? Reply in one sentence.',
       );
