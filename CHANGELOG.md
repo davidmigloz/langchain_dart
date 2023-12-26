@@ -1,7 +1,79 @@
 # Change Log
 
-Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) 
+Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR)
 server for more details about each release.
+
+## 2023-12-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain` - `v0.3.1`](#langchain---v031)
+ - [`langchain_ollama` - `v0.0.2`](#langchain_ollama---v002)
+ - [`ollama_dart` - `v0.0.2`](#ollama_dart---v002)
+ - [`openai_dart` - `v0.1.3`](#openai_dart---v013)
+ - [`langchain_google` - `v0.2.2`](#langchain_google---v022)
+ - [`langchain_openai` - `v0.3.1`](#langchain_openai---v031)
+ - [`langchain_chroma` - `v0.1.0+10`](#langchain_chroma---v01010)
+ - [`langchain_pinecone` - `v0.0.6+9`](#langchain_pinecone---v0069)
+ - [`langchain_mistralai` - `v0.0.1+3`](#langchain_mistralai---v0013)
+ - [`googleai_dart` - `v0.0.2`](#googleai_dart---v002)
+ - [`mistralai_dart` - `v0.0.2`](#mistralai_dart---v002)
+ - [`chromadb` - `v0.1.1`](#chromadb---v011)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_chroma` - `v0.1.0+10`
+ - `langchain_pinecone` - `v0.0.6+9`
+ - `langchain_mistralai` - `v0.0.1+3`
+
+---
+
+#### `langchain` - `v0.3.1`
+
+ - **FEAT**(prompts): Make ChatPromptTemplates more convenient to use ([#275](https://github.com/davidmigloz/langchain_dart/issues/275)). ([9f8e6f75](https://github.com/davidmigloz/langchain_dart/commit/9f8e6f75543a41b87aff72fbeb249acf859a9562))
+
+#### `langchain_ollama` - `v0.0.2`
+
+ - **FEAT**(chat-models): Migrate ChatOllama to Ollama chat API and add multi-modal support ([#279](https://github.com/davidmigloz/langchain_dart/issues/279)). ([c5de7e12](https://github.com/davidmigloz/langchain_dart/commit/c5de7e12d14c7095864879c604ccd814c51212cc))
+
+#### `ollama_dart` - `v0.0.2`
+
+ - **FEAT**(ollama_dart): Add support for chat API and multi-modal LLMs ([#274](https://github.com/davidmigloz/langchain_dart/issues/274)). ([76e1a294](https://github.com/davidmigloz/langchain_dart/commit/76e1a2946fbbf5c4802c4e66addeb9adf5900b17))
+
+#### `openai_dart` - `v0.1.3`
+
+ - **FEAT**(openai_dart): Add support for Assistants API ([#278](https://github.com/davidmigloz/langchain_dart/issues/278)). ([06de2d5e](https://github.com/davidmigloz/langchain_dart/commit/06de2d5e541aa79f8d54a8f9a33338c6a6edae3c))
+
+#### `langchain_google` - `v0.2.2`
+
+ - Update a dependency to the latest release.
+
+#### `langchain_openai` - `v0.3.1`
+
+ - Update a dependency to the latest release.
+
+#### `mistralai_dart` - `v0.0.2`
+
+ - Update a dependency to the latest release.
+
+#### `chromadb` - `v0.1.1`
+
+ - Update a dependency to the latest release.
+
+#### `googleai_dart` - `v0.0.2`
+
+- Update a dependency to the latest release.
+
 
 ## 2023-12-15
 

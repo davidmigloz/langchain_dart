@@ -1,3 +1,7 @@
+## 0.1.3
+
+ - **FEAT**(openai_dart): Add support for Assistants API ([#278](https://github.com/davidmigloz/langchain_dart/issues/278)). ([06de2d5e](https://github.com/davidmigloz/langchain_dart/commit/06de2d5e541aa79f8d54a8f9a33338c6a6edae3c))
+
 ## 0.1.2+1
 
  - **FIX**(openai_dart): Make ChatCompletionNamedToolChoice fields required ([#259](https://github.com/davidmigloz/langchain_dart/issues/259)). ([4c7d0436](https://github.com/davidmigloz/langchain_dart/commit/4c7d0436070ede83369b9a667ca4c6d2cac99f1a))

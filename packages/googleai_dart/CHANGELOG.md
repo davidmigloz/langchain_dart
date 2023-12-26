@@ -1,3 +1,7 @@
+## 0.0.2
+
+ - Update a dependency to the latest release.
+
 ## 0.0.1+1
 
  - **FIX**: Fetch web requests with big payloads dropping connection ([#273](https://github.com/davidmigloz/langchain_dart/issues/273)). ([425889dc](https://github.com/davidmigloz/langchain_dart/commit/425889dc24a74790a7072c75f0bdb0d19ab40cf6))

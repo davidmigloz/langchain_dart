@@ -1,3 +1,7 @@
+## 0.3.1
+
+ - **FEAT**(prompts): Make ChatPromptTemplates more convenient to use ([#275](https://github.com/davidmigloz/langchain_dart/issues/275)). ([9f8e6f75](https://github.com/davidmigloz/langchain_dart/commit/9f8e6f75543a41b87aff72fbeb249acf859a9562))
+
 ## 0.3.0
 
 > Note: This release has breaking changes.  
