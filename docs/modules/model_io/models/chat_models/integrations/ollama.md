@@ -105,6 +105,8 @@ print(res.firstOutputAsString);
 
 Ollama has support for multi-modal LLMs, such as [bakllava](https://ollama.ai/library/bakllava) and [llava](https://ollama.ai/library/llava).
 
+You can provide several base64-encoded `png` or `jpeg` images. Images up to 100MB in size are supported.
+
 ```dart
 final chatModel = ChatOllama(
   defaultOptions: const ChatOllamaOptions(
