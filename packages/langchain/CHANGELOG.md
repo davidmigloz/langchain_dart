@@ -1,3 +1,7 @@
+## 0.3.1+1
+
+ - **FIX**(memory): Export token_buffer.dart (ConversationTokenBufferMemory) ([#280](https://github.com/davidmigloz/langchain_dart/issues/280)). ([265fcb4b](https://github.com/davidmigloz/langchain_dart/commit/265fcb4b68a5aa6144456868aebf023e1b0ce539))
+
 ## 0.3.1
 
  - **FEAT**(prompts): Make ChatPromptTemplates more convenient to use ([#275](https://github.com/davidmigloz/langchain_dart/issues/275)). ([9f8e6f75](https://github.com/davidmigloz/langchain_dart/commit/9f8e6f75543a41b87aff72fbeb249acf859a9562))

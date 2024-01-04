@@ -159,14 +159,14 @@ packages:
       path: "../../packages/langchain"
       relative: true
     source: path
-    version: "0.3.1"
+    version: "0.3.1+1"
   langchain_openai:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_openai"
       relative: true
     source: path
-    version: "0.3.1"
+    version: "0.3.1+1"
   math_expressions:
     dependency: transitive
     description:

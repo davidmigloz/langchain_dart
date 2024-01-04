@@ -3,6 +3,44 @@
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR)
 server for more details about each release.
 
+## 2024-01-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+- There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain` - `v0.3.1+1`](#langchain---v0311)
+ - [`langchain_ollama` - `v0.0.2+1`](#langchain_ollama---v0021)
+ - [`langchain_mistralai` - `v0.0.1+4`](#langchain_mistralai---v0014)
+ - [`langchain_google` - `v0.2.2+1`](#langchain_google---v0221)
+ - [`langchain_pinecone` - `v0.0.6+10`](#langchain_pinecone---v00610)
+ - [`langchain_chroma` - `v0.1.0+11`](#langchain_chroma---v01011)
+ - [`langchain_openai` - `v0.3.1+1`](#langchain_openai---v0311)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_ollama` - `v0.0.2+1`
+ - `langchain_mistralai` - `v0.0.1+4`
+ - `langchain_google` - `v0.2.2+1`
+ - `langchain_pinecone` - `v0.0.6+10`
+ - `langchain_chroma` - `v0.1.0+11`
+ - `langchain_openai` - `v0.3.1+1`
+
+---
+
+#### `langchain` - `v0.3.1+1`
+
+ - **FIX**(memory): Export token_buffer.dart (ConversationTokenBufferMemory) ([#280](https://github.com/davidmigloz/langchain_dart/issues/280)). ([265fcb4b](https://github.com/davidmigloz/langchain_dart/commit/265fcb4b68a5aa6144456868aebf023e1b0ce539))
+
+
 ## 2023-12-26
 
 ### Changes

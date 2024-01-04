@@ -1,3 +1,7 @@
+## 0.0.2+1
+
+ - Update a dependency to the latest release.
+
 ## 0.0.2
 
  - **FEAT**(chat-models): Migrate ChatOllama to Ollama chat API and add multi-modal support ([#279](https://github.com/davidmigloz/langchain_dart/issues/279)). ([c5de7e12](https://github.com/davidmigloz/langchain_dart/commit/c5de7e12d14c7095864879c604ccd814c51212cc))
