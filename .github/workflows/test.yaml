@@ -28,9 +28,7 @@ jobs:
         uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
           channel: 'stable'
-          flutter-version: '3.16.0'
-          cache: false # Disable Flutter caching temporarily
-          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+          cache: true
 
       - name: Set-up Flutter
         run: |
