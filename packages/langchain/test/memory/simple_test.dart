@@ -1,4 +1,4 @@
-import 'package:langchain/src/memory/simple.dart';
+import 'package:langchain/langchain.dart';
 import 'package:test/test.dart';
 
 void main() {
