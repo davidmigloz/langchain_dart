@@ -116,7 +116,10 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
     required final String project,
     final String location = 'us-central1',
     final String? rootUrl,
-    this.defaultOptions = const ChatVertexAIOptions(),
+    this.defaultOptions = const ChatVertexAIOptions(
+      publisher: 'google',
+      model: 'chat-bison',
+    ),
   }) : client = VertexAIGenAIClient(
           httpClient: httpClient,
           project: project,
@@ -158,25 +161,33 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
     final examples = (options?.examples ?? defaultOptions.examples)
         ?.map((final e) => e.toVertexAIChatExample())
         .toList(growable: false);
+    final model =
+        options?.model ?? defaultOptions.model ?? throwNullModelError();
 
     final result = await client.chat.predict(
       context: context,
       examples: examples,
       messages: vertexMessages,
-      publisher: options?.publisher ?? defaultOptions.publisher,
-      model: options?.model ?? defaultOptions.model,
+      publisher: options?.publisher ??
+          defaultOptions.publisher ??
+          ArgumentError.checkNotNull(
+            defaultOptions.publisher,
+            'VertexAIOptions.publisher',
+          ),
+      model: model,
       parameters: VertexAITextChatModelRequestParams(
         maxOutputTokens:
-            options?.maxOutputTokens ?? defaultOptions.maxOutputTokens,
-        temperature: options?.temperature ?? defaultOptions.temperature,
-        topP: options?.topP ?? defaultOptions.topP,
-        topK: options?.topK ?? defaultOptions.topK,
-        stopSequences: options?.stopSequences ?? defaultOptions.stopSequences,
+            options?.maxOutputTokens ?? defaultOptions.maxOutputTokens ?? 1024,
+        temperature: options?.temperature ?? defaultOptions.temperature ?? 0.2,
+        topP: options?.topP ?? defaultOptions.topP ?? 0.95,
+        topK: options?.topK ?? defaultOptions.topK ?? 40,
+        stopSequences:
+            options?.stopSequences ?? defaultOptions.stopSequences ?? const [],
         candidateCount:
-            options?.candidateCount ?? defaultOptions.candidateCount,
+            options?.candidateCount ?? defaultOptions.candidateCount ?? 1,
       ),
     );
-    return result.toChatResult(id, options?.model ?? defaultOptions.model);
+    return result.toChatResult(id, model);
   }
 
   /// Tokenizes the given prompt using tiktoken.

@@ -7,7 +7,7 @@ import 'package:langchain_ollama/langchain_ollama.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('ChatOllama tests', skip: true, () {
+  group('ChatOllama tests', skip: Platform.environment.containsKey('CI'), () {
     late ChatOllama chatModel;
     const defaultModel = 'llama2:latest';
     const visionModel = 'llava:latest';
@@ -193,7 +193,7 @@ void main() {
       expect(content, contains('123456789'));
     });
 
-    test('Test response seed', () async {
+    test('Test response seed', skip: true, () async {
       final prompt = PromptValue.string(
         'Why is the sky blue? Reply in one sentence.',
       );

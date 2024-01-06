@@ -8,18 +8,18 @@ class VertexAIOptions extends LLMOptions {
   const VertexAIOptions({
     this.publisher = 'google',
     this.model = 'text-bison',
-    this.maxOutputTokens = 1024,
-    this.temperature = 0.2,
-    this.topP = 0.95,
-    this.topK = 40,
-    this.stopSequences = const [],
-    this.candidateCount = 1,
+    this.maxOutputTokens,
+    this.temperature,
+    this.topP,
+    this.topK,
+    this.stopSequences,
+    this.candidateCount,
   });
 
   /// The publisher of the model.
   ///
   /// Use `google` for first-party models.
-  final String publisher;
+  final String? publisher;
 
   /// The text model to use.
   ///
@@ -30,7 +30,7 @@ class VertexAIOptions extends LLMOptions {
   ///
   /// You can find a list of available models here:
   /// https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models
-  final String model;
+  final String? model;
 
   /// Maximum number of tokens that can be generated in the response. A token
   /// is approximately four characters. 100 tokens correspond to roughly
@@ -40,7 +40,7 @@ class VertexAIOptions extends LLMOptions {
   /// responses.
   ///
   /// Range: `[1, 1024]`
-  final int maxOutputTokens;
+  final int? maxOutputTokens;
 
   /// The temperature is used for sampling during response generation, which
   /// occurs when topP and topK are applied. Temperature controls the degree of
@@ -55,7 +55,7 @@ class VertexAIOptions extends LLMOptions {
   /// fallback response, try increasing the temperature.
   ///
   /// Range: `[0.0, 1.0]`
-  final double temperature;
+  final double? temperature;
 
   /// Top-P changes how the model selects tokens for output. Tokens are
   /// selected from the most (see top-K) to least probable until the sum of
@@ -68,7 +68,7 @@ class VertexAIOptions extends LLMOptions {
   /// more random responses.
   ///
   /// Range: `[0.0, 1.0]`
-  final double topP;
+  final double? topP;
 
   /// Top-K changes how the model selects tokens for output. A top-K of 1 means
   /// the next selected token is the most probable among all tokens in the
@@ -84,16 +84,40 @@ class VertexAIOptions extends LLMOptions {
   /// more random responses.
   ///
   /// Range: `[1, 40]`
-  final int topK;
+  final int? topK;
 
   /// Specifies a list of strings that tells the model to stop generating text
   /// if one of the strings is encountered in the response. If a string appears
   /// multiple times in the response, then the response truncates where it's
   /// first encountered. The strings are case-sensitive.
-  final List<String> stopSequences;
+  final List<String>? stopSequences;
 
   /// The number of response variations to return.
   ///
   /// Range: `[1–8]`
-  final int candidateCount;
+  final int? candidateCount;
+
+  /// Creates a copy of this [VertexAIOptions] object with the given fields
+  /// replaced with the new values.
+  VertexAIOptions copyWith({
+    final String? publisher,
+    final String? model,
+    final int? maxOutputTokens,
+    final double? temperature,
+    final double? topP,
+    final int? topK,
+    final List<String>? stopSequences,
+    final int? candidateCount,
+  }) {
+    return VertexAIOptions(
+      publisher: publisher ?? this.publisher,
+      model: model ?? this.model,
+      maxOutputTokens: maxOutputTokens ?? this.maxOutputTokens,
+      temperature: temperature ?? this.temperature,
+      topP: topP ?? this.topP,
+      topK: topK ?? this.topK,
+      stopSequences: stopSequences ?? this.stopSequences,
+      candidateCount: candidateCount ?? this.candidateCount,
+    );
+  }
 }

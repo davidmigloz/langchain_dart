@@ -149,7 +149,9 @@ class Ollama extends BaseLLM<OllamaOptions> {
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    this.defaultOptions = const OllamaOptions(),
+    this.defaultOptions = const OllamaOptions(
+      model: 'llama2',
+    ),
     this.encoding = 'cl100k_base',
   }) : _client = OllamaClient(
           baseUrl: baseUrl,
@@ -214,7 +216,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
     final OllamaOptions? options,
   }) {
     return GenerateCompletionRequest(
-      model: options?.model ?? defaultOptions.model,
+      model: options?.model ?? defaultOptions.model ?? throwNullModelError(),
       prompt: prompt,
       system: options?.system,
       template: options?.template,
@@ -283,7 +285,9 @@ class Ollama extends BaseLLM<OllamaOptions> {
   }) async {
     final encoding = this.encoding != null
         ? getEncoding(this.encoding!)
-        : encodingForModel(options?.model ?? defaultOptions.model);
+        : encodingForModel(
+            options?.model ?? defaultOptions.model ?? throwNullModelError(),
+          );
     return encoding.encode(promptValue.toString());
   }
 

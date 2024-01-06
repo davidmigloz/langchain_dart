@@ -117,7 +117,10 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
     required final String project,
     final String location = 'us-central1',
     final String? rootUrl,
-    this.defaultOptions = const VertexAIOptions(),
+    this.defaultOptions = const VertexAIOptions(
+      publisher: 'google',
+      model: 'text-bison',
+    ),
   }) : client = VertexAIGenAIClient(
           httpClient: httpClient,
           project: project,
@@ -142,22 +145,29 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
     final String prompt, {
     final VertexAIOptions? options,
   }) async {
+    final model =
+        options?.model ?? defaultOptions.model ?? throwNullModelError();
     final result = await client.text.predict(
       prompt: prompt,
-      publisher: options?.publisher ?? defaultOptions.publisher,
-      model: options?.model ?? defaultOptions.model,
+      publisher: options?.publisher ??
+          ArgumentError.checkNotNull(
+            defaultOptions.publisher,
+            'VertexAIOptions.publisher',
+          ),
+      model: model,
       parameters: VertexAITextModelRequestParams(
         maxOutputTokens:
-            options?.maxOutputTokens ?? defaultOptions.maxOutputTokens,
-        temperature: options?.temperature ?? defaultOptions.temperature,
-        topP: options?.topP ?? defaultOptions.topP,
-        topK: options?.topK ?? defaultOptions.topK,
-        stopSequences: options?.stopSequences ?? defaultOptions.stopSequences,
+            options?.maxOutputTokens ?? defaultOptions.maxOutputTokens ?? 1024,
+        temperature: options?.temperature ?? defaultOptions.temperature ?? 0.2,
+        topP: options?.topP ?? defaultOptions.topP ?? 0.95,
+        topK: options?.topK ?? defaultOptions.topK ?? 40,
+        stopSequences:
+            options?.stopSequences ?? defaultOptions.stopSequences ?? const [],
         candidateCount:
-            options?.candidateCount ?? defaultOptions.candidateCount,
+            options?.candidateCount ?? defaultOptions.candidateCount ?? 1,
       ),
     );
-    return result.toLLMResult(options?.model ?? defaultOptions.model);
+    return result.toLLMResult(model);
   }
 
   /// Tokenizes the given prompt using tiktoken.

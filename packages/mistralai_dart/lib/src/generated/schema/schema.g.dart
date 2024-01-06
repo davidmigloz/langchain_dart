@@ -40,7 +40,7 @@ Map<String, dynamic> _$$ChatCompletionRequestImplToJson(
   writeNotNull('top_p', instance.topP);
   writeNotNull('max_tokens', instance.maxTokens);
   writeNotNull('stream', instance.stream);
-  val['safe_mode'] = instance.safeMode;
+  writeNotNull('safe_mode', instance.safeMode);
   writeNotNull('random_seed', instance.randomSeed);
   return val;
 }

@@ -185,7 +185,9 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    this.defaultOptions = const ChatOpenAIOptions(),
+    this.defaultOptions = const ChatOpenAIOptions(
+      model: 'gpt-3.5-turbo',
+    ),
     this.encoding,
   }) : _client = OpenAIClient(
           apiKey: apiKey ?? '',
@@ -281,7 +283,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
 
     return CreateChatCompletionRequest(
       model: ChatCompletionModel.modelId(
-        options?.model ?? defaultOptions.model,
+        options?.model ?? defaultOptions.model ?? throwNullModelError(),
       ),
       messages: messagesDtos,
       functions: functionsDtos,
@@ -314,7 +316,8 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final PromptValue promptValue, {
     final ChatOpenAIOptions? options,
   }) async {
-    final model = options?.model ?? defaultOptions.model;
+    final model =
+        options?.model ?? defaultOptions.model ?? throwNullModelError();
     return _getTiktoken(model).encode(promptValue.toString());
   }
 
@@ -323,7 +326,8 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final PromptValue promptValue, {
     final ChatOpenAIOptions? options,
   }) async {
-    final model = options?.model ?? defaultOptions.model;
+    final model =
+        options?.model ?? defaultOptions.model ?? throwNullModelError();
     final tiktoken = _getTiktoken(model);
     final messages = promptValue.toChatMessages();
 
@@ -384,5 +388,10 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   /// Returns the tiktoken model to use for the given model.
   Tiktoken _getTiktoken(final String model) {
     return encoding != null ? getEncoding(encoding!) : encodingForModel(model);
+  }
+
+  /// Closes the client and cleans up any resources associated with it.
+  void close() {
+    _client.endSession();
   }
 }

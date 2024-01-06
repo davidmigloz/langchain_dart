@@ -7,16 +7,16 @@ class ChatOpenAIOptions extends ChatModelOptions {
   /// {@macro chat_openai_options}
   const ChatOpenAIOptions({
     this.model = 'gpt-3.5-turbo',
-    this.frequencyPenalty = 0,
+    this.frequencyPenalty,
     this.logitBias,
     this.maxTokens,
-    this.n = 1,
-    this.presencePenalty = 0,
+    this.n,
+    this.presencePenalty,
     this.responseFormat,
     this.seed,
     this.stop,
-    this.temperature = 1,
-    this.topP = 1,
+    this.temperature,
+    this.topP,
     this.functions,
     this.functionCall,
     this.user,
@@ -25,14 +25,14 @@ class ChatOpenAIOptions extends ChatModelOptions {
   /// ID of the model to use (e.g. 'gpt-3.5-turbo').
   ///
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-model
-  final String model;
+  final String? model;
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
   /// their existing frequency in the text so far, decreasing the model's
   /// likelihood to repeat the same line verbatim.
   ///
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-frequency_penalty
-  final double frequencyPenalty;
+  final double? frequencyPenalty;
 
   /// Modify the likelihood of specified tokens appearing in the completion.
   ///
@@ -48,14 +48,14 @@ class ChatOpenAIOptions extends ChatModelOptions {
   /// How many chat completion choices to generate for each input message.
   ///
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-n
-  final int n;
+  final int? n;
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
   /// whether they appear in the text so far, increasing the model's likelihood
   /// to talk about new topics.
   ///
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-presence_penalty
-  final double presencePenalty;
+  final double? presencePenalty;
 
   /// An object specifying the format that the model must output.
   ///
@@ -91,14 +91,14 @@ class ChatOpenAIOptions extends ChatModelOptions {
   /// What sampling temperature to use, between 0 and 2.
   ///
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-temperature
-  final double temperature;
+  final double? temperature;
 
   /// An alternative to sampling with temperature, called nucleus sampling,
   /// where the model considers the results of the tokens with top_p
   /// probability mass.
   ///
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-top_p
-  final double topP;
+  final double? topP;
 
   /// A list of functions the model may generate JSON inputs for.
   ///
@@ -115,6 +115,42 @@ class ChatOpenAIOptions extends ChatModelOptions {
   ///
   /// Ref: https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids
   final String? user;
+
+  /// Creates a copy of this [ChatOpenAIOptions] object with the given fields
+  /// replaced with the new values.
+  ChatOpenAIOptions copyWith({
+    final String? model,
+    final double? frequencyPenalty,
+    final Map<String, int>? logitBias,
+    final int? maxTokens,
+    final int? n,
+    final double? presencePenalty,
+    final ChatOpenAIResponseFormat? responseFormat,
+    final int? seed,
+    final List<String>? stop,
+    final double? temperature,
+    final double? topP,
+    final List<ChatFunction>? functions,
+    final ChatFunctionCall? functionCall,
+    final String? user,
+  }) {
+    return ChatOpenAIOptions(
+      model: model ?? this.model,
+      frequencyPenalty: frequencyPenalty ?? this.frequencyPenalty,
+      logitBias: logitBias ?? this.logitBias,
+      maxTokens: maxTokens ?? this.maxTokens,
+      n: n ?? this.n,
+      presencePenalty: presencePenalty ?? this.presencePenalty,
+      responseFormat: responseFormat ?? this.responseFormat,
+      seed: seed ?? this.seed,
+      stop: stop ?? this.stop,
+      temperature: temperature ?? this.temperature,
+      topP: topP ?? this.topP,
+      functions: functions ?? this.functions,
+      functionCall: functionCall ?? this.functionCall,
+      user: user ?? this.user,
+    );
+  }
 }
 
 /// {@template chat_openai_response_format}

@@ -183,7 +183,10 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    this.defaultOptions = const OpenAIOptions(),
+    this.defaultOptions = const OpenAIOptions(
+      model: 'gpt-3.5-turbo-instruct',
+      maxTokens: 256,
+    ),
     this.encoding,
   }) : _client = OpenAIClient(
           apiKey: apiKey ?? '',
@@ -265,7 +268,9 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     final OpenAIOptions? options,
   }) {
     return CreateCompletionRequest(
-      model: CompletionModel.modelId(options?.model ?? defaultOptions.model),
+      model: CompletionModel.modelId(
+        options?.model ?? defaultOptions.model ?? throwNullModelError(),
+      ),
       prompt: CompletionPrompt.string(prompt),
       bestOf: options?.bestOf ?? defaultOptions.bestOf,
       frequencyPenalty:
@@ -299,7 +304,9 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   }) async {
     final encoding = this.encoding != null
         ? getEncoding(this.encoding!)
-        : encodingForModel(options?.model ?? defaultOptions.model);
+        : encodingForModel(
+            options?.model ?? defaultOptions.model ?? throwNullModelError(),
+          );
     return encoding.encode(promptValue.toString());
   }
 

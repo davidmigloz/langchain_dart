@@ -7,31 +7,31 @@ class ChatMistralAIOptions extends ChatModelOptions {
   /// {@macro chat_mistral_ai_options}
   const ChatMistralAIOptions({
     this.model = 'mistral-small',
-    this.temperature = 0.7,
-    this.topP = 1.0,
+    this.temperature,
+    this.topP,
     this.maxTokens,
-    this.safeMode = false,
+    this.safeMode,
     this.randomSeed,
   });
 
   /// ID of the model to use. You can use the [List Available Models](https://docs.mistral.ai/api#operation/listModels)
   /// API to see all of your available models, or see our [Model overview](https://docs.mistral.ai/models)
   /// for model descriptions.
-  final String model;
+  final String? model;
 
   /// What sampling temperature to use, between 0.0 and 2.0. Higher values like
   /// 0.8 will make the output more random, while lower values like 0.2 will
   /// make it more focused and deterministic.
   ///
   /// We generally recommend altering this or `top_p` but not both.
-  final double temperature;
+  final double? temperature;
 
   /// Nucleus sampling, where the model considers the results of the tokens
   /// with `top_p` probability mass. So 0.1 means only the tokens comprising
   /// the top 10% probability mass are considered.
   ///
   /// We generally recommend altering this or `temperature` but not both.
-  final double topP;
+  final double? topP;
 
   /// The maximum number of tokens to generate in the completion.
   ///
@@ -40,9 +40,29 @@ class ChatMistralAIOptions extends ChatModelOptions {
   final int? maxTokens;
 
   /// Whether to inject a safety prompt before all conversations.
-  final bool safeMode;
+  final bool? safeMode;
 
   /// The seed to use for random sampling.
   /// If set, different calls will generate deterministic results.
   final int? randomSeed;
+
+  /// Creates a copy of this [ChatMistralAIOptions] object with the given fields
+  /// replaced with the new values.
+  ChatMistralAIOptions copyWith({
+    final String? model,
+    final double? temperature,
+    final double? topP,
+    final int? maxTokens,
+    final bool? safeMode,
+    final int? randomSeed,
+  }) {
+    return ChatMistralAIOptions(
+      model: model ?? this.model,
+      temperature: temperature ?? this.temperature,
+      topP: topP ?? this.topP,
+      maxTokens: maxTokens ?? this.maxTokens,
+      safeMode: safeMode ?? this.safeMode,
+      randomSeed: randomSeed ?? this.randomSeed,
+    );
+  }
 }

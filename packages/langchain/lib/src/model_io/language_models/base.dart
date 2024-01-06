@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 import '../../core/core.dart';
 import '../chat_models/models/models.dart';
 import '../prompts/models/models.dart';
@@ -83,4 +85,33 @@ abstract class BaseLanguageModel<Input extends Object,
 
   @override
   String toString() => modelType;
+
+  /// Throws an error if the model id is not specified.
+  @protected
+  Never throwNullModelError() {
+    throw ArgumentError('''
+Null model in $runtimeType.
+        
+You need to specify the id of model to use either in `$runtimeType.defaultOptions` 
+or in the options passed when invoking the model.
+
+Example:
+```
+// In defaultOptions
+final model = $runtimeType(
+  defaultOptions: ${runtimeType}Options(
+    model: 'model-id',
+  ),
+);
+
+// Or when invoking the model
+final res = await model.invoke(
+  prompt,
+  options: ${runtimeType}Options(
+    model: 'model-id',
+  ),
+);
+```
+''');
+  }
 }

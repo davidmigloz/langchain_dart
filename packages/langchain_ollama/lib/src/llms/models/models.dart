@@ -48,7 +48,7 @@ class OllamaOptions extends LLMOptions {
   });
 
   /// The model used to generate completions
-  final String model;
+  final String? model;
 
   /// The system prompt (Overrides what is defined in the Modelfile).
   final String? system;
@@ -228,6 +228,92 @@ class OllamaOptions extends LLMOptions {
   /// value to the number of physical CPU cores your system has (as opposed to
   /// the logical number of cores).
   final int? numThread;
+
+  /// Creates a copy of this [OllamaOptions] object with the given fields
+  /// replaced with the new values.
+  OllamaOptions copyWith({
+    final String? model,
+    final String? system,
+    final String? template,
+    final List<int>? context,
+    final OllamaResponseFormat? format,
+    final bool? raw,
+    final int? numKeep,
+    final int? seed,
+    final int? numPredict,
+    final int? topK,
+    final double? topP,
+    final double? tfsZ,
+    final double? typicalP,
+    final int? repeatLastN,
+    final double? temperature,
+    final double? repeatPenalty,
+    final double? presencePenalty,
+    final double? frequencyPenalty,
+    final int? mirostat,
+    final double? mirostatTau,
+    final double? mirostatEta,
+    final bool? penalizeNewline,
+    final List<String>? stop,
+    final bool? numa,
+    final int? numCtx,
+    final int? numBatch,
+    final int? numGqa,
+    final int? numGpu,
+    final int? mainGpu,
+    final bool? lowVram,
+    final bool? f16KV,
+    final bool? logitsAll,
+    final bool? vocabOnly,
+    final bool? useMmap,
+    final bool? useMlock,
+    final bool? embeddingOnly,
+    final double? ropeFrequencyBase,
+    final double? ropeFrequencyScale,
+    final int? numThread,
+  }) {
+    return OllamaOptions(
+      model: model ?? this.model,
+      system: system ?? this.system,
+      template: template ?? this.template,
+      context: context ?? this.context,
+      format: format ?? this.format,
+      raw: raw ?? this.raw,
+      numKeep: numKeep ?? this.numKeep,
+      seed: seed ?? this.seed,
+      numPredict: numPredict ?? this.numPredict,
+      topK: topK ?? this.topK,
+      topP: topP ?? this.topP,
+      tfsZ: tfsZ ?? this.tfsZ,
+      typicalP: typicalP ?? this.typicalP,
+      repeatLastN: repeatLastN ?? this.repeatLastN,
+      temperature: temperature ?? this.temperature,
+      repeatPenalty: repeatPenalty ?? this.repeatPenalty,
+      presencePenalty: presencePenalty ?? this.presencePenalty,
+      frequencyPenalty: frequencyPenalty ?? this.frequencyPenalty,
+      mirostat: mirostat ?? this.mirostat,
+      mirostatTau: mirostatTau ?? this.mirostatTau,
+      mirostatEta: mirostatEta ?? this.mirostatEta,
+      penalizeNewline: penalizeNewline ?? this.penalizeNewline,
+      stop: stop ?? this.stop,
+      numa: numa ?? this.numa,
+      numCtx: numCtx ?? this.numCtx,
+      numBatch: numBatch ?? this.numBatch,
+      numGqa: numGqa ?? this.numGqa,
+      numGpu: numGpu ?? this.numGpu,
+      mainGpu: mainGpu ?? this.mainGpu,
+      lowVram: lowVram ?? this.lowVram,
+      f16KV: f16KV ?? this.f16KV,
+      logitsAll: logitsAll ?? this.logitsAll,
+      vocabOnly: vocabOnly ?? this.vocabOnly,
+      useMmap: useMmap ?? this.useMmap,
+      useMlock: useMlock ?? this.useMlock,
+      embeddingOnly: embeddingOnly ?? this.embeddingOnly,
+      ropeFrequencyBase: ropeFrequencyBase ?? this.ropeFrequencyBase,
+      ropeFrequencyScale: ropeFrequencyScale ?? this.ropeFrequencyScale,
+      numThread: numThread ?? this.numThread,
+    );
+  }
 }
 
 /// The format to return a response in.

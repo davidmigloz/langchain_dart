@@ -40,7 +40,9 @@ class ChatCompletionRequest with _$ChatCompletionRequest {
     @JsonKey(includeIfNull: false) @Default(false) bool? stream,
 
     /// Whether to inject a safety prompt before all conversations.
-    @JsonKey(name: 'safe_mode') @Default(false) bool safeMode,
+    @JsonKey(name: 'safe_mode', includeIfNull: false)
+    @Default(false)
+    bool? safeMode,
 
     /// The seed to use for random sampling. If set, different calls will generate deterministic results.
     @JsonKey(name: 'random_seed', includeIfNull: false) int? randomSeed,

@@ -10,12 +10,13 @@ import 'package:test/test.dart';
 void main() {
   group('OpenAI tests', () {
     final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
+    const defaultModel = 'gpt-3.5-turbo-instruct';
 
     test('Test OpenAI parameters', () async {
       final llm = OpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const OpenAIOptions(
-          model: 'foo',
+          model: defaultModel,
           maxTokens: 10,
           temperature: 0.1,
           topP: 0.1,
@@ -27,7 +28,7 @@ void main() {
           user: 'foo',
         ),
       );
-      expect(llm.defaultOptions.model, 'foo');
+      expect(llm.defaultOptions.model, defaultModel);
       expect(llm.defaultOptions.maxTokens, 10);
       expect(llm.defaultOptions.temperature, 0.1);
       expect(llm.defaultOptions.topP, 0.1);
@@ -42,7 +43,10 @@ void main() {
     test('Test call to OpenAI', () async {
       final llm = OpenAI(
         apiKey: openaiApiKey,
-        defaultOptions: const OpenAIOptions(maxTokens: 10),
+        defaultOptions: const OpenAIOptions(
+          model: defaultModel,
+          maxTokens: 10,
+        ),
       );
       final output = await llm('Say foo:');
       expect(output, isNotEmpty);
@@ -51,7 +55,10 @@ void main() {
     test('Test close OpenAI', () async {
       final llm = OpenAI(
         apiKey: openaiApiKey,
-        defaultOptions: const OpenAIOptions(maxTokens: 10),
+        defaultOptions: const OpenAIOptions(
+          model: defaultModel,
+          maxTokens: 10,
+        ),
       );
       final output = await llm('Say foo:');
       expect(output, isNotEmpty);
@@ -62,7 +69,10 @@ void main() {
     test('Test generate to OpenAI', () async {
       final llm = OpenAI(
         apiKey: openaiApiKey,
-        defaultOptions: const OpenAIOptions(maxTokens: 10),
+        defaultOptions: const OpenAIOptions(
+          model: defaultModel,
+          maxTokens: 10,
+        ),
       );
       final res = await llm.generate('Hello, how are you?');
       expect(res.generations.length, 1);
@@ -71,7 +81,10 @@ void main() {
     test('Test model output contains metadata', () async {
       final llm = OpenAI(
         apiKey: openaiApiKey,
-        defaultOptions: const OpenAIOptions(maxTokens: 10),
+        defaultOptions: const OpenAIOptions(
+          model: defaultModel,
+          maxTokens: 10,
+        ),
       );
       final res = await llm.generate('Hello, how are you?');
       expect(res.modelOutput, isNotNull);
@@ -84,7 +97,10 @@ void main() {
       const query = 'write an ordered list of five items';
       final llm = OpenAI(
         apiKey: openaiApiKey,
-        defaultOptions: const OpenAIOptions(temperature: 0.0),
+        defaultOptions: const OpenAIOptions(
+          model: defaultModel,
+          temperature: 0,
+        ),
       );
       final res = await llm(query, options: const OpenAIOptions(stop: ['3']));
       expect(res.contains('2.'), isTrue);
@@ -94,7 +110,11 @@ void main() {
     test('Test OpenAI wrapper with multiple completions', () async {
       final llm = OpenAI(
         apiKey: openaiApiKey,
-        defaultOptions: const OpenAIOptions(n: 5, bestOf: 5),
+        defaultOptions: const OpenAIOptions(
+          model: defaultModel,
+          n: 5,
+          bestOf: 5,
+        ),
       );
       final res = await llm.generate('Hello, how are you?');
       expect(res.generations.length, 5);
@@ -153,6 +173,7 @@ void main() {
       final llm = OpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const OpenAIOptions(
+          model: defaultModel,
           temperature: 0,
           seed: 9999,
         ),
