@@ -299,6 +299,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     final PromptValue promptValue, {
     final OpenAIOptions? options,
   }) async {
+    await TiktokenDataProcessCenter().initata();
     final encoding = this.encoding != null
         ? getEncoding(this.encoding!)
         : encodingForModel(options?.model ?? defaultOptions.model);
