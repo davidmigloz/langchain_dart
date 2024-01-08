@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:langchain/langchain.dart';
 import 'package:openai_dart/openai_dart.dart';
-import 'package:tiktoken/tiktoken.dart';
+import 'package:flutter_tiktoken/flutter_tiktoken.dart';
 
 import 'models/mappers.dart';
 import 'models/models.dart';

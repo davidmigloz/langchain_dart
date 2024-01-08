@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:langchain/langchain.dart';
-import 'package:tiktoken/tiktoken.dart';
+import 'package:flutter_tiktoken/flutter_tiktoken.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vertex_ai/vertex_ai.dart';
 
