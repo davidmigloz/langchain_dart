@@ -3,6 +3,27 @@
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR)
 server for more details about each release.
 
+## 2024-01-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+- There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain_openai` - `v0.3.1+2`](#langchain_openai---v0312)
+
+---
+
+#### `langchain_openai` - `v0.3.1+2`
+
+ - **FIX**(tokens): Switched to using flutter_tiktoken package to fix release-mode extremely long build time.
+
+
 ## 2024-01-04
 
 ### Changes

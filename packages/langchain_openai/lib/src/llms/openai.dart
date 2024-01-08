@@ -1,7 +1,7 @@
+import 'package:flutter_tiktoken/flutter_tiktoken.dart';
 import 'package:http/http.dart' as http;
 import 'package:langchain/langchain.dart';
 import 'package:openai_dart/openai_dart.dart';
-import 'package:flutter_tiktoken/flutter_tiktoken.dart';
 
 import 'models/mappers.dart';
 import 'models/models.dart';
@@ -300,6 +300,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     final OpenAIOptions? options,
   }) async {
     await TiktokenDataProcessCenter().initata();
+
     final encoding = this.encoding != null
         ? getEncoding(this.encoding!)
         : encodingForModel(options?.model ?? defaultOptions.model);
