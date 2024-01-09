@@ -27,7 +27,7 @@ dependencies:
 dependency_overrides:
   langchain_tiktoken:
     git:
-      url: https://github.com/inPact/tabit_flutter_package_theme.git
+      url: https://github.com/orenagiv/langchain_tiktoken.git
       ref: dart-only
 
 dev_dependencies:
