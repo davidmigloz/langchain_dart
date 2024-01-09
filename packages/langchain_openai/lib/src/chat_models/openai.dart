@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:langchain/langchain.dart';
-import 'package:langchain_tiktoken/tiktoken.dart';
+import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:openai_dart/openai_dart.dart';
 
 import 'models/mappers.dart';
