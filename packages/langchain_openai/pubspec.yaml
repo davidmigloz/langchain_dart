@@ -23,11 +23,12 @@ dependencies:
   langchain: ^0.3.1+1
   meta: ^1.9.1
   openai_dart: ^0.1.3
-
-  langchain_tiktoken:
-    git:
-      url: https://github.com/orenagiv/langchain_tiktoken.git
-      ref: dart-only
+  
+  tiktoken: ^1.0.3
+  # langchain_tiktoken:
+  #   git:
+  #     url: https://github.com/orenagiv/langchain_tiktoken.git
+  #     ref: dart-only
 
 dev_dependencies:
   test: ^1.24.5
