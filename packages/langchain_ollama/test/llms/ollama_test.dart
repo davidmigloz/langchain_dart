@@ -167,11 +167,11 @@ void main() {
     });
 
     test('Test different encoding than the model', () async {
-      llm.encoding = 'p50k_base';
+      llm.encoding = 'cl100k_base';
       const text = 'antidisestablishmentarianism';
 
       final tokens = await llm.tokenize(PromptValue.string(text));
-      expect(tokens, [415, 29207, 44390, 3699, 1042]);
+      expect(tokens, [519, 85342, 34500, 479, 8997, 2191]);
     });
 
     test('Test countTokens', () async {

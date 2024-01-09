@@ -108,7 +108,7 @@ void main() {
       const text = 'Hello, how are you?';
 
       final tokens = await llm.tokenize(PromptValue.string(text));
-      expect(tokens, [15496, 11, 703, 389, 345, 30]);
+      expect(tokens, [9906, 11, 1268, 527, 499, 30]);
     });
 
     test('Test different encoding than the model', () async {

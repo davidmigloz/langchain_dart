@@ -104,19 +104,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
-  flutter:
-    dependency: transitive
-    description: flutter
-    source: sdk
-    version: "0.0.0"
-  flutter_tiktoken:
-    dependency: transitive
-    description:
-      name: flutter_tiktoken
-      sha256: a9fa91490c627e630d7feaefc0d6ade6fa56f21c4338a4a7bab9eadcbb07164f
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.1"
   freezed_annotation:
     dependency: transitive
     description:
@@ -254,14 +241,14 @@ packages:
       relative: true
     source: path
     version: "0.3.1+1"
-  material_color_utilities:
+  langchain_tiktoken:
     dependency: transitive
     description:
-      name: material_color_utilities
-      sha256: "9528f2f296073ff54cb9fee677df673ace1218163c3bc7628093e7eed5203d41"
+      name: langchain_tiktoken
+      sha256: c1804f4b3e56574ca67e562305d9f11e3eabe3c8aa87fea8635992f7efc66674
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.0"
+    version: "1.0.1"
   math_expressions:
     dependency: transitive
     description:
@@ -282,10 +269,10 @@ packages:
     dependency: transitive
     description:
       name: meta
-      sha256: a6e590c838b18133bb482a2745ad77c5bb7715fb0451209e1a7567d416678b8e
+      sha256: d584fa6707a52763a52446f02cc621b077888fb63b93bbcb1143a7be5a0c0c04
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.0"
+    version: "1.11.0"
   mistralai_dart:
     dependency: "direct overridden"
     description:
@@ -339,11 +326,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.0"
-  sky_engine:
-    dependency: transitive
-    description: flutter
-    source: sdk
-    version: "0.0.99"
   source_span:
     dependency: transitive
     description:
@@ -388,10 +370,10 @@ packages:
     dependency: transitive
     description:
       name: uuid
-      sha256: "22c94e5ad1e75f9934b766b53c742572ee2677c56bc871d850a57dad0f82127f"
+      sha256: bb55f38968b9427ce5dcdb8aaaa41049282195e0cfa4cf48593572fa3d1f36bc
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.2"
+    version: "4.3.1"
   vector_math:
     dependency: transitive
     description:
@@ -411,10 +393,9 @@ packages:
     dependency: transitive
     description:
       name: web
-      sha256: afe077240a270dcfd2aafe77602b4113645af95d0ad31128cc02bce5ac5d5152
+      sha256: edc8a9573dd8c5a83a183dae1af2b6fd4131377404706ca4e5420474784906fa
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.0"
+    version: "0.4.0"
 sdks:
-  dart: ">=3.2.0 <4.0.0"
-  flutter: ">=1.17.0"
+  dart: ">=3.2.3 <4.0.0"

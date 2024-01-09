@@ -170,7 +170,7 @@ void main() async {
       const text = 'Hello, how are you?';
 
       final tokens = await chat.tokenize(PromptValue.string(text));
-      expect(tokens, [15496, 11, 703, 389, 345, 30]);
+      expect(tokens, [9906, 11, 1268, 527, 499, 30]);
     });
 
     test('Test countTokens string', () async {
@@ -207,7 +207,7 @@ void main() async {
       ];
 
       final numTokens = await chat.countTokens(PromptValue.chat(messages));
-      expect(numTokens, 42);
+      expect(numTokens, 41);
     });
   });
 }

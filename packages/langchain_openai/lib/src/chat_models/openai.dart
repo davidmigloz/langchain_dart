@@ -214,8 +214,6 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   ///
   /// Supported encodings:
   /// - `cl100k_base` (used by gpt-4, gpt-3.5-turbo, text-embedding-ada-002).
-  /// - `p50k_base` (used by codex models, text-davinci-002, text-davinci-003).
-  /// - `r50k_base` (used by gpt-3 models like davinci).
   ///
   /// For an exhaustive list check:
   /// https://github.com/mvitlov/tiktoken/blob/master/lib/tiktoken.dart
