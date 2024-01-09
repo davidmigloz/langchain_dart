@@ -17,8 +17,10 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
+  http: ^1.2.0
   langchain: ^0.4.0
-  meta: ^1.9.1
+  meta: ^1.11.0
+  supabase: ^2.0.6
 
 dev_dependencies:
   test: ^1.24.3
