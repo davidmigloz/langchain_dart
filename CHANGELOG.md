@@ -21,7 +21,7 @@ Packages with other changes:
 
 #### `langchain_openai` - `v0.3.1+2`
 
- - **FIX**(tokens): Switched to using flutter_tiktoken package to fix release-mode extremely long build time.
+ - **FIX**(tokens): Switched to using langchain_tiktoken package to fix release-mode extremely long build time.
 
 
 ## 2024-01-04
