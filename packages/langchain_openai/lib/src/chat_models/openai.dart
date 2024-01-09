@@ -1,6 +1,6 @@
-import 'package:flutter_tiktoken/flutter_tiktoken.dart';
 import 'package:http/http.dart' as http;
 import 'package:langchain/langchain.dart';
+import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:openai_dart/openai_dart.dart';
 
 import 'models/mappers.dart';
@@ -316,8 +316,6 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final PromptValue promptValue, {
     final ChatOpenAIOptions? options,
   }) async {
-    await TiktokenDataProcessCenter().initata();
-
     final model = options?.model ?? defaultOptions.model;
     return _getTiktoken(model).encode(promptValue.toString());
   }
@@ -327,8 +325,6 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final PromptValue promptValue, {
     final ChatOpenAIOptions? options,
   }) async {
-    await TiktokenDataProcessCenter().initata();
-
     final model = options?.model ?? defaultOptions.model;
     final tiktoken = _getTiktoken(model);
     final messages = promptValue.toChatMessages();

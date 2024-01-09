@@ -1,4 +1,4 @@
-import 'package:flutter_tiktoken/flutter_tiktoken.dart';
+import 'package:tiktoken/tiktoken.dart';
 import 'package:http/http.dart' as http;
 import 'package:langchain/langchain.dart';
 import 'package:mistralai_dart/mistralai_dart.dart';
