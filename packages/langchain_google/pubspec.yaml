@@ -17,7 +17,7 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  collection: ^1.17.1
+  collection: '>=1.17.0 <1.19.0'
   gcloud: ^0.8.11
   googleai_dart: ^0.0.2
   googleapis: ^11.4.0
