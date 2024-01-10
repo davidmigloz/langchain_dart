@@ -34,9 +34,8 @@ jobs:
           flutter config --no-analytics
           dart --disable-analytics
 
-      - name: Clean Pub Git cache
-        run: |
-          rm -rf $HOME/.pub-cache/git/cache
+      - name: Clear pub cache
+        run: flutter pub cache clean
 
       - name: Install Melos
         uses: bluefireteam/melos-action@720a109b686f61979b4f9f0d14f582ab1637647e
