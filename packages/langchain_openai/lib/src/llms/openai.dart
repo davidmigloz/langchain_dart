@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:langchain/langchain.dart';
+import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:openai_dart/openai_dart.dart';
-import 'package:tiktoken/tiktoken.dart';
 
 import 'models/mappers.dart';
 import 'models/models.dart';
@@ -212,8 +212,6 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   ///
   /// Supported encodings:
   /// - `cl100k_base` (used by gpt-4, gpt-3.5-turbo, text-embedding-ada-002).
-  /// - `p50k_base` (used by codex models, text-davinci-002, text-davinci-003).
-  /// - `r50k_base` (used by gpt-3 models like davinci).
   ///
   /// For an exhaustive list check:
   /// https://github.com/mvitlov/tiktoken/blob/master/lib/tiktoken.dart

@@ -200,11 +200,11 @@ void main() {
     });
 
     test('Test encoding', () async {
-      final chat = ChatOpenAI(apiKey: openaiApiKey, encoding: 'p50k_base');
+      final chat = ChatOpenAI(apiKey: openaiApiKey, encoding: 'cl100k_base');
       const text = 'Hello, how are you?';
 
       final tokens = await chat.tokenize(PromptValue.string(text));
-      expect(tokens, [15496, 11, 703, 389, 345, 30]);
+      expect(tokens, [9906, 11, 1268, 527, 499, 30]);
     });
 
     test('Test countTokens string', () async {

@@ -159,6 +159,14 @@ packages:
       relative: true
     source: path
     version: "0.3.1+1"
+  langchain_tiktoken:
+    dependency: transitive
+    description:
+      name: langchain_tiktoken
+      sha256: c1804f4b3e56574ca67e562305d9f11e3eabe3c8aa87fea8635992f7efc66674
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   math_expressions:
     dependency: transitive
     description:
@@ -246,14 +254,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
-  tiktoken:
-    dependency: transitive
-    description:
-      name: tiktoken
-      sha256: a100ca6e387e18be7b711478c8d18627e0753536846600a5961a83631ce5c586
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.3"
   typed_data:
     dependency: transitive
     description:
@@ -287,4 +287,4 @@ packages:
     source: hosted
     version: "0.4.0"
 sdks:
-  dart: ">=3.2.0 <4.0.0"
+  dart: ">=3.2.3 <4.0.0"

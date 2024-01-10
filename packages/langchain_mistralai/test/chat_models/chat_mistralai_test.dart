@@ -86,13 +86,13 @@ void main() {
     });
 
     test('Test different encoding than the model', () async {
-      chatModel.encoding = 'p50k_base';
+      chatModel.encoding = 'cl100k_base';
       const text = 'antidisestablishmentarianism';
 
       final tokens = await chatModel.tokenize(
         PromptValue.chat([ChatMessage.humanText(text)]),
       );
-      expect(tokens, [20490, 25, 1885, 29207, 44390, 3699, 1042]);
+      expect(tokens, [35075, 25, 3276, 85342, 34500, 479, 8997, 2191]);
     });
 
     test('Test countTokens', () async {

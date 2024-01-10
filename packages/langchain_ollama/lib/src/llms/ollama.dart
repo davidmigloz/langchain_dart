@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:langchain/langchain.dart';
+import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:ollama_dart/ollama_dart.dart';
-import 'package:tiktoken/tiktoken.dart';
 
 import 'models/mappers.dart';
 import 'models/models.dart';

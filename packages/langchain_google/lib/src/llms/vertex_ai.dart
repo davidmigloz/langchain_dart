@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:langchain/langchain.dart';
-import 'package:tiktoken/tiktoken.dart';
+import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:vertex_ai/vertex_ai.dart';
 
 import 'models/mappers.dart';
@@ -163,7 +163,7 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
   /// Tokenizes the given prompt using tiktoken.
   ///
   /// Currently Google does not provide a tokenizer for Vertex AI models.
-  /// So we use tiktoken and text-davinci-003 model to get an approximation
+  /// So we use tiktoken and gpt-3.5-turbo-instruct model to get an approximation
   /// for counting tokens. Mind that the actual tokens will be totally
   /// different from the ones used by the Vertex AI model.
   ///
@@ -173,7 +173,7 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
     final PromptValue promptValue, {
     final VertexAIOptions? options,
   }) async {
-    final encoding = encodingForModel('text-davinci-003');
+    final encoding = encodingForModel('gpt-3.5-turbo-instruct');
     return encoding.encode(promptValue.toString());
   }
 }
