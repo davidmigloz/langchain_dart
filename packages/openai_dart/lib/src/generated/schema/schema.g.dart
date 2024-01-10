@@ -85,16 +85,9 @@ Map<String, dynamic> _$$CompletionModelEnumerationImplToJson(
     };
 
 const _$CompletionModelsEnumMap = {
-  CompletionModels.babbage002: 'babbage-002',
-  CompletionModels.davinci002: 'davinci-002',
   CompletionModels.gpt35TurboInstruct: 'gpt-3.5-turbo-instruct',
-  CompletionModels.textDavinci003: 'text-davinci-003',
-  CompletionModels.textDavinci002: 'text-davinci-002',
-  CompletionModels.textDavinci001: 'text-davinci-001',
-  CompletionModels.codeDavinci002: 'code-davinci-002',
-  CompletionModels.textCurie001: 'text-curie-001',
-  CompletionModels.textBabbage001: 'text-babbage-001',
-  CompletionModels.textAda001: 'text-ada-001',
+  CompletionModels.davinci002: 'davinci-002',
+  CompletionModels.babbage002: 'babbage-002',
 };
 
 _$CompletionModelStringImpl _$$CompletionModelStringImplFromJson(

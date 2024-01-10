@@ -471,7 +471,7 @@ class OpenAIClient {
   // METHOD: createFineTuningJob
   // ------------------------------------------
 
-  /// Creates a job that fine-tunes a specified model from a given dataset.  Response includes details of the enqueued job including job status and the name of the fine-tuned models once complete.  [Learn more about fine-tuning](https://platform.openai.com/docs/guides/fine-tuning).
+  /// Creates a fine-tuning job which begins the process of creating a new model from a given dataset.  Response includes details of the enqueued job including job status and the name of the fine-tuned models once complete.  [Learn more about fine-tuning](https://platform.openai.com/docs/guides/fine-tuning).
   ///
   /// `request`: Request object for the Create fine-tuning job endpoint.
   ///
