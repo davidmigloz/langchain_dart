@@ -22,7 +22,6 @@ void main() {
 
     test('Test call completions API', () async {
       final models = [
-        CompletionModels.textDavinci003,
         CompletionModels.gpt35TurboInstruct,
       ];
 
