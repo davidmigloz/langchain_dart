@@ -1,10 +1,12 @@
 // ignore_for_file: avoid_redundant_argument_values
+import 'dart:io';
+
 import 'package:langchain/langchain.dart';
 import 'package:langchain_ollama/langchain_ollama.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Ollama tests', skip: true, () {
+  group('Ollama tests', skip: Platform.environment.containsKey('CI'), () {
     late Ollama llm;
     const defaultModel = 'llama2:latest';
 
@@ -231,7 +233,7 @@ void main() {
       );
     });
 
-    test('Test response seed', () async {
+    test('Test response seed', skip: true, () async {
       final prompt = PromptValue.string(
         'Why is the sky blue? Reply in one sentence.',
       );

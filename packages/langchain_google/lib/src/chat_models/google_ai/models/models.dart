@@ -19,7 +19,7 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
   /// The LLM to use.
   ///
   /// You can find a list of available models here: https://ai.google.dev/models
-  final String model;
+  final String? model;
 
   /// The maximum cumulative probability of tokens to consider when sampling.
   /// The model uses combined Top-k and nucleus sampling. Tokens are sorted
@@ -76,6 +76,30 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
   /// is no safety setting for a given category provided in the list, the API will use
   /// the default safety setting for that category.
   final List<ChatGoogleGenerativeAISafetySetting>? safetySettings;
+
+  /// Creates a copy of this [ChatGoogleGenerativeAIOptions] object with the given fields
+  /// replaced with the new values.
+  ChatGoogleGenerativeAIOptions copyWith({
+    final String? model,
+    final double? topP,
+    final int? topK,
+    final int? candidateCount,
+    final int? maxOutputTokens,
+    final double? temperature,
+    final List<String>? stopSequences,
+    final List<ChatGoogleGenerativeAISafetySetting>? safetySettings,
+  }) {
+    return ChatGoogleGenerativeAIOptions(
+      model: model ?? this.model,
+      topP: topP ?? this.topP,
+      topK: topK ?? this.topK,
+      candidateCount: candidateCount ?? this.candidateCount,
+      maxOutputTokens: maxOutputTokens ?? this.maxOutputTokens,
+      temperature: temperature ?? this.temperature,
+      stopSequences: stopSequences ?? this.stopSequences,
+      safetySettings: safetySettings ?? this.safetySettings,
+    );
+  }
 }
 
 /// {@template chat_google_generative_ai_safety_setting}

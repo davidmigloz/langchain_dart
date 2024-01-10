@@ -154,7 +154,9 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    this.defaultOptions = const ChatMistralAIOptions(),
+    this.defaultOptions = const ChatMistralAIOptions(
+      model: 'mistral-small',
+    ),
     this.encoding = 'cl100k_base',
   }) : _client = MistralAIClient(
           apiKey: apiKey,
@@ -222,8 +224,9 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
     final ChatMistralAIOptions? options,
   }) {
     return ChatCompletionRequest(
-      model:
-          ChatCompletionModel.modelId(options?.model ?? defaultOptions.model),
+      model: ChatCompletionModel.modelId(
+        options?.model ?? defaultOptions.model ?? throwNullModelError(),
+      ),
       messages: messages.toChatCompletionMessages(),
       temperature: options?.temperature ?? defaultOptions.temperature,
       topP: options?.topP ?? defaultOptions.topP,
@@ -252,7 +255,9 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
   }) async {
     final encoding = this.encoding != null
         ? getEncoding(this.encoding!)
-        : encodingForModel(options?.model ?? defaultOptions.model);
+        : encodingForModel(
+            options?.model ?? defaultOptions.model ?? throwNullModelError(),
+          );
     return encoding.encode(promptValue.toString());
   }
 

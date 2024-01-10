@@ -146,7 +146,9 @@ class ChatGoogleGenerativeAI
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    this.defaultOptions = const ChatGoogleGenerativeAIOptions(),
+    this.defaultOptions = const ChatGoogleGenerativeAIOptions(
+      model: 'gemini-pro',
+    ),
   }) : _client = GoogleAIClient(
           apiKey: apiKey,
           baseUrl: baseUrl,
@@ -173,7 +175,8 @@ class ChatGoogleGenerativeAI
     final ChatGoogleGenerativeAIOptions? options,
   }) async {
     final id = _uuid.v4();
-    final model = options?.model ?? defaultOptions.model;
+    final model =
+        options?.model ?? defaultOptions.model ?? throwNullModelError();
     final completion = await _client.generateContent(
       modelId: model,
       request: _generateCompletionRequest(messages, options: options),
@@ -237,7 +240,7 @@ class ChatGoogleGenerativeAI
     final ChatGoogleGenerativeAIOptions? options,
   }) async {
     final tokens = await _client.countTokens(
-      modelId: options?.model ?? defaultOptions.model,
+      modelId: options?.model ?? defaultOptions.model ?? throwNullModelError(),
       request: CountTokensRequest(
         contents: promptValue.toChatMessages().toContentList(),
       ),

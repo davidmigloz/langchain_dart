@@ -4,10 +4,7 @@ Tools are also runnables, and can therefore be used within a chain:
 
 ```dart
 final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
-final model = ChatOpenAI(
-  apiKey: openaiApiKey,
-  defaultOptions: const ChatOpenAIOptions(temperature: 0),
-);
+final model = ChatOpenAI(apiKey: openaiApiKey);
 const stringOutputParser = StringOutputParser();
 
 final promptTemplate = ChatPromptTemplate.fromTemplate('''
@@ -29,6 +26,7 @@ final chain = Runnable.getMapFromInput() |
 final res = await chain.invoke(
   'If I had 3 apples and you had 5 apples but we ate 3. '
   'If we cut the remaining apples in half, how many pieces would we have?',
+  options: const ChatOpenAIOptions(temperature: 0),
 );
 print(res);
 // 10.0

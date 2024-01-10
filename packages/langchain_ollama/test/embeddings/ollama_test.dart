@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:langchain/langchain.dart';
 import 'package:langchain_ollama/langchain_ollama.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('OllamaEmbeddings tests', skip: true, () {
+  group('OllamaEmbeddings tests', skip: Platform.environment.containsKey('CI'),
+      () {
     late OllamaEmbeddings embeddings;
     const defaultModel = 'llama2:latest';
 

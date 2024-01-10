@@ -52,8 +52,8 @@ mixin _$ChatCompletionRequest {
   bool? get stream => throw _privateConstructorUsedError;
 
   /// Whether to inject a safety prompt before all conversations.
-  @JsonKey(name: 'safe_mode')
-  bool get safeMode => throw _privateConstructorUsedError;
+  @JsonKey(name: 'safe_mode', includeIfNull: false)
+  bool? get safeMode => throw _privateConstructorUsedError;
 
   /// The seed to use for random sampling. If set, different calls will generate deterministic results.
   @JsonKey(name: 'random_seed', includeIfNull: false)
@@ -78,7 +78,7 @@ abstract class $ChatCompletionRequestCopyWith<$Res> {
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
       @JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,
       @JsonKey(includeIfNull: false) bool? stream,
-      @JsonKey(name: 'safe_mode') bool safeMode,
+      @JsonKey(name: 'safe_mode', includeIfNull: false) bool? safeMode,
       @JsonKey(name: 'random_seed', includeIfNull: false) int? randomSeed});
 
   $ChatCompletionModelCopyWith<$Res> get model;
@@ -104,7 +104,7 @@ class _$ChatCompletionRequestCopyWithImpl<$Res,
     Object? topP = freezed,
     Object? maxTokens = freezed,
     Object? stream = freezed,
-    Object? safeMode = null,
+    Object? safeMode = freezed,
     Object? randomSeed = freezed,
   }) {
     return _then(_value.copyWith(
@@ -132,10 +132,10 @@ class _$ChatCompletionRequestCopyWithImpl<$Res,
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool?,
-      safeMode: null == safeMode
+      safeMode: freezed == safeMode
           ? _value.safeMode
           : safeMode // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       randomSeed: freezed == randomSeed
           ? _value.randomSeed
           : randomSeed // ignore: cast_nullable_to_non_nullable
@@ -168,7 +168,7 @@ abstract class _$$ChatCompletionRequestImplCopyWith<$Res>
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
       @JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,
       @JsonKey(includeIfNull: false) bool? stream,
-      @JsonKey(name: 'safe_mode') bool safeMode,
+      @JsonKey(name: 'safe_mode', includeIfNull: false) bool? safeMode,
       @JsonKey(name: 'random_seed', includeIfNull: false) int? randomSeed});
 
   @override
@@ -193,7 +193,7 @@ class __$$ChatCompletionRequestImplCopyWithImpl<$Res>
     Object? topP = freezed,
     Object? maxTokens = freezed,
     Object? stream = freezed,
-    Object? safeMode = null,
+    Object? safeMode = freezed,
     Object? randomSeed = freezed,
   }) {
     return _then(_$ChatCompletionRequestImpl(
@@ -221,10 +221,10 @@ class __$$ChatCompletionRequestImplCopyWithImpl<$Res>
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool?,
-      safeMode: null == safeMode
+      safeMode: freezed == safeMode
           ? _value.safeMode
           : safeMode // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       randomSeed: freezed == randomSeed
           ? _value.randomSeed
           : randomSeed // ignore: cast_nullable_to_non_nullable
@@ -243,7 +243,7 @@ class _$ChatCompletionRequestImpl extends _ChatCompletionRequest {
       @JsonKey(name: 'top_p', includeIfNull: false) this.topP = 1.0,
       @JsonKey(name: 'max_tokens', includeIfNull: false) this.maxTokens,
       @JsonKey(includeIfNull: false) this.stream = false,
-      @JsonKey(name: 'safe_mode') this.safeMode = false,
+      @JsonKey(name: 'safe_mode', includeIfNull: false) this.safeMode = false,
       @JsonKey(name: 'random_seed', includeIfNull: false) this.randomSeed})
       : _messages = messages,
         super._();
@@ -295,8 +295,8 @@ class _$ChatCompletionRequestImpl extends _ChatCompletionRequest {
 
   /// Whether to inject a safety prompt before all conversations.
   @override
-  @JsonKey(name: 'safe_mode')
-  final bool safeMode;
+  @JsonKey(name: 'safe_mode', includeIfNull: false)
+  final bool? safeMode;
 
   /// The seed to use for random sampling. If set, different calls will generate deterministic results.
   @override
@@ -309,7 +309,7 @@ class _$ChatCompletionRequestImpl extends _ChatCompletionRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionRequestImpl &&
@@ -364,7 +364,7 @@ abstract class _ChatCompletionRequest extends ChatCompletionRequest {
       @JsonKey(name: 'top_p', includeIfNull: false) final double? topP,
       @JsonKey(name: 'max_tokens', includeIfNull: false) final int? maxTokens,
       @JsonKey(includeIfNull: false) final bool? stream,
-      @JsonKey(name: 'safe_mode') final bool safeMode,
+      @JsonKey(name: 'safe_mode', includeIfNull: false) final bool? safeMode,
       @JsonKey(name: 'random_seed', includeIfNull: false)
       final int? randomSeed}) = _$ChatCompletionRequestImpl;
   const _ChatCompletionRequest._() : super._();
@@ -410,8 +410,8 @@ abstract class _ChatCompletionRequest extends ChatCompletionRequest {
   @override
 
   /// Whether to inject a safety prompt before all conversations.
-  @JsonKey(name: 'safe_mode')
-  bool get safeMode;
+  @JsonKey(name: 'safe_mode', includeIfNull: false)
+  bool? get safeMode;
   @override
 
   /// The seed to use for random sampling. If set, different calls will generate deterministic results.
@@ -556,7 +556,7 @@ class _$ChatCompletionModelEnumerationImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionModelEnumerationImpl &&
@@ -717,7 +717,7 @@ class _$ChatCompletionModelStringImpl extends ChatCompletionModelString {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionModelStringImpl &&
@@ -1050,7 +1050,7 @@ class _$ChatCompletionResponseImpl extends _ChatCompletionResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionResponseImpl &&
@@ -1300,7 +1300,7 @@ class _$ChatCompletionResponseChoicesInnerImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionResponseChoicesInnerImpl &&
@@ -1486,7 +1486,7 @@ class _$ChatCompletionMessageImpl extends _ChatCompletionMessage {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionMessageImpl &&
@@ -1685,7 +1685,7 @@ class _$ChatCompletionUsageImpl extends _ChatCompletionUsage {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionUsageImpl &&
@@ -1953,7 +1953,7 @@ class _$ChatCompletionStreamResponseImpl extends _ChatCompletionStreamResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionStreamResponseImpl &&
@@ -2217,7 +2217,7 @@ class _$ChatCompletionStreamResponseChoicesInnerImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionStreamResponseChoicesInnerImpl &&
@@ -2431,7 +2431,7 @@ class _$ChatCompletionStreamDeltaImpl extends _ChatCompletionStreamDelta {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionStreamDeltaImpl &&
@@ -2660,7 +2660,7 @@ class _$EmbeddingRequestImpl extends _EmbeddingRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EmbeddingRequestImpl &&
@@ -2851,7 +2851,7 @@ class _$EmbeddingModelEnumerationImpl extends EmbeddingModelEnumeration {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EmbeddingModelEnumerationImpl &&
@@ -3007,7 +3007,7 @@ class _$EmbeddingModelStringImpl extends EmbeddingModelString {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EmbeddingModelStringImpl &&
@@ -3315,7 +3315,7 @@ class _$EmbeddingResponseImpl extends _EmbeddingResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EmbeddingResponseImpl &&
@@ -3511,7 +3511,7 @@ class _$EmbeddingUsageImpl extends _EmbeddingUsage {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EmbeddingUsageImpl &&
@@ -3710,7 +3710,7 @@ class _$EmbeddingImpl extends _Embedding {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EmbeddingImpl &&
@@ -3891,7 +3891,7 @@ class _$ModelListImpl extends _ModelList {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ModelListImpl &&
@@ -4103,7 +4103,7 @@ class _$ModelImpl extends _Model {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ModelImpl &&

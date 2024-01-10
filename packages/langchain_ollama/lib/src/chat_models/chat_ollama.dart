@@ -149,7 +149,9 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    this.defaultOptions = const ChatOllamaOptions(),
+    this.defaultOptions = const ChatOllamaOptions(
+      model: 'llama2',
+    ),
     this.encoding = 'cl100k_base',
   }) : _client = OllamaClient(
           baseUrl: baseUrl,
@@ -226,7 +228,7 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
     final ChatOllamaOptions? options,
   }) {
     return GenerateChatCompletionRequest(
-      model: options?.model ?? defaultOptions.model,
+      model: options?.model ?? defaultOptions.model ?? throwNullModelError(),
       messages: messages.toMessages(),
       format: options?.format?.toResponseFormat(),
       stream: stream,
@@ -291,7 +293,9 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
   }) async {
     final encoding = this.encoding != null
         ? getEncoding(this.encoding!)
-        : encodingForModel(options?.model ?? defaultOptions.model);
+        : encodingForModel(
+            options?.model ?? defaultOptions.model ?? throwNullModelError(),
+          );
     return encoding.encode(promptValue.toString());
   }
 

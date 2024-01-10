@@ -159,6 +159,7 @@ components:
         safe_mode:
           type: boolean
           default: false
+          nullable: true
           description: |
             Whether to inject a safety prompt before all conversations.
         random_seed:

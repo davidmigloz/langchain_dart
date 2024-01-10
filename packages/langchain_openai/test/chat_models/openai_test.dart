@@ -11,12 +11,13 @@ import 'package:test/test.dart';
 void main() {
   group('ChatOpenAI tests', () {
     final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
+    const defaultModel = 'gpt-3.5-turbo';
 
     test('Test ChatOpenAI parameters', () async {
       final chat = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: 'foo',
+          model: defaultModel,
           temperature: 0.1,
           topP: 0.1,
           n: 10,
@@ -27,7 +28,7 @@ void main() {
           user: 'foo',
         ),
       );
-      expect(chat.defaultOptions.model, 'foo');
+      expect(chat.defaultOptions.model, defaultModel);
       expect(chat.defaultOptions.maxTokens, 10);
       expect(chat.defaultOptions.temperature, 0.1);
       expect(chat.defaultOptions.topP, 0.1);
@@ -42,6 +43,7 @@ void main() {
       final chat = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
+          model: defaultModel,
           maxTokens: 10,
         ),
       );
@@ -65,6 +67,7 @@ void main() {
       final chat = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
+          model: defaultModel,
           maxTokens: 10,
         ),
       );
@@ -73,7 +76,7 @@ void main() {
       );
       expect(res.modelOutput, isNotNull);
       expect(res.modelOutput!['created'], isNotNull);
-      expect(res.modelOutput!['model'], startsWith(chat.defaultOptions.model));
+      expect(res.modelOutput!['model'], startsWith(chat.defaultOptions.model!));
     });
 
     test('Test stop logic on valid configuration', () async {
@@ -82,6 +85,7 @@ void main() {
       final chat = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
+          model: defaultModel,
           temperature: 0,
         ),
       );
@@ -97,6 +101,7 @@ void main() {
       final chat = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
+          model: defaultModel,
           maxTokens: 10,
         ),
       );
@@ -112,6 +117,7 @@ void main() {
       final chat = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
+          model: defaultModel,
           maxTokens: 10,
           n: 5,
         ),
@@ -301,7 +307,10 @@ void main() {
       );
       final chat = ChatOpenAI(
         apiKey: openaiApiKey,
-        defaultOptions: const ChatOpenAIOptions(temperature: 0),
+        defaultOptions: const ChatOpenAIOptions(
+          model: defaultModel,
+          temperature: 0,
+        ),
       ).bind(
         ChatOpenAIOptions(
           functions: const [function],
@@ -331,6 +340,7 @@ void main() {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
+          model: defaultModel,
           temperature: 0,
           seed: 9999,
         ),

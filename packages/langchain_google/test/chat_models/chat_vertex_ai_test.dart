@@ -12,6 +12,9 @@ import '../utils/auth.dart';
 
 void main() async {
   final authHttpClient = await getAuthHttpClient();
+  const defaultPublisher = 'google';
+  const defaultModel = 'chat-bison';
+
   group('ChatVertexAI tests', () {
     test('Test ChatVertexAI parameters', () async {
       final llm = ChatVertexAI(
@@ -20,8 +23,8 @@ void main() async {
         location: 'us-central1',
         rootUrl: 'https://us-central1-aiplatform.googleapis.com/',
         defaultOptions: const ChatVertexAIOptions(
-          publisher: 'google',
-          model: 'chat-bison@001',
+          publisher: defaultPublisher,
+          model: defaultModel,
           maxOutputTokens: 10,
           temperature: 0.1,
           topP: 0.1,
@@ -35,8 +38,8 @@ void main() async {
       expect(
         llm.defaultOptions,
         const ChatVertexAIOptions(
-          publisher: 'google',
-          model: 'chat-bison@001',
+          publisher: defaultPublisher,
+          model: defaultModel,
           maxOutputTokens: 10,
           temperature: 0.1,
           topP: 0.1,
@@ -51,7 +54,11 @@ void main() async {
       final chat = ChatVertexAI(
         httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
-        defaultOptions: const ChatVertexAIOptions(maxOutputTokens: 10),
+        defaultOptions: const ChatVertexAIOptions(
+          publisher: defaultPublisher,
+          model: 'chat-bison',
+          maxOutputTokens: 10,
+        ),
       );
       final res = await chat([ChatMessage.humanText('Hello')]);
       expect(res.content, isNotEmpty);
@@ -61,7 +68,11 @@ void main() async {
       final chat = ChatVertexAI(
         httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
-        defaultOptions: const ChatVertexAIOptions(maxOutputTokens: 10),
+        defaultOptions: const ChatVertexAIOptions(
+          publisher: defaultPublisher,
+          model: 'chat-bison',
+          maxOutputTokens: 10,
+        ),
       );
       final res = await chat.generate(
         [
@@ -77,7 +88,11 @@ void main() async {
       final chat = ChatVertexAI(
         httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
-        defaultOptions: const ChatVertexAIOptions(maxOutputTokens: 10),
+        defaultOptions: const ChatVertexAIOptions(
+          publisher: defaultPublisher,
+          model: 'chat-bison',
+          maxOutputTokens: 10,
+        ),
       );
       final res = await chat.generate(
         [ChatMessage.humanText('Hello, how are you?')],
@@ -94,7 +109,11 @@ void main() async {
       final chat = ChatVertexAI(
         httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
-        defaultOptions: const ChatVertexAIOptions(maxOutputTokens: 10),
+        defaultOptions: const ChatVertexAIOptions(
+          publisher: defaultPublisher,
+          model: 'chat-bison',
+          maxOutputTokens: 10,
+        ),
       );
       final systemMessage =
           ChatMessage.system('You are to chat with the user.');
@@ -108,15 +127,15 @@ void main() async {
       final chat = ChatVertexAI(
         httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
-        defaultOptions: const ChatVertexAIOptions(
-          stopSequences: ['4'],
-        ),
       );
-      final res = await chat.generate([
-        ChatMessage.humanText(
-          'List the numbers from 1 to 9 in order without any spaces or commas',
-        ),
-      ]);
+      final res = await chat.generate(
+        [
+          ChatMessage.humanText(
+            'List the numbers from 1 to 9 in order without any spaces or commas',
+          ),
+        ],
+        options: const ChatVertexAIOptions(stopSequences: ['4']),
+      );
       expect(res.firstOutputAsString, contains('123'));
       expect(res.firstOutputAsString, isNot(contains('456789')));
 

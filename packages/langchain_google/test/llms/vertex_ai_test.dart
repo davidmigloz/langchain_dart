@@ -12,6 +12,9 @@ import '../utils/auth.dart';
 
 Future<void> main() async {
   final authHttpClient = await getAuthHttpClient();
+  const defaultPublisher = 'google';
+  const defaultModel = 'text-bison';
+
   group('VertexAI tests', () {
     test('Test VertexAI parameters', () async {
       final llm = VertexAI(
@@ -20,8 +23,8 @@ Future<void> main() async {
         location: 'us-central1',
         rootUrl: 'https://us-central1-aiplatform.googleapis.com/',
         defaultOptions: const VertexAIOptions(
-          publisher: 'google',
-          model: 'text-bison@001',
+          publisher: defaultPublisher,
+          model: defaultModel,
           maxOutputTokens: 10,
           temperature: 0.1,
           topP: 0.1,
@@ -35,8 +38,8 @@ Future<void> main() async {
       expect(
         llm.defaultOptions,
         const VertexAIOptions(
-          publisher: 'google',
-          model: 'text-bison@001',
+          publisher: defaultPublisher,
+          model: defaultModel,
           maxOutputTokens: 10,
           temperature: 0.1,
           topP: 0.1,
@@ -60,7 +63,11 @@ Future<void> main() async {
       final llm = VertexAI(
         httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
-        defaultOptions: const VertexAIOptions(maxOutputTokens: 10),
+        defaultOptions: const VertexAIOptions(
+          publisher: defaultPublisher,
+          model: defaultModel,
+          maxOutputTokens: 10,
+        ),
       );
       final res = await llm.generate('Hello, how are you?');
       expect(res.generations.length, 1);
@@ -70,7 +77,11 @@ Future<void> main() async {
       final llm = VertexAI(
         httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
-        defaultOptions: const VertexAIOptions(maxOutputTokens: 10),
+        defaultOptions: const VertexAIOptions(
+          publisher: defaultPublisher,
+          model: defaultModel,
+          maxOutputTokens: 10,
+        ),
       );
       final res = await llm.generate('Hello, how are you?');
       expect(res.modelOutput, isNotNull);
@@ -86,6 +97,8 @@ Future<void> main() async {
         httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         defaultOptions: const VertexAIOptions(
+          publisher: defaultPublisher,
+          model: defaultModel,
           stopSequences: ['4'],
         ),
       );
@@ -111,6 +124,8 @@ Future<void> main() async {
         httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
         defaultOptions: const VertexAIOptions(
+          publisher: defaultPublisher,
+          model: defaultModel,
           temperature: 1,
           candidateCount: 3,
         ),
