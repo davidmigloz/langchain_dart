@@ -7,7 +7,7 @@ environment:
   sdk: ^3.0.5
 
 dependencies:
-  gcloud: ^0.8.11
+  gcloud: ^0.8.12
   googleapis_auth: ^1.4.1
   http: ^1.1.0
   vertex_ai: ^0.0.7+2

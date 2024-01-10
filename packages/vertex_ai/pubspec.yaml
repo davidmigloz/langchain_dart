@@ -17,8 +17,8 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  collection: ^1.17.1
-  googleapis: ^11.4.0
+  collection: '>=1.17.0 <1.19.0'
+  googleapis: ^12.0.0
   googleapis_auth: ^1.4.1
   http: ^1.1.0
   meta: ^1.9.1
