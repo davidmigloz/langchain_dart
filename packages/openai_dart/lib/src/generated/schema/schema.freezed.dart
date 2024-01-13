@@ -7416,7 +7416,8 @@ CreateChatCompletionResponse _$CreateChatCompletionResponseFromJson(
 /// @nodoc
 mixin _$CreateChatCompletionResponse {
   /// A unique identifier for the chat completion.
-  String get id => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
+  String? get id => throw _privateConstructorUsedError;
 
   /// A list of chat completion choices. Can be more than one if `n` is greater than 1.
   List<ChatCompletionResponseChoice> get choices =>
@@ -7457,7 +7458,7 @@ abstract class $CreateChatCompletionResponseCopyWith<$Res> {
           CreateChatCompletionResponse>;
   @useResult
   $Res call(
-      {String id,
+      {@JsonKey(includeIfNull: false) String? id,
       List<ChatCompletionResponseChoice> choices,
       int created,
       String model,
@@ -7483,7 +7484,7 @@ class _$CreateChatCompletionResponseCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? choices = null,
     Object? created = null,
     Object? model = null,
@@ -7492,10 +7493,10 @@ class _$CreateChatCompletionResponseCopyWithImpl<$Res,
     Object? usage = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       choices: null == choices
           ? _value.choices
           : choices // ignore: cast_nullable_to_non_nullable
@@ -7546,7 +7547,7 @@ abstract class _$$CreateChatCompletionResponseImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
+      {@JsonKey(includeIfNull: false) String? id,
       List<ChatCompletionResponseChoice> choices,
       int created,
       String model,
@@ -7572,7 +7573,7 @@ class __$$CreateChatCompletionResponseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? choices = null,
     Object? created = null,
     Object? model = null,
@@ -7581,10 +7582,10 @@ class __$$CreateChatCompletionResponseImplCopyWithImpl<$Res>
     Object? usage = freezed,
   }) {
     return _then(_$CreateChatCompletionResponseImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       choices: null == choices
           ? _value._choices
           : choices // ignore: cast_nullable_to_non_nullable
@@ -7617,7 +7618,7 @@ class __$$CreateChatCompletionResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CreateChatCompletionResponseImpl extends _CreateChatCompletionResponse {
   const _$CreateChatCompletionResponseImpl(
-      {required this.id,
+      {@JsonKey(includeIfNull: false) this.id,
       required final List<ChatCompletionResponseChoice> choices,
       required this.created,
       required this.model,
@@ -7634,7 +7635,8 @@ class _$CreateChatCompletionResponseImpl extends _CreateChatCompletionResponse {
 
   /// A unique identifier for the chat completion.
   @override
-  final String id;
+  @JsonKey(includeIfNull: false)
+  final String? id;
 
   /// A list of chat completion choices. Can be more than one if `n` is greater than 1.
   final List<ChatCompletionResponseChoice> _choices;
@@ -7722,7 +7724,7 @@ class _$CreateChatCompletionResponseImpl extends _CreateChatCompletionResponse {
 abstract class _CreateChatCompletionResponse
     extends CreateChatCompletionResponse {
   const factory _CreateChatCompletionResponse(
-          {required final String id,
+          {@JsonKey(includeIfNull: false) final String? id,
           required final List<ChatCompletionResponseChoice> choices,
           required final int created,
           required final String model,
@@ -7739,7 +7741,8 @@ abstract class _CreateChatCompletionResponse
   @override
 
   /// A unique identifier for the chat completion.
-  String get id;
+  @JsonKey(includeIfNull: false)
+  String? get id;
   @override
 
   /// A list of chat completion choices. Can be more than one if `n` is greater than 1.
@@ -7793,7 +7796,8 @@ mixin _$ChatCompletionResponseChoice {
       throw _privateConstructorUsedError;
 
   /// The index of the choice in the list of choices.
-  int get index => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
+  int? get index => throw _privateConstructorUsedError;
 
   /// An assistant message in a chat conversation.
   ChatCompletionAssistantMessage get message =>
@@ -7821,7 +7825,7 @@ abstract class $ChatCompletionResponseChoiceCopyWith<$Res> {
           name: 'finish_reason',
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       ChatCompletionFinishReason? finishReason,
-      int index,
+      @JsonKey(includeIfNull: false) int? index,
       ChatCompletionAssistantMessage message,
       ChatCompletionLogprobs? logprobs});
 
@@ -7843,7 +7847,7 @@ class _$ChatCompletionResponseChoiceCopyWithImpl<$Res,
   @override
   $Res call({
     Object? finishReason = freezed,
-    Object? index = null,
+    Object? index = freezed,
     Object? message = freezed,
     Object? logprobs = freezed,
   }) {
@@ -7852,10 +7856,10 @@ class _$ChatCompletionResponseChoiceCopyWithImpl<$Res,
           ? _value.finishReason
           : finishReason // ignore: cast_nullable_to_non_nullable
               as ChatCompletionFinishReason?,
-      index: null == index
+      index: freezed == index
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -7894,7 +7898,7 @@ abstract class _$$ChatCompletionResponseChoiceImplCopyWith<$Res>
           name: 'finish_reason',
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       ChatCompletionFinishReason? finishReason,
-      int index,
+      @JsonKey(includeIfNull: false) int? index,
       ChatCompletionAssistantMessage message,
       ChatCompletionLogprobs? logprobs});
 
@@ -7916,7 +7920,7 @@ class __$$ChatCompletionResponseChoiceImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? finishReason = freezed,
-    Object? index = null,
+    Object? index = freezed,
     Object? message = freezed,
     Object? logprobs = freezed,
   }) {
@@ -7925,10 +7929,10 @@ class __$$ChatCompletionResponseChoiceImplCopyWithImpl<$Res>
           ? _value.finishReason
           : finishReason // ignore: cast_nullable_to_non_nullable
               as ChatCompletionFinishReason?,
-      index: null == index
+      index: freezed == index
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -7949,7 +7953,7 @@ class _$ChatCompletionResponseChoiceImpl extends _ChatCompletionResponseChoice {
           name: 'finish_reason',
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       required this.finishReason,
-      required this.index,
+      @JsonKey(includeIfNull: false) this.index,
       required this.message,
       required this.logprobs})
       : super._();
@@ -7970,7 +7974,8 @@ class _$ChatCompletionResponseChoiceImpl extends _ChatCompletionResponseChoice {
 
   /// The index of the choice in the list of choices.
   @override
-  final int index;
+  @JsonKey(includeIfNull: false)
+  final int? index;
 
   /// An assistant message in a chat conversation.
   @override
@@ -8026,7 +8031,7 @@ abstract class _ChatCompletionResponseChoice
               name: 'finish_reason',
               unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
           required final ChatCompletionFinishReason? finishReason,
-          required final int index,
+          @JsonKey(includeIfNull: false) final int? index,
           required final ChatCompletionAssistantMessage message,
           required final ChatCompletionLogprobs? logprobs}) =
       _$ChatCompletionResponseChoiceImpl;
@@ -8048,7 +8053,8 @@ abstract class _ChatCompletionResponseChoice
   @override
 
   /// The index of the choice in the list of choices.
-  int get index;
+  @JsonKey(includeIfNull: false)
+  int? get index;
   @override
 
   /// An assistant message in a chat conversation.
@@ -8716,7 +8722,8 @@ CreateChatCompletionStreamResponse _$CreateChatCompletionStreamResponseFromJson(
 /// @nodoc
 mixin _$CreateChatCompletionStreamResponse {
   /// A unique identifier for the chat completion. Each chunk has the same ID.
-  String get id => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
+  String? get id => throw _privateConstructorUsedError;
 
   /// A list of chat completion choices. Can be more than one if `n` is greater than 1.
   List<ChatCompletionStreamResponseChoice> get choices =>
@@ -8735,8 +8742,7 @@ mixin _$CreateChatCompletionStreamResponse {
   String? get systemFingerprint => throw _privateConstructorUsedError;
 
   /// The object type, which is always `chat.completion.chunk`.
-  CreateChatCompletionStreamResponseObject get object =>
-      throw _privateConstructorUsedError;
+  String get object => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -8754,13 +8760,13 @@ abstract class $CreateChatCompletionStreamResponseCopyWith<$Res> {
           CreateChatCompletionStreamResponse>;
   @useResult
   $Res call(
-      {String id,
+      {@JsonKey(includeIfNull: false) String? id,
       List<ChatCompletionStreamResponseChoice> choices,
       int created,
       String model,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
-      CreateChatCompletionStreamResponseObject object});
+      String object});
 }
 
 /// @nodoc
@@ -8777,7 +8783,7 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? choices = null,
     Object? created = null,
     Object? model = null,
@@ -8785,10 +8791,10 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
     Object? object = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       choices: null == choices
           ? _value.choices
           : choices // ignore: cast_nullable_to_non_nullable
@@ -8808,7 +8814,7 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as CreateChatCompletionStreamResponseObject,
+              as String,
     ) as $Val);
   }
 }
@@ -8823,13 +8829,13 @@ abstract class _$$CreateChatCompletionStreamResponseImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
+      {@JsonKey(includeIfNull: false) String? id,
       List<ChatCompletionStreamResponseChoice> choices,
       int created,
       String model,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
-      CreateChatCompletionStreamResponseObject object});
+      String object});
 }
 
 /// @nodoc
@@ -8845,7 +8851,7 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? choices = null,
     Object? created = null,
     Object? model = null,
@@ -8853,10 +8859,10 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
     Object? object = null,
   }) {
     return _then(_$CreateChatCompletionStreamResponseImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       choices: null == choices
           ? _value._choices
           : choices // ignore: cast_nullable_to_non_nullable
@@ -8876,7 +8882,7 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as CreateChatCompletionStreamResponseObject,
+              as String,
     ));
   }
 }
@@ -8886,7 +8892,7 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
 class _$CreateChatCompletionStreamResponseImpl
     extends _CreateChatCompletionStreamResponse {
   const _$CreateChatCompletionStreamResponseImpl(
-      {required this.id,
+      {@JsonKey(includeIfNull: false) this.id,
       required final List<ChatCompletionStreamResponseChoice> choices,
       required this.created,
       required this.model,
@@ -8902,7 +8908,8 @@ class _$CreateChatCompletionStreamResponseImpl
 
   /// A unique identifier for the chat completion. Each chunk has the same ID.
   @override
-  final String id;
+  @JsonKey(includeIfNull: false)
+  final String? id;
 
   /// A list of chat completion choices. Can be more than one if `n` is greater than 1.
   final List<ChatCompletionStreamResponseChoice> _choices;
@@ -8932,7 +8939,7 @@ class _$CreateChatCompletionStreamResponseImpl
 
   /// The object type, which is always `chat.completion.chunk`.
   @override
-  final CreateChatCompletionStreamResponseObject object;
+  final String object;
 
   @override
   String toString() {
@@ -8983,14 +8990,13 @@ class _$CreateChatCompletionStreamResponseImpl
 abstract class _CreateChatCompletionStreamResponse
     extends CreateChatCompletionStreamResponse {
   const factory _CreateChatCompletionStreamResponse(
-          {required final String id,
-          required final List<ChatCompletionStreamResponseChoice> choices,
-          required final int created,
-          required final String model,
-          @JsonKey(name: 'system_fingerprint', includeIfNull: false)
-          final String? systemFingerprint,
-          required final CreateChatCompletionStreamResponseObject object}) =
-      _$CreateChatCompletionStreamResponseImpl;
+      {@JsonKey(includeIfNull: false) final String? id,
+      required final List<ChatCompletionStreamResponseChoice> choices,
+      required final int created,
+      required final String model,
+      @JsonKey(name: 'system_fingerprint', includeIfNull: false)
+      final String? systemFingerprint,
+      required final String object}) = _$CreateChatCompletionStreamResponseImpl;
   const _CreateChatCompletionStreamResponse._() : super._();
 
   factory _CreateChatCompletionStreamResponse.fromJson(
@@ -9000,7 +9006,8 @@ abstract class _CreateChatCompletionStreamResponse
   @override
 
   /// A unique identifier for the chat completion. Each chunk has the same ID.
-  String get id;
+  @JsonKey(includeIfNull: false)
+  String? get id;
   @override
 
   /// A list of chat completion choices. Can be more than one if `n` is greater than 1.
@@ -9023,7 +9030,7 @@ abstract class _CreateChatCompletionStreamResponse
   @override
 
   /// The object type, which is always `chat.completion.chunk`.
-  CreateChatCompletionStreamResponseObject get object;
+  String get object;
   @override
   @JsonKey(ignore: true)
   _$$CreateChatCompletionStreamResponseImplCopyWith<
@@ -9058,7 +9065,8 @@ mixin _$ChatCompletionStreamResponseChoice {
       throw _privateConstructorUsedError;
 
   /// The index of the choice in the list of choices.
-  int get index => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
+  int? get index => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -9083,7 +9091,7 @@ abstract class $ChatCompletionStreamResponseChoiceCopyWith<$Res> {
           name: 'finish_reason',
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       ChatCompletionFinishReason? finishReason,
-      int index});
+      @JsonKey(includeIfNull: false) int? index});
 
   $ChatCompletionStreamResponseDeltaCopyWith<$Res> get delta;
   $ChatCompletionStreamResponseChoiceLogprobsCopyWith<$Res>? get logprobs;
@@ -9106,7 +9114,7 @@ class _$ChatCompletionStreamResponseChoiceCopyWithImpl<$Res,
     Object? delta = null,
     Object? logprobs = freezed,
     Object? finishReason = freezed,
-    Object? index = null,
+    Object? index = freezed,
   }) {
     return _then(_value.copyWith(
       delta: null == delta
@@ -9121,10 +9129,10 @@ class _$ChatCompletionStreamResponseChoiceCopyWithImpl<$Res,
           ? _value.finishReason
           : finishReason // ignore: cast_nullable_to_non_nullable
               as ChatCompletionFinishReason?,
-      index: null == index
+      index: freezed == index
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ) as $Val);
   }
 
@@ -9168,7 +9176,7 @@ abstract class _$$ChatCompletionStreamResponseChoiceImplCopyWith<$Res>
           name: 'finish_reason',
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       ChatCompletionFinishReason? finishReason,
-      int index});
+      @JsonKey(includeIfNull: false) int? index});
 
   @override
   $ChatCompletionStreamResponseDeltaCopyWith<$Res> get delta;
@@ -9192,7 +9200,7 @@ class __$$ChatCompletionStreamResponseChoiceImplCopyWithImpl<$Res>
     Object? delta = null,
     Object? logprobs = freezed,
     Object? finishReason = freezed,
-    Object? index = null,
+    Object? index = freezed,
   }) {
     return _then(_$ChatCompletionStreamResponseChoiceImpl(
       delta: null == delta
@@ -9207,10 +9215,10 @@ class __$$ChatCompletionStreamResponseChoiceImplCopyWithImpl<$Res>
           ? _value.finishReason
           : finishReason // ignore: cast_nullable_to_non_nullable
               as ChatCompletionFinishReason?,
-      index: null == index
+      index: freezed == index
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ));
   }
 }
@@ -9226,7 +9234,7 @@ class _$ChatCompletionStreamResponseChoiceImpl
           name: 'finish_reason',
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       required this.finishReason,
-      required this.index})
+      @JsonKey(includeIfNull: false) this.index})
       : super._();
 
   factory _$ChatCompletionStreamResponseChoiceImpl.fromJson(
@@ -9254,7 +9262,8 @@ class _$ChatCompletionStreamResponseChoiceImpl
 
   /// The index of the choice in the list of choices.
   @override
-  final int index;
+  @JsonKey(includeIfNull: false)
+  final int? index;
 
   @override
   String toString() {
@@ -9298,14 +9307,15 @@ class _$ChatCompletionStreamResponseChoiceImpl
 abstract class _ChatCompletionStreamResponseChoice
     extends ChatCompletionStreamResponseChoice {
   const factory _ChatCompletionStreamResponseChoice(
-      {required final ChatCompletionStreamResponseDelta delta,
-      @JsonKey(includeIfNull: false)
-      final ChatCompletionStreamResponseChoiceLogprobs? logprobs,
-      @JsonKey(
-          name: 'finish_reason',
-          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      required final ChatCompletionFinishReason? finishReason,
-      required final int index}) = _$ChatCompletionStreamResponseChoiceImpl;
+          {required final ChatCompletionStreamResponseDelta delta,
+          @JsonKey(includeIfNull: false)
+          final ChatCompletionStreamResponseChoiceLogprobs? logprobs,
+          @JsonKey(
+              name: 'finish_reason',
+              unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+          required final ChatCompletionFinishReason? finishReason,
+          @JsonKey(includeIfNull: false) final int? index}) =
+      _$ChatCompletionStreamResponseChoiceImpl;
   const _ChatCompletionStreamResponseChoice._() : super._();
 
   factory _ChatCompletionStreamResponseChoice.fromJson(
@@ -9334,7 +9344,8 @@ abstract class _ChatCompletionStreamResponseChoice
   @override
 
   /// The index of the choice in the list of choices.
-  int get index;
+  @JsonKey(includeIfNull: false)
+  int? get index;
   @override
   @JsonKey(ignore: true)
   _$$ChatCompletionStreamResponseChoiceImplCopyWith<
