@@ -1,3 +1,10 @@
+## 0.3.2
+
+ - **FEAT**(chat-models): Support OpenRouter API in ChatOpenAI wrapper ([#292](https://github.com/davidmigloz/langchain_dart/issues/292)). ([c6e7e5be](https://github.com/davidmigloz/langchain_dart/commit/c6e7e5beeb03c32a93b062aab874cae3da0a52d9)) ([docs](https://langchaindart.com/#/modules/model_io/models/chat_models/integrations/open_router))
+ - **REFACTOR**(llms): Make all LLM options fields nullable and add copyWith ([#284](https://github.com/davidmigloz/langchain_dart/issues/284)). ([57eceb9b](https://github.com/davidmigloz/langchain_dart/commit/57eceb9b47da42cf19f64ddd88bfbd2c9676fd5e))
+ - **REFACTOR**: Migrate tokenizer to langchain_tiktoken package ([#285](https://github.com/davidmigloz/langchain_dart/issues/285)). ([6a3b6466](https://github.com/davidmigloz/langchain_dart/commit/6a3b6466e3e4cfddda2f506adbf2eb563814d02f))
+ - **FEAT**: Update internal dependencies ([#291](https://github.com/davidmigloz/langchain_dart/issues/291)). ([69621cc6](https://github.com/davidmigloz/langchain_dart/commit/69621cc61659980d046518ee20ce055e806cba1f))
+
 ## 0.3.1+1
 
  - Update a dependency to the latest release.

@@ -1,3 +1,8 @@
+## 0.1.4
+
+ - **FEAT**(openai_dart): Support OpenRouter API ([#292](https://github.com/davidmigloz/langchain_dart/issues/292)). ([57699b32](https://github.com/davidmigloz/langchain_dart/commit/57699b328ee280bf9ac394d60013d6c2e969ab41))
+ - **FEAT**(openai_dart): Remove OpenAI deprecated models ([#290](https://github.com/davidmigloz/langchain_dart/issues/290)). ([893b1c51](https://github.com/davidmigloz/langchain_dart/commit/893b1c51abe0fff7955cac6d3cedaa85ccdbf3eb))
+
 ## 0.1.3
 
  - **FEAT**(openai_dart): Add support for Assistants API ([#278](https://github.com/davidmigloz/langchain_dart/issues/278)). ([06de2d5e](https://github.com/davidmigloz/langchain_dart/commit/06de2d5e541aa79f8d54a8f9a33338c6a6edae3c))

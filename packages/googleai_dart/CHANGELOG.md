@@ -1,3 +1,7 @@
+## 0.0.2+1
+
+ - **REFACTOR**(llms): Make all LLM options fields nullable and add copyWith ([#284](https://github.com/davidmigloz/langchain_dart/issues/284)). ([57eceb9b](https://github.com/davidmigloz/langchain_dart/commit/57eceb9b47da42cf19f64ddd88bfbd2c9676fd5e))
+
 ## 0.0.2
 
  - Update a dependency to the latest release.

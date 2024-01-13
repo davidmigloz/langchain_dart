@@ -1,3 +1,9 @@
+## 0.3.2
+
+ - **REFACTOR**(llms): Make all LLM options fields nullable and add copyWith ([#284](https://github.com/davidmigloz/langchain_dart/issues/284)). ([57eceb9b](https://github.com/davidmigloz/langchain_dart/commit/57eceb9b47da42cf19f64ddd88bfbd2c9676fd5e))
+ - **FIX**(memory): Export ConversationSummaryMemory ([#283](https://github.com/davidmigloz/langchain_dart/issues/283)). ([76b01d23](https://github.com/davidmigloz/langchain_dart/commit/76b01d2376c0d9727d1f4681dba83a46f4b02b3a))
+ - **FEAT**: Update internal dependencies ([#291](https://github.com/davidmigloz/langchain_dart/issues/291)). ([69621cc6](https://github.com/davidmigloz/langchain_dart/commit/69621cc61659980d046518ee20ce055e806cba1f))
+
 ## 0.3.1+1
 
  - **FIX**(memory): Export token_buffer.dart (ConversationTokenBufferMemory) ([#280](https://github.com/davidmigloz/langchain_dart/issues/280)). ([265fcb4b](https://github.com/davidmigloz/langchain_dart/commit/265fcb4b68a5aa6144456868aebf023e1b0ce539))

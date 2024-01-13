@@ -3,6 +3,90 @@
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR)
 server for more details about each release.
 
+## 2024-01-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain` - `v0.3.2`](#langchain---v032)
+ - [`langchain_openai` - `v0.3.2`](#langchain_openai---v032)
+ - [`langchain_google` - `v0.2.3`](#langchain_google---v023)
+ - [`langchain_mistralai` - `v0.0.2`](#langchain_mistralai---v002)
+ - [`langchain_ollama` - `v0.0.3`](#langchain_ollama---v003)
+ - [`langchain_pinecone` - `v0.0.6+11`](#langchain_pinecone---v00611)
+ - [`langchain_chroma` - `v0.1.0+12`](#langchain_chroma---v01012)
+ - [`openai_dart` - `v0.1.4`](#openai_dart---v014)
+ - [`googleai_dart` - `v0.0.2+1`](#googleai_dart---v0021)
+ - [`mistralai_dart` - `v0.0.2+1`](#mistralai_dart---v0021)
+ - [`vertex_ai` - `v0.0.8`](#vertex_ai---v008)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_pinecone` - `v0.0.6+11`
+ - `langchain_chroma` - `v0.1.0+12`
+
+---
+
+#### `langchain` - `v0.3.2`
+
+ - **REFACTOR**(llms): Make all LLM options fields nullable and add copyWith ([#284](https://github.com/davidmigloz/langchain_dart/issues/284)). ([57eceb9b](https://github.com/davidmigloz/langchain_dart/commit/57eceb9b47da42cf19f64ddd88bfbd2c9676fd5e))
+ - **FIX**(memory): Export ConversationSummaryMemory ([#283](https://github.com/davidmigloz/langchain_dart/issues/283)). ([76b01d23](https://github.com/davidmigloz/langchain_dart/commit/76b01d2376c0d9727d1f4681dba83a46f4b02b3a))
+ - **FEAT**: Update internal dependencies ([#291](https://github.com/davidmigloz/langchain_dart/issues/291)). ([69621cc6](https://github.com/davidmigloz/langchain_dart/commit/69621cc61659980d046518ee20ce055e806cba1f))
+
+#### `langchain_openai` - `v0.3.2`
+
+ - **FEAT**(chat-models): Support OpenRouter API in ChatOpenAI wrapper ([#292](https://github.com/davidmigloz/langchain_dart/issues/292)). ([c6e7e5be](https://github.com/davidmigloz/langchain_dart/commit/c6e7e5beeb03c32a93b062aab874cae3da0a52d9)) ([docs](https://langchaindart.com/#/modules/model_io/models/chat_models/integrations/open_router))
+ - **REFACTOR**(llms): Make all LLM options fields nullable and add copyWith ([#284](https://github.com/davidmigloz/langchain_dart/issues/284)). ([57eceb9b](https://github.com/davidmigloz/langchain_dart/commit/57eceb9b47da42cf19f64ddd88bfbd2c9676fd5e))
+ - **REFACTOR**: Migrate tokenizer to langchain_tiktoken package ([#285](https://github.com/davidmigloz/langchain_dart/issues/285)). ([6a3b6466](https://github.com/davidmigloz/langchain_dart/commit/6a3b6466e3e4cfddda2f506adbf2eb563814d02f))
+ - **FEAT**: Update internal dependencies ([#291](https://github.com/davidmigloz/langchain_dart/issues/291)). ([69621cc6](https://github.com/davidmigloz/langchain_dart/commit/69621cc61659980d046518ee20ce055e806cba1f))
+
+#### `langchain_google` - `v0.2.3`
+
+ - **REFACTOR**: Use cl100k_base encoding model when no tokenizer is available ([#295](https://github.com/davidmigloz/langchain_dart/issues/295)). ([ca908e80](https://github.com/davidmigloz/langchain_dart/commit/ca908e8011a168a74240310c78abb3c590654a49))
+ - **REFACTOR**(llms): Make all LLM options fields nullable and add copyWith ([#284](https://github.com/davidmigloz/langchain_dart/issues/284)). ([57eceb9b](https://github.com/davidmigloz/langchain_dart/commit/57eceb9b47da42cf19f64ddd88bfbd2c9676fd5e))
+ - **REFACTOR**: Migrate tokenizer to langchain_tiktoken package ([#285](https://github.com/davidmigloz/langchain_dart/issues/285)). ([6a3b6466](https://github.com/davidmigloz/langchain_dart/commit/6a3b6466e3e4cfddda2f506adbf2eb563814d02f))
+ - **FEAT**: Update internal dependencies ([#291](https://github.com/davidmigloz/langchain_dart/issues/291)). ([69621cc6](https://github.com/davidmigloz/langchain_dart/commit/69621cc61659980d046518ee20ce055e806cba1f))
+
+#### `langchain_mistralai` - `v0.0.2`
+
+ - **REFACTOR**: Use cl100k_base encoding model when no tokenizer is available ([#295](https://github.com/davidmigloz/langchain_dart/issues/295)). ([ca908e80](https://github.com/davidmigloz/langchain_dart/commit/ca908e8011a168a74240310c78abb3c590654a49))
+ - **REFACTOR**(llms): Make all LLM options fields nullable and add copyWith ([#284](https://github.com/davidmigloz/langchain_dart/issues/284)). ([57eceb9b](https://github.com/davidmigloz/langchain_dart/commit/57eceb9b47da42cf19f64ddd88bfbd2c9676fd5e))
+ - **REFACTOR**: Migrate tokenizer to langchain_tiktoken package ([#285](https://github.com/davidmigloz/langchain_dart/issues/285)). ([6a3b6466](https://github.com/davidmigloz/langchain_dart/commit/6a3b6466e3e4cfddda2f506adbf2eb563814d02f))
+ - **FEAT**: Update internal dependencies ([#291](https://github.com/davidmigloz/langchain_dart/issues/291)). ([69621cc6](https://github.com/davidmigloz/langchain_dart/commit/69621cc61659980d046518ee20ce055e806cba1f))
+
+#### `langchain_ollama` - `v0.0.3`
+
+ - **REFACTOR**: Use cl100k_base encoding model when no tokenizer is available ([#295](https://github.com/davidmigloz/langchain_dart/issues/295)). ([ca908e80](https://github.com/davidmigloz/langchain_dart/commit/ca908e8011a168a74240310c78abb3c590654a49))
+ - **REFACTOR**(llms): Make all LLM options fields nullable and add copyWith ([#284](https://github.com/davidmigloz/langchain_dart/issues/284)). ([57eceb9b](https://github.com/davidmigloz/langchain_dart/commit/57eceb9b47da42cf19f64ddd88bfbd2c9676fd5e))
+ - **REFACTOR**: Migrate tokenizer to langchain_tiktoken package ([#285](https://github.com/davidmigloz/langchain_dart/issues/285)). ([6a3b6466](https://github.com/davidmigloz/langchain_dart/commit/6a3b6466e3e4cfddda2f506adbf2eb563814d02f))
+ - **FEAT**: Update internal dependencies ([#291](https://github.com/davidmigloz/langchain_dart/issues/291)). ([69621cc6](https://github.com/davidmigloz/langchain_dart/commit/69621cc61659980d046518ee20ce055e806cba1f))
+
+#### `openai_dart` - `v0.1.4`
+
+ - **FEAT**(openai_dart): Support OpenRouter API ([#292](https://github.com/davidmigloz/langchain_dart/issues/292)). ([57699b32](https://github.com/davidmigloz/langchain_dart/commit/57699b328ee280bf9ac394d60013d6c2e969ab41))
+ - **FEAT**(openai_dart): Remove OpenAI deprecated models ([#290](https://github.com/davidmigloz/langchain_dart/issues/290)). ([893b1c51](https://github.com/davidmigloz/langchain_dart/commit/893b1c51abe0fff7955cac6d3cedaa85ccdbf3eb))
+
+#### `googleai_dart` - `v0.0.2+1`
+
+ - **REFACTOR**(llms): Make all LLM options fields nullable and add copyWith ([#284](https://github.com/davidmigloz/langchain_dart/issues/284)). ([57eceb9b](https://github.com/davidmigloz/langchain_dart/commit/57eceb9b47da42cf19f64ddd88bfbd2c9676fd5e))
+
+#### `mistralai_dart` - `v0.0.2+1`
+
+ - **REFACTOR**(llms): Make all LLM options fields nullable and add copyWith ([#284](https://github.com/davidmigloz/langchain_dart/issues/284)). ([57eceb9b](https://github.com/davidmigloz/langchain_dart/commit/57eceb9b47da42cf19f64ddd88bfbd2c9676fd5e))
+
+#### `vertex_ai` - `v0.0.8`
+
+ - **FEAT**: Update internal dependencies ([#291](https://github.com/davidmigloz/langchain_dart/issues/291)). ([69621cc6](https://github.com/davidmigloz/langchain_dart/commit/69621cc61659980d046518ee20ce055e806cba1f))
+
 ## 2024-01-04
 
 ### Changes
