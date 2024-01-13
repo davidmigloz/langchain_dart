@@ -170,7 +170,7 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
   ///
   /// Ollama does not provide any API to count tokens, so we use tiktoken
   /// to get an estimation of the number of tokens in a prompt.
-  String? encoding;
+  String encoding;
 
   /// A UUID generator.
   late final Uuid _uuid = const Uuid();
@@ -291,11 +291,7 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
     final PromptValue promptValue, {
     final ChatOllamaOptions? options,
   }) async {
-    final encoding = this.encoding != null
-        ? getEncoding(this.encoding!)
-        : encodingForModel(
-            options?.model ?? defaultOptions.model ?? throwNullModelError(),
-          );
+    final encoding = getEncoding(this.encoding);
     return encoding.encode(promptValue.toString());
   }
 

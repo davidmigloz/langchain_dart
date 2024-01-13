@@ -170,7 +170,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
   ///
   /// Ollama does not provide any API to count tokens, so we use tiktoken
   /// to get an estimation of the number of tokens in a prompt.
-  String? encoding;
+  String encoding;
 
   @override
   String get modelType => 'ollama';
@@ -283,11 +283,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
     final PromptValue promptValue, {
     final OllamaOptions? options,
   }) async {
-    final encoding = this.encoding != null
-        ? getEncoding(this.encoding!)
-        : encodingForModel(
-            options?.model ?? defaultOptions.model ?? throwNullModelError(),
-          );
+    final encoding = getEncoding(this.encoding);
     return encoding.encode(promptValue.toString());
   }
 
