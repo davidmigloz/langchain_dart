@@ -48,7 +48,7 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
 
     final llm = ChatOpenAI(
       apiKey: apiKey,
-      baseUrl: baseUrl,
+      baseUrl: baseUrl ?? '',
     );
 
     final result = await llm([ChatMessage.humanText(query)]);

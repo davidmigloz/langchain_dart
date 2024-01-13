@@ -112,7 +112,7 @@ extension _ChatMessageContentMultiModalMapper on ChatMessageContentMultiModal {
 /// Mapper for [CreateChatCompletionResponse].
 extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
   /// Converts a [CreateChatCompletionResponse] to a [ChatResult].
-  ChatResult toChatResult() {
+  ChatResult toChatResult(final String id) {
     return ChatResult(
       id: id,
       generations: choices
@@ -136,8 +136,8 @@ extension _ChatCompletionResponseChoiceMapper on ChatCompletionResponseChoice {
         functionCall: message.functionCall?.toAIChatMessageFunctionCall(),
       ),
       generationInfo: {
-        'index': index,
-        'finish_reason': finishReason,
+        'index': index ?? 0,
+        'finish_reason': finishReason ?? ChatCompletionFinishReason.stop,
       },
     );
   }
@@ -214,7 +214,7 @@ extension ChatFunctionCallMapper on ChatFunctionCall {
 extension CreateChatCompletionStreamResponseMapper
     on CreateChatCompletionStreamResponse {
   /// Converts a [CreateChatCompletionStreamResponse] to a [ChatResult].
-  ChatResult toChatResult() {
+  ChatResult toChatResult(final String id) {
     return ChatResult(
       generations: choices
           .map((final choice) => choice.toChatGeneration())

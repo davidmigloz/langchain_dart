@@ -23,6 +23,7 @@ dependencies:
   langchain_tiktoken: ^1.0.1
   meta: ^1.9.1
   openai_dart: ^0.1.3
+  uuid: ^4.0.0
 
 dev_dependencies:
   test: ^1.24.5
