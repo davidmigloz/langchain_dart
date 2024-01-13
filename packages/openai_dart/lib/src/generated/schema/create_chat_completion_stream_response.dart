@@ -26,7 +26,7 @@ class CreateChatCompletionStreamResponse
     required int created,
 
     /// The model to generate the completion.
-    required String model,
+    @JsonKey(includeIfNull: false) String? model,
 
     /// This fingerprint represents the backend configuration that the model runs with.
     ///

@@ -2064,7 +2064,7 @@ components:
         - choices
         - created
         # - id # Made nullable to support OpenRouter API which doesn't return this field with some models
-        - model
+        # - model # Made nullable to support TogetherAI API which doesn't return this field with some models
         - object
     ChatCompletionStreamResponseChoice:
       type: object

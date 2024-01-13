@@ -8733,7 +8733,8 @@ mixin _$CreateChatCompletionStreamResponse {
   int get created => throw _privateConstructorUsedError;
 
   /// The model to generate the completion.
-  String get model => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
+  String? get model => throw _privateConstructorUsedError;
 
   /// This fingerprint represents the backend configuration that the model runs with.
   ///
@@ -8763,7 +8764,7 @@ abstract class $CreateChatCompletionStreamResponseCopyWith<$Res> {
       {@JsonKey(includeIfNull: false) String? id,
       List<ChatCompletionStreamResponseChoice> choices,
       int created,
-      String model,
+      @JsonKey(includeIfNull: false) String? model,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
       String object});
@@ -8786,7 +8787,7 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
     Object? id = freezed,
     Object? choices = null,
     Object? created = null,
-    Object? model = null,
+    Object? model = freezed,
     Object? systemFingerprint = freezed,
     Object? object = null,
   }) {
@@ -8803,10 +8804,10 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
               as int,
-      model: null == model
+      model: freezed == model
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       systemFingerprint: freezed == systemFingerprint
           ? _value.systemFingerprint
           : systemFingerprint // ignore: cast_nullable_to_non_nullable
@@ -8832,7 +8833,7 @@ abstract class _$$CreateChatCompletionStreamResponseImplCopyWith<$Res>
       {@JsonKey(includeIfNull: false) String? id,
       List<ChatCompletionStreamResponseChoice> choices,
       int created,
-      String model,
+      @JsonKey(includeIfNull: false) String? model,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
       String object});
@@ -8854,7 +8855,7 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? choices = null,
     Object? created = null,
-    Object? model = null,
+    Object? model = freezed,
     Object? systemFingerprint = freezed,
     Object? object = null,
   }) {
@@ -8871,10 +8872,10 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
               as int,
-      model: null == model
+      model: freezed == model
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       systemFingerprint: freezed == systemFingerprint
           ? _value.systemFingerprint
           : systemFingerprint // ignore: cast_nullable_to_non_nullable
@@ -8895,7 +8896,7 @@ class _$CreateChatCompletionStreamResponseImpl
       {@JsonKey(includeIfNull: false) this.id,
       required final List<ChatCompletionStreamResponseChoice> choices,
       required this.created,
-      required this.model,
+      @JsonKey(includeIfNull: false) this.model,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       this.systemFingerprint,
       required this.object})
@@ -8928,7 +8929,8 @@ class _$CreateChatCompletionStreamResponseImpl
 
   /// The model to generate the completion.
   @override
-  final String model;
+  @JsonKey(includeIfNull: false)
+  final String? model;
 
   /// This fingerprint represents the backend configuration that the model runs with.
   ///
@@ -8993,7 +8995,7 @@ abstract class _CreateChatCompletionStreamResponse
       {@JsonKey(includeIfNull: false) final String? id,
       required final List<ChatCompletionStreamResponseChoice> choices,
       required final int created,
-      required final String model,
+      @JsonKey(includeIfNull: false) final String? model,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       final String? systemFingerprint,
       required final String object}) = _$CreateChatCompletionStreamResponseImpl;
@@ -9019,7 +9021,8 @@ abstract class _CreateChatCompletionStreamResponse
   @override
 
   /// The model to generate the completion.
-  String get model;
+  @JsonKey(includeIfNull: false)
+  String? get model;
   @override
 
   /// This fingerprint represents the backend configuration that the model runs with.
