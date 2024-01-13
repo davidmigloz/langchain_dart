@@ -52,6 +52,7 @@
           - [Ollama](/modules/model_io/models/chat_models/integrations/ollama.md)
           - [Mistral AI](/modules/model_io/models/chat_models/integrations/mistralai.md)
           - [OpenRouter](/modules/model_io/models/chat_models/integrations/open_router.md)
+          - [Together AI](/modules/model_io/models/chat_models/integrations/together_ai.md)
           - [Prem App](/modules/model_io/models/chat_models/integrations/prem.md)
     - [Output parsers](/modules/model_io/output_parsers/output_parsers.md)
       - [String output parser](/modules/model_io/output_parsers/string.md)

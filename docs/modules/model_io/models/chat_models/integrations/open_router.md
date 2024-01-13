@@ -1,6 +1,6 @@
 # OpenRouter
 
-[OpenRouter](https://openrouter.ai/) offers a unified OpenAI-compatible API for a broad range of models.
+[OpenRouter](https://openrouter.ai/) offers a unified OpenAI-compatible API for a broad range of [models](https://openrouter.ai/models).
 
 You can also let users pay for their own models via their [OAuth PKCE](https://openrouter.ai/docs#oauth) flow.
 

@@ -24,7 +24,8 @@ import 'models/models.dart';
 /// - [Completions API docs](https://platform.openai.com/docs/api-reference/chat)
 ///
 /// You can also use this wrapper to consume OpenAI-compatible APIs like
-/// [OpenRouter](https://openrouter.ai) or [One API](https://github.com/songquanpeng/one-api).
+/// [OpenRouter](https://openrouter.ai), [Together AI](https://www.together.ai),
+/// [One API](https://github.com/songquanpeng/one-api), etc.
 ///
 /// ### Call options
 ///
