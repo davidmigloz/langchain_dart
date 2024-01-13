@@ -17,7 +17,7 @@ class CreateChatCompletionStreamResponse
   /// Factory constructor for CreateChatCompletionStreamResponse
   const factory CreateChatCompletionStreamResponse({
     /// A unique identifier for the chat completion. Each chunk has the same ID.
-    required String id,
+    @JsonKey(includeIfNull: false) String? id,
 
     /// A list of chat completion choices. Can be more than one if `n` is greater than 1.
     required List<ChatCompletionStreamResponseChoice> choices,
@@ -35,7 +35,7 @@ class CreateChatCompletionStreamResponse
     String? systemFingerprint,
 
     /// The object type, which is always `chat.completion.chunk`.
-    required CreateChatCompletionStreamResponseObject object,
+    required String object,
   }) = _CreateChatCompletionStreamResponse;
 
   /// Object construction from a JSON representation
@@ -69,14 +69,4 @@ class CreateChatCompletionStreamResponse
       'object': object,
     };
   }
-}
-
-// ==========================================
-// ENUM: CreateChatCompletionStreamResponseObject
-// ==========================================
-
-/// The object type, which is always `chat.completion.chunk`.
-enum CreateChatCompletionStreamResponseObject {
-  @JsonValue('chat.completion.chunk')
-  chatCompletionChunk,
 }

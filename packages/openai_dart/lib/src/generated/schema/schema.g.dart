@@ -660,7 +660,7 @@ const _$ChatCompletionMessageToolCallTypeEnumMap = {
 _$CreateChatCompletionResponseImpl _$$CreateChatCompletionResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateChatCompletionResponseImpl(
-      id: json['id'] as String,
+      id: json['id'] as String?,
       choices: (json['choices'] as List<dynamic>)
           .map((e) =>
               ChatCompletionResponseChoice.fromJson(e as Map<String, dynamic>))
@@ -677,12 +677,7 @@ _$CreateChatCompletionResponseImpl _$$CreateChatCompletionResponseImplFromJson(
 
 Map<String, dynamic> _$$CreateChatCompletionResponseImplToJson(
     _$CreateChatCompletionResponseImpl instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-    'choices': instance.choices.map((e) => e.toJson()).toList(),
-    'created': instance.created,
-    'model': instance.model,
-  };
+  final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -690,6 +685,10 @@ Map<String, dynamic> _$$CreateChatCompletionResponseImplToJson(
     }
   }
 
+  writeNotNull('id', instance.id);
+  val['choices'] = instance.choices.map((e) => e.toJson()).toList();
+  val['created'] = instance.created;
+  val['model'] = instance.model;
   writeNotNull('system_fingerprint', instance.systemFingerprint);
   val['object'] = _$CreateChatCompletionResponseObjectEnumMap[instance.object]!;
   writeNotNull('usage', instance.usage?.toJson());
@@ -706,7 +705,7 @@ _$ChatCompletionResponseChoiceImpl _$$ChatCompletionResponseChoiceImplFromJson(
       finishReason: $enumDecodeNullable(
           _$ChatCompletionFinishReasonEnumMap, json['finish_reason'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
-      index: json['index'] as int,
+      index: json['index'] as int?,
       message: ChatCompletionAssistantMessage.fromJson(
           json['message'] as Map<String, dynamic>),
       logprobs: json['logprobs'] == null
@@ -716,14 +715,22 @@ _$ChatCompletionResponseChoiceImpl _$$ChatCompletionResponseChoiceImplFromJson(
     );
 
 Map<String, dynamic> _$$ChatCompletionResponseChoiceImplToJson(
-        _$ChatCompletionResponseChoiceImpl instance) =>
-    <String, dynamic>{
-      'finish_reason':
-          _$ChatCompletionFinishReasonEnumMap[instance.finishReason],
-      'index': instance.index,
-      'message': instance.message.toJson(),
-      'logprobs': instance.logprobs?.toJson(),
-    };
+    _$ChatCompletionResponseChoiceImpl instance) {
+  final val = <String, dynamic>{
+    'finish_reason': _$ChatCompletionFinishReasonEnumMap[instance.finishReason],
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('index', instance.index);
+  val['message'] = instance.message.toJson();
+  val['logprobs'] = instance.logprobs?.toJson();
+  return val;
+}
 
 const _$ChatCompletionFinishReasonEnumMap = {
   ChatCompletionFinishReason.stop: 'stop',
@@ -790,7 +797,7 @@ _$CreateChatCompletionStreamResponseImpl
     _$$CreateChatCompletionStreamResponseImplFromJson(
             Map<String, dynamic> json) =>
         _$CreateChatCompletionStreamResponseImpl(
-          id: json['id'] as String,
+          id: json['id'] as String?,
           choices: (json['choices'] as List<dynamic>)
               .map((e) => ChatCompletionStreamResponseChoice.fromJson(
                   e as Map<String, dynamic>))
@@ -798,18 +805,12 @@ _$CreateChatCompletionStreamResponseImpl
           created: json['created'] as int,
           model: json['model'] as String,
           systemFingerprint: json['system_fingerprint'] as String?,
-          object: $enumDecode(_$CreateChatCompletionStreamResponseObjectEnumMap,
-              json['object']),
+          object: json['object'] as String,
         );
 
 Map<String, dynamic> _$$CreateChatCompletionStreamResponseImplToJson(
     _$CreateChatCompletionStreamResponseImpl instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-    'choices': instance.choices.map((e) => e.toJson()).toList(),
-    'created': instance.created,
-    'model': instance.model,
-  };
+  final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -817,16 +818,14 @@ Map<String, dynamic> _$$CreateChatCompletionStreamResponseImplToJson(
     }
   }
 
+  writeNotNull('id', instance.id);
+  val['choices'] = instance.choices.map((e) => e.toJson()).toList();
+  val['created'] = instance.created;
+  val['model'] = instance.model;
   writeNotNull('system_fingerprint', instance.systemFingerprint);
-  val['object'] =
-      _$CreateChatCompletionStreamResponseObjectEnumMap[instance.object]!;
+  val['object'] = instance.object;
   return val;
 }
-
-const _$CreateChatCompletionStreamResponseObjectEnumMap = {
-  CreateChatCompletionStreamResponseObject.chatCompletionChunk:
-      'chat.completion.chunk',
-};
 
 _$ChatCompletionStreamResponseChoiceImpl
     _$$ChatCompletionStreamResponseChoiceImplFromJson(
@@ -841,7 +840,7 @@ _$ChatCompletionStreamResponseChoiceImpl
           finishReason: $enumDecodeNullable(
               _$ChatCompletionFinishReasonEnumMap, json['finish_reason'],
               unknownValue: JsonKey.nullForUndefinedEnumValue),
-          index: json['index'] as int,
+          index: json['index'] as int?,
         );
 
 Map<String, dynamic> _$$ChatCompletionStreamResponseChoiceImplToJson(
@@ -859,7 +858,7 @@ Map<String, dynamic> _$$ChatCompletionStreamResponseChoiceImplToJson(
   writeNotNull('logprobs', instance.logprobs?.toJson());
   val['finish_reason'] =
       _$ChatCompletionFinishReasonEnumMap[instance.finishReason];
-  val['index'] = instance.index;
+  writeNotNull('index', instance.index);
   return val;
 }
 

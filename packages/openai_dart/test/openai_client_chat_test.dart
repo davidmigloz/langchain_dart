@@ -176,10 +176,7 @@ void main() {
         expect(res.id, isNotEmpty);
         expect(res.created, greaterThan(0));
         expect(res.model, startsWith('gpt-3.5-turbo'));
-        expect(
-          res.object,
-          CreateChatCompletionStreamResponseObject.chatCompletionChunk,
-        );
+        expect(res.object, isNotEmpty);
         expect(res.choices, hasLength(1));
         final choice = res.choices.first;
         expect(choice.index, 0);
@@ -351,7 +348,7 @@ void main() {
         expect(res.created, greaterThan(0));
         expect(
           res.object,
-          CreateChatCompletionStreamResponseObject.chatCompletionChunk,
+          isNotEmpty,
         );
         expect(res.model, startsWith('gpt-3.5-turbo'));
         expect(res.choices, hasLength(1));

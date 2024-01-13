@@ -34,7 +34,7 @@ class ChatCompletionStreamResponseChoice
     required ChatCompletionFinishReason? finishReason,
 
     /// The index of the choice in the list of choices.
-    required int index,
+    @JsonKey(includeIfNull: false) int? index,
   }) = _ChatCompletionStreamResponseChoice;
 
   /// Object construction from a JSON representation

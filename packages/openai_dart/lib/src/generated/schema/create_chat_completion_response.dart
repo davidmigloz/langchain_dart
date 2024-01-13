@@ -16,7 +16,7 @@ class CreateChatCompletionResponse with _$CreateChatCompletionResponse {
   /// Factory constructor for CreateChatCompletionResponse
   const factory CreateChatCompletionResponse({
     /// A unique identifier for the chat completion.
-    required String id,
+    @JsonKey(includeIfNull: false) String? id,
 
     /// A list of chat completion choices. Can be more than one if `n` is greater than 1.
     required List<ChatCompletionResponseChoice> choices,

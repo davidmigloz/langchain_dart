@@ -26,7 +26,7 @@ class ChatCompletionResponseChoice with _$ChatCompletionResponseChoice {
     required ChatCompletionFinishReason? finishReason,
 
     /// The index of the choice in the list of choices.
-    required int index,
+    @JsonKey(includeIfNull: false) int? index,
 
     /// An assistant message in a chat conversation.
     required ChatCompletionAssistantMessage message,

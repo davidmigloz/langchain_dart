@@ -1945,7 +1945,7 @@ components:
       required:
         - choices
         - created
-        - id
+        # - id # Made nullable to support OpenRouter API which doesn't return this field with some models
         - model
         - object
     ChatCompletionResponseChoice:
@@ -1953,7 +1953,7 @@ components:
       description: A choice the model generated for the input prompt.
       required:
         - finish_reason
-        - index
+        # - index # Made nullable to support OpenRouter API which doesn't return this field
         - message
         - logprobs
       properties:
@@ -2059,11 +2059,11 @@ components:
         object:
           type: string
           description: The object type, which is always `chat.completion.chunk`.
-          enum: [ chat.completion.chunk ]
+          # enum: [ chat.completion.chunk ] # OpenRouter API sends `chat.completion` instead
       required:
         - choices
         - created
-        - id
+        # - id # Made nullable to support OpenRouter API which doesn't return this field with some models
         - model
         - object
     ChatCompletionStreamResponseChoice:
@@ -2072,7 +2072,7 @@ components:
       required:
         - delta
         - finish_reason
-        - index
+        # - index # Made nullable to support OpenRouter API which doesn't return this field
       properties:
         delta:
           $ref: "#/components/schemas/ChatCompletionStreamResponseDelta"
