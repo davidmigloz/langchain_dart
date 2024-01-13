@@ -803,7 +803,7 @@ _$CreateChatCompletionStreamResponseImpl
                   e as Map<String, dynamic>))
               .toList(),
           created: json['created'] as int,
-          model: json['model'] as String,
+          model: json['model'] as String?,
           systemFingerprint: json['system_fingerprint'] as String?,
           object: json['object'] as String,
         );
@@ -821,7 +821,7 @@ Map<String, dynamic> _$$CreateChatCompletionStreamResponseImplToJson(
   writeNotNull('id', instance.id);
   val['choices'] = instance.choices.map((e) => e.toJson()).toList();
   val['created'] = instance.created;
-  val['model'] = instance.model;
+  writeNotNull('model', instance.model);
   writeNotNull('system_fingerprint', instance.systemFingerprint);
   val['object'] = instance.object;
   return val;
