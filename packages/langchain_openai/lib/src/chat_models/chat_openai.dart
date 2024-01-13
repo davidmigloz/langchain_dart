@@ -2,6 +2,7 @@ import 'package:http/http.dart' as http;
 import 'package:langchain/langchain.dart';
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:openai_dart/openai_dart.dart';
+import 'package:uuid/uuid.dart';
 
 import 'models/mappers.dart';
 import 'models/models.dart';
@@ -21,6 +22,9 @@ import 'models/models.dart';
 ///
 /// - [Completions guide](https://platform.openai.com/docs/guides/gpt/chat-completions-api)
 /// - [Completions API docs](https://platform.openai.com/docs/api-reference/chat)
+///
+/// You can also use this wrapper to consume OpenAI-compatible APIs like
+/// [OpenRouter](https://openrouter.ai) or [One API](https://github.com/songquanpeng/one-api).
 ///
 /// ### Call options
 ///
@@ -181,7 +185,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   ChatOpenAI({
     final String? apiKey,
     final String? organization,
-    final String? baseUrl,
+    final String baseUrl = 'https://api.openai.com/v1',
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
@@ -221,6 +225,9 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   /// https://github.com/mvitlov/tiktoken/blob/master/lib/tiktoken.dart
   String? encoding;
 
+  /// A UUID generator.
+  late final Uuid _uuid = const Uuid();
+
   /// Set or replace the API key.
   set apiKey(final String value) => _client.apiKey = value;
 
@@ -238,7 +245,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final completion = await _client.createChatCompletion(
       request: _createChatCompletionRequest(messages, options: options),
     );
-    return completion.toChatResult();
+    return completion.toChatResult(completion.id ?? _uuid.v4());
   }
 
   @override
@@ -253,7 +260,10 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
             options: options,
           ),
         )
-        .map((final completion) => completion.toChatResult());
+        .map(
+          (final completion) =>
+              completion.toChatResult(completion.id ?? _uuid.v4()),
+        );
   }
 
   @override
@@ -316,9 +326,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final PromptValue promptValue, {
     final ChatOpenAIOptions? options,
   }) async {
-    final model =
-        options?.model ?? defaultOptions.model ?? throwNullModelError();
-    return _getTiktoken(model).encode(promptValue.toString());
+    return _getTiktoken().encode(promptValue.toString());
   }
 
   @override
@@ -328,7 +336,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   }) async {
     final model =
         options?.model ?? defaultOptions.model ?? throwNullModelError();
-    final tiktoken = _getTiktoken(model);
+    final tiktoken = _getTiktoken();
     final messages = promptValue.toChatMessages();
 
     // Ref: https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb
@@ -355,9 +363,9 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
           tokensPerMessage = 3;
           tokensPerName = 1;
         } else {
-          throw UnimplementedError(
-            'countTokens not supported for model $model',
-          );
+          // For other models we assume gpt-3.5-turbo-0613
+          tokensPerMessage = 3;
+          tokensPerName = 1;
         }
     }
 
@@ -386,8 +394,10 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   }
 
   /// Returns the tiktoken model to use for the given model.
-  Tiktoken _getTiktoken(final String model) {
-    return encoding != null ? getEncoding(encoding!) : encodingForModel(model);
+  Tiktoken _getTiktoken() {
+    return encoding != null
+        ? getEncoding(encoding!)
+        : getEncoding('cl100k_base');
   }
 
   /// Closes the client and cleans up any resources associated with it.
