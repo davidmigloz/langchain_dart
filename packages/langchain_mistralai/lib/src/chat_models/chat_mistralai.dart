@@ -176,7 +176,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
   ///
   /// Mistral does not provide any API to count tokens, so we use tiktoken
   /// to get an estimation of the number of tokens in a prompt.
-  String? encoding;
+  String encoding;
 
   @override
   String get modelType => 'chat-mistralai';
@@ -253,11 +253,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
     final PromptValue promptValue, {
     final ChatMistralAIOptions? options,
   }) async {
-    final encoding = this.encoding != null
-        ? getEncoding(this.encoding!)
-        : encodingForModel(
-            options?.model ?? defaultOptions.model ?? throwNullModelError(),
-          );
+    final encoding = getEncoding(this.encoding);
     return encoding.encode(promptValue.toString());
   }
 
