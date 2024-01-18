@@ -102,19 +102,20 @@ components:
         messages:
           description: >
             The prompt(s) to generate completions for, encoded as a list of dict
-            with role and content.
+            with role and content. The first prompt role should be `user` or
+            `system`.
           type: array
           items:
             $ref: '#/components/schemas/ChatCompletionMessage'
         temperature:
           type: number
           minimum: 0
-          maximum: 2
+          maximum: 1
           default: 0.7
           example: 0.7
           nullable: true
           description: >
-            What sampling temperature to use, between 0.0 and 2.0. Higher values
+            What sampling temperature to use, between 0.0 and 1.0. Higher values
             like 0.8 will make the output more random, while lower values like
             0.2 will make it more focused and deterministic.
 
@@ -156,7 +157,7 @@ components:
             stream terminated by a data: [DONE] message. Otherwise, the server
             will hold the request open until the timeout or until completion,
             with the response containing the full result as JSON.
-        safe_mode:
+        safe_prompt:
           type: boolean
           default: false
           nullable: true

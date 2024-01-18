@@ -25,11 +25,11 @@ mixin _$ChatCompletionRequest {
   @_ChatCompletionModelConverter()
   ChatCompletionModel get model => throw _privateConstructorUsedError;
 
-  /// The prompt(s) to generate completions for, encoded as a list of dict with role and content.
+  /// The prompt(s) to generate completions for, encoded as a list of dict with role and content. The first prompt role should be `user` or `system`.
   List<ChatCompletionMessage> get messages =>
       throw _privateConstructorUsedError;
 
-  /// What sampling temperature to use, between 0.0 and 2.0. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  /// What sampling temperature to use, between 0.0 and 1.0. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
   ///
   /// We generally recommend altering this or `top_p` but not both.
   @JsonKey(includeIfNull: false)
@@ -52,8 +52,8 @@ mixin _$ChatCompletionRequest {
   bool? get stream => throw _privateConstructorUsedError;
 
   /// Whether to inject a safety prompt before all conversations.
-  @JsonKey(name: 'safe_mode', includeIfNull: false)
-  bool? get safeMode => throw _privateConstructorUsedError;
+  @JsonKey(name: 'safe_prompt', includeIfNull: false)
+  bool? get safePrompt => throw _privateConstructorUsedError;
 
   /// The seed to use for random sampling. If set, different calls will generate deterministic results.
   @JsonKey(name: 'random_seed', includeIfNull: false)
@@ -78,7 +78,7 @@ abstract class $ChatCompletionRequestCopyWith<$Res> {
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
       @JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,
       @JsonKey(includeIfNull: false) bool? stream,
-      @JsonKey(name: 'safe_mode', includeIfNull: false) bool? safeMode,
+      @JsonKey(name: 'safe_prompt', includeIfNull: false) bool? safePrompt,
       @JsonKey(name: 'random_seed', includeIfNull: false) int? randomSeed});
 
   $ChatCompletionModelCopyWith<$Res> get model;
@@ -104,7 +104,7 @@ class _$ChatCompletionRequestCopyWithImpl<$Res,
     Object? topP = freezed,
     Object? maxTokens = freezed,
     Object? stream = freezed,
-    Object? safeMode = freezed,
+    Object? safePrompt = freezed,
     Object? randomSeed = freezed,
   }) {
     return _then(_value.copyWith(
@@ -132,9 +132,9 @@ class _$ChatCompletionRequestCopyWithImpl<$Res,
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool?,
-      safeMode: freezed == safeMode
-          ? _value.safeMode
-          : safeMode // ignore: cast_nullable_to_non_nullable
+      safePrompt: freezed == safePrompt
+          ? _value.safePrompt
+          : safePrompt // ignore: cast_nullable_to_non_nullable
               as bool?,
       randomSeed: freezed == randomSeed
           ? _value.randomSeed
@@ -168,7 +168,7 @@ abstract class _$$ChatCompletionRequestImplCopyWith<$Res>
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
       @JsonKey(name: 'max_tokens', includeIfNull: false) int? maxTokens,
       @JsonKey(includeIfNull: false) bool? stream,
-      @JsonKey(name: 'safe_mode', includeIfNull: false) bool? safeMode,
+      @JsonKey(name: 'safe_prompt', includeIfNull: false) bool? safePrompt,
       @JsonKey(name: 'random_seed', includeIfNull: false) int? randomSeed});
 
   @override
@@ -193,7 +193,7 @@ class __$$ChatCompletionRequestImplCopyWithImpl<$Res>
     Object? topP = freezed,
     Object? maxTokens = freezed,
     Object? stream = freezed,
-    Object? safeMode = freezed,
+    Object? safePrompt = freezed,
     Object? randomSeed = freezed,
   }) {
     return _then(_$ChatCompletionRequestImpl(
@@ -221,9 +221,9 @@ class __$$ChatCompletionRequestImplCopyWithImpl<$Res>
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool?,
-      safeMode: freezed == safeMode
-          ? _value.safeMode
-          : safeMode // ignore: cast_nullable_to_non_nullable
+      safePrompt: freezed == safePrompt
+          ? _value.safePrompt
+          : safePrompt // ignore: cast_nullable_to_non_nullable
               as bool?,
       randomSeed: freezed == randomSeed
           ? _value.randomSeed
@@ -243,7 +243,8 @@ class _$ChatCompletionRequestImpl extends _ChatCompletionRequest {
       @JsonKey(name: 'top_p', includeIfNull: false) this.topP = 1.0,
       @JsonKey(name: 'max_tokens', includeIfNull: false) this.maxTokens,
       @JsonKey(includeIfNull: false) this.stream = false,
-      @JsonKey(name: 'safe_mode', includeIfNull: false) this.safeMode = false,
+      @JsonKey(name: 'safe_prompt', includeIfNull: false)
+      this.safePrompt = false,
       @JsonKey(name: 'random_seed', includeIfNull: false) this.randomSeed})
       : _messages = messages,
         super._();
@@ -256,10 +257,10 @@ class _$ChatCompletionRequestImpl extends _ChatCompletionRequest {
   @_ChatCompletionModelConverter()
   final ChatCompletionModel model;
 
-  /// The prompt(s) to generate completions for, encoded as a list of dict with role and content.
+  /// The prompt(s) to generate completions for, encoded as a list of dict with role and content. The first prompt role should be `user` or `system`.
   final List<ChatCompletionMessage> _messages;
 
-  /// The prompt(s) to generate completions for, encoded as a list of dict with role and content.
+  /// The prompt(s) to generate completions for, encoded as a list of dict with role and content. The first prompt role should be `user` or `system`.
   @override
   List<ChatCompletionMessage> get messages {
     if (_messages is EqualUnmodifiableListView) return _messages;
@@ -267,7 +268,7 @@ class _$ChatCompletionRequestImpl extends _ChatCompletionRequest {
     return EqualUnmodifiableListView(_messages);
   }
 
-  /// What sampling temperature to use, between 0.0 and 2.0. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  /// What sampling temperature to use, between 0.0 and 1.0. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
   ///
   /// We generally recommend altering this or `top_p` but not both.
   @override
@@ -295,8 +296,8 @@ class _$ChatCompletionRequestImpl extends _ChatCompletionRequest {
 
   /// Whether to inject a safety prompt before all conversations.
   @override
-  @JsonKey(name: 'safe_mode', includeIfNull: false)
-  final bool? safeMode;
+  @JsonKey(name: 'safe_prompt', includeIfNull: false)
+  final bool? safePrompt;
 
   /// The seed to use for random sampling. If set, different calls will generate deterministic results.
   @override
@@ -305,7 +306,7 @@ class _$ChatCompletionRequestImpl extends _ChatCompletionRequest {
 
   @override
   String toString() {
-    return 'ChatCompletionRequest(model: $model, messages: $messages, temperature: $temperature, topP: $topP, maxTokens: $maxTokens, stream: $stream, safeMode: $safeMode, randomSeed: $randomSeed)';
+    return 'ChatCompletionRequest(model: $model, messages: $messages, temperature: $temperature, topP: $topP, maxTokens: $maxTokens, stream: $stream, safePrompt: $safePrompt, randomSeed: $randomSeed)';
   }
 
   @override
@@ -321,8 +322,8 @@ class _$ChatCompletionRequestImpl extends _ChatCompletionRequest {
             (identical(other.maxTokens, maxTokens) ||
                 other.maxTokens == maxTokens) &&
             (identical(other.stream, stream) || other.stream == stream) &&
-            (identical(other.safeMode, safeMode) ||
-                other.safeMode == safeMode) &&
+            (identical(other.safePrompt, safePrompt) ||
+                other.safePrompt == safePrompt) &&
             (identical(other.randomSeed, randomSeed) ||
                 other.randomSeed == randomSeed));
   }
@@ -337,7 +338,7 @@ class _$ChatCompletionRequestImpl extends _ChatCompletionRequest {
       topP,
       maxTokens,
       stream,
-      safeMode,
+      safePrompt,
       randomSeed);
 
   @JsonKey(ignore: true)
@@ -364,7 +365,8 @@ abstract class _ChatCompletionRequest extends ChatCompletionRequest {
       @JsonKey(name: 'top_p', includeIfNull: false) final double? topP,
       @JsonKey(name: 'max_tokens', includeIfNull: false) final int? maxTokens,
       @JsonKey(includeIfNull: false) final bool? stream,
-      @JsonKey(name: 'safe_mode', includeIfNull: false) final bool? safeMode,
+      @JsonKey(name: 'safe_prompt', includeIfNull: false)
+      final bool? safePrompt,
       @JsonKey(name: 'random_seed', includeIfNull: false)
       final int? randomSeed}) = _$ChatCompletionRequestImpl;
   const _ChatCompletionRequest._() : super._();
@@ -379,11 +381,11 @@ abstract class _ChatCompletionRequest extends ChatCompletionRequest {
   ChatCompletionModel get model;
   @override
 
-  /// The prompt(s) to generate completions for, encoded as a list of dict with role and content.
+  /// The prompt(s) to generate completions for, encoded as a list of dict with role and content. The first prompt role should be `user` or `system`.
   List<ChatCompletionMessage> get messages;
   @override
 
-  /// What sampling temperature to use, between 0.0 and 2.0. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  /// What sampling temperature to use, between 0.0 and 1.0. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
   ///
   /// We generally recommend altering this or `top_p` but not both.
   @JsonKey(includeIfNull: false)
@@ -410,8 +412,8 @@ abstract class _ChatCompletionRequest extends ChatCompletionRequest {
   @override
 
   /// Whether to inject a safety prompt before all conversations.
-  @JsonKey(name: 'safe_mode', includeIfNull: false)
-  bool? get safeMode;
+  @JsonKey(name: 'safe_prompt', includeIfNull: false)
+  bool? get safePrompt;
   @override
 
   /// The seed to use for random sampling. If set, different calls will generate deterministic results.

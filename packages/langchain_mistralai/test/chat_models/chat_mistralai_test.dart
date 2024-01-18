@@ -27,7 +27,7 @@ void main() {
         temperature: 0.1,
         topP: 0.5,
         maxTokens: 10,
-        safeMode: true,
+        safePrompt: true,
         randomSeed: 1234,
       );
 
@@ -35,7 +35,7 @@ void main() {
       expect(chatModel.defaultOptions.temperature, 0.1);
       expect(chatModel.defaultOptions.topP, 0.5);
       expect(chatModel.defaultOptions.maxTokens, 10);
-      expect(chatModel.defaultOptions.safeMode, true);
+      expect(chatModel.defaultOptions.safePrompt, true);
       expect(chatModel.defaultOptions.randomSeed, 1234);
     });
 

@@ -138,10 +138,10 @@ void main() {
       expect(choice1.message?.content, choice2.message?.content);
     });
 
-    test('Test response safe_mode on', () async {
+    test('Test response safe_prompt on', () async {
       const request = ChatCompletionRequest(
         model: ChatCompletionModel.model(ChatCompletionModels.mistralTiny),
-        safeMode: true,
+        safePrompt: true,
         messages: [
           ChatCompletionMessage(
             role: ChatCompletionMessageRole.user,

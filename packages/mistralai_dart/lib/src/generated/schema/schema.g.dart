@@ -19,7 +19,7 @@ _$ChatCompletionRequestImpl _$$ChatCompletionRequestImplFromJson(
       topP: (json['top_p'] as num?)?.toDouble() ?? 1.0,
       maxTokens: json['max_tokens'] as int?,
       stream: json['stream'] as bool? ?? false,
-      safeMode: json['safe_mode'] as bool? ?? false,
+      safePrompt: json['safe_prompt'] as bool? ?? false,
       randomSeed: json['random_seed'] as int?,
     );
 
@@ -40,7 +40,7 @@ Map<String, dynamic> _$$ChatCompletionRequestImplToJson(
   writeNotNull('top_p', instance.topP);
   writeNotNull('max_tokens', instance.maxTokens);
   writeNotNull('stream', instance.stream);
-  writeNotNull('safe_mode', instance.safeMode);
+  writeNotNull('safe_prompt', instance.safePrompt);
   writeNotNull('random_seed', instance.randomSeed);
   return val;
 }
