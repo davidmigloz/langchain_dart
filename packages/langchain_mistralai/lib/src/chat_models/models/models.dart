@@ -10,7 +10,7 @@ class ChatMistralAIOptions extends ChatModelOptions {
     this.temperature,
     this.topP,
     this.maxTokens,
-    this.safeMode,
+    this.safePrompt,
     this.randomSeed,
   });
 
@@ -40,7 +40,7 @@ class ChatMistralAIOptions extends ChatModelOptions {
   final int? maxTokens;
 
   /// Whether to inject a safety prompt before all conversations.
-  final bool? safeMode;
+  final bool? safePrompt;
 
   /// The seed to use for random sampling.
   /// If set, different calls will generate deterministic results.
@@ -53,7 +53,7 @@ class ChatMistralAIOptions extends ChatModelOptions {
     final double? temperature,
     final double? topP,
     final int? maxTokens,
-    final bool? safeMode,
+    final bool? safePrompt,
     final int? randomSeed,
   }) {
     return ChatMistralAIOptions(
@@ -61,7 +61,7 @@ class ChatMistralAIOptions extends ChatModelOptions {
       temperature: temperature ?? this.temperature,
       topP: topP ?? this.topP,
       maxTokens: maxTokens ?? this.maxTokens,
-      safeMode: safeMode ?? this.safeMode,
+      safePrompt: safePrompt ?? this.safePrompt,
       randomSeed: randomSeed ?? this.randomSeed,
     );
   }

@@ -231,7 +231,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
       temperature: options?.temperature ?? defaultOptions.temperature,
       topP: options?.topP ?? defaultOptions.topP,
       maxTokens: options?.maxTokens ?? defaultOptions.maxTokens,
-      safeMode: options?.safeMode ?? defaultOptions.safeMode,
+      safePrompt: options?.safePrompt ?? defaultOptions.safePrompt,
       randomSeed: options?.randomSeed ?? defaultOptions.randomSeed,
       stream: stream,
     );

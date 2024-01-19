@@ -18,10 +18,10 @@ class ChatCompletionRequest with _$ChatCompletionRequest {
     /// ID of the model to use. You can use the [List Available Models](https://docs.mistral.ai/api#operation/listModels) API to see all of your available models, or see our [Model overview](https://docs.mistral.ai/models) for model descriptions.
     @_ChatCompletionModelConverter() required ChatCompletionModel model,
 
-    /// The prompt(s) to generate completions for, encoded as a list of dict with role and content.
+    /// The prompt(s) to generate completions for, encoded as a list of dict with role and content. The first prompt role should be `user` or `system`.
     required List<ChatCompletionMessage> messages,
 
-    /// What sampling temperature to use, between 0.0 and 2.0. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+    /// What sampling temperature to use, between 0.0 and 1.0. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
     ///
     /// We generally recommend altering this or `top_p` but not both.
     @JsonKey(includeIfNull: false) @Default(0.7) double? temperature,
@@ -40,9 +40,9 @@ class ChatCompletionRequest with _$ChatCompletionRequest {
     @JsonKey(includeIfNull: false) @Default(false) bool? stream,
 
     /// Whether to inject a safety prompt before all conversations.
-    @JsonKey(name: 'safe_mode', includeIfNull: false)
+    @JsonKey(name: 'safe_prompt', includeIfNull: false)
     @Default(false)
-    bool? safeMode,
+    bool? safePrompt,
 
     /// The seed to use for random sampling. If set, different calls will generate deterministic results.
     @JsonKey(name: 'random_seed', includeIfNull: false) int? randomSeed,
@@ -60,14 +60,14 @@ class ChatCompletionRequest with _$ChatCompletionRequest {
     'top_p',
     'max_tokens',
     'stream',
-    'safe_mode',
+    'safe_prompt',
     'random_seed'
   ];
 
   /// Validation constants
   static const temperatureDefaultValue = 0.7;
   static const temperatureMinValue = 0.0;
-  static const temperatureMaxValue = 2.0;
+  static const temperatureMaxValue = 1.0;
   static const topPDefaultValue = 1.0;
   static const topPMinValue = 0.0;
   static const topPMaxValue = 1.0;
@@ -102,7 +102,7 @@ class ChatCompletionRequest with _$ChatCompletionRequest {
       'top_p': topP,
       'max_tokens': maxTokens,
       'stream': stream,
-      'safe_mode': safeMode,
+      'safe_prompt': safePrompt,
       'random_seed': randomSeed,
     };
   }
