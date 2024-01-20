@@ -5,7 +5,7 @@
 [![](https://dcbadge.vercel.app/api/server/x4qbhqecVR?style=flat)](https://discord.gg/x4qbhqecVR)
 [![MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://github.com/davidmigloz/langchain_dart/blob/main/LICENSE)
 
-Dart client for the [Vertex AI](https://cloud.google.com/vertex-ai) API.
+Unofficial Dart client for the [Vertex AI](https://cloud.google.com/vertex-ai) API.
 
 ## Features
 

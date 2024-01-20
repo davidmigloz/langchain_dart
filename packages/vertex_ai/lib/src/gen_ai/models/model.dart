@@ -249,3 +249,40 @@ enum VertexAIPredictionSafetyAttributesCategory {
   @override
   String toString() => name;
 }
+
+/// {@template vertex_ai_count_tokens_response}
+/// Response for a Vertex AI count tokens request.
+/// {@endtemplate}
+@immutable
+class VertexAICountTokensResponse {
+  /// {@macro vertex_ai_count_tokens_response}
+  const VertexAICountTokensResponse({
+    required this.totalBillableCharacters,
+    required this.totalTokens,
+  });
+
+  /// The total number of billable characters counted across all instances from
+  /// the request.
+  final int totalBillableCharacters;
+
+  /// The total number of tokens counted across all instances from the request.
+  final int totalTokens;
+
+  @override
+  bool operator ==(covariant final VertexAICountTokensResponse other) {
+    return identical(this, other) ||
+        runtimeType == other.runtimeType &&
+            totalBillableCharacters == other.totalBillableCharacters &&
+            totalTokens == other.totalTokens;
+  }
+
+  @override
+  int get hashCode => totalBillableCharacters.hashCode ^ totalTokens.hashCode;
+
+  @override
+  String toString() {
+    return 'VertexAITextModelResponse{'
+        'totalBillableCharacters: $totalBillableCharacters, '
+        'totalTokens: $totalTokens}';
+  }
+}

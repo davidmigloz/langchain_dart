@@ -72,4 +72,35 @@ class VertexAITextModelApi {
     );
     return VertexAITextModelGoogleApisMapper.mapResponse(response);
   }
+
+  /// Count the number of tokens in the given prompt.
+  ///
+  /// - [prompt] a prompt is a natural language request submitted to a language
+  ///   model to receive a response back. Prompts can contain questions,
+  ///   instructions, contextual information, examples, and text for the
+  ///   model to complete or continue.
+  /// - [publisher] the publisher of the model. Use `google` for first-party
+  ///   models.
+  /// - [model] the model to use. To use the latest model version, specify the
+  ///   model name without a version number (e.g. `text-bison`). To use a
+  ///   stable model version, specify the model version number
+  ///   (e.g. `text-bison@001`). You can find a list of available models here:
+  ///   https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models
+  Future<VertexAICountTokensResponse> countTokens({
+    required final String prompt,
+    final String publisher = 'google',
+    final String model = 'text-bison',
+  }) async {
+    final request = VertexAICountTokensGoogleApisMapper.mapTextRequest(
+      VertexAITextModelRequest(
+        prompt: prompt,
+        params: const VertexAITextModelRequestParams(),
+      ),
+    );
+    final response = await _modelsApi.countTokens(
+      request,
+      'projects/$project/locations/$location/publishers/$publisher/models/$model',
+    );
+    return VertexAICountTokensGoogleApisMapper.mapResponse(response);
+  }
 }
