@@ -13,6 +13,8 @@ import 'package:openai_dart/openai_dart.dart';
 /// - [Embeddings guide](https://platform.openai.com/docs/guides/embeddings/limitations-risks)
 /// - [Embeddings API docs](https://platform.openai.com/docs/api-reference/embeddings)
 ///
+/// You can also use this wrapper to consume OpenAI-compatible APIs like [Together AI](https://www.together.ai).
+///
 /// ### Authentication
 ///
 /// The OpenAI API uses API keys for authentication. Visit your
@@ -122,7 +124,7 @@ class OpenAIEmbeddings implements Embeddings {
   OpenAIEmbeddings({
     final String? apiKey,
     final String? organization,
-    final String? baseUrl,
+    final String baseUrl = 'https://api.openai.com/v1',
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
@@ -198,5 +200,10 @@ class OpenAIEmbeddings implements Embeddings {
       ),
     );
     return data.data.first.embeddingVector;
+  }
+
+  /// Closes the client and cleans up any resources associated with it.
+  void close() {
+    _client.endSession();
   }
 }
