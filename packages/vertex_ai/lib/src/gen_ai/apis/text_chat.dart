@@ -85,4 +85,43 @@ class VertexAITextChatModelApi {
     );
     return VertexAITextChatModelGoogleApisMapper.mapResponse(response);
   }
+
+  /// Count the number of tokens in the given prompt.
+  ///
+  /// - [context] shapes how the model responds throughout the conversation.
+  ///   For example, you can use context to specify words the model can or
+  ///   cannot use, topics to focus on or avoid, or the response format or
+  ///   style.
+  /// - [examples] list of messages to the model to learn how to respond to the
+  ///   conversation.
+  /// - [messages] conversation history provided to the model in a structured
+  ///   alternate-author form (oldest first, newest last).
+  /// - [publisher] the publisher of the model. Use `google` for first-party
+  ///   models.
+  /// - [model] the model to use. To use the latest model version, specify the
+  ///   model name without a version number (e.g. `chat-bison`). To use a
+  ///   stable model version, specify the model version number
+  ///   (e.g. `chat-bison@001`). You can find a list of available models here:
+  ///   https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models
+  Future<VertexAICountTokensResponse> countTokens({
+    final String? context,
+    final List<VertexAITextChatModelExample>? examples,
+    required final List<VertexAITextChatModelMessage> messages,
+    final String publisher = 'google',
+    final String model = 'chat-bison',
+  }) async {
+    final request = VertexAICountTokensGoogleApisMapper.mapTextChatRequest(
+      VertexAITextChatModelRequest(
+        context: context,
+        examples: examples,
+        messages: messages,
+        params: const VertexAITextChatModelRequestParams(),
+      ),
+    );
+    final response = await _modelsApi.countTokens(
+      request,
+      'projects/$project/locations/$location/publishers/$publisher/models/$model',
+    );
+    return VertexAICountTokensGoogleApisMapper.mapResponse(response);
+  }
 }

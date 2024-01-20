@@ -53,6 +53,13 @@ void main() async {
       );
       expect(res.predictions.length, 3);
     });
+
+    test('Test VertexAITextModelApi count tokens', () async {
+      final res = await vertexAi.text.countTokens(
+        prompt: 'Suggest a name for a LLM framework for Dart',
+      );
+      expect(res.totalTokens, 10);
+    });
   });
 
   group('VertexAIGenAIClient / VertexAIChatModelApi tests', () {
@@ -131,6 +138,19 @@ void main() async {
         ),
       );
       expect(res.predictions.length, 3);
+    });
+
+    test('Test VertexAIChatModelApi count tokens', () async {
+      final res = await vertexAi.chat.countTokens(
+        context: 'You are a helpful assistant.',
+        messages: const [
+          VertexAITextChatModelMessage(
+            author: 'USER',
+            content: 'Suggest a name for a LLM framework for Dart',
+          ),
+        ],
+      );
+      expect(res.totalTokens, 16);
     });
   });
 
