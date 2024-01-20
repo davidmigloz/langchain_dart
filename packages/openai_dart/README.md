@@ -16,7 +16,7 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
 - Custom base URL, headers and query params support (e.g. HTTP proxies)
 - Custom HTTP client support (e.g. SOCKS5 proxies or advanced use cases)
 - Partial Azure OpenAI API support
-- It can be used to consume OpenAI-compatible APIs like [OpenRouter](https://openrouter.ai), [Together AI](https://www.together.ai), [One API](https://github.com/songquanpeng/one-api), etc.
+- It can be used to consume OpenAI-compatible APIs like [TogetherAI](https://www.together.ai/), [Anyscale](https://www.anyscale.com/), [OpenRouter](https://openrouter.ai), [One API](https://github.com/songquanpeng/one-api), etc.
 
 **Supported endpoints:**
 

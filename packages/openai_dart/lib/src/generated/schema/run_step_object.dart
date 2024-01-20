@@ -60,6 +60,9 @@ class RunStepObject with _$RunStepObject {
 
     /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
     required Map<String, dynamic>? metadata,
+
+    /// Usage statistics related to the run step. This value will be `null` while the run step's status is `in_progress`.
+    required RunStepCompletionUsage? usage,
   }) = _RunStepObject;
 
   /// Object construction from a JSON representation
@@ -82,7 +85,8 @@ class RunStepObject with _$RunStepObject {
     'cancelled_at',
     'failed_at',
     'completed_at',
-    'metadata'
+    'metadata',
+    'usage'
   ];
 
   /// Perform validations on the schema property values
@@ -108,6 +112,7 @@ class RunStepObject with _$RunStepObject {
       'failed_at': failedAt,
       'completed_at': completedAt,
       'metadata': metadata,
+      'usage': usage,
     };
   }
 }

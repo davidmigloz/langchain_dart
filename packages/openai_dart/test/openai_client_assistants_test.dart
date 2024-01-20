@@ -9,7 +9,7 @@ import 'package:test/test.dart';
 // https://platform.openai.com/docs/assistants/overview
 void main() {
   group('OpenAI Assistants API tests',
-      timeout: const Timeout(Duration(minutes: 1)), () {
+      timeout: const Timeout(Duration(minutes: 5)), () {
     late OpenAIClient client;
 
     setUp(() {
@@ -169,6 +169,9 @@ void main() {
       expect(res.tools, hasLength(1));
       expect(res.fileIds, isEmpty);
       expect(res.metadata, isEmpty);
+      expect(res.usage?.totalTokens, greaterThan(0));
+      expect(res.usage?.completionTokens, greaterThan(0));
+      expect(res.usage?.promptTokens, greaterThan(0));
     }
 
     Future<void> checkAssistantResponse(
@@ -232,6 +235,9 @@ void main() {
       expect(step1.failedAt, isNull);
       expect(step1.completedAt, greaterThan(0));
       expect(step1.metadata, isNull);
+      expect(step1.usage?.totalTokens, greaterThan(0));
+      expect(step1.usage?.completionTokens, greaterThan(0));
+      expect(step1.usage?.promptTokens, greaterThan(0));
 
       final step2 = steps[1];
       expect(step2.id, isNotNull);
@@ -262,12 +268,15 @@ void main() {
       );
       final logs = output?.mapOrNull(logs: (final l) => l.logs);
       expect(logs, '1.0');
-      expect(step1.lastError, isNull);
-      expect(step1.expiredAt, isNull);
-      expect(step1.cancelledAt, isNull);
-      expect(step1.failedAt, isNull);
-      expect(step1.completedAt, greaterThan(0));
-      expect(step1.metadata, isNull);
+      expect(step2.lastError, isNull);
+      expect(step2.expiredAt, isNull);
+      expect(step2.cancelledAt, isNull);
+      expect(step2.failedAt, isNull);
+      expect(step2.completedAt, greaterThan(0));
+      expect(step2.metadata, isNull);
+      expect(step2.usage?.totalTokens, greaterThan(0));
+      expect(step2.usage?.completionTokens, greaterThan(0));
+      expect(step2.usage?.promptTokens, greaterThan(0));
 
       final step3 = steps[0];
       expect(step3.id, isNotNull);
@@ -287,6 +296,9 @@ void main() {
       expect(step3.failedAt, isNull);
       expect(step3.completedAt, greaterThan(0));
       expect(step3.metadata, isNull);
+      expect(step3.usage?.totalTokens, greaterThan(0));
+      expect(step3.usage?.completionTokens, greaterThan(0));
+      expect(step3.usage?.promptTokens, greaterThan(0));
     }
 
     Future<void> cleanUp(

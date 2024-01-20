@@ -3189,6 +3189,8 @@ components:
           type: object
           additionalProperties: true
           nullable: true
+        usage:
+          $ref: "#/components/schemas/RunCompletionUsage"
       required:
         - id
         - object
@@ -3208,6 +3210,25 @@ components:
         - tools
         - file_ids
         - metadata
+        - usage
+    RunCompletionUsage:
+      type: object
+      description: Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.).
+      properties:
+        completion_tokens:
+          type: integer
+          description: Number of completion tokens used over the course of the run.
+        prompt_tokens:
+          type: integer
+          description: Number of prompt tokens used over the course of the run.
+        total_tokens:
+          type: integer
+          description: Total number of tokens used (prompt + completion).
+      required:
+        - prompt_tokens
+        - completion_tokens
+        - total_tokens
+      nullable: true
     CreateRunRequest:
       type: object
       description: Request object for the Create run endpoint.
@@ -3816,6 +3837,8 @@ components:
           type: object
           additionalProperties: true
           nullable: true
+        usage:
+          $ref: "#/components/schemas/RunStepCompletionUsage"
       required:
         - id
         - object
@@ -3832,6 +3855,7 @@ components:
         - failed_at
         - completed_at
         - metadata
+        - usage
     RunStepDetails:
       type: object
       description: The details of the run step.
@@ -4042,6 +4066,24 @@ components:
         - id
         - type
         - function
+    RunStepCompletionUsage:
+      type: object
+      description: Usage statistics related to the run step. This value will be `null` while the run step's status is `in_progress`.
+      properties:
+        completion_tokens:
+          type: integer
+          description: Number of completion tokens used over the course of the run step.
+        prompt_tokens:
+          type: integer
+          description: Number of prompt tokens used over the course of the run step.
+        total_tokens:
+          type: integer
+          description: Total number of tokens used (prompt + completion).
+      required:
+        - prompt_tokens
+        - completion_tokens
+        - total_tokens
+      nullable: true
     AssistantFileObject:
       type: object
       description: A list of [Files](https://platform.openai.com/docs/api-reference/files) attached to an `assistant`.

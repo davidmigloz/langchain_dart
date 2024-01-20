@@ -2060,6 +2060,9 @@ _$RunObjectImpl _$$RunObjectImplFromJson(Map<String, dynamic> json) =>
       fileIds:
           (json['file_ids'] as List<dynamic>).map((e) => e as String).toList(),
       metadata: json['metadata'] as Map<String, dynamic>?,
+      usage: json['usage'] == null
+          ? null
+          : RunCompletionUsage.fromJson(json['usage'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$RunObjectImplToJson(_$RunObjectImpl instance) =>
@@ -2082,6 +2085,7 @@ Map<String, dynamic> _$$RunObjectImplToJson(_$RunObjectImpl instance) =>
       'tools': instance.tools.map((e) => e.toJson()).toList(),
       'file_ids': instance.fileIds,
       'metadata': instance.metadata,
+      'usage': instance.usage?.toJson(),
     };
 
 const _$RunObjectObjectEnumMap = {
@@ -2147,6 +2151,22 @@ Map<String, dynamic> _$$RunSubmitToolOutputsImplToJson(
         _$RunSubmitToolOutputsImpl instance) =>
     <String, dynamic>{
       'tool_calls': instance.toolCalls.map((e) => e.toJson()).toList(),
+    };
+
+_$RunCompletionUsageImpl _$$RunCompletionUsageImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RunCompletionUsageImpl(
+      completionTokens: json['completion_tokens'] as int,
+      promptTokens: json['prompt_tokens'] as int,
+      totalTokens: json['total_tokens'] as int,
+    );
+
+Map<String, dynamic> _$$RunCompletionUsageImplToJson(
+        _$RunCompletionUsageImpl instance) =>
+    <String, dynamic>{
+      'completion_tokens': instance.completionTokens,
+      'prompt_tokens': instance.promptTokens,
+      'total_tokens': instance.totalTokens,
     };
 
 _$CreateRunRequestImpl _$$CreateRunRequestImplFromJson(
@@ -2638,6 +2658,10 @@ _$RunStepObjectImpl _$$RunStepObjectImplFromJson(Map<String, dynamic> json) =>
       failedAt: json['failed_at'] as int?,
       completedAt: json['completed_at'] as int?,
       metadata: json['metadata'] as Map<String, dynamic>?,
+      usage: json['usage'] == null
+          ? null
+          : RunStepCompletionUsage.fromJson(
+              json['usage'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$RunStepObjectImplToJson(_$RunStepObjectImpl instance) =>
@@ -2657,6 +2681,7 @@ Map<String, dynamic> _$$RunStepObjectImplToJson(_$RunStepObjectImpl instance) =>
       'failed_at': instance.failedAt,
       'completed_at': instance.completedAt,
       'metadata': instance.metadata,
+      'usage': instance.usage?.toJson(),
     };
 
 const _$RunStepObjectObjectEnumMap = {
@@ -2759,6 +2784,22 @@ Map<String, dynamic> _$$RunStepDetailsToolCallsCodeOutputImageImplToJson(
         _$RunStepDetailsToolCallsCodeOutputImageImpl instance) =>
     <String, dynamic>{
       'file_id': instance.fileId,
+    };
+
+_$RunStepCompletionUsageImpl _$$RunStepCompletionUsageImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RunStepCompletionUsageImpl(
+      completionTokens: json['completion_tokens'] as int,
+      promptTokens: json['prompt_tokens'] as int,
+      totalTokens: json['total_tokens'] as int,
+    );
+
+Map<String, dynamic> _$$RunStepCompletionUsageImplToJson(
+        _$RunStepCompletionUsageImpl instance) =>
+    <String, dynamic>{
+      'completion_tokens': instance.completionTokens,
+      'prompt_tokens': instance.promptTokens,
+      'total_tokens': instance.totalTokens,
     };
 
 _$AssistantFileObjectImpl _$$AssistantFileObjectImplFromJson(
