@@ -74,6 +74,7 @@
         - [GCP Vertex AI](/modules/retrieval/text_embedding/integrations/gcp_vertex_ai.md)
         - [Ollama](/modules/retrieval/text_embedding/integrations/ollama.md)
         - [Mistral AI](/modules/retrieval/text_embedding/integrations/mistralai.md)
+        - [Together AI](/modules/retrieval/text_embedding/integrations/together_ai.md)
         - [Prem App](/modules/retrieval/text_embedding/integrations/prem.md)
     - [Vector stores](/modules/retrieval/vector_stores/vector_stores.md)
       - Integrations
