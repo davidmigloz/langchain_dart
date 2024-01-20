@@ -34,7 +34,7 @@ class CreateChatCompletionResponse with _$CreateChatCompletionResponse {
     String? systemFingerprint,
 
     /// The object type, which is always `chat.completion`.
-    required CreateChatCompletionResponseObject object,
+    required String object,
 
     /// Usage statistics for the completion request.
     @JsonKey(includeIfNull: false) CompletionUsage? usage,
@@ -72,14 +72,4 @@ class CreateChatCompletionResponse with _$CreateChatCompletionResponse {
       'usage': usage,
     };
   }
-}
-
-// ==========================================
-// ENUM: CreateChatCompletionResponseObject
-// ==========================================
-
-/// The object type, which is always `chat.completion`.
-enum CreateChatCompletionResponseObject {
-  @JsonValue('chat.completion')
-  chatCompletion,
 }

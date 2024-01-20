@@ -7436,8 +7436,7 @@ mixin _$CreateChatCompletionResponse {
   String? get systemFingerprint => throw _privateConstructorUsedError;
 
   /// The object type, which is always `chat.completion`.
-  CreateChatCompletionResponseObject get object =>
-      throw _privateConstructorUsedError;
+  String get object => throw _privateConstructorUsedError;
 
   /// Usage statistics for the completion request.
   @JsonKey(includeIfNull: false)
@@ -7464,7 +7463,7 @@ abstract class $CreateChatCompletionResponseCopyWith<$Res> {
       String model,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
-      CreateChatCompletionResponseObject object,
+      String object,
       @JsonKey(includeIfNull: false) CompletionUsage? usage});
 
   $CompletionUsageCopyWith<$Res>? get usage;
@@ -7516,7 +7515,7 @@ class _$CreateChatCompletionResponseCopyWithImpl<$Res,
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as CreateChatCompletionResponseObject,
+              as String,
       usage: freezed == usage
           ? _value.usage
           : usage // ignore: cast_nullable_to_non_nullable
@@ -7553,7 +7552,7 @@ abstract class _$$CreateChatCompletionResponseImplCopyWith<$Res>
       String model,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
-      CreateChatCompletionResponseObject object,
+      String object,
       @JsonKey(includeIfNull: false) CompletionUsage? usage});
 
   @override
@@ -7605,7 +7604,7 @@ class __$$CreateChatCompletionResponseImplCopyWithImpl<$Res>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as CreateChatCompletionResponseObject,
+              as String,
       usage: freezed == usage
           ? _value.usage
           : usage // ignore: cast_nullable_to_non_nullable
@@ -7666,7 +7665,7 @@ class _$CreateChatCompletionResponseImpl extends _CreateChatCompletionResponse {
 
   /// The object type, which is always `chat.completion`.
   @override
-  final CreateChatCompletionResponseObject object;
+  final String object;
 
   /// Usage statistics for the completion request.
   @override
@@ -7730,7 +7729,7 @@ abstract class _CreateChatCompletionResponse
           required final String model,
           @JsonKey(name: 'system_fingerprint', includeIfNull: false)
           final String? systemFingerprint,
-          required final CreateChatCompletionResponseObject object,
+          required final String object,
           @JsonKey(includeIfNull: false) final CompletionUsage? usage}) =
       _$CreateChatCompletionResponseImpl;
   const _CreateChatCompletionResponse._() : super._();
@@ -7765,7 +7764,7 @@ abstract class _CreateChatCompletionResponse
   @override
 
   /// The object type, which is always `chat.completion`.
-  CreateChatCompletionResponseObject get object;
+  String get object;
   @override
 
   /// Usage statistics for the completion request.

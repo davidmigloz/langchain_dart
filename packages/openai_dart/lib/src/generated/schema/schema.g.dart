@@ -668,8 +668,7 @@ _$CreateChatCompletionResponseImpl _$$CreateChatCompletionResponseImplFromJson(
       created: json['created'] as int,
       model: json['model'] as String,
       systemFingerprint: json['system_fingerprint'] as String?,
-      object: $enumDecode(
-          _$CreateChatCompletionResponseObjectEnumMap, json['object']),
+      object: json['object'] as String,
       usage: json['usage'] == null
           ? null
           : CompletionUsage.fromJson(json['usage'] as Map<String, dynamic>),
@@ -690,14 +689,10 @@ Map<String, dynamic> _$$CreateChatCompletionResponseImplToJson(
   val['created'] = instance.created;
   val['model'] = instance.model;
   writeNotNull('system_fingerprint', instance.systemFingerprint);
-  val['object'] = _$CreateChatCompletionResponseObjectEnumMap[instance.object]!;
+  val['object'] = instance.object;
   writeNotNull('usage', instance.usage?.toJson());
   return val;
 }
-
-const _$CreateChatCompletionResponseObjectEnumMap = {
-  CreateChatCompletionResponseObject.chatCompletion: 'chat.completion',
-};
 
 _$ChatCompletionResponseChoiceImpl _$$ChatCompletionResponseChoiceImplFromJson(
         Map<String, dynamic> json) =>

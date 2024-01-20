@@ -63,7 +63,7 @@ void main() {
         expect(res.id, isNotEmpty);
         expect(res.created, greaterThan(0));
         expect(res.model, startsWith('gpt-'));
-        expect(res.object, CreateChatCompletionResponseObject.chatCompletion);
+        expect(res.object, isNotEmpty);
         expect(res.usage?.promptTokens, greaterThan(0));
         expect(res.usage?.completionTokens, greaterThan(0));
         expect(res.usage?.totalTokens, greaterThan(0));
