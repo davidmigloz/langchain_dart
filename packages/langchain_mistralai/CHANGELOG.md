@@ -1,3 +1,7 @@
+## 0.0.2+1
+
+ - **REFACTOR**: Update safe_mode and max temperature in Mistral chat ([#300](https://github.com/davidmigloz/langchain_dart/issues/300)). ([1a4ccd1e](https://github.com/davidmigloz/langchain_dart/commit/1a4ccd1e7d1907e340ce609cc6ba8d0543ee3421))
+
 ## 0.0.2
 
  - **REFACTOR**: Use cl100k_base encoding model when no tokenizer is available ([#295](https://github.com/davidmigloz/langchain_dart/issues/295)). ([ca908e80](https://github.com/davidmigloz/langchain_dart/commit/ca908e8011a168a74240310c78abb3c590654a49))

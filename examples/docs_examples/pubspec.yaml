@@ -7,9 +7,9 @@ environment:
   sdk: ^3.0.5
 
 dependencies:
-  langchain: ^0.3.2
-  langchain_chroma: ^0.1.0+12
-  langchain_google: ^0.2.3
-  langchain_mistralai: ^0.0.2
-  langchain_ollama: ^0.0.3
-  langchain_openai: ^0.3.2
+  langchain: ^0.3.3
+  langchain_chroma: ^0.1.0+13
+  langchain_google: ^0.2.3+1
+  langchain_mistralai: ^0.0.2+1
+  langchain_ollama: ^0.0.3+1
+  langchain_openai: ^0.3.3

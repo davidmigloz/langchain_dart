@@ -1,3 +1,7 @@
+## 0.0.9
+
+ - **FEAT**: Add count tokens method to vertex_ai client ([#306](https://github.com/davidmigloz/langchain_dart/issues/306)). ([54ae317d](https://github.com/davidmigloz/langchain_dart/commit/54ae317dda43f0313dca708d3831633252113c81))
+
 ## 0.0.8
 
  - **FEAT**: Update internal dependencies ([#291](https://github.com/davidmigloz/langchain_dart/issues/291)). ([69621cc6](https://github.com/davidmigloz/langchain_dart/commit/69621cc61659980d046518ee20ce055e806cba1f))

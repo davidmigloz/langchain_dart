@@ -3,6 +3,69 @@
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR)
 server for more details about each release.
 
+## 2024-01-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain` - `v0.3.3`](#langchain---v033)
+ - [`langchain_openai` - `v0.3.3`](#langchain_openai---v033)
+ - [`langchain_google` - `v0.2.3+1`](#langchain_google---v0231)
+ - [`langchain_mistralai` - `v0.0.2+1`](#langchain_mistralai---v0021)
+ - [`openai_dart` - `v0.1.5`](#openai_dart---v015)
+ - [`mistralai_dart` - `v0.0.2+2`](#mistralai_dart---v0022)
+ - [`vertex_ai` - `v0.0.9`](#vertex_ai---v009)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_pinecone` - `v0.0.6+12`
+ - `langchain_ollama` - `v0.0.3+1`
+ - `langchain_chroma` - `v0.1.0+13`
+
+---
+
+#### `langchain` - `v0.3.3`
+
+ - **DOCS**: Add Anyscale and Together AI documentation ([#305](https://github.com/davidmigloz/langchain_dart/issues/305)). ([7daa3eb0](https://github.com/davidmigloz/langchain_dart/commit/7daa3eb052c32baa7473d7532c795b7f242ed9fc))
+
+#### `langchain_openai` - `v0.3.3`
+
+ - **FEAT**: Support Anyscale in ChatOpenAI and OpenAIEmbeddings wrappers ([#305](https://github.com/davidmigloz/langchain_dart/issues/305)). ([7daa3eb0](https://github.com/davidmigloz/langchain_dart/commit/7daa3eb052c32baa7473d7532c795b7f242ed9fc))
+ - **FEAT**: Support Together AI in ChatOpenAI wrapper ([#297](https://github.com/davidmigloz/langchain_dart/issues/297)). ([28ab56af](https://github.com/davidmigloz/langchain_dart/commit/28ab56aff35c93a6835e5f22397d47da9e45fe40))
+ - **FEAT**: Support Together AI in OpenAIEmbeddings wrapper ([#304](https://github.com/davidmigloz/langchain_dart/issues/304)). ([ddc761d6](https://github.com/davidmigloz/langchain_dart/commit/ddc761d65154be2df1efc202d9e7e6b2e60e7ac2))
+
+#### `langchain_google` - `v0.2.3+1`
+
+ - **REFACTOR**: Remove tiktoken in favour of countTokens API on VertexAI ([#307](https://github.com/davidmigloz/langchain_dart/issues/307)). ([8158572b](https://github.com/davidmigloz/langchain_dart/commit/8158572b15c0525b9caa9bc71fbbbee6ab4458fe))
+
+#### `langchain_mistralai` - `v0.0.2+1`
+
+ - **REFACTOR**: Update safe_mode and max temperature in Mistral chat ([#300](https://github.com/davidmigloz/langchain_dart/issues/300)). ([1a4ccd1e](https://github.com/davidmigloz/langchain_dart/commit/1a4ccd1e7d1907e340ce609cc6ba8d0543ee3421))
+
+#### `openai_dart` - `v0.1.5`
+
+ - **FEAT**: Support Anyscale API in openai_dart client ([#303](https://github.com/davidmigloz/langchain_dart/issues/303)). ([e0a3651c](https://github.com/davidmigloz/langchain_dart/commit/e0a3651c1457065808e1306c7f498eb716159583))
+ - **FEAT**: Support Together AI API ([#296](https://github.com/davidmigloz/langchain_dart/issues/296)). ([ca6f23d5](https://github.com/davidmigloz/langchain_dart/commit/ca6f23d53baebe8679b4bc67a7de9a705692dde3))
+ - **FEAT**: Support Together AI Embeddings API in openai_dart client ([#301](https://github.com/davidmigloz/langchain_dart/issues/301)). ([4a6e1045](https://github.com/davidmigloz/langchain_dart/commit/4a6e1045c13d712ec4da992dcaa097a7b5c2a626))
+ - **FEAT**: Add usage to Run/RunStep in openai_dart client ([#302](https://github.com/davidmigloz/langchain_dart/issues/302)). ([cc6538b5](https://github.com/davidmigloz/langchain_dart/commit/cc6538b53394d04084276d8687ec5d7cbb5b5506))
+
+#### `vertex_ai` - `v0.0.9`
+
+ - **FEAT**: Add count tokens method to vertex_ai client ([#306](https://github.com/davidmigloz/langchain_dart/issues/306)). ([54ae317d](https://github.com/davidmigloz/langchain_dart/commit/54ae317dda43f0313dca708d3831633252113c81))
+
+#### `mistralai_dart` - `v0.0.2+2`
+
+ - **REFACTOR**: Update safe_mode and max temperature in Mistral chat ([#300](https://github.com/davidmigloz/langchain_dart/issues/300)). ([1a4ccd1e](https://github.com/davidmigloz/langchain_dart/commit/1a4ccd1e7d1907e340ce609cc6ba8d0543ee3421))
+
 ## 2024-01-13
 
 ### Changes

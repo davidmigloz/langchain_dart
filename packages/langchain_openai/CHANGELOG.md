@@ -1,3 +1,9 @@
+## 0.3.3
+
+ - **FEAT**: Support Anyscale in ChatOpenAI and OpenAIEmbeddings wrappers ([#305](https://github.com/davidmigloz/langchain_dart/issues/305)). ([7daa3eb0](https://github.com/davidmigloz/langchain_dart/commit/7daa3eb052c32baa7473d7532c795b7f242ed9fc))
+ - **FEAT**: Support Together AI API in ChatOpenAI wrapper ([#297](https://github.com/davidmigloz/langchain_dart/issues/297)). ([28ab56af](https://github.com/davidmigloz/langchain_dart/commit/28ab56aff35c93a6835e5f22397d47da9e45fe40))
+ - **FEAT**: Support Together AI in OpenAIEmbeddings wrapper ([#304](https://github.com/davidmigloz/langchain_dart/issues/304)). ([ddc761d6](https://github.com/davidmigloz/langchain_dart/commit/ddc761d65154be2df1efc202d9e7e6b2e60e7ac2))
+
 ## 0.3.2
 
  - **FEAT**(chat-models): Support OpenRouter API in ChatOpenAI wrapper ([#292](https://github.com/davidmigloz/langchain_dart/issues/292)). ([c6e7e5be](https://github.com/davidmigloz/langchain_dart/commit/c6e7e5beeb03c32a93b062aab874cae3da0a52d9)) ([docs](https://langchaindart.com/#/modules/model_io/models/chat_models/integrations/open_router))
