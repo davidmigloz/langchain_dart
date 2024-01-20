@@ -10,7 +10,7 @@ The only difference is that you need to change the base URL to `https://api.endp
 
 ```dart
 final chatModel = ChatOpenAI(
-  apiKey: togetherAiApiKey,
+  apiKey: anyscaleApiKey,
   baseUrl: 'https://api.endpoints.anyscale.com/v1',
   defaultOptions: const ChatOpenAIOptions(
     model: 'meta-llama/Llama-2-70b-chat-hf',

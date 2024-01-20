@@ -13,7 +13,8 @@ import 'package:openai_dart/openai_dart.dart';
 /// - [Embeddings guide](https://platform.openai.com/docs/guides/embeddings/limitations-risks)
 /// - [Embeddings API docs](https://platform.openai.com/docs/api-reference/embeddings)
 ///
-/// You can also use this wrapper to consume OpenAI-compatible APIs like [Together AI](https://www.together.ai).
+/// You can also use this wrapper to consume OpenAI-compatible APIs like
+/// [Anyscale](https://www.anyscale.com), [Together AI](https://www.together.ai), etc.
 ///
 /// ### Authentication
 ///
