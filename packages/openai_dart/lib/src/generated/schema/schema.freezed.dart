@@ -21989,6 +21989,9 @@ mixin _$RunObject {
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
+  /// Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.).
+  RunCompletionUsage? get usage => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $RunObjectCopyWith<RunObject> get copyWith =>
@@ -22018,10 +22021,12 @@ abstract class $RunObjectCopyWith<$Res> {
       String instructions,
       List<AssistantTools> tools,
       @JsonKey(name: 'file_ids') List<String> fileIds,
-      Map<String, dynamic>? metadata});
+      Map<String, dynamic>? metadata,
+      RunCompletionUsage? usage});
 
   $RunRequiredActionCopyWith<$Res>? get requiredAction;
   $RunLastErrorCopyWith<$Res>? get lastError;
+  $RunCompletionUsageCopyWith<$Res>? get usage;
 }
 
 /// @nodoc
@@ -22055,6 +22060,7 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
     Object? tools = null,
     Object? fileIds = null,
     Object? metadata = freezed,
+    Object? usage = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -22129,6 +22135,10 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      usage: freezed == usage
+          ? _value.usage
+          : usage // ignore: cast_nullable_to_non_nullable
+              as RunCompletionUsage?,
     ) as $Val);
   }
 
@@ -22153,6 +22163,18 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
 
     return $RunLastErrorCopyWith<$Res>(_value.lastError!, (value) {
       return _then(_value.copyWith(lastError: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunCompletionUsageCopyWith<$Res>? get usage {
+    if (_value.usage == null) {
+      return null;
+    }
+
+    return $RunCompletionUsageCopyWith<$Res>(_value.usage!, (value) {
+      return _then(_value.copyWith(usage: value) as $Val);
     });
   }
 }
@@ -22183,12 +22205,15 @@ abstract class _$$RunObjectImplCopyWith<$Res>
       String instructions,
       List<AssistantTools> tools,
       @JsonKey(name: 'file_ids') List<String> fileIds,
-      Map<String, dynamic>? metadata});
+      Map<String, dynamic>? metadata,
+      RunCompletionUsage? usage});
 
   @override
   $RunRequiredActionCopyWith<$Res>? get requiredAction;
   @override
   $RunLastErrorCopyWith<$Res>? get lastError;
+  @override
+  $RunCompletionUsageCopyWith<$Res>? get usage;
 }
 
 /// @nodoc
@@ -22220,6 +22245,7 @@ class __$$RunObjectImplCopyWithImpl<$Res>
     Object? tools = null,
     Object? fileIds = null,
     Object? metadata = freezed,
+    Object? usage = freezed,
   }) {
     return _then(_$RunObjectImpl(
       id: null == id
@@ -22294,6 +22320,10 @@ class __$$RunObjectImplCopyWithImpl<$Res>
           ? _value._metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      usage: freezed == usage
+          ? _value.usage
+          : usage // ignore: cast_nullable_to_non_nullable
+              as RunCompletionUsage?,
     ));
   }
 }
@@ -22319,7 +22349,8 @@ class _$RunObjectImpl extends _RunObject {
       required this.instructions,
       required final List<AssistantTools> tools,
       @JsonKey(name: 'file_ids') required final List<String> fileIds,
-      required final Map<String, dynamic>? metadata})
+      required final Map<String, dynamic>? metadata,
+      required this.usage})
       : _tools = tools,
         _fileIds = fileIds,
         _metadata = metadata,
@@ -22434,9 +22465,13 @@ class _$RunObjectImpl extends _RunObject {
     return EqualUnmodifiableMapView(value);
   }
 
+  /// Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.).
+  @override
+  final RunCompletionUsage? usage;
+
   @override
   String toString() {
-    return 'RunObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, assistantId: $assistantId, status: $status, requiredAction: $requiredAction, lastError: $lastError, expiresAt: $expiresAt, startedAt: $startedAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, model: $model, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata)';
+    return 'RunObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, assistantId: $assistantId, status: $status, requiredAction: $requiredAction, lastError: $lastError, expiresAt: $expiresAt, startedAt: $startedAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, model: $model, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata, usage: $usage)';
   }
 
   @override
@@ -22472,31 +22507,34 @@ class _$RunObjectImpl extends _RunObject {
                 other.instructions == instructions) &&
             const DeepCollectionEquality().equals(other._tools, _tools) &&
             const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
-            const DeepCollectionEquality().equals(other._metadata, _metadata));
+            const DeepCollectionEquality().equals(other._metadata, _metadata) &&
+            (identical(other.usage, usage) || other.usage == usage));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      object,
-      createdAt,
-      threadId,
-      assistantId,
-      status,
-      requiredAction,
-      lastError,
-      expiresAt,
-      startedAt,
-      cancelledAt,
-      failedAt,
-      completedAt,
-      model,
-      instructions,
-      const DeepCollectionEquality().hash(_tools),
-      const DeepCollectionEquality().hash(_fileIds),
-      const DeepCollectionEquality().hash(_metadata));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        object,
+        createdAt,
+        threadId,
+        assistantId,
+        status,
+        requiredAction,
+        lastError,
+        expiresAt,
+        startedAt,
+        cancelledAt,
+        failedAt,
+        completedAt,
+        model,
+        instructions,
+        const DeepCollectionEquality().hash(_tools),
+        const DeepCollectionEquality().hash(_fileIds),
+        const DeepCollectionEquality().hash(_metadata),
+        usage
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -22532,7 +22570,8 @@ abstract class _RunObject extends RunObject {
       required final String instructions,
       required final List<AssistantTools> tools,
       @JsonKey(name: 'file_ids') required final List<String> fileIds,
-      required final Map<String, dynamic>? metadata}) = _$RunObjectImpl;
+      required final Map<String, dynamic>? metadata,
+      required final RunCompletionUsage? usage}) = _$RunObjectImpl;
   const _RunObject._() : super._();
 
   factory _RunObject.fromJson(Map<String, dynamic> json) =
@@ -22621,6 +22660,10 @@ abstract class _RunObject extends RunObject {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   Map<String, dynamic>? get metadata;
+  @override
+
+  /// Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.).
+  RunCompletionUsage? get usage;
   @override
   @JsonKey(ignore: true)
   _$$RunObjectImplCopyWith<_$RunObjectImpl> get copyWith =>
@@ -23150,6 +23193,219 @@ abstract class _RunSubmitToolOutputs extends RunSubmitToolOutputs {
   @JsonKey(ignore: true)
   _$$RunSubmitToolOutputsImplCopyWith<_$RunSubmitToolOutputsImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+RunCompletionUsage _$RunCompletionUsageFromJson(Map<String, dynamic> json) {
+  return _RunCompletionUsage.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunCompletionUsage {
+  /// Number of completion tokens used over the course of the run.
+  @JsonKey(name: 'completion_tokens')
+  int get completionTokens => throw _privateConstructorUsedError;
+
+  /// Number of prompt tokens used over the course of the run.
+  @JsonKey(name: 'prompt_tokens')
+  int get promptTokens => throw _privateConstructorUsedError;
+
+  /// Total number of tokens used (prompt + completion).
+  @JsonKey(name: 'total_tokens')
+  int get totalTokens => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunCompletionUsageCopyWith<RunCompletionUsage> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunCompletionUsageCopyWith<$Res> {
+  factory $RunCompletionUsageCopyWith(
+          RunCompletionUsage value, $Res Function(RunCompletionUsage) then) =
+      _$RunCompletionUsageCopyWithImpl<$Res, RunCompletionUsage>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'completion_tokens') int completionTokens,
+      @JsonKey(name: 'prompt_tokens') int promptTokens,
+      @JsonKey(name: 'total_tokens') int totalTokens});
+}
+
+/// @nodoc
+class _$RunCompletionUsageCopyWithImpl<$Res, $Val extends RunCompletionUsage>
+    implements $RunCompletionUsageCopyWith<$Res> {
+  _$RunCompletionUsageCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? completionTokens = null,
+    Object? promptTokens = null,
+    Object? totalTokens = null,
+  }) {
+    return _then(_value.copyWith(
+      completionTokens: null == completionTokens
+          ? _value.completionTokens
+          : completionTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+      promptTokens: null == promptTokens
+          ? _value.promptTokens
+          : promptTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalTokens: null == totalTokens
+          ? _value.totalTokens
+          : totalTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunCompletionUsageImplCopyWith<$Res>
+    implements $RunCompletionUsageCopyWith<$Res> {
+  factory _$$RunCompletionUsageImplCopyWith(_$RunCompletionUsageImpl value,
+          $Res Function(_$RunCompletionUsageImpl) then) =
+      __$$RunCompletionUsageImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'completion_tokens') int completionTokens,
+      @JsonKey(name: 'prompt_tokens') int promptTokens,
+      @JsonKey(name: 'total_tokens') int totalTokens});
+}
+
+/// @nodoc
+class __$$RunCompletionUsageImplCopyWithImpl<$Res>
+    extends _$RunCompletionUsageCopyWithImpl<$Res, _$RunCompletionUsageImpl>
+    implements _$$RunCompletionUsageImplCopyWith<$Res> {
+  __$$RunCompletionUsageImplCopyWithImpl(_$RunCompletionUsageImpl _value,
+      $Res Function(_$RunCompletionUsageImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? completionTokens = null,
+    Object? promptTokens = null,
+    Object? totalTokens = null,
+  }) {
+    return _then(_$RunCompletionUsageImpl(
+      completionTokens: null == completionTokens
+          ? _value.completionTokens
+          : completionTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+      promptTokens: null == promptTokens
+          ? _value.promptTokens
+          : promptTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalTokens: null == totalTokens
+          ? _value.totalTokens
+          : totalTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunCompletionUsageImpl extends _RunCompletionUsage {
+  const _$RunCompletionUsageImpl(
+      {@JsonKey(name: 'completion_tokens') required this.completionTokens,
+      @JsonKey(name: 'prompt_tokens') required this.promptTokens,
+      @JsonKey(name: 'total_tokens') required this.totalTokens})
+      : super._();
+
+  factory _$RunCompletionUsageImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RunCompletionUsageImplFromJson(json);
+
+  /// Number of completion tokens used over the course of the run.
+  @override
+  @JsonKey(name: 'completion_tokens')
+  final int completionTokens;
+
+  /// Number of prompt tokens used over the course of the run.
+  @override
+  @JsonKey(name: 'prompt_tokens')
+  final int promptTokens;
+
+  /// Total number of tokens used (prompt + completion).
+  @override
+  @JsonKey(name: 'total_tokens')
+  final int totalTokens;
+
+  @override
+  String toString() {
+    return 'RunCompletionUsage(completionTokens: $completionTokens, promptTokens: $promptTokens, totalTokens: $totalTokens)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunCompletionUsageImpl &&
+            (identical(other.completionTokens, completionTokens) ||
+                other.completionTokens == completionTokens) &&
+            (identical(other.promptTokens, promptTokens) ||
+                other.promptTokens == promptTokens) &&
+            (identical(other.totalTokens, totalTokens) ||
+                other.totalTokens == totalTokens));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, completionTokens, promptTokens, totalTokens);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunCompletionUsageImplCopyWith<_$RunCompletionUsageImpl> get copyWith =>
+      __$$RunCompletionUsageImplCopyWithImpl<_$RunCompletionUsageImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunCompletionUsageImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunCompletionUsage extends RunCompletionUsage {
+  const factory _RunCompletionUsage(
+      {@JsonKey(name: 'completion_tokens') required final int completionTokens,
+      @JsonKey(name: 'prompt_tokens') required final int promptTokens,
+      @JsonKey(name: 'total_tokens')
+      required final int totalTokens}) = _$RunCompletionUsageImpl;
+  const _RunCompletionUsage._() : super._();
+
+  factory _RunCompletionUsage.fromJson(Map<String, dynamic> json) =
+      _$RunCompletionUsageImpl.fromJson;
+
+  @override
+
+  /// Number of completion tokens used over the course of the run.
+  @JsonKey(name: 'completion_tokens')
+  int get completionTokens;
+  @override
+
+  /// Number of prompt tokens used over the course of the run.
+  @JsonKey(name: 'prompt_tokens')
+  int get promptTokens;
+  @override
+
+  /// Total number of tokens used (prompt + completion).
+  @JsonKey(name: 'total_tokens')
+  int get totalTokens;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunCompletionUsageImplCopyWith<_$RunCompletionUsageImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 CreateRunRequest _$CreateRunRequestFromJson(Map<String, dynamic> json) {
@@ -27967,6 +28223,9 @@ mixin _$RunStepObject {
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
+  /// Usage statistics related to the run step. This value will be `null` while the run step's status is `in_progress`.
+  RunStepCompletionUsage? get usage => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $RunStepObjectCopyWith<RunStepObject> get copyWith =>
@@ -27994,10 +28253,12 @@ abstract class $RunStepObjectCopyWith<$Res> {
       @JsonKey(name: 'cancelled_at') int? cancelledAt,
       @JsonKey(name: 'failed_at') int? failedAt,
       @JsonKey(name: 'completed_at') int? completedAt,
-      Map<String, dynamic>? metadata});
+      Map<String, dynamic>? metadata,
+      RunStepCompletionUsage? usage});
 
   $RunStepDetailsCopyWith<$Res> get stepDetails;
   $RunStepLastErrorCopyWith<$Res>? get lastError;
+  $RunStepCompletionUsageCopyWith<$Res>? get usage;
 }
 
 /// @nodoc
@@ -28028,6 +28289,7 @@ class _$RunStepObjectCopyWithImpl<$Res, $Val extends RunStepObject>
     Object? failedAt = freezed,
     Object? completedAt = freezed,
     Object? metadata = freezed,
+    Object? usage = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -28090,6 +28352,10 @@ class _$RunStepObjectCopyWithImpl<$Res, $Val extends RunStepObject>
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      usage: freezed == usage
+          ? _value.usage
+          : usage // ignore: cast_nullable_to_non_nullable
+              as RunStepCompletionUsage?,
     ) as $Val);
   }
 
@@ -28110,6 +28376,18 @@ class _$RunStepObjectCopyWithImpl<$Res, $Val extends RunStepObject>
 
     return $RunStepLastErrorCopyWith<$Res>(_value.lastError!, (value) {
       return _then(_value.copyWith(lastError: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunStepCompletionUsageCopyWith<$Res>? get usage {
+    if (_value.usage == null) {
+      return null;
+    }
+
+    return $RunStepCompletionUsageCopyWith<$Res>(_value.usage!, (value) {
+      return _then(_value.copyWith(usage: value) as $Val);
     });
   }
 }
@@ -28137,12 +28415,15 @@ abstract class _$$RunStepObjectImplCopyWith<$Res>
       @JsonKey(name: 'cancelled_at') int? cancelledAt,
       @JsonKey(name: 'failed_at') int? failedAt,
       @JsonKey(name: 'completed_at') int? completedAt,
-      Map<String, dynamic>? metadata});
+      Map<String, dynamic>? metadata,
+      RunStepCompletionUsage? usage});
 
   @override
   $RunStepDetailsCopyWith<$Res> get stepDetails;
   @override
   $RunStepLastErrorCopyWith<$Res>? get lastError;
+  @override
+  $RunStepCompletionUsageCopyWith<$Res>? get usage;
 }
 
 /// @nodoc
@@ -28171,6 +28452,7 @@ class __$$RunStepObjectImplCopyWithImpl<$Res>
     Object? failedAt = freezed,
     Object? completedAt = freezed,
     Object? metadata = freezed,
+    Object? usage = freezed,
   }) {
     return _then(_$RunStepObjectImpl(
       id: null == id
@@ -28233,6 +28515,10 @@ class __$$RunStepObjectImplCopyWithImpl<$Res>
           ? _value._metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      usage: freezed == usage
+          ? _value.usage
+          : usage // ignore: cast_nullable_to_non_nullable
+              as RunStepCompletionUsage?,
     ));
   }
 }
@@ -28255,7 +28541,8 @@ class _$RunStepObjectImpl extends _RunStepObject {
       @JsonKey(name: 'cancelled_at') required this.cancelledAt,
       @JsonKey(name: 'failed_at') required this.failedAt,
       @JsonKey(name: 'completed_at') required this.completedAt,
-      required final Map<String, dynamic>? metadata})
+      required final Map<String, dynamic>? metadata,
+      required this.usage})
       : _metadata = metadata,
         super._();
 
@@ -28342,9 +28629,13 @@ class _$RunStepObjectImpl extends _RunStepObject {
     return EqualUnmodifiableMapView(value);
   }
 
+  /// Usage statistics related to the run step. This value will be `null` while the run step's status is `in_progress`.
+  @override
+  final RunStepCompletionUsage? usage;
+
   @override
   String toString() {
-    return 'RunStepObject(id: $id, object: $object, createdAt: $createdAt, assistantId: $assistantId, threadId: $threadId, runId: $runId, type: $type, status: $status, stepDetails: $stepDetails, lastError: $lastError, expiredAt: $expiredAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, metadata: $metadata)';
+    return 'RunStepObject(id: $id, object: $object, createdAt: $createdAt, assistantId: $assistantId, threadId: $threadId, runId: $runId, type: $type, status: $status, stepDetails: $stepDetails, lastError: $lastError, expiredAt: $expiredAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, metadata: $metadata, usage: $usage)';
   }
 
   @override
@@ -28375,7 +28666,8 @@ class _$RunStepObjectImpl extends _RunStepObject {
                 other.failedAt == failedAt) &&
             (identical(other.completedAt, completedAt) ||
                 other.completedAt == completedAt) &&
-            const DeepCollectionEquality().equals(other._metadata, _metadata));
+            const DeepCollectionEquality().equals(other._metadata, _metadata) &&
+            (identical(other.usage, usage) || other.usage == usage));
   }
 
   @JsonKey(ignore: true)
@@ -28396,7 +28688,8 @@ class _$RunStepObjectImpl extends _RunStepObject {
       cancelledAt,
       failedAt,
       completedAt,
-      const DeepCollectionEquality().hash(_metadata));
+      const DeepCollectionEquality().hash(_metadata),
+      usage);
 
   @JsonKey(ignore: true)
   @override
@@ -28428,7 +28721,8 @@ abstract class _RunStepObject extends RunStepObject {
       @JsonKey(name: 'cancelled_at') required final int? cancelledAt,
       @JsonKey(name: 'failed_at') required final int? failedAt,
       @JsonKey(name: 'completed_at') required final int? completedAt,
-      required final Map<String, dynamic>? metadata}) = _$RunStepObjectImpl;
+      required final Map<String, dynamic>? metadata,
+      required final RunStepCompletionUsage? usage}) = _$RunStepObjectImpl;
   const _RunStepObject._() : super._();
 
   factory _RunStepObject.fromJson(Map<String, dynamic> json) =
@@ -28505,6 +28799,10 @@ abstract class _RunStepObject extends RunStepObject {
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   Map<String, dynamic>? get metadata;
+  @override
+
+  /// Usage statistics related to the run step. This value will be `null` while the run step's status is `in_progress`.
+  RunStepCompletionUsage? get usage;
   @override
   @JsonKey(ignore: true)
   _$$RunStepObjectImplCopyWith<_$RunStepObjectImpl> get copyWith =>
@@ -29478,6 +29776,224 @@ abstract class _RunStepDetailsToolCallsCodeOutputImage
   @JsonKey(ignore: true)
   _$$RunStepDetailsToolCallsCodeOutputImageImplCopyWith<
           _$RunStepDetailsToolCallsCodeOutputImageImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RunStepCompletionUsage _$RunStepCompletionUsageFromJson(
+    Map<String, dynamic> json) {
+  return _RunStepCompletionUsage.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunStepCompletionUsage {
+  /// Number of completion tokens used over the course of the run step.
+  @JsonKey(name: 'completion_tokens')
+  int get completionTokens => throw _privateConstructorUsedError;
+
+  /// Number of prompt tokens used over the course of the run step.
+  @JsonKey(name: 'prompt_tokens')
+  int get promptTokens => throw _privateConstructorUsedError;
+
+  /// Total number of tokens used (prompt + completion).
+  @JsonKey(name: 'total_tokens')
+  int get totalTokens => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunStepCompletionUsageCopyWith<RunStepCompletionUsage> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepCompletionUsageCopyWith<$Res> {
+  factory $RunStepCompletionUsageCopyWith(RunStepCompletionUsage value,
+          $Res Function(RunStepCompletionUsage) then) =
+      _$RunStepCompletionUsageCopyWithImpl<$Res, RunStepCompletionUsage>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'completion_tokens') int completionTokens,
+      @JsonKey(name: 'prompt_tokens') int promptTokens,
+      @JsonKey(name: 'total_tokens') int totalTokens});
+}
+
+/// @nodoc
+class _$RunStepCompletionUsageCopyWithImpl<$Res,
+        $Val extends RunStepCompletionUsage>
+    implements $RunStepCompletionUsageCopyWith<$Res> {
+  _$RunStepCompletionUsageCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? completionTokens = null,
+    Object? promptTokens = null,
+    Object? totalTokens = null,
+  }) {
+    return _then(_value.copyWith(
+      completionTokens: null == completionTokens
+          ? _value.completionTokens
+          : completionTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+      promptTokens: null == promptTokens
+          ? _value.promptTokens
+          : promptTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalTokens: null == totalTokens
+          ? _value.totalTokens
+          : totalTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepCompletionUsageImplCopyWith<$Res>
+    implements $RunStepCompletionUsageCopyWith<$Res> {
+  factory _$$RunStepCompletionUsageImplCopyWith(
+          _$RunStepCompletionUsageImpl value,
+          $Res Function(_$RunStepCompletionUsageImpl) then) =
+      __$$RunStepCompletionUsageImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'completion_tokens') int completionTokens,
+      @JsonKey(name: 'prompt_tokens') int promptTokens,
+      @JsonKey(name: 'total_tokens') int totalTokens});
+}
+
+/// @nodoc
+class __$$RunStepCompletionUsageImplCopyWithImpl<$Res>
+    extends _$RunStepCompletionUsageCopyWithImpl<$Res,
+        _$RunStepCompletionUsageImpl>
+    implements _$$RunStepCompletionUsageImplCopyWith<$Res> {
+  __$$RunStepCompletionUsageImplCopyWithImpl(
+      _$RunStepCompletionUsageImpl _value,
+      $Res Function(_$RunStepCompletionUsageImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? completionTokens = null,
+    Object? promptTokens = null,
+    Object? totalTokens = null,
+  }) {
+    return _then(_$RunStepCompletionUsageImpl(
+      completionTokens: null == completionTokens
+          ? _value.completionTokens
+          : completionTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+      promptTokens: null == promptTokens
+          ? _value.promptTokens
+          : promptTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalTokens: null == totalTokens
+          ? _value.totalTokens
+          : totalTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepCompletionUsageImpl extends _RunStepCompletionUsage {
+  const _$RunStepCompletionUsageImpl(
+      {@JsonKey(name: 'completion_tokens') required this.completionTokens,
+      @JsonKey(name: 'prompt_tokens') required this.promptTokens,
+      @JsonKey(name: 'total_tokens') required this.totalTokens})
+      : super._();
+
+  factory _$RunStepCompletionUsageImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RunStepCompletionUsageImplFromJson(json);
+
+  /// Number of completion tokens used over the course of the run step.
+  @override
+  @JsonKey(name: 'completion_tokens')
+  final int completionTokens;
+
+  /// Number of prompt tokens used over the course of the run step.
+  @override
+  @JsonKey(name: 'prompt_tokens')
+  final int promptTokens;
+
+  /// Total number of tokens used (prompt + completion).
+  @override
+  @JsonKey(name: 'total_tokens')
+  final int totalTokens;
+
+  @override
+  String toString() {
+    return 'RunStepCompletionUsage(completionTokens: $completionTokens, promptTokens: $promptTokens, totalTokens: $totalTokens)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepCompletionUsageImpl &&
+            (identical(other.completionTokens, completionTokens) ||
+                other.completionTokens == completionTokens) &&
+            (identical(other.promptTokens, promptTokens) ||
+                other.promptTokens == promptTokens) &&
+            (identical(other.totalTokens, totalTokens) ||
+                other.totalTokens == totalTokens));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, completionTokens, promptTokens, totalTokens);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepCompletionUsageImplCopyWith<_$RunStepCompletionUsageImpl>
+      get copyWith => __$$RunStepCompletionUsageImplCopyWithImpl<
+          _$RunStepCompletionUsageImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepCompletionUsageImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunStepCompletionUsage extends RunStepCompletionUsage {
+  const factory _RunStepCompletionUsage(
+      {@JsonKey(name: 'completion_tokens') required final int completionTokens,
+      @JsonKey(name: 'prompt_tokens') required final int promptTokens,
+      @JsonKey(name: 'total_tokens')
+      required final int totalTokens}) = _$RunStepCompletionUsageImpl;
+  const _RunStepCompletionUsage._() : super._();
+
+  factory _RunStepCompletionUsage.fromJson(Map<String, dynamic> json) =
+      _$RunStepCompletionUsageImpl.fromJson;
+
+  @override
+
+  /// Number of completion tokens used over the course of the run step.
+  @JsonKey(name: 'completion_tokens')
+  int get completionTokens;
+  @override
+
+  /// Number of prompt tokens used over the course of the run step.
+  @JsonKey(name: 'prompt_tokens')
+  int get promptTokens;
+  @override
+
+  /// Total number of tokens used (prompt + completion).
+  @JsonKey(name: 'total_tokens')
+  int get totalTokens;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepCompletionUsageImplCopyWith<_$RunStepCompletionUsageImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
