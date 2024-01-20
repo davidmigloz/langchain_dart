@@ -53,6 +53,7 @@
           - [Mistral AI](/modules/model_io/models/chat_models/integrations/mistralai.md)
           - [OpenRouter](/modules/model_io/models/chat_models/integrations/open_router.md)
           - [Together AI](/modules/model_io/models/chat_models/integrations/together_ai.md)
+          - [Anyscale](/modules/model_io/models/chat_models/integrations/anyscale.md)
           - [Prem App](/modules/model_io/models/chat_models/integrations/prem.md)
     - [Output parsers](/modules/model_io/output_parsers/output_parsers.md)
       - [String output parser](/modules/model_io/output_parsers/string.md)
@@ -75,6 +76,7 @@
         - [Ollama](/modules/retrieval/text_embedding/integrations/ollama.md)
         - [Mistral AI](/modules/retrieval/text_embedding/integrations/mistralai.md)
         - [Together AI](/modules/retrieval/text_embedding/integrations/together_ai.md)
+        - [Anyscale](/modules/retrieval/text_embedding/integrations/anyscale.md)
         - [Prem App](/modules/retrieval/text_embedding/integrations/prem.md)
     - [Vector stores](/modules/retrieval/vector_stores/vector_stores.md)
       - Integrations
