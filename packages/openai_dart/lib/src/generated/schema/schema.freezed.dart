@@ -12014,7 +12014,8 @@ mixin _$CreateEmbeddingResponse {
       throw _privateConstructorUsedError;
 
   /// The usage information for the request.
-  EmbeddingUsage get usage => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
+  EmbeddingUsage? get usage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -12032,9 +12033,9 @@ abstract class $CreateEmbeddingResponseCopyWith<$Res> {
       {List<Embedding> data,
       String model,
       CreateEmbeddingResponseObject object,
-      EmbeddingUsage usage});
+      @JsonKey(includeIfNull: false) EmbeddingUsage? usage});
 
-  $EmbeddingUsageCopyWith<$Res> get usage;
+  $EmbeddingUsageCopyWith<$Res>? get usage;
 }
 
 /// @nodoc
@@ -12054,7 +12055,7 @@ class _$CreateEmbeddingResponseCopyWithImpl<$Res,
     Object? data = null,
     Object? model = null,
     Object? object = null,
-    Object? usage = null,
+    Object? usage = freezed,
   }) {
     return _then(_value.copyWith(
       data: null == data
@@ -12069,17 +12070,21 @@ class _$CreateEmbeddingResponseCopyWithImpl<$Res,
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
               as CreateEmbeddingResponseObject,
-      usage: null == usage
+      usage: freezed == usage
           ? _value.usage
           : usage // ignore: cast_nullable_to_non_nullable
-              as EmbeddingUsage,
+              as EmbeddingUsage?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $EmbeddingUsageCopyWith<$Res> get usage {
-    return $EmbeddingUsageCopyWith<$Res>(_value.usage, (value) {
+  $EmbeddingUsageCopyWith<$Res>? get usage {
+    if (_value.usage == null) {
+      return null;
+    }
+
+    return $EmbeddingUsageCopyWith<$Res>(_value.usage!, (value) {
       return _then(_value.copyWith(usage: value) as $Val);
     });
   }
@@ -12098,10 +12103,10 @@ abstract class _$$CreateEmbeddingResponseImplCopyWith<$Res>
       {List<Embedding> data,
       String model,
       CreateEmbeddingResponseObject object,
-      EmbeddingUsage usage});
+      @JsonKey(includeIfNull: false) EmbeddingUsage? usage});
 
   @override
-  $EmbeddingUsageCopyWith<$Res> get usage;
+  $EmbeddingUsageCopyWith<$Res>? get usage;
 }
 
 /// @nodoc
@@ -12120,7 +12125,7 @@ class __$$CreateEmbeddingResponseImplCopyWithImpl<$Res>
     Object? data = null,
     Object? model = null,
     Object? object = null,
-    Object? usage = null,
+    Object? usage = freezed,
   }) {
     return _then(_$CreateEmbeddingResponseImpl(
       data: null == data
@@ -12135,10 +12140,10 @@ class __$$CreateEmbeddingResponseImplCopyWithImpl<$Res>
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
               as CreateEmbeddingResponseObject,
-      usage: null == usage
+      usage: freezed == usage
           ? _value.usage
           : usage // ignore: cast_nullable_to_non_nullable
-              as EmbeddingUsage,
+              as EmbeddingUsage?,
     ));
   }
 }
@@ -12150,7 +12155,7 @@ class _$CreateEmbeddingResponseImpl extends _CreateEmbeddingResponse {
       {required final List<Embedding> data,
       required this.model,
       required this.object,
-      required this.usage})
+      @JsonKey(includeIfNull: false) this.usage})
       : _data = data,
         super._();
 
@@ -12178,7 +12183,8 @@ class _$CreateEmbeddingResponseImpl extends _CreateEmbeddingResponse {
 
   /// The usage information for the request.
   @override
-  final EmbeddingUsage usage;
+  @JsonKey(includeIfNull: false)
+  final EmbeddingUsage? usage;
 
   @override
   String toString() {
@@ -12218,10 +12224,11 @@ class _$CreateEmbeddingResponseImpl extends _CreateEmbeddingResponse {
 
 abstract class _CreateEmbeddingResponse extends CreateEmbeddingResponse {
   const factory _CreateEmbeddingResponse(
-      {required final List<Embedding> data,
-      required final String model,
-      required final CreateEmbeddingResponseObject object,
-      required final EmbeddingUsage usage}) = _$CreateEmbeddingResponseImpl;
+          {required final List<Embedding> data,
+          required final String model,
+          required final CreateEmbeddingResponseObject object,
+          @JsonKey(includeIfNull: false) final EmbeddingUsage? usage}) =
+      _$CreateEmbeddingResponseImpl;
   const _CreateEmbeddingResponse._() : super._();
 
   factory _CreateEmbeddingResponse.fromJson(Map<String, dynamic> json) =
@@ -12242,7 +12249,8 @@ abstract class _CreateEmbeddingResponse extends CreateEmbeddingResponse {
   @override
 
   /// The usage information for the request.
-  EmbeddingUsage get usage;
+  @JsonKey(includeIfNull: false)
+  EmbeddingUsage? get usage;
   @override
   @JsonKey(ignore: true)
   _$$CreateEmbeddingResponseImplCopyWith<_$CreateEmbeddingResponseImpl>

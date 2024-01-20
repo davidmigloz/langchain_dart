@@ -25,7 +25,7 @@ class CreateEmbeddingResponse with _$CreateEmbeddingResponse {
     required CreateEmbeddingResponseObject object,
 
     /// The usage information for the request.
-    required EmbeddingUsage usage,
+    @JsonKey(includeIfNull: false) EmbeddingUsage? usage,
   }) = _CreateEmbeddingResponse;
 
   /// Object construction from a JSON representation

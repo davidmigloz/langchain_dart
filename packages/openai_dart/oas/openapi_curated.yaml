@@ -2229,7 +2229,7 @@ components:
         - object
         - model
         - data
-        - usage
+        # - usage # Made nullable to support Together AI API which doesn't return this field with some models
     Embedding:
       type: object
       description: |
