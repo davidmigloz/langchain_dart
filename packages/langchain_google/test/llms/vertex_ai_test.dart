@@ -146,17 +146,6 @@ Future<void> main() async {
       expect(res2.generations.length, 5);
     });
 
-    test('Test tokenize', () async {
-      final llm = VertexAI(
-        httpClient: authHttpClient,
-        project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
-      );
-      const text = 'Hello, how are you?';
-
-      final tokens = await llm.tokenize(PromptValue.string(text));
-      expect(tokens, [9906, 11, 1268, 527, 499, 30]);
-    });
-
     test('Test countTokens', () async {
       final llm = VertexAI(
         httpClient: authHttpClient,

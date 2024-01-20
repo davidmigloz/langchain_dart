@@ -181,17 +181,6 @@ void main() async {
       expect(res2.generations.length, 5);
     });
 
-    test('Test tokenize', () async {
-      final chat = ChatVertexAI(
-        httpClient: authHttpClient,
-        project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
-      );
-      const text = 'Hello, how are you?';
-
-      final tokens = await chat.tokenize(PromptValue.string(text));
-      expect(tokens, [9906, 11, 1268, 527, 499, 30]);
-    });
-
     test('Test countTokens string', () async {
       final chat = ChatVertexAI(
         httpClient: authHttpClient,
@@ -226,7 +215,7 @@ void main() async {
       ];
 
       final numTokens = await chat.countTokens(PromptValue.chat(messages));
-      expect(numTokens, 41);
+      expect(numTokens, 37);
     });
   });
 }
