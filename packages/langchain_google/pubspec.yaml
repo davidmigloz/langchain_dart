@@ -24,7 +24,6 @@ dependencies:
   googleapis_auth: ^1.4.1
   http: ^1.1.0
   langchain: ^0.3.2
-  langchain_tiktoken: ^1.0.1
   meta: ^1.9.1
   uuid: ^4.0.0
   vertex_ai: ^0.0.8

@@ -1,6 +1,5 @@
 import 'package:http/http.dart' as http;
 import 'package:langchain/langchain.dart';
-import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:vertex_ai/vertex_ai.dart';
 
 import 'models/mappers.dart';
@@ -80,6 +79,10 @@ import 'models/models.dart';
 /// - `text-bison-32k`
 ///   * Max input and output tokens combined: 32k
 ///   * Training data: Up to Aug 2023
+/// - `text-unicorn`
+///   * Max input token: 8192
+///   * Max output tokens: 1024
+///   * Training data: Up to Feb 2023
 ///
 /// The previous list of models may not be exhaustive or up-to-date. Check out
 /// the [Vertex AI documentation](https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models)
@@ -170,20 +173,32 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
     return result.toLLMResult(model);
   }
 
-  /// Tokenizes the given prompt using tiktoken.
-  ///
-  /// Currently Google does not provide a tokenizer for Vertex AI models.
-  /// So we use tiktoken and cl100k_base encoding to get an approximation
-  /// for counting tokens. Mind that the actual tokens will be totally
-  /// different from the ones used by the Vertex AI model.
-  ///
-  /// - [promptValue] The prompt to tokenize.
   @override
   Future<List<int>> tokenize(
     final PromptValue promptValue, {
     final VertexAIOptions? options,
   }) async {
-    final encoding = getEncoding('cl100k_base');
-    return encoding.encode(promptValue.toString());
+    throw UnsupportedError(
+      'VertexAI does not support tokenize, only countTokens',
+    );
+  }
+
+  @override
+  Future<int> countTokens(
+    final PromptValue promptValue, {
+    final VertexAIOptions? options,
+  }) async {
+    final model =
+        options?.model ?? defaultOptions.model ?? throwNullModelError();
+    final res = await client.text.countTokens(
+      prompt: promptValue.toString(),
+      publisher: options?.publisher ??
+          ArgumentError.checkNotNull(
+            defaultOptions.publisher,
+            'VertexAIOptions.publisher',
+          ),
+      model: model,
+    );
+    return res.totalTokens;
   }
 }

@@ -1,6 +1,5 @@
 import 'package:http/http.dart' as http;
 import 'package:langchain/langchain.dart';
-import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vertex_ai/vertex_ai.dart';
 
@@ -190,20 +189,49 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
     return result.toChatResult(id, model);
   }
 
-  /// Tokenizes the given prompt using tiktoken.
-  ///
-  /// Currently Google does not provide a tokenizer for Vertex AI models.
-  /// So we use tiktoken and cl100k_base encoding to get an approximation
-  /// for counting tokens. Mind that the actual tokens will be totally
-  /// different from the ones used by the Vertex AI model.
-  ///
-  /// - [promptValue] The prompt to tokenize.
   @override
   Future<List<int>> tokenize(
     final PromptValue promptValue, {
     final ChatVertexAIOptions? options,
   }) async {
-    final encoding = getEncoding('cl100k_base');
-    return encoding.encode(promptValue.toString());
+    throw UnsupportedError(
+      'ChatVertexAI does not support tokenize, only countTokens',
+    );
+  }
+
+  @override
+  Future<int> countTokens(
+    final PromptValue promptValue, {
+    final ChatVertexAIOptions? options,
+  }) async {
+    final messages = promptValue.toChatMessages();
+    String? context;
+    final vertexMessages = <VertexAITextChatModelMessage>[];
+    for (final message in messages) {
+      if (message is SystemChatMessage) {
+        context = message.content;
+        continue;
+      } else {
+        vertexMessages.add(message.toVertexAIChatMessage());
+      }
+    }
+    final examples = (options?.examples ?? defaultOptions.examples)
+        ?.map((final e) => e.toVertexAIChatExample())
+        .toList(growable: false);
+    final model =
+        options?.model ?? defaultOptions.model ?? throwNullModelError();
+
+    final res = await client.chat.countTokens(
+      context: context,
+      examples: examples,
+      messages: vertexMessages,
+      publisher: options?.publisher ??
+          ArgumentError.checkNotNull(
+            defaultOptions.publisher,
+            'VertexAIOptions.publisher',
+          ),
+      model: model,
+    );
+    return res.totalTokens;
   }
 }
