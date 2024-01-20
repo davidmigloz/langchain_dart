@@ -34,8 +34,8 @@ void main() {
       expect(res.data.first.object, EmbeddingObject.embedding);
       expect(res.model, startsWith('text-embedding-ada-002'));
       expect(res.object, CreateEmbeddingResponseObject.list);
-      expect(res.usage.promptTokens, greaterThan(0));
-      expect(res.usage.totalTokens, greaterThan(0));
+      expect(res.usage?.promptTokens, greaterThan(0));
+      expect(res.usage?.totalTokens, greaterThan(0));
     });
 
     test('Test call embeddings API with encoding base64', () async {

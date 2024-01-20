@@ -78,7 +78,7 @@ class _EmbeddingVectorConverter
 
   @override
   EmbeddingVector fromJson(Object? data) {
-    if (data is List && data.every((item) => item is double)) {
+    if (data is List && data.every((item) => item is num)) {
       return EmbeddingVectorListDouble(data.cast());
     }
     if (data is String) {

@@ -1134,17 +1134,28 @@ _$CreateEmbeddingResponseImpl _$$CreateEmbeddingResponseImplFromJson(
       model: json['model'] as String,
       object:
           $enumDecode(_$CreateEmbeddingResponseObjectEnumMap, json['object']),
-      usage: EmbeddingUsage.fromJson(json['usage'] as Map<String, dynamic>),
+      usage: json['usage'] == null
+          ? null
+          : EmbeddingUsage.fromJson(json['usage'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$CreateEmbeddingResponseImplToJson(
-        _$CreateEmbeddingResponseImpl instance) =>
-    <String, dynamic>{
-      'data': instance.data.map((e) => e.toJson()).toList(),
-      'model': instance.model,
-      'object': _$CreateEmbeddingResponseObjectEnumMap[instance.object]!,
-      'usage': instance.usage.toJson(),
-    };
+    _$CreateEmbeddingResponseImpl instance) {
+  final val = <String, dynamic>{
+    'data': instance.data.map((e) => e.toJson()).toList(),
+    'model': instance.model,
+    'object': _$CreateEmbeddingResponseObjectEnumMap[instance.object]!,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('usage', instance.usage?.toJson());
+  return val;
+}
 
 const _$CreateEmbeddingResponseObjectEnumMap = {
   CreateEmbeddingResponseObject.list: 'list',
