@@ -865,6 +865,39 @@ final client = OpenAIClient(
 - `YOUR_API_KEY`: This value can be found in the Keys & Endpoint section when examining your resource from the Azure portal.
 - `API_VERSION`: The Azure OpenAI API version to use (e.g. `2023-05-15`). Try to use the [latest version available](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference), it will probably be the closest to the official OpenAI API.
 
+### OpenAI-compatible APIs
+
+This client can be used to consume APIs that are compatible with the OpenAI API spec.
+
+[TogetherAI](https://www.together.ai/):
+
+```dart
+final client = OpenAIClient(
+  baseUrl: 'https://api.together.xyz/v1',
+  headers: { 'api-key': 'YOUR_TOGETHER_AI_API_KEY' },
+);
+```
+
+[Anyscale](https://www.anyscale.com/):
+
+```dart
+final client = OpenAIClient(
+  baseUrl: 'https://api.endpoints.anyscale.com/v1',
+  headers: { 'api-key': 'YOUR_ANYSCALE_API_KEY' },
+);
+```
+
+[OpenRouter](https://openrouter.ai):
+
+```dart
+final client = OpenAIClient(
+  baseUrl: 'https://openrouter.ai/api/v1',
+  headers: { 'api-key': 'YOUR_OPEN_ROUTER_API_KEY' },
+);
+```
+
+Etc.
+
 ### Default HTTP client
 
 By default, the client uses the following implementation of `http.Client`:

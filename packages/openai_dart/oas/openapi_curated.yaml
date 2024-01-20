@@ -1939,7 +1939,7 @@ components:
         object:
           type: string
           description: The object type, which is always `chat.completion`.
-          enum: [ chat.completion ]
+          # enum: [ chat.completion ] # Anyscale API sends `text_completion` instead
         usage:
           $ref: "#/components/schemas/CompletionUsage"
       required:
