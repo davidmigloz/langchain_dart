@@ -1,7 +1,12 @@
 // ignore_for_file: use_super_parameters
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:googleai_dart/src/generated/client.dart';
 import 'package:http/http.dart' as http;
 
 import 'generated/client.dart' as g;
+import 'generated/schema/schema.dart';
 import 'http_client/http_client.dart';
 
 /// Client for Google AI API (Gemini API).
@@ -39,8 +44,43 @@ class GoogleAIClient extends g.GoogleAIClient {
           client: client ?? createDefaultHttpClient(),
         );
 
+  Stream<GenerateContentResponse> streamGenerateContent({
+    final String modelId = 'gemini-pro',
+    final GenerateContentRequest? request,
+  }) async* {
+    final streamedResponse = await makeRequestStream(
+      baseUrl: 'https://generativelanguage.googleapis.com/v1',
+      path: '/models/$modelId:streamGenerateContent',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+
+    yield* streamedResponse
+      .stream
+      .transform(const _GoogleAIStreamTransformer())
+      .map(
+        (final item) => GenerateContentResponse.fromJson(json.decode(item)),
+      );
+  }
+
   @override
   Future<http.BaseRequest> onRequest(final http.BaseRequest request) {
     return onRequestHandler(request);
+  }
+}
+
+class _GoogleAIStreamTransformer
+    extends StreamTransformerBase<List<int>, String> {
+  const _GoogleAIStreamTransformer();
+
+  @override
+  Stream<String> bind(final Stream<List<int>> stream) {
+    return stream
+        .transform(utf8.decoder)
+        .transform(const LineSplitter())
+        .map((final item) => item.substring(6));
   }
 }
