@@ -24,6 +24,7 @@ class OpenAIQAWithStructureChain<CallOptions extends BaseLangChainOptions,
   }) : super(
           prompt: prompt ?? _getPrompt(),
           llmOptions: ChatOpenAIOptions(
+            model: llm.defaultOptions.model,
             functions: [function],
           ),
         );
