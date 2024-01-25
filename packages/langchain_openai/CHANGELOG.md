@@ -1,3 +1,7 @@
+## 0.3.3+1
+
+ - **FIX**: Specified model is always overwritten in OpenAIFunctionsAgent ([#308](https://github.com/davidmigloz/langchain_dart/issues/308)). ([32dc37d8](https://github.com/davidmigloz/langchain_dart/commit/32dc37d8ca3e52929ab69d695f66627ff7e897fa))
+
 ## 0.3.3
 
  - **FEAT**: Support Anyscale in ChatOpenAI and OpenAIEmbeddings wrappers ([#305](https://github.com/davidmigloz/langchain_dart/issues/305)). ([7daa3eb0](https://github.com/davidmigloz/langchain_dart/commit/7daa3eb052c32baa7473d7532c795b7f242ed9fc))

@@ -3,6 +3,27 @@
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR)
 server for more details about each release.
 
+## 2024-01-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain_openai` - `v0.3.3+1`](#langchain_openai---v0331)
+
+---
+
+#### `langchain_openai` - `v0.3.3+1`
+
+ - **FIX**: Specified model is always overwritten in OpenAIFunctionsAgent ([#308](https://github.com/davidmigloz/langchain_dart/issues/308)). ([32dc37d8](https://github.com/davidmigloz/langchain_dart/commit/32dc37d8ca3e52929ab69d695f66627ff7e897fa))
+ - **DOCS**: Update docs. ([6f15d7f8](https://github.com/davidmigloz/langchain_dart/commit/6f15d7f836e81ad82cf76988e90620a489b31abb))
+
 ## 2024-01-20
 
 ### Changes
