@@ -205,42 +205,42 @@ packages:
       path: "../../packages/langchain"
       relative: true
     source: path
-    version: "0.3.2"
+    version: "0.3.3"
   langchain_chroma:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_chroma"
       relative: true
     source: path
-    version: "0.1.0+12"
+    version: "0.1.0+13"
   langchain_google:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_google"
       relative: true
     source: path
-    version: "0.2.3"
+    version: "0.2.3+1"
   langchain_mistralai:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_mistralai"
       relative: true
     source: path
-    version: "0.0.2"
+    version: "0.0.2+1"
   langchain_ollama:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_ollama"
       relative: true
     source: path
-    version: "0.0.3"
+    version: "0.0.3+1"
   langchain_openai:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_openai"
       relative: true
     source: path
-    version: "0.3.2"
+    version: "0.3.3"
   langchain_tiktoken:
     dependency: transitive
     description:
@@ -279,7 +279,7 @@ packages:
       path: "../../packages/mistralai_dart"
       relative: true
     source: path
-    version: "0.0.2+1"
+    version: "0.0.2+2"
   ollama_dart:
     dependency: "direct overridden"
     description:
@@ -293,7 +293,7 @@ packages:
       path: "../../packages/openai_dart"
       relative: true
     source: path
-    version: "0.1.4"
+    version: "0.1.5"
   path:
     dependency: transitive
     description:
@@ -388,7 +388,7 @@ packages:
       path: "../../packages/vertex_ai"
       relative: true
     source: path
-    version: "0.0.8"
+    version: "0.0.9"
   web:
     dependency: transitive
     description:
