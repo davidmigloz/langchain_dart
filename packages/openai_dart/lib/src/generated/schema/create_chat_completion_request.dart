@@ -55,7 +55,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     @Default(0.0)
     double? presencePenalty,
 
-    /// An object specifying the format that the model must output. Compatible with `gpt-4-1106-preview` and `gpt-3.5-turbo-1106`.
+    /// An object specifying the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and `gpt-3.5-turbo-1106`.
     ///
     /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
     ///
@@ -255,8 +255,12 @@ enum ChatCompletionModels {
   gpt432k0314,
   @JsonValue('gpt-4-32k-0613')
   gpt432k0613,
+  @JsonValue('gpt-4-turbo-preview')
+  gpt4TurboPreview,
   @JsonValue('gpt-4-1106-preview')
   gpt41106Preview,
+  @JsonValue('gpt-4-0125-preview')
+  gpt40125Preview,
   @JsonValue('gpt-4-vision-preview')
   gpt4VisionPreview,
   @JsonValue('gpt-3.5-turbo')
@@ -333,7 +337,7 @@ class _ChatCompletionModelConverter
 // CLASS: ChatCompletionResponseFormat
 // ==========================================
 
-/// An object specifying the format that the model must output. Compatible with `gpt-4-1106-preview` and `gpt-3.5-turbo-1106`.
+/// An object specifying the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and `gpt-3.5-turbo-1106`.
 ///
 /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
 ///

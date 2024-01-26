@@ -342,7 +342,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: ["asc", "desc"]
+            enum: [ "asc", "desc" ]
         - name: after
           in: query
           description: &pagination_after_param_description |
@@ -552,7 +552,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: ["asc", "desc"]
+            enum: [ "asc", "desc" ]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -697,7 +697,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: ["asc", "desc"]
+            enum: [ "asc", "desc" ]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -888,7 +888,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: ["asc", "desc"]
+            enum: [ "asc", "desc" ]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -964,7 +964,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: ["asc", "desc"]
+            enum: [ "asc", "desc" ]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -1092,7 +1092,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: ["asc", "desc"]
+            enum: [ "asc", "desc" ]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -1168,7 +1168,7 @@ components:
               title: CompletionModels
               description: |
                 Available completion models. Mind that the list may not be exhaustive nor up-to-date.
-              enum: ["gpt-3.5-turbo-instruct", "davinci-002", "babbage-002"]
+              enum: [ "gpt-3.5-turbo-instruct", "davinci-002", "babbage-002" ]
         prompt:
           title: CompletionPrompt
           description: &completions_prompt_description |
@@ -1472,7 +1472,9 @@ components:
                   "gpt-4-32k",
                   "gpt-4-32k-0314",
                   "gpt-4-32k-0613",
+                  "gpt-4-turbo-preview",
                   "gpt-4-1106-preview",
+                  "gpt-4-0125-preview",
                   "gpt-4-vision-preview",
                   "gpt-3.5-turbo",
                   "gpt-3.5-turbo-16k",
@@ -1540,7 +1542,7 @@ components:
           title: ChatCompletionResponseFormat
           type: object
           description: |
-            An object specifying the format that the model must output. Compatible with `gpt-4-1106-preview` and `gpt-3.5-turbo-1106`.
+            An object specifying the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and `gpt-3.5-turbo-1106`.
 
             Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
 
@@ -1700,7 +1702,7 @@ components:
             - type: string
               description: The text contents of the message.
             - type: array
-              description: An array of content parts with a defined type, each can be of type `text` or `image_url` when passing in images. You can pass multiple images by adding multiple `image_url` content parts. Image input is only supported when using the `gpt-4-visual-preview` model.
+              description: An array of content parts with a defined type, each can be of type `text` or `image_url` when passing in images. You can pass multiple images by adding multiple `image_url` content parts. Image input is only supported when using the `gpt-4-vision-preview` model.
               items:
                 $ref: "#/components/schemas/ChatCompletionMessageContentPart"
               minItems: 1
@@ -1809,7 +1811,7 @@ components:
               type: string
               title: ChatCompletionMessageImageDetail
               description: Specifies the detail level of the image. Learn more in the [Vision guide](https://platform.openai.com/docs/guides/vision/low-or-high-fidelity-image-understanding).
-              enum: ["auto", "low", "high"]
+              enum: [ "auto", "low", "high" ]
               default: "auto"
           required:
             - url
@@ -1817,7 +1819,7 @@ components:
         - image_url
     ChatCompletionMessageContentPartType:
       type: string
-      enum: ["text", "image_url"]
+      enum: [ "text", "image_url" ]
       description: The type of the content part.
     ChatCompletionMessageRole:
       type: string
@@ -2505,7 +2507,7 @@ components:
         object:
           type: string
           description: The object type, which is always "fine_tuning.job.event".
-          enum: [fine_tuning.job.event]
+          enum: [ fine_tuning.job.event ]
       required:
         - id
         - object
@@ -2528,7 +2530,7 @@ components:
               title: ImageModels
               description: |
                 Available models for image generation. Mind that the list may not be exhaustive nor up-to-date.
-              enum: ["dall-e-2", "dall-e-3"]
+              enum: [ "dall-e-2", "dall-e-3" ]
           default: "dall-e-2"
           example: "dall-e-3"
           nullable: true
@@ -2544,7 +2546,7 @@ components:
         quality:
           title: ImageQuality
           type: string
-          enum: ["standard", "hd"]
+          enum: [ "standard", "hd" ]
           default: "standard"
           example: "standard"
           description: The quality of the image that will be generated. `hd` creates images with finer details and greater consistency across the image. This param is only supported for `dall-e-3`.
@@ -2567,7 +2569,7 @@ components:
         style:
           title: ImageStyle
           type: string
-          enum: ["vivid", "natural"]
+          enum: [ "vivid", "natural" ]
           default: "vivid"
           example: "vivid"
           nullable: true
@@ -2616,7 +2618,7 @@ components:
         object:
           type: string
           description: The object type, which is always "model".
-          enum: [model]
+          enum: [ model ]
         owned_by:
           type: string
           description: The organization that owns the model.
@@ -2632,7 +2634,7 @@ components:
         object:
           type: string
           description: The object type, which is always "list".
-          enum: [list]
+          enum: [ list ]
         data:
           type: array
           description: The list of models.
@@ -2836,7 +2838,7 @@ components:
         object:
           description: The object type, which is always `assistant`.
           type: string
-          enum: [assistant]
+          enum: [ assistant ]
         created_at:
           description: The Unix timestamp (in seconds) for when the assistant was created.
           type: integer
@@ -2864,7 +2866,7 @@ components:
         tools:
           description: &assistant_tools_param_description |
             A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
-          default: []
+          default: [ ]
           type: array
           maxItems: 128
           items:
@@ -2872,7 +2874,7 @@ components:
         file_ids:
           description: &assistant_file_param_description |
             A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
-          default: []
+          default: [ ]
           type: array
           maxItems: 20
           items:
@@ -2921,14 +2923,14 @@ components:
           maxLength: 32768
         tools:
           description: *assistant_tools_param_description
-          default: []
+          default: [ ]
           type: array
           maxItems: 128
           items:
             $ref: "#/components/schemas/AssistantTools"
         file_ids:
           description: *assistant_file_param_description
-          default: []
+          default: [ ]
           maxItems: 20
           type: array
           items:
@@ -2965,7 +2967,7 @@ components:
           maxLength: 32768
         tools:
           description: *assistant_tools_param_description
-          default: []
+          default: [ ]
           type: array
           maxItems: 128
           items:
@@ -2973,7 +2975,7 @@ components:
         file_ids:
           description: |
             A list of [File](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order. If a file was previosuly attached to the list but does not show up in the list, it will be deleted from the assistant.
-          default: []
+          default: [ ]
           type: array
           maxItems: 20
           items:
@@ -2996,7 +2998,7 @@ components:
         object:
           type: string
           description: The object type, which is always `assistant.deleted`.
-          enum: [assistant.deleted]
+          enum: [ assistant.deleted ]
       required:
         - id
         - object
@@ -3079,7 +3081,7 @@ components:
         object:
           description: The object type, which is always `thread.run`.
           type: string
-          enum: ["thread.run"]
+          enum: [ "thread.run" ]
         created_at:
           description: The Unix timestamp (in seconds) for when the run was created.
           type: integer
@@ -3113,7 +3115,7 @@ components:
             type:
               description: For now, this is always `submit_tool_outputs`.
               type: string
-              enum: ["submit_tool_outputs"]
+              enum: [ "submit_tool_outputs" ]
             submit_tool_outputs:
               title: RunSubmitToolOutputs
               type: object
@@ -3138,7 +3140,7 @@ components:
             code:
               type: string
               description: One of `server_error` or `rate_limit_exceeded`.
-              enum: ["server_error", "rate_limit_exceeded"]
+              enum: [ "server_error", "rate_limit_exceeded" ]
             message:
               type: string
               description: A human-readable description of the error.
@@ -3173,14 +3175,14 @@ components:
           type: string
         tools:
           description: The list of tools that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
-          default: []
+          default: [ ]
           type: array
           maxItems: 20
           items:
             $ref: "#/components/schemas/AssistantTools"
         file_ids:
           description: The list of [File](https://platform.openai.com/docs/api-reference/files) IDs the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
-          default: []
+          default: [ ]
           type: array
           items:
             type: string
@@ -3336,7 +3338,7 @@ components:
         type:
           type: string
           description: The type of tool call the output is required for. For now, this is always `function`.
-          enum: ["function"]
+          enum: [ "function" ]
         function:
           type: object
           title: RunToolCallFunction
@@ -3398,7 +3400,7 @@ components:
         object:
           description: The object type, which is always `thread`.
           type: string
-          enum: ["thread"]
+          enum: [ "thread" ]
         created_at:
           description: The Unix timestamp (in seconds) for when the thread was created.
           type: integer
@@ -3449,7 +3451,7 @@ components:
         object:
           type: string
           description: The object type, which is always `thread.deleted`.
-          enum: [thread.deleted]
+          enum: [ thread.deleted ]
       required:
         - id
         - object
@@ -3495,7 +3497,7 @@ components:
         object:
           description: The object type, which is always `thread.message`.
           type: string
-          enum: ["thread.message"]
+          enum: [ "thread.message" ]
         created_at:
           description: The Unix timestamp (in seconds) for when the message was created.
           type: integer
@@ -3505,7 +3507,7 @@ components:
         role:
           description: The entity that produced the message. One of `user` or `assistant`.
           type: string
-          enum: ["user", "assistant"]
+          enum: [ "user", "assistant" ]
         content:
           description: The content of the message in array of text and/or images.
           type: array
@@ -3521,7 +3523,7 @@ components:
           nullable: true
         file_ids:
           description: A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
-          default: []
+          default: [ ]
           maxItems: 10
           type: array
           items:
@@ -3560,7 +3562,7 @@ components:
       properties:
         role:
           type: string
-          enum: ["user"]
+          enum: [ "user" ]
           description: The role of the entity that is creating the message. Currently only `user` is supported.
         content:
           type: string
@@ -3569,7 +3571,7 @@ components:
           description: The content of the message.
         file_ids:
           description: A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the message should use. There can be a maximum of 10 files attached to a message. Useful for tools like `retrieval` and `code_interpreter` that can access and use files.
-          default: []
+          default: [ ]
           type: array
           minItems: 1
           maxItems: 10
@@ -3602,7 +3604,7 @@ components:
         object:
           type: string
           description: The object type, which is always `thread.message.deleted`.
-          enum: [thread.message.deleted]
+          enum: [ thread.message.deleted ]
       required:
         - id
         - object
@@ -3699,7 +3701,7 @@ components:
         type:
           description: Always `file_citation`.
           type: string
-          enum: ["file_citation"]
+          enum: [ "file_citation" ]
         text:
           description: The text in the message content that needs to be replaced.
           type: string
@@ -3739,7 +3741,7 @@ components:
         type:
           description: Always `file_path`.
           type: string
-          enum: ["file_path"]
+          enum: [ "file_path" ]
         text:
           description: The text in the message content that needs to be replaced.
           type: string
@@ -3775,7 +3777,7 @@ components:
         object:
           description: The object type, which is always `thread.run.step`.
           type: string
-          enum: ["thread.run.step"]
+          enum: [ "thread.run.step" ]
         created_at:
           description: The Unix timestamp (in seconds) for when the run step was created.
           type: integer
@@ -3792,12 +3794,12 @@ components:
           description: The type of run step, which can be either `message_creation` or `tool_calls`.
           type: string
           title: RunStepType
-          enum: ["message_creation", "tool_calls"]
+          enum: [ "message_creation", "tool_calls" ]
         status:
           description: The status of the run step, which can be either `in_progress`, `cancelled`, `failed`, `completed`, or `expired`.
           type: string
           title: RunStepStatus
-          enum: ["in_progress", "cancelled", "failed", "completed", "expired"]
+          enum: [ "in_progress", "cancelled", "failed", "completed", "expired" ]
         step_details:
           $ref: "#/components/schemas/RunStepDetails"
         last_error:
@@ -3809,7 +3811,7 @@ components:
             code:
               type: string
               description: One of `server_error` or `rate_limit_exceeded`.
-              enum: ["server_error", "rate_limit_exceeded"]
+              enum: [ "server_error", "rate_limit_exceeded" ]
             message:
               type: string
               description: A human-readable description of the error.
@@ -3900,7 +3902,7 @@ components:
         type:
           description: Always `message_creation`.
           type: string
-          enum: ["message_creation"]
+          enum: [ "message_creation" ]
         message_creation:
           $ref: "#/components/schemas/RunStepDetailsMessageCreation"
       required:
@@ -3922,7 +3924,7 @@ components:
         type:
           description: Always `tool_calls`.
           type: string
-          enum: ["tool_calls"]
+          enum: [ "tool_calls" ]
         tool_calls:
           type: array
           description: |
@@ -3949,7 +3951,7 @@ components:
         type:
           type: string
           description: The type of tool call. This is always going to be `code_interpreter` for this type of tool call.
-          enum: ["code_interpreter"]
+          enum: [ "code_interpreter" ]
         code_interpreter:
           $ref: "#/components/schemas/RunStepDetailsToolCallsCodeObjectCodeInterpreter"
       required:
@@ -3984,7 +3986,7 @@ components:
         type:
           description: Always `logs`.
           type: string
-          enum: ["logs"]
+          enum: [ "logs" ]
         logs:
           type: string
           description: The text output from the Code Interpreter tool call.
@@ -3998,7 +4000,7 @@ components:
         type:
           description: Always `image`.
           type: string
-          enum: ["image"]
+          enum: [ "image" ]
         image:
           $ref: "#/components/schemas/RunStepDetailsToolCallsCodeOutputImage"
       required:
@@ -4023,7 +4025,7 @@ components:
         type:
           type: string
           description: The type of tool call. This is always going to be `retrieval` for this type of tool call.
-          enum: ["retrieval"]
+          enum: [ "retrieval" ]
         retrieval:
           type: object
           description: For now, this is always going to be an empty object.
@@ -4042,7 +4044,7 @@ components:
         type:
           type: string
           description: The type of tool call. This is always going to be `function` for this type of tool call.
-          enum: ["function"]
+          enum: [ "function" ]
         function:
           type: object
           title: RunStepDetailsToolCallsFunction
@@ -4094,7 +4096,7 @@ components:
         object:
           description: The object type, which is always `assistant.file`.
           type: string
-          enum: [assistant.file]
+          enum: [ assistant.file ]
         created_at:
           description: The Unix timestamp (in seconds) for when the assistant file was created.
           type: integer
@@ -4129,7 +4131,7 @@ components:
         object:
           type: string
           description: The object type, which is always `assistant.file.deleted`.
-          enum: [assistant.file.deleted]
+          enum: [ assistant.file.deleted ]
       required:
         - id
         - object
@@ -4176,7 +4178,7 @@ components:
         object:
           description: The object type, which is always `thread.message.file`.
           type: string
-          enum: ["thread.message.file"]
+          enum: [ "thread.message.file" ]
         created_at:
           description: The Unix timestamp (in seconds) for when the message file was created.
           type: integer
