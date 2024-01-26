@@ -1005,6 +1005,7 @@ _$CreateEmbeddingRequestImpl _$$CreateEmbeddingRequestImplFromJson(
       encodingFormat: $enumDecodeNullable(
               _$EmbeddingEncodingFormatEnumMap, json['encoding_format']) ??
           EmbeddingEncodingFormat.float,
+      dimensions: json['dimensions'] as int?,
       user: json['user'] as String?,
     );
 
@@ -1023,6 +1024,7 @@ Map<String, dynamic> _$$CreateEmbeddingRequestImplToJson(
     }
   }
 
+  writeNotNull('dimensions', instance.dimensions);
   writeNotNull('user', instance.user);
   return val;
 }

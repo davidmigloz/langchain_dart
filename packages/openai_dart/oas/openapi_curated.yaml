@@ -2205,6 +2205,11 @@ components:
           default: "float"
           type: string
           enum: [ "float", "base64" ]
+        dimensions:
+          description: |
+            The number of dimensions the resulting output embeddings should have. Only supported in `text-embedding-3` and later models.
+          type: integer
+          minimum: 1
         user: *end_user_param_configuration
       required:
         - model
