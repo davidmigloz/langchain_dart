@@ -2154,7 +2154,7 @@ components:
         model:
           title: EmbeddingModel
           description: *model_description
-          example: "text-embedding-ada-002"
+          example: "text-embedding-3-small"
           anyOf:
             - type: string
               description: The ID of the model to use for this request.
@@ -2162,7 +2162,7 @@ components:
               title: EmbeddingModels
               description: |
                 Available completion models. Mind that the list may not be exhaustive nor up-to-date.
-              enum: [ "text-embedding-ada-002" ]
+              enum: [ "text-embedding-ada-002", "text-embedding-3-small", "text-embedding-3-large" ]
         input:
           title: EmbeddingInput
           description: |

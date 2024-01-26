@@ -21,26 +21,34 @@ void main() {
     });
 
     test('Test call embeddings API', () async {
-      const request = CreateEmbeddingRequest(
-        model: EmbeddingModel.model(EmbeddingModels.textEmbeddingAda002),
-        input: EmbeddingInput.string(
-          'The food was delicious and the waiter...',
-        ),
-      );
-      final res = await client.createEmbedding(request: request);
-      expect(res.data, hasLength(1));
-      expect(res.data.first.index, 0);
-      expect(res.data.first.embeddingVector, hasLength(1536));
-      expect(res.data.first.object, EmbeddingObject.embedding);
-      expect(res.model, startsWith('text-embedding-ada-002'));
-      expect(res.object, CreateEmbeddingResponseObject.list);
-      expect(res.usage?.promptTokens, greaterThan(0));
-      expect(res.usage?.totalTokens, greaterThan(0));
+      final models = [
+        (EmbeddingModels.textEmbeddingAda002, 1536),
+        (EmbeddingModels.textEmbedding3Small, 1536),
+        (EmbeddingModels.textEmbedding3Large, 3072),
+      ];
+
+      for (final (model, modelDim) in models) {
+        final request = CreateEmbeddingRequest(
+          model: EmbeddingModel.model(model),
+          input: const EmbeddingInput.string(
+            'The food was delicious and the waiter...',
+          ),
+        );
+        final res = await client.createEmbedding(request: request);
+        expect(res.data, hasLength(1));
+        expect(res.data.first.index, 0);
+        expect(res.data.first.embeddingVector, hasLength(modelDim));
+        expect(res.data.first.object, EmbeddingObject.embedding);
+        expect(res.model.replaceAll('-', ''), model.name.toLowerCase());
+        expect(res.object, CreateEmbeddingResponseObject.list);
+        expect(res.usage?.promptTokens, greaterThan(0));
+        expect(res.usage?.totalTokens, greaterThan(0));
+      }
     });
 
     test('Test call embeddings API with encoding base64', () async {
       const request = CreateEmbeddingRequest(
-        model: EmbeddingModel.model(EmbeddingModels.textEmbeddingAda002),
+        model: EmbeddingModel.model(EmbeddingModels.textEmbedding3Small),
         input: EmbeddingInput.string(
           'The food was delicious and the waiter...',
         ),
