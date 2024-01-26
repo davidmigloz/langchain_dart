@@ -66,6 +66,10 @@ class CreateEmbeddingRequest with _$CreateEmbeddingRequest {
 enum EmbeddingModels {
   @JsonValue('text-embedding-ada-002')
   textEmbeddingAda002,
+  @JsonValue('text-embedding-3-small')
+  textEmbedding3Small,
+  @JsonValue('text-embedding-3-large')
+  textEmbedding3Large,
 }
 
 // ==========================================

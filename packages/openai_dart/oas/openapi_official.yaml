@@ -6740,11 +6740,11 @@ components:
           x-oaiExpandable: true
         model:
           description: *model_description
-          example: "text-embedding-ada-002"
+          example: "text-embedding-3-small"
           anyOf:
             - type: string
             - type: string
-              enum: ["text-embedding-ada-002"]
+              enum: ["text-embedding-ada-002", "text-embedding-3-small", "text-embedding-3-large"]
           x-oaiTypeLabel: string
         encoding_format:
           description: "The format to return the embeddings in. Can be either `float` or [`base64`](https://pypi.org/project/pybase64/)."

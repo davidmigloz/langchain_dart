@@ -1048,6 +1048,8 @@ Map<String, dynamic> _$$EmbeddingModelEnumerationImplToJson(
 
 const _$EmbeddingModelsEnumMap = {
   EmbeddingModels.textEmbeddingAda002: 'text-embedding-ada-002',
+  EmbeddingModels.textEmbedding3Small: 'text-embedding-3-small',
+  EmbeddingModels.textEmbedding3Large: 'text-embedding-3-large',
 };
 
 _$EmbeddingModelStringImpl _$$EmbeddingModelStringImplFromJson(
