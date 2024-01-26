@@ -51,7 +51,7 @@ Future<void> _completions(final OpenAIClient client) async {
 Future<void> _embeddings(final OpenAIClient client) async {
   final res = await client.createEmbedding(
     request: const CreateEmbeddingRequest(
-      model: EmbeddingModel.modelId('text-embedding-ada-002'),
+      model: EmbeddingModel.modelId('text-embedding-3-small'),
       input: EmbeddingInput.string('The food was delicious and the waiter...'),
     ),
   );

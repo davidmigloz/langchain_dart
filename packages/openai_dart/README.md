@@ -428,7 +428,7 @@ Related guide: [Embeddings](https://platform.openai.com/docs/guides/embeddings)
 ```dart
 final res = await client.createEmbedding(
   request: CreateEmbeddingRequest(
-    model: EmbeddingModel.modelId('text-embedding-ada-002'),
+    model: EmbeddingModel.modelId('text-embedding-3-small'),
     input: EmbeddingInput.string('The food was delicious and the waiter...'),
   ),
 );
@@ -438,7 +438,7 @@ print(res.data.first.embeddingVector);
 
 `EmbeddingModel` is a sealed class that offers two ways to specify the model:
 - `EmbeddingModel.modelId('model-id')`: the model ID as string.
-- `EmbeddingModel.model(EmbeddingModels.textEmbeddingAda002)`: a value from `EmbeddingModels` enum which lists all of the available models.
+- `EmbeddingModel.model(EmbeddingModels.textEmbedding3Small)`: a value from `EmbeddingModels` enum which lists all of the available models.
 
 `EmbeddingInput` is a sealed class that offers four ways to specify the embedding input:
 - `EmbeddingInput.string('input')`: the input as string.
@@ -451,7 +451,7 @@ You can also request the embedding vector encoded as a base64 string:
 ```dart
 final res = await client.createEmbedding(
   request: CreateEmbeddingRequest(
-    model: EmbeddingModel.modelId('text-embedding-ada-002'),
+    model: EmbeddingModel.modelId('text-embedding-3-small'),
     input: EmbeddingInput.string('The food was delicious and the waiter...'),
     encodingFormat: EmbeddingEncodingFormat.base64,
   ),
