@@ -1,3 +1,9 @@
+## 0.1.6
+
+ - **FEAT**: Add gpt-4-0125-preview and gpt-4-turbo-preview in model catalog ([#309](https://github.com/davidmigloz/langchain_dart/issues/309)). ([f5a78867](https://github.com/davidmigloz/langchain_dart/commit/f5a78867e7fa61e03d7e7da101c939c38564454c))
+ - **FEAT**: Add text-embedding-3-small and text-embedding-3-large in model catalog ([#310](https://github.com/davidmigloz/langchain_dart/issues/310)). ([fda16024](https://github.com/davidmigloz/langchain_dart/commit/fda16024daa0b2b12999e628efe11d305d1abf4d))
+ - **FEAT**: Add support for shortening embeddings ([#311](https://github.com/davidmigloz/langchain_dart/issues/311)). ([c725db0b](https://github.com/davidmigloz/langchain_dart/commit/c725db0b07b41bee0f12981f956ed0f3cb3d73eb))
+
 ## 0.1.5
 
  - **FEAT**: Support Anyscale API in openai_dart client ([#303](https://github.com/davidmigloz/langchain_dart/issues/303)). ([e0a3651c](https://github.com/davidmigloz/langchain_dart/commit/e0a3651c1457065808e1306c7f498eb716159583))

@@ -1,3 +1,10 @@
+## 0.4.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: Update OpenAIEmbeddings' default model to text-embedding-3-small ([#313](https://github.com/davidmigloz/langchain_dart/issues/313)). ([43463481](https://github.com/davidmigloz/langchain_dart/commit/4346348108dc105a1daaedc932641e725b648f3e))
+ - **FEAT**: Add support for shortening embeddings in OpenAIEmbeddings ([#312](https://github.com/davidmigloz/langchain_dart/issues/312)). ([5f5eb54f](https://github.com/davidmigloz/langchain_dart/commit/5f5eb54f2b991c14c18abf785b873a677bdf7e14))
+
 ## 0.3.3+1
 
  - **FIX**: Specified model is always overwritten in OpenAIFunctionsAgent ([#308](https://github.com/davidmigloz/langchain_dart/issues/308)). ([32dc37d8](https://github.com/davidmigloz/langchain_dart/commit/32dc37d8ca3e52929ab69d695f66627ff7e897fa))

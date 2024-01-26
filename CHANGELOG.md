@@ -3,6 +3,53 @@
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR)
 server for more details about each release.
 
+## 2024-01-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+- [`langchain_openai` - `v0.4.0`](#langchain_openai---v040)
+
+Packages with other changes:
+
+- [`langchain` - `v0.4.0`](#langchain---v040)
+- [`openai_dart` - `v0.1.6`](#openai_dart---v016)
+- [`langchain_ollama` - `v0.0.3+2`](#langchain_ollama---v0032)
+- [`langchain_mistralai` - `v0.0.2+2`](#langchain_mistralai---v0022)
+- [`langchain_pinecone` - `v0.0.6+13`](#langchain_pinecone---v00613)
+- [`langchain_chroma` - `v0.1.0+14`](#langchain_chroma---v01014)
+- [`langchain_google` - `v0.2.3+2`](#langchain_google---v0232)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+- `langchain_ollama` - `v0.0.3+2`
+- `langchain_mistralai` - `v0.0.2+2`
+- `langchain_pinecone` - `v0.0.6+13`
+- `langchain_chroma` - `v0.1.0+14`
+- `langchain_google` - `v0.2.3+2`
+
+---
+
+#### `langchain` - `v0.4.0`
+
+- **DOCS**: Update embeddings documentation ([#313](https://github.com/davidmigloz/langchain_dart/issues/313)). ([43463481](https://github.com/davidmigloz/langchain_dart/commit/4346348108dc105a1daaedc932641e725b648f3e))
+
+#### `langchain_openai` - `v0.4.0`
+
+- **BREAKING** **FEAT**: Update OpenAIEmbeddings' default model to text-embedding-3-small ([#313](https://github.com/davidmigloz/langchain_dart/issues/313)). ([43463481](https://github.com/davidmigloz/langchain_dart/commit/4346348108dc105a1daaedc932641e725b648f3e))
+- **FEAT**: Add support for shortening embeddings in OpenAIEmbeddings ([#312](https://github.com/davidmigloz/langchain_dart/issues/312)). ([5f5eb54f](https://github.com/davidmigloz/langchain_dart/commit/5f5eb54f2b991c14c18abf785b873a677bdf7e14))
+
+#### `openai_dart` - `v0.1.6`
+
+- **FEAT**: Add gpt-4-0125-preview and gpt-4-turbo-preview in model catalog ([#309](https://github.com/davidmigloz/langchain_dart/issues/309)). ([f5a78867](https://github.com/davidmigloz/langchain_dart/commit/f5a78867e7fa61e03d7e7da101c939c38564454c))
+- **FEAT**: Add text-embedding-3-small and text-embedding-3-large in model catalog ([#310](https://github.com/davidmigloz/langchain_dart/issues/310)). ([fda16024](https://github.com/davidmigloz/langchain_dart/commit/fda16024daa0b2b12999e628efe11d305d1abf4d))
+- **FEAT**: Add support for shortening embeddings ([#311](https://github.com/davidmigloz/langchain_dart/issues/311)). ([c725db0b](https://github.com/davidmigloz/langchain_dart/commit/c725db0b07b41bee0f12981f956ed0f3cb3d73eb))
+
 ## 2024-01-25
 
 ### Changes
@@ -1702,24 +1749,6 @@ Packages with changes:
 ### Changes
 
 #### `langchain` - `v0.0.1`
-
- - Initial public release. 
-
-Check out the announcement post for all the details: 
-https://blog.langchaindart.com/introducing-langchain-dart-6b1d34fc41ef
-- `v0.0.1`
-
- - Initial public release. 
-
-Check out the announcement post for all the details: 
-https://blog.langchaindart.com/introducing-langchain-dart-6b1d34fc41ef
-- `v0.0.1`
-
- - Initial public release. 
-
-Check out the announcement post for all the details: 
-https://blog.langchaindart.com/introducing-langchain-dart-6b1d34fc41ef
-- `v0.0.1`
 
  - Initial public release. 
 

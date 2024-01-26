@@ -1,3 +1,7 @@
+## 0.4.0
+
+ - **DOCS**: Update embeddings documentation ([#313](https://github.com/davidmigloz/langchain_dart/issues/313)). ([43463481](https://github.com/davidmigloz/langchain_dart/commit/4346348108dc105a1daaedc932641e725b648f3e))
+
 ## 0.3.3
 
  - **DOCS**: Add Anyscale and Together AI documentation ([#305](https://github.com/davidmigloz/langchain_dart/issues/305)). ([7daa3eb0](https://github.com/davidmigloz/langchain_dart/commit/7daa3eb052c32baa7473d7532c795b7f242ed9fc))

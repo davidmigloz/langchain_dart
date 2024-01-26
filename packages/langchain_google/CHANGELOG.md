@@ -1,3 +1,7 @@
+## 0.2.3+2
+
+ - Update a dependency to the latest release.
+
 ## 0.2.3+1
 
  - **REFACTOR**: Remove tiktoken in favour of countTokens API on VertexAI ([#307](https://github.com/davidmigloz/langchain_dart/issues/307)). ([8158572b](https://github.com/davidmigloz/langchain_dart/commit/8158572b15c0525b9caa9bc71fbbbee6ab4458fe))
