@@ -54,7 +54,7 @@ class CacheBackedEmbeddings implements Embeddings {
   /// final cacheBackedEmbeddings = CacheBackedEmbeddings.fromByteStore(
   ///   underlyingEmbeddings: OpenAIEmbeddings(apiKey: openaiApiKey),
   ///   documentEmbeddingsStore: InMemoryStore(),
-  ///   namespace: 'text-embedding-ada-002',
+  ///   namespace: 'text-embedding-3-small',
   /// );
   factory CacheBackedEmbeddings.fromByteStore({
     required final Embeddings underlyingEmbeddings,

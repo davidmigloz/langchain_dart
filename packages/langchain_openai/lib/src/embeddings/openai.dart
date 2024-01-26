@@ -130,7 +130,7 @@ class OpenAIEmbeddings implements Embeddings {
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    this.model = 'text-embedding-ada-002',
+    this.model = 'text-embedding-3-small',
     this.dimensions,
     this.batchSize = 512,
     this.user,
@@ -163,7 +163,7 @@ class OpenAIEmbeddings implements Embeddings {
 
   /// The maximum number of documents to embed in a single request.
   /// This is limited by max input tokens for the model
-  /// (e.g. 8191 tokens for text-embedding-ada-002).
+  /// (e.g. 8191 tokens for text-embedding-3-small).
   int batchSize;
 
   /// A unique identifier representing your end-user, which can help OpenAI to
