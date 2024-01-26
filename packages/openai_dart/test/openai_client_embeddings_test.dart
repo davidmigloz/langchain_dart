@@ -59,5 +59,19 @@ void main() {
       expect(res.data.first.index, 0);
       expect(res.data.first.embeddingVectorBase64, isNotEmpty);
     });
+
+    test('Test shortening embeddings', () async {
+      const request = CreateEmbeddingRequest(
+        model: EmbeddingModel.model(EmbeddingModels.textEmbedding3Large),
+        input: EmbeddingInput.string(
+          'The food was delicious and the waiter...',
+        ),
+        dimensions: 256,
+      );
+      final res = await client.createEmbedding(request: request);
+      expect(res.data, hasLength(1));
+      expect(res.data.first.index, 0);
+      expect(res.data.first.embeddingVector, hasLength(256));
+    });
   });
 }
