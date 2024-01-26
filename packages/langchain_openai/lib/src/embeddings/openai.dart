@@ -109,6 +109,7 @@ class OpenAIEmbeddings implements Embeddings {
   ///   [OpenAI dashboard](https://platform.openai.com/account/api-keys).
   /// - `organization`: your OpenAI organization ID (if applicable).
   /// - [OpenAIEmbeddings.model]
+  /// - [OpenAIEmbeddings.dimensions]
   /// - [OpenAIEmbeddings.batchSize]
   /// - [OpenAIEmbeddings.user]
   ///
@@ -130,6 +131,7 @@ class OpenAIEmbeddings implements Embeddings {
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     this.model = 'text-embedding-ada-002',
+    this.dimensions,
     this.batchSize = 512,
     this.user,
   }) : _client = OpenAIClient(
@@ -144,10 +146,20 @@ class OpenAIEmbeddings implements Embeddings {
   /// A client for interacting with OpenAI API.
   final OpenAIClient _client;
 
-  /// ID of the model to use (e.g. 'text-embedding-ada-002').
+  /// ID of the model to use (e.g. 'text-embedding-3-small').
   ///
-  /// See https://platform.openai.com/docs/api-reference/embeddings/create#embeddings-create-model
+  /// Available models:
+  /// - `text-embedding-3-small`
+  /// - `text-embedding-3-large`
+  /// - `text-embedding-ada-002`
+  ///
+  /// Mind that the list may be outdated.
+  /// See https://platform.openai.com/docs/models for the latest list.
   String model;
+
+  /// The number of dimensions the resulting output embeddings should have.
+  /// Only supported in `text-embedding-3` and later models.
+  int? dimensions;
 
   /// The maximum number of documents to embed in a single request.
   /// This is limited by max input tokens for the model
@@ -181,6 +193,7 @@ class OpenAIEmbeddings implements Embeddings {
             input: EmbeddingInput.listString(
               batch.map((final doc) => doc.pageContent).toList(growable: false),
             ),
+            dimensions: dimensions,
             user: user,
           ),
         );
@@ -197,6 +210,7 @@ class OpenAIEmbeddings implements Embeddings {
       request: CreateEmbeddingRequest(
         model: EmbeddingModel.modelId(model),
         input: EmbeddingInput.string(query),
+        dimensions: dimensions,
         user: user,
       ),
     );

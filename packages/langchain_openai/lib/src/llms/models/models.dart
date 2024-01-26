@@ -24,7 +24,13 @@ class OpenAIOptions extends LLMOptions {
 
   /// ID of the model to use (e.g. 'gpt-3.5-turbo-instruct').
   ///
-  /// See https://platform.openai.com/docs/api-reference/completions/create#completions-create-model
+  /// Available models:
+  /// - `gpt-3.5-turbo-instruct`
+  /// - `davinci-002`
+  /// - `babbage-002`
+  ///
+  /// Mind that the list may be outdated.
+  /// See https://platform.openai.com/docs/models for the latest list.
   final String? model;
 
   /// Generates best_of completions server-side and returns the "best"

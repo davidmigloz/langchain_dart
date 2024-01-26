@@ -12,9 +12,20 @@ void main() {
     final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 
     test('Test OpenAIEmbeddings.embedQuery', () async {
-      final embeddings = OpenAIEmbeddings(apiKey: openaiApiKey);
-      final res = await embeddings.embedQuery('Hello world');
-      expect(res.length, 1536);
+      final models = [
+        ('text-embedding-ada-002', 1536),
+        ('text-embedding-3-small', 1536),
+        ('text-embedding-3-large', 3072),
+      ];
+
+      for (final (modelId, modelDim) in models) {
+        final embeddings = OpenAIEmbeddings(
+          apiKey: openaiApiKey,
+          model: modelId,
+        );
+        final res = await embeddings.embedQuery('Hello world');
+        expect(res.length, modelDim, reason: modelId);
+      }
     });
 
     test('Test OpenAIEmbeddings.embedDocuments', () async {
@@ -32,6 +43,16 @@ void main() {
       expect(res.length, 2);
       expect(res[0].length, 1536);
       expect(res[1].length, 1536);
+    });
+
+    test('Test shortening embeddings', () async {
+      final embeddings = OpenAIEmbeddings(
+        apiKey: openaiApiKey,
+        model: 'text-embedding-3-small',
+        dimensions: 256,
+      );
+      final res = await embeddings.embedQuery('Hello world');
+      expect(res.length, 256);
     });
   });
 }
