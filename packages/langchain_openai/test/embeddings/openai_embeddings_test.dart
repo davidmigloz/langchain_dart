@@ -48,7 +48,7 @@ void main() {
     test('Test shortening embeddings', () async {
       final embeddings = OpenAIEmbeddings(
         apiKey: openaiApiKey,
-        model: 'text-embedding-3-small',
+        model: 'text-embedding-3-large',
         dimensions: 256,
       );
       final res = await embeddings.embedQuery('Hello world');
