@@ -1,25 +1,25 @@
 name: langchain_supabase
-description: Supabase module for LangChain.dart.
+description: LangChain.dart integration module for Supabase (e.g. Supabase Vector).
 version: 0.0.1-dev.1
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_supabase
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues
 homepage: https://github.com/davidmigloz/langchain_dart
 documentation: https://langchaindart.com
-publish_to: none # Remove when the package is ready to be published
 
 topics:
   - ai
   - nlp
   - llms
   - langchain
+  - vector-db
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  http: ^1.2.0
+  http: ^1.1.0
   langchain: ^0.4.0
-  meta: ^1.11.0
+  meta: ^1.9.1
   supabase: ^2.0.6
 
 dev_dependencies:

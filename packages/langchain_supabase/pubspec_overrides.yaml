@@ -4,6 +4,6 @@ dependency_overrides:
   langchain:
     path: ../langchain
   langchain_openai:
-    path: ..\\langchain_openai
+    path: ../langchain_openai
   openai_dart:
-    path: ..\\openai_dart
+    path: ../openai_dart

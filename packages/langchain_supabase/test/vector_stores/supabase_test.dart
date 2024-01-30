@@ -12,7 +12,7 @@ import 'package:test/test.dart';
 void main() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
   final supabaseUrl = Platform.environment['SUPABASE_URL'];
-  final supabaseKey = Platform.environment['SUPABASE_KEY'];
+  final supabaseApiKey = Platform.environment['SUPABASE_API_KEY'];
   late final Embeddings embeddings;
   late final VectorStore vectorStore;
   late final sp.SupabaseClient supabaseClient;
@@ -20,12 +20,12 @@ void main() async {
   setUpAll(() async {
     expect(openaiApiKey, isNotNull);
     expect(supabaseUrl, isNotNull);
-    expect(supabaseKey, isNotNull);
+    expect(supabaseApiKey, isNotNull);
 
     try {
       supabaseClient = sp.SupabaseClient(
         supabaseUrl!,
-        supabaseKey!,
+        supabaseApiKey!,
       );
     } catch (e) {
       fail('Expected SupabaseClient to be initialized');
@@ -33,7 +33,9 @@ void main() async {
 
     // sanity check for documents table
     try {
-      final result = await supabaseClient.from('documents').select('id,content,metadata,embedding');
+      final result = await supabaseClient
+          .from('documents')
+          .select('id,content,metadata,embedding');
       expect(result, isNotNull);
       expect(result.length, 0);
     } catch (e) {
@@ -42,12 +44,15 @@ void main() async {
 
     // sanity check for match_documents function
     try {
-      final result = await supabaseClient.rpc<List<dynamic>>('match_documents', params: {
-        'filter': '', // no filter
-        'match_count': 2147483647, // maximum integer value
-        'query_embedding': '[${'0,' * 1535}0]', // origin in 1536 dims space
-        'match_threshold': 0.0, // minimum similarity score
-      });
+      final result = await supabaseClient.rpc<List<dynamic>>(
+        'match_documents',
+        params: {
+          'filter': '', // no filter
+          'match_count': 2147483647, // maximum integer value
+          'query_embedding': '[${'0,' * 1535}0]', // origin in 1536 dims space
+          'match_threshold': 0.0, // minimum similarity score
+        },
+      );
       expect(result, isNotNull);
       expect(result.length, 0);
     } catch (e) {
@@ -59,11 +64,11 @@ void main() async {
       tableName: 'documents',
       embeddings: embeddings,
       supabaseUrl: supabaseUrl,
-      supabaseKey: supabaseKey,
+      supabaseKey: supabaseApiKey,
     );
   });
 
-  group('Supabase tests', skip: true, () {
+  group('Supabase tests', () {
     test('Test Supabase add new vectors', () async {
       final res = await vectorStore.addDocuments(
         documents: [
@@ -140,7 +145,7 @@ void main() async {
       }
     });
 
-    test('Test Supabase query with where filter', () async {
+    test('Test Supabase query with equality filter', () async {
       final res = await vectorStore.similaritySearch(
         query: 'What are they eating?',
         config: const SupabaseSimilaritySearch(
@@ -150,6 +155,21 @@ void main() async {
       );
       for (final doc in res) {
         expect(doc.metadata['cat'], 'person');
+      }
+    });
+
+    test('Test Supabase query with filter with operators', () async {
+      final res = await vectorStore.similaritySearch(
+        query: 'What are they eating?',
+        config: const SupabaseSimilaritySearch(
+          k: 10,
+          filter: {
+            'cat': {r'ne': 'person'},
+          },
+        ),
+      );
+      for (final doc in res) {
+        expect(doc.metadata['cat'], isNot('person'));
       }
     });
 
@@ -199,7 +219,11 @@ void main() async {
   tearDownAll(() async {
     late final List<Map<String, dynamic>> result;
     try {
-      result = await supabaseClient.from('documents').delete().neq('id', '0').select();
+      result = await supabaseClient
+          .from('documents')
+          .delete()
+          .neq('id', '0')
+          .select();
     } catch (e) {
       fail('Error deleting documents: $e');
     }

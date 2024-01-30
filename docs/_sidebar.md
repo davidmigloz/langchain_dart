@@ -83,6 +83,7 @@
         - [Memory](/modules/retrieval/vector_stores/integrations/memory.md)
         - [Chroma](/modules/retrieval/vector_stores/integrations/chroma.md)
         - [Pinecone](/modules/retrieval/vector_stores/integrations/pinecone.md)
+        - [Supabase](/modules/retrieval/vector_stores/integrations/supabase.md)
         - [Vertex AI Vector Search](/modules/retrieval/vector_stores/integrations/vertex_ai.md)
     - [Retrievers](/modules/retrieval/retrievers/retrievers.md)
   - [Chains](/modules/chains/chains.md)
