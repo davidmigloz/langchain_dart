@@ -32,7 +32,7 @@
 
 ## 0.0.6+5
 
- - **FIX**(vector_stores): Decode JSON responses as UTF-8 in Pinecone ([#236](https://github.com/davidmigloz/langchain_dart/issues/236)). ([edb427b1](https://github.com/davidmigloz/langchain_dart/commit/edb427b16e6cd938adcaaa7cf641f4df6632f479))
+ - **FIX**: Decode JSON responses as UTF-8 in Pinecone ([#236](https://github.com/davidmigloz/langchain_dart/issues/236)). ([edb427b1](https://github.com/davidmigloz/langchain_dart/commit/edb427b16e6cd938adcaaa7cf641f4df6632f479))
 
 ## 0.0.6+4
 
@@ -52,7 +52,7 @@
 
 ## 0.0.6
 
- - **FEAT**(vector-stores): Add support for global headers in Pinecone ([#213](https://github.com/davidmigloz/langchain_dart/issues/213)). ([8e0d221f](https://github.com/davidmigloz/langchain_dart/commit/8e0d221fad55b1fa62d9ff6f97476ee647837c6b))
+ - **FEAT**: Add support for global headers in Pinecone ([#213](https://github.com/davidmigloz/langchain_dart/issues/213)). ([8e0d221f](https://github.com/davidmigloz/langchain_dart/commit/8e0d221fad55b1fa62d9ff6f97476ee647837c6b))
 
 ## 0.0.5+2
 
@@ -64,7 +64,7 @@
 
 ## 0.0.5
 
- - **FEAT**(vector-stores): Upgrade pinecone client to v0.6.0 ([#188](https://github.com/davidmigloz/langchain_dart/issues/188)). ([57e2587f](https://github.com/davidmigloz/langchain_dart/commit/57e2587fa3849e7aea199dd52e2cb2ce4f61946a))
+ - **FEAT**: Upgrade Pinecone client to v0.6.0 ([#188](https://github.com/davidmigloz/langchain_dart/issues/188)). ([57e2587f](https://github.com/davidmigloz/langchain_dart/commit/57e2587fa3849e7aea199dd52e2cb2ce4f61946a))
  - **DOCS**: Update CHANGELOG.md. ([5ea4e532](https://github.com/davidmigloz/langchain_dart/commit/5ea4e5326e706a52d157284a281eb881e05117c5))
 
 ## 0.0.4
@@ -75,11 +75,11 @@
 
 ## 0.0.3
 
- - **FIX**(vector-stores): Update pinecone client version ([#160](https://github.com/davidmigloz/langchain_dart/issues/160)). ([d15cc576](https://github.com/davidmigloz/langchain_dart/commit/d15cc5761563476fe7b5d66effd42ded077dbbbc))
+ - **FIX**: Update Pinecone client version ([#160](https://github.com/davidmigloz/langchain_dart/issues/160)). ([d15cc576](https://github.com/davidmigloz/langchain_dart/commit/d15cc5761563476fe7b5d66effd42ded077dbbbc))
 
 ## 0.0.2+1
 
- - **REFACTOR**(vertex_ai): Require `http.Client` instead of `AuthClient` ([#156](https://github.com/davidmigloz/langchain_dart/issues/156)). ([0f7fee7f](https://github.com/davidmigloz/langchain_dart/commit/0f7fee7f0780e5b650ec50307a7fda65e242e822))
+ - **REFACTOR**: Require `http.Client` instead of `AuthClient` ([#156](https://github.com/davidmigloz/langchain_dart/issues/156)). ([0f7fee7f](https://github.com/davidmigloz/langchain_dart/commit/0f7fee7f0780e5b650ec50307a7fda65e242e822))
 
 ## 0.0.2
 
@@ -91,7 +91,7 @@
 
  - **DOCS**: Update readme. ([e1b5b295](https://github.com/davidmigloz/langchain_dart/commit/e1b5b2958bdf2b787c8b49aeeb6690c33c225943))
  - **DOCS**: Update packages example. ([4f8488fc](https://github.com/davidmigloz/langchain_dart/commit/4f8488fcb324e31b9d8dece7d1999333d7982253))
- - **FEAT**(vector-stores): Add support for Pinecone VectorStore ([#37](https://github.com/davidmigloz/langchain_dart/issues/37)). ([e43eef97](https://github.com/davidmigloz/langchain_dart/commit/e43eef979c329fc72a3eed72d818992287838a80))
+ - **FEAT**: Add support for Pinecone VectorStore ([#37](https://github.com/davidmigloz/langchain_dart/issues/37)). ([e43eef97](https://github.com/davidmigloz/langchain_dart/commit/e43eef979c329fc72a3eed72d818992287838a80))
 
 ## 0.0.1-dev.1
 

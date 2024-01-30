@@ -1,6 +1,6 @@
 ## 0.0.2
 
- - **FEAT**(ollama_dart): Add support for chat API and multi-modal LLMs ([#274](https://github.com/davidmigloz/langchain_dart/issues/274)). ([76e1a294](https://github.com/davidmigloz/langchain_dart/commit/76e1a2946fbbf5c4802c4e66addeb9adf5900b17))
+ - **FEAT**: Add support for chat API and multi-modal LLMs ([#274](https://github.com/davidmigloz/langchain_dart/issues/274)). ([76e1a294](https://github.com/davidmigloz/langchain_dart/commit/76e1a2946fbbf5c4802c4e66addeb9adf5900b17))
 
 ## 0.0.1+2
 
@@ -12,7 +12,7 @@
 
 ## 0.0.1
 
- - **FEAT**(ollama_dart): Implement ollama_dart, a Dart client for Ollama API ([#238](https://github.com/davidmigloz/langchain_dart/issues/238)). ([d213aa9c](https://github.com/davidmigloz/langchain_dart/commit/d213aa9c5dec0aea11d656b5f16ddf3174f5b789))
+ - **FEAT**: Implement ollama_dart, a Dart client for Ollama API ([#238](https://github.com/davidmigloz/langchain_dart/issues/238)). ([d213aa9c](https://github.com/davidmigloz/langchain_dart/commit/d213aa9c5dec0aea11d656b5f16ddf3174f5b789))
 
 ## 0.0.1-dev.1
 
