@@ -8,7 +8,8 @@ import 'package:supabase/supabase.dart';
 ///
 /// It assumes a database with the `pg_vector` extension,
 /// containing a [tableName] (default: `documents`) and
-/// a PostgreSQL function `match_documents` defined as follows:
+/// a [postgresFunctionName] (default: `match_documents`)
+/// defined as follows:
 ///
 /// ```sql
 ///  -- Enable the "vector" extension
@@ -90,6 +91,9 @@ class Supabase extends VectorStore {
   /// The Supabase table name.
   final String tableName;
 
+  /// The name of the PostgreSQL function that executes the query.
+  final String postgresFunctionName = 'match_documents';
+
   @override
   Future<List<String>> addVectors({
     required final List<List<double>> vectors,
@@ -136,7 +140,7 @@ class Supabase extends VectorStore {
     };
 
     final List<dynamic> result = await _client.rpc(
-      'match_documents',
+      postgresFunctionName,
       params: params,
     );
     return result
