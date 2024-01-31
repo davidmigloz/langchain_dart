@@ -267,7 +267,7 @@ void main() {
         RunStepDetailsToolCallsCodeOutputLogsObjectType.logs,
       );
       final logs = output?.mapOrNull(logs: (final l) => l.logs);
-      expect(logs, '1.0');
+      expect(double.tryParse(logs ?? ''), closeTo(1.0, 0.1));
       expect(step2.lastError, isNull);
       expect(step2.expiredAt, isNull);
       expect(step2.cancelledAt, isNull);

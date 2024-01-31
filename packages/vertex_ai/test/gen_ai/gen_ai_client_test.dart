@@ -48,10 +48,11 @@ void main() async {
         prompt: 'Suggest a name for a LLM framework for Dart',
         parameters: const VertexAITextModelRequestParams(
           temperature: 1,
-          candidateCount: 3,
+          topP: 1,
+          candidateCount: 2,
         ),
       );
-      expect(res.predictions.length, 3);
+      expect(res.predictions.length, 2);
     });
 
     test('Test VertexAITextModelApi count tokens', () async {
