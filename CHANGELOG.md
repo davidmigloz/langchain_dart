@@ -3,6 +3,92 @@
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR)
 server for more details about each release.
 
+## 2024-01-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+- There are no breaking changes in this release.
+
+Packages with other changes:
+
+- [`langchain` - `v0.4.1`](#langchain---v041)
+- [`langchain_supabase` - `v0.0.1`](#langchain_supabase---v001)
+- [`langchain_chroma` - `v0.1.0+15`](#langchain_chroma---v01015)
+- [`langchain_google` - `v0.2.3+3`](#langchain_google---v0233)
+- [`langchain_mistralai` - `v0.0.2+3`](#langchain_mistralai---v0023)
+- [`langchain_ollama` - `v0.0.3+3`](#langchain_ollama---v0033)
+- [`langchain_openai` - `v0.4.0+1`](#langchain_openai---v0401)
+- [`langchain_pinecone` - `v0.0.6+14`](#langchain_pinecone---v00614)
+- [`chromadb` - `v0.1.1+1`](#chromadb---v0111)
+- [`googleai_dart` - `v0.0.2+2`](#googleai_dart---v0022)
+- [`mistralai_dart` - `v0.0.2+3`](#mistralai_dart---v0023)
+- [`ollama_dart` - `v0.0.2+1`](#ollama_dart---v0021)
+- [`openai_dart` - `v0.1.6+1`](#openai_dart---v0161)
+- [`vertex_ai` - `v0.0.9+1`](#vertex_ai---v0091)
+
+---
+
+#### `langchain` - `v0.4.1`
+
+- **DOCS**: Update Supabase docs. ([4a2a5329](https://github.com/davidmigloz/langchain_dart/commit/4a2a532931cac7577102d78b0ec8a5cc4eafb93c))
+- **DOCS**: Update CHANGELOG.md. ([d0d46534](https://github.com/davidmigloz/langchain_dart/commit/d0d46534565d6f52d819d62329e8917e00bc7030))
+
+#### `langchain_supabase` - `v0.0.1`
+
+- **FEAT**: Add support for Supabase VectorStore ([#69](https://github.com/davidmigloz/langchain_dart/issues/69)). ([be9e72bc](https://github.com/davidmigloz/langchain_dart/commit/be9e72bc210232e403f548a95a305d5bb6254f49))
+
+#### `langchain_chroma` - `v0.1.0+15`
+
+- **DOCS**: Update CHANGELOG.md. ([d0d46534](https://github.com/davidmigloz/langchain_dart/commit/d0d46534565d6f52d819d62329e8917e00bc7030))
+
+#### `langchain_google` - `v0.2.3+3`
+
+- **DOCS**: Update CHANGELOG.md. ([d0d46534](https://github.com/davidmigloz/langchain_dart/commit/d0d46534565d6f52d819d62329e8917e00bc7030))
+
+#### `langchain_mistralai` - `v0.0.2+3`
+
+- **DOCS**: Update CHANGELOG.md. ([d0d46534](https://github.com/davidmigloz/langchain_dart/commit/d0d46534565d6f52d819d62329e8917e00bc7030))
+
+#### `langchain_ollama` - `v0.0.3+3`
+
+- **DOCS**: Update CHANGELOG.md. ([d0d46534](https://github.com/davidmigloz/langchain_dart/commit/d0d46534565d6f52d819d62329e8917e00bc7030))
+
+#### `langchain_openai` - `v0.4.0+1`
+
+- **DOCS**: Update CHANGELOG.md. ([d0d46534](https://github.com/davidmigloz/langchain_dart/commit/d0d46534565d6f52d819d62329e8917e00bc7030))
+
+#### `langchain_pinecone` - `v0.0.6+14`
+
+- **DOCS**: Update CHANGELOG.md. ([d0d46534](https://github.com/davidmigloz/langchain_dart/commit/d0d46534565d6f52d819d62329e8917e00bc7030))
+
+#### `chromadb` - `v0.1.1+1`
+
+- **DOCS**: Update CHANGELOG.md. ([d0d46534](https://github.com/davidmigloz/langchain_dart/commit/d0d46534565d6f52d819d62329e8917e00bc7030))
+
+#### `googleai_dart` - `v0.0.2+2`
+
+- **DOCS**: Update CHANGELOG.md. ([d0d46534](https://github.com/davidmigloz/langchain_dart/commit/d0d46534565d6f52d819d62329e8917e00bc7030))
+
+#### `mistralai_dart` - `v0.0.2+3`
+
+- **DOCS**: Update CHANGELOG.md. ([d0d46534](https://github.com/davidmigloz/langchain_dart/commit/d0d46534565d6f52d819d62329e8917e00bc7030))
+
+#### `ollama_dart` - `v0.0.2+1`
+
+- **DOCS**: Update CHANGELOG.md. ([d0d46534](https://github.com/davidmigloz/langchain_dart/commit/d0d46534565d6f52d819d62329e8917e00bc7030))
+
+#### `openai_dart` - `v0.1.6+1`
+
+- **DOCS**: Update CHANGELOG.md. ([d0d46534](https://github.com/davidmigloz/langchain_dart/commit/d0d46534565d6f52d819d62329e8917e00bc7030))
+
+#### `vertex_ai` - `v0.0.9+1`
+
+- **DOCS**: Update CHANGELOG.md. ([d0d46534](https://github.com/davidmigloz/langchain_dart/commit/d0d46534565d6f52d819d62329e8917e00bc7030))
+
 ## 2024-01-26
 
 ### Changes

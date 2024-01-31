@@ -1,3 +1,7 @@
+## 0.0.2+3
+
+ - **DOCS**: Update CHANGELOG.md. ([d0d46534](https://github.com/davidmigloz/langchain_dart/commit/d0d46534565d6f52d819d62329e8917e00bc7030))
+
 ## 0.0.2+2
 
  - **REFACTOR**: Update safe_mode and max temperature in Mistral chat ([#300](https://github.com/davidmigloz/langchain_dart/issues/300)). ([1a4ccd1e](https://github.com/davidmigloz/langchain_dart/commit/1a4ccd1e7d1907e340ce609cc6ba8d0543ee3421))

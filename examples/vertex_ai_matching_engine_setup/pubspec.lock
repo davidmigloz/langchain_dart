@@ -151,7 +151,7 @@ packages:
       path: "../../packages/vertex_ai"
       relative: true
     source: path
-    version: "0.0.9"
+    version: "0.0.9+1"
   web:
     dependency: transitive
     description:

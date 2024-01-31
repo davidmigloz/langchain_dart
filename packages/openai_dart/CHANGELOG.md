@@ -1,3 +1,7 @@
+## 0.1.6+1
+
+ - **DOCS**: Update CHANGELOG.md. ([d0d46534](https://github.com/davidmigloz/langchain_dart/commit/d0d46534565d6f52d819d62329e8917e00bc7030))
+
 ## 0.1.6
 
  - **FEAT**: Add `gpt-4-0125-preview` and `gpt-4-turbo-preview` in model catalog ([#309](https://github.com/davidmigloz/langchain_dart/issues/309)). ([f5a78867](https://github.com/davidmigloz/langchain_dart/commit/f5a78867e7fa61e03d7e7da101c939c38564454c))

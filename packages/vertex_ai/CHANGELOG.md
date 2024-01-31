@@ -1,3 +1,7 @@
+## 0.0.9+1
+
+ - **DOCS**: Update CHANGELOG.md. ([d0d46534](https://github.com/davidmigloz/langchain_dart/commit/d0d46534565d6f52d819d62329e8917e00bc7030))
+
 ## 0.0.9
 
  - **FEAT**: Add count tokens method to vertex_ai client ([#306](https://github.com/davidmigloz/langchain_dart/issues/306)). ([54ae317d](https://github.com/davidmigloz/langchain_dart/commit/54ae317dda43f0313dca708d3831633252113c81))

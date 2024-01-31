@@ -1,3 +1,7 @@
+## 0.2.3+3
+
+ - **DOCS**: Update CHANGELOG.md. ([d0d46534](https://github.com/davidmigloz/langchain_dart/commit/d0d46534565d6f52d819d62329e8917e00bc7030))
+
 ## 0.2.3+2
 
  - Update a dependency to the latest release.
