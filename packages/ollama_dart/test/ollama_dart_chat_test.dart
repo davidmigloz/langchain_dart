@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:ollama_dart/ollama_dart.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Ollama Generate Completions API tests', skip: true, () {
+  group('Ollama Generate Completions API tests',
+      skip: Platform.environment.containsKey('CI'), () {
     late OllamaClient client;
     const defaultModel = 'llama2:latest';
     const visionModel = 'llava:latest';
@@ -39,6 +42,7 @@ void main() {
               content: 'Hello!',
             ),
           ],
+          keepAlive: 1,
         ),
       );
       expect(response.model, defaultModel);

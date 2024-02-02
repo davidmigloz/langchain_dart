@@ -10,6 +10,7 @@ class ChatOllamaOptions extends ChatModelOptions {
   const ChatOllamaOptions({
     this.model = 'llama2',
     this.format,
+    this.keepAlive,
     this.numKeep,
     this.seed,
     this.numPredict,
@@ -57,6 +58,14 @@ class ChatOllamaOptions extends ChatModelOptions {
   /// Note: it's important to instruct the model to use JSON in the prompt.
   /// Otherwise, the model may generate large amounts whitespace.
   final OllamaResponseFormat? format;
+
+  /// How long (in minutes) to keep the model loaded in memory.
+  ///
+  /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
+  /// - If set to a negative duration (e.g. -1), the model will stay loaded indefinitely.
+  /// - If set to 0, the model will be unloaded immediately once finished.
+  /// - If not set, the model will stay loaded for 5 minutes by default
+  final int? keepAlive;
 
   /// Number of tokens to keep from the prompt.
   /// (Default: 0)
