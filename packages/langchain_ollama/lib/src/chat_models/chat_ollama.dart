@@ -231,6 +231,7 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
       model: options?.model ?? defaultOptions.model ?? throwNullModelError(),
       messages: messages.toMessages(),
       format: options?.format?.toResponseFormat(),
+      keepAlive: options?.keepAlive,
       stream: stream,
       options: RequestOptions(
         numKeep: options?.numKeep ?? defaultOptions.numKeep,

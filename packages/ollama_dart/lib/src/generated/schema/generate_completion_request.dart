@@ -56,6 +56,14 @@ class GenerateCompletionRequest with _$GenerateCompletionRequest {
 
     /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
     @Default(false) bool stream,
+
+    /// How long (in minutes) to keep the model loaded in memory.
+    ///
+    /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
+    /// - If set to a negative duration (e.g. -1), the model will stay loaded indefinitely.
+    /// - If set to 0, the model will be unloaded immediately once finished.
+    /// - If not set, the model will stay loaded for 5 minutes by default
+    @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,
   }) = _GenerateCompletionRequest;
 
   /// Object construction from a JSON representation
@@ -73,7 +81,8 @@ class GenerateCompletionRequest with _$GenerateCompletionRequest {
     'options',
     'format',
     'raw',
-    'stream'
+    'stream',
+    'keep_alive'
   ];
 
   /// Perform validations on the schema property values
@@ -94,6 +103,7 @@ class GenerateCompletionRequest with _$GenerateCompletionRequest {
       'format': format,
       'raw': raw,
       'stream': stream,
+      'keep_alive': keepAlive,
     };
   }
 }

@@ -67,6 +67,15 @@ mixin _$GenerateCompletionRequest {
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   bool get stream => throw _privateConstructorUsedError;
 
+  /// How long (in minutes) to keep the model loaded in memory.
+  ///
+  /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
+  /// - If set to a negative duration (e.g. -1), the model will stay loaded indefinitely.
+  /// - If set to 0, the model will be unloaded immediately once finished.
+  /// - If not set, the model will stay loaded for 5 minutes by default
+  @JsonKey(name: 'keep_alive', includeIfNull: false)
+  int? get keepAlive => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $GenerateCompletionRequestCopyWith<GenerateCompletionRequest> get copyWith =>
@@ -92,7 +101,8 @@ abstract class $GenerateCompletionRequestCopyWith<$Res> {
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       ResponseFormat? format,
       @JsonKey(includeIfNull: false) bool? raw,
-      bool stream});
+      bool stream,
+      @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive});
 
   $RequestOptionsCopyWith<$Res>? get options;
 }
@@ -121,6 +131,7 @@ class _$GenerateCompletionRequestCopyWithImpl<$Res,
     Object? format = freezed,
     Object? raw = freezed,
     Object? stream = null,
+    Object? keepAlive = freezed,
   }) {
     return _then(_value.copyWith(
       model: null == model
@@ -163,6 +174,10 @@ class _$GenerateCompletionRequestCopyWithImpl<$Res,
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool,
+      keepAlive: freezed == keepAlive
+          ? _value.keepAlive
+          : keepAlive // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 
@@ -201,7 +216,8 @@ abstract class _$$GenerateCompletionRequestImplCopyWith<$Res>
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       ResponseFormat? format,
       @JsonKey(includeIfNull: false) bool? raw,
-      bool stream});
+      bool stream,
+      @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive});
 
   @override
   $RequestOptionsCopyWith<$Res>? get options;
@@ -230,6 +246,7 @@ class __$$GenerateCompletionRequestImplCopyWithImpl<$Res>
     Object? format = freezed,
     Object? raw = freezed,
     Object? stream = null,
+    Object? keepAlive = freezed,
   }) {
     return _then(_$GenerateCompletionRequestImpl(
       model: null == model
@@ -272,6 +289,10 @@ class __$$GenerateCompletionRequestImplCopyWithImpl<$Res>
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool,
+      keepAlive: freezed == keepAlive
+          ? _value.keepAlive
+          : keepAlive // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -292,7 +313,8 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       this.format,
       @JsonKey(includeIfNull: false) this.raw,
-      this.stream = false})
+      this.stream = false,
+      @JsonKey(name: 'keep_alive', includeIfNull: false) this.keepAlive})
       : _images = images,
         _context = context,
         super._();
@@ -375,13 +397,23 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
   @JsonKey()
   final bool stream;
 
+  /// How long (in minutes) to keep the model loaded in memory.
+  ///
+  /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
+  /// - If set to a negative duration (e.g. -1), the model will stay loaded indefinitely.
+  /// - If set to 0, the model will be unloaded immediately once finished.
+  /// - If not set, the model will stay loaded for 5 minutes by default
+  @override
+  @JsonKey(name: 'keep_alive', includeIfNull: false)
+  final int? keepAlive;
+
   @override
   String toString() {
-    return 'GenerateCompletionRequest(model: $model, prompt: $prompt, images: $images, system: $system, template: $template, context: $context, options: $options, format: $format, raw: $raw, stream: $stream)';
+    return 'GenerateCompletionRequest(model: $model, prompt: $prompt, images: $images, system: $system, template: $template, context: $context, options: $options, format: $format, raw: $raw, stream: $stream, keepAlive: $keepAlive)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GenerateCompletionRequestImpl &&
@@ -395,7 +427,9 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
             (identical(other.options, options) || other.options == options) &&
             (identical(other.format, format) || other.format == format) &&
             (identical(other.raw, raw) || other.raw == raw) &&
-            (identical(other.stream, stream) || other.stream == stream));
+            (identical(other.stream, stream) || other.stream == stream) &&
+            (identical(other.keepAlive, keepAlive) ||
+                other.keepAlive == keepAlive));
   }
 
   @JsonKey(ignore: true)
@@ -411,7 +445,8 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
       options,
       format,
       raw,
-      stream);
+      stream,
+      keepAlive);
 
   @JsonKey(ignore: true)
   @override
@@ -442,7 +477,9 @@ abstract class _GenerateCompletionRequest extends GenerateCompletionRequest {
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       final ResponseFormat? format,
       @JsonKey(includeIfNull: false) final bool? raw,
-      final bool stream}) = _$GenerateCompletionRequestImpl;
+      final bool stream,
+      @JsonKey(name: 'keep_alive', includeIfNull: false)
+      final int? keepAlive}) = _$GenerateCompletionRequestImpl;
   const _GenerateCompletionRequest._() : super._();
 
   factory _GenerateCompletionRequest.fromJson(Map<String, dynamic> json) =
@@ -504,6 +541,16 @@ abstract class _GenerateCompletionRequest extends GenerateCompletionRequest {
 
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   bool get stream;
+  @override
+
+  /// How long (in minutes) to keep the model loaded in memory.
+  ///
+  /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
+  /// - If set to a negative duration (e.g. -1), the model will stay loaded indefinitely.
+  /// - If set to 0, the model will be unloaded immediately once finished.
+  /// - If not set, the model will stay loaded for 5 minutes by default
+  @JsonKey(name: 'keep_alive', includeIfNull: false)
+  int? get keepAlive;
   @override
   @JsonKey(ignore: true)
   _$$GenerateCompletionRequestImplCopyWith<_$GenerateCompletionRequestImpl>
@@ -1348,7 +1395,7 @@ class _$RequestOptionsImpl extends _RequestOptions {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RequestOptionsImpl &&
@@ -2034,7 +2081,7 @@ class _$GenerateCompletionResponseImpl extends _GenerateCompletionResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GenerateCompletionResponseImpl &&
@@ -2208,6 +2255,15 @@ mixin _$GenerateChatCompletionRequest {
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   bool get stream => throw _privateConstructorUsedError;
 
+  /// How long (in minutes) to keep the model loaded in memory.
+  ///
+  /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
+  /// - If set to a negative duration (e.g. -1), the model will stay loaded indefinitely.
+  /// - If set to 0, the model will be unloaded immediately once finished.
+  /// - If not set, the model will stay loaded for 5 minutes by default
+  @JsonKey(name: 'keep_alive', includeIfNull: false)
+  int? get keepAlive => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $GenerateChatCompletionRequestCopyWith<GenerateChatCompletionRequest>
@@ -2230,7 +2286,8 @@ abstract class $GenerateChatCompletionRequestCopyWith<$Res> {
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       ResponseFormat? format,
       @JsonKey(includeIfNull: false) RequestOptions? options,
-      bool stream});
+      bool stream,
+      @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive});
 
   $RequestOptionsCopyWith<$Res>? get options;
 }
@@ -2254,6 +2311,7 @@ class _$GenerateChatCompletionRequestCopyWithImpl<$Res,
     Object? format = freezed,
     Object? options = freezed,
     Object? stream = null,
+    Object? keepAlive = freezed,
   }) {
     return _then(_value.copyWith(
       model: null == model
@@ -2276,6 +2334,10 @@ class _$GenerateChatCompletionRequestCopyWithImpl<$Res,
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool,
+      keepAlive: freezed == keepAlive
+          ? _value.keepAlive
+          : keepAlive // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 
@@ -2309,7 +2371,8 @@ abstract class _$$GenerateChatCompletionRequestImplCopyWith<$Res>
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       ResponseFormat? format,
       @JsonKey(includeIfNull: false) RequestOptions? options,
-      bool stream});
+      bool stream,
+      @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive});
 
   @override
   $RequestOptionsCopyWith<$Res>? get options;
@@ -2333,6 +2396,7 @@ class __$$GenerateChatCompletionRequestImplCopyWithImpl<$Res>
     Object? format = freezed,
     Object? options = freezed,
     Object? stream = null,
+    Object? keepAlive = freezed,
   }) {
     return _then(_$GenerateChatCompletionRequestImpl(
       model: null == model
@@ -2355,6 +2419,10 @@ class __$$GenerateChatCompletionRequestImplCopyWithImpl<$Res>
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool,
+      keepAlive: freezed == keepAlive
+          ? _value.keepAlive
+          : keepAlive // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -2371,7 +2439,8 @@ class _$GenerateChatCompletionRequestImpl
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       this.format,
       @JsonKey(includeIfNull: false) this.options,
-      this.stream = false})
+      this.stream = false,
+      @JsonKey(name: 'keep_alive', includeIfNull: false) this.keepAlive})
       : _messages = messages,
         super._();
 
@@ -2416,13 +2485,23 @@ class _$GenerateChatCompletionRequestImpl
   @JsonKey()
   final bool stream;
 
+  /// How long (in minutes) to keep the model loaded in memory.
+  ///
+  /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
+  /// - If set to a negative duration (e.g. -1), the model will stay loaded indefinitely.
+  /// - If set to 0, the model will be unloaded immediately once finished.
+  /// - If not set, the model will stay loaded for 5 minutes by default
+  @override
+  @JsonKey(name: 'keep_alive', includeIfNull: false)
+  final int? keepAlive;
+
   @override
   String toString() {
-    return 'GenerateChatCompletionRequest(model: $model, messages: $messages, format: $format, options: $options, stream: $stream)';
+    return 'GenerateChatCompletionRequest(model: $model, messages: $messages, format: $format, options: $options, stream: $stream, keepAlive: $keepAlive)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GenerateChatCompletionRequestImpl &&
@@ -2430,13 +2509,21 @@ class _$GenerateChatCompletionRequestImpl
             const DeepCollectionEquality().equals(other._messages, _messages) &&
             (identical(other.format, format) || other.format == format) &&
             (identical(other.options, options) || other.options == options) &&
-            (identical(other.stream, stream) || other.stream == stream));
+            (identical(other.stream, stream) || other.stream == stream) &&
+            (identical(other.keepAlive, keepAlive) ||
+                other.keepAlive == keepAlive));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, model,
-      const DeepCollectionEquality().hash(_messages), format, options, stream);
+  int get hashCode => Object.hash(
+      runtimeType,
+      model,
+      const DeepCollectionEquality().hash(_messages),
+      format,
+      options,
+      stream,
+      keepAlive);
 
   @JsonKey(ignore: true)
   @override
@@ -2464,7 +2551,9 @@ abstract class _GenerateChatCompletionRequest
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       final ResponseFormat? format,
       @JsonKey(includeIfNull: false) final RequestOptions? options,
-      final bool stream}) = _$GenerateChatCompletionRequestImpl;
+      final bool stream,
+      @JsonKey(name: 'keep_alive', includeIfNull: false)
+      final int? keepAlive}) = _$GenerateChatCompletionRequestImpl;
   const _GenerateChatCompletionRequest._() : super._();
 
   factory _GenerateChatCompletionRequest.fromJson(Map<String, dynamic> json) =
@@ -2499,6 +2588,16 @@ abstract class _GenerateChatCompletionRequest
 
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   bool get stream;
+  @override
+
+  /// How long (in minutes) to keep the model loaded in memory.
+  ///
+  /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
+  /// - If set to a negative duration (e.g. -1), the model will stay loaded indefinitely.
+  /// - If set to 0, the model will be unloaded immediately once finished.
+  /// - If not set, the model will stay loaded for 5 minutes by default
+  @JsonKey(name: 'keep_alive', includeIfNull: false)
+  int? get keepAlive;
   @override
   @JsonKey(ignore: true)
   _$$GenerateChatCompletionRequestImplCopyWith<
@@ -2845,7 +2944,7 @@ class _$GenerateChatCompletionResponseImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GenerateChatCompletionResponseImpl &&
@@ -3134,7 +3233,7 @@ class _$MessageImpl extends _Message {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MessageImpl &&
@@ -3362,7 +3461,7 @@ class _$GenerateEmbeddingRequestImpl extends _GenerateEmbeddingRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GenerateEmbeddingRequestImpl &&
@@ -3540,7 +3639,7 @@ class _$GenerateEmbeddingResponseImpl extends _GenerateEmbeddingResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GenerateEmbeddingResponseImpl &&
@@ -3728,7 +3827,7 @@ class _$CreateModelRequestImpl extends _CreateModelRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateModelRequestImpl &&
@@ -3903,7 +4002,7 @@ class _$CreateModelResponseImpl extends _CreateModelResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateModelResponseImpl &&
@@ -4065,7 +4164,7 @@ class _$ModelsResponseImpl extends _ModelsResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ModelsResponseImpl &&
@@ -4262,7 +4361,7 @@ class _$ModelImpl extends _Model {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ModelImpl &&
@@ -4426,7 +4525,7 @@ class _$ModelInfoRequestImpl extends _ModelInfoRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ModelInfoRequestImpl &&
@@ -4642,7 +4741,7 @@ class _$ModelInfoImpl extends _ModelInfo {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ModelInfoImpl &&
@@ -4829,7 +4928,7 @@ class _$CopyModelRequestImpl extends _CopyModelRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CopyModelRequestImpl &&
@@ -4983,7 +5082,7 @@ class _$DeleteModelRequestImpl extends _DeleteModelRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DeleteModelRequestImpl &&
@@ -5174,7 +5273,7 @@ class _$PullModelRequestImpl extends _PullModelRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PullModelRequestImpl &&
@@ -5417,7 +5516,7 @@ class _$PullModelResponseImpl extends _PullModelResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PullModelResponseImpl &&
@@ -5631,7 +5730,7 @@ class _$PushModelRequestImpl extends _PushModelRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PushModelRequestImpl &&
@@ -5850,7 +5949,7 @@ class _$PushModelResponseImpl extends _PushModelResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PushModelResponseImpl &&
