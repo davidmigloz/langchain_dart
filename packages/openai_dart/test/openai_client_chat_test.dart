@@ -513,7 +513,7 @@ void main() {
     test('Test response seed', () async {
       const request = CreateChatCompletionRequest(
         model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt41106Preview,
+          ChatCompletionModels.gpt4TurboPreview,
         ),
         messages: [
           ChatCompletionMessage.system(

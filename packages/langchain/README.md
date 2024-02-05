@@ -67,6 +67,7 @@ provided by a separate package.
 | [langchain_mistralai](https://pub.dev/packages/langchain_mistralai) | ![langchain_mistralai](https://img.shields.io/pub/v/langchain_mistralai.svg) | Mistral AI integration (Mistral-7B, Mixtral 8x7B, embeddings, etc.).                                                                                        |
 | [langchain_pinecone](https://pub.dev/packages/langchain_pinecone)   | ![langchain_pinecone](https://img.shields.io/pub/v/langchain_pinecone.svg)   | Pinecone vector database integration                                                                                                                        |
 | [langchain_chroma](https://pub.dev/packages/langchain_chroma)       | ![langchain_chroma](https://img.shields.io/pub/v/langchain_chroma.svg)       | Chroma vector database integration                                                                                                                          |
+| [langchain_supabase](https://pub.dev/packages/langchain_supabase)   | ![langchain_supabase](https://img.shields.io/pub/v/langchain_supabase.svg)   | Supabase Vector database integration                                                                                                                        |
 
 Functionality provided by each package:
 
@@ -79,6 +80,7 @@ Functionality provided by each package:
 | [langchain_mistralai](https://pub.dev/packages/langchain_mistralai) |      | ✔           | ✔          |               |        |        |       |
 | [langchain_pinecone](https://pub.dev/packages/langchain_pinecone)   |      |             |            | ✔             |        |        |       |
 | [langchain_chroma](https://pub.dev/packages/langchain_chroma)       |      |             |            | ✔             |        |        |       |
+| [langchain_supabase](https://pub.dev/packages/langchain_supabase)   |      |             |            | ✔             |        |        |       |
 
 The following packages are maintained (and used internally) by LangChain.dart,
 although they can also be used independently:

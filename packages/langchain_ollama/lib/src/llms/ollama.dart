@@ -223,6 +223,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
       context: options?.context,
       format: options?.format?.toResponseFormat(),
       raw: options?.raw,
+      keepAlive: options?.keepAlive,
       stream: stream,
       options: RequestOptions(
         numKeep: options?.numKeep ?? defaultOptions.numKeep,

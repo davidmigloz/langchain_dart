@@ -128,6 +128,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
       llmChain: LLMChain(
         llm: llm,
         llmOptions: ChatOpenAIOptions(
+          model: llm.defaultOptions.model,
           functions: tools
               .map((final t) => t.toChatFunction())
               .toList(growable: false),

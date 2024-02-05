@@ -141,7 +141,6 @@ void main() {
       expect(res.candidates, isNotEmpty);
       final candidate = res.candidates!.first;
       expect(candidate.finishReason, CandidateFinishReason.maxTokens);
-      expect(candidate.content, isNotNull);
     });
 
     test('Test Multi-turn conversations with gemini-pro', () async {

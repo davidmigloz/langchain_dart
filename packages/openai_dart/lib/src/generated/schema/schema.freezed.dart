@@ -3386,7 +3386,7 @@ mixin _$CreateChatCompletionRequest {
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty => throw _privateConstructorUsedError;
 
-  /// An object specifying the format that the model must output. Compatible with `gpt-4-1106-preview` and `gpt-3.5-turbo-1106`.
+  /// An object specifying the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -3976,7 +3976,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   final double? presencePenalty;
 
-  /// An object specifying the format that the model must output. Compatible with `gpt-4-1106-preview` and `gpt-3.5-turbo-1106`.
+  /// An object specifying the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -4258,7 +4258,7 @@ abstract class _CreateChatCompletionRequest
   double? get presencePenalty;
   @override
 
-  /// An object specifying the format that the model must output. Compatible with `gpt-4-1106-preview` and `gpt-3.5-turbo-1106`.
+  /// An object specifying the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -10560,6 +10560,10 @@ mixin _$CreateEmbeddingRequest {
   EmbeddingEncodingFormat get encodingFormat =>
       throw _privateConstructorUsedError;
 
+  /// The number of dimensions the resulting output embeddings should have. Only supported in `text-embedding-3` and later models.
+  @JsonKey(includeIfNull: false)
+  int? get dimensions => throw _privateConstructorUsedError;
+
   /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
   @JsonKey(includeIfNull: false)
   String? get user => throw _privateConstructorUsedError;
@@ -10580,6 +10584,7 @@ abstract class $CreateEmbeddingRequestCopyWith<$Res> {
       {@_EmbeddingModelConverter() EmbeddingModel model,
       @_EmbeddingInputConverter() EmbeddingInput input,
       @JsonKey(name: 'encoding_format') EmbeddingEncodingFormat encodingFormat,
+      @JsonKey(includeIfNull: false) int? dimensions,
       @JsonKey(includeIfNull: false) String? user});
 
   $EmbeddingModelCopyWith<$Res> get model;
@@ -10603,6 +10608,7 @@ class _$CreateEmbeddingRequestCopyWithImpl<$Res,
     Object? model = null,
     Object? input = null,
     Object? encodingFormat = null,
+    Object? dimensions = freezed,
     Object? user = freezed,
   }) {
     return _then(_value.copyWith(
@@ -10618,6 +10624,10 @@ class _$CreateEmbeddingRequestCopyWithImpl<$Res,
           ? _value.encodingFormat
           : encodingFormat // ignore: cast_nullable_to_non_nullable
               as EmbeddingEncodingFormat,
+      dimensions: freezed == dimensions
+          ? _value.dimensions
+          : dimensions // ignore: cast_nullable_to_non_nullable
+              as int?,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -10655,6 +10665,7 @@ abstract class _$$CreateEmbeddingRequestImplCopyWith<$Res>
       {@_EmbeddingModelConverter() EmbeddingModel model,
       @_EmbeddingInputConverter() EmbeddingInput input,
       @JsonKey(name: 'encoding_format') EmbeddingEncodingFormat encodingFormat,
+      @JsonKey(includeIfNull: false) int? dimensions,
       @JsonKey(includeIfNull: false) String? user});
 
   @override
@@ -10679,6 +10690,7 @@ class __$$CreateEmbeddingRequestImplCopyWithImpl<$Res>
     Object? model = null,
     Object? input = null,
     Object? encodingFormat = null,
+    Object? dimensions = freezed,
     Object? user = freezed,
   }) {
     return _then(_$CreateEmbeddingRequestImpl(
@@ -10694,6 +10706,10 @@ class __$$CreateEmbeddingRequestImplCopyWithImpl<$Res>
           ? _value.encodingFormat
           : encodingFormat // ignore: cast_nullable_to_non_nullable
               as EmbeddingEncodingFormat,
+      dimensions: freezed == dimensions
+          ? _value.dimensions
+          : dimensions // ignore: cast_nullable_to_non_nullable
+              as int?,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -10710,6 +10726,7 @@ class _$CreateEmbeddingRequestImpl extends _CreateEmbeddingRequest {
       @_EmbeddingInputConverter() required this.input,
       @JsonKey(name: 'encoding_format')
       this.encodingFormat = EmbeddingEncodingFormat.float,
+      @JsonKey(includeIfNull: false) this.dimensions,
       @JsonKey(includeIfNull: false) this.user})
       : super._();
 
@@ -10731,6 +10748,11 @@ class _$CreateEmbeddingRequestImpl extends _CreateEmbeddingRequest {
   @JsonKey(name: 'encoding_format')
   final EmbeddingEncodingFormat encodingFormat;
 
+  /// The number of dimensions the resulting output embeddings should have. Only supported in `text-embedding-3` and later models.
+  @override
+  @JsonKey(includeIfNull: false)
+  final int? dimensions;
+
   /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
   @override
   @JsonKey(includeIfNull: false)
@@ -10738,7 +10760,7 @@ class _$CreateEmbeddingRequestImpl extends _CreateEmbeddingRequest {
 
   @override
   String toString() {
-    return 'CreateEmbeddingRequest(model: $model, input: $input, encodingFormat: $encodingFormat, user: $user)';
+    return 'CreateEmbeddingRequest(model: $model, input: $input, encodingFormat: $encodingFormat, dimensions: $dimensions, user: $user)';
   }
 
   @override
@@ -10750,13 +10772,15 @@ class _$CreateEmbeddingRequestImpl extends _CreateEmbeddingRequest {
             (identical(other.input, input) || other.input == input) &&
             (identical(other.encodingFormat, encodingFormat) ||
                 other.encodingFormat == encodingFormat) &&
+            (identical(other.dimensions, dimensions) ||
+                other.dimensions == dimensions) &&
             (identical(other.user, user) || other.user == user));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, model, input, encodingFormat, user);
+      Object.hash(runtimeType, model, input, encodingFormat, dimensions, user);
 
   @JsonKey(ignore: true)
   @override
@@ -10779,6 +10803,7 @@ abstract class _CreateEmbeddingRequest extends CreateEmbeddingRequest {
           @_EmbeddingInputConverter() required final EmbeddingInput input,
           @JsonKey(name: 'encoding_format')
           final EmbeddingEncodingFormat encodingFormat,
+          @JsonKey(includeIfNull: false) final int? dimensions,
           @JsonKey(includeIfNull: false) final String? user}) =
       _$CreateEmbeddingRequestImpl;
   const _CreateEmbeddingRequest._() : super._();
@@ -10801,6 +10826,11 @@ abstract class _CreateEmbeddingRequest extends CreateEmbeddingRequest {
   /// The format to return the embeddings in. Can be either `float` or [`base64`](https://pypi.org/project/pybase64/).
   @JsonKey(name: 'encoding_format')
   EmbeddingEncodingFormat get encodingFormat;
+  @override
+
+  /// The number of dimensions the resulting output embeddings should have. Only supported in `text-embedding-3` and later models.
+  @JsonKey(includeIfNull: false)
+  int? get dimensions;
   @override
 
   /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).

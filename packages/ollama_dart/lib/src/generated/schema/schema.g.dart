@@ -26,6 +26,7 @@ _$GenerateCompletionRequestImpl _$$GenerateCompletionRequestImplFromJson(
           unknownValue: JsonKey.nullForUndefinedEnumValue),
       raw: json['raw'] as bool?,
       stream: json['stream'] as bool? ?? false,
+      keepAlive: json['keep_alive'] as int?,
     );
 
 Map<String, dynamic> _$$GenerateCompletionRequestImplToJson(
@@ -49,6 +50,7 @@ Map<String, dynamic> _$$GenerateCompletionRequestImplToJson(
   writeNotNull('format', _$ResponseFormatEnumMap[instance.format]);
   writeNotNull('raw', instance.raw);
   val['stream'] = instance.stream;
+  writeNotNull('keep_alive', instance.keepAlive);
   return val;
 }
 
@@ -194,6 +196,7 @@ _$GenerateChatCompletionRequestImpl
               : RequestOptions.fromJson(
                   json['options'] as Map<String, dynamic>),
           stream: json['stream'] as bool? ?? false,
+          keepAlive: json['keep_alive'] as int?,
         );
 
 Map<String, dynamic> _$$GenerateChatCompletionRequestImplToJson(
@@ -212,6 +215,7 @@ Map<String, dynamic> _$$GenerateChatCompletionRequestImplToJson(
   writeNotNull('format', _$ResponseFormatEnumMap[instance.format]);
   writeNotNull('options', instance.options?.toJson());
   val['stream'] = instance.stream;
+  writeNotNull('keep_alive', instance.keepAlive);
   return val;
 }
 

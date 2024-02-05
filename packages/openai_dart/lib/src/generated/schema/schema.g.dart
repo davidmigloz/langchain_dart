@@ -397,7 +397,9 @@ const _$ChatCompletionModelsEnumMap = {
   ChatCompletionModels.gpt432k: 'gpt-4-32k',
   ChatCompletionModels.gpt432k0314: 'gpt-4-32k-0314',
   ChatCompletionModels.gpt432k0613: 'gpt-4-32k-0613',
+  ChatCompletionModels.gpt4TurboPreview: 'gpt-4-turbo-preview',
   ChatCompletionModels.gpt41106Preview: 'gpt-4-1106-preview',
+  ChatCompletionModels.gpt40125Preview: 'gpt-4-0125-preview',
   ChatCompletionModels.gpt4VisionPreview: 'gpt-4-vision-preview',
   ChatCompletionModels.gpt35Turbo: 'gpt-3.5-turbo',
   ChatCompletionModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
@@ -1003,6 +1005,7 @@ _$CreateEmbeddingRequestImpl _$$CreateEmbeddingRequestImplFromJson(
       encodingFormat: $enumDecodeNullable(
               _$EmbeddingEncodingFormatEnumMap, json['encoding_format']) ??
           EmbeddingEncodingFormat.float,
+      dimensions: json['dimensions'] as int?,
       user: json['user'] as String?,
     );
 
@@ -1021,6 +1024,7 @@ Map<String, dynamic> _$$CreateEmbeddingRequestImplToJson(
     }
   }
 
+  writeNotNull('dimensions', instance.dimensions);
   writeNotNull('user', instance.user);
   return val;
 }
@@ -1046,6 +1050,8 @@ Map<String, dynamic> _$$EmbeddingModelEnumerationImplToJson(
 
 const _$EmbeddingModelsEnumMap = {
   EmbeddingModels.textEmbeddingAda002: 'text-embedding-ada-002',
+  EmbeddingModels.textEmbedding3Small: 'text-embedding-3-small',
+  EmbeddingModels.textEmbedding3Large: 'text-embedding-3-large',
 };
 
 _$EmbeddingModelStringImpl _$$EmbeddingModelStringImplFromJson(

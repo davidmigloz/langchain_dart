@@ -1,6 +1,6 @@
 name: ollama_dart
 description: Dart Client for the Ollama API (run Llama 2, Mistral, Vicuna and other models locally).
-version: 0.0.2
+version: 0.0.2+1
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/ollama_dart
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues
 homepage: https://github.com/davidmigloz/langchain_dart
@@ -30,5 +30,5 @@ dev_dependencies:
   openapi_spec:
     git:
       url: https://github.com/davidmigloz/openapi_spec.git
-      ref: 52bd544753980267da6d4b299cbf1067a0d07131
+      ref: e14c0adaac69e9482e9b57f68fc7964032cdd44c
   test: ^1.24.3
