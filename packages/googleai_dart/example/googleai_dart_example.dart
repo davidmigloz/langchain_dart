@@ -1,4 +1,5 @@
 // ignore_for_file: avoid_print, avoid_redundant_argument_values
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -13,6 +14,9 @@ Future<void> main() async {
   await _generateContentTextInput(client);
   await _generateContentTextAndImageInput(client);
   await _generateContentMultiTurnConversations(client);
+
+  // Stream generate content
+  await _streamGenerateContentTextInput(client);
 
   // Count tokens
   await _countTokens(client);
@@ -112,6 +116,31 @@ Future<void> _generateContentMultiTurnConversations(
   );
   print(res.candidates?.first.content?.parts?.first.text);
   // In the heart of a tranquil village nestled amidst the rolling hills of 17th century France...
+}
+
+Future<void> _streamGenerateContentTextInput(
+  final GoogleAIClient client,
+) async {
+  final stream = client.streamGenerateContent(
+    modelId: 'gemini-pro',
+    request: const GenerateContentRequest(
+      contents: [
+        Content(
+          parts: [
+            Part(text: 'Write a story about a magic backpack.'),
+          ],
+        ),
+      ],
+      generationConfig: GenerationConfig(
+        temperature: 0.8,
+      ),
+    ),
+  );
+
+  await for (final res in stream) {
+    print(res.candidates?.first.content?.parts?.first.text);
+    // In a quaint little town nestled amidst rolling hills, there lived a...
+  }
 }
 
 Future<void> _countTokens(final GoogleAIClient client) async {
