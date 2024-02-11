@@ -15,12 +15,10 @@ Unofficial Dart client for [Google AI](https://ai.google.dev) for Developers (Ge
 - Custom base URL, headers and query params support (e.g. HTTP proxies)
 - Custom HTTP client support (e.g. SOCKS5 proxies or advanced use cases)
 
-> [!NOTE]
-> Streaming support coming soon.
-
 **Supported endpoints:**
 
 - Generate content
+- Stream generate content
 - Count tokens
 - Embed content
 - Models info
@@ -29,25 +27,30 @@ Unofficial Dart client for [Google AI](https://ai.google.dev) for Developers (Ge
 
 ## Table of contents
 
-- [Usage](#usage)
-  * [Authentication](#authentication)
-  * [Generate content](#generate-content)
-    + [Text-only input](#text-only-input)
-    + [Text-and-image input](#text-and-image-input)
-    + [Multi-turn conversations (chat)](#multi-turn-conversations-chat)
-  * [Count tokens](#count-tokens)
-  * [Embedding](#embedding)
-  * [Model info](#model-info)
-    + [List models](#list-models)
-    + [Get model](#get-model)
-- [Advance Usage](#advance-usage)
-  * [Default HTTP client](#default-http-client)
-  * [Custom HTTP client](#custom-http-client)
-  * [Using a proxy](#using-a-proxy)
-    + [HTTP proxy](#http-proxy)
-    + [SOCKS5 proxy](#socks5-proxy)
-- [Acknowledgements](#acknowledgements)
-- [License](#license)
+- [Google AI Dart Client](#google-ai-dart-client)
+  - [Features](#features)
+  - [Table of contents](#table-of-contents)
+  - [Usage](#usage)
+    - [Authentication](#authentication)
+    - [Generate content](#generate-content)
+      - [Text-only input](#text-only-input)
+      - [Text-and-image input](#text-and-image-input)
+      - [Multi-turn conversations (chat)](#multi-turn-conversations-chat)
+    - [Stream content](#stream-content)
+      - [Text-only input](#text-only-input-1)
+    - [Count tokens](#count-tokens)
+    - [Embedding](#embedding)
+    - [Model info](#model-info)
+      - [List models](#list-models)
+      - [Get model](#get-model)
+  - [Advance Usage](#advance-usage)
+    - [Default HTTP client](#default-http-client)
+    - [Custom HTTP client](#custom-http-client)
+    - [Using a proxy](#using-a-proxy)
+      - [HTTP proxy](#http-proxy)
+      - [SOCKS5 proxy](#socks5-proxy)
+  - [Acknowledgements](#acknowledgements)
+  - [License](#license)
 
 ## Usage
 
@@ -165,6 +168,35 @@ final res = await client.generateContent(
 );
 print(res.candidates?.first.content?.parts?.first.text);
 // In the heart of a tranquil village nestled amidst the rolling hills of 17th century France...
+```
+
+### Stream content
+
+#### Text-only input
+
+Use the `streamGenerateContent` method to generate a chunked response from the model given an input message.
+
+```dart
+final stream = await client.streamGenerateContent(
+  modelId: 'gemini-pro',
+  request: const GenerateContentRequest(
+    contents: [
+      Content(
+        parts: [
+          Part(text: 'Write a story about a magic backpack.'),
+        ],
+      ),
+    ],
+    generationConfig: GenerationConfig(
+      temperature: 0.8,
+    ),
+  ),
+);
+
+stream.listen((final res) P
+  print(res.candidates?.first.content?.parts?.first.text);
+  // In a quaint little town nestled amidst rolling hills, there lived a...
+)
 ```
 
 ### Count tokens
