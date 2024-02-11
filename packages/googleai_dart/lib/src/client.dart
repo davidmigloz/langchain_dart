@@ -2,7 +2,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:googleai_dart/src/generated/client.dart';
 import 'package:http/http.dart' as http;
 
 import 'generated/client.dart' as g;
@@ -44,26 +43,36 @@ class GoogleAIClient extends g.GoogleAIClient {
           client: client ?? createDefaultHttpClient(),
         );
 
+  // ------------------------------------------
+  // METHOD: streamGenerateContent
+  // ------------------------------------------
+
+  /// Generates a response from the model given an input `GenerateContentRequest`.
+  ///
+  /// `modelId`: The id of the model to use.
+  ///
+  /// `request`: Request to generate a completion from the model.
+  ///
+  /// `POST` `https://generativelanguage.googleapis.com/v1/models/{modelId}:streamGenerateContent`
   Stream<GenerateContentResponse> streamGenerateContent({
     final String modelId = 'gemini-pro',
     final GenerateContentRequest? request,
   }) async* {
     final streamedResponse = await makeRequestStream(
       baseUrl: 'https://generativelanguage.googleapis.com/v1',
+      queryParams: {
+        'alt': 'sse',
+      },
       path: '/models/$modelId:streamGenerateContent',
-      method: HttpMethod.post,
-      isMultipart: false,
+      method: g.HttpMethod.post,
       requestType: 'application/json',
       responseType: 'application/json',
       body: request,
     );
 
-    yield* streamedResponse
-      .stream
-      .transform(const _GoogleAIStreamTransformer())
-      .map(
-        (final item) => GenerateContentResponse.fromJson(json.decode(item)),
-      );
+    yield* streamedResponse.stream
+        .transform(const _GoogleAIStreamTransformer())
+        .map((final d) => GenerateContentResponse.fromJson(json.decode(d)));
   }
 
   @override
@@ -81,6 +90,7 @@ class _GoogleAIStreamTransformer
     return stream
         .transform(utf8.decoder)
         .transform(const LineSplitter())
-        .map((final item) => item.substring(6));
+        .where((final s) => s.isNotEmpty)
+        .map((final s) => s.substring(6));
   }
 }
