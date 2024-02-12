@@ -47,7 +47,7 @@ class GoogleAIClient extends g.GoogleAIClient {
   // METHOD: streamGenerateContent
   // ------------------------------------------
 
-  /// Generates a response from the model given an input `GenerateContentRequest`.
+  /// Generates a streamed response from the model given an input `GenerateContentRequest`.
   ///
   /// `modelId`: The id of the model to use.
   ///

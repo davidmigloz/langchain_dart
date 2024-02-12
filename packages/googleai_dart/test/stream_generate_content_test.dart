@@ -1,4 +1,3 @@
-// ignore_for_file: avoid_redundant_argument_values
 @TestOn('vm')
 library; // Uses dart:io
 
@@ -30,7 +29,7 @@ void main() {
             Content(
               parts: [
                 Part(
-                  text: 'List the numbers from 1 to 9 in order '
+                  text: 'List the numbers from 1 to 100 in order '
                       'without any spaces, commas or additional explanations.',
                 ),
               ],
@@ -41,7 +40,8 @@ void main() {
           ),
         ),
       );
-      
+
+      var text = '';
       await for (final res in stream) {
         expect(res.promptFeedback?.blockReason, isNull);
         expect(res.candidates, isNotEmpty);
@@ -52,12 +52,13 @@ void main() {
         final content = candidate.content!;
         expect(content.role, 'model');
         expect(content.parts, hasLength(1));
-        final part = content.parts!.first;
-        expect(
-          part.text?.replaceAll(RegExp(r'[\s\n]'), ''),
-          contains('123456789'),
-        );
+        text += content.parts!.first.text ?? '';
       }
+
+      expect(
+        text.replaceAll(RegExp(r'[\s\n]'), ''),
+        contains('123456789'),
+      );
     });
 
     test('Text-and-image input with gemini-pro-vision', () async {
@@ -69,7 +70,7 @@ void main() {
               parts: [
                 const Part(
                   text: 'What is this picture? Be detailed. '
-                  'List all the elements that you see.',
+                      'List all the elements that you see.',
                 ),
                 Part(
                   inlineData: Blob(
@@ -86,7 +87,6 @@ void main() {
       );
 
       var text = '';
-
       await for (final res in stream) {
         expect(res.promptFeedback?.blockReason, isNull);
         expect(res.candidates, isNotEmpty);
@@ -131,15 +131,18 @@ void main() {
         ),
       );
 
+      var text = '';
       await for (final res in stream) {
         expect(res.candidates, isNotEmpty);
         final candidate = res.candidates!.first;
         expect(candidate.content, isNotNull);
         final content = candidate.content!;
-        final text = content.parts!.first.text?.replaceAll(RegExp(r'[\s\n]'), '');
-        expect(text, contains('123'));
-        expect(text, isNot(contains('456789')));
+        text +=
+            content.parts!.first.text?.replaceAll(RegExp(r'[\s\n]'), '') ?? '';
       }
+
+      expect(text, contains('123'));
+      expect(text, isNot(contains('456789')));
     });
 
     test('Test max tokens', () async {
