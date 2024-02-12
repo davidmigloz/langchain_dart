@@ -1020,33 +1020,6 @@ paths:
           schema:
             type: string
             default: embedding-001
-  /models/{modelId}:streamGenerateContent:
-    post:
-      description: >-
-        Generates a streamed response from the model given an input
-        `GenerateContentRequest`.
-      operationId: streamGenerateContent
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/GenerateContentRequest'
-      security: [ ]
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenerateContentResponse'
-      parameters:
-        - in: path
-          name: modelId
-          description: The id of the model to use.
-          required: false
-          schema:
-            type: string
-            default: gemini-pro
   /models/{modelId}:embedContent:
     post:
       description: Generates an embedding from the model given an input `Content`.

@@ -15,12 +15,9 @@ Unofficial Dart client for [Google AI](https://ai.google.dev) for Developers (Ge
 - Custom base URL, headers and query params support (e.g. HTTP proxies)
 - Custom HTTP client support (e.g. SOCKS5 proxies or advanced use cases)
 
-> [!NOTE]
-> Streaming support coming soon.
-
 **Supported endpoints:**
 
-- Generate content
+- Generate content (with streaming support)
 - Count tokens
 - Embed content
 - Models info
@@ -35,6 +32,7 @@ Unofficial Dart client for [Google AI](https://ai.google.dev) for Developers (Ge
     + [Text-only input](#text-only-input)
     + [Text-and-image input](#text-and-image-input)
     + [Multi-turn conversations (chat)](#multi-turn-conversations-chat)
+    + [Streaming generated content](#streaming-generated-content)
   * [Count tokens](#count-tokens)
   * [Embedding](#embedding)
   * [Model info](#model-info)
@@ -165,6 +163,33 @@ final res = await client.generateContent(
 );
 print(res.candidates?.first.content?.parts?.first.text);
 // In the heart of a tranquil village nestled amidst the rolling hills of 17th century France...
+```
+
+#### Streaming generated content
+
+By default, `generateContent` returns a response after completing the entire generation process. You can achieve faster interactions by not waiting for the entire result, and instead use `streamGenerateContent` to handle partial results as they become available.
+
+```dart
+final stream = await client.streamGenerateContent(
+  modelId: 'gemini-pro',
+  request: const GenerateContentRequest(
+    contents: [
+      Content(
+        parts: [
+          Part(text: 'Write a story about a magic backpack.'),
+        ],
+      ),
+    ],
+    generationConfig: GenerationConfig(
+      temperature: 0.8,
+    ),
+  ),
+);
+
+stream.listen((final res) P
+  print(res.candidates?.first.content?.parts?.first.text);
+  // In a quaint little town nestled amidst rolling hills, there lived a...
+)
 ```
 
 ### Count tokens

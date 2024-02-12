@@ -584,33 +584,6 @@ class GoogleAIClient {
   }
 
   // ------------------------------------------
-  // METHOD: streamGenerateContent
-  // ------------------------------------------
-
-  /// Generates a streamed response from the model given an input `GenerateContentRequest`.
-  ///
-  /// `modelId`: The id of the model to use.
-  ///
-  /// `request`: Request to generate a completion from the model.
-  ///
-  /// `POST` `https://generativelanguage.googleapis.com/v1/models/{modelId}:streamGenerateContent`
-  Future<GenerateContentResponse> streamGenerateContent({
-    String modelId = 'gemini-pro',
-    GenerateContentRequest? request,
-  }) async {
-    final r = await makeRequest(
-      baseUrl: 'https://generativelanguage.googleapis.com/v1',
-      path: '/models/$modelId:streamGenerateContent',
-      method: HttpMethod.post,
-      isMultipart: false,
-      requestType: 'application/json',
-      responseType: 'application/json',
-      body: request,
-    );
-    return GenerateContentResponse.fromJson(_jsonDecode(r));
-  }
-
-  // ------------------------------------------
   // METHOD: embedContent
   // ------------------------------------------
 

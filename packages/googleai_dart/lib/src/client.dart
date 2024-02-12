@@ -1,7 +1,11 @@
 // ignore_for_file: use_super_parameters
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 import 'generated/client.dart' as g;
+import 'generated/schema/schema.dart';
 import 'http_client/http_client.dart';
 
 /// Client for Google AI API (Gemini API).
@@ -39,8 +43,54 @@ class GoogleAIClient extends g.GoogleAIClient {
           client: client ?? createDefaultHttpClient(),
         );
 
+  // ------------------------------------------
+  // METHOD: streamGenerateContent
+  // ------------------------------------------
+
+  /// Generates a streamed response from the model given an input `GenerateContentRequest`.
+  ///
+  /// `modelId`: The id of the model to use.
+  ///
+  /// `request`: Request to generate a completion from the model.
+  ///
+  /// `POST` `https://generativelanguage.googleapis.com/v1/models/{modelId}:streamGenerateContent`
+  Stream<GenerateContentResponse> streamGenerateContent({
+    final String modelId = 'gemini-pro',
+    final GenerateContentRequest? request,
+  }) async* {
+    final streamedResponse = await makeRequestStream(
+      baseUrl: 'https://generativelanguage.googleapis.com/v1',
+      queryParams: {
+        'alt': 'sse',
+      },
+      path: '/models/$modelId:streamGenerateContent',
+      method: g.HttpMethod.post,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+
+    yield* streamedResponse.stream
+        .transform(const _GoogleAIStreamTransformer())
+        .map((final d) => GenerateContentResponse.fromJson(json.decode(d)));
+  }
+
   @override
   Future<http.BaseRequest> onRequest(final http.BaseRequest request) {
     return onRequestHandler(request);
+  }
+}
+
+class _GoogleAIStreamTransformer
+    extends StreamTransformerBase<List<int>, String> {
+  const _GoogleAIStreamTransformer();
+
+  @override
+  Stream<String> bind(final Stream<List<int>> stream) {
+    return stream
+        .transform(utf8.decoder)
+        .transform(const LineSplitter())
+        .where((final s) => s.isNotEmpty)
+        .map((final s) => s.substring(6));
   }
 }
