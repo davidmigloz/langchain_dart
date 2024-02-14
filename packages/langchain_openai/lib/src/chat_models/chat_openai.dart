@@ -301,6 +301,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
       functionCall: functionCall,
       frequencyPenalty:
           options?.frequencyPenalty ?? defaultOptions.frequencyPenalty,
+      instanceId: options?.instanceId ?? defaultOptions.instanceId,
       logitBias: options?.logitBias ?? defaultOptions.logitBias,
       maxTokens: options?.maxTokens ?? defaultOptions.maxTokens,
       n: options?.n ?? defaultOptions.n,

@@ -1481,6 +1481,7 @@ components:
                   "gpt-3.5-turbo-0301",
                   "gpt-3.5-turbo-0613",
                   "gpt-3.5-turbo-1106",
+                  "gpt-3.5-turbo-0125",
                   "gpt-3.5-turbo-16k-0613",
                 ]
         messages:
@@ -1496,6 +1497,11 @@ components:
           maximum: 2
           nullable: true
           description: *completions_frequency_penalty_description
+        instance_id:
+          type: string
+          default: null
+          nullable: true
+          description: An unique identifier to a custom instance to execute the request. The requesting organization is required to have access to the instance.
         logit_bias:
           type: object
           default: null
@@ -1542,7 +1548,7 @@ components:
           title: ChatCompletionResponseFormat
           type: object
           description: |
-            An object specifying the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and `gpt-3.5-turbo-1106`.
+            An object specifying the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
 
             Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
 
