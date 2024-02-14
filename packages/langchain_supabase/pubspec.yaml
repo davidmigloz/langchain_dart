@@ -2,7 +2,7 @@ name: langchain_supabase
 description: LangChain.dart integration module for Supabase (e.g. Supabase Vector).
 version: 0.0.1
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_supabase
-issue_tracker: https://github.com/davidmigloz/langchain_dart/issues
+issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:langchain_supabase
 homepage: https://github.com/davidmigloz/langchain_dart
 documentation: https://langchaindart.com
 
