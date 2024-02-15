@@ -1,6 +1,6 @@
 name: langchain_community
 description: LangChain.dart third-party integrations that don't have a dedicated package.
-version: 0.0.1-dev.1
+version: 0.0.1-dev.2
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_community
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:langchain_community
 homepage: https://github.com/davidmigloz/langchain_dart

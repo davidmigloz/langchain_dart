@@ -1,3 +1,7 @@
+## 0.4.2
+
+ - **FEAT**: Update meta and test dependencies ([#331](https://github.com/davidmigloz/langchain_dart/issues/331)). ([912370ee](https://github.com/davidmigloz/langchain_dart/commit/912370ee0ba667ee9153303395a457e6caf5c72d))
+
 ## 0.4.1
 
  - **DOCS**: Update Supabase docs. ([4a2a5329](https://github.com/davidmigloz/langchain_dart/commit/4a2a532931cac7577102d78b0ec8a5cc4eafb93c))

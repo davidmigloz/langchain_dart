@@ -1,6 +1,6 @@
 name: langchain_google
 description: LangChain.dart integration module for Google (VertexAI, PaLM, Matching Engine, etc.).
-version: 0.2.3+3
+version: 0.2.4
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_google
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:langchain_google
 homepage: https://github.com/davidmigloz/langchain_dart
@@ -19,14 +19,14 @@ environment:
 dependencies:
   collection: '>=1.17.0 <1.19.0'
   gcloud: ^0.8.12
-  googleai_dart: ^0.0.2+2
+  googleai_dart: ^0.0.3
   googleapis: ^12.0.0
   googleapis_auth: ^1.4.1
   http: ^1.1.0
-  langchain: ^0.4.1
+  langchain: ^0.4.2
   meta: ^1.9.1
   uuid: ^4.0.0
-  vertex_ai: ^0.0.9+1
+  vertex_ai: ^0.0.10
 
 dev_dependencies:
   test: ^1.25.2

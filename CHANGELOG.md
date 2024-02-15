@@ -3,6 +3,107 @@
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR)
 server for more details about each release.
 
+## 2024-02-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+- There are no breaking changes in this release.
+
+Packages with other changes:
+
+- [`chromadb` - `v0.1.2`](#chromadb---v012)
+- [`googleai_dart` - `v0.0.3`](#googleai_dart---v003)
+- [`langchain` - `v0.4.2`](#langchain---v042)
+- [`langchain_chroma` - `v0.1.1`](#langchain_chroma---v011)
+- [`langchain_google` - `v0.2.4`](#langchain_google---v024)
+- [`langchain_mistralai` - `v0.0.3`](#langchain_mistralai---v003)
+- [`langchain_ollama` - `v0.0.4`](#langchain_ollama---v004)
+- [`langchain_openai` - `v0.4.1`](#langchain_openai---v041)
+- [`langchain_pinecone` - `v0.0.7`](#langchain_pinecone---v007)
+- [`langchain_supabase` - `v0.0.1+1`](#langchain_supabase---v0011)
+- [`mistralai_dart` - `v0.0.3`](#mistralai_dart---v003)
+- [`ollama_dart` - `v0.0.3`](#ollama_dart---v003)
+- [`openai_dart` - `v0.1.7`](#openai_dart---v017)
+- [`vertex_ai` - `v0.0.10`](#vertex_ai---v0010)
+
+---
+
+#### `googleai_dart` - `v0.0.3`
+
+- **FEAT**: Add streaming support to googleai_dart client ([#299](https://github.com/davidmigloz/langchain_dart/issues/299)). ([2cbd538a](https://github.com/davidmigloz/langchain_dart/commit/2cbd538a3b67ef6bdd9ab7b92bebc3c8c7a1bea1))
+- **FEAT**: Update meta and test dependencies ([#331](https://github.com/davidmigloz/langchain_dart/issues/331)). ([912370ee](https://github.com/davidmigloz/langchain_dart/commit/912370ee0ba667ee9153303395a457e6caf5c72d))
+- **DOCS**: Update pubspecs. ([d23ed89a](https://github.com/davidmigloz/langchain_dart/commit/d23ed89adf95a34a78024e2f621dc0af07292f44))
+
+#### `openai_dart` - `v0.1.7`
+
+- **FEAT**: Allow to specify OpenAI custom instance ([#327](https://github.com/davidmigloz/langchain_dart/issues/327)). ([4744648c](https://github.com/davidmigloz/langchain_dart/commit/4744648cdf02828b9182ebd34ba3d7db5313786e))
+- **FEAT**: Update meta and test dependencies ([#331](https://github.com/davidmigloz/langchain_dart/issues/331)). ([912370ee](https://github.com/davidmigloz/langchain_dart/commit/912370ee0ba667ee9153303395a457e6caf5c72d))
+- **DOCS**: Update pubspecs. ([d23ed89a](https://github.com/davidmigloz/langchain_dart/commit/d23ed89adf95a34a78024e2f621dc0af07292f44))
+
+#### `langchain_openai` - `v0.4.1`
+
+- **FEAT**: Allow to specify OpenAI custom instance ([#327](https://github.com/davidmigloz/langchain_dart/issues/327)). ([4744648c](https://github.com/davidmigloz/langchain_dart/commit/4744648cdf02828b9182ebd34ba3d7db5313786e))
+- **FEAT**: Update meta and test dependencies ([#331](https://github.com/davidmigloz/langchain_dart/issues/331)). ([912370ee](https://github.com/davidmigloz/langchain_dart/commit/912370ee0ba667ee9153303395a457e6caf5c72d))
+- **DOCS**: Update pubspecs. ([d23ed89a](https://github.com/davidmigloz/langchain_dart/commit/d23ed89adf95a34a78024e2f621dc0af07292f44))
+
+#### `ollama_dart` - `v0.0.3`
+
+- **FEAT**: Add Ollama keep_alive param to control how long models stay loaded ([#319](https://github.com/davidmigloz/langchain_dart/issues/319)). ([3b86e227](https://github.com/davidmigloz/langchain_dart/commit/3b86e22788eb8df9c09b034c5acc98fdaa6b32c6))
+- **FEAT**: Update meta and test dependencies ([#331](https://github.com/davidmigloz/langchain_dart/issues/331)). ([912370ee](https://github.com/davidmigloz/langchain_dart/commit/912370ee0ba667ee9153303395a457e6caf5c72d))
+- **DOCS**: Update pubspecs. ([d23ed89a](https://github.com/davidmigloz/langchain_dart/commit/d23ed89adf95a34a78024e2f621dc0af07292f44))
+
+#### `langchain_ollama` - `v0.0.4`
+
+- **FEAT**: Add Ollama keep_alive param to control how long models stay loaded ([#319](https://github.com/davidmigloz/langchain_dart/issues/319)). ([3b86e227](https://github.com/davidmigloz/langchain_dart/commit/3b86e22788eb8df9c09b034c5acc98fdaa6b32c6))
+- **FEAT**: Update meta and test dependencies ([#331](https://github.com/davidmigloz/langchain_dart/issues/331)). ([912370ee](https://github.com/davidmigloz/langchain_dart/commit/912370ee0ba667ee9153303395a457e6caf5c72d))
+- **DOCS**: Update pubspecs. ([d23ed89a](https://github.com/davidmigloz/langchain_dart/commit/d23ed89adf95a34a78024e2f621dc0af07292f44))
+
+#### `chromadb` - `v0.1.2`
+
+- **FEAT**: Update meta and test dependencies ([#331](https://github.com/davidmigloz/langchain_dart/issues/331)). ([912370ee](https://github.com/davidmigloz/langchain_dart/commit/912370ee0ba667ee9153303395a457e6caf5c72d))
+
+#### `langchain` - `v0.4.2`
+
+- **FEAT**: Update meta and test dependencies ([#331](https://github.com/davidmigloz/langchain_dart/issues/331)). ([912370ee](https://github.com/davidmigloz/langchain_dart/commit/912370ee0ba667ee9153303395a457e6caf5c72d))
+
+#### `langchain_chroma` - `v0.1.1`
+
+- **FEAT**: Update meta and test dependencies ([#331](https://github.com/davidmigloz/langchain_dart/issues/331)). ([912370ee](https://github.com/davidmigloz/langchain_dart/commit/912370ee0ba667ee9153303395a457e6caf5c72d))
+- **DOCS**: Update pubspecs. ([d23ed89a](https://github.com/davidmigloz/langchain_dart/commit/d23ed89adf95a34a78024e2f621dc0af07292f44))
+
+#### `langchain_google` - `v0.2.4`
+
+- **FEAT**: Update meta and test dependencies ([#331](https://github.com/davidmigloz/langchain_dart/issues/331)). ([912370ee](https://github.com/davidmigloz/langchain_dart/commit/912370ee0ba667ee9153303395a457e6caf5c72d))
+- **DOCS**: Update pubspecs. ([d23ed89a](https://github.com/davidmigloz/langchain_dart/commit/d23ed89adf95a34a78024e2f621dc0af07292f44))
+
+#### `langchain_mistralai` - `v0.0.3`
+
+- **FEAT**: Update meta and test dependencies ([#331](https://github.com/davidmigloz/langchain_dart/issues/331)). ([912370ee](https://github.com/davidmigloz/langchain_dart/commit/912370ee0ba667ee9153303395a457e6caf5c72d))
+- **DOCS**: Update pubspecs. ([d23ed89a](https://github.com/davidmigloz/langchain_dart/commit/d23ed89adf95a34a78024e2f621dc0af07292f44))
+
+#### `langchain_pinecone` - `v0.0.7`
+
+- **FEAT**: Update meta and test dependencies ([#331](https://github.com/davidmigloz/langchain_dart/issues/331)). ([912370ee](https://github.com/davidmigloz/langchain_dart/commit/912370ee0ba667ee9153303395a457e6caf5c72d))
+- **DOCS**: Update pubspecs. ([d23ed89a](https://github.com/davidmigloz/langchain_dart/commit/d23ed89adf95a34a78024e2f621dc0af07292f44))
+
+#### `langchain_supabase` - `v0.0.1+1`
+
+- **DOCS**: Update pubspecs. ([d23ed89a](https://github.com/davidmigloz/langchain_dart/commit/d23ed89adf95a34a78024e2f621dc0af07292f44))
+
+#### `mistralai_dart` - `v0.0.3`
+
+- **FEAT**: Update meta and test dependencies ([#331](https://github.com/davidmigloz/langchain_dart/issues/331)). ([912370ee](https://github.com/davidmigloz/langchain_dart/commit/912370ee0ba667ee9153303395a457e6caf5c72d))
+- **DOCS**: Update pubspecs. ([d23ed89a](https://github.com/davidmigloz/langchain_dart/commit/d23ed89adf95a34a78024e2f621dc0af07292f44))
+
+#### `vertex_ai` - `v0.0.10`
+
+- **FEAT**: Update meta and test dependencies ([#331](https://github.com/davidmigloz/langchain_dart/issues/331)). ([912370ee](https://github.com/davidmigloz/langchain_dart/commit/912370ee0ba667ee9153303395a457e6caf5c72d))
+- **DOCS**: Update pubspecs. ([d23ed89a](https://github.com/davidmigloz/langchain_dart/commit/d23ed89adf95a34a78024e2f621dc0af07292f44))
+
 ## 2024-01-31
 
 ### Changes
@@ -1840,3 +1941,4 @@ Packages with changes:
 
 Check out the announcement post for all the details: 
 https://blog.langchaindart.com/introducing-langchain-dart-6b1d34fc41ef
+fc41ef
