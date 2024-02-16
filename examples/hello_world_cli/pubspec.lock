@@ -151,14 +151,14 @@ packages:
       path: "../../packages/langchain"
       relative: true
     source: path
-    version: "0.4.1"
+    version: "0.4.2"
   langchain_openai:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_openai"
       relative: true
     source: path
-    version: "0.4.0+1"
+    version: "0.4.1"
   langchain_tiktoken:
     dependency: transitive
     description:
@@ -197,7 +197,7 @@ packages:
       path: "../../packages/openai_dart"
       relative: true
     source: path
-    version: "0.1.6+1"
+    version: "0.1.7"
   path:
     dependency: transitive
     description:

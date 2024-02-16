@@ -47,7 +47,7 @@ packages:
       path: "../../packages/chromadb"
       relative: true
     source: path
-    version: "0.1.1+1"
+    version: "0.1.2"
   collection:
     dependency: transitive
     description:
@@ -126,7 +126,7 @@ packages:
       path: "../../packages/googleai_dart"
       relative: true
     source: path
-    version: "0.0.2+2"
+    version: "0.0.3"
   googleapis:
     dependency: transitive
     description:
@@ -205,42 +205,42 @@ packages:
       path: "../../packages/langchain"
       relative: true
     source: path
-    version: "0.4.1"
+    version: "0.4.2"
   langchain_chroma:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_chroma"
       relative: true
     source: path
-    version: "0.1.0+15"
+    version: "0.1.1"
   langchain_google:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_google"
       relative: true
     source: path
-    version: "0.2.3+3"
+    version: "0.2.4"
   langchain_mistralai:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_mistralai"
       relative: true
     source: path
-    version: "0.0.2+3"
+    version: "0.0.3"
   langchain_ollama:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_ollama"
       relative: true
     source: path
-    version: "0.0.3+3"
+    version: "0.0.4"
   langchain_openai:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_openai"
       relative: true
     source: path
-    version: "0.4.0+1"
+    version: "0.4.1"
   langchain_tiktoken:
     dependency: transitive
     description:
@@ -279,21 +279,21 @@ packages:
       path: "../../packages/mistralai_dart"
       relative: true
     source: path
-    version: "0.0.2+3"
+    version: "0.0.3"
   ollama_dart:
     dependency: "direct overridden"
     description:
       path: "../../packages/ollama_dart"
       relative: true
     source: path
-    version: "0.0.2+1"
+    version: "0.0.3"
   openai_dart:
     dependency: "direct overridden"
     description:
       path: "../../packages/openai_dart"
       relative: true
     source: path
-    version: "0.1.6+1"
+    version: "0.1.7"
   path:
     dependency: transitive
     description:
@@ -388,7 +388,7 @@ packages:
       path: "../../packages/vertex_ai"
       relative: true
     source: path
-    version: "0.0.9+1"
+    version: "0.0.10"
   web:
     dependency: transitive
     description:
