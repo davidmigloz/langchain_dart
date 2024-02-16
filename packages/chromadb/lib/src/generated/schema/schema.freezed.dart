@@ -12,7 +12,7 @@ part of 'schema.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 AddEmbedding _$AddEmbeddingFromJson(Map<String, dynamic> json) {
   return _AddEmbedding.fromJson(json);
@@ -255,7 +255,7 @@ class _$AddEmbeddingImpl extends _AddEmbedding {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AddEmbeddingImpl &&
@@ -491,7 +491,7 @@ class _$CollectionTypeImpl extends _CollectionType {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CollectionTypeImpl &&
@@ -707,7 +707,7 @@ class _$CreateCollectionImpl extends _CreateCollection {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateCollectionImpl &&
@@ -909,7 +909,7 @@ class _$DatabaseTypeImpl extends _DatabaseType {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DatabaseTypeImpl &&
@@ -1065,7 +1065,7 @@ class _$CreateDatabaseImpl extends _CreateDatabase {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateDatabaseImpl &&
@@ -1208,7 +1208,7 @@ class _$TenantTypeImpl extends _TenantType {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TenantTypeImpl &&
@@ -1349,7 +1349,7 @@ class _$CreateTenantImpl extends _CreateTenant {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateTenantImpl &&
@@ -1574,7 +1574,7 @@ class _$DeleteEmbeddingImpl extends _DeleteEmbedding {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DeleteEmbeddingImpl &&
@@ -1919,7 +1919,7 @@ class _$GetEmbeddingImpl extends _GetEmbedding {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GetEmbeddingImpl &&
@@ -2225,7 +2225,7 @@ class _$GetResponseImpl extends _GetResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GetResponseImpl &&
@@ -2412,7 +2412,7 @@ class _$HTTPValidationErrorImpl extends _HTTPValidationError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$HTTPValidationErrorImpl &&
@@ -2694,7 +2694,7 @@ class _$QueryEmbeddingImpl extends _QueryEmbedding {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$QueryEmbeddingImpl &&
@@ -3088,7 +3088,7 @@ class _$QueryResponseImpl extends _QueryResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$QueryResponseImpl &&
@@ -3328,7 +3328,7 @@ class _$UpdateCollectionImpl extends _UpdateCollection {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UpdateCollectionImpl &&
@@ -3624,7 +3624,7 @@ class _$UpdateEmbeddingImpl extends _UpdateEmbedding {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UpdateEmbeddingImpl &&
@@ -3849,7 +3849,7 @@ class _$ValidationErrorImpl extends _ValidationError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ValidationErrorImpl &&

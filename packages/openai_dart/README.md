@@ -11,7 +11,7 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
 
 - Generated from the official OpenAI [OpenAPI specification](https://github.com/openai/openai-openapi)
 - Fully type-safe, [documented](https://pub.dev/documentation/openai_dart/latest/) and tested
-- All platforms supported (including streaming on web)
+- All platforms supported
 - Authentication with organization support
 - Custom base URL, headers and query params support (e.g. HTTP proxies)
 - Custom HTTP client support (e.g. SOCKS5 proxies or advanced use cases)
