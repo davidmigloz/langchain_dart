@@ -3,6 +3,7 @@
   - [Quickstart](/get_started/quickstart.md)
   - [Security](/get_started/security.md)
 - [LangChain Expression Language](/expression_language/expression_language.md)
+  - [Get started](/expression_language/get_started.md)
   - [Interface](/expression_language/interface.md)
   - Cookbook
     - [Prompt + LLM](/expression_language/cookbook/prompt_llm_parser.md)

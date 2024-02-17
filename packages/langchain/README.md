@@ -10,53 +10,33 @@ Build powerful LLM-based Dart/Flutter applications.
 
 ## What is LangChain.dart?
 
-> Check out the announcement post: [Introducing LangChain.dart 🦜️🔗](https://blog.langchaindart.com/introducing-langchain-dart-6b1d34fc41ef)
+LangChain.dart is a Dart port of the popular [LangChain](https://github.com/hwchase17/langchain) Python framework created by [Harrison Chase](https://www.linkedin.com/in/harrison-chase-961287118).
 
-LangChain.dart is a Dart port of the popular [LangChain](https://github.com/hwchase17/langchain)
-Python framework created by [Harrison Chase](https://www.linkedin.com/in/harrison-chase-961287118).
-
-LangChain provides a set of ready-to-use components for working with language models and the
-concept of chains, which allows to "chain" components together to formulate more advanced use cases
-around LLMs.
+LangChain provides a set of ready-to-use components for working with language models and the concept of chains, which allows to "chain" components together to formulate more advanced use cases around LLMs.
 
 The components can be grouped into a few core modules:
 
 ![LangChain.dart](https://raw.githubusercontent.com/davidmigloz/langchain_dart/main/docs/img/langchain.dart.png)
 
-- 📃 **Model I/O:** streamlines the interaction between the model inputs (prompt templates), the
-  Language Model (abstracting different providers), and the model output (output parsers).
-- 📚 **Retrieval:** assists in loading user data (document loaders), modifying it (document
-  transformers and embedding models), storing (vector stores), and retrieving when needed
-  (retrievers).
-- 🔗 **Chains:** a way to compose multiple components or other chains into a single pipeline.
-- 🧠 **Memory:** equips chains or agents with both short-term and long-term memory capabilities,
-  facilitating recall of prior interactions with the user.
-- 🤖 **Agents:** "Bots" that harness LLMs to perform tasks. They serve as the link between LLM and the
-  tools (web search, calculators, database lookup, etc.). They determine what has to be
-  accomplished and the tools that are more suitable for the specific task.
+- 📃 **Model I/O:** streamlines the interaction between the model inputs (prompt templates), the Language Model (abstracting different providers under a unified API), and the model output (output parsers).
+- 📚 **Retrieval:** assists in loading user data (document loaders), transforming (document transformers and embedding models), storing (vector stores), and retrieving it when needed (retrievers).
+- 🤖 **Agents:** "bots" that harness LLMs to perform tasks. They serve as the link between LLM and the tools (web search, calculators, database lookup, etc.). They determine what has to be accomplished and the tools that are more suitable for the specific task.
+
+The different components can be composed together using the LangChain Expression Language (LCEL).
 
 ## Motivation
 
-Large Language Models (LLMs) have revolutionized Natural Language Processing (NLP), serving as
-essential components in a wide range of applications, such as question-answering, summarization,
-translation, and text generation.
+Large Language Models (LLMs) have revolutionized Natural Language Processing (NLP), serving as essential components in a wide range of applications, such as question-answering, summarization, translation, and text generation.
 
-The adoption of LLMs is creating a new tech stack in its wake. However, emerging libraries and
-tools are predominantly being developed for the Python and JavaScript ecosystems. As a result, the
-number of applications leveraging LLMs in these ecosystems has grown exponentially.
+The adoption of LLMs is creating a new tech stack in its wake. However, emerging libraries and tools are predominantly being developed for the Python and JavaScript ecosystems. As a result, the number of applications leveraging LLMs in these ecosystems has grown exponentially.
 
-In contrast, the Dart / Flutter ecosystem has not experienced similar growth, which can likely be
-attributed to the scarcity of Dart and Flutter libraries that streamline the complexities
-associated with working with LLMs.
+In contrast, the Dart / Flutter ecosystem has not experienced similar growth, which can likely be attributed to the scarcity of Dart and Flutter libraries that streamline the complexities associated with working with LLMs.
 
-LangChain.dart aims to fill this gap by abstracting the intricacies of working with LLMs in Dart
-and Flutter, enabling developers to harness their combined potential effectively.
+LangChain.dart aims to fill this gap by abstracting the intricacies of working with LLMs in Dart and Flutter, enabling developers to harness their combined potential effectively.
 
 ## Packages
 
-LangChain.dart has a modular design where the core [langchain](https://pub.dev/packages/langchain)
-package provides the LangChain API and each integration with a model provider, database, etc. is
-provided by a separate package.
+LangChain.dart has a modular design where the core [langchain](https://pub.dev/packages/langchain) package provides the LangChain API and each 3rd party integration with a model provider, database, etc. is provided by a separate package.
 
 | Package                                                             | Version                                                                      | Description                                                                                                                                                 |
 |---------------------------------------------------------------------|------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -82,8 +62,7 @@ Functionality provided by each package:
 | [langchain_chroma](https://pub.dev/packages/langchain_chroma)       |      |             |            | ✔             |        |        |       |
 | [langchain_supabase](https://pub.dev/packages/langchain_supabase)   |      |             |            | ✔             |        |        |       |
 
-The following packages are maintained (and used internally) by LangChain.dart,
-although they can also be used independently:
+The following packages are maintained (and used internally) by LangChain.dart, although they can also be used independently:
 
 | Package                                                   | Version                                                                                                       | Description                                   | 
 |-----------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|-----------------------------------------------|
@@ -96,77 +75,75 @@ although they can also be used independently:
 
 ## Getting started
 
-To start using LangChain.dart, add `langchain` as a dependency to your `pubspec.yaml` file.
-Also, include the dependencies for the specific integrations you want to use
-(e.g.`langchain_openai`):
+To start using LangChain.dart, add `langchain` as a dependency to your `pubspec.yaml` file. Also, include the dependencies for the specific integrations you want to use (e.g.`langchain_openai` or `langchain_google`):
 
 ```yaml
 dependencies:
   langchain: {version}
   langchain_openai: {version}
+  langchain_google: {version}
+  ...
 ```
 
-The most basic building block of LangChain.dart is calling an LLM on some prompt:
+The most basic building block of LangChain.dart is calling an LLM on some prompt. LangChain.dart provides a unified interface for calling different LLMs. For example, we can use `ChatGoogleGenerativeAI` to call Google's Gemini model: 
 
 ```dart
-final llm = OpenAI(apiKey: openaiApiKey);
+final model = ChatGoogleGenerativeAI(apiKey: googleApiKey);
 final prompt = PromptValue.string('Hello world!');
-final result = await openai.invoke(prompt);
+final result = await model.invoke(prompt);
 // Hello everyone! I'm new here and excited to be part of this community.
 ```
 
-But you can build complex pipelines by chaining together multiple components.
-
-For example, the following pipeline does the following:
-1. Asks the model where the given person is from.
-2. Uses the answer to ask the model to return the country where the city is located in the given language.
+But the power of LangChain.dart comes from chaining together multiple components to implement complex use cases. For example, a RAG (Retrieval-Augmented Generation) pipeline that would accept a user query, retrieve relevant documents from a vector store, format them using prompt templates, invoke the model, and parse the output:
 
 ```dart
-final promptTemplate1 = ChatPromptTemplate.fromTemplate(
-  'What is the city {person} is from? Only respond with the name of the city.',
+// 1. Create a vector store and add documents to it
+final vectorStore = MemoryVectorStore(
+  embeddings: OpenAIEmbeddings(apiKey: openaiApiKey),
 );
-final promptTemplate2 = ChatPromptTemplate.fromTemplate(
-  'What country is the city {city} in? Respond in {language}.',
+await vectorStore.addDocuments(
+  documents: [
+    Document(pageContent: 'LangChain was created by Harrison'),
+    Document(pageContent: 'David ported LangChain to Dart in LangChain.dart'),
+  ],
 );
 
-final model = ChatOpenAI(apiKey: openaiApiKey);
-const stringOutputParser = StringOutputParser();
+// 2. Construct a RAG prompt template
+final promptTemplate = ChatPromptTemplate.fromTemplates([
+  (ChatMessageType.system, 'Answer the question based on only the following context:\n{context}'),
+  (ChatMessageType.human, '{question}'),
+]);
 
-final chain = Runnable.fromMap({
-  'city': promptTemplate1 | model | stringOutputParser,
-  'language': Runnable.getItemFromMap('language'),
-}) |
-promptTemplate2 |
-model |
-stringOutputParser;
-
-final res = await chain.invoke({
-'person': 'Rafael Nadal',
-'language': 'Spanish',
+// 3. Create a Runnable that combines the retrieved documents into a single string
+final docCombiner = Runnable.fromFunction<List<Document>, String>((docs, _) {
+  return docs.map((final d) => d.pageContent).join('\n');
 });
-print(res);
-// La ciudad de Manacor se encuentra en España.
-```
 
-This is just a very simple example of a pipeline using
-[LangChain Expression Language (LCEL)](https://langchaindart.com/#/expression_language/expression_language).
-You can construct far more intricate pipelines by connecting various components,
-such as a Retrieval-Augmented Generation (RAG) pipeline that would accept a user
-query, retrieve relevant documents from a vector store, format them using
-templates, prompt the model, and parse the output in a specific manner using an
-output parser.
+// 4. Define the RAG pipeline
+final chain = Runnable.fromMap<String>({
+  'context': vectorStore.asRetriever().pipe(docCombiner),
+  'question': Runnable.passthrough(),
+})
+    .pipe(promptTemplate)
+    .pipe(ChatOpenAI(apiKey: openaiApiKey))
+    .pipe(StringOutputParser());
+
+// 5. Run the pipeline
+final res = await chain.invoke('Who created LangChain.dart?');
+print(res);
+// David created LangChain.dart
+```
 
 ## Documentation
 
-- [LangChain conceptual guide](https://docs.langchain.com/docs)
 - [LangChain.dart documentation](https://langchaindart.com)
 - [Sample apps](https://github.com/davidmigloz/langchain_dart/tree/main/examples)
 - [LangChain.dart blog](https://blog.langchaindart.com)
 - [Project board](https://github.com/users/davidmigloz/projects/2/views/1)
 
-## Support
+## Community
 
-Having trouble? Get help in the official [LangChain.dart Discord](https://discord.gg/x4qbhqecVR).
+Stay up-to-date on the latest news and updates on the field, have great discussions, and get help in the official [LangChain.dart Discord](https://discord.gg/x4qbhqecVR).
 
 ## Contribute
 
@@ -174,12 +151,9 @@ Having trouble? Get help in the official [LangChain.dart Discord](https://discor
 |-------------------------------------------------------------------------|
 | We are looking for collaborators to join the core group of maintainers. |
 
-New contributors welcome! Check out our
-[Contributors Guide](https://github.com/davidmigloz/langchain_dart/blob/main/CONTRIBUTING.md) for
-help getting started.
+New contributors welcome! Check out our [Contributors Guide](https://github.com/davidmigloz/langchain_dart/blob/main/CONTRIBUTING.md) for help getting started.
 
-Join us on [Discord](https://discord.gg/x4qbhqecVR) to meet other maintainers. We'll help you get
-your first contribution in no time!
+Join us on [Discord](https://discord.gg/x4qbhqecVR) to meet other maintainers. We'll help you get your first contribution in no time!
 
 ## Related projects
 
