@@ -1,7 +1,6 @@
 # Model I/O
 
-The core element of any language model application is... the model. LangChain 
-gives you the building blocks to interface with any language model.
+The core element of any language model application is...the model. LangChain gives you the building blocks to interface with any language model.
 
 - [Prompts](/modules/model_io/prompts/prompts.md): templatize, dynamically 
   select, and manage model inputs.

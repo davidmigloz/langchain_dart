@@ -64,7 +64,7 @@ void main() async {
       expect(res.content, isNotEmpty);
     });
 
-    test('Test generate to ChatVertexAI', () async {
+    test('Test invoke to ChatVertexAI', () async {
       final chat = ChatVertexAI(
         httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
@@ -74,12 +74,12 @@ void main() async {
           maxOutputTokens: 10,
         ),
       );
-      final res = await chat.generate(
-        [
+      final res = await chat.invoke(
+        PromptValue.chat([
           ChatMessage.humanText('Hello, how are you?'),
           ChatMessage.ai('I am fine, thank you.'),
           ChatMessage.humanText('Good, what is your name?'),
-        ],
+        ]),
       );
       expect(res.generations.first.output.content, isNotEmpty);
     });
@@ -94,8 +94,8 @@ void main() async {
           maxOutputTokens: 10,
         ),
       );
-      final res = await chat.generate(
-        [ChatMessage.humanText('Hello, how are you?')],
+      final res = await chat.invoke(
+        PromptValue.chat([ChatMessage.humanText('Hello, how are you?')]),
       );
       expect(res.modelOutput, isNotNull);
       expect(res.modelOutput!['model'], chat.defaultOptions.model);
@@ -128,24 +128,24 @@ void main() async {
         httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
       );
-      final res = await chat.generate(
-        [
+      final res = await chat.invoke(
+        PromptValue.chat([
           ChatMessage.humanText(
             'List the numbers from 1 to 9 in order without any spaces or commas',
           ),
-        ],
+        ]),
         options: const ChatVertexAIOptions(stopSequences: ['4']),
       );
       expect(res.firstOutputAsString, contains('123'));
       expect(res.firstOutputAsString, isNot(contains('456789')));
 
       // call options should override defaults
-      final res2 = await chat.generate(
-        [
+      final res2 = await chat.invoke(
+        PromptValue.chat([
           ChatMessage.humanText(
             'List the numbers from 1 to 9 in order without any spaces or commas',
           ),
-        ],
+        ]),
         options: const ChatVertexAIOptions(
           stopSequences: ['5'],
         ),
@@ -165,14 +165,18 @@ void main() async {
           candidateCount: 3,
         ),
       );
-      final res = await chat.generate(
-        [ChatMessage.humanText('Suggest a name for a LLM framework for Dart')],
+      final res = await chat.invoke(
+        PromptValue.chat([
+          ChatMessage.humanText('Suggest a name for a LLM framework for Dart'),
+        ]),
       );
       expect(res.generations.length, 3);
 
       // call options should override defaults
-      final res2 = await chat.generate(
-        [ChatMessage.humanText('Suggest a name for a LLM framework for Dart')],
+      final res2 = await chat.invoke(
+        PromptValue.chat([
+          ChatMessage.humanText('Suggest a name for a LLM framework for Dart'),
+        ]),
         options: const ChatVertexAIOptions(
           temperature: 1,
           candidateCount: 5,
@@ -189,7 +193,7 @@ void main() async {
       final prompt = PromptValue.string('Hello, how are you?');
 
       final numTokens = await chat.countTokens(prompt);
-      final generation = await chat.generatePrompt(prompt);
+      final generation = await chat.invoke(prompt);
       expect(numTokens, generation.usage!.promptTokens);
     });
 

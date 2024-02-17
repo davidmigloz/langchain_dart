@@ -230,12 +230,12 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   String get modelType => 'openai';
 
   @override
-  Future<LLMResult> generate(
-    final String prompt, {
+  Future<LLMResult> invoke(
+    final PromptValue input, {
     final OpenAIOptions? options,
   }) async {
     final completion = await _client.createCompletion(
-      request: _createCompletionRequest(prompt, options: options),
+      request: _createCompletionRequest(input.toString(), options: options),
     );
     return completion.toLLMResult();
   }

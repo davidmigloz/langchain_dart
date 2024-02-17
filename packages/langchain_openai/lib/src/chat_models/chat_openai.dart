@@ -239,12 +239,15 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   String get modelType => 'openai-chat';
 
   @override
-  Future<ChatResult> generate(
-    final List<ChatMessage> messages, {
+  Future<ChatResult> invoke(
+    final PromptValue input, {
     final ChatOpenAIOptions? options,
   }) async {
     final completion = await _client.createChatCompletion(
-      request: _createChatCompletionRequest(messages, options: options),
+      request: _createChatCompletionRequest(
+        input.toChatMessages(),
+        options: options,
+      ),
     );
     return completion.toChatResult(completion.id ?? _uuid.v4());
   }

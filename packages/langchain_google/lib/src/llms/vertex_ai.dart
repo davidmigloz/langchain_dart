@@ -144,14 +144,14 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
   String get modelType => 'vertex-ai';
 
   @override
-  Future<LLMResult> generate(
-    final String prompt, {
+  Future<LLMResult> invoke(
+    final PromptValue input, {
     final VertexAIOptions? options,
   }) async {
     final model =
         options?.model ?? defaultOptions.model ?? throwNullModelError();
     final result = await client.text.predict(
-      prompt: prompt,
+      prompt: input.toString(),
       publisher: options?.publisher ??
           ArgumentError.checkNotNull(
             defaultOptions.publisher,

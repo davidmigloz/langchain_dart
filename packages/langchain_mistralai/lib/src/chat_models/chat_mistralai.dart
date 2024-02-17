@@ -182,12 +182,15 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
   String get modelType => 'chat-mistralai';
 
   @override
-  Future<ChatResult> generate(
-    final List<ChatMessage> messages, {
+  Future<ChatResult> invoke(
+    final PromptValue input, {
     final ChatMistralAIOptions? options,
   }) async {
     final completion = await _client.createChatCompletion(
-      request: _generateCompletionRequest(messages, options: options),
+      request: _generateCompletionRequest(
+        input.toChatMessages(),
+        options: options,
+      ),
     );
     return completion.toChatResult();
   }

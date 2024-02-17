@@ -28,45 +28,9 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
   Future<ChatResult> invoke(
     final PromptValue input, {
     final Options? options,
-  }) async {
-    return generatePrompt(input, options: options);
-  }
-
-  /// Runs the chat model on the given messages.
-  ///
-  /// - [messages] The messages to pass into the model.
-  /// - [options] Generation options to pass into the Chat Model.
-  ///
-  /// Example:
-  /// ```dart
-  /// final result = await chat.generate([ChatMessage.humanText('say hi!')]);
-  /// ```
-  @override
-  Future<ChatResult> generate(
-    final List<ChatMessage> messages, {
-    final Options? options,
   });
 
-  /// Runs the chat model on the given prompt value.
-  ///
-  /// - [promptValue] The prompt value to pass into the model.
-  /// - [options] Generation options to pass into the Chat Model.
-  ///
-  /// Example:
-  /// ```dart
-  /// final result = await chat.generatePrompt(
-  ///   PromptValue.chat([ChatMessage.humanText('say hi!')]),
-  /// );
-  /// ```
-  @override
-  Future<ChatResult> generatePrompt(
-    final PromptValue promptValue, {
-    final Options? options,
-  }) {
-    return generate(promptValue.toChatMessages(), options: options);
-  }
-
-  /// Runs the chat model on the given messages.
+  /// Runs the chat model on the given messages and returns a chat message.
   ///
   /// - [messages] The messages to pass into the model.
   /// - [options] Generation options to pass into the Chat Model.
@@ -80,47 +44,8 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
     final List<ChatMessage> messages, {
     final Options? options,
   }) async {
-    final result = await generate(messages, options: options);
+    final result = await invoke(PromptValue.chat(messages), options: options);
     return result.generations[0].output;
-  }
-
-  /// Runs the chat model on the given text as a human message and returns the
-  /// content of the AI message.
-  ///
-  /// - [text] The text to pass into the model.
-  /// - [options] Generation options to pass into the Chat Model.
-  ///
-  /// Example:
-  /// ```dart
-  /// final result = await predict('say hi!');
-  /// ```
-  @override
-  Future<String> predict(
-    final String text, {
-    final Options? options,
-  }) async {
-    final res = await call(
-      [ChatMessage.humanText(text)],
-      options: options,
-    );
-    return res.content;
-  }
-
-  /// Runs the chat model on the given messages (same as [call] method).
-  ///
-  /// - [messages] The messages to pass into the model.
-  /// - [options] Generation options to pass into the Chat Model.
-  ///
-  /// Example:
-  /// ```dart
-  /// final result = await chat.predictMessages([ChatMessage.humanText('say hi!')]);
-  /// );
-  @override
-  Future<ChatMessage> predictMessages(
-    final List<ChatMessage> messages, {
-    final Options? options,
-  }) async {
-    return call(messages, options: options);
   }
 }
 
@@ -135,11 +60,11 @@ abstract class SimpleChatModel<Options extends ChatModelOptions>
   const SimpleChatModel();
 
   @override
-  Future<ChatResult> generate(
-    final List<ChatMessage> messages, {
+  Future<ChatResult> invoke(
+    final PromptValue input, {
     final Options? options,
   }) async {
-    final text = await callInternal(messages, options: options);
+    final text = await callInternal(input.toChatMessages(), options: options);
     final message = AIChatMessage(content: text);
     return ChatResult(
       generations: [ChatGeneration(message)],

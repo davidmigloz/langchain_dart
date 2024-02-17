@@ -1,14 +1,13 @@
 import 'package:meta/meta.dart';
 
-import '../chat_models/models/models.dart';
-import '../chat_models/utils.dart';
 import '../language_models/language_models.dart';
 import '../prompts/models/models.dart';
 import 'models/models.dart';
 
 /// {@template base_llm}
 /// Large Language Models base class.
-/// It should take in a prompt and return a string.
+///
+/// LLMs take in a String and returns a String.
 /// {@endtemplate}
 abstract class BaseLLM<Options extends LLMOptions>
     extends BaseLanguageModel<String, Options, String> {
@@ -27,48 +26,13 @@ abstract class BaseLLM<Options extends LLMOptions>
   /// );
   /// ```
   @override
-  Future<LanguageModelResult<String>> invoke(
+  Future<LLMResult> invoke(
     final PromptValue input, {
-    final Options? options,
-  }) async {
-    return generatePrompt(input, options: options);
-  }
-
-  /// Runs the LLM on the given prompt.
-  ///
-  /// - [prompt] The prompt to pass into the model.
-  /// - [options] Generation options to pass into the LLM.
-  ///
-  /// Example:
-  /// ```dart
-  /// final result = await openai.generate('Tell me a joke.');
-  /// ```
-  @override
-  Future<LLMResult> generate(
-    final String prompt, {
     final Options? options,
   });
 
-  /// Runs the LLM on the given prompt value.
-  ///
-  /// - [promptValue] The prompt value to pass into the model.
-  /// - [options] Generation options to pass into the LLM.
-  ///
-  /// Example:
-  /// ```dart
-  /// final result = await openai.generatePrompt(
-  ///   PromptValue.string('Tell me a joke.'),
-  /// );
-  /// ```
-  @override
-  Future<LLMResult> generatePrompt(
-    final PromptValue promptValue, {
-    final Options? options,
-  }) {
-    return generate(promptValue.toString(), options: options);
-  }
-
-  /// Runs the LLM on the given prompt.
+  /// Runs the LLM on the given String prompt and returns a String with the
+  /// generated text.
   ///
   /// - [prompt] The prompt to pass into the model.
   /// - [options] Generation options to pass into the LLM.
@@ -82,51 +46,8 @@ abstract class BaseLLM<Options extends LLMOptions>
     final String prompt, {
     final Options? options,
   }) async {
-    final result = await generate(prompt, options: options);
+    final result = await invoke(PromptValue.string(prompt), options: options);
     return result.firstOutputAsString;
-  }
-
-  /// Runs the LLM on the given prompt value (same as [call] method).
-  ///
-  /// - [text] The prompt value to pass into the model.
-  /// - [options] Generation options to pass into the LLM.
-  ///
-  /// Example:
-  /// ```dart
-  /// final result = await openai.predict('Tell me a joke.');
-  /// ```
-  @override
-  Future<String> predict(
-    final String text, {
-    final Options? options,
-  }) {
-    return call(text, options: options);
-  }
-
-  /// Runs the LLM on the given messages. The messages are converted to a
-  /// single string using the format:
-  /// ```
-  /// <role>: <content>
-  /// <role>: <content>
-  /// ...
-  /// ```
-  ///
-  /// - [messages] The messages to pass into the model.
-  /// - [options] Generation options to pass into the LLM.
-  ///
-  /// Example:
-  /// ```dart
-  /// final result = await openai.predictMessages([
-  ///   ChatMessage.user('Tell me a joke.'),
-  /// ]);
-  /// ```
-  @override
-  Future<ChatMessage> predictMessages(
-    final List<ChatMessage> messages, {
-    final Options? options,
-  }) async {
-    final content = await call(messages.toBufferString(), options: options);
-    return ChatMessage.ai(content);
   }
 }
 
@@ -140,11 +61,11 @@ abstract class SimpleLLM<Options extends LLMOptions> extends BaseLLM<Options> {
   const SimpleLLM();
 
   @override
-  Future<LLMResult> generate(
-    final String prompt, {
+  Future<LLMResult> invoke(
+    final PromptValue input, {
     final Options? options,
   }) async {
-    final output = await callInternal(prompt, options: options);
+    final output = await callInternal(input.toString(), options: options);
     return LLMResult(generations: [LLMGeneration(output)]);
   }
 

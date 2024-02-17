@@ -176,12 +176,12 @@ class Ollama extends BaseLLM<OllamaOptions> {
   String get modelType => 'ollama';
 
   @override
-  Future<LLMResult> generate(
-    final String prompt, {
+  Future<LLMResult> invoke(
+    final PromptValue input, {
     final OllamaOptions? options,
   }) async {
     final completion = await _client.generateCompletion(
-      request: _generateCompletionRequest(prompt, options: options),
+      request: _generateCompletionRequest(input.toString(), options: options),
     );
     return completion.toLLMResult();
   }

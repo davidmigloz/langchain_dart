@@ -53,12 +53,12 @@ void main() {
 
     test('Test generate to ChatOpenAI', () async {
       final chat = ChatOpenAI(apiKey: openaiApiKey);
-      final res = await chat.generate(
-        [
+      final res = await chat.invoke(
+        PromptValue.chat([
           ChatMessage.humanText('Hello, how are you?'),
           ChatMessage.ai('I am fine, thank you.'),
           ChatMessage.humanText('Good, what is your name?'),
-        ],
+        ]),
       );
       expect(res.generations.first.output.content, isNotEmpty);
     });
@@ -71,8 +71,10 @@ void main() {
           maxTokens: 10,
         ),
       );
-      final res = await chat.generate(
-        [ChatMessage.humanText('Hello, how are you?')],
+      final res = await chat.invoke(
+        PromptValue.chat(
+          [ChatMessage.humanText('Hello, how are you?')],
+        ),
       );
       expect(res.modelOutput, isNotNull);
       expect(res.modelOutput!['created'], isNotNull);
@@ -123,7 +125,9 @@ void main() {
         ),
       );
       final humanMessage = ChatMessage.humanText('Hello');
-      final res = await chat.generate([humanMessage]);
+      final res = await chat.invoke(
+        PromptValue.chat([humanMessage]),
+      );
       expect(res.generations.length, 5);
       for (final generation in res.generations) {
         expect(generation.output.content, isNotEmpty);
@@ -157,8 +161,8 @@ void main() {
       final humanMessage = ChatMessage.humanText(
         'What’s the weather like in Boston right now?',
       );
-      final res1 = await chat.generate(
-        [humanMessage],
+      final res1 = await chat.invoke(
+        PromptValue.chat([humanMessage]),
         options: const ChatOpenAIOptions(functions: [function]),
       );
 
@@ -184,8 +188,8 @@ void main() {
         content: json.encode(functionResult),
       );
 
-      final res2 = await chat.generate(
-        [humanMessage, aiMessage1, functionMessage],
+      final res2 = await chat.invoke(
+        PromptValue.chat([humanMessage, aiMessage1, functionMessage]),
         options: const ChatOpenAIOptions(functions: [function]),
       );
 
@@ -218,7 +222,7 @@ void main() {
       final prompt = PromptValue.string('Hello, how are you?');
 
       final numTokens = await chat.countTokens(prompt);
-      final generation = await chat.generatePrompt(prompt);
+      final generation = await chat.invoke(prompt);
       expect(numTokens, generation.usage!.promptTokens);
     });
 
@@ -251,7 +255,7 @@ void main() {
         ];
 
         final numTokens = await chat.countTokens(PromptValue.chat(messages));
-        final generation = await chat.generate(messages);
+        final generation = await chat.invoke(PromptValue.chat(messages));
         expect(numTokens, generation.usage!.promptTokens);
       }
     });
@@ -340,7 +344,7 @@ void main() {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: defaultModel,
+          model: 'gpt-4-turbo-preview',
           temperature: 0,
           seed: 9999,
         ),

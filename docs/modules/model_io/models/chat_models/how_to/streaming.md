@@ -2,9 +2,6 @@
 
 Some chat models provide a streaming response. This means that instead of waiting for the entire response to be returned, you can start processing it as soon as it's available. This is useful if you want to display the response to the user as it's being generated, or if you want to process the response as it's being generated.
 
-Currently, it is supported for the following chat models:
-- `ChatOpenAI`
-
 Example usage:
 
 ```dart

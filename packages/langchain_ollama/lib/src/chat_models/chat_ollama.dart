@@ -179,14 +179,14 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
   String get modelType => 'chat-ollama';
 
   @override
-  Future<ChatResult> generate(
-    final List<ChatMessage> messages, {
+  Future<ChatResult> invoke(
+    final PromptValue input, {
     final ChatOllamaOptions? options,
   }) async {
     final id = _uuid.v4();
     final completion = await _client.generateChatCompletion(
       request: _generateCompletionRequest(
-        messages,
+        input.toChatMessages(),
         options: options,
       ),
     );
