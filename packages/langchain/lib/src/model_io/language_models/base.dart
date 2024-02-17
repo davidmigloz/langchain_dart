@@ -1,7 +1,6 @@
 import 'package:meta/meta.dart';
 
 import '../../core/core.dart';
-import '../chat_models/models/models.dart';
 import '../prompts/models/models.dart';
 import 'models/models.dart';
 
@@ -22,33 +21,22 @@ abstract class BaseLanguageModel<Input extends Object,
   /// Return type of language model.
   String get modelType;
 
-  /// Runs the language model on the given input.
-  Future<LanguageModelResult<Output>> generate(
-    final Input input, {
-    final Options? options,
-  });
-
-  /// Runs the language model on the given prompt value.
-  Future<LanguageModelResult<Output>> generatePrompt(
-    final PromptValue promptValue, {
+  /// Runs the Language Model on the given prompt value.
+  ///
+  /// - [input] The prompt value to pass into the model.
+  /// - [options] Generation options to pass into the model.
+  @override
+  Future<LanguageModelResult<Output>> invoke(
+    final PromptValue input, {
     final Options? options,
   });
 
   /// Runs the language model on the given input.
+  ///
+  /// - [input] The prompt to pass into the model.
+  /// - [options] Generation options to pass into the model.
   Future<Output> call(
     final Input input, {
-    final Options? options,
-  });
-
-  /// Predicts text from text.
-  Future<String> predict(
-    final String text, {
-    final Options? options,
-  });
-
-  /// Predicts a chat message from chat messages.
-  Future<ChatMessage> predictMessages(
-    final List<ChatMessage> messages, {
     final Options? options,
   });
 

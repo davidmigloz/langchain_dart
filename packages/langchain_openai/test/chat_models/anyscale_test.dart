@@ -45,6 +45,7 @@ void main() {
         expect(
           res.firstOutputAsString.replaceAll(RegExp(r'[\s\n]'), ''),
           contains('123456789'),
+          reason: model,
         );
         expect(res.modelOutput, isNotNull, reason: model);
         expect(res.modelOutput!['created'], greaterThan(0), reason: model);

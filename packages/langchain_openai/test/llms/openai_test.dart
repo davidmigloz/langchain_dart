@@ -66,7 +66,7 @@ void main() {
       expect(() => llm('Say foo:'), throwsA(isA<OpenAIClientException>()));
     });
 
-    test('Test generate to OpenAI', () async {
+    test('Test invoke to OpenAI', () async {
       final llm = OpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const OpenAIOptions(
@@ -74,7 +74,9 @@ void main() {
           maxTokens: 10,
         ),
       );
-      final res = await llm.generate('Hello, how are you?');
+      final res = await llm.invoke(
+        PromptValue.string('Hello, how are you?'),
+      );
       expect(res.generations.length, 1);
     });
 
@@ -86,7 +88,9 @@ void main() {
           maxTokens: 10,
         ),
       );
-      final res = await llm.generate('Hello, how are you?');
+      final res = await llm.invoke(
+        PromptValue.string('Hello, how are you?'),
+      );
       expect(res.modelOutput, isNotNull);
       expect(res.modelOutput!['id'], isNotEmpty);
       expect(res.modelOutput!['created'], isNotNull);
@@ -116,7 +120,9 @@ void main() {
           bestOf: 5,
         ),
       );
-      final res = await llm.generate('Hello, how are you?');
+      final res = await llm.invoke(
+        PromptValue.string('Hello, how are you?'),
+      );
       expect(res.generations.length, 5);
       for (final generation in res.generations) {
         expect(generation.output, isNotEmpty);

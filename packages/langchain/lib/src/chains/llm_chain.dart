@@ -79,7 +79,7 @@ class LLMChain<
   Future<ChainValues> callInternal(final ChainValues inputs) async {
     final promptValue = prompt.formatPrompt(inputs);
 
-    final response = await llm.generatePrompt(promptValue, options: llmOptions);
+    final response = await llm.invoke(promptValue, options: llmOptions);
 
     final res = outputParser == null
         ? response.generations.firstOrNull?.output

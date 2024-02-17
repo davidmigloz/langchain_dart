@@ -59,7 +59,7 @@ Future<void> main() async {
       expect(output, isNotEmpty);
     });
 
-    test('Test generate to VertexAI', () async {
+    test('Test invoke to VertexAI', () async {
       final llm = VertexAI(
         httpClient: authHttpClient,
         project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
@@ -69,7 +69,9 @@ Future<void> main() async {
           maxOutputTokens: 10,
         ),
       );
-      final res = await llm.generate('Hello, how are you?');
+      final res = await llm.invoke(
+        PromptValue.string('Hello, how are you?'),
+      );
       expect(res.generations.length, 1);
     });
 
@@ -83,7 +85,9 @@ Future<void> main() async {
           maxOutputTokens: 10,
         ),
       );
-      final res = await llm.generate('Hello, how are you?');
+      final res = await llm.invoke(
+        PromptValue.string('Hello, how are you?'),
+      );
       expect(res.modelOutput, isNotNull);
       expect(res.modelOutput!['model'], llm.defaultOptions.model);
       expect(res.usage?.promptTokens, isNotNull);
@@ -102,15 +106,19 @@ Future<void> main() async {
           stopSequences: ['4'],
         ),
       );
-      final res = await llm.generate(
-        'List the numbers from 1 to 9 in order without any spaces or commas',
+      final res = await llm.invoke(
+        PromptValue.string(
+          'List the numbers from 1 to 9 in order without any spaces or commas',
+        ),
       );
       expect(res.firstOutputAsString, contains('123'));
       expect(res.firstOutputAsString, isNot(contains('456789')));
 
       // call options should override defaults
-      final res2 = await llm.generate(
-        'List the numbers from 1 to 9 in order without any spaces or commas',
+      final res2 = await llm.invoke(
+        PromptValue.string(
+          'List the numbers from 1 to 9 in order without any spaces or commas',
+        ),
         options: const VertexAIOptions(
           stopSequences: ['5'],
         ),
@@ -130,14 +138,14 @@ Future<void> main() async {
           candidateCount: 3,
         ),
       );
-      final res = await llm.generate(
-        'Suggest a name for a LLM framework for Dart',
+      final res = await llm.invoke(
+        PromptValue.string('Suggest a name for a LLM framework for Dart'),
       );
       expect(res.generations.length, 3);
 
       // call options should override defaults
-      final res2 = await llm.generate(
-        'Suggest a name for a LLM framework for Python',
+      final res2 = await llm.invoke(
+        PromptValue.string('Suggest a name for a LLM framework for Python'),
         options: const VertexAIOptions(
           temperature: 1,
           candidateCount: 5,

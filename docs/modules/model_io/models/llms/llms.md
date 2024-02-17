@@ -49,33 +49,20 @@ import 'package:langchain_openai/langchain_openai.dart';
 final llm = OpenAI(apiKey: openaiApiKey);
 ```
 
-### `call`: string in -> string out
+### LCEL
 
-The simplest way to use an LLM is a callable: pass in a string, get a string 
-completion.
+LLMs implement the `Runnable` interface, the basic building block of the LangChain Expression Language (LCEL). This means they support `invoke`, `stream`, and `batch` calls.
 
 ```dart
-final llmRes = await llm('Tell me a joke');
-print(llmRes); // '\n\nWhy did the chicken cross the road?\n\nTo get to the other side.'
+final prompt = PromptValue.string('Tell me a joke');
+final result = await llm.invoke(prompt);
+// LLMGeneration(output='\n\nWhy did the chicken cross the road?\n\nTo get to the other side!')
 ```
 
-### `generate`: batch calls, richer outputs
-
-`generate` lets you can call the model with a list of strings, getting back a 
-more complete response than just the text. This complete response can include 
-things like multiple top responses and other LLM provider-specific information:
+The response is a `LLMGeneration` object, which contains the output of the model, as well as other useful information like the amount of tokens used for the generation.
 
 ```dart
-final llmRes = await llm.generate('Tell me a joke');
-print(llmRes.generations.first);
-// [LLMGeneration(output='\n\nWhy did the chicken cross the road?\n\nTo get to the other side!')]
-```
-
-`usage` field contains the amount of tokens used for the generation. This is useful for
-tracking usage and billing.
-
-```dart
-print(llmRes.usage?.totalUsage); // 641
+print(result.usage?.totalUsage); // 641
 ```
 
 You can also access provider specific information that is returned.
@@ -88,10 +75,4 @@ print(llmRes.modelOutput);
 //   created: 2023-06-09 18:30:40.000,
 //   model: text-ada-001
 // }
-```
-
-### `generatePrompt`: generate from a `PromptValue`
-
-```dart
-final llmRes = await llm.generatePrompt(const StringPromptValue('Tell me a joke.'));
 ```

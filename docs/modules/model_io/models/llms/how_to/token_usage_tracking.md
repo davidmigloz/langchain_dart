@@ -8,7 +8,8 @@ final openai = OpenAI(
   apiKey: openaiApiKey,
   defaultOptions: const OpenAIOptions(temperature: 0.9),
 );
-final result = await openai.generate('Tell me a joke');
+final prompt = PromptValue.string('Tell me a joke');
+final result = await llm.invoke(prompt);
 final usage = result.usage;
 print(usage?.promptTokens);   // 4
 print(usage?.responseTokens); // 20

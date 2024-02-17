@@ -45,9 +45,11 @@ void main() {
       expect(output.content, isNotEmpty);
     });
 
-    test('Test generate to ChatMistralAI', () async {
-      final res = await chatModel.generate(
-        [ChatMessage.humanText('Hello, how are you?')],
+    test('Test invoke to ChatMistralAI', () async {
+      final res = await chatModel.invoke(
+        PromptValue.chat(
+          [ChatMessage.humanText('Hello, how are you?')],
+        ),
       );
       expect(res.generations.length, 1);
     });

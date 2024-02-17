@@ -170,8 +170,8 @@ class ChatGoogleGenerativeAI
   String get modelType => 'chat-google-generative-ai';
 
   @override
-  Future<ChatResult> generate(
-    final List<ChatMessage> messages, {
+  Future<ChatResult> invoke(
+    final PromptValue input, {
     final ChatGoogleGenerativeAIOptions? options,
   }) async {
     final id = _uuid.v4();
@@ -179,7 +179,10 @@ class ChatGoogleGenerativeAI
         options?.model ?? defaultOptions.model ?? throwNullModelError();
     final completion = await _client.generateContent(
       modelId: model,
-      request: _generateCompletionRequest(messages, options: options),
+      request: _generateCompletionRequest(
+        input.toChatMessages(),
+        options: options,
+      ),
     );
     return completion.toChatResult(id, model);
   }

@@ -142,14 +142,14 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
   String get modelType => 'vertex-ai-chat';
 
   @override
-  Future<ChatResult> generate(
-    final List<ChatMessage> messages, {
+  Future<ChatResult> invoke(
+    final PromptValue input, {
     final ChatVertexAIOptions? options,
   }) async {
     final id = _uuid.v4();
     String? context;
     final vertexMessages = <VertexAITextChatModelMessage>[];
-    for (final message in messages) {
+    for (final message in input.toChatMessages()) {
       if (message is SystemChatMessage) {
         context = message.content;
         continue;

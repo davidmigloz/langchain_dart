@@ -31,7 +31,7 @@ import 'package:langchain_openai/langchain_openai.dart';
 
 We can then instantiate the chat model:
 ```dart
-final chat = final chat = ChatOpenAI(
+final chatModel = final chat = ChatOpenAI(
   apiKey: openaiApiKey,
   defaultOptions: const ChatOpenAIOptions(
     temperature: 0,
@@ -48,10 +48,9 @@ types of messages currently supported in LangChain are `AIChatMessage`,
 you’ll just be dealing with `HumanChatMessage`, `AIChatMessage`, and 
 `SystemChatMessage`.
 
-### `call`: messages in -> message out
+### LCEL
 
-You can get chat completions by passing one or more messages to the chat model. 
-The response will be a message.
+LLMs implement the `Runnable` interface, the basic building block of the LangChain Expression Language (LCEL). This means they support `invoke`, `stream`, and `batch` calls.
 
 ```dart
 final messages = [
@@ -59,27 +58,29 @@ final messages = [
     'Translate this sentence from English to French. I love programming.',
   ),
 ];
-final chatRes = await chat(messages);
-// -> AIChatMessage{content: J'aime programmer., example: false}
+final prompt = PromptValue.chat(messages);
+final chatRes = await chatModel.invoke(prompt);
+// -> [ChatGeneration{
+//       output: AIChatMessage{content: J'adore la programmation., example: false},
+//       generationInfo: {index: 0, finish_reason: stop}}]
 ```
 
-OpenAI’s chat model supports multiple messages as input.
-See [here](https://platform.openai.com/docs/guides/gpt/chat-completions-vs-completions) for more
-information. Here is an example of sending a system and user message to the chat model:
+OpenAI’s chat model supports multiple messages as input. See [here](https://platform.openai.com/docs/guides/gpt/chat-completions-vs-completions) for more information. Here is an example of sending a system and user message to the chat model:
 
 ```dart
 final messages = [
   ChatMessage.system('You are a helpful assistant that translates English to French.'),
   ChatMessage.humanText('I love programming.')
 ];
-final chatRes = await chat(messages);
+final prompt = PromptValue.chat(messages);
+final chatRes = await chatModel.invoke(prompt);
 print(chatRes);
-// -> AIChatMessage{content: J'adore la programmation., example: false}
+// -> [ChatGeneration{
+//       output: AIChatMessage{content: J'adore la programmation., example: false},
+//       generationInfo: {index: 0, finish_reason: stop}}]
 ```
 
-### `generate`: richer outputs
-
-The `generate` APIs return an `ChatResult` which contains a `ChatGeneration`
+The `invoke` API return an `ChatResult` which contains a `ChatGeneration`
 object with the `output` messages and some metadata about the generation. It 
 also contains some additional information like `usage` and `modelOutput`.
 
@@ -93,13 +94,4 @@ print(chatRes1.usage?.totalTokens);
 // -> 36
 print(chatRes1.modelOutput);
 // -> {id: chatcmpl-7QHTjpTCELFuGbxRaazFqvYtepXOc, created: 2023-06-11 17:41:11.000, model: gpt-3.5-turbo}
-```
-
-### `generatePrompt`: generate from a `PromptValue`
-
-```dart
-final chatRes2 = await chat.generatePrompt(ChatPromptValue(messages));
-print(chatRes2.generations);
-print(chatRes2.usage);
-print(chatRes2.modelOutput);
 ```

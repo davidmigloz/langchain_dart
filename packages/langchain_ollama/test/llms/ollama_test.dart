@@ -117,8 +117,10 @@ void main() {
       expect(output, isNotEmpty);
     });
 
-    test('Test generate to Ollama', () async {
-      final res = await llm.generate('Hello, how are you?');
+    test('Test invoke to Ollama', () async {
+      final res = await llm.invoke(
+        PromptValue.string('Hello, how are you?'),
+      );
       expect(res.generations.length, 1);
     });
 

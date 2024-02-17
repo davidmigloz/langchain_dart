@@ -1,5 +1,7 @@
 # LLMChain
 
+> DEPRECATED: `LLMChain` is deprecated in favour of LangChain Expression Language (LCEL).
+
 You can use the existing `LLMChain` in a very similar way as 
 [with LLMs](/modules/chains/chains?id=get-started) - provide a prompt and a 
 model.

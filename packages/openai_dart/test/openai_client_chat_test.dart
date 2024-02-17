@@ -524,7 +524,7 @@ void main() {
           ),
         ],
         temperature: 0,
-        seed: 9999,
+        seed: 9999999999,
       );
       final res1 = await client.createChatCompletion(request: request);
       expect(res1.choices, hasLength(1));

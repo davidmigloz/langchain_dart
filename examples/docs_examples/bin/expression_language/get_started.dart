@@ -2,7 +2,6 @@
 import 'dart:io';
 
 import 'package:langchain/langchain.dart';
-import 'package:langchain_chroma/langchain_chroma.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 
 void main(final List<String> arguments) async {
@@ -76,7 +75,8 @@ Future<void> _ragSearch() async {
     documents: [
       const Document(pageContent: 'LangChain was created by Harrison'),
       const Document(
-          pageContent: 'David ported LangChain to Dart in LangChain.dart'),
+        pageContent: 'David ported LangChain to Dart in LangChain.dart',
+      ),
     ],
   );
 
