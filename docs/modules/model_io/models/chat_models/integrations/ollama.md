@@ -128,3 +128,54 @@ final res = await chatModel.invoke(PromptValue.chat([prompt]));
 print(res.firstOutputAsString);
 // -> 'An Apple'
 ```
+
+## RAG (Retrieval-Augmented Generation) pipeline
+
+We can easily create a fully local RAG pipeline using `OllamaEmbeddings` and `ChatOllama`.
+
+```dart
+Future<void> _rag() async {
+  // 1. Create a vector store and add documents to it
+  final vectorStore = MemoryVectorStore(
+    embeddings: OllamaEmbeddings(model: 'llama2'),
+  );
+  await vectorStore.addDocuments(
+    documents: [
+      Document(pageContent: 'LangChain was created by Harrison'),
+      Document(pageContent: 'David ported LangChain to Dart in LangChain.dart'),
+    ],
+  );
+
+  // 2. Construct a RAG prompt template
+  final promptTemplate = ChatPromptTemplate.fromTemplates([
+    (ChatMessageType.system, 'Answer the question based on only the following context:\n{context}'),
+    (ChatMessageType.human, '{question}'),
+  ]);
+
+  // 3. Define the model to use and the vector store retriever
+  final chatModel = ChatOllama(
+    defaultOptions: ChatOllamaOptions(model: 'llama2'),
+  );
+  final retriever = vectorStore.asRetriever(
+    defaultOptions: VectorStoreRetrieverOptions(
+      searchType: VectorStoreSimilaritySearch(k: 1),
+    ),
+  );
+
+  // 4. Create a Runnable that combines the retrieved documents into a single string
+  final docCombiner = Runnable.fromFunction<List<Document>, String>((docs, _) {
+    return docs.map((d) => d.pageContent).join('\n');
+  });
+
+  // 4. Define the RAG pipeline
+  final chain = Runnable.fromMap<String>({
+    'context': retriever.pipe(docCombiner),
+    'question': Runnable.passthrough(),
+  }).pipe(promptTemplate).pipe(chatModel).pipe(StringOutputParser());
+
+  // 5. Run the pipeline
+  final res = await chain.invoke('Who created LangChain.dart?');
+  print(res);
+  // Based on the context provided, David created LangChain.dart.
+}
+```

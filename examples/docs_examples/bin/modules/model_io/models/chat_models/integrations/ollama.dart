@@ -10,6 +10,7 @@ void main(final List<String> arguments) async {
   await _chatOllamaStreaming();
   await _chatOllamaJsonMode();
   await _chatOllamaMultimodal();
+  await _rag();
 }
 
 Future<void> _chatOllama() async {
@@ -107,4 +108,55 @@ Future<void> _chatOllamaMultimodal() async {
   final res = await chatModel.invoke(PromptValue.chat([prompt]));
   print(res.firstOutputAsString);
   // -> 'An Apple'
+}
+
+Future<void> _rag() async {
+  // 1. Create a vector store and add documents to it
+  final vectorStore = MemoryVectorStore(
+    embeddings: OllamaEmbeddings(model: 'llama2'),
+  );
+  await vectorStore.addDocuments(
+    documents: [
+      const Document(pageContent: 'LangChain was created by Harrison'),
+      const Document(
+        pageContent: 'David ported LangChain to Dart in LangChain.dart',
+      ),
+    ],
+  );
+
+  // 2. Construct a RAG prompt template
+  final promptTemplate = ChatPromptTemplate.fromTemplates(const [
+    (
+      ChatMessageType.system,
+      'Answer the question based on only the following context:\n{context}',
+    ),
+    (ChatMessageType.human, '{question}'),
+  ]);
+
+  // 3. Define the model to use and the vector store retriever
+  final chatModel = ChatOllama(
+    defaultOptions: const ChatOllamaOptions(model: 'llama2'),
+  );
+  final retriever = vectorStore.asRetriever(
+    defaultOptions: const VectorStoreRetrieverOptions(
+      searchType: VectorStoreSimilaritySearch(k: 1),
+    ),
+  );
+
+  // 4. Create a Runnable that combines the retrieved documents into a single string
+  final docCombiner =
+      Runnable.fromFunction<List<Document>, String>((final docs, final _) {
+    return docs.map((final d) => d.pageContent).join('\n');
+  });
+
+  // 4. Define the RAG pipeline
+  final chain = Runnable.fromMap<String>({
+    'context': retriever.pipe(docCombiner),
+    'question': Runnable.passthrough(),
+  }).pipe(promptTemplate).pipe(chatModel).pipe(const StringOutputParser());
+
+  // 5. Run the pipeline
+  final res = await chain.invoke('Who created LangChain.dart?');
+  print(res);
+  // Based on the context provided, David created LangChain.dart.
 }

@@ -32,7 +32,6 @@ void main() {
         'mistralai/mistral-small',
       ];
       for (final model in models) {
-        print('Testing model: $model');
         final res = await chatModel.invoke(
           PromptValue.string(
             'List the numbers from 1 to 9 in order. '
