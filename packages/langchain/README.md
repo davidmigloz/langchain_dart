@@ -85,7 +85,7 @@ dependencies:
   ...
 ```
 
-The most basic building block of LangChain.dart is calling an LLM on some prompt. LangChain.dart provides a unified interface for calling different LLMs. For example, we can use `ChatGoogleGenerativeAI` to call Google's Gemini model: 
+The most basic building block of LangChain.dart is calling an LLM on some prompt. LangChain.dart provides a unified interface for calling different LLMs. For example, we can use `ChatGoogleGenerativeAI` to call Google's Gemini model:
 
 ```dart
 final model = ChatGoogleGenerativeAI(apiKey: googleApiKey);
@@ -116,7 +116,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplates([
 
 // 3. Create a Runnable that combines the retrieved documents into a single string
 final docCombiner = Runnable.fromFunction<List<Document>, String>((docs, _) {
-  return docs.map((final d) => d.pageContent).join('\n');
+  return docs.map((d) => d.pageContent).join('\n');
 });
 
 // 4. Define the RAG pipeline
@@ -143,7 +143,9 @@ print(res);
 
 ## Community
 
-Stay up-to-date on the latest news and updates on the field, have great discussions, and get help in the official [LangChain.dart Discord](https://discord.gg/x4qbhqecVR).
+Stay up-to-date on the latest news and updates on the field, have great discussions, and get help in the official [LangChain.dart Discord server](https://discord.gg/x4qbhqecVR).
+
+[![LangChain.dart Discord server](https://invidget.switchblade.xyz/x4qbhqecVR?theme=light)](http://discord.gg/x4qbhqecVR)
 
 ## Contribute
 
