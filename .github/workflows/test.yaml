@@ -38,7 +38,7 @@ jobs:
         run: flutter pub cache clean
 
       - name: Install Melos
-        uses: bluefireteam/melos-action@720a109b686f61979b4f9f0d14f582ab1637647e
+        uses: bluefireteam/melos-action@cf344238f6027b5d5f86d730b9e69483672f353e
         with:
           run-bootstrap: false
 
