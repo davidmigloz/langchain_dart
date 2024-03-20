@@ -217,7 +217,7 @@ class RunLastError with _$RunLastError {
 
   /// Factory constructor for RunLastError
   const factory RunLastError({
-    /// One of `server_error` or `rate_limit_exceeded`.
+    /// One of `server_error`, `rate_limit_exceeded`, or `invalid_prompt`.
     required RunLastErrorCode code,
 
     /// A human-readable description of the error.
@@ -294,10 +294,12 @@ class RunSubmitToolOutputs with _$RunSubmitToolOutputs {
 // ENUM: RunLastErrorCode
 // ==========================================
 
-/// One of `server_error` or `rate_limit_exceeded`.
+/// One of `server_error`, `rate_limit_exceeded`, or `invalid_prompt`.
 enum RunLastErrorCode {
   @JsonValue('server_error')
   serverError,
   @JsonValue('rate_limit_exceeded')
   rateLimitExceeded,
+  @JsonValue('invalid_prompt')
+  invalidPrompt,
 }
