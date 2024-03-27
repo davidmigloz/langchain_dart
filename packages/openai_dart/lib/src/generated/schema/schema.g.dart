@@ -304,7 +304,6 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
           .map((e) => ChatCompletionMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
       frequencyPenalty: (json['frequency_penalty'] as num?)?.toDouble() ?? 0.0,
-      instanceId: json['instance_id'] as String?,
       logitBias: (json['logit_bias'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as int),
       ),
@@ -349,7 +348,6 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
   }
 
   writeNotNull('frequency_penalty', instance.frequencyPenalty);
-  writeNotNull('instance_id', instance.instanceId);
   writeNotNull('logit_bias', instance.logitBias);
   writeNotNull('logprobs', instance.logprobs);
   writeNotNull('top_logprobs', instance.topLogprobs);
@@ -2141,6 +2139,7 @@ Map<String, dynamic> _$$RunLastErrorImplToJson(_$RunLastErrorImpl instance) =>
 const _$RunLastErrorCodeEnumMap = {
   RunLastErrorCode.serverError: 'server_error',
   RunLastErrorCode.rateLimitExceeded: 'rate_limit_exceeded',
+  RunLastErrorCode.invalidPrompt: 'invalid_prompt',
 };
 
 _$RunSubmitToolOutputsImpl _$$RunSubmitToolOutputsImplFromJson(

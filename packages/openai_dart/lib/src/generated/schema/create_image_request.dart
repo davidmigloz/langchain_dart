@@ -32,7 +32,7 @@ class CreateImageRequest with _$CreateImageRequest {
     /// The quality of the image that will be generated. `hd` creates images with finer details and greater consistency across the image. This param is only supported for `dall-e-3`.
     @Default(ImageQuality.standard) ImageQuality quality,
 
-    /// The format in which the generated images are returned. Must be one of `url` or `b64_json`.
+    /// The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated.
     @JsonKey(
       name: 'response_format',
       includeIfNull: false,
@@ -194,7 +194,7 @@ enum ImageQuality {
 // ENUM: ImageResponseFormat
 // ==========================================
 
-/// The format in which the generated images are returned. Must be one of `url` or `b64_json`.
+/// The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated.
 enum ImageResponseFormat {
   @JsonValue('url')
   url,

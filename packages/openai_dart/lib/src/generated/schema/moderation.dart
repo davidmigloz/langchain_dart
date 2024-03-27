@@ -15,7 +15,7 @@ class Moderation with _$Moderation {
 
   /// Factory constructor for Moderation
   const factory Moderation({
-    /// Whether the content violates [OpenAI's usage policies](https://platform.openai.com/policies/usage-policies).
+    /// Whether any of the below categories are flagged.
     required bool flagged,
 
     /// A list of the categories, and whether they are flagged or not.

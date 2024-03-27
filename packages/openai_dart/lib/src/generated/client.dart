@@ -663,7 +663,7 @@ class OpenAIClient {
   // METHOD: createModeration
   // ------------------------------------------
 
-  /// Classifies if text violates OpenAI's Content Policy.
+  /// Classifies if text is potentially harmful.
   ///
   /// `request`: Request object for the Create moderation endpoint.
   ///
