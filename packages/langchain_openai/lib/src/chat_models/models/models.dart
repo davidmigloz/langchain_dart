@@ -8,7 +8,6 @@ class ChatOpenAIOptions extends ChatModelOptions {
   const ChatOpenAIOptions({
     this.model = 'gpt-3.5-turbo',
     this.frequencyPenalty,
-    this.instanceId,
     this.logitBias,
     this.maxTokens,
     this.n,
@@ -53,10 +52,6 @@ class ChatOpenAIOptions extends ChatModelOptions {
   ///
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-frequency_penalty
   final double? frequencyPenalty;
-
-  /// An unique identifier to a custom instance to execute the request.
-  /// The requesting organization is required to have access to the instance.
-  final String? instanceId;
 
   /// Modify the likelihood of specified tokens appearing in the completion.
   ///
