@@ -1,4 +1,4 @@
-# melos_managed_dependency_overrides: chromadb,googleai_dart,langchain,langchain_chroma,langchain_google,langchain_mistralai,langchain_ollama,langchain_openai,mistralai_dart,ollama_dart,openai_dart,vertex_ai
+# melos_managed_dependency_overrides: chromadb,googleai_dart,langchain,langchain_chroma,langchain_google,langchain_mistralai,langchain_ollama,langchain_openai,mistralai_dart,ollama_dart,openai_dart,vertex_ai,langchain_core,langchain_community
 dependency_overrides:
   chromadb:
     path: ../../packages/chromadb
@@ -8,6 +8,10 @@ dependency_overrides:
     path: ../../packages/langchain
   langchain_chroma:
     path: ../../packages/langchain_chroma
+  langchain_community:
+    path: ../../packages/langchain_community
+  langchain_core:
+    path: ../../packages/langchain_core
   langchain_google:
     path: ../../packages/langchain_google
   langchain_mistralai:

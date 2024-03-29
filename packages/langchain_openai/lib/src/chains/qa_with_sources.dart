@@ -1,4 +1,6 @@
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/langchain.dart';
+import 'package:langchain_core/output_parsers.dart';
 
 import 'qa_with_structure.dart';
 

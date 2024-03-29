@@ -1,10 +1,11 @@
 import 'package:http/http.dart' as http;
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/prompts.dart';
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:mistralai_dart/mistralai_dart.dart';
 
-import 'models/mappers.dart';
-import 'models/models.dart';
+import 'mappers.dart';
+import 'types.dart';
 
 /// Wrapper around [Mistral AI](https://docs.mistral.ai) Chat Completions API.
 ///

@@ -3,7 +3,14 @@ library; // Uses dart:io
 
 import 'dart:io';
 
-import 'package:langchain/langchain.dart';
+import 'package:langchain/langchain.dart'
+    show AgentExecutor, ConversationBufferMemory;
+import 'package:langchain_community/langchain_community.dart';
+import 'package:langchain_core/agents.dart';
+import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/prompts.dart';
+import 'package:langchain_core/runnables.dart';
+import 'package:langchain_core/tools.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 import 'package:test/test.dart';
 
@@ -11,10 +18,13 @@ void main() {
   group('OpenAIFunctionsAgent tests', () {
     final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 
-    test('Test OpenAIFunctionsAgent', () async {
+    test('Test OpenAIFunctionsAgent with calculator tool', () async {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
-        defaultOptions: const ChatOpenAIOptions(temperature: 0),
+        defaultOptions: const ChatOpenAIOptions(
+          model: 'gpt-4-turbo-preview',
+          temperature: 0,
+        ),
       );
 
       final tool = CalculatorTool();
@@ -25,7 +35,7 @@ void main() {
 
       final executor = AgentExecutor(agent: agent);
 
-      final res = await executor.run('What is 40 raised to the 0.43 power? ');
+      final res = await executor.run('What is 40 raised to the 0.43 power with 3 decimals? ');
 
       expect(res, contains('4.88'));
     });
@@ -33,7 +43,10 @@ void main() {
     Future<void> testMemory({required final bool returnMessages}) async {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
-        defaultOptions: const ChatOpenAIOptions(temperature: 0),
+        defaultOptions: const ChatOpenAIOptions(
+          model: 'gpt-4-turbo-preview',
+          temperature: 0,
+        ),
       );
 
       final tool = BaseTool.fromFunction(
@@ -121,7 +134,10 @@ void main() {
 
     final model = ChatOpenAI(
       apiKey: openaiApiKey,
-      defaultOptions: const ChatOpenAIOptions(temperature: 0),
+      defaultOptions: const ChatOpenAIOptions(
+        model: 'gpt-4-turbo-preview',
+        temperature: 0,
+      ),
     ).bind(ChatOpenAIOptions(functions: [tool.toChatFunction()]));
 
     final agent = Agent.fromRunnable(
@@ -149,7 +165,7 @@ void main() {
 
     test('Test OpenAIFunctionsAgent LCEL equivalent', () async {
       final res = await executor.invoke({
-        'input': 'What is 40 raised to the 0.43 power?',
+        'input': 'What is 40 raised to the 0.43 power with 3 decimals?',
       });
       expect(res['output'], contains('4.88'));
     });

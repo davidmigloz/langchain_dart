@@ -3,7 +3,11 @@ library; // Uses dart:io
 
 import 'dart:io';
 
-import 'package:langchain/langchain.dart';
+import 'package:langchain/langchain.dart' show RecursiveCharacterTextSplitter;
+import 'package:langchain_community/langchain_community.dart';
+import 'package:langchain_core/documents.dart';
+import 'package:langchain_core/embeddings.dart';
+import 'package:langchain_core/vector_stores.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 import 'package:langchain_supabase/langchain_supabase.dart';
 import 'package:supabase/supabase.dart' as sp;

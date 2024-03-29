@@ -1,5 +1,4 @@
-import 'package:langchain/src/chains/chains.dart';
-import 'package:langchain/src/memory/memory.dart';
+import 'package:langchain/langchain.dart';
 import 'package:test/test.dart';
 
 void main() {

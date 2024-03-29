@@ -1,6 +1,4 @@
-import 'package:langchain/src/chains/conversation.dart';
-import 'package:langchain/src/model_io/llms/fake.dart';
-import 'package:langchain/src/model_io/prompts/prompts.dart';
+import 'package:langchain/langchain.dart';
 import 'package:test/test.dart';
 
 void main() {

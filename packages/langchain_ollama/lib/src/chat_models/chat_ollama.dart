@@ -1,12 +1,13 @@
 import 'package:http/http.dart' as http;
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/prompts.dart';
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:ollama_dart/ollama_dart.dart';
 import 'package:uuid/uuid.dart';
 
-import '../llms/models/mappers.dart';
-import 'models/mappers.dart';
-import 'models/models.dart';
+import '../llms/mappers.dart';
+import 'mappers.dart';
+import 'types.dart';
 
 /// Wrapper around [Ollama](https://ollama.ai) Completions API that enables
 /// to interact with the LLMs in a chat-like fashion.

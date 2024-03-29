@@ -1,5 +1,6 @@
 import 'package:http/http.dart' as http;
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/documents.dart';
+import 'package:langchain_core/embeddings.dart';
 import 'package:ollama_dart/ollama_dart.dart';
 
 /// Wrapper around [Ollama](https://ollama.ai) Embeddings API.

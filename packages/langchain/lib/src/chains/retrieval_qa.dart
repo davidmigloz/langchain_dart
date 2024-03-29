@@ -1,10 +1,10 @@
-import '../documents/models/models.dart';
-import '../documents/retrievers/base.dart';
-import '../model_io/language_models/base.dart';
-import '../model_io/prompts/prompts.dart';
-import 'base.dart';
+import 'package:langchain_core/chains.dart';
+import 'package:langchain_core/documents.dart';
+import 'package:langchain_core/language_models.dart';
+import 'package:langchain_core/prompts.dart';
+import 'package:langchain_core/retrievers.dart';
+
 import 'combine_documents/combine_documents.dart';
-import 'models/models.dart';
 import 'question_answering/question_answering.dart';
 
 /// {@template retrieval_qa_chain}

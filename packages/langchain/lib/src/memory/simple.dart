@@ -1,5 +1,4 @@
-import 'base.dart';
-import 'models/models.dart';
+import 'package:langchain_core/memory.dart';
 
 /// {@template simple_memory}
 /// Simple memory for storing context or other bits of information that

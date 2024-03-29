@@ -1,6 +1,5 @@
-import '../memory/memory.dart';
-import 'base.dart';
-import 'models/models.dart';
+import 'package:langchain_core/chains.dart';
+import 'package:langchain_core/memory.dart';
 
 /// {@template sequential_chain}
 /// Chain that combines multiple chains where the output of the one

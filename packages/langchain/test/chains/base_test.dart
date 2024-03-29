@@ -1,6 +1,5 @@
 // ignore_for_file: unused_element
-import 'package:langchain/src/chains/chains.dart';
-import 'package:langchain/src/memory/memory.dart';
+import 'package:langchain/langchain.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -90,6 +89,31 @@ void main() {
           },
         ),
       );
+    });
+  });
+
+  group('Runnable tests', () {
+
+    test('Chain as Runnable', () async {
+      final model = FakeListLLM(responses: ['Hello world!']);
+      final prompt = PromptTemplate.fromTemplate('Print {foo}');
+      final run = LLMChain(prompt: prompt, llm: model);
+      final res = await run.invoke({'foo': 'Hello world!'});
+      expect(res[LLMChain.defaultOutputKey], 'Hello world!');
+    });
+
+    test('Streaming Chain', () async {
+      final model = FakeListLLM(responses: ['Hello world!']);
+      final prompt = PromptTemplate.fromTemplate('Print {foo}');
+      final run = LLMChain(prompt: prompt, llm: model);
+      final stream = run.stream({'foo': 'Hello world!'});
+
+      final streamList = await stream.toList();
+      expect(streamList.length, 1);
+      expect(streamList.first, isA<Map<String, dynamic>>());
+
+      final res = streamList.first;
+      expect(res[LLMChain.defaultOutputKey], 'Hello world!');
     });
   });
 }

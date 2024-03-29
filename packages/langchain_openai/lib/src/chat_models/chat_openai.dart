@@ -1,11 +1,12 @@
 import 'package:http/http.dart' as http;
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/prompts.dart';
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:openai_dart/openai_dart.dart';
 import 'package:uuid/uuid.dart';
 
-import 'models/mappers.dart';
-import 'models/models.dart';
+import 'mappers.dart';
+import 'types.dart';
 
 /// Wrapper around [OpenAI Chat API](https://platform.openai.com/docs/api-reference/chat).
 ///

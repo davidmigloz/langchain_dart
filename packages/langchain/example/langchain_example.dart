@@ -2,14 +2,14 @@
 import 'package:langchain/langchain.dart';
 
 void main() async {
-  final llm = FakeListLLM(
-    responses: ['Why did the AI go on a diet? Because it had too many bytes!'],
-  );
   final promptTemplate = PromptTemplate.fromTemplate(
     'tell me a joke about {subject}',
   );
-  final prompt = promptTemplate.format({'subject': 'AI'});
-  final result = await llm(prompt);
+  final llm = FakeListLLM(
+    responses: ['Why did the AI go on a diet? Because it had too many bytes!'],
+  );
+  final chain = promptTemplate.pipe(llm).pipe(const StringOutputParser());
+  final result = await chain.invoke({'subject': 'AI'});
   print(result);
   // Why did the AI go on a diet? Because it had too many bytes!
 }

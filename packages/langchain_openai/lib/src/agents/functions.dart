@@ -1,4 +1,12 @@
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/agents.dart';
+import 'package:langchain_core/chains.dart';
+import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/exceptions.dart';
+import 'package:langchain_core/language_models.dart';
+import 'package:langchain_core/memory.dart';
+import 'package:langchain_core/output_parsers.dart';
+import 'package:langchain_core/prompts.dart';
+import 'package:langchain_core/tools.dart';
 
 import '../chat_models/chat_models.dart';
 

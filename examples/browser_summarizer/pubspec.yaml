@@ -4,7 +4,7 @@ version: 1.0.0
 publish_to: none
 
 environment:
-  sdk: '>=3.0.5 <4.0.0'
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -14,6 +14,7 @@ dependencies:
   flutter_markdown: ^0.6.17
   js: ^0.6.7
   langchain: ^0.4.2
+  langchain_community: 0.0.1-dev.2
   langchain_openai: ^0.4.1
   shared_preferences: ^2.2.0
 

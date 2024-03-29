@@ -36,7 +36,7 @@ void main() {
         embeddings.model = model;
         final res = await embeddings.embedQuery('Hello world');
         expect(res.length, greaterThan(0));
-        await Future<void>.delayed(const Duration(seconds: 1)); // Rate limit
+        await Future<void>.delayed(const Duration(seconds: 2)); // Rate limit
       }
     });
   });

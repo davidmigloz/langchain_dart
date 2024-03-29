@@ -4,7 +4,9 @@ library; // Uses dart:io
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/output_parsers.dart';
+import 'package:langchain_core/prompts.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 import 'package:test/test.dart';
 
@@ -346,7 +348,7 @@ void main() {
         defaultOptions: const ChatOpenAIOptions(
           model: 'gpt-4-turbo-preview',
           temperature: 0,
-          seed: 9999,
+          seed: 12345,
         ),
       );
 

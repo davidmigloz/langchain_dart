@@ -1,10 +1,7 @@
+import 'package:langchain_core/chains.dart';
+import 'package:langchain_core/documents.dart';
+import 'package:langchain_core/prompts.dart';
 import 'package:meta/meta.dart';
-
-import '../../documents/models/models.dart';
-import '../../model_io/prompts/base_prompt.dart';
-import '../../model_io/prompts/models/models.dart';
-import '../base.dart';
-import '../models/models.dart';
 
 /// {@template base_combine_documents_chain}
 /// Base interface for chains combining documents,

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:googleapis_auth/auth_io.dart';
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_google/langchain_google.dart';
 
 void main() async {

@@ -3,7 +3,8 @@ library; // Uses dart:io
 
 import 'dart:io';
 
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/documents.dart';
+import 'package:langchain_core/vector_stores.dart';
 import 'package:langchain_google/langchain_google.dart';
 import 'package:test/test.dart';
 

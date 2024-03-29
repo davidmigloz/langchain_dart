@@ -1,5 +1,6 @@
-import '../../langchain.dart';
-import 'utils.dart';
+import 'package:langchain_core/documents.dart';
+import 'package:langchain_core/memory.dart';
+import 'package:langchain_core/vector_stores.dart';
 
 /// {@template vector_store_retriever_memory}
 /// Memory backed by a vector store.
@@ -56,7 +57,7 @@ class VectorStoreMemory implements BaseMemory {
     return {
       memoryKey: returnDocs
           ? docs
-          : docs.map((final doc) => doc.pageContent).join('\n'),
+          : docs.map((final Document doc) => doc.pageContent).join('\n'),
     };
   }
 

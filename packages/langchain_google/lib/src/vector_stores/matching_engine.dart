@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:gcloud/storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/documents.dart';
+import 'package:langchain_core/exceptions.dart';
+import 'package:langchain_core/vector_stores.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vertex_ai/vertex_ai.dart';
 
-import 'models/models.dart';
+import 'types.dart';
 
 /// A vector store that uses Vertex AI Vector Search
 /// (former Vertex AI Matching Engine).

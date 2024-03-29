@@ -1,8 +1,8 @@
-import '../model_io/chat_models/models/models.dart';
-import '../model_io/chat_models/utils.dart';
-import 'base.dart';
-import 'chat.dart';
-import 'models/models.dart';
+import 'package:langchain_core/chat_history.dart';
+import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/memory.dart';
+
+import '../chat_history/in_memory.dart';
 
 /// {@template conversation_buffer_memory}
 /// Buffer for storing a conversation in-memory and then retrieving the
@@ -21,7 +21,7 @@ import 'models/models.dart';
 final class ConversationBufferMemory extends BaseChatMemory {
   /// {@macro conversation_buffer_memory}
   ConversationBufferMemory({
-    super.chatHistory,
+    final BaseChatMessageHistory? chatHistory,
     super.inputKey,
     super.outputKey,
     super.returnMessages = false,
@@ -30,7 +30,7 @@ final class ConversationBufferMemory extends BaseChatMemory {
     this.humanPrefix = HumanChatMessage.defaultPrefix,
     this.aiPrefix = AIChatMessage.defaultPrefix,
     this.functionPrefix = FunctionChatMessage.defaultPrefix,
-  });
+  }) : super(chatHistory: chatHistory ?? ChatMessageHistory());
 
   /// The memory key to use for the chat history.
   /// This will be passed as input variable to the prompt.

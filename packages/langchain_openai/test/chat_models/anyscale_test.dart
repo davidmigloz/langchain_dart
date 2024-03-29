@@ -3,7 +3,8 @@ library; // Uses dart:io
 
 import 'dart:io';
 
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/prompts.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 import 'package:test/test.dart';
 
@@ -84,7 +85,7 @@ void main() {
         String content = '';
         int count = 0;
         await for (final res in stream) {
-          content += res.firstOutputAsString.replaceAll(RegExp(r'[\s\n]'), '');
+          content += res.firstOutputAsString.replaceAll(RegExp(r'[\s\n,]'), '');
           count++;
         }
         expect(count, greaterThan(1), reason: model);

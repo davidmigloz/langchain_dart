@@ -1,8 +1,8 @@
-# melos_managed_dependency_overrides: googleai_dart,langchain,vertex_ai
+# melos_managed_dependency_overrides: googleai_dart,vertex_ai,langchain_core
 dependency_overrides:
   googleai_dart:
     path: ../googleai_dart
-  langchain:
-    path: ../langchain
+  langchain_core:
+    path: ../langchain_core
   vertex_ai:
     path: ../vertex_ai

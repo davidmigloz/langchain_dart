@@ -4,7 +4,8 @@ library; // Uses dart:io
 
 import 'dart:io';
 
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/prompts.dart';
 import 'package:langchain_google/langchain_google.dart';
 import 'package:test/test.dart';
 
