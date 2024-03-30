@@ -6,24 +6,29 @@
 [![](https://dcbadge.vercel.app/api/server/x4qbhqecVR?style=flat)](https://discord.gg/x4qbhqecVR)
 [![MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://github.com/davidmigloz/langchain_dart/blob/main/LICENSE)
 
-## What is it?
+Community package for [LangChain.dart](https://github.com/davidmigloz/langchain_dart). 
 
-LangChain.dart Community contains third-party integrations that implement the base interfaces defined in LangChain.dart Core, making them ready-to-use in any LangChain.dart application.
+## What is LangChain.dart Community?
+
+LangChain.dart Community contains third-party integrations and community-contributed components that are not part of the core LangChain.dart API. 
+
+> Depend on this package if you want to use any of the integrations or components it provides.
 
 The most popular third-party integrations have their own packages (e.g. [langchain_openai](https://pub.dev/packages/langchain_openai), [langchain_google](https://pub.dev/packages/langchain_google), etc.). Check out the [full list of packages](https://github.com/davidmigloz/langchain_dart?tab=readme-ov-file#packages).
 
-For full documentation see the [API reference](https://pub.dev/documentation/langchain_community/latest/).
+![LangChain.dart packages](https://raw.githubusercontent.com/davidmigloz/langchain_dart/main/docs/img/langchain_packages.png)
 
-![Diagram outlining the hierarchical organization of the LangChain.dart framework, displaying the interconnected parts across multiple layers.](https://python.langchain.com/assets/images/langchain_stack-f21828069f74484521f38199910007c1.svg "LangChain Framework Overview")
+## Features
 
-## Contributing
+- Document loaders:
+  * `TextLoader`: for plain text files.
+  * `CsvLoader`: for CSV or TSV files.
+  * `JsonLoader` for JSON files.
+  * `WebBaseLoader`: for web pages.
+- Tools:
+  * `CalculatorTool`: to calculate math expressions. 
 
-New contributors welcome! Check out our
-[Contributors Guide](https://github.com/davidmigloz/langchain_dart/blob/main/CONTRIBUTING.md) for
-help getting started.
-
-Join us on [Discord](https://discord.gg/x4qbhqecVR) to meet other maintainers. We'll help you get
-your first contribution in no time!
+Check out the [API reference](https://pub.dev/documentation/langchain_community/latest) for more details.
 
 ## License
 

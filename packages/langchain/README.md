@@ -6,21 +6,21 @@
 [![](https://dcbadge.vercel.app/api/server/x4qbhqecVR?style=flat)](https://discord.gg/x4qbhqecVR)
 [![MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://github.com/davidmigloz/langchain_dart/blob/main/LICENSE)
 
-Build powerful LLM-based Dart/Flutter applications.
+Build LLM-powered Dart/Flutter applications.
 
 ## What is LangChain.dart?
 
 LangChain.dart is a Dart port of the popular [LangChain](https://github.com/hwchase17/langchain) Python framework created by [Harrison Chase](https://www.linkedin.com/in/harrison-chase-961287118).
 
-LangChain provides a set of ready-to-use components for working with language models and the concept of chains, which allows to "chain" components together to formulate more advanced use cases around LLMs.
+LangChain provides a set of ready-to-use components for working with language models and a standard interface for chaining them together to formulate more advanced use cases (e.g. chatbots, Q&A with RAG, agents, summarization, extraction, etc.).
 
 The components can be grouped into a few core modules:
 
 ![LangChain.dart](https://raw.githubusercontent.com/davidmigloz/langchain_dart/main/docs/img/langchain.dart.png)
 
-- 📃 **Model I/O:** streamlines the interaction between the model inputs (prompt templates), the Language Model (abstracting different providers under a unified API), and the model output (output parsers).
-- 📚 **Retrieval:** assists in loading user data (document loaders), transforming (document transformers and embedding models), storing (vector stores), and retrieving it when needed (retrievers).
-- 🤖 **Agents:** "bots" that harness LLMs to perform tasks. They serve as the link between LLM and the tools (web search, calculators, database lookup, etc.). They determine what has to be accomplished and the tools that are more suitable for the specific task.
+- 📃 **Model I/O:** LangChain offers a unified API for interacting with various LLM providers (e.g. OpenAI, Google, Mistral, Ollama, etc.), allowing developers to switch between them with ease. Additionally, it provides tools for managing model inputs (prompt templates and example selectors) and parse the resulting model outputs (output parsers).
+- 📚 **Retrieval:** assists in loading user data (via document loaders), transforming it (with text splitters), extracting its meaning (using embedding models), storing (in vector stores) and retrieving it (through retrievers) so that it can be used to ground the model's responses (i.e. Retrieval-Augmented Generation or RAG). 
+- 🤖 **Agents:** "bots" that leverage LLMs to make informed decisions about which available tools (such us web search, calculators, database lookup, etc.) to use to accomplish the designated task.
 
 The different components can be composed together using the LangChain Expression Language (LCEL).
 
@@ -36,24 +36,37 @@ LangChain.dart aims to fill this gap by abstracting the intricacies of working w
 
 ## Packages
 
-LangChain.dart has a modular design where the core [langchain](https://pub.dev/packages/langchain) package provides the LangChain API and each 3rd party integration with a model provider, database, etc. is provided by a separate package.
+LangChain.dart has a modular design that allows developers to import only the components they need. The ecosystem consists of several packages:
+- [`langchain_core`](https://pub.dev/packages/langchain_core): contains only the core abstractions as well as LangChain Expression Language as a way to compose them together. 
+  > Depend on this package to build frameworks on top of LangChain.dart or to interoperate with it.
+- [`langchain`](https://pub.dev/packages/langchain): contains higher-level and use-case specific chains, agents, and retrieval algorithms that are at the core of the application's cognitive architecture.
+  > Depend on this package to build LLM applications with LangChain.dart.  
+  > This package exposes `langchain_core` so you don't need to depend on it explicitly.
+- [`langchain_community`](https://pub.dev/packages/langchain_community): contains third-party integrations and community-contributed components that are not part of the core LangChain.dart API.
+  > Depend on this package if you want to use any of the integrations or components it provides. 
+- Integration-specific packages (e.g. [`langchain_openai`](https://pub.dev/packages/langchain_openai), [`langchain_google`](https://pub.dev/packages/langchain_google), etc.): popular third-party integrations are moved to their own packages so that they can be imported independently without depending on the entire `langchain_community` package.
+  > Depend on an integration-specific package if you want to use the specific integration.
 
-| Package                                                             | Version                                                                      | Description                                                                                                                                                 |
-|---------------------------------------------------------------------|------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [langchain](https://pub.dev/packages/langchain)                     | ![langchain](https://img.shields.io/pub/v/langchain.svg)                     | Core LangChain API (base components abstraction, logic for chaining them (LCEL), etc.)                                                                      |
-| [langchain_openai](https://pub.dev/packages/langchain_openai)       | ![langchain_openai](https://img.shields.io/pub/v/langchain_openai.svg)       | OpenAI integration (GPT-3.5, GPT-4, Embeddings, Functions, Vision, DALL·E 3, etc.) and OpenAI Compatible services (Together AI, Anyscale, OpenRouter, etc.) |
-| [langchain_google](https://pub.dev/packages/langchain_google)       | ![langchain_google](https://img.shields.io/pub/v/langchain_google.svg)       | Google integration (GoogleAI, VertexAI, Gemini, PaLM 2, Embeddings, Vector Search, etc.)                                                                    |
-| [langchain_ollama](https://pub.dev/packages/langchain_ollama)       | ![langchain_ollama](https://img.shields.io/pub/v/langchain_ollama.svg)       | Ollama integration (Llama 2, Code Llama, Mistral, LLaVA, Phi, Vicuna, Orca, Starling, etc.)                                                                 |
-| [langchain_mistralai](https://pub.dev/packages/langchain_mistralai) | ![langchain_mistralai](https://img.shields.io/pub/v/langchain_mistralai.svg) | Mistral AI integration (Mistral-7B, Mixtral 8x7B, embeddings, etc.).                                                                                        |
-| [langchain_pinecone](https://pub.dev/packages/langchain_pinecone)   | ![langchain_pinecone](https://img.shields.io/pub/v/langchain_pinecone.svg)   | Pinecone vector database integration                                                                                                                        |
-| [langchain_chroma](https://pub.dev/packages/langchain_chroma)       | ![langchain_chroma](https://img.shields.io/pub/v/langchain_chroma.svg)       | Chroma vector database integration                                                                                                                          |
-| [langchain_supabase](https://pub.dev/packages/langchain_supabase)   | ![langchain_supabase](https://img.shields.io/pub/v/langchain_supabase.svg)   | Supabase Vector database integration                                                                                                                        |
+![LangChain.dart packages](https://raw.githubusercontent.com/davidmigloz/langchain_dart/main/docs/img/langchain_packages.png)
 
-Functionality provided by each package:
+| Package                                                             | Version                                                                                                                      | Description                                                                                                                                                 |
+|---------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [langchain_core](https://pub.dev/packages/langchain_core)           | [![langchain_core](https://img.shields.io/pub/v/langchain_core.svg)](https://pub.dev/packages/langchain_core)                | Core abstractions and LCEL                                                                                                                                  |
+| [langchain](https://pub.dev/packages/langchain)                     | [![langchain](https://img.shields.io/pub/v/langchain.svg)](https://pub.dev/packages/langchain)                               | Higher-level and use-case specific chains, agents, and retrieval algorithms                                                                                 |
+| [langchain_community](https://pub.dev/packages/langchain_community) | [![langchain_community](https://img.shields.io/pub/v/langchain_community.svg)](https://pub.dev/packages/langchain_community) | Third-party integrations (without specific packages) and community-contributed components                                                                   |
+| [langchain_openai](https://pub.dev/packages/langchain_openai)       | [![langchain_openai](https://img.shields.io/pub/v/langchain_openai.svg)](https://pub.dev/packages/langchain_openai)          | OpenAI integration (GPT-3.5, GPT-4, Embeddings, Functions, Vision, DALL·E 3, etc.) and OpenAI Compatible services (Together AI, Anyscale, OpenRouter, etc.) |
+| [langchain_google](https://pub.dev/packages/langchain_google)       | [![langchain_google](https://img.shields.io/pub/v/langchain_google.svg)](https://pub.dev/packages/langchain_google)          | Google integration (GoogleAI, VertexAI, Gemini, PaLM 2, Embeddings, Vector Search, etc.)                                                                    |
+| [langchain_ollama](https://pub.dev/packages/langchain_ollama)       | [![langchain_ollama](https://img.shields.io/pub/v/langchain_ollama.svg)](https://pub.dev/packages/langchain_ollama)          | Ollama integration (Llama 2, Code Llama, Mistral, LLaVA, Phi, Vicuna, Orca, Starling, etc.)                                                                 |
+| [langchain_mistralai](https://pub.dev/packages/langchain_mistralai) | [![langchain_mistralai](https://img.shields.io/pub/v/langchain_mistralai.svg)](https://pub.dev/packages/langchain_mistralai) | Mistral AI integration (Mistral-7B, Mixtral 8x7B, embeddings, etc.).                                                                                        |
+| [langchain_pinecone](https://pub.dev/packages/langchain_pinecone)   | [![langchain_pinecone](https://img.shields.io/pub/v/langchain_pinecone.svg)](https://pub.dev/packages/langchain_pinecone)    | Pinecone vector database integration                                                                                                                        |
+| [langchain_chroma](https://pub.dev/packages/langchain_chroma)       | [![langchain_chroma](https://img.shields.io/pub/v/langchain_chroma.svg)](https://pub.dev/packages/langchain_chroma)          | Chroma vector database integration                                                                                                                          |
+| [langchain_supabase](https://pub.dev/packages/langchain_supabase)   | [![langchain_supabase](https://img.shields.io/pub/v/langchain_supabase.svg)](https://pub.dev/packages/langchain_supabase)    | Supabase Vector database integration                                                                                                                        |
+
+Functionality provided by each integration package:
 
 | Package                                                             | LLMs | Chat models | Embeddings | Vector stores | Chains | Agents | Tools |
 |---------------------------------------------------------------------|------|-------------|------------|---------------|--------|--------|-------|
-| [langchain](https://pub.dev/packages/langchain)                     | ★    | ★           | ★          | ★             | ★      | ★      | ★     |
+| [langchain_community](https://pub.dev/packages/langchain_community) |      |             |            |               |        |        |       |
 | [langchain_openai](https://pub.dev/packages/langchain_openai)       | ✔    | ✔           | ✔          |               | ✔      | ✔      | ✔     |
 | [langchain_google](https://pub.dev/packages/langchain_google)       | ✔    | ✔           | ✔          | ✔             |        |        |       |
 | [langchain_ollama](https://pub.dev/packages/langchain_ollama)       | ✔    | ✔           | ✔          |               |        |        |       |
