@@ -1,10 +1,11 @@
 import 'package:googleai_dart/googleai_dart.dart';
 import 'package:http/http.dart' as http;
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/prompts.dart';
 import 'package:uuid/uuid.dart';
 
-import 'models/mappers.dart';
-import 'models/models.dart';
+import 'mappers.dart';
+import 'types.dart';
 
 /// Wrapper around [Google AI for Developers](https://ai.google.dev/) API
 /// (aka Gemini API).

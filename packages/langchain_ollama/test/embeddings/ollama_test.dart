@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/documents.dart';
 import 'package:langchain_ollama/langchain_ollama.dart';
 import 'package:test/test.dart';
 

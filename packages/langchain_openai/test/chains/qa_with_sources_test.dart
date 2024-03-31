@@ -4,7 +4,18 @@ library; // Uses dart:io
 import 'dart:io';
 
 import 'package:collection/collection.dart';
-import 'package:langchain/langchain.dart';
+import 'package:langchain/langchain.dart'
+    show
+        MemoryVectorStore,
+        RecursiveCharacterTextSplitter,
+        RetrievalQAChain,
+        StuffDocumentsChain;
+import 'package:langchain_community/langchain_community.dart';
+import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/documents.dart';
+import 'package:langchain_core/output_parsers.dart';
+import 'package:langchain_core/prompts.dart';
+import 'package:langchain_core/runnables.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 import 'package:test/test.dart';
 

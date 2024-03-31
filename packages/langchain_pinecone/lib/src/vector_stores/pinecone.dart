@@ -1,10 +1,11 @@
 import 'package:http/http.dart' as http;
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/documents.dart';
+import 'package:langchain_core/vector_stores.dart';
 import 'package:pinecone/pinecone.dart';
 import 'package:uuid/uuid.dart';
 
-import 'models/mappers.dart';
-import 'models/models.dart';
+import 'mappers.dart';
+import 'types.dart';
 
 /// {@template pinecone}
 /// Vector store for Pinecone vector database.

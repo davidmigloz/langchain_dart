@@ -1,7 +1,4 @@
-import 'package:langchain/src/chains/chains.dart';
-import 'package:langchain/src/documents/documents.dart';
-import 'package:langchain/src/model_io/llms/fake.dart';
-import 'package:langchain/src/model_io/prompts/prompts.dart';
+import 'package:langchain/langchain.dart';
 import 'package:test/test.dart';
 
 void main() {

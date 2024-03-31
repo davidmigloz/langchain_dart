@@ -1,2 +1,2 @@
 export 'chroma.dart';
-export 'models/models.dart';
+export 'types.dart';

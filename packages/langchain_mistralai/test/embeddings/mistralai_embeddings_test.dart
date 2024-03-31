@@ -3,7 +3,7 @@ library; // Uses dart:io
 
 import 'dart:io';
 
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/documents.dart';
 import 'package:langchain_mistralai/langchain_mistralai.dart';
 import 'package:test/test.dart';
 

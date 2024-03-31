@@ -1,2 +1,2 @@
-export 'models/models.dart';
 export 'supabase.dart';
+export 'types.dart';

@@ -3,7 +3,8 @@ library; // Uses dart:io
 
 import 'dart:io';
 
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/prompts.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 import 'package:test/test.dart';
 
@@ -29,7 +30,6 @@ void main() {
         'NousResearch/Nous-Hermes-2-Yi-34B',
         'openchat/openchat-3.5-1210',
         'togethercomputer/llama-2-70b-chat',
-        'togethercomputer/falcon-40b-instruct',
       ];
       for (final model in models) {
         final res = await chatModel.invoke(
@@ -68,7 +68,6 @@ void main() {
         'NousResearch/Nous-Hermes-2-Yi-34B',
         'openchat/openchat-3.5-1210',
         'togethercomputer/llama-2-70b-chat',
-        'togethercomputer/falcon-40b-instruct',
       ];
       for (final model in models) {
         final stream = chatModel.stream(

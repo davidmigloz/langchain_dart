@@ -3,7 +3,7 @@ library; // Uses dart:io
 
 import 'dart:io';
 
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/documents.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 import 'package:langchain_pinecone/langchain_pinecone.dart';
 import 'package:test/test.dart';

@@ -1,12 +1,14 @@
 @TestOn('vm')
 library; // Uses dart:io
 
+import 'dart:io';
+
 import 'package:chromadb/chromadb.dart';
 import 'package:test/test.dart';
 
 // docker run -p 8000:8000 -e "ALLOW_RESET=TRUE" chromadb/chroma
 void main() async {
-  group('ChromaClient tests', skip: true, () {
+  group('ChromaClient tests', skip: Platform.environment.containsKey('CI'), () {
     final client = ChromaClient();
 
     test('it should reset the database', () async {

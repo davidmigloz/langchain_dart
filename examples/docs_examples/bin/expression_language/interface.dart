@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:langchain/langchain.dart';
 import 'package:langchain_chroma/langchain_chroma.dart';
+import 'package:langchain_community/langchain_community.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 
 void main(final List<String> arguments) async {

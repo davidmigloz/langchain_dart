@@ -1,10 +1,11 @@
 import 'package:http/http.dart' as http;
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/prompts.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vertex_ai/vertex_ai.dart';
 
-import 'models/mappers.dart';
-import 'models/models.dart';
+import 'mappers.dart';
+import 'types.dart';
 
 /// {@template chat_vertex_ai}
 /// Wrapper around GCP Vertex AI text chat models API (aka PaLM API for chat).

@@ -1,6 +1,7 @@
-import '../../documents/models/models.dart';
-import '../../model_io/prompts/models/models.dart';
-import '../models/models.dart';
+import 'package:langchain_core/chains.dart';
+import 'package:langchain_core/documents.dart';
+import 'package:langchain_core/prompts.dart';
+
 import 'base.dart';
 import 'stuff.dart';
 

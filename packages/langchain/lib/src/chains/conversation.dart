@@ -1,8 +1,9 @@
 // ignore_for_file: avoid_redundant_argument_values
-import '../memory/base.dart';
+import 'package:langchain_core/chains.dart';
+import 'package:langchain_core/memory.dart';
+import 'package:langchain_core/prompts.dart';
+
 import '../memory/buffer.dart';
-import '../model_io/prompts/prompts.dart';
-import 'llm_chain.dart';
 
 const _defaultTemplate = '''
 The following is a friendly conversation between a human and an AI. The AI is 

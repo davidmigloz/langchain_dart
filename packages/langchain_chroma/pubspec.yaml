@@ -19,10 +19,12 @@ environment:
 dependencies:
   chromadb: ^0.1.2
   http: ^1.1.0
-  langchain: ^0.4.2
+  langchain_core: ^0.0.1-dev.2
   meta: ^1.9.1
   uuid: ^4.0.0
 
 dev_dependencies:
   test: ^1.25.2
+  langchain: ^0.4.2
+  langchain_community: 0.0.1-dev.2
   langchain_openai: ^0.4.1

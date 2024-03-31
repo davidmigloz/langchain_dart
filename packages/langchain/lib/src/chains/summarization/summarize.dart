@@ -1,7 +1,8 @@
-import '../../model_io/language_models/language_models.dart';
-import '../../model_io/prompts/prompts.dart';
+import 'package:langchain_core/chains.dart';
+import 'package:langchain_core/language_models.dart';
+import 'package:langchain_core/prompts.dart';
+
 import '../combine_documents/combine_documents.dart';
-import '../llm_chain.dart';
 
 const _template = '''
 Write a concise summary of the following:

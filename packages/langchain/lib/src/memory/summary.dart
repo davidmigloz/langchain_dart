@@ -1,12 +1,11 @@
+import 'package:langchain_core/chat_history.dart';
+import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/language_models.dart';
+import 'package:langchain_core/memory.dart';
+import 'package:langchain_core/prompts.dart';
+
 import '../chains/chains.dart';
-import '../model_io/chat_models/models/models.dart';
-import '../model_io/chat_models/utils.dart';
-import '../model_io/language_models/language_models.dart';
-import '../model_io/prompts/prompts.dart';
-import 'base.dart';
-import 'chat.dart';
-import 'chat_message_history/chat_message_history.dart';
-import 'models/models.dart';
+import '../chat_history/in_memory.dart';
 
 const _template = '''
 Progressively summarize the lines of conversation provided, adding onto the previous summary returning a new summary.
@@ -65,7 +64,7 @@ final class ConversationSummaryMemory<LLMType extends BaseLanguageModel>
     extends BaseChatMemory {
   /// {@macro conversation_summary_memory}
   ConversationSummaryMemory({
-    super.chatHistory,
+    final BaseChatMessageHistory? chatHistory,
     super.inputKey,
     super.outputKey,
     super.returnMessages = false,
@@ -78,7 +77,8 @@ final class ConversationSummaryMemory<LLMType extends BaseLanguageModel>
     this.humanPrefix = HumanChatMessage.defaultPrefix,
     this.aiPrefix = AIChatMessage.defaultPrefix,
     this.functionPrefix = FunctionChatMessage.defaultPrefix,
-  }) : _buffer = initialSummary;
+  })  : _buffer = initialSummary,
+        super(chatHistory: chatHistory ?? ChatMessageHistory());
 
   /// Language model to use for summarizing the conversation.
   final LLMType llm;

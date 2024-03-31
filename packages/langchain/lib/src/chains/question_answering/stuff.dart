@@ -1,7 +1,8 @@
-import '../../model_io/language_models/base.dart';
-import '../../model_io/prompts/prompts.dart';
+import 'package:langchain_core/chains.dart';
+import 'package:langchain_core/language_models.dart';
+import 'package:langchain_core/prompts.dart';
+
 import '../combine_documents/stuff.dart';
-import '../llm_chain.dart';
 
 const _promptTemplate = '''
 Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.

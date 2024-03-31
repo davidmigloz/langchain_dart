@@ -19,7 +19,7 @@ environment:
 dependencies:
   collection: '>=1.17.0 <1.19.0'
   http: ^1.1.0
-  langchain: ^0.4.2
+  langchain_core: ^0.0.1-dev.2
   langchain_tiktoken: ^1.0.1
   meta: ^1.9.1
   ollama_dart: ^0.0.3

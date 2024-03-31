@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:langchain/langchain.dart';
+import 'package:langchain_community/langchain_community.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 
 import '../../chrome/chrome_api.dart';

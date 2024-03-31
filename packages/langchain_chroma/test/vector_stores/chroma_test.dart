@@ -3,8 +3,10 @@ library; // Uses dart:io
 
 import 'dart:io';
 
-import 'package:langchain/langchain.dart';
+import 'package:langchain/langchain.dart' show RecursiveCharacterTextSplitter;
 import 'package:langchain_chroma/langchain_chroma.dart';
+import 'package:langchain_community/langchain_community.dart';
+import 'package:langchain_core/documents.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 import 'package:test/test.dart';
 

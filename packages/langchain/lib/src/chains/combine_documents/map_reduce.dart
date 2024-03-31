@@ -1,8 +1,8 @@
-import '../../documents/models/models.dart';
-import '../../model_io/chat_models/models/models.dart';
-import '../../model_io/prompts/models/models.dart';
-import '../llm_chain.dart';
-import '../models/models.dart';
+import 'package:langchain_core/chains.dart';
+import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/documents.dart';
+import 'package:langchain_core/prompts.dart';
+
 import 'base.dart';
 import 'reduce.dart';
 import 'stuff.dart';
