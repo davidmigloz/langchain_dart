@@ -1,5 +1,6 @@
 import 'package:http/http.dart' as http;
-import 'package:langchain/langchain.dart';
+import 'package:langchain_core/documents.dart';
+import 'package:langchain_core/vector_stores.dart';
 import 'package:supabase/supabase.dart';
 
 /// {@template supabase}
