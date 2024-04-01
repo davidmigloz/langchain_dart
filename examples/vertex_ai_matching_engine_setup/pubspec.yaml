@@ -8,6 +8,6 @@ environment:
 
 dependencies:
   gcloud: ^0.8.12
-  googleapis_auth: ^1.4.1
+  googleapis_auth: ^1.5.1
   http: ^1.1.0
   vertex_ai: ^0.0.10

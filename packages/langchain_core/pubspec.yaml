@@ -18,8 +18,9 @@ environment:
 dependencies:
   async: ^2.11.0
   collection: '>=1.17.0 <1.19.0'
-  cross_file: ^0.3.3+4
-  meta: ^1.9.1
+  cross_file: ^0.3.4+1
+  crypto: ^3.0.3
+  meta: ^1.11.0
 
 dev_dependencies:
   test: ^1.25.2

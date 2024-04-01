@@ -21,9 +21,9 @@ dependencies:
   http: ^1.1.0
   langchain_core: ^0.0.1-dev.2
   langchain_tiktoken: ^1.0.1
-  meta: ^1.9.1
+  meta: ^1.11.0
   ollama_dart: ^0.0.3
-  uuid: ^4.0.0
+  uuid: ^4.3.3
 
 dev_dependencies:
   test: ^1.25.2
