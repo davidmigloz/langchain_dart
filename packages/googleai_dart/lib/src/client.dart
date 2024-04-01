@@ -43,6 +43,12 @@ class GoogleAIClient extends g.GoogleAIClient {
           client: client ?? createDefaultHttpClient(),
         );
 
+  /// Set or replace the API key.
+  set apiKey(final String value) => queryParams['key'] = value;
+
+  /// Get the API key.
+  String get apiKey => queryParams['key'];
+
   // ------------------------------------------
   // METHOD: streamGenerateContent
   // ------------------------------------------

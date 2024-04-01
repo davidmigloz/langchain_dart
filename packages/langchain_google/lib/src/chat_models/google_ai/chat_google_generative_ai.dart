@@ -167,6 +167,12 @@ class ChatGoogleGenerativeAI
   /// A UUID generator.
   late final Uuid _uuid = const Uuid();
 
+  /// Set or replace the API key.
+  set apiKey(final String value) => _client.apiKey = value;
+
+  /// Get the API key.
+  String get apiKey => _client.apiKey;
+
   @override
   String get modelType => 'chat-google-generative-ai';
 
