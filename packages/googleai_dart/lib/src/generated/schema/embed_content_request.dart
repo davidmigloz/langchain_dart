@@ -15,6 +15,9 @@ class EmbedContentRequest with _$EmbedContentRequest {
 
   /// Factory constructor for EmbedContentRequest
   const factory EmbedContentRequest({
+    /// Optional. An optional title for the text. Only applicable when TaskType is `RETRIEVAL_DOCUMENT`. Note: Specifying a `title` for `RETRIEVAL_DOCUMENT` provides better quality embeddings for retrieval.
+    @JsonKey(includeIfNull: false) String? title,
+
     /// Required. The content to embed. Only the `parts.text` fields will be counted.
     @JsonKey(includeIfNull: false) Content? content,
 
@@ -27,9 +30,6 @@ class EmbedContentRequest with _$EmbedContentRequest {
 
     /// Required. The model's resource name. This serves as an ID for the Model to use. This name should match a model name returned by the `ListModels` method. Format: `models/{model}`
     @JsonKey(includeIfNull: false) String? model,
-
-    /// Optional. An optional title for the text. Only applicable when TaskType is `RETRIEVAL_DOCUMENT`.
-    @JsonKey(includeIfNull: false) String? title,
   }) = _EmbedContentRequest;
 
   /// Object construction from a JSON representation
@@ -38,10 +38,10 @@ class EmbedContentRequest with _$EmbedContentRequest {
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
+    'title',
     'content',
     'taskType',
-    'model',
-    'title'
+    'model'
   ];
 
   /// Perform validations on the schema property values
@@ -52,10 +52,10 @@ class EmbedContentRequest with _$EmbedContentRequest {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
+      'title': title,
       'content': content,
       'taskType': taskType,
       'model': model,
-      'title': title,
     };
   }
 }
