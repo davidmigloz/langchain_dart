@@ -45,6 +45,20 @@ void main() {
       );
     });
 
+    test('Test models prefix', () async {
+      final res = await chatModel.invoke(
+        PromptValue.string(
+          'List the numbers from 1 to 9 in order '
+          'without any spaces, commas or additional explanations.',
+        ),
+        options: const ChatGoogleGenerativeAIOptions(
+          model: 'models/gemini-pro',
+          temperature: 0,
+        ),
+      );
+      expect(res.firstOutputAsString, isNotEmpty);
+    });
+
     test('Text-and-image input with gemini-pro-vision', () async {
       final res = await chatModel.invoke(
         PromptValue.chat([

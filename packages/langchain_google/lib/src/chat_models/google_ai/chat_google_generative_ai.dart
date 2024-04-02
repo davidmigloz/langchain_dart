@@ -36,6 +36,19 @@ import 'types.dart';
 /// Mind that this list may not be up-to-date.
 /// Refer to the [documentation](https://ai.google.dev/models) for the updated list.
 ///
+/// #### Tuned models
+///
+/// You can specify a tuned model by setting the `model` parameter to
+/// `tunedModels/{your-model-name}`. For example:
+///
+/// ```dart
+/// final chatModel = ChatGoogleGenerativeAI(
+///   defaultOptions: ChatGoogleGenerativeAIOptions(
+///     model: 'tunedModels/my-tuned-model',
+///   ),
+/// );
+/// ```
+///
 /// ### Call options
 ///
 /// You can configure the parameters that will be used when calling the
@@ -48,7 +61,7 @@ import 'types.dart';
 ///
 /// ```dart
 /// final chatModel = ChatGoogleGenerativeAI(
-///   defaultOptions: const ChatGoogleGenerativeAIOptions(
+///   defaultOptions: ChatGoogleGenerativeAIOptions(
 ///     model: 'gemini-pro-vision',
 ///     temperature: 0,
 ///   ),
@@ -182,15 +195,20 @@ class ChatGoogleGenerativeAI
     final ChatGoogleGenerativeAIOptions? options,
   }) async {
     final id = _uuid.v4();
-    final model =
-        options?.model ?? defaultOptions.model ?? throwNullModelError();
-    final completion = await _client.generateContent(
-      modelId: model,
-      request: _generateCompletionRequest(
-        input.toChatMessages(),
-        options: options,
-      ),
+    final (model, isTuned) = _getNormalizedModel(options);
+    final request = _generateCompletionRequest(
+      input.toChatMessages(),
+      options: options,
     );
+    final completion = await (isTuned
+        ? _client.generateContentTunedModel(
+            tunedModelId: model,
+            request: request,
+          )
+        : _client.generateContent(
+            modelId: model,
+            request: request,
+          ));
     return completion.toChatResult(id, model);
   }
 
@@ -249,8 +267,9 @@ class ChatGoogleGenerativeAI
     final PromptValue promptValue, {
     final ChatGoogleGenerativeAIOptions? options,
   }) async {
+    final (model, _) = _getNormalizedModel(options);
     final tokens = await _client.countTokens(
-      modelId: options?.model ?? defaultOptions.model ?? throwNullModelError(),
+      modelId: model,
       request: CountTokensRequest(
         contents: promptValue.toChatMessages().toContentList(),
       ),
@@ -261,5 +280,23 @@ class ChatGoogleGenerativeAI
   /// Closes the client and cleans up any resources associated with it.
   void close() {
     _client.endSession();
+  }
+
+  /// Returns the model code to use and whether it is a tuned model.
+  (String model, bool isTuned) _getNormalizedModel(
+    final ChatGoogleGenerativeAIOptions? options,
+  ) {
+    final rawModel =
+        options?.model ?? defaultOptions.model ?? throwNullModelError();
+
+    if (!rawModel.contains('/')) {
+      return (rawModel, false);
+    }
+    final parts = rawModel.split('/');
+    return switch (parts.first) {
+      'tunedModels' => (parts.skip(1).join('/'), true),
+      'models' => (parts.skip(1).join('/'), false),
+      _ => (rawModel, false),
+    };
   }
 }
