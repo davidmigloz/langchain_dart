@@ -8,7 +8,7 @@ part of google_a_i_schema;
 // CLASS: CreateTunedModelMetadata
 // ==========================================
 
-/// Metadata about the state and progress of creating a tuned model returned from the long-running operation
+/// Metadata about the state and progress of creating a tuned model returned from the long-running operation.
 @freezed
 class CreateTunedModelMetadata with _$CreateTunedModelMetadata {
   const CreateTunedModelMetadata._();

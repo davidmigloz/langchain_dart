@@ -24,20 +24,20 @@ class Model with _$Model {
     /// A short description of the model.
     @JsonKey(includeIfNull: false) String? description,
 
-    /// For Top-k sampling. Top-k sampling considers the set of `top_k` most probable tokens. This value specifies default to be used by the backend while making the call to the model.
-    @JsonKey(includeIfNull: false) int? topK,
-
     /// Required. The version number of the model. This represents the major version
     @JsonKey(includeIfNull: false) String? version,
+
+    /// Required. The name of the base model, pass this to the generation request. Examples: * `chat-bison`
+    @JsonKey(includeIfNull: false) String? baseModelId,
 
     /// Controls the randomness of the output. Values can range over `[0.0,1.0]`, inclusive. A value closer to `1.0` will produce responses that are more varied, while a value closer to `0.0` will typically result in less surprising responses from the model. This value specifies default to be used by the backend while making the call to the model.
     @JsonKey(includeIfNull: false) double? temperature,
 
+    /// For Top-k sampling. Top-k sampling considers the set of `top_k` most probable tokens. This value specifies default to be used by the backend while making the call to the model.
+    @JsonKey(includeIfNull: false) int? topK,
+
     /// For Nucleus sampling. Nucleus sampling considers the smallest set of tokens whose probability sum is at least `top_p`. This value specifies default to be used by the backend while making the call to the model.
     @JsonKey(includeIfNull: false) double? topP,
-
-    /// Required. The name of the base model, pass this to the generation request. Examples: * `chat-bison`
-    @JsonKey(includeIfNull: false) String? baseModelId,
 
     /// Maximum number of input tokens allowed for this model.
     @JsonKey(includeIfNull: false) int? inputTokenLimit,
@@ -57,11 +57,11 @@ class Model with _$Model {
     'name',
     'displayName',
     'description',
-    'topK',
     'version',
-    'temperature',
-    'topP',
     'baseModelId',
+    'temperature',
+    'topK',
+    'topP',
     'inputTokenLimit',
     'outputTokenLimit',
     'supportedGenerationMethods'
@@ -78,11 +78,11 @@ class Model with _$Model {
       'name': name,
       'displayName': displayName,
       'description': description,
-      'topK': topK,
       'version': version,
-      'temperature': temperature,
-      'topP': topP,
       'baseModelId': baseModelId,
+      'temperature': temperature,
+      'topK': topK,
+      'topP': topP,
       'inputTokenLimit': inputTokenLimit,
       'outputTokenLimit': outputTokenLimit,
       'supportedGenerationMethods': supportedGenerationMethods,

@@ -15,11 +15,11 @@ class ListModelsResponse with _$ListModelsResponse {
 
   /// Factory constructor for ListModelsResponse
   const factory ListModelsResponse({
-    /// A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no more pages.
-    @JsonKey(includeIfNull: false) String? nextPageToken,
-
     /// The returned Models.
     @JsonKey(includeIfNull: false) List<Model>? models,
+
+    /// A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no more pages.
+    @JsonKey(includeIfNull: false) String? nextPageToken,
   }) = _ListModelsResponse;
 
   /// Object construction from a JSON representation
@@ -27,7 +27,7 @@ class ListModelsResponse with _$ListModelsResponse {
       _$ListModelsResponseFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['nextPageToken', 'models'];
+  static const List<String> propertyNames = ['models', 'nextPageToken'];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -37,8 +37,8 @@ class ListModelsResponse with _$ListModelsResponse {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
-      'nextPageToken': nextPageToken,
       'models': models,
+      'nextPageToken': nextPageToken,
     };
   }
 }

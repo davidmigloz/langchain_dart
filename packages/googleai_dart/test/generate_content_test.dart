@@ -22,6 +22,7 @@ void main() {
     });
 
     test('Test Text-only input with gemini-pro', () async {
+      client.cancelTunedModelOperation(tunedModelId: tunedModelId, operationId: operationId)
       final res = await client.generateContent(
         modelId: 'gemini-pro',
         request: const GenerateContentRequest(

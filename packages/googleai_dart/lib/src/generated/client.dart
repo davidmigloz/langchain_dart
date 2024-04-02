@@ -60,7 +60,7 @@ class GoogleAIClientException implements Exception {
 
 /// Client for Generative Language API (v.v1)
 ///
-/// The Gemini API allows developers to build generative AI applications using the Gemini model. Large Language Models (LLMs) are a powerful, versatile type of machine learning model that enables computers to comprehend and generate natural language through a series of prompts. The Gemini API is based on Google's next generation LLM, Gemini. It excels at a variety of different tasks like code generation, reasoning, and writing. You can use the Gemini API to build generative AI applications for use cases like content generation, dialogue agents, summarization and classification systems, and more.
+/// The Gemini API allows developers to build generative AI applications using Gemini models. Gemini is our most capable model, built from the ground up to be multimodal. It can generalize and seamlessly understand, operate across, and combine different types of information. including language, images, audio, video, and code. You can use the Gemini API for use cases like reasoning across text and images, content generation, dialogue agents, summarization and classification systems, and more.
 class GoogleAIClient {
   /// Creates a new GoogleAIClient instance.
   ///
@@ -357,153 +357,6 @@ class GoogleAIClient {
   }
 
   // ------------------------------------------
-  // METHOD: cancelTunedModelOperation
-  // ------------------------------------------
-
-  /// Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to `Code.CANCELLED`.
-  ///
-  /// `tunedModelId`: The id of the tuned model.
-  ///
-  /// `operationId`: The id of the operation to cancel.
-  ///
-  /// `request`: The request message for Operations.CancelOperation.
-  ///
-  /// `POST` `https://generativelanguage.googleapis.com/v1/tunedModels/{tunedModelId}/operations/{operationId}:cancel`
-  Future<Empty> cancelTunedModelOperation({
-    required String tunedModelId,
-    required String operationId,
-    CancelOperationRequest? request,
-  }) async {
-    final r = await makeRequest(
-      baseUrl: 'https://generativelanguage.googleapis.com/v1',
-      path: '/tunedModels/$tunedModelId/operations/$operationId:cancel',
-      method: HttpMethod.post,
-      isMultipart: false,
-      requestType: 'application/json',
-      responseType: 'application/json',
-      body: request,
-    );
-    return Empty.fromJson(_jsonDecode(r));
-  }
-
-  // ------------------------------------------
-  // METHOD: listTunedModelOperations
-  // ------------------------------------------
-
-  /// Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`.
-  ///
-  /// `tunedModelId`: The id of the tuned model.
-  ///
-  /// `pageSize`: The standard list page size.
-  ///
-  /// `filter`: The filters to apply.
-  ///
-  /// `pageToken`: The token identifying which page to start with.
-  ///
-  /// `GET` `https://generativelanguage.googleapis.com/v1/tunedModels/{tunedModelId}/operations`
-  Future<ListOperationsResponse> listTunedModelOperations({
-    required String tunedModelId,
-    int? pageSize,
-    String? filter,
-    String? pageToken,
-  }) async {
-    final r = await makeRequest(
-      baseUrl: 'https://generativelanguage.googleapis.com/v1',
-      path: '/tunedModels/$tunedModelId/operations',
-      method: HttpMethod.get,
-      isMultipart: false,
-      requestType: '',
-      responseType: 'application/json',
-      queryParams: {
-        if (pageSize != null) 'pageSize': pageSize,
-        if (filter != null) 'filter': filter,
-        if (pageToken != null) 'pageToken': pageToken,
-      },
-    );
-    return ListOperationsResponse.fromJson(_jsonDecode(r));
-  }
-
-  // ------------------------------------------
-  // METHOD: getTunedModelOperations
-  // ------------------------------------------
-
-  /// Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service.
-  ///
-  /// `tunedModelId`: The id of the tuned model.
-  ///
-  /// `operationId`: The id of the operation to get.
-  ///
-  /// `GET` `https://generativelanguage.googleapis.com/v1/tunedModels/{tunedModelId}/operations/{operationId}`
-  Future<Operation> getTunedModelOperations({
-    required String tunedModelId,
-    required String operationId,
-  }) async {
-    final r = await makeRequest(
-      baseUrl: 'https://generativelanguage.googleapis.com/v1',
-      path: '/tunedModels/$tunedModelId/operations/$operationId',
-      method: HttpMethod.get,
-      isMultipart: false,
-      requestType: '',
-      responseType: 'application/json',
-    );
-    return Operation.fromJson(_jsonDecode(r));
-  }
-
-  // ------------------------------------------
-  // METHOD: generateContent
-  // ------------------------------------------
-
-  /// Generates a response from the model given an input `GenerateContentRequest`.
-  ///
-  /// `modelId`: The id of the model to use.
-  ///
-  /// `request`: Request to generate a completion from the model.
-  ///
-  /// `POST` `https://generativelanguage.googleapis.com/v1/models/{modelId}:generateContent`
-  Future<GenerateContentResponse> generateContent({
-    String modelId = 'gemini-pro',
-    GenerateContentRequest? request,
-  }) async {
-    final r = await makeRequest(
-      baseUrl: 'https://generativelanguage.googleapis.com/v1',
-      path: '/models/$modelId:generateContent',
-      method: HttpMethod.post,
-      isMultipart: false,
-      requestType: 'application/json',
-      responseType: 'application/json',
-      body: request,
-    );
-    return GenerateContentResponse.fromJson(_jsonDecode(r));
-  }
-
-  // ------------------------------------------
-  // METHOD: countTokens
-  // ------------------------------------------
-
-  /// Runs a model's tokenizer on input content and returns the token count.
-  ///
-  /// `modelId`: The id of the model to use.
-  ///
-  /// `request`: Counts the number of tokens in the `prompt` sent to a model. Models may tokenize text differently, so each model may return a different `token_count`.
-  ///
-  /// `POST` `https://generativelanguage.googleapis.com/v1/models/{modelId}:countTokens`
-  Future<CountTokensResponse> countTokens({
-    String modelId = 'gemini-pro',
-    CountTokensRequest? request,
-  }) async {
-    final r = await makeRequest(
-      baseUrl: 'https://generativelanguage.googleapis.com/v1',
-      path: '/models/$modelId:countTokens',
-      method: HttpMethod.post,
-      isMultipart: false,
-      requestType: 'application/json',
-      responseType: 'application/json',
-      body: request,
-    );
-    return CountTokensResponse.fromJson(_jsonDecode(r));
-  }
-
-  // ------------------------------------------
   // METHOD: listModels
   // ------------------------------------------
 
@@ -557,30 +410,30 @@ class GoogleAIClient {
   }
 
   // ------------------------------------------
-  // METHOD: batchEmbedContents
+  // METHOD: generateContent
   // ------------------------------------------
 
-  /// Generates multiple embeddings from the model given input text in a synchronous call.
+  /// Generates a response from the model given an input `GenerateContentRequest`.
   ///
   /// `modelId`: The id of the model to use.
   ///
-  /// `request`: Batch request to get embeddings from the model for a list of prompts.
+  /// `request`: Request to generate a completion from the model.
   ///
-  /// `POST` `https://generativelanguage.googleapis.com/v1/models/{modelId}:batchEmbedContents`
-  Future<BatchEmbedContentsResponse> batchEmbedContents({
-    String modelId = 'embedding-001',
-    BatchEmbedContentsRequest? request,
+  /// `POST` `https://generativelanguage.googleapis.com/v1/models/{modelId}:generateContent`
+  Future<GenerateContentResponse> generateContent({
+    String modelId = 'gemini-pro',
+    GenerateContentRequest? request,
   }) async {
     final r = await makeRequest(
       baseUrl: 'https://generativelanguage.googleapis.com/v1',
-      path: '/models/$modelId:batchEmbedContents',
+      path: '/models/$modelId:generateContent',
       method: HttpMethod.post,
       isMultipart: false,
       requestType: 'application/json',
       responseType: 'application/json',
       body: request,
     );
-    return BatchEmbedContentsResponse.fromJson(_jsonDecode(r));
+    return GenerateContentResponse.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -608,6 +461,180 @@ class GoogleAIClient {
       body: request,
     );
     return EmbedContentResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: batchEmbedContents
+  // ------------------------------------------
+
+  /// Generates multiple embeddings from the model given input text in a synchronous call.
+  ///
+  /// `modelId`: The id of the model to use.
+  ///
+  /// `request`: Batch request to get embeddings from the model for a list of prompts.
+  ///
+  /// `POST` `https://generativelanguage.googleapis.com/v1/models/{modelId}:batchEmbedContents`
+  Future<BatchEmbedContentsResponse> batchEmbedContents({
+    String modelId = 'embedding-001',
+    BatchEmbedContentsRequest? request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://generativelanguage.googleapis.com/v1',
+      path: '/models/$modelId:batchEmbedContents',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return BatchEmbedContentsResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: countTokens
+  // ------------------------------------------
+
+  /// Runs a model's tokenizer on input content and returns the token count.
+  ///
+  /// `modelId`: The id of the model to use.
+  ///
+  /// `request`: Counts the number of tokens in the `prompt` sent to a model. Models may tokenize text differently, so each model may return a different `token_count`.
+  ///
+  /// `POST` `https://generativelanguage.googleapis.com/v1/models/{modelId}:countTokens`
+  Future<CountTokensResponse> countTokens({
+    String modelId = 'gemini-pro',
+    CountTokensRequest? request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://generativelanguage.googleapis.com/v1',
+      path: '/models/$modelId:countTokens',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return CountTokensResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: generateContentTunedModel
+  // ------------------------------------------
+
+  /// Generates a response from the model given an input `GenerateContentRequest`.
+  ///
+  /// `tunedModelId`: The id of the tuned model.
+  ///
+  /// `request`: Request to generate a completion from the model.
+  ///
+  /// `POST` `https://generativelanguage.googleapis.com/v1/tunedModels/{tunedModelId}:generateContent`
+  Future<GenerateContentResponse> generateContentTunedModel({
+    required String tunedModelId,
+    GenerateContentRequest? request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://generativelanguage.googleapis.com/v1',
+      path: '/tunedModels/$tunedModelId:generateContent',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return GenerateContentResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: listTunedModelOperations
+  // ------------------------------------------
+
+  /// Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`.
+  ///
+  /// `tunedModelId`: The id of the tuned model.
+  ///
+  /// `pageSize`: The standard list page size.
+  ///
+  /// `filter`: The filters to apply.
+  ///
+  /// `pageToken`: The token identifying which page to start with.
+  ///
+  /// `GET` `https://generativelanguage.googleapis.com/v1/tunedModels/{tunedModelId}/operations`
+  Future<ListOperationsResponse> listTunedModelOperations({
+    required String tunedModelId,
+    int? pageSize,
+    String? filter,
+    String? pageToken,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://generativelanguage.googleapis.com/v1',
+      path: '/tunedModels/$tunedModelId/operations',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+      queryParams: {
+        if (pageSize != null) 'pageSize': pageSize,
+        if (filter != null) 'filter': filter,
+        if (pageToken != null) 'pageToken': pageToken,
+      },
+    );
+    return ListOperationsResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: getTunedModelOperation
+  // ------------------------------------------
+
+  /// Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service.
+  ///
+  /// `tunedModelId`: The id of the tuned model.
+  ///
+  /// `operationId`: The id of the operation to get.
+  ///
+  /// `GET` `https://generativelanguage.googleapis.com/v1/tunedModels/{tunedModelId}/operations/{operationId}`
+  Future<Operation> getTunedModelOperation({
+    required String tunedModelId,
+    required String operationId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://generativelanguage.googleapis.com/v1',
+      path: '/tunedModels/$tunedModelId/operations/$operationId',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return Operation.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: cancelTunedModelOperation
+  // ------------------------------------------
+
+  /// Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to `Code.CANCELLED`.
+  ///
+  /// `tunedModelId`: The id of the tuned model.
+  ///
+  /// `operationId`: The id of the operation to cancel.
+  ///
+  /// `request`: The request message for Operations.CancelOperation.
+  ///
+  /// `POST` `https://generativelanguage.googleapis.com/v1/tunedModels/{tunedModelId}/operations/{operationId}:cancel`
+  Future<Empty> cancelTunedModelOperation({
+    required String tunedModelId,
+    required String operationId,
+    CancelOperationRequest? request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://generativelanguage.googleapis.com/v1',
+      path: '/tunedModels/$tunedModelId/operations/$operationId:cancel',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return Empty.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
@@ -645,7 +672,7 @@ class GoogleAIClient {
   }
 
   // ------------------------------------------
-  // METHOD: deleteOperations
+  // METHOD: deleteOperation
   // ------------------------------------------
 
   /// Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`.
@@ -653,7 +680,7 @@ class GoogleAIClient {
   /// `operationId`: The id of the operation to delete.
   ///
   /// `DELETE` `https://generativelanguage.googleapis.com/v1/operations/{operationId}`
-  Future<Empty> deleteOperations({
+  Future<Empty> deleteOperation({
     required String operationId,
   }) async {
     final r = await makeRequest(

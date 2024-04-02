@@ -17,11 +17,10 @@ Unofficial Dart client for [Google AI](https://ai.google.dev) for Developers (Ge
 
 **Supported endpoints:**
 
-- Generate content (with streaming support)
+- Generate content (with streaming and tuned model support)
+- Embed content (with batch support)
 - Count tokens
-- Embed content
 - Models info
-- Tuned models operations
 - Operations
 
 ## Table of contents
@@ -33,6 +32,7 @@ Unofficial Dart client for [Google AI](https://ai.google.dev) for Developers (Ge
     + [Text-and-image input](#text-and-image-input)
     + [Multi-turn conversations (chat)](#multi-turn-conversations-chat)
     + [Streaming generated content](#streaming-generated-content)
+    + [Tuned model](#tuned-model)
   * [Count tokens](#count-tokens)
   * [Embedding](#embedding)
   * [Model info](#model-info)
@@ -168,7 +168,7 @@ print(res.candidates?.first.content?.parts?.first.text);
 By default, `generateContent` returns a response after completing the entire generation process. You can achieve faster interactions by not waiting for the entire result, and instead use `streamGenerateContent` to handle partial results as they become available.
 
 ```dart
-final stream = await client.streamGenerateContent(
+final stream = client.streamGenerateContent(
   modelId: 'gemini-pro',
   request: const GenerateContentRequest(
     contents: [
@@ -188,6 +188,19 @@ stream.listen((final res) P
   print(res.candidates?.first.content?.parts?.first.text);
   // In a quaint little town nestled amidst rolling hills, there lived a...
 )
+```
+
+#### Tuned model
+
+Use the `generateContentTunedModel` method to generate content using a tuned model:
+
+```dart
+final res = await client.generateContentTunedModel(
+  tunedModelId: 'my-tuned-model',
+  request: GenerateContentRequest(
+    //...
+   ),
+);
 ```
 
 ### Count tokens
@@ -253,6 +266,16 @@ final res = await client.getModel(modelId: 'gemini-pro');
 print(res);
 // Model(name: models/gemini-pro, displayName: Gemini Pro, description: The best model...
 ```
+
+### Operations
+
+The following methods are available to manage operations:
+
+- `listOperations()`
+- `deleteOperation(operationId: operationId)`
+- `listTunedModelOperations(tunedModelId: tunedModelId)`
+- `getTunedModelOperation(tunedModelId: tunedModelId, operationId: operationId)`
+- `cancelTunedModelOperation(tunedModelId: tunedModelId, operationId: operationId)`
 
 ## Advance Usage
 

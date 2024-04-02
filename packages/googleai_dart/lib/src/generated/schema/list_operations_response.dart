@@ -15,11 +15,11 @@ class ListOperationsResponse with _$ListOperationsResponse {
 
   /// Factory constructor for ListOperationsResponse
   const factory ListOperationsResponse({
-    /// The standard List next-page token.
-    @JsonKey(includeIfNull: false) String? nextPageToken,
-
     /// A list of operations that matches the specified filter in the request.
     @JsonKey(includeIfNull: false) List<Operation>? operations,
+
+    /// The standard List next-page token.
+    @JsonKey(includeIfNull: false) String? nextPageToken,
   }) = _ListOperationsResponse;
 
   /// Object construction from a JSON representation
@@ -27,7 +27,7 @@ class ListOperationsResponse with _$ListOperationsResponse {
       _$ListOperationsResponseFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['nextPageToken', 'operations'];
+  static const List<String> propertyNames = ['operations', 'nextPageToken'];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -37,8 +37,8 @@ class ListOperationsResponse with _$ListOperationsResponse {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
-      'nextPageToken': nextPageToken,
       'operations': operations,
+      'nextPageToken': nextPageToken,
     };
   }
 }

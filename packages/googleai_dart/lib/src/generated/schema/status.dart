@@ -15,21 +15,21 @@ class Status with _$Status {
 
   /// Factory constructor for Status
   const factory Status({
-    /// A list of messages that carry the error details. There is a common set of message types for APIs to use.
-    @JsonKey(includeIfNull: false) List<Map<String, dynamic>>? details,
-
     /// The status code, which should be an enum value of google.rpc.Code.
     @JsonKey(includeIfNull: false) int? code,
 
     /// A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client.
     @JsonKey(includeIfNull: false) String? message,
+
+    /// A list of messages that carry the error details. There is a common set of message types for APIs to use.
+    @JsonKey(includeIfNull: false) List<Map<String, dynamic>>? details,
   }) = _Status;
 
   /// Object construction from a JSON representation
   factory Status.fromJson(Map<String, dynamic> json) => _$StatusFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['details', 'code', 'message'];
+  static const List<String> propertyNames = ['code', 'message', 'details'];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -39,9 +39,9 @@ class Status with _$Status {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
-      'details': details,
       'code': code,
       'message': message,
+      'details': details,
     };
   }
 }

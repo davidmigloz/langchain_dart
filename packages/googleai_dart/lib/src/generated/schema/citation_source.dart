@@ -15,14 +15,14 @@ class CitationSource with _$CitationSource {
 
   /// Factory constructor for CitationSource
   const factory CitationSource({
-    /// Optional. End of the attributed segment, exclusive.
-    @JsonKey(includeIfNull: false) int? endIndex,
-
     /// Optional. License for the GitHub project that is attributed as a source for segment. License info is required for code citations.
     @JsonKey(includeIfNull: false) String? license,
 
     /// Optional. URI that is attributed as a source for a portion of the text.
     @JsonKey(includeIfNull: false) String? uri,
+
+    /// Optional. End of the attributed segment, exclusive.
+    @JsonKey(includeIfNull: false) int? endIndex,
 
     /// Optional. Start of segment of the response that is attributed to this source. Index indicates the start of the segment, measured in bytes.
     @JsonKey(includeIfNull: false) int? startIndex,
@@ -34,9 +34,9 @@ class CitationSource with _$CitationSource {
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
-    'endIndex',
     'license',
     'uri',
+    'endIndex',
     'startIndex'
   ];
 
@@ -48,9 +48,9 @@ class CitationSource with _$CitationSource {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
-      'endIndex': endIndex,
       'license': license,
       'uri': uri,
+      'endIndex': endIndex,
       'startIndex': startIndex,
     };
   }
