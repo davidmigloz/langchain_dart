@@ -35,7 +35,8 @@ void main() {
 
       final executor = AgentExecutor(agent: agent);
 
-      final res = await executor.run('What is 40 raised to the 0.43 power with 3 decimals? ');
+      final res = await executor
+          .run('What is 40 raised to the 0.43 power with 3 decimals? ');
 
       expect(res, contains('4.88'));
     });

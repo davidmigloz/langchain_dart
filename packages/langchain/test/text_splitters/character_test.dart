@@ -422,7 +422,6 @@ void main() {
       );
     });
 
-
     test('Streaming DocumentTransformer', () async {
       const run = CharacterTextSplitter(
         separator: ' ',

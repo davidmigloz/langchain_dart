@@ -62,18 +62,18 @@ class LanguageModelResult<O extends Object> {
   @override
   bool operator ==(covariant final LanguageModelResult<O> other) =>
       identical(this, other) ||
-          runtimeType == other.runtimeType &&
-              id == other.id &&
-              ListEquality<LanguageModelGeneration<O>>().equals(
-                generations,
-                other.generations,
-              ) &&
-              usage == other.usage &&
-              const MapEquality<String, dynamic>().equals(
-                modelOutput,
-                other.modelOutput,
-              ) &&
-              streaming == other.streaming;
+      runtimeType == other.runtimeType &&
+          id == other.id &&
+          ListEquality<LanguageModelGeneration<O>>().equals(
+            generations,
+            other.generations,
+          ) &&
+          usage == other.usage &&
+          const MapEquality<String, dynamic>().equals(
+            modelOutput,
+            other.modelOutput,
+          ) &&
+          streaming == other.streaming;
 
   @override
   int get hashCode =>
@@ -88,7 +88,7 @@ class LanguageModelResult<O extends Object> {
     return LanguageModelResult<O>(
       id: id,
       generations: generations.mapIndexed(
-            (final index, final generation) {
+        (final index, final generation) {
           return generation.concat(other.generations[index]);
         },
       ).toList(growable: false),
@@ -151,12 +151,12 @@ class LanguageModelUsage {
   @override
   bool operator ==(covariant final LanguageModelUsage other) =>
       identical(this, other) ||
-          runtimeType == other.runtimeType &&
-              promptTokens == other.promptTokens &&
-              promptBillableCharacters == other.promptBillableCharacters &&
-              responseTokens == other.responseTokens &&
-              responseBillableCharacters == other.responseBillableCharacters &&
-              totalTokens == other.totalTokens;
+      runtimeType == other.runtimeType &&
+          promptTokens == other.promptTokens &&
+          promptBillableCharacters == other.promptBillableCharacters &&
+          responseTokens == other.responseTokens &&
+          responseBillableCharacters == other.responseBillableCharacters &&
+          totalTokens == other.totalTokens;
 
   @override
   int get hashCode =>
@@ -186,9 +186,9 @@ LanguageModelUsage{
 abstract class LanguageModelGeneration<O> {
   /// {@macro language_model_generation}
   const LanguageModelGeneration(
-      this.output, {
-        this.generationInfo,
-      });
+    this.output, {
+    this.generationInfo,
+  });
 
   /// Generated output.
   final O output;
@@ -203,12 +203,12 @@ abstract class LanguageModelGeneration<O> {
   @override
   bool operator ==(covariant final LanguageModelGeneration<O> other) =>
       identical(this, other) ||
-          runtimeType == other.runtimeType &&
-              output == other.output &&
-              const MapEquality<String, dynamic>().equals(
-                generationInfo,
-                other.generationInfo,
-              );
+      runtimeType == other.runtimeType &&
+          output == other.output &&
+          const MapEquality<String, dynamic>().equals(
+            generationInfo,
+            other.generationInfo,
+          );
 
   @override
   int get hashCode =>

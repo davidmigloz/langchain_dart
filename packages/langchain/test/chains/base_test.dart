@@ -93,7 +93,6 @@ void main() {
   });
 
   group('Runnable tests', () {
-
     test('Chain as Runnable', () async {
       final model = FakeListLLM(responses: ['Hello world!']);
       final prompt = PromptTemplate.fromTemplate('Print {foo}');
