@@ -217,7 +217,17 @@ class ChatGoogleGenerativeAI
     final PromptValue input, {
     final ChatGoogleGenerativeAIOptions? options,
   }) {
-    throw UnimplementedError('Streaming is not supported yet');
+    final id = _uuid.v4();
+    final (model, isTuned) = _getNormalizedModel(options);
+    assert(!isTuned, 'Tuned models are not supported for streaming.');
+    final request = _generateCompletionRequest(
+      input.toChatMessages(),
+      options: options,
+    );
+
+    return _client
+        .streamGenerateContent(modelId: model, request: request)
+        .map((final completion) => completion.toChatResult(id, model));
   }
 
   @override

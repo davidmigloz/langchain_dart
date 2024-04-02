@@ -8,6 +8,7 @@ import 'package:langchain_google/langchain_google.dart';
 void main(final List<String> arguments) async {
   await _chatGoogleGenerativeAI();
   await _chatGoogleGenerativeAIMultiModal();
+  await _chatOpenAIStreaming();
 }
 
 Future<void> _chatGoogleGenerativeAI() async {
@@ -39,6 +40,8 @@ Text to translate:
   });
   print(res);
   // -> 'J'adore la programmation.'
+
+  chatModel.close();
 }
 
 Future<void> _chatGoogleGenerativeAIMultiModal() async {
@@ -68,4 +71,27 @@ Future<void> _chatGoogleGenerativeAIMultiModal() async {
   );
   print(res.firstOutputAsString);
   // -> 'A Red and Green Apple'
+
+  chatModel.close();
+}
+
+Future<void> _chatOpenAIStreaming() async {
+  final apiKey = Platform.environment['GOOGLEAI_API_KEY'];
+
+  final promptTemplate = ChatPromptTemplate.fromTemplate(
+      'You are a helpful assistant that replies only with numbers '
+      'in order without any spaces or commas '
+      'List the numbers from 1 to {max_num}');
+
+  final chatModel = ChatGoogleGenerativeAI(apiKey: apiKey);
+
+  final chain = promptTemplate.pipe(chatModel).pipe(const StringOutputParser());
+
+  final stream = chain.stream({'max_num': '30'});
+  await stream.forEach(print);
+  // 1234567891011121
+  // 31415161718192021222324252627282
+  // 930
+
+  chatModel.close();
 }

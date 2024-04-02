@@ -140,5 +140,23 @@ void main() {
         contains('12356789'),
       );
     });
+
+    test('Test streaming', () async {
+      final stream = chatModel.stream(
+        PromptValue.string(
+          'List the numbers from 1 to 100 in order '
+          'without any spaces, commas or additional explanations.',
+        ),
+      );
+
+      String content = '';
+      int count = 0;
+      await for (final res in stream) {
+        content += res.firstOutputAsString;
+        count++;
+      }
+      expect(count, greaterThan(1));
+      expect(content, contains('123456789'));
+    });
   });
 }
