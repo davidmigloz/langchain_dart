@@ -9,7 +9,7 @@ import 'package:langchain_core/prompts.dart';
 import 'package:langchain_google/langchain_google.dart';
 import 'package:test/test.dart';
 
-import '../utils/auth.dart';
+import '../../utils/auth.dart';
 
 void main() async {
   final authHttpClient = await getAuthHttpClient();

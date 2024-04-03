@@ -229,6 +229,6 @@ class VertexAIEmbeddings implements Embeddings {
       return null;
     }
 
-    return VertexAITextEmbeddingsModelTaskType.retrievalDocument;
+    return defaultTaskType;
   }
 }

@@ -74,6 +74,7 @@
       - Integrations
         - [OpenAI](/modules/retrieval/text_embedding/integrations/openai.md)
         - [GCP Vertex AI](/modules/retrieval/text_embedding/integrations/gcp_vertex_ai.md)
+        - [Google AI](/modules/retrieval/text_embedding/integrations/google_ai.md)
         - [Ollama](/modules/retrieval/text_embedding/integrations/ollama.md)
         - [Mistral AI](/modules/retrieval/text_embedding/integrations/mistralai.md)
         - [Together AI](/modules/retrieval/text_embedding/integrations/together_ai.md)
