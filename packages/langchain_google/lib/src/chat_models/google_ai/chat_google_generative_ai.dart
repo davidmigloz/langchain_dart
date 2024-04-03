@@ -146,7 +146,7 @@ class ChatGoogleGenerativeAI
   /// - [ChatGoogleGenerativeAI.defaultOptions]
   ///
   /// Advance configuration options:
-  /// - `baseUrl`: the base URL to use. Defaults to Mistral AI's API URL. You can
+  /// - `baseUrl`: the base URL to use. Defaults to Google AI's API URL. You can
   ///   override this to use a different API URL, or to use a proxy.
   /// - `headers`: global headers to send with every request. You can use
   ///   this to set custom headers, or to override the default headers.
