@@ -12,13 +12,15 @@ void main() async {
 
 /// The most basic building block of LangChain is calling an LLM on some input.
 Future<void> _example1() async {
-  final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
-  final openai = OpenAI(
-    apiKey: openaiApiKey,
+  final openAiApiKey = Platform.environment['OPENAI_API_KEY'];
+  final llm = OpenAI(
+    apiKey: openAiApiKey,
     defaultOptions: const OpenAIOptions(temperature: 0.9),
   );
-  final result = await openai('Tell me a joke');
-  print(result);
+  final LLMResult res = await llm.invoke(
+    PromptValue.string('Tell me a joke'),
+  );
+  print(res);
 }
 
 /// The most frequent use case is to create a chat-bot.

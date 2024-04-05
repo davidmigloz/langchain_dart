@@ -1,47 +1,48 @@
 import 'dart:convert';
 
 import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/output_parsers.dart';
 import 'package:test/test.dart';
 
 void main() {
   const result = ChatResult(
-    generations: [
-      ChatGeneration(
-        AIChatMessage(
-          content: '',
-          functionCall: AIChatMessageFunctionCall(
-            name: 'test',
-            argumentsRaw: '{"foo":"bar","bar":"foo"}',
-            arguments: {
-              'foo': 'bar',
-              'bar': 'foo',
-            },
-          ),
-        ),
+    id: 'id',
+    output: AIChatMessage(
+      content: '',
+      functionCall: AIChatMessageFunctionCall(
+        name: 'test',
+        argumentsRaw: '{"foo":"bar","bar":"foo"}',
+        arguments: {
+          'foo': 'bar',
+          'bar': 'foo',
+        },
       ),
-    ],
+    ),
+    finishReason: FinishReason.stop,
+    metadata: {},
+    usage: LanguageModelUsage(),
   );
 
   const streamingResult = ChatResult(
-    streaming: true,
-    generations: [
-      ChatGeneration(
-        AIChatMessage(
-          content: '',
-          functionCall: AIChatMessageFunctionCall(
-            name: 'test',
-            argumentsRaw: '{"foo":"bar"',
-            arguments: {},
-          ),
-        ),
+    id: 'id',
+    output: AIChatMessage(
+      content: '',
+      functionCall: AIChatMessageFunctionCall(
+        name: 'test',
+        argumentsRaw: '{"foo":"bar"',
+        arguments: {},
       ),
-    ],
+    ),
+    finishReason: FinishReason.stop,
+    metadata: {},
+    usage: LanguageModelUsage(),
+    streaming: true,
   );
 
   group('OutputFunctionsParser tests', () {
     test('OutputFunctionsParser from ChatResult', () async {
-      final res = await OutputFunctionsParser().parseResult(result.generations);
+      final res = await OutputFunctionsParser().parseResult(result);
       expect(res, '{"foo":"bar","bar":"foo"}');
     });
 
@@ -51,8 +52,8 @@ void main() {
     });
 
     test('OutputFunctionsParser from ChatResult argsOnly=false', () async {
-      final res = await OutputFunctionsParser(argsOnly: false)
-          .parseResult(result.generations);
+      final res =
+          await OutputFunctionsParser(argsOnly: false).parseResult(result);
       expect(
         res,
         json.encode({
@@ -84,8 +85,7 @@ void main() {
 
   group('JsonOutputFunctionsParser tests', () {
     test('JsonOutputFunctionsParser from ChatResult', () async {
-      final res =
-          await JsonOutputFunctionsParser().parseResult(result.generations);
+      final res = await JsonOutputFunctionsParser().parseResult(result);
       expect(res, {'foo': 'bar', 'bar': 'foo'});
     });
 
@@ -99,7 +99,7 @@ void main() {
   group('JsonKeyOutputFunctionsParser tests', () {
     test('JsonKeyOutputFunctionsParser from ChatResult', () async {
       final res = await JsonKeyOutputFunctionsParser(keyName: 'foo')
-          .parseResult(result.generations);
+          .parseResult(result);
       expect(res, 'bar');
     });
 

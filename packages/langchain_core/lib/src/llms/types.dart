@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 import '../language_models/types.dart';
 
 /// {@template llm_options}
@@ -10,42 +8,37 @@ class LLMOptions extends LanguageModelOptions {
   const LLMOptions();
 }
 
-/// Class that contains all relevant information for an LLM Result.
-typedef LLMResult = LanguageModelResult<String>;
-
-/// {@template llm_generation}
-/// Output of a single generation.
+/// {@template llm_result}
+/// Result returned by the LLM.
 /// {@endtemplate}
-@immutable
-class LLMGeneration extends LanguageModelGeneration<String> {
-  /// {@macro llm_generation}
-  const LLMGeneration(
-    super.output, {
-    super.generationInfo,
+class LLMResult extends LanguageModelResult<String> {
+  /// {@macro llm_result}
+  const LLMResult({
+    required super.id,
+    required super.output,
+    required super.finishReason,
+    required super.metadata,
+    required super.usage,
+    super.streaming = false,
   });
 
   @override
   String get outputAsString => output;
 
   @override
-  LanguageModelGeneration<String> concat(
-    final LanguageModelGeneration<String> other,
+  LanguageModelResult<String> concat(
+    final LanguageModelResult<String> other,
   ) {
-    return LLMGeneration(
-      output + other.output,
-      generationInfo: {
-        ...?generationInfo,
-        ...?other.generationInfo,
+    return LLMResult(
+      id: other.id ?? id,
+      output: output + other.output,
+      finishReason: other.finishReason,
+      metadata: {
+        ...metadata,
+        ...other.metadata,
       },
+      usage: usage.concat(other.usage),
+      streaming: other.streaming,
     );
-  }
-
-  @override
-  String toString() {
-    return '''
-LLMGeneration{
-  output: $output, 
-  generationInfo: $generationInfo, 
-''';
   }
 }

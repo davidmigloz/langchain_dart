@@ -1,3 +1,4 @@
+import '../../language_models.dart';
 import '../prompts/types.dart';
 import 'base.dart';
 import 'types.dart';
@@ -71,7 +72,11 @@ class FakeEchoChatModel extends SimpleChatModel {
         final prompt = input.toChatMessages().first.contentAsString.split('');
         return Stream.fromIterable(prompt).map(
           (final char) => ChatResult(
-            generations: [ChatGeneration(AIChatMessage(content: char))],
+            id: 'fake-echo-chat-model',
+            output: AIChatMessage(content: char),
+            finishReason: FinishReason.stop,
+            metadata: const {},
+            usage: const LanguageModelUsage(),
             streaming: true,
           ),
         );

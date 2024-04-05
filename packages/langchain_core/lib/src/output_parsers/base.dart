@@ -21,7 +21,7 @@ abstract class BaseLLMOutputParser<LLMOutput extends Object,
   ///
   /// - [result] - The result of an LLM call.
   Future<ParserOutput> parseResult(
-    final List<LanguageModelGeneration<LLMOutput>> result,
+    final LanguageModelResult<LLMOutput> result,
   );
 
   /// Optional method to parse the output of an LLM call with a prompt.
@@ -33,7 +33,7 @@ abstract class BaseLLMOutputParser<LLMOutput extends Object,
   /// - [result] - The result of an LLM call.
   /// - [prompt] - Prompt used to generate the output.
   Future<ParserOutput> parseResultWithPrompt(
-    final List<LanguageModelGeneration<LLMOutput>> result,
+    final LanguageModelResult<LLMOutput> result,
     final PromptValue prompt,
   ) async {
     return parseResult(result);
@@ -48,7 +48,7 @@ abstract class BaseLLMOutputParser<LLMOutput extends Object,
     final LanguageModelResult<LLMOutput> input, {
     final BaseLangChainOptions? options,
   }) {
-    return parseResult(input.generations);
+    return parseResult(input);
   }
 }
 
@@ -63,9 +63,9 @@ abstract class BaseOutputParser<LLMOutput extends Object,
 
   @override
   Future<ParserOutput> parseResult(
-    final List<LanguageModelGeneration<LLMOutput>> result,
+    final LanguageModelResult<LLMOutput> result,
   ) {
-    return parse(result.first.outputAsString);
+    return parse(result.outputAsString);
   }
 
   /// Parse the output of an LLM call.

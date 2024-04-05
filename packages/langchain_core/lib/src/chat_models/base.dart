@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../language_models/base.dart';
+import '../language_models/language_models.dart';
 import '../prompts/types.dart';
 import 'types.dart';
 
@@ -45,14 +45,14 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
     final Options? options,
   }) async {
     final result = await invoke(PromptValue.chat(messages), options: options);
-    return result.generations[0].output;
+    return result.output;
   }
 }
 
 /// {@template simple_chat_model}
 /// [SimpleChatModel] provides a simplified interface for working with chat
 /// models, rather than expecting the user to implement the full
-/// [SimpleChatModel.generate] method.
+/// [SimpleChatModel.invoke] method.
 /// {@endtemplate}
 abstract class SimpleChatModel<Options extends ChatModelOptions>
     extends BaseChatModel<Options> {
@@ -67,7 +67,11 @@ abstract class SimpleChatModel<Options extends ChatModelOptions>
     final text = await callInternal(input.toChatMessages(), options: options);
     final message = AIChatMessage(content: text);
     return ChatResult(
-      generations: [ChatGeneration(message)],
+      id: '1',
+      output: message,
+      finishReason: FinishReason.unspecified,
+      metadata: const {},
+      usage: const LanguageModelUsage(),
     );
   }
 

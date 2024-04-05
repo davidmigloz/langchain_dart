@@ -89,15 +89,12 @@ class LLMChain<
     final response = await llm.invoke(promptValue, options: llmOptions);
 
     final res = outputParser == null
-        ? response.generations.firstOrNull?.output
-        : await outputParser!.parseResultWithPrompt(
-            response.generations,
-            promptValue,
-          );
+        ? response.output
+        : await outputParser!.parseResultWithPrompt(response, promptValue);
 
     return {
       outputKey: res,
-      if (!returnFinalOnly) fullGenerationOutputKey: response.generations.first,
+      if (!returnFinalOnly) fullGenerationOutputKey: response,
     };
   }
 }

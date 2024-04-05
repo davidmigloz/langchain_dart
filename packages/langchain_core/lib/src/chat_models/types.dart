@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
-import '../language_models/types.dart';
+import '../language_models/language_models.dart';
 
 /// {@template chat_model_options}
 /// Generation options to pass into the Chat Model.
@@ -11,43 +11,38 @@ class ChatModelOptions extends LanguageModelOptions {
   const ChatModelOptions();
 }
 
+/// {@template chat_result}
 /// Result returned by the Chat Model.
-typedef ChatResult = LanguageModelResult<AIChatMessage>;
-
-/// {@template chat_generation}
-/// Output of a single generation.
 /// {@endtemplate}
-@immutable
-class ChatGeneration extends LanguageModelGeneration<AIChatMessage> {
-  /// {@macro chat_generation}
-  const ChatGeneration(
-    super.output, {
-    super.generationInfo,
+class ChatResult extends LanguageModelResult<AIChatMessage> {
+  /// {@macro chat_result}
+  const ChatResult({
+    required super.id,
+    required super.output,
+    required super.finishReason,
+    required super.metadata,
+    required super.usage,
+    super.streaming = false,
   });
 
   @override
   String get outputAsString => output.content;
 
   @override
-  LanguageModelGeneration<AIChatMessage> concat(
-    final LanguageModelGeneration<AIChatMessage> other,
+  LanguageModelResult<AIChatMessage> concat(
+    final LanguageModelResult<AIChatMessage> other,
   ) {
-    return ChatGeneration(
-      output.concat(other.output),
-      generationInfo: {
-        ...?generationInfo,
-        ...?other.generationInfo,
+    return ChatResult(
+      id: other.id ?? id,
+      output: output.concat(other.output),
+      finishReason: other.finishReason,
+      metadata: {
+        ...metadata,
+        ...other.metadata,
       },
+      usage: usage.concat(other.usage),
+      streaming: other.streaming,
     );
-  }
-
-  @override
-  String toString() {
-    return '''
-ChatGeneration{
-  output: $output, 
-  generationInfo: $generationInfo, 
-''';
   }
 }
 

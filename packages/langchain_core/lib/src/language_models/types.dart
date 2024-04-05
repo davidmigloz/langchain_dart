@@ -16,99 +16,75 @@ abstract class LanguageModelOptions extends BaseLangChainOptions {
 /// Result returned by the model.
 /// {@endtemplate}
 @immutable
-class LanguageModelResult<O extends Object> {
+abstract class LanguageModelResult<O extends Object> {
   /// {@macro language_model}
   const LanguageModelResult({
-    this.id,
-    required this.generations,
-    this.usage,
-    this.modelOutput,
+    required this.id,
+    required this.output,
+    required this.finishReason,
+    required this.metadata,
+    required this.usage,
     this.streaming = false,
   });
 
   /// Result id.
   final String? id;
 
-  /// Generated outputs.
-  final List<LanguageModelGeneration<O>> generations;
+  /// Generated output.
+  final O output;
+
+  /// The reason the model stopped generating tokens.
+  final FinishReason finishReason;
+
+  /// Other metadata about the generation.
+  final Map<String, dynamic> metadata;
 
   ///  Usage stats for the generation.
-  final LanguageModelUsage? usage;
-
-  /// For arbitrary model provider specific output.
-  final Map<String, dynamic>? modelOutput;
+  final LanguageModelUsage usage;
 
   /// Whether the result of the language model is being streamed.
   final bool streaming;
 
-  /// Returns the first output.
+  /// Returns the output as a string.
   ///
-  /// This is a convenience method for getting the first output.
-  /// - If you are using an `LLM`, this will be a String.
-  /// - If you are using a `ChatModel`, this will be a `ChatMessage`.
-  O get firstOutput {
-    return generations.first.output;
-  }
-
-  /// Returns the first output as a string.
-  ///
-  /// This is a convenience method for getting the first output as a string.
+  /// This is a convenience method for getting the first output as a string:
   /// - If you are using an `LLM`, this will be the output String.
   /// - If you are using a `ChatModel`, this will be the content of the output `ChatMessage`.
-  String get firstOutputAsString {
-    return generations.firstOrNull?.outputAsString ?? '';
-  }
+  String get outputAsString;
 
   @override
   bool operator ==(covariant final LanguageModelResult<O> other) =>
       identical(this, other) ||
       runtimeType == other.runtimeType &&
           id == other.id &&
-          ListEquality<LanguageModelGeneration<O>>().equals(
-            generations,
-            other.generations,
-          ) &&
+          output == other.output &&
+          finishReason == other.finishReason &&
+          const MapEquality<String, dynamic>()
+              .equals(metadata, other.metadata) &&
           usage == other.usage &&
-          const MapEquality<String, dynamic>().equals(
-            modelOutput,
-            other.modelOutput,
-          ) &&
           streaming == other.streaming;
 
   @override
   int get hashCode =>
       id.hashCode ^
-      ListEquality<LanguageModelGeneration<O>>().hash(generations) ^
+      output.hashCode ^
+      finishReason.hashCode ^
+      const MapEquality<String, dynamic>().hash(metadata) ^
       usage.hashCode ^
-      const MapEquality<String, dynamic>().hash(modelOutput) ^
       streaming.hashCode;
 
   /// Merges this result with another by concatenating the outputs.
-  LanguageModelResult<O> concat(final LanguageModelResult<O> other) {
-    return LanguageModelResult<O>(
-      id: id,
-      generations: generations.mapIndexed(
-        (final index, final generation) {
-          return generation.concat(other.generations[index]);
-        },
-      ).toList(growable: false),
-      usage: usage,
-      modelOutput: {
-        ...?modelOutput,
-        ...?other.modelOutput,
-      },
-      streaming: streaming,
-    );
-  }
+  LanguageModelResult<O> concat(final LanguageModelResult<O> other);
 
   @override
   String toString() {
     return '''
 LanguageModelResult{
   id: $id, 
-  generations: $generations, 
-  usage: $usage, 
-  modelOutput: $modelOutput, 
+  output: $output,
+  finishReason: $finishReason,
+  metadata: $metadata,
+  usage: $usage,
   streaming: $streaming
 }''';
   }
@@ -166,6 +142,29 @@ class LanguageModelUsage {
       responseBillableCharacters.hashCode ^
       totalTokens.hashCode;
 
+  /// Merges this usage with another by summing the values.
+  LanguageModelUsage concat(final LanguageModelUsage other) {
+    return LanguageModelUsage(
+      promptTokens: promptTokens != null && other.promptTokens != null
+          ? promptTokens! + other.promptTokens!
+          : null,
+      promptBillableCharacters: promptBillableCharacters != null &&
+              other.promptBillableCharacters != null
+          ? promptBillableCharacters! + other.promptBillableCharacters!
+          : null,
+      responseTokens: responseTokens != null && other.responseTokens != null
+          ? responseTokens! + other.responseTokens!
+          : null,
+      responseBillableCharacters: responseBillableCharacters != null &&
+              other.responseBillableCharacters != null
+          ? responseBillableCharacters! + other.responseBillableCharacters!
+          : null,
+      totalTokens: totalTokens != null && other.totalTokens != null
+          ? totalTokens! + other.totalTokens!
+          : null,
+    );
+  }
+
   @override
   String toString() {
     return '''
@@ -179,51 +178,23 @@ LanguageModelUsage{
   }
 }
 
-/// {@template language_model_generation}
-/// Output of a single generation.
-/// {@endtemplate}
-@immutable
-abstract class LanguageModelGeneration<O> {
-  /// {@macro language_model_generation}
-  const LanguageModelGeneration(
-    this.output, {
-    this.generationInfo,
-  });
+/// The reason the model stopped generating tokens.
+enum FinishReason {
+  /// The model hit a natural stop point or a provided stop sequence.
+  stop,
 
-  /// Generated output.
-  final O output;
+  /// The maximum number of tokens specified in the request was reached.
+  length,
 
-  /// Raw generation info response from the provider.
-  /// May include things like reason for finishing.
-  final Map<String, dynamic>? generationInfo;
+  /// The content was flagged for content filter reasons.
+  contentFilter,
 
-  /// Returns the output as string.
-  String get outputAsString;
+  /// The content content was flagged for recitation reasons.
+  recitation,
 
-  @override
-  bool operator ==(covariant final LanguageModelGeneration<O> other) =>
-      identical(this, other) ||
-      runtimeType == other.runtimeType &&
-          output == other.output &&
-          const MapEquality<String, dynamic>().equals(
-            generationInfo,
-            other.generationInfo,
-          );
+  /// The model called a tool.
+  toolCalls,
 
-  @override
-  int get hashCode =>
-      output.hashCode ^
-      const MapEquality<String, dynamic>().hash(generationInfo);
-
-  /// Merges this generation with another by concatenating the outputs.
-  LanguageModelGeneration<O> concat(final LanguageModelGeneration<O> other);
-
-  @override
-  String toString() {
-    return '''
-LanguageModelGeneration{
-  output: $output, 
-  generationInfo: $generationInfo
-}''';
-  }
+  /// The finish reason is unspecified.
+  unspecified,
 }
