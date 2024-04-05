@@ -84,7 +84,7 @@ Future<void> _chatOllamaJsonMode() async {
   final res = await chain.invoke(
     {'question': 'What color is the sky at different times of the day?'},
   );
-  print(res.firstOutputAsString);
+  print(res.output.content);
   // {"morning": {"sky": "pink", "sun": "rise"}, "daytime": {"sky": "blue", "sun": "high"}, "afternoon": ...}
 }
 
@@ -106,7 +106,7 @@ Future<void> _chatOllamaMultimodal() async {
     ]),
   );
   final res = await chatModel.invoke(PromptValue.chat([prompt]));
-  print(res.firstOutputAsString);
+  print(res.output.content);
   // -> 'An Apple'
 }
 

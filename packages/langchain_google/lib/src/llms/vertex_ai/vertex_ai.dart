@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:langchain_core/llms.dart';
 import 'package:langchain_core/prompts.dart';
+import 'package:uuid/uuid.dart';
 import 'package:vertex_ai/vertex_ai.dart';
 
 import 'mappers.dart';
@@ -141,6 +142,9 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
   /// Scope required for Vertex AI API calls.
   static const cloudPlatformScope = VertexAIGenAIClient.cloudPlatformScope;
 
+  /// A UUID generator.
+  late final Uuid _uuid = const Uuid();
+
   @override
   String get modelType => 'vertex-ai';
 
@@ -149,6 +153,7 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
     final PromptValue input, {
     final VertexAIOptions? options,
   }) async {
+    final id = _uuid.v4();
     final model =
         options?.model ?? defaultOptions.model ?? throwNullModelError();
     final result = await client.text.predict(
@@ -171,7 +176,7 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
             options?.candidateCount ?? defaultOptions.candidateCount ?? 1,
       ),
     );
-    return result.toLLMResult(model);
+    return result.toLLMResult(id, model);
   }
 
   @override

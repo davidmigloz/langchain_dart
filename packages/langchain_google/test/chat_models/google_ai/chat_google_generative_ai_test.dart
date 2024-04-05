@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_google/langchain_google.dart';
 import 'package:test/test.dart';
@@ -36,11 +37,11 @@ void main() {
         ),
       );
       expect(res.id, isNotEmpty);
-      expect(res.generations, hasLength(1));
-      expect(res.modelOutput?['model'], 'gemini-pro');
-      expect(res.modelOutput?['block_reason'], isNull);
+      expect(res.finishReason, isNot(FinishReason.unspecified));
+      expect(res.metadata['model'], 'gemini-pro');
+      expect(res.metadata['block_reason'], isNull);
       expect(
-        res.firstOutputAsString.replaceAll(RegExp(r'[\s\n]'), ''),
+        res.output.content.replaceAll(RegExp(r'[\s\n]'), ''),
         contains('123456789'),
       );
     });
@@ -56,7 +57,7 @@ void main() {
           temperature: 0,
         ),
       );
-      expect(res.firstOutputAsString, isNotEmpty);
+      expect(res.output.content, isNotEmpty);
     });
 
     test('Text-and-image input with gemini-pro-vision', () async {
@@ -80,9 +81,7 @@ void main() {
         ),
       );
 
-      expect(res.generations, hasLength(1));
-      final outputMsg = res.generations.first.output;
-      expect(outputMsg.content.toLowerCase(), contains('apple'));
+      expect(res.output.content.toLowerCase(), contains('apple'));
     });
 
     test('Test stop sequence', () async {
@@ -96,7 +95,7 @@ void main() {
           stopSequences: ['4'],
         ),
       );
-      final text = res.firstOutputAsString;
+      final text = res.output.content;
       expect(text, contains('123'));
       expect(text, isNot(contains('456789')));
     });
@@ -109,12 +108,8 @@ void main() {
           maxOutputTokens: 2,
         ),
       );
-      final text = res.firstOutputAsString;
-      expect(text.length, lessThan(20));
-      expect(
-        res.generations.first.generationInfo?['finish_reason'],
-        'maxTokens',
-      );
+      expect(res.output.content, lessThan(20));
+      expect(res.finishReason, FinishReason.length);
     });
 
     test('Test Multi-turn conversations with gemini-pro', () async {
@@ -136,7 +131,7 @@ void main() {
         ),
       );
       expect(
-        res.firstOutputAsString,
+        res.output.content,
         contains('12356789'),
       );
     });
@@ -152,7 +147,7 @@ void main() {
       String content = '';
       int count = 0;
       await for (final res in stream) {
-        content += res.firstOutputAsString;
+        content += res.output.content;
         count++;
       }
       expect(count, greaterThan(1));

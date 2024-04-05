@@ -69,7 +69,7 @@ Future<void> _chatGoogleGenerativeAIMultiModal() async {
       ),
     ]),
   );
-  print(res.firstOutputAsString);
+  print(res.output.content);
   // -> 'A Red and Green Apple'
 
   chatModel.close();

@@ -70,7 +70,7 @@ final res = await chatModel.invoke(
     ),
   ]),
 );
-print(res.firstOutputAsString);
+print(res.output.content);
 // -> 'A Red and Green Apple'
 ```
 

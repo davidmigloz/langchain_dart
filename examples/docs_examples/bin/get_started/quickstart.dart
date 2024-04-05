@@ -23,11 +23,11 @@ Future<void> _llmChatModel() async {
   final messages = [ChatMessage.humanText(text)];
 
   final res1 = await llm.invoke(PromptValue.string(text));
-  print(res1.firstOutput);
+  print(res1.output);
   // 'Feetful of Fun'
 
   final res2 = await chatModel.invoke(PromptValue.chat(messages));
-  print(res2.firstOutput);
+  print(res2.output);
   // AIChatMessage(content='RainbowSock Co.')
 }
 

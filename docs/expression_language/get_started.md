@@ -59,7 +59,7 @@ The `PromptValue` is then passed to `model`. In this case our `model` is a `Chat
 
 ```dart
 final chatOutput = await model.invoke(promptValue);
-print(chatOutput.firstOutput);
+print(chatOutput.output);
 // AIChatMessage{
 //   content: Why did the ice cream truck break down? 
 //   Because it couldn't make it over the rocky road!,
@@ -71,7 +71,7 @@ If our model was an `LLM`, it would output a `String`.
 ```dart
 final llm = OpenAI(apiKey: openaiApiKey);
 final llmOutput = await llm.invoke(promptValue);
-print(llmOutput.firstOutput);
+print(llmOutput.output);
 // Why did the ice cream go to therapy?
 // Because it had a rocky road!
 ```
