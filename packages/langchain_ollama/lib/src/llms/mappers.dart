@@ -1,30 +1,23 @@
+// ignore_for_file: public_member_api_docs
+import 'dart:convert';
+
 import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/llms.dart';
 import 'package:ollama_dart/ollama_dart.dart';
 
 import 'types.dart';
 
-/// Mapper for [GenerateCompletionResponse].
 extension LLMResultMapper on GenerateCompletionResponse {
-  /// Converts a [GenerateCompletionResponse] to a [LLMResult].
-  LLMResult toLLMResult({final bool streaming = false}) {
+  LLMResult toLLMResult(final String id, {final bool streaming = false}) {
     return LLMResult(
-      generations: [_toLLMGeneration()],
-      usage: _toLanguageModelUsage(),
-      modelOutput: {
-        'created_at': createdAt,
+      id: id,
+      output: response ?? '',
+      finishReason: FinishReason.unspecified,
+      metadata: {
         'model': model,
-      },
-      streaming: streaming,
-    );
-  }
-
-  LLMGeneration _toLLMGeneration() {
-    return LLMGeneration(
-      response ?? '',
-      generationInfo: {
+        'created_at': createdAt,
         'done': done,
-        'context': context,
+        'context': json.encode(context),
         'total_duration': totalDuration,
         'load_duration': loadDuration,
         'prompt_eval_count': promptEvalCount,
@@ -32,10 +25,12 @@ extension LLMResultMapper on GenerateCompletionResponse {
         'eval_count': evalCount,
         'eval_duration': evalDuration,
       },
+      usage: _mapUsage(),
+      streaming: streaming,
     );
   }
 
-  LanguageModelUsage _toLanguageModelUsage() {
+  LanguageModelUsage _mapUsage() {
     return LanguageModelUsage(
       promptTokens: promptEvalCount,
       responseTokens: evalCount,
@@ -46,9 +41,7 @@ extension LLMResultMapper on GenerateCompletionResponse {
   }
 }
 
-/// Mapper for [OllamaResponseFormat] to [ResponseFormat].
 extension OllamaResponseFormatMapper on OllamaResponseFormat {
-  /// Converts a [OllamaResponseFormat] to a [ResponseFormat].
   ResponseFormat? toResponseFormat() => ResponseFormat.values
       .where((final f) => f.name.toLowerCase() == name.toLowerCase())
       .firstOrNull;
