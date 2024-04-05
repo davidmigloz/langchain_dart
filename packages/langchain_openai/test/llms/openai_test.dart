@@ -78,7 +78,7 @@ void main() {
       final res = await llm.invoke(
         PromptValue.string('Hello, how are you?'),
       );
-      expect(res.generations.length, 1);
+      expect(res.output, isNotEmpty);
     });
 
     test('Test model output contains metadata', () async {
@@ -92,10 +92,10 @@ void main() {
       final res = await llm.invoke(
         PromptValue.string('Hello, how are you?'),
       );
-      expect(res.modelOutput, isNotNull);
-      expect(res.modelOutput!['id'], isNotEmpty);
-      expect(res.modelOutput!['created'], isNotNull);
-      expect(res.modelOutput!['model'], llm.defaultOptions.model);
+      expect(res.id, isNotEmpty);
+      expect(res.metadata, isNotNull);
+      expect(res.metadata['created'], isNotNull);
+      expect(res.metadata['model'], llm.defaultOptions.model);
     });
 
     test('Test stop logic on valid configuration', () async {
@@ -110,24 +110,6 @@ void main() {
       final res = await llm(query, options: const OpenAIOptions(stop: ['3']));
       expect(res.contains('2.'), isTrue);
       expect(res.contains('3.'), isFalse);
-    });
-
-    test('Test OpenAI wrapper with multiple completions', () async {
-      final llm = OpenAI(
-        apiKey: openaiApiKey,
-        defaultOptions: const OpenAIOptions(
-          model: defaultModel,
-          n: 5,
-          bestOf: 5,
-        ),
-      );
-      final res = await llm.invoke(
-        PromptValue.string('Hello, how are you?'),
-      );
-      expect(res.generations.length, 5);
-      for (final generation in res.generations) {
-        expect(generation.output, isNotEmpty);
-      }
     });
 
     test('Test tokenize', () async {
@@ -187,18 +169,13 @@ void main() {
       );
 
       final res1 = await llm.invoke(prompt);
-      expect(res1.generations, hasLength(1));
-      final generation1 = res1.generations.first;
-
       final res2 = await llm.invoke(prompt);
-      expect(res2.generations, hasLength(1));
-      final generation2 = res2.generations.first;
 
       expect(
-        res1.modelOutput?['system_fingerprint'],
-        res2.modelOutput?['system_fingerprint'],
+        res1.metadata['system_fingerprint'],
+        res2.metadata['system_fingerprint'],
       );
-      expect(generation1.output, generation2.output);
+      expect(res1.output, res2.output);
     });
   });
 }

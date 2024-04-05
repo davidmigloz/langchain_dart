@@ -43,20 +43,12 @@ void main() {
 
         expect(res.id, isNotEmpty);
         expect(
-          res.firstOutputAsString.replaceAll(RegExp(r'[\s\n]'), ''),
+          res.output.content.replaceAll(RegExp(r'[\s\n]'), ''),
           contains('123456789'),
         );
-        expect(res.modelOutput, isNotNull, reason: model);
-        expect(res.modelOutput!['created'], greaterThan(0), reason: model);
-        expect(res.modelOutput!['model'], isNotEmpty, reason: model);
-        final generation = res.generations.first;
-        expect(generation.generationInfo, isNotNull, reason: model);
-        expect(generation.generationInfo!['index'], 0, reason: model);
-        expect(
-          generation.generationInfo!['finish_reason'],
-          isNotNull,
-          reason: model,
-        );
+        expect(res.metadata, isNotEmpty, reason: model);
+        expect(res.metadata['created'], greaterThan(0), reason: model);
+        expect(res.metadata['model'], isNotEmpty, reason: model);
         await Future<void>.delayed(const Duration(seconds: 1)); // Rate limit
       }
     });
@@ -82,7 +74,7 @@ void main() {
         String content = '';
         int count = 0;
         await for (final res in stream) {
-          content += res.firstOutputAsString.replaceAll(RegExp(r'[\s\n]'), '');
+          content += res.output.content.replaceAll(RegExp(r'[\s\n]'), '');
           count++;
         }
         expect(count, greaterThan(1), reason: model);

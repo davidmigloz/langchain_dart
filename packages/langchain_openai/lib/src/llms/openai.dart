@@ -238,7 +238,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     final completion = await _client.createCompletion(
       request: _createCompletionRequest(input.toString(), options: options),
     );
-    return completion.toLLMResult();
+    return completion.toLLMResult(completion.id);
   }
 
   @override
@@ -250,7 +250,12 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
         .createCompletionStream(
           request: _createCompletionRequest(input.toString(), options: options),
         )
-        .map((final completion) => completion.toLLMResult(streaming: true));
+        .map(
+          (final completion) => completion.toLLMResult(
+            completion.id,
+            streaming: true,
+          ),
+        );
   }
 
   @override

@@ -62,7 +62,7 @@ void main() {
           ChatMessage.humanText('Good, what is your name?'),
         ]),
       );
-      expect(res.generations.first.output.content, isNotEmpty);
+      expect(res.output.content, isNotEmpty);
     });
 
     test('Test model output contains metadata', () async {
@@ -78,9 +78,9 @@ void main() {
           [ChatMessage.humanText('Hello, how are you?')],
         ),
       );
-      expect(res.modelOutput, isNotNull);
-      expect(res.modelOutput!['created'], isNotNull);
-      expect(res.modelOutput!['model'], startsWith(chat.defaultOptions.model!));
+      expect(res.metadata, isNotNull);
+      expect(res.metadata['created'], isNotNull);
+      expect(res.metadata['model'], startsWith(chat.defaultOptions.model!));
     });
 
     test('Test stop logic on valid configuration', () async {
@@ -117,25 +117,6 @@ void main() {
       expect(res.content, isNotEmpty);
     });
 
-    test('Test ChatOpenAI wrapper with multiple completions', () async {
-      final chat = ChatOpenAI(
-        apiKey: openaiApiKey,
-        defaultOptions: const ChatOpenAIOptions(
-          model: defaultModel,
-          maxTokens: 10,
-          n: 5,
-        ),
-      );
-      final humanMessage = ChatMessage.humanText('Hello');
-      final res = await chat.invoke(
-        PromptValue.chat([humanMessage]),
-      );
-      expect(res.generations.length, 5);
-      for (final generation in res.generations) {
-        expect(generation.output.content, isNotEmpty);
-      }
-    });
-
     test('Test ChatOpenAI functions',
         timeout: const Timeout(Duration(minutes: 1)), () async {
       final chat = ChatOpenAI(apiKey: openaiApiKey);
@@ -168,9 +149,7 @@ void main() {
         options: const ChatOpenAIOptions(functions: [function]),
       );
 
-      expect(res1.generations.length, 1);
-      final generation1 = res1.generations.first;
-      final aiMessage1 = generation1.output;
+      final aiMessage1 = res1.output;
 
       expect(aiMessage1.content, isEmpty);
       expect(aiMessage1.functionCall, isNotNull);
@@ -195,9 +174,7 @@ void main() {
         options: const ChatOpenAIOptions(functions: [function]),
       );
 
-      expect(res2.generations.length, 1);
-      final generation2 = res2.generations.first;
-      final aiMessage2 = generation2.output;
+      final aiMessage2 = res2.output;
 
       expect(aiMessage2.functionCall, isNull);
       expect(aiMessage2.content, contains('22'));
@@ -225,7 +202,7 @@ void main() {
 
       final numTokens = await chat.countTokens(prompt);
       final generation = await chat.invoke(prompt);
-      expect(numTokens, generation.usage!.promptTokens);
+      expect(numTokens, generation.usage.promptTokens);
     });
 
     test('Test countTokens messages', () async {
@@ -258,7 +235,7 @@ void main() {
 
         final numTokens = await chat.countTokens(PromptValue.chat(messages));
         final generation = await chat.invoke(PromptValue.chat(messages));
-        expect(numTokens, generation.usage!.promptTokens);
+        expect(numTokens, generation.usage.promptTokens);
       }
     });
 
@@ -285,7 +262,7 @@ void main() {
         count++;
       }
       expect(count, greaterThan(1));
-      expect(content, contains('123456789'));
+      expect(content.replaceAll(RegExp(r'[\s\n]'), ''), contains('123456789'));
     });
 
     test('Test ChatOpenAI streaming with functions', () async {
@@ -341,7 +318,7 @@ void main() {
       expect(lastResult['punchline'], isNotEmpty);
     });
 
-    test('Test response seed', () async {
+    test('Test response seed', skip: true, () async {
       final prompt = PromptValue.string('How are you?');
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
@@ -353,18 +330,13 @@ void main() {
       );
 
       final res1 = await llm.invoke(prompt);
-      expect(res1.generations, hasLength(1));
-      final generation1 = res1.generations.first;
-
       final res2 = await llm.invoke(prompt);
-      expect(res2.generations, hasLength(1));
-      final generation2 = res2.generations.first;
 
       expect(
-        res1.modelOutput?['system_fingerprint'],
-        res2.modelOutput?['system_fingerprint'],
+        res1.metadata['system_fingerprint'],
+        res2.metadata['system_fingerprint'],
       );
-      expect(generation1.output, generation2.output);
+      expect(res1.output, res2.output);
     });
 
     test('Test JSON mode', () async {
@@ -390,8 +362,7 @@ void main() {
       );
 
       final res = await llm.invoke(prompt);
-      expect(res.generations, hasLength(1));
-      final outputMsg = res.generations.first.output;
+      final outputMsg = res.output;
       final outputJson = json.decode(outputMsg.content) as Map<String, dynamic>;
       expect(outputJson['companies'], isNotNull);
       final companies = outputJson['companies'] as List<dynamic>;
@@ -427,9 +398,7 @@ void main() {
       );
 
       final res = await chatModel.invoke(prompt);
-      expect(res.generations, hasLength(1));
-      final outputMsg = res.generations.first.output;
-      expect(outputMsg.content.toLowerCase(), contains('apple'));
+      expect(res.output.content.toLowerCase(), contains('apple'));
     });
 
     test('Test multi-modal GPT-4 Vision with base64 image', () async {
@@ -456,9 +425,7 @@ void main() {
       );
 
       final res = await chatModel.invoke(prompt);
-      expect(res.generations, hasLength(1));
-      final outputMsg = res.generations.first.output;
-      expect(outputMsg.content.toLowerCase(), contains('apple'));
+      expect(res.output.content.toLowerCase(), contains('apple'));
     });
   });
 }

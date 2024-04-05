@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs
 import 'dart:convert';
 
 import 'package:langchain_core/chat_models.dart';
@@ -6,37 +7,29 @@ import 'package:openai_dart/openai_dart.dart';
 
 import 'types.dart';
 
-/// Mapper for a list of [ChatMessage]s.
 extension ChatMessageListMapper on List<ChatMessage> {
-  /// Converts a list of [ChatMessage]s to a list of [ChatCompletionMessage]s.
   List<ChatCompletionMessage> toChatCompletionMessages() {
-    return map((final message) => message.toChatCompletionMessage())
-        .toList(growable: false);
+    return map(_mapMessage).toList(growable: false);
   }
-}
 
-extension _ChatMessageMapper on ChatMessage {
-  ChatCompletionMessage toChatCompletionMessage() {
-    return switch (this) {
+  ChatCompletionMessage _mapMessage(final ChatMessage msg) {
+    return switch (msg) {
       final SystemChatMessage systemChatMessage => ChatCompletionMessage.system(
           content: systemChatMessage.content,
         ),
       final HumanChatMessage humanChatMessage => ChatCompletionMessage.user(
           content: switch (humanChatMessage.content) {
-            final ChatMessageContentText c =>
-              c.toChatCompletionUserMessageContentString(),
+            final ChatMessageContentText c => _mapMessageContentString(c),
             final ChatMessageContentImage c =>
               ChatCompletionUserMessageContent.parts(
-                [c.toChatCompletionMessageContentPart()],
+                [_mapMessageContentPartImage(c)],
               ),
-            final ChatMessageContentMultiModal c =>
-              c.toChatCompletionMessageContentPart(),
+            final ChatMessageContentMultiModal c => _mapMessageContentPart(c),
           },
         ),
       final AIChatMessage aiChatMessage => ChatCompletionMessage.assistant(
           content: aiChatMessage.content, // TODO add tools support
-          functionCall:
-              aiChatMessage.functionCall?.toChatCompletionMessageFunctionCall(),
+          functionCall: _mapMessageFunctionCall(aiChatMessage.functionCall),
         ),
       final FunctionChatMessage functionChatMessage =>
         ChatCompletionMessage.function(
@@ -47,36 +40,35 @@ extension _ChatMessageMapper on ChatMessage {
         throw UnsupportedError('OpenAI does not support custom messages'),
     };
   }
-}
 
-extension _ChatMessageContentTextMapper on ChatMessageContentText {
-  ChatCompletionUserMessageContentString
-      toChatCompletionUserMessageContentString() {
-    return ChatCompletionUserMessageContentString(text);
+  ChatCompletionUserMessageContentString _mapMessageContentString(
+    final ChatMessageContentText c,
+  ) {
+    return ChatCompletionUserMessageContentString(c.text);
   }
-}
 
-extension _ChatMessageContentImageMapper on ChatMessageContentImage {
-  ChatCompletionMessageContentPartImage toChatCompletionMessageContentPart() {
-    final imageData = data.trim();
+  ChatCompletionMessageContentPartImage _mapMessageContentPartImage(
+    final ChatMessageContentImage c,
+  ) {
+    final imageData = c.data.trim();
     final isUrl = imageData.startsWith('http');
     String url;
     if (isUrl) {
       url = imageData;
     } else {
-      if (mimeType == null) {
+      if (c.mimeType == null) {
         throw ArgumentError(
           "When passing a Base64 encoded image, you need to specify the mimeType (e.g. 'image/png')",
           'ChatMessageContentImage.mimeType',
         );
       }
-      url = 'data:$mimeType;base64,$imageData';
+      url = 'data:${c.mimeType};base64,$imageData';
     }
 
     return ChatCompletionMessageContentPartImage(
       imageUrl: ChatCompletionMessageImageUrl(
         url: url,
-        detail: switch (detail) {
+        detail: switch (c.detail) {
           ChatMessageContentImageDetail.auto =>
             ChatCompletionMessageImageDetail.auto,
           ChatMessageContentImageDetail.low =>
@@ -87,115 +79,100 @@ extension _ChatMessageContentImageMapper on ChatMessageContentImage {
       ),
     );
   }
-}
 
-extension _ChatMessageContentMultiModalMapper on ChatMessageContentMultiModal {
-  ChatCompletionMessageContentParts toChatCompletionMessageContentPart() {
-    final partsList = parts
+  ChatCompletionMessageContentParts _mapMessageContentPart(
+    final ChatMessageContentMultiModal c,
+  ) {
+    final partsList = c.parts
         .map(
           (final part) => switch (part) {
             final ChatMessageContentText c => [
                 ChatCompletionMessageContentPartText(text: c.text),
               ],
-            final ChatMessageContentImage c => [
-                c.toChatCompletionMessageContentPart(),
+            final ChatMessageContentImage img => [
+                _mapMessageContentPartImage(img),
               ],
             final ChatMessageContentMultiModal c =>
-              c.toChatCompletionMessageContentPart().value,
+              _mapMessageContentPart(c).value,
           },
         )
         .expand((final parts) => parts)
         .toList(growable: false);
     return ChatCompletionMessageContentParts(partsList);
   }
+
+  ChatCompletionMessageFunctionCall? _mapMessageFunctionCall(
+    final AIChatMessageFunctionCall? functionCall,
+  ) {
+    if (functionCall == null) {
+      return null;
+    }
+    return ChatCompletionMessageFunctionCall(
+      name: functionCall.name,
+      arguments: json.encode(functionCall.arguments),
+    );
+  }
 }
 
-/// Mapper for [CreateChatCompletionResponse].
 extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
-  /// Converts a [CreateChatCompletionResponse] to a [ChatResult].
   ChatResult toChatResult(final String id) {
+    final choice = choices.first;
+    final msg = choice.message;
     return ChatResult(
       id: id,
-      generations: choices
-          .map((final choice) => choice.toChatGeneration())
-          .toList(growable: false),
-      usage: usage?.toLanguageModelUsage(),
-      modelOutput: {
-        'created': created,
+      output: AIChatMessage(
+        content: msg.content ?? '',
+        functionCall: _mapMessageFunctionCall(msg.functionCall),
+      ),
+      finishReason: _mapFinishReason(choice.finishReason),
+      metadata: {
         'model': model,
+        'created': created,
         'system_fingerprint': systemFingerprint,
       },
+      usage: _mapUsage(usage),
     );
   }
-}
 
-extension _ChatCompletionResponseChoiceMapper on ChatCompletionResponseChoice {
-  ChatGeneration toChatGeneration() {
-    return ChatGeneration(
-      AIChatMessage(
-        content: message.content ?? '',
-        functionCall: message.functionCall?.toAIChatMessageFunctionCall(),
-      ),
-      generationInfo: {
-        'index': index ?? 0,
-        'finish_reason': finishReason ?? ChatCompletionFinishReason.stop,
-      },
-    );
-  }
-}
-
-extension _CompletionUsageMapper on CompletionUsage {
-  LanguageModelUsage toLanguageModelUsage() {
-    return LanguageModelUsage(
-      promptTokens: promptTokens,
-      responseTokens: completionTokens,
-      totalTokens: totalTokens,
-    );
-  }
-}
-
-extension _ChatCompletionMessageFunctionCallMapper
-    on ChatCompletionMessageFunctionCall {
-  AIChatMessageFunctionCall toAIChatMessageFunctionCall() {
+  AIChatMessageFunctionCall? _mapMessageFunctionCall(
+    final ChatCompletionMessageFunctionCall? functionCall,
+  ) {
+    if (functionCall == null) {
+      return null;
+    }
     return AIChatMessageFunctionCall(
-      name: name,
-      argumentsRaw: arguments,
-      arguments: arguments.isEmpty ? {} : json.decode(arguments),
+      name: functionCall.name,
+      argumentsRaw: functionCall.arguments,
+      arguments: functionCall.arguments.isEmpty
+          ? {}
+          : json.decode(functionCall.arguments),
+    );
+  }
+
+  LanguageModelUsage _mapUsage(final CompletionUsage? usage) {
+    return LanguageModelUsage(
+      promptTokens: usage?.promptTokens,
+      responseTokens: usage?.completionTokens,
+      totalTokens: usage?.totalTokens,
     );
   }
 }
 
-extension _AIChatMessageFunctionCallMapper on AIChatMessageFunctionCall {
-  ChatCompletionMessageFunctionCall toChatCompletionMessageFunctionCall() {
-    return ChatCompletionMessageFunctionCall(
-      name: name,
-      arguments: json.encode(arguments),
-    );
-  }
-}
-
-/// Mapper for a list of [ChatFunction]s.
 extension ChatFunctionListMapper on List<ChatFunction> {
-  /// Converts a list of [ChatFunction]s to a list of [FunctionObject]s.
   List<FunctionObject> toFunctionObjects() {
-    return map((final function) => function.toFunctionObject())
-        .toList(growable: false);
+    return map(_mapFunctionObject).toList(growable: false);
   }
-}
 
-extension _ChatFunctionMapper on ChatFunction {
-  FunctionObject toFunctionObject() {
+  FunctionObject _mapFunctionObject(final ChatFunction func) {
     return FunctionObject(
-      name: name,
-      description: description,
-      parameters: parameters ?? {},
+      name: func.name,
+      description: func.description,
+      parameters: func.parameters ?? {},
     );
   }
 }
 
-/// Mapper for a list of [ChatCompletionFunctionCallOption]s.
 extension ChatFunctionCallMapper on ChatFunctionCall {
-  /// Converts a list of [ChatCompletionFunctionCallOption]s to a list of
   ChatCompletionFunctionCall toChatCompletionFunctionCall() {
     return switch (this) {
       ChatFunctionCallNone _ => const ChatCompletionFunctionCall.mode(
@@ -211,67 +188,47 @@ extension ChatFunctionCallMapper on ChatFunctionCall {
   }
 }
 
-/// Mapper for [CreateChatCompletionStreamResponse].
 extension CreateChatCompletionStreamResponseMapper
     on CreateChatCompletionStreamResponse {
-  /// Converts a [CreateChatCompletionStreamResponse] to a [ChatResult].
   ChatResult toChatResult(final String id) {
+    final choice = choices.first;
+    final delta = choice.delta;
     return ChatResult(
-      generations: choices
-          .map((final choice) => choice.toChatGeneration())
-          .toList(growable: false),
-      modelOutput: {
-        'id': id,
-        'created': created,
+      id: id,
+      output: AIChatMessage(
+        content: delta.content ?? '',
+        functionCall: _mapMessageFunctionCall(delta.functionCall),
+      ),
+      finishReason: _mapFinishReason(choice.finishReason),
+      metadata: {
         'model': model,
+        'created': created,
         'system_fingerprint': systemFingerprint,
       },
+      usage: const LanguageModelUsage(),
       streaming: true,
     );
   }
-}
 
-extension _ChatCompletionStreamResponseChoiceMapper
-    on ChatCompletionStreamResponseChoice {
-  ChatGeneration toChatGeneration() {
-    return ChatGeneration(
-      delta.toAIChatMessage(),
-      generationInfo: {
-        'index': index,
-        'finish_reason': finishReason,
-      },
-    );
-  }
-}
-
-extension _ChatCompletionStreamResponseDeltaMapper
-    on ChatCompletionStreamResponseDelta {
-  AIChatMessage toAIChatMessage() {
-    return AIChatMessage(
-      content: content ?? '',
-      functionCall: functionCall?.toAIChatMessageFunctionCall(),
-    );
-  }
-}
-
-extension _ChatCompletionStreamMessageFunctionCallMapper
-    on ChatCompletionStreamMessageFunctionCall {
-  AIChatMessageFunctionCall toAIChatMessageFunctionCall() {
+  AIChatMessageFunctionCall? _mapMessageFunctionCall(
+    final ChatCompletionStreamMessageFunctionCall? functionCall,
+  ) {
+    if (functionCall == null) {
+      return null;
+    }
     Map<String, dynamic> args = {};
     try {
-      args = json.decode(arguments ?? '');
+      args = json.decode(functionCall.arguments ?? '');
     } catch (_) {}
     return AIChatMessageFunctionCall(
-      name: name ?? '',
-      argumentsRaw: arguments ?? '',
+      name: functionCall.name ?? '',
+      argumentsRaw: functionCall.arguments ?? '',
       arguments: args,
     );
   }
 }
 
-/// Mapper for [ChatOpenAIResponseFormat].
 extension ChatOpenAIResponseFormatMapper on ChatOpenAIResponseFormat {
-  /// Converts a [ChatOpenAIResponseFormat] to a [ChatCompletionResponseFormat].
   ChatCompletionResponseFormat toChatCompletionResponseFormat() {
     return ChatCompletionResponseFormat(
       type: switch (type) {
@@ -283,3 +240,15 @@ extension ChatOpenAIResponseFormatMapper on ChatOpenAIResponseFormat {
     );
   }
 }
+
+FinishReason _mapFinishReason(
+  final ChatCompletionFinishReason? reason,
+) =>
+    switch (reason) {
+      ChatCompletionFinishReason.stop => FinishReason.stop,
+      ChatCompletionFinishReason.length => FinishReason.length,
+      ChatCompletionFinishReason.toolCalls => FinishReason.toolCalls,
+      ChatCompletionFinishReason.contentFilter => FinishReason.contentFilter,
+      ChatCompletionFinishReason.functionCall => FinishReason.toolCalls,
+      null => FinishReason.unspecified,
+    };
