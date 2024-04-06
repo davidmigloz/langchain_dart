@@ -109,6 +109,17 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
   }
 
   @override
+  Stream<RunOutput> stream(
+    final RunInput input, {
+    final BaseLangChainOptions? options,
+  }) {
+    return streamFromInputStream(
+      Stream.value(input).asBroadcastStream(),
+      options: options,
+    );
+  }
+
+  @override
   Stream<RunOutput> streamFromInputStream(
     final Stream<RunInput> inputStream, {
     final BaseLangChainOptions? options,

@@ -69,6 +69,17 @@ abstract base class BasePromptTemplate
   }
 
   @override
+  Stream<PromptValue> stream(
+    final InputValues input, {
+    final BaseLangChainOptions? options,
+  }) {
+    return streamFromInputStream(
+      Stream.value(input).asBroadcastStream(),
+      options: options,
+    );
+  }
+
+  @override
   Stream<PromptValue> streamFromInputStream(
     final Stream<InputValues> inputStream, {
     final BaseLangChainOptions? options,

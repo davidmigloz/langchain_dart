@@ -68,6 +68,17 @@ class RunnableMap<RunInput extends Object>
   }
 
   @override
+  Stream<Map<String, dynamic>> stream(
+    final RunInput input, {
+    final BaseLangChainOptions? options,
+  }) {
+    return streamFromInputStream(
+      Stream.value(input).asBroadcastStream(),
+      options: options,
+    );
+  }
+
+  @override
   Stream<Map<String, dynamic>> streamFromInputStream(
     final Stream<RunInput> inputStream, {
     final BaseLangChainOptions? options,

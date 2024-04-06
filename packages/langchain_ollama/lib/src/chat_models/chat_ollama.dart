@@ -212,16 +212,6 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
         );
   }
 
-  @override
-  Stream<ChatResult> streamFromInputStream(
-    final Stream<PromptValue> inputStream, {
-    final ChatOllamaOptions? options,
-  }) {
-    return inputStream.asyncExpand((final input) {
-      return stream(input, options: options);
-    });
-  }
-
   /// Creates a [GenerateChatCompletionRequest] from the given input.
   GenerateChatCompletionRequest _generateCompletionRequest(
     final List<ChatMessage> messages, {

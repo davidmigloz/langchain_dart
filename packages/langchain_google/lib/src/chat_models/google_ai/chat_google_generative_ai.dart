@@ -230,16 +230,6 @@ class ChatGoogleGenerativeAI
         .map((final completion) => completion.toChatResult(id, model));
   }
 
-  @override
-  Stream<ChatResult> streamFromInputStream(
-    final Stream<PromptValue> inputStream, {
-    final ChatGoogleGenerativeAIOptions? options,
-  }) {
-    return inputStream.asyncExpand((final input) {
-      return stream(input, options: options);
-    });
-  }
-
   /// Creates a [GenerateContentRequest] from the given input.
   GenerateContentRequest _generateCompletionRequest(
     final List<ChatMessage> messages, {

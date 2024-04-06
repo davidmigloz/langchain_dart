@@ -70,24 +70,20 @@ class FakeEchoLLM extends BaseLLM {
   }
 
   @override
-  Stream<LLMResult> streamFromInputStream(
-    final Stream<PromptValue> inputStream, {
+  Stream<LLMResult> stream(
+    final PromptValue input, {
     final LLMOptions? options,
   }) {
-    return inputStream.asyncExpand(
-      (final prompt) {
-        final promptChars = prompt.toString().split('');
-        return Stream.fromIterable(promptChars).map(
-          (final item) => LLMResult(
-            id: 'fake-echo',
-            output: item,
-            finishReason: FinishReason.unspecified,
-            metadata: const {},
-            usage: const LanguageModelUsage(),
-            streaming: true,
-          ),
-        );
-      },
+    final promptChars = input.toString().split('');
+    return Stream.fromIterable(promptChars).map(
+      (final item) => LLMResult(
+        id: 'fake-echo',
+        output: item,
+        finishReason: FinishReason.unspecified,
+        metadata: const {},
+        usage: const LanguageModelUsage(),
+        streaming: true,
+      ),
     );
   }
 
