@@ -147,7 +147,7 @@ final llm = ChatOpenAI(
   ),
 );
 final res = await llm.invoke(prompt);
-final outputMsg = res.firstOutputAsString;
+final outputMsg = res.output.content;
 print(outputMsg);
 // {
 //   "companies": [

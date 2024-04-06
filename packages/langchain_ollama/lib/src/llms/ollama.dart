@@ -3,6 +3,7 @@ import 'package:langchain_core/llms.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:ollama_dart/ollama_dart.dart';
+import 'package:uuid/uuid.dart';
 
 import 'mappers.dart';
 import 'types.dart';
@@ -173,6 +174,9 @@ class Ollama extends BaseLLM<OllamaOptions> {
   /// to get an estimation of the number of tokens in a prompt.
   String encoding;
 
+  /// A UUID generator.
+  late final Uuid _uuid = const Uuid();
+
   @override
   String get modelType => 'ollama';
 
@@ -181,10 +185,11 @@ class Ollama extends BaseLLM<OllamaOptions> {
     final PromptValue input, {
     final OllamaOptions? options,
   }) async {
+    final id = _uuid.v4();
     final completion = await _client.generateCompletion(
       request: _generateCompletionRequest(input.toString(), options: options),
     );
-    return completion.toLLMResult();
+    return completion.toLLMResult(id);
   }
 
   @override
@@ -192,12 +197,13 @@ class Ollama extends BaseLLM<OllamaOptions> {
     final PromptValue input, {
     final OllamaOptions? options,
   }) {
+    final id = _uuid.v4();
     return _client
         .generateCompletionStream(
           request:
               _generateCompletionRequest(input.toString(), options: options),
         )
-        .map((final completion) => completion.toLLMResult(streaming: true));
+        .map((final completion) => completion.toLLMResult(id, streaming: true));
   }
 
   @override

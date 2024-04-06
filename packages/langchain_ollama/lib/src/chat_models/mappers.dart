@@ -1,33 +1,34 @@
+// ignore_for_file: public_member_api_docs
 import 'package:collection/collection.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
 import 'package:ollama_dart/ollama_dart.dart';
 
-/// Mapper for [GenerateCompletionResponse].
 extension OllamaChatMessagesMapper on List<ChatMessage> {
-  /// Converts a list of [ChatMessage] to a list of [Message].
   List<Message> toMessages() {
-    return map((final message) {
-      return switch (message) {
-        final SystemChatMessage msg => [
-            Message(
-              role: MessageRole.system,
-              content: msg.content,
-            ),
-          ],
-        final HumanChatMessage msg => _mapHumanMessage(msg),
-        final AIChatMessage msg => [
-            Message(
-              role: MessageRole.assistant,
-              content: msg.content,
-            ),
-          ],
-        FunctionChatMessage() =>
-          throw UnsupportedError('Ollama does not support function calls'),
-        CustomChatMessage() =>
-          throw UnsupportedError('Ollama does not support custom messages'),
-      };
-    }).expand((final messages) => messages).toList(growable: false);
+    return map(_mapMessage).expand((final msg) => msg).toList(growable: false);
+  }
+
+  List<Message> _mapMessage(final ChatMessage msg) {
+    return switch (msg) {
+      final SystemChatMessage msg => [
+          Message(
+            role: MessageRole.system,
+            content: msg.content,
+          ),
+        ],
+      final HumanChatMessage msg => _mapHumanMessage(msg),
+      final AIChatMessage msg => [
+          Message(
+            role: MessageRole.assistant,
+            content: msg.content,
+          ),
+        ],
+      FunctionChatMessage() =>
+        throw UnsupportedError('Ollama does not support function calls'),
+      CustomChatMessage() =>
+        throw UnsupportedError('Ollama does not support custom messages'),
+    };
   }
 
   List<Message> _mapHumanMessage(final HumanChatMessage message) {
@@ -95,28 +96,17 @@ extension OllamaChatMessagesMapper on List<ChatMessage> {
   }
 }
 
-/// Mapper for [GenerateChatCompletionResponse].
 extension ChatResultMapper on GenerateChatCompletionResponse {
-  /// Converts a [GenerateChatCompletionResponse] to a [ChatResult].
   ChatResult toChatResult(final String id, {final bool streaming = false}) {
     return ChatResult(
       id: id,
-      generations: [_toChatGeneration()],
-      usage: _toLanguageModelUsage(),
-      modelOutput: {
-        'created_at': createdAt,
-        'model': model,
-      },
-      streaming: streaming,
-    );
-  }
-
-  ChatGeneration _toChatGeneration() {
-    return ChatGeneration(
-      AIChatMessage(
+      output: AIChatMessage(
         content: message?.content ?? '',
       ),
-      generationInfo: {
+      finishReason: FinishReason.unspecified,
+      metadata: {
+        'model': model,
+        'created_at': createdAt,
         'done': done,
         'total_duration': totalDuration,
         'load_duration': loadDuration,
@@ -125,10 +115,12 @@ extension ChatResultMapper on GenerateChatCompletionResponse {
         'eval_count': evalCount,
         'eval_duration': evalDuration,
       },
+      usage: _mapUsage(),
+      streaming: streaming,
     );
   }
 
-  LanguageModelUsage _toLanguageModelUsage() {
+  LanguageModelUsage _mapUsage() {
     return LanguageModelUsage(
       promptTokens: promptEvalCount,
       responseTokens: evalCount,

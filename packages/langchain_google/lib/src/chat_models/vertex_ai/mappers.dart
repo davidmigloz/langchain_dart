@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
 import 'package:vertex_ai/vertex_ai.dart';
@@ -5,9 +6,7 @@ import 'package:vertex_ai/vertex_ai.dart';
 const _authorUser = 'USER';
 const _authorAI = 'AI';
 
-/// Mapper for [ChatMessage] to [VertexAITextChatModelMessage].
 extension ChatMessageMapper on ChatMessage {
-  /// Converts a [ChatMessage] to a [VertexAITextChatModelMessage].
   VertexAITextChatModelMessage toVertexAIChatMessage() {
     return switch (this) {
       final HumanChatMessage humanChatMessage => VertexAITextChatModelMessage(
@@ -32,9 +31,7 @@ extension ChatMessageMapper on ChatMessage {
   }
 }
 
-/// Mapper for [ChatExample].
 extension ChatExampleMapper on ChatExample {
-  /// Converts a [ChatExample] to a [VertexAITextChatModelExample].
   VertexAITextChatModelExample toVertexAIChatExample() {
     return VertexAITextChatModelExample(
       input: input.toVertexAIChatMessage(),
@@ -43,54 +40,32 @@ extension ChatExampleMapper on ChatExample {
   }
 }
 
-/// Mapper for [ChatGeneration] to [VertexAITextChatModelResponse].
 extension VertexAITextChatModelResponseMapper on VertexAITextChatModelResponse {
-  /// Converts a [ChatGeneration] to a [VertexAITextChatModelResponse].
   ChatResult toChatResult(final String id, final String model) {
+    final prediction = predictions.first;
+    final candidate = prediction.candidates.first;
     return ChatResult(
       id: id,
-      generations: predictions
-          .map((final prediction) => prediction.toChatGeneration())
-          .toList(growable: false),
-      usage: metadata.token.toLanguageModelUsage(),
-      modelOutput: {
+      output: AIChatMessage(content: candidate.content),
+      finishReason: FinishReason.unspecified,
+      metadata: {
         'model': model,
+        'citations': prediction.citations.firstOrNull?.firstOrNull?.toMap(),
+        'safety_attributes': prediction.safetyAttributes.firstOrNull?.toMap(),
       },
+      usage: _mapUsage(metadata.token),
     );
   }
-}
 
-/// Mapper for [VertexAITextChatModelPrediction] to [ChatGeneration].
-extension _VertexAITextModelPredictionMapper
-    on VertexAITextChatModelPrediction {
-  ChatGeneration toChatGeneration() {
-    return ChatGeneration(
-      candidates.first.toAIChatMessage(),
-      generationInfo: {
-        'citations': citations,
-        'safety_attributes': safetyAttributes,
-      },
-    );
-  }
-}
-
-/// Mapper for [VertexAITextChatModelMessage] to [ChatMessage].
-extension _VertexAITextChatModelMessageMapper on VertexAITextChatModelMessage {
-  AIChatMessage toAIChatMessage() {
-    return AIChatMessage(content: content);
-  }
-}
-
-/// Mapper for [VertexAITextChatModelResponseMetadataToken] to [LanguageModelUsage].
-extension _VertexAIResponseMetadataTokenMapper
-    on VertexAITextChatModelResponseMetadataToken {
-  LanguageModelUsage toLanguageModelUsage() {
+  LanguageModelUsage _mapUsage(
+    final VertexAITextChatModelResponseMetadataToken usage,
+  ) {
     return LanguageModelUsage(
-      promptTokens: inputTotalTokens,
-      promptBillableCharacters: inputTotalBillableCharacters,
-      responseTokens: outputTotalTokens,
-      responseBillableCharacters: outputTotalBillableCharacters,
-      totalTokens: inputTotalTokens + outputTotalTokens,
+      promptTokens: usage.inputTotalTokens,
+      promptBillableCharacters: usage.inputTotalBillableCharacters,
+      responseTokens: usage.outputTotalTokens,
+      responseBillableCharacters: usage.outputTotalBillableCharacters,
+      totalTokens: usage.inputTotalTokens + usage.outputTotalTokens,
     );
   }
 }

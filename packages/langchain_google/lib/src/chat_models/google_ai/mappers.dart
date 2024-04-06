@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs
 import 'package:collection/collection.dart';
 import 'package:googleai_dart/googleai_dart.dart';
 import 'package:langchain_core/chat_models.dart';
@@ -8,9 +9,7 @@ import 'types.dart';
 const _authorUser = 'user';
 const _authorAI = 'model';
 
-/// Messages mapper.
 extension ChatMessagesMapper on List<ChatMessage> {
-  /// Coverts a list of messages.
   List<Content> toContentList() {
     return map(
       (final message) => switch (message) {
@@ -66,48 +65,45 @@ extension ChatMessagesMapper on List<ChatMessage> {
   }
 }
 
-/// Generation mapper.
 extension GenerateContentResponseMapper on GenerateContentResponse {
-  /// Converts generation
   ChatResult toChatResult(final String id, final String model) {
+    final candidate = candidates?.first;
     return ChatResult(
       id: id,
-      generations: _mapGenerations(),
-      usage: LanguageModelUsage(
-        totalTokens: candidates?.map((final c) => c.tokenCount ?? 0).sum ?? 0,
+      output: AIChatMessage(
+        content: candidate?.content?.parts
+                ?.map((final p) => p.text)
+                .whereNotNull()
+                .join('\n') ??
+            '',
       ),
-      modelOutput: {
+      finishReason: _mapFinishReason(candidate?.finishReason),
+      metadata: {
         'model': model,
         'block_reason': promptFeedback?.blockReason?.name,
       },
+      usage: LanguageModelUsage(
+        totalTokens: candidates?.map((final c) => c.tokenCount ?? 0).sum ?? 0,
+      ),
     );
   }
 
-  List<ChatGeneration> _mapGenerations() {
-    return candidates
-            ?.map(
-              (final candidate) => ChatGeneration(
-                AIChatMessage(
-                  content: candidate.content?.parts
-                          ?.map((final p) => p.text)
-                          .whereNotNull()
-                          .join('\n') ??
-                      '',
-                ),
-                generationInfo: {
-                  'index': candidate.index,
-                  'finish_reason': candidate.finishReason?.name,
-                },
-              ),
-            )
-            .toList(growable: false) ??
-        const [];
-  }
+  FinishReason _mapFinishReason(
+    final CandidateFinishReason? reason,
+  ) =>
+      switch (reason) {
+        CandidateFinishReason.finishReasonUnspecified =>
+          FinishReason.unspecified,
+        CandidateFinishReason.stop => FinishReason.stop,
+        CandidateFinishReason.maxTokens => FinishReason.length,
+        CandidateFinishReason.safety => FinishReason.contentFilter,
+        CandidateFinishReason.recitation => FinishReason.recitation,
+        CandidateFinishReason.other => FinishReason.unspecified,
+        null => FinishReason.unspecified,
+      };
 }
 
-/// Safety settings mapper.
 extension SafetySettingsMapper on List<ChatGoogleGenerativeAISafetySetting> {
-  /// Converts safety settings.
   List<SafetySetting> toSafetySettings() {
     return map(
       (final setting) => SafetySetting(

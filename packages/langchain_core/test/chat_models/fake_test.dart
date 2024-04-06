@@ -9,11 +9,11 @@ void main() {
       final res1 = await chatModel.invoke(
         PromptValue.chat([ChatMessage.humanText('Hello')]),
       );
-      expect(res1.firstOutputAsString, 'foo');
+      expect(res1.outputAsString, 'foo');
       final res2 = await chatModel.invoke(
         PromptValue.chat([ChatMessage.humanText('World')]),
       );
-      expect(res2.firstOutputAsString, 'bar');
+      expect(res2.outputAsString, 'bar');
     });
   });
 }

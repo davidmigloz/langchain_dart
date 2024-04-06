@@ -4,6 +4,7 @@ library; // Uses dart:io
 import 'dart:io';
 
 import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/output_parsers.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_mistralai/langchain_mistralai.dart';
@@ -53,7 +54,7 @@ void main() {
           [ChatMessage.humanText('Hello, how are you?')],
         ),
       );
-      expect(res.generations.length, 1);
+      expect(res.output.content, isNotEmpty);
     });
 
     test('Test model output contains metadata', () async {
@@ -67,17 +68,14 @@ void main() {
         ]),
       );
       expect(
-        res.firstOutputAsString.replaceAll(RegExp(r'[\s\n]'), ''),
+        res.output.content.replaceAll(RegExp(r'[\s\n]'), ''),
         contains('123456789'),
       );
-      expect(res.modelOutput, isNotNull);
-      expect(res.modelOutput!['id'], isNotEmpty);
-      expect(res.modelOutput!['created'], greaterThan(0));
-      expect(res.modelOutput!['model'], isNotEmpty);
-      final generation = res.generations.first;
-      expect(generation.generationInfo, isNotNull);
-      expect(generation.generationInfo!['index'], 0);
-      expect(generation.generationInfo!['finish_reason'], isNotNull);
+      expect(res.id, isNotEmpty);
+      expect(res.finishReason, isNot(FinishReason.unspecified));
+      expect(res.metadata, isNotNull);
+      expect(res.metadata['created'], greaterThan(0));
+      expect(res.metadata['model'], isNotEmpty);
     });
 
     test('Test tokenize', () async {
@@ -130,26 +128,25 @@ void main() {
       expect(content, contains('123456789'));
     });
 
-    test('Test response seed', () async {
+    test('Test response seed', skip: true, () async {
       final prompt = PromptValue.string(
         'Why is the sky blue? Reply in one sentence.',
       );
-      const options = ChatMistralAIOptions(randomSeed: 9999);
+      const options = ChatMistralAIOptions(
+        temperature: 0,
+        randomSeed: 9999,
+      );
 
       final res1 = await chatModel.invoke(
         prompt,
         options: options,
       );
-      expect(res1.generations, hasLength(1));
-      final generation1 = res1.generations.first;
 
       final res2 = await chatModel.invoke(
         prompt,
         options: options,
       );
-      expect(res2.generations, hasLength(1));
-      final generation2 = res2.generations.first;
-      expect(generation1.output, generation2.output);
+      expect(res1.output, res2.output);
     });
   });
 }

@@ -116,20 +116,18 @@ void main() {
         ]),
       );
       expect(
-        res.firstOutputAsString.replaceAll(RegExp(r'[\s\n]'), ''),
+        res.output.content.replaceAll(RegExp(r'[\s\n]'), ''),
         contains('123456789'),
       );
-      expect(res.modelOutput, isNotNull);
-      expect(res.modelOutput!['model'], defaultModel);
-      expect(res.modelOutput!['created_at'], isNotNull);
-      final generation = res.generations.first;
-      expect(generation.generationInfo, isNotNull);
-      expect(generation.generationInfo!['done'], isTrue);
-      expect(generation.generationInfo!['total_duration'], greaterThan(0));
-      expect(generation.generationInfo!['load_duration'], greaterThan(0));
-      expect(generation.generationInfo!['prompt_eval_count'], greaterThan(0));
-      expect(generation.generationInfo!['eval_count'], greaterThan(0));
-      expect(generation.generationInfo!['eval_duration'], greaterThan(0));
+      expect(res.metadata, isNotNull);
+      expect(res.metadata['model'], defaultModel);
+      expect(res.metadata['created_at'], isNotNull);
+      expect(res.metadata['done'], isTrue);
+      expect(res.metadata['total_duration'], greaterThan(0));
+      expect(res.metadata['load_duration'], greaterThan(0));
+      expect(res.metadata['prompt_eval_count'], greaterThan(0));
+      expect(res.metadata['eval_count'], greaterThan(0));
+      expect(res.metadata['eval_duration'], greaterThan(0));
     });
 
     test('Test stop logic on valid configuration', () async {
@@ -205,16 +203,12 @@ void main() {
         prompt,
         options: options,
       );
-      expect(res1.generations, hasLength(1));
-      final generation1 = res1.generations.first;
 
       final res2 = await chatModel.invoke(
         prompt,
         options: options,
       );
-      expect(res2.generations, hasLength(1));
-      final generation2 = res2.generations.first;
-      expect(generation1.output, generation2.output);
+      expect(res1.output, res2.output);
     });
 
     test('Test Multi-turn conversations', () async {
@@ -236,7 +230,7 @@ void main() {
         ),
       );
       expect(
-        res.firstOutputAsString.replaceAll(RegExp(r'[\s\n]'), ''),
+        res.output.content.replaceAll(RegExp(r'[\s\n]'), ''),
         contains('12356789'),
       );
     });
@@ -263,9 +257,7 @@ void main() {
         ),
       );
 
-      expect(res.generations, hasLength(1));
-      final outputMsg = res.generations.first.output;
-      expect(outputMsg.content.toLowerCase(), contains('apple'));
+      expect(res.output.content.toLowerCase(), contains('apple'));
     });
   });
 }

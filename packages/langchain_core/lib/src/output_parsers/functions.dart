@@ -23,10 +23,9 @@ abstract class BaseOutputFunctionsParser<
 
   @override
   Future<O> parseResult(
-    final List<LanguageModelGeneration<ChatMessage>> result,
+    final LanguageModelResult<ChatMessage> result,
   ) async {
-    final generation = result.first;
-    return _parseChatMessage(generation.output);
+    return _parseChatMessage(result.output);
   }
 
   @override
@@ -37,8 +36,7 @@ abstract class BaseOutputFunctionsParser<
     return inputStream.asyncMap((final input) async {
       final mergedResult = _lastResult?.concat(input) ?? input;
       _lastResult = mergedResult;
-      final generation = mergedResult.generations.first;
-      return _parseChatMessage(generation.output);
+      return _parseChatMessage(mergedResult.output);
     });
   }
 

@@ -82,7 +82,7 @@ void main() async {
           ChatMessage.humanText('Good, what is your name?'),
         ]),
       );
-      expect(res.generations.first.output.content, isNotEmpty);
+      expect(res.output.content, isNotEmpty);
     });
 
     test('Test model output contains metadata', () async {
@@ -98,12 +98,12 @@ void main() async {
       final res = await chat.invoke(
         PromptValue.chat([ChatMessage.humanText('Hello, how are you?')]),
       );
-      expect(res.modelOutput, isNotNull);
-      expect(res.modelOutput!['model'], chat.defaultOptions.model);
-      expect(res.usage?.promptTokens, isNotNull);
-      expect(res.usage?.promptBillableCharacters, isNotNull);
-      expect(res.usage?.responseTokens, isNotNull);
-      expect(res.usage?.responseBillableCharacters, isNotNull);
+      expect(res.metadata, isNotEmpty);
+      expect(res.metadata['model'], chat.defaultOptions.model);
+      expect(res.usage.promptTokens, isNotNull);
+      expect(res.usage.promptBillableCharacters, isNotNull);
+      expect(res.usage.responseTokens, isNotNull);
+      expect(res.usage.responseBillableCharacters, isNotNull);
     });
 
     test('Test ChatVertexAI wrapper with system message', () async {
@@ -137,8 +137,8 @@ void main() async {
         ]),
         options: const ChatVertexAIOptions(stopSequences: ['4']),
       );
-      expect(res.firstOutputAsString, contains('123'));
-      expect(res.firstOutputAsString, isNot(contains('456789')));
+      expect(res.output.content, contains('123'));
+      expect(res.output.content, isNot(contains('456789')));
 
       // call options should override defaults
       final res2 = await chat.invoke(
@@ -151,39 +151,8 @@ void main() async {
           stopSequences: ['5'],
         ),
       );
-      expect(res2.firstOutputAsString, contains('1234'));
-      expect(res2.firstOutputAsString, isNot(contains('56789')));
-    });
-
-    test('Test model candidates count', skip: true, () async {
-      // It seems that the Vertex AI Chat API ignores the candidateCount
-      // parameter at the moment
-      final chat = ChatVertexAI(
-        httpClient: authHttpClient,
-        project: Platform.environment['VERTEX_AI_PROJECT_ID']!,
-        defaultOptions: const ChatVertexAIOptions(
-          temperature: 1,
-          candidateCount: 3,
-        ),
-      );
-      final res = await chat.invoke(
-        PromptValue.chat([
-          ChatMessage.humanText('Suggest a name for a LLM framework for Dart'),
-        ]),
-      );
-      expect(res.generations.length, 3);
-
-      // call options should override defaults
-      final res2 = await chat.invoke(
-        PromptValue.chat([
-          ChatMessage.humanText('Suggest a name for a LLM framework for Dart'),
-        ]),
-        options: const ChatVertexAIOptions(
-          temperature: 1,
-          candidateCount: 5,
-        ),
-      );
-      expect(res2.generations.length, 5);
+      expect(res2.output.content, contains('1234'));
+      expect(res2.output.content, isNot(contains('56789')));
     });
 
     test('Test countTokens string', () async {
@@ -195,7 +164,7 @@ void main() async {
 
       final numTokens = await chat.countTokens(prompt);
       final generation = await chat.invoke(prompt);
-      expect(numTokens, generation.usage!.promptTokens);
+      expect(numTokens, generation.usage.promptTokens);
     });
 
     test('Test countTokens messages', () async {

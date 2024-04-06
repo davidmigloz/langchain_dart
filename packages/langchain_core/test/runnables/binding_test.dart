@@ -1,5 +1,6 @@
 // ignore_for_file: unused_element
 import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/output_parsers.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_core/runnables.dart';
@@ -71,7 +72,11 @@ class _FakeOptionsChatModel
             .split('');
         return Stream.fromIterable(prompt).map(
           (final char) => ChatResult(
-            generations: [ChatGeneration(AIChatMessage(content: char))],
+            id: 'fake-options-chat-model',
+            output: AIChatMessage(content: char),
+            finishReason: FinishReason.stop,
+            metadata: const {},
+            usage: const LanguageModelUsage(),
           ),
         );
       },

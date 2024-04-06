@@ -1,47 +1,42 @@
+// ignore_for_file: public_member_api_docs
 import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/llms.dart';
 import 'package:openai_dart/openai_dart.dart';
 
-/// Mapper for [CreateCompletionResponse].
 extension CreateCompletionResponseMapper on CreateCompletionResponse {
-  /// Converts a [CreateCompletionResponse] to a [LLMResult].
-  LLMResult toLLMResult({final bool streaming = false}) {
+  LLMResult toLLMResult(final String id, {final bool streaming = false}) {
+    final choice = choices.first;
+
     return LLMResult(
-      generations: choices
-          .map((final choice) => choice.toLLMGeneration())
-          .toList(growable: false),
-      usage: usage?.toLanguageModelUsage(),
-      modelOutput: {
-        'id': id,
+      id: id,
+      output: choice.text,
+      finishReason: _mapFinishReason(choice.finishReason),
+      metadata: {
         'created': created,
         'model': model,
         'system_fingerprint': systemFingerprint,
+        'logprobs': choice.logprobs?.toJson(),
       },
+      usage: _mapUsage(usage),
       streaming: streaming,
     );
   }
-}
 
-extension _CompletionChoiceMapper on CompletionChoice {
-  LLMGeneration toLLMGeneration() {
-    final json = toJson();
-    return LLMGeneration(
-      text,
-      generationInfo: {
-        'index': index,
-        'logprobs': json['logprobs'],
-        'finish_reason': json['finish_reason'],
-      },
-    );
-  }
-}
+  FinishReason _mapFinishReason(
+    final CompletionFinishReason? reason,
+  ) =>
+      switch (reason) {
+        CompletionFinishReason.stop => FinishReason.stop,
+        CompletionFinishReason.length => FinishReason.length,
+        CompletionFinishReason.contentFilter => FinishReason.contentFilter,
+        null => FinishReason.unspecified,
+      };
 
-extension _CompletionUsageMapper on CompletionUsage {
-  LanguageModelUsage toLanguageModelUsage() {
+  LanguageModelUsage _mapUsage(final CompletionUsage? usage) {
     return LanguageModelUsage(
-      promptTokens: promptTokens,
-      responseTokens: completionTokens,
-      totalTokens: totalTokens,
+      promptTokens: usage?.promptTokens,
+      responseTokens: usage?.completionTokens,
+      totalTokens: usage?.totalTokens,
     );
   }
 }

@@ -261,11 +261,9 @@ class OpenAIFunctionsAgentOutputParser extends BaseLLMOutputParser<
 
   @override
   Future<List<BaseAgentAction>> parseResult(
-    final List<LanguageModelGeneration<AIChatMessage>> result,
+    final LanguageModelResult<AIChatMessage> result,
   ) async {
-    final generation = result.first;
-    final message = generation.output;
-    return parseMessage(message);
+    return parseMessage(result.output);
   }
 
   /// Parses the [message] and returns the corresponding [BaseAgentAction].

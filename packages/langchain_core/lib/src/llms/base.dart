@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../language_models/base.dart';
+import '../language_models/language_models.dart';
 import '../prompts/types.dart';
 import 'types.dart';
 
@@ -47,14 +47,14 @@ abstract class BaseLLM<Options extends LLMOptions>
     final Options? options,
   }) async {
     final result = await invoke(PromptValue.string(prompt), options: options);
-    return result.firstOutputAsString;
+    return result.output;
   }
 }
 
 /// {@template simple_llm}
-/// [SimpleLLM] provides a simplified interface for working with LLMs,
-/// rather than expecting the user to implement the full [SimpleLLM.generate]
-/// method.
+/// [SimpleLLM] provides a simplified interface for working with LLMs.
+/// Rather than expecting the user to implement the full [SimpleLLM.invoke]
+/// method, the user only needs to implement [SimpleLLM.callInternal].
 /// {@endtemplate}
 abstract class SimpleLLM<Options extends LLMOptions> extends BaseLLM<Options> {
   /// {@macro simple_llm}
@@ -66,7 +66,13 @@ abstract class SimpleLLM<Options extends LLMOptions> extends BaseLLM<Options> {
     final Options? options,
   }) async {
     final output = await callInternal(input.toString(), options: options);
-    return LLMResult(generations: [LLMGeneration(output)]);
+    return LLMResult(
+      id: '1',
+      output: output,
+      finishReason: FinishReason.unspecified,
+      metadata: const {},
+      usage: const LanguageModelUsage(),
+    );
   }
 
   /// Method which should be implemented by subclasses to run the model.

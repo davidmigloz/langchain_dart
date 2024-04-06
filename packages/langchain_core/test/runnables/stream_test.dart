@@ -1,6 +1,7 @@
 // ignore_for_file: unused_element
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/documents.dart';
+import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/llms.dart';
 import 'package:langchain_core/output_parsers.dart';
 import 'package:langchain_core/prompts.dart';
@@ -69,7 +70,7 @@ void main() {
       expect(streamList.length, 12);
       expect(streamList, isA<List<LLMResult>>());
 
-      final res = streamList.map((final i) => i.firstOutputAsString).join();
+      final res = streamList.map((final i) => i.output).join();
 
       expect(res, 'Hello world!');
     });
@@ -82,7 +83,7 @@ void main() {
       expect(streamList.length, 12);
       expect(streamList, isA<List<ChatResult>>());
 
-      final res = streamList.map((final i) => i.firstOutputAsString).join();
+      final res = streamList.map((final i) => i.output.content).join();
       expect(res, 'Hello world!');
     });
 
@@ -90,7 +91,11 @@ void main() {
       const run = StringOutputParser();
       final stream = run.stream(
         const LLMResult(
-          generations: [LLMGeneration('Hello world!')],
+          id: 'id',
+          output: 'Hello world!',
+          finishReason: FinishReason.stop,
+          metadata: {},
+          usage: LanguageModelUsage(),
         ),
       );
 

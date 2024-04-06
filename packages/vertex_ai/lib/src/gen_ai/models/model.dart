@@ -56,6 +56,18 @@ class VertexAIPredictionCitation {
     );
   }
 
+  /// Converts this [VertexAIPredictionCitation] to a JSON map.
+  Map<String, dynamic> toMap() {
+    return {
+      'startIndex': startIndex,
+      'endIndex': endIndex,
+      'url': url,
+      'title': title,
+      'license': license,
+      'publicationDate': publicationDate?.toIso8601String(),
+    };
+  }
+
   @override
   bool operator ==(covariant final VertexAIPredictionCitation other) =>
       identical(this, other) ||
@@ -145,6 +157,44 @@ class VertexAIPredictionSafetyAttributes {
           (safetyAttributesJson['scores'] as List<dynamic>? ?? const []).cast(),
       blocked: safetyAttributesJson['blocked'] as bool? ?? false,
     );
+  }
+
+  /// Converts this [VertexAIPredictionSafetyAttributes] to a JSON map.
+  Map<String, dynamic> toMap() {
+    return {
+      'categories': categories
+          .map(
+            (final category) => switch (category) {
+              VertexAIPredictionSafetyAttributesCategory.derogatory =>
+                'Derogatory',
+              VertexAIPredictionSafetyAttributesCategory.toxic => 'Toxic',
+              VertexAIPredictionSafetyAttributesCategory.sexual => 'Sexual',
+              VertexAIPredictionSafetyAttributesCategory.violent => 'Violent',
+              VertexAIPredictionSafetyAttributesCategory.insult => 'Insult',
+              VertexAIPredictionSafetyAttributesCategory.profanity =>
+                'Profanity',
+              VertexAIPredictionSafetyAttributesCategory.deathHarmAndTragedy =>
+                'Death, Harm & Tragedy',
+              VertexAIPredictionSafetyAttributesCategory.firearmsAndWeapons =>
+                'Firearms & Weapons',
+              VertexAIPredictionSafetyAttributesCategory.publicSafety =>
+                'Public Safety',
+              VertexAIPredictionSafetyAttributesCategory.health => 'Health',
+              VertexAIPredictionSafetyAttributesCategory.religionAndBelief =>
+                'Religion & Belief',
+              VertexAIPredictionSafetyAttributesCategory.drugs => 'Drugs',
+              VertexAIPredictionSafetyAttributesCategory.warAndConflict =>
+                'War & Conflict',
+              VertexAIPredictionSafetyAttributesCategory.finance => 'Finance',
+              VertexAIPredictionSafetyAttributesCategory.politics => 'Politics',
+              VertexAIPredictionSafetyAttributesCategory.legal => 'Legal',
+              VertexAIPredictionSafetyAttributesCategory.unknown => 'Unknown',
+            },
+          )
+          .toList(growable: false),
+      'scores': scores,
+      'blocked': blocked,
+    };
   }
 
   @override

@@ -1,6 +1,7 @@
 // ignore_for_file: unused_element
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/documents.dart';
+import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/llms.dart';
 import 'package:langchain_core/output_parsers.dart';
 import 'package:langchain_core/prompts.dart';
@@ -49,20 +50,24 @@ void main() {
     test('LLM as Runnable', () async {
       const run = FakeEchoLLM();
       final res = await run.invoke(PromptValue.string('Hello world!'));
-      expect(res.firstOutputAsString, 'Hello world!');
+      expect(res.output, 'Hello world!');
     });
 
     test('ChatModel as Runnable', () async {
       const run = FakeEchoChatModel();
       final res = await run.invoke(PromptValue.string('Hello world!'));
-      expect(res.firstOutputAsString, 'Hello world!');
+      expect(res.output.content, 'Hello world!');
     });
 
     test('OutputParser as Runnable', () async {
       const run = StringOutputParser();
       final res = await run.invoke(
         const LLMResult(
-          generations: [LLMGeneration('Hello world!')],
+          id: 'id',
+          output: 'Hello world!',
+          finishReason: FinishReason.stop,
+          metadata: {},
+          usage: LanguageModelUsage(),
         ),
       );
       expect(res, 'Hello world!');

@@ -1,19 +1,15 @@
+// ignore_for_file: public_member_api_docs
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
 import 'package:mistralai_dart/mistralai_dart.dart';
 
-/// Mapper for a list of [ChatMessage]s.
 extension ChatMessageListMapper on List<ChatMessage> {
-  /// Converts a list of [ChatMessage]s to a list of [ChatCompletionMessage]s.
   List<ChatCompletionMessage> toChatCompletionMessages() {
-    return map((final message) => message.toChatCompletionMessage())
-        .toList(growable: false);
+    return map(_mapMessage).toList(growable: false);
   }
-}
 
-extension _ChatMessageMapper on ChatMessage {
-  ChatCompletionMessage toChatCompletionMessage() {
-    return switch (this) {
+  ChatCompletionMessage _mapMessage(final ChatMessage msg) {
+    return switch (msg) {
       final SystemChatMessage systemChatMessage => ChatCompletionMessage(
           role: ChatCompletionMessageRole.system,
           content: systemChatMessage.content,
@@ -34,37 +30,23 @@ extension _ChatMessageMapper on ChatMessage {
   }
 }
 
-/// Mapper for [ChatCompletionResponse].
 extension ChatResultMapper on ChatCompletionResponse {
-  /// Converts a [ChatCompletionResponse] to a [ChatResult].
   ChatResult toChatResult({final bool streaming = false}) {
+    final choice = choices.first;
     return ChatResult(
-      generations: _toChatGenerations(),
-      usage: _toLanguageModelUsage(),
-      modelOutput: {
-        'id': id,
-        'created': created,
+      id: id,
+      output: AIChatMessage(content: choice.message?.content ?? ''),
+      finishReason: _mapFinishReason(choice.finishReason),
+      metadata: {
         'model': model,
+        'created': created,
       },
+      usage: _mapUsage(usage),
       streaming: streaming,
     );
   }
 
-  List<ChatGeneration> _toChatGenerations() {
-    return choices
-        .map(
-          (final choice) => ChatGeneration(
-            AIChatMessage(content: choice.message?.content ?? ''),
-            generationInfo: {
-              'index': choice.index,
-              'finish_reason': choice.finishReason,
-            },
-          ),
-        )
-        .toList(growable: false);
-  }
-
-  LanguageModelUsage _toLanguageModelUsage() {
+  LanguageModelUsage _mapUsage(final ChatCompletionUsage usage) {
     return LanguageModelUsage(
       promptTokens: usage.promptTokens,
       responseTokens: usage.completionTokens,
@@ -78,28 +60,27 @@ extension CreateChatCompletionStreamResponseMapper
     on ChatCompletionStreamResponse {
   /// Converts a [ChatCompletionStreamResponse] to a [ChatResult].
   ChatResult toChatResult() {
+    final choice = choices.first;
     return ChatResult(
-      generations: _toChatGenerations(),
-      modelOutput: {
-        'id': id,
-        'created': created,
+      id: id,
+      output: AIChatMessage(content: choice.delta.content ?? ''),
+      finishReason: _mapFinishReason(choice.finishReason),
+      metadata: {
         'model': model,
+        'created': created,
       },
+      usage: const LanguageModelUsage(),
       streaming: true,
     );
   }
-
-  List<ChatGeneration> _toChatGenerations() {
-    return choices
-        .map(
-          (final choice) => ChatGeneration(
-            AIChatMessage(content: choice.delta.content ?? ''),
-            generationInfo: {
-              'index': choice.index,
-              'finish_reason': choice.finishReason,
-            },
-          ),
-        )
-        .toList(growable: false);
-  }
 }
+
+FinishReason _mapFinishReason(
+  final ChatCompletionFinishReason? reason,
+) =>
+    switch (reason) {
+      ChatCompletionFinishReason.stop => FinishReason.stop,
+      ChatCompletionFinishReason.length => FinishReason.length,
+      ChatCompletionFinishReason.modelLength => FinishReason.length,
+      null => FinishReason.unspecified,
+    };
