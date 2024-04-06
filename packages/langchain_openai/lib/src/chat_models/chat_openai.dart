@@ -271,16 +271,6 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
         );
   }
 
-  @override
-  Stream<ChatResult> streamFromInputStream(
-    final Stream<PromptValue> inputStream, {
-    final ChatOpenAIOptions? options,
-  }) {
-    return inputStream.asyncExpand((final input) {
-      return stream(input, options: options);
-    });
-  }
-
   /// Creates a [CreateChatCompletionRequest] from the given input.
   CreateChatCompletionRequest _createChatCompletionRequest(
     final List<ChatMessage> messages, {

@@ -58,28 +58,24 @@ class _FakeOptionsChatModel
   }
 
   @override
-  Stream<ChatResult> streamFromInputStream(
-    final Stream<PromptValue> inputStream, {
+  Stream<ChatResult> stream(
+    final PromptValue input, {
     final _FakeOptionsChatModelOptions? options,
   }) {
-    return inputStream.asyncExpand(
-      (final input) {
-        final prompt = input
-            .toChatMessages()
-            .first
-            .contentAsString
-            .replaceAll(options?.stop ?? '', '')
-            .split('');
-        return Stream.fromIterable(prompt).map(
-          (final char) => ChatResult(
-            id: 'fake-options-chat-model',
-            output: AIChatMessage(content: char),
-            finishReason: FinishReason.stop,
-            metadata: const {},
-            usage: const LanguageModelUsage(),
-          ),
-        );
-      },
+    final prompt = input
+        .toChatMessages()
+        .first
+        .contentAsString
+        .replaceAll(options?.stop ?? '', '')
+        .split('');
+    return Stream.fromIterable(prompt).map(
+      (final char) => ChatResult(
+        id: 'fake-options-chat-model',
+        output: AIChatMessage(content: char),
+        finishReason: FinishReason.stop,
+        metadata: const {},
+        usage: const LanguageModelUsage(),
+      ),
     );
   }
 

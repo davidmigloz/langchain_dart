@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:meta/meta.dart';
-
 import '../langchain/types.dart';
 import 'binding.dart';
 import 'function.dart';
@@ -119,28 +117,23 @@ abstract class Runnable<RunInput extends Object?,
   Stream<RunOutput> stream(
     final RunInput input, {
     final CallOptions? options,
-  }) {
-    return streamFromInputStream(
-      Stream.value(input).asBroadcastStream(),
-      options: options,
-    );
+  }) async* {
+    // By default, it just emits the result of calling `.invoke`
+    // Subclasses should override this method if they support streaming output
+    yield await invoke(input, options: options);
   }
 
   /// Streams the output of invoking the [Runnable] on the given [inputStream].
   ///
   /// - [inputStream] - the input stream to invoke the [Runnable] on.
   /// - [options] - the options to use when invoking the [Runnable].
-  @protected
   Stream<RunOutput> streamFromInputStream(
     final Stream<RunInput> inputStream, {
     final CallOptions? options,
   }) {
-    // By default, it just emits the result of calling invoke
-    // Subclasses should override this method if they support streaming output
-    return inputStream.asyncMap(
-      // ignore: discarded_futures
-      (final input) => invoke(input, options: options),
-    );
+    return inputStream.asyncExpand((final input) {
+      return stream(input, options: options);
+    });
   }
 
   /// Pipes the output of this [Runnable] into another [Runnable].

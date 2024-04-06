@@ -258,16 +258,6 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
         );
   }
 
-  @override
-  Stream<LLMResult> streamFromInputStream(
-    final Stream<PromptValue> inputStream, {
-    final OpenAIOptions? options,
-  }) {
-    return inputStream.asyncExpand((final input) {
-      return stream(input, options: options);
-    });
-  }
-
   /// Creates a [CreateCompletionRequest] from the given input.
   CreateCompletionRequest _createCompletionRequest(
     final String prompt, {

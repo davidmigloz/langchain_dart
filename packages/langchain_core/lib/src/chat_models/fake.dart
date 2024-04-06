@@ -63,24 +63,20 @@ class FakeEchoChatModel extends SimpleChatModel {
   }
 
   @override
-  Stream<ChatResult> streamFromInputStream(
-    final Stream<PromptValue> inputStream, {
+  Stream<ChatResult> stream(
+    final PromptValue input, {
     final ChatModelOptions? options,
   }) {
-    return inputStream.asyncExpand(
-      (final input) {
-        final prompt = input.toChatMessages().first.contentAsString.split('');
-        return Stream.fromIterable(prompt).map(
-          (final char) => ChatResult(
-            id: 'fake-echo-chat-model',
-            output: AIChatMessage(content: char),
-            finishReason: FinishReason.stop,
-            metadata: const {},
-            usage: const LanguageModelUsage(),
-            streaming: true,
-          ),
-        );
-      },
+    final prompt = input.toChatMessages().first.contentAsString.split('');
+    return Stream.fromIterable(prompt).map(
+      (final char) => ChatResult(
+        id: 'fake-echo-chat-model',
+        output: AIChatMessage(content: char),
+        finishReason: FinishReason.stop,
+        metadata: const {},
+        usage: const LanguageModelUsage(),
+        streaming: true,
+      ),
     );
   }
 

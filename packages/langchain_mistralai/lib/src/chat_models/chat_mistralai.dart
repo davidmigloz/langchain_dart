@@ -211,16 +211,6 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
         .map((final completion) => completion.toChatResult());
   }
 
-  @override
-  Stream<ChatResult> streamFromInputStream(
-    final Stream<PromptValue> inputStream, {
-    final ChatMistralAIOptions? options,
-  }) {
-    return inputStream.asyncExpand((final input) {
-      return stream(input, options: options);
-    });
-  }
-
   /// Creates a [GenerateCompletionRequest] from the given input.
   ChatCompletionRequest _generateCompletionRequest(
     final List<ChatMessage> messages, {

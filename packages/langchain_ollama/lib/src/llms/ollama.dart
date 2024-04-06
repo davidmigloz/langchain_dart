@@ -206,16 +206,6 @@ class Ollama extends BaseLLM<OllamaOptions> {
         .map((final completion) => completion.toLLMResult(id, streaming: true));
   }
 
-  @override
-  Stream<LLMResult> streamFromInputStream(
-    final Stream<PromptValue> inputStream, {
-    final OllamaOptions? options,
-  }) {
-    return inputStream.asyncExpand((final input) {
-      return stream(input, options: options);
-    });
-  }
-
   /// Creates a [GenerateCompletionRequest] from the given input.
   GenerateCompletionRequest _generateCompletionRequest(
     final String prompt, {
