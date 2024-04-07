@@ -8,5 +8,7 @@ import '../langchain/types.dart';
 @immutable
 class OutputParserOptions extends BaseLangChainOptions {
   /// {@macro output_parser_options}
-  const OutputParserOptions();
+  const OutputParserOptions({
+    super.concurrencyLimit,
+  });
 }

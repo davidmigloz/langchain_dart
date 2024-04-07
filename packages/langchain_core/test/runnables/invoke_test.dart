@@ -10,7 +10,7 @@ import 'package:langchain_core/tools.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Runnable tests', () {
+  group('Runnable invoke tests', () {
     test('PromptTemplate as Runnable', () async {
       final run = PromptTemplate.fromTemplate('This is a {input}');
       final res = await run.invoke({'input': 'test'});

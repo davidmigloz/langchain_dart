@@ -20,6 +20,7 @@ class ChatOpenAIOptions extends ChatModelOptions {
     this.functions,
     this.functionCall,
     this.user,
+    super.concurrencyLimit,
   });
 
   /// ID of the model to use (e.g. 'gpt-3.5-turbo').

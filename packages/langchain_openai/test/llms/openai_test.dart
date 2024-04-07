@@ -155,5 +155,46 @@ void main() {
       );
       expect(res1.output, res2.output);
     });
+
+    test('Test batch with same options for all inputs', () async {
+      const count = 10;
+      final prompts = List.generate(
+        count,
+        (final i) => PromptValue.string('Output the following number: $i'),
+      );
+
+      final res = await llm.batch(
+        prompts,
+        options: [const OpenAIOptions(concurrencyLimit: count ~/ 2)],
+      );
+
+      expect(res.length, count);
+      for (int i = 0; i < count; i++) {
+        expect(res[i].id.endsWith(':${i % (count ~/ 2)}'), isTrue);
+        expect(res[i].output.contains('$i'), isTrue);
+      }
+    });
+
+    test('Test batch with different options per input', () async {
+      const count = 10;
+      final prompts = List.generate(
+        count,
+        (final i) => PromptValue.string('Output the following number: $i'),
+      );
+      final options = List.generate(
+        count,
+        (final i) => OpenAIOptions(
+          temperature: 0 + (i / 10),
+        ),
+      );
+
+      final res = await llm.batch(prompts, options: options);
+
+      expect(res.length, count);
+      for (int i = 0; i < count; i++) {
+        expect(res[i].id.endsWith(':0'), isTrue);
+        expect(res[i].output.contains('$i'), isTrue);
+      }
+    });
   });
 }

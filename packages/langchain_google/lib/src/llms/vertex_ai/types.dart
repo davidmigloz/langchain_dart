@@ -14,6 +14,7 @@ class VertexAIOptions extends LLMOptions {
     this.topK,
     this.stopSequences,
     this.candidateCount,
+    super.concurrencyLimit,
   });
 
   /// The publisher of the model.

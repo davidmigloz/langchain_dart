@@ -44,6 +44,7 @@ class ChatOllamaOptions extends ChatModelOptions {
     this.ropeFrequencyBase,
     this.ropeFrequencyScale,
     this.numThread,
+    super.concurrencyLimit,
   });
 
   /// The model used to generate completions

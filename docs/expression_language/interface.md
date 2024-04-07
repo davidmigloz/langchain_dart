@@ -17,7 +17,7 @@ The type of the input and output varies by component:
 | `LLM`                       | `PromptValue`          | `LLMResult`            |
 | `ChatModel`                 | `PromptValue`          | `ChatResult`           |
 | `Chain`                     | `Map<String, dynamic>` | `Map<String, dynamic>` |
-| `OutputParser`              | `LanguageModelResult`  | Parser output type     |
+| `OutputParser`              | Runnable input type    | Parser output type     |
 | `Tool`                      | `Map<String, dynamic>` | `String`               |
 | `RunnableSequence`          | Fist input type        | Last output type       |
 | `RunnableMap`               | Runnable input type    | `Map<String, dynamic>` |
@@ -104,7 +104,40 @@ await for (final res in stream) {
 
 ### Batch
 
-Batch is not supported yet.
+Batches the invocation of the `Runnable` on the given `inputs`.
+
+```dart
+final res = await chain.batch([
+  {'topic': 'bears'},
+  {'topic': 'cats'},
+]);
+print(res);
+//['Why did the bear break up with his girlfriend? Because she was too "grizzly" for him!',
+// 'Why was the cat sitting on the computer? Because it wanted to keep an eye on the mouse!']
+```
+
+If the underlying provider supports batching, this method will try to batch the calls to the provider. Otherwise, it will just call `invoke` on each input concurrently. You can configure the concurrency limit by setting the `concurrencyLimit` field in the `options` parameter.
+
+You can provide call options to the `batch` method using the `options` parameter. It can be:
+- `null`: the default options are used.
+- List with 1 element: the same options are used for all inputs.
+- List with the same length as the inputs: each input gets its own options.
+
+```dart
+final res = await chain.batch(
+  [
+    {'topic': 'bears'},
+    {'topic': 'cats'},
+  ],
+  options: [
+    const ChatOpenAIOptions(model: 'gpt-3.5-turbo', temperature: 0.5),
+    const ChatOpenAIOptions(model: 'gpt-4', temperature: 0.7),
+  ],
+);
+print(res);
+//['Why did the bear break up with his girlfriend? Because he couldn't bear the relationship anymore!,',
+// 'Why don't cats play poker in the jungle? Because there's too many cheetahs!']
+```
 
 ## Runnable types
 

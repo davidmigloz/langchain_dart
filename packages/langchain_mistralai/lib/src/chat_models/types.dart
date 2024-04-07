@@ -12,6 +12,7 @@ class ChatMistralAIOptions extends ChatModelOptions {
     this.maxTokens,
     this.safePrompt,
     this.randomSeed,
+    super.concurrencyLimit,
   });
 
   /// ID of the model to use. You can use the [List Available Models](https://docs.mistral.ai/api#operation/listModels)

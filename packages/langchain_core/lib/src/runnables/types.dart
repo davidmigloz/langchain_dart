@@ -6,5 +6,11 @@ import 'package:meta/meta.dart';
 @immutable
 class RunnableOptions {
   /// {@macro runnable_options}
-  const RunnableOptions();
+  const RunnableOptions({
+    this.concurrencyLimit = 1000,
+  });
+
+  /// The maximum number of concurrent calls that the runnable can make.
+  /// Defaults to 1000 (different Runnable types may have different defaults).
+  final int concurrencyLimit;
 }

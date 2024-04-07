@@ -8,7 +8,9 @@ import '../language_models/language_models.dart';
 /// {@endtemplate}
 class ChatModelOptions extends LanguageModelOptions {
   /// {@macro chat_model_options}
-  const ChatModelOptions();
+  const ChatModelOptions({
+    super.concurrencyLimit,
+  });
 }
 
 /// {@template chat_result}
@@ -43,6 +45,19 @@ class ChatResult extends LanguageModelResult<AIChatMessage> {
       usage: usage.concat(other.usage),
       streaming: other.streaming,
     );
+  }
+
+  @override
+  String toString() {
+    return '''
+ChatResult{
+  id: $id, 
+  output: $output,
+  finishReason: $finishReason,
+  metadata: $metadata,
+  usage: $usage,
+  streaming: $streaming
+}''';
   }
 }
 

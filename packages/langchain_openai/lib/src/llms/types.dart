@@ -1,8 +1,11 @@
+import 'package:collection/collection.dart';
 import 'package:langchain_core/llms.dart';
+import 'package:meta/meta.dart';
 
 /// {@template openai_options}
 /// Options to pass into the OpenAI LLM.
 /// {@endtemplate}
+@immutable
 class OpenAIOptions extends LLMOptions {
   /// {@macro openai_options}
   const OpenAIOptions({
@@ -20,6 +23,7 @@ class OpenAIOptions extends LLMOptions {
     this.temperature,
     this.topP,
     this.user,
+    super.concurrencyLimit = 20,
   });
 
   /// ID of the model to use (e.g. 'gpt-3.5-turbo-instruct').
@@ -156,4 +160,40 @@ class OpenAIOptions extends LLMOptions {
       user: user ?? this.user,
     );
   }
+
+  @override
+  bool operator ==(covariant final OpenAIOptions other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          model == other.model &&
+          bestOf == other.bestOf &&
+          frequencyPenalty == other.frequencyPenalty &&
+          const MapEquality<String, int>().equals(logitBias, other.logitBias) &&
+          logprobs == other.logprobs &&
+          maxTokens == other.maxTokens &&
+          n == other.n &&
+          presencePenalty == other.presencePenalty &&
+          seed == other.seed &&
+          stop == other.stop &&
+          suffix == other.suffix &&
+          temperature == other.temperature &&
+          topP == other.topP &&
+          user == other.user;
+
+  @override
+  int get hashCode =>
+      model.hashCode ^
+      bestOf.hashCode ^
+      frequencyPenalty.hashCode ^
+      const MapEquality<String, int>().hash(logitBias) ^
+      logprobs.hashCode ^
+      maxTokens.hashCode ^
+      n.hashCode ^
+      presencePenalty.hashCode ^
+      seed.hashCode ^
+      stop.hashCode ^
+      suffix.hashCode ^
+      temperature.hashCode ^
+      topP.hashCode ^
+      user.hashCode;
 }

@@ -15,6 +15,7 @@ class ChatVertexAIOptions extends ChatModelOptions {
     this.stopSequences,
     this.candidateCount,
     this.examples,
+    super.concurrencyLimit,
   });
 
   /// The publisher of the model.
