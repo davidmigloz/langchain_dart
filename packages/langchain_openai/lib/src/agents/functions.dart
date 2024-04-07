@@ -2,7 +2,6 @@ import 'package:langchain_core/agents.dart';
 import 'package:langchain_core/chains.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/exceptions.dart';
-import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/memory.dart';
 import 'package:langchain_core/output_parsers.dart';
 import 'package:langchain_core/prompts.dart';
@@ -101,7 +100,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
   ///
   /// The memory must have [BaseChatMemory.returnMessages] set to true for
   /// the agent to work properly.
-  final LLMChain<ChatOpenAI, ChatOpenAIOptions, void, BaseChatMemory> llmChain;
+  final LLMChain<ChatOpenAI, ChatOpenAIOptions, BaseChatMemory> llmChain;
 
   /// Parser to use to parse the output of the LLM.
   final OpenAIFunctionsAgentOutputParser _parser;
@@ -160,7 +159,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
     );
     final ChainValues output = await llmChain.invoke(llmChainInputs);
     final predictedMessage = output[LLMChain.defaultOutputKey] as AIChatMessage;
-    return _parser.parseMessage(predictedMessage);
+    return _parser.parseChatMessage(predictedMessage);
   }
 
   Map<String, dynamic> _constructLlmChainInputs(
@@ -254,20 +253,22 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
 /// It parses the output of the LLM and returns the corresponding
 /// [BaseAgentAction] to be executed.
 /// {@endtemplate}
-class OpenAIFunctionsAgentOutputParser extends BaseLLMOutputParser<
-    AIChatMessage, ChatOpenAIOptions, List<BaseAgentAction>> {
+class OpenAIFunctionsAgentOutputParser extends BaseOutputParser<ChatResult,
+    OutputParserOptions, List<BaseAgentAction>> {
   /// {@macro openai_functions_agent_output_parser}
-  const OpenAIFunctionsAgentOutputParser();
+  const OpenAIFunctionsAgentOutputParser()
+      : super(defaultOptions: const OutputParserOptions());
 
   @override
-  Future<List<BaseAgentAction>> parseResult(
-    final LanguageModelResult<AIChatMessage> result,
-  ) async {
-    return parseMessage(result.output);
+  Future<List<BaseAgentAction>> invoke(
+    final ChatResult input, {
+    final OutputParserOptions? options,
+  }) {
+    return parseChatMessage(input.output);
   }
 
   /// Parses the [message] and returns the corresponding [BaseAgentAction].
-  Future<List<BaseAgentAction>> parseMessage(
+  Future<List<BaseAgentAction>> parseChatMessage(
     final AIChatMessage message,
   ) async {
     final functionCall = message.functionCall;

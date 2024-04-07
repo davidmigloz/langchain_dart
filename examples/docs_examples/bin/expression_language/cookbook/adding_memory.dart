@@ -11,7 +11,7 @@ void main(final List<String> arguments) async {
 Future<void> _chatbotWithMemory() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
   final model = ChatOpenAI(apiKey: openaiApiKey);
-  const stringOutputParser = StringOutputParser();
+  const stringOutputParser = StringOutputParser<ChatResult>();
 
   final promptTemplate = ChatPromptTemplate.fromPromptMessages([
     SystemChatMessagePromptTemplate.fromTemplate(

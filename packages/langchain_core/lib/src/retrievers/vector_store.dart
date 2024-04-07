@@ -9,16 +9,13 @@ import 'types.dart';
 class VectorStoreRetriever<V extends VectorStore>
     extends Retriever<VectorStoreRetrieverOptions> {
   /// {@macro vector_store_retriever}
-  VectorStoreRetriever({
+  const VectorStoreRetriever({
     required this.vectorStore,
-    this.defaultOptions = const VectorStoreRetrieverOptions(),
+    super.defaultOptions = const VectorStoreRetrieverOptions(),
   });
 
   /// The vector store to retrieve documents from.
   final V vectorStore;
-
-  /// Default options for this retriever.
-  VectorStoreRetrieverOptions defaultOptions;
 
   @override
   Future<List<Document>> getRelevantDocuments(

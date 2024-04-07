@@ -1,5 +1,5 @@
-import '../langchain/types.dart';
 import 'runnable.dart';
+import 'types.dart';
 
 /// {@template runnable_map_input}
 /// A [RunnableMapInput] allows you to map the input to a different value.
@@ -26,9 +26,10 @@ import 'runnable.dart';
 /// ```
 /// {@endtemplate}
 class RunnableMapInput<RunInput extends Object, RunOutput extends Object>
-    extends Runnable<RunInput, BaseLangChainOptions, RunOutput> {
+    extends Runnable<RunInput, RunnableOptions, RunOutput> {
   /// {@macro runnable_map_from_input_items}
-  const RunnableMapInput(this.inputMapper);
+  const RunnableMapInput(this.inputMapper)
+      : super(defaultOptions: const RunnableOptions());
 
   /// A function that maps [RunInput] to [RunOutput].
   final RunOutput Function(RunInput input) inputMapper;
@@ -40,7 +41,7 @@ class RunnableMapInput<RunInput extends Object, RunOutput extends Object>
   @override
   Future<RunOutput> invoke(
     final RunInput input, {
-    final BaseLangChainOptions? options,
+    final RunnableOptions? options,
   }) async {
     return inputMapper(input);
   }

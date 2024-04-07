@@ -1,6 +1,5 @@
 import 'package:langchain_core/chains.dart';
 import 'package:langchain_core/chat_models.dart';
-import 'package:langchain_core/langchain.dart';
 import 'package:langchain_core/memory.dart';
 import 'package:langchain_core/output_parsers.dart';
 import 'package:langchain_core/prompts.dart';
@@ -16,15 +15,14 @@ import '../chat_models/chat_models.dart';
 /// a specific structure (e.g. the answer and the sources used to answer the
 /// question).
 /// {@endtemplate}
-class OpenAIQAWithStructureChain<CallOptions extends BaseLangChainOptions,
-        S extends Object>
-    extends LLMChain<ChatOpenAI, ChatOpenAIOptions,
-        BaseOutputFunctionsParser<CallOptions, S>, BaseChatMemory> {
+class OpenAIQAWithStructureChain<S extends Object>
+    extends LLMChain<ChatOpenAI, ChatOpenAIOptions, BaseChatMemory> {
   /// {@macro openai_qa_with_structure_chain}
   OpenAIQAWithStructureChain({
     required super.llm,
     required final ChatFunction function,
-    required BaseOutputFunctionsParser<CallOptions, S> super.outputParser,
+    required BaseOutputFunctionsParser<OutputParserOptions, S>
+        super.outputParser,
     final BasePromptTemplate? prompt,
   }) : super(
           prompt: prompt ?? _getPrompt(),

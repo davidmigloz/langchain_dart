@@ -13,7 +13,7 @@ void main() {
       final prompt1 = PromptTemplate.fromTemplate('Hello {input}!');
       final prompt2 = PromptTemplate.fromTemplate('Bye {input}!');
       const model = FakeEchoChatModel();
-      const outputParser = StringOutputParser<AIChatMessage>();
+      const outputParser = StringOutputParser<ChatResult>();
       final chain = Runnable.fromMap({
         'left': prompt1 | model | outputParser,
         'right': prompt2 | model | outputParser,
@@ -30,7 +30,7 @@ void main() {
       final prompt1 = PromptTemplate.fromTemplate('Hello {input}!');
       final prompt2 = PromptTemplate.fromTemplate('Bye {input}!');
       const model = FakeEchoLLM();
-      const outputParser = StringOutputParser<String>();
+      const outputParser = StringOutputParser<LLMResult>();
       final chain = Runnable.fromMap({
         'left': prompt1 | model | outputParser,
         'right': prompt2 | model | outputParser,

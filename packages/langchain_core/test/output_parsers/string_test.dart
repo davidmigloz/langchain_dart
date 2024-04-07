@@ -15,7 +15,7 @@ void main() {
         metadata: {},
         usage: LanguageModelUsage(),
       );
-      final res = await const StringOutputParser().parseResult(result);
+      final res = await const StringOutputParser().invoke(result);
       expect(res, 'Hello world!');
     });
 
@@ -27,7 +27,7 @@ void main() {
         metadata: {},
         usage: LanguageModelUsage(),
       );
-      final res = await const StringOutputParser().parseResult(result);
+      final res = await const StringOutputParser().invoke(result);
       expect(res, 'Hello world!');
     });
   });

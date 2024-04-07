@@ -26,7 +26,6 @@ import 'types.dart';
 class LLMChain<
     LLMType extends BaseLanguageModel,
     LLMOptions extends LanguageModelOptions,
-    OutputParserType extends BaseLLMOutputParser,
     MemoryType extends BaseMemory> extends BaseChain<MemoryType> {
   /// {@macro llm_chain}
   const LLMChain({
@@ -37,7 +36,7 @@ class LLMChain<
     this.outputParser,
     this.outputKey = defaultOutputKey,
     this.returnFinalOnly = true,
-  });
+  }) : super(defaultOptions: const ChainOptions());
 
   /// Language model to call.
   final LLMType llm;
@@ -52,7 +51,7 @@ class LLMChain<
   ///
   /// Defaults to one that takes the most likely string but does not change it
   /// otherwise.
-  final OutputParserType? outputParser;
+  final BaseOutputParser? outputParser;
 
   /// Key to use for output.
   final String outputKey;
@@ -90,7 +89,7 @@ class LLMChain<
 
     final res = outputParser == null
         ? response.output
-        : await outputParser!.parseResultWithPrompt(response, promptValue);
+        : await outputParser!.invoke(response);
 
     return {
       outputKey: res,

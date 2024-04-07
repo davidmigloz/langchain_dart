@@ -14,7 +14,7 @@ Future<void> _openAIStreaming() async {
     'List the numbers from 1 to {max_num} in order without any spaces or commas',
   );
   final llm = OpenAI(apiKey: openaiApiKey);
-  const stringOutputParser = StringOutputParser<String>();
+  const stringOutputParser = StringOutputParser<LLMResult>();
   final chain = promptTemplate | llm | stringOutputParser;
 
   final stream = chain.stream({'max_num': '9'});

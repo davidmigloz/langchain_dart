@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import '../langchain/types.dart';
 import 'binding.dart';
 import 'function.dart';
 import 'input_getter.dart';
@@ -8,6 +7,7 @@ import 'input_map.dart';
 import 'map.dart';
 import 'passthrough.dart';
 import 'sequence.dart';
+import 'types.dart';
 
 /// {@template runnable}
 /// A Runnable is a generic unit of work that can be invoked, batched,
@@ -41,9 +41,17 @@ import 'sequence.dart';
 ///   [Runnable.passthrough] static method.
 /// {@endtemplate}
 abstract class Runnable<RunInput extends Object?,
-    CallOptions extends BaseLangChainOptions, RunOutput extends Object?> {
+    CallOptions extends RunnableOptions, RunOutput extends Object?> {
   /// {@macro runnable}
-  const Runnable();
+  const Runnable({
+    required this.defaultOptions,
+  });
+
+  /// The default options to use when invoking the [Runnable].
+  ///
+  /// This can be overridden by passing options to the [invoke], [batch], or
+  /// [stream] methods.
+  final CallOptions defaultOptions;
 
   /// Creates a [RunnableSequence] from a list of [Runnable] objects.
   static Runnable fromList(final List<Runnable> runnables) {
@@ -51,19 +59,19 @@ abstract class Runnable<RunInput extends Object?,
   }
 
   /// Creates a [RunnableMap] from a map of [Runnable] objects.
-  static Runnable<RunInput, BaseLangChainOptions, Map<String, dynamic>>
+  static Runnable<RunInput, RunnableOptions, Map<String, dynamic>>
       fromMap<RunInput extends Object>(
-    final Map<String, Runnable<RunInput, BaseLangChainOptions, Object>> steps,
+    final Map<String, Runnable<RunInput, RunnableOptions, Object>> steps,
   ) {
     return RunnableMap<RunInput>(steps);
   }
 
   /// Creates a [RunnableFunction] from a Dart function.
-  static Runnable<RunInput, BaseLangChainOptions, RunOutput>
+  static Runnable<RunInput, RunnableOptions, RunOutput>
       fromFunction<RunInput extends Object, RunOutput extends Object>(
     final FutureOr<RunOutput> Function(
       RunInput input,
-      BaseLangChainOptions? options,
+      RunnableOptions? options,
     ) function,
   ) {
     return RunnableFunction<RunInput, RunOutput>(function);
@@ -71,14 +79,14 @@ abstract class Runnable<RunInput extends Object?,
 
   /// Creates a [RunnablePassthrough] which takes the input it receives and
   /// passes it through as output.
-  static Runnable<RunInput, BaseLangChainOptions, RunInput>
+  static Runnable<RunInput, RunnableOptions, RunInput>
       passthrough<RunInput extends Object>() {
     return RunnablePassthrough<RunInput>();
   }
 
   /// Creates a [RunnableItemFromMap] which takes a map input it receives and
   /// returns the value of the given key.
-  static Runnable<Map<String, dynamic>, BaseLangChainOptions, RunOutput>
+  static Runnable<Map<String, dynamic>, RunnableOptions, RunOutput>
       getItemFromMap<RunOutput extends Object>(
     final String key,
   ) {
@@ -87,14 +95,14 @@ abstract class Runnable<RunInput extends Object?,
 
   /// Creates a [RunnableMapFromInput] which output a map with the given key and
   /// the input as value.
-  static Runnable<RunInput, BaseLangChainOptions, Map<String, dynamic>>
+  static Runnable<RunInput, RunnableOptions, Map<String, dynamic>>
       getMapFromInput<RunInput extends Object>([final String key = 'input']) {
     return RunnableMapFromInput<RunInput>(key);
   }
 
   /// Creates a [RunnableMapInput] which allows you to map the input to a
   /// different value.
-  static Runnable<RunInput, BaseLangChainOptions, RunOutput>
+  static Runnable<RunInput, RunnableOptions, RunOutput>
       mapInput<RunInput extends Object, RunOutput extends Object>(
     final RunOutput Function(RunInput input) inputMapper,
   ) {
@@ -140,7 +148,7 @@ abstract class Runnable<RunInput extends Object?,
   ///
   /// - [next] - the [Runnable] to pipe the output into.
   RunnableSequence<RunInput, NewRunOutput> pipe<NewRunOutput extends Object?,
-      NewCallOptions extends BaseLangChainOptions>(
+      NewCallOptions extends RunnableOptions>(
     final Runnable<RunOutput, NewCallOptions, NewRunOutput> next,
   ) {
     return RunnableSequence<RunInput, NewRunOutput>(
@@ -153,7 +161,7 @@ abstract class Runnable<RunInput extends Object?,
   ///
   /// - [options] - the [CallOptions] to bind the [Runnable] with.
   RunnableBinding<RunInput, CallOptions, RunOutput> bind(
-    final CallOptions? options,
+    final CallOptions options,
   ) {
     return RunnableBinding<RunInput, CallOptions, RunOutput>(
       bound: this,

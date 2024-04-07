@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 
-/// Chunk an array into smaller arrays of a specified size.
-List<List<T>> chunkArray<T>(
+/// Chunk a list into smaller list of a specified size.
+List<List<T>> chunkList<T>(
   final List<T> arr, {
   required final int chunkSize,
 }) {

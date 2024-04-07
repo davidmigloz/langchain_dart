@@ -14,7 +14,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplate(
 'Tell me a joke about {topic}',
 );
 
-final chain = promptTemplate.pipe(model).pipe(const StringOutputParser());
+final chain = promptTemplate.pipe(model).pipe(StringOutputParser());
 
 final res = await chain.invoke({'topic': 'bears'});
 print(res);
@@ -31,7 +31,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplate(
   'Tell me a joke about {topic}',
 );
 
-final chain = promptTemplate | model | const StringOutputParser();
+final chain = promptTemplate | model | StringOutputParser();
 
 final stream = chain.stream({'topic': 'bears'});
 

@@ -9,7 +9,7 @@ typedef ChainValues = Map<String, dynamic>;
 /// Options to pass to a chain.
 /// {@endtemplate}
 @immutable
-abstract class ChainOptions extends BaseLangChainOptions {
+class ChainOptions extends BaseLangChainOptions {
   /// {@macro chain_options}
   const ChainOptions();
 }

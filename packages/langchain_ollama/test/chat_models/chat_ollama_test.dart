@@ -27,7 +27,7 @@ void main() {
     });
 
     test('Test ChatOllama parameters', () async {
-      chatModel.defaultOptions = const ChatOllamaOptions(
+      const options = ChatOllamaOptions(
         model: 'foo',
         format: OllamaResponseFormat.json,
         numKeep: 0,
@@ -65,44 +65,41 @@ void main() {
         numThread: 21,
       );
 
-      expect(chatModel.defaultOptions.model, 'foo');
-      expect(chatModel.defaultOptions.format, OllamaResponseFormat.json);
-      expect(chatModel.defaultOptions.numKeep, 0);
-      expect(chatModel.defaultOptions.seed, 1);
-      expect(chatModel.defaultOptions.numPredict, 2);
-      expect(chatModel.defaultOptions.topK, 3);
-      expect(chatModel.defaultOptions.topP, 4.0);
-      expect(chatModel.defaultOptions.tfsZ, 5.0);
-      expect(chatModel.defaultOptions.typicalP, 6.0);
-      expect(chatModel.defaultOptions.repeatLastN, 7);
-      expect(chatModel.defaultOptions.temperature, 8.0);
-      expect(chatModel.defaultOptions.repeatPenalty, 9.0);
-      expect(chatModel.defaultOptions.presencePenalty, 10.0);
-      expect(chatModel.defaultOptions.frequencyPenalty, 11.0);
-      expect(chatModel.defaultOptions.mirostat, 12);
-      expect(chatModel.defaultOptions.mirostatTau, 13.0);
-      expect(chatModel.defaultOptions.mirostatEta, 14.0);
-      expect(chatModel.defaultOptions.penalizeNewline, false);
-      expect(
-        chatModel.defaultOptions.stop,
-        ['stop <start_message>', 'stop <stop_message>'],
-      );
-      expect(chatModel.defaultOptions.numa, true);
-      expect(chatModel.defaultOptions.numCtx, 15);
-      expect(chatModel.defaultOptions.numBatch, 16);
-      expect(chatModel.defaultOptions.numGqa, 17);
-      expect(chatModel.defaultOptions.numGpu, 0);
-      expect(chatModel.defaultOptions.mainGpu, 18);
-      expect(chatModel.defaultOptions.lowVram, true);
-      expect(chatModel.defaultOptions.f16KV, true);
-      expect(chatModel.defaultOptions.logitsAll, true);
-      expect(chatModel.defaultOptions.vocabOnly, true);
-      expect(chatModel.defaultOptions.useMmap, true);
-      expect(chatModel.defaultOptions.useMlock, true);
-      expect(chatModel.defaultOptions.embeddingOnly, true);
-      expect(chatModel.defaultOptions.ropeFrequencyBase, 19.0);
-      expect(chatModel.defaultOptions.ropeFrequencyScale, 20.0);
-      expect(chatModel.defaultOptions.numThread, 21);
+      expect(options.model, 'foo');
+      expect(options.format, OllamaResponseFormat.json);
+      expect(options.numKeep, 0);
+      expect(options.seed, 1);
+      expect(options.numPredict, 2);
+      expect(options.topK, 3);
+      expect(options.topP, 4.0);
+      expect(options.tfsZ, 5.0);
+      expect(options.typicalP, 6.0);
+      expect(options.repeatLastN, 7);
+      expect(options.temperature, 8.0);
+      expect(options.repeatPenalty, 9.0);
+      expect(options.presencePenalty, 10.0);
+      expect(options.frequencyPenalty, 11.0);
+      expect(options.mirostat, 12);
+      expect(options.mirostatTau, 13.0);
+      expect(options.mirostatEta, 14.0);
+      expect(options.penalizeNewline, false);
+      expect(options.stop, ['stop <start_message>', 'stop <stop_message>']);
+      expect(options.numa, true);
+      expect(options.numCtx, 15);
+      expect(options.numBatch, 16);
+      expect(options.numGqa, 17);
+      expect(options.numGpu, 0);
+      expect(options.mainGpu, 18);
+      expect(options.lowVram, true);
+      expect(options.f16KV, true);
+      expect(options.logitsAll, true);
+      expect(options.vocabOnly, true);
+      expect(options.useMmap, true);
+      expect(options.useMlock, true);
+      expect(options.embeddingOnly, true);
+      expect(options.ropeFrequencyBase, 19.0);
+      expect(options.ropeFrequencyScale, 20.0);
+      expect(options.numThread, 21);
     });
 
     test('Test model output contains metadata', () async {
@@ -177,7 +174,7 @@ void main() {
         'Output ONLY the numbers in one line without any spaces or commas. '
         'NUMBERS:',
       );
-      const stringOutputParser = StringOutputParser<AIChatMessage>();
+      const stringOutputParser = StringOutputParser<ChatResult>();
 
       final chain = promptTemplate.pipe(chatModel).pipe(stringOutputParser);
 

@@ -1,43 +1,16 @@
-import '../langchain/types.dart';
-import '../language_models/types.dart';
-import '../prompts/types.dart';
 import '../runnables/runnable.dart';
-
-/// Options for formatting instructions.
-interface class FormatInstructionsOptions {}
+import 'types.dart';
 
 /// {@template base_llm_output_parser}
-/// Class to parse the output of an model call.
+/// Class to parse the output of a [Runnable] invocation.
 /// {@endtemplate}
-abstract class BaseLLMOutputParser<LLMOutput extends Object,
-        CallOptions extends BaseLangChainOptions, ParserOutput extends Object?>
-    extends Runnable<LanguageModelResult<LLMOutput>, CallOptions,
-        ParserOutput> {
+abstract class BaseOutputParser<ParserInput extends Object?,
+        CallOptions extends OutputParserOptions, ParserOutput extends Object?>
+    extends Runnable<ParserInput, CallOptions, ParserOutput> {
   /// {@macro base_llm_output_parser}
-  const BaseLLMOutputParser();
-
-  /// Parses the result of an LLM call. This method is meant to be implemented
-  /// by subclasses to define how the output from the LLM should be parsed.
-  ///
-  /// - [result] - The result of an LLM call.
-  Future<ParserOutput> parseResult(
-    final LanguageModelResult<LLMOutput> result,
-  );
-
-  /// Optional method to parse the output of an LLM call with a prompt.
-  ///
-  /// The prompt is largely provided in the event the OutputParser wants to
-  /// retry or fix the output in some way, and needs information from the
-  /// prompt to do so.
-  ///
-  /// - [result] - The result of an LLM call.
-  /// - [prompt] - Prompt used to generate the output.
-  Future<ParserOutput> parseResultWithPrompt(
-    final LanguageModelResult<LLMOutput> result,
-    final PromptValue prompt,
-  ) async {
-    return parseResult(result);
-  }
+  const BaseOutputParser({
+    required super.defaultOptions,
+  });
 
   /// Invokes the output parser on the given input.
   ///
@@ -45,56 +18,7 @@ abstract class BaseLLMOutputParser<LLMOutput extends Object,
   /// - [options] - Not used.
   @override
   Future<ParserOutput> invoke(
-    final LanguageModelResult<LLMOutput> input, {
-    final BaseLangChainOptions? options,
-  }) {
-    return parseResult(input);
-  }
-}
-
-/// {@template base_output_parser}
-/// Class to parse the output of an LLM call.
-/// {@endtemplate}
-abstract class BaseOutputParser<LLMOutput extends Object,
-        CallOptions extends BaseLangChainOptions, ParserOutput extends Object>
-    extends BaseLLMOutputParser<LLMOutput, CallOptions, ParserOutput> {
-  /// {@macro base_output_parser}
-  const BaseOutputParser();
-
-  @override
-  Future<ParserOutput> parseResult(
-    final LanguageModelResult<LLMOutput> result,
-  ) {
-    return parse(result.outputAsString);
-  }
-
-  /// Parse the output of an LLM call.
-  ///
-  /// A method which takes in a string (assumed output of a language model)
-  /// and parses it into some structure.
-  ///
-  /// - [text] - LLM output to parse.
-  Future<ParserOutput> parse(final String text);
-
-  /// Optional method to parse the output of an LLM call with a prompt.
-  ///
-  /// The prompt is largely provided in the event the OutputParser wants to
-  /// retry or fix the output in some way, and needs information from the
-  /// prompt to do so.
-  ///
-  /// [text] - LLM output to parse.
-  /// [prompt] - Prompt used to generate the output.
-  Future<ParserOutput> parseWithPrompt(
-    final String text,
-    final PromptValue prompt,
-  ) async {
-    return parse(text);
-  }
-
-  /// Return a string describing the format of the LLM output.
-  ///
-  /// [options] - Options for formatting instructions.
-  String getFormatInstructions([final FormatInstructionsOptions? options]) {
-    return ''; // Override this method to provide instructions.
-  }
+    final ParserInput input, {
+    final CallOptions? options,
+  });
 }

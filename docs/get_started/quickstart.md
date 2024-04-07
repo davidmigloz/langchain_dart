@@ -157,16 +157,33 @@ For full information on this, see the section on [output parsers](/modules/model
 In this getting started guide, we will write our own output parser - one that converts a comma separated list into a list.
 
 ```dart
-class CommaSeparatedListOutputParser extends BaseOutputParser<AIChatMessage, BaseLangChainOptions, List<String>> {
+class CommaSeparatedListOutputParser 
+    extends BaseOutputParser<ChatResult, OutputParserOptions, List<String>> {
+  
+  const CommaSeparatedListOutputParser()
+      : super(defaultOptions: const OutputParserOptions());
+
   @override
-  Future<List<String>> parse(final String text) async {
-    return text.trim().split(',');
+  Future<List<String>> invoke(
+      final ChatResult input, {
+      final OutputParserOptions? options,
+  }) async {
+    final message = input.output;
+    return message.content.trim().split(',');
   }
 }
 ```
 
 ```dart
-final res = await CommaSeparatedListOutputParser().parse('hi, bye');
+final res = await const CommaSeparatedListOutputParser().invoke(
+  const ChatResult(
+    id: 'id',
+    output: AIChatMessage(content: 'hi, bye'),
+    finishReason: FinishReason.stop,
+    metadata: {},
+    usage: LanguageModelUsage(),
+  ),
+);
 print(res);
 // ['hi',  'bye']
 ```

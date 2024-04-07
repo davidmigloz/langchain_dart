@@ -1,5 +1,5 @@
-import '../langchain/types.dart';
 import 'runnable.dart';
+import 'types.dart';
 
 /// {@template runnable_binding}
 /// A [RunnableBinding] allows you to run a [Runnable] object with
@@ -37,19 +37,19 @@ import 'runnable.dart';
 /// ```
 /// {@endtemplate}
 class RunnableBinding<RunInput extends Object?,
-        CallOptions extends BaseLangChainOptions, RunOutput extends Object?>
+        CallOptions extends RunnableOptions, RunOutput extends Object?>
     extends Runnable<RunInput, CallOptions, RunOutput> {
   /// {@macro runnable_binding}
   const RunnableBinding({
     required this.bound,
-    this.options,
-  });
+    required this.options,
+  }) : super(defaultOptions: options);
 
   /// The [Runnable] to bind.
   final Runnable<RunInput, CallOptions, RunOutput> bound;
 
   /// The [CallOptions] to bind the [Runnable] with.
-  final CallOptions? options;
+  final CallOptions options;
 
   /// Invokes the [RunnableBinding] on the given [input].
   ///

@@ -5,7 +5,7 @@ This shows how to add memory to an arbitrary chain. Right now, you can use the m
 ```dart
 final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 final model = ChatOpenAI(apiKey: openaiApiKey);
-const stringOutputParser = StringOutputParser();
+const stringOutputParser = StringOutputParser<ChatResult>();
 final memory = ConversationBufferMemory(returnMessages: true);
 
 final promptTemplate = ChatPromptTemplate.fromPromptMessages([

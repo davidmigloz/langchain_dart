@@ -191,7 +191,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    this.defaultOptions = const ChatOpenAIOptions(
+    super.defaultOptions = const ChatOpenAIOptions(
       model: 'gpt-3.5-turbo',
     ),
     this.encoding,
@@ -206,9 +206,6 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
 
   /// A client for interacting with OpenAI API.
   final OpenAIClient _client;
-
-  /// The default options to use when calling the completions API.
-  ChatOpenAIOptions defaultOptions;
 
   /// The encoding to use by tiktoken when [tokenize] is called.
   ///

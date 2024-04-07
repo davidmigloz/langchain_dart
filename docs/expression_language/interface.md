@@ -60,7 +60,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplate(
   'Tell me a joke about {topic}',
 );
 
-final chain = promptTemplate | model | const StringOutputParser();
+final chain = promptTemplate | model | StringOutputParser();
 ```
 
 ### Invoke
@@ -135,10 +135,10 @@ final promptTemplate = ChatPromptTemplate.fromTemplate(
 );
 
 // The following three chains are equivalent:
-final chain1 = promptTemplate | model | const StringOutputParser();
-final chain2 = promptTemplate.pipe(model).pipe(const StringOutputParser());
+final chain1 = promptTemplate | model | StringOutputParser();
+final chain2 = promptTemplate.pipe(model).pipe(StringOutputParser());
 final chain3 = Runnable.fromList(
-  [promptTemplate, model, const StringOutputParser()],
+  [promptTemplate, model, StringOutputParser()],
 );
 
 final res = await chain1.invoke({'topic': 'bears'});
@@ -169,7 +169,7 @@ final promptTemplate2 = ChatPromptTemplate.fromTemplate(
 final promptTemplate3 = ChatPromptTemplate.fromTemplate(
   'Is {city} a good city for a {age} years old person?',
 );
-const stringOutputParser = StringOutputParser();
+const stringOutputParser = StringOutputParser<ChatResult>();
 
 final chain = Runnable.fromMap({
   'city': promptTemplate1 | model | stringOutputParser,
@@ -201,7 +201,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplate(
 
 final chain = promptTemplate |
     model.bind(const ChatOpenAIOptions(stop: ['\n'])) |
-    const StringOutputParser();
+    StringOutputParser();
 
 final res = await chain.invoke({'foo': 'bears'});
 print(res);
@@ -245,7 +245,7 @@ final chain = Runnable.fromMap({
     }) |
     promptTemplate |
     model |
-    const StringOutputParser();
+    StringOutputParser();
 
 final res = await chain.invoke({'foo': 'foo', 'bar': 'bar'});
 print(res);
@@ -273,7 +273,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplate(
 final map = Runnable.fromMap({
   'foo': Runnable.passthrough(),
 });
-final chain = map | promptTemplate | model | const StringOutputParser();
+final chain = map | promptTemplate | model | StringOutputParser();
 
 final res = await chain.invoke('bears');
 print(res);
@@ -307,7 +307,7 @@ final chain = Runnable.fromMap({
     }) |
     promptTemplate |
     model |
-    const StringOutputParser();
+    StringOutputParser();
 
 final res = await chain.invoke({
   'question': 'What payment methods do you accept?',
@@ -346,7 +346,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplate(
 final chain = Runnable.getMapFromInput('foo') |
     promptTemplate |
     model |
-    const StringOutputParser();
+    StringOutputParser();
 
 final res = await chain.invoke('bears');
 print(res);

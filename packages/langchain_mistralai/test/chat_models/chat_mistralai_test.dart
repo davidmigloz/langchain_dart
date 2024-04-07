@@ -25,7 +25,7 @@ void main() {
     });
 
     test('Test ChatMistralAI parameters', () async {
-      chatModel.defaultOptions = const ChatMistralAIOptions(
+      const options = ChatMistralAIOptions(
         model: 'foo',
         temperature: 0.1,
         topP: 0.5,
@@ -34,12 +34,12 @@ void main() {
         randomSeed: 1234,
       );
 
-      expect(chatModel.defaultOptions.model, 'foo');
-      expect(chatModel.defaultOptions.temperature, 0.1);
-      expect(chatModel.defaultOptions.topP, 0.5);
-      expect(chatModel.defaultOptions.maxTokens, 10);
-      expect(chatModel.defaultOptions.safePrompt, true);
-      expect(chatModel.defaultOptions.randomSeed, 1234);
+      expect(options.model, 'foo');
+      expect(options.temperature, 0.1);
+      expect(options.topP, 0.5);
+      expect(options.maxTokens, 10);
+      expect(options.safePrompt, true);
+      expect(options.randomSeed, 1234);
     });
 
     test('Test call to ChatMistralAI', () async {
@@ -112,7 +112,7 @@ void main() {
         'Output ONLY the numbers in one line without any spaces or commas. '
         'NUMBERS:',
       );
-      const stringOutputParser = StringOutputParser<AIChatMessage>();
+      const stringOutputParser = StringOutputParser<ChatResult>();
 
       final chain = promptTemplate.pipe(chatModel).pipe(stringOutputParser);
 

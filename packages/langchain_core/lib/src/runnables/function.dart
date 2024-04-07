@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import '../langchain/types.dart';
 import 'runnable.dart';
+import 'types.dart';
 
 /// {@template runnable_function}
 /// A [RunnableFunction] allows you to run a Dart function as part of a chain.
@@ -40,7 +40,7 @@ import 'runnable.dart';
 ///     }) |
 ///     promptTemplate |
 ///     model |
-///     const StringOutputParser();
+///     StringOutputParser();
 ///
 /// final res = await chain.invoke({'foo': 'foo', 'bar': 'bar'});
 /// print(res);
@@ -48,14 +48,15 @@ import 'runnable.dart';
 /// ```
 /// {@endtemplate}
 class RunnableFunction<RunInput extends Object, RunOutput extends Object>
-    extends Runnable<RunInput, BaseLangChainOptions, RunOutput> {
+    extends Runnable<RunInput, RunnableOptions, RunOutput> {
   /// {@macro runnable_function}
-  const RunnableFunction(this.function);
+  const RunnableFunction(this.function)
+      : super(defaultOptions: const RunnableOptions());
 
   /// The function to run.
   final FutureOr<RunOutput> Function(
     RunInput input,
-    BaseLangChainOptions? options,
+    RunnableOptions? options,
   ) function;
 
   /// Invokes the [RunnableFunction] on the given [input].
@@ -65,7 +66,7 @@ class RunnableFunction<RunInput extends Object, RunOutput extends Object>
   @override
   Future<RunOutput> invoke(
     final RunInput input, {
-    final BaseLangChainOptions? options,
+    final RunnableOptions? options,
   }) async {
     return function(input, options);
   }

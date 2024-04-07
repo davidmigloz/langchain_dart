@@ -1,11 +1,11 @@
-import '../langchain/types.dart';
 import 'runnable.dart';
 import 'sequence.dart';
+import 'types.dart';
 
 /// Extension methods for [Runnable]s.
 extension RunnableX<
     RunInput extends Object,
-    CallOptions extends BaseLangChainOptions,
+    CallOptions extends RunnableOptions,
     RunOutput extends Object,
     NewRunOutput extends Object> on Runnable<RunInput, CallOptions, RunOutput> {
   /// Pipes the output of this [Runnable] into another [Runnable].
@@ -19,7 +19,7 @@ extension RunnableX<
   ///
   /// - [next] - the [Runnable] to pipe the output into.
   RunnableSequence<RunInput, NewRunOutput> operator |(
-    final Runnable<RunOutput, BaseLangChainOptions, NewRunOutput> next,
+    final Runnable<RunOutput, RunnableOptions, NewRunOutput> next,
   ) {
     return pipe(next);
   }

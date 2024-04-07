@@ -84,7 +84,7 @@ Future<void> _runnableTypesRunnableSequence() async {
   final chain1 = promptTemplate | model | const StringOutputParser();
   // final chain2 = promptTemplate.pipe(model).pipe(const StringOutputParser());
   // final chain3 = Runnable.fromList(
-  //   [promptTemplate, model, const StringOutputParser()],
+  //   [promptTemplate, model, StringOutputParser()],
   // );
 
   final res = await chain1.invoke({'topic': 'bears'});
@@ -105,7 +105,7 @@ Future<void> _runnableTypesRunnableMap() async {
   final promptTemplate3 = ChatPromptTemplate.fromTemplate(
     'Is {city} a good city for a {age} years old person?',
   );
-  const stringOutputParser = StringOutputParser();
+  const stringOutputParser = StringOutputParser<ChatResult>();
 
   final chain = Runnable.fromMap({
         'city': promptTemplate1 | model | stringOutputParser,

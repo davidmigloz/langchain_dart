@@ -11,7 +11,7 @@ void main() {
     test('RunnableBinding from Runnable.bind', () async {
       final prompt = PromptTemplate.fromTemplate('Hello {input}');
       const model = _FakeOptionsChatModel();
-      const outputParser = StringOutputParser<AIChatMessage>();
+      const outputParser = StringOutputParser<ChatResult>();
       final chain = prompt |
           model.bind(const _FakeOptionsChatModelOptions('world')) |
           outputParser;
@@ -23,7 +23,7 @@ void main() {
     test('Streaming RunnableBinding', () async {
       final prompt = PromptTemplate.fromTemplate('Hello {input}');
       const model = _FakeOptionsChatModel();
-      const outputParser = StringOutputParser<AIChatMessage>();
+      const outputParser = StringOutputParser<ChatResult>();
 
       final chain = prompt
           .pipe(model.bind(const _FakeOptionsChatModelOptions('world')))
@@ -42,7 +42,8 @@ void main() {
 
 class _FakeOptionsChatModel
     extends SimpleChatModel<_FakeOptionsChatModelOptions> {
-  const _FakeOptionsChatModel();
+  const _FakeOptionsChatModel()
+      : super(defaultOptions: const _FakeOptionsChatModelOptions(''));
 
   @override
   String get modelType => 'fake-options-chat-model';

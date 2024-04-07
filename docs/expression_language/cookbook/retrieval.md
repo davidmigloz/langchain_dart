@@ -32,7 +32,7 @@ Question: {question}''');
 final chain = Runnable.fromMap({
   'context': retriever | Runnable.fromFunction((docs, _) => docs.join('\n')),
   'question': Runnable.passthrough(),
-}) | promptTemplate | model | const StringOutputParser();
+}) | promptTemplate | model | StringOutputParser();
 
 final res1 = await chain.invoke('What payment methods do you accept?');
 print(res1);
@@ -62,7 +62,7 @@ final chain = Runnable.fromMap({
     }) |
     promptTemplate |
     model |
-    const StringOutputParser();
+    StringOutputParser();
 
 final res1 = await chain.invoke({
   'question': 'What payment methods do you accept?',
@@ -88,7 +88,7 @@ Because we can create `Runnable`s from functions we can add in conversation hist
 ```dart
 final retriever = vectorStore.asRetriever();
 final model = ChatOpenAI(apiKey: openaiApiKey);
-const stringOutputParser = StringOutputParser();
+const stringOutputParser = StringOutputParser<ChatResult>();
 
 final condenseQuestionPrompt = ChatPromptTemplate.fromTemplate('''
 Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question, in its original language.
@@ -169,7 +169,7 @@ final retriever = vectorStore.asRetriever(
   ),
 );
 final model = ChatOpenAI(apiKey: openaiApiKey);
-final stringOutputParser = const StringOutputParser();
+const stringOutputParser = StringOutputParser<ChatResult>();
 final memory = ConversationBufferMemory(
   inputKey: 'question',
   outputKey: 'answer',

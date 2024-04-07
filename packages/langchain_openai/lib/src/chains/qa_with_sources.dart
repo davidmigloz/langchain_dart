@@ -1,5 +1,4 @@
 import 'package:langchain_core/chat_models.dart';
-import 'package:langchain_core/langchain.dart';
 import 'package:langchain_core/output_parsers.dart';
 
 import 'qa_with_structure.dart';
@@ -91,8 +90,8 @@ class QAWithSources {
 /// {@template qa_with_sources_output_parser}
 /// A parser that converts the output of the OpenAI API into a [QAWithSources].
 /// {@endtemplate}
-class QAWithSourcesOutputParser<CallOptions extends BaseLangChainOptions>
-    extends BaseOutputFunctionsParser<CallOptions, QAWithSources> {
+class QAWithSourcesOutputParser
+    extends BaseOutputFunctionsParser<OutputParserOptions, QAWithSources> {
   /// {@macro qa_with_sources_output_parser}
   QAWithSourcesOutputParser();
 

@@ -155,7 +155,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    this.defaultOptions = const ChatMistralAIOptions(
+    super.defaultOptions = const ChatMistralAIOptions(
       model: 'mistral-small',
     ),
     this.encoding = 'cl100k_base',
@@ -169,9 +169,6 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
 
   /// A client for interacting with Mistral AI API.
   final MistralAIClient _client;
-
-  /// The default options to use when calling the chat completions API.
-  ChatMistralAIOptions defaultOptions;
 
   /// The encoding to use by tiktoken when [tokenize] is called.
   ///

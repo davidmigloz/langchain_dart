@@ -33,7 +33,8 @@ abstract class BaseChain<MemoryType extends BaseMemory>
   /// {@macro base_chain}
   const BaseChain({
     this.memory,
-  });
+    final ChainOptions? defaultOptions,
+  }) : super(defaultOptions: defaultOptions ?? const ChainOptions());
 
   /// Memory to use for this chain.
   final MemoryType? memory;

@@ -28,7 +28,7 @@ abstract class LanguageModelResult<O extends Object> {
   });
 
   /// Result id.
-  final String? id;
+  final String id;
 
   /// Generated output.
   final O output;

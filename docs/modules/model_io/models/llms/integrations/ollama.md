@@ -29,7 +29,7 @@ final llm = Ollama(
     model: 'llama2',
   ),
 );
-final chain = prompt | llm | const StringOutputParser();
+final chain = prompt | llm | StringOutputParser();
 final res = await chain.invoke({'product': 'colorful socks'});
 print(res);
 // -> 'SoleMates'
@@ -46,7 +46,7 @@ final llm = Ollama(
     model: 'llama2',
   ),
 );
-const stringOutputParser = StringOutputParser<String>();
+const stringOutputParser = StringOutputParser<LLMResult>();
 final chain = promptTemplate | llm | stringOutputParser;
 final stream = chain.stream({'max_num': '9'});
 await stream.forEach(print);

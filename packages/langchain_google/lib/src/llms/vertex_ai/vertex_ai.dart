@@ -122,7 +122,7 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
     required final String project,
     final String location = 'us-central1',
     final String? rootUrl,
-    this.defaultOptions = const VertexAIOptions(
+    super.defaultOptions = const VertexAIOptions(
       publisher: 'google',
       model: 'text-bison',
     ),
@@ -135,9 +135,6 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
 
   /// A client for interacting with Vertex AI API.
   final VertexAIGenAIClient client;
-
-  /// The default options to use when calling the model.
-  VertexAIOptions defaultOptions;
 
   /// Scope required for Vertex AI API calls.
   static const cloudPlatformScope = VertexAIGenAIClient.cloudPlatformScope;
