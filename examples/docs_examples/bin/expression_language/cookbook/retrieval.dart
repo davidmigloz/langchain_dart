@@ -40,7 +40,7 @@ Answer the question based only on the following context:
 
 Question: {question}''');
 
-  final chain = Runnable.fromMap({
+  final chain = Runnable.fromMap<String>({
         'context': retriever |
             Runnable.fromFunction((final docs, final _) => docs.join('\n')),
         'question': Runnable.passthrough(),
@@ -53,8 +53,7 @@ Question: {question}''');
   print(res1);
   // The payment methods accepted are iDEAL, PayPal, and credit card.
 
-  final res2 = await chain.invoke('How can I get free shipping?');
-  print(res2);
+  await chain.stream('How can I get free shipping?').forEach(stdout.write);
   // To get free shipping, you need to place an order over 30€.
 }
 
@@ -75,7 +74,7 @@ Question: {question}
 Answer in the following language: {language}''');
 
   final chain = Runnable.fromMap({
-        'context': Runnable.getItemFromMap('question') |
+        'context': Runnable.getItemFromMap<String>('question') |
             (retriever |
                 Runnable.fromFunction(
                   (final docs, final _) => docs.join('\n'),
@@ -95,11 +94,10 @@ Answer in the following language: {language}''');
   // Aceptamos los siguientes métodos de pago: iDEAL, PayPal y tarjeta de
   // crédito.
 
-  final res2 = await chain.invoke({
+  await chain.stream({
     'question': 'How can I get free shipping?',
     'language': 'nl_NL',
-  });
-  print(res2);
+  }).forEach(stdout.write);
   // Om gratis verzending te krijgen, moet je bestellingen plaatsen van meer
   // dan 30€.
 }
@@ -111,7 +109,6 @@ Future<void> _conversationalRetrievalChain() async {
 
   final retriever = vectorStore.asRetriever();
   final model = ChatOpenAI(apiKey: openaiApiKey);
-  const stringOutputParser = StringOutputParser<ChatResult>();
 
   final condenseQuestionPrompt = ChatPromptTemplate.fromTemplate('''
 Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question, in its original language.
@@ -153,11 +150,11 @@ Question: {question}''');
         }) |
         condenseQuestionPrompt |
         model |
-        stringOutputParser,
+        const StringOutputParser(reduceOutputStream: true),
   });
 
   final context = Runnable.fromMap({
-    'context': Runnable.getItemFromMap('standalone_question') |
+    'context': Runnable.getItemFromMap<String>('standalone_question') |
         retriever |
         Runnable.fromFunction<List<Document>, String>(
           (final docs, final _) => combineDocuments(docs),
@@ -166,7 +163,7 @@ Question: {question}''');
   });
 
   final conversationalQaChain =
-      inputs | context | answerPrompt | model | stringOutputParser;
+      inputs | context | answerPrompt | model | const StringOutputParser();
 
   final res1 = await conversationalQaChain.invoke({
     'question': 'What payment methods do you accept?',
@@ -176,11 +173,10 @@ Question: {question}''');
   // The methods of payment that are currently accepted are iDEAL, PayPal, and
   // credit card.
 
-  final res2 = await conversationalQaChain.invoke({
+  await conversationalQaChain.stream({
     'question': 'Do I get free shipping?',
     'chat_history': [('How much did you spend?', 'I spent 100€')],
-  });
-  print(res2);
+  }).forEach(stdout.write);
   // Yes, shipping is free on orders over 30€.
 }
 

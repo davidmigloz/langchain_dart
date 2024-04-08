@@ -124,13 +124,26 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
     final Stream<RunInput> inputStream, {
     final RunnableOptions? options,
   }) {
-    var nextStepStream = first.streamFromInputStream(inputStream);
-
-    for (final step in middle) {
-      nextStepStream = step.streamFromInputStream(nextStepStream);
+    Stream<Object?> nextStepStream;
+    try {
+      nextStepStream = first.streamFromInputStream(inputStream);
+    } on TypeError catch (e) {
+      _throwInvalidInputTypeStream(e, first);
     }
 
-    return last.streamFromInputStream(nextStepStream);
+    for (final step in middle) {
+      try {
+        nextStepStream = step.streamFromInputStream(nextStepStream);
+      } on TypeError catch (e) {
+        _throwInvalidInputTypeStream(e, step);
+      }
+    }
+
+    try {
+      return last.streamFromInputStream(nextStepStream);
+    } on TypeError catch (e) {
+      _throwInvalidInputTypeStream(e, last);
+    }
   }
 
   /// Pipes the output of this [RunnableSequence] into another [Runnable].
@@ -155,5 +168,26 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
         last: next,
       );
     }
+  }
+
+  /// Provides a better error message for type errors when streaming.
+  Never _throwInvalidInputTypeStream(
+    final TypeError e,
+    final Runnable runnable,
+  ) {
+    // TypeError: type '_BroadcastStream<X>' is not a subtype of type 'Stream<Y>' of 'inputStream'
+    final pattern = RegExp(
+      r'_(As)?BroadcastStream<(?<BroadcastType>[^>]+)>.*?Stream<(?<StreamType>[^>]+)>',
+    );
+    final error = e.toString();
+    final match = pattern.firstMatch(error);
+    final actualInputType = match?.namedGroup('BroadcastType') ?? 'Unknown';
+    final expectedInputType = match?.namedGroup('StreamType') ?? 'Unknown';
+    final errorMessage = '''
+${runnable.runtimeType} runnable expects an input type of $expectedInputType, but received an instance of type $actualInputType instead.
+
+Please ensure that the output of the previous runnable in the sequence matches the expected input type of the current runnable. 
+    ''';
+    throw ArgumentError(errorMessage);
   }
 }
