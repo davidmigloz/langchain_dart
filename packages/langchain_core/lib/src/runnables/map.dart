@@ -1,7 +1,7 @@
 import 'package:async/async.dart' show StreamGroup;
 
-import '../langchain/types.dart';
 import 'runnable.dart';
+import 'types.dart';
 
 /// {@template runnable_map}
 /// A [RunnableMap] allows you to run multiple [Runnable] objects in parallel
@@ -28,7 +28,7 @@ import 'runnable.dart';
 /// final promptTemplate3 = ChatPromptTemplate.fromTemplate(
 ///   'Is {city} a good city for a {age} years old person?',
 /// );
-/// const stringOutputParser = StringOutputParser();
+/// const stringOutputParser = StringOutputParser<ChatResult>();
 ///
 /// final chain = Runnable.fromMap({
 ///   'city': promptTemplate1 | model | stringOutputParser,
@@ -42,12 +42,13 @@ import 'runnable.dart';
 /// ```
 /// {@endtemplate}
 class RunnableMap<RunInput extends Object>
-    extends Runnable<RunInput, BaseLangChainOptions, Map<String, dynamic>> {
+    extends Runnable<RunInput, RunnableOptions, Map<String, dynamic>> {
   /// {@macro runnable_map}
-  const RunnableMap(this.steps);
+  const RunnableMap(this.steps)
+      : super(defaultOptions: const RunnableOptions());
 
   /// The map of [Runnable] objects to run in parallel.
-  final Map<String, Runnable<RunInput, BaseLangChainOptions, Object>> steps;
+  final Map<String, Runnable<RunInput, RunnableOptions, Object>> steps;
 
   /// Invokes the [RunnableMap] on the given [input].
   ///
@@ -56,7 +57,7 @@ class RunnableMap<RunInput extends Object>
   @override
   Future<Map<String, dynamic>> invoke(
     final RunInput input, {
-    final BaseLangChainOptions? options,
+    final RunnableOptions? options,
   }) async {
     final output = <String, dynamic>{};
 
@@ -70,7 +71,7 @@ class RunnableMap<RunInput extends Object>
   @override
   Stream<Map<String, dynamic>> stream(
     final RunInput input, {
-    final BaseLangChainOptions? options,
+    final RunnableOptions? options,
   }) {
     return streamFromInputStream(
       Stream.value(input).asBroadcastStream(),
@@ -81,7 +82,7 @@ class RunnableMap<RunInput extends Object>
   @override
   Stream<Map<String, dynamic>> streamFromInputStream(
     final Stream<RunInput> inputStream, {
-    final BaseLangChainOptions? options,
+    final RunnableOptions? options,
   }) {
     return StreamGroup.merge(
       steps.entries.map((final entry) {

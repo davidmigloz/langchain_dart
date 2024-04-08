@@ -32,7 +32,7 @@ Future<void> _ollamaStreaming() async {
       model: 'llama2',
     ),
   );
-  const stringOutputParser = StringOutputParser<String>();
+  const stringOutputParser = StringOutputParser<LLMResult>();
   final chain = promptTemplate | llm | stringOutputParser;
 
   final stream = chain.stream({'max_num': '9'});

@@ -39,7 +39,7 @@ final chatModel = ChatOpenAI(
   ),
 );
 
-final chain = promptTemplate | chatModel | const StringOutputParser();
+final chain = promptTemplate | chatModel | StringOutputParser();
 
 final res = await chain.invoke({
   'input_language': 'English',
@@ -72,7 +72,7 @@ final chatModel = ChatOpenAI(
   ),
 );
 
-final chain = promptTemplate.pipe(chatModel).pipe(const StringOutputParser());
+final chain = promptTemplate.pipe(chatModel).pipe(StringOutputParser());
 
 final stream = chain.stream({'max_num': '9'});
 await stream.forEach(print);

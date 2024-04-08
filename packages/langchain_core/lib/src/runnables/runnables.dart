@@ -7,3 +7,4 @@ export 'passthrough.dart';
 export 'runnable.dart';
 export 'runnable_ext.dart';
 export 'sequence.dart';
+export 'types.dart';

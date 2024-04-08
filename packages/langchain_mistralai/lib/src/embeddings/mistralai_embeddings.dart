@@ -112,7 +112,7 @@ class MistralAIEmbeddings implements Embeddings {
   Future<List<List<double>>> embedDocuments(
     final List<Document> documents,
   ) async {
-    final batches = chunkArray(documents, chunkSize: batchSize);
+    final batches = chunkList(documents, chunkSize: batchSize);
 
     final embeddings = await Future.wait(
       batches.map((final batch) async {

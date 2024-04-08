@@ -148,7 +148,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplate(
   'Tell me a joke about {foo}',
 );
 
-final chain = promptTemplate | model | const StringOutputParser();
+final chain = promptTemplate | model | StringOutputParser();
 
 final res = await chain.invoke({'foo': 'bears'});
 print(res);
@@ -227,7 +227,7 @@ To make invocation even simpler, we can add a `RunnableMap` to take care of crea
 final map = Runnable.fromMap({
   'foo': Runnable.passthrough(),
 });
-final chain = map | promptTemplate | model | const StringOutputParser();
+final chain = map | promptTemplate | model | StringOutputParser();
 ```
 
 *`Runnable.passthrough()` is a convenience method that creates a `RunnablePassthrough` object. This is a `Runnable` that takes the input it receives and passes it through as output.*
@@ -238,7 +238,7 @@ However, this is a bit verbose. We can simplify it by using `Runnable.getItemFro
 final chain = Runnable.getMapFromInput('foo') |
     promptTemplate |
     model |
-    const StringOutputParser();
+    StringOutputParser();
 ```
 
 Now, we can invoke the chain with just the input we care about:

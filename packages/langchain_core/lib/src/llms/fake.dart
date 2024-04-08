@@ -11,7 +11,7 @@ class FakeListLLM extends SimpleLLM {
   /// {@macro fake_list_llm}
   FakeListLLM({
     required this.responses,
-  });
+  }) : super(defaultOptions: const LLMOptions());
 
   /// Responses to return in order when called.
   final List<String> responses;
@@ -48,7 +48,7 @@ class FakeListLLM extends SimpleLLM {
 /// {@endtemplate}
 class FakeEchoLLM extends BaseLLM {
   /// {@macro fake_echo_llm}
-  const FakeEchoLLM();
+  const FakeEchoLLM() : super(defaultOptions: const LLMOptions());
 
   @override
   String get modelType => 'fake-echo';
@@ -108,7 +108,7 @@ class FakeHandlerLLM extends SimpleLLM {
   /// {@macro fake_handler_llm}
   FakeHandlerLLM({
     required this.handler,
-  });
+  }) : super(defaultOptions: const LLMOptions());
 
   /// Function called to generate the response.
   final String Function(

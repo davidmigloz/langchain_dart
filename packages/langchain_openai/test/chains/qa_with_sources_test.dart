@@ -131,7 +131,7 @@ Question: {question}
           temperature: 0,
         ),
       );
-      const outputParser = StringOutputParser<AIChatMessage>();
+      const outputParser = StringOutputParser<ChatResult>();
 
       final chain = Runnable.fromMap<String>({
         'context': retriever.pipe(docCombiner),

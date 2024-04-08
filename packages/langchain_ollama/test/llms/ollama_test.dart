@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_redundant_argument_values
 import 'dart:io';
 
+import 'package:langchain_core/llms.dart';
 import 'package:langchain_core/output_parsers.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_ollama/langchain_ollama.dart';
@@ -24,7 +25,7 @@ void main() {
     });
 
     test('Test Ollama parameters', () async {
-      llm.defaultOptions = const OllamaOptions(
+      const options = OllamaOptions(
         model: 'foo',
         system: 'system prompt',
         template: 'TEMPLATE """',
@@ -71,46 +72,43 @@ void main() {
         llm.defaultOptions.system,
         'system prompt',
       );
-      expect(llm.defaultOptions.template, 'TEMPLATE """');
-      expect(llm.defaultOptions.context, [1, 2, 3]);
-      expect(llm.defaultOptions.format, OllamaResponseFormat.json);
-      expect(llm.defaultOptions.raw, true);
-      expect(llm.defaultOptions.numKeep, 0);
-      expect(llm.defaultOptions.seed, 1);
-      expect(llm.defaultOptions.numPredict, 2);
-      expect(llm.defaultOptions.topK, 3);
-      expect(llm.defaultOptions.topP, 4.0);
-      expect(llm.defaultOptions.tfsZ, 5.0);
-      expect(llm.defaultOptions.typicalP, 6.0);
-      expect(llm.defaultOptions.repeatLastN, 7);
-      expect(llm.defaultOptions.temperature, 8.0);
-      expect(llm.defaultOptions.repeatPenalty, 9.0);
-      expect(llm.defaultOptions.presencePenalty, 10.0);
-      expect(llm.defaultOptions.frequencyPenalty, 11.0);
-      expect(llm.defaultOptions.mirostat, 12);
-      expect(llm.defaultOptions.mirostatTau, 13.0);
-      expect(llm.defaultOptions.mirostatEta, 14.0);
-      expect(llm.defaultOptions.penalizeNewline, false);
-      expect(
-        llm.defaultOptions.stop,
-        ['stop <start_message>', 'stop <stop_message>'],
-      );
-      expect(llm.defaultOptions.numa, true);
-      expect(llm.defaultOptions.numCtx, 15);
-      expect(llm.defaultOptions.numBatch, 16);
-      expect(llm.defaultOptions.numGqa, 17);
-      expect(llm.defaultOptions.numGpu, 0);
-      expect(llm.defaultOptions.mainGpu, 18);
-      expect(llm.defaultOptions.lowVram, true);
-      expect(llm.defaultOptions.f16KV, true);
-      expect(llm.defaultOptions.logitsAll, true);
-      expect(llm.defaultOptions.vocabOnly, true);
-      expect(llm.defaultOptions.useMmap, true);
-      expect(llm.defaultOptions.useMlock, true);
-      expect(llm.defaultOptions.embeddingOnly, true);
-      expect(llm.defaultOptions.ropeFrequencyBase, 19.0);
-      expect(llm.defaultOptions.ropeFrequencyScale, 20.0);
-      expect(llm.defaultOptions.numThread, 21);
+      expect(options.template, 'TEMPLATE """');
+      expect(options.context, [1, 2, 3]);
+      expect(options.format, OllamaResponseFormat.json);
+      expect(options.raw, true);
+      expect(options.numKeep, 0);
+      expect(options.seed, 1);
+      expect(options.numPredict, 2);
+      expect(options.topK, 3);
+      expect(options.topP, 4.0);
+      expect(options.tfsZ, 5.0);
+      expect(options.typicalP, 6.0);
+      expect(options.repeatLastN, 7);
+      expect(options.temperature, 8.0);
+      expect(options.repeatPenalty, 9.0);
+      expect(options.presencePenalty, 10.0);
+      expect(options.frequencyPenalty, 11.0);
+      expect(options.mirostat, 12);
+      expect(options.mirostatTau, 13.0);
+      expect(options.mirostatEta, 14.0);
+      expect(options.penalizeNewline, false);
+      expect(options.stop, ['stop <start_message>', 'stop <stop_message>']);
+      expect(options.numa, true);
+      expect(options.numCtx, 15);
+      expect(options.numBatch, 16);
+      expect(options.numGqa, 17);
+      expect(options.numGpu, 0);
+      expect(options.mainGpu, 18);
+      expect(options.lowVram, true);
+      expect(options.f16KV, true);
+      expect(options.logitsAll, true);
+      expect(options.vocabOnly, true);
+      expect(options.useMmap, true);
+      expect(options.useMlock, true);
+      expect(options.embeddingOnly, true);
+      expect(options.ropeFrequencyBase, 19.0);
+      expect(options.ropeFrequencyScale, 20.0);
+      expect(options.numThread, 21);
     });
 
     test('Test call to Ollama', () async {
@@ -190,7 +188,7 @@ void main() {
         'Output ONLY the numbers in one line without any spaces or commas. '
         'NUMBERS:',
       );
-      const stringOutputParser = StringOutputParser<String>();
+      const stringOutputParser = StringOutputParser<LLMResult>();
 
       final chain = promptTemplate.pipe(llm).pipe(stringOutputParser);
 

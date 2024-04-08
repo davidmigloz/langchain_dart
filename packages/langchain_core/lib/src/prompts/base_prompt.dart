@@ -20,7 +20,7 @@ abstract base class BasePromptTemplate
   const BasePromptTemplate({
     required this.inputVariables,
     this.partialVariables,
-  });
+  }) : super(defaultOptions: const BaseLangChainOptions());
 
   /// A set of the names of the variables the prompt template expects.
   final Set<String> inputVariables;

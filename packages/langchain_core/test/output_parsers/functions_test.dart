@@ -42,7 +42,7 @@ void main() {
 
   group('OutputFunctionsParser tests', () {
     test('OutputFunctionsParser from ChatResult', () async {
-      final res = await OutputFunctionsParser().parseResult(result);
+      final res = await OutputFunctionsParser().invoke(result);
       expect(res, '{"foo":"bar","bar":"foo"}');
     });
 
@@ -52,8 +52,7 @@ void main() {
     });
 
     test('OutputFunctionsParser from ChatResult argsOnly=false', () async {
-      final res =
-          await OutputFunctionsParser(argsOnly: false).parseResult(result);
+      final res = await OutputFunctionsParser(argsOnly: false).invoke(result);
       expect(
         res,
         json.encode({
@@ -85,7 +84,7 @@ void main() {
 
   group('JsonOutputFunctionsParser tests', () {
     test('JsonOutputFunctionsParser from ChatResult', () async {
-      final res = await JsonOutputFunctionsParser().parseResult(result);
+      final res = await JsonOutputFunctionsParser().invoke(result);
       expect(res, {'foo': 'bar', 'bar': 'foo'});
     });
 
@@ -98,8 +97,8 @@ void main() {
 
   group('JsonKeyOutputFunctionsParser tests', () {
     test('JsonKeyOutputFunctionsParser from ChatResult', () async {
-      final res = await JsonKeyOutputFunctionsParser(keyName: 'foo')
-          .parseResult(result);
+      final res =
+          await JsonKeyOutputFunctionsParser(keyName: 'foo').invoke(result);
       expect(res, 'bar');
     });
 

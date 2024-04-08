@@ -151,7 +151,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    this.defaultOptions = const OllamaOptions(
+    super.defaultOptions = const OllamaOptions(
       model: 'llama2',
     ),
     this.encoding = 'cl100k_base',
@@ -164,9 +164,6 @@ class Ollama extends BaseLLM<OllamaOptions> {
 
   /// A client for interacting with Ollama API.
   final OllamaClient _client;
-
-  /// The default options to use when calling the completions API.
-  OllamaOptions defaultOptions;
 
   /// The encoding to use by tiktoken when [tokenize] is called.
   ///

@@ -120,7 +120,7 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
   Future<List<List<double>>> embedDocuments(
     final List<Document> documents,
   ) async {
-    final batches = chunkArray(documents, chunkSize: batchSize);
+    final batches = chunkList(documents, chunkSize: batchSize);
 
     final List<List<List<double>>> embeddings = await Future.wait(
       batches.map((final batch) async {

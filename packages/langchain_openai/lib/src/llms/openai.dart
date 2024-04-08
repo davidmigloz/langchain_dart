@@ -184,7 +184,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    this.defaultOptions = const OpenAIOptions(
+    super.defaultOptions = const OpenAIOptions(
       model: 'gpt-3.5-turbo-instruct',
       maxTokens: 256,
     ),
@@ -200,9 +200,6 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
 
   /// A client for interacting with OpenAI API.
   final OpenAIClient _client;
-
-  /// The default options to use when calling the completions API.
-  OpenAIOptions defaultOptions;
 
   /// The encoding to use by tiktoken when [tokenize] is called.
   ///

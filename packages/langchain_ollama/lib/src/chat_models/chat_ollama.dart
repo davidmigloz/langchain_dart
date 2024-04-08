@@ -150,7 +150,7 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    this.defaultOptions = const ChatOllamaOptions(
+    super.defaultOptions = const ChatOllamaOptions(
       model: 'llama2',
     ),
     this.encoding = 'cl100k_base',
@@ -163,9 +163,6 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
 
   /// A client for interacting with Ollama API.
   final OllamaClient _client;
-
-  /// The default options to use when calling the completions API.
-  ChatOllamaOptions defaultOptions;
 
   /// The encoding to use by tiktoken when [tokenize] is called.
   ///

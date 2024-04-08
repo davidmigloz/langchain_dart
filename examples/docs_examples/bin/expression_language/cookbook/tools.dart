@@ -12,7 +12,7 @@ void main(final List<String> arguments) async {
 Future<void> _calculator() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
   final model = ChatOpenAI(apiKey: openaiApiKey);
-  const stringOutputParser = StringOutputParser();
+  const stringOutputParser = StringOutputParser<ChatResult>();
 
   final promptTemplate = ChatPromptTemplate.fromTemplate('''
 Turn the following user input into a math expression for a calculator. 

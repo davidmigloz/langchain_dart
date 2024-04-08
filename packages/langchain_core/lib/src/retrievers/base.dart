@@ -8,7 +8,9 @@ import 'types.dart';
 abstract class Retriever<Options extends RetrieverOptions>
     extends Runnable<String, Options, List<Document>> {
   /// {@macro base_retriever}
-  const Retriever();
+  const Retriever({
+    required super.defaultOptions,
+  });
 
   /// Get the most relevant documents for a given query.
   ///

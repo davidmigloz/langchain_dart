@@ -10,7 +10,7 @@ void main() {
     test('RunnablePassthrough from Runnable.passthrough', () async {
       final prompt = PromptTemplate.fromTemplate('Hello {input}!');
       const model = FakeEchoChatModel();
-      const outputParser = StringOutputParser<AIChatMessage>();
+      const outputParser = StringOutputParser<ChatResult>();
       final chain = Runnable.fromMap({
         'in': Runnable.passthrough(),
         'out': Runnable.getMapFromInput() | prompt | model | outputParser,

@@ -13,7 +13,7 @@ void main(final List<String> arguments) async {
 Future<void> _multipleChains1() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
   final model = ChatOpenAI(apiKey: openaiApiKey);
-  const stringOutputParser = StringOutputParser();
+  const stringOutputParser = StringOutputParser<ChatResult>();
 
   final promptTemplate1 = ChatPromptTemplate.fromTemplate(
     'What is the city {person} is from? Only respond with the name of the city.',
@@ -87,7 +87,7 @@ Future<void> _multipleChains2() async {
 Future<void> _branchingAndMerging() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
   final model = ChatOpenAI(apiKey: openaiApiKey);
-  const stringOutputParser = StringOutputParser();
+  const stringOutputParser = StringOutputParser<ChatResult>();
 
   final planner = Runnable.getMapFromInput() |
       ChatPromptTemplate.fromTemplate('Generate an argument about: {input}') |

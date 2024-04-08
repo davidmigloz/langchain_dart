@@ -1,10 +1,10 @@
 import '../exceptions/base.dart';
-import '../language_models/types.dart';
+import '../langchain/types.dart';
 
 /// {@template tool_options}
 /// Generation options to pass into the Tool.
 /// {@endtemplate}
-class ToolOptions extends LanguageModelOptions {
+class ToolOptions extends BaseLangChainOptions {
   /// {@macro tool_options}
   const ToolOptions();
 }

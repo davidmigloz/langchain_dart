@@ -111,7 +111,7 @@ Future<void> _conversationalRetrievalChain() async {
 
   final retriever = vectorStore.asRetriever();
   final model = ChatOpenAI(apiKey: openaiApiKey);
-  const stringOutputParser = StringOutputParser();
+  const stringOutputParser = StringOutputParser<ChatResult>();
 
   final condenseQuestionPrompt = ChatPromptTemplate.fromTemplate('''
 Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question, in its original language.
@@ -195,7 +195,7 @@ Future<void> _conversationalRetrievalChainMemoryAndDocs() async {
     ),
   );
   final model = ChatOpenAI(apiKey: openaiApiKey);
-  const stringOutputParser = StringOutputParser();
+  const stringOutputParser = StringOutputParser<ChatResult>();
   final memory = ConversationBufferMemory(
     inputKey: 'question',
     outputKey: 'answer',

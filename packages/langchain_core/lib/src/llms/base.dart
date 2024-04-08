@@ -10,9 +10,11 @@ import 'types.dart';
 /// LLMs take in a String and returns a String.
 /// {@endtemplate}
 abstract class BaseLLM<Options extends LLMOptions>
-    extends BaseLanguageModel<String, Options, String> {
+    extends BaseLanguageModel<String, Options, LLMResult> {
   /// {@macro base_llm}
-  const BaseLLM();
+  const BaseLLM({
+    required super.defaultOptions,
+  });
 
   /// Runs the LLM on the given prompt value.
   ///
@@ -41,7 +43,6 @@ abstract class BaseLLM<Options extends LLMOptions>
   /// ```dart
   /// final result = await openai('Tell me a joke.');
   /// ```
-  @override
   Future<String> call(
     final String prompt, {
     final Options? options,
@@ -58,7 +59,9 @@ abstract class BaseLLM<Options extends LLMOptions>
 /// {@endtemplate}
 abstract class SimpleLLM<Options extends LLMOptions> extends BaseLLM<Options> {
   /// {@macro simple_llm}
-  const SimpleLLM();
+  const SimpleLLM({
+    required super.defaultOptions,
+  });
 
   @override
   Future<LLMResult> invoke(

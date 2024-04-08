@@ -12,11 +12,15 @@ import 'types.dart';
 /// - ChatModels: these wrap models which take chat messages in and return a
 ///   chat message.
 /// {@endtemplate}
-abstract class BaseLanguageModel<Input extends Object,
-        Options extends LanguageModelOptions, Output extends Object>
-    extends BaseLangChain<PromptValue, Options, LanguageModelResult<Output>> {
+abstract class BaseLanguageModel<
+        Input extends Object,
+        Options extends LanguageModelOptions,
+        Output extends LanguageModelResult>
+    extends BaseLangChain<PromptValue, Options, Output> {
   /// {@macro base_language_model}
-  const BaseLanguageModel();
+  const BaseLanguageModel({
+    required super.defaultOptions,
+  });
 
   /// Return type of language model.
   String get modelType;
@@ -26,17 +30,8 @@ abstract class BaseLanguageModel<Input extends Object,
   /// - [input] The prompt value to pass into the model.
   /// - [options] Generation options to pass into the model.
   @override
-  Future<LanguageModelResult<Output>> invoke(
+  Future<Output> invoke(
     final PromptValue input, {
-    final Options? options,
-  });
-
-  /// Runs the language model on the given input.
-  ///
-  /// - [input] The prompt to pass into the model.
-  /// - [options] Generation options to pass into the model.
-  Future<Output> call(
-    final Input input, {
     final Options? options,
   });
 

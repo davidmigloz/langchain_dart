@@ -8,7 +8,8 @@ import 'types.dart';
 /// {@endtemplate}
 class FakeRetriever extends Retriever<RetrieverOptions> {
   /// {@macro fake_retriever}
-  const FakeRetriever(this.docs);
+  const FakeRetriever(this.docs)
+      : super(defaultOptions: const RetrieverOptions());
 
   /// The documents to return.
   final List<Document> docs;

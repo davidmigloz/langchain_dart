@@ -20,8 +20,10 @@ abstract base class BaseTool<Options extends ToolOptions>
     required this.inputJsonSchema,
     this.returnDirect = false,
     this.handleToolError,
+    final Options? defaultOptions,
   })  : assert(name.isNotEmpty, 'Tool name cannot be empty.'),
-        assert(description.isNotEmpty, 'Tool description cannot be empty.');
+        assert(description.isNotEmpty, 'Tool description cannot be empty.'),
+        super(defaultOptions: defaultOptions ?? const ToolOptions() as Options);
 
   /// The unique name of the tool that clearly communicates its purpose.
   final String name;
@@ -64,6 +66,7 @@ abstract base class BaseTool<Options extends ToolOptions>
       Options? options,
     }) func,
     required final Map<String, dynamic> inputJsonSchema,
+    final Options? defaultOptions,
     final bool returnDirect = false,
     final String Function(ToolException)? handleToolError,
   }) {
@@ -74,6 +77,7 @@ abstract base class BaseTool<Options extends ToolOptions>
       inputJsonSchema: inputJsonSchema,
       returnDirect: returnDirect,
       handleToolError: handleToolError,
+      defaultOptions: defaultOptions ?? const ToolOptions() as Options,
     );
   }
 
@@ -159,6 +163,7 @@ final class _BaseToolFunc<Options extends ToolOptions>
     required super.inputJsonSchema,
     super.returnDirect = false,
     super.handleToolError,
+    super.defaultOptions,
   });
 
   /// The function to run when the tool is called.
@@ -189,6 +194,7 @@ abstract base class Tool<Options extends ToolOptions>
     final String inputDescription = 'The input to the tool',
     super.returnDirect = false,
     super.handleToolError,
+    super.defaultOptions,
   }) : super(
           inputJsonSchema: {
             'type': 'object',
@@ -267,6 +273,7 @@ final class _ToolFunc<Options extends ToolOptions> extends Tool<Options> {
     required this.func,
     super.returnDirect = false,
     super.handleToolError,
+    super.defaultOptions,
   });
 
   final FutureOr<String> Function(

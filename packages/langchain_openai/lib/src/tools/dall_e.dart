@@ -54,7 +54,7 @@ final class OpenAIDallETool extends Tool<OpenAIDallEToolOptions> {
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    this.defaultOptions = const OpenAIDallEToolOptions(),
+    super.defaultOptions = const OpenAIDallEToolOptions(),
   })  : _client = OpenAIClient(
           apiKey: apiKey ?? '',
           organization: organization,
@@ -72,9 +72,6 @@ final class OpenAIDallETool extends Tool<OpenAIDallEToolOptions> {
 
   /// A client for interacting with OpenAI API.
   final OpenAIClient _client;
-
-  /// The default options to use when calling the DALL-E tool.
-  OpenAIDallEToolOptions defaultOptions;
 
   /// Set or replace the API key.
   set apiKey(final String value) => _client.apiKey = value;

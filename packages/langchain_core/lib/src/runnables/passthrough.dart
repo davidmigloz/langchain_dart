@@ -1,5 +1,5 @@
-import '../langchain/types.dart';
 import 'runnable.dart';
+import 'types.dart';
 
 /// {@template runnable_passthrough}
 /// A [RunnablePassthrough] takes the input it receives and passes it through
@@ -23,7 +23,7 @@ import 'runnable.dart';
 /// final map = Runnable.fromMap({
 ///   'foo': Runnable.passthrough(),
 /// });
-/// final chain = map | promptTemplate | model | const StringOutputParser();
+/// final chain = map | promptTemplate | model | StringOutputParser();
 ///
 /// final res = await chain.invoke('bears');
 /// print(res);
@@ -31,9 +31,9 @@ import 'runnable.dart';
 /// ```
 /// {@endtemplate}
 class RunnablePassthrough<RunInput extends Object>
-    extends Runnable<RunInput, BaseLangChainOptions, RunInput> {
+    extends Runnable<RunInput, RunnableOptions, RunInput> {
   /// {@macro runnable_passthrough}
-  const RunnablePassthrough();
+  const RunnablePassthrough() : super(defaultOptions: const RunnableOptions());
 
   /// Invokes the [RunnablePassthrough] on the given [input].
   ///
@@ -42,7 +42,7 @@ class RunnablePassthrough<RunInput extends Object>
   @override
   Future<RunInput> invoke(
     final RunInput input, {
-    final BaseLangChainOptions? options,
+    final RunnableOptions? options,
   }) {
     return Future.value(input);
   }

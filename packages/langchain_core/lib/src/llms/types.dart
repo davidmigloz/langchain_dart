@@ -30,7 +30,7 @@ class LLMResult extends LanguageModelResult<String> {
     final LanguageModelResult<String> other,
   ) {
     return LLMResult(
-      id: other.id ?? id,
+      id: other.id,
       output: output + other.output,
       finishReason: other.finishReason,
       metadata: {

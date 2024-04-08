@@ -58,7 +58,7 @@ Future<void> _chatMistralAIStreaming(final String apiKey) async {
       temperature: 0,
     ),
   );
-  const stringOutputParser = StringOutputParser<AIChatMessage>();
+  const stringOutputParser = StringOutputParser<ChatResult>();
 
   final chain = promptTemplate.pipe(chat).pipe(stringOutputParser);
 

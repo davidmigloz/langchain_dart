@@ -1,6 +1,5 @@
 import '../exceptions/base.dart';
-import '../langchain/types.dart';
-import '../runnables/runnable.dart';
+import '../runnables/runnables.dart';
 import '../tools/base.dart';
 import 'types.dart';
 
@@ -14,7 +13,7 @@ abstract class Agent {
 
   /// Creates an agent from a [Runnable].
   static BaseMultiActionAgent fromRunnable(
-    final Runnable<AgentPlanInput, BaseLangChainOptions, List<BaseAgentAction>>
+    final Runnable<AgentPlanInput, RunnableOptions, List<BaseAgentAction>>
         runnable, {
     required final List<BaseTool> tools,
   }) {
@@ -100,7 +99,7 @@ class RunnableAgent extends BaseMultiActionAgent {
   const RunnableAgent(this.runnable, {required super.tools});
 
   /// The runnable that implements the agent.
-  final Runnable<AgentPlanInput, BaseLangChainOptions, List<BaseAgentAction>>
+  final Runnable<AgentPlanInput, RunnableOptions, List<BaseAgentAction>>
       runnable;
 
   @override

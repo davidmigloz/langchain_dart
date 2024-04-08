@@ -16,7 +16,7 @@ Future<void> _promptModelOutputParser() async {
     'Tell me a joke about {topic}',
   );
   final model = ChatOpenAI(apiKey: openaiApiKey);
-  const outputParser = StringOutputParser<AIChatMessage>();
+  const outputParser = StringOutputParser<ChatResult>();
 
   final chain = promptTemplate.pipe(model).pipe(outputParser);
 

@@ -5,7 +5,7 @@ Runnables can easily be used to combine multiple Chains:
 ```dart
 final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 final model = ChatOpenAI(apiKey: openaiApiKey);
-const stringOutputParser = StringOutputParser();
+const stringOutputParser = StringOutputParser<ChatResult>();
 
 final promptTemplate1 = ChatPromptTemplate.fromTemplate(
   'What is the city {person} is from? Only respond with the name of the city.',
@@ -62,7 +62,7 @@ final promptTemplate4 = ChatPromptTemplate.fromTemplate(
   'What is the color of {fruit} and the flag of {country}?',
 );
 
-final modelParser = model | const StringOutputParser();
+final modelParser = model | StringOutputParser();
 
 final colorGenerator = Runnable.getMapFromInput('attribute') |
     promptTemplate1 |
@@ -102,7 +102,7 @@ Let's see an example:
 ```dart
 final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 final model = ChatOpenAI(apiKey: openaiApiKey);
-const stringOutputParser = StringOutputParser();
+const stringOutputParser = StringOutputParser<ChatResult>();
 
 final planner = Runnable.getMapFromInput() |
     ChatPromptTemplate.fromTemplate('Generate an argument about: {input}') |

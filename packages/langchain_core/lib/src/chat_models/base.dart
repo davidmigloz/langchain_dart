@@ -9,9 +9,11 @@ import 'types.dart';
 /// It should take in chat messages and return a chat message.
 /// {@endtemplate}
 abstract class BaseChatModel<Options extends ChatModelOptions>
-    extends BaseLanguageModel<List<ChatMessage>, Options, AIChatMessage> {
+    extends BaseLanguageModel<List<ChatMessage>, Options, ChatResult> {
   /// {@macro base_chat_model}
-  const BaseChatModel();
+  const BaseChatModel({
+    required super.defaultOptions,
+  });
 
   /// Runs the chat model on the given prompt value.
   ///
@@ -39,7 +41,6 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
   /// ```dart
   /// final result = await chat([ChatMessage.humanText('say hi!')]);
   /// ```
-  @override
   Future<AIChatMessage> call(
     final List<ChatMessage> messages, {
     final Options? options,
@@ -57,7 +58,9 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
 abstract class SimpleChatModel<Options extends ChatModelOptions>
     extends BaseChatModel<Options> {
   /// {@macro simple_chat_model}
-  const SimpleChatModel();
+  const SimpleChatModel({
+    required super.defaultOptions,
+  });
 
   @override
   Future<ChatResult> invoke(

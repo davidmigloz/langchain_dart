@@ -160,7 +160,7 @@ class ChatGoogleGenerativeAI
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    this.defaultOptions = const ChatGoogleGenerativeAIOptions(
+    super.defaultOptions = const ChatGoogleGenerativeAIOptions(
       model: 'gemini-pro',
     ),
   }) : _client = GoogleAIClient(
@@ -173,9 +173,6 @@ class ChatGoogleGenerativeAI
 
   /// A client for interacting with Google AI API.
   final GoogleAIClient _client;
-
-  /// The default options to use when calling the chat completions API.
-  ChatGoogleGenerativeAIOptions defaultOptions;
 
   /// A UUID generator.
   late final Uuid _uuid = const Uuid();

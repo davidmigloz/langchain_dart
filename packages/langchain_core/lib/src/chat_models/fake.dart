@@ -11,7 +11,7 @@ class FakeChatModel extends SimpleChatModel {
   /// {@macro fake_list_llm}
   FakeChatModel({
     required this.responses,
-  });
+  }) : super(defaultOptions: const ChatModelOptions());
 
   /// Responses to return in order when called.
   final List<String> responses;
@@ -49,7 +49,7 @@ class FakeChatModel extends SimpleChatModel {
 /// {@endtemplate}
 class FakeEchoChatModel extends SimpleChatModel {
   /// {@macro fake_echo_llm}
-  const FakeEchoChatModel();
+  const FakeEchoChatModel() : super(defaultOptions: const ChatModelOptions());
 
   @override
   String get modelType => 'fake-echo-chat-model';

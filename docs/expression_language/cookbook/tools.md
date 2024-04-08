@@ -5,7 +5,7 @@ Tools are also runnables, and can therefore be used within a chain:
 ```dart
 final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 final model = ChatOpenAI(apiKey: openaiApiKey);
-const stringOutputParser = StringOutputParser();
+const stringOutputParser = StringOutputParser<ChatResult>();
 
 final promptTemplate = ChatPromptTemplate.fromTemplate('''
 Turn the following user input into a math expression for a calculator. 

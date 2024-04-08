@@ -4,9 +4,9 @@ import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
 import '../chat_models/types.dart';
-import '../langchain/types.dart';
 import '../language_models/types.dart';
 import 'base.dart';
+import 'types.dart';
 import 'utils.dart';
 
 /// {@template base_output_functions_parser}
@@ -14,23 +14,29 @@ import 'utils.dart';
 /// specified type.
 /// {@endtemplate}
 abstract class BaseOutputFunctionsParser<
-        CallOptions extends BaseLangChainOptions, O extends Object?>
-    extends BaseLLMOutputParser<AIChatMessage, CallOptions, O> {
+        CallOptions extends OutputParserOptions, ParserOutput extends Object?>
+    extends BaseOutputParser<ChatResult, CallOptions, ParserOutput> {
   /// {@macro base_output_functions_parser}
-  BaseOutputFunctionsParser();
+  BaseOutputFunctionsParser({
+    final CallOptions? defaultOptions,
+  }) : super(
+          defaultOptions:
+              defaultOptions ?? const OutputParserOptions() as CallOptions,
+        );
 
   LanguageModelResult<ChatMessage>? _lastResult;
 
   @override
-  Future<O> parseResult(
-    final LanguageModelResult<ChatMessage> result,
-  ) async {
-    return _parseChatMessage(result.output);
+  Future<ParserOutput> invoke(
+    final ChatResult input, {
+    final CallOptions? options,
+  }) {
+    return _parseChatMessage(input.output);
   }
 
   @override
-  Stream<O> stream(
-    final LanguageModelResult<ChatMessage> input, {
+  Stream<ParserOutput> stream(
+    final ChatResult input, {
     final CallOptions? options,
   }) async* {
     final mergedResult = _lastResult?.concat(input) ?? input;
@@ -38,15 +44,17 @@ abstract class BaseOutputFunctionsParser<
     yield await _parseChatMessage(mergedResult.output);
   }
 
-  Future<O> _parseChatMessage(final ChatMessage message) {
+  /// Parses the output of a function call.
+  @protected
+  Future<ParserOutput> parseFunctionCall(
+    final AIChatMessageFunctionCall? functionCall,
+  );
+
+  Future<ParserOutput> _parseChatMessage(final ChatMessage message) {
     return parseFunctionCall(
       message is AIChatMessage ? message.functionCall : null,
     );
   }
-
-  /// Parses the output of a function call.
-  @protected
-  Future<O> parseFunctionCall(final AIChatMessageFunctionCall? functionCall);
 }
 
 /// {@template output_functions_parser}
@@ -56,12 +64,12 @@ abstract class BaseOutputFunctionsParser<
 /// be returned. Otherwise, the entire function call will be returned as a JSON
 /// [String].
 /// {@endtemplate}
-class OutputFunctionsParser<CallOptions extends BaseLangChainOptions>
-    extends BaseOutputFunctionsParser<CallOptions, String> {
+class OutputFunctionsParser
+    extends BaseOutputFunctionsParser<OutputParserOptions, String> {
   /// {@macro output_functions_parser}
   OutputFunctionsParser({
     this.argsOnly = true,
-  });
+  }) : super(defaultOptions: const OutputParserOptions());
 
   /// Whether to return only the arguments of the function call.
   final bool argsOnly;
@@ -126,10 +134,11 @@ class OutputFunctionsParser<CallOptions extends BaseLangChainOptions>
 /// // }
 /// ```
 /// {@endtemplate}
-class JsonOutputFunctionsParser<CallOptions extends BaseLangChainOptions>
-    extends BaseOutputFunctionsParser<CallOptions, Map<String, dynamic>> {
+class JsonOutputFunctionsParser extends BaseOutputFunctionsParser<
+    OutputParserOptions, Map<String, dynamic>> {
   /// {@macro json_output_functions_parser}
-  JsonOutputFunctionsParser();
+  JsonOutputFunctionsParser()
+      : super(defaultOptions: const OutputParserOptions());
 
   Map<String, dynamic>? _lastMap;
 
@@ -152,8 +161,8 @@ class JsonOutputFunctionsParser<CallOptions extends BaseLangChainOptions>
 
   @override
   Stream<Map<String, dynamic>> streamFromInputStream(
-    final Stream<LanguageModelResult<AIChatMessage>> inputStream, {
-    final CallOptions? options,
+    final Stream<ChatResult> inputStream, {
+    final OutputParserOptions? options,
   }) {
     return super
         .streamFromInputStream(inputStream, options: options)
@@ -206,12 +215,13 @@ class JsonOutputFunctionsParser<CallOptions extends BaseLangChainOptions>
 /// // Why don't bears wear socks?
 /// ```
 /// {@endtemplate}
-class JsonKeyOutputFunctionsParser<T extends Object?>
-    extends BaseOutputFunctionsParser<BaseLangChainOptions, T> {
+class JsonKeyOutputFunctionsParser<ParserOutput extends Object?>
+    extends BaseOutputFunctionsParser<OutputParserOptions, ParserOutput> {
   /// {@macro json_key_output_functions_parser}
   JsonKeyOutputFunctionsParser({
     required this.keyName,
-  }) : _jsonOutputFunctionsParser = JsonOutputFunctionsParser();
+  })  : _jsonOutputFunctionsParser = JsonOutputFunctionsParser(),
+        super(defaultOptions: const OutputParserOptions());
 
   /// The key to extract from the arguments of the function call.
   final String keyName;
@@ -219,18 +229,18 @@ class JsonKeyOutputFunctionsParser<T extends Object?>
   final JsonOutputFunctionsParser _jsonOutputFunctionsParser;
 
   @override
-  Future<T> parseFunctionCall(
+  Future<ParserOutput> parseFunctionCall(
     final AIChatMessageFunctionCall? functionCall,
   ) async {
     final arguments =
         await _jsonOutputFunctionsParser.parseFunctionCall(functionCall);
-    return arguments[keyName] as T;
+    return arguments[keyName] as ParserOutput;
   }
 
   @override
-  Stream<T> streamFromInputStream(
-    final Stream<LanguageModelResult<AIChatMessage>> inputStream, {
-    final BaseLangChainOptions? options,
+  Stream<ParserOutput> streamFromInputStream(
+    final Stream<ChatResult> inputStream, {
+    final OutputParserOptions? options,
   }) {
     return super
         .streamFromInputStream(inputStream, options: options)

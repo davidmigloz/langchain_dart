@@ -1,5 +1,5 @@
-import '../langchain/types.dart';
 import 'runnable.dart';
+import 'types.dart';
 
 /// {@template runnable_item_from_map}
 /// A [RunnableItemFromMap] allows you to get a value from the input.
@@ -29,7 +29,7 @@ import 'runnable.dart';
 ///     }) |
 ///     promptTemplate |
 ///     model |
-///     const StringOutputParser();
+///     StringOutputParser();
 ///
 /// final res = await chain.invoke({
 ///   'question': 'What payment methods do you accept?',
@@ -40,9 +40,10 @@ import 'runnable.dart';
 /// ```
 /// {@endtemplate}
 class RunnableItemFromMap<RunOutput extends Object>
-    extends Runnable<Map<String, dynamic>, BaseLangChainOptions, RunOutput> {
+    extends Runnable<Map<String, dynamic>, RunnableOptions, RunOutput> {
   /// {@macro runnable_item_from_map}
-  const RunnableItemFromMap(this.key);
+  const RunnableItemFromMap(this.key)
+      : super(defaultOptions: const RunnableOptions());
 
   /// The key of the item to get from the input map.
   final String key;
@@ -54,7 +55,7 @@ class RunnableItemFromMap<RunOutput extends Object>
   @override
   Future<RunOutput> invoke(
     final Map<String, dynamic> input, {
-    final BaseLangChainOptions? options,
+    final RunnableOptions? options,
   }) async {
     return input[key];
   }
@@ -91,7 +92,7 @@ class RunnableItemFromMap<RunOutput extends Object>
 /// final chain = Runnable.getMapFromInput('foo') |
 ///     promptTemplate |
 ///     model |
-///     const StringOutputParser();
+///     StringOutputParser();
 ///
 /// final res = await chain.invoke('bears');
 /// print(res);
@@ -99,9 +100,10 @@ class RunnableItemFromMap<RunOutput extends Object>
 /// ```
 /// {@endtemplate}
 class RunnableMapFromInput<RunInput extends Object>
-    extends Runnable<RunInput, BaseLangChainOptions, Map<String, dynamic>> {
+    extends Runnable<RunInput, RunnableOptions, Map<String, dynamic>> {
   /// {@macro runnable_map_from_input}
-  const RunnableMapFromInput(this.key);
+  const RunnableMapFromInput(this.key)
+      : super(defaultOptions: const RunnableOptions());
 
   /// The key where to place the input in the output map.
   final String key;
@@ -113,7 +115,7 @@ class RunnableMapFromInput<RunInput extends Object>
   @override
   Future<Map<String, dynamic>> invoke(
     final RunInput input, {
-    final BaseLangChainOptions? options,
+    final RunnableOptions? options,
   }) async {
     return {key: input};
   }
