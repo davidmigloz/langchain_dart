@@ -90,6 +90,6 @@ class RunnableMap<RunInput extends Object>
             .streamFromInputStream(inputStream, options: options)
             .map((final output) => {entry.key: output});
       }),
-    );
+    ).asBroadcastStream();
   }
 }
