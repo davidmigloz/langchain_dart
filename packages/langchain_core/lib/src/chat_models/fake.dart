@@ -30,6 +30,24 @@ class FakeChatModel extends SimpleChatModel {
   }
 
   @override
+  Stream<ChatResult> stream(
+    final PromptValue input, {
+    final ChatModelOptions? options,
+  }) {
+    final res = responses[_i++ % responses.length].split('');
+    return Stream.fromIterable(res).map(
+      (final char) => ChatResult(
+        id: 'fake-chat-model',
+        output: AIChatMessage(content: char),
+        finishReason: FinishReason.stop,
+        metadata: const {},
+        usage: const LanguageModelUsage(),
+        streaming: true,
+      ),
+    );
+  }
+
+  @override
   Future<List<int>> tokenize(
     final PromptValue promptValue, {
     final ChatModelOptions? options,

@@ -2,6 +2,7 @@ import '../../llms.dart';
 import '../chat_models/types.dart';
 import '../documents/document.dart';
 import '../language_models/types.dart';
+import '../runnables/runnable.dart';
 import 'base.dart';
 import 'types.dart';
 
@@ -34,14 +35,48 @@ import 'types.dart';
 class StringOutputParser<ParserInput extends Object?>
     extends BaseOutputParser<ParserInput, OutputParserOptions, String> {
   /// {@macro string_output_parser}
-  const StringOutputParser()
-      : super(defaultOptions: const OutputParserOptions());
+  const StringOutputParser({
+    this.reduceOutputStream = false,
+  }) : super(defaultOptions: const OutputParserOptions());
+
+  /// When invoking this parser with [Runnable.stream], every item from the
+  /// input stream will be parsed and emitted by default.
+  ///
+  /// If [reduceOutputStream] is set to `true`, the parser will reduce the
+  /// output stream into a single String and emit it as a single item. This is
+  /// useful when the next [Runnable] in a chain expects a single String as
+  /// input.
+  ///
+  /// Visual example:
+  /// - reduceOutputStream = false
+  /// 'A', 'B', 'C' -> 'A', 'B', 'C'
+  /// - reduceOutputStream = true
+  /// 'A', 'B', 'C' -> 'ABC'
+  final bool reduceOutputStream;
 
   @override
   Future<String> invoke(
     final ParserInput input, {
     final OutputParserOptions? options,
   }) {
+    return Future.value(_parse(input));
+  }
+
+  @override
+  Stream<String> streamFromInputStream(
+    final Stream<ParserInput> inputStream, {
+    final OutputParserOptions? options,
+  }) async* {
+    if (reduceOutputStream) {
+      yield await inputStream.map(_parse).reduce((final a, final b) => '$a$b');
+    } else {
+      await for (final input in inputStream) {
+        yield _parse(input);
+      }
+    }
+  }
+
+  String _parse(final ParserInput input) {
     final output = switch (input) {
       null => '',
       final LanguageModelResult res => res.outputAsString,
@@ -49,6 +84,6 @@ class StringOutputParser<ParserInput extends Object?>
       final Document res => res.pageContent,
       _ => input.toString(),
     };
-    return Future.value(output);
+    return output;
   }
 }
