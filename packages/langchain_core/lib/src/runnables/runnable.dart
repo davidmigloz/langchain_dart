@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import '../../utils.dart';
 import 'binding.dart';
 import 'function.dart';
 import 'input_getter.dart';
@@ -118,6 +119,49 @@ abstract class Runnable<RunInput extends Object?,
     final CallOptions? options,
   });
 
+  /// Batches the invocation of the [Runnable] on the given [inputs].
+  ///
+  /// If the underlying provider supports batching, this method will try to
+  /// batch the calls to the provider. Otherwise, it will just call [invoke] on
+  /// each input concurrently.
+  ///
+  /// You can configure the concurrency limit by setting the `concurrencyLimit`
+  /// field in the [options] parameter.
+  ///
+  /// - [inputs] - the inputs to invoke the [Runnable] on concurrently.
+  /// - [options] - the options to use when invoking the [Runnable]. It can be:
+  ///   * `null`: the default options are used.
+  ///   * List with 1 element: the same options are used for all inputs.
+  ///   * List with the same length as the inputs: each input gets its own options.
+  Future<List<RunOutput>> batch(
+    final List<RunInput> inputs, {
+    final List<CallOptions>? options,
+  }) async {
+    // By default, it just calls `.invoke` on each input con
+    // Subclasses should override this method if they support batching
+    assert(
+      options == null || options.length == 1 || options.length == inputs.length,
+    );
+
+    final finalOptions = options?.first ?? defaultOptions;
+    final concurrencyLimit = finalOptions.concurrencyLimit;
+
+    var index = 0;
+    final results = <RunOutput>[];
+    for (final chunk in chunkList(inputs, chunkSize: concurrencyLimit)) {
+      final chunkResults = await Future.wait(
+        chunk.map(
+          (final input) => invoke(
+            input,
+            options: options?.length == 1 ? options![0] : options?[index++],
+          ),
+        ),
+      );
+      results.addAll(chunkResults);
+    }
+    return results;
+  }
+
   /// Streams the output of invoking the [Runnable] on the given [input].
   ///
   /// - [input] - the input to invoke the [Runnable] on.
@@ -167,5 +211,13 @@ abstract class Runnable<RunInput extends Object?,
       bound: this,
       options: options,
     );
+  }
+
+  /// Returns the given [options] if they are compatible with the [Runnable],
+  /// otherwise returns `null`.
+  CallOptions? getCompatibleOptions(
+    final RunnableOptions? options,
+  ) {
+    return options is CallOptions ? options : null;
   }
 }

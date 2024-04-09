@@ -62,7 +62,10 @@ class RunnableMap<RunInput extends Object>
     final output = <String, dynamic>{};
 
     await Future.forEach(steps.entries, (final entry) async {
-      output[entry.key] = await entry.value.invoke(input, options: options);
+      output[entry.key] = await entry.value.invoke(
+        input,
+        options: entry.value.getCompatibleOptions(options),
+      );
     });
 
     return output;
@@ -87,7 +90,10 @@ class RunnableMap<RunInput extends Object>
     return StreamGroup.merge(
       steps.entries.map((final entry) {
         return entry.value
-            .streamFromInputStream(inputStream, options: options)
+            .streamFromInputStream(
+              inputStream,
+              options: entry.value.getCompatibleOptions(options),
+            )
             .map((final output) => {entry.key: output});
       }),
     ).asBroadcastStream();

@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:langchain_core/llms.dart';
 import 'package:langchain_core/prompts.dart';
+import 'package:langchain_core/utils.dart';
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:openai_dart/openai_dart.dart';
 
@@ -233,9 +234,46 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     final OpenAIOptions? options,
   }) async {
     final completion = await _client.createCompletion(
-      request: _createCompletionRequest(input.toString(), options: options),
+      request: _createCompletionRequest([input.toString()], options: options),
     );
-    return completion.toLLMResult(completion.id);
+    return completion.toLLMResults().first;
+  }
+
+  @override
+  Future<List<LLMResult>> batch(
+    final List<PromptValue> inputs, {
+    final List<OpenAIOptions>? options,
+  }) async {
+    assert(
+      options == null || options.length == 1 || options.length == inputs.length,
+    );
+
+    // If the user provided different options for each input, we can't batch
+    // them in a single call. We have to call the API for each input, which
+    // is the default behavior of batch
+    if (options != null &&
+        options.length > 1 &&
+        options.any((final element) => element != options.first)) {
+      return super.batch(inputs, options: options);
+    }
+
+    // Otherwise, we can batch the calls to the API
+    final finalOptions = options?.first ?? defaultOptions;
+    final concurrencyLimit = finalOptions.concurrencyLimit;
+
+    var index = 0;
+    final results = <LLMResult>[];
+    for (final chunk in chunkList(inputs, chunkSize: concurrencyLimit)) {
+      final completion = await _client.createCompletion(
+        request: _createCompletionRequest(
+          chunk.map((final input) => input.toString()).toList(growable: false),
+          options: options?.length == 1 ? options![0] : options?[index++],
+        ),
+      );
+      final chunkResults = completion.toLLMResults();
+      results.addAll(chunkResults);
+    }
+    return results;
   }
 
   @override
@@ -245,26 +283,26 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   }) {
     return _client
         .createCompletionStream(
-          request: _createCompletionRequest(input.toString(), options: options),
+          request: _createCompletionRequest(
+            [input.toString()],
+            options: options,
+          ),
         )
         .map(
-          (final completion) => completion.toLLMResult(
-            completion.id,
-            streaming: true,
-          ),
+          (final completion) => completion.toLLMResults(streaming: true).first,
         );
   }
 
   /// Creates a [CreateCompletionRequest] from the given input.
   CreateCompletionRequest _createCompletionRequest(
-    final String prompt, {
+    final List<String> prompts, {
     final OpenAIOptions? options,
   }) {
     return CreateCompletionRequest(
       model: CompletionModel.modelId(
         options?.model ?? defaultOptions.model ?? throwNullModelError(),
       ),
-      prompt: CompletionPrompt.string(prompt),
+      prompt: CompletionPrompt.listString(prompts),
       bestOf: options?.bestOf ?? defaultOptions.bestOf,
       frequencyPenalty:
           options?.frequencyPenalty ?? defaultOptions.frequencyPenalty,

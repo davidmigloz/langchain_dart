@@ -14,6 +14,7 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
     this.temperature,
     this.stopSequences,
     this.safetySettings,
+    super.concurrencyLimit,
   });
 
   /// The LLM to use.

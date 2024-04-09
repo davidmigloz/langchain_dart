@@ -11,5 +11,7 @@ typedef ChainValues = Map<String, dynamic>;
 @immutable
 class ChainOptions extends BaseLangChainOptions {
   /// {@macro chain_options}
-  const ChainOptions();
+  const ChainOptions({
+    super.concurrencyLimit,
+  });
 }

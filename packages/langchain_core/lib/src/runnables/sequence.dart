@@ -102,10 +102,16 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
     Object? nextStepInput = input;
 
     for (final step in [first, ...middle]) {
-      nextStepInput = await step.invoke(nextStepInput, options: options);
+      nextStepInput = await step.invoke(
+        nextStepInput,
+        options: step.getCompatibleOptions(options),
+      );
     }
 
-    return last.invoke(nextStepInput, options: options);
+    return last.invoke(
+      nextStepInput,
+      options: last.getCompatibleOptions(options),
+    );
   }
 
   @override
@@ -126,21 +132,30 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
   }) {
     Stream<Object?> nextStepStream;
     try {
-      nextStepStream = first.streamFromInputStream(inputStream);
+      nextStepStream = first.streamFromInputStream(
+        inputStream,
+        options: first.getCompatibleOptions(options),
+      );
     } on TypeError catch (e) {
       _throwInvalidInputTypeStream(e, first);
     }
 
     for (final step in middle) {
       try {
-        nextStepStream = step.streamFromInputStream(nextStepStream);
+        nextStepStream = step.streamFromInputStream(
+          nextStepStream,
+          options: step.getCompatibleOptions(options),
+        );
       } on TypeError catch (e) {
         _throwInvalidInputTypeStream(e, step);
       }
     }
 
     try {
-      return last.streamFromInputStream(nextStepStream);
+      return last.streamFromInputStream(
+        nextStepStream,
+        options: last.getCompatibleOptions(options),
+      );
     } on TypeError catch (e) {
       _throwInvalidInputTypeStream(e, last);
     }
