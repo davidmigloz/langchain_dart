@@ -1,3 +1,10 @@
+## 0.0.4
+
+ - **FEAT**: Support generateContent for tuned model in googleai_dart client ([#358](https://github.com/davidmigloz/langchain_dart/issues/358)). ([b4641a09](https://github.com/davidmigloz/langchain_dart/commit/b4641a09af7f6d67d503d526451a370eca920c5c))
+ - **FEAT**: Support output dimensionality in Google AI Embeddings ([#373](https://github.com/davidmigloz/langchain_dart/issues/373)). ([6dcb27d8](https://github.com/davidmigloz/langchain_dart/commit/6dcb27d861fa65d2c882e31ce28e8c0a92b65cc1))
+ - **FEAT**: Support updating API key in Google AI client ([#357](https://github.com/davidmigloz/langchain_dart/issues/357)). ([b9b808e7](https://github.com/davidmigloz/langchain_dart/commit/b9b808e72f02b9f38ab355d581284a0d848d4bd1))
+ - **FIX**: Have the == implementation use Object instead of dynamic ([#334](https://github.com/davidmigloz/langchain_dart/issues/334)). ([89f7b0b9](https://github.com/davidmigloz/langchain_dart/commit/89f7b0b94144c216de19ec7244c48f3c34c2c635))
+
 ## 0.0.3
 
  - **FEAT**: Add streaming support to googleai_dart client ([#299](https://github.com/davidmigloz/langchain_dart/issues/299)). ([2cbd538a](https://github.com/davidmigloz/langchain_dart/commit/2cbd538a3b67ef6bdd9ab7b92bebc3c8c7a1bea1))

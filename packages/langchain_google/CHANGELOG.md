@@ -1,3 +1,20 @@
+## 0.3.0
+
+> Note: This release has breaking changes.  
+> [Migration guide](https://github.com/davidmigloz/langchain_dart/discussions/374)
+
+ - **BREAKING** **REFACTOR**: Introduce langchain_core and langchain_community packages ([#328](https://github.com/davidmigloz/langchain_dart/issues/328)). ([5fa520e6](https://github.com/davidmigloz/langchain_dart/commit/5fa520e663602d9cdfcab0c62a053090fa02b02e))
+ - **BREAKING** **REFACTOR**: Simplify LLMResult and ChatResult classes ([#363](https://github.com/davidmigloz/langchain_dart/issues/363)). ([ffe539c1](https://github.com/davidmigloz/langchain_dart/commit/ffe539c13f92cce5f564107430163b44be1dfd96))
+ - **BREAKING** **REFACTOR**: Simplify Output Parsers ([#367](https://github.com/davidmigloz/langchain_dart/issues/367)). ([f24b7058](https://github.com/davidmigloz/langchain_dart/commit/f24b7058949fba47ba624f071a3f548b8f6e915e))
+ - **BREAKING** **REFACTOR**: Remove deprecated generate and predict APIs ([#335](https://github.com/davidmigloz/langchain_dart/issues/335)). ([c55fe50f](https://github.com/davidmigloz/langchain_dart/commit/c55fe50f0040cc04cbd2e90bca475887c093c654))
+ - **REFACTOR**: Simplify internal .stream implementation ([#364](https://github.com/davidmigloz/langchain_dart/issues/364)). ([c83fed22](https://github.com/davidmigloz/langchain_dart/commit/c83fed22b2b89d5e51211984b12ec126a3ca225e))
+ - **FEAT**: Implement .batch support ([#370](https://github.com/davidmigloz/langchain_dart/issues/370)). ([d254f929](https://github.com/davidmigloz/langchain_dart/commit/d254f929b03d9c950029e55c66831f9f89cc14a9))
+ - **FEAT**: Add streaming support in ChatGoogleGenerativeAI ([#360](https://github.com/davidmigloz/langchain_dart/issues/360)). ([68bfdb04](https://github.com/davidmigloz/langchain_dart/commit/68bfdb04e417a7023b8872cbe0798243503fbf3d))
+ - **FEAT**: Support tuned models in ChatGoogleGenerativeAI ([#359](https://github.com/davidmigloz/langchain_dart/issues/359)). ([764b633d](https://github.com/davidmigloz/langchain_dart/commit/764b633df1412f53fc238afe1e97d1e1ac22f206))
+ - **FEAT**: Add support for GoogleGenerativeAIEmbeddings ([#362](https://github.com/davidmigloz/langchain_dart/issues/362)). ([d4f888a0](https://github.com/davidmigloz/langchain_dart/commit/d4f888a0e347608f0538d656d0c5507b61e5ee7e))
+ - **FEAT**: Support output dimensionality in GoogleGenerativeAIEmbeddings ([#373](https://github.com/davidmigloz/langchain_dart/issues/373)). ([6dcb27d8](https://github.com/davidmigloz/langchain_dart/commit/6dcb27d861fa65d2c882e31ce28e8c0a92b65cc1))
+ - **FEAT**: Support updating API key in Google AI client ([#357](https://github.com/davidmigloz/langchain_dart/issues/357)). ([b9b808e7](https://github.com/davidmigloz/langchain_dart/commit/b9b808e72f02b9f38ab355d581284a0d848d4bd1))
+
 ## 0.2.4
 
  - **FEAT**: Update meta and test dependencies ([#331](https://github.com/davidmigloz/langchain_dart/issues/331)). ([912370ee](https://github.com/davidmigloz/langchain_dart/commit/912370ee0ba667ee9153303395a457e6caf5c72d))

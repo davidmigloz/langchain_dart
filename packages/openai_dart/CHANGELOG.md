@@ -1,3 +1,8 @@
+## 0.2.0
+
+ - **FEAT**: Sync OpenAI API ([#347](https://github.com/davidmigloz/langchain_dart/issues/347)). ([f296eef6](https://github.com/davidmigloz/langchain_dart/commit/f296eef68bfd81305f87475c802705fe3ef477c3))
+ - **FIX**: Have the == implementation use Object instead of dynamic ([#334](https://github.com/davidmigloz/langchain_dart/issues/334)). ([89f7b0b9](https://github.com/davidmigloz/langchain_dart/commit/89f7b0b94144c216de19ec7244c48f3c34c2c635))
+
 ## 0.1.7
 
  - **FEAT**: Allow to specify OpenAI custom instance ([#327](https://github.com/davidmigloz/langchain_dart/issues/327)). ([4744648c](https://github.com/davidmigloz/langchain_dart/commit/4744648cdf02828b9182ebd34ba3d7db5313786e))
