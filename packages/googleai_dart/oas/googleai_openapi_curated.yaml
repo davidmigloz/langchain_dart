@@ -324,9 +324,9 @@ components:
             - >-
               Negative or harmful comments targeting identity and/or protected
               attribute.
-            - Content that is rude, disrepspectful, or profane.
+            - Content that is rude, disrespectful, or profane.
             - >-
-              Describes scenarios depictng violence against an individual or
+              Describes scenarios depicting violence against an individual or
               group, or general descriptions of gore.
             - Contains references to sexual acts or other lewd content.
             - Promotes unchecked medical advice.
@@ -570,6 +570,9 @@ components:
             counted.
         taskType:
           type: string
+          description: >-
+            Optional. Optional task type for which the embeddings will be used.
+            Can only be set for `models/embedding-001` or newer models.
           enum:
             - TASK_TYPE_UNSPECIFIED
             - RETRIEVAL_QUERY
@@ -577,6 +580,8 @@ components:
             - SEMANTIC_SIMILARITY
             - CLASSIFICATION
             - CLUSTERING
+            - QUESTION_ANSWERING
+            - FACT_VERIFICATION
           enumDescriptions:
             - Unset value, which will default to one of the other enum values.
             - Specifies the given text is a query in a search/retrieval setting.
@@ -586,15 +591,22 @@ components:
             - Specifies the given text will be used for STS.
             - Specifies that the given text will be classified.
             - Specifies that the embeddings will be used for clustering.
-          description: >-
-            Optional. Optional task type for which the embeddings will be used.
-            Can only be set for `models/embedding-001`.
+            - Specifies that the given text will be used for question answering.
+            - Specifies that the given text will be used for fact verification.
         model:
           type: string
           description: >-
             Required. The model's resource name. This serves as an ID for the
             Model to use. This name should match a model name returned by the
             `ListModels` method. Format: `models/{model}`
+        outputDimensionality:
+          description: >-
+            Optional. Optional reduced dimension for the output embedding. If
+            set, excessive values in the output embedding are truncated from the
+            end. Supported by newer models since 2024, and the earlier model
+            (`models/embedding-001`) cannot specify this value.
+          format: int32
+          type: integer
     ListOperationsResponse:
       id: ListOperationsResponse
       type: object

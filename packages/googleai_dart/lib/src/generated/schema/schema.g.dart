@@ -542,6 +542,7 @@ _$EmbedContentRequestImpl _$$EmbedContentRequestImplFromJson(
           _$EmbedContentRequestTaskTypeEnumMap, json['taskType'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
       model: json['model'] as String?,
+      outputDimensionality: json['outputDimensionality'] as int?,
     );
 
 Map<String, dynamic> _$$EmbedContentRequestImplToJson(
@@ -559,6 +560,7 @@ Map<String, dynamic> _$$EmbedContentRequestImplToJson(
   writeNotNull(
       'taskType', _$EmbedContentRequestTaskTypeEnumMap[instance.taskType]);
   writeNotNull('model', instance.model);
+  writeNotNull('outputDimensionality', instance.outputDimensionality);
   return val;
 }
 
@@ -569,6 +571,8 @@ const _$EmbedContentRequestTaskTypeEnumMap = {
   EmbedContentRequestTaskType.semanticSimilarity: 'SEMANTIC_SIMILARITY',
   EmbedContentRequestTaskType.classification: 'CLASSIFICATION',
   EmbedContentRequestTaskType.clustering: 'CLUSTERING',
+  EmbedContentRequestTaskType.questionAnswering: 'QUESTION_ANSWERING',
+  EmbedContentRequestTaskType.factVerification: 'FACT_VERIFICATION',
 };
 
 _$ListOperationsResponseImpl _$$ListOperationsResponseImplFromJson(

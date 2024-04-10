@@ -4044,7 +4044,7 @@ mixin _$EmbedContentRequest {
   @JsonKey(includeIfNull: false)
   Content? get content => throw _privateConstructorUsedError;
 
-  /// Optional. Optional task type for which the embeddings will be used. Can only be set for `models/embedding-001`.
+  /// Optional. Optional task type for which the embeddings will be used. Can only be set for `models/embedding-001` or newer models.
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   EmbedContentRequestTaskType? get taskType =>
@@ -4053,6 +4053,10 @@ mixin _$EmbedContentRequest {
   /// Required. The model's resource name. This serves as an ID for the Model to use. This name should match a model name returned by the `ListModels` method. Format: `models/{model}`
   @JsonKey(includeIfNull: false)
   String? get model => throw _privateConstructorUsedError;
+
+  /// Optional. Optional reduced dimension for the output embedding. If set, excessive values in the output embedding are truncated from the end. Supported by newer models since 2024, and the earlier model (`models/embedding-001`) cannot specify this value.
+  @JsonKey(includeIfNull: false)
+  int? get outputDimensionality => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -4073,7 +4077,8 @@ abstract class $EmbedContentRequestCopyWith<$Res> {
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       EmbedContentRequestTaskType? taskType,
-      @JsonKey(includeIfNull: false) String? model});
+      @JsonKey(includeIfNull: false) String? model,
+      @JsonKey(includeIfNull: false) int? outputDimensionality});
 
   $ContentCopyWith<$Res>? get content;
 }
@@ -4095,6 +4100,7 @@ class _$EmbedContentRequestCopyWithImpl<$Res, $Val extends EmbedContentRequest>
     Object? content = freezed,
     Object? taskType = freezed,
     Object? model = freezed,
+    Object? outputDimensionality = freezed,
   }) {
     return _then(_value.copyWith(
       title: freezed == title
@@ -4113,6 +4119,10 @@ class _$EmbedContentRequestCopyWithImpl<$Res, $Val extends EmbedContentRequest>
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as String?,
+      outputDimensionality: freezed == outputDimensionality
+          ? _value.outputDimensionality
+          : outputDimensionality // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 
@@ -4144,7 +4154,8 @@ abstract class _$$EmbedContentRequestImplCopyWith<$Res>
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       EmbedContentRequestTaskType? taskType,
-      @JsonKey(includeIfNull: false) String? model});
+      @JsonKey(includeIfNull: false) String? model,
+      @JsonKey(includeIfNull: false) int? outputDimensionality});
 
   @override
   $ContentCopyWith<$Res>? get content;
@@ -4165,6 +4176,7 @@ class __$$EmbedContentRequestImplCopyWithImpl<$Res>
     Object? content = freezed,
     Object? taskType = freezed,
     Object? model = freezed,
+    Object? outputDimensionality = freezed,
   }) {
     return _then(_$EmbedContentRequestImpl(
       title: freezed == title
@@ -4183,6 +4195,10 @@ class __$$EmbedContentRequestImplCopyWithImpl<$Res>
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as String?,
+      outputDimensionality: freezed == outputDimensionality
+          ? _value.outputDimensionality
+          : outputDimensionality // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -4197,7 +4213,8 @@ class _$EmbedContentRequestImpl extends _EmbedContentRequest {
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       this.taskType,
-      @JsonKey(includeIfNull: false) this.model})
+      @JsonKey(includeIfNull: false) this.model,
+      @JsonKey(includeIfNull: false) this.outputDimensionality})
       : super._();
 
   factory _$EmbedContentRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -4213,7 +4230,7 @@ class _$EmbedContentRequestImpl extends _EmbedContentRequest {
   @JsonKey(includeIfNull: false)
   final Content? content;
 
-  /// Optional. Optional task type for which the embeddings will be used. Can only be set for `models/embedding-001`.
+  /// Optional. Optional task type for which the embeddings will be used. Can only be set for `models/embedding-001` or newer models.
   @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
@@ -4224,9 +4241,14 @@ class _$EmbedContentRequestImpl extends _EmbedContentRequest {
   @JsonKey(includeIfNull: false)
   final String? model;
 
+  /// Optional. Optional reduced dimension for the output embedding. If set, excessive values in the output embedding are truncated from the end. Supported by newer models since 2024, and the earlier model (`models/embedding-001`) cannot specify this value.
+  @override
+  @JsonKey(includeIfNull: false)
+  final int? outputDimensionality;
+
   @override
   String toString() {
-    return 'EmbedContentRequest(title: $title, content: $content, taskType: $taskType, model: $model)';
+    return 'EmbedContentRequest(title: $title, content: $content, taskType: $taskType, model: $model, outputDimensionality: $outputDimensionality)';
   }
 
   @override
@@ -4238,12 +4260,15 @@ class _$EmbedContentRequestImpl extends _EmbedContentRequest {
             (identical(other.content, content) || other.content == content) &&
             (identical(other.taskType, taskType) ||
                 other.taskType == taskType) &&
-            (identical(other.model, model) || other.model == model));
+            (identical(other.model, model) || other.model == model) &&
+            (identical(other.outputDimensionality, outputDimensionality) ||
+                other.outputDimensionality == outputDimensionality));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, title, content, taskType, model);
+  int get hashCode => Object.hash(
+      runtimeType, title, content, taskType, model, outputDimensionality);
 
   @JsonKey(ignore: true)
   @override
@@ -4268,7 +4293,8 @@ abstract class _EmbedContentRequest extends EmbedContentRequest {
               includeIfNull: false,
               unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
           final EmbedContentRequestTaskType? taskType,
-          @JsonKey(includeIfNull: false) final String? model}) =
+          @JsonKey(includeIfNull: false) final String? model,
+          @JsonKey(includeIfNull: false) final int? outputDimensionality}) =
       _$EmbedContentRequestImpl;
   const _EmbedContentRequest._() : super._();
 
@@ -4287,7 +4313,7 @@ abstract class _EmbedContentRequest extends EmbedContentRequest {
   Content? get content;
   @override
 
-  /// Optional. Optional task type for which the embeddings will be used. Can only be set for `models/embedding-001`.
+  /// Optional. Optional task type for which the embeddings will be used. Can only be set for `models/embedding-001` or newer models.
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   EmbedContentRequestTaskType? get taskType;
@@ -4296,6 +4322,11 @@ abstract class _EmbedContentRequest extends EmbedContentRequest {
   /// Required. The model's resource name. This serves as an ID for the Model to use. This name should match a model name returned by the `ListModels` method. Format: `models/{model}`
   @JsonKey(includeIfNull: false)
   String? get model;
+  @override
+
+  /// Optional. Optional reduced dimension for the output embedding. If set, excessive values in the output embedding are truncated from the end. Supported by newer models since 2024, and the earlier model (`models/embedding-001`) cannot specify this value.
+  @JsonKey(includeIfNull: false)
+  int? get outputDimensionality;
   @override
   @JsonKey(ignore: true)
   _$$EmbedContentRequestImplCopyWith<_$EmbedContentRequestImpl> get copyWith =>
