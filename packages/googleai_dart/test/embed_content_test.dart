@@ -20,14 +20,25 @@ void main() {
       client.endSession();
     });
 
-    test('Test embed content with embedding-001', () async {
+    test('Test embed content with text-embedding-004', () async {
       final res = await client.embedContent(
-        modelId: 'embedding-001',
+        modelId: 'text-embedding-004',
         request: const EmbedContentRequest(
           content: Content(parts: [Part(text: '123456789')]),
         ),
       );
       expect(res.embedding?.values, hasLength(768));
+    });
+
+    test('Test embed content with reduced dimensions', () async {
+      final res = await client.embedContent(
+        modelId: 'text-embedding-004',
+        request: const EmbedContentRequest(
+          content: Content(parts: [Part(text: '123456789')]),
+          outputDimensionality: 256,
+        ),
+      );
+      expect(res.embedding?.values, hasLength(256));
     });
   });
 }

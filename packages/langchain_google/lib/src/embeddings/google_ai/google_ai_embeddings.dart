@@ -85,6 +85,7 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     this.model = 'embedding-001',
+    this.dimensions,
     this.batchSize = 100,
     this.docTitleKey = 'title',
   }) : _client = GoogleAIClient(
@@ -102,13 +103,17 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
   ///
   /// You can find a list of available embedding models here:
   /// https://ai.google.dev/models/gemini
-  final String model;
+  String model;
+
+  /// The number of dimensions the resulting output embeddings should have.
+  /// Only supported in `text-embedding-004` and later models.
+  int? dimensions;
 
   /// The maximum number of documents to embed in a single request.
-  final int batchSize;
+  int batchSize;
 
   /// The metadata key used to store the document's (optional) title.
-  final String docTitleKey;
+  String docTitleKey;
 
   /// Set or replace the API key.
   set apiKey(final String value) => _client.apiKey = value;
@@ -133,6 +138,7 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
                 content: Content(parts: [Part(text: doc.pageContent)]),
                 taskType: EmbedContentRequestTaskType.retrievalDocument,
                 model: 'models/$model',
+                outputDimensionality: dimensions,
               );
             }).toList(growable: false),
           ),

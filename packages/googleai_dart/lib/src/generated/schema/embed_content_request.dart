@@ -21,7 +21,7 @@ class EmbedContentRequest with _$EmbedContentRequest {
     /// Required. The content to embed. Only the `parts.text` fields will be counted.
     @JsonKey(includeIfNull: false) Content? content,
 
-    /// Optional. Optional task type for which the embeddings will be used. Can only be set for `models/embedding-001`.
+    /// Optional. Optional task type for which the embeddings will be used. Can only be set for `models/embedding-001` or newer models.
     @JsonKey(
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
@@ -30,6 +30,9 @@ class EmbedContentRequest with _$EmbedContentRequest {
 
     /// Required. The model's resource name. This serves as an ID for the Model to use. This name should match a model name returned by the `ListModels` method. Format: `models/{model}`
     @JsonKey(includeIfNull: false) String? model,
+
+    /// Optional. Optional reduced dimension for the output embedding. If set, excessive values in the output embedding are truncated from the end. Supported by newer models since 2024, and the earlier model (`models/embedding-001`) cannot specify this value.
+    @JsonKey(includeIfNull: false) int? outputDimensionality,
   }) = _EmbedContentRequest;
 
   /// Object construction from a JSON representation
@@ -41,7 +44,8 @@ class EmbedContentRequest with _$EmbedContentRequest {
     'title',
     'content',
     'taskType',
-    'model'
+    'model',
+    'outputDimensionality'
   ];
 
   /// Perform validations on the schema property values
@@ -56,6 +60,7 @@ class EmbedContentRequest with _$EmbedContentRequest {
       'content': content,
       'taskType': taskType,
       'model': model,
+      'outputDimensionality': outputDimensionality,
     };
   }
 }
@@ -64,7 +69,7 @@ class EmbedContentRequest with _$EmbedContentRequest {
 // ENUM: EmbedContentRequestTaskType
 // ==========================================
 
-/// Optional. Optional task type for which the embeddings will be used. Can only be set for `models/embedding-001`.
+/// Optional. Optional task type for which the embeddings will be used. Can only be set for `models/embedding-001` or newer models.
 enum EmbedContentRequestTaskType {
   @JsonValue('TASK_TYPE_UNSPECIFIED')
   taskTypeUnspecified,
@@ -78,4 +83,8 @@ enum EmbedContentRequestTaskType {
   classification,
   @JsonValue('CLUSTERING')
   clustering,
+  @JsonValue('QUESTION_ANSWERING')
+  questionAnswering,
+  @JsonValue('FACT_VERIFICATION')
+  factVerification,
 }
