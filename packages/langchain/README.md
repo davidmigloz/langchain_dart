@@ -47,7 +47,9 @@ LangChain.dart has a modular design that allows developers to import only the co
 - Integration-specific packages (e.g. [`langchain_openai`](https://pub.dev/packages/langchain_openai), [`langchain_google`](https://pub.dev/packages/langchain_google), etc.): popular third-party integrations are moved to their own packages so that they can be imported independently without depending on the entire `langchain_community` package.
   > Depend on an integration-specific package if you want to use the specific integration.
 
-![LangChain.dart packages](https://raw.githubusercontent.com/davidmigloz/langchain_dart/main/docs/img/langchain_packages.png)
+<p align="center">
+    <img src="https://raw.githubusercontent.com/davidmigloz/langchain_dart/main/docs/img/langchain_packages.png" width="500">
+</p>
 
 | Package                                                             | Version                                                                                                                      | Description                                                                                                                                                 |
 |---------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -158,7 +160,7 @@ print(res);
 
 Stay up-to-date on the latest news and updates on the field, have great discussions, and get help in the official [LangChain.dart Discord server](https://discord.gg/x4qbhqecVR).
 
-[![LangChain.dart Discord server](https://invidget.switchblade.xyz/x4qbhqecVR?theme=light)](http://discord.gg/x4qbhqecVR)
+[![LangChain.dart Discord server](https://invidget.switchblade.xyz/x4qbhqecVR?theme=light)](https://discord.gg/x4qbhqecVR)
 
 ## Contribute
 
