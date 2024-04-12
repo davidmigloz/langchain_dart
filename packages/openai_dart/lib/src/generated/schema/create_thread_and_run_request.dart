@@ -22,7 +22,9 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     @JsonKey(includeIfNull: false) CreateThreadRequest? thread,
 
     /// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
-    @JsonKey(includeIfNull: false) String? model,
+    @_ThreadAndRunModelConverter()
+    @JsonKey(includeIfNull: false)
+    ThreadAndRunModel? model,
 
     /// Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis.
     @JsonKey(includeIfNull: false) String? instructions,
@@ -62,6 +64,110 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
       'instructions': instructions,
       'tools': tools,
       'metadata': metadata,
+    };
+  }
+}
+
+// ==========================================
+// ENUM: ThreadAndRunModels
+// ==========================================
+
+/// Available models. Mind that the list may not be exhaustive nor up-to-date.
+enum ThreadAndRunModels {
+  @JsonValue('gpt-4')
+  gpt4,
+  @JsonValue('gpt-4-32k')
+  gpt432k,
+  @JsonValue('gpt-4-32k-0314')
+  gpt432k0314,
+  @JsonValue('gpt-4-32k-0613')
+  gpt432k0613,
+  @JsonValue('gpt-4-0125-preview')
+  gpt40125Preview,
+  @JsonValue('gpt-4-0314')
+  gpt40314,
+  @JsonValue('gpt-4-0613')
+  gpt40613,
+  @JsonValue('gpt-4-1106-preview')
+  gpt41106Preview,
+  @JsonValue('gpt-4-vision-preview')
+  gpt4VisionPreview,
+  @JsonValue('gpt-4-turbo')
+  gpt4Turbo,
+  @JsonValue('gpt-4-turbo-2024-04-09')
+  gpt4Turbo20240409,
+  @JsonValue('gpt-4-turbo-preview')
+  gpt4TurboPreview,
+  @JsonValue('gpt-3.5-turbo')
+  gpt35Turbo,
+  @JsonValue('gpt-3.5-turbo-16k')
+  gpt35Turbo16k,
+  @JsonValue('gpt-3.5-turbo-16k-0613')
+  gpt35Turbo16k0613,
+  @JsonValue('gpt-3.5-turbo-0125')
+  gpt35Turbo0125,
+  @JsonValue('gpt-3.5-turbo-0613')
+  gpt35Turbo0613,
+  @JsonValue('gpt-3.5-turbo-1106')
+  gpt35Turbo1106,
+}
+
+// ==========================================
+// CLASS: ThreadAndRunModel
+// ==========================================
+
+/// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+@freezed
+sealed class ThreadAndRunModel with _$ThreadAndRunModel {
+  const ThreadAndRunModel._();
+
+  /// Available models. Mind that the list may not be exhaustive nor up-to-date.
+  const factory ThreadAndRunModel.model(
+    ThreadAndRunModels value,
+  ) = ThreadAndRunModelEnumeration;
+
+  /// The ID of the model to use for this request.
+  const factory ThreadAndRunModel.modelId(
+    String value,
+  ) = ThreadAndRunModelString;
+
+  /// Object construction from a JSON representation
+  factory ThreadAndRunModel.fromJson(Map<String, dynamic> json) =>
+      _$ThreadAndRunModelFromJson(json);
+}
+
+/// Custom JSON converter for [ThreadAndRunModel]
+class _ThreadAndRunModelConverter
+    implements JsonConverter<ThreadAndRunModel?, Object?> {
+  const _ThreadAndRunModelConverter();
+
+  @override
+  ThreadAndRunModel? fromJson(Object? data) {
+    if (data == null) {
+      return null;
+    }
+    if (data is String && _$ThreadAndRunModelsEnumMap.values.contains(data)) {
+      return ThreadAndRunModelEnumeration(
+        _$ThreadAndRunModelsEnumMap.keys.elementAt(
+          _$ThreadAndRunModelsEnumMap.values.toList().indexOf(data),
+        ),
+      );
+    }
+    if (data is String) {
+      return ThreadAndRunModelString(data);
+    }
+    throw Exception(
+      'Unexpected value for ThreadAndRunModel: $data',
+    );
+  }
+
+  @override
+  Object? toJson(ThreadAndRunModel? data) {
+    return switch (data) {
+      ThreadAndRunModelEnumeration(value: final v) =>
+        _$ThreadAndRunModelsEnumMap[v]!,
+      ThreadAndRunModelString(value: final v) => v,
+      null => null,
     };
   }
 }

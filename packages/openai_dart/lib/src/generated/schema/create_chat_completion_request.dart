@@ -34,7 +34,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     @JsonKey(name: 'logit_bias', includeIfNull: false)
     Map<String, int>? logitBias,
 
-    /// Whether to return log probabilities of the output tokens or not. If true, returns the log probabilities of each output token returned in the `content` of `message`. This option is currently not available on the `gpt-4-vision-preview` model.
+    /// Whether to return log probabilities of the output tokens or not. If true, returns the log probabilities of each output token returned in the `content` of `message`.
     @JsonKey(includeIfNull: false) bool? logprobs,
 
     /// An integer between 0 and 20 specifying the number of most likely tokens to return at each token position, each with an associated log probability. `logprobs` must be set to `true` if this parameter is used.
@@ -86,7 +86,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// We generally recommend altering this or `temperature` but not both.
     @JsonKey(name: 'top_p', includeIfNull: false) @Default(1.0) double? topP,
 
-    /// A list of tools the model may call. Currently, only functions are supported as a tool. Use this to provide a list of functions the model may generate JSON inputs for.
+    /// A list of tools the model may call. Currently, only functions are supported as a tool. Use this to provide a list of functions the model may generate JSON inputs for. A max of 128 functions are supported.
     @JsonKey(includeIfNull: false) List<ChatCompletionTool>? tools,
 
     /// Controls which (if any) function is called by the model.
@@ -245,38 +245,42 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
 enum ChatCompletionModels {
   @JsonValue('gpt-4')
   gpt4,
-  @JsonValue('gpt-4-0314')
-  gpt40314,
-  @JsonValue('gpt-4-0613')
-  gpt40613,
   @JsonValue('gpt-4-32k')
   gpt432k,
   @JsonValue('gpt-4-32k-0314')
   gpt432k0314,
   @JsonValue('gpt-4-32k-0613')
   gpt432k0613,
-  @JsonValue('gpt-4-turbo-preview')
-  gpt4TurboPreview,
-  @JsonValue('gpt-4-1106-preview')
-  gpt41106Preview,
   @JsonValue('gpt-4-0125-preview')
   gpt40125Preview,
+  @JsonValue('gpt-4-0314')
+  gpt40314,
+  @JsonValue('gpt-4-0613')
+  gpt40613,
+  @JsonValue('gpt-4-1106-preview')
+  gpt41106Preview,
   @JsonValue('gpt-4-vision-preview')
   gpt4VisionPreview,
+  @JsonValue('gpt-4-turbo')
+  gpt4Turbo,
+  @JsonValue('gpt-4-turbo-2024-04-09')
+  gpt4Turbo20240409,
+  @JsonValue('gpt-4-turbo-preview')
+  gpt4TurboPreview,
   @JsonValue('gpt-3.5-turbo')
   gpt35Turbo,
   @JsonValue('gpt-3.5-turbo-16k')
   gpt35Turbo16k,
+  @JsonValue('gpt-3.5-turbo-16k-0613')
+  gpt35Turbo16k0613,
+  @JsonValue('gpt-3.5-turbo-0125')
+  gpt35Turbo0125,
   @JsonValue('gpt-3.5-turbo-0301')
   gpt35Turbo0301,
   @JsonValue('gpt-3.5-turbo-0613')
   gpt35Turbo0613,
   @JsonValue('gpt-3.5-turbo-1106')
   gpt35Turbo1106,
-  @JsonValue('gpt-3.5-turbo-0125')
-  gpt35Turbo0125,
-  @JsonValue('gpt-3.5-turbo-16k-0613')
-  gpt35Turbo16k0613,
 }
 
 // ==========================================

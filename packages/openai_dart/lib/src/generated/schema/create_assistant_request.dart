@@ -16,8 +16,7 @@ class CreateAssistantRequest with _$CreateAssistantRequest {
   /// Factory constructor for CreateAssistantRequest
   const factory CreateAssistantRequest({
     /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
-    @_CreateAssistantRequestModelConverter()
-    required CreateAssistantRequestModel model,
+    @_AssistantModelConverter() required AssistantModel model,
 
     /// The name of the assistant. The maximum length is 256 characters.
     @JsonKey(includeIfNull: false) String? name,
@@ -25,7 +24,7 @@ class CreateAssistantRequest with _$CreateAssistantRequest {
     /// The description of the assistant. The maximum length is 512 characters.
     @JsonKey(includeIfNull: false) String? description,
 
-    /// The system instructions that the assistant uses. The maximum length is 32768 characters.
+    /// The system instructions that the assistant uses. The maximum length is 256,000 characters.
     @JsonKey(includeIfNull: false) String? instructions,
 
     /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
@@ -56,7 +55,7 @@ class CreateAssistantRequest with _$CreateAssistantRequest {
   /// Validation constants
   static const nameMaxLengthValue = 256;
   static const descriptionMaxLengthValue = 512;
-  static const instructionsMaxLengthValue = 32768;
+  static const instructionsMaxLengthValue = 256000;
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -89,43 +88,100 @@ class CreateAssistantRequest with _$CreateAssistantRequest {
 }
 
 // ==========================================
-// CLASS: CreateAssistantRequestModel
+// ENUM: AssistantModels
+// ==========================================
+
+/// Available assistant models. Mind that the list may not be exhaustive nor up-to-date.
+enum AssistantModels {
+  @JsonValue('gpt-4')
+  gpt4,
+  @JsonValue('gpt-4-32k')
+  gpt432k,
+  @JsonValue('gpt-4-32k-0314')
+  gpt432k0314,
+  @JsonValue('gpt-4-32k-0613')
+  gpt432k0613,
+  @JsonValue('gpt-4-0125-preview')
+  gpt40125Preview,
+  @JsonValue('gpt-4-0314')
+  gpt40314,
+  @JsonValue('gpt-4-0613')
+  gpt40613,
+  @JsonValue('gpt-4-1106-preview')
+  gpt41106Preview,
+  @JsonValue('gpt-4-vision-preview')
+  gpt4VisionPreview,
+  @JsonValue('gpt-4-turbo')
+  gpt4Turbo,
+  @JsonValue('gpt-4-turbo-2024-04-09')
+  gpt4Turbo20240409,
+  @JsonValue('gpt-4-turbo-preview')
+  gpt4TurboPreview,
+  @JsonValue('gpt-3.5-turbo')
+  gpt35Turbo,
+  @JsonValue('gpt-3.5-turbo-16k')
+  gpt35Turbo16k,
+  @JsonValue('gpt-3.5-turbo-16k-0613')
+  gpt35Turbo16k0613,
+  @JsonValue('gpt-3.5-turbo-0125')
+  gpt35Turbo0125,
+  @JsonValue('gpt-3.5-turbo-0613')
+  gpt35Turbo0613,
+  @JsonValue('gpt-3.5-turbo-1106')
+  gpt35Turbo1106,
+}
+
+// ==========================================
+// CLASS: AssistantModel
 // ==========================================
 
 /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
 @freezed
-sealed class CreateAssistantRequestModel with _$CreateAssistantRequestModel {
-  const CreateAssistantRequestModel._();
+sealed class AssistantModel with _$AssistantModel {
+  const AssistantModel._();
+
+  /// Available assistant models. Mind that the list may not be exhaustive nor up-to-date.
+  const factory AssistantModel.model(
+    AssistantModels value,
+  ) = AssistantModelEnumeration;
 
   /// The ID of the model to use.
-  const factory CreateAssistantRequestModel.string(
+  const factory AssistantModel.modelId(
     String value,
-  ) = CreateAssistantRequestModelString;
+  ) = AssistantModelString;
 
   /// Object construction from a JSON representation
-  factory CreateAssistantRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$CreateAssistantRequestModelFromJson(json);
+  factory AssistantModel.fromJson(Map<String, dynamic> json) =>
+      _$AssistantModelFromJson(json);
 }
 
-/// Custom JSON converter for [CreateAssistantRequestModel]
-class _CreateAssistantRequestModelConverter
-    implements JsonConverter<CreateAssistantRequestModel, Object?> {
-  const _CreateAssistantRequestModelConverter();
+/// Custom JSON converter for [AssistantModel]
+class _AssistantModelConverter
+    implements JsonConverter<AssistantModel, Object?> {
+  const _AssistantModelConverter();
 
   @override
-  CreateAssistantRequestModel fromJson(Object? data) {
+  AssistantModel fromJson(Object? data) {
+    if (data is String && _$AssistantModelsEnumMap.values.contains(data)) {
+      return AssistantModelEnumeration(
+        _$AssistantModelsEnumMap.keys.elementAt(
+          _$AssistantModelsEnumMap.values.toList().indexOf(data),
+        ),
+      );
+    }
     if (data is String) {
-      return CreateAssistantRequestModelString(data);
+      return AssistantModelString(data);
     }
     throw Exception(
-      'Unexpected value for CreateAssistantRequestModel: $data',
+      'Unexpected value for AssistantModel: $data',
     );
   }
 
   @override
-  Object? toJson(CreateAssistantRequestModel data) {
+  Object? toJson(AssistantModel data) {
     return switch (data) {
-      CreateAssistantRequestModelString(value: final v) => v,
+      AssistantModelEnumeration(value: final v) => _$AssistantModelsEnumMap[v]!,
+      AssistantModelString(value: final v) => v,
     };
   }
 }
