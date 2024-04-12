@@ -599,6 +599,12 @@ paths:
           description: *pagination_before_param_description
           schema:
             type: string
+        - name: run_id
+          in: query
+          description: |
+            Filter messages by the run ID that generated them.
+          schema:
+            type: string
       responses:
         "200":
           description: OK
@@ -3426,6 +3432,10 @@ components:
           nullable: true
         usage:
           $ref: "#/components/schemas/RunCompletionUsage"
+        temperature:
+          description: The sampling temperature used for this run. If not set, defaults to 1.
+          type: number
+          nullable: true
       required:
         - id
         - object
@@ -3512,6 +3522,12 @@ components:
           description: Appends additional instructions at the end of the instructions for the run. This is useful for modifying the behavior on a per-run basis without overriding other instructions.
           type: string
           nullable: true
+        additional_messages:
+          description: Adds additional messages to the thread before creating the run.
+          type: array
+          items:
+            $ref: "#/components/schemas/CreateMessageRequest"
+          nullable: true
         tools:
           description: Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
           nullable: true
@@ -3524,6 +3540,20 @@ components:
           type: object
           additionalProperties: true
           nullable: true
+        temperature:
+          type: number
+          minimum: 0
+          maximum: 2
+          default: 1
+          example: 1
+          nullable: true
+          description: &run_temperature_description |
+            What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+        stream:
+          type: boolean
+          nullable: true
+          description: |
+            If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
       required:
         - assistant_id
     ListRunsResponse:
@@ -3577,6 +3607,11 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/RunSubmitToolOutput"
+        stream:
+          type: boolean
+          nullable: true
+          description: |
+            If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
       required:
         - tool_outputs
     RunSubmitToolOutput:
@@ -3677,6 +3712,19 @@ components:
           type: object
           additionalProperties: true
           nullable: true
+        temperature:
+          type: number
+          minimum: 0
+          maximum: 2
+          default: 1
+          example: 1
+          nullable: true
+          description: *run_temperature_description
+        stream:
+          type: boolean
+          nullable: true
+          description: |
+            If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
       required:
         - assistant_id
     ThreadObject:
@@ -3793,10 +3841,35 @@ components:
         thread_id:
           description: The [thread](https://platform.openai.com/docs/api-reference/threads) ID that this message belongs to.
           type: string
-        role:
-          description: The entity that produced the message. One of `user` or `assistant`.
+        status:
+          name: MessageStatus
+          description: The status of the message, which can be either `in_progress`, `incomplete`, or `completed`.
           type: string
-          enum: [ "user", "assistant" ]
+          nullable: true
+          enum: ["in_progress", "incomplete", "completed"]
+        incomplete_details:
+          id: MessageIncompleteDetails
+          type: object
+          description: On an incomplete message, details about why the message is incomplete.
+          properties:
+            reason:
+              name: MessageIncompleteReason
+              type: string
+              description: The reason the message is incomplete.
+              enum: ["content_filter", "max_tokens", "run_cancelled", "run_expired", "run_failed"]
+          nullable: true
+          required:
+            - reason
+        completed_at:
+          description: The Unix timestamp (in seconds) for when the message was completed.
+          type: integer
+          nullable: true
+        incomplete_at:
+          description: The Unix timestamp (in seconds) for when the message was marked as incomplete.
+          type: integer
+          nullable: true
+        role:
+          $ref: "#/components/schemas/MessageRole"
         content:
           description: The content of the message in array of text and/or images.
           type: array
@@ -3807,7 +3880,7 @@ components:
           type: string
           nullable: true
         run_id:
-          description: If applicable, the ID of the [run](https://platform.openai.com/docs/api-reference/runs) associated with the authoring of this message.
+          description: The ID of the [run](https://platform.openai.com/docs/api-reference/runs) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
           type: string
           nullable: true
         file_ids:
@@ -3827,18 +3900,70 @@ components:
         - object
         - created_at
         - thread_id
+        - status
+        - incomplete_details
+        - completed_at
+        - incomplete_at
         - role
         - content
         - assistant_id
         - run_id
         - file_ids
         - metadata
+    MessageRole:
+      type: string
+      description: The entity that produced the message. One of `user` or `assistant`.
+      enum: [ "user", "assistant" ]
+    MessageDeltaObject:
+      type: object
+      description: |
+        Represents a message delta i.e. any changed fields on a message during streaming.
+      properties:
+        id:
+          description: The identifier of the message, which can be referenced in API endpoints.
+          type: string
+        object:
+          description: The object type, which is always `thread.message.delta`.
+          type: string
+          enum: ["thread.message.delta"]
+        delta:
+          $ref: "#/components/schemas/MessageDelta"
+      required:
+        - id
+        - object
+        - delta
+    MessageDelta:
+      type: object
+      description: The delta containing the fields that have changed on the Message.
+      properties:
+        role:
+          $ref: "#/components/schemas/MessageRole"
+        content:
+          description: The content of the message in array of text and/or images.
+          type: array
+          items:
+            $ref: "#/components/schemas/MessageDeltaContent"
+        file_ids:
+          description: A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
+          default: []
+          maxItems: 10
+          type: array
+          items:
+            type: string
     MessageContent:
       type: object
       description: The content of a message.
       oneOf:
         - $ref: "#/components/schemas/MessageContentImageFileObject"
         - $ref: "#/components/schemas/MessageContentTextObject"
+      discriminator:
+        propertyName: type
+    MessageDeltaContent:
+      type: object
+      description: The content of a message delta.
+      oneOf:
+        - $ref: "#/components/schemas/MessageDeltaContentImageFileObject"
+        - $ref: "#/components/schemas/MessageDeltaContentTextObject"
       discriminator:
         propertyName: type
     CreateMessageRequest:
@@ -3850,13 +3975,11 @@ components:
         - content
       properties:
         role:
-          type: string
-          enum: [ "user" ]
-          description: The role of the entity that is creating the message. Currently only `user` is supported.
+          $ref: "#/components/schemas/MessageRole"
         content:
           type: string
           minLength: 1
-          maxLength: 32768
+          maxLength: 256000
           description: The content of the message.
         file_ids:
           description: A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the message should use. There can be a maximum of 10 files attached to a message. Useful for tools like `retrieval` and `code_interpreter` that can access and use files.
@@ -3934,8 +4057,8 @@ components:
       description: References an image [File](https://platform.openai.com/docs/api-reference/files) in the content of a message.
       properties:
         type:
-          description: Always `image_file`.
           type: string
+          description: Always `image_file`.
         image_file:
           $ref: "#/components/schemas/MessageContentImageFile"
       required:
@@ -3955,8 +4078,8 @@ components:
       description: The text content that is part of a message.
       properties:
         type:
-          description: Always `text`.
           type: string
+          description: Always `text`.
         text:
           $ref: "#/components/schemas/MessageContentText"
       required:
@@ -3988,9 +4111,8 @@ components:
       description: A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the "retrieval" tool to search files.
       properties:
         type:
-          description: Always `file_citation`.
           type: string
-          enum: [ "file_citation" ]
+          description: Always `file_citation`.
         text:
           description: The text in the message content that needs to be replaced.
           type: string
@@ -4028,9 +4150,8 @@ components:
       description: A URL for the file that's generated when the assistant used the `code_interpreter` tool to generate a file.
       properties:
         type:
-          description: Always `file_path`.
           type: string
-          enum: [ "file_path" ]
+          description: Always `file_path`.
         text:
           description: The text in the message content that needs to be replaced.
           type: string
@@ -4055,6 +4176,122 @@ components:
         - file_path
         - start_index
         - end_index
+    MessageDeltaContentImageFileObject:
+      type: object
+      description: References an image [File](https://platform.openai.com/docs/api-reference/files) in the content of a message.
+      properties:
+        index:
+          type: integer
+          description: The index of the content part in the message.
+        type:
+          type: string
+          description: Always `image_file`.
+        image_file:
+          $ref: "#/components/schemas/MessageContentImageFile"
+      required:
+        - index
+        - type
+    MessageDeltaContentTextObject:
+      type: object
+      description: The text content that is part of a message.
+      properties:
+        index:
+          type: integer
+          description: The index of the content part in the message.
+        type:
+          type: string
+          description: Always `text`.
+        text:
+          $ref: "#/components/schemas/MessageDeltaContentText"
+      required:
+        - index
+        - type
+    MessageDeltaContentText:
+      type: object
+      description: The text content that is part of a message.
+      properties:
+        value:
+          description: The data that makes up the text.
+          type: string
+        annotations:
+          type: array
+          description: A list of annotations that point to specific quotes from specific files.
+          items:
+            $ref: "#/components/schemas/MessageDeltaContentTextAnnotations"
+    MessageDeltaContentTextAnnotations:
+      type: object
+      description: An annotation within the message that points to a specific quote from a specific File associated with the assistant or the message.
+      oneOf:
+        - $ref: "#/components/schemas/MessageDeltaContentTextAnnotationsFileCitationObject"
+        - $ref: "#/components/schemas/MessageDeltaContentTextAnnotationsFilePathObject"
+      required:
+        - value
+        - annotations
+    MessageDeltaContentTextAnnotationsFileCitationObject:
+      type: object
+      description: A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the "retrieval" tool to search files.
+      properties:
+        index:
+          type: integer
+          description: The index of the annotation in the text content part.
+        type:
+          type: string
+          description: Always `file_citation`.
+        text:
+          description: The text in the message content that needs to be replaced.
+          type: string
+        file_citation:
+          $ref: "#/components/schemas/MessageDeltaContentTextAnnotationsFileCitation"
+        start_index:
+          type: integer
+          description: The start index of the text in the message content that needs to be replaced.
+          minimum: 0
+        end_index:
+          type: integer
+          description: The end index of the text in the message content that needs to be replaced.
+          minimum: 0
+      required:
+        - index
+        - type
+    MessageDeltaContentTextAnnotationsFileCitation:
+      type: object
+      description: A citation within the message that points to a specific quote from a specific File associated with the assistant or the message.
+      properties:
+        file_id:
+          description: The ID of the specific File the citation is from.
+          type: string
+        quote:
+          description: The specific quote in the file.
+          type: string
+    MessageDeltaContentTextAnnotationsFilePathObject:
+      type: object
+      description: A URL for the file that's generated when the assistant used the `code_interpreter` tool to generate a file.
+      properties:
+        index:
+          type: integer
+          description: The index of the annotation in the text content part.
+        type:
+          type: string
+          description: Always `file_path`.
+        text:
+          description: The text in the message content that needs to be replaced.
+          type: string
+        file_path:
+          id: MessageDeltaContentTextAnnotationsFilePath
+          type: object
+          properties:
+            file_id:
+              description: The ID of the file that was generated.
+              type: string
+        start_index:
+          type: integer
+          minimum: 0
+        end_index:
+          type: integer
+          minimum: 0
+      required:
+        - index
+        - type
     RunStepObject:
       type: object
       description: |
@@ -4147,12 +4384,43 @@ components:
         - completed_at
         - metadata
         - usage
+    RunStepDeltaObject:
+      type: object
+      title: Run step delta object
+      description: |
+        Represents a run step delta i.e. any changed fields on a run step during streaming.
+      properties:
+        id:
+          description: The identifier of the run step, which can be referenced in API endpoints.
+          type: string
+        object:
+          description: The object type, which is always `thread.run.step.delta`.
+          type: string
+          enum: ["thread.run.step.delta"]
+        delta:
+          $ref: "#/components/schemas/RunStepDelta"
+      required:
+        - id
+        - object
+        - delta
+    RunStepDelta:
+      type: object
+      description: The delta containing the fields that have changed on the run step.
+      properties:
+        step_details:
+          $ref: "#/components/schemas/RunStepDeltaDetails"
     RunStepDetails:
       type: object
       description: The details of the run step.
       oneOf:
         - $ref: "#/components/schemas/RunStepDetailsMessageCreationObject"
         - $ref: "#/components/schemas/RunStepDetailsToolCallsObject"
+    RunStepDeltaDetails:
+      type: object
+      description: The details of the run step
+      oneOf:
+        - $ref: "#/components/schemas/RunStepDeltaStepDetailsMessageCreationObject"
+        - $ref: "#/components/schemas/RunStepDeltaStepDetailsToolCallsObject"
     ListRunStepsResponse:
       type: object
       description: Represents a list of run steps returned by the List run steps endpoint.
@@ -4189,9 +4457,8 @@ components:
       description: Details of the message creation by the run step.
       properties:
         type:
-          description: Always `message_creation`.
           type: string
-          enum: [ "message_creation" ]
+          description: Always `message_creation`.
         message_creation:
           $ref: "#/components/schemas/RunStepDetailsMessageCreation"
       required:
@@ -4206,14 +4473,31 @@ components:
           description: The ID of the message that was created by this run step.
       required:
         - message_id
+    RunStepDeltaStepDetailsMessageCreationObject:
+      type: object
+      description: Details of the message creation by the run step.
+      properties:
+        type:
+          type: string
+          description: Always `message_creation`.
+        message_creation:
+          $ref: "#/components/schemas/RunStepDeltaStepDetailsMessageCreation"
+      required:
+        - type
+    RunStepDeltaStepDetailsMessageCreation:
+      type: object
+      description: Details of the message creation by the run step.
+      properties:
+        message_id:
+          type: string
+          description: The ID of the message that was created by this run step.
     RunStepDetailsToolCallsObject:
       type: object
       description: Details of the tool call.
       properties:
         type:
-          description: Always `tool_calls`.
           type: string
-          enum: [ "tool_calls" ]
+          description: Always `tool_calls`.
         tool_calls:
           type: array
           description: |
@@ -4223,6 +4507,21 @@ components:
       required:
         - type
         - tool_calls
+    RunStepDeltaStepDetailsToolCallsObject:
+      type: object
+      description: Details of the tool call.
+      properties:
+        type:
+          type: string
+          description: Always `tool_calls`.
+        tool_calls:
+          type: array
+          description: |
+            An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
+          items:
+            $ref: "#/components/schemas/RunStepDeltaStepDetailsToolCalls"
+      required:
+        - type
     RunStepDetailsToolCalls:
       type: object
       description: Tool calls the run step was involved in.
@@ -4230,6 +4529,13 @@ components:
         - $ref: "#/components/schemas/RunStepDetailsToolCallsCodeObject"
         - $ref: "#/components/schemas/RunStepDetailsToolCallsRetrievalObject"
         - $ref: "#/components/schemas/RunStepDetailsToolCallsFunctionObject"
+    RunStepDeltaStepDetailsToolCalls:
+      type: object
+      description: Tool calls the run step was involved in.
+      oneOf:
+        - $ref: "#/components/schemas/RunStepDeltaStepDetailsToolCallsCodeObject"
+        - $ref: "#/components/schemas/RunStepDeltaStepDetailsToolCallsRetrievalObject"
+        - $ref: "#/components/schemas/RunStepDeltaStepDetailsToolCallsFunctionObject"
     RunStepDetailsToolCallsCodeObject:
       type: object
       description: Details of the Code Interpreter tool call the run step was involved in.
@@ -4239,14 +4545,31 @@ components:
           description: The ID of the tool call.
         type:
           type: string
-          description: The type of tool call. This is always going to be `code_interpreter` for this type of tool call.
-          enum: [ "code_interpreter" ]
+          description: Always `code_interpreter`.
         code_interpreter:
           $ref: "#/components/schemas/RunStepDetailsToolCallsCodeObjectCodeInterpreter"
       required:
         - id
         - type
         - code_interpreter
+    RunStepDeltaStepDetailsToolCallsCodeObject:
+      type: object
+      description: Details of the Code Interpreter tool call the run step was involved in.
+      properties:
+        index:
+          type: integer
+          description: The index of the tool call in the tool calls array.
+        id:
+          type: string
+          description: The ID of the tool call.
+        type:
+          type: string
+          description: Always `code_interpreter`.
+        code_interpreter:
+          $ref: "#/components/schemas/RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter"
+      required:
+        - index
+        - type
     RunStepDetailsToolCallsCodeObjectCodeInterpreter:
       type: object
       description: The Code Interpreter tool call definition.
@@ -4262,39 +4585,87 @@ components:
           description: The outputs from the Code Interpreter tool call. Code Interpreter can output one or more items, including text (`logs`) or images (`image`). Each of these are represented by a different object type.
           items:
             $ref: "#/components/schemas/RunStepDetailsToolCallsCodeOutput"
+    RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter:
+      type: object
+      description: The Code Interpreter tool call definition.
+        - outputs
+      properties:
+        input:
+          type: string
+          description: The input to the Code Interpreter tool call.
+        outputs:
+          type: array
+          description: The outputs from the Code Interpreter tool call. Code Interpreter can output one or more items, including text (`logs`) or images (`image`). Each of these are represented by a different object type.
+          items:
+            $ref: "#/components/schemas/RunStepDeltaStepDetailsToolCallsCodeOutput"
     RunStepDetailsToolCallsCodeOutput:
       type: object
       description: The output of the Code Interpreter tool call.
       oneOf:
         - $ref: "#/components/schemas/RunStepDetailsToolCallsCodeOutputLogsObject"
         - $ref: "#/components/schemas/RunStepDetailsToolCallsCodeOutputImageObject"
+    RunStepDeltaStepDetailsToolCallsCodeOutput:
+      type: object
+      description: The output of the Code Interpreter tool call.
+      oneOf:
+        - $ref: "#/components/schemas/RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject"
+        - $ref: "#/components/schemas/RunStepDeltaStepDetailsToolCallsCodeOutputImageObject"
     RunStepDetailsToolCallsCodeOutputLogsObject:
       type: object
       description: Text output from the Code Interpreter tool call as part of a run step.
       properties:
         type:
-          description: Always `logs`.
           type: string
-          enum: [ "logs" ]
+          description: Always `logs`.
         logs:
           type: string
           description: The text output from the Code Interpreter tool call.
       required:
         - type
         - logs
+    RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject:
+      type: object
+      description: Text output from the Code Interpreter tool call as part of a run step.
+      properties:
+        index:
+          type: integer
+          description: The index of the output in the outputs array.
+        type:
+          type: string
+          description: Always `logs`.
+        logs:
+          type: string
+          description: The text output from the Code Interpreter tool call.
+      required:
+        - index
+        - type
     RunStepDetailsToolCallsCodeOutputImageObject:
       type: object
       description: Code interpreter image output
       properties:
         type:
-          description: Always `image`.
           type: string
-          enum: [ "image" ]
+          description: Always `image`.
         image:
           $ref: "#/components/schemas/RunStepDetailsToolCallsCodeOutputImage"
       required:
         - type
         - image
+    RunStepDeltaStepDetailsToolCallsCodeOutputImageObject:
+      type: object
+      description: Code interpreter image output
+      properties:
+        index:
+          type: integer
+          description: The index of the output in the outputs array.
+        type:
+          type: string
+          description: Always `image`.
+        image:
+          $ref: "#/components/schemas/RunStepDeltaStepDetailsToolCallsCodeOutputImage"
+      required:
+        - index
+        - type
     RunStepDetailsToolCallsCodeOutputImage:
       type: object
       description: Code interpreter image output.
@@ -4304,6 +4675,13 @@ components:
           type: string
       required:
         - file_id
+    RunStepDeltaStepDetailsToolCallsCodeOutputImage:
+      type: object
+      description: Code interpreter image output.
+      properties:
+        file_id:
+          description: The [file](https://platform.openai.com/docs/api-reference/files) ID of the image.
+          type: string
     RunStepDetailsToolCallsRetrievalObject:
       description: Retrieval tool call
       type: object
@@ -4313,8 +4691,7 @@ components:
           description: The ID of the tool call object.
         type:
           type: string
-          description: The type of tool call. This is always going to be `retrieval` for this type of tool call.
-          enum: [ "retrieval" ]
+          description: Always `retrieval`.
         retrieval:
           type: object
           description: For now, this is always going to be an empty object.
@@ -4323,6 +4700,26 @@ components:
         - id
         - type
         - retrieval
+    RunStepDeltaStepDetailsToolCallsRetrievalObject:
+      type: object
+      description: Retrieval tool call
+      properties:
+        index:
+          type: integer
+          description: The index of the tool call in the tool calls array.
+        id:
+          type: string
+          description: The ID of the tool call object.
+        type:
+          type: string
+          description: Always `retrieval`.
+        retrieval:
+          type: object
+          description: For now, this is always going to be an empty object.
+          additionalProperties: true
+      required:
+        - index
+        - type
     RunStepDetailsToolCallsFunctionObject:
       type: object
       description: Function tool call
@@ -4332,8 +4729,7 @@ components:
           description: The ID of the tool call object.
         type:
           type: string
-          description: The type of tool call. This is always going to be `function` for this type of tool call.
-          enum: [ "function" ]
+          description: Always `function`.
         function:
           type: object
           title: RunStepDetailsToolCallsFunction
@@ -4357,6 +4753,37 @@ components:
         - id
         - type
         - function
+    RunStepDeltaStepDetailsToolCallsFunctionObject:
+      type: object
+      description: Function tool call
+      properties:
+        index:
+          type: integer
+          description: The index of the tool call in the tool calls array.
+        id:
+          type: string
+          description: The ID of the tool call object.
+        type:
+          type: string
+          description: Always `function`.
+        function:
+          type: object
+          title: RunStepDeltaStepDetailsToolCallsFunction
+          description: The definition of the function that was called.
+          properties:
+            name:
+              type: string
+              description: The name of the function.
+            arguments:
+              type: string
+              description: The arguments passed to the function.
+            output:
+              type: string
+              description: The output of the function. This will be `null` if the outputs have not been [submitted](https://platform.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
+              nullable: true
+      required:
+        - index
+        - type
     RunStepCompletionUsage:
       type: object
       description: Usage statistics related to the run step. This value will be `null` while the run step's status is `in_progress`.
@@ -4511,6 +4938,180 @@ components:
         - first_id
         - last_id
         - has_more
+    AssistantStreamEvent:
+      type: object
+      description: |
+        Represents an event emitted when streaming a Run.
+
+        Each event in a server-sent events stream has an `event` and `data` property:
+
+        ```
+        event: thread.created
+        data: {"id": "thread_123", "object": "thread", ...}
+        ```
+
+        We emit events whenever a new object is created, transitions to a new state, or is being
+        streamed in parts (deltas). For example, we emit `thread.run.created` when a new run
+        is created, `thread.run.completed` when a run completes, and so on. When an Assistant chooses
+        to create a message during a run, we emit a `thread.message.created event`, a
+        `thread.message.in_progress` event, many `thread.message.delta` events, and finally a
+        `thread.message.completed` event.
+
+        We may add additional events over time, so we recommend handling unknown events gracefully
+        in your code. See the [Assistants API quickstart](https://platform.openai.com/docs/assistants/overview) to learn how to
+        integrate the Assistants API with streaming.
+      oneOf:
+        - $ref: "#/components/schemas/ThreadStreamEvent"
+        - $ref: "#/components/schemas/RunStreamEvent"
+        - $ref: "#/components/schemas/RunStepStreamEvent"
+        - $ref: "#/components/schemas/RunStepStreamDeltaEvent"
+        - $ref: "#/components/schemas/MessageStreamEvent"
+        - $ref: "#/components/schemas/MessageStreamDeltaEvent"
+        - $ref: "#/components/schemas/ErrorEvent"
+        - $ref: "#/components/schemas/DoneEvent"
+      discriminator:
+        propertyName: event
+    EventType:
+      type: string
+      description: The type of the event.
+      enum:
+        - thread.created
+        - thread.run.created
+        - thread.run.queued
+        - thread.run.in_progress
+        - thread.run.requires_action
+        - thread.run.completed
+        - thread.run.failed
+        - thread.run.cancelling
+        - thread.run.cancelled
+        - thread.run.expired
+        - thread.run.step.created
+        - thread.run.step.in_progress
+        - thread.run.step.delta
+        - thread.run.step.completed
+        - thread.run.step.failed
+        - thread.run.step.cancelled
+        - thread.run.step.expired
+        - thread.message.created
+        - thread.message.in_progress
+        - thread.message.delta
+        - thread.message.completed
+        - thread.message.failed
+        - error
+        - done
+    ThreadStreamEvent:
+      type: object
+      description: Occurs when a new [thread](https://platform.openai.com/docs/api-reference/threads/object) is created.
+      properties:
+        event:
+          $ref: "#/components/schemas/EventType"
+        data:
+          $ref: "#/components/schemas/ThreadObject"
+      required:
+        - event
+        - data
+    RunStreamEvent:
+      type: object
+      description: Occurs when a new [run](https://platform.openai.com/docs/api-reference/runs/object) changes state.
+      properties:
+        event:
+          $ref: "#/components/schemas/EventType"
+        data:
+          $ref: "#/components/schemas/RunObject"
+      required:
+        - event
+        - data
+    RunStepStreamEvent:
+      type: object
+      description: Occurs when a new [run step](https://platform.openai.com/docs/api-reference/runs/step-object) changes state.
+      properties:
+        event:
+          $ref: "#/components/schemas/EventType"
+        data:
+          $ref: "#/components/schemas/RunStepObject"
+      required:
+        - event
+        - data
+    RunStepStreamDeltaEvent:
+      type: object
+      description: Occurs when a new [run step](https://platform.openai.com/docs/api-reference/runs/step-object) changes state.
+      properties:
+        event:
+          $ref: "#/components/schemas/EventType"
+        data:
+          $ref: "#/components/schemas/RunStepDeltaObject"
+      required:
+        - event
+        - data
+    MessageStreamEvent:
+      type: object
+      description: Occurs when a [message](https://platform.openai.com/docs/api-reference/messages/object) changes state.
+      properties:
+        event:
+          $ref: "#/components/schemas/EventType"
+        data:
+          $ref: "#/components/schemas/MessageObject"
+      required:
+        - event
+        - data
+    MessageStreamDeltaEvent:
+      type: object
+      description: Occurs when a [message](https://platform.openai.com/docs/api-reference/messages/object) changes state.
+      properties:
+        event:
+          $ref: "#/components/schemas/EventType"
+        data:
+          $ref: "#/components/schemas/MessageDeltaObject"
+      required:
+        - event
+        - data
+    ErrorEvent:
+      type: object
+      properties:
+        event:
+          $ref: "#/components/schemas/EventType"
+        data:
+          $ref: "#/components/schemas/Error"
+      required:
+        - event
+        - data
+      description: Occurs when an [error](https://platform.openai.com/docs/guides/error-codes/api-errors) occurs. This can happen due to an internal server error or a timeout.
+    DoneEvent:
+      type: object
+      description: Occurs when a stream ends.
+      properties:
+        event:
+          $ref: "#/components/schemas/EventType"
+        data:
+          type: string
+      required:
+        - event
+        - data
+    Error:
+      type: object
+      description: Represents an error that occurred during an API request.
+      properties:
+        code:
+          type: string
+          description: The error code.
+          nullable: true
+        message:
+          type: string
+          description: A human-readable description of the error.
+          nullable: false
+        param:
+          type: string
+          description: The parameter in the request that caused the error.
+          nullable: true
+        type:
+          type: string
+          description: The type of error.
+          nullable: false
+      required:
+        - type
+        - message
+        - param
+        - code
 
 security:
   - ApiKeyAuth: [ ]

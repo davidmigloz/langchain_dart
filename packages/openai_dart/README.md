@@ -27,10 +27,10 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
 - Images
 - Models
 - Moderations
-- Assistants (beta)
-- Threads (beta)
-- Messages (beta)
-- Runs (beta)
+- Assistants (with tools and streaming support) `beta`
+  * Threads 
+  * Messages 
+  * Runs
 
 ## Table of contents
 
@@ -132,7 +132,7 @@ print(res.choices.first.message.content);
 ```dart
 final stream = client.createChatCompletionStream(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-3.5-turbo'),
+    model: ChatCompletionModel.modelId('gpt-4-turbo'),
     messages: [
       ChatCompletionMessage.system(
         content:
@@ -276,7 +276,7 @@ final functionResult = getCurrentWeather(arguments['location'], arguments['unit'
 
 final res2 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-3.5-turbo'),
+    model: ChatCompletionModel.modelId('gpt-4-turbo'),
     messages: [
       ChatCompletionMessage.system(
         content: 'You are a helpful assistant.',
@@ -476,6 +476,8 @@ const request = CreateFineTuningJobRequest(
   hyperparameters: FineTuningJobHyperparameters(
     nEpochs: FineTuningNEpochs.mode(FineTuningNEpochsOptions.auto),
   ),
+  integrations: [],
+  seed: 999,
 );
 final res = await client.createFineTuningJob(request: request);
 ```
@@ -491,6 +493,14 @@ final res = await client.listPaginatedFineTuningJobs();
 ```dart
 final res = await client.retrieveFineTuningJob(
   fineTuningJobId: 'ft-AF1WoRqd3aJAHsqc9NY7iL8F',
+);
+```
+
+**List fine-tuning job checkpoints:**
+
+```dart
+final res = await client.listFineTuningJobCheckpoints(
+  fineTuningJobId: 'ft-AF1WoRqd3a
 );
 ```
 
@@ -774,10 +784,33 @@ final res = await client.createThreadRun(
 );
 ```
 
+**Create run: (streaming)**
+
+```dart
+final stream = client.createThreadRunStream(
+  threadId: threadId,
+  request: CreateRunRequest(
+    assistantId: assistantId,
+    instructions: 'Please address the user as Jane Doe. The user has a premium account.',
+  ),
+);
+```
+
 **Create thread and run:**
 
 ```dart
 final res = await client.createThreadAndRun(
+  request: CreateThreadAndRunRequest(
+    assistantId: assistantId,
+    instructions: 'Please address the user as Jane Doe. The user has a premium account.',
+  ),
+);
+```
+
+**Create thread and run: (streaming)**
+
+```dart
+final res = await client.createThreadAndRunStream(
   request: CreateThreadAndRunRequest(
     assistantId: assistantId,
     instructions: 'Please address the user as Jane Doe. The user has a premium account.',
@@ -823,6 +856,23 @@ final res = await client.modifyThreadRun(
 
 ```dart
 final res = await client.submitThreadToolOutputsToRun(
+  threadId: threadId,
+  runId: runId,
+  request: SubmitToolOutputsRunRequest(
+    toolOutputs: [
+      RunSubmitToolOutput(
+        toolCallId: 'call_abc123',
+        output: '28C',
+      ),
+    ],
+  ),
+);
+```
+
+**Submit tool outputs to run (streaming):**
+
+```dart
+final res = await client.submitThreadToolOutputsToRunStream(
   threadId: threadId,
   runId: runId,
   request: SubmitToolOutputsRunRequest(

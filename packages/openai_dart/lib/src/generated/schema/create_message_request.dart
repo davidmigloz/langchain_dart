@@ -15,8 +15,8 @@ class CreateMessageRequest with _$CreateMessageRequest {
 
   /// Factory constructor for CreateMessageRequest
   const factory CreateMessageRequest({
-    /// The role of the entity that is creating the message. Currently only `user` is supported.
-    required CreateMessageRequestRole role,
+    /// The entity that produced the message. One of `user` or `assistant`.
+    required MessageRole role,
 
     /// The content of the message.
     required String content,
@@ -42,7 +42,7 @@ class CreateMessageRequest with _$CreateMessageRequest {
 
   /// Validation constants
   static const contentMinLengthValue = 1;
-  static const contentMaxLengthValue = 32768;
+  static const contentMaxLengthValue = 256000;
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -64,14 +64,4 @@ class CreateMessageRequest with _$CreateMessageRequest {
       'metadata': metadata,
     };
   }
-}
-
-// ==========================================
-// ENUM: CreateMessageRequestRole
-// ==========================================
-
-/// The role of the entity that is creating the message. Currently only `user` is supported.
-enum CreateMessageRequestRole {
-  @JsonValue('user')
-  user,
 }

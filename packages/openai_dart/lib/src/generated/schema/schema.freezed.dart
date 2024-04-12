@@ -23764,6 +23764,10 @@ mixin _$RunObject {
   /// Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.).
   RunCompletionUsage? get usage => throw _privateConstructorUsedError;
 
+  /// The sampling temperature used for this run. If not set, defaults to 1.
+  @JsonKey(includeIfNull: false)
+  double? get temperature => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $RunObjectCopyWith<RunObject> get copyWith =>
@@ -23794,7 +23798,8 @@ abstract class $RunObjectCopyWith<$Res> {
       List<AssistantTools> tools,
       @JsonKey(name: 'file_ids') List<String> fileIds,
       Map<String, dynamic>? metadata,
-      RunCompletionUsage? usage});
+      RunCompletionUsage? usage,
+      @JsonKey(includeIfNull: false) double? temperature});
 
   $RunRequiredActionCopyWith<$Res>? get requiredAction;
   $RunLastErrorCopyWith<$Res>? get lastError;
@@ -23833,6 +23838,7 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
     Object? fileIds = null,
     Object? metadata = freezed,
     Object? usage = freezed,
+    Object? temperature = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -23911,6 +23917,10 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
           ? _value.usage
           : usage // ignore: cast_nullable_to_non_nullable
               as RunCompletionUsage?,
+      temperature: freezed == temperature
+          ? _value.temperature
+          : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 
@@ -23978,7 +23988,8 @@ abstract class _$$RunObjectImplCopyWith<$Res>
       List<AssistantTools> tools,
       @JsonKey(name: 'file_ids') List<String> fileIds,
       Map<String, dynamic>? metadata,
-      RunCompletionUsage? usage});
+      RunCompletionUsage? usage,
+      @JsonKey(includeIfNull: false) double? temperature});
 
   @override
   $RunRequiredActionCopyWith<$Res>? get requiredAction;
@@ -24018,6 +24029,7 @@ class __$$RunObjectImplCopyWithImpl<$Res>
     Object? fileIds = null,
     Object? metadata = freezed,
     Object? usage = freezed,
+    Object? temperature = freezed,
   }) {
     return _then(_$RunObjectImpl(
       id: null == id
@@ -24096,6 +24108,10 @@ class __$$RunObjectImplCopyWithImpl<$Res>
           ? _value.usage
           : usage // ignore: cast_nullable_to_non_nullable
               as RunCompletionUsage?,
+      temperature: freezed == temperature
+          ? _value.temperature
+          : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -24122,7 +24138,8 @@ class _$RunObjectImpl extends _RunObject {
       required final List<AssistantTools> tools,
       @JsonKey(name: 'file_ids') required final List<String> fileIds,
       required final Map<String, dynamic>? metadata,
-      required this.usage})
+      required this.usage,
+      @JsonKey(includeIfNull: false) this.temperature})
       : _tools = tools,
         _fileIds = fileIds,
         _metadata = metadata,
@@ -24241,9 +24258,14 @@ class _$RunObjectImpl extends _RunObject {
   @override
   final RunCompletionUsage? usage;
 
+  /// The sampling temperature used for this run. If not set, defaults to 1.
+  @override
+  @JsonKey(includeIfNull: false)
+  final double? temperature;
+
   @override
   String toString() {
-    return 'RunObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, assistantId: $assistantId, status: $status, requiredAction: $requiredAction, lastError: $lastError, expiresAt: $expiresAt, startedAt: $startedAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, model: $model, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata, usage: $usage)';
+    return 'RunObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, assistantId: $assistantId, status: $status, requiredAction: $requiredAction, lastError: $lastError, expiresAt: $expiresAt, startedAt: $startedAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, model: $model, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata, usage: $usage, temperature: $temperature)';
   }
 
   @override
@@ -24280,7 +24302,9 @@ class _$RunObjectImpl extends _RunObject {
             const DeepCollectionEquality().equals(other._tools, _tools) &&
             const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
             const DeepCollectionEquality().equals(other._metadata, _metadata) &&
-            (identical(other.usage, usage) || other.usage == usage));
+            (identical(other.usage, usage) || other.usage == usage) &&
+            (identical(other.temperature, temperature) ||
+                other.temperature == temperature));
   }
 
   @JsonKey(ignore: true)
@@ -24305,7 +24329,8 @@ class _$RunObjectImpl extends _RunObject {
         const DeepCollectionEquality().hash(_tools),
         const DeepCollectionEquality().hash(_fileIds),
         const DeepCollectionEquality().hash(_metadata),
-        usage
+        usage,
+        temperature
       ]);
 
   @JsonKey(ignore: true)
@@ -24324,26 +24349,28 @@ class _$RunObjectImpl extends _RunObject {
 
 abstract class _RunObject extends RunObject {
   const factory _RunObject(
-      {required final String id,
-      required final RunObjectObject object,
-      @JsonKey(name: 'created_at') required final int createdAt,
-      @JsonKey(name: 'thread_id') required final String threadId,
-      @JsonKey(name: 'assistant_id') required final String assistantId,
-      required final RunStatus status,
-      @JsonKey(name: 'required_action')
-      required final RunRequiredAction? requiredAction,
-      @JsonKey(name: 'last_error') required final RunLastError? lastError,
-      @JsonKey(name: 'expires_at') required final int? expiresAt,
-      @JsonKey(name: 'started_at') required final int? startedAt,
-      @JsonKey(name: 'cancelled_at') required final int? cancelledAt,
-      @JsonKey(name: 'failed_at') required final int? failedAt,
-      @JsonKey(name: 'completed_at') required final int? completedAt,
-      required final String model,
-      required final String instructions,
-      required final List<AssistantTools> tools,
-      @JsonKey(name: 'file_ids') required final List<String> fileIds,
-      required final Map<String, dynamic>? metadata,
-      required final RunCompletionUsage? usage}) = _$RunObjectImpl;
+          {required final String id,
+          required final RunObjectObject object,
+          @JsonKey(name: 'created_at') required final int createdAt,
+          @JsonKey(name: 'thread_id') required final String threadId,
+          @JsonKey(name: 'assistant_id') required final String assistantId,
+          required final RunStatus status,
+          @JsonKey(name: 'required_action')
+          required final RunRequiredAction? requiredAction,
+          @JsonKey(name: 'last_error') required final RunLastError? lastError,
+          @JsonKey(name: 'expires_at') required final int? expiresAt,
+          @JsonKey(name: 'started_at') required final int? startedAt,
+          @JsonKey(name: 'cancelled_at') required final int? cancelledAt,
+          @JsonKey(name: 'failed_at') required final int? failedAt,
+          @JsonKey(name: 'completed_at') required final int? completedAt,
+          required final String model,
+          required final String instructions,
+          required final List<AssistantTools> tools,
+          @JsonKey(name: 'file_ids') required final List<String> fileIds,
+          required final Map<String, dynamic>? metadata,
+          required final RunCompletionUsage? usage,
+          @JsonKey(includeIfNull: false) final double? temperature}) =
+      _$RunObjectImpl;
   const _RunObject._() : super._();
 
   factory _RunObject.fromJson(Map<String, dynamic> json) =
@@ -24436,6 +24463,11 @@ abstract class _RunObject extends RunObject {
 
   /// Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.).
   RunCompletionUsage? get usage;
+  @override
+
+  /// The sampling temperature used for this run. If not set, defaults to 1.
+  @JsonKey(includeIfNull: false)
+  double? get temperature;
   @override
   @JsonKey(ignore: true)
   _$$RunObjectImplCopyWith<_$RunObjectImpl> get copyWith =>
@@ -25203,6 +25235,11 @@ mixin _$CreateRunRequest {
   @JsonKey(name: 'additional_instructions', includeIfNull: false)
   String? get additionalInstructions => throw _privateConstructorUsedError;
 
+  /// Adds additional messages to the thread before creating the run.
+  @JsonKey(name: 'additional_messages', includeIfNull: false)
+  List<CreateMessageRequest>? get additionalMessages =>
+      throw _privateConstructorUsedError;
+
   /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
   @JsonKey(includeIfNull: false)
   List<AssistantTools>? get tools => throw _privateConstructorUsedError;
@@ -25210,6 +25247,14 @@ mixin _$CreateRunRequest {
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
+
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  @JsonKey(includeIfNull: false)
+  double? get temperature => throw _privateConstructorUsedError;
+
+  /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
+  @JsonKey(includeIfNull: false)
+  bool? get stream => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -25231,8 +25276,12 @@ abstract class $CreateRunRequestCopyWith<$Res> {
       @JsonKey(includeIfNull: false) String? instructions,
       @JsonKey(name: 'additional_instructions', includeIfNull: false)
       String? additionalInstructions,
+      @JsonKey(name: 'additional_messages', includeIfNull: false)
+      List<CreateMessageRequest>? additionalMessages,
       @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
-      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
+      @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(includeIfNull: false) bool? stream});
 
   $CreateRunRequestModelCopyWith<$Res>? get model;
 }
@@ -25254,8 +25303,11 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
     Object? model = freezed,
     Object? instructions = freezed,
     Object? additionalInstructions = freezed,
+    Object? additionalMessages = freezed,
     Object? tools = freezed,
     Object? metadata = freezed,
+    Object? temperature = freezed,
+    Object? stream = freezed,
   }) {
     return _then(_value.copyWith(
       assistantId: null == assistantId
@@ -25274,6 +25326,10 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
           ? _value.additionalInstructions
           : additionalInstructions // ignore: cast_nullable_to_non_nullable
               as String?,
+      additionalMessages: freezed == additionalMessages
+          ? _value.additionalMessages
+          : additionalMessages // ignore: cast_nullable_to_non_nullable
+              as List<CreateMessageRequest>?,
       tools: freezed == tools
           ? _value.tools
           : tools // ignore: cast_nullable_to_non_nullable
@@ -25282,6 +25338,14 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      temperature: freezed == temperature
+          ? _value.temperature
+          : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
+      stream: freezed == stream
+          ? _value.stream
+          : stream // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 
@@ -25314,8 +25378,12 @@ abstract class _$$CreateRunRequestImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) String? instructions,
       @JsonKey(name: 'additional_instructions', includeIfNull: false)
       String? additionalInstructions,
+      @JsonKey(name: 'additional_messages', includeIfNull: false)
+      List<CreateMessageRequest>? additionalMessages,
       @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
-      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
+      @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(includeIfNull: false) bool? stream});
 
   @override
   $CreateRunRequestModelCopyWith<$Res>? get model;
@@ -25336,8 +25404,11 @@ class __$$CreateRunRequestImplCopyWithImpl<$Res>
     Object? model = freezed,
     Object? instructions = freezed,
     Object? additionalInstructions = freezed,
+    Object? additionalMessages = freezed,
     Object? tools = freezed,
     Object? metadata = freezed,
+    Object? temperature = freezed,
+    Object? stream = freezed,
   }) {
     return _then(_$CreateRunRequestImpl(
       assistantId: null == assistantId
@@ -25356,6 +25427,10 @@ class __$$CreateRunRequestImplCopyWithImpl<$Res>
           ? _value.additionalInstructions
           : additionalInstructions // ignore: cast_nullable_to_non_nullable
               as String?,
+      additionalMessages: freezed == additionalMessages
+          ? _value._additionalMessages
+          : additionalMessages // ignore: cast_nullable_to_non_nullable
+              as List<CreateMessageRequest>?,
       tools: freezed == tools
           ? _value._tools
           : tools // ignore: cast_nullable_to_non_nullable
@@ -25364,6 +25439,14 @@ class __$$CreateRunRequestImplCopyWithImpl<$Res>
           ? _value._metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      temperature: freezed == temperature
+          ? _value.temperature
+          : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
+      stream: freezed == stream
+          ? _value.stream
+          : stream // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -25379,9 +25462,14 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
       @JsonKey(includeIfNull: false) this.instructions,
       @JsonKey(name: 'additional_instructions', includeIfNull: false)
       this.additionalInstructions,
+      @JsonKey(name: 'additional_messages', includeIfNull: false)
+      final List<CreateMessageRequest>? additionalMessages,
       @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
-      @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata})
-      : _tools = tools,
+      @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
+      @JsonKey(includeIfNull: false) this.temperature = 1.0,
+      @JsonKey(includeIfNull: false) this.stream})
+      : _additionalMessages = additionalMessages,
+        _tools = tools,
         _metadata = metadata,
         super._();
 
@@ -25408,6 +25496,21 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
   @override
   @JsonKey(name: 'additional_instructions', includeIfNull: false)
   final String? additionalInstructions;
+
+  /// Adds additional messages to the thread before creating the run.
+  final List<CreateMessageRequest>? _additionalMessages;
+
+  /// Adds additional messages to the thread before creating the run.
+  @override
+  @JsonKey(name: 'additional_messages', includeIfNull: false)
+  List<CreateMessageRequest>? get additionalMessages {
+    final value = _additionalMessages;
+    if (value == null) return null;
+    if (_additionalMessages is EqualUnmodifiableListView)
+      return _additionalMessages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
   final List<AssistantTools>? _tools;
@@ -25437,9 +25540,19 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
     return EqualUnmodifiableMapView(value);
   }
 
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  @override
+  @JsonKey(includeIfNull: false)
+  final double? temperature;
+
+  /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
+  @override
+  @JsonKey(includeIfNull: false)
+  final bool? stream;
+
   @override
   String toString() {
-    return 'CreateRunRequest(assistantId: $assistantId, model: $model, instructions: $instructions, additionalInstructions: $additionalInstructions, tools: $tools, metadata: $metadata)';
+    return 'CreateRunRequest(assistantId: $assistantId, model: $model, instructions: $instructions, additionalInstructions: $additionalInstructions, additionalMessages: $additionalMessages, tools: $tools, metadata: $metadata, temperature: $temperature, stream: $stream)';
   }
 
   @override
@@ -25454,8 +25567,13 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
                 other.instructions == instructions) &&
             (identical(other.additionalInstructions, additionalInstructions) ||
                 other.additionalInstructions == additionalInstructions) &&
+            const DeepCollectionEquality()
+                .equals(other._additionalMessages, _additionalMessages) &&
             const DeepCollectionEquality().equals(other._tools, _tools) &&
-            const DeepCollectionEquality().equals(other._metadata, _metadata));
+            const DeepCollectionEquality().equals(other._metadata, _metadata) &&
+            (identical(other.temperature, temperature) ||
+                other.temperature == temperature) &&
+            (identical(other.stream, stream) || other.stream == stream));
   }
 
   @JsonKey(ignore: true)
@@ -25466,8 +25584,11 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
       model,
       instructions,
       additionalInstructions,
+      const DeepCollectionEquality().hash(_additionalMessages),
       const DeepCollectionEquality().hash(_tools),
-      const DeepCollectionEquality().hash(_metadata));
+      const DeepCollectionEquality().hash(_metadata),
+      temperature,
+      stream);
 
   @JsonKey(ignore: true)
   @override
@@ -25486,16 +25607,20 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
 
 abstract class _CreateRunRequest extends CreateRunRequest {
   const factory _CreateRunRequest(
-      {@JsonKey(name: 'assistant_id') required final String assistantId,
-      @_CreateRunRequestModelConverter()
-      @JsonKey(includeIfNull: false)
-      final CreateRunRequestModel? model,
-      @JsonKey(includeIfNull: false) final String? instructions,
-      @JsonKey(name: 'additional_instructions', includeIfNull: false)
-      final String? additionalInstructions,
-      @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
-      @JsonKey(includeIfNull: false)
-      final Map<String, dynamic>? metadata}) = _$CreateRunRequestImpl;
+          {@JsonKey(name: 'assistant_id') required final String assistantId,
+          @_CreateRunRequestModelConverter()
+          @JsonKey(includeIfNull: false)
+          final CreateRunRequestModel? model,
+          @JsonKey(includeIfNull: false) final String? instructions,
+          @JsonKey(name: 'additional_instructions', includeIfNull: false)
+          final String? additionalInstructions,
+          @JsonKey(name: 'additional_messages', includeIfNull: false)
+          final List<CreateMessageRequest>? additionalMessages,
+          @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
+          @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
+          @JsonKey(includeIfNull: false) final double? temperature,
+          @JsonKey(includeIfNull: false) final bool? stream}) =
+      _$CreateRunRequestImpl;
   const _CreateRunRequest._() : super._();
 
   factory _CreateRunRequest.fromJson(Map<String, dynamic> json) =
@@ -25524,6 +25649,11 @@ abstract class _CreateRunRequest extends CreateRunRequest {
   String? get additionalInstructions;
   @override
 
+  /// Adds additional messages to the thread before creating the run.
+  @JsonKey(name: 'additional_messages', includeIfNull: false)
+  List<CreateMessageRequest>? get additionalMessages;
+  @override
+
   /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
   @JsonKey(includeIfNull: false)
   List<AssistantTools>? get tools;
@@ -25532,6 +25662,16 @@ abstract class _CreateRunRequest extends CreateRunRequest {
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
+  @override
+
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  @JsonKey(includeIfNull: false)
+  double? get temperature;
+  @override
+
+  /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
+  @JsonKey(includeIfNull: false)
+  bool? get stream;
   @override
   @JsonKey(ignore: true)
   _$$CreateRunRequestImplCopyWith<_$CreateRunRequestImpl> get copyWith =>
@@ -26387,6 +26527,10 @@ mixin _$SubmitToolOutputsRunRequest {
   List<RunSubmitToolOutput> get toolOutputs =>
       throw _privateConstructorUsedError;
 
+  /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
+  @JsonKey(includeIfNull: false)
+  bool? get stream => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $SubmitToolOutputsRunRequestCopyWith<SubmitToolOutputsRunRequest>
@@ -26402,7 +26546,8 @@ abstract class $SubmitToolOutputsRunRequestCopyWith<$Res> {
           SubmitToolOutputsRunRequest>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'tool_outputs') List<RunSubmitToolOutput> toolOutputs});
+      {@JsonKey(name: 'tool_outputs') List<RunSubmitToolOutput> toolOutputs,
+      @JsonKey(includeIfNull: false) bool? stream});
 }
 
 /// @nodoc
@@ -26420,12 +26565,17 @@ class _$SubmitToolOutputsRunRequestCopyWithImpl<$Res,
   @override
   $Res call({
     Object? toolOutputs = null,
+    Object? stream = freezed,
   }) {
     return _then(_value.copyWith(
       toolOutputs: null == toolOutputs
           ? _value.toolOutputs
           : toolOutputs // ignore: cast_nullable_to_non_nullable
               as List<RunSubmitToolOutput>,
+      stream: freezed == stream
+          ? _value.stream
+          : stream // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -26440,7 +26590,8 @@ abstract class _$$SubmitToolOutputsRunRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'tool_outputs') List<RunSubmitToolOutput> toolOutputs});
+      {@JsonKey(name: 'tool_outputs') List<RunSubmitToolOutput> toolOutputs,
+      @JsonKey(includeIfNull: false) bool? stream});
 }
 
 /// @nodoc
@@ -26457,12 +26608,17 @@ class __$$SubmitToolOutputsRunRequestImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? toolOutputs = null,
+    Object? stream = freezed,
   }) {
     return _then(_$SubmitToolOutputsRunRequestImpl(
       toolOutputs: null == toolOutputs
           ? _value._toolOutputs
           : toolOutputs // ignore: cast_nullable_to_non_nullable
               as List<RunSubmitToolOutput>,
+      stream: freezed == stream
+          ? _value.stream
+          : stream // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -26472,7 +26628,8 @@ class __$$SubmitToolOutputsRunRequestImplCopyWithImpl<$Res>
 class _$SubmitToolOutputsRunRequestImpl extends _SubmitToolOutputsRunRequest {
   const _$SubmitToolOutputsRunRequestImpl(
       {@JsonKey(name: 'tool_outputs')
-      required final List<RunSubmitToolOutput> toolOutputs})
+      required final List<RunSubmitToolOutput> toolOutputs,
+      @JsonKey(includeIfNull: false) this.stream})
       : _toolOutputs = toolOutputs,
         super._();
 
@@ -26492,9 +26649,14 @@ class _$SubmitToolOutputsRunRequestImpl extends _SubmitToolOutputsRunRequest {
     return EqualUnmodifiableListView(_toolOutputs);
   }
 
+  /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
+  @override
+  @JsonKey(includeIfNull: false)
+  final bool? stream;
+
   @override
   String toString() {
-    return 'SubmitToolOutputsRunRequest(toolOutputs: $toolOutputs)';
+    return 'SubmitToolOutputsRunRequest(toolOutputs: $toolOutputs, stream: $stream)';
   }
 
   @override
@@ -26503,13 +26665,14 @@ class _$SubmitToolOutputsRunRequestImpl extends _SubmitToolOutputsRunRequest {
         (other.runtimeType == runtimeType &&
             other is _$SubmitToolOutputsRunRequestImpl &&
             const DeepCollectionEquality()
-                .equals(other._toolOutputs, _toolOutputs));
+                .equals(other._toolOutputs, _toolOutputs) &&
+            (identical(other.stream, stream) || other.stream == stream));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_toolOutputs));
+      runtimeType, const DeepCollectionEquality().hash(_toolOutputs), stream);
 
   @JsonKey(ignore: true)
   @override
@@ -26530,7 +26693,8 @@ abstract class _SubmitToolOutputsRunRequest
     extends SubmitToolOutputsRunRequest {
   const factory _SubmitToolOutputsRunRequest(
           {@JsonKey(name: 'tool_outputs')
-          required final List<RunSubmitToolOutput> toolOutputs}) =
+          required final List<RunSubmitToolOutput> toolOutputs,
+          @JsonKey(includeIfNull: false) final bool? stream}) =
       _$SubmitToolOutputsRunRequestImpl;
   const _SubmitToolOutputsRunRequest._() : super._();
 
@@ -26542,6 +26706,11 @@ abstract class _SubmitToolOutputsRunRequest
   /// A list of tools for which the outputs are being submitted.
   @JsonKey(name: 'tool_outputs')
   List<RunSubmitToolOutput> get toolOutputs;
+  @override
+
+  /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
+  @JsonKey(includeIfNull: false)
+  bool? get stream;
   @override
   @JsonKey(ignore: true)
   _$$SubmitToolOutputsRunRequestImplCopyWith<_$SubmitToolOutputsRunRequestImpl>
@@ -27137,6 +27306,14 @@ mixin _$CreateThreadAndRunRequest {
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  @JsonKey(includeIfNull: false)
+  double? get temperature => throw _privateConstructorUsedError;
+
+  /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
+  @JsonKey(includeIfNull: false)
+  bool? get stream => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $CreateThreadAndRunRequestCopyWith<CreateThreadAndRunRequest> get copyWith =>
@@ -27157,7 +27334,9 @@ abstract class $CreateThreadAndRunRequestCopyWith<$Res> {
       ThreadAndRunModel? model,
       @JsonKey(includeIfNull: false) String? instructions,
       @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
-      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
+      @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(includeIfNull: false) bool? stream});
 
   $CreateThreadRequestCopyWith<$Res>? get thread;
   $ThreadAndRunModelCopyWith<$Res>? get model;
@@ -27183,6 +27362,8 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
     Object? instructions = freezed,
     Object? tools = freezed,
     Object? metadata = freezed,
+    Object? temperature = freezed,
+    Object? stream = freezed,
   }) {
     return _then(_value.copyWith(
       assistantId: null == assistantId
@@ -27209,6 +27390,14 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      temperature: freezed == temperature
+          ? _value.temperature
+          : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
+      stream: freezed == stream
+          ? _value.stream
+          : stream // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 
@@ -27254,7 +27443,9 @@ abstract class _$$CreateThreadAndRunRequestImplCopyWith<$Res>
       ThreadAndRunModel? model,
       @JsonKey(includeIfNull: false) String? instructions,
       @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
-      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
+      @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(includeIfNull: false) bool? stream});
 
   @override
   $CreateThreadRequestCopyWith<$Res>? get thread;
@@ -27281,6 +27472,8 @@ class __$$CreateThreadAndRunRequestImplCopyWithImpl<$Res>
     Object? instructions = freezed,
     Object? tools = freezed,
     Object? metadata = freezed,
+    Object? temperature = freezed,
+    Object? stream = freezed,
   }) {
     return _then(_$CreateThreadAndRunRequestImpl(
       assistantId: null == assistantId
@@ -27307,6 +27500,14 @@ class __$$CreateThreadAndRunRequestImplCopyWithImpl<$Res>
           ? _value._metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      temperature: freezed == temperature
+          ? _value.temperature
+          : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
+      stream: freezed == stream
+          ? _value.stream
+          : stream // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -27320,7 +27521,9 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
       @_ThreadAndRunModelConverter() @JsonKey(includeIfNull: false) this.model,
       @JsonKey(includeIfNull: false) this.instructions,
       @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
-      @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata})
+      @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
+      @JsonKey(includeIfNull: false) this.temperature = 1.0,
+      @JsonKey(includeIfNull: false) this.stream})
       : _tools = tools,
         _metadata = metadata,
         super._();
@@ -27377,9 +27580,19 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
     return EqualUnmodifiableMapView(value);
   }
 
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  @override
+  @JsonKey(includeIfNull: false)
+  final double? temperature;
+
+  /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
+  @override
+  @JsonKey(includeIfNull: false)
+  final bool? stream;
+
   @override
   String toString() {
-    return 'CreateThreadAndRunRequest(assistantId: $assistantId, thread: $thread, model: $model, instructions: $instructions, tools: $tools, metadata: $metadata)';
+    return 'CreateThreadAndRunRequest(assistantId: $assistantId, thread: $thread, model: $model, instructions: $instructions, tools: $tools, metadata: $metadata, temperature: $temperature, stream: $stream)';
   }
 
   @override
@@ -27394,7 +27607,10 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
             (identical(other.instructions, instructions) ||
                 other.instructions == instructions) &&
             const DeepCollectionEquality().equals(other._tools, _tools) &&
-            const DeepCollectionEquality().equals(other._metadata, _metadata));
+            const DeepCollectionEquality().equals(other._metadata, _metadata) &&
+            (identical(other.temperature, temperature) ||
+                other.temperature == temperature) &&
+            (identical(other.stream, stream) || other.stream == stream));
   }
 
   @JsonKey(ignore: true)
@@ -27406,7 +27622,9 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
       model,
       instructions,
       const DeepCollectionEquality().hash(_tools),
-      const DeepCollectionEquality().hash(_metadata));
+      const DeepCollectionEquality().hash(_metadata),
+      temperature,
+      stream);
 
   @JsonKey(ignore: true)
   @override
@@ -27425,15 +27643,17 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
 
 abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   const factory _CreateThreadAndRunRequest(
-      {@JsonKey(name: 'assistant_id') required final String assistantId,
-      @JsonKey(includeIfNull: false) final CreateThreadRequest? thread,
-      @_ThreadAndRunModelConverter()
-      @JsonKey(includeIfNull: false)
-      final ThreadAndRunModel? model,
-      @JsonKey(includeIfNull: false) final String? instructions,
-      @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
-      @JsonKey(includeIfNull: false)
-      final Map<String, dynamic>? metadata}) = _$CreateThreadAndRunRequestImpl;
+          {@JsonKey(name: 'assistant_id') required final String assistantId,
+          @JsonKey(includeIfNull: false) final CreateThreadRequest? thread,
+          @_ThreadAndRunModelConverter()
+          @JsonKey(includeIfNull: false)
+          final ThreadAndRunModel? model,
+          @JsonKey(includeIfNull: false) final String? instructions,
+          @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
+          @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
+          @JsonKey(includeIfNull: false) final double? temperature,
+          @JsonKey(includeIfNull: false) final bool? stream}) =
+      _$CreateThreadAndRunRequestImpl;
   const _CreateThreadAndRunRequest._() : super._();
 
   factory _CreateThreadAndRunRequest.fromJson(Map<String, dynamic> json) =
@@ -27470,6 +27690,16 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
+  @override
+
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  @JsonKey(includeIfNull: false)
+  double? get temperature;
+  @override
+
+  /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
+  @JsonKey(includeIfNull: false)
+  bool? get stream;
   @override
   @JsonKey(ignore: true)
   _$$CreateThreadAndRunRequestImplCopyWith<_$CreateThreadAndRunRequestImpl>
@@ -28960,8 +29190,25 @@ mixin _$MessageObject {
   @JsonKey(name: 'thread_id')
   String get threadId => throw _privateConstructorUsedError;
 
+  /// The status of the message, which can be either `in_progress`, `incomplete`, or `completed`.
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  MessageObjectStatus? get status => throw _privateConstructorUsedError;
+
+  /// On an incomplete message, details about why the message is incomplete.
+  @JsonKey(name: 'incomplete_details')
+  MessageObjectIncompleteDetails? get incompleteDetails =>
+      throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the message was completed.
+  @JsonKey(name: 'completed_at')
+  int? get completedAt => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the message was marked as incomplete.
+  @JsonKey(name: 'incomplete_at')
+  int? get incompleteAt => throw _privateConstructorUsedError;
+
   /// The entity that produced the message. One of `user` or `assistant`.
-  MessageObjectRole get role => throw _privateConstructorUsedError;
+  MessageRole get role => throw _privateConstructorUsedError;
 
   /// The content of the message in array of text and/or images.
   List<MessageContent> get content => throw _privateConstructorUsedError;
@@ -28970,7 +29217,7 @@ mixin _$MessageObject {
   @JsonKey(name: 'assistant_id')
   String? get assistantId => throw _privateConstructorUsedError;
 
-  /// If applicable, the ID of the [run](https://platform.openai.com/docs/api-reference/runs) associated with the authoring of this message.
+  /// The ID of the [run](https://platform.openai.com/docs/api-reference/runs) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
   @JsonKey(name: 'run_id')
   String? get runId => throw _privateConstructorUsedError;
 
@@ -28998,12 +29245,20 @@ abstract class $MessageObjectCopyWith<$Res> {
       MessageObjectObject object,
       @JsonKey(name: 'created_at') int createdAt,
       @JsonKey(name: 'thread_id') String threadId,
-      MessageObjectRole role,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      MessageObjectStatus? status,
+      @JsonKey(name: 'incomplete_details')
+      MessageObjectIncompleteDetails? incompleteDetails,
+      @JsonKey(name: 'completed_at') int? completedAt,
+      @JsonKey(name: 'incomplete_at') int? incompleteAt,
+      MessageRole role,
       List<MessageContent> content,
       @JsonKey(name: 'assistant_id') String? assistantId,
       @JsonKey(name: 'run_id') String? runId,
       @JsonKey(name: 'file_ids') List<String> fileIds,
       Map<String, dynamic>? metadata});
+
+  $MessageObjectIncompleteDetailsCopyWith<$Res>? get incompleteDetails;
 }
 
 /// @nodoc
@@ -29023,6 +29278,10 @@ class _$MessageObjectCopyWithImpl<$Res, $Val extends MessageObject>
     Object? object = null,
     Object? createdAt = null,
     Object? threadId = null,
+    Object? status = freezed,
+    Object? incompleteDetails = freezed,
+    Object? completedAt = freezed,
+    Object? incompleteAt = freezed,
     Object? role = null,
     Object? content = null,
     Object? assistantId = freezed,
@@ -29047,10 +29306,26 @@ class _$MessageObjectCopyWithImpl<$Res, $Val extends MessageObject>
           ? _value.threadId
           : threadId // ignore: cast_nullable_to_non_nullable
               as String,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as MessageObjectStatus?,
+      incompleteDetails: freezed == incompleteDetails
+          ? _value.incompleteDetails
+          : incompleteDetails // ignore: cast_nullable_to_non_nullable
+              as MessageObjectIncompleteDetails?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      incompleteAt: freezed == incompleteAt
+          ? _value.incompleteAt
+          : incompleteAt // ignore: cast_nullable_to_non_nullable
+              as int?,
       role: null == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
-              as MessageObjectRole,
+              as MessageRole,
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -29073,6 +29348,19 @@ class _$MessageObjectCopyWithImpl<$Res, $Val extends MessageObject>
               as Map<String, dynamic>?,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageObjectIncompleteDetailsCopyWith<$Res>? get incompleteDetails {
+    if (_value.incompleteDetails == null) {
+      return null;
+    }
+
+    return $MessageObjectIncompleteDetailsCopyWith<$Res>(
+        _value.incompleteDetails!, (value) {
+      return _then(_value.copyWith(incompleteDetails: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -29088,12 +29376,21 @@ abstract class _$$MessageObjectImplCopyWith<$Res>
       MessageObjectObject object,
       @JsonKey(name: 'created_at') int createdAt,
       @JsonKey(name: 'thread_id') String threadId,
-      MessageObjectRole role,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      MessageObjectStatus? status,
+      @JsonKey(name: 'incomplete_details')
+      MessageObjectIncompleteDetails? incompleteDetails,
+      @JsonKey(name: 'completed_at') int? completedAt,
+      @JsonKey(name: 'incomplete_at') int? incompleteAt,
+      MessageRole role,
       List<MessageContent> content,
       @JsonKey(name: 'assistant_id') String? assistantId,
       @JsonKey(name: 'run_id') String? runId,
       @JsonKey(name: 'file_ids') List<String> fileIds,
       Map<String, dynamic>? metadata});
+
+  @override
+  $MessageObjectIncompleteDetailsCopyWith<$Res>? get incompleteDetails;
 }
 
 /// @nodoc
@@ -29111,6 +29408,10 @@ class __$$MessageObjectImplCopyWithImpl<$Res>
     Object? object = null,
     Object? createdAt = null,
     Object? threadId = null,
+    Object? status = freezed,
+    Object? incompleteDetails = freezed,
+    Object? completedAt = freezed,
+    Object? incompleteAt = freezed,
     Object? role = null,
     Object? content = null,
     Object? assistantId = freezed,
@@ -29135,10 +29436,26 @@ class __$$MessageObjectImplCopyWithImpl<$Res>
           ? _value.threadId
           : threadId // ignore: cast_nullable_to_non_nullable
               as String,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as MessageObjectStatus?,
+      incompleteDetails: freezed == incompleteDetails
+          ? _value.incompleteDetails
+          : incompleteDetails // ignore: cast_nullable_to_non_nullable
+              as MessageObjectIncompleteDetails?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      incompleteAt: freezed == incompleteAt
+          ? _value.incompleteAt
+          : incompleteAt // ignore: cast_nullable_to_non_nullable
+              as int?,
       role: null == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
-              as MessageObjectRole,
+              as MessageRole,
       content: null == content
           ? _value._content
           : content // ignore: cast_nullable_to_non_nullable
@@ -29171,6 +29488,11 @@ class _$MessageObjectImpl extends _MessageObject {
       required this.object,
       @JsonKey(name: 'created_at') required this.createdAt,
       @JsonKey(name: 'thread_id') required this.threadId,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      required this.status,
+      @JsonKey(name: 'incomplete_details') required this.incompleteDetails,
+      @JsonKey(name: 'completed_at') required this.completedAt,
+      @JsonKey(name: 'incomplete_at') required this.incompleteAt,
       required this.role,
       required final List<MessageContent> content,
       @JsonKey(name: 'assistant_id') required this.assistantId,
@@ -29203,9 +29525,29 @@ class _$MessageObjectImpl extends _MessageObject {
   @JsonKey(name: 'thread_id')
   final String threadId;
 
+  /// The status of the message, which can be either `in_progress`, `incomplete`, or `completed`.
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final MessageObjectStatus? status;
+
+  /// On an incomplete message, details about why the message is incomplete.
+  @override
+  @JsonKey(name: 'incomplete_details')
+  final MessageObjectIncompleteDetails? incompleteDetails;
+
+  /// The Unix timestamp (in seconds) for when the message was completed.
+  @override
+  @JsonKey(name: 'completed_at')
+  final int? completedAt;
+
+  /// The Unix timestamp (in seconds) for when the message was marked as incomplete.
+  @override
+  @JsonKey(name: 'incomplete_at')
+  final int? incompleteAt;
+
   /// The entity that produced the message. One of `user` or `assistant`.
   @override
-  final MessageObjectRole role;
+  final MessageRole role;
 
   /// The content of the message in array of text and/or images.
   final List<MessageContent> _content;
@@ -29223,7 +29565,7 @@ class _$MessageObjectImpl extends _MessageObject {
   @JsonKey(name: 'assistant_id')
   final String? assistantId;
 
-  /// If applicable, the ID of the [run](https://platform.openai.com/docs/api-reference/runs) associated with the authoring of this message.
+  /// The ID of the [run](https://platform.openai.com/docs/api-reference/runs) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
   @override
   @JsonKey(name: 'run_id')
   final String? runId;
@@ -29255,7 +29597,7 @@ class _$MessageObjectImpl extends _MessageObject {
 
   @override
   String toString() {
-    return 'MessageObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, role: $role, content: $content, assistantId: $assistantId, runId: $runId, fileIds: $fileIds, metadata: $metadata)';
+    return 'MessageObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, status: $status, incompleteDetails: $incompleteDetails, completedAt: $completedAt, incompleteAt: $incompleteAt, role: $role, content: $content, assistantId: $assistantId, runId: $runId, fileIds: $fileIds, metadata: $metadata)';
   }
 
   @override
@@ -29269,6 +29611,13 @@ class _$MessageObjectImpl extends _MessageObject {
                 other.createdAt == createdAt) &&
             (identical(other.threadId, threadId) ||
                 other.threadId == threadId) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.incompleteDetails, incompleteDetails) ||
+                other.incompleteDetails == incompleteDetails) &&
+            (identical(other.completedAt, completedAt) ||
+                other.completedAt == completedAt) &&
+            (identical(other.incompleteAt, incompleteAt) ||
+                other.incompleteAt == incompleteAt) &&
             (identical(other.role, role) || other.role == role) &&
             const DeepCollectionEquality().equals(other._content, _content) &&
             (identical(other.assistantId, assistantId) ||
@@ -29286,6 +29635,10 @@ class _$MessageObjectImpl extends _MessageObject {
       object,
       createdAt,
       threadId,
+      status,
+      incompleteDetails,
+      completedAt,
+      incompleteAt,
       role,
       const DeepCollectionEquality().hash(_content),
       assistantId,
@@ -29313,7 +29666,13 @@ abstract class _MessageObject extends MessageObject {
       required final MessageObjectObject object,
       @JsonKey(name: 'created_at') required final int createdAt,
       @JsonKey(name: 'thread_id') required final String threadId,
-      required final MessageObjectRole role,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      required final MessageObjectStatus? status,
+      @JsonKey(name: 'incomplete_details')
+      required final MessageObjectIncompleteDetails? incompleteDetails,
+      @JsonKey(name: 'completed_at') required final int? completedAt,
+      @JsonKey(name: 'incomplete_at') required final int? incompleteAt,
+      required final MessageRole role,
       required final List<MessageContent> content,
       @JsonKey(name: 'assistant_id') required final String? assistantId,
       @JsonKey(name: 'run_id') required final String? runId,
@@ -29344,8 +29703,28 @@ abstract class _MessageObject extends MessageObject {
   String get threadId;
   @override
 
+  /// The status of the message, which can be either `in_progress`, `incomplete`, or `completed`.
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  MessageObjectStatus? get status;
+  @override
+
+  /// On an incomplete message, details about why the message is incomplete.
+  @JsonKey(name: 'incomplete_details')
+  MessageObjectIncompleteDetails? get incompleteDetails;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the message was completed.
+  @JsonKey(name: 'completed_at')
+  int? get completedAt;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the message was marked as incomplete.
+  @JsonKey(name: 'incomplete_at')
+  int? get incompleteAt;
+  @override
+
   /// The entity that produced the message. One of `user` or `assistant`.
-  MessageObjectRole get role;
+  MessageRole get role;
   @override
 
   /// The content of the message in array of text and/or images.
@@ -29357,7 +29736,7 @@ abstract class _MessageObject extends MessageObject {
   String? get assistantId;
   @override
 
-  /// If applicable, the ID of the [run](https://platform.openai.com/docs/api-reference/runs) associated with the authoring of this message.
+  /// The ID of the [run](https://platform.openai.com/docs/api-reference/runs) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
   @JsonKey(name: 'run_id')
   String? get runId;
   @override
@@ -29375,14 +29754,621 @@ abstract class _MessageObject extends MessageObject {
       throw _privateConstructorUsedError;
 }
 
+MessageObjectIncompleteDetails _$MessageObjectIncompleteDetailsFromJson(
+    Map<String, dynamic> json) {
+  return _MessageObjectIncompleteDetails.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageObjectIncompleteDetails {
+  /// The reason the message is incomplete.
+  MessageObjectIncompleteDetailsReason get reason =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageObjectIncompleteDetailsCopyWith<MessageObjectIncompleteDetails>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageObjectIncompleteDetailsCopyWith<$Res> {
+  factory $MessageObjectIncompleteDetailsCopyWith(
+          MessageObjectIncompleteDetails value,
+          $Res Function(MessageObjectIncompleteDetails) then) =
+      _$MessageObjectIncompleteDetailsCopyWithImpl<$Res,
+          MessageObjectIncompleteDetails>;
+  @useResult
+  $Res call({MessageObjectIncompleteDetailsReason reason});
+}
+
+/// @nodoc
+class _$MessageObjectIncompleteDetailsCopyWithImpl<$Res,
+        $Val extends MessageObjectIncompleteDetails>
+    implements $MessageObjectIncompleteDetailsCopyWith<$Res> {
+  _$MessageObjectIncompleteDetailsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? reason = null,
+  }) {
+    return _then(_value.copyWith(
+      reason: null == reason
+          ? _value.reason
+          : reason // ignore: cast_nullable_to_non_nullable
+              as MessageObjectIncompleteDetailsReason,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageObjectIncompleteDetailsImplCopyWith<$Res>
+    implements $MessageObjectIncompleteDetailsCopyWith<$Res> {
+  factory _$$MessageObjectIncompleteDetailsImplCopyWith(
+          _$MessageObjectIncompleteDetailsImpl value,
+          $Res Function(_$MessageObjectIncompleteDetailsImpl) then) =
+      __$$MessageObjectIncompleteDetailsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({MessageObjectIncompleteDetailsReason reason});
+}
+
+/// @nodoc
+class __$$MessageObjectIncompleteDetailsImplCopyWithImpl<$Res>
+    extends _$MessageObjectIncompleteDetailsCopyWithImpl<$Res,
+        _$MessageObjectIncompleteDetailsImpl>
+    implements _$$MessageObjectIncompleteDetailsImplCopyWith<$Res> {
+  __$$MessageObjectIncompleteDetailsImplCopyWithImpl(
+      _$MessageObjectIncompleteDetailsImpl _value,
+      $Res Function(_$MessageObjectIncompleteDetailsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? reason = null,
+  }) {
+    return _then(_$MessageObjectIncompleteDetailsImpl(
+      reason: null == reason
+          ? _value.reason
+          : reason // ignore: cast_nullable_to_non_nullable
+              as MessageObjectIncompleteDetailsReason,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageObjectIncompleteDetailsImpl
+    extends _MessageObjectIncompleteDetails {
+  const _$MessageObjectIncompleteDetailsImpl({required this.reason})
+      : super._();
+
+  factory _$MessageObjectIncompleteDetailsImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageObjectIncompleteDetailsImplFromJson(json);
+
+  /// The reason the message is incomplete.
+  @override
+  final MessageObjectIncompleteDetailsReason reason;
+
+  @override
+  String toString() {
+    return 'MessageObjectIncompleteDetails(reason: $reason)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageObjectIncompleteDetailsImpl &&
+            (identical(other.reason, reason) || other.reason == reason));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, reason);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageObjectIncompleteDetailsImplCopyWith<
+          _$MessageObjectIncompleteDetailsImpl>
+      get copyWith => __$$MessageObjectIncompleteDetailsImplCopyWithImpl<
+          _$MessageObjectIncompleteDetailsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageObjectIncompleteDetailsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageObjectIncompleteDetails
+    extends MessageObjectIncompleteDetails {
+  const factory _MessageObjectIncompleteDetails(
+          {required final MessageObjectIncompleteDetailsReason reason}) =
+      _$MessageObjectIncompleteDetailsImpl;
+  const _MessageObjectIncompleteDetails._() : super._();
+
+  factory _MessageObjectIncompleteDetails.fromJson(Map<String, dynamic> json) =
+      _$MessageObjectIncompleteDetailsImpl.fromJson;
+
+  @override
+
+  /// The reason the message is incomplete.
+  MessageObjectIncompleteDetailsReason get reason;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageObjectIncompleteDetailsImplCopyWith<
+          _$MessageObjectIncompleteDetailsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+MessageDeltaObject _$MessageDeltaObjectFromJson(Map<String, dynamic> json) {
+  return _MessageDeltaObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageDeltaObject {
+  /// The identifier of the message, which can be referenced in API endpoints.
+  String get id => throw _privateConstructorUsedError;
+
+  /// The object type, which is always `thread.message.delta`.
+  MessageDeltaObjectObject get object => throw _privateConstructorUsedError;
+
+  /// The delta containing the fields that have changed on the Message.
+  MessageDelta get delta => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageDeltaObjectCopyWith<MessageDeltaObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageDeltaObjectCopyWith<$Res> {
+  factory $MessageDeltaObjectCopyWith(
+          MessageDeltaObject value, $Res Function(MessageDeltaObject) then) =
+      _$MessageDeltaObjectCopyWithImpl<$Res, MessageDeltaObject>;
+  @useResult
+  $Res call({String id, MessageDeltaObjectObject object, MessageDelta delta});
+
+  $MessageDeltaCopyWith<$Res> get delta;
+}
+
+/// @nodoc
+class _$MessageDeltaObjectCopyWithImpl<$Res, $Val extends MessageDeltaObject>
+    implements $MessageDeltaObjectCopyWith<$Res> {
+  _$MessageDeltaObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? delta = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as MessageDeltaObjectObject,
+      delta: null == delta
+          ? _value.delta
+          : delta // ignore: cast_nullable_to_non_nullable
+              as MessageDelta,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageDeltaCopyWith<$Res> get delta {
+    return $MessageDeltaCopyWith<$Res>(_value.delta, (value) {
+      return _then(_value.copyWith(delta: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageDeltaObjectImplCopyWith<$Res>
+    implements $MessageDeltaObjectCopyWith<$Res> {
+  factory _$$MessageDeltaObjectImplCopyWith(_$MessageDeltaObjectImpl value,
+          $Res Function(_$MessageDeltaObjectImpl) then) =
+      __$$MessageDeltaObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id, MessageDeltaObjectObject object, MessageDelta delta});
+
+  @override
+  $MessageDeltaCopyWith<$Res> get delta;
+}
+
+/// @nodoc
+class __$$MessageDeltaObjectImplCopyWithImpl<$Res>
+    extends _$MessageDeltaObjectCopyWithImpl<$Res, _$MessageDeltaObjectImpl>
+    implements _$$MessageDeltaObjectImplCopyWith<$Res> {
+  __$$MessageDeltaObjectImplCopyWithImpl(_$MessageDeltaObjectImpl _value,
+      $Res Function(_$MessageDeltaObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? delta = null,
+  }) {
+    return _then(_$MessageDeltaObjectImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as MessageDeltaObjectObject,
+      delta: null == delta
+          ? _value.delta
+          : delta // ignore: cast_nullable_to_non_nullable
+              as MessageDelta,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageDeltaObjectImpl extends _MessageDeltaObject {
+  const _$MessageDeltaObjectImpl(
+      {required this.id, required this.object, required this.delta})
+      : super._();
+
+  factory _$MessageDeltaObjectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageDeltaObjectImplFromJson(json);
+
+  /// The identifier of the message, which can be referenced in API endpoints.
+  @override
+  final String id;
+
+  /// The object type, which is always `thread.message.delta`.
+  @override
+  final MessageDeltaObjectObject object;
+
+  /// The delta containing the fields that have changed on the Message.
+  @override
+  final MessageDelta delta;
+
+  @override
+  String toString() {
+    return 'MessageDeltaObject(id: $id, object: $object, delta: $delta)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageDeltaObjectImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.object, object) || other.object == object) &&
+            (identical(other.delta, delta) || other.delta == delta));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, object, delta);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageDeltaObjectImplCopyWith<_$MessageDeltaObjectImpl> get copyWith =>
+      __$$MessageDeltaObjectImplCopyWithImpl<_$MessageDeltaObjectImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageDeltaObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageDeltaObject extends MessageDeltaObject {
+  const factory _MessageDeltaObject(
+      {required final String id,
+      required final MessageDeltaObjectObject object,
+      required final MessageDelta delta}) = _$MessageDeltaObjectImpl;
+  const _MessageDeltaObject._() : super._();
+
+  factory _MessageDeltaObject.fromJson(Map<String, dynamic> json) =
+      _$MessageDeltaObjectImpl.fromJson;
+
+  @override
+
+  /// The identifier of the message, which can be referenced in API endpoints.
+  String get id;
+  @override
+
+  /// The object type, which is always `thread.message.delta`.
+  MessageDeltaObjectObject get object;
+  @override
+
+  /// The delta containing the fields that have changed on the Message.
+  MessageDelta get delta;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageDeltaObjectImplCopyWith<_$MessageDeltaObjectImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+MessageDelta _$MessageDeltaFromJson(Map<String, dynamic> json) {
+  return _MessageDelta.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageDelta {
+  /// The entity that produced the message. One of `user` or `assistant`.
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  MessageRole? get role => throw _privateConstructorUsedError;
+
+  /// The content of the message in array of text and/or images.
+  @JsonKey(includeIfNull: false)
+  List<MessageDeltaContent>? get content => throw _privateConstructorUsedError;
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageDeltaCopyWith<MessageDelta> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageDeltaCopyWith<$Res> {
+  factory $MessageDeltaCopyWith(
+          MessageDelta value, $Res Function(MessageDelta) then) =
+      _$MessageDeltaCopyWithImpl<$Res, MessageDelta>;
+  @useResult
+  $Res call(
+      {@JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      MessageRole? role,
+      @JsonKey(includeIfNull: false) List<MessageDeltaContent>? content,
+      @JsonKey(name: 'file_ids') List<String> fileIds});
+}
+
+/// @nodoc
+class _$MessageDeltaCopyWithImpl<$Res, $Val extends MessageDelta>
+    implements $MessageDeltaCopyWith<$Res> {
+  _$MessageDeltaCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? role = freezed,
+    Object? content = freezed,
+    Object? fileIds = null,
+  }) {
+    return _then(_value.copyWith(
+      role: freezed == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as MessageRole?,
+      content: freezed == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as List<MessageDeltaContent>?,
+      fileIds: null == fileIds
+          ? _value.fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageDeltaImplCopyWith<$Res>
+    implements $MessageDeltaCopyWith<$Res> {
+  factory _$$MessageDeltaImplCopyWith(
+          _$MessageDeltaImpl value, $Res Function(_$MessageDeltaImpl) then) =
+      __$$MessageDeltaImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      MessageRole? role,
+      @JsonKey(includeIfNull: false) List<MessageDeltaContent>? content,
+      @JsonKey(name: 'file_ids') List<String> fileIds});
+}
+
+/// @nodoc
+class __$$MessageDeltaImplCopyWithImpl<$Res>
+    extends _$MessageDeltaCopyWithImpl<$Res, _$MessageDeltaImpl>
+    implements _$$MessageDeltaImplCopyWith<$Res> {
+  __$$MessageDeltaImplCopyWithImpl(
+      _$MessageDeltaImpl _value, $Res Function(_$MessageDeltaImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? role = freezed,
+    Object? content = freezed,
+    Object? fileIds = null,
+  }) {
+    return _then(_$MessageDeltaImpl(
+      role: freezed == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as MessageRole?,
+      content: freezed == content
+          ? _value._content
+          : content // ignore: cast_nullable_to_non_nullable
+              as List<MessageDeltaContent>?,
+      fileIds: null == fileIds
+          ? _value._fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageDeltaImpl extends _MessageDelta {
+  const _$MessageDeltaImpl(
+      {@JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.role,
+      @JsonKey(includeIfNull: false) final List<MessageDeltaContent>? content,
+      @JsonKey(name: 'file_ids') final List<String> fileIds = const []})
+      : _content = content,
+        _fileIds = fileIds,
+        super._();
+
+  factory _$MessageDeltaImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageDeltaImplFromJson(json);
+
+  /// The entity that produced the message. One of `user` or `assistant`.
+  @override
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final MessageRole? role;
+
+  /// The content of the message in array of text and/or images.
+  final List<MessageDeltaContent>? _content;
+
+  /// The content of the message in array of text and/or images.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<MessageDeltaContent>? get content {
+    final value = _content;
+    if (value == null) return null;
+    if (_content is EqualUnmodifiableListView) return _content;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
+  final List<String> _fileIds;
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
+  @override
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds {
+    if (_fileIds is EqualUnmodifiableListView) return _fileIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_fileIds);
+  }
+
+  @override
+  String toString() {
+    return 'MessageDelta(role: $role, content: $content, fileIds: $fileIds)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageDeltaImpl &&
+            (identical(other.role, role) || other.role == role) &&
+            const DeepCollectionEquality().equals(other._content, _content) &&
+            const DeepCollectionEquality().equals(other._fileIds, _fileIds));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      role,
+      const DeepCollectionEquality().hash(_content),
+      const DeepCollectionEquality().hash(_fileIds));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageDeltaImplCopyWith<_$MessageDeltaImpl> get copyWith =>
+      __$$MessageDeltaImplCopyWithImpl<_$MessageDeltaImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageDeltaImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageDelta extends MessageDelta {
+  const factory _MessageDelta(
+      {@JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final MessageRole? role,
+      @JsonKey(includeIfNull: false) final List<MessageDeltaContent>? content,
+      @JsonKey(name: 'file_ids')
+      final List<String> fileIds}) = _$MessageDeltaImpl;
+  const _MessageDelta._() : super._();
+
+  factory _MessageDelta.fromJson(Map<String, dynamic> json) =
+      _$MessageDeltaImpl.fromJson;
+
+  @override
+
+  /// The entity that produced the message. One of `user` or `assistant`.
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  MessageRole? get role;
+  @override
+
+  /// The content of the message in array of text and/or images.
+  @JsonKey(includeIfNull: false)
+  List<MessageDeltaContent>? get content;
+  @override
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageDeltaImplCopyWith<_$MessageDeltaImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 CreateMessageRequest _$CreateMessageRequestFromJson(Map<String, dynamic> json) {
   return _CreateMessageRequest.fromJson(json);
 }
 
 /// @nodoc
 mixin _$CreateMessageRequest {
-  /// The role of the entity that is creating the message. Currently only `user` is supported.
-  CreateMessageRequestRole get role => throw _privateConstructorUsedError;
+  /// The entity that produced the message. One of `user` or `assistant`.
+  MessageRole get role => throw _privateConstructorUsedError;
 
   /// The content of the message.
   String get content => throw _privateConstructorUsedError;
@@ -29408,7 +30394,7 @@ abstract class $CreateMessageRequestCopyWith<$Res> {
       _$CreateMessageRequestCopyWithImpl<$Res, CreateMessageRequest>;
   @useResult
   $Res call(
-      {CreateMessageRequestRole role,
+      {MessageRole role,
       String content,
       @JsonKey(name: 'file_ids') List<String> fileIds,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
@@ -29437,7 +30423,7 @@ class _$CreateMessageRequestCopyWithImpl<$Res,
       role: null == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
-              as CreateMessageRequestRole,
+              as MessageRole,
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -29463,7 +30449,7 @@ abstract class _$$CreateMessageRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {CreateMessageRequestRole role,
+      {MessageRole role,
       String content,
       @JsonKey(name: 'file_ids') List<String> fileIds,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
@@ -29489,7 +30475,7 @@ class __$$CreateMessageRequestImplCopyWithImpl<$Res>
       role: null == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
-              as CreateMessageRequestRole,
+              as MessageRole,
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -29521,9 +30507,9 @@ class _$CreateMessageRequestImpl extends _CreateMessageRequest {
   factory _$CreateMessageRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreateMessageRequestImplFromJson(json);
 
-  /// The role of the entity that is creating the message. Currently only `user` is supported.
+  /// The entity that produced the message. One of `user` or `assistant`.
   @override
-  final CreateMessageRequestRole role;
+  final MessageRole role;
 
   /// The content of the message.
   @override
@@ -29598,7 +30584,7 @@ class _$CreateMessageRequestImpl extends _CreateMessageRequest {
 
 abstract class _CreateMessageRequest extends CreateMessageRequest {
   const factory _CreateMessageRequest(
-      {required final CreateMessageRequestRole role,
+      {required final MessageRole role,
       required final String content,
       @JsonKey(name: 'file_ids') final List<String> fileIds,
       @JsonKey(includeIfNull: false)
@@ -29610,8 +30596,8 @@ abstract class _CreateMessageRequest extends CreateMessageRequest {
 
   @override
 
-  /// The role of the entity that is creating the message. Currently only `user` is supported.
-  CreateMessageRequestRole get role;
+  /// The entity that produced the message. One of `user` or `assistant`.
+  MessageRole get role;
   @override
 
   /// The content of the message.
@@ -30787,6 +31773,409 @@ abstract class _MessageContentTextAnnotationsFileCitation
       get copyWith => throw _privateConstructorUsedError;
 }
 
+MessageDeltaContentText _$MessageDeltaContentTextFromJson(
+    Map<String, dynamic> json) {
+  return _MessageDeltaContentText.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageDeltaContentText {
+  /// The data that makes up the text.
+  @JsonKey(includeIfNull: false)
+  String? get value => throw _privateConstructorUsedError;
+
+  /// A list of annotations that point to specific quotes from specific files.
+  @JsonKey(includeIfNull: false)
+  List<MessageDeltaContentTextAnnotations>? get annotations =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageDeltaContentTextCopyWith<MessageDeltaContentText> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageDeltaContentTextCopyWith<$Res> {
+  factory $MessageDeltaContentTextCopyWith(MessageDeltaContentText value,
+          $Res Function(MessageDeltaContentText) then) =
+      _$MessageDeltaContentTextCopyWithImpl<$Res, MessageDeltaContentText>;
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? value,
+      @JsonKey(includeIfNull: false)
+      List<MessageDeltaContentTextAnnotations>? annotations});
+}
+
+/// @nodoc
+class _$MessageDeltaContentTextCopyWithImpl<$Res,
+        $Val extends MessageDeltaContentText>
+    implements $MessageDeltaContentTextCopyWith<$Res> {
+  _$MessageDeltaContentTextCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = freezed,
+    Object? annotations = freezed,
+  }) {
+    return _then(_value.copyWith(
+      value: freezed == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String?,
+      annotations: freezed == annotations
+          ? _value.annotations
+          : annotations // ignore: cast_nullable_to_non_nullable
+              as List<MessageDeltaContentTextAnnotations>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageDeltaContentTextImplCopyWith<$Res>
+    implements $MessageDeltaContentTextCopyWith<$Res> {
+  factory _$$MessageDeltaContentTextImplCopyWith(
+          _$MessageDeltaContentTextImpl value,
+          $Res Function(_$MessageDeltaContentTextImpl) then) =
+      __$$MessageDeltaContentTextImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? value,
+      @JsonKey(includeIfNull: false)
+      List<MessageDeltaContentTextAnnotations>? annotations});
+}
+
+/// @nodoc
+class __$$MessageDeltaContentTextImplCopyWithImpl<$Res>
+    extends _$MessageDeltaContentTextCopyWithImpl<$Res,
+        _$MessageDeltaContentTextImpl>
+    implements _$$MessageDeltaContentTextImplCopyWith<$Res> {
+  __$$MessageDeltaContentTextImplCopyWithImpl(
+      _$MessageDeltaContentTextImpl _value,
+      $Res Function(_$MessageDeltaContentTextImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = freezed,
+    Object? annotations = freezed,
+  }) {
+    return _then(_$MessageDeltaContentTextImpl(
+      value: freezed == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String?,
+      annotations: freezed == annotations
+          ? _value._annotations
+          : annotations // ignore: cast_nullable_to_non_nullable
+              as List<MessageDeltaContentTextAnnotations>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageDeltaContentTextImpl extends _MessageDeltaContentText {
+  const _$MessageDeltaContentTextImpl(
+      {@JsonKey(includeIfNull: false) this.value,
+      @JsonKey(includeIfNull: false)
+      final List<MessageDeltaContentTextAnnotations>? annotations})
+      : _annotations = annotations,
+        super._();
+
+  factory _$MessageDeltaContentTextImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageDeltaContentTextImplFromJson(json);
+
+  /// The data that makes up the text.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? value;
+
+  /// A list of annotations that point to specific quotes from specific files.
+  final List<MessageDeltaContentTextAnnotations>? _annotations;
+
+  /// A list of annotations that point to specific quotes from specific files.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<MessageDeltaContentTextAnnotations>? get annotations {
+    final value = _annotations;
+    if (value == null) return null;
+    if (_annotations is EqualUnmodifiableListView) return _annotations;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'MessageDeltaContentText(value: $value, annotations: $annotations)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageDeltaContentTextImpl &&
+            (identical(other.value, value) || other.value == value) &&
+            const DeepCollectionEquality()
+                .equals(other._annotations, _annotations));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, value, const DeepCollectionEquality().hash(_annotations));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageDeltaContentTextImplCopyWith<_$MessageDeltaContentTextImpl>
+      get copyWith => __$$MessageDeltaContentTextImplCopyWithImpl<
+          _$MessageDeltaContentTextImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageDeltaContentTextImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageDeltaContentText extends MessageDeltaContentText {
+  const factory _MessageDeltaContentText(
+          {@JsonKey(includeIfNull: false) final String? value,
+          @JsonKey(includeIfNull: false)
+          final List<MessageDeltaContentTextAnnotations>? annotations}) =
+      _$MessageDeltaContentTextImpl;
+  const _MessageDeltaContentText._() : super._();
+
+  factory _MessageDeltaContentText.fromJson(Map<String, dynamic> json) =
+      _$MessageDeltaContentTextImpl.fromJson;
+
+  @override
+
+  /// The data that makes up the text.
+  @JsonKey(includeIfNull: false)
+  String? get value;
+  @override
+
+  /// A list of annotations that point to specific quotes from specific files.
+  @JsonKey(includeIfNull: false)
+  List<MessageDeltaContentTextAnnotations>? get annotations;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageDeltaContentTextImplCopyWith<_$MessageDeltaContentTextImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+MessageDeltaContentTextAnnotationsFileCitation
+    _$MessageDeltaContentTextAnnotationsFileCitationFromJson(
+        Map<String, dynamic> json) {
+  return _MessageDeltaContentTextAnnotationsFileCitation.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageDeltaContentTextAnnotationsFileCitation {
+  /// The ID of the specific File the citation is from.
+  @JsonKey(name: 'file_id', includeIfNull: false)
+  String? get fileId => throw _privateConstructorUsedError;
+
+  /// The specific quote in the file.
+  @JsonKey(includeIfNull: false)
+  String? get quote => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageDeltaContentTextAnnotationsFileCitationCopyWith<
+          MessageDeltaContentTextAnnotationsFileCitation>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageDeltaContentTextAnnotationsFileCitationCopyWith<$Res> {
+  factory $MessageDeltaContentTextAnnotationsFileCitationCopyWith(
+          MessageDeltaContentTextAnnotationsFileCitation value,
+          $Res Function(MessageDeltaContentTextAnnotationsFileCitation) then) =
+      _$MessageDeltaContentTextAnnotationsFileCitationCopyWithImpl<$Res,
+          MessageDeltaContentTextAnnotationsFileCitation>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'file_id', includeIfNull: false) String? fileId,
+      @JsonKey(includeIfNull: false) String? quote});
+}
+
+/// @nodoc
+class _$MessageDeltaContentTextAnnotationsFileCitationCopyWithImpl<$Res,
+        $Val extends MessageDeltaContentTextAnnotationsFileCitation>
+    implements $MessageDeltaContentTextAnnotationsFileCitationCopyWith<$Res> {
+  _$MessageDeltaContentTextAnnotationsFileCitationCopyWithImpl(
+      this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = freezed,
+    Object? quote = freezed,
+  }) {
+    return _then(_value.copyWith(
+      fileId: freezed == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      quote: freezed == quote
+          ? _value.quote
+          : quote // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageDeltaContentTextAnnotationsFileCitationImplCopyWith<
+        $Res>
+    implements $MessageDeltaContentTextAnnotationsFileCitationCopyWith<$Res> {
+  factory _$$MessageDeltaContentTextAnnotationsFileCitationImplCopyWith(
+          _$MessageDeltaContentTextAnnotationsFileCitationImpl value,
+          $Res Function(_$MessageDeltaContentTextAnnotationsFileCitationImpl)
+              then) =
+      __$$MessageDeltaContentTextAnnotationsFileCitationImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'file_id', includeIfNull: false) String? fileId,
+      @JsonKey(includeIfNull: false) String? quote});
+}
+
+/// @nodoc
+class __$$MessageDeltaContentTextAnnotationsFileCitationImplCopyWithImpl<$Res>
+    extends _$MessageDeltaContentTextAnnotationsFileCitationCopyWithImpl<$Res,
+        _$MessageDeltaContentTextAnnotationsFileCitationImpl>
+    implements
+        _$$MessageDeltaContentTextAnnotationsFileCitationImplCopyWith<$Res> {
+  __$$MessageDeltaContentTextAnnotationsFileCitationImplCopyWithImpl(
+      _$MessageDeltaContentTextAnnotationsFileCitationImpl _value,
+      $Res Function(_$MessageDeltaContentTextAnnotationsFileCitationImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = freezed,
+    Object? quote = freezed,
+  }) {
+    return _then(_$MessageDeltaContentTextAnnotationsFileCitationImpl(
+      fileId: freezed == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      quote: freezed == quote
+          ? _value.quote
+          : quote // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageDeltaContentTextAnnotationsFileCitationImpl
+    extends _MessageDeltaContentTextAnnotationsFileCitation {
+  const _$MessageDeltaContentTextAnnotationsFileCitationImpl(
+      {@JsonKey(name: 'file_id', includeIfNull: false) this.fileId,
+      @JsonKey(includeIfNull: false) this.quote})
+      : super._();
+
+  factory _$MessageDeltaContentTextAnnotationsFileCitationImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageDeltaContentTextAnnotationsFileCitationImplFromJson(json);
+
+  /// The ID of the specific File the citation is from.
+  @override
+  @JsonKey(name: 'file_id', includeIfNull: false)
+  final String? fileId;
+
+  /// The specific quote in the file.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? quote;
+
+  @override
+  String toString() {
+    return 'MessageDeltaContentTextAnnotationsFileCitation(fileId: $fileId, quote: $quote)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageDeltaContentTextAnnotationsFileCitationImpl &&
+            (identical(other.fileId, fileId) || other.fileId == fileId) &&
+            (identical(other.quote, quote) || other.quote == quote));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, fileId, quote);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageDeltaContentTextAnnotationsFileCitationImplCopyWith<
+          _$MessageDeltaContentTextAnnotationsFileCitationImpl>
+      get copyWith =>
+          __$$MessageDeltaContentTextAnnotationsFileCitationImplCopyWithImpl<
+                  _$MessageDeltaContentTextAnnotationsFileCitationImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageDeltaContentTextAnnotationsFileCitationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageDeltaContentTextAnnotationsFileCitation
+    extends MessageDeltaContentTextAnnotationsFileCitation {
+  const factory _MessageDeltaContentTextAnnotationsFileCitation(
+          {@JsonKey(name: 'file_id', includeIfNull: false) final String? fileId,
+          @JsonKey(includeIfNull: false) final String? quote}) =
+      _$MessageDeltaContentTextAnnotationsFileCitationImpl;
+  const _MessageDeltaContentTextAnnotationsFileCitation._() : super._();
+
+  factory _MessageDeltaContentTextAnnotationsFileCitation.fromJson(
+          Map<String, dynamic> json) =
+      _$MessageDeltaContentTextAnnotationsFileCitationImpl.fromJson;
+
+  @override
+
+  /// The ID of the specific File the citation is from.
+  @JsonKey(name: 'file_id', includeIfNull: false)
+  String? get fileId;
+  @override
+
+  /// The specific quote in the file.
+  @JsonKey(includeIfNull: false)
+  String? get quote;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageDeltaContentTextAnnotationsFileCitationImplCopyWith<
+          _$MessageDeltaContentTextAnnotationsFileCitationImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 RunStepObject _$RunStepObjectFromJson(Map<String, dynamic> json) {
   return _RunStepObject.fromJson(json);
 }
@@ -31602,6 +32991,383 @@ abstract class _RunStepLastError extends RunStepLastError {
       throw _privateConstructorUsedError;
 }
 
+RunStepDeltaObject _$RunStepDeltaObjectFromJson(Map<String, dynamic> json) {
+  return _RunStepDeltaObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunStepDeltaObject {
+  /// The identifier of the run step, which can be referenced in API endpoints.
+  String get id => throw _privateConstructorUsedError;
+
+  /// The object type, which is always `thread.run.step.delta`.
+  RunStepDeltaObjectObject get object => throw _privateConstructorUsedError;
+
+  /// The delta containing the fields that have changed on the run step.
+  RunStepDelta get delta => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunStepDeltaObjectCopyWith<RunStepDeltaObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDeltaObjectCopyWith<$Res> {
+  factory $RunStepDeltaObjectCopyWith(
+          RunStepDeltaObject value, $Res Function(RunStepDeltaObject) then) =
+      _$RunStepDeltaObjectCopyWithImpl<$Res, RunStepDeltaObject>;
+  @useResult
+  $Res call({String id, RunStepDeltaObjectObject object, RunStepDelta delta});
+
+  $RunStepDeltaCopyWith<$Res> get delta;
+}
+
+/// @nodoc
+class _$RunStepDeltaObjectCopyWithImpl<$Res, $Val extends RunStepDeltaObject>
+    implements $RunStepDeltaObjectCopyWith<$Res> {
+  _$RunStepDeltaObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? delta = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as RunStepDeltaObjectObject,
+      delta: null == delta
+          ? _value.delta
+          : delta // ignore: cast_nullable_to_non_nullable
+              as RunStepDelta,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunStepDeltaCopyWith<$Res> get delta {
+    return $RunStepDeltaCopyWith<$Res>(_value.delta, (value) {
+      return _then(_value.copyWith(delta: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepDeltaObjectImplCopyWith<$Res>
+    implements $RunStepDeltaObjectCopyWith<$Res> {
+  factory _$$RunStepDeltaObjectImplCopyWith(_$RunStepDeltaObjectImpl value,
+          $Res Function(_$RunStepDeltaObjectImpl) then) =
+      __$$RunStepDeltaObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id, RunStepDeltaObjectObject object, RunStepDelta delta});
+
+  @override
+  $RunStepDeltaCopyWith<$Res> get delta;
+}
+
+/// @nodoc
+class __$$RunStepDeltaObjectImplCopyWithImpl<$Res>
+    extends _$RunStepDeltaObjectCopyWithImpl<$Res, _$RunStepDeltaObjectImpl>
+    implements _$$RunStepDeltaObjectImplCopyWith<$Res> {
+  __$$RunStepDeltaObjectImplCopyWithImpl(_$RunStepDeltaObjectImpl _value,
+      $Res Function(_$RunStepDeltaObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? delta = null,
+  }) {
+    return _then(_$RunStepDeltaObjectImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as RunStepDeltaObjectObject,
+      delta: null == delta
+          ? _value.delta
+          : delta // ignore: cast_nullable_to_non_nullable
+              as RunStepDelta,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDeltaObjectImpl extends _RunStepDeltaObject {
+  const _$RunStepDeltaObjectImpl(
+      {required this.id, required this.object, required this.delta})
+      : super._();
+
+  factory _$RunStepDeltaObjectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RunStepDeltaObjectImplFromJson(json);
+
+  /// The identifier of the run step, which can be referenced in API endpoints.
+  @override
+  final String id;
+
+  /// The object type, which is always `thread.run.step.delta`.
+  @override
+  final RunStepDeltaObjectObject object;
+
+  /// The delta containing the fields that have changed on the run step.
+  @override
+  final RunStepDelta delta;
+
+  @override
+  String toString() {
+    return 'RunStepDeltaObject(id: $id, object: $object, delta: $delta)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDeltaObjectImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.object, object) || other.object == object) &&
+            (identical(other.delta, delta) || other.delta == delta));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, object, delta);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDeltaObjectImplCopyWith<_$RunStepDeltaObjectImpl> get copyWith =>
+      __$$RunStepDeltaObjectImplCopyWithImpl<_$RunStepDeltaObjectImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDeltaObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunStepDeltaObject extends RunStepDeltaObject {
+  const factory _RunStepDeltaObject(
+      {required final String id,
+      required final RunStepDeltaObjectObject object,
+      required final RunStepDelta delta}) = _$RunStepDeltaObjectImpl;
+  const _RunStepDeltaObject._() : super._();
+
+  factory _RunStepDeltaObject.fromJson(Map<String, dynamic> json) =
+      _$RunStepDeltaObjectImpl.fromJson;
+
+  @override
+
+  /// The identifier of the run step, which can be referenced in API endpoints.
+  String get id;
+  @override
+
+  /// The object type, which is always `thread.run.step.delta`.
+  RunStepDeltaObjectObject get object;
+  @override
+
+  /// The delta containing the fields that have changed on the run step.
+  RunStepDelta get delta;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDeltaObjectImplCopyWith<_$RunStepDeltaObjectImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+RunStepDelta _$RunStepDeltaFromJson(Map<String, dynamic> json) {
+  return _RunStepDelta.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunStepDelta {
+  /// The details of the run step
+  /// Any of: [RunStepDeltaStepDetailsMessageCreationObject], [RunStepDeltaStepDetailsToolCallsObject]
+  @JsonKey(name: 'step_details', includeIfNull: false)
+  RunStepDeltaDetails? get stepDetails => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunStepDeltaCopyWith<RunStepDelta> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDeltaCopyWith<$Res> {
+  factory $RunStepDeltaCopyWith(
+          RunStepDelta value, $Res Function(RunStepDelta) then) =
+      _$RunStepDeltaCopyWithImpl<$Res, RunStepDelta>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'step_details', includeIfNull: false)
+      RunStepDeltaDetails? stepDetails});
+
+  $RunStepDeltaDetailsCopyWith<$Res>? get stepDetails;
+}
+
+/// @nodoc
+class _$RunStepDeltaCopyWithImpl<$Res, $Val extends RunStepDelta>
+    implements $RunStepDeltaCopyWith<$Res> {
+  _$RunStepDeltaCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? stepDetails = freezed,
+  }) {
+    return _then(_value.copyWith(
+      stepDetails: freezed == stepDetails
+          ? _value.stepDetails
+          : stepDetails // ignore: cast_nullable_to_non_nullable
+              as RunStepDeltaDetails?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunStepDeltaDetailsCopyWith<$Res>? get stepDetails {
+    if (_value.stepDetails == null) {
+      return null;
+    }
+
+    return $RunStepDeltaDetailsCopyWith<$Res>(_value.stepDetails!, (value) {
+      return _then(_value.copyWith(stepDetails: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepDeltaImplCopyWith<$Res>
+    implements $RunStepDeltaCopyWith<$Res> {
+  factory _$$RunStepDeltaImplCopyWith(
+          _$RunStepDeltaImpl value, $Res Function(_$RunStepDeltaImpl) then) =
+      __$$RunStepDeltaImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'step_details', includeIfNull: false)
+      RunStepDeltaDetails? stepDetails});
+
+  @override
+  $RunStepDeltaDetailsCopyWith<$Res>? get stepDetails;
+}
+
+/// @nodoc
+class __$$RunStepDeltaImplCopyWithImpl<$Res>
+    extends _$RunStepDeltaCopyWithImpl<$Res, _$RunStepDeltaImpl>
+    implements _$$RunStepDeltaImplCopyWith<$Res> {
+  __$$RunStepDeltaImplCopyWithImpl(
+      _$RunStepDeltaImpl _value, $Res Function(_$RunStepDeltaImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? stepDetails = freezed,
+  }) {
+    return _then(_$RunStepDeltaImpl(
+      stepDetails: freezed == stepDetails
+          ? _value.stepDetails
+          : stepDetails // ignore: cast_nullable_to_non_nullable
+              as RunStepDeltaDetails?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDeltaImpl extends _RunStepDelta {
+  const _$RunStepDeltaImpl(
+      {@JsonKey(name: 'step_details', includeIfNull: false) this.stepDetails})
+      : super._();
+
+  factory _$RunStepDeltaImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RunStepDeltaImplFromJson(json);
+
+  /// The details of the run step
+  /// Any of: [RunStepDeltaStepDetailsMessageCreationObject], [RunStepDeltaStepDetailsToolCallsObject]
+  @override
+  @JsonKey(name: 'step_details', includeIfNull: false)
+  final RunStepDeltaDetails? stepDetails;
+
+  @override
+  String toString() {
+    return 'RunStepDelta(stepDetails: $stepDetails)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDeltaImpl &&
+            (identical(other.stepDetails, stepDetails) ||
+                other.stepDetails == stepDetails));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, stepDetails);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDeltaImplCopyWith<_$RunStepDeltaImpl> get copyWith =>
+      __$$RunStepDeltaImplCopyWithImpl<_$RunStepDeltaImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDeltaImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunStepDelta extends RunStepDelta {
+  const factory _RunStepDelta(
+      {@JsonKey(name: 'step_details', includeIfNull: false)
+      final RunStepDeltaDetails? stepDetails}) = _$RunStepDeltaImpl;
+  const _RunStepDelta._() : super._();
+
+  factory _RunStepDelta.fromJson(Map<String, dynamic> json) =
+      _$RunStepDeltaImpl.fromJson;
+
+  @override
+
+  /// The details of the run step
+  /// Any of: [RunStepDeltaStepDetailsMessageCreationObject], [RunStepDeltaStepDetailsToolCallsObject]
+  @JsonKey(name: 'step_details', includeIfNull: false)
+  RunStepDeltaDetails? get stepDetails;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDeltaImplCopyWith<_$RunStepDeltaImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 ListRunStepsResponse _$ListRunStepsResponseFromJson(Map<String, dynamic> json) {
   return _ListRunStepsResponse.fromJson(json);
 }
@@ -32036,6 +33802,174 @@ abstract class _RunStepDetailsMessageCreation
       get copyWith => throw _privateConstructorUsedError;
 }
 
+RunStepDeltaStepDetailsMessageCreation
+    _$RunStepDeltaStepDetailsMessageCreationFromJson(
+        Map<String, dynamic> json) {
+  return _RunStepDeltaStepDetailsMessageCreation.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunStepDeltaStepDetailsMessageCreation {
+  /// The ID of the message that was created by this run step.
+  @JsonKey(name: 'message_id', includeIfNull: false)
+  String? get messageId => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunStepDeltaStepDetailsMessageCreationCopyWith<
+          RunStepDeltaStepDetailsMessageCreation>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDeltaStepDetailsMessageCreationCopyWith<$Res> {
+  factory $RunStepDeltaStepDetailsMessageCreationCopyWith(
+          RunStepDeltaStepDetailsMessageCreation value,
+          $Res Function(RunStepDeltaStepDetailsMessageCreation) then) =
+      _$RunStepDeltaStepDetailsMessageCreationCopyWithImpl<$Res,
+          RunStepDeltaStepDetailsMessageCreation>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'message_id', includeIfNull: false) String? messageId});
+}
+
+/// @nodoc
+class _$RunStepDeltaStepDetailsMessageCreationCopyWithImpl<$Res,
+        $Val extends RunStepDeltaStepDetailsMessageCreation>
+    implements $RunStepDeltaStepDetailsMessageCreationCopyWith<$Res> {
+  _$RunStepDeltaStepDetailsMessageCreationCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? messageId = freezed,
+  }) {
+    return _then(_value.copyWith(
+      messageId: freezed == messageId
+          ? _value.messageId
+          : messageId // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepDeltaStepDetailsMessageCreationImplCopyWith<$Res>
+    implements $RunStepDeltaStepDetailsMessageCreationCopyWith<$Res> {
+  factory _$$RunStepDeltaStepDetailsMessageCreationImplCopyWith(
+          _$RunStepDeltaStepDetailsMessageCreationImpl value,
+          $Res Function(_$RunStepDeltaStepDetailsMessageCreationImpl) then) =
+      __$$RunStepDeltaStepDetailsMessageCreationImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'message_id', includeIfNull: false) String? messageId});
+}
+
+/// @nodoc
+class __$$RunStepDeltaStepDetailsMessageCreationImplCopyWithImpl<$Res>
+    extends _$RunStepDeltaStepDetailsMessageCreationCopyWithImpl<$Res,
+        _$RunStepDeltaStepDetailsMessageCreationImpl>
+    implements _$$RunStepDeltaStepDetailsMessageCreationImplCopyWith<$Res> {
+  __$$RunStepDeltaStepDetailsMessageCreationImplCopyWithImpl(
+      _$RunStepDeltaStepDetailsMessageCreationImpl _value,
+      $Res Function(_$RunStepDeltaStepDetailsMessageCreationImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? messageId = freezed,
+  }) {
+    return _then(_$RunStepDeltaStepDetailsMessageCreationImpl(
+      messageId: freezed == messageId
+          ? _value.messageId
+          : messageId // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDeltaStepDetailsMessageCreationImpl
+    extends _RunStepDeltaStepDetailsMessageCreation {
+  const _$RunStepDeltaStepDetailsMessageCreationImpl(
+      {@JsonKey(name: 'message_id', includeIfNull: false) this.messageId})
+      : super._();
+
+  factory _$RunStepDeltaStepDetailsMessageCreationImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDeltaStepDetailsMessageCreationImplFromJson(json);
+
+  /// The ID of the message that was created by this run step.
+  @override
+  @JsonKey(name: 'message_id', includeIfNull: false)
+  final String? messageId;
+
+  @override
+  String toString() {
+    return 'RunStepDeltaStepDetailsMessageCreation(messageId: $messageId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDeltaStepDetailsMessageCreationImpl &&
+            (identical(other.messageId, messageId) ||
+                other.messageId == messageId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, messageId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDeltaStepDetailsMessageCreationImplCopyWith<
+          _$RunStepDeltaStepDetailsMessageCreationImpl>
+      get copyWith =>
+          __$$RunStepDeltaStepDetailsMessageCreationImplCopyWithImpl<
+              _$RunStepDeltaStepDetailsMessageCreationImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDeltaStepDetailsMessageCreationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunStepDeltaStepDetailsMessageCreation
+    extends RunStepDeltaStepDetailsMessageCreation {
+  const factory _RunStepDeltaStepDetailsMessageCreation(
+      {@JsonKey(name: 'message_id', includeIfNull: false)
+      final String? messageId}) = _$RunStepDeltaStepDetailsMessageCreationImpl;
+  const _RunStepDeltaStepDetailsMessageCreation._() : super._();
+
+  factory _RunStepDeltaStepDetailsMessageCreation.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDeltaStepDetailsMessageCreationImpl.fromJson;
+
+  @override
+
+  /// The ID of the message that was created by this run step.
+  @JsonKey(name: 'message_id', includeIfNull: false)
+  String? get messageId;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDeltaStepDetailsMessageCreationImplCopyWith<
+          _$RunStepDeltaStepDetailsMessageCreationImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 RunStepDetailsToolCallsCodeObjectCodeInterpreter
     _$RunStepDetailsToolCallsCodeObjectCodeInterpreterFromJson(
         Map<String, dynamic> json) {
@@ -32240,6 +34174,242 @@ abstract class _RunStepDetailsToolCallsCodeObjectCodeInterpreter
       get copyWith => throw _privateConstructorUsedError;
 }
 
+RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter
+    _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterFromJson(
+        Map<String, dynamic> json) {
+  return _RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter.fromJson(
+      json);
+}
+
+/// @nodoc
+mixin _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter {
+  /// The input to the Code Interpreter tool call.
+  @JsonKey(includeIfNull: false)
+  String? get input => throw _privateConstructorUsedError;
+
+  /// The outputs from the Code Interpreter tool call. Code Interpreter can output one or more items, including text (`logs`) or images (`image`). Each of these are represented by a different object type.
+  @JsonKey(includeIfNull: false)
+  List<RunStepDeltaStepDetailsToolCallsCodeOutput>? get outputs =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith<
+          RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith<
+    $Res> {
+  factory $RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith(
+          RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter value,
+          $Res Function(
+                  RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter)
+              then) =
+      _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterCopyWithImpl<
+          $Res, RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter>;
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? input,
+      @JsonKey(includeIfNull: false)
+      List<RunStepDeltaStepDetailsToolCallsCodeOutput>? outputs});
+}
+
+/// @nodoc
+class _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterCopyWithImpl<
+        $Res,
+        $Val extends RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter>
+    implements
+        $RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith<
+            $Res> {
+  _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterCopyWithImpl(
+      this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? input = freezed,
+    Object? outputs = freezed,
+  }) {
+    return _then(_value.copyWith(
+      input: freezed == input
+          ? _value.input
+          : input // ignore: cast_nullable_to_non_nullable
+              as String?,
+      outputs: freezed == outputs
+          ? _value.outputs
+          : outputs // ignore: cast_nullable_to_non_nullable
+              as List<RunStepDeltaStepDetailsToolCallsCodeOutput>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWith<
+        $Res>
+    implements
+        $RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith<
+            $Res> {
+  factory _$$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWith(
+          _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl value,
+          $Res Function(
+                  _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl)
+              then) =
+      __$$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWithImpl<
+          $Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? input,
+      @JsonKey(includeIfNull: false)
+      List<RunStepDeltaStepDetailsToolCallsCodeOutput>? outputs});
+}
+
+/// @nodoc
+class __$$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWithImpl<
+        $Res>
+    extends _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterCopyWithImpl<
+        $Res, _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl>
+    implements
+        _$$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWith<
+            $Res> {
+  __$$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWithImpl(
+      _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl _value,
+      $Res Function(
+              _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? input = freezed,
+    Object? outputs = freezed,
+  }) {
+    return _then(
+        _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl(
+      input: freezed == input
+          ? _value.input
+          : input // ignore: cast_nullable_to_non_nullable
+              as String?,
+      outputs: freezed == outputs
+          ? _value._outputs
+          : outputs // ignore: cast_nullable_to_non_nullable
+              as List<RunStepDeltaStepDetailsToolCallsCodeOutput>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl
+    extends _RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter {
+  const _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl(
+      {@JsonKey(includeIfNull: false) this.input,
+      @JsonKey(includeIfNull: false)
+      final List<RunStepDeltaStepDetailsToolCallsCodeOutput>? outputs})
+      : _outputs = outputs,
+        super._();
+
+  factory _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImplFromJson(
+          json);
+
+  /// The input to the Code Interpreter tool call.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? input;
+
+  /// The outputs from the Code Interpreter tool call. Code Interpreter can output one or more items, including text (`logs`) or images (`image`). Each of these are represented by a different object type.
+  final List<RunStepDeltaStepDetailsToolCallsCodeOutput>? _outputs;
+
+  /// The outputs from the Code Interpreter tool call. Code Interpreter can output one or more items, including text (`logs`) or images (`image`). Each of these are represented by a different object type.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<RunStepDeltaStepDetailsToolCallsCodeOutput>? get outputs {
+    final value = _outputs;
+    if (value == null) return null;
+    if (_outputs is EqualUnmodifiableListView) return _outputs;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter(input: $input, outputs: $outputs)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other
+                is _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl &&
+            (identical(other.input, input) || other.input == input) &&
+            const DeepCollectionEquality().equals(other._outputs, _outputs));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, input, const DeepCollectionEquality().hash(_outputs));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl>
+      get copyWith =>
+          __$$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWithImpl<
+                  _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter
+    extends RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter {
+  const factory _RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter(
+          {@JsonKey(includeIfNull: false) final String? input,
+          @JsonKey(includeIfNull: false)
+          final List<RunStepDeltaStepDetailsToolCallsCodeOutput>? outputs}) =
+      _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl;
+  const _RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter._()
+      : super._();
+
+  factory _RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl.fromJson;
+
+  @override
+
+  /// The input to the Code Interpreter tool call.
+  @JsonKey(includeIfNull: false)
+  String? get input;
+  @override
+
+  /// The outputs from the Code Interpreter tool call. Code Interpreter can output one or more items, including text (`logs`) or images (`image`). Each of these are represented by a different object type.
+  @JsonKey(includeIfNull: false)
+  List<RunStepDeltaStepDetailsToolCallsCodeOutput>? get outputs;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 RunStepDetailsToolCallsCodeOutputImage
     _$RunStepDetailsToolCallsCodeOutputImageFromJson(
         Map<String, dynamic> json) {
@@ -32402,6 +34572,178 @@ abstract class _RunStepDetailsToolCallsCodeOutputImage
   @JsonKey(ignore: true)
   _$$RunStepDetailsToolCallsCodeOutputImageImplCopyWith<
           _$RunStepDetailsToolCallsCodeOutputImageImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RunStepDeltaStepDetailsToolCallsCodeOutputImage
+    _$RunStepDeltaStepDetailsToolCallsCodeOutputImageFromJson(
+        Map<String, dynamic> json) {
+  return _RunStepDeltaStepDetailsToolCallsCodeOutputImage.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunStepDeltaStepDetailsToolCallsCodeOutputImage {
+  /// The [file](https://platform.openai.com/docs/api-reference/files) ID of the image.
+  @JsonKey(name: 'file_id', includeIfNull: false)
+  String? get fileId => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunStepDeltaStepDetailsToolCallsCodeOutputImageCopyWith<
+          RunStepDeltaStepDetailsToolCallsCodeOutputImage>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDeltaStepDetailsToolCallsCodeOutputImageCopyWith<$Res> {
+  factory $RunStepDeltaStepDetailsToolCallsCodeOutputImageCopyWith(
+          RunStepDeltaStepDetailsToolCallsCodeOutputImage value,
+          $Res Function(RunStepDeltaStepDetailsToolCallsCodeOutputImage) then) =
+      _$RunStepDeltaStepDetailsToolCallsCodeOutputImageCopyWithImpl<$Res,
+          RunStepDeltaStepDetailsToolCallsCodeOutputImage>;
+  @useResult
+  $Res call({@JsonKey(name: 'file_id', includeIfNull: false) String? fileId});
+}
+
+/// @nodoc
+class _$RunStepDeltaStepDetailsToolCallsCodeOutputImageCopyWithImpl<$Res,
+        $Val extends RunStepDeltaStepDetailsToolCallsCodeOutputImage>
+    implements $RunStepDeltaStepDetailsToolCallsCodeOutputImageCopyWith<$Res> {
+  _$RunStepDeltaStepDetailsToolCallsCodeOutputImageCopyWithImpl(
+      this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = freezed,
+  }) {
+    return _then(_value.copyWith(
+      fileId: freezed == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageImplCopyWith<
+        $Res>
+    implements $RunStepDeltaStepDetailsToolCallsCodeOutputImageCopyWith<$Res> {
+  factory _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageImplCopyWith(
+          _$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl value,
+          $Res Function(_$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl)
+              then) =
+      __$$RunStepDeltaStepDetailsToolCallsCodeOutputImageImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'file_id', includeIfNull: false) String? fileId});
+}
+
+/// @nodoc
+class __$$RunStepDeltaStepDetailsToolCallsCodeOutputImageImplCopyWithImpl<$Res>
+    extends _$RunStepDeltaStepDetailsToolCallsCodeOutputImageCopyWithImpl<$Res,
+        _$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl>
+    implements
+        _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageImplCopyWith<$Res> {
+  __$$RunStepDeltaStepDetailsToolCallsCodeOutputImageImplCopyWithImpl(
+      _$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl _value,
+      $Res Function(_$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = freezed,
+  }) {
+    return _then(_$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl(
+      fileId: freezed == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl
+    extends _RunStepDeltaStepDetailsToolCallsCodeOutputImage {
+  const _$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl(
+      {@JsonKey(name: 'file_id', includeIfNull: false) this.fileId})
+      : super._();
+
+  factory _$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageImplFromJson(json);
+
+  /// The [file](https://platform.openai.com/docs/api-reference/files) ID of the image.
+  @override
+  @JsonKey(name: 'file_id', includeIfNull: false)
+  final String? fileId;
+
+  @override
+  String toString() {
+    return 'RunStepDeltaStepDetailsToolCallsCodeOutputImage(fileId: $fileId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl &&
+            (identical(other.fileId, fileId) || other.fileId == fileId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, fileId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl>
+      get copyWith =>
+          __$$RunStepDeltaStepDetailsToolCallsCodeOutputImageImplCopyWithImpl<
+                  _$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunStepDeltaStepDetailsToolCallsCodeOutputImage
+    extends RunStepDeltaStepDetailsToolCallsCodeOutputImage {
+  const factory _RunStepDeltaStepDetailsToolCallsCodeOutputImage(
+          {@JsonKey(name: 'file_id', includeIfNull: false)
+          final String? fileId}) =
+      _$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl;
+  const _RunStepDeltaStepDetailsToolCallsCodeOutputImage._() : super._();
+
+  factory _RunStepDeltaStepDetailsToolCallsCodeOutputImage.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl.fromJson;
+
+  @override
+
+  /// The [file](https://platform.openai.com/docs/api-reference/files) ID of the image.
+  @JsonKey(name: 'file_id', includeIfNull: false)
+  String? get fileId;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -34003,6 +36345,218 @@ abstract class _ListMessageFilesResponse extends ListMessageFilesResponse {
   @JsonKey(ignore: true)
   _$$ListMessageFilesResponseImplCopyWith<_$ListMessageFilesResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+Error _$ErrorFromJson(Map<String, dynamic> json) {
+  return _Error.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Error {
+  /// The error code.
+  String? get code => throw _privateConstructorUsedError;
+
+  /// A human-readable description of the error.
+  String get message => throw _privateConstructorUsedError;
+
+  /// The parameter in the request that caused the error.
+  String? get param => throw _privateConstructorUsedError;
+
+  /// The type of error.
+  String get type => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ErrorCopyWith<Error> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ErrorCopyWith<$Res> {
+  factory $ErrorCopyWith(Error value, $Res Function(Error) then) =
+      _$ErrorCopyWithImpl<$Res, Error>;
+  @useResult
+  $Res call({String? code, String message, String? param, String type});
+}
+
+/// @nodoc
+class _$ErrorCopyWithImpl<$Res, $Val extends Error>
+    implements $ErrorCopyWith<$Res> {
+  _$ErrorCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? code = freezed,
+    Object? message = null,
+    Object? param = freezed,
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+      param: freezed == param
+          ? _value.param
+          : param // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ErrorImplCopyWith<$Res> implements $ErrorCopyWith<$Res> {
+  factory _$$ErrorImplCopyWith(
+          _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
+      __$$ErrorImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String? code, String message, String? param, String type});
+}
+
+/// @nodoc
+class __$$ErrorImplCopyWithImpl<$Res>
+    extends _$ErrorCopyWithImpl<$Res, _$ErrorImpl>
+    implements _$$ErrorImplCopyWith<$Res> {
+  __$$ErrorImplCopyWithImpl(
+      _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? code = freezed,
+    Object? message = null,
+    Object? param = freezed,
+    Object? type = null,
+  }) {
+    return _then(_$ErrorImpl(
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+      param: freezed == param
+          ? _value.param
+          : param // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ErrorImpl extends _Error {
+  const _$ErrorImpl(
+      {required this.code,
+      required this.message,
+      required this.param,
+      required this.type})
+      : super._();
+
+  factory _$ErrorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ErrorImplFromJson(json);
+
+  /// The error code.
+  @override
+  final String? code;
+
+  /// A human-readable description of the error.
+  @override
+  final String message;
+
+  /// The parameter in the request that caused the error.
+  @override
+  final String? param;
+
+  /// The type of error.
+  @override
+  final String type;
+
+  @override
+  String toString() {
+    return 'Error(code: $code, message: $message, param: $param, type: $type)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ErrorImpl &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.param, param) || other.param == param) &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, code, message, param, type);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+      __$$ErrorImplCopyWithImpl<_$ErrorImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ErrorImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Error extends Error {
+  const factory _Error(
+      {required final String? code,
+      required final String message,
+      required final String? param,
+      required final String type}) = _$ErrorImpl;
+  const _Error._() : super._();
+
+  factory _Error.fromJson(Map<String, dynamic> json) = _$ErrorImpl.fromJson;
+
+  @override
+
+  /// The error code.
+  String? get code;
+  @override
+
+  /// A human-readable description of the error.
+  String get message;
+  @override
+
+  /// The parameter in the request that caused the error.
+  String? get param;
+  @override
+
+  /// The type of error.
+  String get type;
+  @override
+  @JsonKey(ignore: true)
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 ChatCompletionMessage _$ChatCompletionMessageFromJson(
@@ -37915,6 +40469,612 @@ abstract class MessageContentTextObject extends MessageContent {
       get copyWith => throw _privateConstructorUsedError;
 }
 
+MessageDeltaContent _$MessageDeltaContentFromJson(Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'image_file':
+      return MessageDeltaContentImageFileObject.fromJson(json);
+    case 'text':
+      return MessageDeltaContentTextObject.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'type', 'MessageDeltaContent',
+          'Invalid union type "${json['type']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$MessageDeltaContent {
+  /// The index of the content part in the message.
+  int get index => throw _privateConstructorUsedError;
+
+  /// Always `image_file`.
+  String get type => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_file', includeIfNull: false)
+            MessageContentImageFile? imageFile)
+        imageFile,
+    required TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) MessageDeltaContentText? text)
+        text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_file', includeIfNull: false)
+            MessageContentImageFile? imageFile)?
+        imageFile,
+    TResult? Function(int index, String type,
+            @JsonKey(includeIfNull: false) MessageDeltaContentText? text)?
+        text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_file', includeIfNull: false)
+            MessageContentImageFile? imageFile)?
+        imageFile,
+    TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) MessageDeltaContentText? text)?
+        text,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(MessageDeltaContentImageFileObject value)
+        imageFile,
+    required TResult Function(MessageDeltaContentTextObject value) text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MessageDeltaContentImageFileObject value)? imageFile,
+    TResult? Function(MessageDeltaContentTextObject value)? text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MessageDeltaContentImageFileObject value)? imageFile,
+    TResult Function(MessageDeltaContentTextObject value)? text,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageDeltaContentCopyWith<MessageDeltaContent> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageDeltaContentCopyWith<$Res> {
+  factory $MessageDeltaContentCopyWith(
+          MessageDeltaContent value, $Res Function(MessageDeltaContent) then) =
+      _$MessageDeltaContentCopyWithImpl<$Res, MessageDeltaContent>;
+  @useResult
+  $Res call({int index, String type});
+}
+
+/// @nodoc
+class _$MessageDeltaContentCopyWithImpl<$Res, $Val extends MessageDeltaContent>
+    implements $MessageDeltaContentCopyWith<$Res> {
+  _$MessageDeltaContentCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      index: null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageDeltaContentImageFileObjectImplCopyWith<$Res>
+    implements $MessageDeltaContentCopyWith<$Res> {
+  factory _$$MessageDeltaContentImageFileObjectImplCopyWith(
+          _$MessageDeltaContentImageFileObjectImpl value,
+          $Res Function(_$MessageDeltaContentImageFileObjectImpl) then) =
+      __$$MessageDeltaContentImageFileObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int index,
+      String type,
+      @JsonKey(name: 'image_file', includeIfNull: false)
+      MessageContentImageFile? imageFile});
+
+  $MessageContentImageFileCopyWith<$Res>? get imageFile;
+}
+
+/// @nodoc
+class __$$MessageDeltaContentImageFileObjectImplCopyWithImpl<$Res>
+    extends _$MessageDeltaContentCopyWithImpl<$Res,
+        _$MessageDeltaContentImageFileObjectImpl>
+    implements _$$MessageDeltaContentImageFileObjectImplCopyWith<$Res> {
+  __$$MessageDeltaContentImageFileObjectImplCopyWithImpl(
+      _$MessageDeltaContentImageFileObjectImpl _value,
+      $Res Function(_$MessageDeltaContentImageFileObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+    Object? type = null,
+    Object? imageFile = freezed,
+  }) {
+    return _then(_$MessageDeltaContentImageFileObjectImpl(
+      index: null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageFile: freezed == imageFile
+          ? _value.imageFile
+          : imageFile // ignore: cast_nullable_to_non_nullable
+              as MessageContentImageFile?,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageContentImageFileCopyWith<$Res>? get imageFile {
+    if (_value.imageFile == null) {
+      return null;
+    }
+
+    return $MessageContentImageFileCopyWith<$Res>(_value.imageFile!, (value) {
+      return _then(_value.copyWith(imageFile: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageDeltaContentImageFileObjectImpl
+    extends MessageDeltaContentImageFileObject {
+  const _$MessageDeltaContentImageFileObjectImpl(
+      {required this.index,
+      required this.type,
+      @JsonKey(name: 'image_file', includeIfNull: false) this.imageFile})
+      : super._();
+
+  factory _$MessageDeltaContentImageFileObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageDeltaContentImageFileObjectImplFromJson(json);
+
+  /// The index of the content part in the message.
+  @override
+  final int index;
+
+  /// Always `image_file`.
+  @override
+  final String type;
+
+  /// The image file that is part of a message.
+  @override
+  @JsonKey(name: 'image_file', includeIfNull: false)
+  final MessageContentImageFile? imageFile;
+
+  @override
+  String toString() {
+    return 'MessageDeltaContent.imageFile(index: $index, type: $type, imageFile: $imageFile)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageDeltaContentImageFileObjectImpl &&
+            (identical(other.index, index) || other.index == index) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.imageFile, imageFile) ||
+                other.imageFile == imageFile));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, index, type, imageFile);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageDeltaContentImageFileObjectImplCopyWith<
+          _$MessageDeltaContentImageFileObjectImpl>
+      get copyWith => __$$MessageDeltaContentImageFileObjectImplCopyWithImpl<
+          _$MessageDeltaContentImageFileObjectImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_file', includeIfNull: false)
+            MessageContentImageFile? imageFile)
+        imageFile,
+    required TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) MessageDeltaContentText? text)
+        text,
+  }) {
+    return imageFile(index, type, this.imageFile);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_file', includeIfNull: false)
+            MessageContentImageFile? imageFile)?
+        imageFile,
+    TResult? Function(int index, String type,
+            @JsonKey(includeIfNull: false) MessageDeltaContentText? text)?
+        text,
+  }) {
+    return imageFile?.call(index, type, this.imageFile);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_file', includeIfNull: false)
+            MessageContentImageFile? imageFile)?
+        imageFile,
+    TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) MessageDeltaContentText? text)?
+        text,
+    required TResult orElse(),
+  }) {
+    if (imageFile != null) {
+      return imageFile(index, type, this.imageFile);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(MessageDeltaContentImageFileObject value)
+        imageFile,
+    required TResult Function(MessageDeltaContentTextObject value) text,
+  }) {
+    return imageFile(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MessageDeltaContentImageFileObject value)? imageFile,
+    TResult? Function(MessageDeltaContentTextObject value)? text,
+  }) {
+    return imageFile?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MessageDeltaContentImageFileObject value)? imageFile,
+    TResult Function(MessageDeltaContentTextObject value)? text,
+    required TResult orElse(),
+  }) {
+    if (imageFile != null) {
+      return imageFile(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageDeltaContentImageFileObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class MessageDeltaContentImageFileObject extends MessageDeltaContent {
+  const factory MessageDeltaContentImageFileObject(
+          {required final int index,
+          required final String type,
+          @JsonKey(name: 'image_file', includeIfNull: false)
+          final MessageContentImageFile? imageFile}) =
+      _$MessageDeltaContentImageFileObjectImpl;
+  const MessageDeltaContentImageFileObject._() : super._();
+
+  factory MessageDeltaContentImageFileObject.fromJson(
+          Map<String, dynamic> json) =
+      _$MessageDeltaContentImageFileObjectImpl.fromJson;
+
+  @override
+
+  /// The index of the content part in the message.
+  int get index;
+  @override
+
+  /// Always `image_file`.
+  String get type;
+
+  /// The image file that is part of a message.
+  @JsonKey(name: 'image_file', includeIfNull: false)
+  MessageContentImageFile? get imageFile;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageDeltaContentImageFileObjectImplCopyWith<
+          _$MessageDeltaContentImageFileObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$MessageDeltaContentTextObjectImplCopyWith<$Res>
+    implements $MessageDeltaContentCopyWith<$Res> {
+  factory _$$MessageDeltaContentTextObjectImplCopyWith(
+          _$MessageDeltaContentTextObjectImpl value,
+          $Res Function(_$MessageDeltaContentTextObjectImpl) then) =
+      __$$MessageDeltaContentTextObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int index,
+      String type,
+      @JsonKey(includeIfNull: false) MessageDeltaContentText? text});
+
+  $MessageDeltaContentTextCopyWith<$Res>? get text;
+}
+
+/// @nodoc
+class __$$MessageDeltaContentTextObjectImplCopyWithImpl<$Res>
+    extends _$MessageDeltaContentCopyWithImpl<$Res,
+        _$MessageDeltaContentTextObjectImpl>
+    implements _$$MessageDeltaContentTextObjectImplCopyWith<$Res> {
+  __$$MessageDeltaContentTextObjectImplCopyWithImpl(
+      _$MessageDeltaContentTextObjectImpl _value,
+      $Res Function(_$MessageDeltaContentTextObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+    Object? type = null,
+    Object? text = freezed,
+  }) {
+    return _then(_$MessageDeltaContentTextObjectImpl(
+      index: null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      text: freezed == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as MessageDeltaContentText?,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageDeltaContentTextCopyWith<$Res>? get text {
+    if (_value.text == null) {
+      return null;
+    }
+
+    return $MessageDeltaContentTextCopyWith<$Res>(_value.text!, (value) {
+      return _then(_value.copyWith(text: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageDeltaContentTextObjectImpl
+    extends MessageDeltaContentTextObject {
+  const _$MessageDeltaContentTextObjectImpl(
+      {required this.index,
+      required this.type,
+      @JsonKey(includeIfNull: false) this.text})
+      : super._();
+
+  factory _$MessageDeltaContentTextObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageDeltaContentTextObjectImplFromJson(json);
+
+  /// The index of the content part in the message.
+  @override
+  final int index;
+
+  /// Always `text`.
+  @override
+  final String type;
+
+  /// The text content that is part of a message.
+  @override
+  @JsonKey(includeIfNull: false)
+  final MessageDeltaContentText? text;
+
+  @override
+  String toString() {
+    return 'MessageDeltaContent.text(index: $index, type: $type, text: $text)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageDeltaContentTextObjectImpl &&
+            (identical(other.index, index) || other.index == index) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.text, text) || other.text == text));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, index, type, text);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageDeltaContentTextObjectImplCopyWith<
+          _$MessageDeltaContentTextObjectImpl>
+      get copyWith => __$$MessageDeltaContentTextObjectImplCopyWithImpl<
+          _$MessageDeltaContentTextObjectImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_file', includeIfNull: false)
+            MessageContentImageFile? imageFile)
+        imageFile,
+    required TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) MessageDeltaContentText? text)
+        text,
+  }) {
+    return text(index, type, this.text);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_file', includeIfNull: false)
+            MessageContentImageFile? imageFile)?
+        imageFile,
+    TResult? Function(int index, String type,
+            @JsonKey(includeIfNull: false) MessageDeltaContentText? text)?
+        text,
+  }) {
+    return text?.call(index, type, this.text);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            int index,
+            String type,
+            @JsonKey(name: 'image_file', includeIfNull: false)
+            MessageContentImageFile? imageFile)?
+        imageFile,
+    TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) MessageDeltaContentText? text)?
+        text,
+    required TResult orElse(),
+  }) {
+    if (text != null) {
+      return text(index, type, this.text);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(MessageDeltaContentImageFileObject value)
+        imageFile,
+    required TResult Function(MessageDeltaContentTextObject value) text,
+  }) {
+    return text(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MessageDeltaContentImageFileObject value)? imageFile,
+    TResult? Function(MessageDeltaContentTextObject value)? text,
+  }) {
+    return text?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MessageDeltaContentImageFileObject value)? imageFile,
+    TResult Function(MessageDeltaContentTextObject value)? text,
+    required TResult orElse(),
+  }) {
+    if (text != null) {
+      return text(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageDeltaContentTextObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class MessageDeltaContentTextObject extends MessageDeltaContent {
+  const factory MessageDeltaContentTextObject(
+          {required final int index,
+          required final String type,
+          @JsonKey(includeIfNull: false) final MessageDeltaContentText? text}) =
+      _$MessageDeltaContentTextObjectImpl;
+  const MessageDeltaContentTextObject._() : super._();
+
+  factory MessageDeltaContentTextObject.fromJson(Map<String, dynamic> json) =
+      _$MessageDeltaContentTextObjectImpl.fromJson;
+
+  @override
+
+  /// The index of the content part in the message.
+  int get index;
+  @override
+
+  /// Always `text`.
+  String get type;
+
+  /// The text content that is part of a message.
+  @JsonKey(includeIfNull: false)
+  MessageDeltaContentText? get text;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageDeltaContentTextObjectImplCopyWith<
+          _$MessageDeltaContentTextObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 MessageContentTextAnnotations _$MessageContentTextAnnotationsFromJson(
     Map<String, dynamic> json) {
   switch (json['type']) {
@@ -37935,7 +41095,7 @@ MessageContentTextAnnotations _$MessageContentTextAnnotationsFromJson(
 /// @nodoc
 mixin _$MessageContentTextAnnotations {
   /// Always `file_citation`.
-  Enum get type => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
 
   /// The text in the message content that needs to be replaced.
   String get text => throw _privateConstructorUsedError;
@@ -37950,7 +41110,7 @@ mixin _$MessageContentTextAnnotations {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            MessageContentTextAnnotationsFileCitationObjectType type,
+            String type,
             String text,
             @JsonKey(name: 'file_citation')
             MessageContentTextAnnotationsFileCitation fileCitation,
@@ -37958,7 +41118,7 @@ mixin _$MessageContentTextAnnotations {
             @JsonKey(name: 'end_index') int endIndex)
         fileCitation,
     required TResult Function(
-            MessageContentTextAnnotationsFilePathObjectType type,
+            String type,
             String text,
             @JsonKey(name: 'file_path')
             MessageContentTextAnnotationsFilePath filePath,
@@ -37970,7 +41130,7 @@ mixin _$MessageContentTextAnnotations {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            MessageContentTextAnnotationsFileCitationObjectType type,
+            String type,
             String text,
             @JsonKey(name: 'file_citation')
             MessageContentTextAnnotationsFileCitation fileCitation,
@@ -37978,7 +41138,7 @@ mixin _$MessageContentTextAnnotations {
             @JsonKey(name: 'end_index') int endIndex)?
         fileCitation,
     TResult? Function(
-            MessageContentTextAnnotationsFilePathObjectType type,
+            String type,
             String text,
             @JsonKey(name: 'file_path')
             MessageContentTextAnnotationsFilePath filePath,
@@ -37990,7 +41150,7 @@ mixin _$MessageContentTextAnnotations {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            MessageContentTextAnnotationsFileCitationObjectType type,
+            String type,
             String text,
             @JsonKey(name: 'file_citation')
             MessageContentTextAnnotationsFileCitation fileCitation,
@@ -37998,7 +41158,7 @@ mixin _$MessageContentTextAnnotations {
             @JsonKey(name: 'end_index') int endIndex)?
         fileCitation,
     TResult Function(
-            MessageContentTextAnnotationsFilePathObjectType type,
+            String type,
             String text,
             @JsonKey(name: 'file_path')
             MessageContentTextAnnotationsFilePath filePath,
@@ -38049,7 +41209,8 @@ abstract class $MessageContentTextAnnotationsCopyWith<$Res> {
           MessageContentTextAnnotations>;
   @useResult
   $Res call(
-      {String text,
+      {String type,
+      String text,
       @JsonKey(name: 'start_index') int startIndex,
       @JsonKey(name: 'end_index') int endIndex});
 }
@@ -38068,11 +41229,16 @@ class _$MessageContentTextAnnotationsCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? type = null,
     Object? text = null,
     Object? startIndex = null,
     Object? endIndex = null,
   }) {
     return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -38100,7 +41266,7 @@ abstract class _$$MessageContentTextAnnotationsFileCitationObjectImplCopyWith<
   @override
   @useResult
   $Res call(
-      {MessageContentTextAnnotationsFileCitationObjectType type,
+      {String type,
       String text,
       @JsonKey(name: 'file_citation')
       MessageContentTextAnnotationsFileCitation fileCitation,
@@ -38135,7 +41301,7 @@ class __$$MessageContentTextAnnotationsFileCitationObjectImplCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as MessageContentTextAnnotationsFileCitationObjectType,
+              as String,
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -38183,7 +41349,7 @@ class _$MessageContentTextAnnotationsFileCitationObjectImpl
 
   /// Always `file_citation`.
   @override
-  final MessageContentTextAnnotationsFileCitationObjectType type;
+  final String type;
 
   /// The text in the message content that needs to be replaced.
   @override
@@ -38243,7 +41409,7 @@ class _$MessageContentTextAnnotationsFileCitationObjectImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            MessageContentTextAnnotationsFileCitationObjectType type,
+            String type,
             String text,
             @JsonKey(name: 'file_citation')
             MessageContentTextAnnotationsFileCitation fileCitation,
@@ -38251,7 +41417,7 @@ class _$MessageContentTextAnnotationsFileCitationObjectImpl
             @JsonKey(name: 'end_index') int endIndex)
         fileCitation,
     required TResult Function(
-            MessageContentTextAnnotationsFilePathObjectType type,
+            String type,
             String text,
             @JsonKey(name: 'file_path')
             MessageContentTextAnnotationsFilePath filePath,
@@ -38266,7 +41432,7 @@ class _$MessageContentTextAnnotationsFileCitationObjectImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            MessageContentTextAnnotationsFileCitationObjectType type,
+            String type,
             String text,
             @JsonKey(name: 'file_citation')
             MessageContentTextAnnotationsFileCitation fileCitation,
@@ -38274,7 +41440,7 @@ class _$MessageContentTextAnnotationsFileCitationObjectImpl
             @JsonKey(name: 'end_index') int endIndex)?
         fileCitation,
     TResult? Function(
-            MessageContentTextAnnotationsFilePathObjectType type,
+            String type,
             String text,
             @JsonKey(name: 'file_path')
             MessageContentTextAnnotationsFilePath filePath,
@@ -38290,7 +41456,7 @@ class _$MessageContentTextAnnotationsFileCitationObjectImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            MessageContentTextAnnotationsFileCitationObjectType type,
+            String type,
             String text,
             @JsonKey(name: 'file_citation')
             MessageContentTextAnnotationsFileCitation fileCitation,
@@ -38298,7 +41464,7 @@ class _$MessageContentTextAnnotationsFileCitationObjectImpl
             @JsonKey(name: 'end_index') int endIndex)?
         fileCitation,
     TResult Function(
-            MessageContentTextAnnotationsFilePathObjectType type,
+            String type,
             String text,
             @JsonKey(name: 'file_path')
             MessageContentTextAnnotationsFilePath filePath,
@@ -38362,14 +41528,13 @@ class _$MessageContentTextAnnotationsFileCitationObjectImpl
 abstract class MessageContentTextAnnotationsFileCitationObject
     extends MessageContentTextAnnotations {
   const factory MessageContentTextAnnotationsFileCitationObject(
-      {required final MessageContentTextAnnotationsFileCitationObjectType type,
-      required final String text,
-      @JsonKey(name: 'file_citation')
-      required final MessageContentTextAnnotationsFileCitation fileCitation,
-      @JsonKey(name: 'start_index') required final int startIndex,
-      @JsonKey(name: 'end_index')
-      required final int
-          endIndex}) = _$MessageContentTextAnnotationsFileCitationObjectImpl;
+          {required final String type,
+          required final String text,
+          @JsonKey(name: 'file_citation')
+          required final MessageContentTextAnnotationsFileCitation fileCitation,
+          @JsonKey(name: 'start_index') required final int startIndex,
+          @JsonKey(name: 'end_index') required final int endIndex}) =
+      _$MessageContentTextAnnotationsFileCitationObjectImpl;
   const MessageContentTextAnnotationsFileCitationObject._() : super._();
 
   factory MessageContentTextAnnotationsFileCitationObject.fromJson(
@@ -38379,7 +41544,7 @@ abstract class MessageContentTextAnnotationsFileCitationObject
   @override
 
   /// Always `file_citation`.
-  MessageContentTextAnnotationsFileCitationObjectType get type;
+  String get type;
   @override
 
   /// The text in the message content that needs to be replaced.
@@ -38416,7 +41581,7 @@ abstract class _$$MessageContentTextAnnotationsFilePathObjectImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {MessageContentTextAnnotationsFilePathObjectType type,
+      {String type,
       String text,
       @JsonKey(name: 'file_path')
       MessageContentTextAnnotationsFilePath filePath,
@@ -38450,7 +41615,7 @@ class __$$MessageContentTextAnnotationsFilePathObjectImplCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as MessageContentTextAnnotationsFilePathObjectType,
+              as String,
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -38498,7 +41663,7 @@ class _$MessageContentTextAnnotationsFilePathObjectImpl
 
   /// Always `file_path`.
   @override
-  final MessageContentTextAnnotationsFilePathObjectType type;
+  final String type;
 
   /// The text in the message content that needs to be replaced.
   @override
@@ -38558,7 +41723,7 @@ class _$MessageContentTextAnnotationsFilePathObjectImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            MessageContentTextAnnotationsFileCitationObjectType type,
+            String type,
             String text,
             @JsonKey(name: 'file_citation')
             MessageContentTextAnnotationsFileCitation fileCitation,
@@ -38566,7 +41731,7 @@ class _$MessageContentTextAnnotationsFilePathObjectImpl
             @JsonKey(name: 'end_index') int endIndex)
         fileCitation,
     required TResult Function(
-            MessageContentTextAnnotationsFilePathObjectType type,
+            String type,
             String text,
             @JsonKey(name: 'file_path')
             MessageContentTextAnnotationsFilePath filePath,
@@ -38581,7 +41746,7 @@ class _$MessageContentTextAnnotationsFilePathObjectImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            MessageContentTextAnnotationsFileCitationObjectType type,
+            String type,
             String text,
             @JsonKey(name: 'file_citation')
             MessageContentTextAnnotationsFileCitation fileCitation,
@@ -38589,7 +41754,7 @@ class _$MessageContentTextAnnotationsFilePathObjectImpl
             @JsonKey(name: 'end_index') int endIndex)?
         fileCitation,
     TResult? Function(
-            MessageContentTextAnnotationsFilePathObjectType type,
+            String type,
             String text,
             @JsonKey(name: 'file_path')
             MessageContentTextAnnotationsFilePath filePath,
@@ -38604,7 +41769,7 @@ class _$MessageContentTextAnnotationsFilePathObjectImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            MessageContentTextAnnotationsFileCitationObjectType type,
+            String type,
             String text,
             @JsonKey(name: 'file_citation')
             MessageContentTextAnnotationsFileCitation fileCitation,
@@ -38612,7 +41777,7 @@ class _$MessageContentTextAnnotationsFilePathObjectImpl
             @JsonKey(name: 'end_index') int endIndex)?
         fileCitation,
     TResult Function(
-            MessageContentTextAnnotationsFilePathObjectType type,
+            String type,
             String text,
             @JsonKey(name: 'file_path')
             MessageContentTextAnnotationsFilePath filePath,
@@ -38676,7 +41841,7 @@ class _$MessageContentTextAnnotationsFilePathObjectImpl
 abstract class MessageContentTextAnnotationsFilePathObject
     extends MessageContentTextAnnotations {
   const factory MessageContentTextAnnotationsFilePathObject(
-          {required final MessageContentTextAnnotationsFilePathObjectType type,
+          {required final String type,
           required final String text,
           @JsonKey(name: 'file_path')
           required final MessageContentTextAnnotationsFilePath filePath,
@@ -38692,7 +41857,7 @@ abstract class MessageContentTextAnnotationsFilePathObject
   @override
 
   /// Always `file_path`.
-  MessageContentTextAnnotationsFilePathObjectType get type;
+  String get type;
   @override
 
   /// The text in the message content that needs to be replaced.
@@ -38881,6 +42046,1104 @@ abstract class _MessageContentTextAnnotationsFilePath
       get copyWith => throw _privateConstructorUsedError;
 }
 
+MessageDeltaContentTextAnnotations _$MessageDeltaContentTextAnnotationsFromJson(
+    Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'file_citation':
+      return MessageDeltaContentTextAnnotationsFileCitationObject.fromJson(
+          json);
+    case 'file_path':
+      return MessageDeltaContentTextAnnotationsFilePathObject.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'type',
+          'MessageDeltaContentTextAnnotations',
+          'Invalid union type "${json['type']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$MessageDeltaContentTextAnnotations {
+  /// The index of the annotation in the text content part.
+  int get index => throw _privateConstructorUsedError;
+
+  /// Always `file_citation`.
+  String get type => throw _privateConstructorUsedError;
+
+  /// The text in the message content that needs to be replaced.
+  @JsonKey(includeIfNull: false)
+  String? get text => throw _privateConstructorUsedError;
+
+  /// The start index of the text in the message content that needs to be replaced.
+  @JsonKey(name: 'start_index', includeIfNull: false)
+  int? get startIndex => throw _privateConstructorUsedError;
+
+  /// The end index of the text in the message content that needs to be replaced.
+  @JsonKey(name: 'end_index', includeIfNull: false)
+  int? get endIndex => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false) String? text,
+            @JsonKey(name: 'file_citation', includeIfNull: false)
+            MessageDeltaContentTextAnnotationsFileCitation? fileCitation,
+            @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+            @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex)
+        fileCitation,
+    required TResult Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false) String? text,
+            @JsonKey(name: 'file_path', includeIfNull: false)
+            MessageDeltaContentTextAnnotationsFilePathObjectFilePath? filePath,
+            @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+            @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex)
+        filePath,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false) String? text,
+            @JsonKey(name: 'file_citation', includeIfNull: false)
+            MessageDeltaContentTextAnnotationsFileCitation? fileCitation,
+            @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+            @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex)?
+        fileCitation,
+    TResult? Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false) String? text,
+            @JsonKey(name: 'file_path', includeIfNull: false)
+            MessageDeltaContentTextAnnotationsFilePathObjectFilePath? filePath,
+            @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+            @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex)?
+        filePath,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false) String? text,
+            @JsonKey(name: 'file_citation', includeIfNull: false)
+            MessageDeltaContentTextAnnotationsFileCitation? fileCitation,
+            @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+            @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex)?
+        fileCitation,
+    TResult Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false) String? text,
+            @JsonKey(name: 'file_path', includeIfNull: false)
+            MessageDeltaContentTextAnnotationsFilePathObjectFilePath? filePath,
+            @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+            @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex)?
+        filePath,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            MessageDeltaContentTextAnnotationsFileCitationObject value)
+        fileCitation,
+    required TResult Function(
+            MessageDeltaContentTextAnnotationsFilePathObject value)
+        filePath,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(
+            MessageDeltaContentTextAnnotationsFileCitationObject value)?
+        fileCitation,
+    TResult? Function(MessageDeltaContentTextAnnotationsFilePathObject value)?
+        filePath,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(
+            MessageDeltaContentTextAnnotationsFileCitationObject value)?
+        fileCitation,
+    TResult Function(MessageDeltaContentTextAnnotationsFilePathObject value)?
+        filePath,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageDeltaContentTextAnnotationsCopyWith<
+          MessageDeltaContentTextAnnotations>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageDeltaContentTextAnnotationsCopyWith<$Res> {
+  factory $MessageDeltaContentTextAnnotationsCopyWith(
+          MessageDeltaContentTextAnnotations value,
+          $Res Function(MessageDeltaContentTextAnnotations) then) =
+      _$MessageDeltaContentTextAnnotationsCopyWithImpl<$Res,
+          MessageDeltaContentTextAnnotations>;
+  @useResult
+  $Res call(
+      {int index,
+      String type,
+      @JsonKey(includeIfNull: false) String? text,
+      @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+      @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex});
+}
+
+/// @nodoc
+class _$MessageDeltaContentTextAnnotationsCopyWithImpl<$Res,
+        $Val extends MessageDeltaContentTextAnnotations>
+    implements $MessageDeltaContentTextAnnotationsCopyWith<$Res> {
+  _$MessageDeltaContentTextAnnotationsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+    Object? type = null,
+    Object? text = freezed,
+    Object? startIndex = freezed,
+    Object? endIndex = freezed,
+  }) {
+    return _then(_value.copyWith(
+      index: null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      text: freezed == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String?,
+      startIndex: freezed == startIndex
+          ? _value.startIndex
+          : startIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
+      endIndex: freezed == endIndex
+          ? _value.endIndex
+          : endIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageDeltaContentTextAnnotationsFileCitationObjectImplCopyWith<
+    $Res> implements $MessageDeltaContentTextAnnotationsCopyWith<$Res> {
+  factory _$$MessageDeltaContentTextAnnotationsFileCitationObjectImplCopyWith(
+          _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl value,
+          $Res Function(
+                  _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl)
+              then) =
+      __$$MessageDeltaContentTextAnnotationsFileCitationObjectImplCopyWithImpl<
+          $Res>;
+  @override
+  @useResult
+  $Res call(
+      {int index,
+      String type,
+      @JsonKey(includeIfNull: false) String? text,
+      @JsonKey(name: 'file_citation', includeIfNull: false)
+      MessageDeltaContentTextAnnotationsFileCitation? fileCitation,
+      @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+      @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex});
+
+  $MessageDeltaContentTextAnnotationsFileCitationCopyWith<$Res>?
+      get fileCitation;
+}
+
+/// @nodoc
+class __$$MessageDeltaContentTextAnnotationsFileCitationObjectImplCopyWithImpl<
+        $Res>
+    extends _$MessageDeltaContentTextAnnotationsCopyWithImpl<$Res,
+        _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl>
+    implements
+        _$$MessageDeltaContentTextAnnotationsFileCitationObjectImplCopyWith<
+            $Res> {
+  __$$MessageDeltaContentTextAnnotationsFileCitationObjectImplCopyWithImpl(
+      _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl _value,
+      $Res Function(_$MessageDeltaContentTextAnnotationsFileCitationObjectImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+    Object? type = null,
+    Object? text = freezed,
+    Object? fileCitation = freezed,
+    Object? startIndex = freezed,
+    Object? endIndex = freezed,
+  }) {
+    return _then(_$MessageDeltaContentTextAnnotationsFileCitationObjectImpl(
+      index: null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      text: freezed == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String?,
+      fileCitation: freezed == fileCitation
+          ? _value.fileCitation
+          : fileCitation // ignore: cast_nullable_to_non_nullable
+              as MessageDeltaContentTextAnnotationsFileCitation?,
+      startIndex: freezed == startIndex
+          ? _value.startIndex
+          : startIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
+      endIndex: freezed == endIndex
+          ? _value.endIndex
+          : endIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageDeltaContentTextAnnotationsFileCitationCopyWith<$Res>?
+      get fileCitation {
+    if (_value.fileCitation == null) {
+      return null;
+    }
+
+    return $MessageDeltaContentTextAnnotationsFileCitationCopyWith<$Res>(
+        _value.fileCitation!, (value) {
+      return _then(_value.copyWith(fileCitation: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl
+    extends MessageDeltaContentTextAnnotationsFileCitationObject {
+  const _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl(
+      {required this.index,
+      required this.type,
+      @JsonKey(includeIfNull: false) this.text,
+      @JsonKey(name: 'file_citation', includeIfNull: false) this.fileCitation,
+      @JsonKey(name: 'start_index', includeIfNull: false) this.startIndex,
+      @JsonKey(name: 'end_index', includeIfNull: false) this.endIndex})
+      : super._();
+
+  factory _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageDeltaContentTextAnnotationsFileCitationObjectImplFromJson(json);
+
+  /// The index of the annotation in the text content part.
+  @override
+  final int index;
+
+  /// Always `file_citation`.
+  @override
+  final String type;
+
+  /// The text in the message content that needs to be replaced.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? text;
+
+  /// A citation within the message that points to a specific quote from a specific File associated with the assistant or the message.
+  @override
+  @JsonKey(name: 'file_citation', includeIfNull: false)
+  final MessageDeltaContentTextAnnotationsFileCitation? fileCitation;
+
+  /// The start index of the text in the message content that needs to be replaced.
+  @override
+  @JsonKey(name: 'start_index', includeIfNull: false)
+  final int? startIndex;
+
+  /// The end index of the text in the message content that needs to be replaced.
+  @override
+  @JsonKey(name: 'end_index', includeIfNull: false)
+  final int? endIndex;
+
+  @override
+  String toString() {
+    return 'MessageDeltaContentTextAnnotations.fileCitation(index: $index, type: $type, text: $text, fileCitation: $fileCitation, startIndex: $startIndex, endIndex: $endIndex)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other
+                is _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl &&
+            (identical(other.index, index) || other.index == index) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.text, text) || other.text == text) &&
+            (identical(other.fileCitation, fileCitation) ||
+                other.fileCitation == fileCitation) &&
+            (identical(other.startIndex, startIndex) ||
+                other.startIndex == startIndex) &&
+            (identical(other.endIndex, endIndex) ||
+                other.endIndex == endIndex));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, index, type, text, fileCitation, startIndex, endIndex);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageDeltaContentTextAnnotationsFileCitationObjectImplCopyWith<
+          _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl>
+      get copyWith =>
+          __$$MessageDeltaContentTextAnnotationsFileCitationObjectImplCopyWithImpl<
+                  _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false) String? text,
+            @JsonKey(name: 'file_citation', includeIfNull: false)
+            MessageDeltaContentTextAnnotationsFileCitation? fileCitation,
+            @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+            @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex)
+        fileCitation,
+    required TResult Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false) String? text,
+            @JsonKey(name: 'file_path', includeIfNull: false)
+            MessageDeltaContentTextAnnotationsFilePathObjectFilePath? filePath,
+            @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+            @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex)
+        filePath,
+  }) {
+    return fileCitation(
+        index, type, text, this.fileCitation, startIndex, endIndex);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false) String? text,
+            @JsonKey(name: 'file_citation', includeIfNull: false)
+            MessageDeltaContentTextAnnotationsFileCitation? fileCitation,
+            @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+            @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex)?
+        fileCitation,
+    TResult? Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false) String? text,
+            @JsonKey(name: 'file_path', includeIfNull: false)
+            MessageDeltaContentTextAnnotationsFilePathObjectFilePath? filePath,
+            @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+            @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex)?
+        filePath,
+  }) {
+    return fileCitation?.call(
+        index, type, text, this.fileCitation, startIndex, endIndex);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false) String? text,
+            @JsonKey(name: 'file_citation', includeIfNull: false)
+            MessageDeltaContentTextAnnotationsFileCitation? fileCitation,
+            @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+            @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex)?
+        fileCitation,
+    TResult Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false) String? text,
+            @JsonKey(name: 'file_path', includeIfNull: false)
+            MessageDeltaContentTextAnnotationsFilePathObjectFilePath? filePath,
+            @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+            @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex)?
+        filePath,
+    required TResult orElse(),
+  }) {
+    if (fileCitation != null) {
+      return fileCitation(
+          index, type, text, this.fileCitation, startIndex, endIndex);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            MessageDeltaContentTextAnnotationsFileCitationObject value)
+        fileCitation,
+    required TResult Function(
+            MessageDeltaContentTextAnnotationsFilePathObject value)
+        filePath,
+  }) {
+    return fileCitation(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(
+            MessageDeltaContentTextAnnotationsFileCitationObject value)?
+        fileCitation,
+    TResult? Function(MessageDeltaContentTextAnnotationsFilePathObject value)?
+        filePath,
+  }) {
+    return fileCitation?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(
+            MessageDeltaContentTextAnnotationsFileCitationObject value)?
+        fileCitation,
+    TResult Function(MessageDeltaContentTextAnnotationsFilePathObject value)?
+        filePath,
+    required TResult orElse(),
+  }) {
+    if (fileCitation != null) {
+      return fileCitation(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageDeltaContentTextAnnotationsFileCitationObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class MessageDeltaContentTextAnnotationsFileCitationObject
+    extends MessageDeltaContentTextAnnotations {
+  const factory MessageDeltaContentTextAnnotationsFileCitationObject(
+      {required final int index,
+      required final String type,
+      @JsonKey(includeIfNull: false) final String? text,
+      @JsonKey(name: 'file_citation', includeIfNull: false)
+      final MessageDeltaContentTextAnnotationsFileCitation? fileCitation,
+      @JsonKey(name: 'start_index', includeIfNull: false) final int? startIndex,
+      @JsonKey(name: 'end_index', includeIfNull: false)
+      final int?
+          endIndex}) = _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl;
+  const MessageDeltaContentTextAnnotationsFileCitationObject._() : super._();
+
+  factory MessageDeltaContentTextAnnotationsFileCitationObject.fromJson(
+          Map<String, dynamic> json) =
+      _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl.fromJson;
+
+  @override
+
+  /// The index of the annotation in the text content part.
+  int get index;
+  @override
+
+  /// Always `file_citation`.
+  String get type;
+  @override
+
+  /// The text in the message content that needs to be replaced.
+  @JsonKey(includeIfNull: false)
+  String? get text;
+
+  /// A citation within the message that points to a specific quote from a specific File associated with the assistant or the message.
+  @JsonKey(name: 'file_citation', includeIfNull: false)
+  MessageDeltaContentTextAnnotationsFileCitation? get fileCitation;
+  @override
+
+  /// The start index of the text in the message content that needs to be replaced.
+  @JsonKey(name: 'start_index', includeIfNull: false)
+  int? get startIndex;
+  @override
+
+  /// The end index of the text in the message content that needs to be replaced.
+  @JsonKey(name: 'end_index', includeIfNull: false)
+  int? get endIndex;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageDeltaContentTextAnnotationsFileCitationObjectImplCopyWith<
+          _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$MessageDeltaContentTextAnnotationsFilePathObjectImplCopyWith<
+    $Res> implements $MessageDeltaContentTextAnnotationsCopyWith<$Res> {
+  factory _$$MessageDeltaContentTextAnnotationsFilePathObjectImplCopyWith(
+          _$MessageDeltaContentTextAnnotationsFilePathObjectImpl value,
+          $Res Function(_$MessageDeltaContentTextAnnotationsFilePathObjectImpl)
+              then) =
+      __$$MessageDeltaContentTextAnnotationsFilePathObjectImplCopyWithImpl<
+          $Res>;
+  @override
+  @useResult
+  $Res call(
+      {int index,
+      String type,
+      @JsonKey(includeIfNull: false) String? text,
+      @JsonKey(name: 'file_path', includeIfNull: false)
+      MessageDeltaContentTextAnnotationsFilePathObjectFilePath? filePath,
+      @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+      @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex});
+
+  $MessageDeltaContentTextAnnotationsFilePathObjectFilePathCopyWith<$Res>?
+      get filePath;
+}
+
+/// @nodoc
+class __$$MessageDeltaContentTextAnnotationsFilePathObjectImplCopyWithImpl<$Res>
+    extends _$MessageDeltaContentTextAnnotationsCopyWithImpl<$Res,
+        _$MessageDeltaContentTextAnnotationsFilePathObjectImpl>
+    implements
+        _$$MessageDeltaContentTextAnnotationsFilePathObjectImplCopyWith<$Res> {
+  __$$MessageDeltaContentTextAnnotationsFilePathObjectImplCopyWithImpl(
+      _$MessageDeltaContentTextAnnotationsFilePathObjectImpl _value,
+      $Res Function(_$MessageDeltaContentTextAnnotationsFilePathObjectImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+    Object? type = null,
+    Object? text = freezed,
+    Object? filePath = freezed,
+    Object? startIndex = freezed,
+    Object? endIndex = freezed,
+  }) {
+    return _then(_$MessageDeltaContentTextAnnotationsFilePathObjectImpl(
+      index: null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      text: freezed == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String?,
+      filePath: freezed == filePath
+          ? _value.filePath
+          : filePath // ignore: cast_nullable_to_non_nullable
+              as MessageDeltaContentTextAnnotationsFilePathObjectFilePath?,
+      startIndex: freezed == startIndex
+          ? _value.startIndex
+          : startIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
+      endIndex: freezed == endIndex
+          ? _value.endIndex
+          : endIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageDeltaContentTextAnnotationsFilePathObjectFilePathCopyWith<$Res>?
+      get filePath {
+    if (_value.filePath == null) {
+      return null;
+    }
+
+    return $MessageDeltaContentTextAnnotationsFilePathObjectFilePathCopyWith<
+        $Res>(_value.filePath!, (value) {
+      return _then(_value.copyWith(filePath: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageDeltaContentTextAnnotationsFilePathObjectImpl
+    extends MessageDeltaContentTextAnnotationsFilePathObject {
+  const _$MessageDeltaContentTextAnnotationsFilePathObjectImpl(
+      {required this.index,
+      required this.type,
+      @JsonKey(includeIfNull: false) this.text,
+      @JsonKey(name: 'file_path', includeIfNull: false) this.filePath,
+      @JsonKey(name: 'start_index', includeIfNull: false) this.startIndex,
+      @JsonKey(name: 'end_index', includeIfNull: false) this.endIndex})
+      : super._();
+
+  factory _$MessageDeltaContentTextAnnotationsFilePathObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageDeltaContentTextAnnotationsFilePathObjectImplFromJson(json);
+
+  /// The index of the annotation in the text content part.
+  @override
+  final int index;
+
+  /// Always `file_path`.
+  @override
+  final String type;
+
+  /// The text in the message content that needs to be replaced.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? text;
+
+  /// No Description
+  @override
+  @JsonKey(name: 'file_path', includeIfNull: false)
+  final MessageDeltaContentTextAnnotationsFilePathObjectFilePath? filePath;
+
+  /// No Description
+  @override
+  @JsonKey(name: 'start_index', includeIfNull: false)
+  final int? startIndex;
+
+  /// No Description
+  @override
+  @JsonKey(name: 'end_index', includeIfNull: false)
+  final int? endIndex;
+
+  @override
+  String toString() {
+    return 'MessageDeltaContentTextAnnotations.filePath(index: $index, type: $type, text: $text, filePath: $filePath, startIndex: $startIndex, endIndex: $endIndex)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageDeltaContentTextAnnotationsFilePathObjectImpl &&
+            (identical(other.index, index) || other.index == index) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.text, text) || other.text == text) &&
+            (identical(other.filePath, filePath) ||
+                other.filePath == filePath) &&
+            (identical(other.startIndex, startIndex) ||
+                other.startIndex == startIndex) &&
+            (identical(other.endIndex, endIndex) ||
+                other.endIndex == endIndex));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, index, type, text, filePath, startIndex, endIndex);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageDeltaContentTextAnnotationsFilePathObjectImplCopyWith<
+          _$MessageDeltaContentTextAnnotationsFilePathObjectImpl>
+      get copyWith =>
+          __$$MessageDeltaContentTextAnnotationsFilePathObjectImplCopyWithImpl<
+                  _$MessageDeltaContentTextAnnotationsFilePathObjectImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false) String? text,
+            @JsonKey(name: 'file_citation', includeIfNull: false)
+            MessageDeltaContentTextAnnotationsFileCitation? fileCitation,
+            @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+            @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex)
+        fileCitation,
+    required TResult Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false) String? text,
+            @JsonKey(name: 'file_path', includeIfNull: false)
+            MessageDeltaContentTextAnnotationsFilePathObjectFilePath? filePath,
+            @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+            @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex)
+        filePath,
+  }) {
+    return filePath(index, type, text, this.filePath, startIndex, endIndex);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false) String? text,
+            @JsonKey(name: 'file_citation', includeIfNull: false)
+            MessageDeltaContentTextAnnotationsFileCitation? fileCitation,
+            @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+            @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex)?
+        fileCitation,
+    TResult? Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false) String? text,
+            @JsonKey(name: 'file_path', includeIfNull: false)
+            MessageDeltaContentTextAnnotationsFilePathObjectFilePath? filePath,
+            @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+            @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex)?
+        filePath,
+  }) {
+    return filePath?.call(
+        index, type, text, this.filePath, startIndex, endIndex);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false) String? text,
+            @JsonKey(name: 'file_citation', includeIfNull: false)
+            MessageDeltaContentTextAnnotationsFileCitation? fileCitation,
+            @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+            @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex)?
+        fileCitation,
+    TResult Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false) String? text,
+            @JsonKey(name: 'file_path', includeIfNull: false)
+            MessageDeltaContentTextAnnotationsFilePathObjectFilePath? filePath,
+            @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
+            @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex)?
+        filePath,
+    required TResult orElse(),
+  }) {
+    if (filePath != null) {
+      return filePath(index, type, text, this.filePath, startIndex, endIndex);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            MessageDeltaContentTextAnnotationsFileCitationObject value)
+        fileCitation,
+    required TResult Function(
+            MessageDeltaContentTextAnnotationsFilePathObject value)
+        filePath,
+  }) {
+    return filePath(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(
+            MessageDeltaContentTextAnnotationsFileCitationObject value)?
+        fileCitation,
+    TResult? Function(MessageDeltaContentTextAnnotationsFilePathObject value)?
+        filePath,
+  }) {
+    return filePath?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(
+            MessageDeltaContentTextAnnotationsFileCitationObject value)?
+        fileCitation,
+    TResult Function(MessageDeltaContentTextAnnotationsFilePathObject value)?
+        filePath,
+    required TResult orElse(),
+  }) {
+    if (filePath != null) {
+      return filePath(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageDeltaContentTextAnnotationsFilePathObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class MessageDeltaContentTextAnnotationsFilePathObject
+    extends MessageDeltaContentTextAnnotations {
+  const factory MessageDeltaContentTextAnnotationsFilePathObject(
+      {required final int index,
+      required final String type,
+      @JsonKey(includeIfNull: false) final String? text,
+      @JsonKey(name: 'file_path', includeIfNull: false)
+      final MessageDeltaContentTextAnnotationsFilePathObjectFilePath? filePath,
+      @JsonKey(name: 'start_index', includeIfNull: false) final int? startIndex,
+      @JsonKey(name: 'end_index', includeIfNull: false)
+      final int?
+          endIndex}) = _$MessageDeltaContentTextAnnotationsFilePathObjectImpl;
+  const MessageDeltaContentTextAnnotationsFilePathObject._() : super._();
+
+  factory MessageDeltaContentTextAnnotationsFilePathObject.fromJson(
+          Map<String, dynamic> json) =
+      _$MessageDeltaContentTextAnnotationsFilePathObjectImpl.fromJson;
+
+  @override
+
+  /// The index of the annotation in the text content part.
+  int get index;
+  @override
+
+  /// Always `file_path`.
+  String get type;
+  @override
+
+  /// The text in the message content that needs to be replaced.
+  @JsonKey(includeIfNull: false)
+  String? get text;
+
+  /// No Description
+  @JsonKey(name: 'file_path', includeIfNull: false)
+  MessageDeltaContentTextAnnotationsFilePathObjectFilePath? get filePath;
+  @override
+
+  /// No Description
+  @JsonKey(name: 'start_index', includeIfNull: false)
+  int? get startIndex;
+  @override
+
+  /// No Description
+  @JsonKey(name: 'end_index', includeIfNull: false)
+  int? get endIndex;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageDeltaContentTextAnnotationsFilePathObjectImplCopyWith<
+          _$MessageDeltaContentTextAnnotationsFilePathObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+MessageDeltaContentTextAnnotationsFilePathObjectFilePath
+    _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathFromJson(
+        Map<String, dynamic> json) {
+  return _MessageDeltaContentTextAnnotationsFilePathObjectFilePath.fromJson(
+      json);
+}
+
+/// @nodoc
+mixin _$MessageDeltaContentTextAnnotationsFilePathObjectFilePath {
+  /// The ID of the file that was generated.
+  @JsonKey(name: 'file_id', includeIfNull: false)
+  String? get fileId => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageDeltaContentTextAnnotationsFilePathObjectFilePathCopyWith<
+          MessageDeltaContentTextAnnotationsFilePathObjectFilePath>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageDeltaContentTextAnnotationsFilePathObjectFilePathCopyWith<
+    $Res> {
+  factory $MessageDeltaContentTextAnnotationsFilePathObjectFilePathCopyWith(
+          MessageDeltaContentTextAnnotationsFilePathObjectFilePath value,
+          $Res Function(
+                  MessageDeltaContentTextAnnotationsFilePathObjectFilePath)
+              then) =
+      _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathCopyWithImpl<
+          $Res, MessageDeltaContentTextAnnotationsFilePathObjectFilePath>;
+  @useResult
+  $Res call({@JsonKey(name: 'file_id', includeIfNull: false) String? fileId});
+}
+
+/// @nodoc
+class _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathCopyWithImpl<
+        $Res,
+        $Val extends MessageDeltaContentTextAnnotationsFilePathObjectFilePath>
+    implements
+        $MessageDeltaContentTextAnnotationsFilePathObjectFilePathCopyWith<
+            $Res> {
+  _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathCopyWithImpl(
+      this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = freezed,
+  }) {
+    return _then(_value.copyWith(
+      fileId: freezed == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImplCopyWith<
+        $Res>
+    implements
+        $MessageDeltaContentTextAnnotationsFilePathObjectFilePathCopyWith<
+            $Res> {
+  factory _$$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImplCopyWith(
+          _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl value,
+          $Res Function(
+                  _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl)
+              then) =
+      __$$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImplCopyWithImpl<
+          $Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'file_id', includeIfNull: false) String? fileId});
+}
+
+/// @nodoc
+class __$$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImplCopyWithImpl<
+        $Res>
+    extends _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathCopyWithImpl<
+        $Res, _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl>
+    implements
+        _$$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImplCopyWith<
+            $Res> {
+  __$$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImplCopyWithImpl(
+      _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl _value,
+      $Res Function(
+              _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = freezed,
+  }) {
+    return _then(_$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl(
+      fileId: freezed == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl
+    extends _MessageDeltaContentTextAnnotationsFilePathObjectFilePath {
+  const _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl(
+      {@JsonKey(name: 'file_id', includeIfNull: false) this.fileId})
+      : super._();
+
+  factory _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImplFromJson(
+          json);
+
+  /// The ID of the file that was generated.
+  @override
+  @JsonKey(name: 'file_id', includeIfNull: false)
+  final String? fileId;
+
+  @override
+  String toString() {
+    return 'MessageDeltaContentTextAnnotationsFilePathObjectFilePath(fileId: $fileId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other
+                is _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl &&
+            (identical(other.fileId, fileId) || other.fileId == fileId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, fileId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImplCopyWith<
+          _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl>
+      get copyWith =>
+          __$$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImplCopyWithImpl<
+                  _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageDeltaContentTextAnnotationsFilePathObjectFilePath
+    extends MessageDeltaContentTextAnnotationsFilePathObjectFilePath {
+  const factory _MessageDeltaContentTextAnnotationsFilePathObjectFilePath(
+          {@JsonKey(name: 'file_id', includeIfNull: false)
+          final String? fileId}) =
+      _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl;
+  const _MessageDeltaContentTextAnnotationsFilePathObjectFilePath._()
+      : super._();
+
+  factory _MessageDeltaContentTextAnnotationsFilePathObjectFilePath.fromJson(
+          Map<String, dynamic> json) =
+      _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl.fromJson;
+
+  @override
+
+  /// The ID of the file that was generated.
+  @JsonKey(name: 'file_id', includeIfNull: false)
+  String? get fileId;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImplCopyWith<
+          _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 RunStepDetails _$RunStepDetailsFromJson(Map<String, dynamic> json) {
   switch (json['type']) {
     case 'message_creation':
@@ -38897,16 +43160,16 @@ RunStepDetails _$RunStepDetailsFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$RunStepDetails {
   /// Always `message_creation`.
-  Enum get type => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            RunStepDetailsMessageCreationObjectType type,
+            String type,
             @JsonKey(name: 'message_creation')
             RunStepDetailsMessageCreation messageCreation)
         messageCreation,
     required TResult Function(
-            RunStepDetailsToolCallsObjectType type,
+            String type,
             @JsonKey(name: 'tool_calls')
             List<RunStepDetailsToolCalls> toolCalls)
         toolCalls,
@@ -38915,12 +43178,12 @@ mixin _$RunStepDetails {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            RunStepDetailsMessageCreationObjectType type,
+            String type,
             @JsonKey(name: 'message_creation')
             RunStepDetailsMessageCreation messageCreation)?
         messageCreation,
     TResult? Function(
-            RunStepDetailsToolCallsObjectType type,
+            String type,
             @JsonKey(name: 'tool_calls')
             List<RunStepDetailsToolCalls> toolCalls)?
         toolCalls,
@@ -38929,12 +43192,12 @@ mixin _$RunStepDetails {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            RunStepDetailsMessageCreationObjectType type,
+            String type,
             @JsonKey(name: 'message_creation')
             RunStepDetailsMessageCreation messageCreation)?
         messageCreation,
     TResult Function(
-            RunStepDetailsToolCallsObjectType type,
+            String type,
             @JsonKey(name: 'tool_calls')
             List<RunStepDetailsToolCalls> toolCalls)?
         toolCalls,
@@ -38964,6 +43227,9 @@ mixin _$RunStepDetails {
   }) =>
       throw _privateConstructorUsedError;
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunStepDetailsCopyWith<RunStepDetails> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -38971,6 +43237,8 @@ abstract class $RunStepDetailsCopyWith<$Res> {
   factory $RunStepDetailsCopyWith(
           RunStepDetails value, $Res Function(RunStepDetails) then) =
       _$RunStepDetailsCopyWithImpl<$Res, RunStepDetails>;
+  @useResult
+  $Res call({String type});
 }
 
 /// @nodoc
@@ -38982,17 +43250,32 @@ class _$RunStepDetailsCopyWithImpl<$Res, $Val extends RunStepDetails>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$RunStepDetailsMessageCreationObjectImplCopyWith<$Res> {
+abstract class _$$RunStepDetailsMessageCreationObjectImplCopyWith<$Res>
+    implements $RunStepDetailsCopyWith<$Res> {
   factory _$$RunStepDetailsMessageCreationObjectImplCopyWith(
           _$RunStepDetailsMessageCreationObjectImpl value,
           $Res Function(_$RunStepDetailsMessageCreationObjectImpl) then) =
       __$$RunStepDetailsMessageCreationObjectImplCopyWithImpl<$Res>;
+  @override
   @useResult
   $Res call(
-      {RunStepDetailsMessageCreationObjectType type,
+      {String type,
       @JsonKey(name: 'message_creation')
       RunStepDetailsMessageCreation messageCreation});
 
@@ -39019,7 +43302,7 @@ class __$$RunStepDetailsMessageCreationObjectImplCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as RunStepDetailsMessageCreationObjectType,
+              as String,
       messageCreation: null == messageCreation
           ? _value.messageCreation
           : messageCreation // ignore: cast_nullable_to_non_nullable
@@ -39052,7 +43335,7 @@ class _$RunStepDetailsMessageCreationObjectImpl
 
   /// Always `message_creation`.
   @override
-  final RunStepDetailsMessageCreationObjectType type;
+  final String type;
 
   /// Details of the message creation by the run step.
   @override
@@ -39090,12 +43373,12 @@ class _$RunStepDetailsMessageCreationObjectImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            RunStepDetailsMessageCreationObjectType type,
+            String type,
             @JsonKey(name: 'message_creation')
             RunStepDetailsMessageCreation messageCreation)
         messageCreation,
     required TResult Function(
-            RunStepDetailsToolCallsObjectType type,
+            String type,
             @JsonKey(name: 'tool_calls')
             List<RunStepDetailsToolCalls> toolCalls)
         toolCalls,
@@ -39107,12 +43390,12 @@ class _$RunStepDetailsMessageCreationObjectImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            RunStepDetailsMessageCreationObjectType type,
+            String type,
             @JsonKey(name: 'message_creation')
             RunStepDetailsMessageCreation messageCreation)?
         messageCreation,
     TResult? Function(
-            RunStepDetailsToolCallsObjectType type,
+            String type,
             @JsonKey(name: 'tool_calls')
             List<RunStepDetailsToolCalls> toolCalls)?
         toolCalls,
@@ -39124,12 +43407,12 @@ class _$RunStepDetailsMessageCreationObjectImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            RunStepDetailsMessageCreationObjectType type,
+            String type,
             @JsonKey(name: 'message_creation')
             RunStepDetailsMessageCreation messageCreation)?
         messageCreation,
     TResult Function(
-            RunStepDetailsToolCallsObjectType type,
+            String type,
             @JsonKey(name: 'tool_calls')
             List<RunStepDetailsToolCalls> toolCalls)?
         toolCalls,
@@ -39185,7 +43468,7 @@ class _$RunStepDetailsMessageCreationObjectImpl
 
 abstract class RunStepDetailsMessageCreationObject extends RunStepDetails {
   const factory RunStepDetailsMessageCreationObject(
-          {required final RunStepDetailsMessageCreationObjectType type,
+          {required final String type,
           @JsonKey(name: 'message_creation')
           required final RunStepDetailsMessageCreation messageCreation}) =
       _$RunStepDetailsMessageCreationObjectImpl;
@@ -39198,11 +43481,12 @@ abstract class RunStepDetailsMessageCreationObject extends RunStepDetails {
   @override
 
   /// Always `message_creation`.
-  RunStepDetailsMessageCreationObjectType get type;
+  String get type;
 
   /// Details of the message creation by the run step.
   @JsonKey(name: 'message_creation')
   RunStepDetailsMessageCreation get messageCreation;
+  @override
   @JsonKey(ignore: true)
   _$$RunStepDetailsMessageCreationObjectImplCopyWith<
           _$RunStepDetailsMessageCreationObjectImpl>
@@ -39210,14 +43494,16 @@ abstract class RunStepDetailsMessageCreationObject extends RunStepDetails {
 }
 
 /// @nodoc
-abstract class _$$RunStepDetailsToolCallsObjectImplCopyWith<$Res> {
+abstract class _$$RunStepDetailsToolCallsObjectImplCopyWith<$Res>
+    implements $RunStepDetailsCopyWith<$Res> {
   factory _$$RunStepDetailsToolCallsObjectImplCopyWith(
           _$RunStepDetailsToolCallsObjectImpl value,
           $Res Function(_$RunStepDetailsToolCallsObjectImpl) then) =
       __$$RunStepDetailsToolCallsObjectImplCopyWithImpl<$Res>;
+  @override
   @useResult
   $Res call(
-      {RunStepDetailsToolCallsObjectType type,
+      {String type,
       @JsonKey(name: 'tool_calls') List<RunStepDetailsToolCalls> toolCalls});
 }
 
@@ -39241,7 +43527,7 @@ class __$$RunStepDetailsToolCallsObjectImplCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as RunStepDetailsToolCallsObjectType,
+              as String,
       toolCalls: null == toolCalls
           ? _value._toolCalls
           : toolCalls // ignore: cast_nullable_to_non_nullable
@@ -39267,7 +43553,7 @@ class _$RunStepDetailsToolCallsObjectImpl
 
   /// Always `tool_calls`.
   @override
-  final RunStepDetailsToolCallsObjectType type;
+  final String type;
 
   /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
   final List<RunStepDetailsToolCalls> _toolCalls;
@@ -39313,12 +43599,12 @@ class _$RunStepDetailsToolCallsObjectImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            RunStepDetailsMessageCreationObjectType type,
+            String type,
             @JsonKey(name: 'message_creation')
             RunStepDetailsMessageCreation messageCreation)
         messageCreation,
     required TResult Function(
-            RunStepDetailsToolCallsObjectType type,
+            String type,
             @JsonKey(name: 'tool_calls')
             List<RunStepDetailsToolCalls> toolCalls)
         toolCalls,
@@ -39330,12 +43616,12 @@ class _$RunStepDetailsToolCallsObjectImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            RunStepDetailsMessageCreationObjectType type,
+            String type,
             @JsonKey(name: 'message_creation')
             RunStepDetailsMessageCreation messageCreation)?
         messageCreation,
     TResult? Function(
-            RunStepDetailsToolCallsObjectType type,
+            String type,
             @JsonKey(name: 'tool_calls')
             List<RunStepDetailsToolCalls> toolCalls)?
         toolCalls,
@@ -39347,12 +43633,12 @@ class _$RunStepDetailsToolCallsObjectImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            RunStepDetailsMessageCreationObjectType type,
+            String type,
             @JsonKey(name: 'message_creation')
             RunStepDetailsMessageCreation messageCreation)?
         messageCreation,
     TResult Function(
-            RunStepDetailsToolCallsObjectType type,
+            String type,
             @JsonKey(name: 'tool_calls')
             List<RunStepDetailsToolCalls> toolCalls)?
         toolCalls,
@@ -39408,7 +43694,7 @@ class _$RunStepDetailsToolCallsObjectImpl
 
 abstract class RunStepDetailsToolCallsObject extends RunStepDetails {
   const factory RunStepDetailsToolCallsObject(
-          {required final RunStepDetailsToolCallsObjectType type,
+          {required final String type,
           @JsonKey(name: 'tool_calls')
           required final List<RunStepDetailsToolCalls> toolCalls}) =
       _$RunStepDetailsToolCallsObjectImpl;
@@ -39420,14 +43706,611 @@ abstract class RunStepDetailsToolCallsObject extends RunStepDetails {
   @override
 
   /// Always `tool_calls`.
-  RunStepDetailsToolCallsObjectType get type;
+  String get type;
 
   /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
   @JsonKey(name: 'tool_calls')
   List<RunStepDetailsToolCalls> get toolCalls;
+  @override
   @JsonKey(ignore: true)
   _$$RunStepDetailsToolCallsObjectImplCopyWith<
           _$RunStepDetailsToolCallsObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RunStepDeltaDetails _$RunStepDeltaDetailsFromJson(Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'message_creation':
+      return RunStepDeltaStepDetailsMessageCreationObject.fromJson(json);
+    case 'tool_calls':
+      return RunStepDeltaStepDetailsToolCallsObject.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'type', 'RunStepDeltaDetails',
+          'Invalid union type "${json['type']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$RunStepDeltaDetails {
+  /// Always `message_creation`.
+  String get type => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String type,
+            @JsonKey(name: 'message_creation', includeIfNull: false)
+            RunStepDeltaStepDetailsMessageCreation? messageCreation)
+        messageCreation,
+    required TResult Function(
+            String type,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<RunStepDeltaStepDetailsToolCalls>? toolCalls)
+        toolCalls,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            String type,
+            @JsonKey(name: 'message_creation', includeIfNull: false)
+            RunStepDeltaStepDetailsMessageCreation? messageCreation)?
+        messageCreation,
+    TResult? Function(
+            String type,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<RunStepDeltaStepDetailsToolCalls>? toolCalls)?
+        toolCalls,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            String type,
+            @JsonKey(name: 'message_creation', includeIfNull: false)
+            RunStepDeltaStepDetailsMessageCreation? messageCreation)?
+        messageCreation,
+    TResult Function(
+            String type,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<RunStepDeltaStepDetailsToolCalls>? toolCalls)?
+        toolCalls,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            RunStepDeltaStepDetailsMessageCreationObject value)
+        messageCreation,
+    required TResult Function(RunStepDeltaStepDetailsToolCallsObject value)
+        toolCalls,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunStepDeltaStepDetailsMessageCreationObject value)?
+        messageCreation,
+    TResult? Function(RunStepDeltaStepDetailsToolCallsObject value)? toolCalls,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunStepDeltaStepDetailsMessageCreationObject value)?
+        messageCreation,
+    TResult Function(RunStepDeltaStepDetailsToolCallsObject value)? toolCalls,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunStepDeltaDetailsCopyWith<RunStepDeltaDetails> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDeltaDetailsCopyWith<$Res> {
+  factory $RunStepDeltaDetailsCopyWith(
+          RunStepDeltaDetails value, $Res Function(RunStepDeltaDetails) then) =
+      _$RunStepDeltaDetailsCopyWithImpl<$Res, RunStepDeltaDetails>;
+  @useResult
+  $Res call({String type});
+}
+
+/// @nodoc
+class _$RunStepDeltaDetailsCopyWithImpl<$Res, $Val extends RunStepDeltaDetails>
+    implements $RunStepDeltaDetailsCopyWith<$Res> {
+  _$RunStepDeltaDetailsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepDeltaStepDetailsMessageCreationObjectImplCopyWith<$Res>
+    implements $RunStepDeltaDetailsCopyWith<$Res> {
+  factory _$$RunStepDeltaStepDetailsMessageCreationObjectImplCopyWith(
+          _$RunStepDeltaStepDetailsMessageCreationObjectImpl value,
+          $Res Function(_$RunStepDeltaStepDetailsMessageCreationObjectImpl)
+              then) =
+      __$$RunStepDeltaStepDetailsMessageCreationObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String type,
+      @JsonKey(name: 'message_creation', includeIfNull: false)
+      RunStepDeltaStepDetailsMessageCreation? messageCreation});
+
+  $RunStepDeltaStepDetailsMessageCreationCopyWith<$Res>? get messageCreation;
+}
+
+/// @nodoc
+class __$$RunStepDeltaStepDetailsMessageCreationObjectImplCopyWithImpl<$Res>
+    extends _$RunStepDeltaDetailsCopyWithImpl<$Res,
+        _$RunStepDeltaStepDetailsMessageCreationObjectImpl>
+    implements
+        _$$RunStepDeltaStepDetailsMessageCreationObjectImplCopyWith<$Res> {
+  __$$RunStepDeltaStepDetailsMessageCreationObjectImplCopyWithImpl(
+      _$RunStepDeltaStepDetailsMessageCreationObjectImpl _value,
+      $Res Function(_$RunStepDeltaStepDetailsMessageCreationObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? messageCreation = freezed,
+  }) {
+    return _then(_$RunStepDeltaStepDetailsMessageCreationObjectImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      messageCreation: freezed == messageCreation
+          ? _value.messageCreation
+          : messageCreation // ignore: cast_nullable_to_non_nullable
+              as RunStepDeltaStepDetailsMessageCreation?,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunStepDeltaStepDetailsMessageCreationCopyWith<$Res>? get messageCreation {
+    if (_value.messageCreation == null) {
+      return null;
+    }
+
+    return $RunStepDeltaStepDetailsMessageCreationCopyWith<$Res>(
+        _value.messageCreation!, (value) {
+      return _then(_value.copyWith(messageCreation: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDeltaStepDetailsMessageCreationObjectImpl
+    extends RunStepDeltaStepDetailsMessageCreationObject {
+  const _$RunStepDeltaStepDetailsMessageCreationObjectImpl(
+      {required this.type,
+      @JsonKey(name: 'message_creation', includeIfNull: false)
+      this.messageCreation})
+      : super._();
+
+  factory _$RunStepDeltaStepDetailsMessageCreationObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDeltaStepDetailsMessageCreationObjectImplFromJson(json);
+
+  /// Always `message_creation`.
+  @override
+  final String type;
+
+  /// Details of the message creation by the run step.
+  @override
+  @JsonKey(name: 'message_creation', includeIfNull: false)
+  final RunStepDeltaStepDetailsMessageCreation? messageCreation;
+
+  @override
+  String toString() {
+    return 'RunStepDeltaDetails.messageCreation(type: $type, messageCreation: $messageCreation)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDeltaStepDetailsMessageCreationObjectImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.messageCreation, messageCreation) ||
+                other.messageCreation == messageCreation));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, messageCreation);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDeltaStepDetailsMessageCreationObjectImplCopyWith<
+          _$RunStepDeltaStepDetailsMessageCreationObjectImpl>
+      get copyWith =>
+          __$$RunStepDeltaStepDetailsMessageCreationObjectImplCopyWithImpl<
+                  _$RunStepDeltaStepDetailsMessageCreationObjectImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String type,
+            @JsonKey(name: 'message_creation', includeIfNull: false)
+            RunStepDeltaStepDetailsMessageCreation? messageCreation)
+        messageCreation,
+    required TResult Function(
+            String type,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<RunStepDeltaStepDetailsToolCalls>? toolCalls)
+        toolCalls,
+  }) {
+    return messageCreation(type, this.messageCreation);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            String type,
+            @JsonKey(name: 'message_creation', includeIfNull: false)
+            RunStepDeltaStepDetailsMessageCreation? messageCreation)?
+        messageCreation,
+    TResult? Function(
+            String type,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<RunStepDeltaStepDetailsToolCalls>? toolCalls)?
+        toolCalls,
+  }) {
+    return messageCreation?.call(type, this.messageCreation);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            String type,
+            @JsonKey(name: 'message_creation', includeIfNull: false)
+            RunStepDeltaStepDetailsMessageCreation? messageCreation)?
+        messageCreation,
+    TResult Function(
+            String type,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<RunStepDeltaStepDetailsToolCalls>? toolCalls)?
+        toolCalls,
+    required TResult orElse(),
+  }) {
+    if (messageCreation != null) {
+      return messageCreation(type, this.messageCreation);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            RunStepDeltaStepDetailsMessageCreationObject value)
+        messageCreation,
+    required TResult Function(RunStepDeltaStepDetailsToolCallsObject value)
+        toolCalls,
+  }) {
+    return messageCreation(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunStepDeltaStepDetailsMessageCreationObject value)?
+        messageCreation,
+    TResult? Function(RunStepDeltaStepDetailsToolCallsObject value)? toolCalls,
+  }) {
+    return messageCreation?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunStepDeltaStepDetailsMessageCreationObject value)?
+        messageCreation,
+    TResult Function(RunStepDeltaStepDetailsToolCallsObject value)? toolCalls,
+    required TResult orElse(),
+  }) {
+    if (messageCreation != null) {
+      return messageCreation(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDeltaStepDetailsMessageCreationObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunStepDeltaStepDetailsMessageCreationObject
+    extends RunStepDeltaDetails {
+  const factory RunStepDeltaStepDetailsMessageCreationObject(
+          {required final String type,
+          @JsonKey(name: 'message_creation', includeIfNull: false)
+          final RunStepDeltaStepDetailsMessageCreation? messageCreation}) =
+      _$RunStepDeltaStepDetailsMessageCreationObjectImpl;
+  const RunStepDeltaStepDetailsMessageCreationObject._() : super._();
+
+  factory RunStepDeltaStepDetailsMessageCreationObject.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDeltaStepDetailsMessageCreationObjectImpl.fromJson;
+
+  @override
+
+  /// Always `message_creation`.
+  String get type;
+
+  /// Details of the message creation by the run step.
+  @JsonKey(name: 'message_creation', includeIfNull: false)
+  RunStepDeltaStepDetailsMessageCreation? get messageCreation;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDeltaStepDetailsMessageCreationObjectImplCopyWith<
+          _$RunStepDeltaStepDetailsMessageCreationObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RunStepDeltaStepDetailsToolCallsObjectImplCopyWith<$Res>
+    implements $RunStepDeltaDetailsCopyWith<$Res> {
+  factory _$$RunStepDeltaStepDetailsToolCallsObjectImplCopyWith(
+          _$RunStepDeltaStepDetailsToolCallsObjectImpl value,
+          $Res Function(_$RunStepDeltaStepDetailsToolCallsObjectImpl) then) =
+      __$$RunStepDeltaStepDetailsToolCallsObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String type,
+      @JsonKey(name: 'tool_calls', includeIfNull: false)
+      List<RunStepDeltaStepDetailsToolCalls>? toolCalls});
+}
+
+/// @nodoc
+class __$$RunStepDeltaStepDetailsToolCallsObjectImplCopyWithImpl<$Res>
+    extends _$RunStepDeltaDetailsCopyWithImpl<$Res,
+        _$RunStepDeltaStepDetailsToolCallsObjectImpl>
+    implements _$$RunStepDeltaStepDetailsToolCallsObjectImplCopyWith<$Res> {
+  __$$RunStepDeltaStepDetailsToolCallsObjectImplCopyWithImpl(
+      _$RunStepDeltaStepDetailsToolCallsObjectImpl _value,
+      $Res Function(_$RunStepDeltaStepDetailsToolCallsObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? toolCalls = freezed,
+  }) {
+    return _then(_$RunStepDeltaStepDetailsToolCallsObjectImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      toolCalls: freezed == toolCalls
+          ? _value._toolCalls
+          : toolCalls // ignore: cast_nullable_to_non_nullable
+              as List<RunStepDeltaStepDetailsToolCalls>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDeltaStepDetailsToolCallsObjectImpl
+    extends RunStepDeltaStepDetailsToolCallsObject {
+  const _$RunStepDeltaStepDetailsToolCallsObjectImpl(
+      {required this.type,
+      @JsonKey(name: 'tool_calls', includeIfNull: false)
+      final List<RunStepDeltaStepDetailsToolCalls>? toolCalls})
+      : _toolCalls = toolCalls,
+        super._();
+
+  factory _$RunStepDeltaStepDetailsToolCallsObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDeltaStepDetailsToolCallsObjectImplFromJson(json);
+
+  /// Always `tool_calls`.
+  @override
+  final String type;
+
+  /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
+  final List<RunStepDeltaStepDetailsToolCalls>? _toolCalls;
+
+  /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
+  @override
+  @JsonKey(name: 'tool_calls', includeIfNull: false)
+  List<RunStepDeltaStepDetailsToolCalls>? get toolCalls {
+    final value = _toolCalls;
+    if (value == null) return null;
+    if (_toolCalls is EqualUnmodifiableListView) return _toolCalls;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'RunStepDeltaDetails.toolCalls(type: $type, toolCalls: $toolCalls)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDeltaStepDetailsToolCallsObjectImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            const DeepCollectionEquality()
+                .equals(other._toolCalls, _toolCalls));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, type, const DeepCollectionEquality().hash(_toolCalls));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDeltaStepDetailsToolCallsObjectImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsObjectImpl>
+      get copyWith =>
+          __$$RunStepDeltaStepDetailsToolCallsObjectImplCopyWithImpl<
+              _$RunStepDeltaStepDetailsToolCallsObjectImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String type,
+            @JsonKey(name: 'message_creation', includeIfNull: false)
+            RunStepDeltaStepDetailsMessageCreation? messageCreation)
+        messageCreation,
+    required TResult Function(
+            String type,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<RunStepDeltaStepDetailsToolCalls>? toolCalls)
+        toolCalls,
+  }) {
+    return toolCalls(type, this.toolCalls);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            String type,
+            @JsonKey(name: 'message_creation', includeIfNull: false)
+            RunStepDeltaStepDetailsMessageCreation? messageCreation)?
+        messageCreation,
+    TResult? Function(
+            String type,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<RunStepDeltaStepDetailsToolCalls>? toolCalls)?
+        toolCalls,
+  }) {
+    return toolCalls?.call(type, this.toolCalls);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            String type,
+            @JsonKey(name: 'message_creation', includeIfNull: false)
+            RunStepDeltaStepDetailsMessageCreation? messageCreation)?
+        messageCreation,
+    TResult Function(
+            String type,
+            @JsonKey(name: 'tool_calls', includeIfNull: false)
+            List<RunStepDeltaStepDetailsToolCalls>? toolCalls)?
+        toolCalls,
+    required TResult orElse(),
+  }) {
+    if (toolCalls != null) {
+      return toolCalls(type, this.toolCalls);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            RunStepDeltaStepDetailsMessageCreationObject value)
+        messageCreation,
+    required TResult Function(RunStepDeltaStepDetailsToolCallsObject value)
+        toolCalls,
+  }) {
+    return toolCalls(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunStepDeltaStepDetailsMessageCreationObject value)?
+        messageCreation,
+    TResult? Function(RunStepDeltaStepDetailsToolCallsObject value)? toolCalls,
+  }) {
+    return toolCalls?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunStepDeltaStepDetailsMessageCreationObject value)?
+        messageCreation,
+    TResult Function(RunStepDeltaStepDetailsToolCallsObject value)? toolCalls,
+    required TResult orElse(),
+  }) {
+    if (toolCalls != null) {
+      return toolCalls(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDeltaStepDetailsToolCallsObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunStepDeltaStepDetailsToolCallsObject
+    extends RunStepDeltaDetails {
+  const factory RunStepDeltaStepDetailsToolCallsObject(
+          {required final String type,
+          @JsonKey(name: 'tool_calls', includeIfNull: false)
+          final List<RunStepDeltaStepDetailsToolCalls>? toolCalls}) =
+      _$RunStepDeltaStepDetailsToolCallsObjectImpl;
+  const RunStepDeltaStepDetailsToolCallsObject._() : super._();
+
+  factory RunStepDeltaStepDetailsToolCallsObject.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDeltaStepDetailsToolCallsObjectImpl.fromJson;
+
+  @override
+
+  /// Always `tool_calls`.
+  String get type;
+
+  /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
+  @JsonKey(name: 'tool_calls', includeIfNull: false)
+  List<RunStepDeltaStepDetailsToolCalls>? get toolCalls;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDeltaStepDetailsToolCallsObjectImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -39452,25 +44335,21 @@ mixin _$RunStepDetailsToolCalls {
   /// The ID of the tool call.
   String get id => throw _privateConstructorUsedError;
 
-  /// The type of tool call. This is always going to be `code_interpreter` for this type of tool call.
-  Enum get type => throw _privateConstructorUsedError;
+  /// Always `code_interpreter`.
+  String get type => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
             String id,
-            RunStepDetailsToolCallsCodeObjectType type,
+            String type,
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
         codeInterpreter,
     required TResult Function(
-            String id,
-            RunStepDetailsToolCallsRetrievalObjectType type,
-            Map<String, dynamic> retrieval)
+            String id, String type, Map<String, dynamic> retrieval)
         retrieval,
     required TResult Function(
-            String id,
-            RunStepDetailsToolCallsFunctionObjectType type,
-            RunStepDetailsToolCallsFunction function)
+            String id, String type, RunStepDetailsToolCallsFunction function)
         function,
   }) =>
       throw _privateConstructorUsedError;
@@ -39478,17 +44357,14 @@ mixin _$RunStepDetailsToolCalls {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
             String id,
-            RunStepDetailsToolCallsCodeObjectType type,
+            String type,
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult? Function(
-            String id,
-            RunStepDetailsToolCallsRetrievalObjectType type,
-            Map<String, dynamic> retrieval)?
+    TResult? Function(String id, String type, Map<String, dynamic> retrieval)?
         retrieval,
-    TResult? Function(String id, RunStepDetailsToolCallsFunctionObjectType type,
-            RunStepDetailsToolCallsFunction function)?
+    TResult? Function(
+            String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
   }) =>
       throw _privateConstructorUsedError;
@@ -39496,15 +44372,14 @@ mixin _$RunStepDetailsToolCalls {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
             String id,
-            RunStepDetailsToolCallsCodeObjectType type,
+            String type,
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult Function(String id, RunStepDetailsToolCallsRetrievalObjectType type,
-            Map<String, dynamic> retrieval)?
+    TResult Function(String id, String type, Map<String, dynamic> retrieval)?
         retrieval,
-    TResult Function(String id, RunStepDetailsToolCallsFunctionObjectType type,
-            RunStepDetailsToolCallsFunction function)?
+    TResult Function(
+            String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
     required TResult orElse(),
   }) =>
@@ -39546,7 +44421,7 @@ abstract class $RunStepDetailsToolCallsCopyWith<$Res> {
           $Res Function(RunStepDetailsToolCalls) then) =
       _$RunStepDetailsToolCallsCopyWithImpl<$Res, RunStepDetailsToolCalls>;
   @useResult
-  $Res call({String id});
+  $Res call({String id, String type});
 }
 
 /// @nodoc
@@ -39564,11 +44439,16 @@ class _$RunStepDetailsToolCallsCopyWithImpl<$Res,
   @override
   $Res call({
     Object? id = null,
+    Object? type = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -39585,7 +44465,7 @@ abstract class _$$RunStepDetailsToolCallsCodeObjectImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      RunStepDetailsToolCallsCodeObjectType type,
+      String type,
       @JsonKey(name: 'code_interpreter')
       RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter});
 
@@ -39618,7 +44498,7 @@ class __$$RunStepDetailsToolCallsCodeObjectImplCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as RunStepDetailsToolCallsCodeObjectType,
+              as String,
       codeInterpreter: null == codeInterpreter
           ? _value.codeInterpreter
           : codeInterpreter // ignore: cast_nullable_to_non_nullable
@@ -39655,9 +44535,9 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
   @override
   final String id;
 
-  /// The type of tool call. This is always going to be `code_interpreter` for this type of tool call.
+  /// Always `code_interpreter`.
   @override
-  final RunStepDetailsToolCallsCodeObjectType type;
+  final String type;
 
   /// The Code Interpreter tool call definition.
   @override
@@ -39697,19 +44577,15 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
   TResult when<TResult extends Object?>({
     required TResult Function(
             String id,
-            RunStepDetailsToolCallsCodeObjectType type,
+            String type,
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
         codeInterpreter,
     required TResult Function(
-            String id,
-            RunStepDetailsToolCallsRetrievalObjectType type,
-            Map<String, dynamic> retrieval)
+            String id, String type, Map<String, dynamic> retrieval)
         retrieval,
     required TResult Function(
-            String id,
-            RunStepDetailsToolCallsFunctionObjectType type,
-            RunStepDetailsToolCallsFunction function)
+            String id, String type, RunStepDetailsToolCallsFunction function)
         function,
   }) {
     return codeInterpreter(id, type, this.codeInterpreter);
@@ -39720,17 +44596,14 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
             String id,
-            RunStepDetailsToolCallsCodeObjectType type,
+            String type,
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult? Function(
-            String id,
-            RunStepDetailsToolCallsRetrievalObjectType type,
-            Map<String, dynamic> retrieval)?
+    TResult? Function(String id, String type, Map<String, dynamic> retrieval)?
         retrieval,
-    TResult? Function(String id, RunStepDetailsToolCallsFunctionObjectType type,
-            RunStepDetailsToolCallsFunction function)?
+    TResult? Function(
+            String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
   }) {
     return codeInterpreter?.call(id, type, this.codeInterpreter);
@@ -39741,15 +44614,14 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
             String id,
-            RunStepDetailsToolCallsCodeObjectType type,
+            String type,
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult Function(String id, RunStepDetailsToolCallsRetrievalObjectType type,
-            Map<String, dynamic> retrieval)?
+    TResult Function(String id, String type, Map<String, dynamic> retrieval)?
         retrieval,
-    TResult Function(String id, RunStepDetailsToolCallsFunctionObjectType type,
-            RunStepDetailsToolCallsFunction function)?
+    TResult Function(
+            String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
     required TResult orElse(),
   }) {
@@ -39808,7 +44680,7 @@ abstract class RunStepDetailsToolCallsCodeObject
     extends RunStepDetailsToolCalls {
   const factory RunStepDetailsToolCallsCodeObject(
       {required final String id,
-      required final RunStepDetailsToolCallsCodeObjectType type,
+      required final String type,
       @JsonKey(name: 'code_interpreter')
       required final RunStepDetailsToolCallsCodeObjectCodeInterpreter
           codeInterpreter}) = _$RunStepDetailsToolCallsCodeObjectImpl;
@@ -39824,8 +44696,8 @@ abstract class RunStepDetailsToolCallsCodeObject
   String get id;
   @override
 
-  /// The type of tool call. This is always going to be `code_interpreter` for this type of tool call.
-  RunStepDetailsToolCallsCodeObjectType get type;
+  /// Always `code_interpreter`.
+  String get type;
 
   /// The Code Interpreter tool call definition.
   @JsonKey(name: 'code_interpreter')
@@ -39846,10 +44718,7 @@ abstract class _$$RunStepDetailsToolCallsRetrievalObjectImplCopyWith<$Res>
       __$$RunStepDetailsToolCallsRetrievalObjectImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      RunStepDetailsToolCallsRetrievalObjectType type,
-      Map<String, dynamic> retrieval});
+  $Res call({String id, String type, Map<String, dynamic> retrieval});
 }
 
 /// @nodoc
@@ -39877,7 +44746,7 @@ class __$$RunStepDetailsToolCallsRetrievalObjectImplCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as RunStepDetailsToolCallsRetrievalObjectType,
+              as String,
       retrieval: null == retrieval
           ? _value._retrieval
           : retrieval // ignore: cast_nullable_to_non_nullable
@@ -39905,9 +44774,9 @@ class _$RunStepDetailsToolCallsRetrievalObjectImpl
   @override
   final String id;
 
-  /// The type of tool call. This is always going to be `retrieval` for this type of tool call.
+  /// Always `retrieval`.
   @override
-  final RunStepDetailsToolCallsRetrievalObjectType type;
+  final String type;
 
   /// For now, this is always going to be an empty object.
   final Map<String, dynamic> _retrieval;
@@ -39955,19 +44824,15 @@ class _$RunStepDetailsToolCallsRetrievalObjectImpl
   TResult when<TResult extends Object?>({
     required TResult Function(
             String id,
-            RunStepDetailsToolCallsCodeObjectType type,
+            String type,
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
         codeInterpreter,
     required TResult Function(
-            String id,
-            RunStepDetailsToolCallsRetrievalObjectType type,
-            Map<String, dynamic> retrieval)
+            String id, String type, Map<String, dynamic> retrieval)
         retrieval,
     required TResult Function(
-            String id,
-            RunStepDetailsToolCallsFunctionObjectType type,
-            RunStepDetailsToolCallsFunction function)
+            String id, String type, RunStepDetailsToolCallsFunction function)
         function,
   }) {
     return retrieval(id, type, this.retrieval);
@@ -39978,17 +44843,14 @@ class _$RunStepDetailsToolCallsRetrievalObjectImpl
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
             String id,
-            RunStepDetailsToolCallsCodeObjectType type,
+            String type,
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult? Function(
-            String id,
-            RunStepDetailsToolCallsRetrievalObjectType type,
-            Map<String, dynamic> retrieval)?
+    TResult? Function(String id, String type, Map<String, dynamic> retrieval)?
         retrieval,
-    TResult? Function(String id, RunStepDetailsToolCallsFunctionObjectType type,
-            RunStepDetailsToolCallsFunction function)?
+    TResult? Function(
+            String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
   }) {
     return retrieval?.call(id, type, this.retrieval);
@@ -39999,15 +44861,14 @@ class _$RunStepDetailsToolCallsRetrievalObjectImpl
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
             String id,
-            RunStepDetailsToolCallsCodeObjectType type,
+            String type,
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult Function(String id, RunStepDetailsToolCallsRetrievalObjectType type,
-            Map<String, dynamic> retrieval)?
+    TResult Function(String id, String type, Map<String, dynamic> retrieval)?
         retrieval,
-    TResult Function(String id, RunStepDetailsToolCallsFunctionObjectType type,
-            RunStepDetailsToolCallsFunction function)?
+    TResult Function(
+            String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
     required TResult orElse(),
   }) {
@@ -40066,7 +44927,7 @@ abstract class RunStepDetailsToolCallsRetrievalObject
     extends RunStepDetailsToolCalls {
   const factory RunStepDetailsToolCallsRetrievalObject(
           {required final String id,
-          required final RunStepDetailsToolCallsRetrievalObjectType type,
+          required final String type,
           required final Map<String, dynamic> retrieval}) =
       _$RunStepDetailsToolCallsRetrievalObjectImpl;
   const RunStepDetailsToolCallsRetrievalObject._() : super._();
@@ -40081,8 +44942,8 @@ abstract class RunStepDetailsToolCallsRetrievalObject
   String get id;
   @override
 
-  /// The type of tool call. This is always going to be `retrieval` for this type of tool call.
-  RunStepDetailsToolCallsRetrievalObjectType get type;
+  /// Always `retrieval`.
+  String get type;
 
   /// For now, this is always going to be an empty object.
   Map<String, dynamic> get retrieval;
@@ -40102,10 +44963,7 @@ abstract class _$$RunStepDetailsToolCallsFunctionObjectImplCopyWith<$Res>
       __$$RunStepDetailsToolCallsFunctionObjectImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      RunStepDetailsToolCallsFunctionObjectType type,
-      RunStepDetailsToolCallsFunction function});
+  $Res call({String id, String type, RunStepDetailsToolCallsFunction function});
 
   $RunStepDetailsToolCallsFunctionCopyWith<$Res> get function;
 }
@@ -40135,7 +44993,7 @@ class __$$RunStepDetailsToolCallsFunctionObjectImplCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as RunStepDetailsToolCallsFunctionObjectType,
+              as String,
       function: null == function
           ? _value.function
           : function // ignore: cast_nullable_to_non_nullable
@@ -40169,9 +45027,9 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
   @override
   final String id;
 
-  /// The type of tool call. This is always going to be `function` for this type of tool call.
+  /// Always `function`.
   @override
-  final RunStepDetailsToolCallsFunctionObjectType type;
+  final String type;
 
   /// The definition of the function that was called.
   @override
@@ -40210,19 +45068,15 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
   TResult when<TResult extends Object?>({
     required TResult Function(
             String id,
-            RunStepDetailsToolCallsCodeObjectType type,
+            String type,
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
         codeInterpreter,
     required TResult Function(
-            String id,
-            RunStepDetailsToolCallsRetrievalObjectType type,
-            Map<String, dynamic> retrieval)
+            String id, String type, Map<String, dynamic> retrieval)
         retrieval,
     required TResult Function(
-            String id,
-            RunStepDetailsToolCallsFunctionObjectType type,
-            RunStepDetailsToolCallsFunction function)
+            String id, String type, RunStepDetailsToolCallsFunction function)
         function,
   }) {
     return function(id, type, this.function);
@@ -40233,17 +45087,14 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
             String id,
-            RunStepDetailsToolCallsCodeObjectType type,
+            String type,
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult? Function(
-            String id,
-            RunStepDetailsToolCallsRetrievalObjectType type,
-            Map<String, dynamic> retrieval)?
+    TResult? Function(String id, String type, Map<String, dynamic> retrieval)?
         retrieval,
-    TResult? Function(String id, RunStepDetailsToolCallsFunctionObjectType type,
-            RunStepDetailsToolCallsFunction function)?
+    TResult? Function(
+            String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
   }) {
     return function?.call(id, type, this.function);
@@ -40254,15 +45105,14 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
             String id,
-            RunStepDetailsToolCallsCodeObjectType type,
+            String type,
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult Function(String id, RunStepDetailsToolCallsRetrievalObjectType type,
-            Map<String, dynamic> retrieval)?
+    TResult Function(String id, String type, Map<String, dynamic> retrieval)?
         retrieval,
-    TResult Function(String id, RunStepDetailsToolCallsFunctionObjectType type,
-            RunStepDetailsToolCallsFunction function)?
+    TResult Function(
+            String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
     required TResult orElse(),
   }) {
@@ -40321,7 +45171,7 @@ abstract class RunStepDetailsToolCallsFunctionObject
     extends RunStepDetailsToolCalls {
   const factory RunStepDetailsToolCallsFunctionObject(
           {required final String id,
-          required final RunStepDetailsToolCallsFunctionObjectType type,
+          required final String type,
           required final RunStepDetailsToolCallsFunction function}) =
       _$RunStepDetailsToolCallsFunctionObjectImpl;
   const RunStepDetailsToolCallsFunctionObject._() : super._();
@@ -40336,8 +45186,8 @@ abstract class RunStepDetailsToolCallsFunctionObject
   String get id;
   @override
 
-  /// The type of tool call. This is always going to be `function` for this type of tool call.
-  RunStepDetailsToolCallsFunctionObjectType get type;
+  /// Always `function`.
+  String get type;
 
   /// The definition of the function that was called.
   RunStepDetailsToolCallsFunction get function;
@@ -40552,6 +45402,1378 @@ abstract class _RunStepDetailsToolCallsFunction
       get copyWith => throw _privateConstructorUsedError;
 }
 
+RunStepDeltaStepDetailsToolCalls _$RunStepDeltaStepDetailsToolCallsFromJson(
+    Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'code_interpreter':
+      return RunStepDeltaStepDetailsToolCallsCodeObject.fromJson(json);
+    case 'retrieval':
+      return RunStepDeltaStepDetailsToolCallsRetrievalObject.fromJson(json);
+    case 'function':
+      return RunStepDeltaStepDetailsToolCallsFunctionObject.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'type',
+          'RunStepDeltaStepDetailsToolCalls',
+          'Invalid union type "${json['type']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$RunStepDeltaStepDetailsToolCalls {
+  /// The index of the tool call in the tool calls array.
+  int get index => throw _privateConstructorUsedError;
+
+  /// The ID of the tool call.
+  @JsonKey(includeIfNull: false)
+  String? get id => throw _privateConstructorUsedError;
+
+  /// Always `code_interpreter`.
+  String get type => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(name: 'code_interpreter', includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter?
+                codeInterpreter)
+        codeInterpreter,
+    required TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)
+        retrieval,
+    required TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsFunction? function)
+        function,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(name: 'code_interpreter', includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter?
+                codeInterpreter)?
+        codeInterpreter,
+    TResult? Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)?
+        retrieval,
+    TResult? Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsFunction? function)?
+        function,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(name: 'code_interpreter', includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter?
+                codeInterpreter)?
+        codeInterpreter,
+    TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)?
+        retrieval,
+    TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsFunction? function)?
+        function,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)
+        codeInterpreter,
+    required TResult Function(
+            RunStepDeltaStepDetailsToolCallsRetrievalObject value)
+        retrieval,
+    required TResult Function(
+            RunStepDeltaStepDetailsToolCallsFunctionObject value)
+        function,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
+        codeInterpreter,
+    TResult? Function(RunStepDeltaStepDetailsToolCallsRetrievalObject value)?
+        retrieval,
+    TResult? Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
+        function,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
+        codeInterpreter,
+    TResult Function(RunStepDeltaStepDetailsToolCallsRetrievalObject value)?
+        retrieval,
+    TResult Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
+        function,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunStepDeltaStepDetailsToolCallsCopyWith<RunStepDeltaStepDetailsToolCalls>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDeltaStepDetailsToolCallsCopyWith<$Res> {
+  factory $RunStepDeltaStepDetailsToolCallsCopyWith(
+          RunStepDeltaStepDetailsToolCalls value,
+          $Res Function(RunStepDeltaStepDetailsToolCalls) then) =
+      _$RunStepDeltaStepDetailsToolCallsCopyWithImpl<$Res,
+          RunStepDeltaStepDetailsToolCalls>;
+  @useResult
+  $Res call(
+      {int index, @JsonKey(includeIfNull: false) String? id, String type});
+}
+
+/// @nodoc
+class _$RunStepDeltaStepDetailsToolCallsCopyWithImpl<$Res,
+        $Val extends RunStepDeltaStepDetailsToolCalls>
+    implements $RunStepDeltaStepDetailsToolCallsCopyWith<$Res> {
+  _$RunStepDeltaStepDetailsToolCallsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+    Object? id = freezed,
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      index: null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepDeltaStepDetailsToolCallsCodeObjectImplCopyWith<$Res>
+    implements $RunStepDeltaStepDetailsToolCallsCopyWith<$Res> {
+  factory _$$RunStepDeltaStepDetailsToolCallsCodeObjectImplCopyWith(
+          _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl value,
+          $Res Function(_$RunStepDeltaStepDetailsToolCallsCodeObjectImpl)
+              then) =
+      __$$RunStepDeltaStepDetailsToolCallsCodeObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int index,
+      @JsonKey(includeIfNull: false) String? id,
+      String type,
+      @JsonKey(name: 'code_interpreter', includeIfNull: false)
+      RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter?
+          codeInterpreter});
+
+  $RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith<$Res>?
+      get codeInterpreter;
+}
+
+/// @nodoc
+class __$$RunStepDeltaStepDetailsToolCallsCodeObjectImplCopyWithImpl<$Res>
+    extends _$RunStepDeltaStepDetailsToolCallsCopyWithImpl<$Res,
+        _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl>
+    implements _$$RunStepDeltaStepDetailsToolCallsCodeObjectImplCopyWith<$Res> {
+  __$$RunStepDeltaStepDetailsToolCallsCodeObjectImplCopyWithImpl(
+      _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl _value,
+      $Res Function(_$RunStepDeltaStepDetailsToolCallsCodeObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+    Object? id = freezed,
+    Object? type = null,
+    Object? codeInterpreter = freezed,
+  }) {
+    return _then(_$RunStepDeltaStepDetailsToolCallsCodeObjectImpl(
+      index: null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      codeInterpreter: freezed == codeInterpreter
+          ? _value.codeInterpreter
+          : codeInterpreter // ignore: cast_nullable_to_non_nullable
+              as RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter?,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith<$Res>?
+      get codeInterpreter {
+    if (_value.codeInterpreter == null) {
+      return null;
+    }
+
+    return $RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith<
+        $Res>(_value.codeInterpreter!, (value) {
+      return _then(_value.copyWith(codeInterpreter: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
+    extends RunStepDeltaStepDetailsToolCallsCodeObject {
+  const _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl(
+      {required this.index,
+      @JsonKey(includeIfNull: false) this.id,
+      required this.type,
+      @JsonKey(name: 'code_interpreter', includeIfNull: false)
+      this.codeInterpreter})
+      : super._();
+
+  factory _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDeltaStepDetailsToolCallsCodeObjectImplFromJson(json);
+
+  /// The index of the tool call in the tool calls array.
+  @override
+  final int index;
+
+  /// The ID of the tool call.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? id;
+
+  /// Always `code_interpreter`.
+  @override
+  final String type;
+
+  /// The Code Interpreter tool call definition. - outputs
+  @override
+  @JsonKey(name: 'code_interpreter', includeIfNull: false)
+  final RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter?
+      codeInterpreter;
+
+  @override
+  String toString() {
+    return 'RunStepDeltaStepDetailsToolCalls.codeInterpreter(index: $index, id: $id, type: $type, codeInterpreter: $codeInterpreter)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl &&
+            (identical(other.index, index) || other.index == index) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.codeInterpreter, codeInterpreter) ||
+                other.codeInterpreter == codeInterpreter));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, index, id, type, codeInterpreter);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDeltaStepDetailsToolCallsCodeObjectImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl>
+      get copyWith =>
+          __$$RunStepDeltaStepDetailsToolCallsCodeObjectImplCopyWithImpl<
+                  _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(name: 'code_interpreter', includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter?
+                codeInterpreter)
+        codeInterpreter,
+    required TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)
+        retrieval,
+    required TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsFunction? function)
+        function,
+  }) {
+    return codeInterpreter(index, id, type, this.codeInterpreter);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(name: 'code_interpreter', includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter?
+                codeInterpreter)?
+        codeInterpreter,
+    TResult? Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)?
+        retrieval,
+    TResult? Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsFunction? function)?
+        function,
+  }) {
+    return codeInterpreter?.call(index, id, type, this.codeInterpreter);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(name: 'code_interpreter', includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter?
+                codeInterpreter)?
+        codeInterpreter,
+    TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)?
+        retrieval,
+    TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsFunction? function)?
+        function,
+    required TResult orElse(),
+  }) {
+    if (codeInterpreter != null) {
+      return codeInterpreter(index, id, type, this.codeInterpreter);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)
+        codeInterpreter,
+    required TResult Function(
+            RunStepDeltaStepDetailsToolCallsRetrievalObject value)
+        retrieval,
+    required TResult Function(
+            RunStepDeltaStepDetailsToolCallsFunctionObject value)
+        function,
+  }) {
+    return codeInterpreter(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
+        codeInterpreter,
+    TResult? Function(RunStepDeltaStepDetailsToolCallsRetrievalObject value)?
+        retrieval,
+    TResult? Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
+        function,
+  }) {
+    return codeInterpreter?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
+        codeInterpreter,
+    TResult Function(RunStepDeltaStepDetailsToolCallsRetrievalObject value)?
+        retrieval,
+    TResult Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
+        function,
+    required TResult orElse(),
+  }) {
+    if (codeInterpreter != null) {
+      return codeInterpreter(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDeltaStepDetailsToolCallsCodeObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunStepDeltaStepDetailsToolCallsCodeObject
+    extends RunStepDeltaStepDetailsToolCalls {
+  const factory RunStepDeltaStepDetailsToolCallsCodeObject(
+      {required final int index,
+      @JsonKey(includeIfNull: false) final String? id,
+      required final String type,
+      @JsonKey(name: 'code_interpreter', includeIfNull: false)
+      final RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter?
+          codeInterpreter}) = _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl;
+  const RunStepDeltaStepDetailsToolCallsCodeObject._() : super._();
+
+  factory RunStepDeltaStepDetailsToolCallsCodeObject.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl.fromJson;
+
+  @override
+
+  /// The index of the tool call in the tool calls array.
+  int get index;
+  @override
+
+  /// The ID of the tool call.
+  @JsonKey(includeIfNull: false)
+  String? get id;
+  @override
+
+  /// Always `code_interpreter`.
+  String get type;
+
+  /// The Code Interpreter tool call definition. - outputs
+  @JsonKey(name: 'code_interpreter', includeIfNull: false)
+  RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter?
+      get codeInterpreter;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDeltaStepDetailsToolCallsCodeObjectImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWith<
+    $Res> implements $RunStepDeltaStepDetailsToolCallsCopyWith<$Res> {
+  factory _$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWith(
+          _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl value,
+          $Res Function(_$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl)
+              then) =
+      __$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int index,
+      @JsonKey(includeIfNull: false) String? id,
+      String type,
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval});
+}
+
+/// @nodoc
+class __$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWithImpl<$Res>
+    extends _$RunStepDeltaStepDetailsToolCallsCopyWithImpl<$Res,
+        _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl>
+    implements
+        _$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWith<$Res> {
+  __$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWithImpl(
+      _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl _value,
+      $Res Function(_$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+    Object? id = freezed,
+    Object? type = null,
+    Object? retrieval = freezed,
+  }) {
+    return _then(_$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl(
+      index: null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      retrieval: freezed == retrieval
+          ? _value._retrieval
+          : retrieval // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl
+    extends RunStepDeltaStepDetailsToolCallsRetrievalObject {
+  const _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl(
+      {required this.index,
+      @JsonKey(includeIfNull: false) this.id,
+      required this.type,
+      @JsonKey(includeIfNull: false) final Map<String, dynamic>? retrieval})
+      : _retrieval = retrieval,
+        super._();
+
+  factory _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplFromJson(json);
+
+  /// The index of the tool call in the tool calls array.
+  @override
+  final int index;
+
+  /// The ID of the tool call object.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? id;
+
+  /// Always `retrieval`.
+  @override
+  final String type;
+
+  /// For now, this is always going to be an empty object.
+  final Map<String, dynamic>? _retrieval;
+
+  /// For now, this is always going to be an empty object.
+  @override
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get retrieval {
+    final value = _retrieval;
+    if (value == null) return null;
+    if (_retrieval is EqualUnmodifiableMapView) return _retrieval;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  @override
+  String toString() {
+    return 'RunStepDeltaStepDetailsToolCalls.retrieval(index: $index, id: $id, type: $type, retrieval: $retrieval)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl &&
+            (identical(other.index, index) || other.index == index) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type) &&
+            const DeepCollectionEquality()
+                .equals(other._retrieval, _retrieval));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, index, id, type,
+      const DeepCollectionEquality().hash(_retrieval));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl>
+      get copyWith =>
+          __$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWithImpl<
+                  _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(name: 'code_interpreter', includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter?
+                codeInterpreter)
+        codeInterpreter,
+    required TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)
+        retrieval,
+    required TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsFunction? function)
+        function,
+  }) {
+    return retrieval(index, id, type, this.retrieval);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(name: 'code_interpreter', includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter?
+                codeInterpreter)?
+        codeInterpreter,
+    TResult? Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)?
+        retrieval,
+    TResult? Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsFunction? function)?
+        function,
+  }) {
+    return retrieval?.call(index, id, type, this.retrieval);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(name: 'code_interpreter', includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter?
+                codeInterpreter)?
+        codeInterpreter,
+    TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)?
+        retrieval,
+    TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsFunction? function)?
+        function,
+    required TResult orElse(),
+  }) {
+    if (retrieval != null) {
+      return retrieval(index, id, type, this.retrieval);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)
+        codeInterpreter,
+    required TResult Function(
+            RunStepDeltaStepDetailsToolCallsRetrievalObject value)
+        retrieval,
+    required TResult Function(
+            RunStepDeltaStepDetailsToolCallsFunctionObject value)
+        function,
+  }) {
+    return retrieval(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
+        codeInterpreter,
+    TResult? Function(RunStepDeltaStepDetailsToolCallsRetrievalObject value)?
+        retrieval,
+    TResult? Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
+        function,
+  }) {
+    return retrieval?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
+        codeInterpreter,
+    TResult Function(RunStepDeltaStepDetailsToolCallsRetrievalObject value)?
+        retrieval,
+    TResult Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
+        function,
+    required TResult orElse(),
+  }) {
+    if (retrieval != null) {
+      return retrieval(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunStepDeltaStepDetailsToolCallsRetrievalObject
+    extends RunStepDeltaStepDetailsToolCalls {
+  const factory RunStepDeltaStepDetailsToolCallsRetrievalObject(
+          {required final int index,
+          @JsonKey(includeIfNull: false) final String? id,
+          required final String type,
+          @JsonKey(includeIfNull: false)
+          final Map<String, dynamic>? retrieval}) =
+      _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl;
+  const RunStepDeltaStepDetailsToolCallsRetrievalObject._() : super._();
+
+  factory RunStepDeltaStepDetailsToolCallsRetrievalObject.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl.fromJson;
+
+  @override
+
+  /// The index of the tool call in the tool calls array.
+  int get index;
+  @override
+
+  /// The ID of the tool call object.
+  @JsonKey(includeIfNull: false)
+  String? get id;
+  @override
+
+  /// Always `retrieval`.
+  String get type;
+
+  /// For now, this is always going to be an empty object.
+  @JsonKey(includeIfNull: false)
+  Map<String, dynamic>? get retrieval;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplCopyWith<
+    $Res> implements $RunStepDeltaStepDetailsToolCallsCopyWith<$Res> {
+  factory _$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplCopyWith(
+          _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl value,
+          $Res Function(_$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl)
+              then) =
+      __$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int index,
+      @JsonKey(includeIfNull: false) String? id,
+      String type,
+      @JsonKey(includeIfNull: false)
+      RunStepDeltaStepDetailsToolCallsFunction? function});
+
+  $RunStepDeltaStepDetailsToolCallsFunctionCopyWith<$Res>? get function;
+}
+
+/// @nodoc
+class __$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplCopyWithImpl<$Res>
+    extends _$RunStepDeltaStepDetailsToolCallsCopyWithImpl<$Res,
+        _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl>
+    implements
+        _$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplCopyWith<$Res> {
+  __$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplCopyWithImpl(
+      _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl _value,
+      $Res Function(_$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+    Object? id = freezed,
+    Object? type = null,
+    Object? function = freezed,
+  }) {
+    return _then(_$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl(
+      index: null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      function: freezed == function
+          ? _value.function
+          : function // ignore: cast_nullable_to_non_nullable
+              as RunStepDeltaStepDetailsToolCallsFunction?,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunStepDeltaStepDetailsToolCallsFunctionCopyWith<$Res>? get function {
+    if (_value.function == null) {
+      return null;
+    }
+
+    return $RunStepDeltaStepDetailsToolCallsFunctionCopyWith<$Res>(
+        _value.function!, (value) {
+      return _then(_value.copyWith(function: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
+    extends RunStepDeltaStepDetailsToolCallsFunctionObject {
+  const _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl(
+      {required this.index,
+      @JsonKey(includeIfNull: false) this.id,
+      required this.type,
+      @JsonKey(includeIfNull: false) this.function})
+      : super._();
+
+  factory _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplFromJson(json);
+
+  /// The index of the tool call in the tool calls array.
+  @override
+  final int index;
+
+  /// The ID of the tool call object.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? id;
+
+  /// Always `function`.
+  @override
+  final String type;
+
+  /// The definition of the function that was called.
+  @override
+  @JsonKey(includeIfNull: false)
+  final RunStepDeltaStepDetailsToolCallsFunction? function;
+
+  @override
+  String toString() {
+    return 'RunStepDeltaStepDetailsToolCalls.function(index: $index, id: $id, type: $type, function: $function)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl &&
+            (identical(other.index, index) || other.index == index) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.function, function) ||
+                other.function == function));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, index, id, type, function);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl>
+      get copyWith =>
+          __$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplCopyWithImpl<
+                  _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(name: 'code_interpreter', includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter?
+                codeInterpreter)
+        codeInterpreter,
+    required TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)
+        retrieval,
+    required TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsFunction? function)
+        function,
+  }) {
+    return function(index, id, type, this.function);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(name: 'code_interpreter', includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter?
+                codeInterpreter)?
+        codeInterpreter,
+    TResult? Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)?
+        retrieval,
+    TResult? Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsFunction? function)?
+        function,
+  }) {
+    return function?.call(index, id, type, this.function);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(name: 'code_interpreter', includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter?
+                codeInterpreter)?
+        codeInterpreter,
+    TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)?
+        retrieval,
+    TResult Function(
+            int index,
+            @JsonKey(includeIfNull: false) String? id,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsFunction? function)?
+        function,
+    required TResult orElse(),
+  }) {
+    if (function != null) {
+      return function(index, id, type, this.function);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)
+        codeInterpreter,
+    required TResult Function(
+            RunStepDeltaStepDetailsToolCallsRetrievalObject value)
+        retrieval,
+    required TResult Function(
+            RunStepDeltaStepDetailsToolCallsFunctionObject value)
+        function,
+  }) {
+    return function(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
+        codeInterpreter,
+    TResult? Function(RunStepDeltaStepDetailsToolCallsRetrievalObject value)?
+        retrieval,
+    TResult? Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
+        function,
+  }) {
+    return function?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
+        codeInterpreter,
+    TResult Function(RunStepDeltaStepDetailsToolCallsRetrievalObject value)?
+        retrieval,
+    TResult Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
+        function,
+    required TResult orElse(),
+  }) {
+    if (function != null) {
+      return function(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunStepDeltaStepDetailsToolCallsFunctionObject
+    extends RunStepDeltaStepDetailsToolCalls {
+  const factory RunStepDeltaStepDetailsToolCallsFunctionObject(
+          {required final int index,
+          @JsonKey(includeIfNull: false) final String? id,
+          required final String type,
+          @JsonKey(includeIfNull: false)
+          final RunStepDeltaStepDetailsToolCallsFunction? function}) =
+      _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl;
+  const RunStepDeltaStepDetailsToolCallsFunctionObject._() : super._();
+
+  factory RunStepDeltaStepDetailsToolCallsFunctionObject.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl.fromJson;
+
+  @override
+
+  /// The index of the tool call in the tool calls array.
+  int get index;
+  @override
+
+  /// The ID of the tool call object.
+  @JsonKey(includeIfNull: false)
+  String? get id;
+  @override
+
+  /// Always `function`.
+  String get type;
+
+  /// The definition of the function that was called.
+  @JsonKey(includeIfNull: false)
+  RunStepDeltaStepDetailsToolCallsFunction? get function;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RunStepDeltaStepDetailsToolCallsFunction
+    _$RunStepDeltaStepDetailsToolCallsFunctionFromJson(
+        Map<String, dynamic> json) {
+  return _RunStepDeltaStepDetailsToolCallsFunction.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunStepDeltaStepDetailsToolCallsFunction {
+  /// The name of the function.
+  @JsonKey(includeIfNull: false)
+  String? get name => throw _privateConstructorUsedError;
+
+  /// The arguments passed to the function.
+  @JsonKey(includeIfNull: false)
+  String? get arguments => throw _privateConstructorUsedError;
+
+  /// The output of the function. This will be `null` if the outputs have not been [submitted](https://platform.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
+  @JsonKey(includeIfNull: false)
+  String? get output => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunStepDeltaStepDetailsToolCallsFunctionCopyWith<
+          RunStepDeltaStepDetailsToolCallsFunction>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDeltaStepDetailsToolCallsFunctionCopyWith<$Res> {
+  factory $RunStepDeltaStepDetailsToolCallsFunctionCopyWith(
+          RunStepDeltaStepDetailsToolCallsFunction value,
+          $Res Function(RunStepDeltaStepDetailsToolCallsFunction) then) =
+      _$RunStepDeltaStepDetailsToolCallsFunctionCopyWithImpl<$Res,
+          RunStepDeltaStepDetailsToolCallsFunction>;
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? name,
+      @JsonKey(includeIfNull: false) String? arguments,
+      @JsonKey(includeIfNull: false) String? output});
+}
+
+/// @nodoc
+class _$RunStepDeltaStepDetailsToolCallsFunctionCopyWithImpl<$Res,
+        $Val extends RunStepDeltaStepDetailsToolCallsFunction>
+    implements $RunStepDeltaStepDetailsToolCallsFunctionCopyWith<$Res> {
+  _$RunStepDeltaStepDetailsToolCallsFunctionCopyWithImpl(
+      this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = freezed,
+    Object? arguments = freezed,
+    Object? output = freezed,
+  }) {
+    return _then(_value.copyWith(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      arguments: freezed == arguments
+          ? _value.arguments
+          : arguments // ignore: cast_nullable_to_non_nullable
+              as String?,
+      output: freezed == output
+          ? _value.output
+          : output // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepDeltaStepDetailsToolCallsFunctionImplCopyWith<$Res>
+    implements $RunStepDeltaStepDetailsToolCallsFunctionCopyWith<$Res> {
+  factory _$$RunStepDeltaStepDetailsToolCallsFunctionImplCopyWith(
+          _$RunStepDeltaStepDetailsToolCallsFunctionImpl value,
+          $Res Function(_$RunStepDeltaStepDetailsToolCallsFunctionImpl) then) =
+      __$$RunStepDeltaStepDetailsToolCallsFunctionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? name,
+      @JsonKey(includeIfNull: false) String? arguments,
+      @JsonKey(includeIfNull: false) String? output});
+}
+
+/// @nodoc
+class __$$RunStepDeltaStepDetailsToolCallsFunctionImplCopyWithImpl<$Res>
+    extends _$RunStepDeltaStepDetailsToolCallsFunctionCopyWithImpl<$Res,
+        _$RunStepDeltaStepDetailsToolCallsFunctionImpl>
+    implements _$$RunStepDeltaStepDetailsToolCallsFunctionImplCopyWith<$Res> {
+  __$$RunStepDeltaStepDetailsToolCallsFunctionImplCopyWithImpl(
+      _$RunStepDeltaStepDetailsToolCallsFunctionImpl _value,
+      $Res Function(_$RunStepDeltaStepDetailsToolCallsFunctionImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = freezed,
+    Object? arguments = freezed,
+    Object? output = freezed,
+  }) {
+    return _then(_$RunStepDeltaStepDetailsToolCallsFunctionImpl(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      arguments: freezed == arguments
+          ? _value.arguments
+          : arguments // ignore: cast_nullable_to_non_nullable
+              as String?,
+      output: freezed == output
+          ? _value.output
+          : output // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDeltaStepDetailsToolCallsFunctionImpl
+    extends _RunStepDeltaStepDetailsToolCallsFunction {
+  const _$RunStepDeltaStepDetailsToolCallsFunctionImpl(
+      {@JsonKey(includeIfNull: false) this.name,
+      @JsonKey(includeIfNull: false) this.arguments,
+      @JsonKey(includeIfNull: false) this.output})
+      : super._();
+
+  factory _$RunStepDeltaStepDetailsToolCallsFunctionImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDeltaStepDetailsToolCallsFunctionImplFromJson(json);
+
+  /// The name of the function.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? name;
+
+  /// The arguments passed to the function.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? arguments;
+
+  /// The output of the function. This will be `null` if the outputs have not been [submitted](https://platform.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? output;
+
+  @override
+  String toString() {
+    return 'RunStepDeltaStepDetailsToolCallsFunction(name: $name, arguments: $arguments, output: $output)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepDeltaStepDetailsToolCallsFunctionImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.arguments, arguments) ||
+                other.arguments == arguments) &&
+            (identical(other.output, output) || other.output == output));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, name, arguments, output);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDeltaStepDetailsToolCallsFunctionImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsFunctionImpl>
+      get copyWith =>
+          __$$RunStepDeltaStepDetailsToolCallsFunctionImplCopyWithImpl<
+              _$RunStepDeltaStepDetailsToolCallsFunctionImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDeltaStepDetailsToolCallsFunctionImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunStepDeltaStepDetailsToolCallsFunction
+    extends RunStepDeltaStepDetailsToolCallsFunction {
+  const factory _RunStepDeltaStepDetailsToolCallsFunction(
+          {@JsonKey(includeIfNull: false) final String? name,
+          @JsonKey(includeIfNull: false) final String? arguments,
+          @JsonKey(includeIfNull: false) final String? output}) =
+      _$RunStepDeltaStepDetailsToolCallsFunctionImpl;
+  const _RunStepDeltaStepDetailsToolCallsFunction._() : super._();
+
+  factory _RunStepDeltaStepDetailsToolCallsFunction.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDeltaStepDetailsToolCallsFunctionImpl.fromJson;
+
+  @override
+
+  /// The name of the function.
+  @JsonKey(includeIfNull: false)
+  String? get name;
+  @override
+
+  /// The arguments passed to the function.
+  @JsonKey(includeIfNull: false)
+  String? get arguments;
+  @override
+
+  /// The output of the function. This will be `null` if the outputs have not been [submitted](https://platform.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
+  @JsonKey(includeIfNull: false)
+  String? get output;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDeltaStepDetailsToolCallsFunctionImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsFunctionImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 RunStepDetailsToolCallsCodeOutput _$RunStepDetailsToolCallsCodeOutputFromJson(
     Map<String, dynamic> json) {
   switch (json['type']) {
@@ -40572,35 +46794,27 @@ RunStepDetailsToolCallsCodeOutput _$RunStepDetailsToolCallsCodeOutputFromJson(
 /// @nodoc
 mixin _$RunStepDetailsToolCallsCodeOutput {
   /// Always `logs`.
-  Enum get type => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String type, String logs) logs,
     required TResult Function(
-            RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs)
-        logs,
-    required TResult Function(
-            RunStepDetailsToolCallsCodeOutputImageObjectType type,
-            RunStepDetailsToolCallsCodeOutputImage image)
+            String type, RunStepDetailsToolCallsCodeOutputImage image)
         image,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type, String logs)? logs,
     TResult? Function(
-            RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs)?
-        logs,
-    TResult? Function(RunStepDetailsToolCallsCodeOutputImageObjectType type,
-            RunStepDetailsToolCallsCodeOutputImage image)?
+            String type, RunStepDetailsToolCallsCodeOutputImage image)?
         image,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs)?
-        logs,
-    TResult Function(RunStepDetailsToolCallsCodeOutputImageObjectType type,
-            RunStepDetailsToolCallsCodeOutputImage image)?
+    TResult Function(String type, String logs)? logs,
+    TResult Function(String type, RunStepDetailsToolCallsCodeOutputImage image)?
         image,
     required TResult orElse(),
   }) =>
@@ -40629,6 +46843,9 @@ mixin _$RunStepDetailsToolCallsCodeOutput {
   }) =>
       throw _privateConstructorUsedError;
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunStepDetailsToolCallsCodeOutputCopyWith<RunStepDetailsToolCallsCodeOutput>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -40638,6 +46855,8 @@ abstract class $RunStepDetailsToolCallsCodeOutputCopyWith<$Res> {
           $Res Function(RunStepDetailsToolCallsCodeOutput) then) =
       _$RunStepDetailsToolCallsCodeOutputCopyWithImpl<$Res,
           RunStepDetailsToolCallsCodeOutput>;
+  @useResult
+  $Res call({String type});
 }
 
 /// @nodoc
@@ -40650,19 +46869,32 @@ class _$RunStepDetailsToolCallsCodeOutputCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$RunStepDetailsToolCallsCodeOutputLogsObjectImplCopyWith<
-    $Res> {
+abstract class _$$RunStepDetailsToolCallsCodeOutputLogsObjectImplCopyWith<$Res>
+    implements $RunStepDetailsToolCallsCodeOutputCopyWith<$Res> {
   factory _$$RunStepDetailsToolCallsCodeOutputLogsObjectImplCopyWith(
           _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl value,
           $Res Function(_$RunStepDetailsToolCallsCodeOutputLogsObjectImpl)
               then) =
       __$$RunStepDetailsToolCallsCodeOutputLogsObjectImplCopyWithImpl<$Res>;
+  @override
   @useResult
-  $Res call(
-      {RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs});
+  $Res call({String type, String logs});
 }
 
 /// @nodoc
@@ -40686,7 +46918,7 @@ class __$$RunStepDetailsToolCallsCodeOutputLogsObjectImplCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as RunStepDetailsToolCallsCodeOutputLogsObjectType,
+              as String,
       logs: null == logs
           ? _value.logs
           : logs // ignore: cast_nullable_to_non_nullable
@@ -40709,7 +46941,7 @@ class _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl
 
   /// Always `logs`.
   @override
-  final RunStepDetailsToolCallsCodeOutputLogsObjectType type;
+  final String type;
 
   /// The text output from the Code Interpreter tool call.
   @override
@@ -40746,12 +46978,9 @@ class _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String type, String logs) logs,
     required TResult Function(
-            RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs)
-        logs,
-    required TResult Function(
-            RunStepDetailsToolCallsCodeOutputImageObjectType type,
-            RunStepDetailsToolCallsCodeOutputImage image)
+            String type, RunStepDetailsToolCallsCodeOutputImage image)
         image,
   }) {
     return logs(type, this.logs);
@@ -40760,11 +46989,9 @@ class _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type, String logs)? logs,
     TResult? Function(
-            RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs)?
-        logs,
-    TResult? Function(RunStepDetailsToolCallsCodeOutputImageObjectType type,
-            RunStepDetailsToolCallsCodeOutputImage image)?
+            String type, RunStepDetailsToolCallsCodeOutputImage image)?
         image,
   }) {
     return logs?.call(type, this.logs);
@@ -40773,11 +47000,8 @@ class _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs)?
-        logs,
-    TResult Function(RunStepDetailsToolCallsCodeOutputImageObjectType type,
-            RunStepDetailsToolCallsCodeOutputImage image)?
+    TResult Function(String type, String logs)? logs,
+    TResult Function(String type, RunStepDetailsToolCallsCodeOutputImage image)?
         image,
     required TResult orElse(),
   }) {
@@ -40833,8 +47057,7 @@ class _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl
 abstract class RunStepDetailsToolCallsCodeOutputLogsObject
     extends RunStepDetailsToolCallsCodeOutput {
   const factory RunStepDetailsToolCallsCodeOutputLogsObject(
-          {required final RunStepDetailsToolCallsCodeOutputLogsObjectType type,
-          required final String logs}) =
+          {required final String type, required final String logs}) =
       _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl;
   const RunStepDetailsToolCallsCodeOutputLogsObject._() : super._();
 
@@ -40845,10 +47068,11 @@ abstract class RunStepDetailsToolCallsCodeOutputLogsObject
   @override
 
   /// Always `logs`.
-  RunStepDetailsToolCallsCodeOutputLogsObjectType get type;
+  String get type;
 
   /// The text output from the Code Interpreter tool call.
   String get logs;
+  @override
   @JsonKey(ignore: true)
   _$$RunStepDetailsToolCallsCodeOutputLogsObjectImplCopyWith<
           _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl>
@@ -40856,17 +47080,16 @@ abstract class RunStepDetailsToolCallsCodeOutputLogsObject
 }
 
 /// @nodoc
-abstract class _$$RunStepDetailsToolCallsCodeOutputImageObjectImplCopyWith<
-    $Res> {
+abstract class _$$RunStepDetailsToolCallsCodeOutputImageObjectImplCopyWith<$Res>
+    implements $RunStepDetailsToolCallsCodeOutputCopyWith<$Res> {
   factory _$$RunStepDetailsToolCallsCodeOutputImageObjectImplCopyWith(
           _$RunStepDetailsToolCallsCodeOutputImageObjectImpl value,
           $Res Function(_$RunStepDetailsToolCallsCodeOutputImageObjectImpl)
               then) =
       __$$RunStepDetailsToolCallsCodeOutputImageObjectImplCopyWithImpl<$Res>;
+  @override
   @useResult
-  $Res call(
-      {RunStepDetailsToolCallsCodeOutputImageObjectType type,
-      RunStepDetailsToolCallsCodeOutputImage image});
+  $Res call({String type, RunStepDetailsToolCallsCodeOutputImage image});
 
   $RunStepDetailsToolCallsCodeOutputImageCopyWith<$Res> get image;
 }
@@ -40892,7 +47115,7 @@ class __$$RunStepDetailsToolCallsCodeOutputImageObjectImplCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as RunStepDetailsToolCallsCodeOutputImageObjectType,
+              as String,
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -40924,7 +47147,7 @@ class _$RunStepDetailsToolCallsCodeOutputImageObjectImpl
 
   /// Always `image`.
   @override
-  final RunStepDetailsToolCallsCodeOutputImageObjectType type;
+  final String type;
 
   /// Code interpreter image output.
   @override
@@ -40961,12 +47184,9 @@ class _$RunStepDetailsToolCallsCodeOutputImageObjectImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String type, String logs) logs,
     required TResult Function(
-            RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs)
-        logs,
-    required TResult Function(
-            RunStepDetailsToolCallsCodeOutputImageObjectType type,
-            RunStepDetailsToolCallsCodeOutputImage image)
+            String type, RunStepDetailsToolCallsCodeOutputImage image)
         image,
   }) {
     return image(type, this.image);
@@ -40975,11 +47195,9 @@ class _$RunStepDetailsToolCallsCodeOutputImageObjectImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type, String logs)? logs,
     TResult? Function(
-            RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs)?
-        logs,
-    TResult? Function(RunStepDetailsToolCallsCodeOutputImageObjectType type,
-            RunStepDetailsToolCallsCodeOutputImage image)?
+            String type, RunStepDetailsToolCallsCodeOutputImage image)?
         image,
   }) {
     return image?.call(type, this.image);
@@ -40988,11 +47206,8 @@ class _$RunStepDetailsToolCallsCodeOutputImageObjectImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            RunStepDetailsToolCallsCodeOutputLogsObjectType type, String logs)?
-        logs,
-    TResult Function(RunStepDetailsToolCallsCodeOutputImageObjectType type,
-            RunStepDetailsToolCallsCodeOutputImage image)?
+    TResult Function(String type, String logs)? logs,
+    TResult Function(String type, RunStepDetailsToolCallsCodeOutputImage image)?
         image,
     required TResult orElse(),
   }) {
@@ -41048,7 +47263,7 @@ class _$RunStepDetailsToolCallsCodeOutputImageObjectImpl
 abstract class RunStepDetailsToolCallsCodeOutputImageObject
     extends RunStepDetailsToolCallsCodeOutput {
   const factory RunStepDetailsToolCallsCodeOutputImageObject(
-          {required final RunStepDetailsToolCallsCodeOutputImageObjectType type,
+          {required final String type,
           required final RunStepDetailsToolCallsCodeOutputImage image}) =
       _$RunStepDetailsToolCallsCodeOutputImageObjectImpl;
   const RunStepDetailsToolCallsCodeOutputImageObject._() : super._();
@@ -41060,12 +47275,2661 @@ abstract class RunStepDetailsToolCallsCodeOutputImageObject
   @override
 
   /// Always `image`.
-  RunStepDetailsToolCallsCodeOutputImageObjectType get type;
+  String get type;
 
   /// Code interpreter image output.
   RunStepDetailsToolCallsCodeOutputImage get image;
+  @override
   @JsonKey(ignore: true)
   _$$RunStepDetailsToolCallsCodeOutputImageObjectImplCopyWith<
           _$RunStepDetailsToolCallsCodeOutputImageObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+RunStepDeltaStepDetailsToolCallsCodeOutput
+    _$RunStepDeltaStepDetailsToolCallsCodeOutputFromJson(
+        Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'logs':
+      return RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject.fromJson(
+          json);
+    case 'image':
+      return RunStepDeltaStepDetailsToolCallsCodeOutputImageObject.fromJson(
+          json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'type',
+          'RunStepDeltaStepDetailsToolCallsCodeOutput',
+          'Invalid union type "${json['type']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$RunStepDeltaStepDetailsToolCallsCodeOutput {
+  /// The index of the output in the outputs array.
+  int get index => throw _privateConstructorUsedError;
+
+  /// Always `logs`.
+  String get type => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            int index, String type, @JsonKey(includeIfNull: false) String? logs)
+        logs,
+    required TResult Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeOutputImage? image)
+        image,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? logs)?
+        logs,
+    TResult? Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeOutputImage? image)?
+        image,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? logs)?
+        logs,
+    TResult Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeOutputImage? image)?
+        image,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject value)
+        logs,
+    required TResult Function(
+            RunStepDeltaStepDetailsToolCallsCodeOutputImageObject value)
+        image,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(
+            RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject value)?
+        logs,
+    TResult? Function(
+            RunStepDeltaStepDetailsToolCallsCodeOutputImageObject value)?
+        image,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(
+            RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject value)?
+        logs,
+    TResult Function(
+            RunStepDeltaStepDetailsToolCallsCodeOutputImageObject value)?
+        image,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunStepDeltaStepDetailsToolCallsCodeOutputCopyWith<
+          RunStepDeltaStepDetailsToolCallsCodeOutput>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunStepDeltaStepDetailsToolCallsCodeOutputCopyWith<$Res> {
+  factory $RunStepDeltaStepDetailsToolCallsCodeOutputCopyWith(
+          RunStepDeltaStepDetailsToolCallsCodeOutput value,
+          $Res Function(RunStepDeltaStepDetailsToolCallsCodeOutput) then) =
+      _$RunStepDeltaStepDetailsToolCallsCodeOutputCopyWithImpl<$Res,
+          RunStepDeltaStepDetailsToolCallsCodeOutput>;
+  @useResult
+  $Res call({int index, String type});
+}
+
+/// @nodoc
+class _$RunStepDeltaStepDetailsToolCallsCodeOutputCopyWithImpl<$Res,
+        $Val extends RunStepDeltaStepDetailsToolCallsCodeOutput>
+    implements $RunStepDeltaStepDetailsToolCallsCodeOutputCopyWith<$Res> {
+  _$RunStepDeltaStepDetailsToolCallsCodeOutputCopyWithImpl(
+      this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      index: null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImplCopyWith<
+    $Res> implements $RunStepDeltaStepDetailsToolCallsCodeOutputCopyWith<$Res> {
+  factory _$$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImplCopyWith(
+          _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl value,
+          $Res Function(
+                  _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl)
+              then) =
+      __$$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImplCopyWithImpl<
+          $Res>;
+  @override
+  @useResult
+  $Res call(
+      {int index, String type, @JsonKey(includeIfNull: false) String? logs});
+}
+
+/// @nodoc
+class __$$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImplCopyWithImpl<
+        $Res>
+    extends _$RunStepDeltaStepDetailsToolCallsCodeOutputCopyWithImpl<$Res,
+        _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl>
+    implements
+        _$$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImplCopyWith<
+            $Res> {
+  __$$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImplCopyWithImpl(
+      _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl _value,
+      $Res Function(_$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+    Object? type = null,
+    Object? logs = freezed,
+  }) {
+    return _then(_$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl(
+      index: null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      logs: freezed == logs
+          ? _value.logs
+          : logs // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl
+    extends RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject {
+  const _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl(
+      {required this.index,
+      required this.type,
+      @JsonKey(includeIfNull: false) this.logs})
+      : super._();
+
+  factory _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImplFromJson(json);
+
+  /// The index of the output in the outputs array.
+  @override
+  final int index;
+
+  /// Always `logs`.
+  @override
+  final String type;
+
+  /// The text output from the Code Interpreter tool call.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? logs;
+
+  @override
+  String toString() {
+    return 'RunStepDeltaStepDetailsToolCallsCodeOutput.logs(index: $index, type: $type, logs: $logs)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other
+                is _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl &&
+            (identical(other.index, index) || other.index == index) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.logs, logs) || other.logs == logs));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, index, type, logs);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl>
+      get copyWith =>
+          __$$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImplCopyWithImpl<
+                  _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            int index, String type, @JsonKey(includeIfNull: false) String? logs)
+        logs,
+    required TResult Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeOutputImage? image)
+        image,
+  }) {
+    return logs(index, type, this.logs);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? logs)?
+        logs,
+    TResult? Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeOutputImage? image)?
+        image,
+  }) {
+    return logs?.call(index, type, this.logs);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? logs)?
+        logs,
+    TResult Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeOutputImage? image)?
+        image,
+    required TResult orElse(),
+  }) {
+    if (logs != null) {
+      return logs(index, type, this.logs);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject value)
+        logs,
+    required TResult Function(
+            RunStepDeltaStepDetailsToolCallsCodeOutputImageObject value)
+        image,
+  }) {
+    return logs(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(
+            RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject value)?
+        logs,
+    TResult? Function(
+            RunStepDeltaStepDetailsToolCallsCodeOutputImageObject value)?
+        image,
+  }) {
+    return logs?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(
+            RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject value)?
+        logs,
+    TResult Function(
+            RunStepDeltaStepDetailsToolCallsCodeOutputImageObject value)?
+        image,
+    required TResult orElse(),
+  }) {
+    if (logs != null) {
+      return logs(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject
+    extends RunStepDeltaStepDetailsToolCallsCodeOutput {
+  const factory RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject(
+          {required final int index,
+          required final String type,
+          @JsonKey(includeIfNull: false) final String? logs}) =
+      _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl;
+  const RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject._() : super._();
+
+  factory RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl.fromJson;
+
+  @override
+
+  /// The index of the output in the outputs array.
+  int get index;
+  @override
+
+  /// Always `logs`.
+  String get type;
+
+  /// The text output from the Code Interpreter tool call.
+  @JsonKey(includeIfNull: false)
+  String? get logs;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplCopyWith<
+    $Res> implements $RunStepDeltaStepDetailsToolCallsCodeOutputCopyWith<$Res> {
+  factory _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplCopyWith(
+          _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl value,
+          $Res Function(
+                  _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl)
+              then) =
+      __$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplCopyWithImpl<
+          $Res>;
+  @override
+  @useResult
+  $Res call(
+      {int index,
+      String type,
+      @JsonKey(includeIfNull: false)
+      RunStepDeltaStepDetailsToolCallsCodeOutputImage? image});
+
+  $RunStepDeltaStepDetailsToolCallsCodeOutputImageCopyWith<$Res>? get image;
+}
+
+/// @nodoc
+class __$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplCopyWithImpl<
+        $Res>
+    extends _$RunStepDeltaStepDetailsToolCallsCodeOutputCopyWithImpl<$Res,
+        _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl>
+    implements
+        _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplCopyWith<
+            $Res> {
+  __$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplCopyWithImpl(
+      _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl _value,
+      $Res Function(_$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+    Object? type = null,
+    Object? image = freezed,
+  }) {
+    return _then(_$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl(
+      index: null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as RunStepDeltaStepDetailsToolCallsCodeOutputImage?,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunStepDeltaStepDetailsToolCallsCodeOutputImageCopyWith<$Res>? get image {
+    if (_value.image == null) {
+      return null;
+    }
+
+    return $RunStepDeltaStepDetailsToolCallsCodeOutputImageCopyWith<$Res>(
+        _value.image!, (value) {
+      return _then(_value.copyWith(image: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl
+    extends RunStepDeltaStepDetailsToolCallsCodeOutputImageObject {
+  const _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl(
+      {required this.index,
+      required this.type,
+      @JsonKey(includeIfNull: false) this.image})
+      : super._();
+
+  factory _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplFromJson(
+          json);
+
+  /// The index of the output in the outputs array.
+  @override
+  final int index;
+
+  /// Always `image`.
+  @override
+  final String type;
+
+  /// Code interpreter image output.
+  @override
+  @JsonKey(includeIfNull: false)
+  final RunStepDeltaStepDetailsToolCallsCodeOutputImage? image;
+
+  @override
+  String toString() {
+    return 'RunStepDeltaStepDetailsToolCallsCodeOutput.image(index: $index, type: $type, image: $image)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other
+                is _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl &&
+            (identical(other.index, index) || other.index == index) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.image, image) || other.image == image));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, index, type, image);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl>
+      get copyWith =>
+          __$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplCopyWithImpl<
+                  _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            int index, String type, @JsonKey(includeIfNull: false) String? logs)
+        logs,
+    required TResult Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeOutputImage? image)
+        image,
+  }) {
+    return image(index, type, this.image);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? logs)?
+        logs,
+    TResult? Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeOutputImage? image)?
+        image,
+  }) {
+    return image?.call(index, type, this.image);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int index, String type,
+            @JsonKey(includeIfNull: false) String? logs)?
+        logs,
+    TResult Function(
+            int index,
+            String type,
+            @JsonKey(includeIfNull: false)
+            RunStepDeltaStepDetailsToolCallsCodeOutputImage? image)?
+        image,
+    required TResult orElse(),
+  }) {
+    if (image != null) {
+      return image(index, type, this.image);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject value)
+        logs,
+    required TResult Function(
+            RunStepDeltaStepDetailsToolCallsCodeOutputImageObject value)
+        image,
+  }) {
+    return image(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(
+            RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject value)?
+        logs,
+    TResult? Function(
+            RunStepDeltaStepDetailsToolCallsCodeOutputImageObject value)?
+        image,
+  }) {
+    return image?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(
+            RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject value)?
+        logs,
+    TResult Function(
+            RunStepDeltaStepDetailsToolCallsCodeOutputImageObject value)?
+        image,
+    required TResult orElse(),
+  }) {
+    if (image != null) {
+      return image(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunStepDeltaStepDetailsToolCallsCodeOutputImageObject
+    extends RunStepDeltaStepDetailsToolCallsCodeOutput {
+  const factory RunStepDeltaStepDetailsToolCallsCodeOutputImageObject(
+          {required final int index,
+          required final String type,
+          @JsonKey(includeIfNull: false)
+          final RunStepDeltaStepDetailsToolCallsCodeOutputImage? image}) =
+      _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl;
+  const RunStepDeltaStepDetailsToolCallsCodeOutputImageObject._() : super._();
+
+  factory RunStepDeltaStepDetailsToolCallsCodeOutputImageObject.fromJson(
+          Map<String, dynamic> json) =
+      _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl.fromJson;
+
+  @override
+
+  /// The index of the output in the outputs array.
+  int get index;
+  @override
+
+  /// Always `image`.
+  String get type;
+
+  /// Code interpreter image output.
+  @JsonKey(includeIfNull: false)
+  RunStepDeltaStepDetailsToolCallsCodeOutputImage? get image;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+AssistantStreamEvent _$AssistantStreamEventFromJson(Map<String, dynamic> json) {
+  switch (json['event']) {
+    case 'thread_stream_event':
+      return ThreadStreamEvent.fromJson(json);
+    case 'run_stream_event':
+      return RunStreamEvent.fromJson(json);
+    case 'run_step_stream_event':
+      return RunStepStreamEvent.fromJson(json);
+    case 'run_step_stream_delta_event':
+      return RunStepStreamDeltaEvent.fromJson(json);
+    case 'message_stream_event':
+      return MessageStreamEvent.fromJson(json);
+    case 'message_stream_delta_event':
+      return MessageStreamDeltaEvent.fromJson(json);
+    case 'error_event':
+      return ErrorEvent.fromJson(json);
+    case 'done_event':
+      return DoneEvent.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'event', 'AssistantStreamEvent',
+          'Invalid union type "${json['event']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$AssistantStreamEvent {
+  /// The type of the event.
+  EventType get event => throw _privateConstructorUsedError;
+
+  /// Represents a thread that contains [messages](https://platform.openai.com/docs/api-reference/messages).
+  Object get data => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(EventType event, ThreadObject data)
+        threadStreamEvent,
+    required TResult Function(EventType event, RunObject data) runStreamEvent,
+    required TResult Function(EventType event, RunStepObject data)
+        runStepStreamEvent,
+    required TResult Function(EventType event, RunStepDeltaObject data)
+        runStepStreamDeltaEvent,
+    required TResult Function(EventType event, MessageObject data)
+        messageStreamEvent,
+    required TResult Function(EventType event, MessageDeltaObject data)
+        messageStreamDeltaEvent,
+    required TResult Function(EventType event, Error data) errorEvent,
+    required TResult Function(EventType event, String data) doneEvent,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(EventType event, ThreadObject data)? threadStreamEvent,
+    TResult? Function(EventType event, RunObject data)? runStreamEvent,
+    TResult? Function(EventType event, RunStepObject data)? runStepStreamEvent,
+    TResult? Function(EventType event, RunStepDeltaObject data)?
+        runStepStreamDeltaEvent,
+    TResult? Function(EventType event, MessageObject data)? messageStreamEvent,
+    TResult? Function(EventType event, MessageDeltaObject data)?
+        messageStreamDeltaEvent,
+    TResult? Function(EventType event, Error data)? errorEvent,
+    TResult? Function(EventType event, String data)? doneEvent,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(EventType event, ThreadObject data)? threadStreamEvent,
+    TResult Function(EventType event, RunObject data)? runStreamEvent,
+    TResult Function(EventType event, RunStepObject data)? runStepStreamEvent,
+    TResult Function(EventType event, RunStepDeltaObject data)?
+        runStepStreamDeltaEvent,
+    TResult Function(EventType event, MessageObject data)? messageStreamEvent,
+    TResult Function(EventType event, MessageDeltaObject data)?
+        messageStreamDeltaEvent,
+    TResult Function(EventType event, Error data)? errorEvent,
+    TResult Function(EventType event, String data)? doneEvent,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ThreadStreamEvent value) threadStreamEvent,
+    required TResult Function(RunStreamEvent value) runStreamEvent,
+    required TResult Function(RunStepStreamEvent value) runStepStreamEvent,
+    required TResult Function(RunStepStreamDeltaEvent value)
+        runStepStreamDeltaEvent,
+    required TResult Function(MessageStreamEvent value) messageStreamEvent,
+    required TResult Function(MessageStreamDeltaEvent value)
+        messageStreamDeltaEvent,
+    required TResult Function(ErrorEvent value) errorEvent,
+    required TResult Function(DoneEvent value) doneEvent,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ThreadStreamEvent value)? threadStreamEvent,
+    TResult? Function(RunStreamEvent value)? runStreamEvent,
+    TResult? Function(RunStepStreamEvent value)? runStepStreamEvent,
+    TResult? Function(RunStepStreamDeltaEvent value)? runStepStreamDeltaEvent,
+    TResult? Function(MessageStreamEvent value)? messageStreamEvent,
+    TResult? Function(MessageStreamDeltaEvent value)? messageStreamDeltaEvent,
+    TResult? Function(ErrorEvent value)? errorEvent,
+    TResult? Function(DoneEvent value)? doneEvent,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ThreadStreamEvent value)? threadStreamEvent,
+    TResult Function(RunStreamEvent value)? runStreamEvent,
+    TResult Function(RunStepStreamEvent value)? runStepStreamEvent,
+    TResult Function(RunStepStreamDeltaEvent value)? runStepStreamDeltaEvent,
+    TResult Function(MessageStreamEvent value)? messageStreamEvent,
+    TResult Function(MessageStreamDeltaEvent value)? messageStreamDeltaEvent,
+    TResult Function(ErrorEvent value)? errorEvent,
+    TResult Function(DoneEvent value)? doneEvent,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AssistantStreamEventCopyWith<AssistantStreamEvent> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AssistantStreamEventCopyWith<$Res> {
+  factory $AssistantStreamEventCopyWith(AssistantStreamEvent value,
+          $Res Function(AssistantStreamEvent) then) =
+      _$AssistantStreamEventCopyWithImpl<$Res, AssistantStreamEvent>;
+  @useResult
+  $Res call({EventType event});
+}
+
+/// @nodoc
+class _$AssistantStreamEventCopyWithImpl<$Res,
+        $Val extends AssistantStreamEvent>
+    implements $AssistantStreamEventCopyWith<$Res> {
+  _$AssistantStreamEventCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? event = null,
+  }) {
+    return _then(_value.copyWith(
+      event: null == event
+          ? _value.event
+          : event // ignore: cast_nullable_to_non_nullable
+              as EventType,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ThreadStreamEventImplCopyWith<$Res>
+    implements $AssistantStreamEventCopyWith<$Res> {
+  factory _$$ThreadStreamEventImplCopyWith(_$ThreadStreamEventImpl value,
+          $Res Function(_$ThreadStreamEventImpl) then) =
+      __$$ThreadStreamEventImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({EventType event, ThreadObject data});
+
+  $ThreadObjectCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class __$$ThreadStreamEventImplCopyWithImpl<$Res>
+    extends _$AssistantStreamEventCopyWithImpl<$Res, _$ThreadStreamEventImpl>
+    implements _$$ThreadStreamEventImplCopyWith<$Res> {
+  __$$ThreadStreamEventImplCopyWithImpl(_$ThreadStreamEventImpl _value,
+      $Res Function(_$ThreadStreamEventImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? event = null,
+    Object? data = null,
+  }) {
+    return _then(_$ThreadStreamEventImpl(
+      event: null == event
+          ? _value.event
+          : event // ignore: cast_nullable_to_non_nullable
+              as EventType,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as ThreadObject,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ThreadObjectCopyWith<$Res> get data {
+    return $ThreadObjectCopyWith<$Res>(_value.data, (value) {
+      return _then(_value.copyWith(data: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ThreadStreamEventImpl extends ThreadStreamEvent {
+  const _$ThreadStreamEventImpl({required this.event, required this.data})
+      : super._();
+
+  factory _$ThreadStreamEventImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ThreadStreamEventImplFromJson(json);
+
+  /// The type of the event.
+  @override
+  final EventType event;
+
+  /// Represents a thread that contains [messages](https://platform.openai.com/docs/api-reference/messages).
+  @override
+  final ThreadObject data;
+
+  @override
+  String toString() {
+    return 'AssistantStreamEvent.threadStreamEvent(event: $event, data: $data)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ThreadStreamEventImpl &&
+            (identical(other.event, event) || other.event == event) &&
+            (identical(other.data, data) || other.data == data));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, event, data);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ThreadStreamEventImplCopyWith<_$ThreadStreamEventImpl> get copyWith =>
+      __$$ThreadStreamEventImplCopyWithImpl<_$ThreadStreamEventImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(EventType event, ThreadObject data)
+        threadStreamEvent,
+    required TResult Function(EventType event, RunObject data) runStreamEvent,
+    required TResult Function(EventType event, RunStepObject data)
+        runStepStreamEvent,
+    required TResult Function(EventType event, RunStepDeltaObject data)
+        runStepStreamDeltaEvent,
+    required TResult Function(EventType event, MessageObject data)
+        messageStreamEvent,
+    required TResult Function(EventType event, MessageDeltaObject data)
+        messageStreamDeltaEvent,
+    required TResult Function(EventType event, Error data) errorEvent,
+    required TResult Function(EventType event, String data) doneEvent,
+  }) {
+    return threadStreamEvent(event, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(EventType event, ThreadObject data)? threadStreamEvent,
+    TResult? Function(EventType event, RunObject data)? runStreamEvent,
+    TResult? Function(EventType event, RunStepObject data)? runStepStreamEvent,
+    TResult? Function(EventType event, RunStepDeltaObject data)?
+        runStepStreamDeltaEvent,
+    TResult? Function(EventType event, MessageObject data)? messageStreamEvent,
+    TResult? Function(EventType event, MessageDeltaObject data)?
+        messageStreamDeltaEvent,
+    TResult? Function(EventType event, Error data)? errorEvent,
+    TResult? Function(EventType event, String data)? doneEvent,
+  }) {
+    return threadStreamEvent?.call(event, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(EventType event, ThreadObject data)? threadStreamEvent,
+    TResult Function(EventType event, RunObject data)? runStreamEvent,
+    TResult Function(EventType event, RunStepObject data)? runStepStreamEvent,
+    TResult Function(EventType event, RunStepDeltaObject data)?
+        runStepStreamDeltaEvent,
+    TResult Function(EventType event, MessageObject data)? messageStreamEvent,
+    TResult Function(EventType event, MessageDeltaObject data)?
+        messageStreamDeltaEvent,
+    TResult Function(EventType event, Error data)? errorEvent,
+    TResult Function(EventType event, String data)? doneEvent,
+    required TResult orElse(),
+  }) {
+    if (threadStreamEvent != null) {
+      return threadStreamEvent(event, data);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ThreadStreamEvent value) threadStreamEvent,
+    required TResult Function(RunStreamEvent value) runStreamEvent,
+    required TResult Function(RunStepStreamEvent value) runStepStreamEvent,
+    required TResult Function(RunStepStreamDeltaEvent value)
+        runStepStreamDeltaEvent,
+    required TResult Function(MessageStreamEvent value) messageStreamEvent,
+    required TResult Function(MessageStreamDeltaEvent value)
+        messageStreamDeltaEvent,
+    required TResult Function(ErrorEvent value) errorEvent,
+    required TResult Function(DoneEvent value) doneEvent,
+  }) {
+    return threadStreamEvent(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ThreadStreamEvent value)? threadStreamEvent,
+    TResult? Function(RunStreamEvent value)? runStreamEvent,
+    TResult? Function(RunStepStreamEvent value)? runStepStreamEvent,
+    TResult? Function(RunStepStreamDeltaEvent value)? runStepStreamDeltaEvent,
+    TResult? Function(MessageStreamEvent value)? messageStreamEvent,
+    TResult? Function(MessageStreamDeltaEvent value)? messageStreamDeltaEvent,
+    TResult? Function(ErrorEvent value)? errorEvent,
+    TResult? Function(DoneEvent value)? doneEvent,
+  }) {
+    return threadStreamEvent?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ThreadStreamEvent value)? threadStreamEvent,
+    TResult Function(RunStreamEvent value)? runStreamEvent,
+    TResult Function(RunStepStreamEvent value)? runStepStreamEvent,
+    TResult Function(RunStepStreamDeltaEvent value)? runStepStreamDeltaEvent,
+    TResult Function(MessageStreamEvent value)? messageStreamEvent,
+    TResult Function(MessageStreamDeltaEvent value)? messageStreamDeltaEvent,
+    TResult Function(ErrorEvent value)? errorEvent,
+    TResult Function(DoneEvent value)? doneEvent,
+    required TResult orElse(),
+  }) {
+    if (threadStreamEvent != null) {
+      return threadStreamEvent(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ThreadStreamEventImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ThreadStreamEvent extends AssistantStreamEvent {
+  const factory ThreadStreamEvent(
+      {required final EventType event,
+      required final ThreadObject data}) = _$ThreadStreamEventImpl;
+  const ThreadStreamEvent._() : super._();
+
+  factory ThreadStreamEvent.fromJson(Map<String, dynamic> json) =
+      _$ThreadStreamEventImpl.fromJson;
+
+  @override
+
+  /// The type of the event.
+  EventType get event;
+  @override
+
+  /// Represents a thread that contains [messages](https://platform.openai.com/docs/api-reference/messages).
+  ThreadObject get data;
+  @override
+  @JsonKey(ignore: true)
+  _$$ThreadStreamEventImplCopyWith<_$ThreadStreamEventImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RunStreamEventImplCopyWith<$Res>
+    implements $AssistantStreamEventCopyWith<$Res> {
+  factory _$$RunStreamEventImplCopyWith(_$RunStreamEventImpl value,
+          $Res Function(_$RunStreamEventImpl) then) =
+      __$$RunStreamEventImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({EventType event, RunObject data});
+
+  $RunObjectCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class __$$RunStreamEventImplCopyWithImpl<$Res>
+    extends _$AssistantStreamEventCopyWithImpl<$Res, _$RunStreamEventImpl>
+    implements _$$RunStreamEventImplCopyWith<$Res> {
+  __$$RunStreamEventImplCopyWithImpl(
+      _$RunStreamEventImpl _value, $Res Function(_$RunStreamEventImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? event = null,
+    Object? data = null,
+  }) {
+    return _then(_$RunStreamEventImpl(
+      event: null == event
+          ? _value.event
+          : event // ignore: cast_nullable_to_non_nullable
+              as EventType,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as RunObject,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunObjectCopyWith<$Res> get data {
+    return $RunObjectCopyWith<$Res>(_value.data, (value) {
+      return _then(_value.copyWith(data: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStreamEventImpl extends RunStreamEvent {
+  const _$RunStreamEventImpl({required this.event, required this.data})
+      : super._();
+
+  factory _$RunStreamEventImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RunStreamEventImplFromJson(json);
+
+  /// The type of the event.
+  @override
+  final EventType event;
+
+  /// Represents an execution run on a [thread](https://platform.openai.com/docs/api-reference/threads).
+  @override
+  final RunObject data;
+
+  @override
+  String toString() {
+    return 'AssistantStreamEvent.runStreamEvent(event: $event, data: $data)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStreamEventImpl &&
+            (identical(other.event, event) || other.event == event) &&
+            (identical(other.data, data) || other.data == data));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, event, data);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStreamEventImplCopyWith<_$RunStreamEventImpl> get copyWith =>
+      __$$RunStreamEventImplCopyWithImpl<_$RunStreamEventImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(EventType event, ThreadObject data)
+        threadStreamEvent,
+    required TResult Function(EventType event, RunObject data) runStreamEvent,
+    required TResult Function(EventType event, RunStepObject data)
+        runStepStreamEvent,
+    required TResult Function(EventType event, RunStepDeltaObject data)
+        runStepStreamDeltaEvent,
+    required TResult Function(EventType event, MessageObject data)
+        messageStreamEvent,
+    required TResult Function(EventType event, MessageDeltaObject data)
+        messageStreamDeltaEvent,
+    required TResult Function(EventType event, Error data) errorEvent,
+    required TResult Function(EventType event, String data) doneEvent,
+  }) {
+    return runStreamEvent(event, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(EventType event, ThreadObject data)? threadStreamEvent,
+    TResult? Function(EventType event, RunObject data)? runStreamEvent,
+    TResult? Function(EventType event, RunStepObject data)? runStepStreamEvent,
+    TResult? Function(EventType event, RunStepDeltaObject data)?
+        runStepStreamDeltaEvent,
+    TResult? Function(EventType event, MessageObject data)? messageStreamEvent,
+    TResult? Function(EventType event, MessageDeltaObject data)?
+        messageStreamDeltaEvent,
+    TResult? Function(EventType event, Error data)? errorEvent,
+    TResult? Function(EventType event, String data)? doneEvent,
+  }) {
+    return runStreamEvent?.call(event, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(EventType event, ThreadObject data)? threadStreamEvent,
+    TResult Function(EventType event, RunObject data)? runStreamEvent,
+    TResult Function(EventType event, RunStepObject data)? runStepStreamEvent,
+    TResult Function(EventType event, RunStepDeltaObject data)?
+        runStepStreamDeltaEvent,
+    TResult Function(EventType event, MessageObject data)? messageStreamEvent,
+    TResult Function(EventType event, MessageDeltaObject data)?
+        messageStreamDeltaEvent,
+    TResult Function(EventType event, Error data)? errorEvent,
+    TResult Function(EventType event, String data)? doneEvent,
+    required TResult orElse(),
+  }) {
+    if (runStreamEvent != null) {
+      return runStreamEvent(event, data);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ThreadStreamEvent value) threadStreamEvent,
+    required TResult Function(RunStreamEvent value) runStreamEvent,
+    required TResult Function(RunStepStreamEvent value) runStepStreamEvent,
+    required TResult Function(RunStepStreamDeltaEvent value)
+        runStepStreamDeltaEvent,
+    required TResult Function(MessageStreamEvent value) messageStreamEvent,
+    required TResult Function(MessageStreamDeltaEvent value)
+        messageStreamDeltaEvent,
+    required TResult Function(ErrorEvent value) errorEvent,
+    required TResult Function(DoneEvent value) doneEvent,
+  }) {
+    return runStreamEvent(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ThreadStreamEvent value)? threadStreamEvent,
+    TResult? Function(RunStreamEvent value)? runStreamEvent,
+    TResult? Function(RunStepStreamEvent value)? runStepStreamEvent,
+    TResult? Function(RunStepStreamDeltaEvent value)? runStepStreamDeltaEvent,
+    TResult? Function(MessageStreamEvent value)? messageStreamEvent,
+    TResult? Function(MessageStreamDeltaEvent value)? messageStreamDeltaEvent,
+    TResult? Function(ErrorEvent value)? errorEvent,
+    TResult? Function(DoneEvent value)? doneEvent,
+  }) {
+    return runStreamEvent?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ThreadStreamEvent value)? threadStreamEvent,
+    TResult Function(RunStreamEvent value)? runStreamEvent,
+    TResult Function(RunStepStreamEvent value)? runStepStreamEvent,
+    TResult Function(RunStepStreamDeltaEvent value)? runStepStreamDeltaEvent,
+    TResult Function(MessageStreamEvent value)? messageStreamEvent,
+    TResult Function(MessageStreamDeltaEvent value)? messageStreamDeltaEvent,
+    TResult Function(ErrorEvent value)? errorEvent,
+    TResult Function(DoneEvent value)? doneEvent,
+    required TResult orElse(),
+  }) {
+    if (runStreamEvent != null) {
+      return runStreamEvent(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStreamEventImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunStreamEvent extends AssistantStreamEvent {
+  const factory RunStreamEvent(
+      {required final EventType event,
+      required final RunObject data}) = _$RunStreamEventImpl;
+  const RunStreamEvent._() : super._();
+
+  factory RunStreamEvent.fromJson(Map<String, dynamic> json) =
+      _$RunStreamEventImpl.fromJson;
+
+  @override
+
+  /// The type of the event.
+  EventType get event;
+  @override
+
+  /// Represents an execution run on a [thread](https://platform.openai.com/docs/api-reference/threads).
+  RunObject get data;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStreamEventImplCopyWith<_$RunStreamEventImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RunStepStreamEventImplCopyWith<$Res>
+    implements $AssistantStreamEventCopyWith<$Res> {
+  factory _$$RunStepStreamEventImplCopyWith(_$RunStepStreamEventImpl value,
+          $Res Function(_$RunStepStreamEventImpl) then) =
+      __$$RunStepStreamEventImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({EventType event, RunStepObject data});
+
+  $RunStepObjectCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class __$$RunStepStreamEventImplCopyWithImpl<$Res>
+    extends _$AssistantStreamEventCopyWithImpl<$Res, _$RunStepStreamEventImpl>
+    implements _$$RunStepStreamEventImplCopyWith<$Res> {
+  __$$RunStepStreamEventImplCopyWithImpl(_$RunStepStreamEventImpl _value,
+      $Res Function(_$RunStepStreamEventImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? event = null,
+    Object? data = null,
+  }) {
+    return _then(_$RunStepStreamEventImpl(
+      event: null == event
+          ? _value.event
+          : event // ignore: cast_nullable_to_non_nullable
+              as EventType,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as RunStepObject,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunStepObjectCopyWith<$Res> get data {
+    return $RunStepObjectCopyWith<$Res>(_value.data, (value) {
+      return _then(_value.copyWith(data: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepStreamEventImpl extends RunStepStreamEvent {
+  const _$RunStepStreamEventImpl({required this.event, required this.data})
+      : super._();
+
+  factory _$RunStepStreamEventImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RunStepStreamEventImplFromJson(json);
+
+  /// The type of the event.
+  @override
+  final EventType event;
+
+  /// Represents a step in execution of a run.
+  @override
+  final RunStepObject data;
+
+  @override
+  String toString() {
+    return 'AssistantStreamEvent.runStepStreamEvent(event: $event, data: $data)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepStreamEventImpl &&
+            (identical(other.event, event) || other.event == event) &&
+            (identical(other.data, data) || other.data == data));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, event, data);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepStreamEventImplCopyWith<_$RunStepStreamEventImpl> get copyWith =>
+      __$$RunStepStreamEventImplCopyWithImpl<_$RunStepStreamEventImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(EventType event, ThreadObject data)
+        threadStreamEvent,
+    required TResult Function(EventType event, RunObject data) runStreamEvent,
+    required TResult Function(EventType event, RunStepObject data)
+        runStepStreamEvent,
+    required TResult Function(EventType event, RunStepDeltaObject data)
+        runStepStreamDeltaEvent,
+    required TResult Function(EventType event, MessageObject data)
+        messageStreamEvent,
+    required TResult Function(EventType event, MessageDeltaObject data)
+        messageStreamDeltaEvent,
+    required TResult Function(EventType event, Error data) errorEvent,
+    required TResult Function(EventType event, String data) doneEvent,
+  }) {
+    return runStepStreamEvent(event, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(EventType event, ThreadObject data)? threadStreamEvent,
+    TResult? Function(EventType event, RunObject data)? runStreamEvent,
+    TResult? Function(EventType event, RunStepObject data)? runStepStreamEvent,
+    TResult? Function(EventType event, RunStepDeltaObject data)?
+        runStepStreamDeltaEvent,
+    TResult? Function(EventType event, MessageObject data)? messageStreamEvent,
+    TResult? Function(EventType event, MessageDeltaObject data)?
+        messageStreamDeltaEvent,
+    TResult? Function(EventType event, Error data)? errorEvent,
+    TResult? Function(EventType event, String data)? doneEvent,
+  }) {
+    return runStepStreamEvent?.call(event, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(EventType event, ThreadObject data)? threadStreamEvent,
+    TResult Function(EventType event, RunObject data)? runStreamEvent,
+    TResult Function(EventType event, RunStepObject data)? runStepStreamEvent,
+    TResult Function(EventType event, RunStepDeltaObject data)?
+        runStepStreamDeltaEvent,
+    TResult Function(EventType event, MessageObject data)? messageStreamEvent,
+    TResult Function(EventType event, MessageDeltaObject data)?
+        messageStreamDeltaEvent,
+    TResult Function(EventType event, Error data)? errorEvent,
+    TResult Function(EventType event, String data)? doneEvent,
+    required TResult orElse(),
+  }) {
+    if (runStepStreamEvent != null) {
+      return runStepStreamEvent(event, data);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ThreadStreamEvent value) threadStreamEvent,
+    required TResult Function(RunStreamEvent value) runStreamEvent,
+    required TResult Function(RunStepStreamEvent value) runStepStreamEvent,
+    required TResult Function(RunStepStreamDeltaEvent value)
+        runStepStreamDeltaEvent,
+    required TResult Function(MessageStreamEvent value) messageStreamEvent,
+    required TResult Function(MessageStreamDeltaEvent value)
+        messageStreamDeltaEvent,
+    required TResult Function(ErrorEvent value) errorEvent,
+    required TResult Function(DoneEvent value) doneEvent,
+  }) {
+    return runStepStreamEvent(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ThreadStreamEvent value)? threadStreamEvent,
+    TResult? Function(RunStreamEvent value)? runStreamEvent,
+    TResult? Function(RunStepStreamEvent value)? runStepStreamEvent,
+    TResult? Function(RunStepStreamDeltaEvent value)? runStepStreamDeltaEvent,
+    TResult? Function(MessageStreamEvent value)? messageStreamEvent,
+    TResult? Function(MessageStreamDeltaEvent value)? messageStreamDeltaEvent,
+    TResult? Function(ErrorEvent value)? errorEvent,
+    TResult? Function(DoneEvent value)? doneEvent,
+  }) {
+    return runStepStreamEvent?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ThreadStreamEvent value)? threadStreamEvent,
+    TResult Function(RunStreamEvent value)? runStreamEvent,
+    TResult Function(RunStepStreamEvent value)? runStepStreamEvent,
+    TResult Function(RunStepStreamDeltaEvent value)? runStepStreamDeltaEvent,
+    TResult Function(MessageStreamEvent value)? messageStreamEvent,
+    TResult Function(MessageStreamDeltaEvent value)? messageStreamDeltaEvent,
+    TResult Function(ErrorEvent value)? errorEvent,
+    TResult Function(DoneEvent value)? doneEvent,
+    required TResult orElse(),
+  }) {
+    if (runStepStreamEvent != null) {
+      return runStepStreamEvent(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepStreamEventImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunStepStreamEvent extends AssistantStreamEvent {
+  const factory RunStepStreamEvent(
+      {required final EventType event,
+      required final RunStepObject data}) = _$RunStepStreamEventImpl;
+  const RunStepStreamEvent._() : super._();
+
+  factory RunStepStreamEvent.fromJson(Map<String, dynamic> json) =
+      _$RunStepStreamEventImpl.fromJson;
+
+  @override
+
+  /// The type of the event.
+  EventType get event;
+  @override
+
+  /// Represents a step in execution of a run.
+  RunStepObject get data;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepStreamEventImplCopyWith<_$RunStepStreamEventImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RunStepStreamDeltaEventImplCopyWith<$Res>
+    implements $AssistantStreamEventCopyWith<$Res> {
+  factory _$$RunStepStreamDeltaEventImplCopyWith(
+          _$RunStepStreamDeltaEventImpl value,
+          $Res Function(_$RunStepStreamDeltaEventImpl) then) =
+      __$$RunStepStreamDeltaEventImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({EventType event, RunStepDeltaObject data});
+
+  $RunStepDeltaObjectCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class __$$RunStepStreamDeltaEventImplCopyWithImpl<$Res>
+    extends _$AssistantStreamEventCopyWithImpl<$Res,
+        _$RunStepStreamDeltaEventImpl>
+    implements _$$RunStepStreamDeltaEventImplCopyWith<$Res> {
+  __$$RunStepStreamDeltaEventImplCopyWithImpl(
+      _$RunStepStreamDeltaEventImpl _value,
+      $Res Function(_$RunStepStreamDeltaEventImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? event = null,
+    Object? data = null,
+  }) {
+    return _then(_$RunStepStreamDeltaEventImpl(
+      event: null == event
+          ? _value.event
+          : event // ignore: cast_nullable_to_non_nullable
+              as EventType,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as RunStepDeltaObject,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunStepDeltaObjectCopyWith<$Res> get data {
+    return $RunStepDeltaObjectCopyWith<$Res>(_value.data, (value) {
+      return _then(_value.copyWith(data: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunStepStreamDeltaEventImpl extends RunStepStreamDeltaEvent {
+  const _$RunStepStreamDeltaEventImpl({required this.event, required this.data})
+      : super._();
+
+  factory _$RunStepStreamDeltaEventImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RunStepStreamDeltaEventImplFromJson(json);
+
+  /// The type of the event.
+  @override
+  final EventType event;
+
+  /// Represents a run step delta i.e. any changed fields on a run step during streaming.
+  @override
+  final RunStepDeltaObject data;
+
+  @override
+  String toString() {
+    return 'AssistantStreamEvent.runStepStreamDeltaEvent(event: $event, data: $data)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunStepStreamDeltaEventImpl &&
+            (identical(other.event, event) || other.event == event) &&
+            (identical(other.data, data) || other.data == data));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, event, data);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunStepStreamDeltaEventImplCopyWith<_$RunStepStreamDeltaEventImpl>
+      get copyWith => __$$RunStepStreamDeltaEventImplCopyWithImpl<
+          _$RunStepStreamDeltaEventImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(EventType event, ThreadObject data)
+        threadStreamEvent,
+    required TResult Function(EventType event, RunObject data) runStreamEvent,
+    required TResult Function(EventType event, RunStepObject data)
+        runStepStreamEvent,
+    required TResult Function(EventType event, RunStepDeltaObject data)
+        runStepStreamDeltaEvent,
+    required TResult Function(EventType event, MessageObject data)
+        messageStreamEvent,
+    required TResult Function(EventType event, MessageDeltaObject data)
+        messageStreamDeltaEvent,
+    required TResult Function(EventType event, Error data) errorEvent,
+    required TResult Function(EventType event, String data) doneEvent,
+  }) {
+    return runStepStreamDeltaEvent(event, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(EventType event, ThreadObject data)? threadStreamEvent,
+    TResult? Function(EventType event, RunObject data)? runStreamEvent,
+    TResult? Function(EventType event, RunStepObject data)? runStepStreamEvent,
+    TResult? Function(EventType event, RunStepDeltaObject data)?
+        runStepStreamDeltaEvent,
+    TResult? Function(EventType event, MessageObject data)? messageStreamEvent,
+    TResult? Function(EventType event, MessageDeltaObject data)?
+        messageStreamDeltaEvent,
+    TResult? Function(EventType event, Error data)? errorEvent,
+    TResult? Function(EventType event, String data)? doneEvent,
+  }) {
+    return runStepStreamDeltaEvent?.call(event, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(EventType event, ThreadObject data)? threadStreamEvent,
+    TResult Function(EventType event, RunObject data)? runStreamEvent,
+    TResult Function(EventType event, RunStepObject data)? runStepStreamEvent,
+    TResult Function(EventType event, RunStepDeltaObject data)?
+        runStepStreamDeltaEvent,
+    TResult Function(EventType event, MessageObject data)? messageStreamEvent,
+    TResult Function(EventType event, MessageDeltaObject data)?
+        messageStreamDeltaEvent,
+    TResult Function(EventType event, Error data)? errorEvent,
+    TResult Function(EventType event, String data)? doneEvent,
+    required TResult orElse(),
+  }) {
+    if (runStepStreamDeltaEvent != null) {
+      return runStepStreamDeltaEvent(event, data);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ThreadStreamEvent value) threadStreamEvent,
+    required TResult Function(RunStreamEvent value) runStreamEvent,
+    required TResult Function(RunStepStreamEvent value) runStepStreamEvent,
+    required TResult Function(RunStepStreamDeltaEvent value)
+        runStepStreamDeltaEvent,
+    required TResult Function(MessageStreamEvent value) messageStreamEvent,
+    required TResult Function(MessageStreamDeltaEvent value)
+        messageStreamDeltaEvent,
+    required TResult Function(ErrorEvent value) errorEvent,
+    required TResult Function(DoneEvent value) doneEvent,
+  }) {
+    return runStepStreamDeltaEvent(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ThreadStreamEvent value)? threadStreamEvent,
+    TResult? Function(RunStreamEvent value)? runStreamEvent,
+    TResult? Function(RunStepStreamEvent value)? runStepStreamEvent,
+    TResult? Function(RunStepStreamDeltaEvent value)? runStepStreamDeltaEvent,
+    TResult? Function(MessageStreamEvent value)? messageStreamEvent,
+    TResult? Function(MessageStreamDeltaEvent value)? messageStreamDeltaEvent,
+    TResult? Function(ErrorEvent value)? errorEvent,
+    TResult? Function(DoneEvent value)? doneEvent,
+  }) {
+    return runStepStreamDeltaEvent?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ThreadStreamEvent value)? threadStreamEvent,
+    TResult Function(RunStreamEvent value)? runStreamEvent,
+    TResult Function(RunStepStreamEvent value)? runStepStreamEvent,
+    TResult Function(RunStepStreamDeltaEvent value)? runStepStreamDeltaEvent,
+    TResult Function(MessageStreamEvent value)? messageStreamEvent,
+    TResult Function(MessageStreamDeltaEvent value)? messageStreamDeltaEvent,
+    TResult Function(ErrorEvent value)? errorEvent,
+    TResult Function(DoneEvent value)? doneEvent,
+    required TResult orElse(),
+  }) {
+    if (runStepStreamDeltaEvent != null) {
+      return runStepStreamDeltaEvent(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunStepStreamDeltaEventImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunStepStreamDeltaEvent extends AssistantStreamEvent {
+  const factory RunStepStreamDeltaEvent(
+      {required final EventType event,
+      required final RunStepDeltaObject data}) = _$RunStepStreamDeltaEventImpl;
+  const RunStepStreamDeltaEvent._() : super._();
+
+  factory RunStepStreamDeltaEvent.fromJson(Map<String, dynamic> json) =
+      _$RunStepStreamDeltaEventImpl.fromJson;
+
+  @override
+
+  /// The type of the event.
+  EventType get event;
+  @override
+
+  /// Represents a run step delta i.e. any changed fields on a run step during streaming.
+  RunStepDeltaObject get data;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunStepStreamDeltaEventImplCopyWith<_$RunStepStreamDeltaEventImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$MessageStreamEventImplCopyWith<$Res>
+    implements $AssistantStreamEventCopyWith<$Res> {
+  factory _$$MessageStreamEventImplCopyWith(_$MessageStreamEventImpl value,
+          $Res Function(_$MessageStreamEventImpl) then) =
+      __$$MessageStreamEventImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({EventType event, MessageObject data});
+
+  $MessageObjectCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class __$$MessageStreamEventImplCopyWithImpl<$Res>
+    extends _$AssistantStreamEventCopyWithImpl<$Res, _$MessageStreamEventImpl>
+    implements _$$MessageStreamEventImplCopyWith<$Res> {
+  __$$MessageStreamEventImplCopyWithImpl(_$MessageStreamEventImpl _value,
+      $Res Function(_$MessageStreamEventImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? event = null,
+    Object? data = null,
+  }) {
+    return _then(_$MessageStreamEventImpl(
+      event: null == event
+          ? _value.event
+          : event // ignore: cast_nullable_to_non_nullable
+              as EventType,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as MessageObject,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageObjectCopyWith<$Res> get data {
+    return $MessageObjectCopyWith<$Res>(_value.data, (value) {
+      return _then(_value.copyWith(data: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageStreamEventImpl extends MessageStreamEvent {
+  const _$MessageStreamEventImpl({required this.event, required this.data})
+      : super._();
+
+  factory _$MessageStreamEventImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageStreamEventImplFromJson(json);
+
+  /// The type of the event.
+  @override
+  final EventType event;
+
+  /// Represents a message within a [thread](https://platform.openai.com/docs/api-reference/threads).
+  @override
+  final MessageObject data;
+
+  @override
+  String toString() {
+    return 'AssistantStreamEvent.messageStreamEvent(event: $event, data: $data)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageStreamEventImpl &&
+            (identical(other.event, event) || other.event == event) &&
+            (identical(other.data, data) || other.data == data));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, event, data);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageStreamEventImplCopyWith<_$MessageStreamEventImpl> get copyWith =>
+      __$$MessageStreamEventImplCopyWithImpl<_$MessageStreamEventImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(EventType event, ThreadObject data)
+        threadStreamEvent,
+    required TResult Function(EventType event, RunObject data) runStreamEvent,
+    required TResult Function(EventType event, RunStepObject data)
+        runStepStreamEvent,
+    required TResult Function(EventType event, RunStepDeltaObject data)
+        runStepStreamDeltaEvent,
+    required TResult Function(EventType event, MessageObject data)
+        messageStreamEvent,
+    required TResult Function(EventType event, MessageDeltaObject data)
+        messageStreamDeltaEvent,
+    required TResult Function(EventType event, Error data) errorEvent,
+    required TResult Function(EventType event, String data) doneEvent,
+  }) {
+    return messageStreamEvent(event, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(EventType event, ThreadObject data)? threadStreamEvent,
+    TResult? Function(EventType event, RunObject data)? runStreamEvent,
+    TResult? Function(EventType event, RunStepObject data)? runStepStreamEvent,
+    TResult? Function(EventType event, RunStepDeltaObject data)?
+        runStepStreamDeltaEvent,
+    TResult? Function(EventType event, MessageObject data)? messageStreamEvent,
+    TResult? Function(EventType event, MessageDeltaObject data)?
+        messageStreamDeltaEvent,
+    TResult? Function(EventType event, Error data)? errorEvent,
+    TResult? Function(EventType event, String data)? doneEvent,
+  }) {
+    return messageStreamEvent?.call(event, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(EventType event, ThreadObject data)? threadStreamEvent,
+    TResult Function(EventType event, RunObject data)? runStreamEvent,
+    TResult Function(EventType event, RunStepObject data)? runStepStreamEvent,
+    TResult Function(EventType event, RunStepDeltaObject data)?
+        runStepStreamDeltaEvent,
+    TResult Function(EventType event, MessageObject data)? messageStreamEvent,
+    TResult Function(EventType event, MessageDeltaObject data)?
+        messageStreamDeltaEvent,
+    TResult Function(EventType event, Error data)? errorEvent,
+    TResult Function(EventType event, String data)? doneEvent,
+    required TResult orElse(),
+  }) {
+    if (messageStreamEvent != null) {
+      return messageStreamEvent(event, data);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ThreadStreamEvent value) threadStreamEvent,
+    required TResult Function(RunStreamEvent value) runStreamEvent,
+    required TResult Function(RunStepStreamEvent value) runStepStreamEvent,
+    required TResult Function(RunStepStreamDeltaEvent value)
+        runStepStreamDeltaEvent,
+    required TResult Function(MessageStreamEvent value) messageStreamEvent,
+    required TResult Function(MessageStreamDeltaEvent value)
+        messageStreamDeltaEvent,
+    required TResult Function(ErrorEvent value) errorEvent,
+    required TResult Function(DoneEvent value) doneEvent,
+  }) {
+    return messageStreamEvent(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ThreadStreamEvent value)? threadStreamEvent,
+    TResult? Function(RunStreamEvent value)? runStreamEvent,
+    TResult? Function(RunStepStreamEvent value)? runStepStreamEvent,
+    TResult? Function(RunStepStreamDeltaEvent value)? runStepStreamDeltaEvent,
+    TResult? Function(MessageStreamEvent value)? messageStreamEvent,
+    TResult? Function(MessageStreamDeltaEvent value)? messageStreamDeltaEvent,
+    TResult? Function(ErrorEvent value)? errorEvent,
+    TResult? Function(DoneEvent value)? doneEvent,
+  }) {
+    return messageStreamEvent?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ThreadStreamEvent value)? threadStreamEvent,
+    TResult Function(RunStreamEvent value)? runStreamEvent,
+    TResult Function(RunStepStreamEvent value)? runStepStreamEvent,
+    TResult Function(RunStepStreamDeltaEvent value)? runStepStreamDeltaEvent,
+    TResult Function(MessageStreamEvent value)? messageStreamEvent,
+    TResult Function(MessageStreamDeltaEvent value)? messageStreamDeltaEvent,
+    TResult Function(ErrorEvent value)? errorEvent,
+    TResult Function(DoneEvent value)? doneEvent,
+    required TResult orElse(),
+  }) {
+    if (messageStreamEvent != null) {
+      return messageStreamEvent(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageStreamEventImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class MessageStreamEvent extends AssistantStreamEvent {
+  const factory MessageStreamEvent(
+      {required final EventType event,
+      required final MessageObject data}) = _$MessageStreamEventImpl;
+  const MessageStreamEvent._() : super._();
+
+  factory MessageStreamEvent.fromJson(Map<String, dynamic> json) =
+      _$MessageStreamEventImpl.fromJson;
+
+  @override
+
+  /// The type of the event.
+  EventType get event;
+  @override
+
+  /// Represents a message within a [thread](https://platform.openai.com/docs/api-reference/threads).
+  MessageObject get data;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageStreamEventImplCopyWith<_$MessageStreamEventImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$MessageStreamDeltaEventImplCopyWith<$Res>
+    implements $AssistantStreamEventCopyWith<$Res> {
+  factory _$$MessageStreamDeltaEventImplCopyWith(
+          _$MessageStreamDeltaEventImpl value,
+          $Res Function(_$MessageStreamDeltaEventImpl) then) =
+      __$$MessageStreamDeltaEventImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({EventType event, MessageDeltaObject data});
+
+  $MessageDeltaObjectCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class __$$MessageStreamDeltaEventImplCopyWithImpl<$Res>
+    extends _$AssistantStreamEventCopyWithImpl<$Res,
+        _$MessageStreamDeltaEventImpl>
+    implements _$$MessageStreamDeltaEventImplCopyWith<$Res> {
+  __$$MessageStreamDeltaEventImplCopyWithImpl(
+      _$MessageStreamDeltaEventImpl _value,
+      $Res Function(_$MessageStreamDeltaEventImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? event = null,
+    Object? data = null,
+  }) {
+    return _then(_$MessageStreamDeltaEventImpl(
+      event: null == event
+          ? _value.event
+          : event // ignore: cast_nullable_to_non_nullable
+              as EventType,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as MessageDeltaObject,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageDeltaObjectCopyWith<$Res> get data {
+    return $MessageDeltaObjectCopyWith<$Res>(_value.data, (value) {
+      return _then(_value.copyWith(data: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageStreamDeltaEventImpl extends MessageStreamDeltaEvent {
+  const _$MessageStreamDeltaEventImpl({required this.event, required this.data})
+      : super._();
+
+  factory _$MessageStreamDeltaEventImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageStreamDeltaEventImplFromJson(json);
+
+  /// The type of the event.
+  @override
+  final EventType event;
+
+  /// Represents a message delta i.e. any changed fields on a message during streaming.
+  @override
+  final MessageDeltaObject data;
+
+  @override
+  String toString() {
+    return 'AssistantStreamEvent.messageStreamDeltaEvent(event: $event, data: $data)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageStreamDeltaEventImpl &&
+            (identical(other.event, event) || other.event == event) &&
+            (identical(other.data, data) || other.data == data));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, event, data);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageStreamDeltaEventImplCopyWith<_$MessageStreamDeltaEventImpl>
+      get copyWith => __$$MessageStreamDeltaEventImplCopyWithImpl<
+          _$MessageStreamDeltaEventImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(EventType event, ThreadObject data)
+        threadStreamEvent,
+    required TResult Function(EventType event, RunObject data) runStreamEvent,
+    required TResult Function(EventType event, RunStepObject data)
+        runStepStreamEvent,
+    required TResult Function(EventType event, RunStepDeltaObject data)
+        runStepStreamDeltaEvent,
+    required TResult Function(EventType event, MessageObject data)
+        messageStreamEvent,
+    required TResult Function(EventType event, MessageDeltaObject data)
+        messageStreamDeltaEvent,
+    required TResult Function(EventType event, Error data) errorEvent,
+    required TResult Function(EventType event, String data) doneEvent,
+  }) {
+    return messageStreamDeltaEvent(event, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(EventType event, ThreadObject data)? threadStreamEvent,
+    TResult? Function(EventType event, RunObject data)? runStreamEvent,
+    TResult? Function(EventType event, RunStepObject data)? runStepStreamEvent,
+    TResult? Function(EventType event, RunStepDeltaObject data)?
+        runStepStreamDeltaEvent,
+    TResult? Function(EventType event, MessageObject data)? messageStreamEvent,
+    TResult? Function(EventType event, MessageDeltaObject data)?
+        messageStreamDeltaEvent,
+    TResult? Function(EventType event, Error data)? errorEvent,
+    TResult? Function(EventType event, String data)? doneEvent,
+  }) {
+    return messageStreamDeltaEvent?.call(event, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(EventType event, ThreadObject data)? threadStreamEvent,
+    TResult Function(EventType event, RunObject data)? runStreamEvent,
+    TResult Function(EventType event, RunStepObject data)? runStepStreamEvent,
+    TResult Function(EventType event, RunStepDeltaObject data)?
+        runStepStreamDeltaEvent,
+    TResult Function(EventType event, MessageObject data)? messageStreamEvent,
+    TResult Function(EventType event, MessageDeltaObject data)?
+        messageStreamDeltaEvent,
+    TResult Function(EventType event, Error data)? errorEvent,
+    TResult Function(EventType event, String data)? doneEvent,
+    required TResult orElse(),
+  }) {
+    if (messageStreamDeltaEvent != null) {
+      return messageStreamDeltaEvent(event, data);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ThreadStreamEvent value) threadStreamEvent,
+    required TResult Function(RunStreamEvent value) runStreamEvent,
+    required TResult Function(RunStepStreamEvent value) runStepStreamEvent,
+    required TResult Function(RunStepStreamDeltaEvent value)
+        runStepStreamDeltaEvent,
+    required TResult Function(MessageStreamEvent value) messageStreamEvent,
+    required TResult Function(MessageStreamDeltaEvent value)
+        messageStreamDeltaEvent,
+    required TResult Function(ErrorEvent value) errorEvent,
+    required TResult Function(DoneEvent value) doneEvent,
+  }) {
+    return messageStreamDeltaEvent(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ThreadStreamEvent value)? threadStreamEvent,
+    TResult? Function(RunStreamEvent value)? runStreamEvent,
+    TResult? Function(RunStepStreamEvent value)? runStepStreamEvent,
+    TResult? Function(RunStepStreamDeltaEvent value)? runStepStreamDeltaEvent,
+    TResult? Function(MessageStreamEvent value)? messageStreamEvent,
+    TResult? Function(MessageStreamDeltaEvent value)? messageStreamDeltaEvent,
+    TResult? Function(ErrorEvent value)? errorEvent,
+    TResult? Function(DoneEvent value)? doneEvent,
+  }) {
+    return messageStreamDeltaEvent?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ThreadStreamEvent value)? threadStreamEvent,
+    TResult Function(RunStreamEvent value)? runStreamEvent,
+    TResult Function(RunStepStreamEvent value)? runStepStreamEvent,
+    TResult Function(RunStepStreamDeltaEvent value)? runStepStreamDeltaEvent,
+    TResult Function(MessageStreamEvent value)? messageStreamEvent,
+    TResult Function(MessageStreamDeltaEvent value)? messageStreamDeltaEvent,
+    TResult Function(ErrorEvent value)? errorEvent,
+    TResult Function(DoneEvent value)? doneEvent,
+    required TResult orElse(),
+  }) {
+    if (messageStreamDeltaEvent != null) {
+      return messageStreamDeltaEvent(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageStreamDeltaEventImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class MessageStreamDeltaEvent extends AssistantStreamEvent {
+  const factory MessageStreamDeltaEvent(
+      {required final EventType event,
+      required final MessageDeltaObject data}) = _$MessageStreamDeltaEventImpl;
+  const MessageStreamDeltaEvent._() : super._();
+
+  factory MessageStreamDeltaEvent.fromJson(Map<String, dynamic> json) =
+      _$MessageStreamDeltaEventImpl.fromJson;
+
+  @override
+
+  /// The type of the event.
+  EventType get event;
+  @override
+
+  /// Represents a message delta i.e. any changed fields on a message during streaming.
+  MessageDeltaObject get data;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageStreamDeltaEventImplCopyWith<_$MessageStreamDeltaEventImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ErrorEventImplCopyWith<$Res>
+    implements $AssistantStreamEventCopyWith<$Res> {
+  factory _$$ErrorEventImplCopyWith(
+          _$ErrorEventImpl value, $Res Function(_$ErrorEventImpl) then) =
+      __$$ErrorEventImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({EventType event, Error data});
+
+  $ErrorCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class __$$ErrorEventImplCopyWithImpl<$Res>
+    extends _$AssistantStreamEventCopyWithImpl<$Res, _$ErrorEventImpl>
+    implements _$$ErrorEventImplCopyWith<$Res> {
+  __$$ErrorEventImplCopyWithImpl(
+      _$ErrorEventImpl _value, $Res Function(_$ErrorEventImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? event = null,
+    Object? data = null,
+  }) {
+    return _then(_$ErrorEventImpl(
+      event: null == event
+          ? _value.event
+          : event // ignore: cast_nullable_to_non_nullable
+              as EventType,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as Error,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ErrorCopyWith<$Res> get data {
+    return $ErrorCopyWith<$Res>(_value.data, (value) {
+      return _then(_value.copyWith(data: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ErrorEventImpl extends ErrorEvent {
+  const _$ErrorEventImpl({required this.event, required this.data}) : super._();
+
+  factory _$ErrorEventImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ErrorEventImplFromJson(json);
+
+  /// The type of the event.
+  @override
+  final EventType event;
+
+  /// Represents an error that occurred during an API request.
+  @override
+  final Error data;
+
+  @override
+  String toString() {
+    return 'AssistantStreamEvent.errorEvent(event: $event, data: $data)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ErrorEventImpl &&
+            (identical(other.event, event) || other.event == event) &&
+            (identical(other.data, data) || other.data == data));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, event, data);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ErrorEventImplCopyWith<_$ErrorEventImpl> get copyWith =>
+      __$$ErrorEventImplCopyWithImpl<_$ErrorEventImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(EventType event, ThreadObject data)
+        threadStreamEvent,
+    required TResult Function(EventType event, RunObject data) runStreamEvent,
+    required TResult Function(EventType event, RunStepObject data)
+        runStepStreamEvent,
+    required TResult Function(EventType event, RunStepDeltaObject data)
+        runStepStreamDeltaEvent,
+    required TResult Function(EventType event, MessageObject data)
+        messageStreamEvent,
+    required TResult Function(EventType event, MessageDeltaObject data)
+        messageStreamDeltaEvent,
+    required TResult Function(EventType event, Error data) errorEvent,
+    required TResult Function(EventType event, String data) doneEvent,
+  }) {
+    return errorEvent(event, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(EventType event, ThreadObject data)? threadStreamEvent,
+    TResult? Function(EventType event, RunObject data)? runStreamEvent,
+    TResult? Function(EventType event, RunStepObject data)? runStepStreamEvent,
+    TResult? Function(EventType event, RunStepDeltaObject data)?
+        runStepStreamDeltaEvent,
+    TResult? Function(EventType event, MessageObject data)? messageStreamEvent,
+    TResult? Function(EventType event, MessageDeltaObject data)?
+        messageStreamDeltaEvent,
+    TResult? Function(EventType event, Error data)? errorEvent,
+    TResult? Function(EventType event, String data)? doneEvent,
+  }) {
+    return errorEvent?.call(event, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(EventType event, ThreadObject data)? threadStreamEvent,
+    TResult Function(EventType event, RunObject data)? runStreamEvent,
+    TResult Function(EventType event, RunStepObject data)? runStepStreamEvent,
+    TResult Function(EventType event, RunStepDeltaObject data)?
+        runStepStreamDeltaEvent,
+    TResult Function(EventType event, MessageObject data)? messageStreamEvent,
+    TResult Function(EventType event, MessageDeltaObject data)?
+        messageStreamDeltaEvent,
+    TResult Function(EventType event, Error data)? errorEvent,
+    TResult Function(EventType event, String data)? doneEvent,
+    required TResult orElse(),
+  }) {
+    if (errorEvent != null) {
+      return errorEvent(event, data);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ThreadStreamEvent value) threadStreamEvent,
+    required TResult Function(RunStreamEvent value) runStreamEvent,
+    required TResult Function(RunStepStreamEvent value) runStepStreamEvent,
+    required TResult Function(RunStepStreamDeltaEvent value)
+        runStepStreamDeltaEvent,
+    required TResult Function(MessageStreamEvent value) messageStreamEvent,
+    required TResult Function(MessageStreamDeltaEvent value)
+        messageStreamDeltaEvent,
+    required TResult Function(ErrorEvent value) errorEvent,
+    required TResult Function(DoneEvent value) doneEvent,
+  }) {
+    return errorEvent(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ThreadStreamEvent value)? threadStreamEvent,
+    TResult? Function(RunStreamEvent value)? runStreamEvent,
+    TResult? Function(RunStepStreamEvent value)? runStepStreamEvent,
+    TResult? Function(RunStepStreamDeltaEvent value)? runStepStreamDeltaEvent,
+    TResult? Function(MessageStreamEvent value)? messageStreamEvent,
+    TResult? Function(MessageStreamDeltaEvent value)? messageStreamDeltaEvent,
+    TResult? Function(ErrorEvent value)? errorEvent,
+    TResult? Function(DoneEvent value)? doneEvent,
+  }) {
+    return errorEvent?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ThreadStreamEvent value)? threadStreamEvent,
+    TResult Function(RunStreamEvent value)? runStreamEvent,
+    TResult Function(RunStepStreamEvent value)? runStepStreamEvent,
+    TResult Function(RunStepStreamDeltaEvent value)? runStepStreamDeltaEvent,
+    TResult Function(MessageStreamEvent value)? messageStreamEvent,
+    TResult Function(MessageStreamDeltaEvent value)? messageStreamDeltaEvent,
+    TResult Function(ErrorEvent value)? errorEvent,
+    TResult Function(DoneEvent value)? doneEvent,
+    required TResult orElse(),
+  }) {
+    if (errorEvent != null) {
+      return errorEvent(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ErrorEventImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ErrorEvent extends AssistantStreamEvent {
+  const factory ErrorEvent(
+      {required final EventType event,
+      required final Error data}) = _$ErrorEventImpl;
+  const ErrorEvent._() : super._();
+
+  factory ErrorEvent.fromJson(Map<String, dynamic> json) =
+      _$ErrorEventImpl.fromJson;
+
+  @override
+
+  /// The type of the event.
+  EventType get event;
+  @override
+
+  /// Represents an error that occurred during an API request.
+  Error get data;
+  @override
+  @JsonKey(ignore: true)
+  _$$ErrorEventImplCopyWith<_$ErrorEventImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$DoneEventImplCopyWith<$Res>
+    implements $AssistantStreamEventCopyWith<$Res> {
+  factory _$$DoneEventImplCopyWith(
+          _$DoneEventImpl value, $Res Function(_$DoneEventImpl) then) =
+      __$$DoneEventImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({EventType event, String data});
+}
+
+/// @nodoc
+class __$$DoneEventImplCopyWithImpl<$Res>
+    extends _$AssistantStreamEventCopyWithImpl<$Res, _$DoneEventImpl>
+    implements _$$DoneEventImplCopyWith<$Res> {
+  __$$DoneEventImplCopyWithImpl(
+      _$DoneEventImpl _value, $Res Function(_$DoneEventImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? event = null,
+    Object? data = null,
+  }) {
+    return _then(_$DoneEventImpl(
+      event: null == event
+          ? _value.event
+          : event // ignore: cast_nullable_to_non_nullable
+              as EventType,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DoneEventImpl extends DoneEvent {
+  const _$DoneEventImpl({required this.event, required this.data}) : super._();
+
+  factory _$DoneEventImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DoneEventImplFromJson(json);
+
+  /// The type of the event.
+  @override
+  final EventType event;
+
+  /// No Description
+  @override
+  final String data;
+
+  @override
+  String toString() {
+    return 'AssistantStreamEvent.doneEvent(event: $event, data: $data)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DoneEventImpl &&
+            (identical(other.event, event) || other.event == event) &&
+            (identical(other.data, data) || other.data == data));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, event, data);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DoneEventImplCopyWith<_$DoneEventImpl> get copyWith =>
+      __$$DoneEventImplCopyWithImpl<_$DoneEventImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(EventType event, ThreadObject data)
+        threadStreamEvent,
+    required TResult Function(EventType event, RunObject data) runStreamEvent,
+    required TResult Function(EventType event, RunStepObject data)
+        runStepStreamEvent,
+    required TResult Function(EventType event, RunStepDeltaObject data)
+        runStepStreamDeltaEvent,
+    required TResult Function(EventType event, MessageObject data)
+        messageStreamEvent,
+    required TResult Function(EventType event, MessageDeltaObject data)
+        messageStreamDeltaEvent,
+    required TResult Function(EventType event, Error data) errorEvent,
+    required TResult Function(EventType event, String data) doneEvent,
+  }) {
+    return doneEvent(event, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(EventType event, ThreadObject data)? threadStreamEvent,
+    TResult? Function(EventType event, RunObject data)? runStreamEvent,
+    TResult? Function(EventType event, RunStepObject data)? runStepStreamEvent,
+    TResult? Function(EventType event, RunStepDeltaObject data)?
+        runStepStreamDeltaEvent,
+    TResult? Function(EventType event, MessageObject data)? messageStreamEvent,
+    TResult? Function(EventType event, MessageDeltaObject data)?
+        messageStreamDeltaEvent,
+    TResult? Function(EventType event, Error data)? errorEvent,
+    TResult? Function(EventType event, String data)? doneEvent,
+  }) {
+    return doneEvent?.call(event, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(EventType event, ThreadObject data)? threadStreamEvent,
+    TResult Function(EventType event, RunObject data)? runStreamEvent,
+    TResult Function(EventType event, RunStepObject data)? runStepStreamEvent,
+    TResult Function(EventType event, RunStepDeltaObject data)?
+        runStepStreamDeltaEvent,
+    TResult Function(EventType event, MessageObject data)? messageStreamEvent,
+    TResult Function(EventType event, MessageDeltaObject data)?
+        messageStreamDeltaEvent,
+    TResult Function(EventType event, Error data)? errorEvent,
+    TResult Function(EventType event, String data)? doneEvent,
+    required TResult orElse(),
+  }) {
+    if (doneEvent != null) {
+      return doneEvent(event, data);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ThreadStreamEvent value) threadStreamEvent,
+    required TResult Function(RunStreamEvent value) runStreamEvent,
+    required TResult Function(RunStepStreamEvent value) runStepStreamEvent,
+    required TResult Function(RunStepStreamDeltaEvent value)
+        runStepStreamDeltaEvent,
+    required TResult Function(MessageStreamEvent value) messageStreamEvent,
+    required TResult Function(MessageStreamDeltaEvent value)
+        messageStreamDeltaEvent,
+    required TResult Function(ErrorEvent value) errorEvent,
+    required TResult Function(DoneEvent value) doneEvent,
+  }) {
+    return doneEvent(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ThreadStreamEvent value)? threadStreamEvent,
+    TResult? Function(RunStreamEvent value)? runStreamEvent,
+    TResult? Function(RunStepStreamEvent value)? runStepStreamEvent,
+    TResult? Function(RunStepStreamDeltaEvent value)? runStepStreamDeltaEvent,
+    TResult? Function(MessageStreamEvent value)? messageStreamEvent,
+    TResult? Function(MessageStreamDeltaEvent value)? messageStreamDeltaEvent,
+    TResult? Function(ErrorEvent value)? errorEvent,
+    TResult? Function(DoneEvent value)? doneEvent,
+  }) {
+    return doneEvent?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ThreadStreamEvent value)? threadStreamEvent,
+    TResult Function(RunStreamEvent value)? runStreamEvent,
+    TResult Function(RunStepStreamEvent value)? runStepStreamEvent,
+    TResult Function(RunStepStreamDeltaEvent value)? runStepStreamDeltaEvent,
+    TResult Function(MessageStreamEvent value)? messageStreamEvent,
+    TResult Function(MessageStreamDeltaEvent value)? messageStreamDeltaEvent,
+    TResult Function(ErrorEvent value)? errorEvent,
+    TResult Function(DoneEvent value)? doneEvent,
+    required TResult orElse(),
+  }) {
+    if (doneEvent != null) {
+      return doneEvent(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DoneEventImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class DoneEvent extends AssistantStreamEvent {
+  const factory DoneEvent(
+      {required final EventType event,
+      required final String data}) = _$DoneEventImpl;
+  const DoneEvent._() : super._();
+
+  factory DoneEvent.fromJson(Map<String, dynamic> json) =
+      _$DoneEventImpl.fromJson;
+
+  @override
+
+  /// The type of the event.
+  EventType get event;
+  @override
+
+  /// No Description
+  String get data;
+  @override
+  @JsonKey(ignore: true)
+  _$$DoneEventImplCopyWith<_$DoneEventImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

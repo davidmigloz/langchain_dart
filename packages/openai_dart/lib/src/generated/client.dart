@@ -964,6 +964,8 @@ class OpenAIClient {
   ///
   /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
   ///
+  /// `runId`: Filter messages by the run ID that generated them.
+  ///
   /// `GET` `https://api.openai.com/v1/threads/{thread_id}/messages`
   Future<ListMessagesResponse> listThreadMessages({
     required String threadId,
@@ -971,6 +973,7 @@ class OpenAIClient {
     String order = 'desc',
     String? after,
     String? before,
+    String? runId,
   }) async {
     final r = await makeRequest(
       baseUrl: 'https://api.openai.com/v1',
@@ -984,6 +987,7 @@ class OpenAIClient {
         'order': order,
         if (after != null) 'after': after,
         if (before != null) 'before': before,
+        if (runId != null) 'run_id': runId,
       },
     );
     return ListMessagesResponse.fromJson(_jsonDecode(r));

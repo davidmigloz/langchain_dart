@@ -22,8 +22,8 @@ sealed class RunStepDetailsToolCalls with _$RunStepDetailsToolCalls {
     /// The ID of the tool call.
     required String id,
 
-    /// The type of tool call. This is always going to be `code_interpreter` for this type of tool call.
-    required RunStepDetailsToolCallsCodeObjectType type,
+    /// Always `code_interpreter`.
+    required String type,
 
     /// The Code Interpreter tool call definition.
     @JsonKey(name: 'code_interpreter')
@@ -39,8 +39,8 @@ sealed class RunStepDetailsToolCalls with _$RunStepDetailsToolCalls {
     /// The ID of the tool call object.
     required String id,
 
-    /// The type of tool call. This is always going to be `retrieval` for this type of tool call.
-    required RunStepDetailsToolCallsRetrievalObjectType type,
+    /// Always `retrieval`.
+    required String type,
 
     /// For now, this is always going to be an empty object.
     required Map<String, dynamic> retrieval,
@@ -55,8 +55,8 @@ sealed class RunStepDetailsToolCalls with _$RunStepDetailsToolCalls {
     /// The ID of the tool call object.
     required String id,
 
-    /// The type of tool call. This is always going to be `function` for this type of tool call.
-    required RunStepDetailsToolCallsFunctionObjectType type,
+    /// Always `function`.
+    required String type,
 
     /// The definition of the function that was called.
     required RunStepDetailsToolCallsFunction function,
@@ -65,36 +65,6 @@ sealed class RunStepDetailsToolCalls with _$RunStepDetailsToolCalls {
   /// Object construction from a JSON representation
   factory RunStepDetailsToolCalls.fromJson(Map<String, dynamic> json) =>
       _$RunStepDetailsToolCallsFromJson(json);
-}
-
-// ==========================================
-// ENUM: RunStepDetailsToolCallsCodeObjectType
-// ==========================================
-
-/// The type of tool call. This is always going to be `code_interpreter` for this type of tool call.
-enum RunStepDetailsToolCallsCodeObjectType {
-  @JsonValue('code_interpreter')
-  codeInterpreter,
-}
-
-// ==========================================
-// ENUM: RunStepDetailsToolCallsRetrievalObjectType
-// ==========================================
-
-/// The type of tool call. This is always going to be `retrieval` for this type of tool call.
-enum RunStepDetailsToolCallsRetrievalObjectType {
-  @JsonValue('retrieval')
-  retrieval,
-}
-
-// ==========================================
-// ENUM: RunStepDetailsToolCallsFunctionObjectType
-// ==========================================
-
-/// The type of tool call. This is always going to be `function` for this type of tool call.
-enum RunStepDetailsToolCallsFunctionObjectType {
-  @JsonValue('function')
-  function,
 }
 
 // ==========================================

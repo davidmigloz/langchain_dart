@@ -67,7 +67,7 @@ void main() {
       final res = await client.createThreadMessage(
         threadId: threadId,
         request: const CreateMessageRequest(
-          role: CreateMessageRequestRole.user,
+          role: MessageRole.user,
           content:
               'I need to solve the equation `3x + 11 = 14`. Can you help me?',
         ),
@@ -76,7 +76,7 @@ void main() {
       expect(res.object, MessageObjectObject.threadMessage);
       expect(res.createdAt, greaterThan(0));
       expect(res.threadId, threadId);
-      expect(res.role, MessageObjectRole.user);
+      expect(res.role, MessageRole.user);
       expect(res.content, hasLength(1));
       expect(res.assistantId, isNull);
       expect(res.runId, isNull);
@@ -98,7 +98,7 @@ void main() {
       expect(msg.object, MessageObjectObject.threadMessage);
       expect(msg.createdAt, greaterThan(0));
       expect(msg.threadId, threadId);
-      expect(msg.role, MessageObjectRole.user);
+      expect(msg.role, MessageRole.user);
       expect(msg.content, hasLength(1));
       expect(msg.assistantId, isNull);
       expect(msg.runId, isNull);
@@ -185,18 +185,18 @@ void main() {
       final messages = res.data;
       expect(messages, hasLength(3));
       final userMsg = messages[2];
-      expect(userMsg.role, MessageObjectRole.user);
+      expect(userMsg.role, MessageRole.user);
       expect(userMsg.content, hasLength(1));
       expect(
         userMsg.content.first.text,
         'I need to solve the equation `3x + 11 = 14`. Can you help me?',
       );
       final assistantMsg1 = messages[1];
-      expect(assistantMsg1.role, MessageObjectRole.assistant);
+      expect(assistantMsg1.role, MessageRole.assistant);
       expect(assistantMsg1.content, hasLength(1));
       expect(assistantMsg1.content.first.text, contains('Jane Doe'));
       final assistantMsg2 = messages[0];
-      expect(assistantMsg2.role, MessageObjectRole.assistant);
+      expect(assistantMsg2.role, MessageRole.assistant);
       expect(assistantMsg2.content, hasLength(1));
       expect(assistantMsg2.content.first.text.toLowerCase(), contains('x = 1'));
     }
@@ -255,7 +255,7 @@ void main() {
       expect(toolCall?.id, isNotEmpty);
       expect(
         toolCall?.type,
-        RunStepDetailsToolCallsCodeObjectType.codeInterpreter,
+        'code_interpreter',
       );
       final codeInterpreter =
           toolCall?.mapOrNull(codeInterpreter: (final c) => c.codeInterpreter);
@@ -264,7 +264,7 @@ void main() {
       final output = codeInterpreter?.outputs.first;
       expect(
         output?.type,
-        RunStepDetailsToolCallsCodeOutputLogsObjectType.logs,
+        'logs',
       );
       final logs = output?.mapOrNull(logs: (final l) => l.logs);
       expect(double.tryParse(logs ?? ''), closeTo(1.0, 0.1));
@@ -312,13 +312,57 @@ void main() {
     test('Test assistant', () async {
       final assistantId = await createAssistant();
       final threadId = await createThread();
-      await addMessageToThread(threadId);
-      await listMessagesInThread(threadId);
-      final runId = await runAssistant(assistantId, threadId);
-      await checkRunStatus(threadId, runId);
-      await checkAssistantResponse(threadId);
-      await checkThreadRunSteps(threadId, runId);
-      await cleanUp(assistantId, threadId);
+      try {
+        await addMessageToThread(threadId);
+        await listMessagesInThread(threadId);
+        final runId = await runAssistant(assistantId, threadId);
+        await checkRunStatus(threadId, runId);
+        await checkAssistantResponse(threadId);
+        await checkThreadRunSteps(threadId, runId);
+      } finally {
+        await cleanUp(assistantId, threadId);
+      }
+    });
+
+    test('Test assistant streaming', () async {
+      late String assistantId;
+      late String threadId;
+
+      try {
+        assistantId = await createAssistant();
+        threadId = await createThread();
+        await addMessageToThread(threadId);
+
+        final stream = client.createThreadRunStream(
+          threadId: threadId,
+          request: CreateRunRequest(
+            assistantId: assistantId,
+            instructions:
+                'Please address the user as Jane Doe. The user has a premium account.',
+          ),
+        );
+
+        var output = '';
+        await for (final AssistantStreamEvent res in stream) {
+          output += res.whenOrNull(
+                messageStreamDeltaEvent: (final event, final data) =>
+                    data.delta.content
+                        ?.map(
+                          (final c) => c.mapOrNull(
+                            text: (final o) => o.text?.value ?? '',
+                          ),
+                        )
+                        .join() ??
+                    '',
+              ) ??
+              '';
+        }
+
+        expect(output, contains('Jane Doe'));
+        expect(output, contains('x = 1'));
+      } finally {
+        await cleanUp(assistantId, threadId);
+      }
     });
   });
 }
