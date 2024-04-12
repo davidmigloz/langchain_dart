@@ -30,7 +30,7 @@ void main() {
           'You are a personal math tutor. Write and run code to answer math questions.';
       final res = await client.createAssistant(
         request: const CreateAssistantRequest(
-          model: CreateAssistantRequestModel.string(model),
+          model: AssistantModel.modelId(model),
           name: name,
           description: description,
           instructions: instructions,

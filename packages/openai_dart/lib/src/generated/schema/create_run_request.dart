@@ -19,7 +19,9 @@ class CreateRunRequest with _$CreateRunRequest {
     @JsonKey(name: 'assistant_id') required String assistantId,
 
     /// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
-    @JsonKey(includeIfNull: false) String? model,
+    @_CreateRunRequestModelConverter()
+    @JsonKey(includeIfNull: false)
+    CreateRunRequestModel? model,
 
     /// Overrides the [instructions](https://platform.openai.com/docs/api-reference/assistants/createAssistant) of the assistant. This is useful for modifying the behavior on a per-run basis.
     @JsonKey(includeIfNull: false) String? instructions,
@@ -63,6 +65,110 @@ class CreateRunRequest with _$CreateRunRequest {
       'additional_instructions': additionalInstructions,
       'tools': tools,
       'metadata': metadata,
+    };
+  }
+}
+
+// ==========================================
+// ENUM: RunModels
+// ==========================================
+
+/// Available models. Mind that the list may not be exhaustive nor up-to-date.
+enum RunModels {
+  @JsonValue('gpt-4')
+  gpt4,
+  @JsonValue('gpt-4-32k')
+  gpt432k,
+  @JsonValue('gpt-4-32k-0314')
+  gpt432k0314,
+  @JsonValue('gpt-4-32k-0613')
+  gpt432k0613,
+  @JsonValue('gpt-4-0125-preview')
+  gpt40125Preview,
+  @JsonValue('gpt-4-0314')
+  gpt40314,
+  @JsonValue('gpt-4-0613')
+  gpt40613,
+  @JsonValue('gpt-4-1106-preview')
+  gpt41106Preview,
+  @JsonValue('gpt-4-vision-preview')
+  gpt4VisionPreview,
+  @JsonValue('gpt-4-turbo')
+  gpt4Turbo,
+  @JsonValue('gpt-4-turbo-2024-04-09')
+  gpt4Turbo20240409,
+  @JsonValue('gpt-4-turbo-preview')
+  gpt4TurboPreview,
+  @JsonValue('gpt-3.5-turbo')
+  gpt35Turbo,
+  @JsonValue('gpt-3.5-turbo-16k')
+  gpt35Turbo16k,
+  @JsonValue('gpt-3.5-turbo-16k-0613')
+  gpt35Turbo16k0613,
+  @JsonValue('gpt-3.5-turbo-0125')
+  gpt35Turbo0125,
+  @JsonValue('gpt-3.5-turbo-0613')
+  gpt35Turbo0613,
+  @JsonValue('gpt-3.5-turbo-1106')
+  gpt35Turbo1106,
+}
+
+// ==========================================
+// CLASS: CreateRunRequestModel
+// ==========================================
+
+/// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+@freezed
+sealed class CreateRunRequestModel with _$CreateRunRequestModel {
+  const CreateRunRequestModel._();
+
+  /// Available models. Mind that the list may not be exhaustive nor up-to-date.
+  const factory CreateRunRequestModel.enumeration(
+    RunModels value,
+  ) = CreateRunRequestModelEnumeration;
+
+  /// The ID of the model to use for this request.
+  const factory CreateRunRequestModel.string(
+    String value,
+  ) = CreateRunRequestModelString;
+
+  /// Object construction from a JSON representation
+  factory CreateRunRequestModel.fromJson(Map<String, dynamic> json) =>
+      _$CreateRunRequestModelFromJson(json);
+}
+
+/// Custom JSON converter for [CreateRunRequestModel]
+class _CreateRunRequestModelConverter
+    implements JsonConverter<CreateRunRequestModel?, Object?> {
+  const _CreateRunRequestModelConverter();
+
+  @override
+  CreateRunRequestModel? fromJson(Object? data) {
+    if (data == null) {
+      return null;
+    }
+    if (data is String && _$RunModelsEnumMap.values.contains(data)) {
+      return CreateRunRequestModelEnumeration(
+        _$RunModelsEnumMap.keys.elementAt(
+          _$RunModelsEnumMap.values.toList().indexOf(data),
+        ),
+      );
+    }
+    if (data is String) {
+      return CreateRunRequestModelString(data);
+    }
+    throw Exception(
+      'Unexpected value for CreateRunRequestModel: $data',
+    );
+  }
+
+  @override
+  Object? toJson(CreateRunRequestModel? data) {
+    return switch (data) {
+      CreateRunRequestModelEnumeration(value: final v) =>
+        _$RunModelsEnumMap[v]!,
+      CreateRunRequestModelString(value: final v) => v,
+      null => null,
     };
   }
 }

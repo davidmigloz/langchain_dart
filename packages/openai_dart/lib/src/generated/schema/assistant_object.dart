@@ -33,7 +33,7 @@ class AssistantObject with _$AssistantObject {
     /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
     required String model,
 
-    /// The system instructions that the assistant uses. The maximum length is 32768 characters.
+    /// The system instructions that the assistant uses. The maximum length is 256,000 characters.
     required String? instructions,
 
     /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
@@ -67,7 +67,7 @@ class AssistantObject with _$AssistantObject {
   /// Validation constants
   static const nameMaxLengthValue = 256;
   static const descriptionMaxLengthValue = 512;
-  static const instructionsMaxLengthValue = 32768;
+  static const instructionsMaxLengthValue = 256000;
 
   /// Perform validations on the schema property values
   String? validateSchema() {

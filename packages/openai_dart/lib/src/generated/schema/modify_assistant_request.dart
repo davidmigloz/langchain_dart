@@ -24,7 +24,7 @@ class ModifyAssistantRequest with _$ModifyAssistantRequest {
     /// The description of the assistant. The maximum length is 512 characters.
     @JsonKey(includeIfNull: false) String? description,
 
-    /// The system instructions that the assistant uses. The maximum length is 32768 characters.
+    /// The system instructions that the assistant uses. The maximum length is 256,000 characters.
     @JsonKey(includeIfNull: false) String? instructions,
 
     /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
@@ -55,7 +55,7 @@ class ModifyAssistantRequest with _$ModifyAssistantRequest {
   /// Validation constants
   static const nameMaxLengthValue = 256;
   static const descriptionMaxLengthValue = 512;
-  static const instructionsMaxLengthValue = 32768;
+  static const instructionsMaxLengthValue = 256000;
 
   /// Perform validations on the schema property values
   String? validateSchema() {

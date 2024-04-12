@@ -392,22 +392,24 @@ Map<String, dynamic> _$$ChatCompletionModelEnumerationImplToJson(
 
 const _$ChatCompletionModelsEnumMap = {
   ChatCompletionModels.gpt4: 'gpt-4',
-  ChatCompletionModels.gpt40314: 'gpt-4-0314',
-  ChatCompletionModels.gpt40613: 'gpt-4-0613',
   ChatCompletionModels.gpt432k: 'gpt-4-32k',
   ChatCompletionModels.gpt432k0314: 'gpt-4-32k-0314',
   ChatCompletionModels.gpt432k0613: 'gpt-4-32k-0613',
-  ChatCompletionModels.gpt4TurboPreview: 'gpt-4-turbo-preview',
-  ChatCompletionModels.gpt41106Preview: 'gpt-4-1106-preview',
   ChatCompletionModels.gpt40125Preview: 'gpt-4-0125-preview',
+  ChatCompletionModels.gpt40314: 'gpt-4-0314',
+  ChatCompletionModels.gpt40613: 'gpt-4-0613',
+  ChatCompletionModels.gpt41106Preview: 'gpt-4-1106-preview',
   ChatCompletionModels.gpt4VisionPreview: 'gpt-4-vision-preview',
+  ChatCompletionModels.gpt4Turbo: 'gpt-4-turbo',
+  ChatCompletionModels.gpt4Turbo20240409: 'gpt-4-turbo-2024-04-09',
+  ChatCompletionModels.gpt4TurboPreview: 'gpt-4-turbo-preview',
   ChatCompletionModels.gpt35Turbo: 'gpt-3.5-turbo',
   ChatCompletionModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
+  ChatCompletionModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
+  ChatCompletionModels.gpt35Turbo0125: 'gpt-3.5-turbo-0125',
   ChatCompletionModels.gpt35Turbo0301: 'gpt-3.5-turbo-0301',
   ChatCompletionModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
   ChatCompletionModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
-  ChatCompletionModels.gpt35Turbo0125: 'gpt-3.5-turbo-0125',
-  ChatCompletionModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
 };
 
 _$ChatCompletionModelStringImpl _$$ChatCompletionModelStringImplFromJson(
@@ -2078,8 +2080,7 @@ const _$AssistantObjectObjectEnumMap = {
 _$CreateAssistantRequestImpl _$$CreateAssistantRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateAssistantRequestImpl(
-      model:
-          const _CreateAssistantRequestModelConverter().fromJson(json['model']),
+      model: const _AssistantModelConverter().fromJson(json['model']),
       name: json['name'] as String?,
       description: json['description'] as String?,
       instructions: json['instructions'] as String?,
@@ -2097,8 +2098,7 @@ _$CreateAssistantRequestImpl _$$CreateAssistantRequestImplFromJson(
 Map<String, dynamic> _$$CreateAssistantRequestImplToJson(
     _$CreateAssistantRequestImpl instance) {
   final val = <String, dynamic>{
-    'model':
-        const _CreateAssistantRequestModelConverter().toJson(instance.model),
+    'model': const _AssistantModelConverter().toJson(instance.model),
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -2116,17 +2116,53 @@ Map<String, dynamic> _$$CreateAssistantRequestImplToJson(
   return val;
 }
 
-_$CreateAssistantRequestModelStringImpl
-    _$$CreateAssistantRequestModelStringImplFromJson(
-            Map<String, dynamic> json) =>
-        _$CreateAssistantRequestModelStringImpl(
-          json['value'] as String,
-        );
+_$AssistantModelEnumerationImpl _$$AssistantModelEnumerationImplFromJson(
+        Map<String, dynamic> json) =>
+    _$AssistantModelEnumerationImpl(
+      $enumDecode(_$AssistantModelsEnumMap, json['value']),
+      $type: json['runtimeType'] as String?,
+    );
 
-Map<String, dynamic> _$$CreateAssistantRequestModelStringImplToJson(
-        _$CreateAssistantRequestModelStringImpl instance) =>
+Map<String, dynamic> _$$AssistantModelEnumerationImplToJson(
+        _$AssistantModelEnumerationImpl instance) =>
+    <String, dynamic>{
+      'value': _$AssistantModelsEnumMap[instance.value]!,
+      'runtimeType': instance.$type,
+    };
+
+const _$AssistantModelsEnumMap = {
+  AssistantModels.gpt4: 'gpt-4',
+  AssistantModels.gpt432k: 'gpt-4-32k',
+  AssistantModels.gpt432k0314: 'gpt-4-32k-0314',
+  AssistantModels.gpt432k0613: 'gpt-4-32k-0613',
+  AssistantModels.gpt40125Preview: 'gpt-4-0125-preview',
+  AssistantModels.gpt40314: 'gpt-4-0314',
+  AssistantModels.gpt40613: 'gpt-4-0613',
+  AssistantModels.gpt41106Preview: 'gpt-4-1106-preview',
+  AssistantModels.gpt4VisionPreview: 'gpt-4-vision-preview',
+  AssistantModels.gpt4Turbo: 'gpt-4-turbo',
+  AssistantModels.gpt4Turbo20240409: 'gpt-4-turbo-2024-04-09',
+  AssistantModels.gpt4TurboPreview: 'gpt-4-turbo-preview',
+  AssistantModels.gpt35Turbo: 'gpt-3.5-turbo',
+  AssistantModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
+  AssistantModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
+  AssistantModels.gpt35Turbo0125: 'gpt-3.5-turbo-0125',
+  AssistantModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
+  AssistantModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
+};
+
+_$AssistantModelStringImpl _$$AssistantModelStringImplFromJson(
+        Map<String, dynamic> json) =>
+    _$AssistantModelStringImpl(
+      json['value'] as String,
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$AssistantModelStringImplToJson(
+        _$AssistantModelStringImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
+      'runtimeType': instance.$type,
     };
 
 _$ModifyAssistantRequestImpl _$$ModifyAssistantRequestImplFromJson(
@@ -2352,7 +2388,7 @@ _$CreateRunRequestImpl _$$CreateRunRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateRunRequestImpl(
       assistantId: json['assistant_id'] as String,
-      model: json['model'] as String?,
+      model: const _CreateRunRequestModelConverter().fromJson(json['model']),
       instructions: json['instructions'] as String?,
       additionalInstructions: json['additional_instructions'] as String?,
       tools: (json['tools'] as List<dynamic>?)
@@ -2373,13 +2409,64 @@ Map<String, dynamic> _$$CreateRunRequestImplToJson(
     }
   }
 
-  writeNotNull('model', instance.model);
+  writeNotNull(
+      'model', const _CreateRunRequestModelConverter().toJson(instance.model));
   writeNotNull('instructions', instance.instructions);
   writeNotNull('additional_instructions', instance.additionalInstructions);
   writeNotNull('tools', instance.tools?.map((e) => e.toJson()).toList());
   writeNotNull('metadata', instance.metadata);
   return val;
 }
+
+_$CreateRunRequestModelEnumerationImpl
+    _$$CreateRunRequestModelEnumerationImplFromJson(
+            Map<String, dynamic> json) =>
+        _$CreateRunRequestModelEnumerationImpl(
+          $enumDecode(_$RunModelsEnumMap, json['value']),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$CreateRunRequestModelEnumerationImplToJson(
+        _$CreateRunRequestModelEnumerationImpl instance) =>
+    <String, dynamic>{
+      'value': _$RunModelsEnumMap[instance.value]!,
+      'runtimeType': instance.$type,
+    };
+
+const _$RunModelsEnumMap = {
+  RunModels.gpt4: 'gpt-4',
+  RunModels.gpt432k: 'gpt-4-32k',
+  RunModels.gpt432k0314: 'gpt-4-32k-0314',
+  RunModels.gpt432k0613: 'gpt-4-32k-0613',
+  RunModels.gpt40125Preview: 'gpt-4-0125-preview',
+  RunModels.gpt40314: 'gpt-4-0314',
+  RunModels.gpt40613: 'gpt-4-0613',
+  RunModels.gpt41106Preview: 'gpt-4-1106-preview',
+  RunModels.gpt4VisionPreview: 'gpt-4-vision-preview',
+  RunModels.gpt4Turbo: 'gpt-4-turbo',
+  RunModels.gpt4Turbo20240409: 'gpt-4-turbo-2024-04-09',
+  RunModels.gpt4TurboPreview: 'gpt-4-turbo-preview',
+  RunModels.gpt35Turbo: 'gpt-3.5-turbo',
+  RunModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
+  RunModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
+  RunModels.gpt35Turbo0125: 'gpt-3.5-turbo-0125',
+  RunModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
+  RunModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
+};
+
+_$CreateRunRequestModelStringImpl _$$CreateRunRequestModelStringImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CreateRunRequestModelStringImpl(
+      json['value'] as String,
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$CreateRunRequestModelStringImplToJson(
+        _$CreateRunRequestModelStringImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'runtimeType': instance.$type,
+    };
 
 _$ListRunsResponseImpl _$$ListRunsResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -2502,7 +2589,7 @@ _$CreateThreadAndRunRequestImpl _$$CreateThreadAndRunRequestImplFromJson(
           ? null
           : CreateThreadRequest.fromJson(
               json['thread'] as Map<String, dynamic>),
-      model: json['model'] as String?,
+      model: const _ThreadAndRunModelConverter().fromJson(json['model']),
       instructions: json['instructions'] as String?,
       tools: (json['tools'] as List<dynamic>?)
           ?.map((e) => AssistantTools.fromJson(e as Map<String, dynamic>))
@@ -2523,12 +2610,62 @@ Map<String, dynamic> _$$CreateThreadAndRunRequestImplToJson(
   }
 
   writeNotNull('thread', instance.thread?.toJson());
-  writeNotNull('model', instance.model);
+  writeNotNull(
+      'model', const _ThreadAndRunModelConverter().toJson(instance.model));
   writeNotNull('instructions', instance.instructions);
   writeNotNull('tools', instance.tools?.map((e) => e.toJson()).toList());
   writeNotNull('metadata', instance.metadata);
   return val;
 }
+
+_$ThreadAndRunModelEnumerationImpl _$$ThreadAndRunModelEnumerationImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ThreadAndRunModelEnumerationImpl(
+      $enumDecode(_$ThreadAndRunModelsEnumMap, json['value']),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$ThreadAndRunModelEnumerationImplToJson(
+        _$ThreadAndRunModelEnumerationImpl instance) =>
+    <String, dynamic>{
+      'value': _$ThreadAndRunModelsEnumMap[instance.value]!,
+      'runtimeType': instance.$type,
+    };
+
+const _$ThreadAndRunModelsEnumMap = {
+  ThreadAndRunModels.gpt4: 'gpt-4',
+  ThreadAndRunModels.gpt432k: 'gpt-4-32k',
+  ThreadAndRunModels.gpt432k0314: 'gpt-4-32k-0314',
+  ThreadAndRunModels.gpt432k0613: 'gpt-4-32k-0613',
+  ThreadAndRunModels.gpt40125Preview: 'gpt-4-0125-preview',
+  ThreadAndRunModels.gpt40314: 'gpt-4-0314',
+  ThreadAndRunModels.gpt40613: 'gpt-4-0613',
+  ThreadAndRunModels.gpt41106Preview: 'gpt-4-1106-preview',
+  ThreadAndRunModels.gpt4VisionPreview: 'gpt-4-vision-preview',
+  ThreadAndRunModels.gpt4Turbo: 'gpt-4-turbo',
+  ThreadAndRunModels.gpt4Turbo20240409: 'gpt-4-turbo-2024-04-09',
+  ThreadAndRunModels.gpt4TurboPreview: 'gpt-4-turbo-preview',
+  ThreadAndRunModels.gpt35Turbo: 'gpt-3.5-turbo',
+  ThreadAndRunModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
+  ThreadAndRunModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
+  ThreadAndRunModels.gpt35Turbo0125: 'gpt-3.5-turbo-0125',
+  ThreadAndRunModels.gpt35Turbo0613: 'gpt-3.5-turbo-0613',
+  ThreadAndRunModels.gpt35Turbo1106: 'gpt-3.5-turbo-1106',
+};
+
+_$ThreadAndRunModelStringImpl _$$ThreadAndRunModelStringImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ThreadAndRunModelStringImpl(
+      json['value'] as String,
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$ThreadAndRunModelStringImplToJson(
+        _$ThreadAndRunModelStringImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'runtimeType': instance.$type,
+    };
 
 _$ThreadObjectImpl _$$ThreadObjectImplFromJson(Map<String, dynamic> json) =>
     _$ThreadObjectImpl(
