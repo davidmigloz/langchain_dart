@@ -571,6 +571,39 @@ class OpenAIClient {
   }
 
   // ------------------------------------------
+  // METHOD: listFineTuningJobCheckpoints
+  // ------------------------------------------
+
+  /// List checkpoints for a fine-tuning job.
+  ///
+  /// `fineTuningJobId`: The ID of the fine-tuning job to get checkpoints for.
+  ///
+  /// `after`: Identifier for the last checkpoint ID from the previous pagination request.
+  ///
+  /// `limit`: Number of checkpoints to retrieve.
+  ///
+  /// `GET` `https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}/checkpoints`
+  Future<ListFineTuningJobCheckpointsResponse> listFineTuningJobCheckpoints({
+    required String fineTuningJobId,
+    String? after,
+    int limit = 10,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/fine_tuning/jobs/$fineTuningJobId/checkpoints',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+      queryParams: {
+        if (after != null) 'after': after,
+        'limit': limit,
+      },
+    );
+    return ListFineTuningJobCheckpointsResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
   // METHOD: createImage
   // ------------------------------------------
 

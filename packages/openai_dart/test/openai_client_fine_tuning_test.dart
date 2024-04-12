@@ -62,6 +62,15 @@ void main() {
       expect(res.status, FineTuningJobStatus.cancelled);
     });
 
+    test('Test list fine-tuning jobs checkpoints', skip: true, () async {
+      final res = await client.listFineTuningJobCheckpoints(
+        fineTuningJobId: 'ft-AF1WoRqd3aJAHsqc9NY7iL8F',
+      );
+      final fistCheckpoint = res.data.first;
+      expect(fistCheckpoint.id, isNotEmpty);
+    });
+
+
     test('Test list fine-tuning events', skip: true, () async {
       final res = await client.listFineTuningEvents(
         fineTuningJobId: 'ft-AF1WoRqd3aJAHsqc9NY7iL8F',

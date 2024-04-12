@@ -227,6 +227,42 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/FineTuningJob"
+  /fine_tuning/jobs/{fine_tuning_job_id}/checkpoints:
+    get:
+      operationId: listFineTuningJobCheckpoints
+      tags:
+        - Fine-tuning
+      summary: |
+        List checkpoints for a fine-tuning job.
+      parameters:
+        - in: path
+          name: fine_tuning_job_id
+          required: true
+          schema:
+            type: string
+            example: ft-AF1WoRqd3aJAHsqc9NY7iL8F
+          description: |
+            The ID of the fine-tuning job to get checkpoints for.
+        - name: after
+          in: query
+          description: Identifier for the last checkpoint ID from the previous pagination request.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Number of checkpoints to retrieve.
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListFineTuningJobCheckpointsResponse"
   /images/generations:
     post:
       operationId: createImage
@@ -2493,6 +2529,34 @@ components:
       required:
         - object
         - data
+    ListFineTuningJobCheckpointsResponse:
+      type: object
+      description: Represents a list of fine-tuning job checkpoints.
+      properties:
+        data:
+          type: array
+          description: The list of fine-tuning job checkpoints.
+          items:
+            $ref: "#/components/schemas/FineTuningJobCheckpoint"
+        object:
+          type: string
+          description: The object type, which is always "list".
+          enum: [list]
+        first_id:
+          type: string
+          description: The ID of the first checkpoint in the list.
+          nullable: true
+        last_id:
+          type: string
+          description: The ID of the last checkpoint in the list.
+          nullable: true
+        has_more:
+          description: Whether there are more checkpoints to retrieve.
+          type: boolean
+      required:
+        - object
+        - data
+        - has_more
     FineTuningJobEvent:
       type: object
       description: Fine-tuning job event object.
@@ -2520,6 +2584,65 @@ components:
         - created_at
         - level
         - message
+    FineTuningJobCheckpoint:
+      id: FineTuningJobCheckpoint
+      type: object
+      description: |
+        The `fine_tuning.job.checkpoint` object represents a model checkpoint for a fine-tuning job that is ready to use.
+      properties:
+        id:
+          type: string
+          description: The checkpoint identifier, which can be referenced in the API endpoints.
+        created_at:
+          type: integer
+          description: The Unix timestamp (in seconds) for when the checkpoint was created.
+        fine_tuned_model_checkpoint:
+          type: string
+          description: The name of the fine-tuned checkpoint model that is created.
+        step_number:
+          type: integer
+          description: The step number that the checkpoint was created at.
+        metrics:
+          id: FineTuningJobCheckpointMetrics
+          type: object
+          description: Metrics at the step number during the fine-tuning job.
+          properties:
+            step:
+              type: number
+              description: The step number that the metrics were recorded at.
+            train_loss:
+              type: number
+              description: The training loss at the step number.
+            train_mean_token_accuracy:
+              type: number
+              description: The training mean token accuracy at the step number.
+            valid_loss:
+              type: number
+              description: The validation loss at the step number.
+            valid_mean_token_accuracy:
+              type: number
+              description: The validation mean token accuracy at the step number.
+            full_valid_loss:
+              type: number
+              description: The full validation loss at the step number.
+            full_valid_mean_token_accuracy:
+              type: number
+              description: The full validation mean token accuracy at the step number.
+        fine_tuning_job_id:
+          type: string
+          description: The name of the fine-tuning job that this checkpoint was created from.
+        object:
+          type: string
+          description: The object type, which is always "fine_tuning.job.checkpoint".
+          enum: [fine_tuning.job.checkpoint]
+      required:
+        - created_at
+        - fine_tuning_job_id
+        - fine_tuned_model_checkpoint
+        - id
+        - metrics
+        - object
+        - step_number
     CreateImageRequest:
       type: object
       description: Request object for the Create image endpoint.
