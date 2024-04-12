@@ -393,7 +393,7 @@ void main() {
       final chatModel = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: 'gpt-4-vision-preview',
+          model: 'gpt-4-turbo',
         ),
       );
 
@@ -420,7 +420,7 @@ void main() {
       final chatModel = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: 'gpt-4-vision-preview',
+          model: 'gpt-4-turbo',
         ),
       );
 
