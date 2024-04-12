@@ -72,6 +72,9 @@ class RunObject with _$RunObject {
 
     /// Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.).
     required RunCompletionUsage? usage,
+
+    /// The sampling temperature used for this run. If not set, defaults to 1.
+    @JsonKey(includeIfNull: false) double? temperature,
   }) = _RunObject;
 
   /// Object construction from a JSON representation
@@ -98,7 +101,8 @@ class RunObject with _$RunObject {
     'tools',
     'file_ids',
     'metadata',
-    'usage'
+    'usage',
+    'temperature'
   ];
 
   /// Perform validations on the schema property values
@@ -128,6 +132,7 @@ class RunObject with _$RunObject {
       'file_ids': fileIds,
       'metadata': metadata,
       'usage': usage,
+      'temperature': temperature,
     };
   }
 }

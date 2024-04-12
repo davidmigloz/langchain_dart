@@ -2277,30 +2277,41 @@ _$RunObjectImpl _$$RunObjectImplFromJson(Map<String, dynamic> json) =>
       usage: json['usage'] == null
           ? null
           : RunCompletionUsage.fromJson(json['usage'] as Map<String, dynamic>),
+      temperature: (json['temperature'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$$RunObjectImplToJson(_$RunObjectImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'object': _$RunObjectObjectEnumMap[instance.object]!,
-      'created_at': instance.createdAt,
-      'thread_id': instance.threadId,
-      'assistant_id': instance.assistantId,
-      'status': _$RunStatusEnumMap[instance.status]!,
-      'required_action': instance.requiredAction?.toJson(),
-      'last_error': instance.lastError?.toJson(),
-      'expires_at': instance.expiresAt,
-      'started_at': instance.startedAt,
-      'cancelled_at': instance.cancelledAt,
-      'failed_at': instance.failedAt,
-      'completed_at': instance.completedAt,
-      'model': instance.model,
-      'instructions': instance.instructions,
-      'tools': instance.tools.map((e) => e.toJson()).toList(),
-      'file_ids': instance.fileIds,
-      'metadata': instance.metadata,
-      'usage': instance.usage?.toJson(),
-    };
+Map<String, dynamic> _$$RunObjectImplToJson(_$RunObjectImpl instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'object': _$RunObjectObjectEnumMap[instance.object]!,
+    'created_at': instance.createdAt,
+    'thread_id': instance.threadId,
+    'assistant_id': instance.assistantId,
+    'status': _$RunStatusEnumMap[instance.status]!,
+    'required_action': instance.requiredAction?.toJson(),
+    'last_error': instance.lastError?.toJson(),
+    'expires_at': instance.expiresAt,
+    'started_at': instance.startedAt,
+    'cancelled_at': instance.cancelledAt,
+    'failed_at': instance.failedAt,
+    'completed_at': instance.completedAt,
+    'model': instance.model,
+    'instructions': instance.instructions,
+    'tools': instance.tools.map((e) => e.toJson()).toList(),
+    'file_ids': instance.fileIds,
+    'metadata': instance.metadata,
+    'usage': instance.usage?.toJson(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('temperature', instance.temperature);
+  return val;
+}
 
 const _$RunObjectObjectEnumMap = {
   RunObjectObject.threadRun: 'thread.run',
@@ -2391,10 +2402,15 @@ _$CreateRunRequestImpl _$$CreateRunRequestImplFromJson(
       model: const _CreateRunRequestModelConverter().fromJson(json['model']),
       instructions: json['instructions'] as String?,
       additionalInstructions: json['additional_instructions'] as String?,
+      additionalMessages: (json['additional_messages'] as List<dynamic>?)
+          ?.map((e) => CreateMessageRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
       tools: (json['tools'] as List<dynamic>?)
           ?.map((e) => AssistantTools.fromJson(e as Map<String, dynamic>))
           .toList(),
       metadata: json['metadata'] as Map<String, dynamic>?,
+      temperature: (json['temperature'] as num?)?.toDouble() ?? 1.0,
+      stream: json['stream'] as bool?,
     );
 
 Map<String, dynamic> _$$CreateRunRequestImplToJson(
@@ -2413,8 +2429,12 @@ Map<String, dynamic> _$$CreateRunRequestImplToJson(
       'model', const _CreateRunRequestModelConverter().toJson(instance.model));
   writeNotNull('instructions', instance.instructions);
   writeNotNull('additional_instructions', instance.additionalInstructions);
+  writeNotNull('additional_messages',
+      instance.additionalMessages?.map((e) => e.toJson()).toList());
   writeNotNull('tools', instance.tools?.map((e) => e.toJson()).toList());
   writeNotNull('metadata', instance.metadata);
+  writeNotNull('temperature', instance.temperature);
+  writeNotNull('stream', instance.stream);
   return val;
 }
 
@@ -2516,13 +2536,24 @@ _$SubmitToolOutputsRunRequestImpl _$$SubmitToolOutputsRunRequestImplFromJson(
       toolOutputs: (json['tool_outputs'] as List<dynamic>)
           .map((e) => RunSubmitToolOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
+      stream: json['stream'] as bool?,
     );
 
 Map<String, dynamic> _$$SubmitToolOutputsRunRequestImplToJson(
-        _$SubmitToolOutputsRunRequestImpl instance) =>
-    <String, dynamic>{
-      'tool_outputs': instance.toolOutputs.map((e) => e.toJson()).toList(),
-    };
+    _$SubmitToolOutputsRunRequestImpl instance) {
+  final val = <String, dynamic>{
+    'tool_outputs': instance.toolOutputs.map((e) => e.toJson()).toList(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('stream', instance.stream);
+  return val;
+}
 
 _$RunSubmitToolOutputImpl _$$RunSubmitToolOutputImplFromJson(
         Map<String, dynamic> json) =>
@@ -2595,6 +2626,8 @@ _$CreateThreadAndRunRequestImpl _$$CreateThreadAndRunRequestImplFromJson(
           ?.map((e) => AssistantTools.fromJson(e as Map<String, dynamic>))
           .toList(),
       metadata: json['metadata'] as Map<String, dynamic>?,
+      temperature: (json['temperature'] as num?)?.toDouble() ?? 1.0,
+      stream: json['stream'] as bool?,
     );
 
 Map<String, dynamic> _$$CreateThreadAndRunRequestImplToJson(
@@ -2615,6 +2648,8 @@ Map<String, dynamic> _$$CreateThreadAndRunRequestImplToJson(
   writeNotNull('instructions', instance.instructions);
   writeNotNull('tools', instance.tools?.map((e) => e.toJson()).toList());
   writeNotNull('metadata', instance.metadata);
+  writeNotNull('temperature', instance.temperature);
+  writeNotNull('stream', instance.stream);
   return val;
 }
 
@@ -2779,7 +2814,15 @@ _$MessageObjectImpl _$$MessageObjectImplFromJson(Map<String, dynamic> json) =>
       object: $enumDecode(_$MessageObjectObjectEnumMap, json['object']),
       createdAt: json['created_at'] as int,
       threadId: json['thread_id'] as String,
-      role: $enumDecode(_$MessageObjectRoleEnumMap, json['role']),
+      status: $enumDecodeNullable(_$MessageObjectStatusEnumMap, json['status'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      incompleteDetails: json['incomplete_details'] == null
+          ? null
+          : MessageObjectIncompleteDetails.fromJson(
+              json['incomplete_details'] as Map<String, dynamic>),
+      completedAt: json['completed_at'] as int?,
+      incompleteAt: json['incomplete_at'] as int?,
+      role: $enumDecode(_$MessageRoleEnumMap, json['role']),
       content: (json['content'] as List<dynamic>)
           .map((e) => MessageContent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2796,7 +2839,11 @@ Map<String, dynamic> _$$MessageObjectImplToJson(_$MessageObjectImpl instance) =>
       'object': _$MessageObjectObjectEnumMap[instance.object]!,
       'created_at': instance.createdAt,
       'thread_id': instance.threadId,
-      'role': _$MessageObjectRoleEnumMap[instance.role]!,
+      'status': _$MessageObjectStatusEnumMap[instance.status],
+      'incomplete_details': instance.incompleteDetails?.toJson(),
+      'completed_at': instance.completedAt,
+      'incomplete_at': instance.incompleteAt,
+      'role': _$MessageRoleEnumMap[instance.role]!,
       'content': instance.content.map((e) => e.toJson()).toList(),
       'assistant_id': instance.assistantId,
       'run_id': instance.runId,
@@ -2808,15 +2855,90 @@ const _$MessageObjectObjectEnumMap = {
   MessageObjectObject.threadMessage: 'thread.message',
 };
 
-const _$MessageObjectRoleEnumMap = {
-  MessageObjectRole.user: 'user',
-  MessageObjectRole.assistant: 'assistant',
+const _$MessageObjectStatusEnumMap = {
+  MessageObjectStatus.inProgress: 'in_progress',
+  MessageObjectStatus.incomplete: 'incomplete',
+  MessageObjectStatus.completed: 'completed',
 };
+
+const _$MessageRoleEnumMap = {
+  MessageRole.user: 'user',
+  MessageRole.assistant: 'assistant',
+};
+
+_$MessageObjectIncompleteDetailsImpl
+    _$$MessageObjectIncompleteDetailsImplFromJson(Map<String, dynamic> json) =>
+        _$MessageObjectIncompleteDetailsImpl(
+          reason: $enumDecode(
+              _$MessageObjectIncompleteDetailsReasonEnumMap, json['reason']),
+        );
+
+Map<String, dynamic> _$$MessageObjectIncompleteDetailsImplToJson(
+        _$MessageObjectIncompleteDetailsImpl instance) =>
+    <String, dynamic>{
+      'reason': _$MessageObjectIncompleteDetailsReasonEnumMap[instance.reason]!,
+    };
+
+const _$MessageObjectIncompleteDetailsReasonEnumMap = {
+  MessageObjectIncompleteDetailsReason.contentFilter: 'content_filter',
+  MessageObjectIncompleteDetailsReason.maxTokens: 'max_tokens',
+  MessageObjectIncompleteDetailsReason.runCancelled: 'run_cancelled',
+  MessageObjectIncompleteDetailsReason.runExpired: 'run_expired',
+  MessageObjectIncompleteDetailsReason.runFailed: 'run_failed',
+};
+
+_$MessageDeltaObjectImpl _$$MessageDeltaObjectImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MessageDeltaObjectImpl(
+      id: json['id'] as String,
+      object: $enumDecode(_$MessageDeltaObjectObjectEnumMap, json['object']),
+      delta: MessageDelta.fromJson(json['delta'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$MessageDeltaObjectImplToJson(
+        _$MessageDeltaObjectImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'object': _$MessageDeltaObjectObjectEnumMap[instance.object]!,
+      'delta': instance.delta.toJson(),
+    };
+
+const _$MessageDeltaObjectObjectEnumMap = {
+  MessageDeltaObjectObject.threadMessageDelta: 'thread.message.delta',
+};
+
+_$MessageDeltaImpl _$$MessageDeltaImplFromJson(Map<String, dynamic> json) =>
+    _$MessageDeltaImpl(
+      role: $enumDecodeNullable(_$MessageRoleEnumMap, json['role'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      content: (json['content'] as List<dynamic>?)
+          ?.map((e) => MessageDeltaContent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      fileIds: (json['file_ids'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+    );
+
+Map<String, dynamic> _$$MessageDeltaImplToJson(_$MessageDeltaImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('role', _$MessageRoleEnumMap[instance.role]);
+  writeNotNull('content', instance.content?.map((e) => e.toJson()).toList());
+  val['file_ids'] = instance.fileIds;
+  return val;
+}
 
 _$CreateMessageRequestImpl _$$CreateMessageRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateMessageRequestImpl(
-      role: $enumDecode(_$CreateMessageRequestRoleEnumMap, json['role']),
+      role: $enumDecode(_$MessageRoleEnumMap, json['role']),
       content: json['content'] as String,
       fileIds: (json['file_ids'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -2828,7 +2950,7 @@ _$CreateMessageRequestImpl _$$CreateMessageRequestImplFromJson(
 Map<String, dynamic> _$$CreateMessageRequestImplToJson(
     _$CreateMessageRequestImpl instance) {
   final val = <String, dynamic>{
-    'role': _$CreateMessageRequestRoleEnumMap[instance.role]!,
+    'role': _$MessageRoleEnumMap[instance.role]!,
     'content': instance.content,
     'file_ids': instance.fileIds,
   };
@@ -2842,10 +2964,6 @@ Map<String, dynamic> _$$CreateMessageRequestImplToJson(
   writeNotNull('metadata', instance.metadata);
   return val;
 }
-
-const _$CreateMessageRequestRoleEnumMap = {
-  CreateMessageRequestRole.user: 'user',
-};
 
 _$ModifyMessageRequestImpl _$$ModifyMessageRequestImplFromJson(
         Map<String, dynamic> json) =>
@@ -2953,6 +3071,56 @@ Map<String, dynamic> _$$MessageContentTextAnnotationsFileCitationImplToJson(
       'quote': instance.quote,
     };
 
+_$MessageDeltaContentTextImpl _$$MessageDeltaContentTextImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MessageDeltaContentTextImpl(
+      value: json['value'] as String?,
+      annotations: (json['annotations'] as List<dynamic>?)
+          ?.map((e) => MessageDeltaContentTextAnnotations.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$MessageDeltaContentTextImplToJson(
+    _$MessageDeltaContentTextImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('value', instance.value);
+  writeNotNull(
+      'annotations', instance.annotations?.map((e) => e.toJson()).toList());
+  return val;
+}
+
+_$MessageDeltaContentTextAnnotationsFileCitationImpl
+    _$$MessageDeltaContentTextAnnotationsFileCitationImplFromJson(
+            Map<String, dynamic> json) =>
+        _$MessageDeltaContentTextAnnotationsFileCitationImpl(
+          fileId: json['file_id'] as String?,
+          quote: json['quote'] as String?,
+        );
+
+Map<String, dynamic>
+    _$$MessageDeltaContentTextAnnotationsFileCitationImplToJson(
+        _$MessageDeltaContentTextAnnotationsFileCitationImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('file_id', instance.fileId);
+  writeNotNull('quote', instance.quote);
+  return val;
+}
+
 _$RunStepObjectImpl _$$RunStepObjectImplFromJson(Map<String, dynamic> json) =>
     _$RunStepObjectImpl(
       id: json['id'] as String,
@@ -3036,6 +3204,47 @@ const _$RunStepLastErrorCodeEnumMap = {
   RunStepLastErrorCode.rateLimitExceeded: 'rate_limit_exceeded',
 };
 
+_$RunStepDeltaObjectImpl _$$RunStepDeltaObjectImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RunStepDeltaObjectImpl(
+      id: json['id'] as String,
+      object: $enumDecode(_$RunStepDeltaObjectObjectEnumMap, json['object']),
+      delta: RunStepDelta.fromJson(json['delta'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$RunStepDeltaObjectImplToJson(
+        _$RunStepDeltaObjectImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'object': _$RunStepDeltaObjectObjectEnumMap[instance.object]!,
+      'delta': instance.delta.toJson(),
+    };
+
+const _$RunStepDeltaObjectObjectEnumMap = {
+  RunStepDeltaObjectObject.threadRunStepDelta: 'thread.run.step.delta',
+};
+
+_$RunStepDeltaImpl _$$RunStepDeltaImplFromJson(Map<String, dynamic> json) =>
+    _$RunStepDeltaImpl(
+      stepDetails: json['step_details'] == null
+          ? null
+          : RunStepDeltaDetails.fromJson(
+              json['step_details'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$RunStepDeltaImplToJson(_$RunStepDeltaImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('step_details', instance.stepDetails?.toJson());
+  return val;
+}
+
 _$ListRunStepsResponseImpl _$$ListRunStepsResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$ListRunStepsResponseImpl(
@@ -3070,6 +3279,27 @@ Map<String, dynamic> _$$RunStepDetailsMessageCreationImplToJson(
       'message_id': instance.messageId,
     };
 
+_$RunStepDeltaStepDetailsMessageCreationImpl
+    _$$RunStepDeltaStepDetailsMessageCreationImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunStepDeltaStepDetailsMessageCreationImpl(
+          messageId: json['message_id'] as String?,
+        );
+
+Map<String, dynamic> _$$RunStepDeltaStepDetailsMessageCreationImplToJson(
+    _$RunStepDeltaStepDetailsMessageCreationImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('message_id', instance.messageId);
+  return val;
+}
+
 _$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl
     _$$RunStepDetailsToolCallsCodeObjectCodeInterpreterImplFromJson(
             Map<String, dynamic> json) =>
@@ -3089,6 +3319,34 @@ Map<String, dynamic>
           'outputs': instance.outputs.map((e) => e.toJson()).toList(),
         };
 
+_$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl
+    _$$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl(
+          input: json['input'] as String?,
+          outputs: (json['outputs'] as List<dynamic>?)
+              ?.map((e) => RunStepDeltaStepDetailsToolCallsCodeOutput.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+        );
+
+Map<String, dynamic>
+    _$$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImplToJson(
+        _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl
+            instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('input', instance.input);
+  writeNotNull('outputs', instance.outputs?.map((e) => e.toJson()).toList());
+  return val;
+}
+
 _$RunStepDetailsToolCallsCodeOutputImageImpl
     _$$RunStepDetailsToolCallsCodeOutputImageImplFromJson(
             Map<String, dynamic> json) =>
@@ -3101,6 +3359,28 @@ Map<String, dynamic> _$$RunStepDetailsToolCallsCodeOutputImageImplToJson(
     <String, dynamic>{
       'file_id': instance.fileId,
     };
+
+_$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl
+    _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl(
+          fileId: json['file_id'] as String?,
+        );
+
+Map<String, dynamic>
+    _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageImplToJson(
+        _$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('file_id', instance.fileId);
+  return val;
+}
 
 _$RunStepCompletionUsageImpl _$$RunStepCompletionUsageImplFromJson(
         Map<String, dynamic> json) =>
@@ -3238,6 +3518,21 @@ Map<String, dynamic> _$$ListMessageFilesResponseImplToJson(
       'first_id': instance.firstId,
       'last_id': instance.lastId,
       'has_more': instance.hasMore,
+    };
+
+_$ErrorImpl _$$ErrorImplFromJson(Map<String, dynamic> json) => _$ErrorImpl(
+      code: json['code'] as String?,
+      message: json['message'] as String,
+      param: json['param'] as String?,
+      type: json['type'] as String,
+    );
+
+Map<String, dynamic> _$$ErrorImplToJson(_$ErrorImpl instance) =>
+    <String, dynamic>{
+      'code': instance.code,
+      'message': instance.message,
+      'param': instance.param,
+      'type': instance.type,
     };
 
 _$ChatCompletionSystemMessageImpl _$$ChatCompletionSystemMessageImplFromJson(
@@ -3535,13 +3830,68 @@ Map<String, dynamic> _$$MessageContentTextObjectImplToJson(
       'text': instance.text.toJson(),
     };
 
+_$MessageDeltaContentImageFileObjectImpl
+    _$$MessageDeltaContentImageFileObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$MessageDeltaContentImageFileObjectImpl(
+          index: json['index'] as int,
+          type: json['type'] as String,
+          imageFile: json['image_file'] == null
+              ? null
+              : MessageContentImageFile.fromJson(
+                  json['image_file'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$MessageDeltaContentImageFileObjectImplToJson(
+    _$MessageDeltaContentImageFileObjectImpl instance) {
+  final val = <String, dynamic>{
+    'index': instance.index,
+    'type': instance.type,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('image_file', instance.imageFile?.toJson());
+  return val;
+}
+
+_$MessageDeltaContentTextObjectImpl
+    _$$MessageDeltaContentTextObjectImplFromJson(Map<String, dynamic> json) =>
+        _$MessageDeltaContentTextObjectImpl(
+          index: json['index'] as int,
+          type: json['type'] as String,
+          text: json['text'] == null
+              ? null
+              : MessageDeltaContentText.fromJson(
+                  json['text'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$MessageDeltaContentTextObjectImplToJson(
+    _$MessageDeltaContentTextObjectImpl instance) {
+  final val = <String, dynamic>{
+    'index': instance.index,
+    'type': instance.type,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('text', instance.text?.toJson());
+  return val;
+}
+
 _$MessageContentTextAnnotationsFileCitationObjectImpl
     _$$MessageContentTextAnnotationsFileCitationObjectImplFromJson(
             Map<String, dynamic> json) =>
         _$MessageContentTextAnnotationsFileCitationObjectImpl(
-          type: $enumDecode(
-              _$MessageContentTextAnnotationsFileCitationObjectTypeEnumMap,
-              json['type']),
+          type: json['type'] as String,
           text: json['text'] as String,
           fileCitation: MessageContentTextAnnotationsFileCitation.fromJson(
               json['file_citation'] as Map<String, dynamic>),
@@ -3553,26 +3903,18 @@ Map<String, dynamic>
     _$$MessageContentTextAnnotationsFileCitationObjectImplToJson(
             _$MessageContentTextAnnotationsFileCitationObjectImpl instance) =>
         <String, dynamic>{
-          'type': _$MessageContentTextAnnotationsFileCitationObjectTypeEnumMap[
-              instance.type]!,
+          'type': instance.type,
           'text': instance.text,
           'file_citation': instance.fileCitation.toJson(),
           'start_index': instance.startIndex,
           'end_index': instance.endIndex,
         };
 
-const _$MessageContentTextAnnotationsFileCitationObjectTypeEnumMap = {
-  MessageContentTextAnnotationsFileCitationObjectType.fileCitation:
-      'file_citation',
-};
-
 _$MessageContentTextAnnotationsFilePathObjectImpl
     _$$MessageContentTextAnnotationsFilePathObjectImplFromJson(
             Map<String, dynamic> json) =>
         _$MessageContentTextAnnotationsFilePathObjectImpl(
-          type: $enumDecode(
-              _$MessageContentTextAnnotationsFilePathObjectTypeEnumMap,
-              json['type']),
+          type: json['type'] as String,
           text: json['text'] as String,
           filePath: MessageContentTextAnnotationsFilePath.fromJson(
               json['file_path'] as Map<String, dynamic>),
@@ -3583,17 +3925,12 @@ _$MessageContentTextAnnotationsFilePathObjectImpl
 Map<String, dynamic> _$$MessageContentTextAnnotationsFilePathObjectImplToJson(
         _$MessageContentTextAnnotationsFilePathObjectImpl instance) =>
     <String, dynamic>{
-      'type': _$MessageContentTextAnnotationsFilePathObjectTypeEnumMap[
-          instance.type]!,
+      'type': instance.type,
       'text': instance.text,
       'file_path': instance.filePath.toJson(),
       'start_index': instance.startIndex,
       'end_index': instance.endIndex,
     };
-
-const _$MessageContentTextAnnotationsFilePathObjectTypeEnumMap = {
-  MessageContentTextAnnotationsFilePathObjectType.filePath: 'file_path',
-};
 
 _$MessageContentTextAnnotationsFilePathImpl
     _$$MessageContentTextAnnotationsFilePathImplFromJson(
@@ -3608,12 +3945,106 @@ Map<String, dynamic> _$$MessageContentTextAnnotationsFilePathImplToJson(
       'file_id': instance.fileId,
     };
 
+_$MessageDeltaContentTextAnnotationsFileCitationObjectImpl
+    _$$MessageDeltaContentTextAnnotationsFileCitationObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl(
+          index: json['index'] as int,
+          type: json['type'] as String,
+          text: json['text'] as String?,
+          fileCitation: json['file_citation'] == null
+              ? null
+              : MessageDeltaContentTextAnnotationsFileCitation.fromJson(
+                  json['file_citation'] as Map<String, dynamic>),
+          startIndex: json['start_index'] as int?,
+          endIndex: json['end_index'] as int?,
+        );
+
+Map<String, dynamic>
+    _$$MessageDeltaContentTextAnnotationsFileCitationObjectImplToJson(
+        _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl instance) {
+  final val = <String, dynamic>{
+    'index': instance.index,
+    'type': instance.type,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('text', instance.text);
+  writeNotNull('file_citation', instance.fileCitation?.toJson());
+  writeNotNull('start_index', instance.startIndex);
+  writeNotNull('end_index', instance.endIndex);
+  return val;
+}
+
+_$MessageDeltaContentTextAnnotationsFilePathObjectImpl
+    _$$MessageDeltaContentTextAnnotationsFilePathObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$MessageDeltaContentTextAnnotationsFilePathObjectImpl(
+          index: json['index'] as int,
+          type: json['type'] as String,
+          text: json['text'] as String?,
+          filePath: json['file_path'] == null
+              ? null
+              : MessageDeltaContentTextAnnotationsFilePathObjectFilePath
+                  .fromJson(json['file_path'] as Map<String, dynamic>),
+          startIndex: json['start_index'] as int?,
+          endIndex: json['end_index'] as int?,
+        );
+
+Map<String, dynamic>
+    _$$MessageDeltaContentTextAnnotationsFilePathObjectImplToJson(
+        _$MessageDeltaContentTextAnnotationsFilePathObjectImpl instance) {
+  final val = <String, dynamic>{
+    'index': instance.index,
+    'type': instance.type,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('text', instance.text);
+  writeNotNull('file_path', instance.filePath?.toJson());
+  writeNotNull('start_index', instance.startIndex);
+  writeNotNull('end_index', instance.endIndex);
+  return val;
+}
+
+_$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl
+    _$$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImplFromJson(
+            Map<String, dynamic> json) =>
+        _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl(
+          fileId: json['file_id'] as String?,
+        );
+
+Map<String, dynamic>
+    _$$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImplToJson(
+        _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl
+            instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('file_id', instance.fileId);
+  return val;
+}
+
 _$RunStepDetailsMessageCreationObjectImpl
     _$$RunStepDetailsMessageCreationObjectImplFromJson(
             Map<String, dynamic> json) =>
         _$RunStepDetailsMessageCreationObjectImpl(
-          type: $enumDecode(
-              _$RunStepDetailsMessageCreationObjectTypeEnumMap, json['type']),
+          type: json['type'] as String,
           messageCreation: RunStepDetailsMessageCreation.fromJson(
               json['message_creation'] as Map<String, dynamic>),
         );
@@ -3621,19 +4052,14 @@ _$RunStepDetailsMessageCreationObjectImpl
 Map<String, dynamic> _$$RunStepDetailsMessageCreationObjectImplToJson(
         _$RunStepDetailsMessageCreationObjectImpl instance) =>
     <String, dynamic>{
-      'type': _$RunStepDetailsMessageCreationObjectTypeEnumMap[instance.type]!,
+      'type': instance.type,
       'message_creation': instance.messageCreation.toJson(),
     };
-
-const _$RunStepDetailsMessageCreationObjectTypeEnumMap = {
-  RunStepDetailsMessageCreationObjectType.messageCreation: 'message_creation',
-};
 
 _$RunStepDetailsToolCallsObjectImpl
     _$$RunStepDetailsToolCallsObjectImplFromJson(Map<String, dynamic> json) =>
         _$RunStepDetailsToolCallsObjectImpl(
-          type: $enumDecode(
-              _$RunStepDetailsToolCallsObjectTypeEnumMap, json['type']),
+          type: json['type'] as String,
           toolCalls: (json['tool_calls'] as List<dynamic>)
               .map((e) =>
                   RunStepDetailsToolCalls.fromJson(e as Map<String, dynamic>))
@@ -3643,21 +4069,71 @@ _$RunStepDetailsToolCallsObjectImpl
 Map<String, dynamic> _$$RunStepDetailsToolCallsObjectImplToJson(
         _$RunStepDetailsToolCallsObjectImpl instance) =>
     <String, dynamic>{
-      'type': _$RunStepDetailsToolCallsObjectTypeEnumMap[instance.type]!,
+      'type': instance.type,
       'tool_calls': instance.toolCalls.map((e) => e.toJson()).toList(),
     };
 
-const _$RunStepDetailsToolCallsObjectTypeEnumMap = {
-  RunStepDetailsToolCallsObjectType.toolCalls: 'tool_calls',
-};
+_$RunStepDeltaStepDetailsMessageCreationObjectImpl
+    _$$RunStepDeltaStepDetailsMessageCreationObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunStepDeltaStepDetailsMessageCreationObjectImpl(
+          type: json['type'] as String,
+          messageCreation: json['message_creation'] == null
+              ? null
+              : RunStepDeltaStepDetailsMessageCreation.fromJson(
+                  json['message_creation'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$RunStepDeltaStepDetailsMessageCreationObjectImplToJson(
+    _$RunStepDeltaStepDetailsMessageCreationObjectImpl instance) {
+  final val = <String, dynamic>{
+    'type': instance.type,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('message_creation', instance.messageCreation?.toJson());
+  return val;
+}
+
+_$RunStepDeltaStepDetailsToolCallsObjectImpl
+    _$$RunStepDeltaStepDetailsToolCallsObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunStepDeltaStepDetailsToolCallsObjectImpl(
+          type: json['type'] as String,
+          toolCalls: (json['tool_calls'] as List<dynamic>?)
+              ?.map((e) => RunStepDeltaStepDetailsToolCalls.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+        );
+
+Map<String, dynamic> _$$RunStepDeltaStepDetailsToolCallsObjectImplToJson(
+    _$RunStepDeltaStepDetailsToolCallsObjectImpl instance) {
+  final val = <String, dynamic>{
+    'type': instance.type,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'tool_calls', instance.toolCalls?.map((e) => e.toJson()).toList());
+  return val;
+}
 
 _$RunStepDetailsToolCallsCodeObjectImpl
     _$$RunStepDetailsToolCallsCodeObjectImplFromJson(
             Map<String, dynamic> json) =>
         _$RunStepDetailsToolCallsCodeObjectImpl(
           id: json['id'] as String,
-          type: $enumDecode(
-              _$RunStepDetailsToolCallsCodeObjectTypeEnumMap, json['type']),
+          type: json['type'] as String,
           codeInterpreter:
               RunStepDetailsToolCallsCodeObjectCodeInterpreter.fromJson(
                   json['code_interpreter'] as Map<String, dynamic>),
@@ -3667,21 +4143,16 @@ Map<String, dynamic> _$$RunStepDetailsToolCallsCodeObjectImplToJson(
         _$RunStepDetailsToolCallsCodeObjectImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'type': _$RunStepDetailsToolCallsCodeObjectTypeEnumMap[instance.type]!,
+      'type': instance.type,
       'code_interpreter': instance.codeInterpreter.toJson(),
     };
-
-const _$RunStepDetailsToolCallsCodeObjectTypeEnumMap = {
-  RunStepDetailsToolCallsCodeObjectType.codeInterpreter: 'code_interpreter',
-};
 
 _$RunStepDetailsToolCallsRetrievalObjectImpl
     _$$RunStepDetailsToolCallsRetrievalObjectImplFromJson(
             Map<String, dynamic> json) =>
         _$RunStepDetailsToolCallsRetrievalObjectImpl(
           id: json['id'] as String,
-          type: $enumDecode(_$RunStepDetailsToolCallsRetrievalObjectTypeEnumMap,
-              json['type']),
+          type: json['type'] as String,
           retrieval: json['retrieval'] as Map<String, dynamic>,
         );
 
@@ -3689,22 +4160,16 @@ Map<String, dynamic> _$$RunStepDetailsToolCallsRetrievalObjectImplToJson(
         _$RunStepDetailsToolCallsRetrievalObjectImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'type':
-          _$RunStepDetailsToolCallsRetrievalObjectTypeEnumMap[instance.type]!,
+      'type': instance.type,
       'retrieval': instance.retrieval,
     };
-
-const _$RunStepDetailsToolCallsRetrievalObjectTypeEnumMap = {
-  RunStepDetailsToolCallsRetrievalObjectType.retrieval: 'retrieval',
-};
 
 _$RunStepDetailsToolCallsFunctionObjectImpl
     _$$RunStepDetailsToolCallsFunctionObjectImplFromJson(
             Map<String, dynamic> json) =>
         _$RunStepDetailsToolCallsFunctionObjectImpl(
           id: json['id'] as String,
-          type: $enumDecode(
-              _$RunStepDetailsToolCallsFunctionObjectTypeEnumMap, json['type']),
+          type: json['type'] as String,
           function: RunStepDetailsToolCallsFunction.fromJson(
               json['function'] as Map<String, dynamic>),
         );
@@ -3713,14 +4178,9 @@ Map<String, dynamic> _$$RunStepDetailsToolCallsFunctionObjectImplToJson(
         _$RunStepDetailsToolCallsFunctionObjectImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'type':
-          _$RunStepDetailsToolCallsFunctionObjectTypeEnumMap[instance.type]!,
+      'type': instance.type,
       'function': instance.function.toJson(),
     };
-
-const _$RunStepDetailsToolCallsFunctionObjectTypeEnumMap = {
-  RunStepDetailsToolCallsFunctionObjectType.function: 'function',
-};
 
 _$RunStepDetailsToolCallsFunctionImpl
     _$$RunStepDetailsToolCallsFunctionImplFromJson(Map<String, dynamic> json) =>
@@ -3738,35 +4198,143 @@ Map<String, dynamic> _$$RunStepDetailsToolCallsFunctionImplToJson(
       'output': instance.output,
     };
 
+_$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
+    _$$RunStepDeltaStepDetailsToolCallsCodeObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl(
+          index: json['index'] as int,
+          id: json['id'] as String?,
+          type: json['type'] as String,
+          codeInterpreter: json['code_interpreter'] == null
+              ? null
+              : RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter
+                  .fromJson(json['code_interpreter'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$RunStepDeltaStepDetailsToolCallsCodeObjectImplToJson(
+    _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl instance) {
+  final val = <String, dynamic>{
+    'index': instance.index,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  val['type'] = instance.type;
+  writeNotNull('code_interpreter', instance.codeInterpreter?.toJson());
+  return val;
+}
+
+_$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl
+    _$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl(
+          index: json['index'] as int,
+          id: json['id'] as String?,
+          type: json['type'] as String,
+          retrieval: json['retrieval'] as Map<String, dynamic>?,
+        );
+
+Map<String, dynamic>
+    _$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplToJson(
+        _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl instance) {
+  final val = <String, dynamic>{
+    'index': instance.index,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  val['type'] = instance.type;
+  writeNotNull('retrieval', instance.retrieval);
+  return val;
+}
+
+_$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
+    _$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl(
+          index: json['index'] as int,
+          id: json['id'] as String?,
+          type: json['type'] as String,
+          function: json['function'] == null
+              ? null
+              : RunStepDeltaStepDetailsToolCallsFunction.fromJson(
+                  json['function'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic>
+    _$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplToJson(
+        _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl instance) {
+  final val = <String, dynamic>{
+    'index': instance.index,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  val['type'] = instance.type;
+  writeNotNull('function', instance.function?.toJson());
+  return val;
+}
+
+_$RunStepDeltaStepDetailsToolCallsFunctionImpl
+    _$$RunStepDeltaStepDetailsToolCallsFunctionImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunStepDeltaStepDetailsToolCallsFunctionImpl(
+          name: json['name'] as String?,
+          arguments: json['arguments'] as String?,
+          output: json['output'] as String?,
+        );
+
+Map<String, dynamic> _$$RunStepDeltaStepDetailsToolCallsFunctionImplToJson(
+    _$RunStepDeltaStepDetailsToolCallsFunctionImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('arguments', instance.arguments);
+  writeNotNull('output', instance.output);
+  return val;
+}
+
 _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl
     _$$RunStepDetailsToolCallsCodeOutputLogsObjectImplFromJson(
             Map<String, dynamic> json) =>
         _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl(
-          type: $enumDecode(
-              _$RunStepDetailsToolCallsCodeOutputLogsObjectTypeEnumMap,
-              json['type']),
+          type: json['type'] as String,
           logs: json['logs'] as String,
         );
 
 Map<String, dynamic> _$$RunStepDetailsToolCallsCodeOutputLogsObjectImplToJson(
         _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl instance) =>
     <String, dynamic>{
-      'type': _$RunStepDetailsToolCallsCodeOutputLogsObjectTypeEnumMap[
-          instance.type]!,
+      'type': instance.type,
       'logs': instance.logs,
     };
-
-const _$RunStepDetailsToolCallsCodeOutputLogsObjectTypeEnumMap = {
-  RunStepDetailsToolCallsCodeOutputLogsObjectType.logs: 'logs',
-};
 
 _$RunStepDetailsToolCallsCodeOutputImageObjectImpl
     _$$RunStepDetailsToolCallsCodeOutputImageObjectImplFromJson(
             Map<String, dynamic> json) =>
         _$RunStepDetailsToolCallsCodeOutputImageObjectImpl(
-          type: $enumDecode(
-              _$RunStepDetailsToolCallsCodeOutputImageObjectTypeEnumMap,
-              json['type']),
+          type: json['type'] as String,
           image: RunStepDetailsToolCallsCodeOutputImage.fromJson(
               json['image'] as Map<String, dynamic>),
         );
@@ -3774,11 +4342,197 @@ _$RunStepDetailsToolCallsCodeOutputImageObjectImpl
 Map<String, dynamic> _$$RunStepDetailsToolCallsCodeOutputImageObjectImplToJson(
         _$RunStepDetailsToolCallsCodeOutputImageObjectImpl instance) =>
     <String, dynamic>{
-      'type': _$RunStepDetailsToolCallsCodeOutputImageObjectTypeEnumMap[
-          instance.type]!,
+      'type': instance.type,
       'image': instance.image.toJson(),
     };
 
-const _$RunStepDetailsToolCallsCodeOutputImageObjectTypeEnumMap = {
-  RunStepDetailsToolCallsCodeOutputImageObjectType.image: 'image',
+_$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl
+    _$$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl(
+          index: json['index'] as int,
+          type: json['type'] as String,
+          logs: json['logs'] as String?,
+        );
+
+Map<String, dynamic>
+    _$$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImplToJson(
+        _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl instance) {
+  final val = <String, dynamic>{
+    'index': instance.index,
+    'type': instance.type,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logs', instance.logs);
+  return val;
+}
+
+_$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl
+    _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl(
+          index: json['index'] as int,
+          type: json['type'] as String,
+          image: json['image'] == null
+              ? null
+              : RunStepDeltaStepDetailsToolCallsCodeOutputImage.fromJson(
+                  json['image'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic>
+    _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplToJson(
+        _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl instance) {
+  final val = <String, dynamic>{
+    'index': instance.index,
+    'type': instance.type,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('image', instance.image?.toJson());
+  return val;
+}
+
+_$ThreadStreamEventImpl _$$ThreadStreamEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ThreadStreamEventImpl(
+      event: $enumDecode(_$EventTypeEnumMap, json['event']),
+      data: ThreadObject.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ThreadStreamEventImplToJson(
+        _$ThreadStreamEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$EventTypeEnumMap[instance.event]!,
+      'data': instance.data.toJson(),
+    };
+
+const _$EventTypeEnumMap = {
+  EventType.threadCreated: 'thread.created',
+  EventType.threadRunCreated: 'thread.run.created',
+  EventType.threadRunQueued: 'thread.run.queued',
+  EventType.threadRunInProgress: 'thread.run.in_progress',
+  EventType.threadRunRequiresAction: 'thread.run.requires_action',
+  EventType.threadRunCompleted: 'thread.run.completed',
+  EventType.threadRunFailed: 'thread.run.failed',
+  EventType.threadRunCancelling: 'thread.run.cancelling',
+  EventType.threadRunCancelled: 'thread.run.cancelled',
+  EventType.threadRunExpired: 'thread.run.expired',
+  EventType.threadRunStepCreated: 'thread.run.step.created',
+  EventType.threadRunStepInProgress: 'thread.run.step.in_progress',
+  EventType.threadRunStepDelta: 'thread.run.step.delta',
+  EventType.threadRunStepCompleted: 'thread.run.step.completed',
+  EventType.threadRunStepFailed: 'thread.run.step.failed',
+  EventType.threadRunStepCancelled: 'thread.run.step.cancelled',
+  EventType.threadRunStepExpired: 'thread.run.step.expired',
+  EventType.threadMessageCreated: 'thread.message.created',
+  EventType.threadMessageInProgress: 'thread.message.in_progress',
+  EventType.threadMessageDelta: 'thread.message.delta',
+  EventType.threadMessageCompleted: 'thread.message.completed',
+  EventType.threadMessageFailed: 'thread.message.failed',
+  EventType.error: 'error',
+  EventType.done: 'done',
 };
+
+_$RunStreamEventImpl _$$RunStreamEventImplFromJson(Map<String, dynamic> json) =>
+    _$RunStreamEventImpl(
+      event: $enumDecode(_$EventTypeEnumMap, json['event']),
+      data: RunObject.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$RunStreamEventImplToJson(
+        _$RunStreamEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$EventTypeEnumMap[instance.event]!,
+      'data': instance.data.toJson(),
+    };
+
+_$RunStepStreamEventImpl _$$RunStepStreamEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RunStepStreamEventImpl(
+      event: $enumDecode(_$EventTypeEnumMap, json['event']),
+      data: RunStepObject.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$RunStepStreamEventImplToJson(
+        _$RunStepStreamEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$EventTypeEnumMap[instance.event]!,
+      'data': instance.data.toJson(),
+    };
+
+_$RunStepStreamDeltaEventImpl _$$RunStepStreamDeltaEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RunStepStreamDeltaEventImpl(
+      event: $enumDecode(_$EventTypeEnumMap, json['event']),
+      data: RunStepDeltaObject.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$RunStepStreamDeltaEventImplToJson(
+        _$RunStepStreamDeltaEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$EventTypeEnumMap[instance.event]!,
+      'data': instance.data.toJson(),
+    };
+
+_$MessageStreamEventImpl _$$MessageStreamEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MessageStreamEventImpl(
+      event: $enumDecode(_$EventTypeEnumMap, json['event']),
+      data: MessageObject.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$MessageStreamEventImplToJson(
+        _$MessageStreamEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$EventTypeEnumMap[instance.event]!,
+      'data': instance.data.toJson(),
+    };
+
+_$MessageStreamDeltaEventImpl _$$MessageStreamDeltaEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MessageStreamDeltaEventImpl(
+      event: $enumDecode(_$EventTypeEnumMap, json['event']),
+      data: MessageDeltaObject.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$MessageStreamDeltaEventImplToJson(
+        _$MessageStreamDeltaEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$EventTypeEnumMap[instance.event]!,
+      'data': instance.data.toJson(),
+    };
+
+_$ErrorEventImpl _$$ErrorEventImplFromJson(Map<String, dynamic> json) =>
+    _$ErrorEventImpl(
+      event: $enumDecode(_$EventTypeEnumMap, json['event']),
+      data: Error.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ErrorEventImplToJson(_$ErrorEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$EventTypeEnumMap[instance.event]!,
+      'data': instance.data.toJson(),
+    };
+
+_$DoneEventImpl _$$DoneEventImplFromJson(Map<String, dynamic> json) =>
+    _$DoneEventImpl(
+      event: $enumDecode(_$EventTypeEnumMap, json['event']),
+      data: json['data'] as String,
+    );
+
+Map<String, dynamic> _$$DoneEventImplToJson(_$DoneEventImpl instance) =>
+    <String, dynamic>{
+      'event': _$EventTypeEnumMap[instance.event]!,
+      'data': instance.data,
+    };

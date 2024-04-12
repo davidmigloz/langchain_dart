@@ -5,86 +5,93 @@
 part of open_a_i_schema;
 
 // ==========================================
-// CLASS: MessageContentTextAnnotations
+// CLASS: MessageDeltaContentTextAnnotations
 // ==========================================
 
 /// An annotation within the message that points to a specific quote from a specific File associated with the assistant or the message.
 @Freezed(unionKey: 'type', unionValueCase: FreezedUnionCase.snake)
-sealed class MessageContentTextAnnotations
-    with _$MessageContentTextAnnotations {
-  const MessageContentTextAnnotations._();
+sealed class MessageDeltaContentTextAnnotations
+    with _$MessageDeltaContentTextAnnotations {
+  const MessageDeltaContentTextAnnotations._();
 
   // ------------------------------------------
-  // UNION: MessageContentTextAnnotationsFileCitationObject
+  // UNION: MessageDeltaContentTextAnnotationsFileCitationObject
   // ------------------------------------------
 
   /// A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the "retrieval" tool to search files.
-  const factory MessageContentTextAnnotations.fileCitation({
+  const factory MessageDeltaContentTextAnnotations.fileCitation({
+    /// The index of the annotation in the text content part.
+    required int index,
+
     /// Always `file_citation`.
     required String type,
 
     /// The text in the message content that needs to be replaced.
-    required String text,
+    @JsonKey(includeIfNull: false) String? text,
 
     /// A citation within the message that points to a specific quote from a specific File associated with the assistant or the message.
-    @JsonKey(name: 'file_citation')
-    required MessageContentTextAnnotationsFileCitation fileCitation,
+    @JsonKey(name: 'file_citation', includeIfNull: false)
+    MessageDeltaContentTextAnnotationsFileCitation? fileCitation,
 
     /// The start index of the text in the message content that needs to be replaced.
-    @JsonKey(name: 'start_index') required int startIndex,
+    @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
 
     /// The end index of the text in the message content that needs to be replaced.
-    @JsonKey(name: 'end_index') required int endIndex,
-  }) = MessageContentTextAnnotationsFileCitationObject;
+    @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex,
+  }) = MessageDeltaContentTextAnnotationsFileCitationObject;
 
   // ------------------------------------------
-  // UNION: MessageContentTextAnnotationsFilePathObject
+  // UNION: MessageDeltaContentTextAnnotationsFilePathObject
   // ------------------------------------------
 
   /// A URL for the file that's generated when the assistant used the `code_interpreter` tool to generate a file.
-  const factory MessageContentTextAnnotations.filePath({
+  const factory MessageDeltaContentTextAnnotations.filePath({
+    /// The index of the annotation in the text content part.
+    required int index,
+
     /// Always `file_path`.
     required String type,
 
     /// The text in the message content that needs to be replaced.
-    required String text,
+    @JsonKey(includeIfNull: false) String? text,
 
     /// No Description
-    @JsonKey(name: 'file_path')
-    required MessageContentTextAnnotationsFilePath filePath,
+    @JsonKey(name: 'file_path', includeIfNull: false)
+    MessageDeltaContentTextAnnotationsFilePathObjectFilePath? filePath,
 
     /// No Description
-    @JsonKey(name: 'start_index') required int startIndex,
+    @JsonKey(name: 'start_index', includeIfNull: false) int? startIndex,
 
     /// No Description
-    @JsonKey(name: 'end_index') required int endIndex,
-  }) = MessageContentTextAnnotationsFilePathObject;
+    @JsonKey(name: 'end_index', includeIfNull: false) int? endIndex,
+  }) = MessageDeltaContentTextAnnotationsFilePathObject;
 
   /// Object construction from a JSON representation
-  factory MessageContentTextAnnotations.fromJson(Map<String, dynamic> json) =>
-      _$MessageContentTextAnnotationsFromJson(json);
+  factory MessageDeltaContentTextAnnotations.fromJson(
+          Map<String, dynamic> json) =>
+      _$MessageDeltaContentTextAnnotationsFromJson(json);
 }
 
 // ==========================================
-// CLASS: MessageContentTextAnnotationsFilePath
+// CLASS: MessageDeltaContentTextAnnotationsFilePathObjectFilePath
 // ==========================================
 
 /// No Description
 @freezed
-class MessageContentTextAnnotationsFilePath
-    with _$MessageContentTextAnnotationsFilePath {
-  const MessageContentTextAnnotationsFilePath._();
+class MessageDeltaContentTextAnnotationsFilePathObjectFilePath
+    with _$MessageDeltaContentTextAnnotationsFilePathObjectFilePath {
+  const MessageDeltaContentTextAnnotationsFilePathObjectFilePath._();
 
-  /// Factory constructor for MessageContentTextAnnotationsFilePath
-  const factory MessageContentTextAnnotationsFilePath({
+  /// Factory constructor for MessageDeltaContentTextAnnotationsFilePathObjectFilePath
+  const factory MessageDeltaContentTextAnnotationsFilePathObjectFilePath({
     /// The ID of the file that was generated.
-    @JsonKey(name: 'file_id') required String fileId,
-  }) = _MessageContentTextAnnotationsFilePath;
+    @JsonKey(name: 'file_id', includeIfNull: false) String? fileId,
+  }) = _MessageDeltaContentTextAnnotationsFilePathObjectFilePath;
 
   /// Object construction from a JSON representation
-  factory MessageContentTextAnnotationsFilePath.fromJson(
+  factory MessageDeltaContentTextAnnotationsFilePathObjectFilePath.fromJson(
           Map<String, dynamic> json) =>
-      _$MessageContentTextAnnotationsFilePathFromJson(json);
+      _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = ['file_id'];

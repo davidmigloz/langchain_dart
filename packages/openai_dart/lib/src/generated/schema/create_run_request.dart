@@ -30,11 +30,21 @@ class CreateRunRequest with _$CreateRunRequest {
     @JsonKey(name: 'additional_instructions', includeIfNull: false)
     String? additionalInstructions,
 
+    /// Adds additional messages to the thread before creating the run.
+    @JsonKey(name: 'additional_messages', includeIfNull: false)
+    List<CreateMessageRequest>? additionalMessages,
+
     /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
     @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
 
     /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
     @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
+
+    /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+    @JsonKey(includeIfNull: false) @Default(1.0) double? temperature,
+
+    /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
+    @JsonKey(includeIfNull: false) bool? stream,
   }) = _CreateRunRequest;
 
   /// Object construction from a JSON representation
@@ -47,12 +57,26 @@ class CreateRunRequest with _$CreateRunRequest {
     'model',
     'instructions',
     'additional_instructions',
+    'additional_messages',
     'tools',
-    'metadata'
+    'metadata',
+    'temperature',
+    'stream'
   ];
+
+  /// Validation constants
+  static const temperatureDefaultValue = 1.0;
+  static const temperatureMinValue = 0.0;
+  static const temperatureMaxValue = 2.0;
 
   /// Perform validations on the schema property values
   String? validateSchema() {
+    if (temperature != null && temperature! < temperatureMinValue) {
+      return "The value of 'temperature' cannot be < $temperatureMinValue";
+    }
+    if (temperature != null && temperature! > temperatureMaxValue) {
+      return "The value of 'temperature' cannot be > $temperatureMaxValue";
+    }
     return null;
   }
 
@@ -63,8 +87,11 @@ class CreateRunRequest with _$CreateRunRequest {
       'model': model,
       'instructions': instructions,
       'additional_instructions': additionalInstructions,
+      'additional_messages': additionalMessages,
       'tools': tools,
       'metadata': metadata,
+      'temperature': temperature,
+      'stream': stream,
     };
   }
 }

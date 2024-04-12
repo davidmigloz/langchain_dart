@@ -5,43 +5,43 @@
 part of open_a_i_schema;
 
 // ==========================================
-// CLASS: RunStepDetails
+// CLASS: RunStepDeltaDetails
 // ==========================================
 
-/// The details of the run step.
+/// The details of the run step
 @Freezed(unionKey: 'type', unionValueCase: FreezedUnionCase.snake)
-sealed class RunStepDetails with _$RunStepDetails {
-  const RunStepDetails._();
+sealed class RunStepDeltaDetails with _$RunStepDeltaDetails {
+  const RunStepDeltaDetails._();
 
   // ------------------------------------------
-  // UNION: RunStepDetailsMessageCreationObject
+  // UNION: RunStepDeltaStepDetailsMessageCreationObject
   // ------------------------------------------
 
   /// Details of the message creation by the run step.
-  const factory RunStepDetails.messageCreation({
+  const factory RunStepDeltaDetails.messageCreation({
     /// Always `message_creation`.
     required String type,
 
     /// Details of the message creation by the run step.
-    @JsonKey(name: 'message_creation')
-    required RunStepDetailsMessageCreation messageCreation,
-  }) = RunStepDetailsMessageCreationObject;
+    @JsonKey(name: 'message_creation', includeIfNull: false)
+    RunStepDeltaStepDetailsMessageCreation? messageCreation,
+  }) = RunStepDeltaStepDetailsMessageCreationObject;
 
   // ------------------------------------------
-  // UNION: RunStepDetailsToolCallsObject
+  // UNION: RunStepDeltaStepDetailsToolCallsObject
   // ------------------------------------------
 
   /// Details of the tool call.
-  const factory RunStepDetails.toolCalls({
+  const factory RunStepDeltaDetails.toolCalls({
     /// Always `tool_calls`.
     required String type,
 
     /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
-    @JsonKey(name: 'tool_calls')
-    required List<RunStepDetailsToolCalls> toolCalls,
-  }) = RunStepDetailsToolCallsObject;
+    @JsonKey(name: 'tool_calls', includeIfNull: false)
+    List<RunStepDeltaStepDetailsToolCalls>? toolCalls,
+  }) = RunStepDeltaStepDetailsToolCallsObject;
 
   /// Object construction from a JSON representation
-  factory RunStepDetails.fromJson(Map<String, dynamic> json) =>
-      _$RunStepDetailsFromJson(json);
+  factory RunStepDeltaDetails.fromJson(Map<String, dynamic> json) =>
+      _$RunStepDeltaDetailsFromJson(json);
 }

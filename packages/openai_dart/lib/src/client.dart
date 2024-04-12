@@ -107,6 +107,84 @@ class OpenAIClient extends g.OpenAIClient {
         );
   }
 
+  // ------------------------------------------
+  // METHOD: createThreadAndRunStream
+  // ------------------------------------------
+
+  /// Create a thread and run it in one request.
+  ///
+  /// `request`: Request object for the Create thread and run endpoint.
+  ///
+  /// `POST` `https://api.openai.com/v1/threads/runs`
+  Stream<AssistantStreamEvent> createThreadAndRunStream({
+    required final CreateThreadAndRunRequest request,
+  }) async* {
+    final r = await makeRequestStream(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/runs',
+      method: g.HttpMethod.post,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request.copyWith(stream: true),
+    );
+    yield* r.stream.transform(const _OpenAIAssistantStreamTransformer());
+  }
+
+  // ------------------------------------------
+  // METHOD: createThreadRunStream
+  // ------------------------------------------
+
+  /// Create a run.
+  ///
+  /// `threadId`: The ID of the thread to run.
+  ///
+  /// `request`: Request object for the Create run endpoint.
+  ///
+  /// `POST` `https://api.openai.com/v1/threads/{thread_id}/runs`
+  Stream<AssistantStreamEvent> createThreadRunStream({
+    required final String threadId,
+    required final CreateRunRequest request,
+  }) async* {
+    final r = await makeRequestStream(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId/runs',
+      method: g.HttpMethod.post,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request.copyWith(stream: true),
+    );
+    yield* r.stream.transform(const _OpenAIAssistantStreamTransformer());
+  }
+
+  // ------------------------------------------
+  // METHOD: submitThreadToolOutputsToRunStream
+  // ------------------------------------------
+
+  /// When a run has the `status: "requires_action"` and `required_action.type` is `submit_tool_outputs`, this endpoint can be used to submit the outputs from the tool calls once they're all completed. All outputs must be submitted in a single request.
+  ///
+  /// `threadId`: The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) to which this run belongs.
+  ///
+  /// `runId`: The ID of the run that requires the tool output submission.
+  ///
+  /// `request`: Request object for the Submit tool outputs to run endpoint.
+  ///
+  /// `POST` `https://api.openai.com/v1/threads/{thread_id}/runs/{run_id}/submit_tool_outputs`
+  Stream<AssistantStreamEvent> submitThreadToolOutputsToRunStream({
+    required final String threadId,
+    required final String runId,
+    required final SubmitToolOutputsRunRequest request,
+  }) async* {
+    final r = await makeRequestStream(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId/runs/$runId/submit_tool_outputs',
+      method: g.HttpMethod.post,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    yield* r.stream.transform(const _OpenAIAssistantStreamTransformer());
+  }
+
   @override
   Future<http.BaseRequest> onRequest(final http.BaseRequest request) {
     return onRequestHandler(request);
@@ -124,5 +202,96 @@ class _OpenAIStreamTransformer
         .transform(const LineSplitter()) //
         .where((final i) => i.startsWith('data: ') && !i.endsWith('[DONE]'))
         .map((final item) => item.substring(6));
+  }
+}
+
+class _OpenAIAssistantStreamTransformer
+    extends StreamTransformerBase<List<int>, AssistantStreamEvent> {
+  const _OpenAIAssistantStreamTransformer();
+
+  @override
+  Stream<AssistantStreamEvent> bind(final Stream<List<int>> stream) {
+    return stream
+        .transform(utf8.decoder)
+        .transform(const LineSplitter())
+        .transform(_PairwiseTransformer())
+        .map((final item) {
+      final (event, data) = item;
+
+      Map<String, dynamic> getEventDataMap({final bool decode = true}) => {
+            'event': event,
+            'data': decode ? json.decode(data) : data,
+          };
+
+      switch (event) {
+        case 'thread.created':
+          return ThreadStreamEvent.fromJson(getEventDataMap());
+        case 'thread.run.created':
+        case 'thread.run.queued':
+        case 'thread.run.in_progress':
+        case 'thread.run.requires_action':
+        case 'thread.run.completed':
+        case 'thread.run.failed':
+        case 'thread.run.cancelling':
+        case 'thread.run.cancelled':
+        case 'thread.run.expired':
+          return RunStreamEvent.fromJson(getEventDataMap());
+        case 'thread.run.step.created':
+        case 'thread.run.step.in_progress':
+        case 'thread.run.step.completed':
+        case 'thread.run.step.failed':
+        case 'thread.run.step.cancelled':
+        case 'thread.run.step.expired':
+          return RunStepStreamEvent.fromJson(getEventDataMap());
+        case 'thread.run.step.delta':
+          return RunStepStreamDeltaEvent.fromJson(getEventDataMap());
+        case 'thread.message.created':
+        case 'thread.message.in_progress':
+        case 'thread.message.completed':
+        case 'thread.message.incomplete':
+          return MessageStreamEvent.fromJson(getEventDataMap());
+        case 'thread.message.delta':
+          return MessageStreamDeltaEvent.fromJson(getEventDataMap());
+        case 'error':
+          return ErrorEvent.fromJson(getEventDataMap());
+        case 'done':
+          return DoneEvent.fromJson(getEventDataMap(decode: false));
+        default:
+          throw Exception('Unknown event: $event');
+      }
+    });
+  }
+}
+
+class _PairwiseTransformer
+    extends StreamTransformerBase<String, (String, String)> {
+  @override
+  Stream<(String, String)> bind(final Stream<String> stream) {
+    late StreamController<(String, String)> controller;
+    late StreamSubscription<String> subscription;
+    late String event;
+
+    controller = StreamController<(String, String)>(
+      onListen: () {
+        subscription = stream.listen(
+          (final String data) {
+            if (data.startsWith('event: ')) {
+              event = data.substring(7);
+            } else if (data.startsWith('data: ')) {
+              final dataStr = data.substring(6);
+              controller.add((event, dataStr));
+            }
+          },
+          onError: controller.addError,
+          onDone: controller.close,
+          cancelOnError: true,
+        );
+      },
+      onPause: ([final resumeSignal]) => subscription.pause(resumeSignal),
+      onResume: () => subscription.resume(),
+      onCancel: () async => subscription.cancel(),
+    );
+
+    return controller.stream;
   }
 }

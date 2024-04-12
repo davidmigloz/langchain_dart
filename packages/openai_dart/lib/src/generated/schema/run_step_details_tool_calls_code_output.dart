@@ -21,7 +21,7 @@ sealed class RunStepDetailsToolCallsCodeOutput
   /// Text output from the Code Interpreter tool call as part of a run step.
   const factory RunStepDetailsToolCallsCodeOutput.logs({
     /// Always `logs`.
-    required RunStepDetailsToolCallsCodeOutputLogsObjectType type,
+    required String type,
 
     /// The text output from the Code Interpreter tool call.
     required String logs,
@@ -34,7 +34,7 @@ sealed class RunStepDetailsToolCallsCodeOutput
   /// Code interpreter image output
   const factory RunStepDetailsToolCallsCodeOutput.image({
     /// Always `image`.
-    required RunStepDetailsToolCallsCodeOutputImageObjectType type,
+    required String type,
 
     /// Code interpreter image output.
     required RunStepDetailsToolCallsCodeOutputImage image,
@@ -44,24 +44,4 @@ sealed class RunStepDetailsToolCallsCodeOutput
   factory RunStepDetailsToolCallsCodeOutput.fromJson(
           Map<String, dynamic> json) =>
       _$RunStepDetailsToolCallsCodeOutputFromJson(json);
-}
-
-// ==========================================
-// ENUM: RunStepDetailsToolCallsCodeOutputLogsObjectType
-// ==========================================
-
-/// Always `logs`.
-enum RunStepDetailsToolCallsCodeOutputLogsObjectType {
-  @JsonValue('logs')
-  logs,
-}
-
-// ==========================================
-// ENUM: RunStepDetailsToolCallsCodeOutputImageObjectType
-// ==========================================
-
-/// Always `image`.
-enum RunStepDetailsToolCallsCodeOutputImageObjectType {
-  @JsonValue('image')
-  image,
 }

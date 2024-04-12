@@ -70,7 +70,6 @@ void main() {
       expect(fistCheckpoint.id, isNotEmpty);
     });
 
-
     test('Test list fine-tuning events', skip: true, () async {
       final res = await client.listFineTuningEvents(
         fineTuningJobId: 'ft-AF1WoRqd3aJAHsqc9NY7iL8F',

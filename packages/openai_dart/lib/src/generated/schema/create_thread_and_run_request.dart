@@ -34,6 +34,12 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
 
     /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
     @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
+
+    /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+    @JsonKey(includeIfNull: false) @Default(1.0) double? temperature,
+
+    /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
+    @JsonKey(includeIfNull: false) bool? stream,
   }) = _CreateThreadAndRunRequest;
 
   /// Object construction from a JSON representation
@@ -47,11 +53,24 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     'model',
     'instructions',
     'tools',
-    'metadata'
+    'metadata',
+    'temperature',
+    'stream'
   ];
+
+  /// Validation constants
+  static const temperatureDefaultValue = 1.0;
+  static const temperatureMinValue = 0.0;
+  static const temperatureMaxValue = 2.0;
 
   /// Perform validations on the schema property values
   String? validateSchema() {
+    if (temperature != null && temperature! < temperatureMinValue) {
+      return "The value of 'temperature' cannot be < $temperatureMinValue";
+    }
+    if (temperature != null && temperature! > temperatureMaxValue) {
+      return "The value of 'temperature' cannot be > $temperatureMaxValue";
+    }
     return null;
   }
 
@@ -64,6 +83,8 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
       'instructions': instructions,
       'tools': tools,
       'metadata': metadata,
+      'temperature': temperature,
+      'stream': stream,
     };
   }
 }
