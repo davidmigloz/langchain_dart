@@ -1453,6 +1453,46 @@ const _$ListFineTuningJobEventsResponseObjectEnumMap = {
   ListFineTuningJobEventsResponseObject.list: 'list',
 };
 
+_$ListFineTuningJobCheckpointsResponseImpl
+    _$$ListFineTuningJobCheckpointsResponseImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ListFineTuningJobCheckpointsResponseImpl(
+          data: (json['data'] as List<dynamic>)
+              .map((e) =>
+                  FineTuningJobCheckpoint.fromJson(e as Map<String, dynamic>))
+              .toList(),
+          object: $enumDecode(
+              _$ListFineTuningJobCheckpointsResponseObjectEnumMap,
+              json['object']),
+          firstId: json['first_id'] as String?,
+          lastId: json['last_id'] as String?,
+          hasMore: json['has_more'] as bool,
+        );
+
+Map<String, dynamic> _$$ListFineTuningJobCheckpointsResponseImplToJson(
+    _$ListFineTuningJobCheckpointsResponseImpl instance) {
+  final val = <String, dynamic>{
+    'data': instance.data.map((e) => e.toJson()).toList(),
+    'object':
+        _$ListFineTuningJobCheckpointsResponseObjectEnumMap[instance.object]!,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('first_id', instance.firstId);
+  writeNotNull('last_id', instance.lastId);
+  val['has_more'] = instance.hasMore;
+  return val;
+}
+
+const _$ListFineTuningJobCheckpointsResponseObjectEnumMap = {
+  ListFineTuningJobCheckpointsResponseObject.list: 'list',
+};
+
 _$FineTuningJobEventImpl _$$FineTuningJobEventImplFromJson(
         Map<String, dynamic> json) =>
     _$FineTuningJobEventImpl(
@@ -1482,6 +1522,73 @@ const _$FineTuningJobEventLevelEnumMap = {
 const _$FineTuningJobEventObjectEnumMap = {
   FineTuningJobEventObject.fineTuningJobEvent: 'fine_tuning.job.event',
 };
+
+_$FineTuningJobCheckpointImpl _$$FineTuningJobCheckpointImplFromJson(
+        Map<String, dynamic> json) =>
+    _$FineTuningJobCheckpointImpl(
+      id: json['id'] as String,
+      createdAt: json['created_at'] as int,
+      fineTunedModelCheckpoint: json['fine_tuned_model_checkpoint'] as String,
+      stepNumber: json['step_number'] as int,
+      metrics: FineTuningJobCheckpointMetrics.fromJson(
+          json['metrics'] as Map<String, dynamic>),
+      fineTuningJobId: json['fine_tuning_job_id'] as String,
+      object:
+          $enumDecode(_$FineTuningJobCheckpointObjectEnumMap, json['object']),
+    );
+
+Map<String, dynamic> _$$FineTuningJobCheckpointImplToJson(
+        _$FineTuningJobCheckpointImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'created_at': instance.createdAt,
+      'fine_tuned_model_checkpoint': instance.fineTunedModelCheckpoint,
+      'step_number': instance.stepNumber,
+      'metrics': instance.metrics.toJson(),
+      'fine_tuning_job_id': instance.fineTuningJobId,
+      'object': _$FineTuningJobCheckpointObjectEnumMap[instance.object]!,
+    };
+
+const _$FineTuningJobCheckpointObjectEnumMap = {
+  FineTuningJobCheckpointObject.fineTuningJobCheckpoint:
+      'fine_tuning.job.checkpoint',
+};
+
+_$FineTuningJobCheckpointMetricsImpl
+    _$$FineTuningJobCheckpointMetricsImplFromJson(Map<String, dynamic> json) =>
+        _$FineTuningJobCheckpointMetricsImpl(
+          step: (json['step'] as num?)?.toDouble(),
+          trainLoss: (json['train_loss'] as num?)?.toDouble(),
+          trainMeanTokenAccuracy:
+              (json['train_mean_token_accuracy'] as num?)?.toDouble(),
+          validLoss: (json['valid_loss'] as num?)?.toDouble(),
+          validMeanTokenAccuracy:
+              (json['valid_mean_token_accuracy'] as num?)?.toDouble(),
+          fullValidLoss: (json['full_valid_loss'] as num?)?.toDouble(),
+          fullValidMeanTokenAccuracy:
+              (json['full_valid_mean_token_accuracy'] as num?)?.toDouble(),
+        );
+
+Map<String, dynamic> _$$FineTuningJobCheckpointMetricsImplToJson(
+    _$FineTuningJobCheckpointMetricsImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('step', instance.step);
+  writeNotNull('train_loss', instance.trainLoss);
+  writeNotNull('train_mean_token_accuracy', instance.trainMeanTokenAccuracy);
+  writeNotNull('valid_loss', instance.validLoss);
+  writeNotNull('valid_mean_token_accuracy', instance.validMeanTokenAccuracy);
+  writeNotNull('full_valid_loss', instance.fullValidLoss);
+  writeNotNull(
+      'full_valid_mean_token_accuracy', instance.fullValidMeanTokenAccuracy);
+  return val;
+}
 
 _$CreateImageRequestImpl _$$CreateImageRequestImplFromJson(
         Map<String, dynamic> json) =>

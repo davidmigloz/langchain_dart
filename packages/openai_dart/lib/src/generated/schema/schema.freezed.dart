@@ -15608,6 +15608,297 @@ abstract class _ListFineTuningJobEventsResponse
       get copyWith => throw _privateConstructorUsedError;
 }
 
+ListFineTuningJobCheckpointsResponse
+    _$ListFineTuningJobCheckpointsResponseFromJson(Map<String, dynamic> json) {
+  return _ListFineTuningJobCheckpointsResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ListFineTuningJobCheckpointsResponse {
+  /// The list of fine-tuning job checkpoints.
+  List<FineTuningJobCheckpoint> get data => throw _privateConstructorUsedError;
+
+  /// The object type, which is always "list".
+  ListFineTuningJobCheckpointsResponseObject get object =>
+      throw _privateConstructorUsedError;
+
+  /// The ID of the first checkpoint in the list.
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  String? get firstId => throw _privateConstructorUsedError;
+
+  /// The ID of the last checkpoint in the list.
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  String? get lastId => throw _privateConstructorUsedError;
+
+  /// Whether there are more checkpoints to retrieve.
+  @JsonKey(name: 'has_more')
+  bool get hasMore => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ListFineTuningJobCheckpointsResponseCopyWith<
+          ListFineTuningJobCheckpointsResponse>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ListFineTuningJobCheckpointsResponseCopyWith<$Res> {
+  factory $ListFineTuningJobCheckpointsResponseCopyWith(
+          ListFineTuningJobCheckpointsResponse value,
+          $Res Function(ListFineTuningJobCheckpointsResponse) then) =
+      _$ListFineTuningJobCheckpointsResponseCopyWithImpl<$Res,
+          ListFineTuningJobCheckpointsResponse>;
+  @useResult
+  $Res call(
+      {List<FineTuningJobCheckpoint> data,
+      ListFineTuningJobCheckpointsResponseObject object,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class _$ListFineTuningJobCheckpointsResponseCopyWithImpl<$Res,
+        $Val extends ListFineTuningJobCheckpointsResponse>
+    implements $ListFineTuningJobCheckpointsResponseCopyWith<$Res> {
+  _$ListFineTuningJobCheckpointsResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+    Object? object = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
+    Object? hasMore = null,
+  }) {
+    return _then(_value.copyWith(
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<FineTuningJobCheckpoint>,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as ListFineTuningJobCheckpointsResponseObject,
+      firstId: freezed == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastId: freezed == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ListFineTuningJobCheckpointsResponseImplCopyWith<$Res>
+    implements $ListFineTuningJobCheckpointsResponseCopyWith<$Res> {
+  factory _$$ListFineTuningJobCheckpointsResponseImplCopyWith(
+          _$ListFineTuningJobCheckpointsResponseImpl value,
+          $Res Function(_$ListFineTuningJobCheckpointsResponseImpl) then) =
+      __$$ListFineTuningJobCheckpointsResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {List<FineTuningJobCheckpoint> data,
+      ListFineTuningJobCheckpointsResponseObject object,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class __$$ListFineTuningJobCheckpointsResponseImplCopyWithImpl<$Res>
+    extends _$ListFineTuningJobCheckpointsResponseCopyWithImpl<$Res,
+        _$ListFineTuningJobCheckpointsResponseImpl>
+    implements _$$ListFineTuningJobCheckpointsResponseImplCopyWith<$Res> {
+  __$$ListFineTuningJobCheckpointsResponseImplCopyWithImpl(
+      _$ListFineTuningJobCheckpointsResponseImpl _value,
+      $Res Function(_$ListFineTuningJobCheckpointsResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+    Object? object = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
+    Object? hasMore = null,
+  }) {
+    return _then(_$ListFineTuningJobCheckpointsResponseImpl(
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<FineTuningJobCheckpoint>,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as ListFineTuningJobCheckpointsResponseObject,
+      firstId: freezed == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastId: freezed == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ListFineTuningJobCheckpointsResponseImpl
+    extends _ListFineTuningJobCheckpointsResponse {
+  const _$ListFineTuningJobCheckpointsResponseImpl(
+      {required final List<FineTuningJobCheckpoint> data,
+      required this.object,
+      @JsonKey(name: 'first_id', includeIfNull: false) this.firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) this.lastId,
+      @JsonKey(name: 'has_more') required this.hasMore})
+      : _data = data,
+        super._();
+
+  factory _$ListFineTuningJobCheckpointsResponseImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ListFineTuningJobCheckpointsResponseImplFromJson(json);
+
+  /// The list of fine-tuning job checkpoints.
+  final List<FineTuningJobCheckpoint> _data;
+
+  /// The list of fine-tuning job checkpoints.
+  @override
+  List<FineTuningJobCheckpoint> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_data);
+  }
+
+  /// The object type, which is always "list".
+  @override
+  final ListFineTuningJobCheckpointsResponseObject object;
+
+  /// The ID of the first checkpoint in the list.
+  @override
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  final String? firstId;
+
+  /// The ID of the last checkpoint in the list.
+  @override
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  final String? lastId;
+
+  /// Whether there are more checkpoints to retrieve.
+  @override
+  @JsonKey(name: 'has_more')
+  final bool hasMore;
+
+  @override
+  String toString() {
+    return 'ListFineTuningJobCheckpointsResponse(data: $data, object: $object, firstId: $firstId, lastId: $lastId, hasMore: $hasMore)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ListFineTuningJobCheckpointsResponseImpl &&
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.object, object) || other.object == object) &&
+            (identical(other.firstId, firstId) || other.firstId == firstId) &&
+            (identical(other.lastId, lastId) || other.lastId == lastId) &&
+            (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_data),
+      object,
+      firstId,
+      lastId,
+      hasMore);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ListFineTuningJobCheckpointsResponseImplCopyWith<
+          _$ListFineTuningJobCheckpointsResponseImpl>
+      get copyWith => __$$ListFineTuningJobCheckpointsResponseImplCopyWithImpl<
+          _$ListFineTuningJobCheckpointsResponseImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ListFineTuningJobCheckpointsResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ListFineTuningJobCheckpointsResponse
+    extends ListFineTuningJobCheckpointsResponse {
+  const factory _ListFineTuningJobCheckpointsResponse(
+      {required final List<FineTuningJobCheckpoint> data,
+      required final ListFineTuningJobCheckpointsResponseObject object,
+      @JsonKey(name: 'first_id', includeIfNull: false) final String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) final String? lastId,
+      @JsonKey(name: 'has_more')
+      required final bool
+          hasMore}) = _$ListFineTuningJobCheckpointsResponseImpl;
+  const _ListFineTuningJobCheckpointsResponse._() : super._();
+
+  factory _ListFineTuningJobCheckpointsResponse.fromJson(
+          Map<String, dynamic> json) =
+      _$ListFineTuningJobCheckpointsResponseImpl.fromJson;
+
+  @override
+
+  /// The list of fine-tuning job checkpoints.
+  List<FineTuningJobCheckpoint> get data;
+  @override
+
+  /// The object type, which is always "list".
+  ListFineTuningJobCheckpointsResponseObject get object;
+  @override
+
+  /// The ID of the first checkpoint in the list.
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  String? get firstId;
+  @override
+
+  /// The ID of the last checkpoint in the list.
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  String? get lastId;
+  @override
+
+  /// Whether there are more checkpoints to retrieve.
+  @JsonKey(name: 'has_more')
+  bool get hasMore;
+  @override
+  @JsonKey(ignore: true)
+  _$$ListFineTuningJobCheckpointsResponseImplCopyWith<
+          _$ListFineTuningJobCheckpointsResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 FineTuningJobEvent _$FineTuningJobEventFromJson(Map<String, dynamic> json) {
   return _FineTuningJobEvent.fromJson(json);
 }
@@ -15863,6 +16154,725 @@ abstract class _FineTuningJobEvent extends FineTuningJobEvent {
   @JsonKey(ignore: true)
   _$$FineTuningJobEventImplCopyWith<_$FineTuningJobEventImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+FineTuningJobCheckpoint _$FineTuningJobCheckpointFromJson(
+    Map<String, dynamic> json) {
+  return _FineTuningJobCheckpoint.fromJson(json);
+}
+
+/// @nodoc
+mixin _$FineTuningJobCheckpoint {
+  /// The checkpoint identifier, which can be referenced in the API endpoints.
+  String get id => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the checkpoint was created.
+  @JsonKey(name: 'created_at')
+  int get createdAt => throw _privateConstructorUsedError;
+
+  /// The name of the fine-tuned checkpoint model that is created.
+  @JsonKey(name: 'fine_tuned_model_checkpoint')
+  String get fineTunedModelCheckpoint => throw _privateConstructorUsedError;
+
+  /// The step number that the checkpoint was created at.
+  @JsonKey(name: 'step_number')
+  int get stepNumber => throw _privateConstructorUsedError;
+
+  /// Metrics at the step number during the fine-tuning job.
+  FineTuningJobCheckpointMetrics get metrics =>
+      throw _privateConstructorUsedError;
+
+  /// The name of the fine-tuning job that this checkpoint was created from.
+  @JsonKey(name: 'fine_tuning_job_id')
+  String get fineTuningJobId => throw _privateConstructorUsedError;
+
+  /// The object type, which is always "fine_tuning.job.checkpoint".
+  FineTuningJobCheckpointObject get object =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $FineTuningJobCheckpointCopyWith<FineTuningJobCheckpoint> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FineTuningJobCheckpointCopyWith<$Res> {
+  factory $FineTuningJobCheckpointCopyWith(FineTuningJobCheckpoint value,
+          $Res Function(FineTuningJobCheckpoint) then) =
+      _$FineTuningJobCheckpointCopyWithImpl<$Res, FineTuningJobCheckpoint>;
+  @useResult
+  $Res call(
+      {String id,
+      @JsonKey(name: 'created_at') int createdAt,
+      @JsonKey(name: 'fine_tuned_model_checkpoint')
+      String fineTunedModelCheckpoint,
+      @JsonKey(name: 'step_number') int stepNumber,
+      FineTuningJobCheckpointMetrics metrics,
+      @JsonKey(name: 'fine_tuning_job_id') String fineTuningJobId,
+      FineTuningJobCheckpointObject object});
+
+  $FineTuningJobCheckpointMetricsCopyWith<$Res> get metrics;
+}
+
+/// @nodoc
+class _$FineTuningJobCheckpointCopyWithImpl<$Res,
+        $Val extends FineTuningJobCheckpoint>
+    implements $FineTuningJobCheckpointCopyWith<$Res> {
+  _$FineTuningJobCheckpointCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? createdAt = null,
+    Object? fineTunedModelCheckpoint = null,
+    Object? stepNumber = null,
+    Object? metrics = null,
+    Object? fineTuningJobId = null,
+    Object? object = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      fineTunedModelCheckpoint: null == fineTunedModelCheckpoint
+          ? _value.fineTunedModelCheckpoint
+          : fineTunedModelCheckpoint // ignore: cast_nullable_to_non_nullable
+              as String,
+      stepNumber: null == stepNumber
+          ? _value.stepNumber
+          : stepNumber // ignore: cast_nullable_to_non_nullable
+              as int,
+      metrics: null == metrics
+          ? _value.metrics
+          : metrics // ignore: cast_nullable_to_non_nullable
+              as FineTuningJobCheckpointMetrics,
+      fineTuningJobId: null == fineTuningJobId
+          ? _value.fineTuningJobId
+          : fineTuningJobId // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as FineTuningJobCheckpointObject,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FineTuningJobCheckpointMetricsCopyWith<$Res> get metrics {
+    return $FineTuningJobCheckpointMetricsCopyWith<$Res>(_value.metrics,
+        (value) {
+      return _then(_value.copyWith(metrics: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$FineTuningJobCheckpointImplCopyWith<$Res>
+    implements $FineTuningJobCheckpointCopyWith<$Res> {
+  factory _$$FineTuningJobCheckpointImplCopyWith(
+          _$FineTuningJobCheckpointImpl value,
+          $Res Function(_$FineTuningJobCheckpointImpl) then) =
+      __$$FineTuningJobCheckpointImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      @JsonKey(name: 'created_at') int createdAt,
+      @JsonKey(name: 'fine_tuned_model_checkpoint')
+      String fineTunedModelCheckpoint,
+      @JsonKey(name: 'step_number') int stepNumber,
+      FineTuningJobCheckpointMetrics metrics,
+      @JsonKey(name: 'fine_tuning_job_id') String fineTuningJobId,
+      FineTuningJobCheckpointObject object});
+
+  @override
+  $FineTuningJobCheckpointMetricsCopyWith<$Res> get metrics;
+}
+
+/// @nodoc
+class __$$FineTuningJobCheckpointImplCopyWithImpl<$Res>
+    extends _$FineTuningJobCheckpointCopyWithImpl<$Res,
+        _$FineTuningJobCheckpointImpl>
+    implements _$$FineTuningJobCheckpointImplCopyWith<$Res> {
+  __$$FineTuningJobCheckpointImplCopyWithImpl(
+      _$FineTuningJobCheckpointImpl _value,
+      $Res Function(_$FineTuningJobCheckpointImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? createdAt = null,
+    Object? fineTunedModelCheckpoint = null,
+    Object? stepNumber = null,
+    Object? metrics = null,
+    Object? fineTuningJobId = null,
+    Object? object = null,
+  }) {
+    return _then(_$FineTuningJobCheckpointImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      fineTunedModelCheckpoint: null == fineTunedModelCheckpoint
+          ? _value.fineTunedModelCheckpoint
+          : fineTunedModelCheckpoint // ignore: cast_nullable_to_non_nullable
+              as String,
+      stepNumber: null == stepNumber
+          ? _value.stepNumber
+          : stepNumber // ignore: cast_nullable_to_non_nullable
+              as int,
+      metrics: null == metrics
+          ? _value.metrics
+          : metrics // ignore: cast_nullable_to_non_nullable
+              as FineTuningJobCheckpointMetrics,
+      fineTuningJobId: null == fineTuningJobId
+          ? _value.fineTuningJobId
+          : fineTuningJobId // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as FineTuningJobCheckpointObject,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$FineTuningJobCheckpointImpl extends _FineTuningJobCheckpoint {
+  const _$FineTuningJobCheckpointImpl(
+      {required this.id,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'fine_tuned_model_checkpoint')
+      required this.fineTunedModelCheckpoint,
+      @JsonKey(name: 'step_number') required this.stepNumber,
+      required this.metrics,
+      @JsonKey(name: 'fine_tuning_job_id') required this.fineTuningJobId,
+      required this.object})
+      : super._();
+
+  factory _$FineTuningJobCheckpointImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FineTuningJobCheckpointImplFromJson(json);
+
+  /// The checkpoint identifier, which can be referenced in the API endpoints.
+  @override
+  final String id;
+
+  /// The Unix timestamp (in seconds) for when the checkpoint was created.
+  @override
+  @JsonKey(name: 'created_at')
+  final int createdAt;
+
+  /// The name of the fine-tuned checkpoint model that is created.
+  @override
+  @JsonKey(name: 'fine_tuned_model_checkpoint')
+  final String fineTunedModelCheckpoint;
+
+  /// The step number that the checkpoint was created at.
+  @override
+  @JsonKey(name: 'step_number')
+  final int stepNumber;
+
+  /// Metrics at the step number during the fine-tuning job.
+  @override
+  final FineTuningJobCheckpointMetrics metrics;
+
+  /// The name of the fine-tuning job that this checkpoint was created from.
+  @override
+  @JsonKey(name: 'fine_tuning_job_id')
+  final String fineTuningJobId;
+
+  /// The object type, which is always "fine_tuning.job.checkpoint".
+  @override
+  final FineTuningJobCheckpointObject object;
+
+  @override
+  String toString() {
+    return 'FineTuningJobCheckpoint(id: $id, createdAt: $createdAt, fineTunedModelCheckpoint: $fineTunedModelCheckpoint, stepNumber: $stepNumber, metrics: $metrics, fineTuningJobId: $fineTuningJobId, object: $object)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FineTuningJobCheckpointImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(
+                    other.fineTunedModelCheckpoint, fineTunedModelCheckpoint) ||
+                other.fineTunedModelCheckpoint == fineTunedModelCheckpoint) &&
+            (identical(other.stepNumber, stepNumber) ||
+                other.stepNumber == stepNumber) &&
+            (identical(other.metrics, metrics) || other.metrics == metrics) &&
+            (identical(other.fineTuningJobId, fineTuningJobId) ||
+                other.fineTuningJobId == fineTuningJobId) &&
+            (identical(other.object, object) || other.object == object));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, createdAt,
+      fineTunedModelCheckpoint, stepNumber, metrics, fineTuningJobId, object);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FineTuningJobCheckpointImplCopyWith<_$FineTuningJobCheckpointImpl>
+      get copyWith => __$$FineTuningJobCheckpointImplCopyWithImpl<
+          _$FineTuningJobCheckpointImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FineTuningJobCheckpointImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _FineTuningJobCheckpoint extends FineTuningJobCheckpoint {
+  const factory _FineTuningJobCheckpoint(
+          {required final String id,
+          @JsonKey(name: 'created_at') required final int createdAt,
+          @JsonKey(name: 'fine_tuned_model_checkpoint')
+          required final String fineTunedModelCheckpoint,
+          @JsonKey(name: 'step_number') required final int stepNumber,
+          required final FineTuningJobCheckpointMetrics metrics,
+          @JsonKey(name: 'fine_tuning_job_id')
+          required final String fineTuningJobId,
+          required final FineTuningJobCheckpointObject object}) =
+      _$FineTuningJobCheckpointImpl;
+  const _FineTuningJobCheckpoint._() : super._();
+
+  factory _FineTuningJobCheckpoint.fromJson(Map<String, dynamic> json) =
+      _$FineTuningJobCheckpointImpl.fromJson;
+
+  @override
+
+  /// The checkpoint identifier, which can be referenced in the API endpoints.
+  String get id;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the checkpoint was created.
+  @JsonKey(name: 'created_at')
+  int get createdAt;
+  @override
+
+  /// The name of the fine-tuned checkpoint model that is created.
+  @JsonKey(name: 'fine_tuned_model_checkpoint')
+  String get fineTunedModelCheckpoint;
+  @override
+
+  /// The step number that the checkpoint was created at.
+  @JsonKey(name: 'step_number')
+  int get stepNumber;
+  @override
+
+  /// Metrics at the step number during the fine-tuning job.
+  FineTuningJobCheckpointMetrics get metrics;
+  @override
+
+  /// The name of the fine-tuning job that this checkpoint was created from.
+  @JsonKey(name: 'fine_tuning_job_id')
+  String get fineTuningJobId;
+  @override
+
+  /// The object type, which is always "fine_tuning.job.checkpoint".
+  FineTuningJobCheckpointObject get object;
+  @override
+  @JsonKey(ignore: true)
+  _$$FineTuningJobCheckpointImplCopyWith<_$FineTuningJobCheckpointImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+FineTuningJobCheckpointMetrics _$FineTuningJobCheckpointMetricsFromJson(
+    Map<String, dynamic> json) {
+  return _FineTuningJobCheckpointMetrics.fromJson(json);
+}
+
+/// @nodoc
+mixin _$FineTuningJobCheckpointMetrics {
+  /// The step number that the metrics were recorded at.
+  @JsonKey(includeIfNull: false)
+  double? get step => throw _privateConstructorUsedError;
+
+  /// The training loss at the step number.
+  @JsonKey(name: 'train_loss', includeIfNull: false)
+  double? get trainLoss => throw _privateConstructorUsedError;
+
+  /// The training mean token accuracy at the step number.
+  @JsonKey(name: 'train_mean_token_accuracy', includeIfNull: false)
+  double? get trainMeanTokenAccuracy => throw _privateConstructorUsedError;
+
+  /// The validation loss at the step number.
+  @JsonKey(name: 'valid_loss', includeIfNull: false)
+  double? get validLoss => throw _privateConstructorUsedError;
+
+  /// The validation mean token accuracy at the step number.
+  @JsonKey(name: 'valid_mean_token_accuracy', includeIfNull: false)
+  double? get validMeanTokenAccuracy => throw _privateConstructorUsedError;
+
+  /// The full validation loss at the step number.
+  @JsonKey(name: 'full_valid_loss', includeIfNull: false)
+  double? get fullValidLoss => throw _privateConstructorUsedError;
+
+  /// The full validation mean token accuracy at the step number.
+  @JsonKey(name: 'full_valid_mean_token_accuracy', includeIfNull: false)
+  double? get fullValidMeanTokenAccuracy => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $FineTuningJobCheckpointMetricsCopyWith<FineTuningJobCheckpointMetrics>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FineTuningJobCheckpointMetricsCopyWith<$Res> {
+  factory $FineTuningJobCheckpointMetricsCopyWith(
+          FineTuningJobCheckpointMetrics value,
+          $Res Function(FineTuningJobCheckpointMetrics) then) =
+      _$FineTuningJobCheckpointMetricsCopyWithImpl<$Res,
+          FineTuningJobCheckpointMetrics>;
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) double? step,
+      @JsonKey(name: 'train_loss', includeIfNull: false) double? trainLoss,
+      @JsonKey(name: 'train_mean_token_accuracy', includeIfNull: false)
+      double? trainMeanTokenAccuracy,
+      @JsonKey(name: 'valid_loss', includeIfNull: false) double? validLoss,
+      @JsonKey(name: 'valid_mean_token_accuracy', includeIfNull: false)
+      double? validMeanTokenAccuracy,
+      @JsonKey(name: 'full_valid_loss', includeIfNull: false)
+      double? fullValidLoss,
+      @JsonKey(name: 'full_valid_mean_token_accuracy', includeIfNull: false)
+      double? fullValidMeanTokenAccuracy});
+}
+
+/// @nodoc
+class _$FineTuningJobCheckpointMetricsCopyWithImpl<$Res,
+        $Val extends FineTuningJobCheckpointMetrics>
+    implements $FineTuningJobCheckpointMetricsCopyWith<$Res> {
+  _$FineTuningJobCheckpointMetricsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? step = freezed,
+    Object? trainLoss = freezed,
+    Object? trainMeanTokenAccuracy = freezed,
+    Object? validLoss = freezed,
+    Object? validMeanTokenAccuracy = freezed,
+    Object? fullValidLoss = freezed,
+    Object? fullValidMeanTokenAccuracy = freezed,
+  }) {
+    return _then(_value.copyWith(
+      step: freezed == step
+          ? _value.step
+          : step // ignore: cast_nullable_to_non_nullable
+              as double?,
+      trainLoss: freezed == trainLoss
+          ? _value.trainLoss
+          : trainLoss // ignore: cast_nullable_to_non_nullable
+              as double?,
+      trainMeanTokenAccuracy: freezed == trainMeanTokenAccuracy
+          ? _value.trainMeanTokenAccuracy
+          : trainMeanTokenAccuracy // ignore: cast_nullable_to_non_nullable
+              as double?,
+      validLoss: freezed == validLoss
+          ? _value.validLoss
+          : validLoss // ignore: cast_nullable_to_non_nullable
+              as double?,
+      validMeanTokenAccuracy: freezed == validMeanTokenAccuracy
+          ? _value.validMeanTokenAccuracy
+          : validMeanTokenAccuracy // ignore: cast_nullable_to_non_nullable
+              as double?,
+      fullValidLoss: freezed == fullValidLoss
+          ? _value.fullValidLoss
+          : fullValidLoss // ignore: cast_nullable_to_non_nullable
+              as double?,
+      fullValidMeanTokenAccuracy: freezed == fullValidMeanTokenAccuracy
+          ? _value.fullValidMeanTokenAccuracy
+          : fullValidMeanTokenAccuracy // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$FineTuningJobCheckpointMetricsImplCopyWith<$Res>
+    implements $FineTuningJobCheckpointMetricsCopyWith<$Res> {
+  factory _$$FineTuningJobCheckpointMetricsImplCopyWith(
+          _$FineTuningJobCheckpointMetricsImpl value,
+          $Res Function(_$FineTuningJobCheckpointMetricsImpl) then) =
+      __$$FineTuningJobCheckpointMetricsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) double? step,
+      @JsonKey(name: 'train_loss', includeIfNull: false) double? trainLoss,
+      @JsonKey(name: 'train_mean_token_accuracy', includeIfNull: false)
+      double? trainMeanTokenAccuracy,
+      @JsonKey(name: 'valid_loss', includeIfNull: false) double? validLoss,
+      @JsonKey(name: 'valid_mean_token_accuracy', includeIfNull: false)
+      double? validMeanTokenAccuracy,
+      @JsonKey(name: 'full_valid_loss', includeIfNull: false)
+      double? fullValidLoss,
+      @JsonKey(name: 'full_valid_mean_token_accuracy', includeIfNull: false)
+      double? fullValidMeanTokenAccuracy});
+}
+
+/// @nodoc
+class __$$FineTuningJobCheckpointMetricsImplCopyWithImpl<$Res>
+    extends _$FineTuningJobCheckpointMetricsCopyWithImpl<$Res,
+        _$FineTuningJobCheckpointMetricsImpl>
+    implements _$$FineTuningJobCheckpointMetricsImplCopyWith<$Res> {
+  __$$FineTuningJobCheckpointMetricsImplCopyWithImpl(
+      _$FineTuningJobCheckpointMetricsImpl _value,
+      $Res Function(_$FineTuningJobCheckpointMetricsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? step = freezed,
+    Object? trainLoss = freezed,
+    Object? trainMeanTokenAccuracy = freezed,
+    Object? validLoss = freezed,
+    Object? validMeanTokenAccuracy = freezed,
+    Object? fullValidLoss = freezed,
+    Object? fullValidMeanTokenAccuracy = freezed,
+  }) {
+    return _then(_$FineTuningJobCheckpointMetricsImpl(
+      step: freezed == step
+          ? _value.step
+          : step // ignore: cast_nullable_to_non_nullable
+              as double?,
+      trainLoss: freezed == trainLoss
+          ? _value.trainLoss
+          : trainLoss // ignore: cast_nullable_to_non_nullable
+              as double?,
+      trainMeanTokenAccuracy: freezed == trainMeanTokenAccuracy
+          ? _value.trainMeanTokenAccuracy
+          : trainMeanTokenAccuracy // ignore: cast_nullable_to_non_nullable
+              as double?,
+      validLoss: freezed == validLoss
+          ? _value.validLoss
+          : validLoss // ignore: cast_nullable_to_non_nullable
+              as double?,
+      validMeanTokenAccuracy: freezed == validMeanTokenAccuracy
+          ? _value.validMeanTokenAccuracy
+          : validMeanTokenAccuracy // ignore: cast_nullable_to_non_nullable
+              as double?,
+      fullValidLoss: freezed == fullValidLoss
+          ? _value.fullValidLoss
+          : fullValidLoss // ignore: cast_nullable_to_non_nullable
+              as double?,
+      fullValidMeanTokenAccuracy: freezed == fullValidMeanTokenAccuracy
+          ? _value.fullValidMeanTokenAccuracy
+          : fullValidMeanTokenAccuracy // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$FineTuningJobCheckpointMetricsImpl
+    extends _FineTuningJobCheckpointMetrics {
+  const _$FineTuningJobCheckpointMetricsImpl(
+      {@JsonKey(includeIfNull: false) this.step,
+      @JsonKey(name: 'train_loss', includeIfNull: false) this.trainLoss,
+      @JsonKey(name: 'train_mean_token_accuracy', includeIfNull: false)
+      this.trainMeanTokenAccuracy,
+      @JsonKey(name: 'valid_loss', includeIfNull: false) this.validLoss,
+      @JsonKey(name: 'valid_mean_token_accuracy', includeIfNull: false)
+      this.validMeanTokenAccuracy,
+      @JsonKey(name: 'full_valid_loss', includeIfNull: false)
+      this.fullValidLoss,
+      @JsonKey(name: 'full_valid_mean_token_accuracy', includeIfNull: false)
+      this.fullValidMeanTokenAccuracy})
+      : super._();
+
+  factory _$FineTuningJobCheckpointMetricsImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$FineTuningJobCheckpointMetricsImplFromJson(json);
+
+  /// The step number that the metrics were recorded at.
+  @override
+  @JsonKey(includeIfNull: false)
+  final double? step;
+
+  /// The training loss at the step number.
+  @override
+  @JsonKey(name: 'train_loss', includeIfNull: false)
+  final double? trainLoss;
+
+  /// The training mean token accuracy at the step number.
+  @override
+  @JsonKey(name: 'train_mean_token_accuracy', includeIfNull: false)
+  final double? trainMeanTokenAccuracy;
+
+  /// The validation loss at the step number.
+  @override
+  @JsonKey(name: 'valid_loss', includeIfNull: false)
+  final double? validLoss;
+
+  /// The validation mean token accuracy at the step number.
+  @override
+  @JsonKey(name: 'valid_mean_token_accuracy', includeIfNull: false)
+  final double? validMeanTokenAccuracy;
+
+  /// The full validation loss at the step number.
+  @override
+  @JsonKey(name: 'full_valid_loss', includeIfNull: false)
+  final double? fullValidLoss;
+
+  /// The full validation mean token accuracy at the step number.
+  @override
+  @JsonKey(name: 'full_valid_mean_token_accuracy', includeIfNull: false)
+  final double? fullValidMeanTokenAccuracy;
+
+  @override
+  String toString() {
+    return 'FineTuningJobCheckpointMetrics(step: $step, trainLoss: $trainLoss, trainMeanTokenAccuracy: $trainMeanTokenAccuracy, validLoss: $validLoss, validMeanTokenAccuracy: $validMeanTokenAccuracy, fullValidLoss: $fullValidLoss, fullValidMeanTokenAccuracy: $fullValidMeanTokenAccuracy)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FineTuningJobCheckpointMetricsImpl &&
+            (identical(other.step, step) || other.step == step) &&
+            (identical(other.trainLoss, trainLoss) ||
+                other.trainLoss == trainLoss) &&
+            (identical(other.trainMeanTokenAccuracy, trainMeanTokenAccuracy) ||
+                other.trainMeanTokenAccuracy == trainMeanTokenAccuracy) &&
+            (identical(other.validLoss, validLoss) ||
+                other.validLoss == validLoss) &&
+            (identical(other.validMeanTokenAccuracy, validMeanTokenAccuracy) ||
+                other.validMeanTokenAccuracy == validMeanTokenAccuracy) &&
+            (identical(other.fullValidLoss, fullValidLoss) ||
+                other.fullValidLoss == fullValidLoss) &&
+            (identical(other.fullValidMeanTokenAccuracy,
+                    fullValidMeanTokenAccuracy) ||
+                other.fullValidMeanTokenAccuracy ==
+                    fullValidMeanTokenAccuracy));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      step,
+      trainLoss,
+      trainMeanTokenAccuracy,
+      validLoss,
+      validMeanTokenAccuracy,
+      fullValidLoss,
+      fullValidMeanTokenAccuracy);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FineTuningJobCheckpointMetricsImplCopyWith<
+          _$FineTuningJobCheckpointMetricsImpl>
+      get copyWith => __$$FineTuningJobCheckpointMetricsImplCopyWithImpl<
+          _$FineTuningJobCheckpointMetricsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FineTuningJobCheckpointMetricsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _FineTuningJobCheckpointMetrics
+    extends FineTuningJobCheckpointMetrics {
+  const factory _FineTuningJobCheckpointMetrics(
+          {@JsonKey(includeIfNull: false) final double? step,
+          @JsonKey(name: 'train_loss', includeIfNull: false)
+          final double? trainLoss,
+          @JsonKey(name: 'train_mean_token_accuracy', includeIfNull: false)
+          final double? trainMeanTokenAccuracy,
+          @JsonKey(name: 'valid_loss', includeIfNull: false)
+          final double? validLoss,
+          @JsonKey(name: 'valid_mean_token_accuracy', includeIfNull: false)
+          final double? validMeanTokenAccuracy,
+          @JsonKey(name: 'full_valid_loss', includeIfNull: false)
+          final double? fullValidLoss,
+          @JsonKey(name: 'full_valid_mean_token_accuracy', includeIfNull: false)
+          final double? fullValidMeanTokenAccuracy}) =
+      _$FineTuningJobCheckpointMetricsImpl;
+  const _FineTuningJobCheckpointMetrics._() : super._();
+
+  factory _FineTuningJobCheckpointMetrics.fromJson(Map<String, dynamic> json) =
+      _$FineTuningJobCheckpointMetricsImpl.fromJson;
+
+  @override
+
+  /// The step number that the metrics were recorded at.
+  @JsonKey(includeIfNull: false)
+  double? get step;
+  @override
+
+  /// The training loss at the step number.
+  @JsonKey(name: 'train_loss', includeIfNull: false)
+  double? get trainLoss;
+  @override
+
+  /// The training mean token accuracy at the step number.
+  @JsonKey(name: 'train_mean_token_accuracy', includeIfNull: false)
+  double? get trainMeanTokenAccuracy;
+  @override
+
+  /// The validation loss at the step number.
+  @JsonKey(name: 'valid_loss', includeIfNull: false)
+  double? get validLoss;
+  @override
+
+  /// The validation mean token accuracy at the step number.
+  @JsonKey(name: 'valid_mean_token_accuracy', includeIfNull: false)
+  double? get validMeanTokenAccuracy;
+  @override
+
+  /// The full validation loss at the step number.
+  @JsonKey(name: 'full_valid_loss', includeIfNull: false)
+  double? get fullValidLoss;
+  @override
+
+  /// The full validation mean token accuracy at the step number.
+  @JsonKey(name: 'full_valid_mean_token_accuracy', includeIfNull: false)
+  double? get fullValidMeanTokenAccuracy;
+  @override
+  @JsonKey(ignore: true)
+  _$$FineTuningJobCheckpointMetricsImplCopyWith<
+          _$FineTuningJobCheckpointMetricsImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 CreateImageRequest _$CreateImageRequestFromJson(Map<String, dynamic> json) {
