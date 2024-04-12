@@ -49,6 +49,13 @@ class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
     /// See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
     @JsonKey(name: 'validation_file', includeIfNull: false)
     String? validationFile,
+
+    /// A list of integrations to enable for your fine-tuning job.
+    @JsonKey(includeIfNull: false) List<FineTuningIntegration>? integrations,
+
+    /// The seed controls the reproducibility of the job. Passing in the same seed and job parameters should produce the same results, but may differ in rare cases.
+    /// If a seed is not specified, one will be generated for you.
+    @JsonKey(includeIfNull: false) int? seed,
   }) = _CreateFineTuningJobRequest;
 
   /// Object construction from a JSON representation
@@ -61,12 +68,16 @@ class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
     'training_file',
     'hyperparameters',
     'suffix',
-    'validation_file'
+    'validation_file',
+    'integrations',
+    'seed'
   ];
 
   /// Validation constants
   static const suffixMinLengthValue = 1;
   static const suffixMaxLengthValue = 40;
+  static const seedMinValue = 0;
+  static const seedMaxValue = 2147483647;
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -75,6 +86,12 @@ class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
     }
     if (suffix != null && suffix!.length > suffixMaxLengthValue) {
       return "The length of 'suffix' cannot be > $suffixMaxLengthValue characters";
+    }
+    if (seed != null && seed! < seedMinValue) {
+      return "The value of 'seed' cannot be < $seedMinValue";
+    }
+    if (seed != null && seed! > seedMaxValue) {
+      return "The value of 'seed' cannot be > $seedMaxValue";
     }
     return null;
   }
@@ -87,6 +104,8 @@ class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
       'hyperparameters': hyperparameters,
       'suffix': suffix,
       'validation_file': validationFile,
+      'integrations': integrations,
+      'seed': seed,
     };
   }
 }

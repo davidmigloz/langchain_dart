@@ -1235,6 +1235,11 @@ _$CreateFineTuningJobRequestImpl _$$CreateFineTuningJobRequestImplFromJson(
               json['hyperparameters'] as Map<String, dynamic>),
       suffix: json['suffix'] as String?,
       validationFile: json['validation_file'] as String?,
+      integrations: (json['integrations'] as List<dynamic>?)
+          ?.map(
+              (e) => FineTuningIntegration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      seed: json['seed'] as int?,
     );
 
 Map<String, dynamic> _$$CreateFineTuningJobRequestImplToJson(
@@ -1253,6 +1258,9 @@ Map<String, dynamic> _$$CreateFineTuningJobRequestImplToJson(
   writeNotNull('hyperparameters', instance.hyperparameters?.toJson());
   writeNotNull('suffix', instance.suffix);
   writeNotNull('validation_file', instance.validationFile);
+  writeNotNull(
+      'integrations', instance.integrations?.map((e) => e.toJson()).toList());
+  writeNotNull('seed', instance.seed);
   return val;
 }
 
@@ -1311,25 +1319,40 @@ _$FineTuningJobImpl _$$FineTuningJobImplFromJson(Map<String, dynamic> json) =>
       trainedTokens: json['trained_tokens'] as int?,
       trainingFile: json['training_file'] as String,
       validationFile: json['validation_file'] as String?,
+      integrations: (json['integrations'] as List<dynamic>?)
+          ?.map(
+              (e) => FineTuningIntegration.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
-Map<String, dynamic> _$$FineTuningJobImplToJson(_$FineTuningJobImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'created_at': instance.createdAt,
-      'error': instance.error?.toJson(),
-      'fine_tuned_model': instance.fineTunedModel,
-      'finished_at': instance.finishedAt,
-      'hyperparameters': instance.hyperparameters.toJson(),
-      'model': instance.model,
-      'object': _$FineTuningJobObjectEnumMap[instance.object]!,
-      'organization_id': instance.organizationId,
-      'result_files': instance.resultFiles,
-      'status': _$FineTuningJobStatusEnumMap[instance.status]!,
-      'trained_tokens': instance.trainedTokens,
-      'training_file': instance.trainingFile,
-      'validation_file': instance.validationFile,
-    };
+Map<String, dynamic> _$$FineTuningJobImplToJson(_$FineTuningJobImpl instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'created_at': instance.createdAt,
+    'error': instance.error?.toJson(),
+    'fine_tuned_model': instance.fineTunedModel,
+    'finished_at': instance.finishedAt,
+    'hyperparameters': instance.hyperparameters.toJson(),
+    'model': instance.model,
+    'object': _$FineTuningJobObjectEnumMap[instance.object]!,
+    'organization_id': instance.organizationId,
+    'result_files': instance.resultFiles,
+    'status': _$FineTuningJobStatusEnumMap[instance.status]!,
+    'trained_tokens': instance.trainedTokens,
+    'training_file': instance.trainingFile,
+    'validation_file': instance.validationFile,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'integrations', instance.integrations?.map((e) => e.toJson()).toList());
+  return val;
+}
 
 const _$FineTuningJobObjectEnumMap = {
   FineTuningJobObject.fineTuningJob: 'fine_tuning.job',
@@ -1343,6 +1366,52 @@ const _$FineTuningJobStatusEnumMap = {
   FineTuningJobStatus.failed: 'failed',
   FineTuningJobStatus.cancelled: 'cancelled',
 };
+
+_$FineTuningIntegrationImpl _$$FineTuningIntegrationImplFromJson(
+        Map<String, dynamic> json) =>
+    _$FineTuningIntegrationImpl(
+      type: $enumDecode(_$FineTuningIntegrationTypeEnumMap, json['type']),
+      wandb: FineTuningIntegrationWandb.fromJson(
+          json['wandb'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$FineTuningIntegrationImplToJson(
+        _$FineTuningIntegrationImpl instance) =>
+    <String, dynamic>{
+      'type': _$FineTuningIntegrationTypeEnumMap[instance.type]!,
+      'wandb': instance.wandb.toJson(),
+    };
+
+const _$FineTuningIntegrationTypeEnumMap = {
+  FineTuningIntegrationType.wandb: 'wandb',
+};
+
+_$FineTuningIntegrationWandbImpl _$$FineTuningIntegrationWandbImplFromJson(
+        Map<String, dynamic> json) =>
+    _$FineTuningIntegrationWandbImpl(
+      project: json['project'] as String,
+      name: json['name'] as String?,
+      entity: json['entity'] as String?,
+      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    );
+
+Map<String, dynamic> _$$FineTuningIntegrationWandbImplToJson(
+    _$FineTuningIntegrationWandbImpl instance) {
+  final val = <String, dynamic>{
+    'project': instance.project,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('entity', instance.entity);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
 
 _$FineTuningJobErrorImpl _$$FineTuningJobErrorImplFromJson(
         Map<String, dynamic> json) =>
