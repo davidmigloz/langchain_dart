@@ -56,6 +56,9 @@ class FineTuningJob with _$FineTuningJob {
 
     /// The file ID used for validation. You can retrieve the validation results with the [Files API](https://platform.openai.com/docs/api-reference/files/retrieve-contents).
     @JsonKey(name: 'validation_file') required String? validationFile,
+
+    /// A list of integrations to enable for this fine-tuning job.
+    @JsonKey(includeIfNull: false) List<FineTuningIntegration>? integrations,
   }) = _FineTuningJob;
 
   /// Object construction from a JSON representation
@@ -77,7 +80,8 @@ class FineTuningJob with _$FineTuningJob {
     'status',
     'trained_tokens',
     'training_file',
-    'validation_file'
+    'validation_file',
+    'integrations'
   ];
 
   /// Perform validations on the schema property values
@@ -102,6 +106,7 @@ class FineTuningJob with _$FineTuningJob {
       'trained_tokens': trainedTokens,
       'training_file': trainingFile,
       'validation_file': validationFile,
+      'integrations': integrations,
     };
   }
 }

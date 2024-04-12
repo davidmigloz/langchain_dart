@@ -44,6 +44,7 @@ part 'embedding.dart';
 part 'embedding_usage.dart';
 part 'create_fine_tuning_job_request.dart';
 part 'fine_tuning_job.dart';
+part 'fine_tuning_integration.dart';
 part 'fine_tuning_job_status.dart';
 part 'fine_tuning_job_error.dart';
 part 'fine_tuning_job_hyperparameters.dart';

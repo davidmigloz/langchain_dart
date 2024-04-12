@@ -13126,6 +13126,16 @@ mixin _$CreateFineTuningJobRequest {
   @JsonKey(name: 'validation_file', includeIfNull: false)
   String? get validationFile => throw _privateConstructorUsedError;
 
+  /// A list of integrations to enable for your fine-tuning job.
+  @JsonKey(includeIfNull: false)
+  List<FineTuningIntegration>? get integrations =>
+      throw _privateConstructorUsedError;
+
+  /// The seed controls the reproducibility of the job. Passing in the same seed and job parameters should produce the same results, but may differ in rare cases.
+  /// If a seed is not specified, one will be generated for you.
+  @JsonKey(includeIfNull: false)
+  int? get seed => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $CreateFineTuningJobRequestCopyWith<CreateFineTuningJobRequest>
@@ -13146,7 +13156,9 @@ abstract class $CreateFineTuningJobRequestCopyWith<$Res> {
       FineTuningJobHyperparameters? hyperparameters,
       @JsonKey(includeIfNull: false) String? suffix,
       @JsonKey(name: 'validation_file', includeIfNull: false)
-      String? validationFile});
+      String? validationFile,
+      @JsonKey(includeIfNull: false) List<FineTuningIntegration>? integrations,
+      @JsonKey(includeIfNull: false) int? seed});
 
   $FineTuningModelCopyWith<$Res> get model;
   $FineTuningJobHyperparametersCopyWith<$Res>? get hyperparameters;
@@ -13171,6 +13183,8 @@ class _$CreateFineTuningJobRequestCopyWithImpl<$Res,
     Object? hyperparameters = freezed,
     Object? suffix = freezed,
     Object? validationFile = freezed,
+    Object? integrations = freezed,
+    Object? seed = freezed,
   }) {
     return _then(_value.copyWith(
       model: null == model
@@ -13193,6 +13207,14 @@ class _$CreateFineTuningJobRequestCopyWithImpl<$Res,
           ? _value.validationFile
           : validationFile // ignore: cast_nullable_to_non_nullable
               as String?,
+      integrations: freezed == integrations
+          ? _value.integrations
+          : integrations // ignore: cast_nullable_to_non_nullable
+              as List<FineTuningIntegration>?,
+      seed: freezed == seed
+          ? _value.seed
+          : seed // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 
@@ -13234,7 +13256,9 @@ abstract class _$$CreateFineTuningJobRequestImplCopyWith<$Res>
       FineTuningJobHyperparameters? hyperparameters,
       @JsonKey(includeIfNull: false) String? suffix,
       @JsonKey(name: 'validation_file', includeIfNull: false)
-      String? validationFile});
+      String? validationFile,
+      @JsonKey(includeIfNull: false) List<FineTuningIntegration>? integrations,
+      @JsonKey(includeIfNull: false) int? seed});
 
   @override
   $FineTuningModelCopyWith<$Res> get model;
@@ -13260,6 +13284,8 @@ class __$$CreateFineTuningJobRequestImplCopyWithImpl<$Res>
     Object? hyperparameters = freezed,
     Object? suffix = freezed,
     Object? validationFile = freezed,
+    Object? integrations = freezed,
+    Object? seed = freezed,
   }) {
     return _then(_$CreateFineTuningJobRequestImpl(
       model: null == model
@@ -13282,6 +13308,14 @@ class __$$CreateFineTuningJobRequestImplCopyWithImpl<$Res>
           ? _value.validationFile
           : validationFile // ignore: cast_nullable_to_non_nullable
               as String?,
+      integrations: freezed == integrations
+          ? _value._integrations
+          : integrations // ignore: cast_nullable_to_non_nullable
+              as List<FineTuningIntegration>?,
+      seed: freezed == seed
+          ? _value.seed
+          : seed // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -13295,8 +13329,12 @@ class _$CreateFineTuningJobRequestImpl extends _CreateFineTuningJobRequest {
       @JsonKey(includeIfNull: false) this.hyperparameters,
       @JsonKey(includeIfNull: false) this.suffix,
       @JsonKey(name: 'validation_file', includeIfNull: false)
-      this.validationFile})
-      : super._();
+      this.validationFile,
+      @JsonKey(includeIfNull: false)
+      final List<FineTuningIntegration>? integrations,
+      @JsonKey(includeIfNull: false) this.seed})
+      : _integrations = integrations,
+        super._();
 
   factory _$CreateFineTuningJobRequestImpl.fromJson(
           Map<String, dynamic> json) =>
@@ -13345,9 +13383,29 @@ class _$CreateFineTuningJobRequestImpl extends _CreateFineTuningJobRequest {
   @JsonKey(name: 'validation_file', includeIfNull: false)
   final String? validationFile;
 
+  /// A list of integrations to enable for your fine-tuning job.
+  final List<FineTuningIntegration>? _integrations;
+
+  /// A list of integrations to enable for your fine-tuning job.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<FineTuningIntegration>? get integrations {
+    final value = _integrations;
+    if (value == null) return null;
+    if (_integrations is EqualUnmodifiableListView) return _integrations;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  /// The seed controls the reproducibility of the job. Passing in the same seed and job parameters should produce the same results, but may differ in rare cases.
+  /// If a seed is not specified, one will be generated for you.
+  @override
+  @JsonKey(includeIfNull: false)
+  final int? seed;
+
   @override
   String toString() {
-    return 'CreateFineTuningJobRequest(model: $model, trainingFile: $trainingFile, hyperparameters: $hyperparameters, suffix: $suffix, validationFile: $validationFile)';
+    return 'CreateFineTuningJobRequest(model: $model, trainingFile: $trainingFile, hyperparameters: $hyperparameters, suffix: $suffix, validationFile: $validationFile, integrations: $integrations, seed: $seed)';
   }
 
   @override
@@ -13362,13 +13420,23 @@ class _$CreateFineTuningJobRequestImpl extends _CreateFineTuningJobRequest {
                 other.hyperparameters == hyperparameters) &&
             (identical(other.suffix, suffix) || other.suffix == suffix) &&
             (identical(other.validationFile, validationFile) ||
-                other.validationFile == validationFile));
+                other.validationFile == validationFile) &&
+            const DeepCollectionEquality()
+                .equals(other._integrations, _integrations) &&
+            (identical(other.seed, seed) || other.seed == seed));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, model, trainingFile,
-      hyperparameters, suffix, validationFile);
+  int get hashCode => Object.hash(
+      runtimeType,
+      model,
+      trainingFile,
+      hyperparameters,
+      suffix,
+      validationFile,
+      const DeepCollectionEquality().hash(_integrations),
+      seed);
 
   @JsonKey(ignore: true)
   @override
@@ -13387,13 +13455,17 @@ class _$CreateFineTuningJobRequestImpl extends _CreateFineTuningJobRequest {
 
 abstract class _CreateFineTuningJobRequest extends CreateFineTuningJobRequest {
   const factory _CreateFineTuningJobRequest(
-      {@_FineTuningModelConverter() required final FineTuningModel model,
-      @JsonKey(name: 'training_file') required final String trainingFile,
-      @JsonKey(includeIfNull: false)
-      final FineTuningJobHyperparameters? hyperparameters,
-      @JsonKey(includeIfNull: false) final String? suffix,
-      @JsonKey(name: 'validation_file', includeIfNull: false)
-      final String? validationFile}) = _$CreateFineTuningJobRequestImpl;
+          {@_FineTuningModelConverter() required final FineTuningModel model,
+          @JsonKey(name: 'training_file') required final String trainingFile,
+          @JsonKey(includeIfNull: false)
+          final FineTuningJobHyperparameters? hyperparameters,
+          @JsonKey(includeIfNull: false) final String? suffix,
+          @JsonKey(name: 'validation_file', includeIfNull: false)
+          final String? validationFile,
+          @JsonKey(includeIfNull: false)
+          final List<FineTuningIntegration>? integrations,
+          @JsonKey(includeIfNull: false) final int? seed}) =
+      _$CreateFineTuningJobRequestImpl;
   const _CreateFineTuningJobRequest._() : super._();
 
   factory _CreateFineTuningJobRequest.fromJson(Map<String, dynamic> json) =
@@ -13442,6 +13514,17 @@ abstract class _CreateFineTuningJobRequest extends CreateFineTuningJobRequest {
   /// See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
   @JsonKey(name: 'validation_file', includeIfNull: false)
   String? get validationFile;
+  @override
+
+  /// A list of integrations to enable for your fine-tuning job.
+  @JsonKey(includeIfNull: false)
+  List<FineTuningIntegration>? get integrations;
+  @override
+
+  /// The seed controls the reproducibility of the job. Passing in the same seed and job parameters should produce the same results, but may differ in rare cases.
+  /// If a seed is not specified, one will be generated for you.
+  @JsonKey(includeIfNull: false)
+  int? get seed;
   @override
   @JsonKey(ignore: true)
   _$$CreateFineTuningJobRequestImplCopyWith<_$CreateFineTuningJobRequestImpl>
@@ -13897,6 +13980,11 @@ mixin _$FineTuningJob {
   @JsonKey(name: 'validation_file')
   String? get validationFile => throw _privateConstructorUsedError;
 
+  /// A list of integrations to enable for this fine-tuning job.
+  @JsonKey(includeIfNull: false)
+  List<FineTuningIntegration>? get integrations =>
+      throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $FineTuningJobCopyWith<FineTuningJob> get copyWith =>
@@ -13923,7 +14011,9 @@ abstract class $FineTuningJobCopyWith<$Res> {
       FineTuningJobStatus status,
       @JsonKey(name: 'trained_tokens') int? trainedTokens,
       @JsonKey(name: 'training_file') String trainingFile,
-      @JsonKey(name: 'validation_file') String? validationFile});
+      @JsonKey(name: 'validation_file') String? validationFile,
+      @JsonKey(includeIfNull: false)
+      List<FineTuningIntegration>? integrations});
 
   $FineTuningJobErrorCopyWith<$Res>? get error;
   $FineTuningJobHyperparametersCopyWith<$Res> get hyperparameters;
@@ -13956,6 +14046,7 @@ class _$FineTuningJobCopyWithImpl<$Res, $Val extends FineTuningJob>
     Object? trainedTokens = freezed,
     Object? trainingFile = null,
     Object? validationFile = freezed,
+    Object? integrations = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -14014,6 +14105,10 @@ class _$FineTuningJobCopyWithImpl<$Res, $Val extends FineTuningJob>
           ? _value.validationFile
           : validationFile // ignore: cast_nullable_to_non_nullable
               as String?,
+      integrations: freezed == integrations
+          ? _value.integrations
+          : integrations // ignore: cast_nullable_to_non_nullable
+              as List<FineTuningIntegration>?,
     ) as $Val);
   }
 
@@ -14061,7 +14156,9 @@ abstract class _$$FineTuningJobImplCopyWith<$Res>
       FineTuningJobStatus status,
       @JsonKey(name: 'trained_tokens') int? trainedTokens,
       @JsonKey(name: 'training_file') String trainingFile,
-      @JsonKey(name: 'validation_file') String? validationFile});
+      @JsonKey(name: 'validation_file') String? validationFile,
+      @JsonKey(includeIfNull: false)
+      List<FineTuningIntegration>? integrations});
 
   @override
   $FineTuningJobErrorCopyWith<$Res>? get error;
@@ -14094,6 +14191,7 @@ class __$$FineTuningJobImplCopyWithImpl<$Res>
     Object? trainedTokens = freezed,
     Object? trainingFile = null,
     Object? validationFile = freezed,
+    Object? integrations = freezed,
   }) {
     return _then(_$FineTuningJobImpl(
       id: null == id
@@ -14152,6 +14250,10 @@ class __$$FineTuningJobImplCopyWithImpl<$Res>
           ? _value.validationFile
           : validationFile // ignore: cast_nullable_to_non_nullable
               as String?,
+      integrations: freezed == integrations
+          ? _value._integrations
+          : integrations // ignore: cast_nullable_to_non_nullable
+              as List<FineTuningIntegration>?,
     ));
   }
 }
@@ -14173,8 +14275,11 @@ class _$FineTuningJobImpl extends _FineTuningJob {
       required this.status,
       @JsonKey(name: 'trained_tokens') required this.trainedTokens,
       @JsonKey(name: 'training_file') required this.trainingFile,
-      @JsonKey(name: 'validation_file') required this.validationFile})
+      @JsonKey(name: 'validation_file') required this.validationFile,
+      @JsonKey(includeIfNull: false)
+      final List<FineTuningIntegration>? integrations})
       : _resultFiles = resultFiles,
+        _integrations = integrations,
         super._();
 
   factory _$FineTuningJobImpl.fromJson(Map<String, dynamic> json) =>
@@ -14251,9 +14356,23 @@ class _$FineTuningJobImpl extends _FineTuningJob {
   @JsonKey(name: 'validation_file')
   final String? validationFile;
 
+  /// A list of integrations to enable for this fine-tuning job.
+  final List<FineTuningIntegration>? _integrations;
+
+  /// A list of integrations to enable for this fine-tuning job.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<FineTuningIntegration>? get integrations {
+    final value = _integrations;
+    if (value == null) return null;
+    if (_integrations is EqualUnmodifiableListView) return _integrations;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'FineTuningJob(id: $id, createdAt: $createdAt, error: $error, fineTunedModel: $fineTunedModel, finishedAt: $finishedAt, hyperparameters: $hyperparameters, model: $model, object: $object, organizationId: $organizationId, resultFiles: $resultFiles, status: $status, trainedTokens: $trainedTokens, trainingFile: $trainingFile, validationFile: $validationFile)';
+    return 'FineTuningJob(id: $id, createdAt: $createdAt, error: $error, fineTunedModel: $fineTunedModel, finishedAt: $finishedAt, hyperparameters: $hyperparameters, model: $model, object: $object, organizationId: $organizationId, resultFiles: $resultFiles, status: $status, trainedTokens: $trainedTokens, trainingFile: $trainingFile, validationFile: $validationFile, integrations: $integrations)';
   }
 
   @override
@@ -14283,7 +14402,9 @@ class _$FineTuningJobImpl extends _FineTuningJob {
             (identical(other.trainingFile, trainingFile) ||
                 other.trainingFile == trainingFile) &&
             (identical(other.validationFile, validationFile) ||
-                other.validationFile == validationFile));
+                other.validationFile == validationFile) &&
+            const DeepCollectionEquality()
+                .equals(other._integrations, _integrations));
   }
 
   @JsonKey(ignore: true)
@@ -14303,7 +14424,8 @@ class _$FineTuningJobImpl extends _FineTuningJob {
       status,
       trainedTokens,
       trainingFile,
-      validationFile);
+      validationFile,
+      const DeepCollectionEquality().hash(_integrations));
 
   @JsonKey(ignore: true)
   @override
@@ -14334,8 +14456,9 @@ abstract class _FineTuningJob extends FineTuningJob {
       required final FineTuningJobStatus status,
       @JsonKey(name: 'trained_tokens') required final int? trainedTokens,
       @JsonKey(name: 'training_file') required final String trainingFile,
-      @JsonKey(name: 'validation_file')
-      required final String? validationFile}) = _$FineTuningJobImpl;
+      @JsonKey(name: 'validation_file') required final String? validationFile,
+      @JsonKey(includeIfNull: false)
+      final List<FineTuningIntegration>? integrations}) = _$FineTuningJobImpl;
   const _FineTuningJob._() : super._();
 
   factory _FineTuningJob.fromJson(Map<String, dynamic> json) =
@@ -14406,9 +14529,465 @@ abstract class _FineTuningJob extends FineTuningJob {
   @JsonKey(name: 'validation_file')
   String? get validationFile;
   @override
+
+  /// A list of integrations to enable for this fine-tuning job.
+  @JsonKey(includeIfNull: false)
+  List<FineTuningIntegration>? get integrations;
+  @override
   @JsonKey(ignore: true)
   _$$FineTuningJobImplCopyWith<_$FineTuningJobImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+FineTuningIntegration _$FineTuningIntegrationFromJson(
+    Map<String, dynamic> json) {
+  return _FineTuningIntegration.fromJson(json);
+}
+
+/// @nodoc
+mixin _$FineTuningIntegration {
+  /// The type of integration to enable. Currently, only "wandb" (Weights and Biases) is supported.
+  FineTuningIntegrationType get type => throw _privateConstructorUsedError;
+
+  /// The settings for your integration with Weights and Biases. This payload specifies the project that
+  /// metrics will be sent to. Optionally, you can set an explicit display name for your run, add tags
+  /// to your run, and set a default entity (team, username, etc) to be associated with your run.
+  FineTuningIntegrationWandb get wandb => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $FineTuningIntegrationCopyWith<FineTuningIntegration> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FineTuningIntegrationCopyWith<$Res> {
+  factory $FineTuningIntegrationCopyWith(FineTuningIntegration value,
+          $Res Function(FineTuningIntegration) then) =
+      _$FineTuningIntegrationCopyWithImpl<$Res, FineTuningIntegration>;
+  @useResult
+  $Res call({FineTuningIntegrationType type, FineTuningIntegrationWandb wandb});
+
+  $FineTuningIntegrationWandbCopyWith<$Res> get wandb;
+}
+
+/// @nodoc
+class _$FineTuningIntegrationCopyWithImpl<$Res,
+        $Val extends FineTuningIntegration>
+    implements $FineTuningIntegrationCopyWith<$Res> {
+  _$FineTuningIntegrationCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? wandb = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as FineTuningIntegrationType,
+      wandb: null == wandb
+          ? _value.wandb
+          : wandb // ignore: cast_nullable_to_non_nullable
+              as FineTuningIntegrationWandb,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FineTuningIntegrationWandbCopyWith<$Res> get wandb {
+    return $FineTuningIntegrationWandbCopyWith<$Res>(_value.wandb, (value) {
+      return _then(_value.copyWith(wandb: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$FineTuningIntegrationImplCopyWith<$Res>
+    implements $FineTuningIntegrationCopyWith<$Res> {
+  factory _$$FineTuningIntegrationImplCopyWith(
+          _$FineTuningIntegrationImpl value,
+          $Res Function(_$FineTuningIntegrationImpl) then) =
+      __$$FineTuningIntegrationImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({FineTuningIntegrationType type, FineTuningIntegrationWandb wandb});
+
+  @override
+  $FineTuningIntegrationWandbCopyWith<$Res> get wandb;
+}
+
+/// @nodoc
+class __$$FineTuningIntegrationImplCopyWithImpl<$Res>
+    extends _$FineTuningIntegrationCopyWithImpl<$Res,
+        _$FineTuningIntegrationImpl>
+    implements _$$FineTuningIntegrationImplCopyWith<$Res> {
+  __$$FineTuningIntegrationImplCopyWithImpl(_$FineTuningIntegrationImpl _value,
+      $Res Function(_$FineTuningIntegrationImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? wandb = null,
+  }) {
+    return _then(_$FineTuningIntegrationImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as FineTuningIntegrationType,
+      wandb: null == wandb
+          ? _value.wandb
+          : wandb // ignore: cast_nullable_to_non_nullable
+              as FineTuningIntegrationWandb,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$FineTuningIntegrationImpl extends _FineTuningIntegration {
+  const _$FineTuningIntegrationImpl({required this.type, required this.wandb})
+      : super._();
+
+  factory _$FineTuningIntegrationImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FineTuningIntegrationImplFromJson(json);
+
+  /// The type of integration to enable. Currently, only "wandb" (Weights and Biases) is supported.
+  @override
+  final FineTuningIntegrationType type;
+
+  /// The settings for your integration with Weights and Biases. This payload specifies the project that
+  /// metrics will be sent to. Optionally, you can set an explicit display name for your run, add tags
+  /// to your run, and set a default entity (team, username, etc) to be associated with your run.
+  @override
+  final FineTuningIntegrationWandb wandb;
+
+  @override
+  String toString() {
+    return 'FineTuningIntegration(type: $type, wandb: $wandb)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FineTuningIntegrationImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.wandb, wandb) || other.wandb == wandb));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, wandb);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FineTuningIntegrationImplCopyWith<_$FineTuningIntegrationImpl>
+      get copyWith => __$$FineTuningIntegrationImplCopyWithImpl<
+          _$FineTuningIntegrationImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FineTuningIntegrationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _FineTuningIntegration extends FineTuningIntegration {
+  const factory _FineTuningIntegration(
+          {required final FineTuningIntegrationType type,
+          required final FineTuningIntegrationWandb wandb}) =
+      _$FineTuningIntegrationImpl;
+  const _FineTuningIntegration._() : super._();
+
+  factory _FineTuningIntegration.fromJson(Map<String, dynamic> json) =
+      _$FineTuningIntegrationImpl.fromJson;
+
+  @override
+
+  /// The type of integration to enable. Currently, only "wandb" (Weights and Biases) is supported.
+  FineTuningIntegrationType get type;
+  @override
+
+  /// The settings for your integration with Weights and Biases. This payload specifies the project that
+  /// metrics will be sent to. Optionally, you can set an explicit display name for your run, add tags
+  /// to your run, and set a default entity (team, username, etc) to be associated with your run.
+  FineTuningIntegrationWandb get wandb;
+  @override
+  @JsonKey(ignore: true)
+  _$$FineTuningIntegrationImplCopyWith<_$FineTuningIntegrationImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+FineTuningIntegrationWandb _$FineTuningIntegrationWandbFromJson(
+    Map<String, dynamic> json) {
+  return _FineTuningIntegrationWandb.fromJson(json);
+}
+
+/// @nodoc
+mixin _$FineTuningIntegrationWandb {
+  /// The name of the project that the new run will be created under.
+  String get project => throw _privateConstructorUsedError;
+
+  /// A display name to set for the run. If not set, we will use the Job ID as the name.
+  @JsonKey(includeIfNull: false)
+  String? get name => throw _privateConstructorUsedError;
+
+  /// The entity to use for the run. This allows you to set the team or username of the WandB user that you would
+  /// like associated with the run. If not set, the default entity for the registered WandB API key is used.
+  @JsonKey(includeIfNull: false)
+  String? get entity => throw _privateConstructorUsedError;
+
+  /// A list of tags to be attached to the newly created run. These tags are passed through directly to WandB. Some
+  /// default tags are generated by OpenAI: "openai/finetune", "openai/{base-model}", "openai/{ftjob-abcdef}".
+  @JsonKey(includeIfNull: false)
+  List<String>? get tags => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $FineTuningIntegrationWandbCopyWith<FineTuningIntegrationWandb>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FineTuningIntegrationWandbCopyWith<$Res> {
+  factory $FineTuningIntegrationWandbCopyWith(FineTuningIntegrationWandb value,
+          $Res Function(FineTuningIntegrationWandb) then) =
+      _$FineTuningIntegrationWandbCopyWithImpl<$Res,
+          FineTuningIntegrationWandb>;
+  @useResult
+  $Res call(
+      {String project,
+      @JsonKey(includeIfNull: false) String? name,
+      @JsonKey(includeIfNull: false) String? entity,
+      @JsonKey(includeIfNull: false) List<String>? tags});
+}
+
+/// @nodoc
+class _$FineTuningIntegrationWandbCopyWithImpl<$Res,
+        $Val extends FineTuningIntegrationWandb>
+    implements $FineTuningIntegrationWandbCopyWith<$Res> {
+  _$FineTuningIntegrationWandbCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? project = null,
+    Object? name = freezed,
+    Object? entity = freezed,
+    Object? tags = freezed,
+  }) {
+    return _then(_value.copyWith(
+      project: null == project
+          ? _value.project
+          : project // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      entity: freezed == entity
+          ? _value.entity
+          : entity // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tags: freezed == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$FineTuningIntegrationWandbImplCopyWith<$Res>
+    implements $FineTuningIntegrationWandbCopyWith<$Res> {
+  factory _$$FineTuningIntegrationWandbImplCopyWith(
+          _$FineTuningIntegrationWandbImpl value,
+          $Res Function(_$FineTuningIntegrationWandbImpl) then) =
+      __$$FineTuningIntegrationWandbImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String project,
+      @JsonKey(includeIfNull: false) String? name,
+      @JsonKey(includeIfNull: false) String? entity,
+      @JsonKey(includeIfNull: false) List<String>? tags});
+}
+
+/// @nodoc
+class __$$FineTuningIntegrationWandbImplCopyWithImpl<$Res>
+    extends _$FineTuningIntegrationWandbCopyWithImpl<$Res,
+        _$FineTuningIntegrationWandbImpl>
+    implements _$$FineTuningIntegrationWandbImplCopyWith<$Res> {
+  __$$FineTuningIntegrationWandbImplCopyWithImpl(
+      _$FineTuningIntegrationWandbImpl _value,
+      $Res Function(_$FineTuningIntegrationWandbImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? project = null,
+    Object? name = freezed,
+    Object? entity = freezed,
+    Object? tags = freezed,
+  }) {
+    return _then(_$FineTuningIntegrationWandbImpl(
+      project: null == project
+          ? _value.project
+          : project // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      entity: freezed == entity
+          ? _value.entity
+          : entity // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tags: freezed == tags
+          ? _value._tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$FineTuningIntegrationWandbImpl extends _FineTuningIntegrationWandb {
+  const _$FineTuningIntegrationWandbImpl(
+      {required this.project,
+      @JsonKey(includeIfNull: false) this.name,
+      @JsonKey(includeIfNull: false) this.entity,
+      @JsonKey(includeIfNull: false) final List<String>? tags})
+      : _tags = tags,
+        super._();
+
+  factory _$FineTuningIntegrationWandbImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$FineTuningIntegrationWandbImplFromJson(json);
+
+  /// The name of the project that the new run will be created under.
+  @override
+  final String project;
+
+  /// A display name to set for the run. If not set, we will use the Job ID as the name.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? name;
+
+  /// The entity to use for the run. This allows you to set the team or username of the WandB user that you would
+  /// like associated with the run. If not set, the default entity for the registered WandB API key is used.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? entity;
+
+  /// A list of tags to be attached to the newly created run. These tags are passed through directly to WandB. Some
+  /// default tags are generated by OpenAI: "openai/finetune", "openai/{base-model}", "openai/{ftjob-abcdef}".
+  final List<String>? _tags;
+
+  /// A list of tags to be attached to the newly created run. These tags are passed through directly to WandB. Some
+  /// default tags are generated by OpenAI: "openai/finetune", "openai/{base-model}", "openai/{ftjob-abcdef}".
+  @override
+  @JsonKey(includeIfNull: false)
+  List<String>? get tags {
+    final value = _tags;
+    if (value == null) return null;
+    if (_tags is EqualUnmodifiableListView) return _tags;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'FineTuningIntegrationWandb(project: $project, name: $name, entity: $entity, tags: $tags)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FineTuningIntegrationWandbImpl &&
+            (identical(other.project, project) || other.project == project) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.entity, entity) || other.entity == entity) &&
+            const DeepCollectionEquality().equals(other._tags, _tags));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, project, name, entity,
+      const DeepCollectionEquality().hash(_tags));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FineTuningIntegrationWandbImplCopyWith<_$FineTuningIntegrationWandbImpl>
+      get copyWith => __$$FineTuningIntegrationWandbImplCopyWithImpl<
+          _$FineTuningIntegrationWandbImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FineTuningIntegrationWandbImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _FineTuningIntegrationWandb extends FineTuningIntegrationWandb {
+  const factory _FineTuningIntegrationWandb(
+          {required final String project,
+          @JsonKey(includeIfNull: false) final String? name,
+          @JsonKey(includeIfNull: false) final String? entity,
+          @JsonKey(includeIfNull: false) final List<String>? tags}) =
+      _$FineTuningIntegrationWandbImpl;
+  const _FineTuningIntegrationWandb._() : super._();
+
+  factory _FineTuningIntegrationWandb.fromJson(Map<String, dynamic> json) =
+      _$FineTuningIntegrationWandbImpl.fromJson;
+
+  @override
+
+  /// The name of the project that the new run will be created under.
+  String get project;
+  @override
+
+  /// A display name to set for the run. If not set, we will use the Job ID as the name.
+  @JsonKey(includeIfNull: false)
+  String? get name;
+  @override
+
+  /// The entity to use for the run. This allows you to set the team or username of the WandB user that you would
+  /// like associated with the run. If not set, the default entity for the registered WandB API key is used.
+  @JsonKey(includeIfNull: false)
+  String? get entity;
+  @override
+
+  /// A list of tags to be attached to the newly created run. These tags are passed through directly to WandB. Some
+  /// default tags are generated by OpenAI: "openai/finetune", "openai/{base-model}", "openai/{ftjob-abcdef}".
+  @JsonKey(includeIfNull: false)
+  List<String>? get tags;
+  @override
+  @JsonKey(ignore: true)
+  _$$FineTuningIntegrationWandbImplCopyWith<_$FineTuningIntegrationWandbImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 FineTuningJobError _$FineTuningJobErrorFromJson(Map<String, dynamic> json) {
