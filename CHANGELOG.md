@@ -2,6 +2,45 @@
 
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details about each release.
 
+## 2024-04-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+- There are no breaking changes in this release.
+
+Packages with other changes:
+
+- [`langchain` - `v0.5.0+1`](#langchain---v0501)
+- [`openai_dart` - `v0.2.1`](#openai_dart---v021)
+- [`langchain_openai` - `v0.5.0+1`](#langchain_openai---v0501)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+- `langchain_openai` - `v0.5.0+1`
+
+---
+
+#### `langchain` - `v0.5.0+1`
+
+- **DOCS**: Update README.md. ([8139113a](https://github.com/davidmigloz/langchain_dart/commit/8139113a3ca8faa94145cbb6b1b80ca3bc2f3979))
+
+#### `openai_dart` - `v0.2.1`
+
+- **FEAT**: Add support for Batch API in openai_dart ([#383](https://github.com/davidmigloz/langchain_dart/issues/383)). ([6b89f4a2](https://github.com/davidmigloz/langchain_dart/commit/6b89f4a269417441df844545ab670fa67701e7b4))
+- **FEAT**: Support specifying tool choice in Assistant API in openai_dart ([#382](https://github.com/davidmigloz/langchain_dart/issues/382)). ([97d7977a](https://github.com/davidmigloz/langchain_dart/commit/97d7977a2666ed004c0e04d57114538e02849156))
+- **FEAT**: Support JSON mode in Assistant API in openai_dart ([#381](https://github.com/davidmigloz/langchain_dart/issues/381)). ([a864dae3](https://github.com/davidmigloz/langchain_dart/commit/a864dae3d38f49f83975012ecadec5b859dc43c2))
+- **FEAT**: Support max tokens and truncation strategy in Assistant API in openai_dart ([#380](https://github.com/davidmigloz/langchain_dart/issues/380)). ([7153167b](https://github.com/davidmigloz/langchain_dart/commit/7153167b550549155cf7f68af2292d24036fc9f2))
+- **FEAT**: Add streaming support to Assistant API in openai_dart ([#379](https://github.com/davidmigloz/langchain_dart/issues/379)). ([6ef68196](https://github.com/davidmigloz/langchain_dart/commit/6ef68196fbfff233b37eda8f3d1b1d373252613f))
+- **FEAT**: Update models catalog with GPT-4 Turbo with Vision in openai_dart ([#378](https://github.com/davidmigloz/langchain_dart/issues/378)). ([88537540](https://github.com/davidmigloz/langchain_dart/commit/88537540fbab3cd20fd611447519bbdfed950ebe))
+- **FEAT**: Add Weights & Biases fine-tuning integration and seed in openai_dart ([#377](https://github.com/davidmigloz/langchain_dart/issues/377)). ([a5fff1bf](https://github.com/davidmigloz/langchain_dart/commit/a5fff1bf6ec8cc258174f1e7bcf12c00b7201e0e))
+- **FEAT**: Add support for checkpoints in fine-tuning jobs in openai_dart ([#376](https://github.com/davidmigloz/langchain_dart/issues/376)). ([69f8e2f9](https://github.com/davidmigloz/langchain_dart/commit/69f8e2f9137a92683a9eec79f2de1ad03452244a))
+
 ## 2024-04-10
 
 ### Changes
@@ -2074,7 +2113,3 @@ Packages with changes:
 #### `langchain` - `v0.0.1`
 
  - Initial public release. 
-
-Check out the announcement post for all the details: 
-https://blog.langchaindart.com/introducing-langchain-dart-6b1d34fc41ef
-fc41ef

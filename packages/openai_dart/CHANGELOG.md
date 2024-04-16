@@ -1,3 +1,14 @@
+## 0.2.1
+
+ - **FEAT**: Support for Batch API ([#383](https://github.com/davidmigloz/langchain_dart/issues/383)). ([6b89f4a2](https://github.com/davidmigloz/langchain_dart/commit/6b89f4a269417441df844545ab670fa67701e7b4))
+ - **FEAT**: Streaming support for Assistant API ([#379](https://github.com/davidmigloz/langchain_dart/issues/379)). ([6ef68196](https://github.com/davidmigloz/langchain_dart/commit/6ef68196fbfff233b37eda8f3d1b1d373252613f))
+ - **FEAT**: Option to specify tool choice in Assistant API ([#382](https://github.com/davidmigloz/langchain_dart/issues/382)). ([97d7977a](https://github.com/davidmigloz/langchain_dart/commit/97d7977a2666ed004c0e04d57114538e02849156))
+ - **FEAT**: JSON mode in Assistant API ([#381](https://github.com/davidmigloz/langchain_dart/issues/381)). ([a864dae3](https://github.com/davidmigloz/langchain_dart/commit/a864dae3d38f49f83975012ecadec5b859dc43c2))
+ - **FEAT**: Max tokens and truncation strategy in Assistant API ([#380](https://github.com/davidmigloz/langchain_dart/issues/380)). ([7153167b](https://github.com/davidmigloz/langchain_dart/commit/7153167b550549155cf7f68af2292d24036fc9f2))
+ - **FEAT**: Updated models catalog with GPT-4 Turbo with Vision ([#378](https://github.com/davidmigloz/langchain_dart/issues/378)). ([88537540](https://github.com/davidmigloz/langchain_dart/commit/88537540fbab3cd20fd611447519bbdfed950ebe))
+ - **FEAT**: Weights & Biases integration for fine-tuning and seed options ([#377](https://github.com/davidmigloz/langchain_dart/issues/377)). ([a5fff1bf](https://github.com/davidmigloz/langchain_dart/commit/a5fff1bf6ec8cc258174f1e7bcf12c00b7201e0e))
+ - **FEAT**: Support for checkpoints in fine-tuning jobs ([#376](https://github.com/davidmigloz/langchain_dart/issues/376)). ([69f8e2f9](https://github.com/davidmigloz/langchain_dart/commit/69f8e2f9137a92683a9eec79f2de1ad03452244a))
+
 ## 0.2.0
 
  - **FEAT**: Sync OpenAI API ([#347](https://github.com/davidmigloz/langchain_dart/issues/347)). ([f296eef6](https://github.com/davidmigloz/langchain_dart/commit/f296eef68bfd81305f87475c802705fe3ef477c3))

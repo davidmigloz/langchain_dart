@@ -1,3 +1,7 @@
+## 0.5.0+1
+
+ - **DOCS**: Update README.md. ([8139113a](https://github.com/davidmigloz/langchain_dart/commit/8139113a3ca8faa94145cbb6b1b80ca3bc2f3979))
+
 ## 0.5.0
 
 > Note: This release has breaking changes.  
