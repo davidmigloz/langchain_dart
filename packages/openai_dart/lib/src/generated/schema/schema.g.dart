@@ -2246,6 +2246,34 @@ Map<String, dynamic> _$$ListAssistantsResponseImplToJson(
       'has_more': instance.hasMore,
     };
 
+_$TruncationObjectImpl _$$TruncationObjectImplFromJson(
+        Map<String, dynamic> json) =>
+    _$TruncationObjectImpl(
+      type: $enumDecode(_$TruncationObjectTypeEnumMap, json['type']),
+      lastMessages: json['last_messages'] as int?,
+    );
+
+Map<String, dynamic> _$$TruncationObjectImplToJson(
+    _$TruncationObjectImpl instance) {
+  final val = <String, dynamic>{
+    'type': _$TruncationObjectTypeEnumMap[instance.type]!,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('last_messages', instance.lastMessages);
+  return val;
+}
+
+const _$TruncationObjectTypeEnumMap = {
+  TruncationObjectType.auto: 'auto',
+  TruncationObjectType.lastMessages: 'last_messages',
+};
+
 _$RunObjectImpl _$$RunObjectImplFromJson(Map<String, dynamic> json) =>
     _$RunObjectImpl(
       id: json['id'] as String,
@@ -2266,6 +2294,10 @@ _$RunObjectImpl _$$RunObjectImplFromJson(Map<String, dynamic> json) =>
       cancelledAt: json['cancelled_at'] as int?,
       failedAt: json['failed_at'] as int?,
       completedAt: json['completed_at'] as int?,
+      incompleteDetails: json['incomplete_details'] == null
+          ? null
+          : RunObjectIncompleteDetails.fromJson(
+              json['incomplete_details'] as Map<String, dynamic>),
       model: json['model'] as String,
       instructions: json['instructions'] as String,
       tools: (json['tools'] as List<dynamic>)
@@ -2278,6 +2310,12 @@ _$RunObjectImpl _$$RunObjectImplFromJson(Map<String, dynamic> json) =>
           ? null
           : RunCompletionUsage.fromJson(json['usage'] as Map<String, dynamic>),
       temperature: (json['temperature'] as num?)?.toDouble(),
+      maxPromptTokens: json['max_prompt_tokens'] as int?,
+      maxCompletionTokens: json['max_completion_tokens'] as int?,
+      truncationStrategy: json['truncation_strategy'] == null
+          ? null
+          : TruncationObject.fromJson(
+              json['truncation_strategy'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$RunObjectImplToJson(_$RunObjectImpl instance) {
@@ -2295,6 +2333,7 @@ Map<String, dynamic> _$$RunObjectImplToJson(_$RunObjectImpl instance) {
     'cancelled_at': instance.cancelledAt,
     'failed_at': instance.failedAt,
     'completed_at': instance.completedAt,
+    'incomplete_details': instance.incompleteDetails?.toJson(),
     'model': instance.model,
     'instructions': instance.instructions,
     'tools': instance.tools.map((e) => e.toJson()).toList(),
@@ -2310,6 +2349,9 @@ Map<String, dynamic> _$$RunObjectImplToJson(_$RunObjectImpl instance) {
   }
 
   writeNotNull('temperature', instance.temperature);
+  val['max_prompt_tokens'] = instance.maxPromptTokens;
+  val['max_completion_tokens'] = instance.maxCompletionTokens;
+  val['truncation_strategy'] = instance.truncationStrategy?.toJson();
   return val;
 }
 
@@ -2365,6 +2407,34 @@ const _$RunLastErrorCodeEnumMap = {
   RunLastErrorCode.invalidPrompt: 'invalid_prompt',
 };
 
+_$RunObjectIncompleteDetailsImpl _$$RunObjectIncompleteDetailsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RunObjectIncompleteDetailsImpl(
+      reason: $enumDecodeNullable(
+          _$RunObjectIncompleteDetailsReasonEnumMap, json['reason'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+    );
+
+Map<String, dynamic> _$$RunObjectIncompleteDetailsImplToJson(
+    _$RunObjectIncompleteDetailsImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'reason', _$RunObjectIncompleteDetailsReasonEnumMap[instance.reason]);
+  return val;
+}
+
+const _$RunObjectIncompleteDetailsReasonEnumMap = {
+  RunObjectIncompleteDetailsReason.maxCompletionTokens: 'max_completion_tokens',
+  RunObjectIncompleteDetailsReason.maxPromptTokens: 'max_prompt_tokens',
+};
+
 _$RunSubmitToolOutputsImpl _$$RunSubmitToolOutputsImplFromJson(
         Map<String, dynamic> json) =>
     _$RunSubmitToolOutputsImpl(
@@ -2410,6 +2480,12 @@ _$CreateRunRequestImpl _$$CreateRunRequestImplFromJson(
           .toList(),
       metadata: json['metadata'] as Map<String, dynamic>?,
       temperature: (json['temperature'] as num?)?.toDouble() ?? 1.0,
+      maxPromptTokens: json['max_prompt_tokens'] as int?,
+      maxCompletionTokens: json['max_completion_tokens'] as int?,
+      truncationStrategy: json['truncation_strategy'] == null
+          ? null
+          : TruncationObject.fromJson(
+              json['truncation_strategy'] as Map<String, dynamic>),
       stream: json['stream'] as bool?,
     );
 
@@ -2434,6 +2510,9 @@ Map<String, dynamic> _$$CreateRunRequestImplToJson(
   writeNotNull('tools', instance.tools?.map((e) => e.toJson()).toList());
   writeNotNull('metadata', instance.metadata);
   writeNotNull('temperature', instance.temperature);
+  writeNotNull('max_prompt_tokens', instance.maxPromptTokens);
+  writeNotNull('max_completion_tokens', instance.maxCompletionTokens);
+  writeNotNull('truncation_strategy', instance.truncationStrategy?.toJson());
   writeNotNull('stream', instance.stream);
   return val;
 }
@@ -2627,6 +2706,12 @@ _$CreateThreadAndRunRequestImpl _$$CreateThreadAndRunRequestImplFromJson(
           .toList(),
       metadata: json['metadata'] as Map<String, dynamic>?,
       temperature: (json['temperature'] as num?)?.toDouble() ?? 1.0,
+      maxPromptTokens: json['max_prompt_tokens'] as int?,
+      maxCompletionTokens: json['max_completion_tokens'] as int?,
+      truncationStrategy: json['truncation_strategy'] == null
+          ? null
+          : TruncationObject.fromJson(
+              json['truncation_strategy'] as Map<String, dynamic>),
       stream: json['stream'] as bool?,
     );
 
@@ -2649,6 +2734,9 @@ Map<String, dynamic> _$$CreateThreadAndRunRequestImplToJson(
   writeNotNull('tools', instance.tools?.map((e) => e.toJson()).toList());
   writeNotNull('metadata', instance.metadata);
   writeNotNull('temperature', instance.temperature);
+  writeNotNull('max_prompt_tokens', instance.maxPromptTokens);
+  writeNotNull('max_completion_tokens', instance.maxCompletionTokens);
+  writeNotNull('truncation_strategy', instance.truncationStrategy?.toJson());
   writeNotNull('stream', instance.stream);
   return val;
 }

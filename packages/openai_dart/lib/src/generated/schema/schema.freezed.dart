@@ -23690,6 +23690,184 @@ abstract class _ListAssistantsResponse extends ListAssistantsResponse {
       get copyWith => throw _privateConstructorUsedError;
 }
 
+TruncationObject _$TruncationObjectFromJson(Map<String, dynamic> json) {
+  return _TruncationObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$TruncationObject {
+  /// The truncation strategy to use for the thread. The default is `auto`. If set to `last_messages`, the thread will be truncated to the n most recent messages in the thread. When set to `auto`, messages in the middle of the thread will be dropped to fit the context length of the model, `max_prompt_tokens`.
+  TruncationObjectType get type => throw _privateConstructorUsedError;
+
+  /// The number of most recent messages from the thread when constructing the context for the run.
+  @JsonKey(name: 'last_messages', includeIfNull: false)
+  int? get lastMessages => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $TruncationObjectCopyWith<TruncationObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TruncationObjectCopyWith<$Res> {
+  factory $TruncationObjectCopyWith(
+          TruncationObject value, $Res Function(TruncationObject) then) =
+      _$TruncationObjectCopyWithImpl<$Res, TruncationObject>;
+  @useResult
+  $Res call(
+      {TruncationObjectType type,
+      @JsonKey(name: 'last_messages', includeIfNull: false) int? lastMessages});
+}
+
+/// @nodoc
+class _$TruncationObjectCopyWithImpl<$Res, $Val extends TruncationObject>
+    implements $TruncationObjectCopyWith<$Res> {
+  _$TruncationObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? lastMessages = freezed,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as TruncationObjectType,
+      lastMessages: freezed == lastMessages
+          ? _value.lastMessages
+          : lastMessages // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$TruncationObjectImplCopyWith<$Res>
+    implements $TruncationObjectCopyWith<$Res> {
+  factory _$$TruncationObjectImplCopyWith(_$TruncationObjectImpl value,
+          $Res Function(_$TruncationObjectImpl) then) =
+      __$$TruncationObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {TruncationObjectType type,
+      @JsonKey(name: 'last_messages', includeIfNull: false) int? lastMessages});
+}
+
+/// @nodoc
+class __$$TruncationObjectImplCopyWithImpl<$Res>
+    extends _$TruncationObjectCopyWithImpl<$Res, _$TruncationObjectImpl>
+    implements _$$TruncationObjectImplCopyWith<$Res> {
+  __$$TruncationObjectImplCopyWithImpl(_$TruncationObjectImpl _value,
+      $Res Function(_$TruncationObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? lastMessages = freezed,
+  }) {
+    return _then(_$TruncationObjectImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as TruncationObjectType,
+      lastMessages: freezed == lastMessages
+          ? _value.lastMessages
+          : lastMessages // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TruncationObjectImpl extends _TruncationObject {
+  const _$TruncationObjectImpl(
+      {required this.type,
+      @JsonKey(name: 'last_messages', includeIfNull: false) this.lastMessages})
+      : super._();
+
+  factory _$TruncationObjectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TruncationObjectImplFromJson(json);
+
+  /// The truncation strategy to use for the thread. The default is `auto`. If set to `last_messages`, the thread will be truncated to the n most recent messages in the thread. When set to `auto`, messages in the middle of the thread will be dropped to fit the context length of the model, `max_prompt_tokens`.
+  @override
+  final TruncationObjectType type;
+
+  /// The number of most recent messages from the thread when constructing the context for the run.
+  @override
+  @JsonKey(name: 'last_messages', includeIfNull: false)
+  final int? lastMessages;
+
+  @override
+  String toString() {
+    return 'TruncationObject(type: $type, lastMessages: $lastMessages)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TruncationObjectImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.lastMessages, lastMessages) ||
+                other.lastMessages == lastMessages));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, lastMessages);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TruncationObjectImplCopyWith<_$TruncationObjectImpl> get copyWith =>
+      __$$TruncationObjectImplCopyWithImpl<_$TruncationObjectImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TruncationObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _TruncationObject extends TruncationObject {
+  const factory _TruncationObject(
+      {required final TruncationObjectType type,
+      @JsonKey(name: 'last_messages', includeIfNull: false)
+      final int? lastMessages}) = _$TruncationObjectImpl;
+  const _TruncationObject._() : super._();
+
+  factory _TruncationObject.fromJson(Map<String, dynamic> json) =
+      _$TruncationObjectImpl.fromJson;
+
+  @override
+
+  /// The truncation strategy to use for the thread. The default is `auto`. If set to `last_messages`, the thread will be truncated to the n most recent messages in the thread. When set to `auto`, messages in the middle of the thread will be dropped to fit the context length of the model, `max_prompt_tokens`.
+  TruncationObjectType get type;
+  @override
+
+  /// The number of most recent messages from the thread when constructing the context for the run.
+  @JsonKey(name: 'last_messages', includeIfNull: false)
+  int? get lastMessages;
+  @override
+  @JsonKey(ignore: true)
+  _$$TruncationObjectImplCopyWith<_$TruncationObjectImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 RunObject _$RunObjectFromJson(Map<String, dynamic> json) {
   return _RunObject.fromJson(json);
 }
@@ -23745,6 +23923,11 @@ mixin _$RunObject {
   @JsonKey(name: 'completed_at')
   int? get completedAt => throw _privateConstructorUsedError;
 
+  /// Details on why the run is incomplete. Will be `null` if the run is not incomplete.
+  @JsonKey(name: 'incomplete_details')
+  RunObjectIncompleteDetails? get incompleteDetails =>
+      throw _privateConstructorUsedError;
+
   /// The model that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
   String get model => throw _privateConstructorUsedError;
 
@@ -23767,6 +23950,19 @@ mixin _$RunObject {
   /// The sampling temperature used for this run. If not set, defaults to 1.
   @JsonKey(includeIfNull: false)
   double? get temperature => throw _privateConstructorUsedError;
+
+  /// The maximum number of prompt tokens specified to have been used over the course of the run.
+  @JsonKey(name: 'max_prompt_tokens')
+  int? get maxPromptTokens => throw _privateConstructorUsedError;
+
+  /// The maximum number of completion tokens specified to have been used over the course of the run.
+  @JsonKey(name: 'max_completion_tokens')
+  int? get maxCompletionTokens => throw _privateConstructorUsedError;
+
+  /// Thread truncation controls
+  @JsonKey(name: 'truncation_strategy')
+  TruncationObject? get truncationStrategy =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -23793,17 +23989,25 @@ abstract class $RunObjectCopyWith<$Res> {
       @JsonKey(name: 'cancelled_at') int? cancelledAt,
       @JsonKey(name: 'failed_at') int? failedAt,
       @JsonKey(name: 'completed_at') int? completedAt,
+      @JsonKey(name: 'incomplete_details')
+      RunObjectIncompleteDetails? incompleteDetails,
       String model,
       String instructions,
       List<AssistantTools> tools,
       @JsonKey(name: 'file_ids') List<String> fileIds,
       Map<String, dynamic>? metadata,
       RunCompletionUsage? usage,
-      @JsonKey(includeIfNull: false) double? temperature});
+      @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(name: 'max_prompt_tokens') int? maxPromptTokens,
+      @JsonKey(name: 'max_completion_tokens') int? maxCompletionTokens,
+      @JsonKey(name: 'truncation_strategy')
+      TruncationObject? truncationStrategy});
 
   $RunRequiredActionCopyWith<$Res>? get requiredAction;
   $RunLastErrorCopyWith<$Res>? get lastError;
+  $RunObjectIncompleteDetailsCopyWith<$Res>? get incompleteDetails;
   $RunCompletionUsageCopyWith<$Res>? get usage;
+  $TruncationObjectCopyWith<$Res>? get truncationStrategy;
 }
 
 /// @nodoc
@@ -23832,6 +24036,7 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
     Object? cancelledAt = freezed,
     Object? failedAt = freezed,
     Object? completedAt = freezed,
+    Object? incompleteDetails = freezed,
     Object? model = null,
     Object? instructions = null,
     Object? tools = null,
@@ -23839,6 +24044,9 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
     Object? metadata = freezed,
     Object? usage = freezed,
     Object? temperature = freezed,
+    Object? maxPromptTokens = freezed,
+    Object? maxCompletionTokens = freezed,
+    Object? truncationStrategy = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -23893,6 +24101,10 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
           ? _value.completedAt
           : completedAt // ignore: cast_nullable_to_non_nullable
               as int?,
+      incompleteDetails: freezed == incompleteDetails
+          ? _value.incompleteDetails
+          : incompleteDetails // ignore: cast_nullable_to_non_nullable
+              as RunObjectIncompleteDetails?,
       model: null == model
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
@@ -23921,6 +24133,18 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
               as double?,
+      maxPromptTokens: freezed == maxPromptTokens
+          ? _value.maxPromptTokens
+          : maxPromptTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+      maxCompletionTokens: freezed == maxCompletionTokens
+          ? _value.maxCompletionTokens
+          : maxCompletionTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+      truncationStrategy: freezed == truncationStrategy
+          ? _value.truncationStrategy
+          : truncationStrategy // ignore: cast_nullable_to_non_nullable
+              as TruncationObject?,
     ) as $Val);
   }
 
@@ -23950,6 +24174,19 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
 
   @override
   @pragma('vm:prefer-inline')
+  $RunObjectIncompleteDetailsCopyWith<$Res>? get incompleteDetails {
+    if (_value.incompleteDetails == null) {
+      return null;
+    }
+
+    return $RunObjectIncompleteDetailsCopyWith<$Res>(_value.incompleteDetails!,
+        (value) {
+      return _then(_value.copyWith(incompleteDetails: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $RunCompletionUsageCopyWith<$Res>? get usage {
     if (_value.usage == null) {
       return null;
@@ -23957,6 +24194,18 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
 
     return $RunCompletionUsageCopyWith<$Res>(_value.usage!, (value) {
       return _then(_value.copyWith(usage: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TruncationObjectCopyWith<$Res>? get truncationStrategy {
+    if (_value.truncationStrategy == null) {
+      return null;
+    }
+
+    return $TruncationObjectCopyWith<$Res>(_value.truncationStrategy!, (value) {
+      return _then(_value.copyWith(truncationStrategy: value) as $Val);
     });
   }
 }
@@ -23983,20 +24232,30 @@ abstract class _$$RunObjectImplCopyWith<$Res>
       @JsonKey(name: 'cancelled_at') int? cancelledAt,
       @JsonKey(name: 'failed_at') int? failedAt,
       @JsonKey(name: 'completed_at') int? completedAt,
+      @JsonKey(name: 'incomplete_details')
+      RunObjectIncompleteDetails? incompleteDetails,
       String model,
       String instructions,
       List<AssistantTools> tools,
       @JsonKey(name: 'file_ids') List<String> fileIds,
       Map<String, dynamic>? metadata,
       RunCompletionUsage? usage,
-      @JsonKey(includeIfNull: false) double? temperature});
+      @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(name: 'max_prompt_tokens') int? maxPromptTokens,
+      @JsonKey(name: 'max_completion_tokens') int? maxCompletionTokens,
+      @JsonKey(name: 'truncation_strategy')
+      TruncationObject? truncationStrategy});
 
   @override
   $RunRequiredActionCopyWith<$Res>? get requiredAction;
   @override
   $RunLastErrorCopyWith<$Res>? get lastError;
   @override
+  $RunObjectIncompleteDetailsCopyWith<$Res>? get incompleteDetails;
+  @override
   $RunCompletionUsageCopyWith<$Res>? get usage;
+  @override
+  $TruncationObjectCopyWith<$Res>? get truncationStrategy;
 }
 
 /// @nodoc
@@ -24023,6 +24282,7 @@ class __$$RunObjectImplCopyWithImpl<$Res>
     Object? cancelledAt = freezed,
     Object? failedAt = freezed,
     Object? completedAt = freezed,
+    Object? incompleteDetails = freezed,
     Object? model = null,
     Object? instructions = null,
     Object? tools = null,
@@ -24030,6 +24290,9 @@ class __$$RunObjectImplCopyWithImpl<$Res>
     Object? metadata = freezed,
     Object? usage = freezed,
     Object? temperature = freezed,
+    Object? maxPromptTokens = freezed,
+    Object? maxCompletionTokens = freezed,
+    Object? truncationStrategy = freezed,
   }) {
     return _then(_$RunObjectImpl(
       id: null == id
@@ -24084,6 +24347,10 @@ class __$$RunObjectImplCopyWithImpl<$Res>
           ? _value.completedAt
           : completedAt // ignore: cast_nullable_to_non_nullable
               as int?,
+      incompleteDetails: freezed == incompleteDetails
+          ? _value.incompleteDetails
+          : incompleteDetails // ignore: cast_nullable_to_non_nullable
+              as RunObjectIncompleteDetails?,
       model: null == model
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
@@ -24112,6 +24379,18 @@ class __$$RunObjectImplCopyWithImpl<$Res>
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
               as double?,
+      maxPromptTokens: freezed == maxPromptTokens
+          ? _value.maxPromptTokens
+          : maxPromptTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+      maxCompletionTokens: freezed == maxCompletionTokens
+          ? _value.maxCompletionTokens
+          : maxCompletionTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+      truncationStrategy: freezed == truncationStrategy
+          ? _value.truncationStrategy
+          : truncationStrategy // ignore: cast_nullable_to_non_nullable
+              as TruncationObject?,
     ));
   }
 }
@@ -24133,13 +24412,17 @@ class _$RunObjectImpl extends _RunObject {
       @JsonKey(name: 'cancelled_at') required this.cancelledAt,
       @JsonKey(name: 'failed_at') required this.failedAt,
       @JsonKey(name: 'completed_at') required this.completedAt,
+      @JsonKey(name: 'incomplete_details') required this.incompleteDetails,
       required this.model,
       required this.instructions,
       required final List<AssistantTools> tools,
       @JsonKey(name: 'file_ids') required final List<String> fileIds,
       required final Map<String, dynamic>? metadata,
       required this.usage,
-      @JsonKey(includeIfNull: false) this.temperature})
+      @JsonKey(includeIfNull: false) this.temperature,
+      @JsonKey(name: 'max_prompt_tokens') required this.maxPromptTokens,
+      @JsonKey(name: 'max_completion_tokens') required this.maxCompletionTokens,
+      @JsonKey(name: 'truncation_strategy') required this.truncationStrategy})
       : _tools = tools,
         _fileIds = fileIds,
         _metadata = metadata,
@@ -24210,6 +24493,11 @@ class _$RunObjectImpl extends _RunObject {
   @JsonKey(name: 'completed_at')
   final int? completedAt;
 
+  /// Details on why the run is incomplete. Will be `null` if the run is not incomplete.
+  @override
+  @JsonKey(name: 'incomplete_details')
+  final RunObjectIncompleteDetails? incompleteDetails;
+
   /// The model that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
   @override
   final String model;
@@ -24263,9 +24551,24 @@ class _$RunObjectImpl extends _RunObject {
   @JsonKey(includeIfNull: false)
   final double? temperature;
 
+  /// The maximum number of prompt tokens specified to have been used over the course of the run.
+  @override
+  @JsonKey(name: 'max_prompt_tokens')
+  final int? maxPromptTokens;
+
+  /// The maximum number of completion tokens specified to have been used over the course of the run.
+  @override
+  @JsonKey(name: 'max_completion_tokens')
+  final int? maxCompletionTokens;
+
+  /// Thread truncation controls
+  @override
+  @JsonKey(name: 'truncation_strategy')
+  final TruncationObject? truncationStrategy;
+
   @override
   String toString() {
-    return 'RunObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, assistantId: $assistantId, status: $status, requiredAction: $requiredAction, lastError: $lastError, expiresAt: $expiresAt, startedAt: $startedAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, model: $model, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata, usage: $usage, temperature: $temperature)';
+    return 'RunObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, assistantId: $assistantId, status: $status, requiredAction: $requiredAction, lastError: $lastError, expiresAt: $expiresAt, startedAt: $startedAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, incompleteDetails: $incompleteDetails, model: $model, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata, usage: $usage, temperature: $temperature, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy)';
   }
 
   @override
@@ -24296,6 +24599,8 @@ class _$RunObjectImpl extends _RunObject {
                 other.failedAt == failedAt) &&
             (identical(other.completedAt, completedAt) ||
                 other.completedAt == completedAt) &&
+            (identical(other.incompleteDetails, incompleteDetails) ||
+                other.incompleteDetails == incompleteDetails) &&
             (identical(other.model, model) || other.model == model) &&
             (identical(other.instructions, instructions) ||
                 other.instructions == instructions) &&
@@ -24304,7 +24609,13 @@ class _$RunObjectImpl extends _RunObject {
             const DeepCollectionEquality().equals(other._metadata, _metadata) &&
             (identical(other.usage, usage) || other.usage == usage) &&
             (identical(other.temperature, temperature) ||
-                other.temperature == temperature));
+                other.temperature == temperature) &&
+            (identical(other.maxPromptTokens, maxPromptTokens) ||
+                other.maxPromptTokens == maxPromptTokens) &&
+            (identical(other.maxCompletionTokens, maxCompletionTokens) ||
+                other.maxCompletionTokens == maxCompletionTokens) &&
+            (identical(other.truncationStrategy, truncationStrategy) ||
+                other.truncationStrategy == truncationStrategy));
   }
 
   @JsonKey(ignore: true)
@@ -24324,13 +24635,17 @@ class _$RunObjectImpl extends _RunObject {
         cancelledAt,
         failedAt,
         completedAt,
+        incompleteDetails,
         model,
         instructions,
         const DeepCollectionEquality().hash(_tools),
         const DeepCollectionEquality().hash(_fileIds),
         const DeepCollectionEquality().hash(_metadata),
         usage,
-        temperature
+        temperature,
+        maxPromptTokens,
+        maxCompletionTokens,
+        truncationStrategy
       ]);
 
   @JsonKey(ignore: true)
@@ -24349,28 +24664,34 @@ class _$RunObjectImpl extends _RunObject {
 
 abstract class _RunObject extends RunObject {
   const factory _RunObject(
-          {required final String id,
-          required final RunObjectObject object,
-          @JsonKey(name: 'created_at') required final int createdAt,
-          @JsonKey(name: 'thread_id') required final String threadId,
-          @JsonKey(name: 'assistant_id') required final String assistantId,
-          required final RunStatus status,
-          @JsonKey(name: 'required_action')
-          required final RunRequiredAction? requiredAction,
-          @JsonKey(name: 'last_error') required final RunLastError? lastError,
-          @JsonKey(name: 'expires_at') required final int? expiresAt,
-          @JsonKey(name: 'started_at') required final int? startedAt,
-          @JsonKey(name: 'cancelled_at') required final int? cancelledAt,
-          @JsonKey(name: 'failed_at') required final int? failedAt,
-          @JsonKey(name: 'completed_at') required final int? completedAt,
-          required final String model,
-          required final String instructions,
-          required final List<AssistantTools> tools,
-          @JsonKey(name: 'file_ids') required final List<String> fileIds,
-          required final Map<String, dynamic>? metadata,
-          required final RunCompletionUsage? usage,
-          @JsonKey(includeIfNull: false) final double? temperature}) =
-      _$RunObjectImpl;
+      {required final String id,
+      required final RunObjectObject object,
+      @JsonKey(name: 'created_at') required final int createdAt,
+      @JsonKey(name: 'thread_id') required final String threadId,
+      @JsonKey(name: 'assistant_id') required final String assistantId,
+      required final RunStatus status,
+      @JsonKey(name: 'required_action')
+      required final RunRequiredAction? requiredAction,
+      @JsonKey(name: 'last_error') required final RunLastError? lastError,
+      @JsonKey(name: 'expires_at') required final int? expiresAt,
+      @JsonKey(name: 'started_at') required final int? startedAt,
+      @JsonKey(name: 'cancelled_at') required final int? cancelledAt,
+      @JsonKey(name: 'failed_at') required final int? failedAt,
+      @JsonKey(name: 'completed_at') required final int? completedAt,
+      @JsonKey(name: 'incomplete_details')
+      required final RunObjectIncompleteDetails? incompleteDetails,
+      required final String model,
+      required final String instructions,
+      required final List<AssistantTools> tools,
+      @JsonKey(name: 'file_ids') required final List<String> fileIds,
+      required final Map<String, dynamic>? metadata,
+      required final RunCompletionUsage? usage,
+      @JsonKey(includeIfNull: false) final double? temperature,
+      @JsonKey(name: 'max_prompt_tokens') required final int? maxPromptTokens,
+      @JsonKey(name: 'max_completion_tokens')
+      required final int? maxCompletionTokens,
+      @JsonKey(name: 'truncation_strategy')
+      required final TruncationObject? truncationStrategy}) = _$RunObjectImpl;
   const _RunObject._() : super._();
 
   factory _RunObject.fromJson(Map<String, dynamic> json) =
@@ -24440,6 +24761,11 @@ abstract class _RunObject extends RunObject {
   int? get completedAt;
   @override
 
+  /// Details on why the run is incomplete. Will be `null` if the run is not incomplete.
+  @JsonKey(name: 'incomplete_details')
+  RunObjectIncompleteDetails? get incompleteDetails;
+  @override
+
   /// The model that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
   String get model;
   @override
@@ -24468,6 +24794,21 @@ abstract class _RunObject extends RunObject {
   /// The sampling temperature used for this run. If not set, defaults to 1.
   @JsonKey(includeIfNull: false)
   double? get temperature;
+  @override
+
+  /// The maximum number of prompt tokens specified to have been used over the course of the run.
+  @JsonKey(name: 'max_prompt_tokens')
+  int? get maxPromptTokens;
+  @override
+
+  /// The maximum number of completion tokens specified to have been used over the course of the run.
+  @JsonKey(name: 'max_completion_tokens')
+  int? get maxCompletionTokens;
+  @override
+
+  /// Thread truncation controls
+  @JsonKey(name: 'truncation_strategy')
+  TruncationObject? get truncationStrategy;
   @override
   @JsonKey(ignore: true)
   _$$RunObjectImplCopyWith<_$RunObjectImpl> get copyWith =>
@@ -24834,6 +25175,180 @@ abstract class _RunLastError extends RunLastError {
   @JsonKey(ignore: true)
   _$$RunLastErrorImplCopyWith<_$RunLastErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+RunObjectIncompleteDetails _$RunObjectIncompleteDetailsFromJson(
+    Map<String, dynamic> json) {
+  return _RunObjectIncompleteDetails.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RunObjectIncompleteDetails {
+  /// The reason why the run is incomplete. This will point to which specific token limit was reached over the course of the run.
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  RunObjectIncompleteDetailsReason? get reason =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RunObjectIncompleteDetailsCopyWith<RunObjectIncompleteDetails>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunObjectIncompleteDetailsCopyWith<$Res> {
+  factory $RunObjectIncompleteDetailsCopyWith(RunObjectIncompleteDetails value,
+          $Res Function(RunObjectIncompleteDetails) then) =
+      _$RunObjectIncompleteDetailsCopyWithImpl<$Res,
+          RunObjectIncompleteDetails>;
+  @useResult
+  $Res call(
+      {@JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      RunObjectIncompleteDetailsReason? reason});
+}
+
+/// @nodoc
+class _$RunObjectIncompleteDetailsCopyWithImpl<$Res,
+        $Val extends RunObjectIncompleteDetails>
+    implements $RunObjectIncompleteDetailsCopyWith<$Res> {
+  _$RunObjectIncompleteDetailsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? reason = freezed,
+  }) {
+    return _then(_value.copyWith(
+      reason: freezed == reason
+          ? _value.reason
+          : reason // ignore: cast_nullable_to_non_nullable
+              as RunObjectIncompleteDetailsReason?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RunObjectIncompleteDetailsImplCopyWith<$Res>
+    implements $RunObjectIncompleteDetailsCopyWith<$Res> {
+  factory _$$RunObjectIncompleteDetailsImplCopyWith(
+          _$RunObjectIncompleteDetailsImpl value,
+          $Res Function(_$RunObjectIncompleteDetailsImpl) then) =
+      __$$RunObjectIncompleteDetailsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      RunObjectIncompleteDetailsReason? reason});
+}
+
+/// @nodoc
+class __$$RunObjectIncompleteDetailsImplCopyWithImpl<$Res>
+    extends _$RunObjectIncompleteDetailsCopyWithImpl<$Res,
+        _$RunObjectIncompleteDetailsImpl>
+    implements _$$RunObjectIncompleteDetailsImplCopyWith<$Res> {
+  __$$RunObjectIncompleteDetailsImplCopyWithImpl(
+      _$RunObjectIncompleteDetailsImpl _value,
+      $Res Function(_$RunObjectIncompleteDetailsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? reason = freezed,
+  }) {
+    return _then(_$RunObjectIncompleteDetailsImpl(
+      reason: freezed == reason
+          ? _value.reason
+          : reason // ignore: cast_nullable_to_non_nullable
+              as RunObjectIncompleteDetailsReason?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunObjectIncompleteDetailsImpl extends _RunObjectIncompleteDetails {
+  const _$RunObjectIncompleteDetailsImpl(
+      {@JsonKey(
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.reason})
+      : super._();
+
+  factory _$RunObjectIncompleteDetailsImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunObjectIncompleteDetailsImplFromJson(json);
+
+  /// The reason why the run is incomplete. This will point to which specific token limit was reached over the course of the run.
+  @override
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final RunObjectIncompleteDetailsReason? reason;
+
+  @override
+  String toString() {
+    return 'RunObjectIncompleteDetails(reason: $reason)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunObjectIncompleteDetailsImpl &&
+            (identical(other.reason, reason) || other.reason == reason));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, reason);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunObjectIncompleteDetailsImplCopyWith<_$RunObjectIncompleteDetailsImpl>
+      get copyWith => __$$RunObjectIncompleteDetailsImplCopyWithImpl<
+          _$RunObjectIncompleteDetailsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunObjectIncompleteDetailsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RunObjectIncompleteDetails extends RunObjectIncompleteDetails {
+  const factory _RunObjectIncompleteDetails(
+          {@JsonKey(
+              includeIfNull: false,
+              unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+          final RunObjectIncompleteDetailsReason? reason}) =
+      _$RunObjectIncompleteDetailsImpl;
+  const _RunObjectIncompleteDetails._() : super._();
+
+  factory _RunObjectIncompleteDetails.fromJson(Map<String, dynamic> json) =
+      _$RunObjectIncompleteDetailsImpl.fromJson;
+
+  @override
+
+  /// The reason why the run is incomplete. This will point to which specific token limit was reached over the course of the run.
+  @JsonKey(
+      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  RunObjectIncompleteDetailsReason? get reason;
+  @override
+  @JsonKey(ignore: true)
+  _$$RunObjectIncompleteDetailsImplCopyWith<_$RunObjectIncompleteDetailsImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 RunSubmitToolOutputs _$RunSubmitToolOutputsFromJson(Map<String, dynamic> json) {
@@ -25252,6 +25767,19 @@ mixin _$CreateRunRequest {
   @JsonKey(includeIfNull: false)
   double? get temperature => throw _privateConstructorUsedError;
 
+  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
+  int? get maxPromptTokens => throw _privateConstructorUsedError;
+
+  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
+  int? get maxCompletionTokens => throw _privateConstructorUsedError;
+
+  /// Thread truncation controls
+  @JsonKey(name: 'truncation_strategy', includeIfNull: false)
+  TruncationObject? get truncationStrategy =>
+      throw _privateConstructorUsedError;
+
   /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
   @JsonKey(includeIfNull: false)
   bool? get stream => throw _privateConstructorUsedError;
@@ -25281,9 +25809,16 @@ abstract class $CreateRunRequestCopyWith<$Res> {
       @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
+      int? maxPromptTokens,
+      @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
+      int? maxCompletionTokens,
+      @JsonKey(name: 'truncation_strategy', includeIfNull: false)
+      TruncationObject? truncationStrategy,
       @JsonKey(includeIfNull: false) bool? stream});
 
   $CreateRunRequestModelCopyWith<$Res>? get model;
+  $TruncationObjectCopyWith<$Res>? get truncationStrategy;
 }
 
 /// @nodoc
@@ -25307,6 +25842,9 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
     Object? tools = freezed,
     Object? metadata = freezed,
     Object? temperature = freezed,
+    Object? maxPromptTokens = freezed,
+    Object? maxCompletionTokens = freezed,
+    Object? truncationStrategy = freezed,
     Object? stream = freezed,
   }) {
     return _then(_value.copyWith(
@@ -25342,6 +25880,18 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
               as double?,
+      maxPromptTokens: freezed == maxPromptTokens
+          ? _value.maxPromptTokens
+          : maxPromptTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+      maxCompletionTokens: freezed == maxCompletionTokens
+          ? _value.maxCompletionTokens
+          : maxCompletionTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+      truncationStrategy: freezed == truncationStrategy
+          ? _value.truncationStrategy
+          : truncationStrategy // ignore: cast_nullable_to_non_nullable
+              as TruncationObject?,
       stream: freezed == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
@@ -25358,6 +25908,18 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
 
     return $CreateRunRequestModelCopyWith<$Res>(_value.model!, (value) {
       return _then(_value.copyWith(model: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TruncationObjectCopyWith<$Res>? get truncationStrategy {
+    if (_value.truncationStrategy == null) {
+      return null;
+    }
+
+    return $TruncationObjectCopyWith<$Res>(_value.truncationStrategy!, (value) {
+      return _then(_value.copyWith(truncationStrategy: value) as $Val);
     });
   }
 }
@@ -25383,10 +25945,18 @@ abstract class _$$CreateRunRequestImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
+      int? maxPromptTokens,
+      @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
+      int? maxCompletionTokens,
+      @JsonKey(name: 'truncation_strategy', includeIfNull: false)
+      TruncationObject? truncationStrategy,
       @JsonKey(includeIfNull: false) bool? stream});
 
   @override
   $CreateRunRequestModelCopyWith<$Res>? get model;
+  @override
+  $TruncationObjectCopyWith<$Res>? get truncationStrategy;
 }
 
 /// @nodoc
@@ -25408,6 +25978,9 @@ class __$$CreateRunRequestImplCopyWithImpl<$Res>
     Object? tools = freezed,
     Object? metadata = freezed,
     Object? temperature = freezed,
+    Object? maxPromptTokens = freezed,
+    Object? maxCompletionTokens = freezed,
+    Object? truncationStrategy = freezed,
     Object? stream = freezed,
   }) {
     return _then(_$CreateRunRequestImpl(
@@ -25443,6 +26016,18 @@ class __$$CreateRunRequestImplCopyWithImpl<$Res>
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
               as double?,
+      maxPromptTokens: freezed == maxPromptTokens
+          ? _value.maxPromptTokens
+          : maxPromptTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+      maxCompletionTokens: freezed == maxCompletionTokens
+          ? _value.maxCompletionTokens
+          : maxCompletionTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+      truncationStrategy: freezed == truncationStrategy
+          ? _value.truncationStrategy
+          : truncationStrategy // ignore: cast_nullable_to_non_nullable
+              as TruncationObject?,
       stream: freezed == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
@@ -25467,6 +26052,12 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
       @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
       @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) this.temperature = 1.0,
+      @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
+      this.maxPromptTokens,
+      @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
+      this.maxCompletionTokens,
+      @JsonKey(name: 'truncation_strategy', includeIfNull: false)
+      this.truncationStrategy,
       @JsonKey(includeIfNull: false) this.stream})
       : _additionalMessages = additionalMessages,
         _tools = tools,
@@ -25545,6 +26136,21 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
   @JsonKey(includeIfNull: false)
   final double? temperature;
 
+  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  @override
+  @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
+  final int? maxPromptTokens;
+
+  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  @override
+  @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
+  final int? maxCompletionTokens;
+
+  /// Thread truncation controls
+  @override
+  @JsonKey(name: 'truncation_strategy', includeIfNull: false)
+  final TruncationObject? truncationStrategy;
+
   /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
   @override
   @JsonKey(includeIfNull: false)
@@ -25552,7 +26158,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
 
   @override
   String toString() {
-    return 'CreateRunRequest(assistantId: $assistantId, model: $model, instructions: $instructions, additionalInstructions: $additionalInstructions, additionalMessages: $additionalMessages, tools: $tools, metadata: $metadata, temperature: $temperature, stream: $stream)';
+    return 'CreateRunRequest(assistantId: $assistantId, model: $model, instructions: $instructions, additionalInstructions: $additionalInstructions, additionalMessages: $additionalMessages, tools: $tools, metadata: $metadata, temperature: $temperature, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, stream: $stream)';
   }
 
   @override
@@ -25573,6 +26179,12 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
             const DeepCollectionEquality().equals(other._metadata, _metadata) &&
             (identical(other.temperature, temperature) ||
                 other.temperature == temperature) &&
+            (identical(other.maxPromptTokens, maxPromptTokens) ||
+                other.maxPromptTokens == maxPromptTokens) &&
+            (identical(other.maxCompletionTokens, maxCompletionTokens) ||
+                other.maxCompletionTokens == maxCompletionTokens) &&
+            (identical(other.truncationStrategy, truncationStrategy) ||
+                other.truncationStrategy == truncationStrategy) &&
             (identical(other.stream, stream) || other.stream == stream));
   }
 
@@ -25588,6 +26200,9 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
       const DeepCollectionEquality().hash(_tools),
       const DeepCollectionEquality().hash(_metadata),
       temperature,
+      maxPromptTokens,
+      maxCompletionTokens,
+      truncationStrategy,
       stream);
 
   @JsonKey(ignore: true)
@@ -25619,6 +26234,12 @@ abstract class _CreateRunRequest extends CreateRunRequest {
           @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
           @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
           @JsonKey(includeIfNull: false) final double? temperature,
+          @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
+          final int? maxPromptTokens,
+          @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
+          final int? maxCompletionTokens,
+          @JsonKey(name: 'truncation_strategy', includeIfNull: false)
+          final TruncationObject? truncationStrategy,
           @JsonKey(includeIfNull: false) final bool? stream}) =
       _$CreateRunRequestImpl;
   const _CreateRunRequest._() : super._();
@@ -25667,6 +26288,21 @@ abstract class _CreateRunRequest extends CreateRunRequest {
   /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
   @JsonKey(includeIfNull: false)
   double? get temperature;
+  @override
+
+  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
+  int? get maxPromptTokens;
+  @override
+
+  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
+  int? get maxCompletionTokens;
+  @override
+
+  /// Thread truncation controls
+  @JsonKey(name: 'truncation_strategy', includeIfNull: false)
+  TruncationObject? get truncationStrategy;
   @override
 
   /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
@@ -27310,6 +27946,19 @@ mixin _$CreateThreadAndRunRequest {
   @JsonKey(includeIfNull: false)
   double? get temperature => throw _privateConstructorUsedError;
 
+  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
+  int? get maxPromptTokens => throw _privateConstructorUsedError;
+
+  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+  @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
+  int? get maxCompletionTokens => throw _privateConstructorUsedError;
+
+  /// Thread truncation controls
+  @JsonKey(name: 'truncation_strategy', includeIfNull: false)
+  TruncationObject? get truncationStrategy =>
+      throw _privateConstructorUsedError;
+
   /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
   @JsonKey(includeIfNull: false)
   bool? get stream => throw _privateConstructorUsedError;
@@ -27336,10 +27985,17 @@ abstract class $CreateThreadAndRunRequestCopyWith<$Res> {
       @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
+      int? maxPromptTokens,
+      @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
+      int? maxCompletionTokens,
+      @JsonKey(name: 'truncation_strategy', includeIfNull: false)
+      TruncationObject? truncationStrategy,
       @JsonKey(includeIfNull: false) bool? stream});
 
   $CreateThreadRequestCopyWith<$Res>? get thread;
   $ThreadAndRunModelCopyWith<$Res>? get model;
+  $TruncationObjectCopyWith<$Res>? get truncationStrategy;
 }
 
 /// @nodoc
@@ -27363,6 +28019,9 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
     Object? tools = freezed,
     Object? metadata = freezed,
     Object? temperature = freezed,
+    Object? maxPromptTokens = freezed,
+    Object? maxCompletionTokens = freezed,
+    Object? truncationStrategy = freezed,
     Object? stream = freezed,
   }) {
     return _then(_value.copyWith(
@@ -27394,6 +28053,18 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
               as double?,
+      maxPromptTokens: freezed == maxPromptTokens
+          ? _value.maxPromptTokens
+          : maxPromptTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+      maxCompletionTokens: freezed == maxCompletionTokens
+          ? _value.maxCompletionTokens
+          : maxCompletionTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+      truncationStrategy: freezed == truncationStrategy
+          ? _value.truncationStrategy
+          : truncationStrategy // ignore: cast_nullable_to_non_nullable
+              as TruncationObject?,
       stream: freezed == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
@@ -27424,6 +28095,18 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
       return _then(_value.copyWith(model: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TruncationObjectCopyWith<$Res>? get truncationStrategy {
+    if (_value.truncationStrategy == null) {
+      return null;
+    }
+
+    return $TruncationObjectCopyWith<$Res>(_value.truncationStrategy!, (value) {
+      return _then(_value.copyWith(truncationStrategy: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -27445,12 +28128,20 @@ abstract class _$$CreateThreadAndRunRequestImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
+      int? maxPromptTokens,
+      @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
+      int? maxCompletionTokens,
+      @JsonKey(name: 'truncation_strategy', includeIfNull: false)
+      TruncationObject? truncationStrategy,
       @JsonKey(includeIfNull: false) bool? stream});
 
   @override
   $CreateThreadRequestCopyWith<$Res>? get thread;
   @override
   $ThreadAndRunModelCopyWith<$Res>? get model;
+  @override
+  $TruncationObjectCopyWith<$Res>? get truncationStrategy;
 }
 
 /// @nodoc
@@ -27473,6 +28164,9 @@ class __$$CreateThreadAndRunRequestImplCopyWithImpl<$Res>
     Object? tools = freezed,
     Object? metadata = freezed,
     Object? temperature = freezed,
+    Object? maxPromptTokens = freezed,
+    Object? maxCompletionTokens = freezed,
+    Object? truncationStrategy = freezed,
     Object? stream = freezed,
   }) {
     return _then(_$CreateThreadAndRunRequestImpl(
@@ -27504,6 +28198,18 @@ class __$$CreateThreadAndRunRequestImplCopyWithImpl<$Res>
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
               as double?,
+      maxPromptTokens: freezed == maxPromptTokens
+          ? _value.maxPromptTokens
+          : maxPromptTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+      maxCompletionTokens: freezed == maxCompletionTokens
+          ? _value.maxCompletionTokens
+          : maxCompletionTokens // ignore: cast_nullable_to_non_nullable
+              as int?,
+      truncationStrategy: freezed == truncationStrategy
+          ? _value.truncationStrategy
+          : truncationStrategy // ignore: cast_nullable_to_non_nullable
+              as TruncationObject?,
       stream: freezed == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
@@ -27523,6 +28229,12 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
       @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
       @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) this.temperature = 1.0,
+      @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
+      this.maxPromptTokens,
+      @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
+      this.maxCompletionTokens,
+      @JsonKey(name: 'truncation_strategy', includeIfNull: false)
+      this.truncationStrategy,
       @JsonKey(includeIfNull: false) this.stream})
       : _tools = tools,
         _metadata = metadata,
@@ -27585,6 +28297,21 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
   @JsonKey(includeIfNull: false)
   final double? temperature;
 
+  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  @override
+  @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
+  final int? maxPromptTokens;
+
+  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+  @override
+  @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
+  final int? maxCompletionTokens;
+
+  /// Thread truncation controls
+  @override
+  @JsonKey(name: 'truncation_strategy', includeIfNull: false)
+  final TruncationObject? truncationStrategy;
+
   /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
   @override
   @JsonKey(includeIfNull: false)
@@ -27592,7 +28319,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
 
   @override
   String toString() {
-    return 'CreateThreadAndRunRequest(assistantId: $assistantId, thread: $thread, model: $model, instructions: $instructions, tools: $tools, metadata: $metadata, temperature: $temperature, stream: $stream)';
+    return 'CreateThreadAndRunRequest(assistantId: $assistantId, thread: $thread, model: $model, instructions: $instructions, tools: $tools, metadata: $metadata, temperature: $temperature, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, stream: $stream)';
   }
 
   @override
@@ -27610,6 +28337,12 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
             const DeepCollectionEquality().equals(other._metadata, _metadata) &&
             (identical(other.temperature, temperature) ||
                 other.temperature == temperature) &&
+            (identical(other.maxPromptTokens, maxPromptTokens) ||
+                other.maxPromptTokens == maxPromptTokens) &&
+            (identical(other.maxCompletionTokens, maxCompletionTokens) ||
+                other.maxCompletionTokens == maxCompletionTokens) &&
+            (identical(other.truncationStrategy, truncationStrategy) ||
+                other.truncationStrategy == truncationStrategy) &&
             (identical(other.stream, stream) || other.stream == stream));
   }
 
@@ -27624,6 +28357,9 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
       const DeepCollectionEquality().hash(_tools),
       const DeepCollectionEquality().hash(_metadata),
       temperature,
+      maxPromptTokens,
+      maxCompletionTokens,
+      truncationStrategy,
       stream);
 
   @JsonKey(ignore: true)
@@ -27652,6 +28388,12 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
           @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
           @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
           @JsonKey(includeIfNull: false) final double? temperature,
+          @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
+          final int? maxPromptTokens,
+          @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
+          final int? maxCompletionTokens,
+          @JsonKey(name: 'truncation_strategy', includeIfNull: false)
+          final TruncationObject? truncationStrategy,
           @JsonKey(includeIfNull: false) final bool? stream}) =
       _$CreateThreadAndRunRequestImpl;
   const _CreateThreadAndRunRequest._() : super._();
@@ -27695,6 +28437,21 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
   @JsonKey(includeIfNull: false)
   double? get temperature;
+  @override
+
+  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
+  int? get maxPromptTokens;
+  @override
+
+  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+  @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
+  int? get maxCompletionTokens;
+  @override
+
+  /// Thread truncation controls
+  @JsonKey(name: 'truncation_strategy', includeIfNull: false)
+  TruncationObject? get truncationStrategy;
   @override
 
   /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.

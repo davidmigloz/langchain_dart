@@ -69,6 +69,7 @@ part 'create_assistant_request.dart';
 part 'modify_assistant_request.dart';
 part 'delete_assistant_response.dart';
 part 'list_assistants_response.dart';
+part 'truncation_object.dart';
 part 'run_object.dart';
 part 'run_completion_usage.dart';
 part 'create_run_request.dart';
