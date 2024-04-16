@@ -69,6 +69,8 @@ part 'create_assistant_request.dart';
 part 'modify_assistant_request.dart';
 part 'delete_assistant_response.dart';
 part 'list_assistants_response.dart';
+part 'assistants_named_tool_choice.dart';
+part 'assistants_function_call_option.dart';
 part 'assistants_response_format.dart';
 part 'truncation_object.dart';
 part 'run_object.dart';

@@ -55,6 +55,14 @@ class CreateRunRequest with _$CreateRunRequest {
     @JsonKey(name: 'truncation_strategy', includeIfNull: false)
     TruncationObject? truncationStrategy,
 
+    /// Controls which (if any) tool is called by the model.
+    /// `none` means the model will not call any tools and instead generates a message.
+    /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
+    /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+    @_CreateRunRequestToolChoiceConverter()
+    @JsonKey(name: 'tool_choice', includeIfNull: false)
+    CreateRunRequestToolChoice? toolChoice,
+
     /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
     ///
     /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -85,6 +93,7 @@ class CreateRunRequest with _$CreateRunRequest {
     'max_prompt_tokens',
     'max_completion_tokens',
     'truncation_strategy',
+    'tool_choice',
     'response_format',
     'stream'
   ];
@@ -128,6 +137,7 @@ class CreateRunRequest with _$CreateRunRequest {
       'max_prompt_tokens': maxPromptTokens,
       'max_completion_tokens': maxCompletionTokens,
       'truncation_strategy': truncationStrategy,
+      'tool_choice': toolChoice,
       'response_format': responseFormat,
       'stream': stream,
     };
@@ -233,6 +243,87 @@ class _CreateRunRequestModelConverter
       CreateRunRequestModelEnumeration(value: final v) =>
         _$RunModelsEnumMap[v]!,
       CreateRunRequestModelString(value: final v) => v,
+      null => null,
+    };
+  }
+}
+
+// ==========================================
+// ENUM: CreateRunRequestToolChoiceMode
+// ==========================================
+
+/// `none` means the model will not call a function and instead generates a message. `auto` means the model can pick between generating a message or calling a function.
+enum CreateRunRequestToolChoiceMode {
+  @JsonValue('none')
+  none,
+  @JsonValue('auto')
+  auto,
+}
+
+// ==========================================
+// CLASS: CreateRunRequestToolChoice
+// ==========================================
+
+/// Controls which (if any) tool is called by the model.
+/// `none` means the model will not call any tools and instead generates a message.
+/// `auto` is the default value and means the model can pick between generating a message or calling a tool.
+/// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+@freezed
+sealed class CreateRunRequestToolChoice with _$CreateRunRequestToolChoice {
+  const CreateRunRequestToolChoice._();
+
+  /// `none` means the model will not call a function and instead generates a message. `auto` means the model can pick between generating a message or calling a function.
+  const factory CreateRunRequestToolChoice.mode(
+    CreateRunRequestToolChoiceMode value,
+  ) = CreateRunRequestToolChoiceEnumeration;
+
+  /// No Description
+  const factory CreateRunRequestToolChoice.tool(
+    AssistantsNamedToolChoice value,
+  ) = CreateRunRequestToolChoiceAssistantsNamedToolChoice;
+
+  /// Object construction from a JSON representation
+  factory CreateRunRequestToolChoice.fromJson(Map<String, dynamic> json) =>
+      _$CreateRunRequestToolChoiceFromJson(json);
+}
+
+/// Custom JSON converter for [CreateRunRequestToolChoice]
+class _CreateRunRequestToolChoiceConverter
+    implements JsonConverter<CreateRunRequestToolChoice?, Object?> {
+  const _CreateRunRequestToolChoiceConverter();
+
+  @override
+  CreateRunRequestToolChoice? fromJson(Object? data) {
+    if (data == null) {
+      return null;
+    }
+    if (data is String &&
+        _$CreateRunRequestToolChoiceModeEnumMap.values.contains(data)) {
+      return CreateRunRequestToolChoiceEnumeration(
+        _$CreateRunRequestToolChoiceModeEnumMap.keys.elementAt(
+          _$CreateRunRequestToolChoiceModeEnumMap.values.toList().indexOf(data),
+        ),
+      );
+    }
+    if (data is Map<String, dynamic>) {
+      try {
+        return CreateRunRequestToolChoiceAssistantsNamedToolChoice(
+          AssistantsNamedToolChoice.fromJson(data),
+        );
+      } catch (e) {}
+    }
+    throw Exception(
+      'Unexpected value for CreateRunRequestToolChoice: $data',
+    );
+  }
+
+  @override
+  Object? toJson(CreateRunRequestToolChoice? data) {
+    return switch (data) {
+      CreateRunRequestToolChoiceEnumeration(value: final v) =>
+        _$CreateRunRequestToolChoiceModeEnumMap[v]!,
+      CreateRunRequestToolChoiceAssistantsNamedToolChoice(value: final v) =>
+        v.toJson(),
       null => null,
     };
   }

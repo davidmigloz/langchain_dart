@@ -3310,41 +3310,27 @@ components:
           $ref: "#/components/schemas/FunctionObject"
       required:
         - function
-#    AssistantsToolChoiceOption:
-#      description: |
-#        Controls which (if any) tool is called by the model.
-#        `none` means the model will not call any tools and instead generates a message.
-#        `auto` is the default value and means the model can pick between generating a message or calling a tool.
-#        Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
-#      oneOf:
-#        - type: string
-#          title: AssistantsToolChoiceMode
-#          description: >
-#            `none` means the model will not call a function and instead generates a message.
-#            `auto` means the model can pick between generating a message or calling a function.
-#          enum: [none, auto]
-#        - $ref: "#/components/schemas/AssistantsNamedToolChoice"
-#    AssistantsNamedToolChoice:
-#      type: object
-#      description: Specifies a tool the model should use. Use to force the model to call a specific tool.
-#      properties:
-#        type:
-#          type: string
-#          title: AssistantsToolType
-#          enum: ["function", "code_interpreter", "retrieval"]
-#          description: The type of the tool. If type is `function`, the function name must be set
-#        function:
-#          $ref: "#/components/schemas/AssistantsFunctionCallOption"
-#      required:
-#        - type
-#    AssistantsFunctionCallOption:
-#      type: object
-#      properties:
-#        name:
-#          type: string
-#          description: The name of the function to call.
-#      required:
-#        - name
+    AssistantsNamedToolChoice:
+      type: object
+      description: Specifies a tool the model should use. Use to force the model to call a specific tool.
+      properties:
+        type:
+          type: string
+          title: AssistantsToolType
+          enum: ["function", "code_interpreter", "retrieval"]
+          description: The type of the tool. If type is `function`, the function name must be set
+        function:
+          $ref: "#/components/schemas/AssistantsFunctionCallOption"
+      required:
+        - type
+    AssistantsFunctionCallOption:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the function to call.
+      required:
+        - name
     AssistantsResponseFormat:
       type: object
       description: |
@@ -3523,9 +3509,21 @@ components:
         truncation_strategy:
           $ref: "#/components/schemas/TruncationObject"
           nullable: true
-#        tool_choice:
-#          $ref: "#/components/schemas/AssistantsToolChoiceOption"
-#          nullable: true
+        tool_choice:
+          description: |
+            Controls which (if any) tool is called by the model.
+            `none` means the model will not call any tools and instead generates a message.
+            `auto` is the default value and means the model can pick between generating a message or calling a tool.
+            Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+          nullable: true
+          oneOf:
+            - type: string
+              title: RunObjectToolChoiceMode
+              description: >
+                `none` means the model will not call a function and instead generates a message.
+                `auto` means the model can pick between generating a message or calling a function.
+              enum: [none, auto]
+            - $ref: "#/components/schemas/AssistantsNamedToolChoice"
         response_format:
           description: |
             Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
@@ -3674,9 +3672,21 @@ components:
         truncation_strategy:
           $ref: "#/components/schemas/TruncationObject"
           nullable: true
-#        tool_choice:
-#          $ref: "#/components/schemas/AssistantsToolChoiceOption"
-#          nullable: true
+        tool_choice:
+          description: |
+            Controls which (if any) tool is called by the model.
+            `none` means the model will not call any tools and instead generates a message.
+            `auto` is the default value and means the model can pick between generating a message or calling a tool.
+            Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+          nullable: true
+          oneOf:
+            - type: string
+              title: CreateRunRequestToolChoiceMode
+              description: >
+                `none` means the model will not call a function and instead generates a message.
+                `auto` means the model can pick between generating a message or calling a function.
+              enum: [none, auto]
+            - $ref: "#/components/schemas/AssistantsNamedToolChoice"
         response_format:
           description: |
             Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
@@ -3877,9 +3887,21 @@ components:
         truncation_strategy:
           $ref: "#/components/schemas/TruncationObject"
           nullable: true
-#        tool_choice:
-#          $ref: "#/components/schemas/AssistantsToolChoiceOption"
-#          nullable: true
+        tool_choice:
+          description: |
+            Controls which (if any) tool is called by the model.
+            `none` means the model will not call any tools and instead generates a message.
+            `auto` is the default value and means the model can pick between generating a message or calling a tool.
+            Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+          nullable: true
+          oneOf:
+            - type: string
+              title: CreateThreadAndRunRequestToolChoiceMode
+              description: >
+                `none` means the model will not call a function and instead generates a message.
+                `auto` means the model can pick between generating a message or calling a function.
+              enum: [none, auto]
+            - $ref: "#/components/schemas/AssistantsNamedToolChoice"
         response_format:
           description: |
             Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.

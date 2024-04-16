@@ -90,6 +90,14 @@ class RunObject with _$RunObject {
     @JsonKey(name: 'truncation_strategy')
     required TruncationObject? truncationStrategy,
 
+    /// Controls which (if any) tool is called by the model.
+    /// `none` means the model will not call any tools and instead generates a message.
+    /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
+    /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+    @_RunObjectToolChoiceConverter()
+    @JsonKey(name: 'tool_choice')
+    required RunObjectToolChoice? toolChoice,
+
     /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
     ///
     /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -130,6 +138,7 @@ class RunObject with _$RunObject {
     'max_prompt_tokens',
     'max_completion_tokens',
     'truncation_strategy',
+    'tool_choice',
     'response_format'
   ];
 
@@ -176,6 +185,7 @@ class RunObject with _$RunObject {
       'max_prompt_tokens': maxPromptTokens,
       'max_completion_tokens': maxCompletionTokens,
       'truncation_strategy': truncationStrategy,
+      'tool_choice': toolChoice,
       'response_format': responseFormat,
     };
   }
@@ -329,6 +339,83 @@ class RunObjectIncompleteDetails with _$RunObjectIncompleteDetails {
   Map<String, dynamic> toMap() {
     return {
       'reason': reason,
+    };
+  }
+}
+
+// ==========================================
+// ENUM: RunObjectToolChoiceMode
+// ==========================================
+
+/// `none` means the model will not call a function and instead generates a message. `auto` means the model can pick between generating a message or calling a function.
+enum RunObjectToolChoiceMode {
+  @JsonValue('none')
+  none,
+  @JsonValue('auto')
+  auto,
+}
+
+// ==========================================
+// CLASS: RunObjectToolChoice
+// ==========================================
+
+/// Controls which (if any) tool is called by the model.
+/// `none` means the model will not call any tools and instead generates a message.
+/// `auto` is the default value and means the model can pick between generating a message or calling a tool.
+/// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+@freezed
+sealed class RunObjectToolChoice with _$RunObjectToolChoice {
+  const RunObjectToolChoice._();
+
+  /// `none` means the model will not call a function and instead generates a message. `auto` means the model can pick between generating a message or calling a function.
+  const factory RunObjectToolChoice.mode(
+    RunObjectToolChoiceMode value,
+  ) = RunObjectToolChoiceEnumeration;
+
+  /// No Description
+  const factory RunObjectToolChoice.tool(
+    AssistantsNamedToolChoice value,
+  ) = RunObjectToolChoiceAssistantsNamedToolChoice;
+
+  /// Object construction from a JSON representation
+  factory RunObjectToolChoice.fromJson(Map<String, dynamic> json) =>
+      _$RunObjectToolChoiceFromJson(json);
+}
+
+/// Custom JSON converter for [RunObjectToolChoice]
+class _RunObjectToolChoiceConverter
+    implements JsonConverter<RunObjectToolChoice, Object?> {
+  const _RunObjectToolChoiceConverter();
+
+  @override
+  RunObjectToolChoice fromJson(Object? data) {
+    if (data is String &&
+        _$RunObjectToolChoiceModeEnumMap.values.contains(data)) {
+      return RunObjectToolChoiceEnumeration(
+        _$RunObjectToolChoiceModeEnumMap.keys.elementAt(
+          _$RunObjectToolChoiceModeEnumMap.values.toList().indexOf(data),
+        ),
+      );
+    }
+    if (data is Map<String, dynamic>) {
+      try {
+        return RunObjectToolChoiceAssistantsNamedToolChoice(
+          AssistantsNamedToolChoice.fromJson(data),
+        );
+      } catch (e) {}
+    }
+    throw Exception(
+      'Unexpected value for RunObjectToolChoice: $data',
+    );
+  }
+
+  @override
+  Object? toJson(RunObjectToolChoice data) {
+    return switch (data) {
+      RunObjectToolChoiceEnumeration(value: final v) =>
+        _$RunObjectToolChoiceModeEnumMap[v]!,
+      RunObjectToolChoiceAssistantsNamedToolChoice(value: final v) =>
+        v.toJson(),
     };
   }
 }
