@@ -24480,7 +24480,7 @@ mixin _$RunObject {
   @JsonKey(name: 'tool_choice')
   RunObjectToolChoice? get toolChoice => throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -25166,7 +25166,7 @@ class _$RunObjectImpl extends _RunObject {
   @JsonKey(name: 'tool_choice')
   final RunObjectToolChoice? toolChoice;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -25442,7 +25442,7 @@ abstract class _RunObject extends RunObject {
   RunObjectToolChoice? get toolChoice;
   @override
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -27299,7 +27299,7 @@ mixin _$CreateRunRequest {
   CreateRunRequestToolChoice? get toolChoice =>
       throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -27759,7 +27759,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   final CreateRunRequestToolChoice? toolChoice;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -27944,7 +27944,7 @@ abstract class _CreateRunRequest extends CreateRunRequest {
   CreateRunRequestToolChoice? get toolChoice;
   @override
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -30513,7 +30513,7 @@ mixin _$CreateThreadAndRunRequest {
   @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
   int? get maxPromptTokens => throw _privateConstructorUsedError;
 
-  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   int? get maxCompletionTokens => throw _privateConstructorUsedError;
 
@@ -30531,7 +30531,7 @@ mixin _$CreateThreadAndRunRequest {
   CreateThreadAndRunRequestToolChoice? get toolChoice =>
       throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -30954,7 +30954,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
   @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
   final int? maxPromptTokens;
 
-  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
   @override
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   final int? maxCompletionTokens;
@@ -30973,7 +30973,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   final CreateThreadAndRunRequestToolChoice? toolChoice;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -31127,7 +31127,7 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   int? get maxPromptTokens;
   @override
 
-  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   int? get maxCompletionTokens;
   @override
@@ -31146,7 +31146,7 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   CreateThreadAndRunRequestToolChoice? get toolChoice;
   @override
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -40998,6 +40998,1670 @@ abstract class _Error extends Error {
   @JsonKey(ignore: true)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+CreateBatchRequest _$CreateBatchRequestFromJson(Map<String, dynamic> json) {
+  return _CreateBatchRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CreateBatchRequest {
+  /// The ID of an uploaded file that contains requests for the new batch.
+  ///
+  /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
+  ///
+  /// Your input file must be formatted as a JSONL file, and must be uploaded with the purpose `batch`.
+  @JsonKey(name: 'input_file_id')
+  String get inputFileId => throw _privateConstructorUsedError;
+
+  /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+  BatchEndpoint get endpoint => throw _privateConstructorUsedError;
+
+  /// The time frame within which the batch should be processed. Currently only `24h` is supported.
+  @JsonKey(name: 'completion_window')
+  BatchCompletionWindow get completionWindow =>
+      throw _privateConstructorUsedError;
+
+  /// Optional custom metadata for the batch.
+  @JsonKey(includeIfNull: false)
+  Map<String, String>? get metadata => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CreateBatchRequestCopyWith<CreateBatchRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateBatchRequestCopyWith<$Res> {
+  factory $CreateBatchRequestCopyWith(
+          CreateBatchRequest value, $Res Function(CreateBatchRequest) then) =
+      _$CreateBatchRequestCopyWithImpl<$Res, CreateBatchRequest>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'input_file_id') String inputFileId,
+      BatchEndpoint endpoint,
+      @JsonKey(name: 'completion_window')
+      BatchCompletionWindow completionWindow,
+      @JsonKey(includeIfNull: false) Map<String, String>? metadata});
+}
+
+/// @nodoc
+class _$CreateBatchRequestCopyWithImpl<$Res, $Val extends CreateBatchRequest>
+    implements $CreateBatchRequestCopyWith<$Res> {
+  _$CreateBatchRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? inputFileId = null,
+    Object? endpoint = null,
+    Object? completionWindow = null,
+    Object? metadata = freezed,
+  }) {
+    return _then(_value.copyWith(
+      inputFileId: null == inputFileId
+          ? _value.inputFileId
+          : inputFileId // ignore: cast_nullable_to_non_nullable
+              as String,
+      endpoint: null == endpoint
+          ? _value.endpoint
+          : endpoint // ignore: cast_nullable_to_non_nullable
+              as BatchEndpoint,
+      completionWindow: null == completionWindow
+          ? _value.completionWindow
+          : completionWindow // ignore: cast_nullable_to_non_nullable
+              as BatchCompletionWindow,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CreateBatchRequestImplCopyWith<$Res>
+    implements $CreateBatchRequestCopyWith<$Res> {
+  factory _$$CreateBatchRequestImplCopyWith(_$CreateBatchRequestImpl value,
+          $Res Function(_$CreateBatchRequestImpl) then) =
+      __$$CreateBatchRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'input_file_id') String inputFileId,
+      BatchEndpoint endpoint,
+      @JsonKey(name: 'completion_window')
+      BatchCompletionWindow completionWindow,
+      @JsonKey(includeIfNull: false) Map<String, String>? metadata});
+}
+
+/// @nodoc
+class __$$CreateBatchRequestImplCopyWithImpl<$Res>
+    extends _$CreateBatchRequestCopyWithImpl<$Res, _$CreateBatchRequestImpl>
+    implements _$$CreateBatchRequestImplCopyWith<$Res> {
+  __$$CreateBatchRequestImplCopyWithImpl(_$CreateBatchRequestImpl _value,
+      $Res Function(_$CreateBatchRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? inputFileId = null,
+    Object? endpoint = null,
+    Object? completionWindow = null,
+    Object? metadata = freezed,
+  }) {
+    return _then(_$CreateBatchRequestImpl(
+      inputFileId: null == inputFileId
+          ? _value.inputFileId
+          : inputFileId // ignore: cast_nullable_to_non_nullable
+              as String,
+      endpoint: null == endpoint
+          ? _value.endpoint
+          : endpoint // ignore: cast_nullable_to_non_nullable
+              as BatchEndpoint,
+      completionWindow: null == completionWindow
+          ? _value.completionWindow
+          : completionWindow // ignore: cast_nullable_to_non_nullable
+              as BatchCompletionWindow,
+      metadata: freezed == metadata
+          ? _value._metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateBatchRequestImpl extends _CreateBatchRequest {
+  const _$CreateBatchRequestImpl(
+      {@JsonKey(name: 'input_file_id') required this.inputFileId,
+      required this.endpoint,
+      @JsonKey(name: 'completion_window') required this.completionWindow,
+      @JsonKey(includeIfNull: false) final Map<String, String>? metadata})
+      : _metadata = metadata,
+        super._();
+
+  factory _$CreateBatchRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CreateBatchRequestImplFromJson(json);
+
+  /// The ID of an uploaded file that contains requests for the new batch.
+  ///
+  /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
+  ///
+  /// Your input file must be formatted as a JSONL file, and must be uploaded with the purpose `batch`.
+  @override
+  @JsonKey(name: 'input_file_id')
+  final String inputFileId;
+
+  /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+  @override
+  final BatchEndpoint endpoint;
+
+  /// The time frame within which the batch should be processed. Currently only `24h` is supported.
+  @override
+  @JsonKey(name: 'completion_window')
+  final BatchCompletionWindow completionWindow;
+
+  /// Optional custom metadata for the batch.
+  final Map<String, String>? _metadata;
+
+  /// Optional custom metadata for the batch.
+  @override
+  @JsonKey(includeIfNull: false)
+  Map<String, String>? get metadata {
+    final value = _metadata;
+    if (value == null) return null;
+    if (_metadata is EqualUnmodifiableMapView) return _metadata;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  @override
+  String toString() {
+    return 'CreateBatchRequest(inputFileId: $inputFileId, endpoint: $endpoint, completionWindow: $completionWindow, metadata: $metadata)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateBatchRequestImpl &&
+            (identical(other.inputFileId, inputFileId) ||
+                other.inputFileId == inputFileId) &&
+            (identical(other.endpoint, endpoint) ||
+                other.endpoint == endpoint) &&
+            (identical(other.completionWindow, completionWindow) ||
+                other.completionWindow == completionWindow) &&
+            const DeepCollectionEquality().equals(other._metadata, _metadata));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, inputFileId, endpoint,
+      completionWindow, const DeepCollectionEquality().hash(_metadata));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateBatchRequestImplCopyWith<_$CreateBatchRequestImpl> get copyWith =>
+      __$$CreateBatchRequestImplCopyWithImpl<_$CreateBatchRequestImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateBatchRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CreateBatchRequest extends CreateBatchRequest {
+  const factory _CreateBatchRequest(
+          {@JsonKey(name: 'input_file_id') required final String inputFileId,
+          required final BatchEndpoint endpoint,
+          @JsonKey(name: 'completion_window')
+          required final BatchCompletionWindow completionWindow,
+          @JsonKey(includeIfNull: false) final Map<String, String>? metadata}) =
+      _$CreateBatchRequestImpl;
+  const _CreateBatchRequest._() : super._();
+
+  factory _CreateBatchRequest.fromJson(Map<String, dynamic> json) =
+      _$CreateBatchRequestImpl.fromJson;
+
+  @override
+
+  /// The ID of an uploaded file that contains requests for the new batch.
+  ///
+  /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
+  ///
+  /// Your input file must be formatted as a JSONL file, and must be uploaded with the purpose `batch`.
+  @JsonKey(name: 'input_file_id')
+  String get inputFileId;
+  @override
+
+  /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+  BatchEndpoint get endpoint;
+  @override
+
+  /// The time frame within which the batch should be processed. Currently only `24h` is supported.
+  @JsonKey(name: 'completion_window')
+  BatchCompletionWindow get completionWindow;
+  @override
+
+  /// Optional custom metadata for the batch.
+  @JsonKey(includeIfNull: false)
+  Map<String, String>? get metadata;
+  @override
+  @JsonKey(ignore: true)
+  _$$CreateBatchRequestImplCopyWith<_$CreateBatchRequestImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Batch _$BatchFromJson(Map<String, dynamic> json) {
+  return _Batch.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Batch {
+  /// No Description
+  String get id => throw _privateConstructorUsedError;
+
+  /// The object type, which is always `batch`.
+  BatchObject get object => throw _privateConstructorUsedError;
+
+  /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+  BatchEndpoint get endpoint => throw _privateConstructorUsedError;
+
+  /// No Description
+  @JsonKey(includeIfNull: false)
+  BatchErrors? get errors => throw _privateConstructorUsedError;
+
+  /// The ID of the input file for the batch.
+  @JsonKey(name: 'input_file_id')
+  String get inputFileId => throw _privateConstructorUsedError;
+
+  /// The time frame within which the batch should be processed. Currently only `24h` is supported.
+  @JsonKey(name: 'completion_window')
+  BatchCompletionWindow get completionWindow =>
+      throw _privateConstructorUsedError;
+
+  /// The current status of the batch.
+  BatchStatus get status => throw _privateConstructorUsedError;
+
+  /// The ID of the file containing the outputs of successfully executed requests.
+  @JsonKey(name: 'output_file_id', includeIfNull: false)
+  String? get outputFileId => throw _privateConstructorUsedError;
+
+  /// The ID of the file containing the outputs of requests with errors.
+  @JsonKey(name: 'error_file_id', includeIfNull: false)
+  String? get errorFileId => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the batch was created.
+  @JsonKey(name: 'created_at')
+  String get createdAt => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the batch started processing.
+  @JsonKey(name: 'in_progress_at', includeIfNull: false)
+  String? get inProgressAt => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the batch will expire.
+  @JsonKey(name: 'expires_at', includeIfNull: false)
+  String? get expiresAt => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the batch started finalizing.
+  @JsonKey(name: 'finalizing_at', includeIfNull: false)
+  String? get finalizingAt => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the batch was completed.
+  @JsonKey(name: 'completed_at', includeIfNull: false)
+  String? get completedAt => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the batch failed.
+  @JsonKey(name: 'failed_at', includeIfNull: false)
+  String? get failedAt => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the batch expired.
+  @JsonKey(name: 'expired_at', includeIfNull: false)
+  String? get expiredAt => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the batch started cancelling.
+  @JsonKey(name: 'cancelling_at', includeIfNull: false)
+  String? get cancellingAt => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the batch was cancelled.
+  @JsonKey(name: 'cancelled_at', includeIfNull: false)
+  String? get cancelledAt => throw _privateConstructorUsedError;
+
+  /// The request counts for different statuses within the batch.
+  @JsonKey(name: 'request_counts', includeIfNull: false)
+  BatchRequestCounts? get requestCounts => throw _privateConstructorUsedError;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  dynamic get metadata => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $BatchCopyWith<Batch> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BatchCopyWith<$Res> {
+  factory $BatchCopyWith(Batch value, $Res Function(Batch) then) =
+      _$BatchCopyWithImpl<$Res, Batch>;
+  @useResult
+  $Res call(
+      {String id,
+      BatchObject object,
+      BatchEndpoint endpoint,
+      @JsonKey(includeIfNull: false) BatchErrors? errors,
+      @JsonKey(name: 'input_file_id') String inputFileId,
+      @JsonKey(name: 'completion_window')
+      BatchCompletionWindow completionWindow,
+      BatchStatus status,
+      @JsonKey(name: 'output_file_id', includeIfNull: false)
+      String? outputFileId,
+      @JsonKey(name: 'error_file_id', includeIfNull: false) String? errorFileId,
+      @JsonKey(name: 'created_at') String createdAt,
+      @JsonKey(name: 'in_progress_at', includeIfNull: false)
+      String? inProgressAt,
+      @JsonKey(name: 'expires_at', includeIfNull: false) String? expiresAt,
+      @JsonKey(name: 'finalizing_at', includeIfNull: false)
+      String? finalizingAt,
+      @JsonKey(name: 'completed_at', includeIfNull: false) String? completedAt,
+      @JsonKey(name: 'failed_at', includeIfNull: false) String? failedAt,
+      @JsonKey(name: 'expired_at', includeIfNull: false) String? expiredAt,
+      @JsonKey(name: 'cancelling_at', includeIfNull: false)
+      String? cancellingAt,
+      @JsonKey(name: 'cancelled_at', includeIfNull: false) String? cancelledAt,
+      @JsonKey(name: 'request_counts', includeIfNull: false)
+      BatchRequestCounts? requestCounts,
+      @JsonKey(includeIfNull: false) dynamic metadata});
+
+  $BatchErrorsCopyWith<$Res>? get errors;
+  $BatchRequestCountsCopyWith<$Res>? get requestCounts;
+}
+
+/// @nodoc
+class _$BatchCopyWithImpl<$Res, $Val extends Batch>
+    implements $BatchCopyWith<$Res> {
+  _$BatchCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? endpoint = null,
+    Object? errors = freezed,
+    Object? inputFileId = null,
+    Object? completionWindow = null,
+    Object? status = null,
+    Object? outputFileId = freezed,
+    Object? errorFileId = freezed,
+    Object? createdAt = null,
+    Object? inProgressAt = freezed,
+    Object? expiresAt = freezed,
+    Object? finalizingAt = freezed,
+    Object? completedAt = freezed,
+    Object? failedAt = freezed,
+    Object? expiredAt = freezed,
+    Object? cancellingAt = freezed,
+    Object? cancelledAt = freezed,
+    Object? requestCounts = freezed,
+    Object? metadata = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as BatchObject,
+      endpoint: null == endpoint
+          ? _value.endpoint
+          : endpoint // ignore: cast_nullable_to_non_nullable
+              as BatchEndpoint,
+      errors: freezed == errors
+          ? _value.errors
+          : errors // ignore: cast_nullable_to_non_nullable
+              as BatchErrors?,
+      inputFileId: null == inputFileId
+          ? _value.inputFileId
+          : inputFileId // ignore: cast_nullable_to_non_nullable
+              as String,
+      completionWindow: null == completionWindow
+          ? _value.completionWindow
+          : completionWindow // ignore: cast_nullable_to_non_nullable
+              as BatchCompletionWindow,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as BatchStatus,
+      outputFileId: freezed == outputFileId
+          ? _value.outputFileId
+          : outputFileId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      errorFileId: freezed == errorFileId
+          ? _value.errorFileId
+          : errorFileId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      inProgressAt: freezed == inProgressAt
+          ? _value.inProgressAt
+          : inProgressAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      expiresAt: freezed == expiresAt
+          ? _value.expiresAt
+          : expiresAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      finalizingAt: freezed == finalizingAt
+          ? _value.finalizingAt
+          : finalizingAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      failedAt: freezed == failedAt
+          ? _value.failedAt
+          : failedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      expiredAt: freezed == expiredAt
+          ? _value.expiredAt
+          : expiredAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      cancellingAt: freezed == cancellingAt
+          ? _value.cancellingAt
+          : cancellingAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      cancelledAt: freezed == cancelledAt
+          ? _value.cancelledAt
+          : cancelledAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      requestCounts: freezed == requestCounts
+          ? _value.requestCounts
+          : requestCounts // ignore: cast_nullable_to_non_nullable
+              as BatchRequestCounts?,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BatchErrorsCopyWith<$Res>? get errors {
+    if (_value.errors == null) {
+      return null;
+    }
+
+    return $BatchErrorsCopyWith<$Res>(_value.errors!, (value) {
+      return _then(_value.copyWith(errors: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BatchRequestCountsCopyWith<$Res>? get requestCounts {
+    if (_value.requestCounts == null) {
+      return null;
+    }
+
+    return $BatchRequestCountsCopyWith<$Res>(_value.requestCounts!, (value) {
+      return _then(_value.copyWith(requestCounts: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$BatchImplCopyWith<$Res> implements $BatchCopyWith<$Res> {
+  factory _$$BatchImplCopyWith(
+          _$BatchImpl value, $Res Function(_$BatchImpl) then) =
+      __$$BatchImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      BatchObject object,
+      BatchEndpoint endpoint,
+      @JsonKey(includeIfNull: false) BatchErrors? errors,
+      @JsonKey(name: 'input_file_id') String inputFileId,
+      @JsonKey(name: 'completion_window')
+      BatchCompletionWindow completionWindow,
+      BatchStatus status,
+      @JsonKey(name: 'output_file_id', includeIfNull: false)
+      String? outputFileId,
+      @JsonKey(name: 'error_file_id', includeIfNull: false) String? errorFileId,
+      @JsonKey(name: 'created_at') String createdAt,
+      @JsonKey(name: 'in_progress_at', includeIfNull: false)
+      String? inProgressAt,
+      @JsonKey(name: 'expires_at', includeIfNull: false) String? expiresAt,
+      @JsonKey(name: 'finalizing_at', includeIfNull: false)
+      String? finalizingAt,
+      @JsonKey(name: 'completed_at', includeIfNull: false) String? completedAt,
+      @JsonKey(name: 'failed_at', includeIfNull: false) String? failedAt,
+      @JsonKey(name: 'expired_at', includeIfNull: false) String? expiredAt,
+      @JsonKey(name: 'cancelling_at', includeIfNull: false)
+      String? cancellingAt,
+      @JsonKey(name: 'cancelled_at', includeIfNull: false) String? cancelledAt,
+      @JsonKey(name: 'request_counts', includeIfNull: false)
+      BatchRequestCounts? requestCounts,
+      @JsonKey(includeIfNull: false) dynamic metadata});
+
+  @override
+  $BatchErrorsCopyWith<$Res>? get errors;
+  @override
+  $BatchRequestCountsCopyWith<$Res>? get requestCounts;
+}
+
+/// @nodoc
+class __$$BatchImplCopyWithImpl<$Res>
+    extends _$BatchCopyWithImpl<$Res, _$BatchImpl>
+    implements _$$BatchImplCopyWith<$Res> {
+  __$$BatchImplCopyWithImpl(
+      _$BatchImpl _value, $Res Function(_$BatchImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? endpoint = null,
+    Object? errors = freezed,
+    Object? inputFileId = null,
+    Object? completionWindow = null,
+    Object? status = null,
+    Object? outputFileId = freezed,
+    Object? errorFileId = freezed,
+    Object? createdAt = null,
+    Object? inProgressAt = freezed,
+    Object? expiresAt = freezed,
+    Object? finalizingAt = freezed,
+    Object? completedAt = freezed,
+    Object? failedAt = freezed,
+    Object? expiredAt = freezed,
+    Object? cancellingAt = freezed,
+    Object? cancelledAt = freezed,
+    Object? requestCounts = freezed,
+    Object? metadata = freezed,
+  }) {
+    return _then(_$BatchImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as BatchObject,
+      endpoint: null == endpoint
+          ? _value.endpoint
+          : endpoint // ignore: cast_nullable_to_non_nullable
+              as BatchEndpoint,
+      errors: freezed == errors
+          ? _value.errors
+          : errors // ignore: cast_nullable_to_non_nullable
+              as BatchErrors?,
+      inputFileId: null == inputFileId
+          ? _value.inputFileId
+          : inputFileId // ignore: cast_nullable_to_non_nullable
+              as String,
+      completionWindow: null == completionWindow
+          ? _value.completionWindow
+          : completionWindow // ignore: cast_nullable_to_non_nullable
+              as BatchCompletionWindow,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as BatchStatus,
+      outputFileId: freezed == outputFileId
+          ? _value.outputFileId
+          : outputFileId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      errorFileId: freezed == errorFileId
+          ? _value.errorFileId
+          : errorFileId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      inProgressAt: freezed == inProgressAt
+          ? _value.inProgressAt
+          : inProgressAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      expiresAt: freezed == expiresAt
+          ? _value.expiresAt
+          : expiresAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      finalizingAt: freezed == finalizingAt
+          ? _value.finalizingAt
+          : finalizingAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      failedAt: freezed == failedAt
+          ? _value.failedAt
+          : failedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      expiredAt: freezed == expiredAt
+          ? _value.expiredAt
+          : expiredAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      cancellingAt: freezed == cancellingAt
+          ? _value.cancellingAt
+          : cancellingAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      cancelledAt: freezed == cancelledAt
+          ? _value.cancelledAt
+          : cancelledAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      requestCounts: freezed == requestCounts
+          ? _value.requestCounts
+          : requestCounts // ignore: cast_nullable_to_non_nullable
+              as BatchRequestCounts?,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$BatchImpl extends _Batch {
+  const _$BatchImpl(
+      {required this.id,
+      required this.object,
+      required this.endpoint,
+      @JsonKey(includeIfNull: false) this.errors,
+      @JsonKey(name: 'input_file_id') required this.inputFileId,
+      @JsonKey(name: 'completion_window') required this.completionWindow,
+      required this.status,
+      @JsonKey(name: 'output_file_id', includeIfNull: false) this.outputFileId,
+      @JsonKey(name: 'error_file_id', includeIfNull: false) this.errorFileId,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'in_progress_at', includeIfNull: false) this.inProgressAt,
+      @JsonKey(name: 'expires_at', includeIfNull: false) this.expiresAt,
+      @JsonKey(name: 'finalizing_at', includeIfNull: false) this.finalizingAt,
+      @JsonKey(name: 'completed_at', includeIfNull: false) this.completedAt,
+      @JsonKey(name: 'failed_at', includeIfNull: false) this.failedAt,
+      @JsonKey(name: 'expired_at', includeIfNull: false) this.expiredAt,
+      @JsonKey(name: 'cancelling_at', includeIfNull: false) this.cancellingAt,
+      @JsonKey(name: 'cancelled_at', includeIfNull: false) this.cancelledAt,
+      @JsonKey(name: 'request_counts', includeIfNull: false) this.requestCounts,
+      @JsonKey(includeIfNull: false) this.metadata})
+      : super._();
+
+  factory _$BatchImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BatchImplFromJson(json);
+
+  /// No Description
+  @override
+  final String id;
+
+  /// The object type, which is always `batch`.
+  @override
+  final BatchObject object;
+
+  /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+  @override
+  final BatchEndpoint endpoint;
+
+  /// No Description
+  @override
+  @JsonKey(includeIfNull: false)
+  final BatchErrors? errors;
+
+  /// The ID of the input file for the batch.
+  @override
+  @JsonKey(name: 'input_file_id')
+  final String inputFileId;
+
+  /// The time frame within which the batch should be processed. Currently only `24h` is supported.
+  @override
+  @JsonKey(name: 'completion_window')
+  final BatchCompletionWindow completionWindow;
+
+  /// The current status of the batch.
+  @override
+  final BatchStatus status;
+
+  /// The ID of the file containing the outputs of successfully executed requests.
+  @override
+  @JsonKey(name: 'output_file_id', includeIfNull: false)
+  final String? outputFileId;
+
+  /// The ID of the file containing the outputs of requests with errors.
+  @override
+  @JsonKey(name: 'error_file_id', includeIfNull: false)
+  final String? errorFileId;
+
+  /// The Unix timestamp (in seconds) for when the batch was created.
+  @override
+  @JsonKey(name: 'created_at')
+  final String createdAt;
+
+  /// The Unix timestamp (in seconds) for when the batch started processing.
+  @override
+  @JsonKey(name: 'in_progress_at', includeIfNull: false)
+  final String? inProgressAt;
+
+  /// The Unix timestamp (in seconds) for when the batch will expire.
+  @override
+  @JsonKey(name: 'expires_at', includeIfNull: false)
+  final String? expiresAt;
+
+  /// The Unix timestamp (in seconds) for when the batch started finalizing.
+  @override
+  @JsonKey(name: 'finalizing_at', includeIfNull: false)
+  final String? finalizingAt;
+
+  /// The Unix timestamp (in seconds) for when the batch was completed.
+  @override
+  @JsonKey(name: 'completed_at', includeIfNull: false)
+  final String? completedAt;
+
+  /// The Unix timestamp (in seconds) for when the batch failed.
+  @override
+  @JsonKey(name: 'failed_at', includeIfNull: false)
+  final String? failedAt;
+
+  /// The Unix timestamp (in seconds) for when the batch expired.
+  @override
+  @JsonKey(name: 'expired_at', includeIfNull: false)
+  final String? expiredAt;
+
+  /// The Unix timestamp (in seconds) for when the batch started cancelling.
+  @override
+  @JsonKey(name: 'cancelling_at', includeIfNull: false)
+  final String? cancellingAt;
+
+  /// The Unix timestamp (in seconds) for when the batch was cancelled.
+  @override
+  @JsonKey(name: 'cancelled_at', includeIfNull: false)
+  final String? cancelledAt;
+
+  /// The request counts for different statuses within the batch.
+  @override
+  @JsonKey(name: 'request_counts', includeIfNull: false)
+  final BatchRequestCounts? requestCounts;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
+  @JsonKey(includeIfNull: false)
+  final dynamic metadata;
+
+  @override
+  String toString() {
+    return 'Batch(id: $id, object: $object, endpoint: $endpoint, errors: $errors, inputFileId: $inputFileId, completionWindow: $completionWindow, status: $status, outputFileId: $outputFileId, errorFileId: $errorFileId, createdAt: $createdAt, inProgressAt: $inProgressAt, expiresAt: $expiresAt, finalizingAt: $finalizingAt, completedAt: $completedAt, failedAt: $failedAt, expiredAt: $expiredAt, cancellingAt: $cancellingAt, cancelledAt: $cancelledAt, requestCounts: $requestCounts, metadata: $metadata)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$BatchImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.object, object) || other.object == object) &&
+            (identical(other.endpoint, endpoint) ||
+                other.endpoint == endpoint) &&
+            (identical(other.errors, errors) || other.errors == errors) &&
+            (identical(other.inputFileId, inputFileId) ||
+                other.inputFileId == inputFileId) &&
+            (identical(other.completionWindow, completionWindow) ||
+                other.completionWindow == completionWindow) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.outputFileId, outputFileId) ||
+                other.outputFileId == outputFileId) &&
+            (identical(other.errorFileId, errorFileId) ||
+                other.errorFileId == errorFileId) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.inProgressAt, inProgressAt) ||
+                other.inProgressAt == inProgressAt) &&
+            (identical(other.expiresAt, expiresAt) ||
+                other.expiresAt == expiresAt) &&
+            (identical(other.finalizingAt, finalizingAt) ||
+                other.finalizingAt == finalizingAt) &&
+            (identical(other.completedAt, completedAt) ||
+                other.completedAt == completedAt) &&
+            (identical(other.failedAt, failedAt) ||
+                other.failedAt == failedAt) &&
+            (identical(other.expiredAt, expiredAt) ||
+                other.expiredAt == expiredAt) &&
+            (identical(other.cancellingAt, cancellingAt) ||
+                other.cancellingAt == cancellingAt) &&
+            (identical(other.cancelledAt, cancelledAt) ||
+                other.cancelledAt == cancelledAt) &&
+            (identical(other.requestCounts, requestCounts) ||
+                other.requestCounts == requestCounts) &&
+            const DeepCollectionEquality().equals(other.metadata, metadata));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        object,
+        endpoint,
+        errors,
+        inputFileId,
+        completionWindow,
+        status,
+        outputFileId,
+        errorFileId,
+        createdAt,
+        inProgressAt,
+        expiresAt,
+        finalizingAt,
+        completedAt,
+        failedAt,
+        expiredAt,
+        cancellingAt,
+        cancelledAt,
+        requestCounts,
+        const DeepCollectionEquality().hash(metadata)
+      ]);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$BatchImplCopyWith<_$BatchImpl> get copyWith =>
+      __$$BatchImplCopyWithImpl<_$BatchImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$BatchImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Batch extends Batch {
+  const factory _Batch(
+      {required final String id,
+      required final BatchObject object,
+      required final BatchEndpoint endpoint,
+      @JsonKey(includeIfNull: false) final BatchErrors? errors,
+      @JsonKey(name: 'input_file_id') required final String inputFileId,
+      @JsonKey(name: 'completion_window')
+      required final BatchCompletionWindow completionWindow,
+      required final BatchStatus status,
+      @JsonKey(name: 'output_file_id', includeIfNull: false)
+      final String? outputFileId,
+      @JsonKey(name: 'error_file_id', includeIfNull: false)
+      final String? errorFileId,
+      @JsonKey(name: 'created_at') required final String createdAt,
+      @JsonKey(name: 'in_progress_at', includeIfNull: false)
+      final String? inProgressAt,
+      @JsonKey(name: 'expires_at', includeIfNull: false)
+      final String? expiresAt,
+      @JsonKey(name: 'finalizing_at', includeIfNull: false)
+      final String? finalizingAt,
+      @JsonKey(name: 'completed_at', includeIfNull: false)
+      final String? completedAt,
+      @JsonKey(name: 'failed_at', includeIfNull: false) final String? failedAt,
+      @JsonKey(name: 'expired_at', includeIfNull: false)
+      final String? expiredAt,
+      @JsonKey(name: 'cancelling_at', includeIfNull: false)
+      final String? cancellingAt,
+      @JsonKey(name: 'cancelled_at', includeIfNull: false)
+      final String? cancelledAt,
+      @JsonKey(name: 'request_counts', includeIfNull: false)
+      final BatchRequestCounts? requestCounts,
+      @JsonKey(includeIfNull: false) final dynamic metadata}) = _$BatchImpl;
+  const _Batch._() : super._();
+
+  factory _Batch.fromJson(Map<String, dynamic> json) = _$BatchImpl.fromJson;
+
+  @override
+
+  /// No Description
+  String get id;
+  @override
+
+  /// The object type, which is always `batch`.
+  BatchObject get object;
+  @override
+
+  /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+  BatchEndpoint get endpoint;
+  @override
+
+  /// No Description
+  @JsonKey(includeIfNull: false)
+  BatchErrors? get errors;
+  @override
+
+  /// The ID of the input file for the batch.
+  @JsonKey(name: 'input_file_id')
+  String get inputFileId;
+  @override
+
+  /// The time frame within which the batch should be processed. Currently only `24h` is supported.
+  @JsonKey(name: 'completion_window')
+  BatchCompletionWindow get completionWindow;
+  @override
+
+  /// The current status of the batch.
+  BatchStatus get status;
+  @override
+
+  /// The ID of the file containing the outputs of successfully executed requests.
+  @JsonKey(name: 'output_file_id', includeIfNull: false)
+  String? get outputFileId;
+  @override
+
+  /// The ID of the file containing the outputs of requests with errors.
+  @JsonKey(name: 'error_file_id', includeIfNull: false)
+  String? get errorFileId;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the batch was created.
+  @JsonKey(name: 'created_at')
+  String get createdAt;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the batch started processing.
+  @JsonKey(name: 'in_progress_at', includeIfNull: false)
+  String? get inProgressAt;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the batch will expire.
+  @JsonKey(name: 'expires_at', includeIfNull: false)
+  String? get expiresAt;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the batch started finalizing.
+  @JsonKey(name: 'finalizing_at', includeIfNull: false)
+  String? get finalizingAt;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the batch was completed.
+  @JsonKey(name: 'completed_at', includeIfNull: false)
+  String? get completedAt;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the batch failed.
+  @JsonKey(name: 'failed_at', includeIfNull: false)
+  String? get failedAt;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the batch expired.
+  @JsonKey(name: 'expired_at', includeIfNull: false)
+  String? get expiredAt;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the batch started cancelling.
+  @JsonKey(name: 'cancelling_at', includeIfNull: false)
+  String? get cancellingAt;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the batch was cancelled.
+  @JsonKey(name: 'cancelled_at', includeIfNull: false)
+  String? get cancelledAt;
+  @override
+
+  /// The request counts for different statuses within the batch.
+  @JsonKey(name: 'request_counts', includeIfNull: false)
+  BatchRequestCounts? get requestCounts;
+  @override
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  dynamic get metadata;
+  @override
+  @JsonKey(ignore: true)
+  _$$BatchImplCopyWith<_$BatchImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+BatchErrors _$BatchErrorsFromJson(Map<String, dynamic> json) {
+  return _BatchErrors.fromJson(json);
+}
+
+/// @nodoc
+mixin _$BatchErrors {
+  /// The object type, which is always `list`.
+  @JsonKey(includeIfNull: false)
+  String? get object => throw _privateConstructorUsedError;
+
+  /// No Description
+  @JsonKey(includeIfNull: false)
+  List<BatchErrorsDataInner>? get data => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $BatchErrorsCopyWith<BatchErrors> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BatchErrorsCopyWith<$Res> {
+  factory $BatchErrorsCopyWith(
+          BatchErrors value, $Res Function(BatchErrors) then) =
+      _$BatchErrorsCopyWithImpl<$Res, BatchErrors>;
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? object,
+      @JsonKey(includeIfNull: false) List<BatchErrorsDataInner>? data});
+}
+
+/// @nodoc
+class _$BatchErrorsCopyWithImpl<$Res, $Val extends BatchErrors>
+    implements $BatchErrorsCopyWith<$Res> {
+  _$BatchErrorsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = freezed,
+    Object? data = freezed,
+  }) {
+    return _then(_value.copyWith(
+      object: freezed == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String?,
+      data: freezed == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<BatchErrorsDataInner>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$BatchErrorsImplCopyWith<$Res>
+    implements $BatchErrorsCopyWith<$Res> {
+  factory _$$BatchErrorsImplCopyWith(
+          _$BatchErrorsImpl value, $Res Function(_$BatchErrorsImpl) then) =
+      __$$BatchErrorsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? object,
+      @JsonKey(includeIfNull: false) List<BatchErrorsDataInner>? data});
+}
+
+/// @nodoc
+class __$$BatchErrorsImplCopyWithImpl<$Res>
+    extends _$BatchErrorsCopyWithImpl<$Res, _$BatchErrorsImpl>
+    implements _$$BatchErrorsImplCopyWith<$Res> {
+  __$$BatchErrorsImplCopyWithImpl(
+      _$BatchErrorsImpl _value, $Res Function(_$BatchErrorsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = freezed,
+    Object? data = freezed,
+  }) {
+    return _then(_$BatchErrorsImpl(
+      object: freezed == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String?,
+      data: freezed == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<BatchErrorsDataInner>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$BatchErrorsImpl extends _BatchErrors {
+  const _$BatchErrorsImpl(
+      {@JsonKey(includeIfNull: false) this.object,
+      @JsonKey(includeIfNull: false) final List<BatchErrorsDataInner>? data})
+      : _data = data,
+        super._();
+
+  factory _$BatchErrorsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BatchErrorsImplFromJson(json);
+
+  /// The object type, which is always `list`.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? object;
+
+  /// No Description
+  final List<BatchErrorsDataInner>? _data;
+
+  /// No Description
+  @override
+  @JsonKey(includeIfNull: false)
+  List<BatchErrorsDataInner>? get data {
+    final value = _data;
+    if (value == null) return null;
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'BatchErrors(object: $object, data: $data)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$BatchErrorsImpl &&
+            (identical(other.object, object) || other.object == object) &&
+            const DeepCollectionEquality().equals(other._data, _data));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, object, const DeepCollectionEquality().hash(_data));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$BatchErrorsImplCopyWith<_$BatchErrorsImpl> get copyWith =>
+      __$$BatchErrorsImplCopyWithImpl<_$BatchErrorsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$BatchErrorsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _BatchErrors extends BatchErrors {
+  const factory _BatchErrors(
+      {@JsonKey(includeIfNull: false) final String? object,
+      @JsonKey(includeIfNull: false)
+      final List<BatchErrorsDataInner>? data}) = _$BatchErrorsImpl;
+  const _BatchErrors._() : super._();
+
+  factory _BatchErrors.fromJson(Map<String, dynamic> json) =
+      _$BatchErrorsImpl.fromJson;
+
+  @override
+
+  /// The object type, which is always `list`.
+  @JsonKey(includeIfNull: false)
+  String? get object;
+  @override
+
+  /// No Description
+  @JsonKey(includeIfNull: false)
+  List<BatchErrorsDataInner>? get data;
+  @override
+  @JsonKey(ignore: true)
+  _$$BatchErrorsImplCopyWith<_$BatchErrorsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+BatchRequestCounts _$BatchRequestCountsFromJson(Map<String, dynamic> json) {
+  return _BatchRequestCounts.fromJson(json);
+}
+
+/// @nodoc
+mixin _$BatchRequestCounts {
+  /// Total number of requests in the batch.
+  int get total => throw _privateConstructorUsedError;
+
+  /// Number of requests that have been completed successfully.
+  int get completed => throw _privateConstructorUsedError;
+
+  /// Number of requests that have failed.
+  int get failed => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $BatchRequestCountsCopyWith<BatchRequestCounts> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BatchRequestCountsCopyWith<$Res> {
+  factory $BatchRequestCountsCopyWith(
+          BatchRequestCounts value, $Res Function(BatchRequestCounts) then) =
+      _$BatchRequestCountsCopyWithImpl<$Res, BatchRequestCounts>;
+  @useResult
+  $Res call({int total, int completed, int failed});
+}
+
+/// @nodoc
+class _$BatchRequestCountsCopyWithImpl<$Res, $Val extends BatchRequestCounts>
+    implements $BatchRequestCountsCopyWith<$Res> {
+  _$BatchRequestCountsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? total = null,
+    Object? completed = null,
+    Object? failed = null,
+  }) {
+    return _then(_value.copyWith(
+      total: null == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
+      completed: null == completed
+          ? _value.completed
+          : completed // ignore: cast_nullable_to_non_nullable
+              as int,
+      failed: null == failed
+          ? _value.failed
+          : failed // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$BatchRequestCountsImplCopyWith<$Res>
+    implements $BatchRequestCountsCopyWith<$Res> {
+  factory _$$BatchRequestCountsImplCopyWith(_$BatchRequestCountsImpl value,
+          $Res Function(_$BatchRequestCountsImpl) then) =
+      __$$BatchRequestCountsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int total, int completed, int failed});
+}
+
+/// @nodoc
+class __$$BatchRequestCountsImplCopyWithImpl<$Res>
+    extends _$BatchRequestCountsCopyWithImpl<$Res, _$BatchRequestCountsImpl>
+    implements _$$BatchRequestCountsImplCopyWith<$Res> {
+  __$$BatchRequestCountsImplCopyWithImpl(_$BatchRequestCountsImpl _value,
+      $Res Function(_$BatchRequestCountsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? total = null,
+    Object? completed = null,
+    Object? failed = null,
+  }) {
+    return _then(_$BatchRequestCountsImpl(
+      total: null == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
+      completed: null == completed
+          ? _value.completed
+          : completed // ignore: cast_nullable_to_non_nullable
+              as int,
+      failed: null == failed
+          ? _value.failed
+          : failed // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$BatchRequestCountsImpl extends _BatchRequestCounts {
+  const _$BatchRequestCountsImpl(
+      {required this.total, required this.completed, required this.failed})
+      : super._();
+
+  factory _$BatchRequestCountsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BatchRequestCountsImplFromJson(json);
+
+  /// Total number of requests in the batch.
+  @override
+  final int total;
+
+  /// Number of requests that have been completed successfully.
+  @override
+  final int completed;
+
+  /// Number of requests that have failed.
+  @override
+  final int failed;
+
+  @override
+  String toString() {
+    return 'BatchRequestCounts(total: $total, completed: $completed, failed: $failed)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$BatchRequestCountsImpl &&
+            (identical(other.total, total) || other.total == total) &&
+            (identical(other.completed, completed) ||
+                other.completed == completed) &&
+            (identical(other.failed, failed) || other.failed == failed));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, total, completed, failed);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$BatchRequestCountsImplCopyWith<_$BatchRequestCountsImpl> get copyWith =>
+      __$$BatchRequestCountsImplCopyWithImpl<_$BatchRequestCountsImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$BatchRequestCountsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _BatchRequestCounts extends BatchRequestCounts {
+  const factory _BatchRequestCounts(
+      {required final int total,
+      required final int completed,
+      required final int failed}) = _$BatchRequestCountsImpl;
+  const _BatchRequestCounts._() : super._();
+
+  factory _BatchRequestCounts.fromJson(Map<String, dynamic> json) =
+      _$BatchRequestCountsImpl.fromJson;
+
+  @override
+
+  /// Total number of requests in the batch.
+  int get total;
+  @override
+
+  /// Number of requests that have been completed successfully.
+  int get completed;
+  @override
+
+  /// Number of requests that have failed.
+  int get failed;
+  @override
+  @JsonKey(ignore: true)
+  _$$BatchRequestCountsImplCopyWith<_$BatchRequestCountsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+BatchErrorsDataInner _$BatchErrorsDataInnerFromJson(Map<String, dynamic> json) {
+  return _BatchErrorsDataInner.fromJson(json);
+}
+
+/// @nodoc
+mixin _$BatchErrorsDataInner {
+  /// An error code identifying the error type.
+  @JsonKey(includeIfNull: false)
+  String? get code => throw _privateConstructorUsedError;
+
+  /// A human-readable message providing more details about the error.
+  @JsonKey(includeIfNull: false)
+  String? get message => throw _privateConstructorUsedError;
+
+  /// The name of the parameter that caused the error, if applicable.
+  @JsonKey(includeIfNull: false)
+  String? get param => throw _privateConstructorUsedError;
+
+  /// The line number of the input file where the error occurred, if applicable.
+  @JsonKey(includeIfNull: false)
+  int? get line => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $BatchErrorsDataInnerCopyWith<BatchErrorsDataInner> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BatchErrorsDataInnerCopyWith<$Res> {
+  factory $BatchErrorsDataInnerCopyWith(BatchErrorsDataInner value,
+          $Res Function(BatchErrorsDataInner) then) =
+      _$BatchErrorsDataInnerCopyWithImpl<$Res, BatchErrorsDataInner>;
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? code,
+      @JsonKey(includeIfNull: false) String? message,
+      @JsonKey(includeIfNull: false) String? param,
+      @JsonKey(includeIfNull: false) int? line});
+}
+
+/// @nodoc
+class _$BatchErrorsDataInnerCopyWithImpl<$Res,
+        $Val extends BatchErrorsDataInner>
+    implements $BatchErrorsDataInnerCopyWith<$Res> {
+  _$BatchErrorsDataInnerCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? code = freezed,
+    Object? message = freezed,
+    Object? param = freezed,
+    Object? line = freezed,
+  }) {
+    return _then(_value.copyWith(
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+      param: freezed == param
+          ? _value.param
+          : param // ignore: cast_nullable_to_non_nullable
+              as String?,
+      line: freezed == line
+          ? _value.line
+          : line // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$BatchErrorsDataInnerImplCopyWith<$Res>
+    implements $BatchErrorsDataInnerCopyWith<$Res> {
+  factory _$$BatchErrorsDataInnerImplCopyWith(_$BatchErrorsDataInnerImpl value,
+          $Res Function(_$BatchErrorsDataInnerImpl) then) =
+      __$$BatchErrorsDataInnerImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? code,
+      @JsonKey(includeIfNull: false) String? message,
+      @JsonKey(includeIfNull: false) String? param,
+      @JsonKey(includeIfNull: false) int? line});
+}
+
+/// @nodoc
+class __$$BatchErrorsDataInnerImplCopyWithImpl<$Res>
+    extends _$BatchErrorsDataInnerCopyWithImpl<$Res, _$BatchErrorsDataInnerImpl>
+    implements _$$BatchErrorsDataInnerImplCopyWith<$Res> {
+  __$$BatchErrorsDataInnerImplCopyWithImpl(_$BatchErrorsDataInnerImpl _value,
+      $Res Function(_$BatchErrorsDataInnerImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? code = freezed,
+    Object? message = freezed,
+    Object? param = freezed,
+    Object? line = freezed,
+  }) {
+    return _then(_$BatchErrorsDataInnerImpl(
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+      param: freezed == param
+          ? _value.param
+          : param // ignore: cast_nullable_to_non_nullable
+              as String?,
+      line: freezed == line
+          ? _value.line
+          : line // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$BatchErrorsDataInnerImpl extends _BatchErrorsDataInner {
+  const _$BatchErrorsDataInnerImpl(
+      {@JsonKey(includeIfNull: false) this.code,
+      @JsonKey(includeIfNull: false) this.message,
+      @JsonKey(includeIfNull: false) this.param,
+      @JsonKey(includeIfNull: false) this.line})
+      : super._();
+
+  factory _$BatchErrorsDataInnerImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BatchErrorsDataInnerImplFromJson(json);
+
+  /// An error code identifying the error type.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? code;
+
+  /// A human-readable message providing more details about the error.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? message;
+
+  /// The name of the parameter that caused the error, if applicable.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? param;
+
+  /// The line number of the input file where the error occurred, if applicable.
+  @override
+  @JsonKey(includeIfNull: false)
+  final int? line;
+
+  @override
+  String toString() {
+    return 'BatchErrorsDataInner(code: $code, message: $message, param: $param, line: $line)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$BatchErrorsDataInnerImpl &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.param, param) || other.param == param) &&
+            (identical(other.line, line) || other.line == line));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, code, message, param, line);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$BatchErrorsDataInnerImplCopyWith<_$BatchErrorsDataInnerImpl>
+      get copyWith =>
+          __$$BatchErrorsDataInnerImplCopyWithImpl<_$BatchErrorsDataInnerImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$BatchErrorsDataInnerImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _BatchErrorsDataInner extends BatchErrorsDataInner {
+  const factory _BatchErrorsDataInner(
+          {@JsonKey(includeIfNull: false) final String? code,
+          @JsonKey(includeIfNull: false) final String? message,
+          @JsonKey(includeIfNull: false) final String? param,
+          @JsonKey(includeIfNull: false) final int? line}) =
+      _$BatchErrorsDataInnerImpl;
+  const _BatchErrorsDataInner._() : super._();
+
+  factory _BatchErrorsDataInner.fromJson(Map<String, dynamic> json) =
+      _$BatchErrorsDataInnerImpl.fromJson;
+
+  @override
+
+  /// An error code identifying the error type.
+  @JsonKey(includeIfNull: false)
+  String? get code;
+  @override
+
+  /// A human-readable message providing more details about the error.
+  @JsonKey(includeIfNull: false)
+  String? get message;
+  @override
+
+  /// The name of the parameter that caused the error, if applicable.
+  @JsonKey(includeIfNull: false)
+  String? get param;
+  @override
+
+  /// The line number of the input file where the error occurred, if applicable.
+  @JsonKey(includeIfNull: false)
+  int? get line;
+  @override
+  @JsonKey(ignore: true)
+  _$$BatchErrorsDataInnerImplCopyWith<_$BatchErrorsDataInnerImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 ChatCompletionMessage _$ChatCompletionMessageFromJson(

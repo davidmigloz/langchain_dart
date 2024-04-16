@@ -24,6 +24,7 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
 - Completions (legacy)
 - Embeddings
 - Fine-tuning
+- Batch
 - Images
 - Models
 - Moderations
@@ -41,6 +42,7 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
   * [Completions (legacy)](#completions-legacy)
   * [Embeddings](#embeddings)
   * [Fine-tuning](#fine-tuning)
+  * [Batch](#batch)
   * [Images](#images)
   * [Models](#models)
   * [Moderations](#moderations)
@@ -517,6 +519,37 @@ final res = await client.cancelFineTuningJob(
 ```dart
 final res = await client.listFineTuningEvents(
   fineTuningJobId: 'ft-AF1WoRqd3aJAHsqc9NY7iL8F',
+);
+```
+
+### Batch
+
+Create large batches of API requests to run asynchronously
+
+**Create batch:**
+
+```dart
+const request = CreateBatchRequest(
+  inputFileId: 'file-abc123',
+  endpoint: BatchEndpoint.v1ChatCompletions,
+  completionWindow: BatchCompletionWindow.v24h,
+);
+final res = await client.createBatch(request: request);
+```
+
+**Retrieve batch:**
+
+```dart
+final res = await client.retrieveBatch(
+  batchId: 'batch_abc123',
+);
+```
+
+**Cancel batch:**
+
+```dart
+final res = await client.cancelBatch(
+  batchId: 'batch_abc123',
 );
 ```
 
