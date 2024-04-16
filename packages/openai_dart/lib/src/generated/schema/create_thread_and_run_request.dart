@@ -50,6 +50,14 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     @JsonKey(name: 'truncation_strategy', includeIfNull: false)
     TruncationObject? truncationStrategy,
 
+    /// Controls which (if any) tool is called by the model.
+    /// `none` means the model will not call any tools and instead generates a message.
+    /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
+    /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+    @_CreateThreadAndRunRequestToolChoiceConverter()
+    @JsonKey(name: 'tool_choice', includeIfNull: false)
+    CreateThreadAndRunRequestToolChoice? toolChoice,
+
     /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
     ///
     /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -79,6 +87,7 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     'max_prompt_tokens',
     'max_completion_tokens',
     'truncation_strategy',
+    'tool_choice',
     'response_format',
     'stream'
   ];
@@ -121,6 +130,7 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
       'max_prompt_tokens': maxPromptTokens,
       'max_completion_tokens': maxCompletionTokens,
       'truncation_strategy': truncationStrategy,
+      'tool_choice': toolChoice,
       'response_format': responseFormat,
       'stream': stream,
     };
@@ -226,6 +236,94 @@ class _ThreadAndRunModelConverter
       ThreadAndRunModelEnumeration(value: final v) =>
         _$ThreadAndRunModelsEnumMap[v]!,
       ThreadAndRunModelString(value: final v) => v,
+      null => null,
+    };
+  }
+}
+
+// ==========================================
+// ENUM: CreateThreadAndRunRequestToolChoiceMode
+// ==========================================
+
+/// `none` means the model will not call a function and instead generates a message. `auto` means the model can pick between generating a message or calling a function.
+enum CreateThreadAndRunRequestToolChoiceMode {
+  @JsonValue('none')
+  none,
+  @JsonValue('auto')
+  auto,
+}
+
+// ==========================================
+// CLASS: CreateThreadAndRunRequestToolChoice
+// ==========================================
+
+/// Controls which (if any) tool is called by the model.
+/// `none` means the model will not call any tools and instead generates a message.
+/// `auto` is the default value and means the model can pick between generating a message or calling a tool.
+/// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+@freezed
+sealed class CreateThreadAndRunRequestToolChoice
+    with _$CreateThreadAndRunRequestToolChoice {
+  const CreateThreadAndRunRequestToolChoice._();
+
+  /// `none` means the model will not call a function and instead generates a message. `auto` means the model can pick between generating a message or calling a function.
+  const factory CreateThreadAndRunRequestToolChoice.mode(
+    CreateThreadAndRunRequestToolChoiceMode value,
+  ) = CreateThreadAndRunRequestToolChoiceEnumeration;
+
+  /// No Description
+  const factory CreateThreadAndRunRequestToolChoice.tool(
+    AssistantsNamedToolChoice value,
+  ) = CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice;
+
+  /// Object construction from a JSON representation
+  factory CreateThreadAndRunRequestToolChoice.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateThreadAndRunRequestToolChoiceFromJson(json);
+}
+
+/// Custom JSON converter for [CreateThreadAndRunRequestToolChoice]
+class _CreateThreadAndRunRequestToolChoiceConverter
+    implements JsonConverter<CreateThreadAndRunRequestToolChoice?, Object?> {
+  const _CreateThreadAndRunRequestToolChoiceConverter();
+
+  @override
+  CreateThreadAndRunRequestToolChoice? fromJson(Object? data) {
+    if (data == null) {
+      return null;
+    }
+    if (data is String &&
+        _$CreateThreadAndRunRequestToolChoiceModeEnumMap.values
+            .contains(data)) {
+      return CreateThreadAndRunRequestToolChoiceEnumeration(
+        _$CreateThreadAndRunRequestToolChoiceModeEnumMap.keys.elementAt(
+          _$CreateThreadAndRunRequestToolChoiceModeEnumMap.values
+              .toList()
+              .indexOf(data),
+        ),
+      );
+    }
+    if (data is Map<String, dynamic>) {
+      try {
+        return CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice(
+          AssistantsNamedToolChoice.fromJson(data),
+        );
+      } catch (e) {}
+    }
+    throw Exception(
+      'Unexpected value for CreateThreadAndRunRequestToolChoice: $data',
+    );
+  }
+
+  @override
+  Object? toJson(CreateThreadAndRunRequestToolChoice? data) {
+    return switch (data) {
+      CreateThreadAndRunRequestToolChoiceEnumeration(value: final v) =>
+        _$CreateThreadAndRunRequestToolChoiceModeEnumMap[v]!,
+      CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice(
+        value: final v
+      ) =>
+        v.toJson(),
       null => null,
     };
   }

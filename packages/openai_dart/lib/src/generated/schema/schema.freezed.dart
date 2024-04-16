@@ -23690,6 +23690,362 @@ abstract class _ListAssistantsResponse extends ListAssistantsResponse {
       get copyWith => throw _privateConstructorUsedError;
 }
 
+AssistantsNamedToolChoice _$AssistantsNamedToolChoiceFromJson(
+    Map<String, dynamic> json) {
+  return _AssistantsNamedToolChoice.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AssistantsNamedToolChoice {
+  /// The type of the tool. If type is `function`, the function name must be set
+  AssistantsToolType get type => throw _privateConstructorUsedError;
+
+  /// No Description
+  @JsonKey(includeIfNull: false)
+  AssistantsFunctionCallOption? get function =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AssistantsNamedToolChoiceCopyWith<AssistantsNamedToolChoice> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AssistantsNamedToolChoiceCopyWith<$Res> {
+  factory $AssistantsNamedToolChoiceCopyWith(AssistantsNamedToolChoice value,
+          $Res Function(AssistantsNamedToolChoice) then) =
+      _$AssistantsNamedToolChoiceCopyWithImpl<$Res, AssistantsNamedToolChoice>;
+  @useResult
+  $Res call(
+      {AssistantsToolType type,
+      @JsonKey(includeIfNull: false) AssistantsFunctionCallOption? function});
+
+  $AssistantsFunctionCallOptionCopyWith<$Res>? get function;
+}
+
+/// @nodoc
+class _$AssistantsNamedToolChoiceCopyWithImpl<$Res,
+        $Val extends AssistantsNamedToolChoice>
+    implements $AssistantsNamedToolChoiceCopyWith<$Res> {
+  _$AssistantsNamedToolChoiceCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? function = freezed,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as AssistantsToolType,
+      function: freezed == function
+          ? _value.function
+          : function // ignore: cast_nullable_to_non_nullable
+              as AssistantsFunctionCallOption?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AssistantsFunctionCallOptionCopyWith<$Res>? get function {
+    if (_value.function == null) {
+      return null;
+    }
+
+    return $AssistantsFunctionCallOptionCopyWith<$Res>(_value.function!,
+        (value) {
+      return _then(_value.copyWith(function: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$AssistantsNamedToolChoiceImplCopyWith<$Res>
+    implements $AssistantsNamedToolChoiceCopyWith<$Res> {
+  factory _$$AssistantsNamedToolChoiceImplCopyWith(
+          _$AssistantsNamedToolChoiceImpl value,
+          $Res Function(_$AssistantsNamedToolChoiceImpl) then) =
+      __$$AssistantsNamedToolChoiceImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {AssistantsToolType type,
+      @JsonKey(includeIfNull: false) AssistantsFunctionCallOption? function});
+
+  @override
+  $AssistantsFunctionCallOptionCopyWith<$Res>? get function;
+}
+
+/// @nodoc
+class __$$AssistantsNamedToolChoiceImplCopyWithImpl<$Res>
+    extends _$AssistantsNamedToolChoiceCopyWithImpl<$Res,
+        _$AssistantsNamedToolChoiceImpl>
+    implements _$$AssistantsNamedToolChoiceImplCopyWith<$Res> {
+  __$$AssistantsNamedToolChoiceImplCopyWithImpl(
+      _$AssistantsNamedToolChoiceImpl _value,
+      $Res Function(_$AssistantsNamedToolChoiceImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? function = freezed,
+  }) {
+    return _then(_$AssistantsNamedToolChoiceImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as AssistantsToolType,
+      function: freezed == function
+          ? _value.function
+          : function // ignore: cast_nullable_to_non_nullable
+              as AssistantsFunctionCallOption?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AssistantsNamedToolChoiceImpl extends _AssistantsNamedToolChoice {
+  const _$AssistantsNamedToolChoiceImpl(
+      {required this.type, @JsonKey(includeIfNull: false) this.function})
+      : super._();
+
+  factory _$AssistantsNamedToolChoiceImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AssistantsNamedToolChoiceImplFromJson(json);
+
+  /// The type of the tool. If type is `function`, the function name must be set
+  @override
+  final AssistantsToolType type;
+
+  /// No Description
+  @override
+  @JsonKey(includeIfNull: false)
+  final AssistantsFunctionCallOption? function;
+
+  @override
+  String toString() {
+    return 'AssistantsNamedToolChoice(type: $type, function: $function)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AssistantsNamedToolChoiceImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.function, function) ||
+                other.function == function));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, function);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AssistantsNamedToolChoiceImplCopyWith<_$AssistantsNamedToolChoiceImpl>
+      get copyWith => __$$AssistantsNamedToolChoiceImplCopyWithImpl<
+          _$AssistantsNamedToolChoiceImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AssistantsNamedToolChoiceImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AssistantsNamedToolChoice extends AssistantsNamedToolChoice {
+  const factory _AssistantsNamedToolChoice(
+          {required final AssistantsToolType type,
+          @JsonKey(includeIfNull: false)
+          final AssistantsFunctionCallOption? function}) =
+      _$AssistantsNamedToolChoiceImpl;
+  const _AssistantsNamedToolChoice._() : super._();
+
+  factory _AssistantsNamedToolChoice.fromJson(Map<String, dynamic> json) =
+      _$AssistantsNamedToolChoiceImpl.fromJson;
+
+  @override
+
+  /// The type of the tool. If type is `function`, the function name must be set
+  AssistantsToolType get type;
+  @override
+
+  /// No Description
+  @JsonKey(includeIfNull: false)
+  AssistantsFunctionCallOption? get function;
+  @override
+  @JsonKey(ignore: true)
+  _$$AssistantsNamedToolChoiceImplCopyWith<_$AssistantsNamedToolChoiceImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+AssistantsFunctionCallOption _$AssistantsFunctionCallOptionFromJson(
+    Map<String, dynamic> json) {
+  return _AssistantsFunctionCallOption.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AssistantsFunctionCallOption {
+  /// The name of the function to call.
+  String get name => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AssistantsFunctionCallOptionCopyWith<AssistantsFunctionCallOption>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AssistantsFunctionCallOptionCopyWith<$Res> {
+  factory $AssistantsFunctionCallOptionCopyWith(
+          AssistantsFunctionCallOption value,
+          $Res Function(AssistantsFunctionCallOption) then) =
+      _$AssistantsFunctionCallOptionCopyWithImpl<$Res,
+          AssistantsFunctionCallOption>;
+  @useResult
+  $Res call({String name});
+}
+
+/// @nodoc
+class _$AssistantsFunctionCallOptionCopyWithImpl<$Res,
+        $Val extends AssistantsFunctionCallOption>
+    implements $AssistantsFunctionCallOptionCopyWith<$Res> {
+  _$AssistantsFunctionCallOptionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+  }) {
+    return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AssistantsFunctionCallOptionImplCopyWith<$Res>
+    implements $AssistantsFunctionCallOptionCopyWith<$Res> {
+  factory _$$AssistantsFunctionCallOptionImplCopyWith(
+          _$AssistantsFunctionCallOptionImpl value,
+          $Res Function(_$AssistantsFunctionCallOptionImpl) then) =
+      __$$AssistantsFunctionCallOptionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String name});
+}
+
+/// @nodoc
+class __$$AssistantsFunctionCallOptionImplCopyWithImpl<$Res>
+    extends _$AssistantsFunctionCallOptionCopyWithImpl<$Res,
+        _$AssistantsFunctionCallOptionImpl>
+    implements _$$AssistantsFunctionCallOptionImplCopyWith<$Res> {
+  __$$AssistantsFunctionCallOptionImplCopyWithImpl(
+      _$AssistantsFunctionCallOptionImpl _value,
+      $Res Function(_$AssistantsFunctionCallOptionImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+  }) {
+    return _then(_$AssistantsFunctionCallOptionImpl(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AssistantsFunctionCallOptionImpl extends _AssistantsFunctionCallOption {
+  const _$AssistantsFunctionCallOptionImpl({required this.name}) : super._();
+
+  factory _$AssistantsFunctionCallOptionImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$AssistantsFunctionCallOptionImplFromJson(json);
+
+  /// The name of the function to call.
+  @override
+  final String name;
+
+  @override
+  String toString() {
+    return 'AssistantsFunctionCallOption(name: $name)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AssistantsFunctionCallOptionImpl &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, name);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AssistantsFunctionCallOptionImplCopyWith<
+          _$AssistantsFunctionCallOptionImpl>
+      get copyWith => __$$AssistantsFunctionCallOptionImplCopyWithImpl<
+          _$AssistantsFunctionCallOptionImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AssistantsFunctionCallOptionImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AssistantsFunctionCallOption
+    extends AssistantsFunctionCallOption {
+  const factory _AssistantsFunctionCallOption({required final String name}) =
+      _$AssistantsFunctionCallOptionImpl;
+  const _AssistantsFunctionCallOption._() : super._();
+
+  factory _AssistantsFunctionCallOption.fromJson(Map<String, dynamic> json) =
+      _$AssistantsFunctionCallOptionImpl.fromJson;
+
+  @override
+
+  /// The name of the function to call.
+  String get name;
+  @override
+  @JsonKey(ignore: true)
+  _$$AssistantsFunctionCallOptionImplCopyWith<
+          _$AssistantsFunctionCallOptionImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 AssistantsResponseFormat _$AssistantsResponseFormatFromJson(
     Map<String, dynamic> json) {
   return _AssistantsResponseFormat.fromJson(json);
@@ -24116,6 +24472,14 @@ mixin _$RunObject {
   TruncationObject? get truncationStrategy =>
       throw _privateConstructorUsedError;
 
+  /// Controls which (if any) tool is called by the model.
+  /// `none` means the model will not call any tools and instead generates a message.
+  /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
+  /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  @_RunObjectToolChoiceConverter()
+  @JsonKey(name: 'tool_choice')
+  RunObjectToolChoice? get toolChoice => throw _privateConstructorUsedError;
+
   /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -24164,6 +24528,9 @@ abstract class $RunObjectCopyWith<$Res> {
       @JsonKey(name: 'max_completion_tokens') int? maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy')
       TruncationObject? truncationStrategy,
+      @_RunObjectToolChoiceConverter()
+      @JsonKey(name: 'tool_choice')
+      RunObjectToolChoice? toolChoice,
       @_RunObjectResponseFormatConverter()
       @JsonKey(name: 'response_format')
       RunObjectResponseFormat responseFormat});
@@ -24173,6 +24540,7 @@ abstract class $RunObjectCopyWith<$Res> {
   $RunObjectIncompleteDetailsCopyWith<$Res>? get incompleteDetails;
   $RunCompletionUsageCopyWith<$Res>? get usage;
   $TruncationObjectCopyWith<$Res>? get truncationStrategy;
+  $RunObjectToolChoiceCopyWith<$Res>? get toolChoice;
   $RunObjectResponseFormatCopyWith<$Res> get responseFormat;
 }
 
@@ -24213,6 +24581,7 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
     Object? maxPromptTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
+    Object? toolChoice = freezed,
     Object? responseFormat = null,
   }) {
     return _then(_value.copyWith(
@@ -24312,6 +24681,10 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
           ? _value.truncationStrategy
           : truncationStrategy // ignore: cast_nullable_to_non_nullable
               as TruncationObject?,
+      toolChoice: freezed == toolChoice
+          ? _value.toolChoice
+          : toolChoice // ignore: cast_nullable_to_non_nullable
+              as RunObjectToolChoice?,
       responseFormat: null == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -24382,6 +24755,18 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
 
   @override
   @pragma('vm:prefer-inline')
+  $RunObjectToolChoiceCopyWith<$Res>? get toolChoice {
+    if (_value.toolChoice == null) {
+      return null;
+    }
+
+    return $RunObjectToolChoiceCopyWith<$Res>(_value.toolChoice!, (value) {
+      return _then(_value.copyWith(toolChoice: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $RunObjectResponseFormatCopyWith<$Res> get responseFormat {
     return $RunObjectResponseFormatCopyWith<$Res>(_value.responseFormat,
         (value) {
@@ -24425,6 +24810,9 @@ abstract class _$$RunObjectImplCopyWith<$Res>
       @JsonKey(name: 'max_completion_tokens') int? maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy')
       TruncationObject? truncationStrategy,
+      @_RunObjectToolChoiceConverter()
+      @JsonKey(name: 'tool_choice')
+      RunObjectToolChoice? toolChoice,
       @_RunObjectResponseFormatConverter()
       @JsonKey(name: 'response_format')
       RunObjectResponseFormat responseFormat});
@@ -24439,6 +24827,8 @@ abstract class _$$RunObjectImplCopyWith<$Res>
   $RunCompletionUsageCopyWith<$Res>? get usage;
   @override
   $TruncationObjectCopyWith<$Res>? get truncationStrategy;
+  @override
+  $RunObjectToolChoiceCopyWith<$Res>? get toolChoice;
   @override
   $RunObjectResponseFormatCopyWith<$Res> get responseFormat;
 }
@@ -24478,6 +24868,7 @@ class __$$RunObjectImplCopyWithImpl<$Res>
     Object? maxPromptTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
+    Object? toolChoice = freezed,
     Object? responseFormat = null,
   }) {
     return _then(_$RunObjectImpl(
@@ -24577,6 +24968,10 @@ class __$$RunObjectImplCopyWithImpl<$Res>
           ? _value.truncationStrategy
           : truncationStrategy // ignore: cast_nullable_to_non_nullable
               as TruncationObject?,
+      toolChoice: freezed == toolChoice
+          ? _value.toolChoice
+          : toolChoice // ignore: cast_nullable_to_non_nullable
+              as RunObjectToolChoice?,
       responseFormat: null == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -24613,6 +25008,9 @@ class _$RunObjectImpl extends _RunObject {
       @JsonKey(name: 'max_prompt_tokens') required this.maxPromptTokens,
       @JsonKey(name: 'max_completion_tokens') required this.maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy') required this.truncationStrategy,
+      @_RunObjectToolChoiceConverter()
+      @JsonKey(name: 'tool_choice')
+      required this.toolChoice,
       @_RunObjectResponseFormatConverter()
       @JsonKey(name: 'response_format')
       required this.responseFormat})
@@ -24759,6 +25157,15 @@ class _$RunObjectImpl extends _RunObject {
   @JsonKey(name: 'truncation_strategy')
   final TruncationObject? truncationStrategy;
 
+  /// Controls which (if any) tool is called by the model.
+  /// `none` means the model will not call any tools and instead generates a message.
+  /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
+  /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  @override
+  @_RunObjectToolChoiceConverter()
+  @JsonKey(name: 'tool_choice')
+  final RunObjectToolChoice? toolChoice;
+
   /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -24771,7 +25178,7 @@ class _$RunObjectImpl extends _RunObject {
 
   @override
   String toString() {
-    return 'RunObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, assistantId: $assistantId, status: $status, requiredAction: $requiredAction, lastError: $lastError, expiresAt: $expiresAt, startedAt: $startedAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, incompleteDetails: $incompleteDetails, model: $model, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata, usage: $usage, temperature: $temperature, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, responseFormat: $responseFormat)';
+    return 'RunObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, assistantId: $assistantId, status: $status, requiredAction: $requiredAction, lastError: $lastError, expiresAt: $expiresAt, startedAt: $startedAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, incompleteDetails: $incompleteDetails, model: $model, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata, usage: $usage, temperature: $temperature, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, responseFormat: $responseFormat)';
   }
 
   @override
@@ -24819,6 +25226,8 @@ class _$RunObjectImpl extends _RunObject {
                 other.maxCompletionTokens == maxCompletionTokens) &&
             (identical(other.truncationStrategy, truncationStrategy) ||
                 other.truncationStrategy == truncationStrategy) &&
+            (identical(other.toolChoice, toolChoice) ||
+                other.toolChoice == toolChoice) &&
             (identical(other.responseFormat, responseFormat) ||
                 other.responseFormat == responseFormat));
   }
@@ -24851,6 +25260,7 @@ class _$RunObjectImpl extends _RunObject {
         maxPromptTokens,
         maxCompletionTokens,
         truncationStrategy,
+        toolChoice,
         responseFormat
       ]);
 
@@ -24898,6 +25308,9 @@ abstract class _RunObject extends RunObject {
       required final int? maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy')
       required final TruncationObject? truncationStrategy,
+      @_RunObjectToolChoiceConverter()
+      @JsonKey(name: 'tool_choice')
+      required final RunObjectToolChoice? toolChoice,
       @_RunObjectResponseFormatConverter()
       @JsonKey(name: 'response_format')
       required final RunObjectResponseFormat responseFormat}) = _$RunObjectImpl;
@@ -25018,6 +25431,15 @@ abstract class _RunObject extends RunObject {
   /// Thread truncation controls
   @JsonKey(name: 'truncation_strategy')
   TruncationObject? get truncationStrategy;
+  @override
+
+  /// Controls which (if any) tool is called by the model.
+  /// `none` means the model will not call any tools and instead generates a message.
+  /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
+  /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  @_RunObjectToolChoiceConverter()
+  @JsonKey(name: 'tool_choice')
+  RunObjectToolChoice? get toolChoice;
   @override
 
   /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
@@ -25567,6 +25989,433 @@ abstract class _RunObjectIncompleteDetails extends RunObjectIncompleteDetails {
   @override
   @JsonKey(ignore: true)
   _$$RunObjectIncompleteDetailsImplCopyWith<_$RunObjectIncompleteDetailsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RunObjectToolChoice _$RunObjectToolChoiceFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'mode':
+      return RunObjectToolChoiceEnumeration.fromJson(json);
+    case 'tool':
+      return RunObjectToolChoiceAssistantsNamedToolChoice.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'runtimeType', 'RunObjectToolChoice',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$RunObjectToolChoice {
+  Object get value => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(RunObjectToolChoiceMode value) mode,
+    required TResult Function(AssistantsNamedToolChoice value) tool,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(RunObjectToolChoiceMode value)? mode,
+    TResult? Function(AssistantsNamedToolChoice value)? tool,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(RunObjectToolChoiceMode value)? mode,
+    TResult Function(AssistantsNamedToolChoice value)? tool,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunObjectToolChoiceEnumeration value) mode,
+    required TResult Function(
+            RunObjectToolChoiceAssistantsNamedToolChoice value)
+        tool,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunObjectToolChoiceEnumeration value)? mode,
+    TResult? Function(RunObjectToolChoiceAssistantsNamedToolChoice value)? tool,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunObjectToolChoiceEnumeration value)? mode,
+    TResult Function(RunObjectToolChoiceAssistantsNamedToolChoice value)? tool,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunObjectToolChoiceCopyWith<$Res> {
+  factory $RunObjectToolChoiceCopyWith(
+          RunObjectToolChoice value, $Res Function(RunObjectToolChoice) then) =
+      _$RunObjectToolChoiceCopyWithImpl<$Res, RunObjectToolChoice>;
+}
+
+/// @nodoc
+class _$RunObjectToolChoiceCopyWithImpl<$Res, $Val extends RunObjectToolChoice>
+    implements $RunObjectToolChoiceCopyWith<$Res> {
+  _$RunObjectToolChoiceCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$RunObjectToolChoiceEnumerationImplCopyWith<$Res> {
+  factory _$$RunObjectToolChoiceEnumerationImplCopyWith(
+          _$RunObjectToolChoiceEnumerationImpl value,
+          $Res Function(_$RunObjectToolChoiceEnumerationImpl) then) =
+      __$$RunObjectToolChoiceEnumerationImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({RunObjectToolChoiceMode value});
+}
+
+/// @nodoc
+class __$$RunObjectToolChoiceEnumerationImplCopyWithImpl<$Res>
+    extends _$RunObjectToolChoiceCopyWithImpl<$Res,
+        _$RunObjectToolChoiceEnumerationImpl>
+    implements _$$RunObjectToolChoiceEnumerationImplCopyWith<$Res> {
+  __$$RunObjectToolChoiceEnumerationImplCopyWithImpl(
+      _$RunObjectToolChoiceEnumerationImpl _value,
+      $Res Function(_$RunObjectToolChoiceEnumerationImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$RunObjectToolChoiceEnumerationImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as RunObjectToolChoiceMode,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunObjectToolChoiceEnumerationImpl
+    extends RunObjectToolChoiceEnumeration {
+  const _$RunObjectToolChoiceEnumerationImpl(this.value, {final String? $type})
+      : $type = $type ?? 'mode',
+        super._();
+
+  factory _$RunObjectToolChoiceEnumerationImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunObjectToolChoiceEnumerationImplFromJson(json);
+
+  @override
+  final RunObjectToolChoiceMode value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'RunObjectToolChoice.mode(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunObjectToolChoiceEnumerationImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunObjectToolChoiceEnumerationImplCopyWith<
+          _$RunObjectToolChoiceEnumerationImpl>
+      get copyWith => __$$RunObjectToolChoiceEnumerationImplCopyWithImpl<
+          _$RunObjectToolChoiceEnumerationImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(RunObjectToolChoiceMode value) mode,
+    required TResult Function(AssistantsNamedToolChoice value) tool,
+  }) {
+    return mode(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(RunObjectToolChoiceMode value)? mode,
+    TResult? Function(AssistantsNamedToolChoice value)? tool,
+  }) {
+    return mode?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(RunObjectToolChoiceMode value)? mode,
+    TResult Function(AssistantsNamedToolChoice value)? tool,
+    required TResult orElse(),
+  }) {
+    if (mode != null) {
+      return mode(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunObjectToolChoiceEnumeration value) mode,
+    required TResult Function(
+            RunObjectToolChoiceAssistantsNamedToolChoice value)
+        tool,
+  }) {
+    return mode(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunObjectToolChoiceEnumeration value)? mode,
+    TResult? Function(RunObjectToolChoiceAssistantsNamedToolChoice value)? tool,
+  }) {
+    return mode?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunObjectToolChoiceEnumeration value)? mode,
+    TResult Function(RunObjectToolChoiceAssistantsNamedToolChoice value)? tool,
+    required TResult orElse(),
+  }) {
+    if (mode != null) {
+      return mode(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunObjectToolChoiceEnumerationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunObjectToolChoiceEnumeration extends RunObjectToolChoice {
+  const factory RunObjectToolChoiceEnumeration(
+          final RunObjectToolChoiceMode value) =
+      _$RunObjectToolChoiceEnumerationImpl;
+  const RunObjectToolChoiceEnumeration._() : super._();
+
+  factory RunObjectToolChoiceEnumeration.fromJson(Map<String, dynamic> json) =
+      _$RunObjectToolChoiceEnumerationImpl.fromJson;
+
+  @override
+  RunObjectToolChoiceMode get value;
+  @JsonKey(ignore: true)
+  _$$RunObjectToolChoiceEnumerationImplCopyWith<
+          _$RunObjectToolChoiceEnumerationImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RunObjectToolChoiceAssistantsNamedToolChoiceImplCopyWith<
+    $Res> {
+  factory _$$RunObjectToolChoiceAssistantsNamedToolChoiceImplCopyWith(
+          _$RunObjectToolChoiceAssistantsNamedToolChoiceImpl value,
+          $Res Function(_$RunObjectToolChoiceAssistantsNamedToolChoiceImpl)
+              then) =
+      __$$RunObjectToolChoiceAssistantsNamedToolChoiceImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({AssistantsNamedToolChoice value});
+
+  $AssistantsNamedToolChoiceCopyWith<$Res> get value;
+}
+
+/// @nodoc
+class __$$RunObjectToolChoiceAssistantsNamedToolChoiceImplCopyWithImpl<$Res>
+    extends _$RunObjectToolChoiceCopyWithImpl<$Res,
+        _$RunObjectToolChoiceAssistantsNamedToolChoiceImpl>
+    implements
+        _$$RunObjectToolChoiceAssistantsNamedToolChoiceImplCopyWith<$Res> {
+  __$$RunObjectToolChoiceAssistantsNamedToolChoiceImplCopyWithImpl(
+      _$RunObjectToolChoiceAssistantsNamedToolChoiceImpl _value,
+      $Res Function(_$RunObjectToolChoiceAssistantsNamedToolChoiceImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$RunObjectToolChoiceAssistantsNamedToolChoiceImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as AssistantsNamedToolChoice,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AssistantsNamedToolChoiceCopyWith<$Res> get value {
+    return $AssistantsNamedToolChoiceCopyWith<$Res>(_value.value, (value) {
+      return _then(_value.copyWith(value: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunObjectToolChoiceAssistantsNamedToolChoiceImpl
+    extends RunObjectToolChoiceAssistantsNamedToolChoice {
+  const _$RunObjectToolChoiceAssistantsNamedToolChoiceImpl(this.value,
+      {final String? $type})
+      : $type = $type ?? 'tool',
+        super._();
+
+  factory _$RunObjectToolChoiceAssistantsNamedToolChoiceImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunObjectToolChoiceAssistantsNamedToolChoiceImplFromJson(json);
+
+  @override
+  final AssistantsNamedToolChoice value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'RunObjectToolChoice.tool(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunObjectToolChoiceAssistantsNamedToolChoiceImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunObjectToolChoiceAssistantsNamedToolChoiceImplCopyWith<
+          _$RunObjectToolChoiceAssistantsNamedToolChoiceImpl>
+      get copyWith =>
+          __$$RunObjectToolChoiceAssistantsNamedToolChoiceImplCopyWithImpl<
+                  _$RunObjectToolChoiceAssistantsNamedToolChoiceImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(RunObjectToolChoiceMode value) mode,
+    required TResult Function(AssistantsNamedToolChoice value) tool,
+  }) {
+    return tool(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(RunObjectToolChoiceMode value)? mode,
+    TResult? Function(AssistantsNamedToolChoice value)? tool,
+  }) {
+    return tool?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(RunObjectToolChoiceMode value)? mode,
+    TResult Function(AssistantsNamedToolChoice value)? tool,
+    required TResult orElse(),
+  }) {
+    if (tool != null) {
+      return tool(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunObjectToolChoiceEnumeration value) mode,
+    required TResult Function(
+            RunObjectToolChoiceAssistantsNamedToolChoice value)
+        tool,
+  }) {
+    return tool(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunObjectToolChoiceEnumeration value)? mode,
+    TResult? Function(RunObjectToolChoiceAssistantsNamedToolChoice value)? tool,
+  }) {
+    return tool?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunObjectToolChoiceEnumeration value)? mode,
+    TResult Function(RunObjectToolChoiceAssistantsNamedToolChoice value)? tool,
+    required TResult orElse(),
+  }) {
+    if (tool != null) {
+      return tool(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunObjectToolChoiceAssistantsNamedToolChoiceImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunObjectToolChoiceAssistantsNamedToolChoice
+    extends RunObjectToolChoice {
+  const factory RunObjectToolChoiceAssistantsNamedToolChoice(
+          final AssistantsNamedToolChoice value) =
+      _$RunObjectToolChoiceAssistantsNamedToolChoiceImpl;
+  const RunObjectToolChoiceAssistantsNamedToolChoice._() : super._();
+
+  factory RunObjectToolChoiceAssistantsNamedToolChoice.fromJson(
+          Map<String, dynamic> json) =
+      _$RunObjectToolChoiceAssistantsNamedToolChoiceImpl.fromJson;
+
+  @override
+  AssistantsNamedToolChoice get value;
+  @JsonKey(ignore: true)
+  _$$RunObjectToolChoiceAssistantsNamedToolChoiceImplCopyWith<
+          _$RunObjectToolChoiceAssistantsNamedToolChoiceImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -26441,6 +27290,15 @@ mixin _$CreateRunRequest {
   TruncationObject? get truncationStrategy =>
       throw _privateConstructorUsedError;
 
+  /// Controls which (if any) tool is called by the model.
+  /// `none` means the model will not call any tools and instead generates a message.
+  /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
+  /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  @_CreateRunRequestToolChoiceConverter()
+  @JsonKey(name: 'tool_choice', includeIfNull: false)
+  CreateRunRequestToolChoice? get toolChoice =>
+      throw _privateConstructorUsedError;
+
   /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -26486,6 +27344,9 @@ abstract class $CreateRunRequestCopyWith<$Res> {
       int? maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy', includeIfNull: false)
       TruncationObject? truncationStrategy,
+      @_CreateRunRequestToolChoiceConverter()
+      @JsonKey(name: 'tool_choice', includeIfNull: false)
+      CreateRunRequestToolChoice? toolChoice,
       @_CreateRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       CreateRunRequestResponseFormat? responseFormat,
@@ -26493,6 +27354,7 @@ abstract class $CreateRunRequestCopyWith<$Res> {
 
   $CreateRunRequestModelCopyWith<$Res>? get model;
   $TruncationObjectCopyWith<$Res>? get truncationStrategy;
+  $CreateRunRequestToolChoiceCopyWith<$Res>? get toolChoice;
   $CreateRunRequestResponseFormatCopyWith<$Res>? get responseFormat;
 }
 
@@ -26520,6 +27382,7 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
     Object? maxPromptTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
+    Object? toolChoice = freezed,
     Object? responseFormat = freezed,
     Object? stream = freezed,
   }) {
@@ -26568,6 +27431,10 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
           ? _value.truncationStrategy
           : truncationStrategy // ignore: cast_nullable_to_non_nullable
               as TruncationObject?,
+      toolChoice: freezed == toolChoice
+          ? _value.toolChoice
+          : toolChoice // ignore: cast_nullable_to_non_nullable
+              as CreateRunRequestToolChoice?,
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -26600,6 +27467,19 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
 
     return $TruncationObjectCopyWith<$Res>(_value.truncationStrategy!, (value) {
       return _then(_value.copyWith(truncationStrategy: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CreateRunRequestToolChoiceCopyWith<$Res>? get toolChoice {
+    if (_value.toolChoice == null) {
+      return null;
+    }
+
+    return $CreateRunRequestToolChoiceCopyWith<$Res>(_value.toolChoice!,
+        (value) {
+      return _then(_value.copyWith(toolChoice: value) as $Val);
     });
   }
 
@@ -26644,6 +27524,9 @@ abstract class _$$CreateRunRequestImplCopyWith<$Res>
       int? maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy', includeIfNull: false)
       TruncationObject? truncationStrategy,
+      @_CreateRunRequestToolChoiceConverter()
+      @JsonKey(name: 'tool_choice', includeIfNull: false)
+      CreateRunRequestToolChoice? toolChoice,
       @_CreateRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       CreateRunRequestResponseFormat? responseFormat,
@@ -26653,6 +27536,8 @@ abstract class _$$CreateRunRequestImplCopyWith<$Res>
   $CreateRunRequestModelCopyWith<$Res>? get model;
   @override
   $TruncationObjectCopyWith<$Res>? get truncationStrategy;
+  @override
+  $CreateRunRequestToolChoiceCopyWith<$Res>? get toolChoice;
   @override
   $CreateRunRequestResponseFormatCopyWith<$Res>? get responseFormat;
 }
@@ -26679,6 +27564,7 @@ class __$$CreateRunRequestImplCopyWithImpl<$Res>
     Object? maxPromptTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
+    Object? toolChoice = freezed,
     Object? responseFormat = freezed,
     Object? stream = freezed,
   }) {
@@ -26727,6 +27613,10 @@ class __$$CreateRunRequestImplCopyWithImpl<$Res>
           ? _value.truncationStrategy
           : truncationStrategy // ignore: cast_nullable_to_non_nullable
               as TruncationObject?,
+      toolChoice: freezed == toolChoice
+          ? _value.toolChoice
+          : toolChoice // ignore: cast_nullable_to_non_nullable
+              as CreateRunRequestToolChoice?,
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -26761,6 +27651,9 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
       this.maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy', includeIfNull: false)
       this.truncationStrategy,
+      @_CreateRunRequestToolChoiceConverter()
+      @JsonKey(name: 'tool_choice', includeIfNull: false)
+      this.toolChoice,
       @_CreateRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       this.responseFormat,
@@ -26857,6 +27750,15 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   final TruncationObject? truncationStrategy;
 
+  /// Controls which (if any) tool is called by the model.
+  /// `none` means the model will not call any tools and instead generates a message.
+  /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
+  /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  @override
+  @_CreateRunRequestToolChoiceConverter()
+  @JsonKey(name: 'tool_choice', includeIfNull: false)
+  final CreateRunRequestToolChoice? toolChoice;
+
   /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -26874,7 +27776,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
 
   @override
   String toString() {
-    return 'CreateRunRequest(assistantId: $assistantId, model: $model, instructions: $instructions, additionalInstructions: $additionalInstructions, additionalMessages: $additionalMessages, tools: $tools, metadata: $metadata, temperature: $temperature, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, responseFormat: $responseFormat, stream: $stream)';
+    return 'CreateRunRequest(assistantId: $assistantId, model: $model, instructions: $instructions, additionalInstructions: $additionalInstructions, additionalMessages: $additionalMessages, tools: $tools, metadata: $metadata, temperature: $temperature, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, responseFormat: $responseFormat, stream: $stream)';
   }
 
   @override
@@ -26901,6 +27803,8 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
                 other.maxCompletionTokens == maxCompletionTokens) &&
             (identical(other.truncationStrategy, truncationStrategy) ||
                 other.truncationStrategy == truncationStrategy) &&
+            (identical(other.toolChoice, toolChoice) ||
+                other.toolChoice == toolChoice) &&
             (identical(other.responseFormat, responseFormat) ||
                 other.responseFormat == responseFormat) &&
             (identical(other.stream, stream) || other.stream == stream));
@@ -26921,6 +27825,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
       maxPromptTokens,
       maxCompletionTokens,
       truncationStrategy,
+      toolChoice,
       responseFormat,
       stream);
 
@@ -26959,6 +27864,9 @@ abstract class _CreateRunRequest extends CreateRunRequest {
           final int? maxCompletionTokens,
           @JsonKey(name: 'truncation_strategy', includeIfNull: false)
           final TruncationObject? truncationStrategy,
+          @_CreateRunRequestToolChoiceConverter()
+          @JsonKey(name: 'tool_choice', includeIfNull: false)
+          final CreateRunRequestToolChoice? toolChoice,
           @_CreateRunRequestResponseFormatConverter()
           @JsonKey(name: 'response_format', includeIfNull: false)
           final CreateRunRequestResponseFormat? responseFormat,
@@ -27025,6 +27933,15 @@ abstract class _CreateRunRequest extends CreateRunRequest {
   /// Thread truncation controls
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   TruncationObject? get truncationStrategy;
+  @override
+
+  /// Controls which (if any) tool is called by the model.
+  /// `none` means the model will not call any tools and instead generates a message.
+  /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
+  /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  @_CreateRunRequestToolChoiceConverter()
+  @JsonKey(name: 'tool_choice', includeIfNull: false)
+  CreateRunRequestToolChoice? get toolChoice;
   @override
 
   /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
@@ -27450,6 +28367,457 @@ abstract class CreateRunRequestModelString extends CreateRunRequestModel {
   String get value;
   @JsonKey(ignore: true)
   _$$CreateRunRequestModelStringImplCopyWith<_$CreateRunRequestModelStringImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+CreateRunRequestToolChoice _$CreateRunRequestToolChoiceFromJson(
+    Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'mode':
+      return CreateRunRequestToolChoiceEnumeration.fromJson(json);
+    case 'tool':
+      return CreateRunRequestToolChoiceAssistantsNamedToolChoice.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'runtimeType',
+          'CreateRunRequestToolChoice',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$CreateRunRequestToolChoice {
+  Object get value => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CreateRunRequestToolChoiceMode value) mode,
+    required TResult Function(AssistantsNamedToolChoice value) tool,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CreateRunRequestToolChoiceMode value)? mode,
+    TResult? Function(AssistantsNamedToolChoice value)? tool,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CreateRunRequestToolChoiceMode value)? mode,
+    TResult Function(AssistantsNamedToolChoice value)? tool,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(CreateRunRequestToolChoiceEnumeration value) mode,
+    required TResult Function(
+            CreateRunRequestToolChoiceAssistantsNamedToolChoice value)
+        tool,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateRunRequestToolChoiceEnumeration value)? mode,
+    TResult? Function(
+            CreateRunRequestToolChoiceAssistantsNamedToolChoice value)?
+        tool,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateRunRequestToolChoiceEnumeration value)? mode,
+    TResult Function(CreateRunRequestToolChoiceAssistantsNamedToolChoice value)?
+        tool,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateRunRequestToolChoiceCopyWith<$Res> {
+  factory $CreateRunRequestToolChoiceCopyWith(CreateRunRequestToolChoice value,
+          $Res Function(CreateRunRequestToolChoice) then) =
+      _$CreateRunRequestToolChoiceCopyWithImpl<$Res,
+          CreateRunRequestToolChoice>;
+}
+
+/// @nodoc
+class _$CreateRunRequestToolChoiceCopyWithImpl<$Res,
+        $Val extends CreateRunRequestToolChoice>
+    implements $CreateRunRequestToolChoiceCopyWith<$Res> {
+  _$CreateRunRequestToolChoiceCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$CreateRunRequestToolChoiceEnumerationImplCopyWith<$Res> {
+  factory _$$CreateRunRequestToolChoiceEnumerationImplCopyWith(
+          _$CreateRunRequestToolChoiceEnumerationImpl value,
+          $Res Function(_$CreateRunRequestToolChoiceEnumerationImpl) then) =
+      __$$CreateRunRequestToolChoiceEnumerationImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({CreateRunRequestToolChoiceMode value});
+}
+
+/// @nodoc
+class __$$CreateRunRequestToolChoiceEnumerationImplCopyWithImpl<$Res>
+    extends _$CreateRunRequestToolChoiceCopyWithImpl<$Res,
+        _$CreateRunRequestToolChoiceEnumerationImpl>
+    implements _$$CreateRunRequestToolChoiceEnumerationImplCopyWith<$Res> {
+  __$$CreateRunRequestToolChoiceEnumerationImplCopyWithImpl(
+      _$CreateRunRequestToolChoiceEnumerationImpl _value,
+      $Res Function(_$CreateRunRequestToolChoiceEnumerationImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$CreateRunRequestToolChoiceEnumerationImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as CreateRunRequestToolChoiceMode,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateRunRequestToolChoiceEnumerationImpl
+    extends CreateRunRequestToolChoiceEnumeration {
+  const _$CreateRunRequestToolChoiceEnumerationImpl(this.value,
+      {final String? $type})
+      : $type = $type ?? 'mode',
+        super._();
+
+  factory _$CreateRunRequestToolChoiceEnumerationImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$CreateRunRequestToolChoiceEnumerationImplFromJson(json);
+
+  @override
+  final CreateRunRequestToolChoiceMode value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'CreateRunRequestToolChoice.mode(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateRunRequestToolChoiceEnumerationImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateRunRequestToolChoiceEnumerationImplCopyWith<
+          _$CreateRunRequestToolChoiceEnumerationImpl>
+      get copyWith => __$$CreateRunRequestToolChoiceEnumerationImplCopyWithImpl<
+          _$CreateRunRequestToolChoiceEnumerationImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CreateRunRequestToolChoiceMode value) mode,
+    required TResult Function(AssistantsNamedToolChoice value) tool,
+  }) {
+    return mode(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CreateRunRequestToolChoiceMode value)? mode,
+    TResult? Function(AssistantsNamedToolChoice value)? tool,
+  }) {
+    return mode?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CreateRunRequestToolChoiceMode value)? mode,
+    TResult Function(AssistantsNamedToolChoice value)? tool,
+    required TResult orElse(),
+  }) {
+    if (mode != null) {
+      return mode(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(CreateRunRequestToolChoiceEnumeration value) mode,
+    required TResult Function(
+            CreateRunRequestToolChoiceAssistantsNamedToolChoice value)
+        tool,
+  }) {
+    return mode(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateRunRequestToolChoiceEnumeration value)? mode,
+    TResult? Function(
+            CreateRunRequestToolChoiceAssistantsNamedToolChoice value)?
+        tool,
+  }) {
+    return mode?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateRunRequestToolChoiceEnumeration value)? mode,
+    TResult Function(CreateRunRequestToolChoiceAssistantsNamedToolChoice value)?
+        tool,
+    required TResult orElse(),
+  }) {
+    if (mode != null) {
+      return mode(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateRunRequestToolChoiceEnumerationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class CreateRunRequestToolChoiceEnumeration
+    extends CreateRunRequestToolChoice {
+  const factory CreateRunRequestToolChoiceEnumeration(
+          final CreateRunRequestToolChoiceMode value) =
+      _$CreateRunRequestToolChoiceEnumerationImpl;
+  const CreateRunRequestToolChoiceEnumeration._() : super._();
+
+  factory CreateRunRequestToolChoiceEnumeration.fromJson(
+          Map<String, dynamic> json) =
+      _$CreateRunRequestToolChoiceEnumerationImpl.fromJson;
+
+  @override
+  CreateRunRequestToolChoiceMode get value;
+  @JsonKey(ignore: true)
+  _$$CreateRunRequestToolChoiceEnumerationImplCopyWith<
+          _$CreateRunRequestToolChoiceEnumerationImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWith<
+    $Res> {
+  factory _$$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWith(
+          _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl value,
+          $Res Function(
+                  _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl)
+              then) =
+      __$$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWithImpl<
+          $Res>;
+  @useResult
+  $Res call({AssistantsNamedToolChoice value});
+
+  $AssistantsNamedToolChoiceCopyWith<$Res> get value;
+}
+
+/// @nodoc
+class __$$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWithImpl<
+        $Res>
+    extends _$CreateRunRequestToolChoiceCopyWithImpl<$Res,
+        _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl>
+    implements
+        _$$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWith<
+            $Res> {
+  __$$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWithImpl(
+      _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl _value,
+      $Res Function(_$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as AssistantsNamedToolChoice,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AssistantsNamedToolChoiceCopyWith<$Res> get value {
+    return $AssistantsNamedToolChoiceCopyWith<$Res>(_value.value, (value) {
+      return _then(_value.copyWith(value: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl
+    extends CreateRunRequestToolChoiceAssistantsNamedToolChoice {
+  const _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl(this.value,
+      {final String? $type})
+      : $type = $type ?? 'tool',
+        super._();
+
+  factory _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImplFromJson(json);
+
+  @override
+  final AssistantsNamedToolChoice value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'CreateRunRequestToolChoice.tool(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other
+                is _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWith<
+          _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl>
+      get copyWith =>
+          __$$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWithImpl<
+                  _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CreateRunRequestToolChoiceMode value) mode,
+    required TResult Function(AssistantsNamedToolChoice value) tool,
+  }) {
+    return tool(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CreateRunRequestToolChoiceMode value)? mode,
+    TResult? Function(AssistantsNamedToolChoice value)? tool,
+  }) {
+    return tool?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CreateRunRequestToolChoiceMode value)? mode,
+    TResult Function(AssistantsNamedToolChoice value)? tool,
+    required TResult orElse(),
+  }) {
+    if (tool != null) {
+      return tool(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(CreateRunRequestToolChoiceEnumeration value) mode,
+    required TResult Function(
+            CreateRunRequestToolChoiceAssistantsNamedToolChoice value)
+        tool,
+  }) {
+    return tool(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateRunRequestToolChoiceEnumeration value)? mode,
+    TResult? Function(
+            CreateRunRequestToolChoiceAssistantsNamedToolChoice value)?
+        tool,
+  }) {
+    return tool?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateRunRequestToolChoiceEnumeration value)? mode,
+    TResult Function(CreateRunRequestToolChoiceAssistantsNamedToolChoice value)?
+        tool,
+    required TResult orElse(),
+  }) {
+    if (tool != null) {
+      return tool(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class CreateRunRequestToolChoiceAssistantsNamedToolChoice
+    extends CreateRunRequestToolChoice {
+  const factory CreateRunRequestToolChoiceAssistantsNamedToolChoice(
+          final AssistantsNamedToolChoice value) =
+      _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl;
+  const CreateRunRequestToolChoiceAssistantsNamedToolChoice._() : super._();
+
+  factory CreateRunRequestToolChoiceAssistantsNamedToolChoice.fromJson(
+          Map<String, dynamic> json) =
+      _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl.fromJson;
+
+  @override
+  AssistantsNamedToolChoice get value;
+  @JsonKey(ignore: true)
+  _$$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWith<
+          _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -29154,6 +30522,15 @@ mixin _$CreateThreadAndRunRequest {
   TruncationObject? get truncationStrategy =>
       throw _privateConstructorUsedError;
 
+  /// Controls which (if any) tool is called by the model.
+  /// `none` means the model will not call any tools and instead generates a message.
+  /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
+  /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  @_CreateThreadAndRunRequestToolChoiceConverter()
+  @JsonKey(name: 'tool_choice', includeIfNull: false)
+  CreateThreadAndRunRequestToolChoice? get toolChoice =>
+      throw _privateConstructorUsedError;
+
   /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -29196,6 +30573,9 @@ abstract class $CreateThreadAndRunRequestCopyWith<$Res> {
       int? maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy', includeIfNull: false)
       TruncationObject? truncationStrategy,
+      @_CreateThreadAndRunRequestToolChoiceConverter()
+      @JsonKey(name: 'tool_choice', includeIfNull: false)
+      CreateThreadAndRunRequestToolChoice? toolChoice,
       @_CreateThreadAndRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       CreateThreadAndRunRequestResponseFormat? responseFormat,
@@ -29204,6 +30584,7 @@ abstract class $CreateThreadAndRunRequestCopyWith<$Res> {
   $CreateThreadRequestCopyWith<$Res>? get thread;
   $ThreadAndRunModelCopyWith<$Res>? get model;
   $TruncationObjectCopyWith<$Res>? get truncationStrategy;
+  $CreateThreadAndRunRequestToolChoiceCopyWith<$Res>? get toolChoice;
   $CreateThreadAndRunRequestResponseFormatCopyWith<$Res>? get responseFormat;
 }
 
@@ -29231,6 +30612,7 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
     Object? maxPromptTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
+    Object? toolChoice = freezed,
     Object? responseFormat = freezed,
     Object? stream = freezed,
   }) {
@@ -29275,6 +30657,10 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
           ? _value.truncationStrategy
           : truncationStrategy // ignore: cast_nullable_to_non_nullable
               as TruncationObject?,
+      toolChoice: freezed == toolChoice
+          ? _value.toolChoice
+          : toolChoice // ignore: cast_nullable_to_non_nullable
+              as CreateThreadAndRunRequestToolChoice?,
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -29324,6 +30710,19 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
 
   @override
   @pragma('vm:prefer-inline')
+  $CreateThreadAndRunRequestToolChoiceCopyWith<$Res>? get toolChoice {
+    if (_value.toolChoice == null) {
+      return null;
+    }
+
+    return $CreateThreadAndRunRequestToolChoiceCopyWith<$Res>(
+        _value.toolChoice!, (value) {
+      return _then(_value.copyWith(toolChoice: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $CreateThreadAndRunRequestResponseFormatCopyWith<$Res>? get responseFormat {
     if (_value.responseFormat == null) {
       return null;
@@ -29361,6 +30760,9 @@ abstract class _$$CreateThreadAndRunRequestImplCopyWith<$Res>
       int? maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy', includeIfNull: false)
       TruncationObject? truncationStrategy,
+      @_CreateThreadAndRunRequestToolChoiceConverter()
+      @JsonKey(name: 'tool_choice', includeIfNull: false)
+      CreateThreadAndRunRequestToolChoice? toolChoice,
       @_CreateThreadAndRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       CreateThreadAndRunRequestResponseFormat? responseFormat,
@@ -29372,6 +30774,8 @@ abstract class _$$CreateThreadAndRunRequestImplCopyWith<$Res>
   $ThreadAndRunModelCopyWith<$Res>? get model;
   @override
   $TruncationObjectCopyWith<$Res>? get truncationStrategy;
+  @override
+  $CreateThreadAndRunRequestToolChoiceCopyWith<$Res>? get toolChoice;
   @override
   $CreateThreadAndRunRequestResponseFormatCopyWith<$Res>? get responseFormat;
 }
@@ -29399,6 +30803,7 @@ class __$$CreateThreadAndRunRequestImplCopyWithImpl<$Res>
     Object? maxPromptTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
+    Object? toolChoice = freezed,
     Object? responseFormat = freezed,
     Object? stream = freezed,
   }) {
@@ -29443,6 +30848,10 @@ class __$$CreateThreadAndRunRequestImplCopyWithImpl<$Res>
           ? _value.truncationStrategy
           : truncationStrategy // ignore: cast_nullable_to_non_nullable
               as TruncationObject?,
+      toolChoice: freezed == toolChoice
+          ? _value.toolChoice
+          : toolChoice // ignore: cast_nullable_to_non_nullable
+              as CreateThreadAndRunRequestToolChoice?,
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -29472,6 +30881,9 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
       this.maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy', includeIfNull: false)
       this.truncationStrategy,
+      @_CreateThreadAndRunRequestToolChoiceConverter()
+      @JsonKey(name: 'tool_choice', includeIfNull: false)
+      this.toolChoice,
       @_CreateThreadAndRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       this.responseFormat,
@@ -29552,6 +30964,15 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   final TruncationObject? truncationStrategy;
 
+  /// Controls which (if any) tool is called by the model.
+  /// `none` means the model will not call any tools and instead generates a message.
+  /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
+  /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  @override
+  @_CreateThreadAndRunRequestToolChoiceConverter()
+  @JsonKey(name: 'tool_choice', includeIfNull: false)
+  final CreateThreadAndRunRequestToolChoice? toolChoice;
+
   /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -29569,7 +30990,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
 
   @override
   String toString() {
-    return 'CreateThreadAndRunRequest(assistantId: $assistantId, thread: $thread, model: $model, instructions: $instructions, tools: $tools, metadata: $metadata, temperature: $temperature, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, responseFormat: $responseFormat, stream: $stream)';
+    return 'CreateThreadAndRunRequest(assistantId: $assistantId, thread: $thread, model: $model, instructions: $instructions, tools: $tools, metadata: $metadata, temperature: $temperature, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, responseFormat: $responseFormat, stream: $stream)';
   }
 
   @override
@@ -29593,6 +31014,8 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
                 other.maxCompletionTokens == maxCompletionTokens) &&
             (identical(other.truncationStrategy, truncationStrategy) ||
                 other.truncationStrategy == truncationStrategy) &&
+            (identical(other.toolChoice, toolChoice) ||
+                other.toolChoice == toolChoice) &&
             (identical(other.responseFormat, responseFormat) ||
                 other.responseFormat == responseFormat) &&
             (identical(other.stream, stream) || other.stream == stream));
@@ -29612,6 +31035,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
       maxPromptTokens,
       maxCompletionTokens,
       truncationStrategy,
+      toolChoice,
       responseFormat,
       stream);
 
@@ -29647,6 +31071,9 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
           final int? maxCompletionTokens,
           @JsonKey(name: 'truncation_strategy', includeIfNull: false)
           final TruncationObject? truncationStrategy,
+          @_CreateThreadAndRunRequestToolChoiceConverter()
+          @JsonKey(name: 'tool_choice', includeIfNull: false)
+          final CreateThreadAndRunRequestToolChoice? toolChoice,
           @_CreateThreadAndRunRequestResponseFormatConverter()
           @JsonKey(name: 'response_format', includeIfNull: false)
           final CreateThreadAndRunRequestResponseFormat? responseFormat,
@@ -29708,6 +31135,15 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   /// Thread truncation controls
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   TruncationObject? get truncationStrategy;
+  @override
+
+  /// Controls which (if any) tool is called by the model.
+  /// `none` means the model will not call any tools and instead generates a message.
+  /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
+  /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  @_CreateThreadAndRunRequestToolChoiceConverter()
+  @JsonKey(name: 'tool_choice', includeIfNull: false)
+  CreateThreadAndRunRequestToolChoice? get toolChoice;
   @override
 
   /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
@@ -30121,6 +31557,488 @@ abstract class ThreadAndRunModelString extends ThreadAndRunModel {
   String get value;
   @JsonKey(ignore: true)
   _$$ThreadAndRunModelStringImplCopyWith<_$ThreadAndRunModelStringImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+CreateThreadAndRunRequestToolChoice
+    _$CreateThreadAndRunRequestToolChoiceFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'mode':
+      return CreateThreadAndRunRequestToolChoiceEnumeration.fromJson(json);
+    case 'tool':
+      return CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice
+          .fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'runtimeType',
+          'CreateThreadAndRunRequestToolChoice',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$CreateThreadAndRunRequestToolChoice {
+  Object get value => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CreateThreadAndRunRequestToolChoiceMode value)
+        mode,
+    required TResult Function(AssistantsNamedToolChoice value) tool,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CreateThreadAndRunRequestToolChoiceMode value)? mode,
+    TResult? Function(AssistantsNamedToolChoice value)? tool,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CreateThreadAndRunRequestToolChoiceMode value)? mode,
+    TResult Function(AssistantsNamedToolChoice value)? tool,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            CreateThreadAndRunRequestToolChoiceEnumeration value)
+        mode,
+    required TResult Function(
+            CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice value)
+        tool,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateThreadAndRunRequestToolChoiceEnumeration value)?
+        mode,
+    TResult? Function(
+            CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice value)?
+        tool,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateThreadAndRunRequestToolChoiceEnumeration value)?
+        mode,
+    TResult Function(
+            CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice value)?
+        tool,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateThreadAndRunRequestToolChoiceCopyWith<$Res> {
+  factory $CreateThreadAndRunRequestToolChoiceCopyWith(
+          CreateThreadAndRunRequestToolChoice value,
+          $Res Function(CreateThreadAndRunRequestToolChoice) then) =
+      _$CreateThreadAndRunRequestToolChoiceCopyWithImpl<$Res,
+          CreateThreadAndRunRequestToolChoice>;
+}
+
+/// @nodoc
+class _$CreateThreadAndRunRequestToolChoiceCopyWithImpl<$Res,
+        $Val extends CreateThreadAndRunRequestToolChoice>
+    implements $CreateThreadAndRunRequestToolChoiceCopyWith<$Res> {
+  _$CreateThreadAndRunRequestToolChoiceCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$CreateThreadAndRunRequestToolChoiceEnumerationImplCopyWith<
+    $Res> {
+  factory _$$CreateThreadAndRunRequestToolChoiceEnumerationImplCopyWith(
+          _$CreateThreadAndRunRequestToolChoiceEnumerationImpl value,
+          $Res Function(_$CreateThreadAndRunRequestToolChoiceEnumerationImpl)
+              then) =
+      __$$CreateThreadAndRunRequestToolChoiceEnumerationImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({CreateThreadAndRunRequestToolChoiceMode value});
+}
+
+/// @nodoc
+class __$$CreateThreadAndRunRequestToolChoiceEnumerationImplCopyWithImpl<$Res>
+    extends _$CreateThreadAndRunRequestToolChoiceCopyWithImpl<$Res,
+        _$CreateThreadAndRunRequestToolChoiceEnumerationImpl>
+    implements
+        _$$CreateThreadAndRunRequestToolChoiceEnumerationImplCopyWith<$Res> {
+  __$$CreateThreadAndRunRequestToolChoiceEnumerationImplCopyWithImpl(
+      _$CreateThreadAndRunRequestToolChoiceEnumerationImpl _value,
+      $Res Function(_$CreateThreadAndRunRequestToolChoiceEnumerationImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$CreateThreadAndRunRequestToolChoiceEnumerationImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as CreateThreadAndRunRequestToolChoiceMode,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateThreadAndRunRequestToolChoiceEnumerationImpl
+    extends CreateThreadAndRunRequestToolChoiceEnumeration {
+  const _$CreateThreadAndRunRequestToolChoiceEnumerationImpl(this.value,
+      {final String? $type})
+      : $type = $type ?? 'mode',
+        super._();
+
+  factory _$CreateThreadAndRunRequestToolChoiceEnumerationImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$CreateThreadAndRunRequestToolChoiceEnumerationImplFromJson(json);
+
+  @override
+  final CreateThreadAndRunRequestToolChoiceMode value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'CreateThreadAndRunRequestToolChoice.mode(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateThreadAndRunRequestToolChoiceEnumerationImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateThreadAndRunRequestToolChoiceEnumerationImplCopyWith<
+          _$CreateThreadAndRunRequestToolChoiceEnumerationImpl>
+      get copyWith =>
+          __$$CreateThreadAndRunRequestToolChoiceEnumerationImplCopyWithImpl<
+                  _$CreateThreadAndRunRequestToolChoiceEnumerationImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CreateThreadAndRunRequestToolChoiceMode value)
+        mode,
+    required TResult Function(AssistantsNamedToolChoice value) tool,
+  }) {
+    return mode(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CreateThreadAndRunRequestToolChoiceMode value)? mode,
+    TResult? Function(AssistantsNamedToolChoice value)? tool,
+  }) {
+    return mode?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CreateThreadAndRunRequestToolChoiceMode value)? mode,
+    TResult Function(AssistantsNamedToolChoice value)? tool,
+    required TResult orElse(),
+  }) {
+    if (mode != null) {
+      return mode(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            CreateThreadAndRunRequestToolChoiceEnumeration value)
+        mode,
+    required TResult Function(
+            CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice value)
+        tool,
+  }) {
+    return mode(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateThreadAndRunRequestToolChoiceEnumeration value)?
+        mode,
+    TResult? Function(
+            CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice value)?
+        tool,
+  }) {
+    return mode?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateThreadAndRunRequestToolChoiceEnumeration value)?
+        mode,
+    TResult Function(
+            CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice value)?
+        tool,
+    required TResult orElse(),
+  }) {
+    if (mode != null) {
+      return mode(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateThreadAndRunRequestToolChoiceEnumerationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class CreateThreadAndRunRequestToolChoiceEnumeration
+    extends CreateThreadAndRunRequestToolChoice {
+  const factory CreateThreadAndRunRequestToolChoiceEnumeration(
+          final CreateThreadAndRunRequestToolChoiceMode value) =
+      _$CreateThreadAndRunRequestToolChoiceEnumerationImpl;
+  const CreateThreadAndRunRequestToolChoiceEnumeration._() : super._();
+
+  factory CreateThreadAndRunRequestToolChoiceEnumeration.fromJson(
+          Map<String, dynamic> json) =
+      _$CreateThreadAndRunRequestToolChoiceEnumerationImpl.fromJson;
+
+  @override
+  CreateThreadAndRunRequestToolChoiceMode get value;
+  @JsonKey(ignore: true)
+  _$$CreateThreadAndRunRequestToolChoiceEnumerationImplCopyWith<
+          _$CreateThreadAndRunRequestToolChoiceEnumerationImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWith<
+    $Res> {
+  factory _$$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWith(
+          _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl value,
+          $Res Function(
+                  _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl)
+              then) =
+      __$$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWithImpl<
+          $Res>;
+  @useResult
+  $Res call({AssistantsNamedToolChoice value});
+
+  $AssistantsNamedToolChoiceCopyWith<$Res> get value;
+}
+
+/// @nodoc
+class __$$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWithImpl<
+        $Res>
+    extends _$CreateThreadAndRunRequestToolChoiceCopyWithImpl<$Res,
+        _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl>
+    implements
+        _$$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWith<
+            $Res> {
+  __$$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWithImpl(
+      _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl _value,
+      $Res Function(
+              _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(
+        _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as AssistantsNamedToolChoice,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AssistantsNamedToolChoiceCopyWith<$Res> get value {
+    return $AssistantsNamedToolChoiceCopyWith<$Res>(_value.value, (value) {
+      return _then(_value.copyWith(value: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl
+    extends CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice {
+  const _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl(
+      this.value,
+      {final String? $type})
+      : $type = $type ?? 'tool',
+        super._();
+
+  factory _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImplFromJson(
+          json);
+
+  @override
+  final AssistantsNamedToolChoice value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'CreateThreadAndRunRequestToolChoice.tool(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other
+                is _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWith<
+          _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl>
+      get copyWith =>
+          __$$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWithImpl<
+                  _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CreateThreadAndRunRequestToolChoiceMode value)
+        mode,
+    required TResult Function(AssistantsNamedToolChoice value) tool,
+  }) {
+    return tool(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CreateThreadAndRunRequestToolChoiceMode value)? mode,
+    TResult? Function(AssistantsNamedToolChoice value)? tool,
+  }) {
+    return tool?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CreateThreadAndRunRequestToolChoiceMode value)? mode,
+    TResult Function(AssistantsNamedToolChoice value)? tool,
+    required TResult orElse(),
+  }) {
+    if (tool != null) {
+      return tool(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            CreateThreadAndRunRequestToolChoiceEnumeration value)
+        mode,
+    required TResult Function(
+            CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice value)
+        tool,
+  }) {
+    return tool(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateThreadAndRunRequestToolChoiceEnumeration value)?
+        mode,
+    TResult? Function(
+            CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice value)?
+        tool,
+  }) {
+    return tool?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateThreadAndRunRequestToolChoiceEnumeration value)?
+        mode,
+    TResult Function(
+            CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice value)?
+        tool,
+    required TResult orElse(),
+  }) {
+    if (tool != null) {
+      return tool(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice
+    extends CreateThreadAndRunRequestToolChoice {
+  const factory CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice(
+          final AssistantsNamedToolChoice value) =
+      _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl;
+  const CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice._()
+      : super._();
+
+  factory CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice.fromJson(
+          Map<String, dynamic> json) =
+      _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl
+      .fromJson;
+
+  @override
+  AssistantsNamedToolChoice get value;
+  @JsonKey(ignore: true)
+  _$$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWith<
+          _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 

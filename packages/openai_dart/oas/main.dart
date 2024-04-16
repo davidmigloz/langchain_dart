@@ -109,5 +109,11 @@ String? _onSchemaUnionFactoryName(
       'CreateRunRequestResponseFormatAssistantsResponseFormat' => 'format',
       'CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat' => 'format',
       'RunObjectResponseFormatAssistantsResponseFormat' => 'format',
+      'CreateRunRequestToolChoiceEnumeration' => 'mode',
+      'CreateThreadAndRunRequestToolChoiceEnumeration' => 'mode',
+      'RunObjectToolChoiceEnumeration' => 'mode',
+      'CreateRunRequestToolChoiceAssistantsNamedToolChoice' => 'tool',
+      'CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice' => 'tool',
+      'RunObjectToolChoiceAssistantsNamedToolChoice' => 'tool',
       _ => null,
     };
