@@ -2246,6 +2246,25 @@ Map<String, dynamic> _$$ListAssistantsResponseImplToJson(
       'has_more': instance.hasMore,
     };
 
+_$AssistantsResponseFormatImpl _$$AssistantsResponseFormatImplFromJson(
+        Map<String, dynamic> json) =>
+    _$AssistantsResponseFormatImpl(
+      type: $enumDecodeNullable(
+              _$AssistantsResponseFormatTypeEnumMap, json['type']) ??
+          AssistantsResponseFormatType.text,
+    );
+
+Map<String, dynamic> _$$AssistantsResponseFormatImplToJson(
+        _$AssistantsResponseFormatImpl instance) =>
+    <String, dynamic>{
+      'type': _$AssistantsResponseFormatTypeEnumMap[instance.type]!,
+    };
+
+const _$AssistantsResponseFormatTypeEnumMap = {
+  AssistantsResponseFormatType.text: 'text',
+  AssistantsResponseFormatType.jsonObject: 'json_object',
+};
+
 _$TruncationObjectImpl _$$TruncationObjectImplFromJson(
         Map<String, dynamic> json) =>
     _$TruncationObjectImpl(
@@ -2316,6 +2335,8 @@ _$RunObjectImpl _$$RunObjectImplFromJson(Map<String, dynamic> json) =>
           ? null
           : TruncationObject.fromJson(
               json['truncation_strategy'] as Map<String, dynamic>),
+      responseFormat: const _RunObjectResponseFormatConverter()
+          .fromJson(json['response_format']),
     );
 
 Map<String, dynamic> _$$RunObjectImplToJson(_$RunObjectImpl instance) {
@@ -2352,6 +2373,8 @@ Map<String, dynamic> _$$RunObjectImplToJson(_$RunObjectImpl instance) {
   val['max_prompt_tokens'] = instance.maxPromptTokens;
   val['max_completion_tokens'] = instance.maxCompletionTokens;
   val['truncation_strategy'] = instance.truncationStrategy?.toJson();
+  val['response_format'] =
+      const _RunObjectResponseFormatConverter().toJson(instance.responseFormat);
   return val;
 }
 
@@ -2435,6 +2458,43 @@ const _$RunObjectIncompleteDetailsReasonEnumMap = {
   RunObjectIncompleteDetailsReason.maxPromptTokens: 'max_prompt_tokens',
 };
 
+_$RunObjectResponseFormatEnumerationImpl
+    _$$RunObjectResponseFormatEnumerationImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunObjectResponseFormatEnumerationImpl(
+          $enumDecode(_$RunObjectResponseFormatModeEnumMap, json['value']),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$RunObjectResponseFormatEnumerationImplToJson(
+        _$RunObjectResponseFormatEnumerationImpl instance) =>
+    <String, dynamic>{
+      'value': _$RunObjectResponseFormatModeEnumMap[instance.value]!,
+      'runtimeType': instance.$type,
+    };
+
+const _$RunObjectResponseFormatModeEnumMap = {
+  RunObjectResponseFormatMode.none: 'none',
+  RunObjectResponseFormatMode.auto: 'auto',
+};
+
+_$RunObjectResponseFormatAssistantsResponseFormatImpl
+    _$$RunObjectResponseFormatAssistantsResponseFormatImplFromJson(
+            Map<String, dynamic> json) =>
+        _$RunObjectResponseFormatAssistantsResponseFormatImpl(
+          AssistantsResponseFormat.fromJson(
+              json['value'] as Map<String, dynamic>),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic>
+    _$$RunObjectResponseFormatAssistantsResponseFormatImplToJson(
+            _$RunObjectResponseFormatAssistantsResponseFormatImpl instance) =>
+        <String, dynamic>{
+          'value': instance.value.toJson(),
+          'runtimeType': instance.$type,
+        };
+
 _$RunSubmitToolOutputsImpl _$$RunSubmitToolOutputsImplFromJson(
         Map<String, dynamic> json) =>
     _$RunSubmitToolOutputsImpl(
@@ -2486,6 +2546,8 @@ _$CreateRunRequestImpl _$$CreateRunRequestImplFromJson(
           ? null
           : TruncationObject.fromJson(
               json['truncation_strategy'] as Map<String, dynamic>),
+      responseFormat: const _CreateRunRequestResponseFormatConverter()
+          .fromJson(json['response_format']),
       stream: json['stream'] as bool?,
     );
 
@@ -2513,6 +2575,10 @@ Map<String, dynamic> _$$CreateRunRequestImplToJson(
   writeNotNull('max_prompt_tokens', instance.maxPromptTokens);
   writeNotNull('max_completion_tokens', instance.maxCompletionTokens);
   writeNotNull('truncation_strategy', instance.truncationStrategy?.toJson());
+  writeNotNull(
+      'response_format',
+      const _CreateRunRequestResponseFormatConverter()
+          .toJson(instance.responseFormat));
   writeNotNull('stream', instance.stream);
   return val;
 }
@@ -2566,6 +2632,45 @@ Map<String, dynamic> _$$CreateRunRequestModelStringImplToJson(
       'value': instance.value,
       'runtimeType': instance.$type,
     };
+
+_$CreateRunRequestResponseFormatEnumerationImpl
+    _$$CreateRunRequestResponseFormatEnumerationImplFromJson(
+            Map<String, dynamic> json) =>
+        _$CreateRunRequestResponseFormatEnumerationImpl(
+          $enumDecode(
+              _$CreateRunRequestResponseFormatModeEnumMap, json['value']),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$CreateRunRequestResponseFormatEnumerationImplToJson(
+        _$CreateRunRequestResponseFormatEnumerationImpl instance) =>
+    <String, dynamic>{
+      'value': _$CreateRunRequestResponseFormatModeEnumMap[instance.value]!,
+      'runtimeType': instance.$type,
+    };
+
+const _$CreateRunRequestResponseFormatModeEnumMap = {
+  CreateRunRequestResponseFormatMode.none: 'none',
+  CreateRunRequestResponseFormatMode.auto: 'auto',
+};
+
+_$CreateRunRequestResponseFormatAssistantsResponseFormatImpl
+    _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplFromJson(
+            Map<String, dynamic> json) =>
+        _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl(
+          AssistantsResponseFormat.fromJson(
+              json['value'] as Map<String, dynamic>),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic>
+    _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplToJson(
+            _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl
+                instance) =>
+        <String, dynamic>{
+          'value': instance.value.toJson(),
+          'runtimeType': instance.$type,
+        };
 
 _$ListRunsResponseImpl _$$ListRunsResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -2712,6 +2817,8 @@ _$CreateThreadAndRunRequestImpl _$$CreateThreadAndRunRequestImplFromJson(
           ? null
           : TruncationObject.fromJson(
               json['truncation_strategy'] as Map<String, dynamic>),
+      responseFormat: const _CreateThreadAndRunRequestResponseFormatConverter()
+          .fromJson(json['response_format']),
       stream: json['stream'] as bool?,
     );
 
@@ -2737,6 +2844,10 @@ Map<String, dynamic> _$$CreateThreadAndRunRequestImplToJson(
   writeNotNull('max_prompt_tokens', instance.maxPromptTokens);
   writeNotNull('max_completion_tokens', instance.maxCompletionTokens);
   writeNotNull('truncation_strategy', instance.truncationStrategy?.toJson());
+  writeNotNull(
+      'response_format',
+      const _CreateThreadAndRunRequestResponseFormatConverter()
+          .toJson(instance.responseFormat));
   writeNotNull('stream', instance.stream);
   return val;
 }
@@ -2789,6 +2900,47 @@ Map<String, dynamic> _$$ThreadAndRunModelStringImplToJson(
       'value': instance.value,
       'runtimeType': instance.$type,
     };
+
+_$CreateThreadAndRunRequestResponseFormatEnumerationImpl
+    _$$CreateThreadAndRunRequestResponseFormatEnumerationImplFromJson(
+            Map<String, dynamic> json) =>
+        _$CreateThreadAndRunRequestResponseFormatEnumerationImpl(
+          $enumDecode(_$CreateThreadAndRunRequestResponseFormatModeEnumMap,
+              json['value']),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String,
+    dynamic> _$$CreateThreadAndRunRequestResponseFormatEnumerationImplToJson(
+        _$CreateThreadAndRunRequestResponseFormatEnumerationImpl instance) =>
+    <String, dynamic>{
+      'value':
+          _$CreateThreadAndRunRequestResponseFormatModeEnumMap[instance.value]!,
+      'runtimeType': instance.$type,
+    };
+
+const _$CreateThreadAndRunRequestResponseFormatModeEnumMap = {
+  CreateThreadAndRunRequestResponseFormatMode.none: 'none',
+  CreateThreadAndRunRequestResponseFormatMode.auto: 'auto',
+};
+
+_$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl
+    _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplFromJson(
+            Map<String, dynamic> json) =>
+        _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl(
+          AssistantsResponseFormat.fromJson(
+              json['value'] as Map<String, dynamic>),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic>
+    _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplToJson(
+            _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl
+                instance) =>
+        <String, dynamic>{
+          'value': instance.value.toJson(),
+          'runtimeType': instance.$type,
+        };
 
 _$ThreadObjectImpl _$$ThreadObjectImplFromJson(Map<String, dynamic> json) =>
     _$ThreadObjectImpl(

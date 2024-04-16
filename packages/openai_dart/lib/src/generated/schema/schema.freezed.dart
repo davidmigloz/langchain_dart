@@ -23690,6 +23690,158 @@ abstract class _ListAssistantsResponse extends ListAssistantsResponse {
       get copyWith => throw _privateConstructorUsedError;
 }
 
+AssistantsResponseFormat _$AssistantsResponseFormatFromJson(
+    Map<String, dynamic> json) {
+  return _AssistantsResponseFormat.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AssistantsResponseFormat {
+  /// Must be one of `text` or `json_object`.
+  AssistantsResponseFormatType get type => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AssistantsResponseFormatCopyWith<AssistantsResponseFormat> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AssistantsResponseFormatCopyWith<$Res> {
+  factory $AssistantsResponseFormatCopyWith(AssistantsResponseFormat value,
+          $Res Function(AssistantsResponseFormat) then) =
+      _$AssistantsResponseFormatCopyWithImpl<$Res, AssistantsResponseFormat>;
+  @useResult
+  $Res call({AssistantsResponseFormatType type});
+}
+
+/// @nodoc
+class _$AssistantsResponseFormatCopyWithImpl<$Res,
+        $Val extends AssistantsResponseFormat>
+    implements $AssistantsResponseFormatCopyWith<$Res> {
+  _$AssistantsResponseFormatCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as AssistantsResponseFormatType,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AssistantsResponseFormatImplCopyWith<$Res>
+    implements $AssistantsResponseFormatCopyWith<$Res> {
+  factory _$$AssistantsResponseFormatImplCopyWith(
+          _$AssistantsResponseFormatImpl value,
+          $Res Function(_$AssistantsResponseFormatImpl) then) =
+      __$$AssistantsResponseFormatImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({AssistantsResponseFormatType type});
+}
+
+/// @nodoc
+class __$$AssistantsResponseFormatImplCopyWithImpl<$Res>
+    extends _$AssistantsResponseFormatCopyWithImpl<$Res,
+        _$AssistantsResponseFormatImpl>
+    implements _$$AssistantsResponseFormatImplCopyWith<$Res> {
+  __$$AssistantsResponseFormatImplCopyWithImpl(
+      _$AssistantsResponseFormatImpl _value,
+      $Res Function(_$AssistantsResponseFormatImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_$AssistantsResponseFormatImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as AssistantsResponseFormatType,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AssistantsResponseFormatImpl extends _AssistantsResponseFormat {
+  const _$AssistantsResponseFormatImpl(
+      {this.type = AssistantsResponseFormatType.text})
+      : super._();
+
+  factory _$AssistantsResponseFormatImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AssistantsResponseFormatImplFromJson(json);
+
+  /// Must be one of `text` or `json_object`.
+  @override
+  @JsonKey()
+  final AssistantsResponseFormatType type;
+
+  @override
+  String toString() {
+    return 'AssistantsResponseFormat(type: $type)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AssistantsResponseFormatImpl &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AssistantsResponseFormatImplCopyWith<_$AssistantsResponseFormatImpl>
+      get copyWith => __$$AssistantsResponseFormatImplCopyWithImpl<
+          _$AssistantsResponseFormatImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AssistantsResponseFormatImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AssistantsResponseFormat extends AssistantsResponseFormat {
+  const factory _AssistantsResponseFormat(
+          {final AssistantsResponseFormatType type}) =
+      _$AssistantsResponseFormatImpl;
+  const _AssistantsResponseFormat._() : super._();
+
+  factory _AssistantsResponseFormat.fromJson(Map<String, dynamic> json) =
+      _$AssistantsResponseFormatImpl.fromJson;
+
+  @override
+
+  /// Must be one of `text` or `json_object`.
+  AssistantsResponseFormatType get type;
+  @override
+  @JsonKey(ignore: true)
+  _$$AssistantsResponseFormatImplCopyWith<_$AssistantsResponseFormatImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 TruncationObject _$TruncationObjectFromJson(Map<String, dynamic> json) {
   return _TruncationObject.fromJson(json);
 }
@@ -23964,6 +24116,16 @@ mixin _$RunObject {
   TruncationObject? get truncationStrategy =>
       throw _privateConstructorUsedError;
 
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @_RunObjectResponseFormatConverter()
+  @JsonKey(name: 'response_format')
+  RunObjectResponseFormat get responseFormat =>
+      throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $RunObjectCopyWith<RunObject> get copyWith =>
@@ -24001,13 +24163,17 @@ abstract class $RunObjectCopyWith<$Res> {
       @JsonKey(name: 'max_prompt_tokens') int? maxPromptTokens,
       @JsonKey(name: 'max_completion_tokens') int? maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy')
-      TruncationObject? truncationStrategy});
+      TruncationObject? truncationStrategy,
+      @_RunObjectResponseFormatConverter()
+      @JsonKey(name: 'response_format')
+      RunObjectResponseFormat responseFormat});
 
   $RunRequiredActionCopyWith<$Res>? get requiredAction;
   $RunLastErrorCopyWith<$Res>? get lastError;
   $RunObjectIncompleteDetailsCopyWith<$Res>? get incompleteDetails;
   $RunCompletionUsageCopyWith<$Res>? get usage;
   $TruncationObjectCopyWith<$Res>? get truncationStrategy;
+  $RunObjectResponseFormatCopyWith<$Res> get responseFormat;
 }
 
 /// @nodoc
@@ -24047,6 +24213,7 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
     Object? maxPromptTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
+    Object? responseFormat = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -24145,6 +24312,10 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
           ? _value.truncationStrategy
           : truncationStrategy // ignore: cast_nullable_to_non_nullable
               as TruncationObject?,
+      responseFormat: null == responseFormat
+          ? _value.responseFormat
+          : responseFormat // ignore: cast_nullable_to_non_nullable
+              as RunObjectResponseFormat,
     ) as $Val);
   }
 
@@ -24208,6 +24379,15 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
       return _then(_value.copyWith(truncationStrategy: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RunObjectResponseFormatCopyWith<$Res> get responseFormat {
+    return $RunObjectResponseFormatCopyWith<$Res>(_value.responseFormat,
+        (value) {
+      return _then(_value.copyWith(responseFormat: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -24244,7 +24424,10 @@ abstract class _$$RunObjectImplCopyWith<$Res>
       @JsonKey(name: 'max_prompt_tokens') int? maxPromptTokens,
       @JsonKey(name: 'max_completion_tokens') int? maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy')
-      TruncationObject? truncationStrategy});
+      TruncationObject? truncationStrategy,
+      @_RunObjectResponseFormatConverter()
+      @JsonKey(name: 'response_format')
+      RunObjectResponseFormat responseFormat});
 
   @override
   $RunRequiredActionCopyWith<$Res>? get requiredAction;
@@ -24256,6 +24439,8 @@ abstract class _$$RunObjectImplCopyWith<$Res>
   $RunCompletionUsageCopyWith<$Res>? get usage;
   @override
   $TruncationObjectCopyWith<$Res>? get truncationStrategy;
+  @override
+  $RunObjectResponseFormatCopyWith<$Res> get responseFormat;
 }
 
 /// @nodoc
@@ -24293,6 +24478,7 @@ class __$$RunObjectImplCopyWithImpl<$Res>
     Object? maxPromptTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
+    Object? responseFormat = null,
   }) {
     return _then(_$RunObjectImpl(
       id: null == id
@@ -24391,6 +24577,10 @@ class __$$RunObjectImplCopyWithImpl<$Res>
           ? _value.truncationStrategy
           : truncationStrategy // ignore: cast_nullable_to_non_nullable
               as TruncationObject?,
+      responseFormat: null == responseFormat
+          ? _value.responseFormat
+          : responseFormat // ignore: cast_nullable_to_non_nullable
+              as RunObjectResponseFormat,
     ));
   }
 }
@@ -24422,7 +24612,10 @@ class _$RunObjectImpl extends _RunObject {
       @JsonKey(includeIfNull: false) this.temperature,
       @JsonKey(name: 'max_prompt_tokens') required this.maxPromptTokens,
       @JsonKey(name: 'max_completion_tokens') required this.maxCompletionTokens,
-      @JsonKey(name: 'truncation_strategy') required this.truncationStrategy})
+      @JsonKey(name: 'truncation_strategy') required this.truncationStrategy,
+      @_RunObjectResponseFormatConverter()
+      @JsonKey(name: 'response_format')
+      required this.responseFormat})
       : _tools = tools,
         _fileIds = fileIds,
         _metadata = metadata,
@@ -24566,9 +24759,19 @@ class _$RunObjectImpl extends _RunObject {
   @JsonKey(name: 'truncation_strategy')
   final TruncationObject? truncationStrategy;
 
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @override
+  @_RunObjectResponseFormatConverter()
+  @JsonKey(name: 'response_format')
+  final RunObjectResponseFormat responseFormat;
+
   @override
   String toString() {
-    return 'RunObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, assistantId: $assistantId, status: $status, requiredAction: $requiredAction, lastError: $lastError, expiresAt: $expiresAt, startedAt: $startedAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, incompleteDetails: $incompleteDetails, model: $model, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata, usage: $usage, temperature: $temperature, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy)';
+    return 'RunObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, assistantId: $assistantId, status: $status, requiredAction: $requiredAction, lastError: $lastError, expiresAt: $expiresAt, startedAt: $startedAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, incompleteDetails: $incompleteDetails, model: $model, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata, usage: $usage, temperature: $temperature, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, responseFormat: $responseFormat)';
   }
 
   @override
@@ -24615,7 +24818,9 @@ class _$RunObjectImpl extends _RunObject {
             (identical(other.maxCompletionTokens, maxCompletionTokens) ||
                 other.maxCompletionTokens == maxCompletionTokens) &&
             (identical(other.truncationStrategy, truncationStrategy) ||
-                other.truncationStrategy == truncationStrategy));
+                other.truncationStrategy == truncationStrategy) &&
+            (identical(other.responseFormat, responseFormat) ||
+                other.responseFormat == responseFormat));
   }
 
   @JsonKey(ignore: true)
@@ -24645,7 +24850,8 @@ class _$RunObjectImpl extends _RunObject {
         temperature,
         maxPromptTokens,
         maxCompletionTokens,
-        truncationStrategy
+        truncationStrategy,
+        responseFormat
       ]);
 
   @JsonKey(ignore: true)
@@ -24691,7 +24897,10 @@ abstract class _RunObject extends RunObject {
       @JsonKey(name: 'max_completion_tokens')
       required final int? maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy')
-      required final TruncationObject? truncationStrategy}) = _$RunObjectImpl;
+      required final TruncationObject? truncationStrategy,
+      @_RunObjectResponseFormatConverter()
+      @JsonKey(name: 'response_format')
+      required final RunObjectResponseFormat responseFormat}) = _$RunObjectImpl;
   const _RunObject._() : super._();
 
   factory _RunObject.fromJson(Map<String, dynamic> json) =
@@ -24809,6 +25018,16 @@ abstract class _RunObject extends RunObject {
   /// Thread truncation controls
   @JsonKey(name: 'truncation_strategy')
   TruncationObject? get truncationStrategy;
+  @override
+
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @_RunObjectResponseFormatConverter()
+  @JsonKey(name: 'response_format')
+  RunObjectResponseFormat get responseFormat;
   @override
   @JsonKey(ignore: true)
   _$$RunObjectImplCopyWith<_$RunObjectImpl> get copyWith =>
@@ -25351,6 +25570,448 @@ abstract class _RunObjectIncompleteDetails extends RunObjectIncompleteDetails {
       get copyWith => throw _privateConstructorUsedError;
 }
 
+RunObjectResponseFormat _$RunObjectResponseFormatFromJson(
+    Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'mode':
+      return RunObjectResponseFormatEnumeration.fromJson(json);
+    case 'format':
+      return RunObjectResponseFormatAssistantsResponseFormat.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'runtimeType',
+          'RunObjectResponseFormat',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$RunObjectResponseFormat {
+  Object get value => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(RunObjectResponseFormatMode value) mode,
+    required TResult Function(AssistantsResponseFormat value) format,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(RunObjectResponseFormatMode value)? mode,
+    TResult? Function(AssistantsResponseFormat value)? format,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(RunObjectResponseFormatMode value)? mode,
+    TResult Function(AssistantsResponseFormat value)? format,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunObjectResponseFormatEnumeration value) mode,
+    required TResult Function(
+            RunObjectResponseFormatAssistantsResponseFormat value)
+        format,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunObjectResponseFormatEnumeration value)? mode,
+    TResult? Function(RunObjectResponseFormatAssistantsResponseFormat value)?
+        format,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunObjectResponseFormatEnumeration value)? mode,
+    TResult Function(RunObjectResponseFormatAssistantsResponseFormat value)?
+        format,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RunObjectResponseFormatCopyWith<$Res> {
+  factory $RunObjectResponseFormatCopyWith(RunObjectResponseFormat value,
+          $Res Function(RunObjectResponseFormat) then) =
+      _$RunObjectResponseFormatCopyWithImpl<$Res, RunObjectResponseFormat>;
+}
+
+/// @nodoc
+class _$RunObjectResponseFormatCopyWithImpl<$Res,
+        $Val extends RunObjectResponseFormat>
+    implements $RunObjectResponseFormatCopyWith<$Res> {
+  _$RunObjectResponseFormatCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$RunObjectResponseFormatEnumerationImplCopyWith<$Res> {
+  factory _$$RunObjectResponseFormatEnumerationImplCopyWith(
+          _$RunObjectResponseFormatEnumerationImpl value,
+          $Res Function(_$RunObjectResponseFormatEnumerationImpl) then) =
+      __$$RunObjectResponseFormatEnumerationImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({RunObjectResponseFormatMode value});
+}
+
+/// @nodoc
+class __$$RunObjectResponseFormatEnumerationImplCopyWithImpl<$Res>
+    extends _$RunObjectResponseFormatCopyWithImpl<$Res,
+        _$RunObjectResponseFormatEnumerationImpl>
+    implements _$$RunObjectResponseFormatEnumerationImplCopyWith<$Res> {
+  __$$RunObjectResponseFormatEnumerationImplCopyWithImpl(
+      _$RunObjectResponseFormatEnumerationImpl _value,
+      $Res Function(_$RunObjectResponseFormatEnumerationImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$RunObjectResponseFormatEnumerationImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as RunObjectResponseFormatMode,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunObjectResponseFormatEnumerationImpl
+    extends RunObjectResponseFormatEnumeration {
+  const _$RunObjectResponseFormatEnumerationImpl(this.value,
+      {final String? $type})
+      : $type = $type ?? 'mode',
+        super._();
+
+  factory _$RunObjectResponseFormatEnumerationImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunObjectResponseFormatEnumerationImplFromJson(json);
+
+  @override
+  final RunObjectResponseFormatMode value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'RunObjectResponseFormat.mode(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunObjectResponseFormatEnumerationImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunObjectResponseFormatEnumerationImplCopyWith<
+          _$RunObjectResponseFormatEnumerationImpl>
+      get copyWith => __$$RunObjectResponseFormatEnumerationImplCopyWithImpl<
+          _$RunObjectResponseFormatEnumerationImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(RunObjectResponseFormatMode value) mode,
+    required TResult Function(AssistantsResponseFormat value) format,
+  }) {
+    return mode(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(RunObjectResponseFormatMode value)? mode,
+    TResult? Function(AssistantsResponseFormat value)? format,
+  }) {
+    return mode?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(RunObjectResponseFormatMode value)? mode,
+    TResult Function(AssistantsResponseFormat value)? format,
+    required TResult orElse(),
+  }) {
+    if (mode != null) {
+      return mode(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunObjectResponseFormatEnumeration value) mode,
+    required TResult Function(
+            RunObjectResponseFormatAssistantsResponseFormat value)
+        format,
+  }) {
+    return mode(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunObjectResponseFormatEnumeration value)? mode,
+    TResult? Function(RunObjectResponseFormatAssistantsResponseFormat value)?
+        format,
+  }) {
+    return mode?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunObjectResponseFormatEnumeration value)? mode,
+    TResult Function(RunObjectResponseFormatAssistantsResponseFormat value)?
+        format,
+    required TResult orElse(),
+  }) {
+    if (mode != null) {
+      return mode(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunObjectResponseFormatEnumerationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunObjectResponseFormatEnumeration
+    extends RunObjectResponseFormat {
+  const factory RunObjectResponseFormatEnumeration(
+          final RunObjectResponseFormatMode value) =
+      _$RunObjectResponseFormatEnumerationImpl;
+  const RunObjectResponseFormatEnumeration._() : super._();
+
+  factory RunObjectResponseFormatEnumeration.fromJson(
+          Map<String, dynamic> json) =
+      _$RunObjectResponseFormatEnumerationImpl.fromJson;
+
+  @override
+  RunObjectResponseFormatMode get value;
+  @JsonKey(ignore: true)
+  _$$RunObjectResponseFormatEnumerationImplCopyWith<
+          _$RunObjectResponseFormatEnumerationImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWith<
+    $Res> {
+  factory _$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWith(
+          _$RunObjectResponseFormatAssistantsResponseFormatImpl value,
+          $Res Function(_$RunObjectResponseFormatAssistantsResponseFormatImpl)
+              then) =
+      __$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({AssistantsResponseFormat value});
+
+  $AssistantsResponseFormatCopyWith<$Res> get value;
+}
+
+/// @nodoc
+class __$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<$Res>
+    extends _$RunObjectResponseFormatCopyWithImpl<$Res,
+        _$RunObjectResponseFormatAssistantsResponseFormatImpl>
+    implements
+        _$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWith<$Res> {
+  __$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl(
+      _$RunObjectResponseFormatAssistantsResponseFormatImpl _value,
+      $Res Function(_$RunObjectResponseFormatAssistantsResponseFormatImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$RunObjectResponseFormatAssistantsResponseFormatImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as AssistantsResponseFormat,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AssistantsResponseFormatCopyWith<$Res> get value {
+    return $AssistantsResponseFormatCopyWith<$Res>(_value.value, (value) {
+      return _then(_value.copyWith(value: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RunObjectResponseFormatAssistantsResponseFormatImpl
+    extends RunObjectResponseFormatAssistantsResponseFormat {
+  const _$RunObjectResponseFormatAssistantsResponseFormatImpl(this.value,
+      {final String? $type})
+      : $type = $type ?? 'format',
+        super._();
+
+  factory _$RunObjectResponseFormatAssistantsResponseFormatImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$RunObjectResponseFormatAssistantsResponseFormatImplFromJson(json);
+
+  @override
+  final AssistantsResponseFormat value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'RunObjectResponseFormat.format(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RunObjectResponseFormatAssistantsResponseFormatImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWith<
+          _$RunObjectResponseFormatAssistantsResponseFormatImpl>
+      get copyWith =>
+          __$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+                  _$RunObjectResponseFormatAssistantsResponseFormatImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(RunObjectResponseFormatMode value) mode,
+    required TResult Function(AssistantsResponseFormat value) format,
+  }) {
+    return format(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(RunObjectResponseFormatMode value)? mode,
+    TResult? Function(AssistantsResponseFormat value)? format,
+  }) {
+    return format?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(RunObjectResponseFormatMode value)? mode,
+    TResult Function(AssistantsResponseFormat value)? format,
+    required TResult orElse(),
+  }) {
+    if (format != null) {
+      return format(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RunObjectResponseFormatEnumeration value) mode,
+    required TResult Function(
+            RunObjectResponseFormatAssistantsResponseFormat value)
+        format,
+  }) {
+    return format(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RunObjectResponseFormatEnumeration value)? mode,
+    TResult? Function(RunObjectResponseFormatAssistantsResponseFormat value)?
+        format,
+  }) {
+    return format?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RunObjectResponseFormatEnumeration value)? mode,
+    TResult Function(RunObjectResponseFormatAssistantsResponseFormat value)?
+        format,
+    required TResult orElse(),
+  }) {
+    if (format != null) {
+      return format(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RunObjectResponseFormatAssistantsResponseFormatImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RunObjectResponseFormatAssistantsResponseFormat
+    extends RunObjectResponseFormat {
+  const factory RunObjectResponseFormatAssistantsResponseFormat(
+          final AssistantsResponseFormat value) =
+      _$RunObjectResponseFormatAssistantsResponseFormatImpl;
+  const RunObjectResponseFormatAssistantsResponseFormat._() : super._();
+
+  factory RunObjectResponseFormatAssistantsResponseFormat.fromJson(
+          Map<String, dynamic> json) =
+      _$RunObjectResponseFormatAssistantsResponseFormatImpl.fromJson;
+
+  @override
+  AssistantsResponseFormat get value;
+  @JsonKey(ignore: true)
+  _$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWith<
+          _$RunObjectResponseFormatAssistantsResponseFormatImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 RunSubmitToolOutputs _$RunSubmitToolOutputsFromJson(Map<String, dynamic> json) {
   return _RunSubmitToolOutputs.fromJson(json);
 }
@@ -25780,6 +26441,16 @@ mixin _$CreateRunRequest {
   TruncationObject? get truncationStrategy =>
       throw _privateConstructorUsedError;
 
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @_CreateRunRequestResponseFormatConverter()
+  @JsonKey(name: 'response_format', includeIfNull: false)
+  CreateRunRequestResponseFormat? get responseFormat =>
+      throw _privateConstructorUsedError;
+
   /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
   @JsonKey(includeIfNull: false)
   bool? get stream => throw _privateConstructorUsedError;
@@ -25815,10 +26486,14 @@ abstract class $CreateRunRequestCopyWith<$Res> {
       int? maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy', includeIfNull: false)
       TruncationObject? truncationStrategy,
+      @_CreateRunRequestResponseFormatConverter()
+      @JsonKey(name: 'response_format', includeIfNull: false)
+      CreateRunRequestResponseFormat? responseFormat,
       @JsonKey(includeIfNull: false) bool? stream});
 
   $CreateRunRequestModelCopyWith<$Res>? get model;
   $TruncationObjectCopyWith<$Res>? get truncationStrategy;
+  $CreateRunRequestResponseFormatCopyWith<$Res>? get responseFormat;
 }
 
 /// @nodoc
@@ -25845,6 +26520,7 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
     Object? maxPromptTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
+    Object? responseFormat = freezed,
     Object? stream = freezed,
   }) {
     return _then(_value.copyWith(
@@ -25892,6 +26568,10 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
           ? _value.truncationStrategy
           : truncationStrategy // ignore: cast_nullable_to_non_nullable
               as TruncationObject?,
+      responseFormat: freezed == responseFormat
+          ? _value.responseFormat
+          : responseFormat // ignore: cast_nullable_to_non_nullable
+              as CreateRunRequestResponseFormat?,
       stream: freezed == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
@@ -25920,6 +26600,19 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
 
     return $TruncationObjectCopyWith<$Res>(_value.truncationStrategy!, (value) {
       return _then(_value.copyWith(truncationStrategy: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CreateRunRequestResponseFormatCopyWith<$Res>? get responseFormat {
+    if (_value.responseFormat == null) {
+      return null;
+    }
+
+    return $CreateRunRequestResponseFormatCopyWith<$Res>(_value.responseFormat!,
+        (value) {
+      return _then(_value.copyWith(responseFormat: value) as $Val);
     });
   }
 }
@@ -25951,12 +26644,17 @@ abstract class _$$CreateRunRequestImplCopyWith<$Res>
       int? maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy', includeIfNull: false)
       TruncationObject? truncationStrategy,
+      @_CreateRunRequestResponseFormatConverter()
+      @JsonKey(name: 'response_format', includeIfNull: false)
+      CreateRunRequestResponseFormat? responseFormat,
       @JsonKey(includeIfNull: false) bool? stream});
 
   @override
   $CreateRunRequestModelCopyWith<$Res>? get model;
   @override
   $TruncationObjectCopyWith<$Res>? get truncationStrategy;
+  @override
+  $CreateRunRequestResponseFormatCopyWith<$Res>? get responseFormat;
 }
 
 /// @nodoc
@@ -25981,6 +26679,7 @@ class __$$CreateRunRequestImplCopyWithImpl<$Res>
     Object? maxPromptTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
+    Object? responseFormat = freezed,
     Object? stream = freezed,
   }) {
     return _then(_$CreateRunRequestImpl(
@@ -26028,6 +26727,10 @@ class __$$CreateRunRequestImplCopyWithImpl<$Res>
           ? _value.truncationStrategy
           : truncationStrategy // ignore: cast_nullable_to_non_nullable
               as TruncationObject?,
+      responseFormat: freezed == responseFormat
+          ? _value.responseFormat
+          : responseFormat // ignore: cast_nullable_to_non_nullable
+              as CreateRunRequestResponseFormat?,
       stream: freezed == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
@@ -26058,6 +26761,9 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
       this.maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy', includeIfNull: false)
       this.truncationStrategy,
+      @_CreateRunRequestResponseFormatConverter()
+      @JsonKey(name: 'response_format', includeIfNull: false)
+      this.responseFormat,
       @JsonKey(includeIfNull: false) this.stream})
       : _additionalMessages = additionalMessages,
         _tools = tools,
@@ -26151,6 +26857,16 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   final TruncationObject? truncationStrategy;
 
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @override
+  @_CreateRunRequestResponseFormatConverter()
+  @JsonKey(name: 'response_format', includeIfNull: false)
+  final CreateRunRequestResponseFormat? responseFormat;
+
   /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
   @override
   @JsonKey(includeIfNull: false)
@@ -26158,7 +26874,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
 
   @override
   String toString() {
-    return 'CreateRunRequest(assistantId: $assistantId, model: $model, instructions: $instructions, additionalInstructions: $additionalInstructions, additionalMessages: $additionalMessages, tools: $tools, metadata: $metadata, temperature: $temperature, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, stream: $stream)';
+    return 'CreateRunRequest(assistantId: $assistantId, model: $model, instructions: $instructions, additionalInstructions: $additionalInstructions, additionalMessages: $additionalMessages, tools: $tools, metadata: $metadata, temperature: $temperature, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, responseFormat: $responseFormat, stream: $stream)';
   }
 
   @override
@@ -26185,6 +26901,8 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
                 other.maxCompletionTokens == maxCompletionTokens) &&
             (identical(other.truncationStrategy, truncationStrategy) ||
                 other.truncationStrategy == truncationStrategy) &&
+            (identical(other.responseFormat, responseFormat) ||
+                other.responseFormat == responseFormat) &&
             (identical(other.stream, stream) || other.stream == stream));
   }
 
@@ -26203,6 +26921,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
       maxPromptTokens,
       maxCompletionTokens,
       truncationStrategy,
+      responseFormat,
       stream);
 
   @JsonKey(ignore: true)
@@ -26240,6 +26959,9 @@ abstract class _CreateRunRequest extends CreateRunRequest {
           final int? maxCompletionTokens,
           @JsonKey(name: 'truncation_strategy', includeIfNull: false)
           final TruncationObject? truncationStrategy,
+          @_CreateRunRequestResponseFormatConverter()
+          @JsonKey(name: 'response_format', includeIfNull: false)
+          final CreateRunRequestResponseFormat? responseFormat,
           @JsonKey(includeIfNull: false) final bool? stream}) =
       _$CreateRunRequestImpl;
   const _CreateRunRequest._() : super._();
@@ -26303,6 +27025,16 @@ abstract class _CreateRunRequest extends CreateRunRequest {
   /// Thread truncation controls
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   TruncationObject? get truncationStrategy;
+  @override
+
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @_CreateRunRequestResponseFormatConverter()
+  @JsonKey(name: 'response_format', includeIfNull: false)
+  CreateRunRequestResponseFormat? get responseFormat;
   @override
 
   /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
@@ -26718,6 +27450,469 @@ abstract class CreateRunRequestModelString extends CreateRunRequestModel {
   String get value;
   @JsonKey(ignore: true)
   _$$CreateRunRequestModelStringImplCopyWith<_$CreateRunRequestModelStringImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+CreateRunRequestResponseFormat _$CreateRunRequestResponseFormatFromJson(
+    Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'mode':
+      return CreateRunRequestResponseFormatEnumeration.fromJson(json);
+    case 'format':
+      return CreateRunRequestResponseFormatAssistantsResponseFormat.fromJson(
+          json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'runtimeType',
+          'CreateRunRequestResponseFormat',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$CreateRunRequestResponseFormat {
+  Object get value => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CreateRunRequestResponseFormatMode value) mode,
+    required TResult Function(AssistantsResponseFormat value) format,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CreateRunRequestResponseFormatMode value)? mode,
+    TResult? Function(AssistantsResponseFormat value)? format,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CreateRunRequestResponseFormatMode value)? mode,
+    TResult Function(AssistantsResponseFormat value)? format,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(CreateRunRequestResponseFormatEnumeration value)
+        mode,
+    required TResult Function(
+            CreateRunRequestResponseFormatAssistantsResponseFormat value)
+        format,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateRunRequestResponseFormatEnumeration value)? mode,
+    TResult? Function(
+            CreateRunRequestResponseFormatAssistantsResponseFormat value)?
+        format,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateRunRequestResponseFormatEnumeration value)? mode,
+    TResult Function(
+            CreateRunRequestResponseFormatAssistantsResponseFormat value)?
+        format,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateRunRequestResponseFormatCopyWith<$Res> {
+  factory $CreateRunRequestResponseFormatCopyWith(
+          CreateRunRequestResponseFormat value,
+          $Res Function(CreateRunRequestResponseFormat) then) =
+      _$CreateRunRequestResponseFormatCopyWithImpl<$Res,
+          CreateRunRequestResponseFormat>;
+}
+
+/// @nodoc
+class _$CreateRunRequestResponseFormatCopyWithImpl<$Res,
+        $Val extends CreateRunRequestResponseFormat>
+    implements $CreateRunRequestResponseFormatCopyWith<$Res> {
+  _$CreateRunRequestResponseFormatCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$CreateRunRequestResponseFormatEnumerationImplCopyWith<$Res> {
+  factory _$$CreateRunRequestResponseFormatEnumerationImplCopyWith(
+          _$CreateRunRequestResponseFormatEnumerationImpl value,
+          $Res Function(_$CreateRunRequestResponseFormatEnumerationImpl) then) =
+      __$$CreateRunRequestResponseFormatEnumerationImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({CreateRunRequestResponseFormatMode value});
+}
+
+/// @nodoc
+class __$$CreateRunRequestResponseFormatEnumerationImplCopyWithImpl<$Res>
+    extends _$CreateRunRequestResponseFormatCopyWithImpl<$Res,
+        _$CreateRunRequestResponseFormatEnumerationImpl>
+    implements _$$CreateRunRequestResponseFormatEnumerationImplCopyWith<$Res> {
+  __$$CreateRunRequestResponseFormatEnumerationImplCopyWithImpl(
+      _$CreateRunRequestResponseFormatEnumerationImpl _value,
+      $Res Function(_$CreateRunRequestResponseFormatEnumerationImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$CreateRunRequestResponseFormatEnumerationImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as CreateRunRequestResponseFormatMode,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateRunRequestResponseFormatEnumerationImpl
+    extends CreateRunRequestResponseFormatEnumeration {
+  const _$CreateRunRequestResponseFormatEnumerationImpl(this.value,
+      {final String? $type})
+      : $type = $type ?? 'mode',
+        super._();
+
+  factory _$CreateRunRequestResponseFormatEnumerationImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$CreateRunRequestResponseFormatEnumerationImplFromJson(json);
+
+  @override
+  final CreateRunRequestResponseFormatMode value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'CreateRunRequestResponseFormat.mode(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateRunRequestResponseFormatEnumerationImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateRunRequestResponseFormatEnumerationImplCopyWith<
+          _$CreateRunRequestResponseFormatEnumerationImpl>
+      get copyWith =>
+          __$$CreateRunRequestResponseFormatEnumerationImplCopyWithImpl<
+                  _$CreateRunRequestResponseFormatEnumerationImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CreateRunRequestResponseFormatMode value) mode,
+    required TResult Function(AssistantsResponseFormat value) format,
+  }) {
+    return mode(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CreateRunRequestResponseFormatMode value)? mode,
+    TResult? Function(AssistantsResponseFormat value)? format,
+  }) {
+    return mode?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CreateRunRequestResponseFormatMode value)? mode,
+    TResult Function(AssistantsResponseFormat value)? format,
+    required TResult orElse(),
+  }) {
+    if (mode != null) {
+      return mode(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(CreateRunRequestResponseFormatEnumeration value)
+        mode,
+    required TResult Function(
+            CreateRunRequestResponseFormatAssistantsResponseFormat value)
+        format,
+  }) {
+    return mode(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateRunRequestResponseFormatEnumeration value)? mode,
+    TResult? Function(
+            CreateRunRequestResponseFormatAssistantsResponseFormat value)?
+        format,
+  }) {
+    return mode?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateRunRequestResponseFormatEnumeration value)? mode,
+    TResult Function(
+            CreateRunRequestResponseFormatAssistantsResponseFormat value)?
+        format,
+    required TResult orElse(),
+  }) {
+    if (mode != null) {
+      return mode(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateRunRequestResponseFormatEnumerationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class CreateRunRequestResponseFormatEnumeration
+    extends CreateRunRequestResponseFormat {
+  const factory CreateRunRequestResponseFormatEnumeration(
+          final CreateRunRequestResponseFormatMode value) =
+      _$CreateRunRequestResponseFormatEnumerationImpl;
+  const CreateRunRequestResponseFormatEnumeration._() : super._();
+
+  factory CreateRunRequestResponseFormatEnumeration.fromJson(
+          Map<String, dynamic> json) =
+      _$CreateRunRequestResponseFormatEnumerationImpl.fromJson;
+
+  @override
+  CreateRunRequestResponseFormatMode get value;
+  @JsonKey(ignore: true)
+  _$$CreateRunRequestResponseFormatEnumerationImplCopyWith<
+          _$CreateRunRequestResponseFormatEnumerationImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+    $Res> {
+  factory _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWith(
+          _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl value,
+          $Res Function(
+                  _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl)
+              then) =
+      __$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+          $Res>;
+  @useResult
+  $Res call({AssistantsResponseFormat value});
+
+  $AssistantsResponseFormatCopyWith<$Res> get value;
+}
+
+/// @nodoc
+class __$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+        $Res>
+    extends _$CreateRunRequestResponseFormatCopyWithImpl<$Res,
+        _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl>
+    implements
+        _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+            $Res> {
+  __$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl(
+      _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl _value,
+      $Res Function(
+              _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$CreateRunRequestResponseFormatAssistantsResponseFormatImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as AssistantsResponseFormat,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AssistantsResponseFormatCopyWith<$Res> get value {
+    return $AssistantsResponseFormatCopyWith<$Res>(_value.value, (value) {
+      return _then(_value.copyWith(value: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl
+    extends CreateRunRequestResponseFormatAssistantsResponseFormat {
+  const _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl(this.value,
+      {final String? $type})
+      : $type = $type ?? 'format',
+        super._();
+
+  factory _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplFromJson(
+          json);
+
+  @override
+  final AssistantsResponseFormat value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'CreateRunRequestResponseFormat.format(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other
+                is _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+          _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl>
+      get copyWith =>
+          __$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+                  _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CreateRunRequestResponseFormatMode value) mode,
+    required TResult Function(AssistantsResponseFormat value) format,
+  }) {
+    return format(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CreateRunRequestResponseFormatMode value)? mode,
+    TResult? Function(AssistantsResponseFormat value)? format,
+  }) {
+    return format?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CreateRunRequestResponseFormatMode value)? mode,
+    TResult Function(AssistantsResponseFormat value)? format,
+    required TResult orElse(),
+  }) {
+    if (format != null) {
+      return format(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(CreateRunRequestResponseFormatEnumeration value)
+        mode,
+    required TResult Function(
+            CreateRunRequestResponseFormatAssistantsResponseFormat value)
+        format,
+  }) {
+    return format(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateRunRequestResponseFormatEnumeration value)? mode,
+    TResult? Function(
+            CreateRunRequestResponseFormatAssistantsResponseFormat value)?
+        format,
+  }) {
+    return format?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateRunRequestResponseFormatEnumeration value)? mode,
+    TResult Function(
+            CreateRunRequestResponseFormatAssistantsResponseFormat value)?
+        format,
+    required TResult orElse(),
+  }) {
+    if (format != null) {
+      return format(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class CreateRunRequestResponseFormatAssistantsResponseFormat
+    extends CreateRunRequestResponseFormat {
+  const factory CreateRunRequestResponseFormatAssistantsResponseFormat(
+          final AssistantsResponseFormat value) =
+      _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl;
+  const CreateRunRequestResponseFormatAssistantsResponseFormat._() : super._();
+
+  factory CreateRunRequestResponseFormatAssistantsResponseFormat.fromJson(
+          Map<String, dynamic> json) =
+      _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl.fromJson;
+
+  @override
+  AssistantsResponseFormat get value;
+  @JsonKey(ignore: true)
+  _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+          _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -27959,6 +29154,16 @@ mixin _$CreateThreadAndRunRequest {
   TruncationObject? get truncationStrategy =>
       throw _privateConstructorUsedError;
 
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @_CreateThreadAndRunRequestResponseFormatConverter()
+  @JsonKey(name: 'response_format', includeIfNull: false)
+  CreateThreadAndRunRequestResponseFormat? get responseFormat =>
+      throw _privateConstructorUsedError;
+
   /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
   @JsonKey(includeIfNull: false)
   bool? get stream => throw _privateConstructorUsedError;
@@ -27991,11 +29196,15 @@ abstract class $CreateThreadAndRunRequestCopyWith<$Res> {
       int? maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy', includeIfNull: false)
       TruncationObject? truncationStrategy,
+      @_CreateThreadAndRunRequestResponseFormatConverter()
+      @JsonKey(name: 'response_format', includeIfNull: false)
+      CreateThreadAndRunRequestResponseFormat? responseFormat,
       @JsonKey(includeIfNull: false) bool? stream});
 
   $CreateThreadRequestCopyWith<$Res>? get thread;
   $ThreadAndRunModelCopyWith<$Res>? get model;
   $TruncationObjectCopyWith<$Res>? get truncationStrategy;
+  $CreateThreadAndRunRequestResponseFormatCopyWith<$Res>? get responseFormat;
 }
 
 /// @nodoc
@@ -28022,6 +29231,7 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
     Object? maxPromptTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
+    Object? responseFormat = freezed,
     Object? stream = freezed,
   }) {
     return _then(_value.copyWith(
@@ -28065,6 +29275,10 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
           ? _value.truncationStrategy
           : truncationStrategy // ignore: cast_nullable_to_non_nullable
               as TruncationObject?,
+      responseFormat: freezed == responseFormat
+          ? _value.responseFormat
+          : responseFormat // ignore: cast_nullable_to_non_nullable
+              as CreateThreadAndRunRequestResponseFormat?,
       stream: freezed == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
@@ -28107,6 +29321,19 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
       return _then(_value.copyWith(truncationStrategy: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CreateThreadAndRunRequestResponseFormatCopyWith<$Res>? get responseFormat {
+    if (_value.responseFormat == null) {
+      return null;
+    }
+
+    return $CreateThreadAndRunRequestResponseFormatCopyWith<$Res>(
+        _value.responseFormat!, (value) {
+      return _then(_value.copyWith(responseFormat: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -28134,6 +29361,9 @@ abstract class _$$CreateThreadAndRunRequestImplCopyWith<$Res>
       int? maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy', includeIfNull: false)
       TruncationObject? truncationStrategy,
+      @_CreateThreadAndRunRequestResponseFormatConverter()
+      @JsonKey(name: 'response_format', includeIfNull: false)
+      CreateThreadAndRunRequestResponseFormat? responseFormat,
       @JsonKey(includeIfNull: false) bool? stream});
 
   @override
@@ -28142,6 +29372,8 @@ abstract class _$$CreateThreadAndRunRequestImplCopyWith<$Res>
   $ThreadAndRunModelCopyWith<$Res>? get model;
   @override
   $TruncationObjectCopyWith<$Res>? get truncationStrategy;
+  @override
+  $CreateThreadAndRunRequestResponseFormatCopyWith<$Res>? get responseFormat;
 }
 
 /// @nodoc
@@ -28167,6 +29399,7 @@ class __$$CreateThreadAndRunRequestImplCopyWithImpl<$Res>
     Object? maxPromptTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
+    Object? responseFormat = freezed,
     Object? stream = freezed,
   }) {
     return _then(_$CreateThreadAndRunRequestImpl(
@@ -28210,6 +29443,10 @@ class __$$CreateThreadAndRunRequestImplCopyWithImpl<$Res>
           ? _value.truncationStrategy
           : truncationStrategy // ignore: cast_nullable_to_non_nullable
               as TruncationObject?,
+      responseFormat: freezed == responseFormat
+          ? _value.responseFormat
+          : responseFormat // ignore: cast_nullable_to_non_nullable
+              as CreateThreadAndRunRequestResponseFormat?,
       stream: freezed == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
@@ -28235,6 +29472,9 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
       this.maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy', includeIfNull: false)
       this.truncationStrategy,
+      @_CreateThreadAndRunRequestResponseFormatConverter()
+      @JsonKey(name: 'response_format', includeIfNull: false)
+      this.responseFormat,
       @JsonKey(includeIfNull: false) this.stream})
       : _tools = tools,
         _metadata = metadata,
@@ -28312,6 +29552,16 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   final TruncationObject? truncationStrategy;
 
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @override
+  @_CreateThreadAndRunRequestResponseFormatConverter()
+  @JsonKey(name: 'response_format', includeIfNull: false)
+  final CreateThreadAndRunRequestResponseFormat? responseFormat;
+
   /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
   @override
   @JsonKey(includeIfNull: false)
@@ -28319,7 +29569,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
 
   @override
   String toString() {
-    return 'CreateThreadAndRunRequest(assistantId: $assistantId, thread: $thread, model: $model, instructions: $instructions, tools: $tools, metadata: $metadata, temperature: $temperature, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, stream: $stream)';
+    return 'CreateThreadAndRunRequest(assistantId: $assistantId, thread: $thread, model: $model, instructions: $instructions, tools: $tools, metadata: $metadata, temperature: $temperature, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, responseFormat: $responseFormat, stream: $stream)';
   }
 
   @override
@@ -28343,6 +29593,8 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
                 other.maxCompletionTokens == maxCompletionTokens) &&
             (identical(other.truncationStrategy, truncationStrategy) ||
                 other.truncationStrategy == truncationStrategy) &&
+            (identical(other.responseFormat, responseFormat) ||
+                other.responseFormat == responseFormat) &&
             (identical(other.stream, stream) || other.stream == stream));
   }
 
@@ -28360,6 +29612,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
       maxPromptTokens,
       maxCompletionTokens,
       truncationStrategy,
+      responseFormat,
       stream);
 
   @JsonKey(ignore: true)
@@ -28394,6 +29647,9 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
           final int? maxCompletionTokens,
           @JsonKey(name: 'truncation_strategy', includeIfNull: false)
           final TruncationObject? truncationStrategy,
+          @_CreateThreadAndRunRequestResponseFormatConverter()
+          @JsonKey(name: 'response_format', includeIfNull: false)
+          final CreateThreadAndRunRequestResponseFormat? responseFormat,
           @JsonKey(includeIfNull: false) final bool? stream}) =
       _$CreateThreadAndRunRequestImpl;
   const _CreateThreadAndRunRequest._() : super._();
@@ -28452,6 +29708,16 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   /// Thread truncation controls
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   TruncationObject? get truncationStrategy;
+  @override
+
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @_CreateThreadAndRunRequestResponseFormatConverter()
+  @JsonKey(name: 'response_format', includeIfNull: false)
+  CreateThreadAndRunRequestResponseFormat? get responseFormat;
   @override
 
   /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
@@ -28855,6 +30121,506 @@ abstract class ThreadAndRunModelString extends ThreadAndRunModel {
   String get value;
   @JsonKey(ignore: true)
   _$$ThreadAndRunModelStringImplCopyWith<_$ThreadAndRunModelStringImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+CreateThreadAndRunRequestResponseFormat
+    _$CreateThreadAndRunRequestResponseFormatFromJson(
+        Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'mode':
+      return CreateThreadAndRunRequestResponseFormatEnumeration.fromJson(json);
+    case 'format':
+      return CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
+          .fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'runtimeType',
+          'CreateThreadAndRunRequestResponseFormat',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$CreateThreadAndRunRequestResponseFormat {
+  Object get value => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CreateThreadAndRunRequestResponseFormatMode value)
+        mode,
+    required TResult Function(AssistantsResponseFormat value) format,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CreateThreadAndRunRequestResponseFormatMode value)? mode,
+    TResult? Function(AssistantsResponseFormat value)? format,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CreateThreadAndRunRequestResponseFormatMode value)? mode,
+    TResult Function(AssistantsResponseFormat value)? format,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            CreateThreadAndRunRequestResponseFormatEnumeration value)
+        mode,
+    required TResult Function(
+            CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
+                value)
+        format,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateThreadAndRunRequestResponseFormatEnumeration value)?
+        mode,
+    TResult? Function(
+            CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
+                value)?
+        format,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateThreadAndRunRequestResponseFormatEnumeration value)?
+        mode,
+    TResult Function(
+            CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
+                value)?
+        format,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateThreadAndRunRequestResponseFormatCopyWith<$Res> {
+  factory $CreateThreadAndRunRequestResponseFormatCopyWith(
+          CreateThreadAndRunRequestResponseFormat value,
+          $Res Function(CreateThreadAndRunRequestResponseFormat) then) =
+      _$CreateThreadAndRunRequestResponseFormatCopyWithImpl<$Res,
+          CreateThreadAndRunRequestResponseFormat>;
+}
+
+/// @nodoc
+class _$CreateThreadAndRunRequestResponseFormatCopyWithImpl<$Res,
+        $Val extends CreateThreadAndRunRequestResponseFormat>
+    implements $CreateThreadAndRunRequestResponseFormatCopyWith<$Res> {
+  _$CreateThreadAndRunRequestResponseFormatCopyWithImpl(
+      this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$CreateThreadAndRunRequestResponseFormatEnumerationImplCopyWith<
+    $Res> {
+  factory _$$CreateThreadAndRunRequestResponseFormatEnumerationImplCopyWith(
+          _$CreateThreadAndRunRequestResponseFormatEnumerationImpl value,
+          $Res Function(
+                  _$CreateThreadAndRunRequestResponseFormatEnumerationImpl)
+              then) =
+      __$$CreateThreadAndRunRequestResponseFormatEnumerationImplCopyWithImpl<
+          $Res>;
+  @useResult
+  $Res call({CreateThreadAndRunRequestResponseFormatMode value});
+}
+
+/// @nodoc
+class __$$CreateThreadAndRunRequestResponseFormatEnumerationImplCopyWithImpl<
+        $Res>
+    extends _$CreateThreadAndRunRequestResponseFormatCopyWithImpl<$Res,
+        _$CreateThreadAndRunRequestResponseFormatEnumerationImpl>
+    implements
+        _$$CreateThreadAndRunRequestResponseFormatEnumerationImplCopyWith<
+            $Res> {
+  __$$CreateThreadAndRunRequestResponseFormatEnumerationImplCopyWithImpl(
+      _$CreateThreadAndRunRequestResponseFormatEnumerationImpl _value,
+      $Res Function(_$CreateThreadAndRunRequestResponseFormatEnumerationImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$CreateThreadAndRunRequestResponseFormatEnumerationImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as CreateThreadAndRunRequestResponseFormatMode,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateThreadAndRunRequestResponseFormatEnumerationImpl
+    extends CreateThreadAndRunRequestResponseFormatEnumeration {
+  const _$CreateThreadAndRunRequestResponseFormatEnumerationImpl(this.value,
+      {final String? $type})
+      : $type = $type ?? 'mode',
+        super._();
+
+  factory _$CreateThreadAndRunRequestResponseFormatEnumerationImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$CreateThreadAndRunRequestResponseFormatEnumerationImplFromJson(json);
+
+  @override
+  final CreateThreadAndRunRequestResponseFormatMode value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'CreateThreadAndRunRequestResponseFormat.mode(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateThreadAndRunRequestResponseFormatEnumerationImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateThreadAndRunRequestResponseFormatEnumerationImplCopyWith<
+          _$CreateThreadAndRunRequestResponseFormatEnumerationImpl>
+      get copyWith =>
+          __$$CreateThreadAndRunRequestResponseFormatEnumerationImplCopyWithImpl<
+                  _$CreateThreadAndRunRequestResponseFormatEnumerationImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CreateThreadAndRunRequestResponseFormatMode value)
+        mode,
+    required TResult Function(AssistantsResponseFormat value) format,
+  }) {
+    return mode(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CreateThreadAndRunRequestResponseFormatMode value)? mode,
+    TResult? Function(AssistantsResponseFormat value)? format,
+  }) {
+    return mode?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CreateThreadAndRunRequestResponseFormatMode value)? mode,
+    TResult Function(AssistantsResponseFormat value)? format,
+    required TResult orElse(),
+  }) {
+    if (mode != null) {
+      return mode(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            CreateThreadAndRunRequestResponseFormatEnumeration value)
+        mode,
+    required TResult Function(
+            CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
+                value)
+        format,
+  }) {
+    return mode(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateThreadAndRunRequestResponseFormatEnumeration value)?
+        mode,
+    TResult? Function(
+            CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
+                value)?
+        format,
+  }) {
+    return mode?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateThreadAndRunRequestResponseFormatEnumeration value)?
+        mode,
+    TResult Function(
+            CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
+                value)?
+        format,
+    required TResult orElse(),
+  }) {
+    if (mode != null) {
+      return mode(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateThreadAndRunRequestResponseFormatEnumerationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class CreateThreadAndRunRequestResponseFormatEnumeration
+    extends CreateThreadAndRunRequestResponseFormat {
+  const factory CreateThreadAndRunRequestResponseFormatEnumeration(
+          final CreateThreadAndRunRequestResponseFormatMode value) =
+      _$CreateThreadAndRunRequestResponseFormatEnumerationImpl;
+  const CreateThreadAndRunRequestResponseFormatEnumeration._() : super._();
+
+  factory CreateThreadAndRunRequestResponseFormatEnumeration.fromJson(
+          Map<String, dynamic> json) =
+      _$CreateThreadAndRunRequestResponseFormatEnumerationImpl.fromJson;
+
+  @override
+  CreateThreadAndRunRequestResponseFormatMode get value;
+  @JsonKey(ignore: true)
+  _$$CreateThreadAndRunRequestResponseFormatEnumerationImplCopyWith<
+          _$CreateThreadAndRunRequestResponseFormatEnumerationImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+    $Res> {
+  factory _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWith(
+          _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl
+              value,
+          $Res Function(
+                  _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl)
+              then) =
+      __$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+          $Res>;
+  @useResult
+  $Res call({AssistantsResponseFormat value});
+
+  $AssistantsResponseFormatCopyWith<$Res> get value;
+}
+
+/// @nodoc
+class __$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+        $Res>
+    extends _$CreateThreadAndRunRequestResponseFormatCopyWithImpl<$Res,
+        _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl>
+    implements
+        _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+            $Res> {
+  __$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl(
+      _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl
+          _value,
+      $Res Function(
+              _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(
+        _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as AssistantsResponseFormat,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AssistantsResponseFormatCopyWith<$Res> get value {
+    return $AssistantsResponseFormatCopyWith<$Res>(_value.value, (value) {
+      return _then(_value.copyWith(value: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl
+    extends CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat {
+  const _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl(
+      this.value,
+      {final String? $type})
+      : $type = $type ?? 'format',
+        super._();
+
+  factory _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplFromJson(
+          json);
+
+  @override
+  final AssistantsResponseFormat value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'CreateThreadAndRunRequestResponseFormat.format(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other
+                is _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+          _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl>
+      get copyWith =>
+          __$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+                  _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CreateThreadAndRunRequestResponseFormatMode value)
+        mode,
+    required TResult Function(AssistantsResponseFormat value) format,
+  }) {
+    return format(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CreateThreadAndRunRequestResponseFormatMode value)? mode,
+    TResult? Function(AssistantsResponseFormat value)? format,
+  }) {
+    return format?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CreateThreadAndRunRequestResponseFormatMode value)? mode,
+    TResult Function(AssistantsResponseFormat value)? format,
+    required TResult orElse(),
+  }) {
+    if (format != null) {
+      return format(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            CreateThreadAndRunRequestResponseFormatEnumeration value)
+        mode,
+    required TResult Function(
+            CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
+                value)
+        format,
+  }) {
+    return format(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateThreadAndRunRequestResponseFormatEnumeration value)?
+        mode,
+    TResult? Function(
+            CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
+                value)?
+        format,
+  }) {
+    return format?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateThreadAndRunRequestResponseFormatEnumeration value)?
+        mode,
+    TResult Function(
+            CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
+                value)?
+        format,
+    required TResult orElse(),
+  }) {
+    if (format != null) {
+      return format(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
+    extends CreateThreadAndRunRequestResponseFormat {
+  const factory CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat(
+          final AssistantsResponseFormat value) =
+      _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl;
+  const CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat._()
+      : super._();
+
+  factory CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat.fromJson(
+          Map<String, dynamic> json) =
+      _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl
+      .fromJson;
+
+  @override
+  AssistantsResponseFormat get value;
+  @JsonKey(ignore: true)
+  _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+          _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 

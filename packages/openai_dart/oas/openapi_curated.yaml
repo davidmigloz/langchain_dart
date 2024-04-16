@@ -3345,32 +3345,18 @@ components:
 #          description: The name of the function to call.
 #      required:
 #        - name
-#    AssistantsResponseFormatOption:
-#      description: |
-#        Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
-#
-#        Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
-#
-#        **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
-#      oneOf:
-#        - type: string
-#          title: AssistantsResponseFormatMode
-#          description: >
-#            `auto` is the default value
-#          enum: [none, auto]
-#        - $ref: "#/components/schemas/AssistantsResponseFormat"
-#    AssistantsResponseFormat:
-#      type: object
-#      description: |
-#        An object describing the expected output of the model. If `json_object` only `function` type `tools` are allowed to be passed to the Run. If `text` the model can return text or any value needed.
-#      properties:
-#        type:
-#          type: string
-#          title: AssistantsResponseFormatType
-#          enum: ["text", "json_object"]
-#          example: "json_object"
-#          default: "text"
-#          description: Must be one of `text` or `json_object`.
+    AssistantsResponseFormat:
+      type: object
+      description: |
+        An object describing the expected output of the model. If `json_object` only `function` type `tools` are allowed to be passed to the Run. If `text` the model can return text or any value needed.
+      properties:
+        type:
+          type: string
+          title: AssistantsResponseFormatType
+          enum: ["text", "json_object"]
+          example: "json_object"
+          default: "text"
+          description: Must be one of `text` or `json_object`.
     TruncationObject:
       type: object
       description: Thread truncation controls
@@ -3540,9 +3526,20 @@ components:
 #        tool_choice:
 #          $ref: "#/components/schemas/AssistantsToolChoiceOption"
 #          nullable: true
-#        response_format:
-#          $ref: "#/components/schemas/AssistantsResponseFormatOption"
-#          nullable: true
+        response_format:
+          description: |
+            Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+    
+            Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+    
+            **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+          oneOf:
+            - type: string
+              title: RunObjectResponseFormatMode
+              description: >
+                `auto` is the default value
+              enum: [none, auto]
+            - $ref: "#/components/schemas/AssistantsResponseFormat"
       required:
         - id
         - object
@@ -3680,9 +3677,20 @@ components:
 #        tool_choice:
 #          $ref: "#/components/schemas/AssistantsToolChoiceOption"
 #          nullable: true
-#        response_format:
-#          $ref: "#/components/schemas/AssistantsResponseFormatOption"
-#          nullable: true
+        response_format:
+          description: |
+            Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+            
+            Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+            
+            **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+          oneOf:
+            - type: string
+              title: CreateRunRequestResponseFormatMode
+              description: >
+                `auto` is the default value
+              enum: [none, auto]
+            - $ref: "#/components/schemas/AssistantsResponseFormat"
         stream:
           type: boolean
           nullable: true
@@ -3872,9 +3880,20 @@ components:
 #        tool_choice:
 #          $ref: "#/components/schemas/AssistantsToolChoiceOption"
 #          nullable: true
-#        response_format:
-#          $ref: "#/components/schemas/AssistantsResponseFormatOption"
-#          nullable: true
+        response_format:
+          description: |
+            Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+            
+            Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+            
+            **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+          oneOf:
+            - type: string
+              title: CreateThreadAndRunRequestResponseFormatMode
+              description: >
+                `auto` is the default value
+              enum: [none, auto]
+            - $ref: "#/components/schemas/AssistantsResponseFormat"
         stream:
           type: boolean
           nullable: true

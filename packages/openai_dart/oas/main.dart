@@ -103,5 +103,11 @@ String? _onSchemaUnionFactoryName(
       'RunStepDeltaStepDetailsMessageCreationObject' => 'messageCreation',
       'RunStepDetailsToolCallsObject' => 'toolCalls',
       'RunStepDeltaStepDetailsToolCallsObject' => 'toolCalls',
+      'CreateRunRequestResponseFormatEnumeration' => 'mode',
+      'CreateThreadAndRunRequestResponseFormatEnumeration' => 'mode',
+      'RunObjectResponseFormatEnumeration' => 'mode',
+      'CreateRunRequestResponseFormatAssistantsResponseFormat' => 'format',
+      'CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat' => 'format',
+      'RunObjectResponseFormatAssistantsResponseFormat' => 'format',
       _ => null,
     };
