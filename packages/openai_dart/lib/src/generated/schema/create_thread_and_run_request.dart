@@ -50,6 +50,15 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     @JsonKey(name: 'truncation_strategy', includeIfNull: false)
     TruncationObject? truncationStrategy,
 
+    /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+    ///
+    /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+    ///
+    /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+    @_CreateThreadAndRunRequestResponseFormatConverter()
+    @JsonKey(name: 'response_format', includeIfNull: false)
+    CreateThreadAndRunRequestResponseFormat? responseFormat,
+
     /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
     @JsonKey(includeIfNull: false) bool? stream,
   }) = _CreateThreadAndRunRequest;
@@ -70,6 +79,7 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     'max_prompt_tokens',
     'max_completion_tokens',
     'truncation_strategy',
+    'response_format',
     'stream'
   ];
 
@@ -111,6 +121,7 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
       'max_prompt_tokens': maxPromptTokens,
       'max_completion_tokens': maxCompletionTokens,
       'truncation_strategy': truncationStrategy,
+      'response_format': responseFormat,
       'stream': stream,
     };
   }
@@ -215,6 +226,96 @@ class _ThreadAndRunModelConverter
       ThreadAndRunModelEnumeration(value: final v) =>
         _$ThreadAndRunModelsEnumMap[v]!,
       ThreadAndRunModelString(value: final v) => v,
+      null => null,
+    };
+  }
+}
+
+// ==========================================
+// ENUM: CreateThreadAndRunRequestResponseFormatMode
+// ==========================================
+
+/// `auto` is the default value
+enum CreateThreadAndRunRequestResponseFormatMode {
+  @JsonValue('none')
+  none,
+  @JsonValue('auto')
+  auto,
+}
+
+// ==========================================
+// CLASS: CreateThreadAndRunRequestResponseFormat
+// ==========================================
+
+/// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+///
+/// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+///
+/// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+@freezed
+sealed class CreateThreadAndRunRequestResponseFormat
+    with _$CreateThreadAndRunRequestResponseFormat {
+  const CreateThreadAndRunRequestResponseFormat._();
+
+  /// `auto` is the default value
+  const factory CreateThreadAndRunRequestResponseFormat.mode(
+    CreateThreadAndRunRequestResponseFormatMode value,
+  ) = CreateThreadAndRunRequestResponseFormatEnumeration;
+
+  /// No Description
+  const factory CreateThreadAndRunRequestResponseFormat.format(
+    AssistantsResponseFormat value,
+  ) = CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat;
+
+  /// Object construction from a JSON representation
+  factory CreateThreadAndRunRequestResponseFormat.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateThreadAndRunRequestResponseFormatFromJson(json);
+}
+
+/// Custom JSON converter for [CreateThreadAndRunRequestResponseFormat]
+class _CreateThreadAndRunRequestResponseFormatConverter
+    implements
+        JsonConverter<CreateThreadAndRunRequestResponseFormat?, Object?> {
+  const _CreateThreadAndRunRequestResponseFormatConverter();
+
+  @override
+  CreateThreadAndRunRequestResponseFormat? fromJson(Object? data) {
+    if (data == null) {
+      return null;
+    }
+    if (data is String &&
+        _$CreateThreadAndRunRequestResponseFormatModeEnumMap.values
+            .contains(data)) {
+      return CreateThreadAndRunRequestResponseFormatEnumeration(
+        _$CreateThreadAndRunRequestResponseFormatModeEnumMap.keys.elementAt(
+          _$CreateThreadAndRunRequestResponseFormatModeEnumMap.values
+              .toList()
+              .indexOf(data),
+        ),
+      );
+    }
+    if (data is Map<String, dynamic>) {
+      try {
+        return CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat(
+          AssistantsResponseFormat.fromJson(data),
+        );
+      } catch (e) {}
+    }
+    throw Exception(
+      'Unexpected value for CreateThreadAndRunRequestResponseFormat: $data',
+    );
+  }
+
+  @override
+  Object? toJson(CreateThreadAndRunRequestResponseFormat? data) {
+    return switch (data) {
+      CreateThreadAndRunRequestResponseFormatEnumeration(value: final v) =>
+        _$CreateThreadAndRunRequestResponseFormatModeEnumMap[v]!,
+      CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat(
+        value: final v
+      ) =>
+        v.toJson(),
       null => null,
     };
   }

@@ -89,6 +89,15 @@ class RunObject with _$RunObject {
     /// Thread truncation controls
     @JsonKey(name: 'truncation_strategy')
     required TruncationObject? truncationStrategy,
+
+    /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+    ///
+    /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+    ///
+    /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+    @_RunObjectResponseFormatConverter()
+    @JsonKey(name: 'response_format')
+    required RunObjectResponseFormat responseFormat,
   }) = _RunObject;
 
   /// Object construction from a JSON representation
@@ -120,7 +129,8 @@ class RunObject with _$RunObject {
     'temperature',
     'max_prompt_tokens',
     'max_completion_tokens',
-    'truncation_strategy'
+    'truncation_strategy',
+    'response_format'
   ];
 
   /// Validation constants
@@ -166,6 +176,7 @@ class RunObject with _$RunObject {
       'max_prompt_tokens': maxPromptTokens,
       'max_completion_tokens': maxCompletionTokens,
       'truncation_strategy': truncationStrategy,
+      'response_format': responseFormat,
     };
   }
 }
@@ -318,6 +329,84 @@ class RunObjectIncompleteDetails with _$RunObjectIncompleteDetails {
   Map<String, dynamic> toMap() {
     return {
       'reason': reason,
+    };
+  }
+}
+
+// ==========================================
+// ENUM: RunObjectResponseFormatMode
+// ==========================================
+
+/// `auto` is the default value
+enum RunObjectResponseFormatMode {
+  @JsonValue('none')
+  none,
+  @JsonValue('auto')
+  auto,
+}
+
+// ==========================================
+// CLASS: RunObjectResponseFormat
+// ==========================================
+
+/// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+///
+/// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+///
+/// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+@freezed
+sealed class RunObjectResponseFormat with _$RunObjectResponseFormat {
+  const RunObjectResponseFormat._();
+
+  /// `auto` is the default value
+  const factory RunObjectResponseFormat.mode(
+    RunObjectResponseFormatMode value,
+  ) = RunObjectResponseFormatEnumeration;
+
+  /// No Description
+  const factory RunObjectResponseFormat.format(
+    AssistantsResponseFormat value,
+  ) = RunObjectResponseFormatAssistantsResponseFormat;
+
+  /// Object construction from a JSON representation
+  factory RunObjectResponseFormat.fromJson(Map<String, dynamic> json) =>
+      _$RunObjectResponseFormatFromJson(json);
+}
+
+/// Custom JSON converter for [RunObjectResponseFormat]
+class _RunObjectResponseFormatConverter
+    implements JsonConverter<RunObjectResponseFormat, Object?> {
+  const _RunObjectResponseFormatConverter();
+
+  @override
+  RunObjectResponseFormat fromJson(Object? data) {
+    if (data is String &&
+        _$RunObjectResponseFormatModeEnumMap.values.contains(data)) {
+      return RunObjectResponseFormatEnumeration(
+        _$RunObjectResponseFormatModeEnumMap.keys.elementAt(
+          _$RunObjectResponseFormatModeEnumMap.values.toList().indexOf(data),
+        ),
+      );
+    }
+    if (data is Map<String, dynamic>) {
+      try {
+        return RunObjectResponseFormatAssistantsResponseFormat(
+          AssistantsResponseFormat.fromJson(data),
+        );
+      } catch (e) {}
+    }
+    throw Exception(
+      'Unexpected value for RunObjectResponseFormat: $data',
+    );
+  }
+
+  @override
+  Object? toJson(RunObjectResponseFormat data) {
+    return switch (data) {
+      RunObjectResponseFormatEnumeration(value: final v) =>
+        _$RunObjectResponseFormatModeEnumMap[v]!,
+      RunObjectResponseFormatAssistantsResponseFormat(value: final v) =>
+        v.toJson(),
     };
   }
 }
