@@ -38,6 +38,18 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
     @JsonKey(includeIfNull: false) @Default(1.0) double? temperature,
 
+    /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+    @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
+    int? maxPromptTokens,
+
+    /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+    @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
+    int? maxCompletionTokens,
+
+    /// Thread truncation controls
+    @JsonKey(name: 'truncation_strategy', includeIfNull: false)
+    TruncationObject? truncationStrategy,
+
     /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
     @JsonKey(includeIfNull: false) bool? stream,
   }) = _CreateThreadAndRunRequest;
@@ -55,6 +67,9 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     'tools',
     'metadata',
     'temperature',
+    'max_prompt_tokens',
+    'max_completion_tokens',
+    'truncation_strategy',
     'stream'
   ];
 
@@ -62,6 +77,8 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
   static const temperatureDefaultValue = 1.0;
   static const temperatureMinValue = 0.0;
   static const temperatureMaxValue = 2.0;
+  static const maxPromptTokensMinValue = 256;
+  static const maxCompletionTokensMinValue = 256;
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -70,6 +87,13 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     }
     if (temperature != null && temperature! > temperatureMaxValue) {
       return "The value of 'temperature' cannot be > $temperatureMaxValue";
+    }
+    if (maxPromptTokens != null && maxPromptTokens! < maxPromptTokensMinValue) {
+      return "The value of 'maxPromptTokens' cannot be < $maxPromptTokensMinValue";
+    }
+    if (maxCompletionTokens != null &&
+        maxCompletionTokens! < maxCompletionTokensMinValue) {
+      return "The value of 'maxCompletionTokens' cannot be < $maxCompletionTokensMinValue";
     }
     return null;
   }
@@ -84,6 +108,9 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
       'tools': tools,
       'metadata': metadata,
       'temperature': temperature,
+      'max_prompt_tokens': maxPromptTokens,
+      'max_completion_tokens': maxCompletionTokens,
+      'truncation_strategy': truncationStrategy,
       'stream': stream,
     };
   }
