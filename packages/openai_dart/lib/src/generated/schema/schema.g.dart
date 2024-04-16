@@ -3946,6 +3946,187 @@ Map<String, dynamic> _$$ErrorImplToJson(_$ErrorImpl instance) =>
       'type': instance.type,
     };
 
+_$CreateBatchRequestImpl _$$CreateBatchRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CreateBatchRequestImpl(
+      inputFileId: json['input_file_id'] as String,
+      endpoint: $enumDecode(_$BatchEndpointEnumMap, json['endpoint']),
+      completionWindow: $enumDecode(
+          _$BatchCompletionWindowEnumMap, json['completion_window']),
+      metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
+    );
+
+Map<String, dynamic> _$$CreateBatchRequestImplToJson(
+    _$CreateBatchRequestImpl instance) {
+  final val = <String, dynamic>{
+    'input_file_id': instance.inputFileId,
+    'endpoint': _$BatchEndpointEnumMap[instance.endpoint]!,
+    'completion_window':
+        _$BatchCompletionWindowEnumMap[instance.completionWindow]!,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('metadata', instance.metadata);
+  return val;
+}
+
+const _$BatchEndpointEnumMap = {
+  BatchEndpoint.v1ChatCompletions: '/v1/chat/completions',
+};
+
+const _$BatchCompletionWindowEnumMap = {
+  BatchCompletionWindow.v24h: '24h',
+};
+
+_$BatchImpl _$$BatchImplFromJson(Map<String, dynamic> json) => _$BatchImpl(
+      id: json['id'] as String,
+      object: $enumDecode(_$BatchObjectEnumMap, json['object']),
+      endpoint: $enumDecode(_$BatchEndpointEnumMap, json['endpoint']),
+      errors: json['errors'] == null
+          ? null
+          : BatchErrors.fromJson(json['errors'] as Map<String, dynamic>),
+      inputFileId: json['input_file_id'] as String,
+      completionWindow: $enumDecode(
+          _$BatchCompletionWindowEnumMap, json['completion_window']),
+      status: $enumDecode(_$BatchStatusEnumMap, json['status']),
+      outputFileId: json['output_file_id'] as String?,
+      errorFileId: json['error_file_id'] as String?,
+      createdAt: json['created_at'] as String,
+      inProgressAt: json['in_progress_at'] as String?,
+      expiresAt: json['expires_at'] as String?,
+      finalizingAt: json['finalizing_at'] as String?,
+      completedAt: json['completed_at'] as String?,
+      failedAt: json['failed_at'] as String?,
+      expiredAt: json['expired_at'] as String?,
+      cancellingAt: json['cancelling_at'] as String?,
+      cancelledAt: json['cancelled_at'] as String?,
+      requestCounts: json['request_counts'] == null
+          ? null
+          : BatchRequestCounts.fromJson(
+              json['request_counts'] as Map<String, dynamic>),
+      metadata: json['metadata'],
+    );
+
+Map<String, dynamic> _$$BatchImplToJson(_$BatchImpl instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'object': _$BatchObjectEnumMap[instance.object]!,
+    'endpoint': _$BatchEndpointEnumMap[instance.endpoint]!,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('errors', instance.errors?.toJson());
+  val['input_file_id'] = instance.inputFileId;
+  val['completion_window'] =
+      _$BatchCompletionWindowEnumMap[instance.completionWindow]!;
+  val['status'] = _$BatchStatusEnumMap[instance.status]!;
+  writeNotNull('output_file_id', instance.outputFileId);
+  writeNotNull('error_file_id', instance.errorFileId);
+  val['created_at'] = instance.createdAt;
+  writeNotNull('in_progress_at', instance.inProgressAt);
+  writeNotNull('expires_at', instance.expiresAt);
+  writeNotNull('finalizing_at', instance.finalizingAt);
+  writeNotNull('completed_at', instance.completedAt);
+  writeNotNull('failed_at', instance.failedAt);
+  writeNotNull('expired_at', instance.expiredAt);
+  writeNotNull('cancelling_at', instance.cancellingAt);
+  writeNotNull('cancelled_at', instance.cancelledAt);
+  writeNotNull('request_counts', instance.requestCounts?.toJson());
+  writeNotNull('metadata', instance.metadata);
+  return val;
+}
+
+const _$BatchObjectEnumMap = {
+  BatchObject.batch: 'batch',
+};
+
+const _$BatchStatusEnumMap = {
+  BatchStatus.validating: 'validating',
+  BatchStatus.failed: 'failed',
+  BatchStatus.inProgress: 'in_progress',
+  BatchStatus.finalizing: 'finalizing',
+  BatchStatus.completed: 'completed',
+  BatchStatus.expired: 'expired',
+  BatchStatus.cancelling: 'cancelling',
+  BatchStatus.cancelled: 'cancelled',
+};
+
+_$BatchErrorsImpl _$$BatchErrorsImplFromJson(Map<String, dynamic> json) =>
+    _$BatchErrorsImpl(
+      object: json['object'] as String?,
+      data: (json['data'] as List<dynamic>?)
+          ?.map((e) => BatchErrorsDataInner.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$BatchErrorsImplToJson(_$BatchErrorsImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('object', instance.object);
+  writeNotNull('data', instance.data?.map((e) => e.toJson()).toList());
+  return val;
+}
+
+_$BatchRequestCountsImpl _$$BatchRequestCountsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$BatchRequestCountsImpl(
+      total: json['total'] as int,
+      completed: json['completed'] as int,
+      failed: json['failed'] as int,
+    );
+
+Map<String, dynamic> _$$BatchRequestCountsImplToJson(
+        _$BatchRequestCountsImpl instance) =>
+    <String, dynamic>{
+      'total': instance.total,
+      'completed': instance.completed,
+      'failed': instance.failed,
+    };
+
+_$BatchErrorsDataInnerImpl _$$BatchErrorsDataInnerImplFromJson(
+        Map<String, dynamic> json) =>
+    _$BatchErrorsDataInnerImpl(
+      code: json['code'] as String?,
+      message: json['message'] as String?,
+      param: json['param'] as String?,
+      line: json['line'] as int?,
+    );
+
+Map<String, dynamic> _$$BatchErrorsDataInnerImplToJson(
+    _$BatchErrorsDataInnerImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('code', instance.code);
+  writeNotNull('message', instance.message);
+  writeNotNull('param', instance.param);
+  writeNotNull('line', instance.line);
+  return val;
+}
+
 _$ChatCompletionSystemMessageImpl _$$ChatCompletionSystemMessageImplFromJson(
         Map<String, dynamic> json) =>
     _$ChatCompletionSystemMessageImpl(

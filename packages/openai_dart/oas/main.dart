@@ -107,7 +107,8 @@ String? _onSchemaUnionFactoryName(
       'CreateThreadAndRunRequestResponseFormatEnumeration' => 'mode',
       'RunObjectResponseFormatEnumeration' => 'mode',
       'CreateRunRequestResponseFormatAssistantsResponseFormat' => 'format',
-      'CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat' => 'format',
+      'CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat' =>
+        'format',
       'RunObjectResponseFormatAssistantsResponseFormat' => 'format',
       'CreateRunRequestToolChoiceEnumeration' => 'mode',
       'CreateThreadAndRunRequestToolChoiceEnumeration' => 'mode',

@@ -604,6 +604,76 @@ class OpenAIClient {
   }
 
   // ------------------------------------------
+  // METHOD: createBatch
+  // ------------------------------------------
+
+  /// Creates and executes a batch from an uploaded file of requests
+  ///
+  /// `request`: Represents a request to create a new batch.
+  ///
+  /// `POST` `https://api.openai.com/v1/batches`
+  Future<Batch> createBatch({
+    required CreateBatchRequest request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/batches',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return Batch.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: retrieveBatch
+  // ------------------------------------------
+
+  /// Retrieves a batch.
+  ///
+  /// `batchId`: The ID of the batch to retrieve.
+  ///
+  /// `GET` `https://api.openai.com/v1/batches/{batch_id}`
+  Future<Batch> retrieveBatch({
+    required String batchId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/batches/$batchId',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return Batch.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: cancelBatch
+  // ------------------------------------------
+
+  /// Cancels an in-progress batch.
+  ///
+  /// `batchId`: The ID of the batch to cancel.
+  ///
+  /// `POST` `https://api.openai.com/v1/batches/{batch_id}/cancel`
+  Future<Batch> cancelBatch({
+    required String batchId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/batches/$batchId/cancel',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return Batch.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
   // METHOD: createImage
   // ------------------------------------------
 
