@@ -38,6 +38,11 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
     @JsonKey(includeIfNull: false) @Default(1.0) double? temperature,
 
+    /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+    ///
+    /// We generally recommend altering this or temperature but not both.
+    @JsonKey(name: 'top_p', includeIfNull: false) @Default(1.0) double? topP,
+
     /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
     @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
     int? maxPromptTokens,
@@ -84,6 +89,7 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     'tools',
     'metadata',
     'temperature',
+    'top_p',
     'max_prompt_tokens',
     'max_completion_tokens',
     'truncation_strategy',
@@ -96,6 +102,9 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
   static const temperatureDefaultValue = 1.0;
   static const temperatureMinValue = 0.0;
   static const temperatureMaxValue = 2.0;
+  static const topPDefaultValue = 1.0;
+  static const topPMinValue = 0.0;
+  static const topPMaxValue = 1.0;
   static const maxPromptTokensMinValue = 256;
   static const maxCompletionTokensMinValue = 256;
 
@@ -106,6 +115,12 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     }
     if (temperature != null && temperature! > temperatureMaxValue) {
       return "The value of 'temperature' cannot be > $temperatureMaxValue";
+    }
+    if (topP != null && topP! < topPMinValue) {
+      return "The value of 'topP' cannot be < $topPMinValue";
+    }
+    if (topP != null && topP! > topPMaxValue) {
+      return "The value of 'topP' cannot be > $topPMaxValue";
     }
     if (maxPromptTokens != null && maxPromptTokens! < maxPromptTokensMinValue) {
       return "The value of 'maxPromptTokens' cannot be < $maxPromptTokensMinValue";
@@ -127,6 +142,7 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
       'tools': tools,
       'metadata': metadata,
       'temperature': temperature,
+      'top_p': topP,
       'max_prompt_tokens': maxPromptTokens,
       'max_completion_tokens': maxCompletionTokens,
       'truncation_strategy': truncationStrategy,

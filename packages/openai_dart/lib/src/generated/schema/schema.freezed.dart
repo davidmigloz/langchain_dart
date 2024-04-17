@@ -13100,7 +13100,7 @@ mixin _$CreateFineTuningJobRequest {
 
   /// The ID of an uploaded file that contains training data.
   ///
-  /// See [upload file](https://platform.openai.com/docs/api-reference/files/upload) for how to upload a file.
+  /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
   ///
   /// Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.
   ///
@@ -13354,7 +13354,7 @@ class _$CreateFineTuningJobRequestImpl extends _CreateFineTuningJobRequest {
 
   /// The ID of an uploaded file that contains training data.
   ///
-  /// See [upload file](https://platform.openai.com/docs/api-reference/files/upload) for how to upload a file.
+  /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
   ///
   /// Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.
   ///
@@ -13487,7 +13487,7 @@ abstract class _CreateFineTuningJobRequest extends CreateFineTuningJobRequest {
 
   /// The ID of an uploaded file that contains training data.
   ///
-  /// See [upload file](https://platform.openai.com/docs/api-reference/files/upload) for how to upload a file.
+  /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
   ///
   /// Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.
   ///
@@ -22120,6 +22120,26 @@ mixin _$CreateAssistantRequest {
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  @JsonKey(includeIfNull: false)
+  double? get temperature => throw _privateConstructorUsedError;
+
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  ///
+  /// We generally recommend altering this or temperature but not both.
+  @JsonKey(name: 'top_p', includeIfNull: false)
+  double? get topP => throw _privateConstructorUsedError;
+
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @_CreateAssistantRequestResponseFormatConverter()
+  @JsonKey(name: 'response_format', includeIfNull: false)
+  CreateAssistantRequestResponseFormat? get responseFormat =>
+      throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $CreateAssistantRequestCopyWith<CreateAssistantRequest> get copyWith =>
@@ -22139,9 +22159,15 @@ abstract class $CreateAssistantRequestCopyWith<$Res> {
       @JsonKey(includeIfNull: false) String? instructions,
       List<AssistantTools> tools,
       @JsonKey(name: 'file_ids') List<String> fileIds,
-      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
+      @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
+      @_CreateAssistantRequestResponseFormatConverter()
+      @JsonKey(name: 'response_format', includeIfNull: false)
+      CreateAssistantRequestResponseFormat? responseFormat});
 
   $AssistantModelCopyWith<$Res> get model;
+  $CreateAssistantRequestResponseFormatCopyWith<$Res>? get responseFormat;
 }
 
 /// @nodoc
@@ -22165,6 +22191,9 @@ class _$CreateAssistantRequestCopyWithImpl<$Res,
     Object? tools = null,
     Object? fileIds = null,
     Object? metadata = freezed,
+    Object? temperature = freezed,
+    Object? topP = freezed,
+    Object? responseFormat = freezed,
   }) {
     return _then(_value.copyWith(
       model: null == model
@@ -22195,6 +22224,18 @@ class _$CreateAssistantRequestCopyWithImpl<$Res,
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      temperature: freezed == temperature
+          ? _value.temperature
+          : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
+      topP: freezed == topP
+          ? _value.topP
+          : topP // ignore: cast_nullable_to_non_nullable
+              as double?,
+      responseFormat: freezed == responseFormat
+          ? _value.responseFormat
+          : responseFormat // ignore: cast_nullable_to_non_nullable
+              as CreateAssistantRequestResponseFormat?,
     ) as $Val);
   }
 
@@ -22203,6 +22244,19 @@ class _$CreateAssistantRequestCopyWithImpl<$Res,
   $AssistantModelCopyWith<$Res> get model {
     return $AssistantModelCopyWith<$Res>(_value.model, (value) {
       return _then(_value.copyWith(model: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CreateAssistantRequestResponseFormatCopyWith<$Res>? get responseFormat {
+    if (_value.responseFormat == null) {
+      return null;
+    }
+
+    return $CreateAssistantRequestResponseFormatCopyWith<$Res>(
+        _value.responseFormat!, (value) {
+      return _then(_value.copyWith(responseFormat: value) as $Val);
     });
   }
 }
@@ -22223,10 +22277,17 @@ abstract class _$$CreateAssistantRequestImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) String? instructions,
       List<AssistantTools> tools,
       @JsonKey(name: 'file_ids') List<String> fileIds,
-      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
+      @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
+      @_CreateAssistantRequestResponseFormatConverter()
+      @JsonKey(name: 'response_format', includeIfNull: false)
+      CreateAssistantRequestResponseFormat? responseFormat});
 
   @override
   $AssistantModelCopyWith<$Res> get model;
+  @override
+  $CreateAssistantRequestResponseFormatCopyWith<$Res>? get responseFormat;
 }
 
 /// @nodoc
@@ -22249,6 +22310,9 @@ class __$$CreateAssistantRequestImplCopyWithImpl<$Res>
     Object? tools = null,
     Object? fileIds = null,
     Object? metadata = freezed,
+    Object? temperature = freezed,
+    Object? topP = freezed,
+    Object? responseFormat = freezed,
   }) {
     return _then(_$CreateAssistantRequestImpl(
       model: null == model
@@ -22279,6 +22343,18 @@ class __$$CreateAssistantRequestImplCopyWithImpl<$Res>
           ? _value._metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      temperature: freezed == temperature
+          ? _value.temperature
+          : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
+      topP: freezed == topP
+          ? _value.topP
+          : topP // ignore: cast_nullable_to_non_nullable
+              as double?,
+      responseFormat: freezed == responseFormat
+          ? _value.responseFormat
+          : responseFormat // ignore: cast_nullable_to_non_nullable
+              as CreateAssistantRequestResponseFormat?,
     ));
   }
 }
@@ -22293,7 +22369,12 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
       @JsonKey(includeIfNull: false) this.instructions,
       final List<AssistantTools> tools = const [],
       @JsonKey(name: 'file_ids') final List<String> fileIds = const [],
-      @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata})
+      @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
+      @JsonKey(includeIfNull: false) this.temperature = 1.0,
+      @JsonKey(name: 'top_p', includeIfNull: false) this.topP = 1.0,
+      @_CreateAssistantRequestResponseFormatConverter()
+      @JsonKey(name: 'response_format', includeIfNull: false)
+      this.responseFormat})
       : _tools = tools,
         _fileIds = fileIds,
         _metadata = metadata,
@@ -22360,9 +22441,31 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
     return EqualUnmodifiableMapView(value);
   }
 
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  @override
+  @JsonKey(includeIfNull: false)
+  final double? temperature;
+
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  ///
+  /// We generally recommend altering this or temperature but not both.
+  @override
+  @JsonKey(name: 'top_p', includeIfNull: false)
+  final double? topP;
+
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @override
+  @_CreateAssistantRequestResponseFormatConverter()
+  @JsonKey(name: 'response_format', includeIfNull: false)
+  final CreateAssistantRequestResponseFormat? responseFormat;
+
   @override
   String toString() {
-    return 'CreateAssistantRequest(model: $model, name: $name, description: $description, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata)';
+    return 'CreateAssistantRequest(model: $model, name: $name, description: $description, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata, temperature: $temperature, topP: $topP, responseFormat: $responseFormat)';
   }
 
   @override
@@ -22378,7 +22481,12 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
                 other.instructions == instructions) &&
             const DeepCollectionEquality().equals(other._tools, _tools) &&
             const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
-            const DeepCollectionEquality().equals(other._metadata, _metadata));
+            const DeepCollectionEquality().equals(other._metadata, _metadata) &&
+            (identical(other.temperature, temperature) ||
+                other.temperature == temperature) &&
+            (identical(other.topP, topP) || other.topP == topP) &&
+            (identical(other.responseFormat, responseFormat) ||
+                other.responseFormat == responseFormat));
   }
 
   @JsonKey(ignore: true)
@@ -22391,7 +22499,10 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
       instructions,
       const DeepCollectionEquality().hash(_tools),
       const DeepCollectionEquality().hash(_fileIds),
-      const DeepCollectionEquality().hash(_metadata));
+      const DeepCollectionEquality().hash(_metadata),
+      temperature,
+      topP,
+      responseFormat);
 
   @JsonKey(ignore: true)
   @override
@@ -22410,14 +22521,19 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
 
 abstract class _CreateAssistantRequest extends CreateAssistantRequest {
   const factory _CreateAssistantRequest(
-      {@_AssistantModelConverter() required final AssistantModel model,
-      @JsonKey(includeIfNull: false) final String? name,
-      @JsonKey(includeIfNull: false) final String? description,
-      @JsonKey(includeIfNull: false) final String? instructions,
-      final List<AssistantTools> tools,
-      @JsonKey(name: 'file_ids') final List<String> fileIds,
-      @JsonKey(includeIfNull: false)
-      final Map<String, dynamic>? metadata}) = _$CreateAssistantRequestImpl;
+          {@_AssistantModelConverter() required final AssistantModel model,
+          @JsonKey(includeIfNull: false) final String? name,
+          @JsonKey(includeIfNull: false) final String? description,
+          @JsonKey(includeIfNull: false) final String? instructions,
+          final List<AssistantTools> tools,
+          @JsonKey(name: 'file_ids') final List<String> fileIds,
+          @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
+          @JsonKey(includeIfNull: false) final double? temperature,
+          @JsonKey(name: 'top_p', includeIfNull: false) final double? topP,
+          @_CreateAssistantRequestResponseFormatConverter()
+          @JsonKey(name: 'response_format', includeIfNull: false)
+          final CreateAssistantRequestResponseFormat? responseFormat}) =
+      _$CreateAssistantRequestImpl;
   const _CreateAssistantRequest._() : super._();
 
   factory _CreateAssistantRequest.fromJson(Map<String, dynamic> json) =
@@ -22457,6 +22573,28 @@ abstract class _CreateAssistantRequest extends CreateAssistantRequest {
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
+  @override
+
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  @JsonKey(includeIfNull: false)
+  double? get temperature;
+  @override
+
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  ///
+  /// We generally recommend altering this or temperature but not both.
+  @JsonKey(name: 'top_p', includeIfNull: false)
+  double? get topP;
+  @override
+
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @_CreateAssistantRequestResponseFormatConverter()
+  @JsonKey(name: 'response_format', includeIfNull: false)
+  CreateAssistantRequestResponseFormat? get responseFormat;
   @override
   @JsonKey(ignore: true)
   _$$CreateAssistantRequestImplCopyWith<_$CreateAssistantRequestImpl>
@@ -22853,6 +22991,492 @@ abstract class AssistantModelString extends AssistantModel {
       get copyWith => throw _privateConstructorUsedError;
 }
 
+CreateAssistantRequestResponseFormat
+    _$CreateAssistantRequestResponseFormatFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'enumeration':
+      return CreateAssistantRequestResponseFormatEnumeration.fromJson(json);
+    case 'assistantsResponseFormat':
+      return CreateAssistantRequestResponseFormatAssistantsResponseFormat
+          .fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'runtimeType',
+          'CreateAssistantRequestResponseFormat',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$CreateAssistantRequestResponseFormat {
+  Object get value => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CreateAssistantResponseFormatMode value)
+        enumeration,
+    required TResult Function(AssistantsResponseFormat value)
+        assistantsResponseFormat,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CreateAssistantResponseFormatMode value)? enumeration,
+    TResult? Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CreateAssistantResponseFormatMode value)? enumeration,
+    TResult Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            CreateAssistantRequestResponseFormatEnumeration value)
+        enumeration,
+    required TResult Function(
+            CreateAssistantRequestResponseFormatAssistantsResponseFormat value)
+        assistantsResponseFormat,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateAssistantRequestResponseFormatEnumeration value)?
+        enumeration,
+    TResult? Function(
+            CreateAssistantRequestResponseFormatAssistantsResponseFormat value)?
+        assistantsResponseFormat,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateAssistantRequestResponseFormatEnumeration value)?
+        enumeration,
+    TResult Function(
+            CreateAssistantRequestResponseFormatAssistantsResponseFormat value)?
+        assistantsResponseFormat,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateAssistantRequestResponseFormatCopyWith<$Res> {
+  factory $CreateAssistantRequestResponseFormatCopyWith(
+          CreateAssistantRequestResponseFormat value,
+          $Res Function(CreateAssistantRequestResponseFormat) then) =
+      _$CreateAssistantRequestResponseFormatCopyWithImpl<$Res,
+          CreateAssistantRequestResponseFormat>;
+}
+
+/// @nodoc
+class _$CreateAssistantRequestResponseFormatCopyWithImpl<$Res,
+        $Val extends CreateAssistantRequestResponseFormat>
+    implements $CreateAssistantRequestResponseFormatCopyWith<$Res> {
+  _$CreateAssistantRequestResponseFormatCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$CreateAssistantRequestResponseFormatEnumerationImplCopyWith<
+    $Res> {
+  factory _$$CreateAssistantRequestResponseFormatEnumerationImplCopyWith(
+          _$CreateAssistantRequestResponseFormatEnumerationImpl value,
+          $Res Function(_$CreateAssistantRequestResponseFormatEnumerationImpl)
+              then) =
+      __$$CreateAssistantRequestResponseFormatEnumerationImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({CreateAssistantResponseFormatMode value});
+}
+
+/// @nodoc
+class __$$CreateAssistantRequestResponseFormatEnumerationImplCopyWithImpl<$Res>
+    extends _$CreateAssistantRequestResponseFormatCopyWithImpl<$Res,
+        _$CreateAssistantRequestResponseFormatEnumerationImpl>
+    implements
+        _$$CreateAssistantRequestResponseFormatEnumerationImplCopyWith<$Res> {
+  __$$CreateAssistantRequestResponseFormatEnumerationImplCopyWithImpl(
+      _$CreateAssistantRequestResponseFormatEnumerationImpl _value,
+      $Res Function(_$CreateAssistantRequestResponseFormatEnumerationImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$CreateAssistantRequestResponseFormatEnumerationImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as CreateAssistantResponseFormatMode,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateAssistantRequestResponseFormatEnumerationImpl
+    extends CreateAssistantRequestResponseFormatEnumeration {
+  const _$CreateAssistantRequestResponseFormatEnumerationImpl(this.value,
+      {final String? $type})
+      : $type = $type ?? 'enumeration',
+        super._();
+
+  factory _$CreateAssistantRequestResponseFormatEnumerationImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$CreateAssistantRequestResponseFormatEnumerationImplFromJson(json);
+
+  @override
+  final CreateAssistantResponseFormatMode value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'CreateAssistantRequestResponseFormat.enumeration(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateAssistantRequestResponseFormatEnumerationImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateAssistantRequestResponseFormatEnumerationImplCopyWith<
+          _$CreateAssistantRequestResponseFormatEnumerationImpl>
+      get copyWith =>
+          __$$CreateAssistantRequestResponseFormatEnumerationImplCopyWithImpl<
+                  _$CreateAssistantRequestResponseFormatEnumerationImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CreateAssistantResponseFormatMode value)
+        enumeration,
+    required TResult Function(AssistantsResponseFormat value)
+        assistantsResponseFormat,
+  }) {
+    return enumeration(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CreateAssistantResponseFormatMode value)? enumeration,
+    TResult? Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+  }) {
+    return enumeration?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CreateAssistantResponseFormatMode value)? enumeration,
+    TResult Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+    required TResult orElse(),
+  }) {
+    if (enumeration != null) {
+      return enumeration(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            CreateAssistantRequestResponseFormatEnumeration value)
+        enumeration,
+    required TResult Function(
+            CreateAssistantRequestResponseFormatAssistantsResponseFormat value)
+        assistantsResponseFormat,
+  }) {
+    return enumeration(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateAssistantRequestResponseFormatEnumeration value)?
+        enumeration,
+    TResult? Function(
+            CreateAssistantRequestResponseFormatAssistantsResponseFormat value)?
+        assistantsResponseFormat,
+  }) {
+    return enumeration?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateAssistantRequestResponseFormatEnumeration value)?
+        enumeration,
+    TResult Function(
+            CreateAssistantRequestResponseFormatAssistantsResponseFormat value)?
+        assistantsResponseFormat,
+    required TResult orElse(),
+  }) {
+    if (enumeration != null) {
+      return enumeration(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateAssistantRequestResponseFormatEnumerationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class CreateAssistantRequestResponseFormatEnumeration
+    extends CreateAssistantRequestResponseFormat {
+  const factory CreateAssistantRequestResponseFormatEnumeration(
+          final CreateAssistantResponseFormatMode value) =
+      _$CreateAssistantRequestResponseFormatEnumerationImpl;
+  const CreateAssistantRequestResponseFormatEnumeration._() : super._();
+
+  factory CreateAssistantRequestResponseFormatEnumeration.fromJson(
+          Map<String, dynamic> json) =
+      _$CreateAssistantRequestResponseFormatEnumerationImpl.fromJson;
+
+  @override
+  CreateAssistantResponseFormatMode get value;
+  @JsonKey(ignore: true)
+  _$$CreateAssistantRequestResponseFormatEnumerationImplCopyWith<
+          _$CreateAssistantRequestResponseFormatEnumerationImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+    $Res> {
+  factory _$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith(
+          _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl value,
+          $Res Function(
+                  _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl)
+              then) =
+      __$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+          $Res>;
+  @useResult
+  $Res call({AssistantsResponseFormat value});
+
+  $AssistantsResponseFormatCopyWith<$Res> get value;
+}
+
+/// @nodoc
+class __$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+        $Res>
+    extends _$CreateAssistantRequestResponseFormatCopyWithImpl<$Res,
+        _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl>
+    implements
+        _$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+            $Res> {
+  __$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl(
+      _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl _value,
+      $Res Function(
+              _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(
+        _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as AssistantsResponseFormat,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AssistantsResponseFormatCopyWith<$Res> get value {
+    return $AssistantsResponseFormatCopyWith<$Res>(_value.value, (value) {
+      return _then(_value.copyWith(value: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl
+    extends CreateAssistantRequestResponseFormatAssistantsResponseFormat {
+  const _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl(
+      this.value,
+      {final String? $type})
+      : $type = $type ?? 'assistantsResponseFormat',
+        super._();
+
+  factory _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplFromJson(
+          json);
+
+  @override
+  final AssistantsResponseFormat value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'CreateAssistantRequestResponseFormat.assistantsResponseFormat(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other
+                is _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+          _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl>
+      get copyWith =>
+          __$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+                  _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CreateAssistantResponseFormatMode value)
+        enumeration,
+    required TResult Function(AssistantsResponseFormat value)
+        assistantsResponseFormat,
+  }) {
+    return assistantsResponseFormat(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CreateAssistantResponseFormatMode value)? enumeration,
+    TResult? Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+  }) {
+    return assistantsResponseFormat?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CreateAssistantResponseFormatMode value)? enumeration,
+    TResult Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+    required TResult orElse(),
+  }) {
+    if (assistantsResponseFormat != null) {
+      return assistantsResponseFormat(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            CreateAssistantRequestResponseFormatEnumeration value)
+        enumeration,
+    required TResult Function(
+            CreateAssistantRequestResponseFormatAssistantsResponseFormat value)
+        assistantsResponseFormat,
+  }) {
+    return assistantsResponseFormat(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateAssistantRequestResponseFormatEnumeration value)?
+        enumeration,
+    TResult? Function(
+            CreateAssistantRequestResponseFormatAssistantsResponseFormat value)?
+        assistantsResponseFormat,
+  }) {
+    return assistantsResponseFormat?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateAssistantRequestResponseFormatEnumeration value)?
+        enumeration,
+    TResult Function(
+            CreateAssistantRequestResponseFormatAssistantsResponseFormat value)?
+        assistantsResponseFormat,
+    required TResult orElse(),
+  }) {
+    if (assistantsResponseFormat != null) {
+      return assistantsResponseFormat(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class CreateAssistantRequestResponseFormatAssistantsResponseFormat
+    extends CreateAssistantRequestResponseFormat {
+  const factory CreateAssistantRequestResponseFormatAssistantsResponseFormat(
+          final AssistantsResponseFormat value) =
+      _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl;
+  const CreateAssistantRequestResponseFormatAssistantsResponseFormat._()
+      : super._();
+
+  factory CreateAssistantRequestResponseFormatAssistantsResponseFormat.fromJson(
+          Map<String, dynamic> json) =
+      _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl
+      .fromJson;
+
+  @override
+  AssistantsResponseFormat get value;
+  @JsonKey(ignore: true)
+  _$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+          _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 ModifyAssistantRequest _$ModifyAssistantRequestFromJson(
     Map<String, dynamic> json) {
   return _ModifyAssistantRequest.fromJson(json);
@@ -22887,6 +23511,26 @@ mixin _$ModifyAssistantRequest {
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  @JsonKey(includeIfNull: false)
+  double? get temperature => throw _privateConstructorUsedError;
+
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  ///
+  /// We generally recommend altering this or temperature but not both.
+  @JsonKey(name: 'top_p', includeIfNull: false)
+  double? get topP => throw _privateConstructorUsedError;
+
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @_ModifyAssistantRequestResponseFormatConverter()
+  @JsonKey(name: 'response_format', includeIfNull: false)
+  ModifyAssistantRequestResponseFormat? get responseFormat =>
+      throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ModifyAssistantRequestCopyWith<ModifyAssistantRequest> get copyWith =>
@@ -22906,7 +23550,14 @@ abstract class $ModifyAssistantRequestCopyWith<$Res> {
       @JsonKey(includeIfNull: false) String? instructions,
       List<AssistantTools> tools,
       @JsonKey(name: 'file_ids') List<String> fileIds,
-      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
+      @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
+      @_ModifyAssistantRequestResponseFormatConverter()
+      @JsonKey(name: 'response_format', includeIfNull: false)
+      ModifyAssistantRequestResponseFormat? responseFormat});
+
+  $ModifyAssistantRequestResponseFormatCopyWith<$Res>? get responseFormat;
 }
 
 /// @nodoc
@@ -22930,6 +23581,9 @@ class _$ModifyAssistantRequestCopyWithImpl<$Res,
     Object? tools = null,
     Object? fileIds = null,
     Object? metadata = freezed,
+    Object? temperature = freezed,
+    Object? topP = freezed,
+    Object? responseFormat = freezed,
   }) {
     return _then(_value.copyWith(
       model: freezed == model
@@ -22960,7 +23614,32 @@ class _$ModifyAssistantRequestCopyWithImpl<$Res,
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      temperature: freezed == temperature
+          ? _value.temperature
+          : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
+      topP: freezed == topP
+          ? _value.topP
+          : topP // ignore: cast_nullable_to_non_nullable
+              as double?,
+      responseFormat: freezed == responseFormat
+          ? _value.responseFormat
+          : responseFormat // ignore: cast_nullable_to_non_nullable
+              as ModifyAssistantRequestResponseFormat?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ModifyAssistantRequestResponseFormatCopyWith<$Res>? get responseFormat {
+    if (_value.responseFormat == null) {
+      return null;
+    }
+
+    return $ModifyAssistantRequestResponseFormatCopyWith<$Res>(
+        _value.responseFormat!, (value) {
+      return _then(_value.copyWith(responseFormat: value) as $Val);
+    });
   }
 }
 
@@ -22980,7 +23659,15 @@ abstract class _$$ModifyAssistantRequestImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) String? instructions,
       List<AssistantTools> tools,
       @JsonKey(name: 'file_ids') List<String> fileIds,
-      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
+      @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
+      @_ModifyAssistantRequestResponseFormatConverter()
+      @JsonKey(name: 'response_format', includeIfNull: false)
+      ModifyAssistantRequestResponseFormat? responseFormat});
+
+  @override
+  $ModifyAssistantRequestResponseFormatCopyWith<$Res>? get responseFormat;
 }
 
 /// @nodoc
@@ -23003,6 +23690,9 @@ class __$$ModifyAssistantRequestImplCopyWithImpl<$Res>
     Object? tools = null,
     Object? fileIds = null,
     Object? metadata = freezed,
+    Object? temperature = freezed,
+    Object? topP = freezed,
+    Object? responseFormat = freezed,
   }) {
     return _then(_$ModifyAssistantRequestImpl(
       model: freezed == model
@@ -23033,6 +23723,18 @@ class __$$ModifyAssistantRequestImplCopyWithImpl<$Res>
           ? _value._metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      temperature: freezed == temperature
+          ? _value.temperature
+          : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
+      topP: freezed == topP
+          ? _value.topP
+          : topP // ignore: cast_nullable_to_non_nullable
+              as double?,
+      responseFormat: freezed == responseFormat
+          ? _value.responseFormat
+          : responseFormat // ignore: cast_nullable_to_non_nullable
+              as ModifyAssistantRequestResponseFormat?,
     ));
   }
 }
@@ -23047,7 +23749,12 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
       @JsonKey(includeIfNull: false) this.instructions,
       final List<AssistantTools> tools = const [],
       @JsonKey(name: 'file_ids') final List<String> fileIds = const [],
-      @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata})
+      @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
+      @JsonKey(includeIfNull: false) this.temperature = 1.0,
+      @JsonKey(name: 'top_p', includeIfNull: false) this.topP = 1.0,
+      @_ModifyAssistantRequestResponseFormatConverter()
+      @JsonKey(name: 'response_format', includeIfNull: false)
+      this.responseFormat})
       : _tools = tools,
         _fileIds = fileIds,
         _metadata = metadata,
@@ -23114,9 +23821,31 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
     return EqualUnmodifiableMapView(value);
   }
 
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  @override
+  @JsonKey(includeIfNull: false)
+  final double? temperature;
+
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  ///
+  /// We generally recommend altering this or temperature but not both.
+  @override
+  @JsonKey(name: 'top_p', includeIfNull: false)
+  final double? topP;
+
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @override
+  @_ModifyAssistantRequestResponseFormatConverter()
+  @JsonKey(name: 'response_format', includeIfNull: false)
+  final ModifyAssistantRequestResponseFormat? responseFormat;
+
   @override
   String toString() {
-    return 'ModifyAssistantRequest(model: $model, name: $name, description: $description, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata)';
+    return 'ModifyAssistantRequest(model: $model, name: $name, description: $description, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata, temperature: $temperature, topP: $topP, responseFormat: $responseFormat)';
   }
 
   @override
@@ -23132,7 +23861,12 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
                 other.instructions == instructions) &&
             const DeepCollectionEquality().equals(other._tools, _tools) &&
             const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
-            const DeepCollectionEquality().equals(other._metadata, _metadata));
+            const DeepCollectionEquality().equals(other._metadata, _metadata) &&
+            (identical(other.temperature, temperature) ||
+                other.temperature == temperature) &&
+            (identical(other.topP, topP) || other.topP == topP) &&
+            (identical(other.responseFormat, responseFormat) ||
+                other.responseFormat == responseFormat));
   }
 
   @JsonKey(ignore: true)
@@ -23145,7 +23879,10 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
       instructions,
       const DeepCollectionEquality().hash(_tools),
       const DeepCollectionEquality().hash(_fileIds),
-      const DeepCollectionEquality().hash(_metadata));
+      const DeepCollectionEquality().hash(_metadata),
+      temperature,
+      topP,
+      responseFormat);
 
   @JsonKey(ignore: true)
   @override
@@ -23164,14 +23901,19 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
 
 abstract class _ModifyAssistantRequest extends ModifyAssistantRequest {
   const factory _ModifyAssistantRequest(
-      {@JsonKey(includeIfNull: false) final String? model,
-      @JsonKey(includeIfNull: false) final String? name,
-      @JsonKey(includeIfNull: false) final String? description,
-      @JsonKey(includeIfNull: false) final String? instructions,
-      final List<AssistantTools> tools,
-      @JsonKey(name: 'file_ids') final List<String> fileIds,
-      @JsonKey(includeIfNull: false)
-      final Map<String, dynamic>? metadata}) = _$ModifyAssistantRequestImpl;
+          {@JsonKey(includeIfNull: false) final String? model,
+          @JsonKey(includeIfNull: false) final String? name,
+          @JsonKey(includeIfNull: false) final String? description,
+          @JsonKey(includeIfNull: false) final String? instructions,
+          final List<AssistantTools> tools,
+          @JsonKey(name: 'file_ids') final List<String> fileIds,
+          @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
+          @JsonKey(includeIfNull: false) final double? temperature,
+          @JsonKey(name: 'top_p', includeIfNull: false) final double? topP,
+          @_ModifyAssistantRequestResponseFormatConverter()
+          @JsonKey(name: 'response_format', includeIfNull: false)
+          final ModifyAssistantRequestResponseFormat? responseFormat}) =
+      _$ModifyAssistantRequestImpl;
   const _ModifyAssistantRequest._() : super._();
 
   factory _ModifyAssistantRequest.fromJson(Map<String, dynamic> json) =
@@ -23212,8 +23954,516 @@ abstract class _ModifyAssistantRequest extends ModifyAssistantRequest {
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
   @override
+
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  @JsonKey(includeIfNull: false)
+  double? get temperature;
+  @override
+
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  ///
+  /// We generally recommend altering this or temperature but not both.
+  @JsonKey(name: 'top_p', includeIfNull: false)
+  double? get topP;
+  @override
+
+  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @_ModifyAssistantRequestResponseFormatConverter()
+  @JsonKey(name: 'response_format', includeIfNull: false)
+  ModifyAssistantRequestResponseFormat? get responseFormat;
+  @override
   @JsonKey(ignore: true)
   _$$ModifyAssistantRequestImplCopyWith<_$ModifyAssistantRequestImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ModifyAssistantRequestResponseFormat
+    _$ModifyAssistantRequestResponseFormatFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'enumeration':
+      return ModifyAssistantRequestResponseFormatEnumeration.fromJson(json);
+    case 'assistantsResponseFormat':
+      return ModifyAssistantRequestResponseFormatAssistantsResponseFormat
+          .fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'runtimeType',
+          'ModifyAssistantRequestResponseFormat',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$ModifyAssistantRequestResponseFormat {
+  Object get value => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ModifyAssistantResponseFormatMode value)
+        enumeration,
+    required TResult Function(AssistantsResponseFormat value)
+        assistantsResponseFormat,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ModifyAssistantResponseFormatMode value)? enumeration,
+    TResult? Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ModifyAssistantResponseFormatMode value)? enumeration,
+    TResult Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            ModifyAssistantRequestResponseFormatEnumeration value)
+        enumeration,
+    required TResult Function(
+            ModifyAssistantRequestResponseFormatAssistantsResponseFormat value)
+        assistantsResponseFormat,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ModifyAssistantRequestResponseFormatEnumeration value)?
+        enumeration,
+    TResult? Function(
+            ModifyAssistantRequestResponseFormatAssistantsResponseFormat value)?
+        assistantsResponseFormat,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ModifyAssistantRequestResponseFormatEnumeration value)?
+        enumeration,
+    TResult Function(
+            ModifyAssistantRequestResponseFormatAssistantsResponseFormat value)?
+        assistantsResponseFormat,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ModifyAssistantRequestResponseFormatCopyWith<$Res> {
+  factory $ModifyAssistantRequestResponseFormatCopyWith(
+          ModifyAssistantRequestResponseFormat value,
+          $Res Function(ModifyAssistantRequestResponseFormat) then) =
+      _$ModifyAssistantRequestResponseFormatCopyWithImpl<$Res,
+          ModifyAssistantRequestResponseFormat>;
+}
+
+/// @nodoc
+class _$ModifyAssistantRequestResponseFormatCopyWithImpl<$Res,
+        $Val extends ModifyAssistantRequestResponseFormat>
+    implements $ModifyAssistantRequestResponseFormatCopyWith<$Res> {
+  _$ModifyAssistantRequestResponseFormatCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$ModifyAssistantRequestResponseFormatEnumerationImplCopyWith<
+    $Res> {
+  factory _$$ModifyAssistantRequestResponseFormatEnumerationImplCopyWith(
+          _$ModifyAssistantRequestResponseFormatEnumerationImpl value,
+          $Res Function(_$ModifyAssistantRequestResponseFormatEnumerationImpl)
+              then) =
+      __$$ModifyAssistantRequestResponseFormatEnumerationImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({ModifyAssistantResponseFormatMode value});
+}
+
+/// @nodoc
+class __$$ModifyAssistantRequestResponseFormatEnumerationImplCopyWithImpl<$Res>
+    extends _$ModifyAssistantRequestResponseFormatCopyWithImpl<$Res,
+        _$ModifyAssistantRequestResponseFormatEnumerationImpl>
+    implements
+        _$$ModifyAssistantRequestResponseFormatEnumerationImplCopyWith<$Res> {
+  __$$ModifyAssistantRequestResponseFormatEnumerationImplCopyWithImpl(
+      _$ModifyAssistantRequestResponseFormatEnumerationImpl _value,
+      $Res Function(_$ModifyAssistantRequestResponseFormatEnumerationImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$ModifyAssistantRequestResponseFormatEnumerationImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as ModifyAssistantResponseFormatMode,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ModifyAssistantRequestResponseFormatEnumerationImpl
+    extends ModifyAssistantRequestResponseFormatEnumeration {
+  const _$ModifyAssistantRequestResponseFormatEnumerationImpl(this.value,
+      {final String? $type})
+      : $type = $type ?? 'enumeration',
+        super._();
+
+  factory _$ModifyAssistantRequestResponseFormatEnumerationImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ModifyAssistantRequestResponseFormatEnumerationImplFromJson(json);
+
+  @override
+  final ModifyAssistantResponseFormatMode value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'ModifyAssistantRequestResponseFormat.enumeration(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ModifyAssistantRequestResponseFormatEnumerationImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ModifyAssistantRequestResponseFormatEnumerationImplCopyWith<
+          _$ModifyAssistantRequestResponseFormatEnumerationImpl>
+      get copyWith =>
+          __$$ModifyAssistantRequestResponseFormatEnumerationImplCopyWithImpl<
+                  _$ModifyAssistantRequestResponseFormatEnumerationImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ModifyAssistantResponseFormatMode value)
+        enumeration,
+    required TResult Function(AssistantsResponseFormat value)
+        assistantsResponseFormat,
+  }) {
+    return enumeration(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ModifyAssistantResponseFormatMode value)? enumeration,
+    TResult? Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+  }) {
+    return enumeration?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ModifyAssistantResponseFormatMode value)? enumeration,
+    TResult Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+    required TResult orElse(),
+  }) {
+    if (enumeration != null) {
+      return enumeration(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            ModifyAssistantRequestResponseFormatEnumeration value)
+        enumeration,
+    required TResult Function(
+            ModifyAssistantRequestResponseFormatAssistantsResponseFormat value)
+        assistantsResponseFormat,
+  }) {
+    return enumeration(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ModifyAssistantRequestResponseFormatEnumeration value)?
+        enumeration,
+    TResult? Function(
+            ModifyAssistantRequestResponseFormatAssistantsResponseFormat value)?
+        assistantsResponseFormat,
+  }) {
+    return enumeration?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ModifyAssistantRequestResponseFormatEnumeration value)?
+        enumeration,
+    TResult Function(
+            ModifyAssistantRequestResponseFormatAssistantsResponseFormat value)?
+        assistantsResponseFormat,
+    required TResult orElse(),
+  }) {
+    if (enumeration != null) {
+      return enumeration(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ModifyAssistantRequestResponseFormatEnumerationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ModifyAssistantRequestResponseFormatEnumeration
+    extends ModifyAssistantRequestResponseFormat {
+  const factory ModifyAssistantRequestResponseFormatEnumeration(
+          final ModifyAssistantResponseFormatMode value) =
+      _$ModifyAssistantRequestResponseFormatEnumerationImpl;
+  const ModifyAssistantRequestResponseFormatEnumeration._() : super._();
+
+  factory ModifyAssistantRequestResponseFormatEnumeration.fromJson(
+          Map<String, dynamic> json) =
+      _$ModifyAssistantRequestResponseFormatEnumerationImpl.fromJson;
+
+  @override
+  ModifyAssistantResponseFormatMode get value;
+  @JsonKey(ignore: true)
+  _$$ModifyAssistantRequestResponseFormatEnumerationImplCopyWith<
+          _$ModifyAssistantRequestResponseFormatEnumerationImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+    $Res> {
+  factory _$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith(
+          _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl value,
+          $Res Function(
+                  _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl)
+              then) =
+      __$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+          $Res>;
+  @useResult
+  $Res call({AssistantsResponseFormat value});
+
+  $AssistantsResponseFormatCopyWith<$Res> get value;
+}
+
+/// @nodoc
+class __$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+        $Res>
+    extends _$ModifyAssistantRequestResponseFormatCopyWithImpl<$Res,
+        _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl>
+    implements
+        _$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+            $Res> {
+  __$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl(
+      _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl _value,
+      $Res Function(
+              _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(
+        _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as AssistantsResponseFormat,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AssistantsResponseFormatCopyWith<$Res> get value {
+    return $AssistantsResponseFormatCopyWith<$Res>(_value.value, (value) {
+      return _then(_value.copyWith(value: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl
+    extends ModifyAssistantRequestResponseFormatAssistantsResponseFormat {
+  const _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl(
+      this.value,
+      {final String? $type})
+      : $type = $type ?? 'assistantsResponseFormat',
+        super._();
+
+  factory _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplFromJson(
+          json);
+
+  @override
+  final AssistantsResponseFormat value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'ModifyAssistantRequestResponseFormat.assistantsResponseFormat(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other
+                is _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+          _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl>
+      get copyWith =>
+          __$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+                  _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ModifyAssistantResponseFormatMode value)
+        enumeration,
+    required TResult Function(AssistantsResponseFormat value)
+        assistantsResponseFormat,
+  }) {
+    return assistantsResponseFormat(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ModifyAssistantResponseFormatMode value)? enumeration,
+    TResult? Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+  }) {
+    return assistantsResponseFormat?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ModifyAssistantResponseFormatMode value)? enumeration,
+    TResult Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+    required TResult orElse(),
+  }) {
+    if (assistantsResponseFormat != null) {
+      return assistantsResponseFormat(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            ModifyAssistantRequestResponseFormatEnumeration value)
+        enumeration,
+    required TResult Function(
+            ModifyAssistantRequestResponseFormatAssistantsResponseFormat value)
+        assistantsResponseFormat,
+  }) {
+    return assistantsResponseFormat(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ModifyAssistantRequestResponseFormatEnumeration value)?
+        enumeration,
+    TResult? Function(
+            ModifyAssistantRequestResponseFormatAssistantsResponseFormat value)?
+        assistantsResponseFormat,
+  }) {
+    return assistantsResponseFormat?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ModifyAssistantRequestResponseFormatEnumeration value)?
+        enumeration,
+    TResult Function(
+            ModifyAssistantRequestResponseFormatAssistantsResponseFormat value)?
+        assistantsResponseFormat,
+    required TResult orElse(),
+  }) {
+    if (assistantsResponseFormat != null) {
+      return assistantsResponseFormat(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ModifyAssistantRequestResponseFormatAssistantsResponseFormat
+    extends ModifyAssistantRequestResponseFormat {
+  const factory ModifyAssistantRequestResponseFormatAssistantsResponseFormat(
+          final AssistantsResponseFormat value) =
+      _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl;
+  const ModifyAssistantRequestResponseFormatAssistantsResponseFormat._()
+      : super._();
+
+  factory ModifyAssistantRequestResponseFormatAssistantsResponseFormat.fromJson(
+          Map<String, dynamic> json) =
+      _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl
+      .fromJson;
+
+  @override
+  AssistantsResponseFormat get value;
+  @JsonKey(ignore: true)
+  _$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
+          _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -24459,6 +25709,10 @@ mixin _$RunObject {
   @JsonKey(includeIfNull: false)
   double? get temperature => throw _privateConstructorUsedError;
 
+  /// The nucleus sampling value used for this run. If not set, defaults to 1.
+  @JsonKey(name: 'top_p', includeIfNull: false)
+  double? get topP => throw _privateConstructorUsedError;
+
   /// The maximum number of prompt tokens specified to have been used over the course of the run.
   @JsonKey(name: 'max_prompt_tokens')
   int? get maxPromptTokens => throw _privateConstructorUsedError;
@@ -24524,6 +25778,7 @@ abstract class $RunObjectCopyWith<$Res> {
       Map<String, dynamic>? metadata,
       RunCompletionUsage? usage,
       @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
       @JsonKey(name: 'max_prompt_tokens') int? maxPromptTokens,
       @JsonKey(name: 'max_completion_tokens') int? maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy')
@@ -24578,6 +25833,7 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
     Object? metadata = freezed,
     Object? usage = freezed,
     Object? temperature = freezed,
+    Object? topP = freezed,
     Object? maxPromptTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
@@ -24668,6 +25924,10 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
       temperature: freezed == temperature
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
+      topP: freezed == topP
+          ? _value.topP
+          : topP // ignore: cast_nullable_to_non_nullable
               as double?,
       maxPromptTokens: freezed == maxPromptTokens
           ? _value.maxPromptTokens
@@ -24806,6 +26066,7 @@ abstract class _$$RunObjectImplCopyWith<$Res>
       Map<String, dynamic>? metadata,
       RunCompletionUsage? usage,
       @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
       @JsonKey(name: 'max_prompt_tokens') int? maxPromptTokens,
       @JsonKey(name: 'max_completion_tokens') int? maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy')
@@ -24865,6 +26126,7 @@ class __$$RunObjectImplCopyWithImpl<$Res>
     Object? metadata = freezed,
     Object? usage = freezed,
     Object? temperature = freezed,
+    Object? topP = freezed,
     Object? maxPromptTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
@@ -24956,6 +26218,10 @@ class __$$RunObjectImplCopyWithImpl<$Res>
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
               as double?,
+      topP: freezed == topP
+          ? _value.topP
+          : topP // ignore: cast_nullable_to_non_nullable
+              as double?,
       maxPromptTokens: freezed == maxPromptTokens
           ? _value.maxPromptTokens
           : maxPromptTokens // ignore: cast_nullable_to_non_nullable
@@ -25005,6 +26271,7 @@ class _$RunObjectImpl extends _RunObject {
       required final Map<String, dynamic>? metadata,
       required this.usage,
       @JsonKey(includeIfNull: false) this.temperature,
+      @JsonKey(name: 'top_p', includeIfNull: false) this.topP,
       @JsonKey(name: 'max_prompt_tokens') required this.maxPromptTokens,
       @JsonKey(name: 'max_completion_tokens') required this.maxCompletionTokens,
       @JsonKey(name: 'truncation_strategy') required this.truncationStrategy,
@@ -25142,6 +26409,11 @@ class _$RunObjectImpl extends _RunObject {
   @JsonKey(includeIfNull: false)
   final double? temperature;
 
+  /// The nucleus sampling value used for this run. If not set, defaults to 1.
+  @override
+  @JsonKey(name: 'top_p', includeIfNull: false)
+  final double? topP;
+
   /// The maximum number of prompt tokens specified to have been used over the course of the run.
   @override
   @JsonKey(name: 'max_prompt_tokens')
@@ -25178,7 +26450,7 @@ class _$RunObjectImpl extends _RunObject {
 
   @override
   String toString() {
-    return 'RunObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, assistantId: $assistantId, status: $status, requiredAction: $requiredAction, lastError: $lastError, expiresAt: $expiresAt, startedAt: $startedAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, incompleteDetails: $incompleteDetails, model: $model, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata, usage: $usage, temperature: $temperature, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, responseFormat: $responseFormat)';
+    return 'RunObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, assistantId: $assistantId, status: $status, requiredAction: $requiredAction, lastError: $lastError, expiresAt: $expiresAt, startedAt: $startedAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, incompleteDetails: $incompleteDetails, model: $model, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata, usage: $usage, temperature: $temperature, topP: $topP, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, responseFormat: $responseFormat)';
   }
 
   @override
@@ -25220,6 +26492,7 @@ class _$RunObjectImpl extends _RunObject {
             (identical(other.usage, usage) || other.usage == usage) &&
             (identical(other.temperature, temperature) ||
                 other.temperature == temperature) &&
+            (identical(other.topP, topP) || other.topP == topP) &&
             (identical(other.maxPromptTokens, maxPromptTokens) ||
                 other.maxPromptTokens == maxPromptTokens) &&
             (identical(other.maxCompletionTokens, maxCompletionTokens) ||
@@ -25257,6 +26530,7 @@ class _$RunObjectImpl extends _RunObject {
         const DeepCollectionEquality().hash(_metadata),
         usage,
         temperature,
+        topP,
         maxPromptTokens,
         maxCompletionTokens,
         truncationStrategy,
@@ -25303,6 +26577,7 @@ abstract class _RunObject extends RunObject {
       required final Map<String, dynamic>? metadata,
       required final RunCompletionUsage? usage,
       @JsonKey(includeIfNull: false) final double? temperature,
+      @JsonKey(name: 'top_p', includeIfNull: false) final double? topP,
       @JsonKey(name: 'max_prompt_tokens') required final int? maxPromptTokens,
       @JsonKey(name: 'max_completion_tokens')
       required final int? maxCompletionTokens,
@@ -25416,6 +26691,11 @@ abstract class _RunObject extends RunObject {
   /// The sampling temperature used for this run. If not set, defaults to 1.
   @JsonKey(includeIfNull: false)
   double? get temperature;
+  @override
+
+  /// The nucleus sampling value used for this run. If not set, defaults to 1.
+  @JsonKey(name: 'top_p', includeIfNull: false)
+  double? get topP;
   @override
 
   /// The maximum number of prompt tokens specified to have been used over the course of the run.
@@ -27277,6 +28557,12 @@ mixin _$CreateRunRequest {
   @JsonKey(includeIfNull: false)
   double? get temperature => throw _privateConstructorUsedError;
 
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  ///
+  /// We generally recommend altering this or temperature but not both.
+  @JsonKey(name: 'top_p', includeIfNull: false)
+  double? get topP => throw _privateConstructorUsedError;
+
   /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
   @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
   int? get maxPromptTokens => throw _privateConstructorUsedError;
@@ -27338,6 +28624,7 @@ abstract class $CreateRunRequestCopyWith<$Res> {
       @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
       @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
       int? maxPromptTokens,
       @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
@@ -27379,6 +28666,7 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
     Object? tools = freezed,
     Object? metadata = freezed,
     Object? temperature = freezed,
+    Object? topP = freezed,
     Object? maxPromptTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
@@ -27418,6 +28706,10 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
       temperature: freezed == temperature
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
+      topP: freezed == topP
+          ? _value.topP
+          : topP // ignore: cast_nullable_to_non_nullable
               as double?,
       maxPromptTokens: freezed == maxPromptTokens
           ? _value.maxPromptTokens
@@ -27518,6 +28810,7 @@ abstract class _$$CreateRunRequestImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
       @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
       int? maxPromptTokens,
       @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
@@ -27561,6 +28854,7 @@ class __$$CreateRunRequestImplCopyWithImpl<$Res>
     Object? tools = freezed,
     Object? metadata = freezed,
     Object? temperature = freezed,
+    Object? topP = freezed,
     Object? maxPromptTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
@@ -27600,6 +28894,10 @@ class __$$CreateRunRequestImplCopyWithImpl<$Res>
       temperature: freezed == temperature
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
+      topP: freezed == topP
+          ? _value.topP
+          : topP // ignore: cast_nullable_to_non_nullable
               as double?,
       maxPromptTokens: freezed == maxPromptTokens
           ? _value.maxPromptTokens
@@ -27645,6 +28943,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
       @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
       @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) this.temperature = 1.0,
+      @JsonKey(name: 'top_p', includeIfNull: false) this.topP = 1.0,
       @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
       this.maxPromptTokens,
       @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
@@ -27735,6 +29034,13 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
   @JsonKey(includeIfNull: false)
   final double? temperature;
 
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  ///
+  /// We generally recommend altering this or temperature but not both.
+  @override
+  @JsonKey(name: 'top_p', includeIfNull: false)
+  final double? topP;
+
   /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
   @override
   @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
@@ -27776,7 +29082,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
 
   @override
   String toString() {
-    return 'CreateRunRequest(assistantId: $assistantId, model: $model, instructions: $instructions, additionalInstructions: $additionalInstructions, additionalMessages: $additionalMessages, tools: $tools, metadata: $metadata, temperature: $temperature, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, responseFormat: $responseFormat, stream: $stream)';
+    return 'CreateRunRequest(assistantId: $assistantId, model: $model, instructions: $instructions, additionalInstructions: $additionalInstructions, additionalMessages: $additionalMessages, tools: $tools, metadata: $metadata, temperature: $temperature, topP: $topP, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, responseFormat: $responseFormat, stream: $stream)';
   }
 
   @override
@@ -27797,6 +29103,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
             const DeepCollectionEquality().equals(other._metadata, _metadata) &&
             (identical(other.temperature, temperature) ||
                 other.temperature == temperature) &&
+            (identical(other.topP, topP) || other.topP == topP) &&
             (identical(other.maxPromptTokens, maxPromptTokens) ||
                 other.maxPromptTokens == maxPromptTokens) &&
             (identical(other.maxCompletionTokens, maxCompletionTokens) ||
@@ -27822,6 +29129,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
       const DeepCollectionEquality().hash(_tools),
       const DeepCollectionEquality().hash(_metadata),
       temperature,
+      topP,
       maxPromptTokens,
       maxCompletionTokens,
       truncationStrategy,
@@ -27858,6 +29166,7 @@ abstract class _CreateRunRequest extends CreateRunRequest {
           @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
           @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
           @JsonKey(includeIfNull: false) final double? temperature,
+          @JsonKey(name: 'top_p', includeIfNull: false) final double? topP,
           @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
           final int? maxPromptTokens,
           @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
@@ -27918,6 +29227,13 @@ abstract class _CreateRunRequest extends CreateRunRequest {
   /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
   @JsonKey(includeIfNull: false)
   double? get temperature;
+  @override
+
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  ///
+  /// We generally recommend altering this or temperature but not both.
+  @JsonKey(name: 'top_p', includeIfNull: false)
+  double? get topP;
   @override
 
   /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
@@ -30509,6 +31825,12 @@ mixin _$CreateThreadAndRunRequest {
   @JsonKey(includeIfNull: false)
   double? get temperature => throw _privateConstructorUsedError;
 
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  ///
+  /// We generally recommend altering this or temperature but not both.
+  @JsonKey(name: 'top_p', includeIfNull: false)
+  double? get topP => throw _privateConstructorUsedError;
+
   /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
   @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
   int? get maxPromptTokens => throw _privateConstructorUsedError;
@@ -30567,6 +31889,7 @@ abstract class $CreateThreadAndRunRequestCopyWith<$Res> {
       @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
       @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
       int? maxPromptTokens,
       @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
@@ -30609,6 +31932,7 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
     Object? tools = freezed,
     Object? metadata = freezed,
     Object? temperature = freezed,
+    Object? topP = freezed,
     Object? maxPromptTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
@@ -30644,6 +31968,10 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
       temperature: freezed == temperature
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
+      topP: freezed == topP
+          ? _value.topP
+          : topP // ignore: cast_nullable_to_non_nullable
               as double?,
       maxPromptTokens: freezed == maxPromptTokens
           ? _value.maxPromptTokens
@@ -30754,6 +32082,7 @@ abstract class _$$CreateThreadAndRunRequestImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
       @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
       int? maxPromptTokens,
       @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
@@ -30800,6 +32129,7 @@ class __$$CreateThreadAndRunRequestImplCopyWithImpl<$Res>
     Object? tools = freezed,
     Object? metadata = freezed,
     Object? temperature = freezed,
+    Object? topP = freezed,
     Object? maxPromptTokens = freezed,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
@@ -30835,6 +32165,10 @@ class __$$CreateThreadAndRunRequestImplCopyWithImpl<$Res>
       temperature: freezed == temperature
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
+      topP: freezed == topP
+          ? _value.topP
+          : topP // ignore: cast_nullable_to_non_nullable
               as double?,
       maxPromptTokens: freezed == maxPromptTokens
           ? _value.maxPromptTokens
@@ -30875,6 +32209,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
       @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
       @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) this.temperature = 1.0,
+      @JsonKey(name: 'top_p', includeIfNull: false) this.topP = 1.0,
       @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
       this.maxPromptTokens,
       @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
@@ -30949,6 +32284,13 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
   @JsonKey(includeIfNull: false)
   final double? temperature;
 
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  ///
+  /// We generally recommend altering this or temperature but not both.
+  @override
+  @JsonKey(name: 'top_p', includeIfNull: false)
+  final double? topP;
+
   /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
   @override
   @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
@@ -30990,7 +32332,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
 
   @override
   String toString() {
-    return 'CreateThreadAndRunRequest(assistantId: $assistantId, thread: $thread, model: $model, instructions: $instructions, tools: $tools, metadata: $metadata, temperature: $temperature, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, responseFormat: $responseFormat, stream: $stream)';
+    return 'CreateThreadAndRunRequest(assistantId: $assistantId, thread: $thread, model: $model, instructions: $instructions, tools: $tools, metadata: $metadata, temperature: $temperature, topP: $topP, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, responseFormat: $responseFormat, stream: $stream)';
   }
 
   @override
@@ -31008,6 +32350,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
             const DeepCollectionEquality().equals(other._metadata, _metadata) &&
             (identical(other.temperature, temperature) ||
                 other.temperature == temperature) &&
+            (identical(other.topP, topP) || other.topP == topP) &&
             (identical(other.maxPromptTokens, maxPromptTokens) ||
                 other.maxPromptTokens == maxPromptTokens) &&
             (identical(other.maxCompletionTokens, maxCompletionTokens) ||
@@ -31032,6 +32375,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
       const DeepCollectionEquality().hash(_tools),
       const DeepCollectionEquality().hash(_metadata),
       temperature,
+      topP,
       maxPromptTokens,
       maxCompletionTokens,
       truncationStrategy,
@@ -31065,6 +32409,7 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
           @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
           @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
           @JsonKey(includeIfNull: false) final double? temperature,
+          @JsonKey(name: 'top_p', includeIfNull: false) final double? topP,
           @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
           final int? maxPromptTokens,
           @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
@@ -31120,6 +32465,13 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
   @JsonKey(includeIfNull: false)
   double? get temperature;
+  @override
+
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  ///
+  /// We generally recommend altering this or temperature but not both.
+  @JsonKey(name: 'top_p', includeIfNull: false)
+  double? get topP;
   @override
 
   /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.

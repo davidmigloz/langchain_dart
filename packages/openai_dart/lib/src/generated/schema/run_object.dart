@@ -80,6 +80,9 @@ class RunObject with _$RunObject {
     /// The sampling temperature used for this run. If not set, defaults to 1.
     @JsonKey(includeIfNull: false) double? temperature,
 
+    /// The nucleus sampling value used for this run. If not set, defaults to 1.
+    @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
+
     /// The maximum number of prompt tokens specified to have been used over the course of the run.
     @JsonKey(name: 'max_prompt_tokens') required int? maxPromptTokens,
 
@@ -135,6 +138,7 @@ class RunObject with _$RunObject {
     'metadata',
     'usage',
     'temperature',
+    'top_p',
     'max_prompt_tokens',
     'max_completion_tokens',
     'truncation_strategy',
@@ -182,6 +186,7 @@ class RunObject with _$RunObject {
       'metadata': metadata,
       'usage': usage,
       'temperature': temperature,
+      'top_p': topP,
       'max_prompt_tokens': maxPromptTokens,
       'max_completion_tokens': maxCompletionTokens,
       'truncation_strategy': truncationStrategy,
