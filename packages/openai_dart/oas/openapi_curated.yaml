@@ -2408,7 +2408,7 @@ components:
           description: |
             The ID of an uploaded file that contains training data.
 
-            See [upload file](https://platform.openai.com/docs/api-reference/files/upload) for how to upload a file.
+            See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
 
             Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.
 
@@ -3240,6 +3240,40 @@ components:
           type: object
           additionalProperties: true
           nullable: true
+        temperature:
+          description: &run_temperature_description |
+            What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+          type: number
+          minimum: 0
+          maximum: 2
+          default: 1
+          example: 1
+          nullable: true
+        top_p:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 1
+          example: 1
+          nullable: true
+          description: &run_top_p_description |
+            An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+
+            We generally recommend altering this or temperature but not both.
+        response_format:
+          description: |
+            Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+            
+            Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+            
+            **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+          oneOf:
+            - type: string
+              title: CreateAssistantResponseFormatMode
+              description: >
+                `auto` is the default value
+              enum: [none, auto]
+            - $ref: "#/components/schemas/AssistantsResponseFormat"
       required:
         - model
     ModifyAssistantRequest:
@@ -3285,6 +3319,40 @@ components:
           type: object
           additionalProperties: true
           nullable: true
+        temperature:
+          description: &run_temperature_description |
+            What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+          type: number
+          minimum: 0
+          maximum: 2
+          default: 1
+          example: 1
+          nullable: true
+        top_p:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 1
+          example: 1
+          nullable: true
+          description: &run_top_p_description |
+            An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+
+            We generally recommend altering this or temperature but not both.
+        response_format:
+          description: |
+            Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+            
+            Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+            
+            **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+          oneOf:
+            - type: string
+              title: ModifyAssistantResponseFormatMode
+              description: >
+                `auto` is the default value
+              enum: [none, auto]
+            - $ref: "#/components/schemas/AssistantsResponseFormat"
     DeleteAssistantResponse:
       type: object
       description: Represents a deleted response returned by the Delete assistant endpoint.
@@ -3555,6 +3623,10 @@ components:
           description: The sampling temperature used for this run. If not set, defaults to 1.
           type: number
           nullable: true
+        top_p:
+          description: The nucleus sampling value used for this run. If not set, defaults to 1.
+          type: number
+          nullable: true
         max_prompt_tokens:
           type: integer
           nullable: true
@@ -3716,8 +3788,18 @@ components:
           default: 1
           example: 1
           nullable: true
-          description: &run_temperature_description |
-            What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+          description: *run_temperature_description
+        top_p:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 1
+          example: 1
+          nullable: true
+          description: &run_top_p_description |
+            An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+
+            We generally recommend altering this or temperature but not both.
         max_prompt_tokens:
           type: integer
           nullable: true
@@ -3933,6 +4015,14 @@ components:
           example: 1
           nullable: true
           description: *run_temperature_description
+        top_p:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 1
+          example: 1
+          nullable: true
+          description: *run_top_p_description
         max_prompt_tokens:
           type: integer
           nullable: true

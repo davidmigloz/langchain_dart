@@ -35,6 +35,23 @@ class CreateAssistantRequest with _$CreateAssistantRequest {
 
     /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
     @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
+
+    /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+    @JsonKey(includeIfNull: false) @Default(1.0) double? temperature,
+
+    /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+    ///
+    /// We generally recommend altering this or temperature but not both.
+    @JsonKey(name: 'top_p', includeIfNull: false) @Default(1.0) double? topP,
+
+    /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+    ///
+    /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+    ///
+    /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+    @_CreateAssistantRequestResponseFormatConverter()
+    @JsonKey(name: 'response_format', includeIfNull: false)
+    CreateAssistantRequestResponseFormat? responseFormat,
   }) = _CreateAssistantRequest;
 
   /// Object construction from a JSON representation
@@ -49,13 +66,22 @@ class CreateAssistantRequest with _$CreateAssistantRequest {
     'instructions',
     'tools',
     'file_ids',
-    'metadata'
+    'metadata',
+    'temperature',
+    'top_p',
+    'response_format'
   ];
 
   /// Validation constants
   static const nameMaxLengthValue = 256;
   static const descriptionMaxLengthValue = 512;
   static const instructionsMaxLengthValue = 256000;
+  static const temperatureDefaultValue = 1.0;
+  static const temperatureMinValue = 0.0;
+  static const temperatureMaxValue = 2.0;
+  static const topPDefaultValue = 1.0;
+  static const topPMinValue = 0.0;
+  static const topPMaxValue = 1.0;
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -70,6 +96,18 @@ class CreateAssistantRequest with _$CreateAssistantRequest {
         instructions!.length > instructionsMaxLengthValue) {
       return "The length of 'instructions' cannot be > $instructionsMaxLengthValue characters";
     }
+    if (temperature != null && temperature! < temperatureMinValue) {
+      return "The value of 'temperature' cannot be < $temperatureMinValue";
+    }
+    if (temperature != null && temperature! > temperatureMaxValue) {
+      return "The value of 'temperature' cannot be > $temperatureMaxValue";
+    }
+    if (topP != null && topP! < topPMinValue) {
+      return "The value of 'topP' cannot be < $topPMinValue";
+    }
+    if (topP != null && topP! > topPMaxValue) {
+      return "The value of 'topP' cannot be > $topPMaxValue";
+    }
     return null;
   }
 
@@ -83,6 +121,9 @@ class CreateAssistantRequest with _$CreateAssistantRequest {
       'tools': tools,
       'file_ids': fileIds,
       'metadata': metadata,
+      'temperature': temperature,
+      'top_p': topP,
+      'response_format': responseFormat,
     };
   }
 }
@@ -182,6 +223,94 @@ class _AssistantModelConverter
     return switch (data) {
       AssistantModelEnumeration(value: final v) => _$AssistantModelsEnumMap[v]!,
       AssistantModelString(value: final v) => v,
+    };
+  }
+}
+
+// ==========================================
+// ENUM: CreateAssistantResponseFormatMode
+// ==========================================
+
+/// `auto` is the default value
+enum CreateAssistantResponseFormatMode {
+  @JsonValue('none')
+  none,
+  @JsonValue('auto')
+  auto,
+}
+
+// ==========================================
+// CLASS: CreateAssistantRequestResponseFormat
+// ==========================================
+
+/// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+///
+/// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+///
+/// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+@freezed
+sealed class CreateAssistantRequestResponseFormat
+    with _$CreateAssistantRequestResponseFormat {
+  const CreateAssistantRequestResponseFormat._();
+
+  /// `auto` is the default value
+  const factory CreateAssistantRequestResponseFormat.mode(
+    CreateAssistantResponseFormatMode value,
+  ) = CreateAssistantRequestResponseFormatEnumeration;
+
+  /// No Description
+  const factory CreateAssistantRequestResponseFormat.format(
+    AssistantsResponseFormat value,
+  ) = CreateAssistantRequestResponseFormatAssistantsResponseFormat;
+
+  /// Object construction from a JSON representation
+  factory CreateAssistantRequestResponseFormat.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateAssistantRequestResponseFormatFromJson(json);
+}
+
+/// Custom JSON converter for [CreateAssistantRequestResponseFormat]
+class _CreateAssistantRequestResponseFormatConverter
+    implements JsonConverter<CreateAssistantRequestResponseFormat?, Object?> {
+  const _CreateAssistantRequestResponseFormatConverter();
+
+  @override
+  CreateAssistantRequestResponseFormat? fromJson(Object? data) {
+    if (data == null) {
+      return null;
+    }
+    if (data is String &&
+        _$CreateAssistantResponseFormatModeEnumMap.values.contains(data)) {
+      return CreateAssistantRequestResponseFormatEnumeration(
+        _$CreateAssistantResponseFormatModeEnumMap.keys.elementAt(
+          _$CreateAssistantResponseFormatModeEnumMap.values
+              .toList()
+              .indexOf(data),
+        ),
+      );
+    }
+    if (data is Map<String, dynamic>) {
+      try {
+        return CreateAssistantRequestResponseFormatAssistantsResponseFormat(
+          AssistantsResponseFormat.fromJson(data),
+        );
+      } catch (e) {}
+    }
+    throw Exception(
+      'Unexpected value for CreateAssistantRequestResponseFormat: $data',
+    );
+  }
+
+  @override
+  Object? toJson(CreateAssistantRequestResponseFormat? data) {
+    return switch (data) {
+      CreateAssistantRequestResponseFormatEnumeration(value: final v) =>
+        _$CreateAssistantResponseFormatModeEnumMap[v]!,
+      CreateAssistantRequestResponseFormatAssistantsResponseFormat(
+        value: final v
+      ) =>
+        v.toJson(),
+      null => null,
     };
   }
 }
