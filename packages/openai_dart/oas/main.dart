@@ -112,8 +112,10 @@ String? _onSchemaUnionFactoryName(
       'CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat' =>
         'format',
       'RunObjectResponseFormatAssistantsResponseFormat' => 'format',
-      'CreateAssistantRequestResponseFormatAssistantsResponseFormat' => 'format',
-      'ModifyAssistantRequestResponseFormatAssistantsResponseFormat' => 'format',
+      'CreateAssistantRequestResponseFormatAssistantsResponseFormat' =>
+        'format',
+      'ModifyAssistantRequestResponseFormatAssistantsResponseFormat' =>
+        'format',
       'CreateRunRequestToolChoiceEnumeration' => 'mode',
       'CreateThreadAndRunRequestToolChoiceEnumeration' => 'mode',
       'RunObjectToolChoiceEnumeration' => 'mode',

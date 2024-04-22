@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:collection/collection.dart';
 import 'package:langchain_core/documents.dart';
 import 'package:langchain_core/embeddings.dart';
+import 'package:langchain_core/utils.dart';
 import 'package:langchain_core/vector_stores.dart';
 import 'package:meta/meta.dart';
 import 'package:uuid/uuid.dart';
@@ -233,20 +232,4 @@ class MemoryVector {
         'document: $document, '
         'embedding: ${embedding.length}}';
   }
-}
-
-/// Measures the cosine of the angle between two vectors in a vector space.
-/// It ranges from -1 to 1, where 1 represents identical vectors, 0 represents
-/// orthogonal vectors, and -1 represents vectors that are diametrically
-/// opposed.
-double cosineSimilarity(final List<double> a, final List<double> b) {
-  double p = 0;
-  double p2 = 0;
-  double q2 = 0;
-  for (int i = 0; i < a.length; i++) {
-    p += a[i] * b[i];
-    p2 += a[i] * a[i];
-    q2 += b[i] * b[i];
-  }
-  return p / (sqrt(p2) * sqrt(q2));
 }

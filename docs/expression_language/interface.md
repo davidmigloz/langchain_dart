@@ -23,6 +23,7 @@ The type of the input and output varies by component:
 | `RunnableMap`               | Runnable input type    | `Map<String, dynamic>` |
 | `RunnableBinding`           | Runnable input type    | Runnable output type   |
 | `RunnableFunction`          | Runnable input type    | Runnable output type   |
+| `RunnableRouter`            | Runnable input type    | Runnable output type   |
 | `RunnablePassthrough`       | Runnable input type    | Runnable input type    |
 | `RunnableItemFromMap`       | `Map<String, dynamic>` | Runnable output type   |
 | `RunnableMapFromInput`      | Runnable input type    | `Map<String, dynamic>` |
@@ -284,6 +285,36 @@ final res = await chain.invoke({'foo': 'foo', 'bar': 'bar'});
 print(res);
 // 3 + 9 = 12
 ```
+
+### RunnableRouter
+
+A `RunnableRouter` takes the input it receives and routes it to the runnable specified by the `router` function.
+
+You can create a `RunnableRouter` using the `Runnable.router` static method.
+
+When you call `invoke` on a `RunnableRouter`, it will take the input it receives and return the output of the `router` function.
+
+Example:
+```dart
+final router = Runnable.fromRouter((Map<String, dynamic> input, _) {
+  return switch(input['topic'] as String) {
+    'langchain' => langchainChain,
+    'anthropic' => anthropicChain,
+    _ => generalChain,
+  };
+});
+final fullChain = Runnable.fromMap({
+      'topic': classificationChain,
+      'question': Runnable.getItemFromMap('question'),
+    }).pipe(router);
+final res2 = await fullChain.invoke({
+  'question': 'how do I use Anthropic?',
+});
+print(res2);
+// As Dario Amodei told me, using Anthropic is a straightforward process that...
+```
+
+Check the [Routing guide](cookbook/routing.md) for more information.
 
 ### RunnablePassthrough
 
