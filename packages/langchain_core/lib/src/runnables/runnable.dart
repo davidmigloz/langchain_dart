@@ -7,6 +7,7 @@ import 'input_getter.dart';
 import 'input_map.dart';
 import 'map.dart';
 import 'passthrough.dart';
+import 'router.dart';
 import 'sequence.dart';
 import 'types.dart';
 
@@ -37,9 +38,20 @@ import 'types.dart';
 /// - [RunnableFunction] allows you to run a Dart function as part of a chain.
 ///   You can create a [RunnableFunction] using the [Runnable.fromFunction]
 ///   static method.
+/// - [RunnableRouter] takes the input it receives and routes it to the runnable
+///   returned by the [router] function. You can create a [RunnableRouter] using
+///   the [Runnable.fromRouter] static method.
 /// - [RunnablePassthrough] takes the input it receives and passes it through
 ///   as output. You can create a [RunnablePassthrough] using the
 ///   [Runnable.passthrough] static method.
+/// - [RunnableItemFromMap] allows you to get a value from the input. You can
+///   create a [RunnableItemFromMap] using the [Runnable.getItemFromMap] static
+///   method.
+/// - [RunnableMapFromInput] allows you to output a map with the given key and
+///   the input as value. You can create a [RunnableMapFromInput] using the
+///   [Runnable.getMapFromInput] static method.
+/// - [RunnableMapInput] allows you to map the input to a different value. You
+///   can create a [RunnableMapInput] using the [Runnable.mapInput] static method.
 /// {@endtemplate}
 abstract class Runnable<RunInput extends Object?,
     CallOptions extends RunnableOptions, RunOutput extends Object?> {
@@ -55,11 +67,21 @@ abstract class Runnable<RunInput extends Object?,
   final CallOptions defaultOptions;
 
   /// Creates a [RunnableSequence] from a list of [Runnable] objects.
+  ///
+  /// A [RunnableSequence] allows you to run multiple [Runnable] objects
+  /// sequentially, passing the output of the previous [Runnable] to the next one.
+  ///
+  /// - [runnables] - the list of [Runnable] objects to run in sequence.
   static Runnable fromList(final List<Runnable> runnables) {
     return RunnableSequence.from(runnables);
   }
 
   /// Creates a [RunnableMap] from a map of [Runnable] objects.
+  ///
+  /// A [RunnableMap] allows you to run multiple [Runnable] objects in parallel
+  /// on the same input returning a map of the results.
+  ///
+  /// - [steps] - the map of [Runnable] objects to run in parallel.
   static Runnable<RunInput, RunnableOptions, Map<String, dynamic>>
       fromMap<RunInput extends Object>(
     final Map<String, Runnable<RunInput, RunnableOptions, Object>> steps,
@@ -68,6 +90,10 @@ abstract class Runnable<RunInput extends Object?,
   }
 
   /// Creates a [RunnableFunction] from a Dart function.
+  ///
+  /// A [RunnableFunction] allows you to run a Dart function as part of a chain.
+  ///
+  /// - [function] - the function to run.
   static Runnable<RunInput, RunnableOptions, RunOutput>
       fromFunction<RunInput extends Object, RunOutput extends Object>(
     final FutureOr<RunOutput> Function(
@@ -78,8 +104,27 @@ abstract class Runnable<RunInput extends Object?,
     return RunnableFunction<RunInput, RunOutput>(function);
   }
 
+  /// Creates a [RunnableRouter] from a Dart function.
+  ///
+  /// A [RunnableRouter] takes the input it receives and routes it to the runnable
+  /// returned by the [router] function.
+  ///
+  /// - [router] - the function that will be called to determine the runnable to use.
+  static Runnable<RunInput, RunnableOptions, RunOutput>
+      fromRouter<RunInput extends Object, RunOutput extends Object>(
+    final FutureOr<Runnable<RunInput, RunnableOptions, RunOutput>> Function(
+      RunInput input,
+      RunnableOptions? options,
+    ) router,
+  ) {
+    return RunnableRouter<RunInput, RunOutput>(router);
+  }
+
   /// Creates a [RunnablePassthrough] which takes the input it receives and
   /// passes it through as output.
+  ///
+  /// A [RunnablePassthrough] takes the input it receives and passes it through
+  /// as output.
   static Runnable<RunInput, RunnableOptions, RunInput>
       passthrough<RunInput extends Object>() {
     return RunnablePassthrough<RunInput>();
@@ -87,6 +132,10 @@ abstract class Runnable<RunInput extends Object?,
 
   /// Creates a [RunnableItemFromMap] which takes a map input it receives and
   /// returns the value of the given key.
+  ///
+  /// A [RunnableItemFromMap] allows you to get a value from the input.
+  ///
+  /// - [key] - the key of the item to get from the input map.
   static Runnable<Map<String, dynamic>, RunnableOptions, RunOutput>
       getItemFromMap<RunOutput extends Object>(
     final String key,
@@ -96,6 +145,11 @@ abstract class Runnable<RunInput extends Object?,
 
   /// Creates a [RunnableMapFromInput] which output a map with the given key and
   /// the input as value.
+  ///
+  /// A [RunnableMapFromInput] allows you to output a map with the given key and
+  /// the input as value.
+  ///
+  /// - [key] - the key where to place the input in the output map.
   static Runnable<RunInput, RunnableOptions, Map<String, dynamic>>
       getMapFromInput<RunInput extends Object>([final String key = 'input']) {
     return RunnableMapFromInput<RunInput>(key);
@@ -103,6 +157,10 @@ abstract class Runnable<RunInput extends Object?,
 
   /// Creates a [RunnableMapInput] which allows you to map the input to a
   /// different value.
+  ///
+  /// A [RunnableMapInput] allows you to map the input to a different value.
+  ///
+  /// - [inputMapper] - a function that maps [RunInput] to [RunOutput].
   static Runnable<RunInput, RunnableOptions, RunOutput>
       mapInput<RunInput extends Object, RunOutput extends Object>(
     final RunOutput Function(RunInput input) inputMapper,
@@ -188,7 +246,11 @@ abstract class Runnable<RunInput extends Object?,
     });
   }
 
-  /// Pipes the output of this [Runnable] into another [Runnable].
+  /// Pipes the output of this [Runnable] into another [Runnable] using a
+  /// [RunnableSequence].
+  ///
+  /// A [RunnableSequence] allows you to run multiple [Runnable] objects
+  /// sequentially, passing the output of the previous [Runnable] to the next one.
   ///
   /// - [next] - the [Runnable] to pipe the output into.
   RunnableSequence<RunInput, NewRunOutput> pipe<NewRunOutput extends Object?,

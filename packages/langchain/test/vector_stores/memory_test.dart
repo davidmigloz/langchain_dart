@@ -198,37 +198,6 @@ void main() {
       expect(newMap, store.memoryVectors);
     });
   });
-
-  group('Search algorithms tests', () {
-    const precision = 0.0001;
-
-    test('Test cosine similarity function', () {
-      expect(
-        cosineSimilarity([1, 2, 3], [4, 5, 6]),
-        closeTo(0.9746, precision),
-      );
-      expect(
-        cosineSimilarity([1, 0], [0, 1]),
-        closeTo(0.0, precision),
-      );
-      expect(
-        cosineSimilarity([1, 2], [2, 4]),
-        closeTo(1.0, precision),
-      );
-      expect(
-        cosineSimilarity([1], [2]),
-        closeTo(1.0, precision),
-      );
-      expect(
-        cosineSimilarity([1], [1]),
-        closeTo(1.0, precision),
-      );
-      expect(
-        cosineSimilarity([], []),
-        isNaN,
-      );
-    });
-  });
 }
 
 class _FakeEmbeddings implements Embeddings {

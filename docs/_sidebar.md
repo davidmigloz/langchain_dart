@@ -8,6 +8,7 @@
   - Cookbook
     - [Prompt + LLM](/expression_language/cookbook/prompt_llm_parser.md)
     - [Multiple chains](/expression_language/cookbook/multiple_chains.md)
+    - [Route logic based on input](/expression_language/cookbook/routing.md)
     - [Adding memory](/expression_language/cookbook/adding_memory.md)
     - [Retrieval](/expression_language/cookbook/retrieval.md)
     - [Using Tools](/expression_language/cookbook/tools.md)

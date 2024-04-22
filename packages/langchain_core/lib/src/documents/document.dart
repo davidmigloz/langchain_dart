@@ -67,6 +67,18 @@ class Document {
   @override
   int get hashCode => id.hashCode ^ pageContent.hashCode ^ metadata.hashCode;
 
+  /// Concatenates the current document with another document.
+  Document concat(final Document other) {
+    return Document(
+      id: id ?? other.id,
+      pageContent: '$pageContent${other.pageContent}',
+      metadata: {
+        ...metadata,
+        ...other.metadata,
+      },
+    );
+  }
+
   @override
   String toString() {
     return 'Document{'

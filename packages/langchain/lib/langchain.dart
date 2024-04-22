@@ -20,4 +20,5 @@ export 'src/runnables/runnables.dart';
 export 'src/stores/stores.dart';
 export 'src/text_splitters/text_splitters.dart';
 export 'src/tools/tools.dart';
+export 'src/utils/utils.dart';
 export 'src/vector_stores/vector_stores.dart';
