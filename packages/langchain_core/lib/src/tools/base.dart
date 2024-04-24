@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 
 import '../chat_models/types.dart';
 import '../langchain/base.dart';
+import '../utils/reduce.dart';
 import 'types.dart';
 
 /// {@template base_tool}
@@ -91,6 +92,21 @@ abstract base class BaseTool<Options extends ToolOptions>
     final Options? options,
   }) async {
     return run(input);
+  }
+
+  /// Streams the tool's output for the input resulting from
+  /// reducing the input stream.
+  ///
+  /// - [inputStream] - the input stream to reduce and use as the input.
+  /// - [options] is the options to pass to the tool.
+  @override
+  Stream<String> streamFromInputStream(
+    final Stream<Map<String, dynamic>> inputStream, {
+    final Options? options,
+  }) async* {
+    final input = await inputStream.toList();
+    final reduced = reduce<Map<String, dynamic>>(input);
+    yield* stream(reduced, options: options);
   }
 
   /// Runs the tool.

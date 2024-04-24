@@ -73,7 +73,7 @@ void main() {
     });
 
     test('LLM batch', () async {
-      final run = FakeListLLM(
+      final run = FakeLLM(
         responses: ['test1', 'test2', 'test3'],
       );
       final res = await run.batch([

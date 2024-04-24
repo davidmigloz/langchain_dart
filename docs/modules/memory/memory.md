@@ -42,7 +42,7 @@ You may want to use this class directly if you are managing memory outside of a 
 ```dart
 final history = ChatMessageHistory();
 
-history.addUserChatMessage('hi!');
+history.addHumanChatMessage('hi!');
 history.addAIChatMessage('whats up?');
 
 print(await history.getChatMessages());
@@ -60,7 +60,7 @@ We can first extract it as a string.
 ```dart
 final memory = ConversationBufferMemory();
 
-memory.chatHistory.addUserChatMessage('hi!');
+memory.chatHistory.addHumanChatMessage('hi!');
 memory.chatHistory.addAIChatMessage('whats up
 
 print(await memory.loadMemoryVariables());
@@ -72,7 +72,7 @@ We can also get the history as a list of messages:
 ```dart
 final memory = ConversationBufferMemory(returnMessages: true);
 
-memory.chatHistory.addUserChatMessage('hi!');
+memory.chatHistory.addHumanChatMessage('hi!');
 memory.chatHistory.addAIChatMessage('whats up?');
 
 print(await memory.loadMemoryVariables());

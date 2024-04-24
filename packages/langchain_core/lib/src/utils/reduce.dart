@@ -1,6 +1,7 @@
 import '../chat_models/types.dart';
 import '../documents/document.dart';
 import '../language_models/types.dart';
+import '../prompts/types.dart';
 
 /// Reduces a list of objects to a single object by concatenating them.
 ///
@@ -24,6 +25,8 @@ Type reduce<Type>(final Iterable<Type> input) {
     String() => input.cast<String>().join(),
     ChatMessage() =>
       input.cast<ChatMessage>().reduce((final a, final b) => a.concat(b)),
+    PromptValue() =>
+      input.cast<PromptValue>().reduce((final a, final b) => a.concat(b)),
     LanguageModelResult() => input
         .cast<LanguageModelResult>()
         .reduce((final a, final b) => a.concat(b)),
@@ -34,7 +37,7 @@ Type reduce<Type>(final Iterable<Type> input) {
     Iterable<dynamic>() => _reduceIterable(input.cast<Iterable<dynamic>>()),
     Map<String, String>() => _reduceMap(input.cast<Map<String, String>>()),
     Map<String, Object>() => _reduceMap(input.cast<Map<String, Object>>()),
-    Map<String, dynamic>() => _reduceMap(input.cast<Map<String, String>>()),
+    Map<String, dynamic>() => _reduceMap(input.cast<Map<String, dynamic>>()),
     Map<dynamic, dynamic>() => _reduceMap(input.cast<Map<dynamic, dynamic>>()),
     _ => input.last,
   } as Type;

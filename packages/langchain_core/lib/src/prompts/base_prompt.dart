@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 
 import '../langchain/types.dart';
 import '../runnables/runnable.dart';
+import '../utils/reduce.dart';
 import 'template.dart';
 import 'types.dart';
 
@@ -69,45 +70,14 @@ abstract base class BasePromptTemplate
   }
 
   @override
-  Stream<PromptValue> stream(
-    final InputValues input, {
-    final BaseLangChainOptions? options,
-  }) {
-    return streamFromInputStream(
-      Stream.value(input).asBroadcastStream(),
-      options: options,
-    );
-  }
-
-  @override
   Stream<PromptValue> streamFromInputStream(
     final Stream<InputValues> inputStream, {
     final BaseLangChainOptions? options,
-  }) {
-    final userKeys = inputVariables.difference(
-      partialVariables?.keys.toSet() ?? {},
-    );
-    final userInput = <String, dynamic>{};
-    return inputStream
-        .asyncMap((final InputValues inputValues) {
-          for (final input in inputValues.entries) {
-            final key = input.key;
-            final value = input.value;
-            if (value is String) {
-              userInput[key] = (userInput[key] as String? ?? '') + value;
-            } else {
-              userInput[key] = value;
-            }
-          }
-          final hasAllUserValues = userKeys.every(userInput.containsKey);
-          if (hasAllUserValues) {
-            return formatPrompt(userInput);
-          } else {
-            return null;
-          }
-        })
-        .where((final res) => res != null)
-        .cast();
+  }) async* {
+    final List<InputValues> input = await inputStream.toList();
+    final InputValues reduced =
+        input.isEmpty ? const {} : reduce<InputValues>(input);
+    yield* stream(reduced, options: options);
   }
 
   /// Format the prompt given the input values and return a formatted string.

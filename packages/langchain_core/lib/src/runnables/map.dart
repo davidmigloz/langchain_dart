@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:async/async.dart' show StreamGroup;
+import 'package:rxdart/subjects.dart' show ReplaySubject;
 
 import 'runnable.dart';
 import 'types.dart';
@@ -77,7 +80,7 @@ class RunnableMap<RunInput extends Object>
     final RunnableOptions? options,
   }) {
     return streamFromInputStream(
-      Stream.value(input).asBroadcastStream(),
+      Stream.value(input),
       options: options,
     );
   }
@@ -87,11 +90,18 @@ class RunnableMap<RunInput extends Object>
     final Stream<RunInput> inputStream, {
     final RunnableOptions? options,
   }) {
+    final subject = ReplaySubject<RunInput>();
+    inputStream.listen(
+      subject.add,
+      onError: subject.addError,
+      onDone: subject.close,
+    );
+
     return StreamGroup.merge(
       steps.entries.map((final entry) {
         return entry.value
             .streamFromInputStream(
-              inputStream,
+              subject.stream,
               options: entry.value.getCompatibleOptions(options),
             )
             .map((final output) => {entry.key: output});

@@ -37,7 +37,7 @@ void main() {
     }
 
     test('Test MapReduceDocumentsChain with LLM', () async {
-      final model = FakeListLLM(
+      final model = FakeLLM(
         responses: [
           // Summarize this content: Hello 1!
           '1',

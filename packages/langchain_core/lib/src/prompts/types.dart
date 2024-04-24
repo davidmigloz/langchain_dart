@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
@@ -32,6 +34,9 @@ sealed class PromptValue {
   factory PromptValue.chat(final List<ChatMessage> messages) {
     return ChatPromptValue(messages);
   }
+
+  /// Merges this prompt value with another by concatenating the content.
+  PromptValue concat(final PromptValue other);
 }
 
 /// {@template string_prompt_template}
@@ -58,6 +63,18 @@ class StringPromptValue implements PromptValue {
   List<ChatMessage> toChatMessages() {
     return [ChatMessage.humanText(value)];
   }
+
+  @override
+  PromptValue concat(
+    final PromptValue other,
+  ) =>
+      switch (other) {
+        final StringPromptValue other => StringPromptValue(value + other.value),
+        final ChatPromptValue other => ChatPromptValue([
+            ChatMessage.humanText(value),
+            ...other.messages,
+          ]),
+      };
 
   @override
   bool operator ==(covariant final StringPromptValue other) =>
@@ -100,6 +117,38 @@ class ChatPromptValue implements PromptValue {
   List<ChatMessage> toChatMessages() {
     return messages;
   }
+
+  @override
+  PromptValue concat(
+    final PromptValue other,
+  ) =>
+      switch (other) {
+        final StringPromptValue other => ChatPromptValue([
+            ...messages,
+            ChatMessage.humanText(other.value),
+          ]),
+        final ChatPromptValue other => ChatPromptValue(
+            List.generate(
+              max(messages.length, other.messages.length),
+              (index) => (
+                index < messages.length ? messages[index] : null,
+                index < other.messages.length ? other.messages[index] : null,
+              ),
+            )
+                .map((final pair) {
+                  final (message, otherMessage) = pair;
+                  if (message == null) {
+                    return otherMessage;
+                  } else if (otherMessage == null) {
+                    return message;
+                  } else {
+                    return message.concat(otherMessage);
+                  }
+                })
+                .whereNotNull()
+                .toList(growable: false),
+          ),
+      };
 
   @override
   bool operator ==(covariant final ChatPromptValue other) {

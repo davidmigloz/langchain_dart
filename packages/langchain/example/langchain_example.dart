@@ -5,7 +5,7 @@ void main() async {
   final promptTemplate = PromptTemplate.fromTemplate(
     'tell me a joke about {subject}',
   );
-  final llm = FakeListLLM(
+  final llm = FakeLLM(
     responses: ['Why did the AI go on a diet? Because it had too many bytes!'],
   );
   final chain = promptTemplate.pipe(llm).pipe(const StringOutputParser());

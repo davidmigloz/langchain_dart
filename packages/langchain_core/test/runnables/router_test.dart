@@ -23,7 +23,7 @@ void main() {
       expect(result2, equals(-2));
     });
 
-    test('RunnableBranch batch', () async {
+    test('RunnableRouter batch', () async {
       final add = Runnable.fromFunction((int x, _) => x + 1);
       final multiply = Runnable.fromFunction((int x, _) => x * 10);
       final subtract = Runnable.fromFunction((int x, _) => x - 1);
@@ -40,7 +40,7 @@ void main() {
       expect(batchResult, equals([2, 100, -1]));
     });
 
-    test('RunnableBranch stream', () async {
+    test('RunnableRouter stream', () async {
       final promptTemplate = ChatPromptTemplate.fromTemplate('{question}');
       const model = FakeEchoChatModel();
 
