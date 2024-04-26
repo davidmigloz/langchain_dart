@@ -31,7 +31,7 @@ class ChatResult extends LanguageModelResult<AIChatMessage> {
   String get outputAsString => output.content;
 
   @override
-  LanguageModelResult<AIChatMessage> concat(
+  ChatResult concat(
     final LanguageModelResult<AIChatMessage> other,
   ) {
     return ChatResult(

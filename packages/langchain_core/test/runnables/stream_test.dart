@@ -119,4 +119,181 @@ void main() {
       expect(res, 'hello');
     });
   });
+
+  test('Test call to PromptTemplate from streaming input', () async {
+    final inputStream = Stream.fromIterable([
+      {'input': 'H'},
+      {'input': 'e'},
+      {'input': 'l'},
+      {'input': 'l'},
+      {'input': 'o'},
+      {'input': ' '},
+      {'input': 'W'},
+      {'input': 'o'},
+      {'input': 'r'},
+      {'input': 'l'},
+      {'input': 'd'},
+    ]);
+
+    final promptTemplate = PromptTemplate.fromTemplate(
+      'Spell the following text {input}',
+    );
+
+    final stream = promptTemplate.streamFromInputStream(inputStream);
+    int count = 0;
+    PromptValue output = PromptValue.string('');
+    await stream.forEach((final i) {
+      count++;
+      output = output.concat(i);
+    });
+    expect(count, 1);
+    expect(output, PromptValue.string('Spell the following text Hello World'));
+  });
+
+  test('Test call to ChatPromptTemplate from streaming input', () async {
+    final inputStream = Stream.fromIterable([
+      {'input': 'H'},
+      {'input': 'e'},
+      {'input': 'l'},
+      {'input': 'l'},
+      {'input': 'o'},
+      {'input': ' '},
+      {'input': 'W'},
+      {'input': 'o'},
+      {'input': 'r'},
+      {'input': 'l'},
+      {'input': 'd'},
+    ]);
+
+    final promptTemplate = ChatPromptTemplate.fromTemplate(
+      'Spell the following text {input}',
+    );
+
+    final stream = promptTemplate.streamFromInputStream(inputStream);
+    int count = 0;
+    PromptValue output = PromptValue.chat([ChatMessage.humanText('')]);
+    await stream.forEach((final i) {
+      count++;
+      output = output.concat(i);
+    });
+    expect(count, 1);
+    expect(
+      output,
+      PromptValue.chat(
+        [ChatMessage.humanText('Spell the following text Hello World')],
+      ),
+    );
+  });
+
+  test('Test call to LLM from streaming input', () async {
+    final inputStream = Stream.fromIterable([
+      PromptValue.string('H'),
+      PromptValue.string('e'),
+      PromptValue.string('l'),
+      PromptValue.string('l'),
+      PromptValue.string('o'),
+      PromptValue.string(' '),
+      PromptValue.string('W'),
+      PromptValue.string('o'),
+      PromptValue.string('r'),
+      PromptValue.string('l'),
+      PromptValue.string('d'),
+    ]);
+
+    const llm = FakeEchoLLM();
+    final stream = llm.streamFromInputStream(inputStream);
+    int count = 0;
+    LLMResult? output;
+    await stream.forEach((final LLMResult i) {
+      count++;
+      output = output?.concat(i) ?? i;
+    });
+    expect(count, 11);
+    expect(output?.output, 'Hello World');
+  });
+
+  test('Test call to ChatModel from streaming input', () async {
+    final inputStream = Stream.fromIterable([
+      PromptValue.chat([ChatMessage.humanText('H')]),
+      PromptValue.chat([ChatMessage.humanText('e')]),
+      PromptValue.chat([ChatMessage.humanText('l')]),
+      PromptValue.chat([ChatMessage.humanText('l')]),
+      PromptValue.chat([ChatMessage.humanText('o')]),
+      PromptValue.chat([ChatMessage.humanText(' ')]),
+      PromptValue.chat([ChatMessage.humanText('W')]),
+      PromptValue.chat([ChatMessage.humanText('o')]),
+      PromptValue.chat([ChatMessage.humanText('r')]),
+      PromptValue.chat([ChatMessage.humanText('l')]),
+      PromptValue.chat([ChatMessage.humanText('d')]),
+    ]);
+
+    const chatModel = FakeEchoChatModel();
+    final stream = chatModel.streamFromInputStream(inputStream);
+    int count = 0;
+    ChatResult? output;
+    await stream.forEach((final ChatResult i) {
+      count++;
+      output = output?.concat(i) ?? i;
+    });
+    expect(count, 11);
+    expect(output?.output.content, 'Hello World');
+  });
+
+  test('Test call to Tool from streaming input', () async {
+    final inputStream = Stream.fromIterable([
+      {'input': 'H'},
+      {'input': 'e'},
+      {'input': 'l'},
+      {'input': 'l'},
+      {'input': 'o'},
+      {'input': ' '},
+      {'input': 'W'},
+      {'input': 'o'},
+      {'input': 'r'},
+      {'input': 'l'},
+      {'input': 'd'},
+    ]);
+
+    final tool = FakeTool();
+    final stream = tool.streamFromInputStream(inputStream);
+    int count = 0;
+    String? output;
+    await stream.forEach((final String i) {
+      count++;
+      output = i;
+    });
+    expect(count, 1);
+    expect(output, 'Hello World');
+  });
+
+  test('Test call to Retriever from streaming input', () async {
+    final inputStream = Stream.fromIterable([
+      'H',
+      'e',
+      'l',
+      'l',
+      'o',
+      ' ',
+      'W',
+      'o',
+      'r',
+      'l',
+      'd',
+    ]);
+
+    const doc = Document(
+      id: '1',
+      pageContent: 'Hello World',
+    );
+    const retriever = FakeRetriever([doc]);
+    final stream = retriever.streamFromInputStream(inputStream);
+    int count = 0;
+    List<Document>? output;
+    await stream.forEach((final List<Document> i) {
+      count++;
+      output = i;
+    });
+    expect(count, 1);
+    expect(output, [doc]);
+  });
 }

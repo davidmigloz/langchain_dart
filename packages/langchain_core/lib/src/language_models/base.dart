@@ -25,16 +25,6 @@ abstract class BaseLanguageModel<
   /// Return type of language model.
   String get modelType;
 
-  /// Runs the Language Model on the given prompt value.
-  ///
-  /// - [input] The prompt value to pass into the model.
-  /// - [options] Generation options to pass into the model.
-  @override
-  Future<Output> invoke(
-    final PromptValue input, {
-    final Options? options,
-  });
-
   /// Tokenizes the given prompt using the encoding used by the language
   /// model.
   ///

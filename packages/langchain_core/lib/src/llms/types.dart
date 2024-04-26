@@ -31,7 +31,7 @@ class LLMResult extends LanguageModelResult<String> {
   String get outputAsString => output;
 
   @override
-  LanguageModelResult<String> concat(
+  LLMResult concat(
     final LanguageModelResult<String> other,
   ) {
     return LLMResult(

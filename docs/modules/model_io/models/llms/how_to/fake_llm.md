@@ -4,14 +4,14 @@ We expose some fake LLM classes that can be used for testing. This allows you
 to mock out calls to the LLM and simulate what would happen if the LLM 
 responded in a certain way.
 
-## FakeListLLM
+## FakeLLM
 
 You can configure a list of responses that the LLM will return in order.
 
 Example:
 ```dart
 test('Test LLMChain call', () async {
-  final model = FakeListLLM(responses: ['Hello world!']);
+  final model = FakeLLM(responses: ['Hello world!']);
   final prompt = PromptTemplate.fromTemplate('Print {foo}');
   final chain = LLMChain(prompt: prompt, llm: model);
   final res = await chain.call({'foo': 'Hello world!'});

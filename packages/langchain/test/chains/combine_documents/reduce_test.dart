@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 void main() {
   group('ReduceDocumentsChain tests', () {
     test('Test reduce', () async {
-      final llm = FakeListLLM(
+      final llm = FakeLLM(
         responses: [
           // Summarize this content: Hello 1!\n\nHello 2!\n\nHello 3!\n\nHello 4!
           'Hello 1234!',
@@ -32,7 +32,7 @@ void main() {
     });
 
     test('Test reduce and collapse', () async {
-      final llm = FakeListLLM(
+      final llm = FakeLLM(
         responses: [
           // Collapse this content: Hello 1!\n\nHello 2!\n\nHello 3!
           'Hello 123!',

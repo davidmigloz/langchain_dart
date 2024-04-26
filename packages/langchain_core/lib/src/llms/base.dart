@@ -16,23 +16,6 @@ abstract class BaseLLM<Options extends LLMOptions>
     required super.defaultOptions,
   });
 
-  /// Runs the LLM on the given prompt value.
-  ///
-  /// - [input] The prompt value to pass into the model.
-  /// - [options] Generation options to pass into the LLM.
-  ///
-  /// Example:
-  /// ```dart
-  /// final result = await openai.invoke(
-  ///   PromptValue.string('Tell me a joke.'),
-  /// );
-  /// ```
-  @override
-  Future<LLMResult> invoke(
-    final PromptValue input, {
-    final Options? options,
-  });
-
   /// Runs the LLM on the given String prompt and returns a String with the
   /// generated text.
   ///

@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 
 import '../language_models/language_models.dart';
 import '../prompts/types.dart';
+import '../utils/reduce.dart';
 import 'types.dart';
 
 /// {@template base_chat_model}
@@ -15,22 +16,15 @@ abstract class BaseChatModel<Options extends ChatModelOptions>
     required super.defaultOptions,
   });
 
-  /// Runs the chat model on the given prompt value.
-  ///
-  /// - [input] The prompt value to pass into the model.
-  /// - [options] Generation options to pass into the Chat Model.
-  ///
-  /// Example:
-  /// ```dart
-  /// final result = await chat.invoke(
-  ///   PromptValue.chat([ChatMessage.humanText('say hi!')]),
-  /// );
-  /// ```
   @override
-  Future<ChatResult> invoke(
-    final PromptValue input, {
+  Stream<ChatResult> streamFromInputStream(
+    final Stream<PromptValue> inputStream, {
     final Options? options,
-  });
+  }) async* {
+    final input = await inputStream.toList();
+    final reduced = reduce<PromptValue>(input);
+    yield* stream(reduced, options: options);
+  }
 
   /// Runs the chat model on the given messages and returns a chat message.
   ///

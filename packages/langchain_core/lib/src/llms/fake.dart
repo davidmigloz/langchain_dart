@@ -7,9 +7,9 @@ import 'types.dart';
 /// Fake LLM for testing.
 /// You can pass in a list of responses to return in order when called.
 /// {@endtemplate}
-class FakeListLLM extends SimpleLLM {
+class FakeLLM extends SimpleLLM {
   /// {@macro fake_list_llm}
-  FakeListLLM({
+  FakeLLM({
     required this.responses,
   }) : super(defaultOptions: const LLMOptions());
 
@@ -27,6 +27,24 @@ class FakeListLLM extends SimpleLLM {
     final LLMOptions? options,
   }) {
     return Future<String>.value(responses[_i++ % responses.length]);
+  }
+
+  @override
+  Stream<LLMResult> stream(
+    final PromptValue input, {
+    final LLMOptions? options,
+  }) {
+    final res = responses[_i++ % responses.length].split('');
+    return Stream.fromIterable(res).map(
+      (final item) => LLMResult(
+        id: 'fake-echo',
+        output: item,
+        finishReason: FinishReason.unspecified,
+        metadata: const {},
+        usage: const LanguageModelUsage(),
+        streaming: true,
+      ),
+    );
   }
 
   @override

@@ -94,7 +94,7 @@ void main() {
 
   group('Runnable tests', () {
     test('Chain as Runnable', () async {
-      final model = FakeListLLM(responses: ['Hello world!']);
+      final model = FakeLLM(responses: ['Hello world!']);
       final prompt = PromptTemplate.fromTemplate('Print {foo}');
       final run = LLMChain(prompt: prompt, llm: model);
       final res = await run.invoke({'foo': 'Hello world!'});
@@ -102,7 +102,7 @@ void main() {
     });
 
     test('Streaming Chain', () async {
-      final model = FakeListLLM(responses: ['Hello world!']);
+      final model = FakeLLM(responses: ['Hello world!']);
       final prompt = PromptTemplate.fromTemplate('Print {foo}');
       final run = LLMChain(prompt: prompt, llm: model);
       final stream = run.stream({'foo': 'Hello world!'});
