@@ -133,7 +133,7 @@ abstract class Runnable<RunInput extends Object?,
   /// - [inputMapper] - a function that maps [RunInput] to [RunOutput].
   static Runnable<RunInput, RunnableOptions, RunOutput>
       mapInput<RunInput extends Object, RunOutput extends Object>(
-    final RunOutput Function(RunInput input) inputMapper,
+    final FutureOr<RunOutput> Function(RunInput input) inputMapper,
   ) {
     return RunnableMapInput<RunInput, RunOutput>(inputMapper);
   }

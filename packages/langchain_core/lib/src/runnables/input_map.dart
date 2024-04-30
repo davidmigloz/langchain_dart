@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'runnable.dart';
 import 'types.dart';
 
@@ -32,7 +34,7 @@ class RunnableMapInput<RunInput extends Object, RunOutput extends Object>
       : super(defaultOptions: const RunnableOptions());
 
   /// A function that maps [RunInput] to [RunOutput].
-  final RunOutput Function(RunInput input) inputMapper;
+  final FutureOr<RunOutput> Function(RunInput input) inputMapper;
 
   /// Invokes the [RunnableMapInput] on the given [input].
   ///
