@@ -50,14 +50,34 @@ import 'types.dart';
 class RunnableFunction<RunInput extends Object, RunOutput extends Object>
     extends Runnable<RunInput, RunnableOptions, RunOutput> {
   /// {@macro runnable_function}
-  const RunnableFunction(this.function)
-      : super(defaultOptions: const RunnableOptions());
+  const RunnableFunction({
+    final FutureOr<RunOutput> Function(
+      RunInput input,
+      RunnableOptions? options,
+    )? invoke,
+    final Stream<RunOutput> Function(
+      Stream<RunInput> inputStream,
+      RunnableOptions? options,
+    )? stream,
+    super.defaultOptions = const RunnableOptions(),
+  })  : _invokeFunc = invoke,
+        _streamFunc = stream,
+        assert(
+          invoke != null || stream != null,
+          'Either invoke or stream must be provided',
+        );
 
   /// The function to run.
   final FutureOr<RunOutput> Function(
     RunInput input,
     RunnableOptions? options,
-  ) function;
+  )? _invokeFunc;
+
+  /// The stream transformer to run.
+  final Stream<RunOutput> Function(
+    Stream<RunInput> inputStream,
+    RunnableOptions? options,
+  )? _streamFunc;
 
   /// Invokes the [RunnableFunction] on the given [input].
   ///
@@ -68,6 +88,36 @@ class RunnableFunction<RunInput extends Object, RunOutput extends Object>
     final RunInput input, {
     final RunnableOptions? options,
   }) async {
-    return function(input, options);
+    if (_invokeFunc != null) {
+      return _invokeFunc!(input, options);
+    } else {
+      return stream(input, options: options).first;
+    }
+  }
+
+  /// Streams the [input] through the [RunnableFunction].
+  ///
+  /// - [input] - the input to stream through the [RunnableFunction].
+  /// - [options] - the options to use when streaming the [input].
+  @override
+  Stream<RunOutput> stream(
+    final RunInput input, {
+    final RunnableOptions? options,
+  }) {
+    return streamFromInputStream(Stream.value(input), options: options);
+  }
+
+  @override
+  Stream<RunOutput> streamFromInputStream(
+    final Stream<RunInput> inputStream, {
+    final RunnableOptions? options,
+  }) async* {
+    if (_streamFunc != null) {
+      yield* _streamFunc!(inputStream, options);
+    } else {
+      yield* inputStream.asyncMap((final input) async {
+        return invoke(input, options: options);
+      });
+    }
   }
 }
