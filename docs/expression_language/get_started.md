@@ -96,15 +96,50 @@ To follow the steps along:
 3. The `model` component takes the generated prompt, and passes into the OpenAI chat model for evaluation. The generated output from the model is a `ChatMessage` object (specifically an `AIChatMessage`).
 4. Finally, the `outputParser` component takes in a `ChatMessage`, and transforms this into a `String`, which is returned from the invoke method.
 
+![Pipeline](img/pipeline.png)
+
 Note that if you’re curious about the output of any components, you can always test out a smaller version of the chain such as `promptTemplate` or `promptTemplate.pipe(model)` to see the intermediate results.
+
+```dart
+final input = {'topic': 'ice cream'};
+
+final res1 = await promptTemplate.invoke(input);
+print(res1.toChatMessages());
+// [HumanChatMessage{
+//   content: ChatMessageContentText{
+//     text: Tell me a joke about ice cream,
+//   },
+// }]
+
+final res2 = await promptTemplate.pipe(model).invoke(input);
+print(res2);
+// ChatResult{
+//   id: chatcmpl-9J37Tnjm1dGUXqXBF98k7jfexATZW,
+//   output: AIChatMessage{
+//     content: Why did the ice cream cone go to therapy? Because it had too many sprinkles of emotional issues!,
+//   },
+//   finishReason: FinishReason.stop,
+//   metadata: {
+//     model: gpt-3.5-turbo-0125,
+//     created: 1714327251,
+//     system_fingerprint: fp_3b956da36b
+//   },
+//   usage: LanguageModelUsage{
+//     promptTokens: 14,
+//     promptBillableCharacters: null,
+//     responseTokens: 21,
+//     responseBillableCharacters: null,
+//     totalTokens: 35
+//     },
+//   streaming: false
+// }
+```
 
 ## RAG Search Example
 
 For our next example, we want to run a retrieval-augmented generation chain to add some context when responding to questions.
 
 ```dart
-final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
-
 // 1. Create a vector store and add documents to it
 final vectorStore = MemoryVectorStore(
   embeddings: OpenAIEmbeddings(apiKey: openaiApiKey),
@@ -116,25 +151,28 @@ await vectorStore.addDocuments(
   ],
 );
 
-// 2. Construct a RAG prompt template
+// 2. Define the retrieval chain
+final retriever = vectorStore.asRetriever();
+final setupAndRetrieval = Runnable.fromMap<String>({
+  'context': retriever.pipe(
+    Runnable.mapInput((docs) => docs.map((d) => d.pageContent).join('\n')),
+  ),
+  'question': Runnable.passthrough(),
+});
+
+// 3. Construct a RAG prompt template
 final promptTemplate = ChatPromptTemplate.fromTemplates([
   (ChatMessageType.system, 'Answer the question based on only the following context:\n{context}'),
   (ChatMessageType.human, '{question}'),
 ]);
 
-// 3. Create a Runnable that combines the retrieved documents into a single string
-final docCombiner = Runnable.fromFunction<List<Document>, String>((docs, _) {
-  return docs.map((final d) => d.pageContent).join('\n');
-});
-
-// 4. Define the RAG pipeline
-final chain = Runnable.fromMap<String>({
-  'context': vectorStore.asRetriever().pipe(docCombiner),
-  'question': Runnable.passthrough(),
-})
+// 4. Define the final chain
+final model = ChatOpenAI(apiKey: openaiApiKey);
+const outputParser = StringOutputParser<ChatResult>();
+final chain = setupAndRetrieval
     .pipe(promptTemplate)
-    .pipe(ChatOpenAI(apiKey: openaiApiKey))
-    .pipe(StringOutputParser());
+    .pipe(model)
+    .pipe(outputParser);
 
 // 5. Run the pipeline
 final res = await chain.invoke('Who created LangChain.dart?');
@@ -142,18 +180,50 @@ print(res);
 // David created LangChain.dart
 ```
 
-In this chain we add some extra logic around retrieving context from a vector store.
+In this case, the composed chain is:
 
-We first instantiate our vector store and add some documents to it. Then we define our prompt, which takes in two input variables:
+```dart
+final chain = setupAndRetrieval
+    .pipe(promptTemplate)
+    .pipe(model)
+    .pipe(outputParser);
+```
 
-- `context` -> this is a string which is returned from our vector store based on a semantic search from the input.
-- `question` -> this is the question we want to ask.
+To explain this, we first can see that the prompt template above takes in `context` and `question` as values to be substituted in the prompt. Before building the prompt template, we want to retrieve relevant documents to the search and include them as part of the context.
 
-In our `chain`, we use a `RunnableMap` which is special type of runnable that takes an object of runnables and executes them all in parallel. It then returns an object with the same keys as the input object, but with the values replaced with the output of the runnables.
+As a preliminary step, we’ve set up the retriever using an in memory store, which can retrieve documents based on a query. This is a runnable component as well that can be chained together with other components, but you can also try to run it separately:
 
-In our case, it has two sub-chains to get the data required by our prompt:
+```dart
+final res1 = await retriever.invoke('Who created LangChain.dart?');
+print(res1);
+// [Document{pageContent: David ported LangChain to Dart in LangChain.dart}, 
+// Document{pageContent: LangChain was created by Harrison, metadata: {}}]
+```
 
-- `context` -> this is a `RunnableFunction` which takes the input from the `.invoke()` call, makes a request to our vector store, and returns the retrieved documents combined in a single String.
-- `question` -> this uses a `RunnablePassthrough` which simply passes whatever the input was through to the next step, and in our case it returns it to the key in the object we defined.
+We then use the `RunnableMap` to prepare the expected inputs into the prompt by using a string containing the combined retrieved documents as well as the original user question, using the `retriever` for document search, a `RunnableMapInput` to combine the documents and `RunnablePassthrough` to pass the user's question:
 
-Finally, we chain together the prompt, model, and output parser as before.
+```dart
+final setupAndRetrieval = Runnable.fromMap<String>({
+  'context': retriever.pipe(
+    Runnable.mapInput((docs) => docs.map((d) => d.pageContent).join('\n')),
+  ),
+  'question': Runnable.passthrough(),
+});
+```
+
+To review, the complete chain is:
+
+```dart
+final chain = setupAndRetrieval
+    .pipe(promptTemplate)
+    .pipe(model)
+    .pipe(outputParser);
+```
+
+With the flow being:
+1. The first steps create a `RunnableMap` object with two entries. The first entry, `context` will include the combined document results fetched by the retriever. The second entry, `question` will contain the user’s original question. To pass on the `question`, we use `RunnablePassthrough` to copy this entry.
+2. Feed the map from the step above to the `promptTemplate` component. It then takes the user input which is `question` as well as the retrieved documents which is `context` to construct a prompt and output a `PromptValue`.
+3. The `model` component takes the generated prompt, and passes into the OpenAI LLM model for evaluation. The generated `output` from the model is a `ChatResult` object.
+4. Finally, the `outputParser` component takes in the `ChatResult`, and transforms this into a Dart String, which is returned from the invoke method.
+
+![RAG Pipeline](img/rag_pipeline.png)
