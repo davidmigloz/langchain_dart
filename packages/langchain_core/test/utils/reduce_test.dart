@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/documents.dart';
 import 'package:langchain_core/language_models.dart';
@@ -95,7 +97,7 @@ void main() {
 
     test('returns the last element when the input is a list of unknown types',
         () {
-      expect(reduce([1, 'a', 2.0]), equals(2.0));
+      expect(reduce([Stopwatch(), Queue<int>()]), equals(Queue<int>()));
     });
   });
 }

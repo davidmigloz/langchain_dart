@@ -144,8 +144,7 @@ Future<void> _rag() async {
   );
 
   // 4. Create a Runnable that combines the retrieved documents into a single string
-  final docCombiner =
-      Runnable.fromFunction<List<Document>, String>((final docs, final _) {
+  final docCombiner = Runnable.mapInput<List<Document>, String>((docs) {
     return docs.map((final d) => d.pageContent).join('\n');
   });
 

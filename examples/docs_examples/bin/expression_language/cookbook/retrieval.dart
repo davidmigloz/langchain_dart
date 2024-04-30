@@ -41,8 +41,7 @@ Answer the question based only on the following context:
 Question: {question}''');
 
   final chain = Runnable.fromMap<String>({
-        'context': retriever |
-            Runnable.fromFunction((final docs, final _) => docs.join('\n')),
+        'context': retriever | Runnable.mapInput((docs) => docs.join('\n')),
         'question': Runnable.passthrough(),
       }) |
       promptTemplate |
@@ -75,10 +74,7 @@ Answer in the following language: {language}''');
 
   final chain = Runnable.fromMap({
         'context': Runnable.getItemFromMap<String>('question') |
-            (retriever |
-                Runnable.fromFunction(
-                  (final docs, final _) => docs.join('\n'),
-                )),
+            (retriever | Runnable.mapInput((docs) => docs.join('\n'))),
         'question': Runnable.getItemFromMap('question'),
         'language': Runnable.getItemFromMap('language'),
       }) |
@@ -144,9 +140,7 @@ Question: {question}''');
           'question': Runnable.getItemFromMap('question'),
           'chat_history':
               Runnable.getItemFromMap<List<(String, String)>>('chat_history') |
-                  Runnable.fromFunction(
-                    (final history, final _) => formatChatHistory(history),
-                  ),
+                  Runnable.mapInput(formatChatHistory),
         }) |
         condenseQuestionPrompt |
         model |
@@ -156,9 +150,7 @@ Question: {question}''');
   final context = Runnable.fromMap({
     'context': Runnable.getItemFromMap<String>('standalone_question') |
         retriever |
-        Runnable.fromFunction<List<Document>, String>(
-          (final docs, final _) => combineDocuments(docs),
-        ),
+        Runnable.mapInput<List<Document>, String>(combineDocuments),
     'question': Runnable.getItemFromMap('standalone_question'),
   });
 
@@ -235,17 +227,15 @@ Question: {question}''');
   // First, we load the memory
   final loadedMemory = Runnable.fromMap({
     'question': Runnable.getItemFromMap('question'),
-    'memory': Runnable.fromFunction(
-      (final _, final __) => memory.loadMemoryVariables(),
-    ),
+    'memory': Runnable.mapInput((_) => memory.loadMemoryVariables()),
   });
 
   // Next, we get the chat history from the memory
   final expandedMemory = Runnable.fromMap({
     'question': Runnable.getItemFromMap('question'),
     'chat_history': Runnable.getItemFromMap('memory') |
-        Runnable.fromFunction<MemoryVariables, List<ChatMessage>>(
-          (final input, final _) => input['history'],
+        Runnable.mapInput<MemoryVariables, List<ChatMessage>>(
+          (final input) => input['history'],
         ),
   });
 
@@ -256,9 +246,7 @@ Question: {question}''');
           'question': Runnable.getItemFromMap('question'),
           'chat_history':
               Runnable.getItemFromMap<List<ChatMessage>>('chat_history') |
-                  Runnable.fromFunction(
-                    (final history, final _) => formatChatHistory(history),
-                  ),
+                  Runnable.mapInput(formatChatHistory),
         }) |
         condenseQuestionPrompt |
         model |
@@ -274,9 +262,7 @@ Question: {question}''');
   // Construct the inputs for the answer prompt
   final finalInputs = Runnable.fromMap({
     'context': Runnable.getItemFromMap('docs') |
-        Runnable.fromFunction<List<Document>, String>(
-          (final docs, final _) => combineDocuments(docs),
-        ),
+        Runnable.mapInput<List<Document>, String>(combineDocuments),
     'question': Runnable.getItemFromMap('question'),
   });
 

@@ -111,9 +111,8 @@ void main() {
         embeddings: embeddings,
       );
       final retriever = vectorStore.asRetriever();
-      final docCombiner = Runnable.fromFunction<List<Document>, String>(
-        (final docs, final _) =>
-            docs.map((final d) => d.pageContent).join('\n'),
+      final docCombiner = Runnable.mapInput<List<Document>, String>(
+        (docs) => docs.map((final d) => d.pageContent).join('\n'),
       );
 
       final promptTemplate = PromptTemplate.fromTemplate('''

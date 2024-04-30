@@ -30,5 +30,17 @@ void main() {
       final item = streamList.first;
       expect(item, {'input': 'foo1bar1'});
     });
+
+    test('Streaming input RunnableMapInput', () async {
+      final chain = Runnable.mapInput<String, int>(
+        (final input) => input.length,
+      );
+      final stream = chain.streamFromInputStream(
+        Stream.fromIterable(['w', 'o', 'r', 'l', 'd']),
+      );
+
+      final streamList = await stream.toList();
+      expect(streamList, [1, 1, 1, 1, 1]);
+    });
   });
 }
