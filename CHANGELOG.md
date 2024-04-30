@@ -2,6 +2,57 @@
 
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details about each release.
 
+## 2024-04-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`langchain` - `v0.6.0`](#langchain---v060)
+ - [`langchain_core` - `v0.2.0`](#langchain_core---v020)
+
+Packages with other changes:
+
+ - [`langchain_openai` - `v0.5.1`](#langchain_openai---v051)
+ - [`openai_dart` - `v0.2.2`](#openai_dart---v022)
+
+Packages with dependency updates only:
+
+ - [`langchain_ollama` - `v0.1.0+1`](#langchain_ollama---v0101)
+ - [`langchain_pinecone` - `v0.1.0+1`](#langchain_pinecone---v0101)
+ - [`langchain_community` - `v0.1.0+1`](#langchain_community---v0101)
+ - [`langchain_supabase` - `v0.1.0+1`](#langchain_supabase---v0101)
+ - [`langchain_chroma` - `v0.2.0+1`](#langchain_chroma---v0201)
+ - [`langchain_google` - `v0.3.0+1`](#langchain_google---v0301)
+ - [`langchain_mistralai` - `v0.1.0+1`](#langchain_mistralai---v0101)
+
+---
+
+#### `langchain` - `v0.6.0`
+
+- **FEAT**: Add support for Runnable.mapInputStream ([#393](https://github.com/davidmigloz/langchain_dart/issues/393)). ([a2b6bbb5](https://github.com/davidmigloz/langchain_dart/commit/a2b6bbb5ea7a65c36d1e955f9f96298cf2384afc))
+- **FEAT**: Add support for JsonOutputParser ([#392](https://github.com/davidmigloz/langchain_dart/issues/392)). ([c6508f0f](https://github.com/davidmigloz/langchain_dart/commit/c6508f0fadde3fd4d93accbcae5cea37b7beca20))
+- **FEAT**: Reduce input stream for PromptTemplate, LLM, ChatModel, Retriever and Tool ([#388](https://github.com/davidmigloz/langchain_dart/issues/388)). ([b59bcd40](https://github.com/davidmigloz/langchain_dart/commit/b59bcd409f4904fb2e16f928b3c7206a186ab3f4))
+- **BREAKING** **FEAT**: Support different logic for streaming in RunnableFunction ([#394](https://github.com/davidmigloz/langchain_dart/issues/394)). ([8bb2b8ed](https://github.com/davidmigloz/langchain_dart/commit/8bb2b8ede18bfe3a4f266b78ca32f1dfb83db1b1))
+- **DOCS**: Update LangChain Expression Language documentation ([#395](https://github.com/davidmigloz/langchain_dart/issues/395)). ([6ce75e5f](https://github.com/davidmigloz/langchain_dart/commit/6ce75e5fe6492c951f9b5209d7a2c3077ad178d2))
+
+#### `langchain_core` - `v0.2.0`
+
+- **FEAT**: Add support for Runnable.mapInputStream ([#393](https://github.com/davidmigloz/langchain_dart/issues/393)). ([a2b6bbb5](https://github.com/davidmigloz/langchain_dart/commit/a2b6bbb5ea7a65c36d1e955f9f96298cf2384afc))
+- **FEAT**: Add support for JsonOutputParser ([#392](https://github.com/davidmigloz/langchain_dart/issues/392)). ([c6508f0f](https://github.com/davidmigloz/langchain_dart/commit/c6508f0fadde3fd4d93accbcae5cea37b7beca20))
+- **FEAT**: Reduce input stream for PromptTemplate, LLM, ChatModel, Retriever and Tool ([#388](https://github.com/davidmigloz/langchain_dart/issues/388)). ([b59bcd40](https://github.com/davidmigloz/langchain_dart/commit/b59bcd409f4904fb2e16f928b3c7206a186ab3f4))
+- **BREAKING** **FEAT**: Support different logic for streaming in RunnableFunction ([#394](https://github.com/davidmigloz/langchain_dart/issues/394)). ([8bb2b8ed](https://github.com/davidmigloz/langchain_dart/commit/8bb2b8ede18bfe3a4f266b78ca32f1dfb83db1b1))
+
+#### `langchain_openai` - `v0.5.1`
+
+ - **FEAT**: Add support for Runnable.mapInputStream ([#393](https://github.com/davidmigloz/langchain_dart/issues/393)). ([a2b6bbb5](https://github.com/davidmigloz/langchain_dart/commit/a2b6bbb5ea7a65c36d1e955f9f96298cf2384afc))
+
+#### `openai_dart` - `v0.2.2`
+
+ - **FEAT**: Add temperature, top_p and response format to Assistants API ([#384](https://github.com/davidmigloz/langchain_dart/issues/384)). ([1d18290f](https://github.com/davidmigloz/langchain_dart/commit/1d18290fdaba558e8661fed4f2316c795f20aef8))
+
 ## 2024-04-16
 
 ### Changes

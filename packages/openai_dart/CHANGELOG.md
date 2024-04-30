@@ -1,3 +1,7 @@
+## 0.2.2
+
+ - **FEAT**: Add temperature, top_p and response format to Assistants API ([#384](https://github.com/davidmigloz/langchain_dart/issues/384)). ([1d18290f](https://github.com/davidmigloz/langchain_dart/commit/1d18290fdaba558e8661fed4f2316c795f20aef8))
+
 ## 0.2.1
 
  - **FEAT**: Support for Batch API ([#383](https://github.com/davidmigloz/langchain_dart/issues/383)). ([6b89f4a2](https://github.com/davidmigloz/langchain_dart/commit/6b89f4a269417441df844545ab670fa67701e7b4))
