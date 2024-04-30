@@ -85,13 +85,20 @@ abstract class Runnable<RunInput extends Object?,
   ///
   /// - [function] - the function to run.
   static Runnable<RunInput, RunnableOptions, RunOutput>
-      fromFunction<RunInput extends Object, RunOutput extends Object>(
+      fromFunction<RunInput extends Object, RunOutput extends Object>({
     final FutureOr<RunOutput> Function(
       RunInput input,
       RunnableOptions? options,
-    ) function,
-  ) {
-    return RunnableFunction<RunInput, RunOutput>(function);
+    )? invoke,
+    final Stream<RunOutput> Function(
+      Stream<RunInput> inputStream,
+      RunnableOptions? options,
+    )? stream,
+  }) {
+    return RunnableFunction<RunInput, RunOutput>(
+      invoke: invoke,
+      stream: stream,
+    );
   }
 
   /// Creates a [RunnableRouter] from a Dart function.
