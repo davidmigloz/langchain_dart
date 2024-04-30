@@ -1,3 +1,7 @@
+## 0.6.0+1
+
+ - **FIX**: Allow async functions in Runnable.mapInput ([#396](https://github.com/davidmigloz/langchain_dart/issues/396)). ([e4c35092](https://github.com/davidmigloz/langchain_dart/commit/e4c3509267b7be28e2b0fa334a9255baadabfb6a))
+
 ## 0.6.0
 
 > Note: This release has breaking changes.  

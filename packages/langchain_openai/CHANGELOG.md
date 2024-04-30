@@ -1,3 +1,7 @@
+## 0.5.1+1
+
+ - Update a dependency to the latest release.
+
 ## 0.5.1
 
  - **FEAT**: Add support for Runnable.mapInputStream ([#393](https://github.com/davidmigloz/langchain_dart/issues/393)). ([a2b6bbb5](https://github.com/davidmigloz/langchain_dart/commit/a2b6bbb5ea7a65c36d1e955f9f96298cf2384afc))
