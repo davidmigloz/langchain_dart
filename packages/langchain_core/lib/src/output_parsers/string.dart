@@ -43,9 +43,7 @@ class StringOutputParser<ParserInput extends Object?>
   /// input stream will be parsed and emitted by default.
   ///
   /// If [reduceOutputStream] is set to `true`, the parser will reduce the
-  /// output stream into a single String and emit it as a single item. This is
-  /// useful when the next [Runnable] in a chain expects a single String as
-  /// input.
+  /// output stream into a single String and emit it as a single item.
   ///
   /// Visual example:
   /// - reduceOutputStream = false
