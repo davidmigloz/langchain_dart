@@ -162,8 +162,8 @@ final retriever = vectorStore.asRetriever(
 );
 
 // 4. Create a Runnable that combines the retrieved documents into a single string
-final docCombiner = Runnable.fromFunction<List<Document>, String>((docs, _) {
-  return docs.map((d) => d.pageContent).join('\n');
+final docCombiner = Runnable.mapInput<List<Document>, String>((docs) {
+  return docs.map((final d) => d.pageContent).join('\n');
 });
 
 // 4. Define the RAG pipeline

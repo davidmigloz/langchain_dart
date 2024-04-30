@@ -18,8 +18,8 @@ final promptTemplate = ChatPromptTemplate.fromPromptMessages([
 
 final chain = Runnable.fromMap({
       'input': Runnable.passthrough(),
-      'history': Runnable.fromFunction(
-        (final _, final __) async {
+      'history': Runnable.mapInput(
+            (_) async {
           final m = await memory.loadMemoryVariables();
           return m['history'];
         },

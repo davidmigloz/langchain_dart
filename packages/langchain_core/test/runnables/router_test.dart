@@ -7,8 +7,8 @@ import 'package:test/test.dart';
 void main() {
   group('RunnableRouter tests', () {
     test('RunnableRouter invoke', () async {
-      final add = Runnable.fromFunction((int x, _) => x + 1);
-      final subtract = Runnable.fromFunction((int x, _) => x - 1);
+      final add = Runnable.mapInput((int x) => x + 1);
+      final subtract = Runnable.mapInput((int x) => x - 1);
 
       final router = Runnable.fromRouter(
         (int x, options) => switch (x) {
@@ -24,9 +24,9 @@ void main() {
     });
 
     test('RunnableRouter batch', () async {
-      final add = Runnable.fromFunction((int x, _) => x + 1);
-      final multiply = Runnable.fromFunction((int x, _) => x * 10);
-      final subtract = Runnable.fromFunction((int x, _) => x - 1);
+      final add = Runnable.mapInput((int x) => x + 1);
+      final multiply = Runnable.mapInput((int x) => x * 10);
+      final subtract = Runnable.mapInput((int x) => x - 1);
 
       final router = Runnable.fromRouter(
         (int x, options) => switch (x) {
