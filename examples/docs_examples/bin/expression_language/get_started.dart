@@ -62,6 +62,39 @@ Future<void> _promptModelOutputParser() async {
   print(parsed);
   // Why did the ice cream go to therapy?
   // Because it had a rocky road!
+
+  final input = {'topic': 'ice cream'};
+
+  final res1 = await promptTemplate.invoke(input);
+  print(res1.toChatMessages());
+  // [HumanChatMessage{
+  //   content: ChatMessageContentText{
+  //     text: Tell me a joke about ice cream,
+  //   },
+  // }]
+
+  final res2 = await promptTemplate.pipe(model).invoke(input);
+  print(res2);
+  // ChatResult{
+  //   id: chatcmpl-9J37Tnjm1dGUXqXBF98k7jfexATZW,
+  //   output: AIChatMessage{
+  //     content: Why did the ice cream cone go to therapy? Because it had too many sprinkles of emotional issues!,
+  //   },
+  //   finishReason: FinishReason.stop,
+  //   metadata: {
+  //     model: gpt-3.5-turbo-0125,
+  //     created: 1714327251,
+  //     system_fingerprint: fp_3b956da36b
+  //   },
+  //   usage: LanguageModelUsage{
+  //     promptTokens: 14,
+  //     promptBillableCharacters: null,
+  //     responseTokens: 21,
+  //     responseBillableCharacters: null,
+  //     totalTokens: 35
+  //     },
+  //   streaming: false
+  // }
 }
 
 Future<void> _ragSearch() async {
@@ -72,15 +105,24 @@ Future<void> _ragSearch() async {
     embeddings: OpenAIEmbeddings(apiKey: openaiApiKey),
   );
   await vectorStore.addDocuments(
-    documents: [
-      const Document(pageContent: 'LangChain was created by Harrison'),
-      const Document(
+    documents: const [
+      Document(pageContent: 'LangChain was created by Harrison'),
+      Document(
         pageContent: 'David ported LangChain to Dart in LangChain.dart',
       ),
     ],
   );
 
-  // 2. Construct a RAG prompt template
+  // 2. Define the retrieval chain
+  final retriever = vectorStore.asRetriever();
+  final setupAndRetrieval = Runnable.fromMap<String>({
+    'context': retriever.pipe(
+      Runnable.mapInput((docs) => docs.map((d) => d.pageContent).join('\n')),
+    ),
+    'question': Runnable.passthrough(),
+  });
+
+  // 3. Construct a RAG prompt template
   final promptTemplate = ChatPromptTemplate.fromTemplates(const [
     (
       ChatMessageType.system,
@@ -89,20 +131,11 @@ Future<void> _ragSearch() async {
     (ChatMessageType.human, '{question}'),
   ]);
 
-  // 3. Create a Runnable that combines the retrieved documents into a single string
-  final docCombiner =
-      Runnable.fromFunction<List<Document>, String>((final docs, final _) {
-    return docs.map((final d) => d.pageContent).join('\n');
-  });
-
-  // 4. Define the RAG pipeline
-  final chain = Runnable.fromMap<String>({
-    'context': vectorStore.asRetriever().pipe(docCombiner),
-    'question': Runnable.passthrough(),
-  })
-      .pipe(promptTemplate)
-      .pipe(ChatOpenAI(apiKey: openaiApiKey))
-      .pipe(const StringOutputParser());
+  // 4. Define the final chain
+  final model = ChatOpenAI(apiKey: openaiApiKey);
+  const outputParser = StringOutputParser<ChatResult>();
+  final chain =
+      setupAndRetrieval.pipe(promptTemplate).pipe(model).pipe(outputParser);
 
   // 5. Run the pipeline
   final res = await chain.invoke('Who created LangChain.dart?');

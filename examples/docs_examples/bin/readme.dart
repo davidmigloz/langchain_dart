@@ -27,15 +27,24 @@ Future<void> _rag() async {
     embeddings: OpenAIEmbeddings(apiKey: openaiApiKey),
   );
   await vectorStore.addDocuments(
-    documents: [
-      const Document(pageContent: 'LangChain was created by Harrison'),
-      const Document(
+    documents: const [
+      Document(pageContent: 'LangChain was created by Harrison'),
+      Document(
         pageContent: 'David ported LangChain to Dart in LangChain.dart',
       ),
     ],
   );
 
-  // 2. Construct a RAG prompt template
+  // 2. Define the retrieval chain
+  final retriever = vectorStore.asRetriever();
+  final setupAndRetrieval = Runnable.fromMap<String>({
+    'context': retriever.pipe(
+      Runnable.mapInput((docs) => docs.map((d) => d.pageContent).join('\n')),
+    ),
+    'question': Runnable.passthrough(),
+  });
+
+  // 3. Construct a RAG prompt template
   final promptTemplate = ChatPromptTemplate.fromTemplates(const [
     (
       ChatMessageType.system,
@@ -44,20 +53,11 @@ Future<void> _rag() async {
     (ChatMessageType.human, '{question}'),
   ]);
 
-  // 3. Create a Runnable that combines the retrieved documents into a single string
-  final docCombiner =
-      Runnable.fromFunction<List<Document>, String>((final docs, final _) {
-    return docs.map((final d) => d.pageContent).join('\n');
-  });
-
-  // 4. Define the RAG pipeline
-  final chain = Runnable.fromMap<String>({
-    'context': vectorStore.asRetriever().pipe(docCombiner),
-    'question': Runnable.passthrough(),
-  })
-      .pipe(promptTemplate)
-      .pipe(ChatOpenAI(apiKey: openaiApiKey))
-      .pipe(const StringOutputParser());
+  // 4. Define the final chain
+  final model = ChatOpenAI(apiKey: openaiApiKey);
+  const outputParser = StringOutputParser<ChatResult>();
+  final chain =
+      setupAndRetrieval.pipe(promptTemplate).pipe(model).pipe(outputParser);
 
   // 5. Run the pipeline
   final res = await chain.invoke('Who created LangChain.dart?');
