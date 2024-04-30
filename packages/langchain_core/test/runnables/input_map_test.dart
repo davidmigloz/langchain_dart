@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('RunnableMapInput tests', () {
-    test('RunnableMapInput from Runnable.getItemFromMap', () async {
+    test('Invoke RunnableMapInput', () async {
       final chain =
           Runnable.mapInput<Map<String, dynamic>, Map<String, dynamic>>(
         (final input) => {
@@ -13,6 +13,20 @@ void main() {
 
       final res = await chain.invoke({'foo': 'foo1', 'bar': 'bar1'});
       expect(res, {'input': 'foo1bar1'});
+    });
+
+    test('Invoke async RunnableMapInput', () async {
+      Future<int> asyncFunc(final Map<String, dynamic> input) async {
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        return input.length;
+      }
+
+      final chain = Runnable.mapInput<Map<String, dynamic>, int>(
+        (final input) async => asyncFunc(input),
+      );
+
+      final res = await chain.invoke({'foo': 'foo1', 'bar': 'bar1'});
+      expect(res, 2);
     });
 
     test('Streaming RunnableMapInput', () async {
