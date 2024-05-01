@@ -283,7 +283,7 @@ HumanChatMessage{
   @override
   Map<String, dynamic> toJson() => {
         'type': defaultPrefix,
-        'content': content,
+        'content': content.toJson(),
       };
 
   factory HumanChatMessage.fromJson(final Map<String, dynamic> json) {
@@ -602,6 +602,8 @@ sealed class ChatMessageContent {
     final List<ChatMessageContent> parts,
   ) =>
       ChatMessageContentMultiModal(parts: parts);
+
+  Map<String, dynamic> toJson();
 }
 
 /// {@template chat_message_content_text}
@@ -630,6 +632,11 @@ ChatMessageContentText{
   text: $text,
 }''';
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'text': text,
+      };
 }
 
 /// {@template chat_message_content_image}
@@ -679,6 +686,12 @@ ChatMessageContentImage{
   imageDetail: $detail,
 }''';
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    // TODO: implement toJson
+    throw UnimplementedError();
+  }
 }
 
 /// {@template chat_message_content_multi_modal}
@@ -710,6 +723,12 @@ class ChatMessageContentMultiModal extends ChatMessageContent {
 ChatMessageContentMultiModal{
   parts: $parts,
 }''';
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    // TODO: implement toJson
+    throw UnimplementedError();
   }
 }
 
