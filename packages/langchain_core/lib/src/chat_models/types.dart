@@ -135,6 +135,9 @@ sealed class ChatMessage {
 
   /// Merges this message with another by concatenating the content.
   ChatMessage concat(final ChatMessage other);
+
+  ///Converts ChatMessage to json string
+  Map<String, dynamic> toJson();
 }
 
 /// {@template system_chat_message}
@@ -175,6 +178,15 @@ SystemChatMessage{
   content: $content,
 }''';
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': defaultPrefix,
+        'content': content,
+      };
+
+  factory SystemChatMessage.fromJson(final Map<String, dynamic> json) =>
+      SystemChatMessage(content: json['content']);
 }
 
 /// {@template human_chat_message}
@@ -267,6 +279,18 @@ HumanChatMessage{
   content: $content,
 }''';
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': defaultPrefix,
+        'content': content,
+      };
+
+  factory HumanChatMessage.fromJson(final Map<String, dynamic> json) {
+    return HumanChatMessage(
+      content: json['content'],
+    );
+  }
 }
 
 /// {@template ai_chat_message}
@@ -328,6 +352,22 @@ AIChatMessage{
   functionCall: $functionCall,
 }''';
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': defaultPrefix,
+        'content': content,
+        'functionCall': functionCall?.toJson(),
+      };
+
+  factory AIChatMessage.fromJson(final Map<String, dynamic> json) {
+    return AIChatMessage(
+      content: json['content'],
+      functionCall: json['functionCall'] != null
+          ? AIChatMessageFunctionCall.fromJson(json['functionCall'])
+          : null,
+    );
+  }
 }
 
 /// {@template ai_chat_message_function_call}
@@ -382,6 +422,22 @@ AIChatMessageFunctionCall{
   arguments: $arguments,
 }''';
   }
+
+  ///The toJson function will convert the ChatMessage to a json object
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'argumentsRaw': argumentsRaw,
+        'arguments': arguments,
+      };
+
+  ///The fromJson will create a AI
+  factory AIChatMessageFunctionCall.fromJson(final Map<String, dynamic> json) {
+    return AIChatMessageFunctionCall(
+      name: json['name'],
+      argumentsRaw: json['argumentsRaw'],
+      arguments: json['arguments'],
+    );
+  }
 }
 
 /// {@template function_chat_message}
@@ -431,6 +487,16 @@ FunctionChatMessage{
   content: $content,
 }''';
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': defaultPrefix,
+        'name': name,
+        'content': content,
+      };
+
+  factory FunctionChatMessage.fromJson(final Map<String, dynamic> json) =>
+      FunctionChatMessage(content: json['content'], name: json['name']);
 }
 
 /// {@template custom_chat_message}
@@ -476,6 +542,15 @@ CustomChatMessage{
   role: $role,
 }''';
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': 'Custom',
+        'content': content,
+        'role': role,
+      };
+  factory CustomChatMessage.fromJson(final Map<String, dynamic> json) =>
+      CustomChatMessage(content: json['content'], role: json['role']);
 }
 
 /// Role of a chat message
