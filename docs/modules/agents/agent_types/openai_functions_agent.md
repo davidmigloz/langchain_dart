@@ -15,8 +15,8 @@ The OpenAI Functions Agent is designed to work with these models.
 ```dart
 final llm = ChatOpenAI(
   apiKey: openaiApiKey,
-  defaultOptions: const ChatOpenAIOptions(
-    model: 'gpt-4',
+  defaultOptions: ChatOpenAIOptions(
+    model: 'gpt-4-turbo',
     temperature: 0,
   ),
 );
@@ -29,15 +29,32 @@ print(res); // -> '40 raised to the power of 0.43 is approximately 4.8852'
 
 You can easily call your own functions by wrapping them in a `Tool`. You can also add memory to the agent by passing it when creating the agent. 
 
-Let's see an example of how to do this:
+Let's see an example of how to do this.
+
+First let's create a class that will be the input for our tool.
 
 ```dart
-final llm = ChatOpenAI(
-  apiKey: openaiApiKey,
-  defaultOptions: const ChatOpenAIOptions(temperature: 0),
-);
+class SearchInput {
+  const SearchInput({
+    required this.query,
+    required this.n,
+  });
 
-final tool = BaseTool.fromFunction(
+  final String query;
+  final int n;
+
+  SearchInput.fromJson(final Map<String, dynamic> json)
+      : this(
+          query: json['query'] as String,
+          n: json['n'] as int,
+        );
+}
+```
+
+Now let's define the tool:
+
+```dart
+final tool = Tool.fromFunction<SearchInput, String>(
   name: 'search',
   description: 'Tool for searching the web.',
   inputJsonSchema: const {
@@ -54,21 +71,32 @@ final tool = BaseTool.fromFunction(
     },
     'required': ['query'],
   },
-  func: (
-      final Map<String, dynamic> toolInput, {
-      final ToolOptions? options,
-  }) async {
-    final query = toolInput['query'];
-    final n = toolInput['n'];
-    return callYourSearchFunction(query, n);
-  },
+  func: callYourSearchFunction,
+  getInputFromJson: SearchInput.fromJson,
 );
-final tools = [tool];
+```
+
+Notice that we need to provide a function that converts the JSON input that the model will send to our tool into the input class that we defined.
+
+The tool will call `callYourSearchFunction` function with the parsed input. For simplicity, we will just mock the search function.
+```dart
+String callYourSearchFunction(final SearchInput input) {
+  return 'Results:\n${List<String>.generate(input.n, (final i) => 'Result ${i + 1}').join('\n')}';
+}
+```
+
+Now we can create the agent and run it.
+
+```dart
+final llm = ChatOpenAI(
+  apiKey: openaiApiKey,
+  defaultOptions: const ChatOpenAIOptions(temperature: 0),
+);
 
 final memory = ConversationBufferMemory(returnMessages: true);
 final agent = OpenAIFunctionsAgent.fromLLMAndTools(
   llm: llm,
-  tools: tools,
+  tools: [tool],
   memory: memory,
 );
 
@@ -77,6 +105,11 @@ final executor = AgentExecutor(agent: agent);
 final res1 = await executor.run(
   'Search for cats. Return only 3 results.',
 );
+print(res1);
+// Here are 3 search results for "cats":
+// 1. Result 1
+// 2. Result 2
+// 3. Result 3
 ```
 
 ## Using LangChain Expression Language (LCEL) 
@@ -86,10 +119,10 @@ You can replicate the functionality of the OpenAI Functions Agent by using the L
 ```dart
 final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 
-final prompt = ChatPromptTemplate.fromPromptMessages([
-  SystemChatMessagePromptTemplate.fromTemplate('You are a helpful assistant'),
-  HumanChatMessagePromptTemplate.fromTemplate('{input}'),
-  const MessagesPlaceholder(variableName: 'agent_scratchpad'),
+final prompt = ChatPromptTemplate.fromTemplates(const [
+  (ChatMessageType.system, 'You are a helpful assistant'),
+  (ChatMessageType.human, '{input}'),
+  (ChatMessageType.messagesPlaceholder, 'agent_scratchpad'),
 ]);
 
 final tool = CalculatorTool();
@@ -134,6 +167,7 @@ final res = await executor.invoke({
   'input': 'What is 40 raised to the 0.43 power?',
 });
 print(res['output']);
+// 40 raised to the power of 0.43 is approximately 4.88524.
 ```
 
 In this way, you can create your own custom agents with full control over their behavior.

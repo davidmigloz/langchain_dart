@@ -5,7 +5,6 @@ import 'package:langchain_core/tools.dart';
 import 'package:meta/meta.dart';
 
 import '../tools/exception.dart';
-import '../tools/invalid.dart';
 
 /// {@template agent_executor}
 /// A chain responsible for executing the actions of an agent using tools.
@@ -46,7 +45,7 @@ class AgentExecutor extends BaseChain {
 
   /// The valid tools the agent can call plus some internal tools used by the
   /// executor.
-  final List<BaseTool> _internalTools;
+  final List<Tool> _internalTools;
 
   /// Whether to return the agent's trajectory of intermediate steps at the
   /// end in addition to the final output.
@@ -64,9 +63,9 @@ class AgentExecutor extends BaseChain {
   final AgentEarlyStoppingMethod earlyStoppingMethod;
 
   /// Handles errors raised by the agent's output parser.
-  /// The response from this handlers is passed to the agent as the observation
-  /// resulting from the step.
-  final String Function(OutputParserException)? handleParsingErrors;
+  /// The response from this handler will be used as the tool input.
+  final Map<String, dynamic> Function(OutputParserException)?
+      handleParsingErrors;
 
   /// Output key for the agent's intermediate steps output.
   static const intermediateStepsOutputKey = 'intermediate_steps';
@@ -85,7 +84,7 @@ class AgentExecutor extends BaseChain {
     final agent = this.agent;
     final tools = _internalTools;
     if (agent is BaseMultiActionAgent) {
-      for (final BaseTool tool in tools) {
+      for (final Tool tool in tools) {
         if (tool.returnDirect) {
           return false;
         }
@@ -169,7 +168,7 @@ class AgentExecutor extends BaseChain {
   /// Override this to take control of how the agent makes and acts on choices.
   @visibleForOverriding
   Future<(AgentFinish? result, List<AgentStep>? nextSteps)> takeNextStep(
-    final Map<String, BaseTool> nameToToolMap,
+    final Map<String, Tool> nameToToolMap,
     final ChainValues inputs,
     final List<AgentStep> intermediateSteps,
   ) async {
@@ -183,7 +182,7 @@ class AgentExecutor extends BaseChain {
       actions = [
         AgentAction(
           tool: ExceptionTool.toolName,
-          toolInput: {Tool.inputVar: handleParsingErrors!(e)},
+          toolInput: handleParsingErrors!(e),
           log: e.toString(),
         ),
       ];
@@ -198,11 +197,17 @@ class AgentExecutor extends BaseChain {
       // Otherwise, we run the tool
       final agentAction = action as AgentAction;
       final tool = nameToToolMap[agentAction.tool];
+      String observation;
+      if (tool != null) {
+        final toolInput = tool.getInputFromJson(agentAction.toolInput);
+        observation = (await tool.invoke(toolInput)).toString();
+      } else {
+        observation =
+            '${agentAction.tool} is not a valid tool, try another one.';
+      }
       final step = AgentStep(
         action: action,
-        observation: await (tool != null
-            ? tool.run(agentAction.toolInput)
-            : InvalidTool().run({Tool.inputVar: agentAction.tool})),
+        observation: observation,
       );
       result.add(step);
     }

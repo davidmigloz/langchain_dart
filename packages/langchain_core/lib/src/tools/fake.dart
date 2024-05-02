@@ -1,12 +1,13 @@
 import 'dart:async';
 
-import '../../tools.dart';
+import 'string.dart';
+import 'types.dart';
 
 /// {@template fake_tool}
 /// Fake tool for testing.
 /// It just returns the input string as is.
 /// {@endtemplate}
-final class FakeTool extends Tool<ToolOptions> {
+final class FakeTool extends StringTool<ToolOptions> {
   /// {@macro fake_tool}
   FakeTool()
       : super(
@@ -16,10 +17,10 @@ final class FakeTool extends Tool<ToolOptions> {
         );
 
   @override
-  FutureOr<String> runInternalString(
+  Future<String> invokeInternal(
     final String toolInput, {
     final ToolOptions? options,
-  }) {
+  }) async {
     try {
       return toolInput;
     } catch (e) {

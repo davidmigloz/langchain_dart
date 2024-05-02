@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unreachable_from_main
 import 'dart:io';
 
 import 'package:langchain/langchain.dart';
@@ -16,7 +16,7 @@ Future<void> _openaiFunctionsAgent() async {
   final llm = ChatOpenAI(
     apiKey: openaiApiKey,
     defaultOptions: const ChatOpenAIOptions(
-      model: 'gpt-4',
+      model: 'gpt-4-turbo',
       temperature: 0,
     ),
   );
@@ -29,12 +29,8 @@ Future<void> _openaiFunctionsAgent() async {
 
 Future<void> _openaiFunctionsAgentCustomToolsMemory() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
-  final llm = ChatOpenAI(
-    apiKey: openaiApiKey,
-    defaultOptions: const ChatOpenAIOptions(temperature: 0),
-  );
 
-  final tool = BaseTool.fromFunction(
+  final tool = Tool.fromFunction<SearchInput, String>(
     name: 'search',
     description: 'Tool for searching the web.',
     inputJsonSchema: const {
@@ -51,21 +47,19 @@ Future<void> _openaiFunctionsAgentCustomToolsMemory() async {
       },
       'required': ['query'],
     },
-    func: (
-      final Map<String, dynamic> toolInput, {
-      final ToolOptions? options,
-    }) async {
-      final query = toolInput['query'];
-      final n = toolInput['n'];
-      return callYourSearchFunction(query, n);
-    },
+    func: callYourSearchFunction,
+    getInputFromJson: SearchInput.fromJson,
   );
-  final tools = [tool];
+
+  final llm = ChatOpenAI(
+    apiKey: openaiApiKey,
+    defaultOptions: const ChatOpenAIOptions(temperature: 0),
+  );
 
   final memory = ConversationBufferMemory(returnMessages: true);
   final agent = OpenAIFunctionsAgent.fromLLMAndTools(
     llm: llm,
-    tools: tools,
+    tools: [tool],
     memory: memory,
   );
 
@@ -75,21 +69,39 @@ Future<void> _openaiFunctionsAgentCustomToolsMemory() async {
     'Search for cats. Return only 3 results.',
   );
   print(res1);
+  // Here are 3 search results for "cats":
+  // 1. Result 1
+  // 2. Result 2
+  // 3. Result 3
 }
 
-String callYourSearchFunction(final String query, final int n) {
-  return 'Results:\n${List<String>.generate(n, (final i) => 'Result ${i + 1}').join('\n')}';
+class SearchInput {
+  const SearchInput({
+    required this.query,
+    required this.n,
+  });
+
+  final String query;
+  final int n;
+
+  SearchInput.fromJson(final Map<String, dynamic> json)
+      : this(
+          query: json['query'] as String,
+          n: json['n'] as int,
+        );
+}
+
+String callYourSearchFunction(final SearchInput input) {
+  return 'Results:\n${List<String>.generate(input.n, (final i) => 'Result ${i + 1}').join('\n')}';
 }
 
 Future<void> _openaiFunctionsAgentLCEL() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 
-  final prompt = ChatPromptTemplate.fromPromptMessages([
-    SystemChatMessagePromptTemplate.fromTemplate(
-      'You are a helpful assistant',
-    ),
-    HumanChatMessagePromptTemplate.fromTemplate('{input}'),
-    const MessagesPlaceholder(variableName: 'agent_scratchpad'),
+  final prompt = ChatPromptTemplate.fromTemplates(const [
+    (ChatMessageType.system, 'You are a helpful assistant'),
+    (ChatMessageType.human, '{input}'),
+    (ChatMessageType.messagesPlaceholder, 'agent_scratchpad'),
   ]);
 
   final tool = CalculatorTool();
@@ -134,4 +146,5 @@ Future<void> _openaiFunctionsAgentLCEL() async {
     'input': 'What is 40 raised to the 0.43 power?',
   });
   print(res['output']);
+  // 40 raised to the power of 0.43 is approximately 4.88524.
 }

@@ -124,9 +124,9 @@ void main() {
     test('Tool batch', () async {
       final run = FakeTool();
       final res = await run.batch([
-        {'input': 'hello1'},
-        {'input': 'hello2'},
-        {'input': 'hello3'},
+        'hello1',
+        'hello2',
+        'hello3',
       ]);
       expect(
         res.map((final e) => e).toList(),

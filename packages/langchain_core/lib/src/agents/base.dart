@@ -15,7 +15,7 @@ abstract class Agent {
   static BaseMultiActionAgent fromRunnable(
     final Runnable<AgentPlanInput, RunnableOptions, List<BaseAgentAction>>
         runnable, {
-    required final List<BaseTool> tools,
+    required final List<Tool> tools,
   }) {
     return RunnableAgent(runnable, tools: tools);
   }
@@ -46,7 +46,7 @@ abstract class BaseActionAgent extends Agent {
   String get agentType;
 
   /// The tools this agent can use.
-  final List<BaseTool> tools;
+  final List<Tool> tools;
 
   /// Given the input and previous steps, returns the next action to take.
   ///

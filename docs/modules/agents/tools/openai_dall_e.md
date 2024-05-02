@@ -10,11 +10,11 @@ Example:
 final llm = ChatOpenAI(
   apiKey: openAiKey,
   defaultOptions: const ChatOpenAIOptions(
-    model: 'gpt-4',
+    model: 'gpt-4-turbo',
     temperature: 0,
   ),
 );
-final tools = <BaseTool>[
+final tools = <Tool>[
   CalculatorTool(),
   OpenAIDallETool(apiKey: openAiKey),
 ];
