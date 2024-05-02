@@ -12,6 +12,7 @@ import 'package:langchain_core/prompts.dart';
 import 'package:langchain_core/runnables.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:langchain_openai/langchain_openai.dart';
+import 'package:meta/meta.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -22,7 +23,7 @@ void main() {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: 'gpt-4-turbo-preview',
+          model: 'gpt-4-turbo',
           temperature: 0,
         ),
       );
@@ -45,12 +46,12 @@ void main() {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: 'gpt-4-turbo-preview',
+          model: 'gpt-4-turbo',
           temperature: 0,
         ),
       );
 
-      final tool = BaseTool.fromFunction(
+      final tool = Tool.fromFunction<_SearchInput, String>(
         name: 'search',
         description: 'Tool for searching the web.',
         inputJsonSchema: const {
@@ -67,14 +68,12 @@ void main() {
           },
           'required': ['query'],
         },
-        func: (
-          final Map<String, dynamic> toolInput, {
-          final ToolOptions? options,
-        }) async {
-          final n = toolInput['n'];
+        func: (final _SearchInput toolInput) async {
+          final n = toolInput.n;
           final res = List<String>.generate(n, (final i) => 'Result ${i + 1}');
           return 'Results:\n${res.join('\n')}';
         },
+        getInputFromJson: _SearchInput.fromJson,
       );
       final tools = [tool];
 
@@ -136,7 +135,7 @@ void main() {
     final model = ChatOpenAI(
       apiKey: openaiApiKey,
       defaultOptions: const ChatOpenAIOptions(
-        model: 'gpt-4-turbo-preview',
+        model: 'gpt-4-turbo',
         temperature: 0,
       ),
     ).bind(ChatOpenAIOptions(functions: [tool.toChatFunction()]));
@@ -171,4 +170,28 @@ void main() {
       expect(res['output'], contains('4.88'));
     });
   });
+}
+
+@immutable
+class _SearchInput {
+  const _SearchInput({
+    required this.query,
+    required this.n,
+  });
+
+  final String query;
+  final int n;
+
+  _SearchInput.fromJson(final Map<String, dynamic> json)
+      : this(
+          query: json['query'] as String,
+          n: json['n'] as int,
+        );
+
+  @override
+  bool operator ==(covariant _SearchInput other) =>
+      identical(this, other) || query == other.query && n == other.n;
+
+  @override
+  int get hashCode => query.hashCode ^ n.hashCode;
 }

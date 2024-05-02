@@ -323,7 +323,7 @@ void main() {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: 'gpt-4-turbo-preview',
+          model: 'gpt-4-turbo',
           temperature: 0,
           seed: 12345,
         ),

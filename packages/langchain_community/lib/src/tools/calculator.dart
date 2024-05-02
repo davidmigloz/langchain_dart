@@ -20,7 +20,7 @@ import 'package:math_expressions/math_expressions.dart';
 /// print(res); // -> '40 raised to the power of 0.43 is approximately 4.8852'
 /// ```
 /// {@endtemplate}
-final class CalculatorTool extends Tool<ToolOptions> {
+final class CalculatorTool extends StringTool<ToolOptions> {
   /// {@macro calculator_tool}
   CalculatorTool()
       : super(
@@ -34,10 +34,10 @@ final class CalculatorTool extends Tool<ToolOptions> {
   final _parser = Parser();
 
   @override
-  FutureOr<String> runInternalString(
+  Future<String> invokeInternal(
     final String toolInput, {
     final ToolOptions? options,
-  }) {
+  }) async {
     try {
       return _parser
           .parse(toolInput)

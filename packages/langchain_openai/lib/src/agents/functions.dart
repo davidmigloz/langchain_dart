@@ -125,7 +125,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
   ///   system message and the input from the agent.
   factory OpenAIFunctionsAgent.fromLLMAndTools({
     required final ChatOpenAI llm,
-    required final List<BaseTool<ToolOptions>> tools,
+    required final List<Tool> tools,
     final BaseChatMemory? memory,
     final SystemChatMessagePromptTemplate systemChatMessage =
         _systemChatMessagePromptTemplate,
