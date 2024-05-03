@@ -9,10 +9,11 @@ final class FirestoreChatMessageHistory extends BaseChatMessageHistory {
   FirestoreChatMessageHistory({
     required this.collections,
     required this.options,
+    required this.userId,
   });
 
   ///Function to initialize firebaseinstance
-  Future<void> initFirestore() async {
+  Future<void> ensureFirestore() async {
     await Firebase.initializeApp(
       options: options,
     );
@@ -25,13 +26,16 @@ final class FirestoreChatMessageHistory extends BaseChatMessageHistory {
   ///Firebase Options
   FirebaseOptions options;
 
+  /// Used to identify the sender of each message
+  String userId;
+
   ///Firestore instance
   CollectionReference<Map<String, dynamic>>? collectionReference;
 
   @override
   Future<void> addChatMessage(final ChatMessage message) async {
     final FirestoreChatMessageField messageField =
-        FirestoreChatMessageField(message: message);
+        FirestoreChatMessageField(message: message, createdBy: userId);
     if (collectionReference == null) {
       throw Exception('Remember to initialize firestore');
     } else {
@@ -55,16 +59,22 @@ final class FirestoreChatMessageHistory extends BaseChatMessageHistory {
 
   @override
   Future<List<ChatMessage>> getChatMessages() async {
-    //Get chat messages in ascending order so the newest message is the last in the list
-    final snapshot =
-        await collectionReference!.orderBy('created', descending: false).get();
+    if (collectionReference == null) {
+      throw Exception('Remember to initialize firestore');
+    } else {
+      //Get chat messages in ascending order so the newest message is the last in the list
+      final snapshot = await collectionReference!
+          .where('createdBy', isEqualTo: userId)
+          .orderBy('createdAt', descending: false)
+          .get();
 
-    //Take each doc and add it to the conversation list.
-    final List<ChatMessage> conversation = snapshot.docs.map((final doc) {
-      return FirestoreChatMessageField.fromJson(doc.data()).message;
-    }).toList();
+      //Take each doc and add it to the conversation list.
+      final List<ChatMessage> conversation = snapshot.docs.map((final doc) {
+        return FirestoreChatMessageField.fromJson(doc.data()).message;
+      }).toList();
 
-    return conversation;
+      return conversation;
+    }
   }
 
   /// Removes and returns the first (oldest) element of the history.
@@ -72,19 +82,23 @@ final class FirestoreChatMessageHistory extends BaseChatMessageHistory {
   /// The history must not be empty when this method is called.
   @override
   Future<ChatMessage> removeFirst() async {
-    final snapshot = await collectionReference!
-        .orderBy('created', descending: false)
-        .limit(1)
-        .get();
+    if (collectionReference == null) {
+      throw Exception('Remember to initialize firestore');
+    } else {
+      final snapshot = await collectionReference!
+          .orderBy('createdAt', descending: false)
+          .limit(1)
+          .get();
 
-    //get oldest document
-    final oldest = snapshot.docs.first;
+      //get oldest document
+      final oldest = snapshot.docs.first;
 
-    //Delete doc in firestore
-    await oldest.reference.delete();
+      //Delete doc in firestore
+      await oldest.reference.delete();
 
-    //Create FirestoreChatMessageField and return ChatMessage
-    return FirestoreChatMessageField.fromJson(oldest.data()).message;
+      //Create FirestoreChatMessageField and return ChatMessage
+      return FirestoreChatMessageField.fromJson(oldest.data()).message;
+    }
   }
 
   /// Removes and returns the last (newest) element of the history.
@@ -92,19 +106,23 @@ final class FirestoreChatMessageHistory extends BaseChatMessageHistory {
   /// The history must not be empty when this method is called.
   @override
   Future<ChatMessage> removeLast() async {
-    final snapshot = await collectionReference!
-        .orderBy('created', descending: true)
-        .limit(1)
-        .get();
+    if (collectionReference == null) {
+      throw Exception('Remember to initialize firestore');
+    } else {
+      final snapshot = await collectionReference!
+          .orderBy('createdAt', descending: true)
+          .limit(1)
+          .get();
 
-    //get newest document
-    final newest = snapshot.docs.first;
+      //get newest document
+      final newest = snapshot.docs.first;
 
-    //Delete doc in firestore
-    await newest.reference.delete();
+      //Delete doc in firestore
+      await newest.reference.delete();
 
-    //Create FirestoreChatMessageField and return ChatMessage
-    return FirestoreChatMessageField.fromJson(newest.data()).message;
+      //Create FirestoreChatMessageField and return ChatMessage
+      return FirestoreChatMessageField.fromJson(newest.data()).message;
+    }
   }
 }
 
@@ -115,14 +133,21 @@ class FirestoreChatMessageField {
   final ChatMessage message;
 
   ///Timestamp to keep messages in order.
-  Timestamp created = Timestamp.now();
+  Timestamp createdAt = Timestamp.now();
+
+  /// Used to identify the sender of each message
+  final String createdBy;
 
   ///Constructor
-  FirestoreChatMessageField({required this.message, final Timestamp? created}) {
-    if (created == null) {
-      this.created = Timestamp.now();
+  FirestoreChatMessageField({
+    required this.message,
+    final Timestamp? createdAt,
+    required this.createdBy,
+  }) {
+    if (createdAt == null) {
+      this.createdAt = Timestamp.now();
     } else {
-      this.created = created;
+      this.createdAt = createdAt;
     }
   }
 
@@ -133,30 +158,35 @@ class FirestoreChatMessageField {
       case SystemChatMessage.defaultPrefix:
         return FirestoreChatMessageField(
           message: SystemChatMessage.fromJson(json['message']),
-          created: json['created'],
+          createdAt: json['createdAt'],
+          createdBy: json['createdBy'],
         );
       case HumanChatMessage.defaultPrefix:
         return FirestoreChatMessageField(
           message: HumanChatMessage.fromJson(json['message']),
-          created: json['created'],
+          createdAt: json['createdAt'],
+          createdBy: json['createdBy'],
         );
 
       case AIChatMessage.defaultPrefix:
         return FirestoreChatMessageField(
           message: AIChatMessage.fromJson(json['message']),
-          created: json['created'],
+          createdAt: json['createdAt'],
+          createdBy: json['createdBy'],
         );
 
       case FunctionChatMessage.defaultPrefix:
         return FirestoreChatMessageField(
           message: FunctionChatMessage.fromJson(json['message']),
-          created: json['created'],
+          createdAt: json['createdAt'],
+          createdBy: json['createdBy'],
         );
 
       case 'Custom':
         return FirestoreChatMessageField(
           message: CustomChatMessage.fromJson(json['message']),
-          created: json['created'],
+          createdAt: json['createdAt'],
+          createdBy: json['createdBy'],
         );
       default:
         // ignore: avoid_dynamic_calls
@@ -164,6 +194,10 @@ class FirestoreChatMessageField {
     }
   }
 
-  Map<String, dynamic> toJson() =>
-      {'message': message.toJson(), 'created': created};
+  /// Will be used to transform the class into a json object
+  Map<String, dynamic> toJson() => {
+        'message': message.toJson(),
+        'createdAt': createdAt,
+        'createdBy': createdBy,
+      };
 }
