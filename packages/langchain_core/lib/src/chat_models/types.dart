@@ -288,7 +288,7 @@ HumanChatMessage{
 
   factory HumanChatMessage.fromJson(final Map<String, dynamic> json) {
     return HumanChatMessage(
-      content: json['content'],
+      content: ChatMessageContentText.fromJson(json['content']),
     );
   }
 }
@@ -603,6 +603,7 @@ sealed class ChatMessageContent {
   ) =>
       ChatMessageContentMultiModal(parts: parts);
 
+  /// Converts the class to a json object
   Map<String, dynamic> toJson();
 }
 
@@ -637,6 +638,10 @@ ChatMessageContentText{
   Map<String, dynamic> toJson() => {
         'text': text,
       };
+
+  /// Takes a json object and returns a new ChatMessageContentText
+  factory ChatMessageContentText.fromJson(final Map<String, dynamic> json) =>
+      ChatMessageContentText(text: json['text']);
 }
 
 /// {@template chat_message_content_image}
@@ -688,10 +693,11 @@ ChatMessageContentImage{
   }
 
   @override
-  Map<String, dynamic> toJson() {
-    // TODO: implement toJson
-    throw UnimplementedError();
-  }
+  Map<String, dynamic> toJson() => {
+        'data': data,
+        'mimeType': mimeType,
+        'imageDetail': detail,
+      };
 }
 
 /// {@template chat_message_content_multi_modal}
@@ -726,10 +732,9 @@ ChatMessageContentMultiModal{
   }
 
   @override
-  Map<String, dynamic> toJson() {
-    // TODO: implement toJson
-    throw UnimplementedError();
-  }
+  Map<String, dynamic> toJson() => {
+        'parts': parts.map((part) => part.toJson()).toList(),
+      };
 }
 
 /// Specifies the detail level of the image.
