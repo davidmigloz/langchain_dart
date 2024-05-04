@@ -32,3 +32,5 @@ dependencies:
 
 dev_dependencies:
   test: ^1.24.9
+  fake_cloud_firestore: ^2.5.1
+  langchain: ^0.6.0+1
