@@ -35,11 +35,11 @@ final class FirestoreChatMessageHistory extends BaseChatMessageHistory {
   @override
   Future<void> addChatMessage(final ChatMessage message) async {
     final FirestoreChatMessageField messageField =
-        FirestoreChatMessageField(message: message, createdBy: userId);
+        FirestoreChatMessageField(message: message);
     if (collectionReference == null) {
       throw Exception('Remember to initialize firestore');
     } else {
-      await collectionReference!.doc().set(messageField.toJson());
+      await collectionReference!.doc().set(messageField.toJson(userId));
     }
   }
 
@@ -86,6 +86,7 @@ final class FirestoreChatMessageHistory extends BaseChatMessageHistory {
       throw Exception('Remember to initialize firestore');
     } else {
       final snapshot = await collectionReference!
+          .where('createdBy', isEqualTo: userId)
           .orderBy('createdAt', descending: false)
           .limit(1)
           .get();
@@ -110,6 +111,7 @@ final class FirestoreChatMessageHistory extends BaseChatMessageHistory {
       throw Exception('Remember to initialize firestore');
     } else {
       final snapshot = await collectionReference!
+          .where('createdBy', isEqualTo: userId)
           .orderBy('createdAt', descending: true)
           .limit(1)
           .get();
@@ -135,14 +137,10 @@ class FirestoreChatMessageField {
   ///Timestamp to keep messages in order.
   Timestamp createdAt = Timestamp.now();
 
-  /// Used to identify the sender of each message
-  final String createdBy;
-
   ///Constructor
   FirestoreChatMessageField({
     required this.message,
     final Timestamp? createdAt,
-    required this.createdBy,
   }) {
     if (createdAt == null) {
       this.createdAt = Timestamp.now();
@@ -159,34 +157,29 @@ class FirestoreChatMessageField {
         return FirestoreChatMessageField(
           message: SystemChatMessage.fromJson(json['message']),
           createdAt: json['createdAt'],
-          createdBy: json['createdBy'],
         );
       case HumanChatMessage.defaultPrefix:
         return FirestoreChatMessageField(
           message: HumanChatMessage.fromJson(json['message']),
           createdAt: json['createdAt'],
-          createdBy: json['createdBy'],
         );
 
       case AIChatMessage.defaultPrefix:
         return FirestoreChatMessageField(
           message: AIChatMessage.fromJson(json['message']),
           createdAt: json['createdAt'],
-          createdBy: json['createdBy'],
         );
 
       case FunctionChatMessage.defaultPrefix:
         return FirestoreChatMessageField(
           message: FunctionChatMessage.fromJson(json['message']),
           createdAt: json['createdAt'],
-          createdBy: json['createdBy'],
         );
 
       case 'Custom':
         return FirestoreChatMessageField(
           message: CustomChatMessage.fromJson(json['message']),
           createdAt: json['createdAt'],
-          createdBy: json['createdBy'],
         );
       default:
         // ignore: avoid_dynamic_calls
@@ -195,7 +188,7 @@ class FirestoreChatMessageField {
   }
 
   /// Will be used to transform the class into a json object
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson(String createdBy) => {
         'message': message.toJson(),
         'createdAt': createdAt,
         'createdBy': createdBy,
