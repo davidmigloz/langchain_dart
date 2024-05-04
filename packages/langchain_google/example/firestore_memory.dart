@@ -3,10 +3,12 @@ import 'package:langchain_google/langchain_google.dart';
 import 'package:langchain/langchain.dart';
 
 Future<void> main() async {
-  await _example1();
+  await _history();
+  // await _historyWithNestedCollection();
+  // await _chainWithFirestoreHistory();
 }
 
-Future<void> _example1() async {
+Future<void> _history() async {
   final db = FakeFirebaseFirestore();
   const String userId = '1234';
 
@@ -25,7 +27,7 @@ Future<void> _example1() async {
 }
 
 //Nested firestore collection
-Future<void> _example2() async {
+Future<void> _historyWithNestedCollection() async {
   final db = FakeFirebaseFirestore();
   const String userId = '1234';
 
@@ -46,8 +48,8 @@ Future<void> _example2() async {
   //  AIMessage(content='whats up?', example=false)]
 }
 
-//Nested firestore collection
-Future<void> _example3() async {
+//Using in a chain
+Future<void> _chainWithFirestoreHistory() async {
   final db = FakeFirebaseFirestore();
   const String userId = '1234';
 
@@ -61,20 +63,22 @@ Future<void> _example3() async {
   //Very important to initialize firestore
   await history.ensureFirestore();
 
-  //Create ConversationBufferMemory instance to give to Chain
-  final ConversationBufferMemory memory =
-      ConversationBufferMemory(chatHistory: history);
-
   //Create llm instanse
-  final llm = FakeLLM(responses: ['Hey there what can I help you with?']);
+  final llm = FakeLLM(
+    responses: [
+      "Hi there! It's nice to meet you. How can I help you today?",
+    ],
+  );
 
   //Create chain with memory
-  final ConversationChain chain = ConversationChain(llm: llm, memory: memory);
+  final ConversationChain conversation = ConversationChain(
+    llm: llm,
+    memory: ConversationBufferMemory(chatHistory: history),
+  );
 
   //Call llm
-  await chain.run('Hi there!');
+  final output1 = await conversation.run('Hi there!');
 
-  print(await history.getChatMessages());
-  // [HumanChatMessage(content='Hi there!', example=false),
-  //  AIMessage(content='Hey there what can I help you with?', example=false)]
+  print(output1);
+  // -> 'Hi there! It's nice to meet you. How can I help you today?'
 }
