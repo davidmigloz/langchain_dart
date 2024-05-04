@@ -32,7 +32,7 @@ final class ConversationBufferWindowMemory extends BaseChatMemory {
     this.systemPrefix = SystemChatMessage.defaultPrefix,
     this.humanPrefix = HumanChatMessage.defaultPrefix,
     this.aiPrefix = AIChatMessage.defaultPrefix,
-    this.functionPrefix = FunctionChatMessage.defaultPrefix,
+    this.toolPrefix = ToolChatMessage.defaultPrefix,
   }) : super(chatHistory: chatHistory ?? ChatMessageHistory());
 
   /// Number of interactions to store in the buffer.
@@ -51,8 +51,8 @@ final class ConversationBufferWindowMemory extends BaseChatMemory {
   /// The prefix to use for AI messages if [returnMessages] is false.
   final String aiPrefix;
 
-  /// The prefix to use for function messages if [returnMessages] is false.
-  final String functionPrefix;
+  /// The prefix to use for tool messages if [returnMessages] is false.
+  final String toolPrefix;
 
   @override
   Set<String> get memoryKeys => {memoryKey};
@@ -70,7 +70,7 @@ final class ConversationBufferWindowMemory extends BaseChatMemory {
         systemPrefix: systemPrefix,
         humanPrefix: humanPrefix,
         aiPrefix: aiPrefix,
-        functionPrefix: functionPrefix,
+        toolPrefix: toolPrefix,
       ),
     };
   }

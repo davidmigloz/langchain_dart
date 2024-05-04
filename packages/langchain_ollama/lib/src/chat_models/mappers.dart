@@ -24,8 +24,8 @@ extension OllamaChatMessagesMapper on List<ChatMessage> {
             content: msg.content,
           ),
         ],
-      FunctionChatMessage() =>
-        throw UnsupportedError('Ollama does not support function calls'),
+      ToolChatMessage() =>
+        throw UnsupportedError('Ollama does not support tool calls'),
       CustomChatMessage() =>
         throw UnsupportedError('Ollama does not support custom messages'),
     };

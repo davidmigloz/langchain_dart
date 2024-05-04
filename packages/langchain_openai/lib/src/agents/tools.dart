@@ -16,30 +16,30 @@ const _systemChatMessagePromptTemplate = SystemChatMessagePromptTemplate(
   ),
 );
 
-/// {@template openai_functions_agent}
-/// An Agent driven by OpenAIs Functions powered API.
+/// {@template openai_tools_agent}
+/// An Agent driven by OpenAI's Tools powered API.
 ///
 /// Example:
 /// ```dart
 /// final llm = ChatOpenAI(
 ///   apiKey: openaiApiKey,
-///   model: 'gpt-3.5-turbo-0613',
+///   model: 'gpt-4-turbo',
 ///   temperature: 0,
 /// );
 /// final tools = [CalculatorTool()];
-/// final agent = OpenAIFunctionsAgent.fromLLMAndTools(llm: llm, tools: tools);
+/// final agent = OpenAIToolsAgent.fromLLMAndTools(llm: llm, tools: tools);
 /// final executor = AgentExecutor(agent: agent);
 /// final res = await executor.run('What is 40 raised to the 0.43 power? ');
 /// ```
 ///
 /// You can easily add memory to the agent using the memory parameter from the
-/// [OpenAIFunctionsAgent.fromLLMAndTools] constructor. Make sure you enable
+/// [OpenAIToolsAgent.fromLLMAndTools] constructor. Make sure you enable
 /// [BaseChatMemory.returnMessages] on your memory, as the agent works with
 /// [ChatMessage]s. The default prompt template already takes care of adding
 /// the history to the prompt. For example:
 /// ```dart
 /// final memory = ConversationBufferMemory(returnMessages: true);
-/// final agent = OpenAIFunctionsAgent.fromLLMAndTools(
+/// final agent = OpenAIToolsAgent.fromLLMAndTools(
 ///   llm: llm,
 ///   tools: tools,
 ///   memory: memory,
@@ -58,25 +58,23 @@ const _systemChatMessagePromptTemplate = SystemChatMessagePromptTemplate(
 ///     uses the memory to store the intermediary work).
 /// Example:
 /// ```dart
-/// ChatPromptTemplate.fromPromptMessages([
-///   SystemChatMessagePromptTemplate.fromTemplate(
-///     'You are a helpful AI assistant',
-///   ),
-///   MessagesPlaceholder(variableName: '{history}'),
-///   MessagePlaceholder(variableName: '{input}'),
+/// ChatPromptTemplate.fromTemplates([
+///   (ChatMessageType.system, 'You are a helpful AI assistant'),
+///   (ChatMessageType.messagesPlaceholder, 'history'),
+///   (ChatMessageType.messagePlaceholder, 'input'),
 /// ]);
 /// ```
 ///
-/// You can use [OpenAIFunctionsAgent.createPrompt] to build the prompt
+/// You can use [OpenAIToolsAgent.createPrompt] to build the prompt
 /// template if you only need to customize the system message or add some
 /// extra messages.
 /// {@endtemplate}
-class OpenAIFunctionsAgent extends BaseSingleActionAgent {
+class OpenAIToolsAgent extends BaseSingleActionAgent {
   /// {@macro openai_functions_agent}
-  OpenAIFunctionsAgent({
+  OpenAIToolsAgent({
     required this.llmChain,
     required super.tools,
-  })  : _parser = const OpenAIFunctionsAgentOutputParser(),
+  })  : _parser = const OpenAIToolsAgentOutputParser(),
         assert(
           llmChain.memory != null ||
               llmChain.prompt.inputVariables
@@ -103,7 +101,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
   final LLMChain<ChatOpenAI, ChatOpenAIOptions, BaseChatMemory> llmChain;
 
   /// Parser to use to parse the output of the LLM.
-  final OpenAIFunctionsAgentOutputParser _parser;
+  final OpenAIToolsAgentOutputParser _parser;
 
   /// The key for the input to the agent.
   static const agentInputKey = 'input';
@@ -111,10 +109,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
   @override
   Set<String> get inputKeys => {agentInputKey};
 
-  /// The tools the agent has access to.
-  List<ChatFunction> get functions => llmChain.llmOptions?.functions ?? [];
-
-  /// Construct an [OpenAIFunctionsAgent] from an [llm] and [tools].
+  /// Construct an [OpenAIToolsAgent] from an [llm] and [tools].
   ///
   /// - [llm] - The model to use for the agent.
   /// - [tools] - The tools the agent has access to.
@@ -123,7 +118,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
   ///   the first in the prompt. Default: "You are a helpful AI assistant".
   /// - [extraPromptMessages] prompt messages that will be placed between the
   ///   system message and the input from the agent.
-  factory OpenAIFunctionsAgent.fromLLMAndTools({
+  factory OpenAIToolsAgent.fromLLMAndTools({
     required final ChatOpenAI llm,
     required final List<Tool> tools,
     final BaseChatMemory? memory,
@@ -131,14 +126,12 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
         _systemChatMessagePromptTemplate,
     final List<ChatMessagePromptTemplate>? extraPromptMessages,
   }) {
-    return OpenAIFunctionsAgent(
+    return OpenAIToolsAgent(
       llmChain: LLMChain(
         llm: llm,
         llmOptions: ChatOpenAIOptions(
           model: llm.defaultOptions.model,
-          functions: tools
-              .map((final t) => t.toChatFunction())
-              .toList(growable: false),
+          tools: tools,
         ),
         prompt: createPrompt(
           systemChatMessage: systemChatMessage,
@@ -172,8 +165,8 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
     // Otherwise, we pass the input as a human message.
     if (llmChain.memory != null && intermediateSteps.isNotEmpty) {
       final lastStep = intermediateSteps.last;
-      final functionMsg = ChatMessage.function(
-        name: lastStep.action.tool,
+      final functionMsg = ChatMessage.tool(
+        toolCallId: lastStep.action.id,
         content: lastStep.observation,
       );
       agentInput = functionMsg;
@@ -205,8 +198,8 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
       ...intermediateSteps.map((final s) {
         return s.action.messageLog +
             [
-              ChatMessage.function(
-                name: s.action.tool,
+              ChatMessage.tool(
+                toolCallId: s.action.id,
                 content: s.observation,
               ),
             ];
@@ -215,7 +208,7 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
   }
 
   @override
-  String get agentType => 'openai-functions';
+  String get agentType => 'openai-tools';
 
   /// Creates prompt for this agent.
   ///
@@ -247,16 +240,16 @@ class OpenAIFunctionsAgent extends BaseSingleActionAgent {
   }
 }
 
-/// {@template openai_functions_agent_output_parser}
-/// Parser for [OpenAIFunctionsAgent].
+/// {@template openai_tools_agent_output_parser}
+/// Parser for [OpenAIToolsAgent].
 ///
 /// It parses the output of the LLM and returns the corresponding
 /// [BaseAgentAction] to be executed.
 /// {@endtemplate}
-class OpenAIFunctionsAgentOutputParser extends BaseOutputParser<ChatResult,
+class OpenAIToolsAgentOutputParser extends BaseOutputParser<ChatResult,
     OutputParserOptions, List<BaseAgentAction>> {
-  /// {@macro openai_functions_agent_output_parser}
-  const OpenAIFunctionsAgentOutputParser()
+  /// {@macro openai_tools_agent_output_parser}
+  const OpenAIToolsAgentOutputParser()
       : super(defaultOptions: const OutputParserOptions());
 
   @override
@@ -271,24 +264,27 @@ class OpenAIFunctionsAgentOutputParser extends BaseOutputParser<ChatResult,
   Future<List<BaseAgentAction>> parseChatMessage(
     final AIChatMessage message,
   ) async {
-    final functionCall = message.functionCall;
+    final toolCalls = message.toolCalls;
 
-    BaseAgentAction action;
-    if (functionCall != null) {
-      action = AgentAction(
-        tool: functionCall.name,
-        toolInput: functionCall.arguments,
-        log: 'Invoking: `${functionCall.name}` '
-            'with `${functionCall.arguments}`\n'
-            'Responded: ${message.content}\n',
-        messageLog: [message],
-      );
+    if (toolCalls.isNotEmpty) {
+      return toolCalls.map((final toolCall) {
+        return AgentAction(
+          id: toolCall.id,
+          tool: toolCall.name,
+          toolInput: toolCall.arguments,
+          log: 'Invoking: `${toolCall.name}` '
+              'with `${toolCall.arguments}`\n'
+              'Responded: ${message.content}\n',
+          messageLog: [message],
+        );
+      }).toList(growable: false);
     } else {
-      action = AgentFinish(
-        returnValues: {'output': message.content},
-        log: message.content,
-      );
+      return [
+        AgentFinish(
+          returnValues: {'output': message.content},
+          log: message.content,
+        ),
+      ];
     }
-    return [action];
   }
 }

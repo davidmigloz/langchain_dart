@@ -31,11 +31,15 @@ sealed class BaseAgentAction {
 class AgentAction extends BaseAgentAction {
   /// {@macro agent_action}
   const AgentAction({
+    required this.id,
     required this.tool,
     required this.toolInput,
     this.log = '',
     this.messageLog = const [],
   });
+
+  /// The id for the action.
+  final String id;
 
   /// The name of the tool to use.
   final String tool;

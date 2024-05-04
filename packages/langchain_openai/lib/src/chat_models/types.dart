@@ -1,4 +1,5 @@
 import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/tools.dart';
 
 /// {@template chat_openai_options}
 /// Options to pass into the OpenAI Chat Model.
@@ -17,9 +18,9 @@ class ChatOpenAIOptions extends ChatModelOptions {
     this.stop,
     this.temperature,
     this.topP,
-    this.functions,
-    this.functionCall,
     this.user,
+    super.tools,
+    super.toolChoice,
     super.concurrencyLimit,
   });
 
@@ -120,16 +121,6 @@ class ChatOpenAIOptions extends ChatModelOptions {
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-top_p
   final double? topP;
 
-  /// A list of functions the model may generate JSON inputs for.
-  ///
-  /// Ref: https://platform.openai.com/docs/api-reference/chat/create#chat-create-functions
-  final List<ChatFunction>? functions;
-
-  /// Controls how the model responds to function calls.
-  ///
-  /// Ref: https://platform.openai.com/docs/api-reference/chat/create#chat-create-function_call
-  final ChatFunctionCall? functionCall;
-
   /// A unique identifier representing your end-user, which can help OpenAI to
   /// monitor and detect abuse.
   ///
@@ -150,9 +141,9 @@ class ChatOpenAIOptions extends ChatModelOptions {
     final List<String>? stop,
     final double? temperature,
     final double? topP,
-    final List<ChatFunction>? functions,
-    final ChatFunctionCall? functionCall,
     final String? user,
+    final List<ToolSpec>? tools,
+    final ChatToolChoice? toolChoice,
   }) {
     return ChatOpenAIOptions(
       model: model ?? this.model,
@@ -166,9 +157,9 @@ class ChatOpenAIOptions extends ChatModelOptions {
       stop: stop ?? this.stop,
       temperature: temperature ?? this.temperature,
       topP: topP ?? this.topP,
-      functions: functions ?? this.functions,
-      functionCall: functionCall ?? this.functionCall,
       user: user ?? this.user,
+      tools: tools ?? this.tools,
+      toolChoice: toolChoice ?? this.toolChoice,
     );
   }
 }

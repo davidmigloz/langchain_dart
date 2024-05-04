@@ -62,7 +62,7 @@ void main() {
         ),
       ];
 
-      final agent = OpenAIFunctionsAgent.fromLLMAndTools(
+      final agent = OpenAIToolsAgent.fromLLMAndTools(
         llm: llm,
         tools: tools,
       );

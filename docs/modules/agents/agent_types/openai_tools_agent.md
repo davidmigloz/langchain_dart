@@ -1,16 +1,16 @@
-# OpenAI functions
+# OpenAI tools
 
 Certain OpenAI models (like `gpt-3.5-turbo` and `gpt-4`) have been
-fine-tuned to detect when a function should to be called and respond with the
-inputs that should be passed to the function. In an API call, you can describe
-functions and have the model intelligently choose to output a JSON object
-containing arguments to call those functions. The goal of the OpenAI Function
-APIs is to more reliably return valid and useful function calls than a generic
+fine-tuned to detect when a tool should to be called and respond with the
+inputs that should be passed to the tool. In an API call, you can describe
+tools and have the model intelligently choose to output a JSON object
+containing arguments to call those tools. The goal of the OpenAI Function
+APIs is to more reliably return valid and useful tool calls than a generic
 text completion or chat API.
 
-The OpenAI Functions Agent is designed to work with these models.
+The OpenAI Tools Agent is designed to work with these models.
 
-> **Note**: Must be used with an [OpenAI Functions](https://platform.openai.com/docs/guides/gpt/function-calling) model.
+> **Note**: Must be used with an [OpenAI Tools](https://platform.openai.com/docs/guides/function-calling) model.
 
 ```dart
 final llm = ChatOpenAI(
@@ -21,7 +21,7 @@ final llm = ChatOpenAI(
   ),
 );
 final tool = CalculatorTool();
-final agent = OpenAIFunctionsAgent.fromLLMAndTools(llm: llm, tools: [tool]);
+final agent = OpenAIToolsAgent.fromLLMAndTools(llm: llm, tools: [tool]);
 final executor = AgentExecutor(agent: agent);
 final res = await executor.run('What is 40 raised to the 0.43 power? ');
 print(res); // -> '40 raised to the power of 0.43 is approximately 4.8852'
@@ -94,7 +94,7 @@ final llm = ChatOpenAI(
 );
 
 final memory = ConversationBufferMemory(returnMessages: true);
-final agent = OpenAIFunctionsAgent.fromLLMAndTools(
+final agent = OpenAIToolsAgent.fromLLMAndTools(
   llm: llm,
   tools: [tool],
   memory: memory,
@@ -131,19 +131,19 @@ final model = ChatOpenAI(
   apiKey: openaiApiKey,
   defaultOptions: ChatOpenAIOptions(
     temperature: 0,
-    functions: [tool.toChatFunction()],
+    tools: [tool],
   ),
 );
 
-const outputParser = OpenAIFunctionsAgentOutputParser();
+const outputParser = OpenAIToolsAgentOutputParser();
 
 List<ChatMessage> buildScratchpad(final List<AgentStep> intermediateSteps) {
   return intermediateSteps
       .map((final s) {
         return s.action.messageLog +
             [
-              ChatMessage.function(
-                name: s.action.tool,
+              ChatMessage.tool(
+                toolCallId: s.action.id,
                 content: s.observation,
               ),
             ];

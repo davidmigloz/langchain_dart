@@ -6,12 +6,12 @@ import 'package:langchain_community/langchain_community.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 
 void main() async {
-  await _openaiFunctionsAgent();
-  await _openaiFunctionsAgentCustomToolsMemory();
-  await _openaiFunctionsAgentLCEL();
+  await _openAIToolsAgent();
+  await _openAIToolsAgentCustomToolsMemory();
+  await _openAIToolsAgentLCEL();
 }
 
-Future<void> _openaiFunctionsAgent() async {
+Future<void> _openAIToolsAgent() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
   final llm = ChatOpenAI(
     apiKey: openaiApiKey,
@@ -21,13 +21,13 @@ Future<void> _openaiFunctionsAgent() async {
     ),
   );
   final tool = CalculatorTool();
-  final agent = OpenAIFunctionsAgent.fromLLMAndTools(llm: llm, tools: [tool]);
+  final agent = OpenAIToolsAgent.fromLLMAndTools(llm: llm, tools: [tool]);
   final executor = AgentExecutor(agent: agent);
   final res = await executor.run('What is 40 raised to the 0.43 power? ');
   print(res); // -> '40 raised to the power of 0.43 is approximately 4.8852'
 }
 
-Future<void> _openaiFunctionsAgentCustomToolsMemory() async {
+Future<void> _openAIToolsAgentCustomToolsMemory() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 
   final tool = Tool.fromFunction<SearchInput, String>(
@@ -57,7 +57,7 @@ Future<void> _openaiFunctionsAgentCustomToolsMemory() async {
   );
 
   final memory = ConversationBufferMemory(returnMessages: true);
-  final agent = OpenAIFunctionsAgent.fromLLMAndTools(
+  final agent = OpenAIToolsAgent.fromLLMAndTools(
     llm: llm,
     tools: [tool],
     memory: memory,
@@ -95,7 +95,7 @@ String callYourSearchFunction(final SearchInput input) {
   return 'Results:\n${List<String>.generate(input.n, (final i) => 'Result ${i + 1}').join('\n')}';
 }
 
-Future<void> _openaiFunctionsAgentLCEL() async {
+Future<void> _openAIToolsAgentLCEL() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 
   final prompt = ChatPromptTemplate.fromTemplates(const [
@@ -110,19 +110,19 @@ Future<void> _openaiFunctionsAgentLCEL() async {
     apiKey: openaiApiKey,
     defaultOptions: ChatOpenAIOptions(
       temperature: 0,
-      functions: [tool.toChatFunction()],
+      tools: [tool],
     ),
   );
 
-  const outputParser = OpenAIFunctionsAgentOutputParser();
+  const outputParser = OpenAIToolsAgentOutputParser();
 
   List<ChatMessage> buildScratchpad(final List<AgentStep> intermediateSteps) {
     return intermediateSteps
         .map((final s) {
           return s.action.messageLog +
               [
-                ChatMessage.function(
-                  name: s.action.tool,
+                ChatMessage.tool(
+                  toolCallId: s.action.id,
                   content: s.observation,
                 ),
               ];
