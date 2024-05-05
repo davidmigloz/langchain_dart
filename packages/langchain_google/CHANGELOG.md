@@ -1,3 +1,10 @@
+## 0.4.0
+
+> Note: This release has breaking changes.  
+> If you are using "function calling" check [how to migrate to "tool calling"](https://github.com/davidmigloz/langchain_dart/issues/400).
+
+ - **BREAKING** **FEAT**: Migrate from function calling to tool calling ([#400](https://github.com/davidmigloz/langchain_dart/issues/400)). ([44413b83](https://github.com/davidmigloz/langchain_dart/commit/44413b8321b1188ff6b4027b1972a7ee0002761e))
+
 ## 0.3.0+2
 
  - Update a dependency to the latest release.

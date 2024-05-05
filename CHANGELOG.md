@@ -2,6 +2,70 @@
 
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details about each release.
 
+## 2024-05-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+- [`langchain` - `v0.7.0`](#langchain---v070)
+- [`langchain_core` - `v0.3.0`](#langchain_core---v030)
+- [`langchain_community` - `v0.2.0`](#langchain_community---v020)
+- [`langchain_openai` - `v0.6.0`](#langchain_openai---v060)
+- [`langchain_google` - `v0.4.0`](#langchain_google---v040)
+- [`langchain_mistralai` - `v0.2.0`](#langchain_mistralai---v020)
+- [`langchain_ollama` - `v0.2.0`](#langchain_ollama---v020)
+
+Packages with other changes:
+
+- [`langchain_supabase` - `v0.1.0+3`](#langchain_supabase---v0103)
+- [`langchain_pinecone` - `v0.1.0+3`](#langchain_pinecone---v0103)
+- [`langchain_chroma` - `v0.2.0+3`](#langchain_chroma---v0203)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+- `langchain_supabase` - `v0.1.0+3`
+- `langchain_pinecone` - `v0.1.0+3`
+- `langchain_chroma` - `v0.2.0+3`
+
+---
+
+#### `langchain` - `v0.7.0`
+
+- **BREAKING** **FEAT**: Migrate from function calling to tool calling ([#400](https://github.com/davidmigloz/langchain_dart/issues/400)). ([44413b83](https://github.com/davidmigloz/langchain_dart/commit/44413b8321b1188ff6b4027b1972a7ee0002761e))
+- **BREAKING** **REFACTOR**: Improve Tool abstractions ([#398](https://github.com/davidmigloz/langchain_dart/issues/398)). ([2a50aec2](https://github.com/davidmigloz/langchain_dart/commit/2a50aec28385068f9be32392020d727fc9a1561e))
+
+#### `langchain_core` - `v0.3.0`
+
+- **BREAKING** **FEAT**: Migrate from function calling to tool calling ([#400](https://github.com/davidmigloz/langchain_dart/issues/400)). ([44413b83](https://github.com/davidmigloz/langchain_dart/commit/44413b8321b1188ff6b4027b1972a7ee0002761e))
+- **BREAKING** **REFACTOR**: Improve Tool abstractions ([#398](https://github.com/davidmigloz/langchain_dart/issues/398)). ([2a50aec2](https://github.com/davidmigloz/langchain_dart/commit/2a50aec28385068f9be32392020d727fc9a1561e))
+
+#### `langchain_community` - `v0.2.0`
+
+- **BREAKING** **FEAT**: Migrate from function calling to tool calling ([#400](https://github.com/davidmigloz/langchain_dart/issues/400)). ([44413b83](https://github.com/davidmigloz/langchain_dart/commit/44413b8321b1188ff6b4027b1972a7ee0002761e))
+- **BREAKING** **REFACTOR**: Improve Tool abstractions ([#398](https://github.com/davidmigloz/langchain_dart/issues/398)). ([2a50aec2](https://github.com/davidmigloz/langchain_dart/commit/2a50aec28385068f9be32392020d727fc9a1561e))
+
+#### `langchain_openai` - `v0.6.0`
+
+- **BREAKING** **FEAT**: Migrate from function calling to tool calling ([#400](https://github.com/davidmigloz/langchain_dart/issues/400)). ([44413b83](https://github.com/davidmigloz/langchain_dart/commit/44413b8321b1188ff6b4027b1972a7ee0002761e))
+- **BREAKING** **REFACTOR**: Improve Tool abstractions ([#398](https://github.com/davidmigloz/langchain_dart/issues/398)). ([2a50aec2](https://github.com/davidmigloz/langchain_dart/commit/2a50aec28385068f9be32392020d727fc9a1561e))
+
+#### `langchain_google` - `v0.4.0`
+
+- **BREAKING** **FEAT**: Migrate from function calling to tool calling ([#400](https://github.com/davidmigloz/langchain_dart/issues/400)). ([44413b83](https://github.com/davidmigloz/langchain_dart/commit/44413b8321b1188ff6b4027b1972a7ee0002761e))
+
+#### `langchain_mistralai` - `v0.2.0`
+
+- **BREAKING** **FEAT**: Migrate from function calling to tool calling ([#400](https://github.com/davidmigloz/langchain_dart/issues/400)). ([44413b83](https://github.com/davidmigloz/langchain_dart/commit/44413b8321b1188ff6b4027b1972a7ee0002761e))
+
+#### `langchain_ollama` - `v0.2.0`
+
+- **BREAKING** **FEAT**: Migrate from function calling to tool calling ([#400](https://github.com/davidmigloz/langchain_dart/issues/400)). ([44413b83](https://github.com/davidmigloz/langchain_dart/commit/44413b8321b1188ff6b4027b1972a7ee0002761e))
+
 ## 2024-04-30
 
 ### Changes
@@ -2159,6 +2223,16 @@ Packages with changes:
 
  - **FIX**: OpenAIQAWithSourcesChain throws exception. ([45c6cb9d](https://github.com/davidmigloz/langchain_dart/commit/45c6cb9d32be670902dd2fe4cb92597765590d85))
  - **FEAT**: Support estimating the number of tokens for a given prompt ([#3](https://github.com/davidmigloz/langchain_dart/issues/3)). ([e22f22c8](https://github.com/davidmigloz/langchain_dart/commit/e22f22c89f188a019b96a7c0003dbd26471bebb7))
+
+
+## 2023-07-02
+
+### Changes
+
+#### `langchain` - `v0.0.1`
+
+ - Initial public release. 
+/commit/e22f22c89f188a019b96a7c0003dbd26471bebb7))
 
 
 ## 2023-07-02
