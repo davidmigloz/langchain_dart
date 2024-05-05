@@ -16,10 +16,10 @@ import 'package:meta/meta.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('OpenAIFunctionsAgent tests', () {
+  group('OpenAIToolsAgent tests', () {
     final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 
-    test('Test OpenAIFunctionsAgent with calculator tool', () async {
+    test('Test OpenAIToolsAgent with calculator tool', () async {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
@@ -31,8 +31,7 @@ void main() {
       final tool = CalculatorTool();
       final tools = [tool];
 
-      final agent =
-          OpenAIFunctionsAgent.fromLLMAndTools(llm: llm, tools: tools);
+      final agent = OpenAIToolsAgent.fromLLMAndTools(llm: llm, tools: tools);
 
       final executor = AgentExecutor(agent: agent);
 
@@ -78,7 +77,7 @@ void main() {
       final tools = [tool];
 
       final memory = ConversationBufferMemory(returnMessages: returnMessages);
-      final agent = OpenAIFunctionsAgent.fromLLMAndTools(
+      final agent = OpenAIToolsAgent.fromLLMAndTools(
         llm: llm,
         tools: tools,
         memory: memory,
@@ -107,11 +106,11 @@ void main() {
       expect(res3, contains('Result 3'));
     }
 
-    test('Test OpenAIFunctionsAgent with messages memory', () async {
+    test('Test OpenAIToolsAgent with messages memory', () async {
       await testMemory(returnMessages: true);
     });
 
-    test('Test OpenAIFunctionsAgent with string memory throws error', () async {
+    test('Test OpenAIToolsAgent with string memory throws error', () async {
       expect(
         () async => testMemory(returnMessages: false),
         throwsA(isA<AssertionError>()),
@@ -119,7 +118,7 @@ void main() {
     });
   });
 
-  group('OpenAIFunctionsAgent LCEL equivalent test', () {
+  group('OpenAIToolsAgent LCEL equivalent test', () {
     final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 
     final prompt = ChatPromptTemplate.fromPromptMessages([
@@ -138,7 +137,7 @@ void main() {
         model: 'gpt-4-turbo',
         temperature: 0,
       ),
-    ).bind(ChatOpenAIOptions(functions: [tool.toChatFunction()]));
+    ).bind(ChatOpenAIOptions(tools: [tool]));
 
     final agent = Agent.fromRunnable(
       Runnable.mapInput(
@@ -148,8 +147,8 @@ void main() {
               .map((final s) {
                 return s.action.messageLog +
                     [
-                      ChatMessage.function(
-                        name: s.action.tool,
+                      ChatMessage.tool(
+                        toolCallId: s.action.id,
                         content: s.observation,
                       ),
                     ];
@@ -157,13 +156,13 @@ void main() {
               .expand((final m) => m)
               .toList(growable: false),
         },
-      ).pipe(prompt).pipe(model).pipe(const OpenAIFunctionsAgentOutputParser()),
+      ).pipe(prompt).pipe(model).pipe(const OpenAIToolsAgentOutputParser()),
       tools: [tool],
     );
 
     final executor = AgentExecutor(agent: agent);
 
-    test('Test OpenAIFunctionsAgent LCEL equivalent', () async {
+    test('Test OpenAIToolsAgent LCEL equivalent', () async {
       final res = await executor.invoke({
         'input': 'What is 40 raised to the 0.43 power with 3 decimals?',
       });

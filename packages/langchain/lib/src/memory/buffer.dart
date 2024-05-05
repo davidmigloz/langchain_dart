@@ -29,24 +29,24 @@ final class ConversationBufferMemory extends BaseChatMemory {
     this.systemPrefix = SystemChatMessage.defaultPrefix,
     this.humanPrefix = HumanChatMessage.defaultPrefix,
     this.aiPrefix = AIChatMessage.defaultPrefix,
-    this.functionPrefix = FunctionChatMessage.defaultPrefix,
+    this.toolPrefix = ToolChatMessage.defaultPrefix,
   }) : super(chatHistory: chatHistory ?? ChatMessageHistory());
 
   /// The memory key to use for the chat history.
   /// This will be passed as input variable to the prompt.
   final String memoryKey;
 
-  /// The prefix to use for system messages.
+  /// The prefix to use for system messages if [returnMessages] is false.
   final String systemPrefix;
 
-  /// The prefix to use for human messages.
+  /// The prefix to use for human messages if [returnMessages] is false.
   final String humanPrefix;
 
-  /// The prefix to use for AI messages.
+  /// The prefix to use for AI messages if [returnMessages] is false.
   final String aiPrefix;
 
-  /// The prefix to use for function messages.
-  final String functionPrefix;
+  /// The prefix to use for tool messages if [returnMessages] is false.
+  final String toolPrefix;
 
   @override
   Set<String> get memoryKeys => {memoryKey};
@@ -64,7 +64,7 @@ final class ConversationBufferMemory extends BaseChatMemory {
         systemPrefix: systemPrefix,
         humanPrefix: humanPrefix,
         aiPrefix: aiPrefix,
-        functionPrefix: functionPrefix,
+        toolPrefix: toolPrefix,
       ),
     };
   }

@@ -274,11 +274,10 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final ChatOpenAIOptions? options,
   }) {
     final messagesDtos = messages.toChatCompletionMessages();
-    final functionsDtos = options?.functions?.toFunctionObjects() ??
-        defaultOptions.functions?.toFunctionObjects();
-    final functionCall =
-        options?.functionCall?.toChatCompletionFunctionCall() ??
-            defaultOptions.functionCall?.toChatCompletionFunctionCall();
+    final toolsDtos = options?.tools?.toChatCompletionTool() ??
+        defaultOptions.tools?.toChatCompletionTool();
+    final toolChoice = options?.toolChoice?.toChatCompletionToolChoice() ??
+        defaultOptions.toolChoice?.toChatCompletionToolChoice();
     final responseFormat =
         options?.responseFormat ?? defaultOptions.responseFormat;
     final responseFormatDto = responseFormat?.toChatCompletionResponseFormat();
@@ -288,8 +287,8 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
         options?.model ?? defaultOptions.model ?? throwNullModelError(),
       ),
       messages: messagesDtos,
-      functions: functionsDtos,
-      functionCall: functionCall,
+      tools: toolsDtos,
+      toolChoice: toolChoice,
       frequencyPenalty:
           options?.frequencyPenalty ?? defaultOptions.frequencyPenalty,
       logitBias: options?.logitBias ?? defaultOptions.logitBias,
@@ -369,14 +368,18 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
         final SystemChatMessage _ => tiktoken.encode('system').length,
         final HumanChatMessage _ => tiktoken.encode('user').length,
         final AIChatMessage msg => tiktoken.encode('assistant').length +
-            (msg.functionCall != null
-                ? tiktoken.encode(msg.functionCall!.name).length +
+            (msg.toolCalls.isNotEmpty
+                ? tiktoken
+                        .encode(msg.toolCalls.map((c) => c.name).join())
+                        .length +
                     tiktoken
-                        .encode(msg.functionCall!.arguments.toString())
+                        .encode(
+                          msg.toolCalls.map((c) => c.argumentsRaw).join(),
+                        )
                         .length
                 : 0),
-        final FunctionChatMessage msg =>
-          tiktoken.encode(msg.name).length + tokensPerName,
+        final ToolChatMessage msg =>
+          tiktoken.encode(msg.toolCallId).length + tokensPerName,
         final CustomChatMessage msg => tiktoken.encode(msg.role).length,
       };
     }

@@ -39,7 +39,7 @@ final class ConversationTokenBufferMemory<LLMType extends BaseLanguageModel>
     this.systemPrefix = SystemChatMessage.defaultPrefix,
     this.humanPrefix = HumanChatMessage.defaultPrefix,
     this.aiPrefix = AIChatMessage.defaultPrefix,
-    this.functionPrefix = FunctionChatMessage.defaultPrefix,
+    this.toolPrefix = ToolChatMessage.defaultPrefix,
   }) : super(chatHistory: chatHistory ?? ChatMessageHistory());
 
   /// Max number of tokens to use.
@@ -52,17 +52,17 @@ final class ConversationTokenBufferMemory<LLMType extends BaseLanguageModel>
   /// This will be passed as input variable to the prompt.
   final String memoryKey;
 
-  /// The prefix to use for system messages.
+  /// The prefix to use for system messages if [returnMessages] is false.
   final String systemPrefix;
 
-  /// The prefix to use for human messages.
+  /// The prefix to use for human messages if [returnMessages] is false.
   final String humanPrefix;
 
-  /// The prefix to use for AI messages.
+  /// The prefix to use for AI messages if [returnMessages] is false.
   final String aiPrefix;
 
-  /// The prefix to use for function messages.
-  final String functionPrefix;
+  /// The prefix to use for tool messages if [returnMessages] is false.
+  final String toolPrefix;
 
   @override
   Set<String> get memoryKeys => {memoryKey};
@@ -80,7 +80,7 @@ final class ConversationTokenBufferMemory<LLMType extends BaseLanguageModel>
         systemPrefix: systemPrefix,
         humanPrefix: humanPrefix,
         aiPrefix: aiPrefix,
-        functionPrefix: functionPrefix,
+        toolPrefix: toolPrefix,
       ),
     };
   }

@@ -76,7 +76,7 @@ final class ConversationSummaryMemory<LLMType extends BaseLanguageModel>
     this.systemPrefix = SystemChatMessage.defaultPrefix,
     this.humanPrefix = HumanChatMessage.defaultPrefix,
     this.aiPrefix = AIChatMessage.defaultPrefix,
-    this.functionPrefix = FunctionChatMessage.defaultPrefix,
+    this.toolPrefix = ToolChatMessage.defaultPrefix,
   })  : _buffer = initialSummary,
         super(chatHistory: chatHistory ?? ChatMessageHistory());
 
@@ -97,17 +97,17 @@ final class ConversationSummaryMemory<LLMType extends BaseLanguageModel>
   /// This will be passed as input variable to the prompt.
   final String memoryKey;
 
-  /// The prefix to use for system messages.
+  /// The prefix to use for system messages if [returnMessages] is false.
   final String systemPrefix;
 
-  /// The prefix to use for human messages.
+  /// The prefix to use for human messages if [returnMessages] is false.
   final String humanPrefix;
 
-  /// The prefix to use for AI messages.
+  /// The prefix to use for AI messages if [returnMessages] is false.
   final String aiPrefix;
 
-  /// The prefix to use for function messages.
-  final String functionPrefix;
+  /// The prefix to use for tool messages if [returnMessages] is false.
+  final String toolPrefix;
 
   /// Store the summarized chat history in memory.
   /// This does not concatenate, changes every new [ChatMessage] are added.
@@ -133,7 +133,7 @@ final class ConversationSummaryMemory<LLMType extends BaseLanguageModel>
     final String systemPrefix = SystemChatMessage.defaultPrefix,
     final String humanPrefix = HumanChatMessage.defaultPrefix,
     final String aiPrefix = AIChatMessage.defaultPrefix,
-    final String functionPrefix = FunctionChatMessage.defaultPrefix,
+    final String toolPrefix = ToolChatMessage.defaultPrefix,
     final int summaryStep = 2,
   }) async {
     final memory = ConversationSummaryMemory(
@@ -149,7 +149,7 @@ final class ConversationSummaryMemory<LLMType extends BaseLanguageModel>
       systemPrefix: systemPrefix,
       humanPrefix: humanPrefix,
       aiPrefix: aiPrefix,
-      functionPrefix: functionPrefix,
+      toolPrefix: toolPrefix,
     );
     final messages = await chatHistory.getChatMessages();
     for (var i = 0; i < messages.length; i += summaryStep) {
@@ -181,7 +181,7 @@ final class ConversationSummaryMemory<LLMType extends BaseLanguageModel>
         systemPrefix: systemPrefix,
         humanPrefix: humanPrefix,
         aiPrefix: aiPrefix,
-        functionPrefix: functionPrefix,
+        toolPrefix: toolPrefix,
       ),
     };
   }
@@ -210,7 +210,7 @@ final class ConversationSummaryMemory<LLMType extends BaseLanguageModel>
       systemPrefix: systemPrefix,
       humanPrefix: humanPrefix,
       aiPrefix: aiPrefix,
-      functionPrefix: functionPrefix,
+      toolPrefix: toolPrefix,
     );
     return LLMChain(llm: llm, prompt: summaryPromptTemplate).run({
       'new_lines': input,

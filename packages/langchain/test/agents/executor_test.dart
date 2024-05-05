@@ -12,6 +12,7 @@ void main() {
         tools: [tool],
         actions: [
           AgentAction(
+            id: 'id',
             tool: tool.name,
             toolInput: {'input': 'mock'},
           ),
@@ -31,6 +32,7 @@ void main() {
         tools: [tool],
         actions: [
           AgentAction(
+            id: 'id',
             tool: tool.name,
             toolInput: {'input': 'mock'},
           ),
@@ -50,6 +52,7 @@ void main() {
         tools: [tool],
         actions: [
           AgentAction(
+            id: 'id',
             tool: tool.name,
             toolInput: {'input': 'mock'},
           ),
@@ -69,6 +72,7 @@ void main() {
         tools: [tool],
         actions: [
           const AgentAction(
+            id: 'id',
             tool: 'tool',
             toolInput: {'input': 'mock'},
           ),
@@ -97,6 +101,7 @@ void main() {
         tools: [tool],
         actions: [
           const AgentAction(
+            id: 'id',
             tool: 'invalid_tool',
             toolInput: {'input': 'mock'},
           ),

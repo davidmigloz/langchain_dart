@@ -1,5 +1,5 @@
-import 'package:collection/collection.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:collection/collection.dart' show DeepCollectionEquality;
+import 'package:rxdart/rxdart.dart' show DoExtensions;
 
 import '../runnables/runnable.dart';
 import 'base.dart';
@@ -75,8 +75,7 @@ class JsonOutputParser<ParserInput extends Object?> extends BaseOutputParser<
     final ParserInput input, {
     final OutputParserOptions? options,
   }) async {
-    final inputStr = await _stringOutputParser.invoke(input, options: options);
-    return _parse(inputStr);
+    return _parseInvoke(input, options: options);
   }
 
   @override
@@ -106,12 +105,12 @@ class JsonOutputParser<ParserInput extends Object?> extends BaseOutputParser<
     }
   }
 
-  Map<String, dynamic> _parse(
-    final String input, {
-    Map<String, dynamic> fallback = const {},
-  }) {
-    final result = parsePartialJson(input);
-    return result ?? fallback;
+  Future<Map<String, dynamic>> _parseInvoke(
+    final ParserInput input, {
+    final OutputParserOptions? options,
+  }) async {
+    final inputStr = await _stringOutputParser.invoke(input, options: options);
+    return _parse(inputStr);
   }
 
   Future<Map<String, dynamic>> _parseStream(
@@ -121,6 +120,14 @@ class JsonOutputParser<ParserInput extends Object?> extends BaseOutputParser<
     final inputStr = await _stringOutputParser.invoke(input, options: options);
     _lastInputStr = '$_lastInputStr$inputStr';
     return _lastOutputMap = _parse(_lastInputStr, fallback: _lastOutputMap);
+  }
+
+  Map<String, dynamic> _parse(
+    final String input, {
+    Map<String, dynamic> fallback = const {},
+  }) {
+    final result = parsePartialJson(input);
+    return result ?? fallback;
   }
 
   void _clear() {

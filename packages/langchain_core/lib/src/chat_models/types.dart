@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
 import '../language_models/language_models.dart';
+import '../tools/base.dart';
 
 /// {@template chat_model_options}
 /// Generation options to pass into the Chat Model.
@@ -10,7 +11,15 @@ class ChatModelOptions extends LanguageModelOptions {
   /// {@macro chat_model_options}
   const ChatModelOptions({
     super.concurrencyLimit,
+    this.tools,
+    this.toolChoice,
   });
+
+  /// A list of tools the model may call.
+  final List<ToolSpec>? tools;
+
+  /// Controls which (if any) tool is called by the model.
+  final ChatToolChoice? toolChoice;
 }
 
 /// {@template chat_result}
@@ -85,21 +94,21 @@ sealed class ChatMessage {
   /// Type of message that is spoken by the AI.
   factory ChatMessage.ai(
     final String content, {
-    final AIChatMessageFunctionCall? functionCall,
+    final List<AIChatMessageToolCall> toolCalls = const [],
   }) =>
       AIChatMessage(
         content: content,
-        functionCall: functionCall,
+        toolCalls: toolCalls,
       );
 
-  /// Type of message that is the response of calling a function.
-  factory ChatMessage.function({
-    required final String name,
+  /// Type of message that is the response of calling a tool.
+  factory ChatMessage.tool({
+    required final String toolCallId,
     required final String content,
   }) =>
-      FunctionChatMessage(
+      ToolChatMessage(
+        toolCallId: toolCallId,
         content: content,
-        name: name,
       );
 
   /// Chat message with custom role.
@@ -129,7 +138,7 @@ sealed class ChatMessage {
                 .join('\n'),
           },
         final AIChatMessage ai => ai.content,
-        final FunctionChatMessage function => function.content,
+        final ToolChatMessage tool => tool.content,
         final CustomChatMessage custom => custom.content,
       };
 
@@ -277,25 +286,28 @@ class AIChatMessage extends ChatMessage {
   /// {@macro ai_chat_message}
   const AIChatMessage({
     required this.content,
-    this.functionCall,
+    this.toolCalls = const [],
   });
 
   /// The content of the message.
   final String content;
 
-  /// A function call that the AI wants to make.
-  final AIChatMessageFunctionCall? functionCall;
+  /// The list of tool that the model wants to call.
+  /// If the model does not want to call any tool, this list will be empty.
+  final List<AIChatMessageToolCall> toolCalls;
 
   /// Default prefix for [AIChatMessage].
   static const String defaultPrefix = 'AI';
 
   @override
-  bool operator ==(covariant final AIChatMessage other) =>
-      identical(this, other) ||
-      content == other.content && functionCall == other.functionCall;
+  bool operator ==(covariant final AIChatMessage other) {
+    final listEquals = const DeepCollectionEquality().equals;
+    return identical(this, other) ||
+        content == other.content && listEquals(toolCalls, other.toolCalls);
+  }
 
   @override
-  int get hashCode => content.hashCode ^ functionCall.hashCode;
+  int get hashCode => content.hashCode ^ toolCalls.hashCode;
 
   @override
   AIChatMessage concat(final ChatMessage other) {
@@ -303,20 +315,43 @@ class AIChatMessage extends ChatMessage {
       return this;
     }
 
+    final toolCalls = <AIChatMessageToolCall>[];
+    if (this.toolCalls.isNotEmpty || other.toolCalls.isNotEmpty) {
+      final thisToolCallsById = {
+        for (final toolCall in this.toolCalls) toolCall.id: toolCall,
+      };
+      final otherToolCallsById = {
+        for (final toolCall in other.toolCalls)
+          (toolCall.id.isNotEmpty
+              ? toolCall.id
+              : (this.toolCalls.lastOrNull?.id ?? '')): toolCall,
+      };
+      final toolCallsIds = {
+        ...thisToolCallsById.keys,
+        ...otherToolCallsById.keys,
+      };
+
+      for (final id in toolCallsIds) {
+        final thisToolCall = thisToolCallsById[id];
+        final otherToolCall = otherToolCallsById[id];
+        toolCalls.add(
+          AIChatMessageToolCall(
+            id: id,
+            name: (thisToolCall?.name ?? '') + (otherToolCall?.name ?? ''),
+            argumentsRaw: (thisToolCall?.argumentsRaw ?? '') +
+                (otherToolCall?.argumentsRaw ?? ''),
+            arguments: {
+              ...?thisToolCall?.arguments,
+              ...?otherToolCall?.arguments,
+            },
+          ),
+        );
+      }
+    }
+
     return AIChatMessage(
       content: content + other.content,
-      functionCall: functionCall != null || other.functionCall != null
-          ? AIChatMessageFunctionCall(
-              name:
-                  (functionCall?.name ?? '') + (other.functionCall?.name ?? ''),
-              argumentsRaw: (functionCall?.argumentsRaw ?? '') +
-                  (other.functionCall?.argumentsRaw ?? ''),
-              arguments: {
-                ...?functionCall?.arguments,
-                ...?other.functionCall?.arguments,
-              },
-            )
-          : null,
+      toolCalls: toolCalls,
     );
   }
 
@@ -325,35 +360,47 @@ class AIChatMessage extends ChatMessage {
     return '''
 AIChatMessage{
   content: $content,
-  functionCall: $functionCall,
+  toolCalls: $toolCalls,
 }''';
   }
 }
 
-/// {@template ai_chat_message_function_call}
-/// A function call that the AI wants to make.
+/// {@template ai_chat_message_tool_call}
+/// A tool that the model wants to call.
 /// {@endtemplate}
 @immutable
-class AIChatMessageFunctionCall {
-  /// {@macro ai_chat_message_function_call}
-  const AIChatMessageFunctionCall({
+class AIChatMessageToolCall {
+  /// {@macro ai_chat_message_tool_call}
+  const AIChatMessageToolCall({
+    required this.id,
     required this.name,
     required this.argumentsRaw,
     required this.arguments,
   });
 
-  /// The name of the function that the model wants to call.
+  /// The id of the tool to call.
+  final String id;
+
+  /// The name of the tool to call.
   final String name;
 
   /// The raw arguments JSON string (needed to parse streaming responses).
   final String argumentsRaw;
 
-  /// The arguments that the model wants to pass to the function.
+  /// The arguments to pass to the tool in JSON Map format.
+  ///
+  /// Note that the model does not always generate a valid JSON, in that case,
+  /// [arguments] will be empty but you can still see the raw response in
+  /// [argumentsRaw].
+  ///
+  /// The model may also hallucinate parameters not defined by your tool schema.
+  /// Validate the arguments in your code before calling your tool.
   final Map<String, dynamic> arguments;
 
-  /// Converts the [AIChatMessageFunctionCall] to a [Map].
+  /// Converts the [AIChatMessageToolCall] to a [Map].
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'argumentsRaw': argumentsRaw,
       'arguments': arguments,
@@ -361,22 +408,24 @@ class AIChatMessageFunctionCall {
   }
 
   @override
-  bool operator ==(covariant final AIChatMessageFunctionCall other) {
-    final mapEquals = const MapEquality<String, dynamic>().equals;
+  bool operator ==(covariant final AIChatMessageToolCall other) {
+    final mapEquals = const DeepCollectionEquality().equals;
     return identical(this, other) ||
-        name == other.name &&
+        id == other.id &&
+            name == other.name &&
             argumentsRaw == other.argumentsRaw &&
             mapEquals(arguments, other.arguments);
   }
 
   @override
   int get hashCode =>
-      name.hashCode ^ argumentsRaw.hashCode ^ arguments.hashCode;
+      id.hashCode ^ name.hashCode ^ argumentsRaw.hashCode ^ arguments.hashCode;
 
   @override
   String toString() {
     return '''
-AIChatMessageFunctionCall{
+AIChatMessageToolCall{
+  id: $id,
   name: $name,
   argumentsRaw: $argumentsRaw,
   arguments: $arguments,
@@ -384,50 +433,51 @@ AIChatMessageFunctionCall{
   }
 }
 
-/// {@template function_chat_message}
-/// Type of message that is the response of calling a function.
+/// {@template tool_chat_message}
+/// Type of message that is the response of calling a tool.
 /// {@endtemplate}
 @immutable
-class FunctionChatMessage extends ChatMessage {
-  /// {@macro function_chat_message}
-  const FunctionChatMessage({
+class ToolChatMessage extends ChatMessage {
+  /// {@macro tool_chat_message}
+  const ToolChatMessage({
+    required this.toolCallId,
     required this.content,
-    required this.name,
   });
 
-  /// The response of the function call.
+  /// The id of the tool that was called.
+  final String toolCallId;
+
+  /// The response of the tool call.
   final String content;
 
-  /// The function that was called.
-  final String name;
-
-  /// Default prefix for [FunctionChatMessage].
-  static const String defaultPrefix = 'Function';
+  /// Default prefix for [ToolChatMessage].
+  static const String defaultPrefix = 'Tool';
 
   @override
-  bool operator ==(covariant final FunctionChatMessage other) =>
-      identical(this, other) || content == other.content && name == other.name;
+  bool operator ==(covariant final ToolChatMessage other) =>
+      identical(this, other) ||
+      toolCallId == other.toolCallId && content == other.content;
 
   @override
-  int get hashCode => content.hashCode;
+  int get hashCode => toolCallId.hashCode ^ content.hashCode;
 
   @override
-  FunctionChatMessage concat(final ChatMessage other) {
-    if (other is! FunctionChatMessage) {
+  ToolChatMessage concat(final ChatMessage other) {
+    if (other is! ToolChatMessage) {
       return this;
     }
 
-    return FunctionChatMessage(
+    return ToolChatMessage(
+      toolCallId: toolCallId,
       content: content + other.content,
-      name: name + other.name,
     );
   }
 
   @override
   String toString() {
     return '''
-FunctionChatMessage{
-  name: $name,
+ToolChatMessage{
+  toolCallId: $toolCallId,
   content: $content,
 }''';
   }
@@ -650,98 +700,51 @@ enum ChatMessageContentImageDetail {
   high,
 }
 
-/// {@template chat_function}
-/// The description of a function that can be called by the chat model.
+/// {@template chat_tool_choice}
+/// Controls how the model responds to tool calls.
 /// {@endtemplate}
-@immutable
-class ChatFunction {
-  /// {@macro chat_function}
-  const ChatFunction({
+sealed class ChatToolChoice {
+  /// {@macro chat_tool_choice}
+  const ChatToolChoice();
+
+  /// The model does not call a tool, and responds to the end-user.
+  static const none = ChatToolChoiceNone();
+
+  /// The model can pick between an end-user or calling a tool.
+  static const auto = ChatToolChoiceAuto();
+
+  /// The model is forced to to call the specified tool.
+  factory ChatToolChoice.forced({required final String name}) =>
+      ChatToolChoiceForced(name: name);
+}
+
+/// {@template chat_tool_choice_none}
+/// The model does not call a tool, and responds to the end-user.
+/// {@endtemplate}
+final class ChatToolChoiceNone extends ChatToolChoice {
+  /// {@macro chat_tool_choice_none}
+  const ChatToolChoiceNone();
+}
+
+/// {@template chat_tool_choice_auto}
+/// The model can pick between an end-user or calling a tool.
+/// {@endtemplate}
+final class ChatToolChoiceAuto extends ChatToolChoice {
+  /// {@macro chat_tool_choice_auto}
+  const ChatToolChoiceAuto();
+}
+
+/// {@template chat_tool_choice_forced}
+/// The model is forced to to call the specified tool.
+/// {@endtemplate}
+final class ChatToolChoiceForced extends ChatToolChoice {
+  /// {@macro chat_tool_choice_forced}
+  const ChatToolChoiceForced({
     required this.name,
-    this.description,
-    this.parameters,
   });
 
-  /// The name of the function to be called.
+  /// The name of the tool to call.
   final String name;
-
-  /// The description of what the function does.
-  final String? description;
-
-  /// The parameters the functions accepts, described as a
-  /// [JSON Schema](https://json-schema.org/understanding-json-schema) object.
-  final Map<String, dynamic>? parameters;
-
-  @override
-  bool operator ==(covariant final ChatFunction other) {
-    final mapEquals = const MapEquality<String, dynamic>().equals;
-    return identical(this, other) ||
-        name == other.name &&
-            description == other.description &&
-            mapEquals(parameters, other.parameters);
-  }
-
-  @override
-  int get hashCode =>
-      name.hashCode ^ description.hashCode ^ parameters.hashCode;
-
-  @override
-  String toString() {
-    return '''
-ChatFunction{
-  name: $name,
-  description: $description,
-  parameters: $parameters,
-}
-''';
-  }
-}
-
-/// {@template chat_function_call}
-/// Controls how the model responds to function calls.
-/// {@endtemplate}
-sealed class ChatFunctionCall {
-  /// {@macro chat_function_call}
-  const ChatFunctionCall();
-
-  /// The model does not call a function, and responds to the end-user.
-  static const none = ChatFunctionCallNone();
-
-  /// The model can pick between an end-user or calling a function.
-  static const auto = ChatFunctionCallAuto();
-
-  /// The model is forced to to call the specified function.
-  factory ChatFunctionCall.forced({required final String functionName}) =>
-      ChatFunctionCallForced(functionName: functionName);
-}
-
-/// {@template chat_function_call_none}
-/// The model does not call a function, and responds to the end-user.
-/// {@endtemplate}
-final class ChatFunctionCallNone extends ChatFunctionCall {
-  /// {@macro chat_function_call_none}
-  const ChatFunctionCallNone();
-}
-
-/// {@template chat_function_call_auto}
-/// The model can pick between an end-user or calling a function.
-/// {@endtemplate}
-final class ChatFunctionCallAuto extends ChatFunctionCall {
-  /// {@macro chat_function_call_auto}
-  const ChatFunctionCallAuto();
-}
-
-/// {@template chat_function_call_forced}
-/// The model is forced to to call the specified function.
-/// {@endtemplate}
-final class ChatFunctionCallForced extends ChatFunctionCall {
-  /// {@macro chat_function_call_forced}
-  const ChatFunctionCallForced({
-    required this.functionName,
-  });
-
-  /// The name of the function to call.
-  final String functionName;
 }
 
 /// {@template chat_example}

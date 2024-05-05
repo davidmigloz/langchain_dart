@@ -69,23 +69,23 @@ print(res);
 
 Another similar use case is to use different `temperature` settings for different parts of the chain. You can easily do this by using `model.bind(ChatOpenAIOptions(temperature: 1))` as shown above.
 
-## Attaching functions
+## Attaching tools
 
-One particularly useful application of `Runnable.bind()` is to attach the functions that the model can call.
+One particularly useful application of `Runnable.bind()` is to attach the tools that the model can call.
 
 ```dart
 final model = ChatOpenAI(apiKey: openaiApiKey);
-final outputParser = JsonOutputFunctionsParser();
+final outputParser = ToolsOutputParser();
 
 final promptTemplate = ChatPromptTemplate.fromTemplates([
   (ChatMessageType.system, 'Write out the following equation using algebraic symbols then solve it.'),
   (ChatMessageType.human, '{equation_statement}'),
 ]);
 
-const function = ChatFunction(
+const tool = ToolSpec(
   name: 'solver',
   description: 'Formulates and solves an equation',
-  parameters: {
+  inputJsonSchema: {
     'type': 'object',
     'properties': {
       'equation': {
@@ -103,10 +103,17 @@ const function = ChatFunction(
 
 final chain = Runnable.getMapFromInput<String>('equation_statement')
     .pipe(promptTemplate)
-    .pipe(model.bind(ChatOpenAIOptions(functions: [function])))
+    .pipe(model.bind(ChatOpenAIOptions(tools: [tool])))
     .pipe(outputParser);
 
 final res = await chain.invoke('x raised to the third plus seven equals 12');
 print(res);
-// {equation: x^3 + 7 = 12, solution: x = 1}
+// [ParsedToolCall{
+//   id: call_T2Y3g7rU5s0CzEG4nL35FJYK,
+//   name: solver,
+//   arguments: {
+//     equation: x^3 + 7 = 12, 
+//     solution: x = 1
+//   },
+// }]
 ```

@@ -34,7 +34,7 @@ export 'package:openai_dart/openai_dart.dart'
 ///     ),
 ///   ),
 /// ];
-/// final agent = OpenAIFunctionsAgent.fromLLMAndTools(
+/// final agent = OpenAIToolsAgent.fromLLMAndTools(
 ///   llm: llm,
 ///   tools: tools,
 /// );

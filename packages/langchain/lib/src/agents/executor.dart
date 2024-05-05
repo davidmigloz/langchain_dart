@@ -181,6 +181,7 @@ class AgentExecutor extends BaseChain {
       if (handleParsingErrors == null) rethrow;
       actions = [
         AgentAction(
+          id: 'error',
           tool: ExceptionTool.toolName,
           toolInput: handleParsingErrors!(e),
           log: e.toString(),

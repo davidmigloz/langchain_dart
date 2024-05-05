@@ -1,9 +1,9 @@
 // ignore_for_file: avoid_equals_and_hash_code_on_mutable_classes, avoid_implementing_value_types
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
-import '../chat_models/types.dart';
 import '../langchain/base.dart';
 import '../utils/reduce.dart';
 import 'string.dart';
@@ -30,14 +30,50 @@ class ToolSpec {
 
   /// Schema to parse and validate tool's input arguments.
   /// Following the [JSON Schema specification](https://json-schema.org).
+  ///
+  /// Example:
+  /// ```json
+  /// {
+  ///   'type': 'object',
+  ///   'properties': {
+  ///     'answer': {
+  ///       'type': 'string',
+  ///       'description': 'The answer to the question being asked',
+  ///     },
+  ///     'sources': {
+  ///       'type': 'array',
+  ///       'items': {'type': 'string'},
+  ///       'description': 'The sources used to answer the question',
+  ///     },
+  ///   },
+  ///   'required': ['answer', 'sources'],
+  /// },
+  /// ```
   final Map<String, dynamic> inputJsonSchema;
 
   @override
-  bool operator ==(covariant final ToolSpec other) =>
-      identical(this, other) || name == other.name;
+  bool operator ==(covariant final ToolSpec other) {
+    final mapEquals = const DeepCollectionEquality().equals;
+    return identical(this, other) ||
+        name == other.name &&
+            description == other.description &&
+            mapEquals(inputJsonSchema, other.inputJsonSchema);
+  }
 
   @override
-  int get hashCode => name.hashCode;
+  int get hashCode =>
+      name.hashCode ^ description.hashCode ^ inputJsonSchema.hashCode;
+
+  @override
+  String toString() {
+    return '''
+ToolSpec{
+  name: $name,
+  description: $description,
+  inputJsonSchema: $inputJsonSchema,
+}
+''';
+  }
 }
 
 /// {@template tool}
@@ -167,21 +203,18 @@ abstract base class Tool<Input extends Object, Options extends ToolOptions,
   /// Parses the input JSON to the tool's input type.
   Input getInputFromJson(final Map<String, dynamic> json);
 
-  /// Converts the tool to a [ChatFunction].
-  ChatFunction toChatFunction() {
-    return ChatFunction(
-      name: name,
-      description: description,
-      parameters: inputJsonSchema,
-    );
+  @override
+  bool operator ==(covariant final ToolSpec other) {
+    final mapEquals = const DeepCollectionEquality().equals;
+    return identical(this, other) ||
+        name == other.name &&
+            description == other.description &&
+            mapEquals(inputJsonSchema, other.inputJsonSchema);
   }
 
   @override
-  bool operator ==(covariant final Tool other) =>
-      identical(this, other) || name == other.name;
-
-  @override
-  int get hashCode => name.hashCode;
+  int get hashCode =>
+      name.hashCode ^ description.hashCode ^ inputJsonSchema.hashCode;
 }
 
 /// {@template tool_func}

@@ -33,8 +33,8 @@ extension ChatMessagesMapper on List<ChatMessage> {
               Part(text: customChatMessage.content),
             ],
           ),
-        FunctionChatMessage() => throw UnsupportedError(
-            'Google AI does not support function messages',
+        ToolChatMessage() => throw UnsupportedError(
+            'Google AI does not support tool messages',
           ),
       },
     ).toList(growable: false);
