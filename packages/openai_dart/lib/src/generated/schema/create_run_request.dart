@@ -48,22 +48,23 @@ class CreateRunRequest with _$CreateRunRequest {
     /// We generally recommend altering this or temperature but not both.
     @JsonKey(name: 'top_p', includeIfNull: false) @Default(1.0) double? topP,
 
-    /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+    /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
     @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
     int? maxPromptTokens,
 
-    /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+    /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
     @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
     int? maxCompletionTokens,
 
-    /// Thread truncation controls
+    /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
     @JsonKey(name: 'truncation_strategy', includeIfNull: false)
     TruncationObject? truncationStrategy,
 
     /// Controls which (if any) tool is called by the model.
     /// `none` means the model will not call any tools and instead generates a message.
-    /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
-    /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+    /// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+    /// `required` means the model must call one or more tools before responding to the user.
+    /// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
     @_CreateRunRequestToolChoiceConverter()
     @JsonKey(name: 'tool_choice', includeIfNull: false)
     CreateRunRequestToolChoice? toolChoice,
@@ -268,12 +269,14 @@ class _CreateRunRequestModelConverter
 // ENUM: CreateRunRequestToolChoiceMode
 // ==========================================
 
-/// `none` means the model will not call a function and instead generates a message. `auto` means the model can pick between generating a message or calling a function.
+/// `none` means the model will not call any tools and instead generates a message. `auto` means the model can pick between generating a message or calling one or more tools. `required` means the model must call one or more tools before responding to the user.
 enum CreateRunRequestToolChoiceMode {
   @JsonValue('none')
   none,
   @JsonValue('auto')
   auto,
+  @JsonValue('required')
+  required,
 }
 
 // ==========================================
@@ -282,13 +285,14 @@ enum CreateRunRequestToolChoiceMode {
 
 /// Controls which (if any) tool is called by the model.
 /// `none` means the model will not call any tools and instead generates a message.
-/// `auto` is the default value and means the model can pick between generating a message or calling a tool.
-/// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+/// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+/// `required` means the model must call one or more tools before responding to the user.
+/// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
 @freezed
 sealed class CreateRunRequestToolChoice with _$CreateRunRequestToolChoice {
   const CreateRunRequestToolChoice._();
 
-  /// `none` means the model will not call a function and instead generates a message. `auto` means the model can pick between generating a message or calling a function.
+  /// `none` means the model will not call any tools and instead generates a message. `auto` means the model can pick between generating a message or calling one or more tools. `required` means the model must call one or more tools before responding to the user.
   const factory CreateRunRequestToolChoice.mode(
     CreateRunRequestToolChoiceMode value,
   ) = CreateRunRequestToolChoiceEnumeration;

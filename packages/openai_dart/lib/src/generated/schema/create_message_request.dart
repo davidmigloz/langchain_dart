@@ -21,8 +21,8 @@ class CreateMessageRequest with _$CreateMessageRequest {
     /// The content of the message.
     required String content,
 
-    /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the message should use. There can be a maximum of 10 files attached to a message. Useful for tools like `retrieval` and `code_interpreter` that can access and use files.
-    @JsonKey(name: 'file_ids') @Default([]) List<String> fileIds,
+    /// A list of files attached to the message, and the tools they were added to.
+    @JsonKey(includeIfNull: false) List<MessageAttachment>? attachments,
 
     /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
     @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
@@ -36,7 +36,7 @@ class CreateMessageRequest with _$CreateMessageRequest {
   static const List<String> propertyNames = [
     'role',
     'content',
-    'file_ids',
+    'attachments',
     'metadata'
   ];
 
@@ -60,7 +60,7 @@ class CreateMessageRequest with _$CreateMessageRequest {
     return {
       'role': role,
       'content': content,
-      'file_ids': fileIds,
+      'attachments': attachments,
       'metadata': metadata,
     };
   }

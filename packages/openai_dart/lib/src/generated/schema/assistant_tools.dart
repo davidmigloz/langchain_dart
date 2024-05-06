@@ -24,14 +24,14 @@ sealed class AssistantTools with _$AssistantTools {
   }) = AssistantToolsCodeInterpreter;
 
   // ------------------------------------------
-  // UNION: AssistantToolsRetrieval
+  // UNION: AssistantToolsFileSearch
   // ------------------------------------------
 
-  /// Retrieval tool
-  const factory AssistantTools.retrieval({
-    /// The type of tool being defined: `retrieval`
-    @Default('retrieval') String type,
-  }) = AssistantToolsRetrieval;
+  /// FileSearch tool
+  const factory AssistantTools.fileSearch({
+    /// The type of tool being defined: `file_search`
+    @Default('file_search') String type,
+  }) = AssistantToolsFileSearch;
 
   // ------------------------------------------
   // UNION: AssistantToolsFunction
@@ -58,8 +58,8 @@ sealed class AssistantTools with _$AssistantTools {
 enum AssistantToolsEnumType {
   @JsonValue('code_interpreter')
   codeInterpreter,
-  @JsonValue('retrieval')
-  retrieval,
+  @JsonValue('file_search')
+  fileSearch,
   @JsonValue('function')
   function,
 }

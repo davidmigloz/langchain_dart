@@ -44,31 +44,31 @@ class Batch with _$Batch {
     @JsonKey(name: 'error_file_id', includeIfNull: false) String? errorFileId,
 
     /// The Unix timestamp (in seconds) for when the batch was created.
-    @JsonKey(name: 'created_at') required String createdAt,
+    @JsonKey(name: 'created_at') required int createdAt,
 
     /// The Unix timestamp (in seconds) for when the batch started processing.
-    @JsonKey(name: 'in_progress_at', includeIfNull: false) String? inProgressAt,
+    @JsonKey(name: 'in_progress_at', includeIfNull: false) int? inProgressAt,
 
     /// The Unix timestamp (in seconds) for when the batch will expire.
-    @JsonKey(name: 'expires_at', includeIfNull: false) String? expiresAt,
+    @JsonKey(name: 'expires_at', includeIfNull: false) int? expiresAt,
 
     /// The Unix timestamp (in seconds) for when the batch started finalizing.
-    @JsonKey(name: 'finalizing_at', includeIfNull: false) String? finalizingAt,
+    @JsonKey(name: 'finalizing_at', includeIfNull: false) int? finalizingAt,
 
     /// The Unix timestamp (in seconds) for when the batch was completed.
-    @JsonKey(name: 'completed_at', includeIfNull: false) String? completedAt,
+    @JsonKey(name: 'completed_at', includeIfNull: false) int? completedAt,
 
     /// The Unix timestamp (in seconds) for when the batch failed.
-    @JsonKey(name: 'failed_at', includeIfNull: false) String? failedAt,
+    @JsonKey(name: 'failed_at', includeIfNull: false) int? failedAt,
 
     /// The Unix timestamp (in seconds) for when the batch expired.
-    @JsonKey(name: 'expired_at', includeIfNull: false) String? expiredAt,
+    @JsonKey(name: 'expired_at', includeIfNull: false) int? expiredAt,
 
     /// The Unix timestamp (in seconds) for when the batch started cancelling.
-    @JsonKey(name: 'cancelling_at', includeIfNull: false) String? cancellingAt,
+    @JsonKey(name: 'cancelling_at', includeIfNull: false) int? cancellingAt,
 
     /// The Unix timestamp (in seconds) for when the batch was cancelled.
-    @JsonKey(name: 'cancelled_at', includeIfNull: false) String? cancelledAt,
+    @JsonKey(name: 'cancelled_at', includeIfNull: false) int? cancelledAt,
 
     /// The request counts for different statuses within the batch.
     @JsonKey(name: 'request_counts', includeIfNull: false)

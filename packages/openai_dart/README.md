@@ -16,7 +16,7 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
 - Custom base URL, headers and query params support (e.g. HTTP proxies)
 - Custom HTTP client support (e.g. SOCKS5 proxies or advanced use cases)
 - Partial Azure OpenAI API support
-- It can be used to consume OpenAI-compatible APIs like [TogetherAI](https://www.together.ai/), [Anyscale](https://www.anyscale.com/), [OpenRouter](https://openrouter.ai), [One API](https://github.com/songquanpeng/one-api), etc.
+- It can be used to consume OpenAI-compatible APIs like [TogetherAI](https://www.together.ai/), [Anyscale](https://www.anyscale.com/), [OpenRouter](https://openrouter.ai), [One API](https://github.com/songquanpeng/one-api), [Groq](https://groq.com/), [Llamafile](https://llamafile.ai/), [GPT4All](https://gpt4all.io/), etc.
 
 **Supported endpoints:**
 
@@ -28,10 +28,14 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
 - Images
 - Models
 - Moderations
-- Assistants (with tools and streaming support) `beta`
+- Assistants v2 (with tools and streaming support) `beta`
   * Threads 
   * Messages 
   * Runs
+  * Run Steps
+  * Vector Stores
+  * Vector Store Files
+  * Vector Store File Batches
 
 ## Table of contents
 
@@ -50,8 +54,12 @@ Unofficial Dart client for [OpenAI](https://platform.openai.com/docs/api-referen
   * [Threads (beta)](#threads-beta)
   * [Messages (beta)](#messages-beta)
   * [Runs (beta)](#runs-beta)
+  * [Vector Stores (beta)](#vector-stores-beta)
+  * [Vector Store Files (beta)](#vector-store-files-beta)
+  * [Vector Store File Batches (beta)](#vector-store-file-batches-beta)
 - [Advance Usage](#advance-usage)
   * [Azure OpenAI Service](#azure-openai-service)
+  * [OpenAI-compatible APIs](#openai-compatible-apis)
   * [Default HTTP client](#default-http-client)
   * [Custom HTTP client](#custom-http-client)
   * [Using a proxy](#using-a-proxy)
@@ -553,6 +561,12 @@ final res = await client.cancelBatch(
 );
 ```
 
+**List batches:**
+
+```dart
+final res = await client.listBatches();
+```
+
 ### Images
 
 Given a prompt and/or an input image, the model will generate a new image.
@@ -654,37 +668,16 @@ final res = await client.createAssistant(
 );
 ```
 
-**Create assistant file:**
-
-```dart
-final res = await client.createAssistantFile(
-  assistantId: assistantId,
-  request: CreateAssistantFileRequest(fileId: fileId),
-);
-```
-
 **List assistants:**
 
 ```dart
 final res = await client.listAssistants();
 ```
 
-**List assistant files:**
-
-```dart
-final res = await client.listAssistantFiles(assistantId: assistantId);
-```
-
 **Retrieve assistant:**
 
 ```dart
 final res = await client.getAssistant(assistantId: assistantId);
-```
-
-**Retrieve assistant file:**
-
-```dart
-final res = await client.getAssistantFile(assistantId: assistantId, fileId: fileId);
 ```
 
 **Modify assistant:**
@@ -700,12 +693,6 @@ final res = await client.modifyAssistant(
 
 ```dart
 final res = await client.deleteAssistant(assistantId: assistantId);
-```
-
-**Delete assistant file:**
-
-```dart
-final res = await client.deleteAssistantFile(assistantId: assistantId, fileId: fileId);
 ```
 
 ### Threads (beta)
@@ -767,26 +754,10 @@ final res = await client.createThreadMessage(
 final res = await client.listThreadMessages(threadId: threadId);
 ```
 
-**List message files:**
-
-```dart
-final res = await client.listThreadMessageFiles(threadId: threadId, messageId: messageId);
-```
-
 **Retrieve message:**
 
 ```dart
 final res = await client.getThreadMessage(threadId: threadId, messageId: messageId);
-```
-
-**Retrieve message file:**
-
-```dart
-final res = await client.getThreadMessageFile(
-  threadId: threadId,
-  messageId: messageId,
-  fileId: fileId,
-);
 ```
 
 **Modify message:**
@@ -797,6 +768,12 @@ final res = await client.modifyThreadMessage(
   messageId: messageId,
   request: ModifyMessageRequest(metadata: {'new': 'metadata'}),
 );
+```
+
+**Delete message:**
+
+```dart
+final res await deleteThreadMessage(threadId: threadId, messageId: messageId);
 ```
 
 ### Runs (beta)
@@ -923,6 +900,136 @@ final res = await client.submitThreadToolOutputsToRunStream(
 
 ```dart
 final res = await client.cancelThreadRun(threadId: threadId, runId: runId);
+```
+
+### Vector Stores (beta)
+
+Vector stores are used to store files for use by the `file_search` tool.
+
+Related guide: [File Search](https://platform.openai.com/docs/assistants/tools/file-search)
+
+**Create vector store:**
+
+```dart
+final res = await client.createVectorStore(
+  request: CreateVectorStoreRequest(
+      name: 'Support FAQ',
+  ),
+);
+```
+
+**List vector stores:**
+
+```dart
+final res = await client.listVectorStores();
+```
+
+**Retrieve vector store:**
+
+```dart
+final res = await client.getVectorStore(vectorStoreId: vectorStoreId);
+```
+
+**Modify vector store:**
+
+```dart
+final res = await client.modifyVectorStore(
+  vectorStoreId: vectorStoreId,
+  request: UpdateVectorStoreRequest(
+    name: 'New name',
+  ),
+);
+```
+
+**Delete vector store:**
+
+```dart
+final res = await client.deleteVectorStore(vectorStoreId: vectorStoreId);
+```
+
+### Vector Store Files (beta)
+
+Vector store files represent files inside a vector store.
+
+Related guide: [File Search](https://platform.openai.com/docs/assistants/tools/file-search)
+
+**Create vector store file:**
+
+```dart
+final res = await client.createVectorStoreFile(
+  vectorStoreId: vectorStoreId,
+  request: CreateVectorStoreFileRequest(
+    fileId: 'file-abc123',
+  ),
+);
+```
+
+**List vector store files:**
+
+```dart
+final res = await client.listVectorStoreFiles(vectorStoreId: vectorStoreId);
+```
+
+**Retrieve vector store file:**
+
+```dart
+final res = await client.getVectorStoreFile(
+  vectorStoreId: vectorStoreId,
+  fileId: fileId,
+);
+```
+
+**Delete vector store file:**
+
+```dart
+final res = await client.deleteVectorStoreFile(
+  vectorStoreId: vectorStoreId,
+  fileId: fileId,
+);
+```
+
+### Vector Store File Batches (beta)
+
+Vector store file batches represent operations to add multiple files to a vector store.
+
+Related guide: [File Search](https://platform.openai.com/docs/assistants/tools/file-search)
+
+**Create vector store file batch:**
+
+```dart
+final res = await client.createVectorStoreFileBatch(
+  vectorStoreId: vectorStoreId,
+  request: CreateVectorStoreFileBatchRequest(
+    fileIds: ['file-abc123', 'file-abc456'],
+  ),
+);
+```
+
+**Retrieve vector store file batch:**
+
+```dart
+final res = await client.getVectorStoreFileBatch(
+  vectorStoreId: vectorStoreId,
+  batchId: batchId,
+);
+```
+
+**Cancel vector store file batch:**
+
+```dart
+final res = await client.cancelVectorStoreFileBatch(
+  vectorStoreId: vectorStoreId,
+  batchId: batchId,
+);
+```
+
+**List vector store files in a batch:**
+
+```dart
+final res = await client.listFilesInVectorStoreBatch(
+  vectorStoreId: vectorStoreId,
+  batchId: batchId,
+);
 ```
 
 ## Advance Usage
