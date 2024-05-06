@@ -199,7 +199,6 @@ final model = ChatOpenAI(
   defaultOptions: ChatOpenAIOptions(
     model: 'gpt-4-turbo',
     tools: [calculator],
-    // toolChoice: ChatToolChoice.forced(name: calculator.name),
   ),
 );
 final res = await model.invoke(
