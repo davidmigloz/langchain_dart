@@ -1,3 +1,11 @@
+## 0.3.0
+
+> Note: This release has breaking changes.  
+> If you are using the Assistants API v1, please refer to the [OpenAI docs](https://platform.openai.com/docs/api-reference/assistants) to see how to migrate to v2.
+
+ - **BREAKING** **FEAT**: Migrate OpenAI Assistants API to v2 and add support for vector stores ([#402](https://github.com/davidmigloz/langchain_dart/issues/402)). ([45de29a1](https://github.com/davidmigloz/langchain_dart/commit/45de29a1957caf2ef05c91e4c99144a4e73ceb91))
+ - **FEAT**: Add support for `ChatCompletionToolChoiceMode.required` ([#402](https://github.com/davidmigloz/langchain_dart/issues/402)). ([45de29a1](https://github.com/davidmigloz/langchain_dart/commit/45de29a1957caf2ef05c91e4c99144a4e73ceb91))
+
 ## 0.2.2
 
  - **FEAT**: Add temperature, top_p and response format to Assistants API ([#384](https://github.com/davidmigloz/langchain_dart/issues/384)). ([1d18290f](https://github.com/davidmigloz/langchain_dart/commit/1d18290fdaba558e8661fed4f2316c795f20aef8))
