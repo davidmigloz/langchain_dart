@@ -47,7 +47,6 @@ void main() {
       expect(res.tools, hasLength(1));
       final tool = res.tools.first;
       expect(tool, const AssistantTools.codeInterpreter());
-      expect(res.fileIds, isEmpty);
       expect(res.metadata, isEmpty);
       return res.id;
     }
@@ -80,7 +79,6 @@ void main() {
       expect(res.content, hasLength(1));
       expect(res.assistantId, isNull);
       expect(res.runId, isNull);
-      expect(res.fileIds, hasLength(0));
       expect(res.metadata, hasLength(0));
     }
 
@@ -102,7 +100,6 @@ void main() {
       expect(msg.content, hasLength(1));
       expect(msg.assistantId, isNull);
       expect(msg.runId, isNull);
-      expect(msg.fileIds, hasLength(0));
       expect(msg.metadata, hasLength(0));
     }
 
@@ -134,7 +131,6 @@ void main() {
       expect(res.model, startsWith('gpt-4'));
       expect(res.instructions, isNotEmpty);
       expect(res.tools, hasLength(1));
-      expect(res.fileIds, isEmpty);
       expect(res.metadata, isEmpty);
       return res.id;
     }
@@ -167,7 +163,6 @@ void main() {
       expect(res.model, startsWith('gpt-4'));
       expect(res.instructions, isNotEmpty);
       expect(res.tools, hasLength(1));
-      expect(res.fileIds, isEmpty);
       expect(res.metadata, isEmpty);
       expect(res.usage?.totalTokens, greaterThan(0));
       expect(res.usage?.completionTokens, greaterThan(0));

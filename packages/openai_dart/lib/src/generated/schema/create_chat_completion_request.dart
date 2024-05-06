@@ -89,12 +89,13 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// A list of tools the model may call. Currently, only functions are supported as a tool. Use this to provide a list of functions the model may generate JSON inputs for. A max of 128 functions are supported.
     @JsonKey(includeIfNull: false) List<ChatCompletionTool>? tools,
 
-    /// Controls which (if any) function is called by the model.
-    /// `none` means the model will not call a function and instead generates a message.
-    /// `auto` means the model can pick between generating a message or calling a function.
-    /// Specifying a particular function via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that function.
+    /// Controls which (if any) tool is called by the model.
+    /// `none` means the model will not call any tool and instead generates a message.
+    /// `auto` means the model can pick between generating a message or calling one or more tools.
+    /// `required` means the model must call one or more tools.
+    /// Specifying a particular tool via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
     ///
-    /// `none` is the default when no functions are present. `auto` is the default if functions are present.
+    /// `none` is the default when no tools are present. `auto` is the default if tools are present.
     @_ChatCompletionToolChoiceOptionConverter()
     @JsonKey(name: 'tool_choice', includeIfNull: false)
     ChatCompletionToolChoiceOption? toolChoice,
@@ -438,30 +439,33 @@ class _ChatCompletionStopConverter
 // ENUM: ChatCompletionToolChoiceMode
 // ==========================================
 
-/// `none` means the model will not call a function and instead generates a message. `auto` means the model can pick between generating a message or calling a function.
+/// `none` means the model will not call any tool and instead generates a message. `auto` means the model can pick between generating a message or calling one or more tools. `required` means the model must call one or more tools.
 enum ChatCompletionToolChoiceMode {
   @JsonValue('none')
   none,
   @JsonValue('auto')
   auto,
+  @JsonValue('required')
+  required,
 }
 
 // ==========================================
 // CLASS: ChatCompletionToolChoiceOption
 // ==========================================
 
-/// Controls which (if any) function is called by the model.
-/// `none` means the model will not call a function and instead generates a message.
-/// `auto` means the model can pick between generating a message or calling a function.
-/// Specifying a particular function via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that function.
+/// Controls which (if any) tool is called by the model.
+/// `none` means the model will not call any tool and instead generates a message.
+/// `auto` means the model can pick between generating a message or calling one or more tools.
+/// `required` means the model must call one or more tools.
+/// Specifying a particular tool via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
 ///
-/// `none` is the default when no functions are present. `auto` is the default if functions are present.
+/// `none` is the default when no tools are present. `auto` is the default if tools are present.
 @freezed
 sealed class ChatCompletionToolChoiceOption
     with _$ChatCompletionToolChoiceOption {
   const ChatCompletionToolChoiceOption._();
 
-  /// `none` means the model will not call a function and instead generates a message. `auto` means the model can pick between generating a message or calling a function.
+  /// `none` means the model will not call any tool and instead generates a message. `auto` means the model can pick between generating a message or calling one or more tools. `required` means the model must call one or more tools.
   const factory ChatCompletionToolChoiceOption.mode(
     ChatCompletionToolChoiceMode value,
   ) = ChatCompletionToolChoiceOptionEnumeration;

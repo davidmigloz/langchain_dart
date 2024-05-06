@@ -28,7 +28,7 @@ tags:
   - name: Fine-tuning
     description: Manage fine-tuning jobs to tailor a model to your specific training data.
   - name: Batch
-    description: Create large batches of API requests to run asyncronously.
+    description: Create large batches of API requests to run asynchronously.
   - name: Images
     description: Given a prompt and/or an input image, the model will generate a new image.
   - name: Models
@@ -265,65 +265,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ListFineTuningJobCheckpointsResponse"
-  /batches:
-    post:
-      summary: Creates and executes a batch from an uploaded file of requests
-      operationId: createBatch
-      tags:
-        - Batch
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateBatchRequest'
-      responses:
-        '200':
-          description: Batch created successfully.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Batch'
-  /batches/{batch_id}:
-    get:
-      operationId: retrieveBatch
-      tags:
-        - Batch
-      summary: Retrieves a batch.
-      parameters:
-        - in: path
-          name: batch_id
-          required: true
-          schema:
-            type: string
-          description: The ID of the batch to retrieve.
-      responses:
-        '200':
-          description: Batch retrieved successfully.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Batch'
-  /batches/{batch_id}/cancel:
-    post:
-      operationId: cancelBatch
-      tags:
-        - Batch
-      summary: Cancels an in-progress batch.
-      parameters:
-        - in: path
-          name: batch_id
-          required: true
-          schema:
-            type: string
-          description: The ID of the batch to cancel.
-      responses:
-        '200':
-          description: Batch is cancelling. Returns the cancelling batch's details.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Batch'
   /images/generations:
     post:
       operationId: createImage
@@ -755,6 +696,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MessageObject"
+    delete:
+      operationId: deleteThreadMessage
+      tags:
+        - Assistants
+      summary: Deletes a message.
+      parameters:
+        - in: path
+          name: thread_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the thread to which this message belongs.
+        - in: path
+          name: message_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the message to delete.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteMessageResponse"
   /threads/runs:
     post:
       operationId: createThreadAndRun
@@ -1041,19 +1007,13 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RunStepObject"
-  /assistants/{assistant_id}/files:
+  /vector_stores:
     get:
-      operationId: listAssistantFiles
+      operationId: listVectorStores
       tags:
-        - Assistants
-      summary: Returns a list of assistant files.
+        - Vector Stores
+      summary: Returns a list of vector stores.
       parameters:
-        - name: assistant_id
-          in: path
-          description: The ID of the assistant the file belongs to.
-          required: true
-          schema:
-            type: string
         - name: limit
           in: query
           description: *pagination_limit_param_description
@@ -1067,7 +1027,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: [ "asc", "desc" ]
+            enum: ["asc", "desc"]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -1084,72 +1044,206 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ListAssistantFilesResponse"
+                $ref: "#/components/schemas/ListVectorStoresResponse"
     post:
-      operationId: createAssistantFile
+      operationId: createVectorStore
       tags:
-        - Assistants
-      summary: Create an assistant file by attaching a [File](https://platform.openai.com/docs/api-reference/files) to an [assistant](https://platform.openai.com/docs/api-reference/assistants).
-      parameters:
-        - in: path
-          name: assistant_id
-          required: true
-          schema:
-            type: string
-            example: file-AF1WoRqd3aJAHsqc9NY7iL8F
-          description: |
-            The ID of the assistant for which to create a File.
+        - Vector Stores
+      summary: Create a vector store.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateAssistantFileRequest"
+              $ref: "#/components/schemas/CreateVectorStoreRequest"
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AssistantFileObject"
-  /assistants/{assistant_id}/files/{file_id}:
+                $ref: "#/components/schemas/VectorStoreObject"
+  /vector_stores/{vector_store_id}:
     get:
-      operationId: getAssistantFile
+      operationId: getVectorStore
       tags:
-        - Assistants
-      summary: Retrieves an AssistantFile.
+        - Vector Stores
+      summary: Retrieves a vector store.
       parameters:
         - in: path
-          name: assistant_id
+          name: vector_store_id
           required: true
           schema:
             type: string
-          description: The ID of the assistant who the file belongs to.
+          description: The ID of the vector store to retrieve.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VectorStoreObject"
+    post:
+      operationId: modifyVectorStore
+      tags:
+        - Vector Stores
+      summary: Modifies a vector store.
+      parameters:
+        - in: path
+          name: vector_store_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the vector store to modify.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateVectorStoreRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VectorStoreObject"
+    delete:
+      operationId: deleteVectorStore
+      tags:
+        - Vector Stores
+      summary: Delete a vector store.
+      parameters:
+        - in: path
+          name: vector_store_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the vector store to delete.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteVectorStoreResponse"
+  /vector_stores/{vector_store_id}/files:
+    get:
+      operationId: listVectorStoreFiles
+      tags:
+        - Vector Stores
+      summary: Returns a list of vector store files.
+      parameters:
+        - name: vector_store_id
+          in: path
+          description: The ID of the vector store that the files belong to.
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: *pagination_limit_param_description
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: order
+          in: query
+          description: *pagination_order_param_description
+          schema:
+            type: string
+            default: desc
+            enum: ["asc", "desc"]
+        - name: after
+          in: query
+          description: *pagination_after_param_description
+          schema:
+            type: string
+        - name: before
+          in: query
+          description: *pagination_before_param_description
+          schema:
+            type: string
+        - name: filter
+          in: query
+          description: "Filter by file status. One of `in_progress`, `completed`, `failed`, `cancelled`."
+          schema:
+            type: string
+            enum: ["in_progress", "completed", "failed", "cancelled"]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListVectorStoreFilesResponse"
+    post:
+      operationId: createVectorStoreFile
+      tags:
+        - Vector Stores
+      summary: Create a vector store file by attaching a [File](https://platform.openai.com/docs/api-reference/files) to a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object).
+      parameters:
+        - in: path
+          name: vector_store_id
+          required: true
+          schema:
+            type: string
+            example: vs_abc123
+          description: |
+            The ID of the vector store for which to create a File.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateVectorStoreFileRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VectorStoreFileObject"
+  /vector_stores/{vector_store_id}/files/{file_id}:
+    get:
+      summary: Retrieves a vector store file.
+      operationId: getVectorStoreFile
+      tags:
+        - Vector Stores
+      parameters:
+        - in: path
+          name: vector_store_id
+          required: true
+          schema:
+            type: string
+            example: vs_abc123
+          description: The ID of the vector store that the file belongs to.
         - in: path
           name: file_id
           required: true
           schema:
             type: string
-          description: The ID of the file we're getting.
+            example: file-abc123
+          description: The ID of the file being retrieved.
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AssistantFileObject"
+                $ref: "#/components/schemas/VectorStoreFileObject"
     delete:
-      operationId: deleteAssistantFile
+      summary: Delete a vector store file. This will remove the file from the vector store but the file itself will not be deleted. To delete the file, use the [delete file](https://platform.openai.com/docs/api-reference/files/delete) endpoint.
+      operationId: deleteVectorStoreFile
       tags:
-        - Assistants
-      summary: Delete an assistant file.
+        - Vector Stores
       parameters:
         - in: path
-          name: assistant_id
+          name: vector_store_id
           required: true
           schema:
             type: string
-          description: The ID of the assistant that the file belongs to.
+          description: The ID of the vector store that the file belongs to.
         - in: path
           name: file_id
           required: true
@@ -1162,23 +1256,105 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DeleteAssistantFileResponse"
-  /threads/{thread_id}/messages/{message_id}/files:
-    get:
-      operationId: listThreadMessageFiles
+                $ref: "#/components/schemas/DeleteVectorStoreFileResponse"
+  /vector_stores/{vector_store_id}/file_batches:
+    post:
+      operationId: createVectorStoreFileBatch
       tags:
-        - Assistants
-      summary: Returns a list of message files.
+        - Vector Stores
+      summary: Create a vector store file batch.
       parameters:
-        - name: thread_id
-          in: path
-          description: The ID of the thread that the message and files belong to.
+        - in: path
+          name: vector_store_id
           required: true
           schema:
             type: string
-        - name: message_id
+            example: vs_abc123
+          description: |
+            The ID of the vector store for which to create a File Batch.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateVectorStoreFileBatchRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VectorStoreFileBatchObject"
+  /vector_stores/{vector_store_id}/file_batches/{batch_id}:
+    get:
+      operationId: getVectorStoreFileBatch
+      tags:
+        - Vector Stores
+      summary: Retrieves a vector store file batch.
+      parameters:
+        - in: path
+          name: vector_store_id
+          required: true
+          schema:
+            type: string
+            example: vs_abc123
+          description: The ID of the vector store that the file batch belongs to.
+        - in: path
+          name: batch_id
+          required: true
+          schema:
+            type: string
+            example: vsfb_abc123
+          description: The ID of the file batch being retrieved.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VectorStoreFileBatchObject"
+  /vector_stores/{vector_store_id}/file_batches/{batch_id}/cancel:
+    post:
+      operationId: cancelVectorStoreFileBatch
+      tags:
+        - Vector Stores
+      summary: Cancel a vector store file batch. This attempts to cancel the processing of files in this batch as soon as possible.
+      parameters:
+        - in: path
+          name: vector_store_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the vector store that the file batch belongs to.
+        - in: path
+          name: batch_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the file batch to cancel.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VectorStoreFileBatchObject"
+  /vector_stores/{vector_store_id}/file_batches/{batch_id}/files:
+    get:
+      summary: Returns a list of vector store files in a batch.
+      operationId: listFilesInVectorStoreBatch
+      tags:
+        - Vector Stores
+      parameters:
+        - name: vector_store_id
           in: path
-          description: The ID of the message that the files belongs to.
+          description: The ID of the vector store that the files belong to.
+          required: true
+          schema:
+            type: string
+        - name: batch_id
+          in: path
+          description: The ID of the file batch that the files belong to.
           required: true
           schema:
             type: string
@@ -1195,7 +1371,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: [ "asc", "desc" ]
+            enum: ["asc", "desc"]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -1206,48 +1382,104 @@ paths:
           description: *pagination_before_param_description
           schema:
             type: string
+        - name: filter
+          in: query
+          description: "Filter by file status. One of `in_progress`, `completed`, `failed`, `cancelled`."
+          schema:
+            type: string
+            enum: ["in_progress", "completed", "failed", "cancelled"]
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ListMessageFilesResponse"
-  /threads/{thread_id}/messages/{message_id}/files/{file_id}:
-    get:
-      operationId: getThreadMessageFile
+                $ref: "#/components/schemas/ListVectorStoreFilesResponse"
+  /batches:
+    post:
+      summary: Creates and executes a batch from an uploaded file of requests
+      operationId: createBatch
       tags:
-        - Assistants
-      summary: Retrieves a message file.
+        - Batch
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBatchRequest'
+      responses:
+        '200':
+          description: Batch created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Batch'
+    get:
+      summary: List your organization's batches.
+      operationId: listBatches
+      tags:
+        - Batch
+      parameters:
+        - in: query
+          name: after
+          required: false
+          schema:
+            type: string
+          description: *pagination_after_param_description
+        - name: limit
+          in: query
+          description: *pagination_limit_param_description
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        "200":
+          description: Batch listed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListBatchesResponse"
+  /batches/{batch_id}:
+    get:
+      operationId: retrieveBatch
+      tags:
+        - Batch
+      summary: Retrieves a batch.
       parameters:
         - in: path
-          name: thread_id
+          name: batch_id
           required: true
           schema:
             type: string
-            example: thread_AF1WoRqd3aJAHsqc9NY7iL8F
-          description: The ID of the thread to which the message and File belong.
-        - in: path
-          name: message_id
-          required: true
-          schema:
-            type: string
-            example: msg_AF1WoRqd3aJAHsqc9NY7iL8F
-          description: The ID of the message the file belongs to.
-        - in: path
-          name: file_id
-          required: true
-          schema:
-            type: string
-            example: file-AF1WoRqd3aJAHsqc9NY7iL8F
-          description: The ID of the file being retrieved.
+          description: The ID of the batch to retrieve.
       responses:
-        "200":
-          description: OK
+        '200':
+          description: Batch retrieved successfully.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/MessageFileObject"
+                $ref: '#/components/schemas/Batch'
+  /batches/{batch_id}/cancel:
+    post:
+      operationId: cancelBatch
+      tags:
+        - Batch
+      summary: Cancels an in-progress batch.
+      parameters:
+        - in: path
+          name: batch_id
+          required: true
+          schema:
+            type: string
+          description: The ID of the batch to cancel.
+      responses:
+        '200':
+          description: Batch is cancelling. Returns the cancelling batch's details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Batch'
 components:
 
   securitySchemes:
@@ -1720,19 +1952,21 @@ components:
         tool_choice:
           title: ChatCompletionToolChoiceOption
           description: |
-            Controls which (if any) function is called by the model.
-            `none` means the model will not call a function and instead generates a message.
-            `auto` means the model can pick between generating a message or calling a function.
-            Specifying a particular function via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that function.
-            
-            `none` is the default when no functions are present. `auto` is the default if functions are present.
+            Controls which (if any) tool is called by the model.
+            `none` means the model will not call any tool and instead generates a message.
+            `auto` means the model can pick between generating a message or calling one or more tools.
+            `required` means the model must call one or more tools.
+            Specifying a particular tool via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+    
+            `none` is the default when no tools are present. `auto` is the default if tools are present.
           oneOf:
             - type: string
               title: ChatCompletionToolChoiceMode
               description: >
-                `none` means the model will not call a function and instead generates a message.
-                `auto` means the model can pick between generating a message or calling a function.
-              enum: [ none, auto ]
+                `none` means the model will not call any tool and instead generates a message.
+                `auto` means the model can pick between generating a message or calling one or more tools.
+                `required` means the model must call one or more tools.
+              enum: [none, auto, required]
             - $ref: "#/components/schemas/ChatCompletionNamedToolChoice"
         user: *end_user_param_configuration
         function_call:
@@ -2271,7 +2505,12 @@ components:
               title: EmbeddingModels
               description: |
                 Available completion models. Mind that the list may not be exhaustive nor up-to-date.
-              enum: [ "text-embedding-ada-002", "text-embedding-3-small", "text-embedding-3-large" ]
+              enum:
+                [
+                  "text-embedding-ada-002",
+                  "text-embedding-3-small",
+                  "text-embedding-3-large",
+                ]
         input:
           title: EmbeddingInput
           description: |
@@ -3138,26 +3377,54 @@ components:
           nullable: true
         tools:
           description: &assistant_tools_param_description |
-            A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+            A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
           default: [ ]
           type: array
           maxItems: 128
           items:
             $ref: "#/components/schemas/AssistantTools"
-        file_ids:
-          description: &assistant_file_param_description |
-            A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
-          default: [ ]
-          type: array
-          maxItems: 20
-          items:
-            type: string
+        tool_resources:
+          $ref: "#/components/schemas/ToolResources"
         metadata:
           description: &metadata_description |
             Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
           type: object
           additionalProperties: true
           nullable: true
+        temperature:
+          description: &run_temperature_description |
+            What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+          type: number
+          minimum: 0
+          maximum: 2
+          default: 1
+          example: 1
+          nullable: true
+        top_p:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 1
+          example: 1
+          nullable: true
+          description: &run_top_p_description |
+            An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+
+            We generally recommend altering this or temperature but not both.
+        response_format:
+          description: |
+            Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+            
+            Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+            
+            **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+          oneOf:
+            - type: string
+              title: AssistantResponseFormatMode
+              description: >
+                `auto` is the default value
+              enum: [none, auto]
+            - $ref: "#/components/schemas/AssistantsResponseFormat"
       required:
         - id
         - object
@@ -3167,7 +3434,6 @@ components:
         - model
         - instructions
         - tools
-        - file_ids
         - metadata
     CreateAssistantRequest:
       type: object
@@ -3228,13 +3494,8 @@ components:
           maxItems: 128
           items:
             $ref: "#/components/schemas/AssistantTools"
-        file_ids:
-          description: *assistant_file_param_description
-          default: [ ]
-          maxItems: 20
-          type: array
-          items:
-            type: string
+        tool_resources:
+          $ref: "#/components/schemas/ToolResources"
         metadata:
           description: *metadata_description
           type: object
@@ -3314,14 +3575,15 @@ components:
           maxItems: 20
           items:
             type: string
+        tool_resources:
+          $ref: "#/components/schemas/ToolResources"
         metadata:
           description: *metadata_description
           type: object
           additionalProperties: true
           nullable: true
         temperature:
-          description: &run_temperature_description |
-            What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+          description: *run_temperature_description
           type: number
           minimum: 0
           maximum: 2
@@ -3407,7 +3669,7 @@ components:
       description: A tool that can be used by an assistant.
       oneOf:
         - $ref: "#/components/schemas/AssistantToolsCodeInterpreter"
-        - $ref: "#/components/schemas/AssistantToolsRetrieval"
+        - $ref: "#/components/schemas/AssistantToolsFileSearch"
         - $ref: "#/components/schemas/AssistantToolsFunction"
       discriminator:
         propertyName: type
@@ -3419,14 +3681,14 @@ components:
           type: string
           description: "The type of tool being defined: `code_interpreter`"
           default: "code_interpreter"
-    AssistantToolsRetrieval:
+    AssistantToolsFileSearch:
       type: object
-      description: Retrieval tool
+      description: FileSearch tool
       properties:
         type:
           type: string
-          description: "The type of tool being defined: `retrieval`"
-          default: "retrieval"
+          description: "The type of tool being defined: `file_search`"
+          default: "file_search"
     AssistantToolsFunction:
       type: object
       description: Function tool
@@ -3446,7 +3708,7 @@ components:
         type:
           type: string
           title: AssistantsToolType
-          enum: ["function", "code_interpreter", "retrieval"]
+          enum: ["function", "code_interpreter", "file_search"]
           description: The type of the tool. If type is `function`, the function name must be set
         function:
           $ref: "#/components/schemas/AssistantsFunctionCallOption"
@@ -3474,7 +3736,7 @@ components:
           description: Must be one of `text` or `json_object`.
     TruncationObject:
       type: object
-      description: Thread truncation controls
+      description: Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
       properties:
         type:
           type: string
@@ -3606,12 +3868,6 @@ components:
           maxItems: 20
           items:
             $ref: "#/components/schemas/AssistantTools"
-        file_ids:
-          description: The list of [File](https://platform.openai.com/docs/api-reference/files) IDs the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
-          default: [ ]
-          type: array
-          items:
-            type: string
         metadata:
           description: *metadata_description
           type: object
@@ -3646,16 +3902,18 @@ components:
           description: |
             Controls which (if any) tool is called by the model.
             `none` means the model will not call any tools and instead generates a message.
-            `auto` is the default value and means the model can pick between generating a message or calling a tool.
-            Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+            `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+            `required` means the model must call one or more tools before responding to the user.
+            Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
           nullable: true
           oneOf:
             - type: string
               title: RunObjectToolChoiceMode
               description: >
-                `none` means the model will not call a function and instead generates a message.
-                `auto` means the model can pick between generating a message or calling a function.
-              enum: [none, auto]
+                `none` means the model will not call any tools and instead generates a message.
+                `auto` means the model can pick between generating a message or calling one or more tools.
+                `required` means the model must call one or more tools before responding to the user.
+              enum: [none, auto, required]
             - $ref: "#/components/schemas/AssistantsNamedToolChoice"
         response_format:
           description: |
@@ -3688,7 +3946,6 @@ components:
         - model
         - instructions
         - tools
-        - file_ids
         - metadata
         - usage
         - incomplete_details
@@ -3804,13 +4061,13 @@ components:
           type: integer
           nullable: true
           description: |
-            The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+            The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
           minimum: 256
         max_completion_tokens:
           type: integer
           nullable: true
           description: |
-            The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+            The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
           minimum: 256
         truncation_strategy:
           $ref: "#/components/schemas/TruncationObject"
@@ -3819,16 +4076,18 @@ components:
           description: |
             Controls which (if any) tool is called by the model.
             `none` means the model will not call any tools and instead generates a message.
-            `auto` is the default value and means the model can pick between generating a message or calling a tool.
-            Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+            `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+            `required` means the model must call one or more tools before responding to the user.
+            Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
           nullable: true
           oneOf:
             - type: string
               title: CreateRunRequestToolChoiceMode
               description: >
-                `none` means the model will not call a function and instead generates a message.
-                `auto` means the model can pick between generating a message or calling a function.
-              enum: [none, auto]
+                `none` means the model will not call any tools and instead generates a message.
+                `auto` means the model can pick between generating a message or calling one or more tools.
+                `required` means the model must call one or more tools before responding to the user.
+              enum: [none, auto, required]
             - $ref: "#/components/schemas/AssistantsNamedToolChoice"
         response_format:
           description: |
@@ -4002,6 +4261,8 @@ components:
           maxItems: 20
           items:
             $ref: "#/components/schemas/AssistantTools"
+        tool_resources:
+          $ref: "#/components/schemas/ToolResources"
         metadata:
           description: *metadata_description
           type: object
@@ -4027,13 +4288,13 @@ components:
           type: integer
           nullable: true
           description: |
-            The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+            The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
           minimum: 256
         max_completion_tokens:
           type: integer
           nullable: true
           description: |
-            The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+            The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
           minimum: 256
         truncation_strategy:
           $ref: "#/components/schemas/TruncationObject"
@@ -4042,16 +4303,18 @@ components:
           description: |
             Controls which (if any) tool is called by the model.
             `none` means the model will not call any tools and instead generates a message.
-            `auto` is the default value and means the model can pick between generating a message or calling a tool.
-            Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+            `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+            `required` means the model must call one or more tools before responding to the user.
+            Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
           nullable: true
           oneOf:
             - type: string
               title: CreateThreadAndRunRequestToolChoiceMode
               description: >
-                `none` means the model will not call a function and instead generates a message.
-                `auto` means the model can pick between generating a message or calling a function.
-              enum: [none, auto]
+                `none` means the model will not call any tools and instead generates a message.
+                `auto` means the model can pick between generating a message or calling one or more tools.
+                `required` means the model must call one or more tools before responding to the user.
+              enum: [none, auto, required]
             - $ref: "#/components/schemas/AssistantsNamedToolChoice"
         response_format:
           description: |
@@ -4088,6 +4351,8 @@ components:
         created_at:
           description: The Unix timestamp (in seconds) for when the thread was created.
           type: integer
+        tool_resources:
+          $ref: "#/components/schemas/ToolResources"
         metadata:
           description: *metadata_description
           type: object
@@ -4097,6 +4362,7 @@ components:
         - id
         - object
         - created_at
+        - tool_resources
         - metadata
     CreateThreadRequest:
       type: object
@@ -4108,6 +4374,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/CreateMessageRequest"
+        tool_resources:
+          $ref: "#/components/schemas/ToolResources"
         metadata:
           description: *metadata_description
           type: object
@@ -4118,11 +4386,65 @@ components:
       description: Request object for the Modify thread endpoint.
       additionalProperties: false
       properties:
+        tool_resources:
+          $ref: "#/components/schemas/ToolResources"
         metadata:
           description: *metadata_description
           type: object
           additionalProperties: true
           nullable: true
+    ToolResources:
+      type: object
+      description: |
+        A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+      nullable: true
+      properties:
+        code_interpreter:
+          id: ToolResourcesCodeInterpreter
+          type: object
+          properties:
+            file_ids:
+              type: array
+              description: |
+                A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
+              default: []
+              maxItems: 20
+              items:
+                type: string
+        file_search:
+          id: ToolResourcesFileSearch
+          type: object
+          properties:
+            vector_store_ids:
+              type: array
+              description: |
+                The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.
+              maxItems: 1
+              items:
+                type: string
+            vector_stores:
+              type: array
+              description: |
+                A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.
+              maxItems: 1
+              items:
+                $ref: "#/components/schemas/ToolResourcesFileSearchVectorStore"
+    ToolResourcesFileSearchVectorStore:
+      type: object
+      description: |
+        A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread.
+      properties:
+        file_ids:
+          type: array
+          description: |
+            A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.
+          maxItems: 10000
+          items:
+            type: string
+        metadata:
+          type: object
+          description: |
+            Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
     DeleteThreadResponse:
       type: object
       properties:
@@ -4203,7 +4525,14 @@ components:
               name: MessageIncompleteReason
               type: string
               description: The reason the message is incomplete.
-              enum: ["content_filter", "max_tokens", "run_cancelled", "run_expired", "run_failed"]
+              enum:
+                [
+                  "content_filter",
+                  "max_tokens",
+                  "run_cancelled",
+                  "run_expired",
+                  "run_failed",
+                ]
           nullable: true
           required:
             - reason
@@ -4230,13 +4559,12 @@ components:
           description: The ID of the [run](https://platform.openai.com/docs/api-reference/runs) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
           type: string
           nullable: true
-        file_ids:
-          description: A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
-          default: [ ]
-          maxItems: 10
+        attachments:
+          description: A list of files attached to the message, and the tools they were added to.
           type: array
+          nullable: true
           items:
-            type: string
+            $ref: "#/components/schemas/MessageAttachment"
         metadata:
           description: *metadata_description
           type: object
@@ -4255,12 +4583,24 @@ components:
         - content
         - assistant_id
         - run_id
-        - file_ids
+        - attachments
         - metadata
     MessageRole:
       type: string
       description: The entity that produced the message. One of `user` or `assistant`.
       enum: [ "user", "assistant" ]
+    MessageAttachment:
+      description: An attachment to a message.
+      type: object
+      properties:
+        file_id:
+          type: string
+          description: The ID of the file to attach to the message.
+        tools:
+          description: The tools to add this file to.
+          type: array
+          items:
+            $ref: "#/components/schemas/AssistantTools"
     MessageDeltaObject:
       type: object
       description: |
@@ -4290,13 +4630,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/MessageDeltaContent"
-        file_ids:
-          description: A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
-          default: []
-          maxItems: 10
-          type: array
-          items:
-            type: string
     MessageContent:
       type: object
       description: The content of a message.
@@ -4328,14 +4661,12 @@ components:
           minLength: 1
           maxLength: 256000
           description: The content of the message.
-        file_ids:
-          description: A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the message should use. There can be a maximum of 10 files attached to a message. Useful for tools like `retrieval` and `code_interpreter` that can access and use files.
-          default: [ ]
+        attachments:
+          description: A list of files attached to the message, and the tools they were added to.
           type: array
-          minItems: 1
-          maxItems: 10
+          nullable: true
           items:
-            type: string
+            $ref: "#/components/schemas/MessageAttachment"
         metadata:
           description: *metadata_description
           type: object
@@ -4455,7 +4786,7 @@ components:
         - $ref: "#/components/schemas/MessageContentTextAnnotationsFilePathObject"
     MessageContentTextAnnotationsFileCitationObject:
       type: object
-      description: A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the "retrieval" tool to search files.
+      description: A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the "file_search" tool to search files.
       properties:
         type:
           type: string
@@ -4848,7 +5179,7 @@ components:
         tool_calls:
           type: array
           description: |
-            An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
+            An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.
           items:
             $ref: "#/components/schemas/RunStepDetailsToolCalls"
       required:
@@ -4864,7 +5195,7 @@ components:
         tool_calls:
           type: array
           description: |
-            An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
+            An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.
           items:
             $ref: "#/components/schemas/RunStepDeltaStepDetailsToolCalls"
       required:
@@ -4874,14 +5205,14 @@ components:
       description: Tool calls the run step was involved in.
       oneOf:
         - $ref: "#/components/schemas/RunStepDetailsToolCallsCodeObject"
-        - $ref: "#/components/schemas/RunStepDetailsToolCallsRetrievalObject"
+        - $ref: "#/components/schemas/RunStepDetailsToolCallsFileSearchObject"
         - $ref: "#/components/schemas/RunStepDetailsToolCallsFunctionObject"
     RunStepDeltaStepDetailsToolCalls:
       type: object
       description: Tool calls the run step was involved in.
       oneOf:
         - $ref: "#/components/schemas/RunStepDeltaStepDetailsToolCallsCodeObject"
-        - $ref: "#/components/schemas/RunStepDeltaStepDetailsToolCallsRetrievalObject"
+        - $ref: "#/components/schemas/RunStepDeltaStepDetailsToolCallsFileSearchObject"
         - $ref: "#/components/schemas/RunStepDeltaStepDetailsToolCallsFunctionObject"
     RunStepDetailsToolCallsCodeObject:
       type: object
@@ -4988,7 +5319,7 @@ components:
         - type
     RunStepDetailsToolCallsCodeOutputImageObject:
       type: object
-      description: Code interpreter image output
+      description: Code Interpreter image output
       properties:
         type:
           type: string
@@ -5029,8 +5360,8 @@ components:
         file_id:
           description: The [file](https://platform.openai.com/docs/api-reference/files) ID of the image.
           type: string
-    RunStepDetailsToolCallsRetrievalObject:
-      description: Retrieval tool call
+    RunStepDetailsToolCallsFileSearchObject:
+      description: File search tool call
       type: object
       properties:
         id:
@@ -5038,18 +5369,19 @@ components:
           description: The ID of the tool call object.
         type:
           type: string
-          description: Always `retrieval`.
-        retrieval:
+          description: The type of tool call. This is always going to be `file_search` for this type of tool call.
+          enum: ["file_search"]
+        file_search:
           type: object
           description: For now, this is always going to be an empty object.
           additionalProperties: true
       required:
         - id
         - type
-        - retrieval
-    RunStepDeltaStepDetailsToolCallsRetrievalObject:
+        - file_search
+    RunStepDeltaStepDetailsToolCallsFileSearchObject:
       type: object
-      description: Retrieval tool call
+      description: File search tool call
       properties:
         index:
           type: integer
@@ -5059,14 +5391,16 @@ components:
           description: The ID of the tool call object.
         type:
           type: string
-          description: Always `retrieval`.
-        retrieval:
+          description: The type of tool call. This is always going to be `file_search` for this type of tool call.
+          enum: ["file_search"]
+        file_search:
           type: object
           description: For now, this is always going to be an empty object.
           additionalProperties: true
       required:
         - index
         - type
+        - file_search
     RunStepDetailsToolCallsFunctionObject:
       type: object
       description: Function tool call
@@ -5149,59 +5483,134 @@ components:
         - completion_tokens
         - total_tokens
       nullable: true
-    AssistantFileObject:
+    VectorStoreExpirationAfter:
       type: object
-      description: A list of [Files](https://platform.openai.com/docs/api-reference/files) attached to an `assistant`.
+      description: The expiration policy for a vector store.
+      properties:
+        anchor:
+          description: "Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`."
+          type: string
+          enum: ["last_active_at"]
+        days:
+          description: The number of days after the anchor time that the vector store will expire.
+          type: integer
+          minimum: 1
+          maximum: 365
+      required:
+        - anchor
+        - days
+    VectorStoreObject:
+      type: object
+      description: A vector store is a collection of processed files can be used by the `file_search` tool.
       properties:
         id:
           description: The identifier, which can be referenced in API endpoints.
           type: string
         object:
-          description: The object type, which is always `assistant.file`.
+          description: The object type, which is always `vector_store`.
           type: string
-          enum: [ assistant.file ]
+          enum: ["vector_store"]
         created_at:
-          description: The Unix timestamp (in seconds) for when the assistant file was created.
+          description: The Unix timestamp (in seconds) for when the vector store was created.
           type: integer
-        assistant_id:
-          description: The assistant ID that the file is attached to.
+        name:
+          description: The name of the vector store.
           type: string
+        usage_bytes:
+          description: The total number of bytes used by the files in the vector store.
+          type: integer
+        file_counts:
+          id: VectorStoreFileCounts
+          type: object
+          properties:
+            in_progress:
+              description: The number of files that are currently being processed.
+              type: integer
+            completed:
+              description: The number of files that have been successfully processed.
+              type: integer
+            failed:
+              description: The number of files that have failed to process.
+              type: integer
+            cancelled:
+              description: The number of files that were cancelled.
+              type: integer
+            total:
+              description: The total number of files.
+              type: integer
+          required:
+            - in_progress
+            - completed
+            - failed
+            - cancelled
+            - total
+        status:
+          description: The status of the vector store, which can be either `expired`, `in_progress`, or `completed`. A status of `completed` indicates that the vector store is ready for use.
+          type: string
+          name: VectorStoreStatus
+          enum: ["expired", "in_progress", "completed"]
+        expires_after:
+          $ref: "#/components/schemas/VectorStoreExpirationAfter"
+        expires_at:
+          description: The Unix timestamp (in seconds) for when the vector store will expire.
+          type: integer
+          nullable: true
+        last_active_at:
+          description: The Unix timestamp (in seconds) for when the vector store was last active.
+          type: integer
+          nullable: true
+        metadata:
+          description: *metadata_description
+          type: object
+          nullable: true
       required:
         - id
         - object
+        - usage_bytes
         - created_at
-        - assistant_id
-    CreateAssistantFileRequest:
+        - status
+        - last_active_at
+        - name
+        - file_counts
+        - metadata
+    CreateVectorStoreRequest:
       type: object
       description: Request object for the Create assistant file endpoint.
       additionalProperties: false
       properties:
-        file_id:
-          description: A [File](https://platform.openai.com/docs/api-reference/files) ID (with `purpose="assistants"`) that the assistant should use. Useful for tools like `retrieval` and `code_interpreter` that can access files.
+        file_ids:
+          description: A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
+          type: array
+          maxItems: 500
+          items:
+            type: string
+        name:
+          description: The name of the vector store.
           type: string
-      required:
-        - file_id
-    DeleteAssistantFileResponse:
+        expires_after:
+          $ref: "#/components/schemas/VectorStoreExpirationAfter"
+        metadata:
+          description: *metadata_description
+          type: object
+          nullable: true
+    UpdateVectorStoreRequest:
       type: object
-      description: Deletes the association between the assistant and the file, but does not delete the [File](https://platform.openai.com/docs/api-reference/files) object itself.
+      description: Request object for the Update vector store endpoint.
       properties:
-        id:
+        name:
+          description: The name of the vector store.
           type: string
-          description: The ID of the assistant file.
-        deleted:
-          type: boolean
-          description: Whether the assistant file was deleted.
-        object:
-          type: string
-          description: The object type, which is always `assistant.file.deleted`.
-          enum: [ assistant.file.deleted ]
-      required:
-        - id
-        - object
-        - deleted
-    ListAssistantFilesResponse:
+          nullable: true
+        expires_after:
+          $ref: "#/components/schemas/VectorStoreExpirationAfter"
+          nullable: true
+        metadata:
+          description: *metadata_description
+          type: object
+          nullable: true
+    ListVectorStoresResponse:
       type: object
-      description: Represents a list of assistant files returned by the List assistant files endpoint.
+      description: Represents a list of files returned by the List vector store files endpoint.
       properties:
         object:
           type: string
@@ -5211,15 +5620,15 @@ components:
           type: array
           description: A list of assistant files.
           items:
-            $ref: "#/components/schemas/AssistantFileObject"
+            $ref: "#/components/schemas/VectorStoreObject"
         first_id:
           type: string
           description: The ID of the first assistant file in the list.
-          example: "file-abc123"
+          example: "vs-abc123"
         last_id:
           type: string
           description: The ID of the last assistant file in the list.
-          example: "file-abc456"
+          example: "vs-abc456"
         has_more:
           type: boolean
           description: Whether there are more assistant files available.
@@ -5227,35 +5636,94 @@ components:
       required:
         - object
         - data
-        - items
         - first_id
         - last_id
         - has_more
-    MessageFileObject:
+    DeleteVectorStoreResponse:
       type: object
-      description: A list of files attached to a `message`.
+      description: Response object for the Delete vector store endpoint.
+      properties:
+        id:
+          type: string
+          description: The ID of the deleted vector store.
+        deleted:
+          type: boolean
+          description: Whether the vector store was deleted.
+        object:
+          type: string
+          description: The object type, which is always `vector_store.deleted`.
+          enum: [vector_store.deleted]
+      required:
+        - id
+        - object
+        - deleted
+    VectorStoreFileObject:
+      type: object
+      description: A list of files attached to a vector store.
       properties:
         id:
           description: The identifier, which can be referenced in API endpoints.
           type: string
         object:
-          description: The object type, which is always `thread.message.file`.
+          description: The object type, which is always `vector_store.file`.
           type: string
-          enum: [ "thread.message.file" ]
-        created_at:
-          description: The Unix timestamp (in seconds) for when the message file was created.
+          enum: ["vector_store.file"]
+        usage_bytes:
+          description: The total vector store usage in bytes. Note that this may be different from the original file size.
           type: integer
-        message_id:
-          description: The ID of the [message](https://platform.openai.com/docs/api-reference/messages) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to.
+        created_at:
+          description: The Unix timestamp (in seconds) for when the vector store file was created.
+          type: integer
+        vector_store_id:
+          description: The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to.
           type: string
+        status:
+          description: The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use.
+          type: string
+          title: VectorStoreFileStatus
+          enum: ["in_progress", "completed", "cancelled", "failed"]
+        last_error:
+          id: VectorStoreFileLastError
+          type: object
+          description: The last error associated with this vector store file. Will be `null` if there are no errors.
+          nullable: true
+          properties:
+            code:
+              type: string
+              description: One of `server_error` or `rate_limit_exceeded`.
+              enum:
+                [
+                  "internal_error",
+                  "file_not_found",
+                  "parsing_error",
+                  "unhandled_mime_type",
+                ]
+            message:
+              type: string
+              description: A human-readable description of the error.
+          required:
+            - code
+            - message
       required:
         - id
         - object
+        - usage_bytes
         - created_at
-        - message_id
-    ListMessageFilesResponse:
+        - vector_store_id
+        - status
+        - last_error
+    CreateVectorStoreFileRequest:
       type: object
-      description: Represents a list of message files returned by the List message files endpoint.
+      description: Request object for the Create vector store file endpoint.
+      properties:
+        file_id:
+          description: A [File](https://platform.openai.com/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files.
+          type: string
+      required:
+        - file_id
+    ListVectorStoreFilesResponse:
+      type: object
+      description: Represents a list of message files returned by the List vector store files endpoint.
       properties:
         object:
           type: string
@@ -5265,7 +5733,7 @@ components:
           type: array
           description: A list of message files.
           items:
-            $ref: "#/components/schemas/MessageFileObject"
+            $ref: "#/components/schemas/VectorStoreFileObject"
         first_id:
           type: string
           description: The ID of the first message file in the list.
@@ -5281,10 +5749,93 @@ components:
       required:
         - object
         - data
-        - items
         - first_id
         - last_id
         - has_more
+    DeleteVectorStoreFileResponse:
+      type: object
+      description: Response object for the Delete vector store file endpoint.
+      properties:
+        id:
+          type: string
+          description: The ID of the deleted vector store file.
+        deleted:
+          type: boolean
+          description: Whether the vector store file was deleted.
+        object:
+          type: string
+          description: The object type, which is always `vector_store.file.deleted`.
+          enum: [vector_store.file.deleted]
+      required:
+        - id
+        - object
+        - deleted
+    VectorStoreFileBatchObject:
+      type: object
+      description: A batch of files attached to a vector store.
+      properties:
+        id:
+          description: The identifier, which can be referenced in API endpoints.
+          type: string
+        object:
+          description: The object type, which is always `vector_store.file_batch`.
+          type: string
+          enum: ["vector_store.files_batch"]
+        created_at:
+          description: The Unix timestamp (in seconds) for when the vector store files batch was created.
+          type: integer
+        vector_store_id:
+          description: The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to.
+          type: string
+        status:
+          description: The status of the vector store files batch, which can be either `in_progress`, `completed`, `cancelled` or `failed`.
+          type: string
+          enum: ["in_progress", "completed", "cancelled", "failed"]
+        file_counts:
+          type: object
+          description: The number of files per status.
+          properties:
+            in_progress:
+              description: The number of files that are currently being processed.
+              type: integer
+            completed:
+              description: The number of files that have been processed.
+              type: integer
+            failed:
+              description: The number of files that have failed to process.
+              type: integer
+            cancelled:
+              description: The number of files that where cancelled.
+              type: integer
+            total:
+              description: The total number of files.
+              type: integer
+          required:
+            - in_progress
+            - completed
+            - cancelled
+            - failed
+            - total
+      required:
+        - id
+        - object
+        - created_at
+        - vector_store_id
+        - status
+        - file_counts
+    CreateVectorStoreFileBatchRequest:
+      type: object
+      description: Request object for the Create vector store file batch endpoint.
+      properties:
+        file_ids:
+          description: A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
+          type: array
+          minItems: 1
+          maxItems: 500
+          items:
+            type: string
+      required:
+        - file_ids
     AssistantStreamEvent:
       type: object
       description: |
@@ -5557,40 +6108,31 @@ components:
           type: string
           description: The ID of the file containing the outputs of requests with errors.
         created_at:
-          type: string
-          format: integer
+          type: integer
           description: The Unix timestamp (in seconds) for when the batch was created.
         in_progress_at:
-          type: string
-          format: integer
+          type: integer
           description: The Unix timestamp (in seconds) for when the batch started processing.
         expires_at:
-          type: string
-          format: integer
+          type: integer
           description: The Unix timestamp (in seconds) for when the batch will expire.
         finalizing_at:
-          type: string
-          format: integer
+          type: integer
           description: The Unix timestamp (in seconds) for when the batch started finalizing.
         completed_at:
-          type: string
-          format: integer
+          type: integer
           description: The Unix timestamp (in seconds) for when the batch was completed.
         failed_at:
-          type: string
-          format: integer
+          type: integer
           description: The Unix timestamp (in seconds) for when the batch failed.
         expired_at:
-          type: string
-          format: integer
+          type: integer
           description: The Unix timestamp (in seconds) for when the batch expired.
         cancelling_at:
-          type: string
-          format: integer
+          type: integer
           description: The Unix timestamp (in seconds) for when the batch started cancelling.
         cancelled_at:
-          type: string
-          format: integer
+          type: integer
           description: The Unix timestamp (in seconds) for when the batch was cancelled.
         request_counts:
           id: BatchRequestCounts
@@ -5674,6 +6216,33 @@ components:
               message:
                 type: string
                 description: A human-readable error message.
+    ListBatchesResponse:
+      type: object
+      description: Represents a list of batches returned by the List batches endpoint.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Batch"
+        first_id:
+          type: string
+          description: The ID of the first batch in the list.
+          example: "batch_abc123"
+        last_id:
+          type: string
+          description: The ID of the last batch in the list.
+          example: "batch_abc456"
+        has_more:
+          type: boolean
+          description: Whether there are more batches available.
+        object:
+          type: string
+          description: The object type, which is always `list`.
+          enum: [list]
+      required:
+        - object
+        - data
+        - has_more
 
 security:
   - ApiKeyAuth: [ ]

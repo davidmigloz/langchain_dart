@@ -5,35 +5,35 @@
 part of open_a_i_schema;
 
 // ==========================================
-// CLASS: ListAssistantFilesResponse
+// CLASS: ListVectorStoreFilesResponse
 // ==========================================
 
-/// Represents a list of assistant files returned by the List assistant files endpoint.
+/// Represents a list of message files returned by the List vector store files endpoint.
 @freezed
-class ListAssistantFilesResponse with _$ListAssistantFilesResponse {
-  const ListAssistantFilesResponse._();
+class ListVectorStoreFilesResponse with _$ListVectorStoreFilesResponse {
+  const ListVectorStoreFilesResponse._();
 
-  /// Factory constructor for ListAssistantFilesResponse
-  const factory ListAssistantFilesResponse({
+  /// Factory constructor for ListVectorStoreFilesResponse
+  const factory ListVectorStoreFilesResponse({
     /// The object type, which is always `list`.
     required String object,
 
-    /// A list of assistant files.
-    required List<AssistantFileObject> data,
+    /// A list of message files.
+    required List<VectorStoreFileObject> data,
 
-    /// The ID of the first assistant file in the list.
+    /// The ID of the first message file in the list.
     @JsonKey(name: 'first_id') required String firstId,
 
-    /// The ID of the last assistant file in the list.
+    /// The ID of the last message file in the list.
     @JsonKey(name: 'last_id') required String lastId,
 
-    /// Whether there are more assistant files available.
+    /// Whether there are more message files available.
     @JsonKey(name: 'has_more') required bool hasMore,
-  }) = _ListAssistantFilesResponse;
+  }) = _ListVectorStoreFilesResponse;
 
   /// Object construction from a JSON representation
-  factory ListAssistantFilesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAssistantFilesResponseFromJson(json);
+  factory ListVectorStoreFilesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListVectorStoreFilesResponseFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [

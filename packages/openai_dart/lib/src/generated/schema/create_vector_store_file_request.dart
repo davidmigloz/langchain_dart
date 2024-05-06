@@ -5,23 +5,23 @@
 part of open_a_i_schema;
 
 // ==========================================
-// CLASS: CreateAssistantFileRequest
+// CLASS: CreateVectorStoreFileRequest
 // ==========================================
 
-/// Request object for the Create assistant file endpoint.
+/// Request object for the Create vector store file endpoint.
 @freezed
-class CreateAssistantFileRequest with _$CreateAssistantFileRequest {
-  const CreateAssistantFileRequest._();
+class CreateVectorStoreFileRequest with _$CreateVectorStoreFileRequest {
+  const CreateVectorStoreFileRequest._();
 
-  /// Factory constructor for CreateAssistantFileRequest
-  const factory CreateAssistantFileRequest({
-    /// A [File](https://platform.openai.com/docs/api-reference/files) ID (with `purpose="assistants"`) that the assistant should use. Useful for tools like `retrieval` and `code_interpreter` that can access files.
+  /// Factory constructor for CreateVectorStoreFileRequest
+  const factory CreateVectorStoreFileRequest({
+    /// A [File](https://platform.openai.com/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files.
     @JsonKey(name: 'file_id') required String fileId,
-  }) = _CreateAssistantFileRequest;
+  }) = _CreateVectorStoreFileRequest;
 
   /// Object construction from a JSON representation
-  factory CreateAssistantFileRequest.fromJson(Map<String, dynamic> json) =>
-      _$CreateAssistantFileRequestFromJson(json);
+  factory CreateVectorStoreFileRequest.fromJson(Map<String, dynamic> json) =>
+      _$CreateVectorStoreFileRequestFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = ['file_id'];

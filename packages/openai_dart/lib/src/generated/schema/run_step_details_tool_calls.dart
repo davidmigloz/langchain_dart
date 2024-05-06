@@ -31,20 +31,20 @@ sealed class RunStepDetailsToolCalls with _$RunStepDetailsToolCalls {
   }) = RunStepDetailsToolCallsCodeObject;
 
   // ------------------------------------------
-  // UNION: RunStepDetailsToolCallsRetrievalObject
+  // UNION: RunStepDetailsToolCallsFileSearchObject
   // ------------------------------------------
 
-  /// Retrieval tool call
-  const factory RunStepDetailsToolCalls.retrieval({
+  /// File search tool call
+  const factory RunStepDetailsToolCalls.fileSearchObject({
     /// The ID of the tool call object.
     required String id,
 
-    /// Always `retrieval`.
-    required String type,
+    /// The type of tool call. This is always going to be `file_search` for this type of tool call.
+    required RunStepDetailsToolCallsFileSearchObjectType type,
 
     /// For now, this is always going to be an empty object.
-    required Map<String, dynamic> retrieval,
-  }) = RunStepDetailsToolCallsRetrievalObject;
+    @JsonKey(name: 'file_search') required Map<String, dynamic> fileSearch,
+  }) = RunStepDetailsToolCallsFileSearchObject;
 
   // ------------------------------------------
   // UNION: RunStepDetailsToolCallsFunctionObject
@@ -65,6 +65,16 @@ sealed class RunStepDetailsToolCalls with _$RunStepDetailsToolCalls {
   /// Object construction from a JSON representation
   factory RunStepDetailsToolCalls.fromJson(Map<String, dynamic> json) =>
       _$RunStepDetailsToolCallsFromJson(json);
+}
+
+// ==========================================
+// ENUM: RunStepDetailsToolCallsFileSearchObjectType
+// ==========================================
+
+/// The type of tool call. This is always going to be `file_search` for this type of tool call.
+enum RunStepDetailsToolCallsFileSearchObjectType {
+  @JsonValue('file_search')
+  fileSearch,
 }
 
 // ==========================================

@@ -5,35 +5,35 @@
 part of open_a_i_schema;
 
 // ==========================================
-// CLASS: ListMessageFilesResponse
+// CLASS: ListVectorStoresResponse
 // ==========================================
 
-/// Represents a list of message files returned by the List message files endpoint.
+/// Represents a list of files returned by the List vector store files endpoint.
 @freezed
-class ListMessageFilesResponse with _$ListMessageFilesResponse {
-  const ListMessageFilesResponse._();
+class ListVectorStoresResponse with _$ListVectorStoresResponse {
+  const ListVectorStoresResponse._();
 
-  /// Factory constructor for ListMessageFilesResponse
-  const factory ListMessageFilesResponse({
+  /// Factory constructor for ListVectorStoresResponse
+  const factory ListVectorStoresResponse({
     /// The object type, which is always `list`.
     required String object,
 
-    /// A list of message files.
-    required List<MessageFileObject> data,
+    /// A list of assistant files.
+    required List<VectorStoreObject> data,
 
-    /// The ID of the first message file in the list.
+    /// The ID of the first assistant file in the list.
     @JsonKey(name: 'first_id') required String firstId,
 
-    /// The ID of the last message file in the list.
+    /// The ID of the last assistant file in the list.
     @JsonKey(name: 'last_id') required String lastId,
 
-    /// Whether there are more message files available.
+    /// Whether there are more assistant files available.
     @JsonKey(name: 'has_more') required bool hasMore,
-  }) = _ListMessageFilesResponse;
+  }) = _ListVectorStoresResponse;
 
   /// Object construction from a JSON representation
-  factory ListMessageFilesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListMessageFilesResponseFromJson(json);
+  factory ListVectorStoresResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListVectorStoresResponseFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [

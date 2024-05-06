@@ -491,6 +491,7 @@ Map<String, dynamic> _$$ChatCompletionToolChoiceOptionEnumerationImplToJson(
 const _$ChatCompletionToolChoiceModeEnumMap = {
   ChatCompletionToolChoiceMode.none: 'none',
   ChatCompletionToolChoiceMode.auto: 'auto',
+  ChatCompletionToolChoiceMode.required: 'required',
 };
 
 _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
@@ -2053,29 +2054,87 @@ _$AssistantObjectImpl _$$AssistantObjectImplFromJson(
       tools: (json['tools'] as List<dynamic>)
           .map((e) => AssistantTools.fromJson(e as Map<String, dynamic>))
           .toList(),
-      fileIds:
-          (json['file_ids'] as List<dynamic>).map((e) => e as String).toList(),
+      toolResources: json['tool_resources'] == null
+          ? null
+          : ToolResources.fromJson(
+              json['tool_resources'] as Map<String, dynamic>),
       metadata: json['metadata'] as Map<String, dynamic>?,
+      temperature: (json['temperature'] as num?)?.toDouble() ?? 1.0,
+      topP: (json['top_p'] as num?)?.toDouble() ?? 1.0,
+      responseFormat: const _AssistantObjectResponseFormatConverter()
+          .fromJson(json['response_format']),
     );
 
 Map<String, dynamic> _$$AssistantObjectImplToJson(
-        _$AssistantObjectImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'object': _$AssistantObjectObjectEnumMap[instance.object]!,
-      'created_at': instance.createdAt,
-      'name': instance.name,
-      'description': instance.description,
-      'model': instance.model,
-      'instructions': instance.instructions,
-      'tools': instance.tools.map((e) => e.toJson()).toList(),
-      'file_ids': instance.fileIds,
-      'metadata': instance.metadata,
-    };
+    _$AssistantObjectImpl instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'object': _$AssistantObjectObjectEnumMap[instance.object]!,
+    'created_at': instance.createdAt,
+    'name': instance.name,
+    'description': instance.description,
+    'model': instance.model,
+    'instructions': instance.instructions,
+    'tools': instance.tools.map((e) => e.toJson()).toList(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tool_resources', instance.toolResources?.toJson());
+  val['metadata'] = instance.metadata;
+  writeNotNull('temperature', instance.temperature);
+  writeNotNull('top_p', instance.topP);
+  writeNotNull(
+      'response_format',
+      const _AssistantObjectResponseFormatConverter()
+          .toJson(instance.responseFormat));
+  return val;
+}
 
 const _$AssistantObjectObjectEnumMap = {
   AssistantObjectObject.assistant: 'assistant',
 };
+
+_$AssistantObjectResponseFormatEnumerationImpl
+    _$$AssistantObjectResponseFormatEnumerationImplFromJson(
+            Map<String, dynamic> json) =>
+        _$AssistantObjectResponseFormatEnumerationImpl(
+          $enumDecode(_$AssistantResponseFormatModeEnumMap, json['value']),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$AssistantObjectResponseFormatEnumerationImplToJson(
+        _$AssistantObjectResponseFormatEnumerationImpl instance) =>
+    <String, dynamic>{
+      'value': _$AssistantResponseFormatModeEnumMap[instance.value]!,
+      'runtimeType': instance.$type,
+    };
+
+const _$AssistantResponseFormatModeEnumMap = {
+  AssistantResponseFormatMode.none: 'none',
+  AssistantResponseFormatMode.auto: 'auto',
+};
+
+_$AssistantObjectResponseFormatAssistantsResponseFormatImpl
+    _$$AssistantObjectResponseFormatAssistantsResponseFormatImplFromJson(
+            Map<String, dynamic> json) =>
+        _$AssistantObjectResponseFormatAssistantsResponseFormatImpl(
+          AssistantsResponseFormat.fromJson(
+              json['value'] as Map<String, dynamic>),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String,
+    dynamic> _$$AssistantObjectResponseFormatAssistantsResponseFormatImplToJson(
+        _$AssistantObjectResponseFormatAssistantsResponseFormatImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value.toJson(),
+      'runtimeType': instance.$type,
+    };
 
 _$CreateAssistantRequestImpl _$$CreateAssistantRequestImplFromJson(
         Map<String, dynamic> json) =>
@@ -2088,10 +2147,10 @@ _$CreateAssistantRequestImpl _$$CreateAssistantRequestImplFromJson(
               ?.map((e) => AssistantTools.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      fileIds: (json['file_ids'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
+      toolResources: json['tool_resources'] == null
+          ? null
+          : ToolResources.fromJson(
+              json['tool_resources'] as Map<String, dynamic>),
       metadata: json['metadata'] as Map<String, dynamic>?,
       temperature: (json['temperature'] as num?)?.toDouble() ?? 1.0,
       topP: (json['top_p'] as num?)?.toDouble() ?? 1.0,
@@ -2115,7 +2174,7 @@ Map<String, dynamic> _$$CreateAssistantRequestImplToJson(
   writeNotNull('description', instance.description);
   writeNotNull('instructions', instance.instructions);
   val['tools'] = instance.tools.map((e) => e.toJson()).toList();
-  val['file_ids'] = instance.fileIds;
+  writeNotNull('tool_resources', instance.toolResources?.toJson());
   writeNotNull('metadata', instance.metadata);
   writeNotNull('temperature', instance.temperature);
   writeNotNull('top_p', instance.topP);
@@ -2230,6 +2289,10 @@ _$ModifyAssistantRequestImpl _$$ModifyAssistantRequestImplFromJson(
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      toolResources: json['tool_resources'] == null
+          ? null
+          : ToolResources.fromJson(
+              json['tool_resources'] as Map<String, dynamic>),
       metadata: json['metadata'] as Map<String, dynamic>?,
       temperature: (json['temperature'] as num?)?.toDouble() ?? 1.0,
       topP: (json['top_p'] as num?)?.toDouble() ?? 1.0,
@@ -2253,6 +2316,7 @@ Map<String, dynamic> _$$ModifyAssistantRequestImplToJson(
   writeNotNull('instructions', instance.instructions);
   val['tools'] = instance.tools.map((e) => e.toJson()).toList();
   val['file_ids'] = instance.fileIds;
+  writeNotNull('tool_resources', instance.toolResources?.toJson());
   writeNotNull('metadata', instance.metadata);
   writeNotNull('temperature', instance.temperature);
   writeNotNull('top_p', instance.topP);
@@ -2375,7 +2439,7 @@ Map<String, dynamic> _$$AssistantsNamedToolChoiceImplToJson(
 const _$AssistantsToolTypeEnumMap = {
   AssistantsToolType.function: 'function',
   AssistantsToolType.codeInterpreter: 'code_interpreter',
-  AssistantsToolType.retrieval: 'retrieval',
+  AssistantsToolType.fileSearch: 'file_search',
 };
 
 _$AssistantsFunctionCallOptionImpl _$$AssistantsFunctionCallOptionImplFromJson(
@@ -2466,8 +2530,6 @@ _$RunObjectImpl _$$RunObjectImplFromJson(Map<String, dynamic> json) =>
       tools: (json['tools'] as List<dynamic>)
           .map((e) => AssistantTools.fromJson(e as Map<String, dynamic>))
           .toList(),
-      fileIds:
-          (json['file_ids'] as List<dynamic>).map((e) => e as String).toList(),
       metadata: json['metadata'] as Map<String, dynamic>?,
       usage: json['usage'] == null
           ? null
@@ -2505,7 +2567,6 @@ Map<String, dynamic> _$$RunObjectImplToJson(_$RunObjectImpl instance) {
     'model': instance.model,
     'instructions': instance.instructions,
     'tools': instance.tools.map((e) => e.toJson()).toList(),
-    'file_ids': instance.fileIds,
     'metadata': instance.metadata,
     'usage': instance.usage?.toJson(),
   };
@@ -2625,6 +2686,7 @@ Map<String, dynamic> _$$RunObjectToolChoiceEnumerationImplToJson(
 const _$RunObjectToolChoiceModeEnumMap = {
   RunObjectToolChoiceMode.none: 'none',
   RunObjectToolChoiceMode.auto: 'auto',
+  RunObjectToolChoiceMode.required: 'required',
 };
 
 _$RunObjectToolChoiceAssistantsNamedToolChoiceImpl
@@ -2842,6 +2904,7 @@ Map<String, dynamic> _$$CreateRunRequestToolChoiceEnumerationImplToJson(
 const _$CreateRunRequestToolChoiceModeEnumMap = {
   CreateRunRequestToolChoiceMode.none: 'none',
   CreateRunRequestToolChoiceMode.auto: 'auto',
+  CreateRunRequestToolChoiceMode.required: 'required',
 };
 
 _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl
@@ -3037,6 +3100,10 @@ _$CreateThreadAndRunRequestImpl _$$CreateThreadAndRunRequestImplFromJson(
       tools: (json['tools'] as List<dynamic>?)
           ?.map((e) => AssistantTools.fromJson(e as Map<String, dynamic>))
           .toList(),
+      toolResources: json['tool_resources'] == null
+          ? null
+          : ToolResources.fromJson(
+              json['tool_resources'] as Map<String, dynamic>),
       metadata: json['metadata'] as Map<String, dynamic>?,
       temperature: (json['temperature'] as num?)?.toDouble() ?? 1.0,
       topP: (json['top_p'] as num?)?.toDouble() ?? 1.0,
@@ -3070,6 +3137,7 @@ Map<String, dynamic> _$$CreateThreadAndRunRequestImplToJson(
       'model', const _ThreadAndRunModelConverter().toJson(instance.model));
   writeNotNull('instructions', instance.instructions);
   writeNotNull('tools', instance.tools?.map((e) => e.toJson()).toList());
+  writeNotNull('tool_resources', instance.toolResources?.toJson());
   writeNotNull('metadata', instance.metadata);
   writeNotNull('temperature', instance.temperature);
   writeNotNull('top_p', instance.topP);
@@ -3158,6 +3226,7 @@ Map<String, dynamic>
 const _$CreateThreadAndRunRequestToolChoiceModeEnumMap = {
   CreateThreadAndRunRequestToolChoiceMode.none: 'none',
   CreateThreadAndRunRequestToolChoiceMode.auto: 'auto',
+  CreateThreadAndRunRequestToolChoiceMode.required: 'required',
 };
 
 _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl
@@ -3224,6 +3293,10 @@ _$ThreadObjectImpl _$$ThreadObjectImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       object: $enumDecode(_$ThreadObjectObjectEnumMap, json['object']),
       createdAt: json['created_at'] as int,
+      toolResources: json['tool_resources'] == null
+          ? null
+          : ToolResources.fromJson(
+              json['tool_resources'] as Map<String, dynamic>),
       metadata: json['metadata'] as Map<String, dynamic>?,
     );
 
@@ -3232,6 +3305,7 @@ Map<String, dynamic> _$$ThreadObjectImplToJson(_$ThreadObjectImpl instance) =>
       'id': instance.id,
       'object': _$ThreadObjectObjectEnumMap[instance.object]!,
       'created_at': instance.createdAt,
+      'tool_resources': instance.toolResources?.toJson(),
       'metadata': instance.metadata,
     };
 
@@ -3245,6 +3319,10 @@ _$CreateThreadRequestImpl _$$CreateThreadRequestImplFromJson(
       messages: (json['messages'] as List<dynamic>?)
           ?.map((e) => CreateMessageRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
+      toolResources: json['tool_resources'] == null
+          ? null
+          : ToolResources.fromJson(
+              json['tool_resources'] as Map<String, dynamic>),
       metadata: json['metadata'] as Map<String, dynamic>?,
     );
 
@@ -3259,6 +3337,7 @@ Map<String, dynamic> _$$CreateThreadRequestImplToJson(
   }
 
   writeNotNull('messages', instance.messages?.map((e) => e.toJson()).toList());
+  writeNotNull('tool_resources', instance.toolResources?.toJson());
   writeNotNull('metadata', instance.metadata);
   return val;
 }
@@ -3266,6 +3345,10 @@ Map<String, dynamic> _$$CreateThreadRequestImplToJson(
 _$ModifyThreadRequestImpl _$$ModifyThreadRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$ModifyThreadRequestImpl(
+      toolResources: json['tool_resources'] == null
+          ? null
+          : ToolResources.fromJson(
+              json['tool_resources'] as Map<String, dynamic>),
       metadata: json['metadata'] as Map<String, dynamic>?,
     );
 
@@ -3279,6 +3362,101 @@ Map<String, dynamic> _$$ModifyThreadRequestImplToJson(
     }
   }
 
+  writeNotNull('tool_resources', instance.toolResources?.toJson());
+  writeNotNull('metadata', instance.metadata);
+  return val;
+}
+
+_$ToolResourcesImpl _$$ToolResourcesImplFromJson(Map<String, dynamic> json) =>
+    _$ToolResourcesImpl(
+      codeInterpreter: json['code_interpreter'] == null
+          ? null
+          : ToolResourcesCodeInterpreter.fromJson(
+              json['code_interpreter'] as Map<String, dynamic>),
+      fileSearch: json['file_search'] == null
+          ? null
+          : ToolResourcesFileSearch.fromJson(
+              json['file_search'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ToolResourcesImplToJson(_$ToolResourcesImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('code_interpreter', instance.codeInterpreter?.toJson());
+  writeNotNull('file_search', instance.fileSearch?.toJson());
+  return val;
+}
+
+_$ToolResourcesCodeInterpreterImpl _$$ToolResourcesCodeInterpreterImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ToolResourcesCodeInterpreterImpl(
+      fileIds: (json['file_ids'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+    );
+
+Map<String, dynamic> _$$ToolResourcesCodeInterpreterImplToJson(
+        _$ToolResourcesCodeInterpreterImpl instance) =>
+    <String, dynamic>{
+      'file_ids': instance.fileIds,
+    };
+
+_$ToolResourcesFileSearchImpl _$$ToolResourcesFileSearchImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ToolResourcesFileSearchImpl(
+      vectorStoreIds: (json['vector_store_ids'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      vectorStores: (json['vector_stores'] as List<dynamic>?)
+          ?.map((e) => ToolResourcesFileSearchVectorStore.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$ToolResourcesFileSearchImplToJson(
+    _$ToolResourcesFileSearchImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('vector_store_ids', instance.vectorStoreIds);
+  writeNotNull(
+      'vector_stores', instance.vectorStores?.map((e) => e.toJson()).toList());
+  return val;
+}
+
+_$ToolResourcesFileSearchVectorStoreImpl
+    _$$ToolResourcesFileSearchVectorStoreImplFromJson(
+            Map<String, dynamic> json) =>
+        _$ToolResourcesFileSearchVectorStoreImpl(
+          fileIds: (json['file_ids'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList(),
+          metadata: json['metadata'],
+        );
+
+Map<String, dynamic> _$$ToolResourcesFileSearchVectorStoreImplToJson(
+    _$ToolResourcesFileSearchVectorStoreImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('file_ids', instance.fileIds);
   writeNotNull('metadata', instance.metadata);
   return val;
 }
@@ -3345,8 +3523,9 @@ _$MessageObjectImpl _$$MessageObjectImplFromJson(Map<String, dynamic> json) =>
           .toList(),
       assistantId: json['assistant_id'] as String?,
       runId: json['run_id'] as String?,
-      fileIds:
-          (json['file_ids'] as List<dynamic>).map((e) => e as String).toList(),
+      attachments: (json['attachments'] as List<dynamic>?)
+          ?.map((e) => MessageAttachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
       metadata: json['metadata'] as Map<String, dynamic>?,
     );
 
@@ -3364,7 +3543,7 @@ Map<String, dynamic> _$$MessageObjectImplToJson(_$MessageObjectImpl instance) =>
       'content': instance.content.map((e) => e.toJson()).toList(),
       'assistant_id': instance.assistantId,
       'run_id': instance.runId,
-      'file_ids': instance.fileIds,
+      'attachments': instance.attachments?.map((e) => e.toJson()).toList(),
       'metadata': instance.metadata,
     };
 
@@ -3404,6 +3583,30 @@ const _$MessageObjectIncompleteDetailsReasonEnumMap = {
   MessageObjectIncompleteDetailsReason.runFailed: 'run_failed',
 };
 
+_$MessageAttachmentImpl _$$MessageAttachmentImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MessageAttachmentImpl(
+      fileId: json['file_id'] as String?,
+      tools: (json['tools'] as List<dynamic>?)
+          ?.map((e) => AssistantTools.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$MessageAttachmentImplToJson(
+    _$MessageAttachmentImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('file_id', instance.fileId);
+  writeNotNull('tools', instance.tools?.map((e) => e.toJson()).toList());
+  return val;
+}
+
 _$MessageDeltaObjectImpl _$$MessageDeltaObjectImplFromJson(
         Map<String, dynamic> json) =>
     _$MessageDeltaObjectImpl(
@@ -3431,10 +3634,6 @@ _$MessageDeltaImpl _$$MessageDeltaImplFromJson(Map<String, dynamic> json) =>
       content: (json['content'] as List<dynamic>?)
           ?.map((e) => MessageDeltaContent.fromJson(e as Map<String, dynamic>))
           .toList(),
-      fileIds: (json['file_ids'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
     );
 
 Map<String, dynamic> _$$MessageDeltaImplToJson(_$MessageDeltaImpl instance) {
@@ -3448,7 +3647,6 @@ Map<String, dynamic> _$$MessageDeltaImplToJson(_$MessageDeltaImpl instance) {
 
   writeNotNull('role', _$MessageRoleEnumMap[instance.role]);
   writeNotNull('content', instance.content?.map((e) => e.toJson()).toList());
-  val['file_ids'] = instance.fileIds;
   return val;
 }
 
@@ -3457,10 +3655,9 @@ _$CreateMessageRequestImpl _$$CreateMessageRequestImplFromJson(
     _$CreateMessageRequestImpl(
       role: $enumDecode(_$MessageRoleEnumMap, json['role']),
       content: json['content'] as String,
-      fileIds: (json['file_ids'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
+      attachments: (json['attachments'] as List<dynamic>?)
+          ?.map((e) => MessageAttachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
       metadata: json['metadata'] as Map<String, dynamic>?,
     );
 
@@ -3469,7 +3666,6 @@ Map<String, dynamic> _$$CreateMessageRequestImplToJson(
   final val = <String, dynamic>{
     'role': _$MessageRoleEnumMap[instance.role]!,
     'content': instance.content,
-    'file_ids': instance.fileIds,
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -3478,6 +3674,8 @@ Map<String, dynamic> _$$CreateMessageRequestImplToJson(
     }
   }
 
+  writeNotNull(
+      'attachments', instance.attachments?.map((e) => e.toJson()).toList());
   writeNotNull('metadata', instance.metadata);
   return val;
 }
@@ -3915,126 +4113,388 @@ Map<String, dynamic> _$$RunStepCompletionUsageImplToJson(
       'total_tokens': instance.totalTokens,
     };
 
-_$AssistantFileObjectImpl _$$AssistantFileObjectImplFromJson(
+_$VectorStoreExpirationAfterImpl _$$VectorStoreExpirationAfterImplFromJson(
         Map<String, dynamic> json) =>
-    _$AssistantFileObjectImpl(
-      id: json['id'] as String,
-      object: $enumDecode(_$AssistantFileObjectObjectEnumMap, json['object']),
-      createdAt: json['created_at'] as int,
-      assistantId: json['assistant_id'] as String,
+    _$VectorStoreExpirationAfterImpl(
+      anchor: $enumDecode(
+          _$VectorStoreExpirationAfterAnchorEnumMap, json['anchor']),
+      days: json['days'] as int,
     );
 
-Map<String, dynamic> _$$AssistantFileObjectImplToJson(
-        _$AssistantFileObjectImpl instance) =>
+Map<String, dynamic> _$$VectorStoreExpirationAfterImplToJson(
+        _$VectorStoreExpirationAfterImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'object': _$AssistantFileObjectObjectEnumMap[instance.object]!,
-      'created_at': instance.createdAt,
-      'assistant_id': instance.assistantId,
+      'anchor': _$VectorStoreExpirationAfterAnchorEnumMap[instance.anchor]!,
+      'days': instance.days,
     };
 
-const _$AssistantFileObjectObjectEnumMap = {
-  AssistantFileObjectObject.assistantFile: 'assistant.file',
+const _$VectorStoreExpirationAfterAnchorEnumMap = {
+  VectorStoreExpirationAfterAnchor.lastActiveAt: 'last_active_at',
 };
 
-_$CreateAssistantFileRequestImpl _$$CreateAssistantFileRequestImplFromJson(
+_$VectorStoreObjectImpl _$$VectorStoreObjectImplFromJson(
         Map<String, dynamic> json) =>
-    _$CreateAssistantFileRequestImpl(
+    _$VectorStoreObjectImpl(
+      id: json['id'] as String,
+      object: $enumDecode(_$VectorStoreObjectObjectEnumMap, json['object']),
+      createdAt: json['created_at'] as int,
+      name: json['name'] as String,
+      usageBytes: json['usage_bytes'] as int,
+      fileCounts: VectorStoreObjectFileCounts.fromJson(
+          json['file_counts'] as Map<String, dynamic>),
+      status: $enumDecode(_$VectorStoreObjectStatusEnumMap, json['status']),
+      expiresAfter: json['expires_after'] == null
+          ? null
+          : VectorStoreExpirationAfter.fromJson(
+              json['expires_after'] as Map<String, dynamic>),
+      expiresAt: json['expires_at'] as int?,
+      lastActiveAt: json['last_active_at'] as int?,
+      metadata: json['metadata'],
+    );
+
+Map<String, dynamic> _$$VectorStoreObjectImplToJson(
+    _$VectorStoreObjectImpl instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'object': _$VectorStoreObjectObjectEnumMap[instance.object]!,
+    'created_at': instance.createdAt,
+    'name': instance.name,
+    'usage_bytes': instance.usageBytes,
+    'file_counts': instance.fileCounts.toJson(),
+    'status': _$VectorStoreObjectStatusEnumMap[instance.status]!,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('expires_after', instance.expiresAfter?.toJson());
+  writeNotNull('expires_at', instance.expiresAt);
+  val['last_active_at'] = instance.lastActiveAt;
+  val['metadata'] = instance.metadata;
+  return val;
+}
+
+const _$VectorStoreObjectObjectEnumMap = {
+  VectorStoreObjectObject.vectorStore: 'vector_store',
+};
+
+const _$VectorStoreObjectStatusEnumMap = {
+  VectorStoreObjectStatus.expired: 'expired',
+  VectorStoreObjectStatus.inProgress: 'in_progress',
+  VectorStoreObjectStatus.completed: 'completed',
+};
+
+_$VectorStoreObjectFileCountsImpl _$$VectorStoreObjectFileCountsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$VectorStoreObjectFileCountsImpl(
+      inProgress: json['in_progress'] as int,
+      completed: json['completed'] as int,
+      failed: json['failed'] as int,
+      cancelled: json['cancelled'] as int,
+      total: json['total'] as int,
+    );
+
+Map<String, dynamic> _$$VectorStoreObjectFileCountsImplToJson(
+        _$VectorStoreObjectFileCountsImpl instance) =>
+    <String, dynamic>{
+      'in_progress': instance.inProgress,
+      'completed': instance.completed,
+      'failed': instance.failed,
+      'cancelled': instance.cancelled,
+      'total': instance.total,
+    };
+
+_$CreateVectorStoreRequestImpl _$$CreateVectorStoreRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CreateVectorStoreRequestImpl(
+      fileIds: (json['file_ids'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      name: json['name'] as String?,
+      expiresAfter: json['expires_after'] == null
+          ? null
+          : VectorStoreExpirationAfter.fromJson(
+              json['expires_after'] as Map<String, dynamic>),
+      metadata: json['metadata'],
+    );
+
+Map<String, dynamic> _$$CreateVectorStoreRequestImplToJson(
+    _$CreateVectorStoreRequestImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('file_ids', instance.fileIds);
+  writeNotNull('name', instance.name);
+  writeNotNull('expires_after', instance.expiresAfter?.toJson());
+  writeNotNull('metadata', instance.metadata);
+  return val;
+}
+
+_$UpdateVectorStoreRequestImpl _$$UpdateVectorStoreRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$UpdateVectorStoreRequestImpl(
+      name: json['name'] as String?,
+      expiresAfter: json['expires_after'] == null
+          ? null
+          : VectorStoreExpirationAfter.fromJson(
+              json['expires_after'] as Map<String, dynamic>),
+      metadata: json['metadata'],
+    );
+
+Map<String, dynamic> _$$UpdateVectorStoreRequestImplToJson(
+    _$UpdateVectorStoreRequestImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('expires_after', instance.expiresAfter?.toJson());
+  writeNotNull('metadata', instance.metadata);
+  return val;
+}
+
+_$ListVectorStoresResponseImpl _$$ListVectorStoresResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ListVectorStoresResponseImpl(
+      object: json['object'] as String,
+      data: (json['data'] as List<dynamic>)
+          .map((e) => VectorStoreObject.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      firstId: json['first_id'] as String,
+      lastId: json['last_id'] as String,
+      hasMore: json['has_more'] as bool,
+    );
+
+Map<String, dynamic> _$$ListVectorStoresResponseImplToJson(
+        _$ListVectorStoresResponseImpl instance) =>
+    <String, dynamic>{
+      'object': instance.object,
+      'data': instance.data.map((e) => e.toJson()).toList(),
+      'first_id': instance.firstId,
+      'last_id': instance.lastId,
+      'has_more': instance.hasMore,
+    };
+
+_$DeleteVectorStoreResponseImpl _$$DeleteVectorStoreResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$DeleteVectorStoreResponseImpl(
+      id: json['id'] as String,
+      deleted: json['deleted'] as bool,
+      object:
+          $enumDecode(_$DeleteVectorStoreResponseObjectEnumMap, json['object']),
+    );
+
+Map<String, dynamic> _$$DeleteVectorStoreResponseImplToJson(
+        _$DeleteVectorStoreResponseImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'deleted': instance.deleted,
+      'object': _$DeleteVectorStoreResponseObjectEnumMap[instance.object]!,
+    };
+
+const _$DeleteVectorStoreResponseObjectEnumMap = {
+  DeleteVectorStoreResponseObject.vectorStoreDeleted: 'vector_store.deleted',
+};
+
+_$VectorStoreFileObjectImpl _$$VectorStoreFileObjectImplFromJson(
+        Map<String, dynamic> json) =>
+    _$VectorStoreFileObjectImpl(
+      id: json['id'] as String,
+      object: $enumDecode(_$VectorStoreFileObjectObjectEnumMap, json['object']),
+      usageBytes: json['usage_bytes'] as int,
+      createdAt: json['created_at'] as int,
+      vectorStoreId: json['vector_store_id'] as String,
+      status: $enumDecode(_$VectorStoreFileStatusEnumMap, json['status']),
+      lastError: json['last_error'] == null
+          ? null
+          : VectorStoreFileObjectLastError.fromJson(
+              json['last_error'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$VectorStoreFileObjectImplToJson(
+        _$VectorStoreFileObjectImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'object': _$VectorStoreFileObjectObjectEnumMap[instance.object]!,
+      'usage_bytes': instance.usageBytes,
+      'created_at': instance.createdAt,
+      'vector_store_id': instance.vectorStoreId,
+      'status': _$VectorStoreFileStatusEnumMap[instance.status]!,
+      'last_error': instance.lastError?.toJson(),
+    };
+
+const _$VectorStoreFileObjectObjectEnumMap = {
+  VectorStoreFileObjectObject.vectorStoreFile: 'vector_store.file',
+};
+
+const _$VectorStoreFileStatusEnumMap = {
+  VectorStoreFileStatus.inProgress: 'in_progress',
+  VectorStoreFileStatus.completed: 'completed',
+  VectorStoreFileStatus.cancelled: 'cancelled',
+  VectorStoreFileStatus.failed: 'failed',
+};
+
+_$VectorStoreFileObjectLastErrorImpl
+    _$$VectorStoreFileObjectLastErrorImplFromJson(Map<String, dynamic> json) =>
+        _$VectorStoreFileObjectLastErrorImpl(
+          code: $enumDecode(
+              _$VectorStoreFileObjectLastErrorCodeEnumMap, json['code']),
+          message: json['message'] as String,
+        );
+
+Map<String, dynamic> _$$VectorStoreFileObjectLastErrorImplToJson(
+        _$VectorStoreFileObjectLastErrorImpl instance) =>
+    <String, dynamic>{
+      'code': _$VectorStoreFileObjectLastErrorCodeEnumMap[instance.code]!,
+      'message': instance.message,
+    };
+
+const _$VectorStoreFileObjectLastErrorCodeEnumMap = {
+  VectorStoreFileObjectLastErrorCode.internalError: 'internal_error',
+  VectorStoreFileObjectLastErrorCode.fileNotFound: 'file_not_found',
+  VectorStoreFileObjectLastErrorCode.parsingError: 'parsing_error',
+  VectorStoreFileObjectLastErrorCode.unhandledMimeType: 'unhandled_mime_type',
+};
+
+_$CreateVectorStoreFileRequestImpl _$$CreateVectorStoreFileRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CreateVectorStoreFileRequestImpl(
       fileId: json['file_id'] as String,
     );
 
-Map<String, dynamic> _$$CreateAssistantFileRequestImplToJson(
-        _$CreateAssistantFileRequestImpl instance) =>
+Map<String, dynamic> _$$CreateVectorStoreFileRequestImplToJson(
+        _$CreateVectorStoreFileRequestImpl instance) =>
     <String, dynamic>{
       'file_id': instance.fileId,
     };
 
-_$DeleteAssistantFileResponseImpl _$$DeleteAssistantFileResponseImplFromJson(
+_$ListVectorStoreFilesResponseImpl _$$ListVectorStoreFilesResponseImplFromJson(
         Map<String, dynamic> json) =>
-    _$DeleteAssistantFileResponseImpl(
-      id: json['id'] as String,
-      deleted: json['deleted'] as bool,
-      object: $enumDecode(
-          _$DeleteAssistantFileResponseObjectEnumMap, json['object']),
+    _$ListVectorStoreFilesResponseImpl(
+      object: json['object'] as String,
+      data: (json['data'] as List<dynamic>)
+          .map((e) => VectorStoreFileObject.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      firstId: json['first_id'] as String,
+      lastId: json['last_id'] as String,
+      hasMore: json['has_more'] as bool,
     );
 
-Map<String, dynamic> _$$DeleteAssistantFileResponseImplToJson(
-        _$DeleteAssistantFileResponseImpl instance) =>
+Map<String, dynamic> _$$ListVectorStoreFilesResponseImplToJson(
+        _$ListVectorStoreFilesResponseImpl instance) =>
+    <String, dynamic>{
+      'object': instance.object,
+      'data': instance.data.map((e) => e.toJson()).toList(),
+      'first_id': instance.firstId,
+      'last_id': instance.lastId,
+      'has_more': instance.hasMore,
+    };
+
+_$DeleteVectorStoreFileResponseImpl
+    _$$DeleteVectorStoreFileResponseImplFromJson(Map<String, dynamic> json) =>
+        _$DeleteVectorStoreFileResponseImpl(
+          id: json['id'] as String,
+          deleted: json['deleted'] as bool,
+          object: $enumDecode(
+              _$DeleteVectorStoreFileResponseObjectEnumMap, json['object']),
+        );
+
+Map<String, dynamic> _$$DeleteVectorStoreFileResponseImplToJson(
+        _$DeleteVectorStoreFileResponseImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'deleted': instance.deleted,
-      'object': _$DeleteAssistantFileResponseObjectEnumMap[instance.object]!,
+      'object': _$DeleteVectorStoreFileResponseObjectEnumMap[instance.object]!,
     };
 
-const _$DeleteAssistantFileResponseObjectEnumMap = {
-  DeleteAssistantFileResponseObject.assistantFileDeleted:
-      'assistant.file.deleted',
+const _$DeleteVectorStoreFileResponseObjectEnumMap = {
+  DeleteVectorStoreFileResponseObject.vectorStoreFileDeleted:
+      'vector_store.file.deleted',
 };
 
-_$ListAssistantFilesResponseImpl _$$ListAssistantFilesResponseImplFromJson(
+_$VectorStoreFileBatchObjectImpl _$$VectorStoreFileBatchObjectImplFromJson(
         Map<String, dynamic> json) =>
-    _$ListAssistantFilesResponseImpl(
-      object: json['object'] as String,
-      data: (json['data'] as List<dynamic>)
-          .map((e) => AssistantFileObject.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      firstId: json['first_id'] as String,
-      lastId: json['last_id'] as String,
-      hasMore: json['has_more'] as bool,
-    );
-
-Map<String, dynamic> _$$ListAssistantFilesResponseImplToJson(
-        _$ListAssistantFilesResponseImpl instance) =>
-    <String, dynamic>{
-      'object': instance.object,
-      'data': instance.data.map((e) => e.toJson()).toList(),
-      'first_id': instance.firstId,
-      'last_id': instance.lastId,
-      'has_more': instance.hasMore,
-    };
-
-_$MessageFileObjectImpl _$$MessageFileObjectImplFromJson(
-        Map<String, dynamic> json) =>
-    _$MessageFileObjectImpl(
+    _$VectorStoreFileBatchObjectImpl(
       id: json['id'] as String,
-      object: $enumDecode(_$MessageFileObjectObjectEnumMap, json['object']),
+      object: $enumDecode(
+          _$VectorStoreFileBatchObjectObjectEnumMap, json['object']),
       createdAt: json['created_at'] as int,
-      messageId: json['message_id'] as String,
+      vectorStoreId: json['vector_store_id'] as String,
+      status: $enumDecode(
+          _$VectorStoreFileBatchObjectStatusEnumMap, json['status']),
+      fileCounts: VectorStoreFileBatchObjectFileCounts.fromJson(
+          json['file_counts'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$MessageFileObjectImplToJson(
-        _$MessageFileObjectImpl instance) =>
+Map<String, dynamic> _$$VectorStoreFileBatchObjectImplToJson(
+        _$VectorStoreFileBatchObjectImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'object': _$MessageFileObjectObjectEnumMap[instance.object]!,
+      'object': _$VectorStoreFileBatchObjectObjectEnumMap[instance.object]!,
       'created_at': instance.createdAt,
-      'message_id': instance.messageId,
+      'vector_store_id': instance.vectorStoreId,
+      'status': _$VectorStoreFileBatchObjectStatusEnumMap[instance.status]!,
+      'file_counts': instance.fileCounts.toJson(),
     };
 
-const _$MessageFileObjectObjectEnumMap = {
-  MessageFileObjectObject.threadMessageFile: 'thread.message.file',
+const _$VectorStoreFileBatchObjectObjectEnumMap = {
+  VectorStoreFileBatchObjectObject.vectorStoreFilesBatch:
+      'vector_store.files_batch',
 };
 
-_$ListMessageFilesResponseImpl _$$ListMessageFilesResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ListMessageFilesResponseImpl(
-      object: json['object'] as String,
-      data: (json['data'] as List<dynamic>)
-          .map((e) => MessageFileObject.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      firstId: json['first_id'] as String,
-      lastId: json['last_id'] as String,
-      hasMore: json['has_more'] as bool,
-    );
+const _$VectorStoreFileBatchObjectStatusEnumMap = {
+  VectorStoreFileBatchObjectStatus.inProgress: 'in_progress',
+  VectorStoreFileBatchObjectStatus.completed: 'completed',
+  VectorStoreFileBatchObjectStatus.cancelled: 'cancelled',
+  VectorStoreFileBatchObjectStatus.failed: 'failed',
+};
 
-Map<String, dynamic> _$$ListMessageFilesResponseImplToJson(
-        _$ListMessageFilesResponseImpl instance) =>
+_$VectorStoreFileBatchObjectFileCountsImpl
+    _$$VectorStoreFileBatchObjectFileCountsImplFromJson(
+            Map<String, dynamic> json) =>
+        _$VectorStoreFileBatchObjectFileCountsImpl(
+          inProgress: json['in_progress'] as int,
+          completed: json['completed'] as int,
+          failed: json['failed'] as int,
+          cancelled: json['cancelled'] as int,
+          total: json['total'] as int,
+        );
+
+Map<String, dynamic> _$$VectorStoreFileBatchObjectFileCountsImplToJson(
+        _$VectorStoreFileBatchObjectFileCountsImpl instance) =>
     <String, dynamic>{
-      'object': instance.object,
-      'data': instance.data.map((e) => e.toJson()).toList(),
-      'first_id': instance.firstId,
-      'last_id': instance.lastId,
-      'has_more': instance.hasMore,
+      'in_progress': instance.inProgress,
+      'completed': instance.completed,
+      'failed': instance.failed,
+      'cancelled': instance.cancelled,
+      'total': instance.total,
+    };
+
+_$CreateVectorStoreFileBatchRequestImpl
+    _$$CreateVectorStoreFileBatchRequestImplFromJson(
+            Map<String, dynamic> json) =>
+        _$CreateVectorStoreFileBatchRequestImpl(
+          fileIds: (json['file_ids'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList(),
+        );
+
+Map<String, dynamic> _$$CreateVectorStoreFileBatchRequestImplToJson(
+        _$CreateVectorStoreFileBatchRequestImpl instance) =>
+    <String, dynamic>{
+      'file_ids': instance.fileIds,
     };
 
 _$ErrorImpl _$$ErrorImplFromJson(Map<String, dynamic> json) => _$ErrorImpl(
@@ -4104,15 +4564,15 @@ _$BatchImpl _$$BatchImplFromJson(Map<String, dynamic> json) => _$BatchImpl(
       status: $enumDecode(_$BatchStatusEnumMap, json['status']),
       outputFileId: json['output_file_id'] as String?,
       errorFileId: json['error_file_id'] as String?,
-      createdAt: json['created_at'] as String,
-      inProgressAt: json['in_progress_at'] as String?,
-      expiresAt: json['expires_at'] as String?,
-      finalizingAt: json['finalizing_at'] as String?,
-      completedAt: json['completed_at'] as String?,
-      failedAt: json['failed_at'] as String?,
-      expiredAt: json['expired_at'] as String?,
-      cancellingAt: json['cancelling_at'] as String?,
-      cancelledAt: json['cancelled_at'] as String?,
+      createdAt: json['created_at'] as int,
+      inProgressAt: json['in_progress_at'] as int?,
+      expiresAt: json['expires_at'] as int?,
+      finalizingAt: json['finalizing_at'] as int?,
+      completedAt: json['completed_at'] as int?,
+      failedAt: json['failed_at'] as int?,
+      expiredAt: json['expired_at'] as int?,
+      cancellingAt: json['cancelling_at'] as int?,
+      cancelledAt: json['cancelled_at'] as int?,
       requestCounts: json['request_counts'] == null
           ? null
           : BatchRequestCounts.fromJson(
@@ -4232,6 +4692,41 @@ Map<String, dynamic> _$$BatchErrorsDataInnerImplToJson(
   writeNotNull('line', instance.line);
   return val;
 }
+
+_$ListBatchesResponseImpl _$$ListBatchesResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ListBatchesResponseImpl(
+      data: (json['data'] as List<dynamic>)
+          .map((e) => Batch.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      firstId: json['first_id'] as String?,
+      lastId: json['last_id'] as String?,
+      hasMore: json['has_more'] as bool,
+      object: $enumDecode(_$ListBatchesResponseObjectEnumMap, json['object']),
+    );
+
+Map<String, dynamic> _$$ListBatchesResponseImplToJson(
+    _$ListBatchesResponseImpl instance) {
+  final val = <String, dynamic>{
+    'data': instance.data.map((e) => e.toJson()).toList(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('first_id', instance.firstId);
+  writeNotNull('last_id', instance.lastId);
+  val['has_more'] = instance.hasMore;
+  val['object'] = _$ListBatchesResponseObjectEnumMap[instance.object]!;
+  return val;
+}
+
+const _$ListBatchesResponseObjectEnumMap = {
+  ListBatchesResponseObject.list: 'list',
+};
 
 _$ChatCompletionSystemMessageImpl _$$ChatCompletionSystemMessageImplFromJson(
         Map<String, dynamic> json) =>
@@ -4472,14 +4967,14 @@ Map<String, dynamic> _$$AssistantToolsCodeInterpreterImplToJson(
       'type': instance.type,
     };
 
-_$AssistantToolsRetrievalImpl _$$AssistantToolsRetrievalImplFromJson(
+_$AssistantToolsFileSearchImpl _$$AssistantToolsFileSearchImplFromJson(
         Map<String, dynamic> json) =>
-    _$AssistantToolsRetrievalImpl(
-      type: json['type'] as String? ?? 'retrieval',
+    _$AssistantToolsFileSearchImpl(
+      type: json['type'] as String? ?? 'file_search',
     );
 
-Map<String, dynamic> _$$AssistantToolsRetrievalImplToJson(
-        _$AssistantToolsRetrievalImpl instance) =>
+Map<String, dynamic> _$$AssistantToolsFileSearchImplToJson(
+        _$AssistantToolsFileSearchImpl instance) =>
     <String, dynamic>{
       'type': instance.type,
     };
@@ -4845,22 +5340,29 @@ Map<String, dynamic> _$$RunStepDetailsToolCallsCodeObjectImplToJson(
       'code_interpreter': instance.codeInterpreter.toJson(),
     };
 
-_$RunStepDetailsToolCallsRetrievalObjectImpl
-    _$$RunStepDetailsToolCallsRetrievalObjectImplFromJson(
+_$RunStepDetailsToolCallsFileSearchObjectImpl
+    _$$RunStepDetailsToolCallsFileSearchObjectImplFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDetailsToolCallsRetrievalObjectImpl(
+        _$RunStepDetailsToolCallsFileSearchObjectImpl(
           id: json['id'] as String,
-          type: json['type'] as String,
-          retrieval: json['retrieval'] as Map<String, dynamic>,
+          type: $enumDecode(
+              _$RunStepDetailsToolCallsFileSearchObjectTypeEnumMap,
+              json['type']),
+          fileSearch: json['file_search'] as Map<String, dynamic>,
         );
 
-Map<String, dynamic> _$$RunStepDetailsToolCallsRetrievalObjectImplToJson(
-        _$RunStepDetailsToolCallsRetrievalObjectImpl instance) =>
+Map<String, dynamic> _$$RunStepDetailsToolCallsFileSearchObjectImplToJson(
+        _$RunStepDetailsToolCallsFileSearchObjectImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'type': instance.type,
-      'retrieval': instance.retrieval,
+      'type':
+          _$RunStepDetailsToolCallsFileSearchObjectTypeEnumMap[instance.type]!,
+      'file_search': instance.fileSearch,
     };
+
+const _$RunStepDetailsToolCallsFileSearchObjectTypeEnumMap = {
+  RunStepDetailsToolCallsFileSearchObjectType.fileSearch: 'file_search',
+};
 
 _$RunStepDetailsToolCallsFunctionObjectImpl
     _$$RunStepDetailsToolCallsFunctionObjectImplFromJson(
@@ -4927,19 +5429,21 @@ Map<String, dynamic> _$$RunStepDeltaStepDetailsToolCallsCodeObjectImplToJson(
   return val;
 }
 
-_$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl
-    _$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplFromJson(
+_$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
+    _$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplFromJson(
             Map<String, dynamic> json) =>
-        _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl(
+        _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl(
           index: json['index'] as int,
           id: json['id'] as String?,
-          type: json['type'] as String,
-          retrieval: json['retrieval'] as Map<String, dynamic>?,
+          type: $enumDecode(
+              _$RunStepDeltaStepDetailsToolCallsFileSearchObjectTypeEnumMap,
+              json['type']),
+          fileSearch: json['file_search'] as Map<String, dynamic>,
         );
 
 Map<String, dynamic>
-    _$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplToJson(
-        _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl instance) {
+    _$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplToJson(
+        _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl instance) {
   final val = <String, dynamic>{
     'index': instance.index,
   };
@@ -4951,10 +5455,16 @@ Map<String, dynamic>
   }
 
   writeNotNull('id', instance.id);
-  val['type'] = instance.type;
-  writeNotNull('retrieval', instance.retrieval);
+  val['type'] = _$RunStepDeltaStepDetailsToolCallsFileSearchObjectTypeEnumMap[
+      instance.type]!;
+  val['file_search'] = instance.fileSearch;
   return val;
 }
+
+const _$RunStepDeltaStepDetailsToolCallsFileSearchObjectTypeEnumMap = {
+  RunStepDeltaStepDetailsToolCallsFileSearchObjectType.fileSearch:
+      'file_search',
+};
 
 _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
     _$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplFromJson(
