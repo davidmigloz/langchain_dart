@@ -5,7 +5,9 @@
 [![](https://dcbadge.vercel.app/api/server/x4qbhqecVR?style=flat)](https://discord.gg/x4qbhqecVR)
 [![MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://github.com/davidmigloz/langchain_dart/blob/main/LICENSE)
 
-Unofficial Dart client for [Google AI](https://ai.google.dev) for Developers (Gemini API).
+Unofficial Dart client for [Google AI](https://ai.google.dev) for Developers (Gemini API v1).
+
+> Note: The official [`google_generative_ai`](https://pub.dev/packages/google_generative_ai) now has feature parity with this package (except for the [Model info](https://github.com/google-gemini/generative-ai-dart/issues/93) endpoints). We plan to deprecate this package in the near future.
 
 ## Features
 
@@ -53,7 +55,7 @@ Refer to the [documentation](https://ai.google.dev/docs) for more information ab
 
 ### Authentication
 
-The Google AI API uses API keys for authentication. Visit [Google AI Studio dashboard](https://makersuite.google.com/app/apikey) page to retrieve the API key you'll use in your requests.
+The Google AI API uses API keys for authentication. Visit [Google AI Studio dashboard](https://aistudio.google.com/app/apikey) page to retrieve the API key you'll use in your requests.
 
 > **Remember that your API key is a secret!**  
 > Do not share it with others or expose it in any client-side code (browsers, apps). Production requests must be routed through your own backend server where your API key can be securely loaded from an environment variable or key management service.

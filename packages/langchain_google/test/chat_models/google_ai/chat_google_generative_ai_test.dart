@@ -13,11 +13,16 @@ import 'package:test/test.dart';
 
 void main() {
   group('ChatGoogleGenerativeAI tests', () {
+    const defaultModel = 'gemini-pro';
+
     late ChatGoogleGenerativeAI chatModel;
 
     setUp(() async {
       chatModel = ChatGoogleGenerativeAI(
         apiKey: Platform.environment['GOOGLEAI_API_KEY'],
+        defaultOptions: const ChatGoogleGenerativeAIOptions(
+          model: defaultModel,
+        ),
       );
     });
 
@@ -26,24 +31,27 @@ void main() {
     });
 
     test('Test Text-only input with gemini-pro', () async {
-      final res = await chatModel.invoke(
-        PromptValue.string(
-          'List the numbers from 1 to 9 in order '
-          'without any spaces, commas or additional explanations.',
-        ),
-        options: const ChatGoogleGenerativeAIOptions(
-          model: 'gemini-pro',
-          temperature: 0,
-        ),
-      );
-      expect(res.id, isNotEmpty);
-      expect(res.finishReason, isNot(FinishReason.unspecified));
-      expect(res.metadata['model'], 'gemini-pro');
-      expect(res.metadata['block_reason'], isNull);
-      expect(
-        res.output.content.replaceAll(RegExp(r'[\s\n]'), ''),
-        contains('123456789'),
-      );
+      const models = ['gemini-1.0-pro', 'gemini-1.5-pro-latest'];
+      for (final model in models) {
+        final res = await chatModel.invoke(
+          PromptValue.string(
+            'List the numbers from 1 to 9 in order '
+            'without any spaces, commas or additional explanations.',
+          ),
+          options: ChatGoogleGenerativeAIOptions(
+            model: model,
+            temperature: 0,
+          ),
+        );
+        expect(res.id, isNotEmpty);
+        expect(res.finishReason, isNot(FinishReason.unspecified));
+        expect(res.metadata['model'], startsWith(model));
+        expect(res.metadata['block_reason'], isNull);
+        expect(
+          res.output.content.replaceAll(RegExp(r'[\s\n]'), ''),
+          contains('123456789'),
+        );
+      }
     });
 
     test('Test models prefix', () async {
@@ -53,7 +61,7 @@ void main() {
           'without any spaces, commas or additional explanations.',
         ),
         options: const ChatGoogleGenerativeAIOptions(
-          model: 'models/gemini-pro',
+          model: defaultModel,
           temperature: 0,
         ),
       );
@@ -91,7 +99,7 @@ void main() {
           'without any spaces, commas or additional explanations.',
         ),
         options: const ChatGoogleGenerativeAIOptions(
-          model: 'gemini-pro',
+          model: defaultModel,
           stopSequences: ['4'],
         ),
       );
@@ -108,7 +116,7 @@ void main() {
           maxOutputTokens: 2,
         ),
       );
-      expect(res.output.content, lessThan(20));
+      expect(res.output.content.length, lessThan(20));
       expect(res.finishReason, FinishReason.length);
     });
 
@@ -126,7 +134,7 @@ void main() {
       final res = await chatModel.invoke(
         prompt,
         options: const ChatGoogleGenerativeAIOptions(
-          model: 'gemini-pro',
+          model: defaultModel,
           temperature: 0,
         ),
       );

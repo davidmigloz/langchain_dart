@@ -35,6 +35,7 @@ command:
       flutter_markdown: ^0.6.22
       freezed_annotation: ^2.4.1
       gcloud: ^0.8.12
+      google_generative_ai: 0.3.3
       googleapis: ^12.0.0
       googleapis_auth: ^1.5.1
       http: ^1.1.0

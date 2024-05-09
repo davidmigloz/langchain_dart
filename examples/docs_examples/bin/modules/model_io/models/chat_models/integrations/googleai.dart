@@ -17,19 +17,18 @@ Future<void> _chatGoogleGenerativeAI() async {
   final chatModel = ChatGoogleGenerativeAI(
     apiKey: apiKey,
     defaultOptions: const ChatGoogleGenerativeAIOptions(
+      model: 'gemini-1.5-pro-latest',
       temperature: 0,
     ),
   );
 
-  const template = '''
-You are a helpful assistant that translates {input_language} to {output_language}. 
-
-Text to translate: 
-{text}''';
-  final humanMessagePrompt =
-      HumanChatMessagePromptTemplate.fromTemplate(template);
-  final chatPrompt =
-      ChatPromptTemplate.fromPromptMessages([humanMessagePrompt]);
+  final chatPrompt = ChatPromptTemplate.fromTemplates(const [
+    (
+      ChatMessageType.system,
+      'You are a helpful assistant that translates {input_language} to {output_language}.'
+    ),
+    (ChatMessageType.human, 'Text to translate:\n{text}'),
+  ]);
 
   final chain = chatPrompt | chatModel | const StringOutputParser();
 
@@ -39,7 +38,7 @@ Text to translate:
     'text': 'I love programming.',
   });
   print(res);
-  // -> 'J'adore la programmation.'
+  // -> 'J'adore programmer.'
 
   chatModel.close();
 }
@@ -50,7 +49,7 @@ Future<void> _chatGoogleGenerativeAIMultiModal() async {
   final chatModel = ChatGoogleGenerativeAI(
     apiKey: apiKey,
     defaultOptions: const ChatGoogleGenerativeAIOptions(
-      model: 'gemini-pro-vision',
+      model: 'gemini-1.5-pro-latest',
       temperature: 0,
     ),
   );
@@ -70,7 +69,7 @@ Future<void> _chatGoogleGenerativeAIMultiModal() async {
     ]),
   );
   print(res.output.content);
-  // -> 'A Red and Green Apple'
+  // -> 'That is an apple.'
 
   chatModel.close();
 }
@@ -78,20 +77,31 @@ Future<void> _chatGoogleGenerativeAIMultiModal() async {
 Future<void> _chatOpenAIStreaming() async {
   final apiKey = Platform.environment['GOOGLEAI_API_KEY'];
 
-  final promptTemplate = ChatPromptTemplate.fromTemplate(
+  final promptTemplate = ChatPromptTemplate.fromTemplates(const [
+    (
+      ChatMessageType.system,
       'You are a helpful assistant that replies only with numbers '
-      'in order without any spaces or commas '
-      'List the numbers from 1 to {max_num}');
+          'in order without any spaces or commas.',
+    ),
+    (ChatMessageType.human, 'List the numbers from 1 to {max_num}'),
+  ]);
 
-  final chatModel = ChatGoogleGenerativeAI(apiKey: apiKey);
+  final chatModel = ChatGoogleGenerativeAI(
+    apiKey: apiKey,
+    defaultOptions: const ChatGoogleGenerativeAIOptions(
+      model: 'gemini-1.5-pro-latest',
+      temperature: 0,
+    ),
+  );
 
   final chain = promptTemplate.pipe(chatModel).pipe(const StringOutputParser());
 
   final stream = chain.stream({'max_num': '30'});
   await stream.forEach(print);
-  // 1234567891011121
-  // 31415161718192021222324252627282
-  // 930
+  // 1
+  // 2345678910111213
+  // 1415161718192021
+  // 222324252627282930
 
   chatModel.close();
 }
