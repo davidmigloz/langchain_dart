@@ -241,29 +241,33 @@ void main() {
     });
 
     test('Test ChatOpenAI streaming', () async {
-      final promptTemplate = ChatPromptTemplate.fromPromptMessages([
-        SystemChatMessagePromptTemplate.fromTemplate(
+      final promptTemplate = ChatPromptTemplate.fromTemplates(const [
+        (
+          ChatMessageType.system,
           'You are a helpful assistant that replies only with numbers '
-          'in order without any spaces or commas',
+              'in order without any spaces or commas',
         ),
-        HumanChatMessagePromptTemplate.fromTemplate(
-          'List the numbers from 1 to {max_num}',
-        ),
+        (ChatMessageType.human, 'List the numbers from 1 to {max_num}'),
       ]);
       final chat = ChatOpenAI(apiKey: openaiApiKey);
-      const stringOutputParser = StringOutputParser<ChatResult>();
 
-      final chain = promptTemplate.pipe(chat).pipe(stringOutputParser);
+      final chain = promptTemplate.pipe(chat);
       final stream = chain.stream({'max_num': '9'});
 
-      String content = '';
+      ChatResult? result;
       int count = 0;
-      await for (final res in stream) {
-        content += res;
+      await for (final ChatResult res in stream) {
+        result = result?.concat(res) ?? res;
         count++;
       }
       expect(count, greaterThan(1));
-      expect(content.replaceAll(RegExp(r'[\s\n]'), ''), contains('123456789'));
+      expect(
+        result!.output.content.replaceAll(RegExp(r'[\s\n]'), ''),
+        contains('123456789'),
+      );
+      expect(result.usage.promptTokens, greaterThan(0));
+      expect(result.usage.responseTokens, greaterThan(0));
+      expect(result.usage.totalTokens, greaterThan(0));
     });
 
     test('Test ChatOpenAI streaming with functions', () async {

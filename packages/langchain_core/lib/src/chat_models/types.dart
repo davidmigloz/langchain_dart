@@ -46,7 +46,10 @@ class ChatResult extends LanguageModelResult<AIChatMessage> {
     return ChatResult(
       id: other.id,
       output: output.concat(other.output),
-      finishReason: other.finishReason,
+      finishReason: finishReason != FinishReason.unspecified &&
+              other.finishReason == FinishReason.unspecified
+          ? finishReason
+          : other.finishReason,
       metadata: {
         ...metadata,
         ...other.metadata,
