@@ -5370,7 +5370,6 @@ components:
         type:
           type: string
           description: The type of tool call. This is always going to be `file_search` for this type of tool call.
-          enum: ["file_search"]
         file_search:
           type: object
           description: For now, this is always going to be an empty object.
@@ -5392,7 +5391,6 @@ components:
         type:
           type: string
           description: The type of tool call. This is always going to be `file_search` for this type of tool call.
-          enum: ["file_search"]
         file_search:
           type: object
           description: For now, this is always going to be an empty object.

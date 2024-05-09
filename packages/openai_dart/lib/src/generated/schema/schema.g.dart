@@ -5345,9 +5345,7 @@ _$RunStepDetailsToolCallsFileSearchObjectImpl
             Map<String, dynamic> json) =>
         _$RunStepDetailsToolCallsFileSearchObjectImpl(
           id: json['id'] as String,
-          type: $enumDecode(
-              _$RunStepDetailsToolCallsFileSearchObjectTypeEnumMap,
-              json['type']),
+          type: json['type'] as String,
           fileSearch: json['file_search'] as Map<String, dynamic>,
         );
 
@@ -5355,14 +5353,9 @@ Map<String, dynamic> _$$RunStepDetailsToolCallsFileSearchObjectImplToJson(
         _$RunStepDetailsToolCallsFileSearchObjectImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'type':
-          _$RunStepDetailsToolCallsFileSearchObjectTypeEnumMap[instance.type]!,
+      'type': instance.type,
       'file_search': instance.fileSearch,
     };
-
-const _$RunStepDetailsToolCallsFileSearchObjectTypeEnumMap = {
-  RunStepDetailsToolCallsFileSearchObjectType.fileSearch: 'file_search',
-};
 
 _$RunStepDetailsToolCallsFunctionObjectImpl
     _$$RunStepDetailsToolCallsFunctionObjectImplFromJson(
@@ -5435,9 +5428,7 @@ _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
         _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl(
           index: json['index'] as int,
           id: json['id'] as String?,
-          type: $enumDecode(
-              _$RunStepDeltaStepDetailsToolCallsFileSearchObjectTypeEnumMap,
-              json['type']),
+          type: json['type'] as String,
           fileSearch: json['file_search'] as Map<String, dynamic>,
         );
 
@@ -5455,16 +5446,10 @@ Map<String, dynamic>
   }
 
   writeNotNull('id', instance.id);
-  val['type'] = _$RunStepDeltaStepDetailsToolCallsFileSearchObjectTypeEnumMap[
-      instance.type]!;
+  val['type'] = instance.type;
   val['file_search'] = instance.fileSearch;
   return val;
 }
-
-const _$RunStepDeltaStepDetailsToolCallsFileSearchObjectTypeEnumMap = {
-  RunStepDeltaStepDetailsToolCallsFileSearchObjectType.fileSearch:
-      'file_search',
-};
 
 _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
     _$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplFromJson(

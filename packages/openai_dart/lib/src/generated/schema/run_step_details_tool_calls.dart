@@ -40,7 +40,7 @@ sealed class RunStepDetailsToolCalls with _$RunStepDetailsToolCalls {
     required String id,
 
     /// The type of tool call. This is always going to be `file_search` for this type of tool call.
-    required RunStepDetailsToolCallsFileSearchObjectType type,
+    required String type,
 
     /// For now, this is always going to be an empty object.
     @JsonKey(name: 'file_search') required Map<String, dynamic> fileSearch,
@@ -65,16 +65,6 @@ sealed class RunStepDetailsToolCalls with _$RunStepDetailsToolCalls {
   /// Object construction from a JSON representation
   factory RunStepDetailsToolCalls.fromJson(Map<String, dynamic> json) =>
       _$RunStepDetailsToolCallsFromJson(json);
-}
-
-// ==========================================
-// ENUM: RunStepDetailsToolCallsFileSearchObjectType
-// ==========================================
-
-/// The type of tool call. This is always going to be `file_search` for this type of tool call.
-enum RunStepDetailsToolCallsFileSearchObjectType {
-  @JsonValue('file_search')
-  fileSearch,
 }
 
 // ==========================================

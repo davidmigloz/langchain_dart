@@ -56348,7 +56348,7 @@ mixin _$RunStepDetailsToolCalls {
   String get id => throw _privateConstructorUsedError;
 
   /// Always `code_interpreter`.
-  Object get type => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -56357,9 +56357,7 @@ mixin _$RunStepDetailsToolCalls {
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
         codeInterpreter,
-    required TResult Function(
-            String id,
-            RunStepDetailsToolCallsFileSearchObjectType type,
+    required TResult Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
         fileSearchObject,
     required TResult Function(
@@ -56375,9 +56373,7 @@ mixin _$RunStepDetailsToolCalls {
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult? Function(
-            String id,
-            RunStepDetailsToolCallsFileSearchObjectType type,
+    TResult? Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
         fileSearchObject,
     TResult? Function(
@@ -56393,9 +56389,7 @@ mixin _$RunStepDetailsToolCalls {
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult Function(
-            String id,
-            RunStepDetailsToolCallsFileSearchObjectType type,
+    TResult Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
         fileSearchObject,
     TResult Function(
@@ -56443,7 +56437,7 @@ abstract class $RunStepDetailsToolCallsCopyWith<$Res> {
           $Res Function(RunStepDetailsToolCalls) then) =
       _$RunStepDetailsToolCallsCopyWithImpl<$Res, RunStepDetailsToolCalls>;
   @useResult
-  $Res call({String id});
+  $Res call({String id, String type});
 }
 
 /// @nodoc
@@ -56461,11 +56455,16 @@ class _$RunStepDetailsToolCallsCopyWithImpl<$Res,
   @override
   $Res call({
     Object? id = null,
+    Object? type = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -56598,9 +56597,7 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
         codeInterpreter,
-    required TResult Function(
-            String id,
-            RunStepDetailsToolCallsFileSearchObjectType type,
+    required TResult Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
         fileSearchObject,
     required TResult Function(
@@ -56619,9 +56616,7 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult? Function(
-            String id,
-            RunStepDetailsToolCallsFileSearchObjectType type,
+    TResult? Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
         fileSearchObject,
     TResult? Function(
@@ -56640,9 +56635,7 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult Function(
-            String id,
-            RunStepDetailsToolCallsFileSearchObjectType type,
+    TResult Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
         fileSearchObject,
     TResult Function(
@@ -56747,7 +56740,7 @@ abstract class _$$RunStepDetailsToolCallsFileSearchObjectImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      RunStepDetailsToolCallsFileSearchObjectType type,
+      String type,
       @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch});
 }
 
@@ -56776,7 +56769,7 @@ class __$$RunStepDetailsToolCallsFileSearchObjectImplCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as RunStepDetailsToolCallsFileSearchObjectType,
+              as String,
       fileSearch: null == fileSearch
           ? _value._fileSearch
           : fileSearch // ignore: cast_nullable_to_non_nullable
@@ -56807,7 +56800,7 @@ class _$RunStepDetailsToolCallsFileSearchObjectImpl
 
   /// The type of tool call. This is always going to be `file_search` for this type of tool call.
   @override
-  final RunStepDetailsToolCallsFileSearchObjectType type;
+  final String type;
 
   /// For now, this is always going to be an empty object.
   final Map<String, dynamic> _fileSearch;
@@ -56860,9 +56853,7 @@ class _$RunStepDetailsToolCallsFileSearchObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
         codeInterpreter,
-    required TResult Function(
-            String id,
-            RunStepDetailsToolCallsFileSearchObjectType type,
+    required TResult Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
         fileSearchObject,
     required TResult Function(
@@ -56881,9 +56872,7 @@ class _$RunStepDetailsToolCallsFileSearchObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult? Function(
-            String id,
-            RunStepDetailsToolCallsFileSearchObjectType type,
+    TResult? Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
         fileSearchObject,
     TResult? Function(
@@ -56902,9 +56891,7 @@ class _$RunStepDetailsToolCallsFileSearchObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult Function(
-            String id,
-            RunStepDetailsToolCallsFileSearchObjectType type,
+    TResult Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
         fileSearchObject,
     TResult Function(
@@ -56969,7 +56956,7 @@ abstract class RunStepDetailsToolCallsFileSearchObject
     extends RunStepDetailsToolCalls {
   const factory RunStepDetailsToolCallsFileSearchObject(
           {required final String id,
-          required final RunStepDetailsToolCallsFileSearchObjectType type,
+          required final String type,
           @JsonKey(name: 'file_search')
           required final Map<String, dynamic> fileSearch}) =
       _$RunStepDetailsToolCallsFileSearchObjectImpl;
@@ -56986,7 +56973,7 @@ abstract class RunStepDetailsToolCallsFileSearchObject
   @override
 
   /// The type of tool call. This is always going to be `file_search` for this type of tool call.
-  RunStepDetailsToolCallsFileSearchObjectType get type;
+  String get type;
 
   /// For now, this is always going to be an empty object.
   @JsonKey(name: 'file_search')
@@ -57116,9 +57103,7 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
         codeInterpreter,
-    required TResult Function(
-            String id,
-            RunStepDetailsToolCallsFileSearchObjectType type,
+    required TResult Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
         fileSearchObject,
     required TResult Function(
@@ -57137,9 +57122,7 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult? Function(
-            String id,
-            RunStepDetailsToolCallsFileSearchObjectType type,
+    TResult? Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
         fileSearchObject,
     TResult? Function(
@@ -57158,9 +57141,7 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult Function(
-            String id,
-            RunStepDetailsToolCallsFileSearchObjectType type,
+    TResult Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
         fileSearchObject,
     TResult Function(
@@ -57485,7 +57466,7 @@ mixin _$RunStepDeltaStepDetailsToolCalls {
   String? get id => throw _privateConstructorUsedError;
 
   /// Always `code_interpreter`.
-  Object get type => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -57499,7 +57480,7 @@ mixin _$RunStepDeltaStepDetailsToolCalls {
     required TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
-            RunStepDeltaStepDetailsToolCallsFileSearchObjectType type,
+            String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
         fileSearchObject,
     required TResult Function(
@@ -57524,7 +57505,7 @@ mixin _$RunStepDeltaStepDetailsToolCalls {
     TResult? Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
-            RunStepDeltaStepDetailsToolCallsFileSearchObjectType type,
+            String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
         fileSearchObject,
     TResult? Function(
@@ -57549,7 +57530,7 @@ mixin _$RunStepDeltaStepDetailsToolCalls {
     TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
-            RunStepDeltaStepDetailsToolCallsFileSearchObjectType type,
+            String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
         fileSearchObject,
     TResult Function(
@@ -57609,7 +57590,8 @@ abstract class $RunStepDeltaStepDetailsToolCallsCopyWith<$Res> {
       _$RunStepDeltaStepDetailsToolCallsCopyWithImpl<$Res,
           RunStepDeltaStepDetailsToolCalls>;
   @useResult
-  $Res call({int index, @JsonKey(includeIfNull: false) String? id});
+  $Res call(
+      {int index, @JsonKey(includeIfNull: false) String? id, String type});
 }
 
 /// @nodoc
@@ -57628,6 +57610,7 @@ class _$RunStepDeltaStepDetailsToolCallsCopyWithImpl<$Res,
   $Res call({
     Object? index = null,
     Object? id = freezed,
+    Object? type = null,
   }) {
     return _then(_value.copyWith(
       index: null == index
@@ -57638,6 +57621,10 @@ class _$RunStepDeltaStepDetailsToolCallsCopyWithImpl<$Res,
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -57798,7 +57785,7 @@ class _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
     required TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
-            RunStepDeltaStepDetailsToolCallsFileSearchObjectType type,
+            String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
         fileSearchObject,
     required TResult Function(
@@ -57826,7 +57813,7 @@ class _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
     TResult? Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
-            RunStepDeltaStepDetailsToolCallsFileSearchObjectType type,
+            String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
         fileSearchObject,
     TResult? Function(
@@ -57854,7 +57841,7 @@ class _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
     TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
-            RunStepDeltaStepDetailsToolCallsFileSearchObjectType type,
+            String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
         fileSearchObject,
     TResult Function(
@@ -57979,7 +57966,7 @@ abstract class _$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplCopyWith<
   $Res call(
       {int index,
       @JsonKey(includeIfNull: false) String? id,
-      RunStepDeltaStepDetailsToolCallsFileSearchObjectType type,
+      String type,
       @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch});
 }
 
@@ -58015,7 +58002,7 @@ class __$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as RunStepDeltaStepDetailsToolCallsFileSearchObjectType,
+              as String,
       fileSearch: null == fileSearch
           ? _value._fileSearch
           : fileSearch // ignore: cast_nullable_to_non_nullable
@@ -58052,7 +58039,7 @@ class _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
 
   /// The type of tool call. This is always going to be `file_search` for this type of tool call.
   @override
-  final RunStepDeltaStepDetailsToolCallsFileSearchObjectType type;
+  final String type;
 
   /// For now, this is always going to be an empty object.
   final Map<String, dynamic> _fileSearch;
@@ -58112,7 +58099,7 @@ class _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
     required TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
-            RunStepDeltaStepDetailsToolCallsFileSearchObjectType type,
+            String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
         fileSearchObject,
     required TResult Function(
@@ -58140,7 +58127,7 @@ class _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
     TResult? Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
-            RunStepDeltaStepDetailsToolCallsFileSearchObjectType type,
+            String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
         fileSearchObject,
     TResult? Function(
@@ -58168,7 +58155,7 @@ class _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
     TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
-            RunStepDeltaStepDetailsToolCallsFileSearchObjectType type,
+            String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
         fileSearchObject,
     TResult Function(
@@ -58242,12 +58229,12 @@ class _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
 abstract class RunStepDeltaStepDetailsToolCallsFileSearchObject
     extends RunStepDeltaStepDetailsToolCalls {
   const factory RunStepDeltaStepDetailsToolCallsFileSearchObject(
-      {required final int index,
-      @JsonKey(includeIfNull: false) final String? id,
-      required final RunStepDeltaStepDetailsToolCallsFileSearchObjectType type,
-      @JsonKey(name: 'file_search')
-      required final Map<String, dynamic>
-          fileSearch}) = _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl;
+          {required final int index,
+          @JsonKey(includeIfNull: false) final String? id,
+          required final String type,
+          @JsonKey(name: 'file_search')
+          required final Map<String, dynamic> fileSearch}) =
+      _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl;
   const RunStepDeltaStepDetailsToolCallsFileSearchObject._() : super._();
 
   factory RunStepDeltaStepDetailsToolCallsFileSearchObject.fromJson(
@@ -58266,7 +58253,7 @@ abstract class RunStepDeltaStepDetailsToolCallsFileSearchObject
   @override
 
   /// The type of tool call. This is always going to be `file_search` for this type of tool call.
-  RunStepDeltaStepDetailsToolCallsFileSearchObjectType get type;
+  String get type;
 
   /// For now, this is always going to be an empty object.
   @JsonKey(name: 'file_search')
@@ -58429,7 +58416,7 @@ class _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
     required TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
-            RunStepDeltaStepDetailsToolCallsFileSearchObjectType type,
+            String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
         fileSearchObject,
     required TResult Function(
@@ -58457,7 +58444,7 @@ class _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
     TResult? Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
-            RunStepDeltaStepDetailsToolCallsFileSearchObjectType type,
+            String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
         fileSearchObject,
     TResult? Function(
@@ -58485,7 +58472,7 @@ class _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
     TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
-            RunStepDeltaStepDetailsToolCallsFileSearchObjectType type,
+            String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
         fileSearchObject,
     TResult Function(
