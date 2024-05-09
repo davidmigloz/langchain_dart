@@ -1,9 +1,10 @@
-import 'package:googleai_dart/googleai_dart.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:http/http.dart' as http;
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../utils/https_client/http_client.dart';
 import 'mappers.dart';
 import 'types.dart';
 
@@ -25,13 +26,23 @@ import 'types.dart';
 /// ### Setup
 ///
 /// To use `ChatGoogleGenerativeAI` you need to have an API key.
-/// You can get one [here](https://makersuite.google.com/app/apikey).
+/// You can get one [here](https://aistudio.google.com/app/apikey).
 ///
 /// ### Available models
 ///
-/// The following models are available at the moment:
-/// - `gemini-pro`: text -> text model
-/// - `gemini-pro-vision`: text / image -> text model
+/// The following models are available:
+/// - `gemini-1.0-pro` (or `gemini-pro`):
+///   * text -> text model
+///   * Max input token: 30720
+///   * Max output tokens: 2048
+/// - `gemini-pro-vision`:
+///   * text / image -> text model
+///   * Max input token: 12288
+///   * Max output tokens: 4096
+/// - `gemini-1.5-pro-latest`: text / image -> text model
+///   * text / image -> text model
+///   * Max input token: 1048576
+///   * Max output tokens: 8192
 ///
 /// Mind that this list may not be up-to-date.
 /// Refer to the [documentation](https://ai.google.dev/models) for the updated list.
@@ -142,7 +153,7 @@ class ChatGoogleGenerativeAI
   ///
   /// Main configuration options:
   /// - `apiKey`: your Google AI API key. You can find your API key in the
-  ///   [Google AI Studio dashboard](https://makersuite.google.com/app/apikey).
+  ///   [Google AI Studio dashboard](https://aistudio.google.com/app/apikey).
   /// - [ChatGoogleGenerativeAI.defaultOptions]
   ///
   /// Advance configuration options:
@@ -163,28 +174,48 @@ class ChatGoogleGenerativeAI
     super.defaultOptions = const ChatGoogleGenerativeAIOptions(
       model: 'gemini-pro',
     ),
-  }) : _client = GoogleAIClient(
-          apiKey: apiKey,
-          baseUrl: baseUrl,
-          headers: headers,
-          queryParams: queryParams,
-          client: client,
-        );
+  })  : _currentModel = defaultOptions.model ?? '',
+        _httpClient = createDefaultHttpClient(
+          baseHttpClient: client,
+          baseUrl:
+              baseUrl ?? 'https://generativelanguage.googleapis.com/v1beta',
+          headers: {
+            if (apiKey != null) 'x-goog-api-key': apiKey,
+            ...?headers,
+          },
+          queryParams: queryParams ?? const {},
+        ) {
+    _googleAiClient = _createGoogleAiClient(
+      _currentModel,
+      apiKey: apiKey ?? '',
+      httpClient: _httpClient,
+    );
+  }
+
+  /// The HTTP client to use.
+  final CustomHttpClient _httpClient;
 
   /// A client for interacting with Google AI API.
-  final GoogleAIClient _client;
+  late GenerativeModel _googleAiClient;
 
   /// A UUID generator.
   late final Uuid _uuid = const Uuid();
 
   /// Set or replace the API key.
-  set apiKey(final String value) => _client.apiKey = value;
+  set apiKey(final String value) =>
+      _httpClient.headers['x-goog-api-key'] = value;
 
   /// Get the API key.
-  String get apiKey => _client.apiKey;
+  String get apiKey => _httpClient.headers['x-goog-api-key'] ?? '';
 
   @override
   String get modelType => 'chat-google-generative-ai';
+
+  /// The current model set in [_googleAiClient];
+  String _currentModel;
+
+  /// The current system instruction set in [_googleAiClient];
+  String? _currentSystemInstruction;
 
   @override
   Future<ChatResult> invoke(
@@ -192,20 +223,15 @@ class ChatGoogleGenerativeAI
     final ChatGoogleGenerativeAIOptions? options,
   }) async {
     final id = _uuid.v4();
-    final (model, isTuned) = _getNormalizedModel(options);
-    final request = _generateCompletionRequest(
-      input.toChatMessages(),
-      options: options,
+    final (model, prompt, safetySettings, generationConfig, tools, toolConfig) =
+        _generateCompletionRequest(input.toChatMessages(), options: options);
+    final completion = await _googleAiClient.generateContent(
+      prompt,
+      safetySettings: safetySettings,
+      generationConfig: generationConfig,
+      tools: tools,
+      toolConfig: toolConfig,
     );
-    final completion = await (isTuned
-        ? _client.generateContentTunedModel(
-            tunedModelId: model,
-            request: request,
-          )
-        : _client.generateContent(
-            modelId: model,
-            request: request,
-          ));
     return completion.toChatResult(id, model);
   }
 
@@ -215,37 +241,51 @@ class ChatGoogleGenerativeAI
     final ChatGoogleGenerativeAIOptions? options,
   }) {
     final id = _uuid.v4();
-    final (model, isTuned) = _getNormalizedModel(options);
-    assert(!isTuned, 'Tuned models are not supported for streaming.');
-    final request = _generateCompletionRequest(
-      input.toChatMessages(),
-      options: options,
-    );
-
-    return _client
-        .streamGenerateContent(modelId: model, request: request)
+    final (model, prompt, safetySettings, generationConfig, tools, toolConfig) =
+        _generateCompletionRequest(input.toChatMessages(), options: options);
+    return _googleAiClient
+        .generateContentStream(
+          prompt,
+          safetySettings: safetySettings,
+          generationConfig: generationConfig,
+          tools: tools,
+          toolConfig: toolConfig,
+        )
         .map((final completion) => completion.toChatResult(id, model));
   }
 
   /// Creates a [GenerateContentRequest] from the given input.
-  GenerateContentRequest _generateCompletionRequest(
+  (
+    String model,
+    Iterable<Content> prompt,
+    List<SafetySetting>? safetySettings,
+    GenerationConfig? generationConfig,
+    List<Tool>? tools,
+    ToolConfig? toolConfig,
+  ) _generateCompletionRequest(
     final List<ChatMessage> messages, {
     final ChatGoogleGenerativeAIOptions? options,
   }) {
-    return GenerateContentRequest(
-      contents: messages.toContentList(),
-      generationConfig: GenerationConfig(
-        topP: options?.topP ?? defaultOptions.topP,
-        topK: options?.topK ?? defaultOptions.topK,
+    _updateClientIfNeeded(messages, options);
+
+    return (
+      _currentModel,
+      messages.toContentList(),
+      (options?.safetySettings ?? defaultOptions.safetySettings)
+          ?.toSafetySettings(),
+      GenerationConfig(
         candidateCount:
             options?.candidateCount ?? defaultOptions.candidateCount,
+        stopSequences:
+            options?.stopSequences ?? defaultOptions.stopSequences ?? const [],
         maxOutputTokens:
             options?.maxOutputTokens ?? defaultOptions.maxOutputTokens,
         temperature: options?.temperature ?? defaultOptions.temperature,
-        stopSequences: options?.stopSequences ?? defaultOptions.stopSequences,
+        topP: options?.topP ?? defaultOptions.topP,
+        topK: options?.topK ?? defaultOptions.topK,
       ),
-      safetySettings: (options?.safetySettings ?? defaultOptions.safetySettings)
-          ?.toSafetySettings(),
+      null, // options?.tools?.toTools(),
+      null, // options?.toolConfig?.toToolConfig(),
     );
   }
 
@@ -264,36 +304,65 @@ class ChatGoogleGenerativeAI
     final PromptValue promptValue, {
     final ChatGoogleGenerativeAIOptions? options,
   }) async {
-    final (model, _) = _getNormalizedModel(options);
-    final tokens = await _client.countTokens(
-      modelId: model,
-      request: CountTokensRequest(
-        contents: promptValue.toChatMessages().toContentList(),
-      ),
-    );
-    return tokens.totalTokens ?? 0;
+    final messages = promptValue.toChatMessages();
+    _updateClientIfNeeded(messages, options);
+    final tokens = await _googleAiClient.countTokens(messages.toContentList());
+    return tokens.totalTokens;
   }
 
   /// Closes the client and cleans up any resources associated with it.
   void close() {
-    _client.endSession();
+    _httpClient.close();
   }
 
-  /// Returns the model code to use and whether it is a tuned model.
-  (String model, bool isTuned) _getNormalizedModel(
+  /// Create a new [GenerativeModel] instance.
+  GenerativeModel _createGoogleAiClient(
+    final String model, {
+    final String? apiKey,
+    final CustomHttpClient? httpClient,
+    final String? systemInstruction,
+  }) {
+    return GenerativeModel(
+      model: model,
+      apiKey: apiKey ?? this.apiKey,
+      httpClient: httpClient ?? _httpClient,
+      systemInstruction:
+          systemInstruction != null ? Content.system(systemInstruction) : null,
+    );
+  }
+
+  /// Recreate the [GenerativeModel] instance.
+  void _recreateGoogleAiClient(
+    final String model,
+    final String? systemInstruction,
+  ) {
+    _googleAiClient =
+        _createGoogleAiClient(model, systemInstruction: systemInstruction);
+  }
+
+  /// Updates the model in [_googleAiClient] if needed.
+  void _updateClientIfNeeded(
+    final List<ChatMessage> messages,
     final ChatGoogleGenerativeAIOptions? options,
   ) {
-    final rawModel =
+    final model =
         options?.model ?? defaultOptions.model ?? throwNullModelError();
 
-    if (!rawModel.contains('/')) {
-      return (rawModel, false);
+    final systemInstruction = messages.firstOrNull is SystemChatMessage
+        ? messages.firstOrNull?.contentAsString
+        : null;
+
+    bool recreate = false;
+    if (model != _currentModel) {
+      _currentModel = model;
+      recreate = true;
     }
-    final parts = rawModel.split('/');
-    return switch (parts.first) {
-      'tunedModels' => (parts.skip(1).join('/'), true),
-      'models' => (parts.skip(1).join('/'), false),
-      _ => (rawModel, false),
-    };
+    if (systemInstruction != _currentSystemInstruction) {
+      _currentSystemInstruction = systemInstruction;
+      recreate = true;
+    }
+    if (recreate) {
+      _recreateGoogleAiClient(model, systemInstruction);
+    }
   }
 }

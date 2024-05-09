@@ -22,8 +22,15 @@ void main() {
     });
 
     test('Test GoogleGenerativeAIEmbeddings.embedQuery', () async {
-      final res = await embeddings.embedQuery('Hello world');
-      expect(res.length, 768);
+      const models = ['text-embedding-004', 'embedding-001'];
+      for (final model in models) {
+        embeddings.model = model;
+        final res = await embeddings.embedQuery(
+          'Hello world',
+        );
+        expect(res.length, 768);
+        embeddings.close();
+      }
     });
 
     test('Test GoogleGenerativeAIEmbeddings.embedDocuments', () async {
@@ -40,6 +47,13 @@ void main() {
       expect(res.length, 2);
       expect(res[0].length, 768);
       expect(res[1].length, 768);
+    });
+
+    // TODO https://github.com/google-gemini/generative-ai-dart/pull/149
+    test('Test shortening embeddings', skip: true, () async {
+      embeddings.dimensions = 256;
+      final res = await embeddings.embedQuery('Hello world');
+      expect(res.length, 256);
     });
   });
 }

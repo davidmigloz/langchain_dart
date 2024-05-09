@@ -1,9 +1,12 @@
-import 'package:collection/collection.dart';
-import 'package:googleai_dart/googleai_dart.dart';
+import 'package:collection/collection.dart' show IterableNullableExtension;
+import 'package:google_generative_ai/google_generative_ai.dart'
+    show Content, EmbedContentRequest, GenerativeModel, TaskType;
 import 'package:http/http.dart' as http;
 import 'package:langchain_core/documents.dart';
 import 'package:langchain_core/embeddings.dart';
 import 'package:langchain_core/utils.dart';
+
+import '../../utils/https_client/http_client.dart';
 
 /// {@template google_generative_ai_embeddings}
 /// Wrapper around Google AI embedding models API
@@ -20,8 +23,10 @@ import 'package:langchain_core/utils.dart';
 ///
 /// ### Available models
 ///
+/// - `text-embedding-004`
+///   * Dimensions: 768 (with support for reduced dimensionality)
 /// - `embedding-001`
-///   * Optimized for creating embeddings for text of up to 2048 tokens
+///   * Dimensions: 768
 ///
 /// The previous list of models may not be exhaustive or up-to-date. Check out
 /// the [Google AI documentation](https://ai.google.dev/models/gemini)
@@ -34,8 +39,18 @@ import 'package:langchain_core/utils.dart';
 /// embeddings.
 ///
 /// This class uses the specifies the following task type:
-/// - `retrievalDocument`: for embedding documents
-/// - `retrievalQuery`: for embedding queries
+/// - `retrievalDocument`: for [embedDocuments]
+/// - `retrievalQuery`: for [embedQuery]
+///
+/// ### Reduced dimensionality
+///
+/// Some embedding models support specifying a smaller number of dimensions
+/// for the resulting embeddings. This can be useful when you want to save
+/// computing and storage costs with minor performance loss. Use the
+/// [dimensions] parameter to specify the number of dimensions.
+///
+/// You can also use this feature to reduce the dimensions to 2D or 3D for
+/// visualization purposes.
 ///
 /// ### Title
 ///
@@ -64,8 +79,10 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
   ///
   /// Main configuration options:
   /// - `apiKey`: your Google AI API key. You can find your API key in the
-  ///   [Google AI Studio dashboard](https://makersuite.google.com/app/apikey).
-  /// - [GoogleGenerativeAIEmbeddings.model]
+  ///   [Google AI Studio dashboard](https://aistudio.google.com/app/apikey).
+  /// - `model`: the embeddings model to use. You can find a list of available
+  ///   embedding models here: https://ai.google.dev/models/gemini
+  /// - [GoogleGenerativeAIEmbeddings.dimensions]
   /// - [GoogleGenerativeAIEmbeddings.batchSize]
   /// - [GoogleGenerativeAIEmbeddings.docTitleKey]
   ///
@@ -84,29 +101,45 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
-    this.model = 'embedding-001',
+    String model = 'text-embedding-004',
     this.dimensions,
     this.batchSize = 100,
     this.docTitleKey = 'title',
-  }) : _client = GoogleAIClient(
-          apiKey: apiKey,
-          baseUrl: baseUrl,
-          headers: headers,
-          queryParams: queryParams,
-          client: client,
-        );
+  })  : _model = model,
+        _httpClient = createDefaultHttpClient(
+          baseHttpClient: client,
+          baseUrl:
+              baseUrl ?? 'https://generativelanguage.googleapis.com/v1beta',
+          headers: {
+            if (apiKey != null) 'x-goog-api-key': apiKey,
+            ...?headers,
+          },
+          queryParams: queryParams ?? const {},
+        ) {
+    _googleAiClient = _createGoogleAiClient(model, apiKey ?? '', _httpClient);
+  }
+
+  /// The HTTP client to use.
+  final CustomHttpClient _httpClient;
 
   /// A client for interacting with Google AI API.
-  final GoogleAIClient _client;
+  late GenerativeModel _googleAiClient;
 
   /// The embeddings model to use.
-  ///
-  /// You can find a list of available embedding models here:
-  /// https://ai.google.dev/models/gemini
-  String model;
+  String _model;
+
+  /// Set the embeddings model to use.
+  set model(final String model) {
+    _recreateGoogleAiClient(model);
+    _model = model;
+  }
+
+  /// Get the embeddings model to use.
+  String get model => _model;
 
   /// The number of dimensions the resulting output embeddings should have.
   /// Only supported in `text-embedding-004` and later models.
+  /// TODO https://github.com/google-gemini/generative-ai-dart/pull/149
   int? dimensions;
 
   /// The maximum number of documents to embed in a single request.
@@ -116,10 +149,11 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
   String docTitleKey;
 
   /// Set or replace the API key.
-  set apiKey(final String value) => _client.apiKey = value;
+  set apiKey(final String value) =>
+      _httpClient.headers['x-goog-api-key'] = value;
 
   /// Get the API key.
-  String get apiKey => _client.apiKey;
+  String get apiKey => _httpClient.headers['x-goog-api-key'] ?? '';
 
   @override
   Future<List<List<double>>> embedDocuments(
@@ -129,25 +163,20 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
 
     final List<List<List<double>>> embeddings = await Future.wait(
       batches.map((final batch) async {
-        final data = await _client.batchEmbedContents(
-          modelId: model,
-          request: BatchEmbedContentsRequest(
-            requests: batch.map((final doc) {
-              return EmbedContentRequest(
-                title: doc.metadata[docTitleKey],
-                content: Content(parts: [Part(text: doc.pageContent)]),
-                taskType: EmbedContentRequestTaskType.retrievalDocument,
-                model: 'models/$model',
-                outputDimensionality: dimensions,
-              );
-            }).toList(growable: false),
-          ),
+        final data = await _googleAiClient.batchEmbedContents(
+          batch.map((final doc) {
+            return EmbedContentRequest(
+              Content.text(doc.pageContent),
+              taskType: TaskType.retrievalDocument,
+              title: doc.metadata[docTitleKey],
+              // outputDimensionality: dimensions, TODO
+            );
+          }).toList(growable: false),
         );
         return data.embeddings
-                ?.map((final p) => p.values)
-                .whereNotNull()
-                .toList(growable: false) ??
-            const [];
+            .map((final p) => p.values)
+            .whereNotNull()
+            .toList(growable: false);
       }),
     );
 
@@ -156,18 +185,34 @@ class GoogleGenerativeAIEmbeddings implements Embeddings {
 
   @override
   Future<List<double>> embedQuery(final String query) async {
-    final data = await _client.embedContent(
-      modelId: model,
-      request: EmbedContentRequest(
-        content: Content(parts: [Part(text: query)]),
-        taskType: EmbedContentRequestTaskType.retrievalQuery,
-      ),
+    final data = await _googleAiClient.embedContent(
+      Content.text(query),
+      taskType: TaskType.retrievalQuery,
+      // outputDimensionality: dimensions, TODO
     );
-    return data.embedding?.values ?? const [];
+    return data.embedding.values;
   }
 
   /// Closes the client and cleans up any resources associated with it.
   void close() {
-    _client.endSession();
+    _httpClient.close();
+  }
+
+  /// Create a new [GenerativeModel] instance.
+  GenerativeModel _createGoogleAiClient(
+    final String model, [
+    final String? apiKey,
+    final CustomHttpClient? httpClient,
+  ]) {
+    return GenerativeModel(
+      model: model,
+      apiKey: apiKey ?? this.apiKey,
+      httpClient: httpClient ?? _httpClient,
+    );
+  }
+
+  /// Recreate the [GenerativeModel] instance.
+  void _recreateGoogleAiClient(final String model) {
+    _googleAiClient = _createGoogleAiClient(model);
   }
 }

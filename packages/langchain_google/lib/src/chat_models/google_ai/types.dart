@@ -127,37 +127,19 @@ class ChatGoogleGenerativeAISafetySetting {
 /// Docs: https://ai.google.dev/docs/safety_setting_gemini
 enum ChatGoogleGenerativeAISafetySettingCategory {
   /// The harm category is unspecified.
-  harmCategoryUnspecified,
-
-  /// The harm category is identity attack.
-  harmCategoryDerogatory,
-
-  /// The harm category is profanity.
-  harmCategoryToxicity,
-
-  /// The harm category is violence.
-  harmCategoryViolence,
-
-  /// The harm category is sexual content.
-  harmCategorySexual,
-
-  /// The harm category is medical.
-  harmCategoryMedical,
-
-  /// The harm category is illegal activities.
-  harmCategoryDangerous,
+  unspecified,
 
   /// The harm category is harassment.
-  harmCategoryHarassment,
+  harassment,
 
   /// The harm category is hate speech.
-  harmCategoryHateSpeech,
+  hateSpeech,
 
   /// The harm category is sexually explicit content.
-  harmCategorySexuallyExplicit,
+  sexuallyExplicit,
 
   /// The harm category is dangerous content.
-  harmCategoryDangerousContent,
+  dangerousContent,
 }
 
 /// Controls the probability threshold at which harm is blocked.
@@ -165,7 +147,7 @@ enum ChatGoogleGenerativeAISafetySettingCategory {
 /// Docs: https://ai.google.dev/docs/safety_setting_gemini
 enum ChatGoogleGenerativeAISafetySettingThreshold {
   /// Threshold is unspecified, block using default threshold.
-  harmBlockThresholdUnspecified,
+  unspecified,
 
   /// 	Block when low, medium or high probability of unsafe content.
   blockLowAndAbove,

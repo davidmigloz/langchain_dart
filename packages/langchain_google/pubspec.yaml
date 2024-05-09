@@ -18,8 +18,9 @@ environment:
 
 dependencies:
   collection: '>=1.17.0 <1.19.0'
+  fetch_client: ^1.0.2
   gcloud: ^0.8.12
-  googleai_dart: ^0.0.4
+  google_generative_ai: 0.3.3
   googleapis: ^12.0.0
   googleapis_auth: ^1.5.1
   http: ^1.1.0
