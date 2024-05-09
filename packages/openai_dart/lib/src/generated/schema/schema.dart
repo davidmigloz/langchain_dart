@@ -26,6 +26,7 @@ part 'chat_completion_tool.dart';
 part 'chat_completion_named_tool_choice.dart';
 part 'chat_completion_message_tool_calls.dart';
 part 'chat_completion_message_tool_call.dart';
+part 'chat_completion_stream_options.dart';
 part 'create_chat_completion_response.dart';
 part 'chat_completion_response_choice.dart';
 part 'chat_completion_finish_reason.dart';

@@ -1654,6 +1654,8 @@ components:
           type: boolean
           nullable: true
           default: false
+        stream_options:
+          $ref: "#/components/schemas/ChatCompletionStreamOptions"
         suffix:
           description: |
             The suffix that comes after a completion of inserted text.
@@ -1926,6 +1928,8 @@ components:
           type: boolean
           nullable: true
           default: false
+        stream_options:
+          $ref: "#/components/schemas/ChatCompletionStreamOptions"
         temperature:
           type: number
           minimum: 0
@@ -2257,6 +2261,15 @@ components:
         - id
         - type
         - function
+    ChatCompletionStreamOptions:
+      description: |
+        Options for streaming response. Only set this when you set `stream: true`.
+      type: object
+      properties:
+        include_usage:
+          type: boolean
+          description: |
+            If set, an additional chunk will be streamed before the `data: [DONE]` message. The `usage` field on this chunk shows the token usage statistics for the entire request, and the `choices` field will always be an empty array. All other chunks will also include a `usage` field, but with a null value.
     CreateChatCompletionResponse:
       type: object
       description: Represents a chat completion response returned by model, based on the provided input.
@@ -2386,7 +2399,9 @@ components:
           description: A unique identifier for the chat completion. Each chunk has the same ID.
         choices:
           type: array
-          description: A list of chat completion choices. Can be more than one if `n` is greater than 1.
+          description: |
+            A list of chat completion choices. Can contain more than one elements if `n` is greater than 1. Can also be empty for the
+            last chunk if you set `stream_options: {"include_usage": true}`.
           items:
             $ref: "#/components/schemas/ChatCompletionStreamResponseChoice"
         created:
@@ -2405,6 +2420,8 @@ components:
           type: string
           description: The object type, which is always `chat.completion.chunk`.
           # enum: [ chat.completion.chunk ] # OpenRouter API sends `chat.completion` instead
+        usage:
+          $ref: "#/components/schemas/CompletionUsage"
       required:
         - choices
         - created

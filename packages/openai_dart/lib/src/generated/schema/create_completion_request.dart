@@ -85,6 +85,10 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
     /// Whether to stream back partial progress. If set, tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format) as they become available, with the stream terminated by a `data: [DONE]` message. [Example Python code](https://cookbook.openai.com/examples/how_to_stream_completions).
     @JsonKey(includeIfNull: false) @Default(false) bool? stream,
 
+    /// Options for streaming response. Only set this when you set `stream: true`.
+    @JsonKey(name: 'stream_options', includeIfNull: false)
+    ChatCompletionStreamOptions? streamOptions,
+
     /// The suffix that comes after a completion of inserted text.
     ///
     /// This parameter is only supported for `gpt-3.5-turbo-instruct`.
@@ -123,6 +127,7 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
     'seed',
     'stop',
     'stream',
+    'stream_options',
     'suffix',
     'temperature',
     'top_p',
@@ -220,6 +225,7 @@ class CreateCompletionRequest with _$CreateCompletionRequest {
       'seed': seed,
       'stop': stop,
       'stream': stream,
+      'stream_options': streamOptions,
       'suffix': suffix,
       'temperature': temperature,
       'top_p': topP,

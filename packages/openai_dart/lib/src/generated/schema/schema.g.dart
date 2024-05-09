@@ -26,6 +26,10 @@ _$CreateCompletionRequestImpl _$$CreateCompletionRequestImplFromJson(
       seed: json['seed'] as int?,
       stop: const _CompletionStopConverter().fromJson(json['stop']),
       stream: json['stream'] as bool? ?? false,
+      streamOptions: json['stream_options'] == null
+          ? null
+          : ChatCompletionStreamOptions.fromJson(
+              json['stream_options'] as Map<String, dynamic>),
       suffix: json['suffix'] as String?,
       temperature: (json['temperature'] as num?)?.toDouble() ?? 1.0,
       topP: (json['top_p'] as num?)?.toDouble() ?? 1.0,
@@ -57,6 +61,7 @@ Map<String, dynamic> _$$CreateCompletionRequestImplToJson(
   writeNotNull('seed', instance.seed);
   writeNotNull('stop', const _CompletionStopConverter().toJson(instance.stop));
   writeNotNull('stream', instance.stream);
+  writeNotNull('stream_options', instance.streamOptions?.toJson());
   writeNotNull('suffix', instance.suffix);
   writeNotNull('temperature', instance.temperature);
   writeNotNull('top_p', instance.topP);
@@ -319,6 +324,10 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
       seed: json['seed'] as int?,
       stop: const _ChatCompletionStopConverter().fromJson(json['stop']),
       stream: json['stream'] as bool? ?? false,
+      streamOptions: json['stream_options'] == null
+          ? null
+          : ChatCompletionStreamOptions.fromJson(
+              json['stream_options'] as Map<String, dynamic>),
       temperature: (json['temperature'] as num?)?.toDouble() ?? 1.0,
       topP: (json['top_p'] as num?)?.toDouble() ?? 1.0,
       tools: (json['tools'] as List<dynamic>?)
@@ -359,6 +368,7 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
   writeNotNull(
       'stop', const _ChatCompletionStopConverter().toJson(instance.stop));
   writeNotNull('stream', instance.stream);
+  writeNotNull('stream_options', instance.streamOptions?.toJson());
   writeNotNull('temperature', instance.temperature);
   writeNotNull('top_p', instance.topP);
   writeNotNull('tools', instance.tools?.map((e) => e.toJson()).toList());
@@ -663,6 +673,26 @@ const _$ChatCompletionMessageToolCallTypeEnumMap = {
   ChatCompletionMessageToolCallType.function: 'function',
 };
 
+_$ChatCompletionStreamOptionsImpl _$$ChatCompletionStreamOptionsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ChatCompletionStreamOptionsImpl(
+      includeUsage: json['include_usage'] as bool?,
+    );
+
+Map<String, dynamic> _$$ChatCompletionStreamOptionsImplToJson(
+    _$ChatCompletionStreamOptionsImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('include_usage', instance.includeUsage);
+  return val;
+}
+
 _$CreateChatCompletionResponseImpl _$$CreateChatCompletionResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateChatCompletionResponseImpl(
@@ -807,6 +837,9 @@ _$CreateChatCompletionStreamResponseImpl
           model: json['model'] as String?,
           systemFingerprint: json['system_fingerprint'] as String?,
           object: json['object'] as String,
+          usage: json['usage'] == null
+              ? null
+              : CompletionUsage.fromJson(json['usage'] as Map<String, dynamic>),
         );
 
 Map<String, dynamic> _$$CreateChatCompletionStreamResponseImplToJson(
@@ -825,6 +858,7 @@ Map<String, dynamic> _$$CreateChatCompletionStreamResponseImplToJson(
   writeNotNull('model', instance.model);
   writeNotNull('system_fingerprint', instance.systemFingerprint);
   val['object'] = instance.object;
+  writeNotNull('usage', instance.usage?.toJson());
   return val;
 }
 

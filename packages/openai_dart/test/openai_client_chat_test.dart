@@ -168,23 +168,33 @@ void main() {
             ),
           ),
         ],
+        streamOptions: ChatCompletionStreamOptions(
+          includeUsage: true,
+        ),
       );
       final stream = client.createChatCompletionStream(request: request);
       String text = '';
+      CreateChatCompletionStreamResponse? lastResponse;
       ChatCompletionStreamResponseChoice? lastChoice;
       await for (final res in stream) {
         expect(res.id, isNotEmpty);
         expect(res.created, greaterThan(0));
         expect(res.model, startsWith('gpt-3.5-turbo'));
         expect(res.object, isNotEmpty);
-        expect(res.choices, hasLength(1));
-        final choice = res.choices.first;
-        expect(choice.index, 0);
-        text += res.choices.first.delta.content?.trim() ?? '';
-        lastChoice = choice;
+        if (res.choices.isNotEmpty) {
+          expect(res.choices, hasLength(1));
+          final choice = res.choices.first;
+          expect(choice.index, 0);
+          text += res.choices.first.delta.content?.trim() ?? '';
+          lastChoice = choice;
+        }
+        lastResponse = res;
       }
       expect(lastChoice?.finishReason, ChatCompletionFinishReason.stop);
       expect(text, contains('123456789'));
+      expect(lastResponse?.usage?.completionTokens, greaterThan(0));
+      expect(lastResponse?.usage?.promptTokens, greaterThan(0));
+      expect(lastResponse?.usage?.totalTokens, greaterThan(0));
     });
 
     test('Test call chat completions API tools', () async {
