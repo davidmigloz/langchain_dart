@@ -19,7 +19,8 @@ class CreateChatCompletionStreamResponse
     /// A unique identifier for the chat completion. Each chunk has the same ID.
     @JsonKey(includeIfNull: false) String? id,
 
-    /// A list of chat completion choices. Can be more than one if `n` is greater than 1.
+    /// A list of chat completion choices. Can contain more than one elements if `n` is greater than 1. Can also be empty for the
+    /// last chunk if you set `stream_options: {"include_usage": true}`.
     required List<ChatCompletionStreamResponseChoice> choices,
 
     /// The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp.
@@ -36,6 +37,9 @@ class CreateChatCompletionStreamResponse
 
     /// The object type, which is always `chat.completion.chunk`.
     required String object,
+
+    /// Usage statistics for the completion request.
+    @JsonKey(includeIfNull: false) CompletionUsage? usage,
   }) = _CreateChatCompletionStreamResponse;
 
   /// Object construction from a JSON representation
@@ -50,7 +54,8 @@ class CreateChatCompletionStreamResponse
     'created',
     'model',
     'system_fingerprint',
-    'object'
+    'object',
+    'usage'
   ];
 
   /// Perform validations on the schema property values
@@ -67,6 +72,7 @@ class CreateChatCompletionStreamResponse
       'model': model,
       'system_fingerprint': systemFingerprint,
       'object': object,
+      'usage': usage,
     };
   }
 }

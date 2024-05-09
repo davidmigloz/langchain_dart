@@ -96,6 +96,11 @@ mixin _$CreateCompletionRequest {
   @JsonKey(includeIfNull: false)
   bool? get stream => throw _privateConstructorUsedError;
 
+  /// Options for streaming response. Only set this when you set `stream: true`.
+  @JsonKey(name: 'stream_options', includeIfNull: false)
+  ChatCompletionStreamOptions? get streamOptions =>
+      throw _privateConstructorUsedError;
+
   /// The suffix that comes after a completion of inserted text.
   ///
   /// This parameter is only supported for `gpt-3.5-turbo-instruct`.
@@ -149,6 +154,8 @@ abstract class $CreateCompletionRequestCopyWith<$Res> {
       @JsonKey(includeIfNull: false)
       CompletionStop? stop,
       @JsonKey(includeIfNull: false) bool? stream,
+      @JsonKey(name: 'stream_options', includeIfNull: false)
+      ChatCompletionStreamOptions? streamOptions,
       @JsonKey(includeIfNull: false) String? suffix,
       @JsonKey(includeIfNull: false) double? temperature,
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
@@ -157,6 +164,7 @@ abstract class $CreateCompletionRequestCopyWith<$Res> {
   $CompletionModelCopyWith<$Res> get model;
   $CompletionPromptCopyWith<$Res>? get prompt;
   $CompletionStopCopyWith<$Res>? get stop;
+  $ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions;
 }
 
 /// @nodoc
@@ -186,6 +194,7 @@ class _$CreateCompletionRequestCopyWithImpl<$Res,
     Object? seed = freezed,
     Object? stop = freezed,
     Object? stream = freezed,
+    Object? streamOptions = freezed,
     Object? suffix = freezed,
     Object? temperature = freezed,
     Object? topP = freezed,
@@ -244,6 +253,10 @@ class _$CreateCompletionRequestCopyWithImpl<$Res,
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool?,
+      streamOptions: freezed == streamOptions
+          ? _value.streamOptions
+          : streamOptions // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionStreamOptions?,
       suffix: freezed == suffix
           ? _value.suffix
           : suffix // ignore: cast_nullable_to_non_nullable
@@ -294,6 +307,19 @@ class _$CreateCompletionRequestCopyWithImpl<$Res,
       return _then(_value.copyWith(stop: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions {
+    if (_value.streamOptions == null) {
+      return null;
+    }
+
+    return $ChatCompletionStreamOptionsCopyWith<$Res>(_value.streamOptions!,
+        (value) {
+      return _then(_value.copyWith(streamOptions: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -324,6 +350,8 @@ abstract class _$$CreateCompletionRequestImplCopyWith<$Res>
       @JsonKey(includeIfNull: false)
       CompletionStop? stop,
       @JsonKey(includeIfNull: false) bool? stream,
+      @JsonKey(name: 'stream_options', includeIfNull: false)
+      ChatCompletionStreamOptions? streamOptions,
       @JsonKey(includeIfNull: false) String? suffix,
       @JsonKey(includeIfNull: false) double? temperature,
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
@@ -335,6 +363,8 @@ abstract class _$$CreateCompletionRequestImplCopyWith<$Res>
   $CompletionPromptCopyWith<$Res>? get prompt;
   @override
   $CompletionStopCopyWith<$Res>? get stop;
+  @override
+  $ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions;
 }
 
 /// @nodoc
@@ -363,6 +393,7 @@ class __$$CreateCompletionRequestImplCopyWithImpl<$Res>
     Object? seed = freezed,
     Object? stop = freezed,
     Object? stream = freezed,
+    Object? streamOptions = freezed,
     Object? suffix = freezed,
     Object? temperature = freezed,
     Object? topP = freezed,
@@ -421,6 +452,10 @@ class __$$CreateCompletionRequestImplCopyWithImpl<$Res>
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool?,
+      streamOptions: freezed == streamOptions
+          ? _value.streamOptions
+          : streamOptions // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionStreamOptions?,
       suffix: freezed == suffix
           ? _value.suffix
           : suffix // ignore: cast_nullable_to_non_nullable
@@ -461,6 +496,7 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
       @JsonKey(includeIfNull: false) this.seed,
       @_CompletionStopConverter() @JsonKey(includeIfNull: false) this.stop,
       @JsonKey(includeIfNull: false) this.stream = false,
+      @JsonKey(name: 'stream_options', includeIfNull: false) this.streamOptions,
       @JsonKey(includeIfNull: false) this.suffix,
       @JsonKey(includeIfNull: false) this.temperature = 1.0,
       @JsonKey(name: 'top_p', includeIfNull: false) this.topP = 1.0,
@@ -572,6 +608,11 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
   @JsonKey(includeIfNull: false)
   final bool? stream;
 
+  /// Options for streaming response. Only set this when you set `stream: true`.
+  @override
+  @JsonKey(name: 'stream_options', includeIfNull: false)
+  final ChatCompletionStreamOptions? streamOptions;
+
   /// The suffix that comes after a completion of inserted text.
   ///
   /// This parameter is only supported for `gpt-3.5-turbo-instruct`.
@@ -600,7 +641,7 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
 
   @override
   String toString() {
-    return 'CreateCompletionRequest(model: $model, prompt: $prompt, bestOf: $bestOf, echo: $echo, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, maxTokens: $maxTokens, n: $n, presencePenalty: $presencePenalty, seed: $seed, stop: $stop, stream: $stream, suffix: $suffix, temperature: $temperature, topP: $topP, user: $user)';
+    return 'CreateCompletionRequest(model: $model, prompt: $prompt, bestOf: $bestOf, echo: $echo, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, maxTokens: $maxTokens, n: $n, presencePenalty: $presencePenalty, seed: $seed, stop: $stop, stream: $stream, streamOptions: $streamOptions, suffix: $suffix, temperature: $temperature, topP: $topP, user: $user)';
   }
 
   @override
@@ -626,6 +667,8 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
             (identical(other.seed, seed) || other.seed == seed) &&
             (identical(other.stop, stop) || other.stop == stop) &&
             (identical(other.stream, stream) || other.stream == stream) &&
+            (identical(other.streamOptions, streamOptions) ||
+                other.streamOptions == streamOptions) &&
             (identical(other.suffix, suffix) || other.suffix == suffix) &&
             (identical(other.temperature, temperature) ||
                 other.temperature == temperature) &&
@@ -650,6 +693,7 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
       seed,
       stop,
       stream,
+      streamOptions,
       suffix,
       temperature,
       topP,
@@ -690,6 +734,8 @@ abstract class _CreateCompletionRequest extends CreateCompletionRequest {
       @JsonKey(includeIfNull: false)
       final CompletionStop? stop,
       @JsonKey(includeIfNull: false) final bool? stream,
+      @JsonKey(name: 'stream_options', includeIfNull: false)
+      final ChatCompletionStreamOptions? streamOptions,
       @JsonKey(includeIfNull: false) final String? suffix,
       @JsonKey(includeIfNull: false) final double? temperature,
       @JsonKey(name: 'top_p', includeIfNull: false) final double? topP,
@@ -788,6 +834,11 @@ abstract class _CreateCompletionRequest extends CreateCompletionRequest {
   /// Whether to stream back partial progress. If set, tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format) as they become available, with the stream terminated by a `data: [DONE]` message. [Example Python code](https://cookbook.openai.com/examples/how_to_stream_completions).
   @JsonKey(includeIfNull: false)
   bool? get stream;
+  @override
+
+  /// Options for streaming response. Only set this when you set `stream: true`.
+  @JsonKey(name: 'stream_options', includeIfNull: false)
+  ChatCompletionStreamOptions? get streamOptions;
   @override
 
   /// The suffix that comes after a completion of inserted text.
@@ -3416,6 +3467,11 @@ mixin _$CreateChatCompletionRequest {
   @JsonKey(includeIfNull: false)
   bool? get stream => throw _privateConstructorUsedError;
 
+  /// Options for streaming response. Only set this when you set `stream: true`.
+  @JsonKey(name: 'stream_options', includeIfNull: false)
+  ChatCompletionStreamOptions? get streamOptions =>
+      throw _privateConstructorUsedError;
+
   /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
   ///
   /// We generally recommend altering this or `top_p` but not both.
@@ -3501,6 +3557,8 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
       @JsonKey(includeIfNull: false)
       ChatCompletionStop? stop,
       @JsonKey(includeIfNull: false) bool? stream,
+      @JsonKey(name: 'stream_options', includeIfNull: false)
+      ChatCompletionStreamOptions? streamOptions,
       @JsonKey(includeIfNull: false) double? temperature,
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
       @JsonKey(includeIfNull: false) List<ChatCompletionTool>? tools,
@@ -3516,6 +3574,7 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
   $ChatCompletionModelCopyWith<$Res> get model;
   $ChatCompletionResponseFormatCopyWith<$Res>? get responseFormat;
   $ChatCompletionStopCopyWith<$Res>? get stop;
+  $ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions;
   $ChatCompletionToolChoiceOptionCopyWith<$Res>? get toolChoice;
   $ChatCompletionFunctionCallCopyWith<$Res>? get functionCall;
 }
@@ -3547,6 +3606,7 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
     Object? seed = freezed,
     Object? stop = freezed,
     Object? stream = freezed,
+    Object? streamOptions = freezed,
     Object? temperature = freezed,
     Object? topP = freezed,
     Object? tools = freezed,
@@ -3608,6 +3668,10 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool?,
+      streamOptions: freezed == streamOptions
+          ? _value.streamOptions
+          : streamOptions // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionStreamOptions?,
       temperature: freezed == temperature
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
@@ -3674,6 +3738,19 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
 
   @override
   @pragma('vm:prefer-inline')
+  $ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions {
+    if (_value.streamOptions == null) {
+      return null;
+    }
+
+    return $ChatCompletionStreamOptionsCopyWith<$Res>(_value.streamOptions!,
+        (value) {
+      return _then(_value.copyWith(streamOptions: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $ChatCompletionToolChoiceOptionCopyWith<$Res>? get toolChoice {
     if (_value.toolChoice == null) {
       return null;
@@ -3728,6 +3805,8 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
       @JsonKey(includeIfNull: false)
       ChatCompletionStop? stop,
       @JsonKey(includeIfNull: false) bool? stream,
+      @JsonKey(name: 'stream_options', includeIfNull: false)
+      ChatCompletionStreamOptions? streamOptions,
       @JsonKey(includeIfNull: false) double? temperature,
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
       @JsonKey(includeIfNull: false) List<ChatCompletionTool>? tools,
@@ -3746,6 +3825,8 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
   $ChatCompletionResponseFormatCopyWith<$Res>? get responseFormat;
   @override
   $ChatCompletionStopCopyWith<$Res>? get stop;
+  @override
+  $ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions;
   @override
   $ChatCompletionToolChoiceOptionCopyWith<$Res>? get toolChoice;
   @override
@@ -3778,6 +3859,7 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
     Object? seed = freezed,
     Object? stop = freezed,
     Object? stream = freezed,
+    Object? streamOptions = freezed,
     Object? temperature = freezed,
     Object? topP = freezed,
     Object? tools = freezed,
@@ -3839,6 +3921,10 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool?,
+      streamOptions: freezed == streamOptions
+          ? _value.streamOptions
+          : streamOptions // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionStreamOptions?,
       temperature: freezed == temperature
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
@@ -3892,6 +3978,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
       @JsonKey(includeIfNull: false) this.seed,
       @_ChatCompletionStopConverter() @JsonKey(includeIfNull: false) this.stop,
       @JsonKey(includeIfNull: false) this.stream = false,
+      @JsonKey(name: 'stream_options', includeIfNull: false) this.streamOptions,
       @JsonKey(includeIfNull: false) this.temperature = 1.0,
       @JsonKey(name: 'top_p', includeIfNull: false) this.topP = 1.0,
       @JsonKey(includeIfNull: false) final List<ChatCompletionTool>? tools,
@@ -4010,6 +4097,11 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   @JsonKey(includeIfNull: false)
   final bool? stream;
 
+  /// Options for streaming response. Only set this when you set `stream: true`.
+  @override
+  @JsonKey(name: 'stream_options', includeIfNull: false)
+  final ChatCompletionStreamOptions? streamOptions;
+
   /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
   ///
   /// We generally recommend altering this or `top_p` but not both.
@@ -4088,7 +4180,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
 
   @override
   String toString() {
-    return 'CreateChatCompletionRequest(model: $model, messages: $messages, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, n: $n, presencePenalty: $presencePenalty, responseFormat: $responseFormat, seed: $seed, stop: $stop, stream: $stream, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, user: $user, functionCall: $functionCall, functions: $functions)';
+    return 'CreateChatCompletionRequest(model: $model, messages: $messages, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, n: $n, presencePenalty: $presencePenalty, responseFormat: $responseFormat, seed: $seed, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, user: $user, functionCall: $functionCall, functions: $functions)';
   }
 
   @override
@@ -4116,6 +4208,8 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
             (identical(other.seed, seed) || other.seed == seed) &&
             (identical(other.stop, stop) || other.stop == stop) &&
             (identical(other.stream, stream) || other.stream == stream) &&
+            (identical(other.streamOptions, streamOptions) ||
+                other.streamOptions == streamOptions) &&
             (identical(other.temperature, temperature) ||
                 other.temperature == temperature) &&
             (identical(other.topP, topP) || other.topP == topP) &&
@@ -4146,6 +4240,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
         seed,
         stop,
         stream,
+        streamOptions,
         temperature,
         topP,
         const DeepCollectionEquality().hash(_tools),
@@ -4194,6 +4289,8 @@ abstract class _CreateChatCompletionRequest
       @JsonKey(includeIfNull: false)
       final ChatCompletionStop? stop,
       @JsonKey(includeIfNull: false) final bool? stream,
+      @JsonKey(name: 'stream_options', includeIfNull: false)
+      final ChatCompletionStreamOptions? streamOptions,
       @JsonKey(includeIfNull: false) final double? temperature,
       @JsonKey(name: 'top_p', includeIfNull: false) final double? topP,
       @JsonKey(includeIfNull: false) final List<ChatCompletionTool>? tools,
@@ -4291,6 +4388,11 @@ abstract class _CreateChatCompletionRequest
   /// If set, partial message deltas will be sent, like in ChatGPT. Tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format) as they become available, with the stream terminated by a `data: [DONE]` message. [Example Python code](https://cookbook.openai.com/examples/how_to_stream_completions).
   @JsonKey(includeIfNull: false)
   bool? get stream;
+  @override
+
+  /// Options for streaming response. Only set this when you set `stream: true`.
+  @JsonKey(name: 'stream_options', includeIfNull: false)
+  ChatCompletionStreamOptions? get streamOptions;
   @override
 
   /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
@@ -7417,6 +7519,169 @@ abstract class _ChatCompletionMessageToolCall
       get copyWith => throw _privateConstructorUsedError;
 }
 
+ChatCompletionStreamOptions _$ChatCompletionStreamOptionsFromJson(
+    Map<String, dynamic> json) {
+  return _ChatCompletionStreamOptions.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ChatCompletionStreamOptions {
+  /// If set, an additional chunk will be streamed before the `data: [DONE]` message. The `usage` field on this chunk shows the token usage statistics for the entire request, and the `choices` field will always be an empty array. All other chunks will also include a `usage` field, but with a null value.
+  @JsonKey(name: 'include_usage', includeIfNull: false)
+  bool? get includeUsage => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ChatCompletionStreamOptionsCopyWith<ChatCompletionStreamOptions>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChatCompletionStreamOptionsCopyWith<$Res> {
+  factory $ChatCompletionStreamOptionsCopyWith(
+          ChatCompletionStreamOptions value,
+          $Res Function(ChatCompletionStreamOptions) then) =
+      _$ChatCompletionStreamOptionsCopyWithImpl<$Res,
+          ChatCompletionStreamOptions>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'include_usage', includeIfNull: false)
+      bool? includeUsage});
+}
+
+/// @nodoc
+class _$ChatCompletionStreamOptionsCopyWithImpl<$Res,
+        $Val extends ChatCompletionStreamOptions>
+    implements $ChatCompletionStreamOptionsCopyWith<$Res> {
+  _$ChatCompletionStreamOptionsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? includeUsage = freezed,
+  }) {
+    return _then(_value.copyWith(
+      includeUsage: freezed == includeUsage
+          ? _value.includeUsage
+          : includeUsage // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionStreamOptionsImplCopyWith<$Res>
+    implements $ChatCompletionStreamOptionsCopyWith<$Res> {
+  factory _$$ChatCompletionStreamOptionsImplCopyWith(
+          _$ChatCompletionStreamOptionsImpl value,
+          $Res Function(_$ChatCompletionStreamOptionsImpl) then) =
+      __$$ChatCompletionStreamOptionsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'include_usage', includeIfNull: false)
+      bool? includeUsage});
+}
+
+/// @nodoc
+class __$$ChatCompletionStreamOptionsImplCopyWithImpl<$Res>
+    extends _$ChatCompletionStreamOptionsCopyWithImpl<$Res,
+        _$ChatCompletionStreamOptionsImpl>
+    implements _$$ChatCompletionStreamOptionsImplCopyWith<$Res> {
+  __$$ChatCompletionStreamOptionsImplCopyWithImpl(
+      _$ChatCompletionStreamOptionsImpl _value,
+      $Res Function(_$ChatCompletionStreamOptionsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? includeUsage = freezed,
+  }) {
+    return _then(_$ChatCompletionStreamOptionsImpl(
+      includeUsage: freezed == includeUsage
+          ? _value.includeUsage
+          : includeUsage // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionStreamOptionsImpl extends _ChatCompletionStreamOptions {
+  const _$ChatCompletionStreamOptionsImpl(
+      {@JsonKey(name: 'include_usage', includeIfNull: false) this.includeUsage})
+      : super._();
+
+  factory _$ChatCompletionStreamOptionsImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ChatCompletionStreamOptionsImplFromJson(json);
+
+  /// If set, an additional chunk will be streamed before the `data: [DONE]` message. The `usage` field on this chunk shows the token usage statistics for the entire request, and the `choices` field will always be an empty array. All other chunks will also include a `usage` field, but with a null value.
+  @override
+  @JsonKey(name: 'include_usage', includeIfNull: false)
+  final bool? includeUsage;
+
+  @override
+  String toString() {
+    return 'ChatCompletionStreamOptions(includeUsage: $includeUsage)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionStreamOptionsImpl &&
+            (identical(other.includeUsage, includeUsage) ||
+                other.includeUsage == includeUsage));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, includeUsage);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionStreamOptionsImplCopyWith<_$ChatCompletionStreamOptionsImpl>
+      get copyWith => __$$ChatCompletionStreamOptionsImplCopyWithImpl<
+          _$ChatCompletionStreamOptionsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionStreamOptionsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ChatCompletionStreamOptions
+    extends ChatCompletionStreamOptions {
+  const factory _ChatCompletionStreamOptions(
+      {@JsonKey(name: 'include_usage', includeIfNull: false)
+      final bool? includeUsage}) = _$ChatCompletionStreamOptionsImpl;
+  const _ChatCompletionStreamOptions._() : super._();
+
+  factory _ChatCompletionStreamOptions.fromJson(Map<String, dynamic> json) =
+      _$ChatCompletionStreamOptionsImpl.fromJson;
+
+  @override
+
+  /// If set, an additional chunk will be streamed before the `data: [DONE]` message. The `usage` field on this chunk shows the token usage statistics for the entire request, and the `choices` field will always be an empty array. All other chunks will also include a `usage` field, but with a null value.
+  @JsonKey(name: 'include_usage', includeIfNull: false)
+  bool? get includeUsage;
+  @override
+  @JsonKey(ignore: true)
+  _$$ChatCompletionStreamOptionsImplCopyWith<_$ChatCompletionStreamOptionsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 CreateChatCompletionResponse _$CreateChatCompletionResponseFromJson(
     Map<String, dynamic> json) {
   return _CreateChatCompletionResponse.fromJson(json);
@@ -8733,7 +8998,8 @@ mixin _$CreateChatCompletionStreamResponse {
   @JsonKey(includeIfNull: false)
   String? get id => throw _privateConstructorUsedError;
 
-  /// A list of chat completion choices. Can be more than one if `n` is greater than 1.
+  /// A list of chat completion choices. Can contain more than one elements if `n` is greater than 1. Can also be empty for the
+  /// last chunk if you set `stream_options: {"include_usage": true}`.
   List<ChatCompletionStreamResponseChoice> get choices =>
       throw _privateConstructorUsedError;
 
@@ -8752,6 +9018,10 @@ mixin _$CreateChatCompletionStreamResponse {
 
   /// The object type, which is always `chat.completion.chunk`.
   String get object => throw _privateConstructorUsedError;
+
+  /// Usage statistics for the completion request.
+  @JsonKey(includeIfNull: false)
+  CompletionUsage? get usage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -8775,7 +9045,10 @@ abstract class $CreateChatCompletionStreamResponseCopyWith<$Res> {
       @JsonKey(includeIfNull: false) String? model,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
-      String object});
+      String object,
+      @JsonKey(includeIfNull: false) CompletionUsage? usage});
+
+  $CompletionUsageCopyWith<$Res>? get usage;
 }
 
 /// @nodoc
@@ -8798,6 +9071,7 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
     Object? model = freezed,
     Object? systemFingerprint = freezed,
     Object? object = null,
+    Object? usage = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -8824,7 +9098,23 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
               as String,
+      usage: freezed == usage
+          ? _value.usage
+          : usage // ignore: cast_nullable_to_non_nullable
+              as CompletionUsage?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CompletionUsageCopyWith<$Res>? get usage {
+    if (_value.usage == null) {
+      return null;
+    }
+
+    return $CompletionUsageCopyWith<$Res>(_value.usage!, (value) {
+      return _then(_value.copyWith(usage: value) as $Val);
+    });
   }
 }
 
@@ -8844,7 +9134,11 @@ abstract class _$$CreateChatCompletionStreamResponseImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) String? model,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
-      String object});
+      String object,
+      @JsonKey(includeIfNull: false) CompletionUsage? usage});
+
+  @override
+  $CompletionUsageCopyWith<$Res>? get usage;
 }
 
 /// @nodoc
@@ -8866,6 +9160,7 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
     Object? model = freezed,
     Object? systemFingerprint = freezed,
     Object? object = null,
+    Object? usage = freezed,
   }) {
     return _then(_$CreateChatCompletionStreamResponseImpl(
       id: freezed == id
@@ -8892,6 +9187,10 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
               as String,
+      usage: freezed == usage
+          ? _value.usage
+          : usage // ignore: cast_nullable_to_non_nullable
+              as CompletionUsage?,
     ));
   }
 }
@@ -8907,7 +9206,8 @@ class _$CreateChatCompletionStreamResponseImpl
       @JsonKey(includeIfNull: false) this.model,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       this.systemFingerprint,
-      required this.object})
+      required this.object,
+      @JsonKey(includeIfNull: false) this.usage})
       : _choices = choices,
         super._();
 
@@ -8920,10 +9220,12 @@ class _$CreateChatCompletionStreamResponseImpl
   @JsonKey(includeIfNull: false)
   final String? id;
 
-  /// A list of chat completion choices. Can be more than one if `n` is greater than 1.
+  /// A list of chat completion choices. Can contain more than one elements if `n` is greater than 1. Can also be empty for the
+  /// last chunk if you set `stream_options: {"include_usage": true}`.
   final List<ChatCompletionStreamResponseChoice> _choices;
 
-  /// A list of chat completion choices. Can be more than one if `n` is greater than 1.
+  /// A list of chat completion choices. Can contain more than one elements if `n` is greater than 1. Can also be empty for the
+  /// last chunk if you set `stream_options: {"include_usage": true}`.
   @override
   List<ChatCompletionStreamResponseChoice> get choices {
     if (_choices is EqualUnmodifiableListView) return _choices;
@@ -8951,9 +9253,14 @@ class _$CreateChatCompletionStreamResponseImpl
   @override
   final String object;
 
+  /// Usage statistics for the completion request.
+  @override
+  @JsonKey(includeIfNull: false)
+  final CompletionUsage? usage;
+
   @override
   String toString() {
-    return 'CreateChatCompletionStreamResponse(id: $id, choices: $choices, created: $created, model: $model, systemFingerprint: $systemFingerprint, object: $object)';
+    return 'CreateChatCompletionStreamResponse(id: $id, choices: $choices, created: $created, model: $model, systemFingerprint: $systemFingerprint, object: $object, usage: $usage)';
   }
 
   @override
@@ -8967,7 +9274,8 @@ class _$CreateChatCompletionStreamResponseImpl
             (identical(other.model, model) || other.model == model) &&
             (identical(other.systemFingerprint, systemFingerprint) ||
                 other.systemFingerprint == systemFingerprint) &&
-            (identical(other.object, object) || other.object == object));
+            (identical(other.object, object) || other.object == object) &&
+            (identical(other.usage, usage) || other.usage == usage));
   }
 
   @JsonKey(ignore: true)
@@ -8979,7 +9287,8 @@ class _$CreateChatCompletionStreamResponseImpl
       created,
       model,
       systemFingerprint,
-      object);
+      object,
+      usage);
 
   @JsonKey(ignore: true)
   @override
@@ -9000,13 +9309,15 @@ class _$CreateChatCompletionStreamResponseImpl
 abstract class _CreateChatCompletionStreamResponse
     extends CreateChatCompletionStreamResponse {
   const factory _CreateChatCompletionStreamResponse(
-      {@JsonKey(includeIfNull: false) final String? id,
-      required final List<ChatCompletionStreamResponseChoice> choices,
-      required final int created,
-      @JsonKey(includeIfNull: false) final String? model,
-      @JsonKey(name: 'system_fingerprint', includeIfNull: false)
-      final String? systemFingerprint,
-      required final String object}) = _$CreateChatCompletionStreamResponseImpl;
+          {@JsonKey(includeIfNull: false) final String? id,
+          required final List<ChatCompletionStreamResponseChoice> choices,
+          required final int created,
+          @JsonKey(includeIfNull: false) final String? model,
+          @JsonKey(name: 'system_fingerprint', includeIfNull: false)
+          final String? systemFingerprint,
+          required final String object,
+          @JsonKey(includeIfNull: false) final CompletionUsage? usage}) =
+      _$CreateChatCompletionStreamResponseImpl;
   const _CreateChatCompletionStreamResponse._() : super._();
 
   factory _CreateChatCompletionStreamResponse.fromJson(
@@ -9020,7 +9331,8 @@ abstract class _CreateChatCompletionStreamResponse
   String? get id;
   @override
 
-  /// A list of chat completion choices. Can be more than one if `n` is greater than 1.
+  /// A list of chat completion choices. Can contain more than one elements if `n` is greater than 1. Can also be empty for the
+  /// last chunk if you set `stream_options: {"include_usage": true}`.
   List<ChatCompletionStreamResponseChoice> get choices;
   @override
 
@@ -9042,6 +9354,11 @@ abstract class _CreateChatCompletionStreamResponse
 
   /// The object type, which is always `chat.completion.chunk`.
   String get object;
+  @override
+
+  /// Usage statistics for the completion request.
+  @JsonKey(includeIfNull: false)
+  CompletionUsage? get usage;
   @override
   @JsonKey(ignore: true)
   _$$CreateChatCompletionStreamResponseImplCopyWith<

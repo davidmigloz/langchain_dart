@@ -76,6 +76,10 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// If set, partial message deltas will be sent, like in ChatGPT. Tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format) as they become available, with the stream terminated by a `data: [DONE]` message. [Example Python code](https://cookbook.openai.com/examples/how_to_stream_completions).
     @JsonKey(includeIfNull: false) @Default(false) bool? stream,
 
+    /// Options for streaming response. Only set this when you set `stream: true`.
+    @JsonKey(name: 'stream_options', includeIfNull: false)
+    ChatCompletionStreamOptions? streamOptions,
+
     /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
     ///
     /// We generally recommend altering this or `top_p` but not both.
@@ -140,6 +144,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     'seed',
     'stop',
     'stream',
+    'stream_options',
     'temperature',
     'top_p',
     'tools',
@@ -227,6 +232,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
       'seed': seed,
       'stop': stop,
       'stream': stream,
+      'stream_options': streamOptions,
       'temperature': temperature,
       'top_p': topP,
       'tools': tools,
