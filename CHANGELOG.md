@@ -2,6 +2,34 @@
 
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details about each release.
 
+## 2024-05-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`openai_dart` - `v0.3.1`](#openai_dart---v031)
+ - [`langchain_openai` - `v0.6.0+2`](#langchain_openai---v0602)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_openai` - `v0.6.0+2`
+
+---
+
+#### `openai_dart` - `v0.3.1`
+
+ - **FEAT**: Add support for stream_options in openai_dart ([#405](https://github.com/davidmigloz/langchain_dart/issues/405)). ([c15714ca](https://github.com/davidmigloz/langchain_dart/commit/c15714ca2df9e30873bc8e4901482faa2d858d8a))
+ - **FIX**: RunStepDetailsToolCalls deserialization in Assistants API v2 ([#404](https://github.com/davidmigloz/langchain_dart/issues/404)). ([d76c6aba](https://github.com/davidmigloz/langchain_dart/commit/d76c6aba321e666940614cbc90726500aa370c87))
+
 ## 2024-05-06
 
 ### Changes

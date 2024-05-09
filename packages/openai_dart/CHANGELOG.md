@@ -1,3 +1,8 @@
+## 0.3.1
+
+ - **FEAT**: Add support for stream_options in openai_dart ([#405](https://github.com/davidmigloz/langchain_dart/issues/405)). ([c15714ca](https://github.com/davidmigloz/langchain_dart/commit/c15714ca2df9e30873bc8e4901482faa2d858d8a))
+ - **FIX**: RunStepDetailsToolCalls deserialization in Assistants API v2 ([#404](https://github.com/davidmigloz/langchain_dart/issues/404)). ([d76c6aba](https://github.com/davidmigloz/langchain_dart/commit/d76c6aba321e666940614cbc90726500aa370c87))
+
 ## 0.3.0
 
 > Note: This release has breaking changes.  
