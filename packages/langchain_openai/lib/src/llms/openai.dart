@@ -286,6 +286,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
           request: _createCompletionRequest(
             [input.toString()],
             options: options,
+            stream: true,
           ),
         )
         .map(
@@ -297,6 +298,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   CreateCompletionRequest _createCompletionRequest(
     final List<String> prompts, {
     final OpenAIOptions? options,
+    final bool stream = false,
   }) {
     return CreateCompletionRequest(
       model: CompletionModel.modelId(
@@ -320,6 +322,8 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
       temperature: options?.temperature ?? defaultOptions.temperature,
       topP: options?.topP ?? defaultOptions.topP,
       user: options?.user ?? defaultOptions.user,
+      streamOptions:
+          stream ? const ChatCompletionStreamOptions(includeUsage: true) : null,
     );
   }
 

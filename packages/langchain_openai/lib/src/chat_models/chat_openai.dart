@@ -260,6 +260,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
           request: _createChatCompletionRequest(
             input.toChatMessages(),
             options: options,
+            stream: true,
           ),
         )
         .map(
@@ -272,6 +273,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   CreateChatCompletionRequest _createChatCompletionRequest(
     final List<ChatMessage> messages, {
     final ChatOpenAIOptions? options,
+    final bool stream = false,
   }) {
     final messagesDtos = messages.toChatCompletionMessages();
     final toolsDtos = options?.tools?.toChatCompletionTool() ??
@@ -304,6 +306,8 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
       temperature: options?.temperature ?? defaultOptions.temperature,
       topP: options?.topP ?? defaultOptions.topP,
       user: options?.user ?? defaultOptions.user,
+      streamOptions:
+          stream ? const ChatCompletionStreamOptions(includeUsage: true) : null,
     );
   }
 

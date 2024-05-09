@@ -157,14 +157,14 @@ extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
       arguments: args,
     );
   }
+}
 
-  LanguageModelUsage _mapUsage(final CompletionUsage? usage) {
-    return LanguageModelUsage(
-      promptTokens: usage?.promptTokens,
-      responseTokens: usage?.completionTokens,
-      totalTokens: usage?.totalTokens,
-    );
-  }
+LanguageModelUsage _mapUsage(final CompletionUsage? usage) {
+  return LanguageModelUsage(
+    promptTokens: usage?.promptTokens,
+    responseTokens: usage?.completionTokens,
+    totalTokens: usage?.totalTokens,
+  );
 }
 
 extension ChatToolListMapper on List<ToolSpec> {
@@ -206,23 +206,24 @@ extension ChatToolChoiceMapper on ChatToolChoice {
 extension CreateChatCompletionStreamResponseMapper
     on CreateChatCompletionStreamResponse {
   ChatResult toChatResult(final String id) {
-    final choice = choices.first;
-    final delta = choice.delta;
+    final choice = choices.firstOrNull;
+    final delta = choice?.delta;
     return ChatResult(
       id: id,
       output: AIChatMessage(
-        content: delta.content ?? '',
-        toolCalls:
-            delta.toolCalls?.map(_mapMessageToolCall).toList(growable: false) ??
-                const [],
+        content: delta?.content ?? '',
+        toolCalls: delta?.toolCalls
+                ?.map(_mapMessageToolCall)
+                .toList(growable: false) ??
+            const [],
       ),
-      finishReason: _mapFinishReason(choice.finishReason),
+      finishReason: _mapFinishReason(choice?.finishReason),
       metadata: {
-        'model': model,
         'created': created,
-        'system_fingerprint': systemFingerprint,
+        if (model != null) 'model': model,
+        if (systemFingerprint != null) 'system_fingerprint': systemFingerprint,
       },
-      usage: const LanguageModelUsage(),
+      usage: _mapUsage(usage),
       streaming: true,
     );
   }

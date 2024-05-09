@@ -4,7 +4,6 @@ library; // Uses dart:io
 import 'dart:io';
 
 import 'package:langchain_core/llms.dart';
-import 'package:langchain_core/output_parsers.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 import 'package:test/test.dart';
@@ -122,20 +121,22 @@ void main() {
       final promptTemplate = PromptTemplate.fromTemplate(
         'List the numbers from 1 to {max_num} in order without any spaces or commas',
       );
-      const stringOutputParser = StringOutputParser<LLMResult>();
 
-      final chain = promptTemplate.pipe(llm).pipe(stringOutputParser);
+      final chain = promptTemplate.pipe(llm);
 
       final stream = chain.stream({'max_num': '9'});
 
-      String content = '';
+      LLMResult? result;
       int count = 0;
       await for (final res in stream) {
-        content += res;
+        result = result?.concat(res) ?? res;
         count++;
       }
       expect(count, greaterThan(1));
-      expect(content, contains('123456789'));
+      expect(result!.output, contains('123456789'));
+      expect(result.usage.promptTokens, greaterThan(0));
+      expect(result.usage.responseTokens, greaterThan(0));
+      expect(result.usage.totalTokens, greaterThan(0));
     });
 
     test('Test response seed', () async {

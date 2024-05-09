@@ -134,23 +134,25 @@ class LanguageModelUsage {
   /// Merges this usage with another by summing the values.
   LanguageModelUsage concat(final LanguageModelUsage other) {
     return LanguageModelUsage(
-      promptTokens: promptTokens != null && other.promptTokens != null
-          ? promptTokens! + other.promptTokens!
-          : null,
-      promptBillableCharacters: promptBillableCharacters != null &&
-              other.promptBillableCharacters != null
-          ? promptBillableCharacters! + other.promptBillableCharacters!
-          : null,
-      responseTokens: responseTokens != null && other.responseTokens != null
-          ? responseTokens! + other.responseTokens!
-          : null,
-      responseBillableCharacters: responseBillableCharacters != null &&
-              other.responseBillableCharacters != null
-          ? responseBillableCharacters! + other.responseBillableCharacters!
-          : null,
-      totalTokens: totalTokens != null && other.totalTokens != null
-          ? totalTokens! + other.totalTokens!
-          : null,
+      promptTokens: promptTokens == null && other.promptTokens == null
+          ? null
+          : (promptTokens ?? 0) + (other.promptTokens ?? 0),
+      promptBillableCharacters: promptBillableCharacters == null &&
+              other.promptBillableCharacters == null
+          ? null
+          : (promptBillableCharacters ?? 0) +
+              (other.promptBillableCharacters ?? 0),
+      responseTokens: responseTokens == null && other.responseTokens == null
+          ? null
+          : (responseTokens ?? 0) + (other.responseTokens ?? 0),
+      responseBillableCharacters: responseBillableCharacters == null &&
+              other.responseBillableCharacters == null
+          ? null
+          : (responseBillableCharacters ?? 0) +
+              (other.responseBillableCharacters ?? 0),
+      totalTokens: totalTokens == null && other.totalTokens == null
+          ? null
+          : (totalTokens ?? 0) + (other.totalTokens ?? 0),
     );
   }
 
