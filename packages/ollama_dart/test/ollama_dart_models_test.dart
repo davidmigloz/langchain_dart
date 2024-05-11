@@ -83,7 +83,8 @@ void main() {
         ),
       );
       final res = await client.listModels();
-      expect(res.models?.any((final m) => m.model == '$newName:latest'), isTrue);
+      expect(
+          res.models?.any((final m) => m.model == '$newName:latest'), isTrue);
     });
 
     test('Test delete model', () async {
