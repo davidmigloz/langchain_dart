@@ -29,8 +29,13 @@ class GenerateChatCompletionResponse with _$GenerateChatCompletionResponse {
     /// Whether the response has completed.
     @JsonKey(includeIfNull: false) bool? done,
 
-    /// Reason the response is done.
-    @JsonKey(name: 'done_reason', includeIfNull: false) String? doneReason,
+    /// Reason why the model is done generating a response.
+    @JsonKey(
+      name: 'done_reason',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
+    )
+    DoneReason? doneReason,
 
     /// Time spent generating the response.
     @JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,

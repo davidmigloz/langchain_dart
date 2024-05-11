@@ -2496,9 +2496,12 @@ mixin _$GenerateChatCompletionResponse {
   @JsonKey(includeIfNull: false)
   bool? get done => throw _privateConstructorUsedError;
 
-  /// Reason the response is done.
-  @JsonKey(name: 'done_reason', includeIfNull: false)
-  String? get doneReason => throw _privateConstructorUsedError;
+  /// Reason why the model is done generating a response.
+  @JsonKey(
+      name: 'done_reason',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  DoneReason? get doneReason => throw _privateConstructorUsedError;
 
   /// Time spent generating the response.
   @JsonKey(name: 'total_duration', includeIfNull: false)
@@ -2543,7 +2546,11 @@ abstract class $GenerateChatCompletionResponseCopyWith<$Res> {
       @JsonKey(includeIfNull: false) String? model,
       @JsonKey(name: 'created_at', includeIfNull: false) String? createdAt,
       @JsonKey(includeIfNull: false) bool? done,
-      @JsonKey(name: 'done_reason', includeIfNull: false) String? doneReason,
+      @JsonKey(
+          name: 'done_reason',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      DoneReason? doneReason,
       @JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,
       @JsonKey(name: 'load_duration', includeIfNull: false) int? loadDuration,
       @JsonKey(name: 'prompt_eval_count', includeIfNull: false)
@@ -2602,7 +2609,7 @@ class _$GenerateChatCompletionResponseCopyWithImpl<$Res,
       doneReason: freezed == doneReason
           ? _value.doneReason
           : doneReason // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DoneReason?,
       totalDuration: freezed == totalDuration
           ? _value.totalDuration
           : totalDuration // ignore: cast_nullable_to_non_nullable
@@ -2657,7 +2664,11 @@ abstract class _$$GenerateChatCompletionResponseImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) String? model,
       @JsonKey(name: 'created_at', includeIfNull: false) String? createdAt,
       @JsonKey(includeIfNull: false) bool? done,
-      @JsonKey(name: 'done_reason', includeIfNull: false) String? doneReason,
+      @JsonKey(
+          name: 'done_reason',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      DoneReason? doneReason,
       @JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,
       @JsonKey(name: 'load_duration', includeIfNull: false) int? loadDuration,
       @JsonKey(name: 'prompt_eval_count', includeIfNull: false)
@@ -2716,7 +2727,7 @@ class __$$GenerateChatCompletionResponseImplCopyWithImpl<$Res>
       doneReason: freezed == doneReason
           ? _value.doneReason
           : doneReason // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DoneReason?,
       totalDuration: freezed == totalDuration
           ? _value.totalDuration
           : totalDuration // ignore: cast_nullable_to_non_nullable
@@ -2754,7 +2765,11 @@ class _$GenerateChatCompletionResponseImpl
       @JsonKey(includeIfNull: false) this.model,
       @JsonKey(name: 'created_at', includeIfNull: false) this.createdAt,
       @JsonKey(includeIfNull: false) this.done,
-      @JsonKey(name: 'done_reason', includeIfNull: false) this.doneReason,
+      @JsonKey(
+          name: 'done_reason',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.doneReason,
       @JsonKey(name: 'total_duration', includeIfNull: false) this.totalDuration,
       @JsonKey(name: 'load_duration', includeIfNull: false) this.loadDuration,
       @JsonKey(name: 'prompt_eval_count', includeIfNull: false)
@@ -2791,10 +2806,13 @@ class _$GenerateChatCompletionResponseImpl
   @JsonKey(includeIfNull: false)
   final bool? done;
 
-  /// Reason the response is done.
+  /// Reason why the model is done generating a response.
   @override
-  @JsonKey(name: 'done_reason', includeIfNull: false)
-  final String? doneReason;
+  @JsonKey(
+      name: 'done_reason',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final DoneReason? doneReason;
 
   /// Time spent generating the response.
   @override
@@ -2897,8 +2915,11 @@ abstract class _GenerateChatCompletionResponse
       @JsonKey(name: 'created_at', includeIfNull: false)
       final String? createdAt,
       @JsonKey(includeIfNull: false) final bool? done,
-      @JsonKey(name: 'done_reason', includeIfNull: false)
-      final String? doneReason,
+      @JsonKey(
+          name: 'done_reason',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final DoneReason? doneReason,
       @JsonKey(name: 'total_duration', includeIfNull: false)
       final int? totalDuration,
       @JsonKey(name: 'load_duration', includeIfNull: false)
@@ -2939,9 +2960,12 @@ abstract class _GenerateChatCompletionResponse
   bool? get done;
   @override
 
-  /// Reason the response is done.
-  @JsonKey(name: 'done_reason', includeIfNull: false)
-  String? get doneReason;
+  /// Reason why the model is done generating a response.
+  @JsonKey(
+      name: 'done_reason',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  DoneReason? get doneReason;
   @override
 
   /// Time spent generating the response.

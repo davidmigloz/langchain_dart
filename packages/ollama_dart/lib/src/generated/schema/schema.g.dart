@@ -220,7 +220,9 @@ _$GenerateChatCompletionResponseImpl
           model: json['model'] as String?,
           createdAt: json['created_at'] as String?,
           done: json['done'] as bool?,
-          doneReason: json['done_reason'] as String?,
+          doneReason: $enumDecodeNullable(
+              _$DoneReasonEnumMap, json['done_reason'],
+              unknownValue: JsonKey.nullForUndefinedEnumValue),
           totalDuration: json['total_duration'] as int?,
           loadDuration: json['load_duration'] as int?,
           promptEvalCount: json['prompt_eval_count'] as int?,
@@ -243,7 +245,7 @@ Map<String, dynamic> _$$GenerateChatCompletionResponseImplToJson(
   writeNotNull('model', instance.model);
   writeNotNull('created_at', instance.createdAt);
   writeNotNull('done', instance.done);
-  writeNotNull('done_reason', instance.doneReason);
+  writeNotNull('done_reason', _$DoneReasonEnumMap[instance.doneReason]);
   writeNotNull('total_duration', instance.totalDuration);
   writeNotNull('load_duration', instance.loadDuration);
   writeNotNull('prompt_eval_count', instance.promptEvalCount);
@@ -252,6 +254,12 @@ Map<String, dynamic> _$$GenerateChatCompletionResponseImplToJson(
   writeNotNull('eval_duration', instance.evalDuration);
   return val;
 }
+
+const _$DoneReasonEnumMap = {
+  DoneReason.stop: 'stop',
+  DoneReason.length: 'length',
+  DoneReason.load: 'load',
+};
 
 _$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
     _$MessageImpl(

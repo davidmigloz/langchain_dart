@@ -150,7 +150,7 @@ Future<void> _generateEmbedding(final OllamaClient client) async {
 Future<void> _createModel(final OllamaClient client) async {
   final res = await client.createModel(
     request: const CreateModelRequest(
-      name: 'mario',
+      model: 'mario',
       modelfile:
           'FROM mistral:latest\nSYSTEM You are mario from Super Mario Bros.',
     ),
@@ -161,7 +161,7 @@ Future<void> _createModel(final OllamaClient client) async {
 Future<void> _createModelStream(final OllamaClient client) async {
   final stream = client.createModelStream(
     request: const CreateModelRequest(
-      name: 'mario',
+      model: 'mario',
       modelfile:
           'FROM mistral:latest\nSYSTEM You are mario from Super Mario Bros.',
     ),
@@ -178,21 +178,21 @@ Future<void> _listModels(final OllamaClient client) async {
 
 Future<void> _showModelInfo(final OllamaClient client) async {
   final res = await client.showModelInfo(
-    request: const ModelInfoRequest(name: 'mistral:latest'),
+    request: const ModelInfoRequest(model: 'mistral:latest'),
   );
   print(res);
 }
 
 Future<void> _pullModel(final OllamaClient client) async {
   final res = await client.pullModel(
-    request: const PullModelRequest(name: 'yarn-llama2:13b-128k-q4_1'),
+    request: const PullModelRequest(model: 'yarn-llama2:13b-128k-q4_1'),
   );
   print(res.status);
 }
 
 Future<void> _pullModelStream(final OllamaClient client) async {
   final stream = client.pullModelStream(
-    request: const PullModelRequest(name: 'yarn-llama2:13b-128k-q4_1'),
+    request: const PullModelRequest(model: 'yarn-llama2:13b-128k-q4_1'),
   );
   await for (final res in stream) {
     print(res.status);
@@ -201,14 +201,14 @@ Future<void> _pullModelStream(final OllamaClient client) async {
 
 Future<void> _pushModel(final OllamaClient client) async {
   final res = await client.pushModel(
-    request: const PushModelRequest(name: 'mattw/pygmalion:latest'),
+    request: const PushModelRequest(model: 'mattw/pygmalion:latest'),
   );
   print(res.status);
 }
 
 Future<void> _pushModelStream(final OllamaClient client) async {
   final stream = client.pushModelStream(
-    request: const PushModelRequest(name: 'mattw/pygmalion:latest'),
+    request: const PushModelRequest(model: 'mattw/pygmalion:latest'),
   );
   await for (final res in stream) {
     print(res.status);
