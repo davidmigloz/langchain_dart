@@ -18,10 +18,16 @@ class CreateModelRequest with _$CreateModelRequest {
     /// The model name.
     ///
     /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
-    required String name,
+    required String model,
 
     /// The contents of the Modelfile.
     required String modelfile,
+
+    /// Path to the Modelfile (optional)
+    @JsonKey(includeIfNull: false) String? path,
+
+    /// The quantization level of the model.
+    @JsonKey(includeIfNull: false) String? quantize,
 
     /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
     @Default(false) bool stream,
@@ -32,7 +38,13 @@ class CreateModelRequest with _$CreateModelRequest {
       _$CreateModelRequestFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['name', 'modelfile', 'stream'];
+  static const List<String> propertyNames = [
+    'model',
+    'modelfile',
+    'path',
+    'quantize',
+    'stream'
+  ];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -42,8 +54,10 @@ class CreateModelRequest with _$CreateModelRequest {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
-      'name': name,
+      'model': model,
       'modelfile': modelfile,
+      'path': path,
+      'quantize': quantize,
       'stream': stream,
     };
   }

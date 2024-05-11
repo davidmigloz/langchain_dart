@@ -58,7 +58,7 @@ class OllamaClientException implements Exception {
 // CLASS: OllamaClient
 // ==========================================
 
-/// Client for Ollama API (v.0.1.9)
+/// Client for Ollama API (v.0.1.36)
 ///
 /// API Spec for Ollama API. Please see https://github.com/jmorganca/ollama/blob/main/docs/api.md for more details.
 class OllamaClient {

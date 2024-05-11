@@ -29,6 +29,9 @@ class GenerateChatCompletionResponse with _$GenerateChatCompletionResponse {
     /// Whether the response has completed.
     @JsonKey(includeIfNull: false) bool? done,
 
+    /// Reason the response is done.
+    @JsonKey(name: 'done_reason', includeIfNull: false) String? doneReason,
+
     /// Time spent generating the response.
     @JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,
 
@@ -60,6 +63,7 @@ class GenerateChatCompletionResponse with _$GenerateChatCompletionResponse {
     'model',
     'created_at',
     'done',
+    'done_reason',
     'total_duration',
     'load_duration',
     'prompt_eval_count',
@@ -80,6 +84,7 @@ class GenerateChatCompletionResponse with _$GenerateChatCompletionResponse {
       'model': model,
       'created_at': createdAt,
       'done': done,
+      'done_reason': doneReason,
       'total_duration': totalDuration,
       'load_duration': loadDuration,
       'prompt_eval_count': promptEvalCount,

@@ -16,12 +16,18 @@ class PushModelRequest with _$PushModelRequest {
   /// Factory constructor for PushModelRequest
   const factory PushModelRequest({
     /// The name of the model to push in the form of <namespace>/<model>:<tag>.
-    required String name,
+    required String model,
 
     /// Allow insecure connections to the library.
     ///
     /// Only use this if you are pushing to your library during development.
     @Default(false) bool insecure,
+
+    /// Ollama username.
+    @JsonKey(includeIfNull: false) String? username,
+
+    /// Ollama password.
+    @JsonKey(includeIfNull: false) String? password,
 
     /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
     @Default(false) bool stream,
@@ -32,7 +38,13 @@ class PushModelRequest with _$PushModelRequest {
       _$PushModelRequestFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['name', 'insecure', 'stream'];
+  static const List<String> propertyNames = [
+    'model',
+    'insecure',
+    'username',
+    'password',
+    'stream'
+  ];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -42,8 +54,10 @@ class PushModelRequest with _$PushModelRequest {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
-      'name': name,
+      'model': model,
       'insecure': insecure,
+      'username': username,
+      'password': password,
       'stream': stream,
     };
   }

@@ -26,6 +26,15 @@ class ModelInfo with _$ModelInfo {
 
     /// The prompt template for the model.
     @JsonKey(includeIfNull: false) String? template,
+
+    /// The system prompt for the model.
+    @JsonKey(includeIfNull: false) String? system,
+
+    /// Details about a model.
+    @JsonKey(includeIfNull: false) ModelDetails? details,
+
+    /// The default messages for the model.
+    @JsonKey(includeIfNull: false) List<Message>? messages,
   }) = _ModelInfo;
 
   /// Object construction from a JSON representation
@@ -37,7 +46,10 @@ class ModelInfo with _$ModelInfo {
     'license',
     'modelfile',
     'parameters',
-    'template'
+    'template',
+    'system',
+    'details',
+    'messages'
   ];
 
   /// Perform validations on the schema property values
@@ -52,6 +64,9 @@ class ModelInfo with _$ModelInfo {
       'modelfile': modelfile,
       'parameters': parameters,
       'template': template,
+      'system': system,
+      'details': details,
+      'messages': messages,
     };
   }
 }

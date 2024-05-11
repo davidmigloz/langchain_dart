@@ -79,9 +79,6 @@ class RequestOptions with _$RequestOptions {
     /// Sets the number of batches to use for generation. (Default: 1)
     @JsonKey(name: 'num_batch', includeIfNull: false) int? numBatch,
 
-    /// The number of GQA groups in the transformer layer. Required for some models, for example it is 8 for `llama2:70b`.
-    @JsonKey(name: 'num_gqa', includeIfNull: false) int? numGqa,
-
     /// The number of layers to send to the GPU(s). On macOS it defaults to 1 to enable metal support, 0 to disable.
     @JsonKey(name: 'num_gpu', includeIfNull: false) int? numGpu,
 
@@ -105,17 +102,6 @@ class RequestOptions with _$RequestOptions {
 
     /// Enable mlock. (Default: false)
     @JsonKey(name: 'use_mlock', includeIfNull: false) bool? useMlock,
-
-    /// Enable embedding only. (Default: false)
-    @JsonKey(name: 'embedding_only', includeIfNull: false) bool? embeddingOnly,
-
-    /// The base of the rope frequency scale. (Default: 1.0)
-    @JsonKey(name: 'rope_frequency_base', includeIfNull: false)
-    double? ropeFrequencyBase,
-
-    /// The scale of the rope frequency. (Default: 1.0)
-    @JsonKey(name: 'rope_frequency_scale', includeIfNull: false)
-    double? ropeFrequencyScale,
 
     /// Sets the number of threads to use during computation. By default, Ollama will detect this for optimal performance. It is recommended to set this value to the number of physical CPU cores your system has (as opposed to the logical number of cores).
     @JsonKey(name: 'num_thread', includeIfNull: false) int? numThread,
@@ -147,7 +133,6 @@ class RequestOptions with _$RequestOptions {
     'numa',
     'num_ctx',
     'num_batch',
-    'num_gqa',
     'num_gpu',
     'main_gpu',
     'low_vram',
@@ -156,9 +141,6 @@ class RequestOptions with _$RequestOptions {
     'vocab_only',
     'use_mmap',
     'use_mlock',
-    'embedding_only',
-    'rope_frequency_base',
-    'rope_frequency_scale',
     'num_thread'
   ];
 
@@ -190,7 +172,6 @@ class RequestOptions with _$RequestOptions {
       'numa': numa,
       'num_ctx': numCtx,
       'num_batch': numBatch,
-      'num_gqa': numGqa,
       'num_gpu': numGpu,
       'main_gpu': mainGpu,
       'low_vram': lowVram,
@@ -199,9 +180,6 @@ class RequestOptions with _$RequestOptions {
       'vocab_only': vocabOnly,
       'use_mmap': useMmap,
       'use_mlock': useMlock,
-      'embedding_only': embeddingOnly,
-      'rope_frequency_base': ropeFrequencyBase,
-      'rope_frequency_scale': ropeFrequencyScale,
       'num_thread': numThread,
     };
   }
