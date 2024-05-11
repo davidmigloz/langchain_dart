@@ -10,12 +10,13 @@ import 'package:test/test.dart';
 void main() {
   group('Ollama tests', skip: Platform.environment.containsKey('CI'), () {
     late Ollama llm;
-    const defaultModel = 'llama2:latest';
+    const defaultModel = 'llama3:latest';
 
     setUp(() async {
       llm = Ollama(
         defaultOptions: const OllamaOptions(
           model: defaultModel,
+          keepAlive: 1,
         ),
       );
     });
@@ -63,11 +64,8 @@ void main() {
         numThread: 21,
       );
 
-      expect(llm.defaultOptions.model, 'foo');
-      expect(
-        llm.defaultOptions.system,
-        'system prompt',
-      );
+      expect(options.model, 'foo');
+      expect(options.system, 'system prompt');
       expect(options.template, 'TEMPLATE """');
       expect(options.context, [1, 2, 3]);
       expect(options.format, OllamaResponseFormat.json);
@@ -134,7 +132,6 @@ void main() {
       expect(res.metadata['context'], isNotEmpty);
       expect(res.metadata['total_duration'], greaterThan(0));
       expect(res.metadata['load_duration'], greaterThan(0));
-      // expect(res.metadata['prompt_eval_count'], greaterThan(0)); // TODO check why it's null
       expect(res.metadata['eval_count'], greaterThan(0));
       expect(res.metadata['eval_duration'], greaterThan(0));
     });
@@ -199,9 +196,16 @@ void main() {
     test('Test raw mode', () async {
       final res = await llm.invoke(
         PromptValue.string(
-          '[INST] List the numbers from 1 to 9 in order. '
-          'Output ONLY the numbers in one line without any spaces or commas. '
-          'NUMBERS: [/INST]',
+          '''
+<|start_header_id|>system<|end_header_id|>
+
+You are an AI assistant that follows instructions precisely.
+<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+List the numbers from 1 to 9 in order. Output ONLY the numbers on one line without any spaces or commas between them.
+<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+'''
+              .trim(),
         ),
         options: const OllamaOptions(raw: true),
       );
