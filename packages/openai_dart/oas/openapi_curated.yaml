@@ -4652,6 +4652,7 @@ components:
       description: The content of a message.
       oneOf:
         - $ref: "#/components/schemas/MessageContentImageFileObject"
+        - $ref: "#/components/schemas/MessageContentImageUrlObject"
         - $ref: "#/components/schemas/MessageContentTextObject"
       discriminator:
         propertyName: type
@@ -4674,10 +4675,17 @@ components:
         role:
           $ref: "#/components/schemas/MessageRole"
         content:
-          type: string
-          minLength: 1
-          maxLength: 256000
           description: The content of the message.
+          oneOf:
+            - type: string
+              title: CreateMessageRequestText
+              description: The text contents of the message.
+            - type: array
+              title: CreateMessageRequestContents
+              description: An array of content parts with a defined type, each can be of type `text` or images can be passed with `image_url` or `image_file`. Image types are only supported on [Vision-compatible models](https://platform.openai.com/docs/models/overview).
+              items:
+                $ref: "#/components/schemas/MessageContent"
+              minItems: 1
         attachments:
           description: A list of files attached to the message, and the tools they were added to.
           type: array
@@ -4754,20 +4762,39 @@ components:
         type:
           type: string
           description: Always `image_file`.
+          default: image_file
         image_file:
           $ref: "#/components/schemas/MessageContentImageFile"
       required:
-        - type
         - image_file
     MessageContentImageFile:
       type: object
       description: The image file that is part of a message.
       properties:
         file_id:
-          description: The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content.
+          description: The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content. Set `purpose="vision"` when uploading the File if you need to later display the file content.
           type: string
+        detail:
+          $ref: "#/components/schemas/MessageContentImageDetail"
       required:
         - file_id
+    MessageContentImageUrl:
+      type: object
+      description: The image URL part of a message.
+      properties:
+        url:
+          type: string
+          description: "The external URL of the image, must be a supported image types: jpeg, jpg, png, gif, webp."
+          format: uri
+        detail:
+          $ref: "#/components/schemas/MessageContentImageDetail"
+      required:
+        - url
+    MessageContentImageDetail:
+      type: string
+      description: Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
+      enum: [ "auto", "low", "high" ]
+      default: "auto"
     MessageContentTextObject:
       type: object
       description: The text content that is part of a message.
@@ -4775,8 +4802,21 @@ components:
         type:
           type: string
           description: Always `text`.
+          default: text
         text:
           $ref: "#/components/schemas/MessageContentText"
+      required:
+        - text
+    MessageRequestContentTextObject:
+      type: object
+      description: The text content that is part of a message.
+      properties:
+        type:
+          description: Always `text`.
+          type: string
+        text:
+          type: string
+          description: Text content to be sent to the model
       required:
         - type
         - text
@@ -4794,7 +4834,6 @@ components:
             $ref: "#/components/schemas/MessageContentTextAnnotations"
       required:
         - value
-        - annotations
     MessageContentTextAnnotations:
       type: object
       description: An annotation within the message that points to a specific quote from a specific File associated with the assistant or the message.
@@ -4886,6 +4925,30 @@ components:
       required:
         - index
         - type
+    MessageContentImageUrlObject:
+      type: object
+      description: References an image URL in the content of a message.
+      properties:
+        type:
+          type: string
+          description: The type of the content part. Always `image_url`.
+          default: image_url
+        image_url:
+          $ref: "#/components/schemas/MessageContentImageUrl"
+      required:
+        - image_url
+    MessageDeltaContentImageUrlObject:
+      type: object
+      description: References an image URL in the content of a message.
+      properties:
+        index:
+          type: integer
+          description: The index of the content part in the message.
+        type:
+          description: Always `image_url`.
+          type: string
+        image_url:
+          $ref: "#/components/schemas/MessageContentImageUrl"
     MessageDeltaContentTextObject:
       type: object
       description: The text content that is part of a message.
@@ -5524,18 +5587,19 @@ components:
         object:
           description: The object type, which is always `vector_store`.
           type: string
-          enum: ["vector_store"]
         created_at:
           description: The Unix timestamp (in seconds) for when the vector store was created.
           type: integer
         name:
           description: The name of the vector store.
           type: string
+          nullable: true
         usage_bytes:
           description: The total number of bytes used by the files in the vector store.
           type: integer
         file_counts:
           id: VectorStoreFileCounts
+          description: The number of files in the vector store.
           type: object
           properties:
             in_progress:
@@ -5608,6 +5672,8 @@ components:
           description: *metadata_description
           type: object
           nullable: true
+      required:
+        - name
     UpdateVectorStoreRequest:
       type: object
       description: Request object for the Update vector store endpoint.
@@ -5638,10 +5704,12 @@ components:
             $ref: "#/components/schemas/VectorStoreObject"
         first_id:
           type: string
+          nullable: true
           description: The ID of the first assistant file in the list.
           example: "vs-abc123"
         last_id:
           type: string
+          nullable: true
           description: The ID of the last assistant file in the list.
           example: "vs-abc456"
         has_more:
@@ -5667,7 +5735,6 @@ components:
         object:
           type: string
           description: The object type, which is always `vector_store.deleted`.
-          enum: [vector_store.deleted]
       required:
         - id
         - object
@@ -5682,7 +5749,6 @@ components:
         object:
           description: The object type, which is always `vector_store.file`.
           type: string
-          enum: ["vector_store.file"]
         usage_bytes:
           description: The total vector store usage in bytes. Note that this may be different from the original file size.
           type: integer
@@ -5780,7 +5846,6 @@ components:
         object:
           type: string
           description: The object type, which is always `vector_store.file.deleted`.
-          enum: [vector_store.file.deleted]
       required:
         - id
         - object
@@ -5795,7 +5860,6 @@ components:
         object:
           description: The object type, which is always `vector_store.file_batch`.
           type: string
-          enum: ["vector_store.files_batch"]
         created_at:
           description: The Unix timestamp (in seconds) for when the vector store files batch was created.
           type: integer

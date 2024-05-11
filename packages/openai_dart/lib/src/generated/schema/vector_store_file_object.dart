@@ -19,7 +19,7 @@ class VectorStoreFileObject with _$VectorStoreFileObject {
     required String id,
 
     /// The object type, which is always `vector_store.file`.
-    required VectorStoreFileObjectObject object,
+    required String object,
 
     /// The total vector store usage in bytes. Note that this may be different from the original file size.
     @JsonKey(name: 'usage_bytes') required int usageBytes,
@@ -70,16 +70,6 @@ class VectorStoreFileObject with _$VectorStoreFileObject {
       'last_error': lastError,
     };
   }
-}
-
-// ==========================================
-// ENUM: VectorStoreFileObjectObject
-// ==========================================
-
-/// The object type, which is always `vector_store.file`.
-enum VectorStoreFileObjectObject {
-  @JsonValue('vector_store.file')
-  vectorStoreFile,
 }
 
 // ==========================================

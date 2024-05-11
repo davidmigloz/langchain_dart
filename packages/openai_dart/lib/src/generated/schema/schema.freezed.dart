@@ -38296,7 +38296,8 @@ mixin _$CreateMessageRequest {
   MessageRole get role => throw _privateConstructorUsedError;
 
   /// The content of the message.
-  String get content => throw _privateConstructorUsedError;
+  @_CreateMessageRequestContentConverter()
+  CreateMessageRequestContent get content => throw _privateConstructorUsedError;
 
   /// A list of files attached to the message, and the tools they were added to.
   @JsonKey(includeIfNull: false)
@@ -38321,9 +38322,12 @@ abstract class $CreateMessageRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {MessageRole role,
-      String content,
+      @_CreateMessageRequestContentConverter()
+      CreateMessageRequestContent content,
       @JsonKey(includeIfNull: false) List<MessageAttachment>? attachments,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+
+  $CreateMessageRequestContentCopyWith<$Res> get content;
 }
 
 /// @nodoc
@@ -38353,7 +38357,7 @@ class _$CreateMessageRequestCopyWithImpl<$Res,
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
-              as String,
+              as CreateMessageRequestContent,
       attachments: freezed == attachments
           ? _value.attachments
           : attachments // ignore: cast_nullable_to_non_nullable
@@ -38363,6 +38367,14 @@ class _$CreateMessageRequestCopyWithImpl<$Res,
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CreateMessageRequestContentCopyWith<$Res> get content {
+    return $CreateMessageRequestContentCopyWith<$Res>(_value.content, (value) {
+      return _then(_value.copyWith(content: value) as $Val);
+    });
   }
 }
 
@@ -38376,9 +38388,13 @@ abstract class _$$CreateMessageRequestImplCopyWith<$Res>
   @useResult
   $Res call(
       {MessageRole role,
-      String content,
+      @_CreateMessageRequestContentConverter()
+      CreateMessageRequestContent content,
       @JsonKey(includeIfNull: false) List<MessageAttachment>? attachments,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+
+  @override
+  $CreateMessageRequestContentCopyWith<$Res> get content;
 }
 
 /// @nodoc
@@ -38405,7 +38421,7 @@ class __$$CreateMessageRequestImplCopyWithImpl<$Res>
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
-              as String,
+              as CreateMessageRequestContent,
       attachments: freezed == attachments
           ? _value._attachments
           : attachments // ignore: cast_nullable_to_non_nullable
@@ -38423,7 +38439,7 @@ class __$$CreateMessageRequestImplCopyWithImpl<$Res>
 class _$CreateMessageRequestImpl extends _CreateMessageRequest {
   const _$CreateMessageRequestImpl(
       {required this.role,
-      required this.content,
+      @_CreateMessageRequestContentConverter() required this.content,
       @JsonKey(includeIfNull: false) final List<MessageAttachment>? attachments,
       @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata})
       : _attachments = attachments,
@@ -38439,7 +38455,8 @@ class _$CreateMessageRequestImpl extends _CreateMessageRequest {
 
   /// The content of the message.
   @override
-  final String content;
+  @_CreateMessageRequestContentConverter()
+  final CreateMessageRequestContent content;
 
   /// A list of files attached to the message, and the tools they were added to.
   final List<MessageAttachment>? _attachments;
@@ -38514,7 +38531,8 @@ class _$CreateMessageRequestImpl extends _CreateMessageRequest {
 abstract class _CreateMessageRequest extends CreateMessageRequest {
   const factory _CreateMessageRequest(
       {required final MessageRole role,
-      required final String content,
+      @_CreateMessageRequestContentConverter()
+      required final CreateMessageRequestContent content,
       @JsonKey(includeIfNull: false) final List<MessageAttachment>? attachments,
       @JsonKey(includeIfNull: false)
       final Map<String, dynamic>? metadata}) = _$CreateMessageRequestImpl;
@@ -38530,7 +38548,8 @@ abstract class _CreateMessageRequest extends CreateMessageRequest {
   @override
 
   /// The content of the message.
-  String get content;
+  @_CreateMessageRequestContentConverter()
+  CreateMessageRequestContent get content;
   @override
 
   /// A list of files attached to the message, and the tools they were added to.
@@ -38544,6 +38563,446 @@ abstract class _CreateMessageRequest extends CreateMessageRequest {
   @override
   @JsonKey(ignore: true)
   _$$CreateMessageRequestImplCopyWith<_$CreateMessageRequestImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+CreateMessageRequestContent _$CreateMessageRequestContentFromJson(
+    Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'parts':
+      return CreateMessageRequestContentListMessageContent.fromJson(json);
+    case 'text':
+      return CreateMessageRequestContentString.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'runtimeType',
+          'CreateMessageRequestContent',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$CreateMessageRequestContent {
+  Object get value => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<MessageContent> value) parts,
+    required TResult Function(String value) text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<MessageContent> value)? parts,
+    TResult? Function(String value)? text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<MessageContent> value)? parts,
+    TResult Function(String value)? text,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            CreateMessageRequestContentListMessageContent value)
+        parts,
+    required TResult Function(CreateMessageRequestContentString value) text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateMessageRequestContentListMessageContent value)?
+        parts,
+    TResult? Function(CreateMessageRequestContentString value)? text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateMessageRequestContentListMessageContent value)?
+        parts,
+    TResult Function(CreateMessageRequestContentString value)? text,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateMessageRequestContentCopyWith<$Res> {
+  factory $CreateMessageRequestContentCopyWith(
+          CreateMessageRequestContent value,
+          $Res Function(CreateMessageRequestContent) then) =
+      _$CreateMessageRequestContentCopyWithImpl<$Res,
+          CreateMessageRequestContent>;
+}
+
+/// @nodoc
+class _$CreateMessageRequestContentCopyWithImpl<$Res,
+        $Val extends CreateMessageRequestContent>
+    implements $CreateMessageRequestContentCopyWith<$Res> {
+  _$CreateMessageRequestContentCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$CreateMessageRequestContentListMessageContentImplCopyWith<
+    $Res> {
+  factory _$$CreateMessageRequestContentListMessageContentImplCopyWith(
+          _$CreateMessageRequestContentListMessageContentImpl value,
+          $Res Function(_$CreateMessageRequestContentListMessageContentImpl)
+              then) =
+      __$$CreateMessageRequestContentListMessageContentImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<MessageContent> value});
+}
+
+/// @nodoc
+class __$$CreateMessageRequestContentListMessageContentImplCopyWithImpl<$Res>
+    extends _$CreateMessageRequestContentCopyWithImpl<$Res,
+        _$CreateMessageRequestContentListMessageContentImpl>
+    implements
+        _$$CreateMessageRequestContentListMessageContentImplCopyWith<$Res> {
+  __$$CreateMessageRequestContentListMessageContentImplCopyWithImpl(
+      _$CreateMessageRequestContentListMessageContentImpl _value,
+      $Res Function(_$CreateMessageRequestContentListMessageContentImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$CreateMessageRequestContentListMessageContentImpl(
+      null == value
+          ? _value._value
+          : value // ignore: cast_nullable_to_non_nullable
+              as List<MessageContent>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateMessageRequestContentListMessageContentImpl
+    extends CreateMessageRequestContentListMessageContent {
+  const _$CreateMessageRequestContentListMessageContentImpl(
+      final List<MessageContent> value,
+      {final String? $type})
+      : _value = value,
+        $type = $type ?? 'parts',
+        super._();
+
+  factory _$CreateMessageRequestContentListMessageContentImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$CreateMessageRequestContentListMessageContentImplFromJson(json);
+
+  final List<MessageContent> _value;
+  @override
+  List<MessageContent> get value {
+    if (_value is EqualUnmodifiableListView) return _value;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_value);
+  }
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'CreateMessageRequestContent.parts(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateMessageRequestContentListMessageContentImpl &&
+            const DeepCollectionEquality().equals(other._value, _value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_value));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateMessageRequestContentListMessageContentImplCopyWith<
+          _$CreateMessageRequestContentListMessageContentImpl>
+      get copyWith =>
+          __$$CreateMessageRequestContentListMessageContentImplCopyWithImpl<
+                  _$CreateMessageRequestContentListMessageContentImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<MessageContent> value) parts,
+    required TResult Function(String value) text,
+  }) {
+    return parts(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<MessageContent> value)? parts,
+    TResult? Function(String value)? text,
+  }) {
+    return parts?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<MessageContent> value)? parts,
+    TResult Function(String value)? text,
+    required TResult orElse(),
+  }) {
+    if (parts != null) {
+      return parts(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            CreateMessageRequestContentListMessageContent value)
+        parts,
+    required TResult Function(CreateMessageRequestContentString value) text,
+  }) {
+    return parts(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateMessageRequestContentListMessageContent value)?
+        parts,
+    TResult? Function(CreateMessageRequestContentString value)? text,
+  }) {
+    return parts?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateMessageRequestContentListMessageContent value)?
+        parts,
+    TResult Function(CreateMessageRequestContentString value)? text,
+    required TResult orElse(),
+  }) {
+    if (parts != null) {
+      return parts(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateMessageRequestContentListMessageContentImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class CreateMessageRequestContentListMessageContent
+    extends CreateMessageRequestContent {
+  const factory CreateMessageRequestContentListMessageContent(
+          final List<MessageContent> value) =
+      _$CreateMessageRequestContentListMessageContentImpl;
+  const CreateMessageRequestContentListMessageContent._() : super._();
+
+  factory CreateMessageRequestContentListMessageContent.fromJson(
+          Map<String, dynamic> json) =
+      _$CreateMessageRequestContentListMessageContentImpl.fromJson;
+
+  @override
+  List<MessageContent> get value;
+  @JsonKey(ignore: true)
+  _$$CreateMessageRequestContentListMessageContentImplCopyWith<
+          _$CreateMessageRequestContentListMessageContentImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$CreateMessageRequestContentStringImplCopyWith<$Res> {
+  factory _$$CreateMessageRequestContentStringImplCopyWith(
+          _$CreateMessageRequestContentStringImpl value,
+          $Res Function(_$CreateMessageRequestContentStringImpl) then) =
+      __$$CreateMessageRequestContentStringImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String value});
+}
+
+/// @nodoc
+class __$$CreateMessageRequestContentStringImplCopyWithImpl<$Res>
+    extends _$CreateMessageRequestContentCopyWithImpl<$Res,
+        _$CreateMessageRequestContentStringImpl>
+    implements _$$CreateMessageRequestContentStringImplCopyWith<$Res> {
+  __$$CreateMessageRequestContentStringImplCopyWithImpl(
+      _$CreateMessageRequestContentStringImpl _value,
+      $Res Function(_$CreateMessageRequestContentStringImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$CreateMessageRequestContentStringImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateMessageRequestContentStringImpl
+    extends CreateMessageRequestContentString {
+  const _$CreateMessageRequestContentStringImpl(this.value,
+      {final String? $type})
+      : $type = $type ?? 'text',
+        super._();
+
+  factory _$CreateMessageRequestContentStringImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$CreateMessageRequestContentStringImplFromJson(json);
+
+  @override
+  final String value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'CreateMessageRequestContent.text(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateMessageRequestContentStringImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateMessageRequestContentStringImplCopyWith<
+          _$CreateMessageRequestContentStringImpl>
+      get copyWith => __$$CreateMessageRequestContentStringImplCopyWithImpl<
+          _$CreateMessageRequestContentStringImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<MessageContent> value) parts,
+    required TResult Function(String value) text,
+  }) {
+    return text(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<MessageContent> value)? parts,
+    TResult? Function(String value)? text,
+  }) {
+    return text?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<MessageContent> value)? parts,
+    TResult Function(String value)? text,
+    required TResult orElse(),
+  }) {
+    if (text != null) {
+      return text(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            CreateMessageRequestContentListMessageContent value)
+        parts,
+    required TResult Function(CreateMessageRequestContentString value) text,
+  }) {
+    return text(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateMessageRequestContentListMessageContent value)?
+        parts,
+    TResult? Function(CreateMessageRequestContentString value)? text,
+  }) {
+    return text?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateMessageRequestContentListMessageContent value)?
+        parts,
+    TResult Function(CreateMessageRequestContentString value)? text,
+    required TResult orElse(),
+  }) {
+    if (text != null) {
+      return text(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateMessageRequestContentStringImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class CreateMessageRequestContentString
+    extends CreateMessageRequestContent {
+  const factory CreateMessageRequestContentString(final String value) =
+      _$CreateMessageRequestContentStringImpl;
+  const CreateMessageRequestContentString._() : super._();
+
+  factory CreateMessageRequestContentString.fromJson(
+          Map<String, dynamic> json) =
+      _$CreateMessageRequestContentStringImpl.fromJson;
+
+  @override
+  String get value;
+  @JsonKey(ignore: true)
+  _$$CreateMessageRequestContentStringImplCopyWith<
+          _$CreateMessageRequestContentStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -39184,9 +39643,12 @@ MessageContentImageFile _$MessageContentImageFileFromJson(
 
 /// @nodoc
 mixin _$MessageContentImageFile {
-  /// The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content.
+  /// The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content. Set `purpose="vision"` when uploading the File if you need to later display the file content.
   @JsonKey(name: 'file_id')
   String get fileId => throw _privateConstructorUsedError;
+
+  /// Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
+  MessageContentImageDetail get detail => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39200,7 +39662,9 @@ abstract class $MessageContentImageFileCopyWith<$Res> {
           $Res Function(MessageContentImageFile) then) =
       _$MessageContentImageFileCopyWithImpl<$Res, MessageContentImageFile>;
   @useResult
-  $Res call({@JsonKey(name: 'file_id') String fileId});
+  $Res call(
+      {@JsonKey(name: 'file_id') String fileId,
+      MessageContentImageDetail detail});
 }
 
 /// @nodoc
@@ -39218,12 +39682,17 @@ class _$MessageContentImageFileCopyWithImpl<$Res,
   @override
   $Res call({
     Object? fileId = null,
+    Object? detail = null,
   }) {
     return _then(_value.copyWith(
       fileId: null == fileId
           ? _value.fileId
           : fileId // ignore: cast_nullable_to_non_nullable
               as String,
+      detail: null == detail
+          ? _value.detail
+          : detail // ignore: cast_nullable_to_non_nullable
+              as MessageContentImageDetail,
     ) as $Val);
   }
 }
@@ -39237,7 +39706,9 @@ abstract class _$$MessageContentImageFileImplCopyWith<$Res>
       __$$MessageContentImageFileImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'file_id') String fileId});
+  $Res call(
+      {@JsonKey(name: 'file_id') String fileId,
+      MessageContentImageDetail detail});
 }
 
 /// @nodoc
@@ -39254,12 +39725,17 @@ class __$$MessageContentImageFileImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fileId = null,
+    Object? detail = null,
   }) {
     return _then(_$MessageContentImageFileImpl(
       fileId: null == fileId
           ? _value.fileId
           : fileId // ignore: cast_nullable_to_non_nullable
               as String,
+      detail: null == detail
+          ? _value.detail
+          : detail // ignore: cast_nullable_to_non_nullable
+              as MessageContentImageDetail,
     ));
   }
 }
@@ -39268,20 +39744,26 @@ class __$$MessageContentImageFileImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$MessageContentImageFileImpl extends _MessageContentImageFile {
   const _$MessageContentImageFileImpl(
-      {@JsonKey(name: 'file_id') required this.fileId})
+      {@JsonKey(name: 'file_id') required this.fileId,
+      this.detail = MessageContentImageDetail.auto})
       : super._();
 
   factory _$MessageContentImageFileImpl.fromJson(Map<String, dynamic> json) =>
       _$$MessageContentImageFileImplFromJson(json);
 
-  /// The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content.
+  /// The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content. Set `purpose="vision"` when uploading the File if you need to later display the file content.
   @override
   @JsonKey(name: 'file_id')
   final String fileId;
 
+  /// Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
+  @override
+  @JsonKey()
+  final MessageContentImageDetail detail;
+
   @override
   String toString() {
-    return 'MessageContentImageFile(fileId: $fileId)';
+    return 'MessageContentImageFile(fileId: $fileId, detail: $detail)';
   }
 
   @override
@@ -39289,12 +39771,13 @@ class _$MessageContentImageFileImpl extends _MessageContentImageFile {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MessageContentImageFileImpl &&
-            (identical(other.fileId, fileId) || other.fileId == fileId));
+            (identical(other.fileId, fileId) || other.fileId == fileId) &&
+            (identical(other.detail, detail) || other.detail == detail));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, fileId);
+  int get hashCode => Object.hash(runtimeType, fileId, detail);
 
   @JsonKey(ignore: true)
   @override
@@ -39313,8 +39796,8 @@ class _$MessageContentImageFileImpl extends _MessageContentImageFile {
 
 abstract class _MessageContentImageFile extends MessageContentImageFile {
   const factory _MessageContentImageFile(
-          {@JsonKey(name: 'file_id') required final String fileId}) =
-      _$MessageContentImageFileImpl;
+      {@JsonKey(name: 'file_id') required final String fileId,
+      final MessageContentImageDetail detail}) = _$MessageContentImageFileImpl;
   const _MessageContentImageFile._() : super._();
 
   factory _MessageContentImageFile.fromJson(Map<String, dynamic> json) =
@@ -39322,12 +39805,370 @@ abstract class _MessageContentImageFile extends MessageContentImageFile {
 
   @override
 
-  /// The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content.
+  /// The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content. Set `purpose="vision"` when uploading the File if you need to later display the file content.
   @JsonKey(name: 'file_id')
   String get fileId;
   @override
+
+  /// Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
+  MessageContentImageDetail get detail;
+  @override
   @JsonKey(ignore: true)
   _$$MessageContentImageFileImplCopyWith<_$MessageContentImageFileImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+MessageContentImageUrl _$MessageContentImageUrlFromJson(
+    Map<String, dynamic> json) {
+  return _MessageContentImageUrl.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageContentImageUrl {
+  /// The external URL of the image, must be a supported image types: jpeg, jpg, png, gif, webp.
+  String get url => throw _privateConstructorUsedError;
+
+  /// Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
+  MessageContentImageDetail get detail => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageContentImageUrlCopyWith<MessageContentImageUrl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageContentImageUrlCopyWith<$Res> {
+  factory $MessageContentImageUrlCopyWith(MessageContentImageUrl value,
+          $Res Function(MessageContentImageUrl) then) =
+      _$MessageContentImageUrlCopyWithImpl<$Res, MessageContentImageUrl>;
+  @useResult
+  $Res call({String url, MessageContentImageDetail detail});
+}
+
+/// @nodoc
+class _$MessageContentImageUrlCopyWithImpl<$Res,
+        $Val extends MessageContentImageUrl>
+    implements $MessageContentImageUrlCopyWith<$Res> {
+  _$MessageContentImageUrlCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? url = null,
+    Object? detail = null,
+  }) {
+    return _then(_value.copyWith(
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      detail: null == detail
+          ? _value.detail
+          : detail // ignore: cast_nullable_to_non_nullable
+              as MessageContentImageDetail,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageContentImageUrlImplCopyWith<$Res>
+    implements $MessageContentImageUrlCopyWith<$Res> {
+  factory _$$MessageContentImageUrlImplCopyWith(
+          _$MessageContentImageUrlImpl value,
+          $Res Function(_$MessageContentImageUrlImpl) then) =
+      __$$MessageContentImageUrlImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String url, MessageContentImageDetail detail});
+}
+
+/// @nodoc
+class __$$MessageContentImageUrlImplCopyWithImpl<$Res>
+    extends _$MessageContentImageUrlCopyWithImpl<$Res,
+        _$MessageContentImageUrlImpl>
+    implements _$$MessageContentImageUrlImplCopyWith<$Res> {
+  __$$MessageContentImageUrlImplCopyWithImpl(
+      _$MessageContentImageUrlImpl _value,
+      $Res Function(_$MessageContentImageUrlImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? url = null,
+    Object? detail = null,
+  }) {
+    return _then(_$MessageContentImageUrlImpl(
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      detail: null == detail
+          ? _value.detail
+          : detail // ignore: cast_nullable_to_non_nullable
+              as MessageContentImageDetail,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageContentImageUrlImpl extends _MessageContentImageUrl {
+  const _$MessageContentImageUrlImpl(
+      {required this.url, this.detail = MessageContentImageDetail.auto})
+      : super._();
+
+  factory _$MessageContentImageUrlImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageContentImageUrlImplFromJson(json);
+
+  /// The external URL of the image, must be a supported image types: jpeg, jpg, png, gif, webp.
+  @override
+  final String url;
+
+  /// Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
+  @override
+  @JsonKey()
+  final MessageContentImageDetail detail;
+
+  @override
+  String toString() {
+    return 'MessageContentImageUrl(url: $url, detail: $detail)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageContentImageUrlImpl &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.detail, detail) || other.detail == detail));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, url, detail);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageContentImageUrlImplCopyWith<_$MessageContentImageUrlImpl>
+      get copyWith => __$$MessageContentImageUrlImplCopyWithImpl<
+          _$MessageContentImageUrlImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageContentImageUrlImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageContentImageUrl extends MessageContentImageUrl {
+  const factory _MessageContentImageUrl(
+      {required final String url,
+      final MessageContentImageDetail detail}) = _$MessageContentImageUrlImpl;
+  const _MessageContentImageUrl._() : super._();
+
+  factory _MessageContentImageUrl.fromJson(Map<String, dynamic> json) =
+      _$MessageContentImageUrlImpl.fromJson;
+
+  @override
+
+  /// The external URL of the image, must be a supported image types: jpeg, jpg, png, gif, webp.
+  String get url;
+  @override
+
+  /// Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
+  MessageContentImageDetail get detail;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageContentImageUrlImplCopyWith<_$MessageContentImageUrlImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+MessageRequestContentTextObject _$MessageRequestContentTextObjectFromJson(
+    Map<String, dynamic> json) {
+  return _MessageRequestContentTextObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageRequestContentTextObject {
+  /// Always `text`.
+  String get type => throw _privateConstructorUsedError;
+
+  /// Text content to be sent to the model
+  String get text => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageRequestContentTextObjectCopyWith<MessageRequestContentTextObject>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageRequestContentTextObjectCopyWith<$Res> {
+  factory $MessageRequestContentTextObjectCopyWith(
+          MessageRequestContentTextObject value,
+          $Res Function(MessageRequestContentTextObject) then) =
+      _$MessageRequestContentTextObjectCopyWithImpl<$Res,
+          MessageRequestContentTextObject>;
+  @useResult
+  $Res call({String type, String text});
+}
+
+/// @nodoc
+class _$MessageRequestContentTextObjectCopyWithImpl<$Res,
+        $Val extends MessageRequestContentTextObject>
+    implements $MessageRequestContentTextObjectCopyWith<$Res> {
+  _$MessageRequestContentTextObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? text = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageRequestContentTextObjectImplCopyWith<$Res>
+    implements $MessageRequestContentTextObjectCopyWith<$Res> {
+  factory _$$MessageRequestContentTextObjectImplCopyWith(
+          _$MessageRequestContentTextObjectImpl value,
+          $Res Function(_$MessageRequestContentTextObjectImpl) then) =
+      __$$MessageRequestContentTextObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String type, String text});
+}
+
+/// @nodoc
+class __$$MessageRequestContentTextObjectImplCopyWithImpl<$Res>
+    extends _$MessageRequestContentTextObjectCopyWithImpl<$Res,
+        _$MessageRequestContentTextObjectImpl>
+    implements _$$MessageRequestContentTextObjectImplCopyWith<$Res> {
+  __$$MessageRequestContentTextObjectImplCopyWithImpl(
+      _$MessageRequestContentTextObjectImpl _value,
+      $Res Function(_$MessageRequestContentTextObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? text = null,
+  }) {
+    return _then(_$MessageRequestContentTextObjectImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageRequestContentTextObjectImpl
+    extends _MessageRequestContentTextObject {
+  const _$MessageRequestContentTextObjectImpl(
+      {required this.type, required this.text})
+      : super._();
+
+  factory _$MessageRequestContentTextObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageRequestContentTextObjectImplFromJson(json);
+
+  /// Always `text`.
+  @override
+  final String type;
+
+  /// Text content to be sent to the model
+  @override
+  final String text;
+
+  @override
+  String toString() {
+    return 'MessageRequestContentTextObject(type: $type, text: $text)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageRequestContentTextObjectImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.text, text) || other.text == text));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, text);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageRequestContentTextObjectImplCopyWith<
+          _$MessageRequestContentTextObjectImpl>
+      get copyWith => __$$MessageRequestContentTextObjectImplCopyWithImpl<
+          _$MessageRequestContentTextObjectImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageRequestContentTextObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageRequestContentTextObject
+    extends MessageRequestContentTextObject {
+  const factory _MessageRequestContentTextObject(
+      {required final String type,
+      required final String text}) = _$MessageRequestContentTextObjectImpl;
+  const _MessageRequestContentTextObject._() : super._();
+
+  factory _MessageRequestContentTextObject.fromJson(Map<String, dynamic> json) =
+      _$MessageRequestContentTextObjectImpl.fromJson;
+
+  @override
+
+  /// Always `text`.
+  String get type;
+  @override
+
+  /// Text content to be sent to the model
+  String get text;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageRequestContentTextObjectImplCopyWith<
+          _$MessageRequestContentTextObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -39341,7 +40182,8 @@ mixin _$MessageContentText {
   String get value => throw _privateConstructorUsedError;
 
   /// A list of annotations that point to specific quotes from specific files.
-  List<MessageContentTextAnnotations> get annotations =>
+  @JsonKey(includeIfNull: false)
+  List<MessageContentTextAnnotations>? get annotations =>
       throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39356,7 +40198,10 @@ abstract class $MessageContentTextCopyWith<$Res> {
           MessageContentText value, $Res Function(MessageContentText) then) =
       _$MessageContentTextCopyWithImpl<$Res, MessageContentText>;
   @useResult
-  $Res call({String value, List<MessageContentTextAnnotations> annotations});
+  $Res call(
+      {String value,
+      @JsonKey(includeIfNull: false)
+      List<MessageContentTextAnnotations>? annotations});
 }
 
 /// @nodoc
@@ -39373,17 +40218,17 @@ class _$MessageContentTextCopyWithImpl<$Res, $Val extends MessageContentText>
   @override
   $Res call({
     Object? value = null,
-    Object? annotations = null,
+    Object? annotations = freezed,
   }) {
     return _then(_value.copyWith(
       value: null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
-      annotations: null == annotations
+      annotations: freezed == annotations
           ? _value.annotations
           : annotations // ignore: cast_nullable_to_non_nullable
-              as List<MessageContentTextAnnotations>,
+              as List<MessageContentTextAnnotations>?,
     ) as $Val);
   }
 }
@@ -39396,7 +40241,10 @@ abstract class _$$MessageContentTextImplCopyWith<$Res>
       __$$MessageContentTextImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String value, List<MessageContentTextAnnotations> annotations});
+  $Res call(
+      {String value,
+      @JsonKey(includeIfNull: false)
+      List<MessageContentTextAnnotations>? annotations});
 }
 
 /// @nodoc
@@ -39411,17 +40259,17 @@ class __$$MessageContentTextImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? value = null,
-    Object? annotations = null,
+    Object? annotations = freezed,
   }) {
     return _then(_$MessageContentTextImpl(
       value: null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
-      annotations: null == annotations
+      annotations: freezed == annotations
           ? _value._annotations
           : annotations // ignore: cast_nullable_to_non_nullable
-              as List<MessageContentTextAnnotations>,
+              as List<MessageContentTextAnnotations>?,
     ));
   }
 }
@@ -39431,7 +40279,8 @@ class __$$MessageContentTextImplCopyWithImpl<$Res>
 class _$MessageContentTextImpl extends _MessageContentText {
   const _$MessageContentTextImpl(
       {required this.value,
-      required final List<MessageContentTextAnnotations> annotations})
+      @JsonKey(includeIfNull: false)
+      final List<MessageContentTextAnnotations>? annotations})
       : _annotations = annotations,
         super._();
 
@@ -39443,14 +40292,17 @@ class _$MessageContentTextImpl extends _MessageContentText {
   final String value;
 
   /// A list of annotations that point to specific quotes from specific files.
-  final List<MessageContentTextAnnotations> _annotations;
+  final List<MessageContentTextAnnotations>? _annotations;
 
   /// A list of annotations that point to specific quotes from specific files.
   @override
-  List<MessageContentTextAnnotations> get annotations {
+  @JsonKey(includeIfNull: false)
+  List<MessageContentTextAnnotations>? get annotations {
+    final value = _annotations;
+    if (value == null) return null;
     if (_annotations is EqualUnmodifiableListView) return _annotations;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_annotations);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -39491,7 +40343,8 @@ class _$MessageContentTextImpl extends _MessageContentText {
 abstract class _MessageContentText extends MessageContentText {
   const factory _MessageContentText(
           {required final String value,
-          required final List<MessageContentTextAnnotations> annotations}) =
+          @JsonKey(includeIfNull: false)
+          final List<MessageContentTextAnnotations>? annotations}) =
       _$MessageContentTextImpl;
   const _MessageContentText._() : super._();
 
@@ -39505,7 +40358,8 @@ abstract class _MessageContentText extends MessageContentText {
   @override
 
   /// A list of annotations that point to specific quotes from specific files.
-  List<MessageContentTextAnnotations> get annotations;
+  @JsonKey(includeIfNull: false)
+  List<MessageContentTextAnnotations>? get annotations;
   @override
   @JsonKey(ignore: true)
   _$$MessageContentTextImplCopyWith<_$MessageContentTextImpl> get copyWith =>
@@ -39699,6 +40553,249 @@ abstract class _MessageContentTextAnnotationsFileCitation
   @JsonKey(ignore: true)
   _$$MessageContentTextAnnotationsFileCitationImplCopyWith<
           _$MessageContentTextAnnotationsFileCitationImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+MessageDeltaContentImageUrlObject _$MessageDeltaContentImageUrlObjectFromJson(
+    Map<String, dynamic> json) {
+  return _MessageDeltaContentImageUrlObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageDeltaContentImageUrlObject {
+  /// The index of the content part in the message.
+  @JsonKey(includeIfNull: false)
+  int? get index => throw _privateConstructorUsedError;
+
+  /// Always `image_url`.
+  @JsonKey(includeIfNull: false)
+  String? get type => throw _privateConstructorUsedError;
+
+  /// The image URL part of a message.
+  @JsonKey(name: 'image_url', includeIfNull: false)
+  MessageContentImageUrl? get imageUrl => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageDeltaContentImageUrlObjectCopyWith<MessageDeltaContentImageUrlObject>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageDeltaContentImageUrlObjectCopyWith<$Res> {
+  factory $MessageDeltaContentImageUrlObjectCopyWith(
+          MessageDeltaContentImageUrlObject value,
+          $Res Function(MessageDeltaContentImageUrlObject) then) =
+      _$MessageDeltaContentImageUrlObjectCopyWithImpl<$Res,
+          MessageDeltaContentImageUrlObject>;
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) int? index,
+      @JsonKey(includeIfNull: false) String? type,
+      @JsonKey(name: 'image_url', includeIfNull: false)
+      MessageContentImageUrl? imageUrl});
+
+  $MessageContentImageUrlCopyWith<$Res>? get imageUrl;
+}
+
+/// @nodoc
+class _$MessageDeltaContentImageUrlObjectCopyWithImpl<$Res,
+        $Val extends MessageDeltaContentImageUrlObject>
+    implements $MessageDeltaContentImageUrlObjectCopyWith<$Res> {
+  _$MessageDeltaContentImageUrlObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = freezed,
+    Object? type = freezed,
+    Object? imageUrl = freezed,
+  }) {
+    return _then(_value.copyWith(
+      index: freezed == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as MessageContentImageUrl?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageContentImageUrlCopyWith<$Res>? get imageUrl {
+    if (_value.imageUrl == null) {
+      return null;
+    }
+
+    return $MessageContentImageUrlCopyWith<$Res>(_value.imageUrl!, (value) {
+      return _then(_value.copyWith(imageUrl: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageDeltaContentImageUrlObjectImplCopyWith<$Res>
+    implements $MessageDeltaContentImageUrlObjectCopyWith<$Res> {
+  factory _$$MessageDeltaContentImageUrlObjectImplCopyWith(
+          _$MessageDeltaContentImageUrlObjectImpl value,
+          $Res Function(_$MessageDeltaContentImageUrlObjectImpl) then) =
+      __$$MessageDeltaContentImageUrlObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) int? index,
+      @JsonKey(includeIfNull: false) String? type,
+      @JsonKey(name: 'image_url', includeIfNull: false)
+      MessageContentImageUrl? imageUrl});
+
+  @override
+  $MessageContentImageUrlCopyWith<$Res>? get imageUrl;
+}
+
+/// @nodoc
+class __$$MessageDeltaContentImageUrlObjectImplCopyWithImpl<$Res>
+    extends _$MessageDeltaContentImageUrlObjectCopyWithImpl<$Res,
+        _$MessageDeltaContentImageUrlObjectImpl>
+    implements _$$MessageDeltaContentImageUrlObjectImplCopyWith<$Res> {
+  __$$MessageDeltaContentImageUrlObjectImplCopyWithImpl(
+      _$MessageDeltaContentImageUrlObjectImpl _value,
+      $Res Function(_$MessageDeltaContentImageUrlObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = freezed,
+    Object? type = freezed,
+    Object? imageUrl = freezed,
+  }) {
+    return _then(_$MessageDeltaContentImageUrlObjectImpl(
+      index: freezed == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as MessageContentImageUrl?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageDeltaContentImageUrlObjectImpl
+    extends _MessageDeltaContentImageUrlObject {
+  const _$MessageDeltaContentImageUrlObjectImpl(
+      {@JsonKey(includeIfNull: false) this.index,
+      @JsonKey(includeIfNull: false) this.type,
+      @JsonKey(name: 'image_url', includeIfNull: false) this.imageUrl})
+      : super._();
+
+  factory _$MessageDeltaContentImageUrlObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageDeltaContentImageUrlObjectImplFromJson(json);
+
+  /// The index of the content part in the message.
+  @override
+  @JsonKey(includeIfNull: false)
+  final int? index;
+
+  /// Always `image_url`.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? type;
+
+  /// The image URL part of a message.
+  @override
+  @JsonKey(name: 'image_url', includeIfNull: false)
+  final MessageContentImageUrl? imageUrl;
+
+  @override
+  String toString() {
+    return 'MessageDeltaContentImageUrlObject(index: $index, type: $type, imageUrl: $imageUrl)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageDeltaContentImageUrlObjectImpl &&
+            (identical(other.index, index) || other.index == index) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, index, type, imageUrl);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageDeltaContentImageUrlObjectImplCopyWith<
+          _$MessageDeltaContentImageUrlObjectImpl>
+      get copyWith => __$$MessageDeltaContentImageUrlObjectImplCopyWithImpl<
+          _$MessageDeltaContentImageUrlObjectImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageDeltaContentImageUrlObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageDeltaContentImageUrlObject
+    extends MessageDeltaContentImageUrlObject {
+  const factory _MessageDeltaContentImageUrlObject(
+          {@JsonKey(includeIfNull: false) final int? index,
+          @JsonKey(includeIfNull: false) final String? type,
+          @JsonKey(name: 'image_url', includeIfNull: false)
+          final MessageContentImageUrl? imageUrl}) =
+      _$MessageDeltaContentImageUrlObjectImpl;
+  const _MessageDeltaContentImageUrlObject._() : super._();
+
+  factory _MessageDeltaContentImageUrlObject.fromJson(
+          Map<String, dynamic> json) =
+      _$MessageDeltaContentImageUrlObjectImpl.fromJson;
+
+  @override
+
+  /// The index of the content part in the message.
+  @JsonKey(includeIfNull: false)
+  int? get index;
+  @override
+
+  /// Always `image_url`.
+  @JsonKey(includeIfNull: false)
+  String? get type;
+  @override
+
+  /// The image URL part of a message.
+  @JsonKey(name: 'image_url', includeIfNull: false)
+  MessageContentImageUrl? get imageUrl;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageDeltaContentImageUrlObjectImplCopyWith<
+          _$MessageDeltaContentImageUrlObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -43080,20 +44177,20 @@ mixin _$VectorStoreObject {
   String get id => throw _privateConstructorUsedError;
 
   /// The object type, which is always `vector_store`.
-  VectorStoreObjectObject get object => throw _privateConstructorUsedError;
+  String get object => throw _privateConstructorUsedError;
 
   /// The Unix timestamp (in seconds) for when the vector store was created.
   @JsonKey(name: 'created_at')
   int get createdAt => throw _privateConstructorUsedError;
 
   /// The name of the vector store.
-  String get name => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
 
   /// The total number of bytes used by the files in the vector store.
   @JsonKey(name: 'usage_bytes')
   int get usageBytes => throw _privateConstructorUsedError;
 
-  /// No Description
+  /// The number of files in the vector store.
   @JsonKey(name: 'file_counts')
   VectorStoreObjectFileCounts get fileCounts =>
       throw _privateConstructorUsedError;
@@ -43131,9 +44228,9 @@ abstract class $VectorStoreObjectCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      VectorStoreObjectObject object,
+      String object,
       @JsonKey(name: 'created_at') int createdAt,
-      String name,
+      String? name,
       @JsonKey(name: 'usage_bytes') int usageBytes,
       @JsonKey(name: 'file_counts') VectorStoreObjectFileCounts fileCounts,
       VectorStoreObjectStatus status,
@@ -43163,7 +44260,7 @@ class _$VectorStoreObjectCopyWithImpl<$Res, $Val extends VectorStoreObject>
     Object? id = null,
     Object? object = null,
     Object? createdAt = null,
-    Object? name = null,
+    Object? name = freezed,
     Object? usageBytes = null,
     Object? fileCounts = null,
     Object? status = null,
@@ -43180,15 +44277,15 @@ class _$VectorStoreObjectCopyWithImpl<$Res, $Val extends VectorStoreObject>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as VectorStoreObjectObject,
+              as String,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as int,
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       usageBytes: null == usageBytes
           ? _value.usageBytes
           : usageBytes // ignore: cast_nullable_to_non_nullable
@@ -43253,9 +44350,9 @@ abstract class _$$VectorStoreObjectImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      VectorStoreObjectObject object,
+      String object,
       @JsonKey(name: 'created_at') int createdAt,
-      String name,
+      String? name,
       @JsonKey(name: 'usage_bytes') int usageBytes,
       @JsonKey(name: 'file_counts') VectorStoreObjectFileCounts fileCounts,
       VectorStoreObjectStatus status,
@@ -43285,7 +44382,7 @@ class __$$VectorStoreObjectImplCopyWithImpl<$Res>
     Object? id = null,
     Object? object = null,
     Object? createdAt = null,
-    Object? name = null,
+    Object? name = freezed,
     Object? usageBytes = null,
     Object? fileCounts = null,
     Object? status = null,
@@ -43302,15 +44399,15 @@ class __$$VectorStoreObjectImplCopyWithImpl<$Res>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as VectorStoreObjectObject,
+              as String,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as int,
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       usageBytes: null == usageBytes
           ? _value.usageBytes
           : usageBytes // ignore: cast_nullable_to_non_nullable
@@ -43369,7 +44466,7 @@ class _$VectorStoreObjectImpl extends _VectorStoreObject {
 
   /// The object type, which is always `vector_store`.
   @override
-  final VectorStoreObjectObject object;
+  final String object;
 
   /// The Unix timestamp (in seconds) for when the vector store was created.
   @override
@@ -43378,14 +44475,14 @@ class _$VectorStoreObjectImpl extends _VectorStoreObject {
 
   /// The name of the vector store.
   @override
-  final String name;
+  final String? name;
 
   /// The total number of bytes used by the files in the vector store.
   @override
   @JsonKey(name: 'usage_bytes')
   final int usageBytes;
 
-  /// No Description
+  /// The number of files in the vector store.
   @override
   @JsonKey(name: 'file_counts')
   final VectorStoreObjectFileCounts fileCounts;
@@ -43476,9 +44573,9 @@ class _$VectorStoreObjectImpl extends _VectorStoreObject {
 abstract class _VectorStoreObject extends VectorStoreObject {
   const factory _VectorStoreObject(
       {required final String id,
-      required final VectorStoreObjectObject object,
+      required final String object,
       @JsonKey(name: 'created_at') required final int createdAt,
-      required final String name,
+      required final String? name,
       @JsonKey(name: 'usage_bytes') required final int usageBytes,
       @JsonKey(name: 'file_counts')
       required final VectorStoreObjectFileCounts fileCounts,
@@ -43500,7 +44597,7 @@ abstract class _VectorStoreObject extends VectorStoreObject {
   @override
 
   /// The object type, which is always `vector_store`.
-  VectorStoreObjectObject get object;
+  String get object;
   @override
 
   /// The Unix timestamp (in seconds) for when the vector store was created.
@@ -43509,7 +44606,7 @@ abstract class _VectorStoreObject extends VectorStoreObject {
   @override
 
   /// The name of the vector store.
-  String get name;
+  String? get name;
   @override
 
   /// The total number of bytes used by the files in the vector store.
@@ -43517,7 +44614,7 @@ abstract class _VectorStoreObject extends VectorStoreObject {
   int get usageBytes;
   @override
 
-  /// No Description
+  /// The number of files in the vector store.
   @JsonKey(name: 'file_counts')
   VectorStoreObjectFileCounts get fileCounts;
   @override
@@ -43828,8 +44925,7 @@ mixin _$CreateVectorStoreRequest {
   List<String>? get fileIds => throw _privateConstructorUsedError;
 
   /// The name of the vector store.
-  @JsonKey(includeIfNull: false)
-  String? get name => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
 
   /// The expiration policy for a vector store.
   @JsonKey(name: 'expires_after', includeIfNull: false)
@@ -43854,7 +44950,7 @@ abstract class $CreateVectorStoreRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
-      @JsonKey(includeIfNull: false) String? name,
+      String name,
       @JsonKey(name: 'expires_after', includeIfNull: false)
       VectorStoreExpirationAfter? expiresAfter,
       @JsonKey(includeIfNull: false) dynamic metadata});
@@ -43877,7 +44973,7 @@ class _$CreateVectorStoreRequestCopyWithImpl<$Res,
   @override
   $Res call({
     Object? fileIds = freezed,
-    Object? name = freezed,
+    Object? name = null,
     Object? expiresAfter = freezed,
     Object? metadata = freezed,
   }) {
@@ -43886,10 +44982,10 @@ class _$CreateVectorStoreRequestCopyWithImpl<$Res,
           ? _value.fileIds
           : fileIds // ignore: cast_nullable_to_non_nullable
               as List<String>?,
-      name: freezed == name
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       expiresAfter: freezed == expiresAfter
           ? _value.expiresAfter
           : expiresAfter // ignore: cast_nullable_to_non_nullable
@@ -43926,7 +45022,7 @@ abstract class _$$CreateVectorStoreRequestImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
-      @JsonKey(includeIfNull: false) String? name,
+      String name,
       @JsonKey(name: 'expires_after', includeIfNull: false)
       VectorStoreExpirationAfter? expiresAfter,
       @JsonKey(includeIfNull: false) dynamic metadata});
@@ -43949,7 +45045,7 @@ class __$$CreateVectorStoreRequestImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fileIds = freezed,
-    Object? name = freezed,
+    Object? name = null,
     Object? expiresAfter = freezed,
     Object? metadata = freezed,
   }) {
@@ -43958,10 +45054,10 @@ class __$$CreateVectorStoreRequestImplCopyWithImpl<$Res>
           ? _value._fileIds
           : fileIds // ignore: cast_nullable_to_non_nullable
               as List<String>?,
-      name: freezed == name
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       expiresAfter: freezed == expiresAfter
           ? _value.expiresAfter
           : expiresAfter // ignore: cast_nullable_to_non_nullable
@@ -43980,7 +45076,7 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
   const _$CreateVectorStoreRequestImpl(
       {@JsonKey(name: 'file_ids', includeIfNull: false)
       final List<String>? fileIds,
-      @JsonKey(includeIfNull: false) this.name,
+      required this.name,
       @JsonKey(name: 'expires_after', includeIfNull: false) this.expiresAfter,
       @JsonKey(includeIfNull: false) this.metadata})
       : _fileIds = fileIds,
@@ -44005,8 +45101,7 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
 
   /// The name of the vector store.
   @override
-  @JsonKey(includeIfNull: false)
-  final String? name;
+  final String name;
 
   /// The expiration policy for a vector store.
   @override
@@ -44063,7 +45158,7 @@ abstract class _CreateVectorStoreRequest extends CreateVectorStoreRequest {
   const factory _CreateVectorStoreRequest(
           {@JsonKey(name: 'file_ids', includeIfNull: false)
           final List<String>? fileIds,
-          @JsonKey(includeIfNull: false) final String? name,
+          required final String name,
           @JsonKey(name: 'expires_after', includeIfNull: false)
           final VectorStoreExpirationAfter? expiresAfter,
           @JsonKey(includeIfNull: false) final dynamic metadata}) =
@@ -44081,8 +45176,7 @@ abstract class _CreateVectorStoreRequest extends CreateVectorStoreRequest {
   @override
 
   /// The name of the vector store.
-  @JsonKey(includeIfNull: false)
-  String? get name;
+  String get name;
   @override
 
   /// The expiration policy for a vector store.
@@ -44352,11 +45446,11 @@ mixin _$ListVectorStoresResponse {
 
   /// The ID of the first assistant file in the list.
   @JsonKey(name: 'first_id')
-  String get firstId => throw _privateConstructorUsedError;
+  String? get firstId => throw _privateConstructorUsedError;
 
   /// The ID of the last assistant file in the list.
   @JsonKey(name: 'last_id')
-  String get lastId => throw _privateConstructorUsedError;
+  String? get lastId => throw _privateConstructorUsedError;
 
   /// Whether there are more assistant files available.
   @JsonKey(name: 'has_more')
@@ -44377,8 +45471,8 @@ abstract class $ListVectorStoresResponseCopyWith<$Res> {
   $Res call(
       {String object,
       List<VectorStoreObject> data,
-      @JsonKey(name: 'first_id') String firstId,
-      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'first_id') String? firstId,
+      @JsonKey(name: 'last_id') String? lastId,
       @JsonKey(name: 'has_more') bool hasMore});
 }
 
@@ -44398,8 +45492,8 @@ class _$ListVectorStoresResponseCopyWithImpl<$Res,
   $Res call({
     Object? object = null,
     Object? data = null,
-    Object? firstId = null,
-    Object? lastId = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
     Object? hasMore = null,
   }) {
     return _then(_value.copyWith(
@@ -44411,14 +45505,14 @@ class _$ListVectorStoresResponseCopyWithImpl<$Res,
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as List<VectorStoreObject>,
-      firstId: null == firstId
+      firstId: freezed == firstId
           ? _value.firstId
           : firstId // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastId: null == lastId
+              as String?,
+      lastId: freezed == lastId
           ? _value.lastId
           : lastId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       hasMore: null == hasMore
           ? _value.hasMore
           : hasMore // ignore: cast_nullable_to_non_nullable
@@ -44439,8 +45533,8 @@ abstract class _$$ListVectorStoresResponseImplCopyWith<$Res>
   $Res call(
       {String object,
       List<VectorStoreObject> data,
-      @JsonKey(name: 'first_id') String firstId,
-      @JsonKey(name: 'last_id') String lastId,
+      @JsonKey(name: 'first_id') String? firstId,
+      @JsonKey(name: 'last_id') String? lastId,
       @JsonKey(name: 'has_more') bool hasMore});
 }
 
@@ -44459,8 +45553,8 @@ class __$$ListVectorStoresResponseImplCopyWithImpl<$Res>
   $Res call({
     Object? object = null,
     Object? data = null,
-    Object? firstId = null,
-    Object? lastId = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
     Object? hasMore = null,
   }) {
     return _then(_$ListVectorStoresResponseImpl(
@@ -44472,14 +45566,14 @@ class __$$ListVectorStoresResponseImplCopyWithImpl<$Res>
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
               as List<VectorStoreObject>,
-      firstId: null == firstId
+      firstId: freezed == firstId
           ? _value.firstId
           : firstId // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastId: null == lastId
+              as String?,
+      lastId: freezed == lastId
           ? _value.lastId
           : lastId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       hasMore: null == hasMore
           ? _value.hasMore
           : hasMore // ignore: cast_nullable_to_non_nullable
@@ -44521,12 +45615,12 @@ class _$ListVectorStoresResponseImpl extends _ListVectorStoresResponse {
   /// The ID of the first assistant file in the list.
   @override
   @JsonKey(name: 'first_id')
-  final String firstId;
+  final String? firstId;
 
   /// The ID of the last assistant file in the list.
   @override
   @JsonKey(name: 'last_id')
-  final String lastId;
+  final String? lastId;
 
   /// Whether there are more assistant files available.
   @override
@@ -44574,8 +45668,8 @@ abstract class _ListVectorStoresResponse extends ListVectorStoresResponse {
   const factory _ListVectorStoresResponse(
           {required final String object,
           required final List<VectorStoreObject> data,
-          @JsonKey(name: 'first_id') required final String firstId,
-          @JsonKey(name: 'last_id') required final String lastId,
+          @JsonKey(name: 'first_id') required final String? firstId,
+          @JsonKey(name: 'last_id') required final String? lastId,
           @JsonKey(name: 'has_more') required final bool hasMore}) =
       _$ListVectorStoresResponseImpl;
   const _ListVectorStoresResponse._() : super._();
@@ -44595,12 +45689,12 @@ abstract class _ListVectorStoresResponse extends ListVectorStoresResponse {
 
   /// The ID of the first assistant file in the list.
   @JsonKey(name: 'first_id')
-  String get firstId;
+  String? get firstId;
   @override
 
   /// The ID of the last assistant file in the list.
   @JsonKey(name: 'last_id')
-  String get lastId;
+  String? get lastId;
   @override
 
   /// Whether there are more assistant files available.
@@ -44626,8 +45720,7 @@ mixin _$DeleteVectorStoreResponse {
   bool get deleted => throw _privateConstructorUsedError;
 
   /// The object type, which is always `vector_store.deleted`.
-  DeleteVectorStoreResponseObject get object =>
-      throw _privateConstructorUsedError;
+  String get object => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44641,7 +45734,7 @@ abstract class $DeleteVectorStoreResponseCopyWith<$Res> {
           $Res Function(DeleteVectorStoreResponse) then) =
       _$DeleteVectorStoreResponseCopyWithImpl<$Res, DeleteVectorStoreResponse>;
   @useResult
-  $Res call({String id, bool deleted, DeleteVectorStoreResponseObject object});
+  $Res call({String id, bool deleted, String object});
 }
 
 /// @nodoc
@@ -44674,7 +45767,7 @@ class _$DeleteVectorStoreResponseCopyWithImpl<$Res,
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as DeleteVectorStoreResponseObject,
+              as String,
     ) as $Val);
   }
 }
@@ -44688,7 +45781,7 @@ abstract class _$$DeleteVectorStoreResponseImplCopyWith<$Res>
       __$$DeleteVectorStoreResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, bool deleted, DeleteVectorStoreResponseObject object});
+  $Res call({String id, bool deleted, String object});
 }
 
 /// @nodoc
@@ -44720,7 +45813,7 @@ class __$$DeleteVectorStoreResponseImplCopyWithImpl<$Res>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as DeleteVectorStoreResponseObject,
+              as String,
     ));
   }
 }
@@ -44745,7 +45838,7 @@ class _$DeleteVectorStoreResponseImpl extends _DeleteVectorStoreResponse {
 
   /// The object type, which is always `vector_store.deleted`.
   @override
-  final DeleteVectorStoreResponseObject object;
+  final String object;
 
   @override
   String toString() {
@@ -44783,10 +45876,9 @@ class _$DeleteVectorStoreResponseImpl extends _DeleteVectorStoreResponse {
 
 abstract class _DeleteVectorStoreResponse extends DeleteVectorStoreResponse {
   const factory _DeleteVectorStoreResponse(
-          {required final String id,
-          required final bool deleted,
-          required final DeleteVectorStoreResponseObject object}) =
-      _$DeleteVectorStoreResponseImpl;
+      {required final String id,
+      required final bool deleted,
+      required final String object}) = _$DeleteVectorStoreResponseImpl;
   const _DeleteVectorStoreResponse._() : super._();
 
   factory _DeleteVectorStoreResponse.fromJson(Map<String, dynamic> json) =
@@ -44803,7 +45895,7 @@ abstract class _DeleteVectorStoreResponse extends DeleteVectorStoreResponse {
   @override
 
   /// The object type, which is always `vector_store.deleted`.
-  DeleteVectorStoreResponseObject get object;
+  String get object;
   @override
   @JsonKey(ignore: true)
   _$$DeleteVectorStoreResponseImplCopyWith<_$DeleteVectorStoreResponseImpl>
@@ -44821,7 +45913,7 @@ mixin _$VectorStoreFileObject {
   String get id => throw _privateConstructorUsedError;
 
   /// The object type, which is always `vector_store.file`.
-  VectorStoreFileObjectObject get object => throw _privateConstructorUsedError;
+  String get object => throw _privateConstructorUsedError;
 
   /// The total vector store usage in bytes. Note that this may be different from the original file size.
   @JsonKey(name: 'usage_bytes')
@@ -44857,7 +45949,7 @@ abstract class $VectorStoreFileObjectCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      VectorStoreFileObjectObject object,
+      String object,
       @JsonKey(name: 'usage_bytes') int usageBytes,
       @JsonKey(name: 'created_at') int createdAt,
       @JsonKey(name: 'vector_store_id') String vectorStoreId,
@@ -44897,7 +45989,7 @@ class _$VectorStoreFileObjectCopyWithImpl<$Res,
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as VectorStoreFileObjectObject,
+              as String,
       usageBytes: null == usageBytes
           ? _value.usageBytes
           : usageBytes // ignore: cast_nullable_to_non_nullable
@@ -44946,7 +46038,7 @@ abstract class _$$VectorStoreFileObjectImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      VectorStoreFileObjectObject object,
+      String object,
       @JsonKey(name: 'usage_bytes') int usageBytes,
       @JsonKey(name: 'created_at') int createdAt,
       @JsonKey(name: 'vector_store_id') String vectorStoreId,
@@ -44985,7 +46077,7 @@ class __$$VectorStoreFileObjectImplCopyWithImpl<$Res>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as VectorStoreFileObjectObject,
+              as String,
       usageBytes: null == usageBytes
           ? _value.usageBytes
           : usageBytes // ignore: cast_nullable_to_non_nullable
@@ -45032,7 +46124,7 @@ class _$VectorStoreFileObjectImpl extends _VectorStoreFileObject {
 
   /// The object type, which is always `vector_store.file`.
   @override
-  final VectorStoreFileObjectObject object;
+  final String object;
 
   /// The total vector store usage in bytes. Note that this may be different from the original file size.
   @override
@@ -45104,7 +46196,7 @@ class _$VectorStoreFileObjectImpl extends _VectorStoreFileObject {
 abstract class _VectorStoreFileObject extends VectorStoreFileObject {
   const factory _VectorStoreFileObject(
           {required final String id,
-          required final VectorStoreFileObjectObject object,
+          required final String object,
           @JsonKey(name: 'usage_bytes') required final int usageBytes,
           @JsonKey(name: 'created_at') required final int createdAt,
           @JsonKey(name: 'vector_store_id') required final String vectorStoreId,
@@ -45124,7 +46216,7 @@ abstract class _VectorStoreFileObject extends VectorStoreFileObject {
   @override
 
   /// The object type, which is always `vector_store.file`.
-  VectorStoreFileObjectObject get object;
+  String get object;
   @override
 
   /// The total vector store usage in bytes. Note that this may be different from the original file size.
@@ -45791,8 +46883,7 @@ mixin _$DeleteVectorStoreFileResponse {
   bool get deleted => throw _privateConstructorUsedError;
 
   /// The object type, which is always `vector_store.file.deleted`.
-  DeleteVectorStoreFileResponseObject get object =>
-      throw _privateConstructorUsedError;
+  String get object => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -45808,8 +46899,7 @@ abstract class $DeleteVectorStoreFileResponseCopyWith<$Res> {
       _$DeleteVectorStoreFileResponseCopyWithImpl<$Res,
           DeleteVectorStoreFileResponse>;
   @useResult
-  $Res call(
-      {String id, bool deleted, DeleteVectorStoreFileResponseObject object});
+  $Res call({String id, bool deleted, String object});
 }
 
 /// @nodoc
@@ -45842,7 +46932,7 @@ class _$DeleteVectorStoreFileResponseCopyWithImpl<$Res,
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as DeleteVectorStoreFileResponseObject,
+              as String,
     ) as $Val);
   }
 }
@@ -45856,8 +46946,7 @@ abstract class _$$DeleteVectorStoreFileResponseImplCopyWith<$Res>
       __$$DeleteVectorStoreFileResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id, bool deleted, DeleteVectorStoreFileResponseObject object});
+  $Res call({String id, bool deleted, String object});
 }
 
 /// @nodoc
@@ -45889,7 +46978,7 @@ class __$$DeleteVectorStoreFileResponseImplCopyWithImpl<$Res>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as DeleteVectorStoreFileResponseObject,
+              as String,
     ));
   }
 }
@@ -45916,7 +47005,7 @@ class _$DeleteVectorStoreFileResponseImpl
 
   /// The object type, which is always `vector_store.file.deleted`.
   @override
-  final DeleteVectorStoreFileResponseObject object;
+  final String object;
 
   @override
   String toString() {
@@ -45956,10 +47045,9 @@ class _$DeleteVectorStoreFileResponseImpl
 abstract class _DeleteVectorStoreFileResponse
     extends DeleteVectorStoreFileResponse {
   const factory _DeleteVectorStoreFileResponse(
-          {required final String id,
-          required final bool deleted,
-          required final DeleteVectorStoreFileResponseObject object}) =
-      _$DeleteVectorStoreFileResponseImpl;
+      {required final String id,
+      required final bool deleted,
+      required final String object}) = _$DeleteVectorStoreFileResponseImpl;
   const _DeleteVectorStoreFileResponse._() : super._();
 
   factory _DeleteVectorStoreFileResponse.fromJson(Map<String, dynamic> json) =
@@ -45976,7 +47064,7 @@ abstract class _DeleteVectorStoreFileResponse
   @override
 
   /// The object type, which is always `vector_store.file.deleted`.
-  DeleteVectorStoreFileResponseObject get object;
+  String get object;
   @override
   @JsonKey(ignore: true)
   _$$DeleteVectorStoreFileResponseImplCopyWith<
@@ -45995,8 +47083,7 @@ mixin _$VectorStoreFileBatchObject {
   String get id => throw _privateConstructorUsedError;
 
   /// The object type, which is always `vector_store.file_batch`.
-  VectorStoreFileBatchObjectObject get object =>
-      throw _privateConstructorUsedError;
+  String get object => throw _privateConstructorUsedError;
 
   /// The Unix timestamp (in seconds) for when the vector store files batch was created.
   @JsonKey(name: 'created_at')
@@ -46030,7 +47117,7 @@ abstract class $VectorStoreFileBatchObjectCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      VectorStoreFileBatchObjectObject object,
+      String object,
       @JsonKey(name: 'created_at') int createdAt,
       @JsonKey(name: 'vector_store_id') String vectorStoreId,
       VectorStoreFileBatchObjectStatus status,
@@ -46069,7 +47156,7 @@ class _$VectorStoreFileBatchObjectCopyWithImpl<$Res,
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as VectorStoreFileBatchObjectObject,
+              as String,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -46110,7 +47197,7 @@ abstract class _$$VectorStoreFileBatchObjectImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      VectorStoreFileBatchObjectObject object,
+      String object,
       @JsonKey(name: 'created_at') int createdAt,
       @JsonKey(name: 'vector_store_id') String vectorStoreId,
       VectorStoreFileBatchObjectStatus status,
@@ -46149,7 +47236,7 @@ class __$$VectorStoreFileBatchObjectImplCopyWithImpl<$Res>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as VectorStoreFileBatchObjectObject,
+              as String,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -46192,7 +47279,7 @@ class _$VectorStoreFileBatchObjectImpl extends _VectorStoreFileBatchObject {
 
   /// The object type, which is always `vector_store.file_batch`.
   @override
-  final VectorStoreFileBatchObjectObject object;
+  final String object;
 
   /// The Unix timestamp (in seconds) for when the vector store files batch was created.
   @override
@@ -46257,7 +47344,7 @@ class _$VectorStoreFileBatchObjectImpl extends _VectorStoreFileBatchObject {
 abstract class _VectorStoreFileBatchObject extends VectorStoreFileBatchObject {
   const factory _VectorStoreFileBatchObject(
           {required final String id,
-          required final VectorStoreFileBatchObjectObject object,
+          required final String object,
           @JsonKey(name: 'created_at') required final int createdAt,
           @JsonKey(name: 'vector_store_id') required final String vectorStoreId,
           required final VectorStoreFileBatchObjectStatus status,
@@ -46276,7 +47363,7 @@ abstract class _VectorStoreFileBatchObject extends VectorStoreFileBatchObject {
   @override
 
   /// The object type, which is always `vector_store.file_batch`.
-  VectorStoreFileBatchObjectObject get object;
+  String get object;
   @override
 
   /// The Unix timestamp (in seconds) for when the vector store files batch was created.
@@ -52308,6 +53395,8 @@ MessageContent _$MessageContentFromJson(Map<String, dynamic> json) {
   switch (json['type']) {
     case 'image_file':
       return MessageContentImageFileObject.fromJson(json);
+    case 'image_url':
+      return MessageContentImageUrlObject.fromJson(json);
     case 'text':
       return MessageContentTextObject.fromJson(json);
 
@@ -52326,6 +53415,9 @@ mixin _$MessageContent {
     required TResult Function(String type,
             @JsonKey(name: 'image_file') MessageContentImageFile imageFile)
         imageFile,
+    required TResult Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)
+        imageUrl,
     required TResult Function(String type, MessageContentText text) text,
   }) =>
       throw _privateConstructorUsedError;
@@ -52334,6 +53426,9 @@ mixin _$MessageContent {
     TResult? Function(String type,
             @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
         imageFile,
+    TResult? Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
+        imageUrl,
     TResult? Function(String type, MessageContentText text)? text,
   }) =>
       throw _privateConstructorUsedError;
@@ -52342,6 +53437,9 @@ mixin _$MessageContent {
     TResult Function(String type,
             @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
         imageFile,
+    TResult Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
+        imageUrl,
     TResult Function(String type, MessageContentText text)? text,
     required TResult orElse(),
   }) =>
@@ -52349,18 +53447,21 @@ mixin _$MessageContent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(MessageContentImageFileObject value) imageFile,
+    required TResult Function(MessageContentImageUrlObject value) imageUrl,
     required TResult Function(MessageContentTextObject value) text,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(MessageContentImageFileObject value)? imageFile,
+    TResult? Function(MessageContentImageUrlObject value)? imageUrl,
     TResult? Function(MessageContentTextObject value)? text,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(MessageContentImageFileObject value)? imageFile,
+    TResult Function(MessageContentImageUrlObject value)? imageUrl,
     TResult Function(MessageContentTextObject value)? text,
     required TResult orElse(),
   }) =>
@@ -52462,7 +53563,7 @@ class __$$MessageContentImageFileObjectImplCopyWithImpl<$Res>
 class _$MessageContentImageFileObjectImpl
     extends MessageContentImageFileObject {
   const _$MessageContentImageFileObjectImpl(
-      {required this.type,
+      {this.type = 'image_file',
       @JsonKey(name: 'image_file') required this.imageFile})
       : super._();
 
@@ -52472,6 +53573,7 @@ class _$MessageContentImageFileObjectImpl
 
   /// Always `image_file`.
   @override
+  @JsonKey()
   final String type;
 
   /// The image file that is part of a message.
@@ -52512,6 +53614,9 @@ class _$MessageContentImageFileObjectImpl
     required TResult Function(String type,
             @JsonKey(name: 'image_file') MessageContentImageFile imageFile)
         imageFile,
+    required TResult Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)
+        imageUrl,
     required TResult Function(String type, MessageContentText text) text,
   }) {
     return imageFile(type, this.imageFile);
@@ -52523,6 +53628,9 @@ class _$MessageContentImageFileObjectImpl
     TResult? Function(String type,
             @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
         imageFile,
+    TResult? Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
+        imageUrl,
     TResult? Function(String type, MessageContentText text)? text,
   }) {
     return imageFile?.call(type, this.imageFile);
@@ -52534,6 +53642,9 @@ class _$MessageContentImageFileObjectImpl
     TResult Function(String type,
             @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
         imageFile,
+    TResult Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
+        imageUrl,
     TResult Function(String type, MessageContentText text)? text,
     required TResult orElse(),
   }) {
@@ -52547,6 +53658,7 @@ class _$MessageContentImageFileObjectImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(MessageContentImageFileObject value) imageFile,
+    required TResult Function(MessageContentImageUrlObject value) imageUrl,
     required TResult Function(MessageContentTextObject value) text,
   }) {
     return imageFile(this);
@@ -52556,6 +53668,7 @@ class _$MessageContentImageFileObjectImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(MessageContentImageFileObject value)? imageFile,
+    TResult? Function(MessageContentImageUrlObject value)? imageUrl,
     TResult? Function(MessageContentTextObject value)? text,
   }) {
     return imageFile?.call(this);
@@ -52565,6 +53678,7 @@ class _$MessageContentImageFileObjectImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(MessageContentImageFileObject value)? imageFile,
+    TResult Function(MessageContentImageUrlObject value)? imageUrl,
     TResult Function(MessageContentTextObject value)? text,
     required TResult orElse(),
   }) {
@@ -52584,7 +53698,7 @@ class _$MessageContentImageFileObjectImpl
 
 abstract class MessageContentImageFileObject extends MessageContent {
   const factory MessageContentImageFileObject(
-          {required final String type,
+          {final String type,
           @JsonKey(name: 'image_file')
           required final MessageContentImageFile imageFile}) =
       _$MessageContentImageFileObjectImpl;
@@ -52605,6 +53719,222 @@ abstract class MessageContentImageFileObject extends MessageContent {
   @JsonKey(ignore: true)
   _$$MessageContentImageFileObjectImplCopyWith<
           _$MessageContentImageFileObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$MessageContentImageUrlObjectImplCopyWith<$Res>
+    implements $MessageContentCopyWith<$Res> {
+  factory _$$MessageContentImageUrlObjectImplCopyWith(
+          _$MessageContentImageUrlObjectImpl value,
+          $Res Function(_$MessageContentImageUrlObjectImpl) then) =
+      __$$MessageContentImageUrlObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String type,
+      @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl});
+
+  $MessageContentImageUrlCopyWith<$Res> get imageUrl;
+}
+
+/// @nodoc
+class __$$MessageContentImageUrlObjectImplCopyWithImpl<$Res>
+    extends _$MessageContentCopyWithImpl<$Res,
+        _$MessageContentImageUrlObjectImpl>
+    implements _$$MessageContentImageUrlObjectImplCopyWith<$Res> {
+  __$$MessageContentImageUrlObjectImplCopyWithImpl(
+      _$MessageContentImageUrlObjectImpl _value,
+      $Res Function(_$MessageContentImageUrlObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? imageUrl = null,
+  }) {
+    return _then(_$MessageContentImageUrlObjectImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as MessageContentImageUrl,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageContentImageUrlCopyWith<$Res> get imageUrl {
+    return $MessageContentImageUrlCopyWith<$Res>(_value.imageUrl, (value) {
+      return _then(_value.copyWith(imageUrl: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageContentImageUrlObjectImpl extends MessageContentImageUrlObject {
+  const _$MessageContentImageUrlObjectImpl(
+      {this.type = 'image_url',
+      @JsonKey(name: 'image_url') required this.imageUrl})
+      : super._();
+
+  factory _$MessageContentImageUrlObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageContentImageUrlObjectImplFromJson(json);
+
+  /// The type of the content part. Always `image_url`.
+  @override
+  @JsonKey()
+  final String type;
+
+  /// The image URL part of a message.
+  @override
+  @JsonKey(name: 'image_url')
+  final MessageContentImageUrl imageUrl;
+
+  @override
+  String toString() {
+    return 'MessageContent.imageUrl(type: $type, imageUrl: $imageUrl)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageContentImageUrlObjectImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, imageUrl);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageContentImageUrlObjectImplCopyWith<
+          _$MessageContentImageUrlObjectImpl>
+      get copyWith => __$$MessageContentImageUrlObjectImplCopyWithImpl<
+          _$MessageContentImageUrlObjectImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type,
+            @JsonKey(name: 'image_file') MessageContentImageFile imageFile)
+        imageFile,
+    required TResult Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)
+        imageUrl,
+    required TResult Function(String type, MessageContentText text) text,
+  }) {
+    return imageUrl(type, this.imageUrl);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type,
+            @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
+        imageFile,
+    TResult? Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
+        imageUrl,
+    TResult? Function(String type, MessageContentText text)? text,
+  }) {
+    return imageUrl?.call(type, this.imageUrl);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type,
+            @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
+        imageFile,
+    TResult Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
+        imageUrl,
+    TResult Function(String type, MessageContentText text)? text,
+    required TResult orElse(),
+  }) {
+    if (imageUrl != null) {
+      return imageUrl(type, this.imageUrl);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(MessageContentImageFileObject value) imageFile,
+    required TResult Function(MessageContentImageUrlObject value) imageUrl,
+    required TResult Function(MessageContentTextObject value) text,
+  }) {
+    return imageUrl(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MessageContentImageFileObject value)? imageFile,
+    TResult? Function(MessageContentImageUrlObject value)? imageUrl,
+    TResult? Function(MessageContentTextObject value)? text,
+  }) {
+    return imageUrl?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MessageContentImageFileObject value)? imageFile,
+    TResult Function(MessageContentImageUrlObject value)? imageUrl,
+    TResult Function(MessageContentTextObject value)? text,
+    required TResult orElse(),
+  }) {
+    if (imageUrl != null) {
+      return imageUrl(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageContentImageUrlObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class MessageContentImageUrlObject extends MessageContent {
+  const factory MessageContentImageUrlObject(
+          {final String type,
+          @JsonKey(name: 'image_url')
+          required final MessageContentImageUrl imageUrl}) =
+      _$MessageContentImageUrlObjectImpl;
+  const MessageContentImageUrlObject._() : super._();
+
+  factory MessageContentImageUrlObject.fromJson(Map<String, dynamic> json) =
+      _$MessageContentImageUrlObjectImpl.fromJson;
+
+  @override
+
+  /// The type of the content part. Always `image_url`.
+  String get type;
+
+  /// The image URL part of a message.
+  @JsonKey(name: 'image_url')
+  MessageContentImageUrl get imageUrl;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageContentImageUrlObjectImplCopyWith<
+          _$MessageContentImageUrlObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -52661,7 +53991,7 @@ class __$$MessageContentTextObjectImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$MessageContentTextObjectImpl extends MessageContentTextObject {
-  const _$MessageContentTextObjectImpl({required this.type, required this.text})
+  const _$MessageContentTextObjectImpl({this.type = 'text', required this.text})
       : super._();
 
   factory _$MessageContentTextObjectImpl.fromJson(Map<String, dynamic> json) =>
@@ -52669,6 +53999,7 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
 
   /// Always `text`.
   @override
+  @JsonKey()
   final String type;
 
   /// The text content that is part of a message.
@@ -52706,6 +54037,9 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
     required TResult Function(String type,
             @JsonKey(name: 'image_file') MessageContentImageFile imageFile)
         imageFile,
+    required TResult Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)
+        imageUrl,
     required TResult Function(String type, MessageContentText text) text,
   }) {
     return text(type, this.text);
@@ -52717,6 +54051,9 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
     TResult? Function(String type,
             @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
         imageFile,
+    TResult? Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
+        imageUrl,
     TResult? Function(String type, MessageContentText text)? text,
   }) {
     return text?.call(type, this.text);
@@ -52728,6 +54065,9 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
     TResult Function(String type,
             @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
         imageFile,
+    TResult Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
+        imageUrl,
     TResult Function(String type, MessageContentText text)? text,
     required TResult orElse(),
   }) {
@@ -52741,6 +54081,7 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(MessageContentImageFileObject value) imageFile,
+    required TResult Function(MessageContentImageUrlObject value) imageUrl,
     required TResult Function(MessageContentTextObject value) text,
   }) {
     return text(this);
@@ -52750,6 +54091,7 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(MessageContentImageFileObject value)? imageFile,
+    TResult? Function(MessageContentImageUrlObject value)? imageUrl,
     TResult? Function(MessageContentTextObject value)? text,
   }) {
     return text?.call(this);
@@ -52759,6 +54101,7 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(MessageContentImageFileObject value)? imageFile,
+    TResult Function(MessageContentImageUrlObject value)? imageUrl,
     TResult Function(MessageContentTextObject value)? text,
     required TResult orElse(),
   }) {
@@ -52778,7 +54121,7 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
 
 abstract class MessageContentTextObject extends MessageContent {
   const factory MessageContentTextObject(
-      {required final String type,
+      {final String type,
       required final MessageContentText text}) = _$MessageContentTextObjectImpl;
   const MessageContentTextObject._() : super._();
 
@@ -56648,7 +57991,7 @@ RunStepDetailsToolCalls _$RunStepDetailsToolCallsFromJson(
   switch (json['type']) {
     case 'code_interpreter':
       return RunStepDetailsToolCallsCodeObject.fromJson(json);
-    case 'file_search_object':
+    case 'file_search':
       return RunStepDetailsToolCallsFileSearchObject.fromJson(json);
     case 'function':
       return RunStepDetailsToolCallsFunctionObject.fromJson(json);
@@ -56676,7 +58019,7 @@ mixin _$RunStepDetailsToolCalls {
         codeInterpreter,
     required TResult Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
-        fileSearchObject,
+        fileSearch,
     required TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)
         function,
@@ -56692,7 +58035,7 @@ mixin _$RunStepDetailsToolCalls {
         codeInterpreter,
     TResult? Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
-        fileSearchObject,
+        fileSearch,
     TResult? Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
@@ -56708,7 +58051,7 @@ mixin _$RunStepDetailsToolCalls {
         codeInterpreter,
     TResult Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
-        fileSearchObject,
+        fileSearch,
     TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
@@ -56720,7 +58063,7 @@ mixin _$RunStepDetailsToolCalls {
     required TResult Function(RunStepDetailsToolCallsCodeObject value)
         codeInterpreter,
     required TResult Function(RunStepDetailsToolCallsFileSearchObject value)
-        fileSearchObject,
+        fileSearch,
     required TResult Function(RunStepDetailsToolCallsFunctionObject value)
         function,
   }) =>
@@ -56729,15 +58072,14 @@ mixin _$RunStepDetailsToolCalls {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
     TResult? Function(RunStepDetailsToolCallsFileSearchObject value)?
-        fileSearchObject,
+        fileSearch,
     TResult? Function(RunStepDetailsToolCallsFunctionObject value)? function,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
-    TResult Function(RunStepDetailsToolCallsFileSearchObject value)?
-        fileSearchObject,
+    TResult Function(RunStepDetailsToolCallsFileSearchObject value)? fileSearch,
     TResult Function(RunStepDetailsToolCallsFunctionObject value)? function,
     required TResult orElse(),
   }) =>
@@ -56916,7 +58258,7 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
         codeInterpreter,
     required TResult Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
-        fileSearchObject,
+        fileSearch,
     required TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)
         function,
@@ -56935,7 +58277,7 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
         codeInterpreter,
     TResult? Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
-        fileSearchObject,
+        fileSearch,
     TResult? Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
@@ -56954,7 +58296,7 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
         codeInterpreter,
     TResult Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
-        fileSearchObject,
+        fileSearch,
     TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
@@ -56972,7 +58314,7 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
     required TResult Function(RunStepDetailsToolCallsCodeObject value)
         codeInterpreter,
     required TResult Function(RunStepDetailsToolCallsFileSearchObject value)
-        fileSearchObject,
+        fileSearch,
     required TResult Function(RunStepDetailsToolCallsFunctionObject value)
         function,
   }) {
@@ -56984,7 +58326,7 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
     TResult? Function(RunStepDetailsToolCallsFileSearchObject value)?
-        fileSearchObject,
+        fileSearch,
     TResult? Function(RunStepDetailsToolCallsFunctionObject value)? function,
   }) {
     return codeInterpreter?.call(this);
@@ -56994,8 +58336,7 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
-    TResult Function(RunStepDetailsToolCallsFileSearchObject value)?
-        fileSearchObject,
+    TResult Function(RunStepDetailsToolCallsFileSearchObject value)? fileSearch,
     TResult Function(RunStepDetailsToolCallsFunctionObject value)? function,
     required TResult orElse(),
   }) {
@@ -57133,7 +58474,7 @@ class _$RunStepDetailsToolCallsFileSearchObjectImpl
 
   @override
   String toString() {
-    return 'RunStepDetailsToolCalls.fileSearchObject(id: $id, type: $type, fileSearch: $fileSearch)';
+    return 'RunStepDetailsToolCalls.fileSearch(id: $id, type: $type, fileSearch: $fileSearch)';
   }
 
   @override
@@ -57172,12 +58513,12 @@ class _$RunStepDetailsToolCallsFileSearchObjectImpl
         codeInterpreter,
     required TResult Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
-        fileSearchObject,
+        fileSearch,
     required TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)
         function,
   }) {
-    return fileSearchObject(id, type, fileSearch);
+    return fileSearch(id, type, this.fileSearch);
   }
 
   @override
@@ -57191,12 +58532,12 @@ class _$RunStepDetailsToolCallsFileSearchObjectImpl
         codeInterpreter,
     TResult? Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
-        fileSearchObject,
+        fileSearch,
     TResult? Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
   }) {
-    return fileSearchObject?.call(id, type, fileSearch);
+    return fileSearch?.call(id, type, this.fileSearch);
   }
 
   @override
@@ -57210,14 +58551,14 @@ class _$RunStepDetailsToolCallsFileSearchObjectImpl
         codeInterpreter,
     TResult Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
-        fileSearchObject,
+        fileSearch,
     TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
     required TResult orElse(),
   }) {
-    if (fileSearchObject != null) {
-      return fileSearchObject(id, type, fileSearch);
+    if (fileSearch != null) {
+      return fileSearch(id, type, this.fileSearch);
     }
     return orElse();
   }
@@ -57228,11 +58569,11 @@ class _$RunStepDetailsToolCallsFileSearchObjectImpl
     required TResult Function(RunStepDetailsToolCallsCodeObject value)
         codeInterpreter,
     required TResult Function(RunStepDetailsToolCallsFileSearchObject value)
-        fileSearchObject,
+        fileSearch,
     required TResult Function(RunStepDetailsToolCallsFunctionObject value)
         function,
   }) {
-    return fileSearchObject(this);
+    return fileSearch(this);
   }
 
   @override
@@ -57240,23 +58581,22 @@ class _$RunStepDetailsToolCallsFileSearchObjectImpl
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
     TResult? Function(RunStepDetailsToolCallsFileSearchObject value)?
-        fileSearchObject,
+        fileSearch,
     TResult? Function(RunStepDetailsToolCallsFunctionObject value)? function,
   }) {
-    return fileSearchObject?.call(this);
+    return fileSearch?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
-    TResult Function(RunStepDetailsToolCallsFileSearchObject value)?
-        fileSearchObject,
+    TResult Function(RunStepDetailsToolCallsFileSearchObject value)? fileSearch,
     TResult Function(RunStepDetailsToolCallsFunctionObject value)? function,
     required TResult orElse(),
   }) {
-    if (fileSearchObject != null) {
-      return fileSearchObject(this);
+    if (fileSearch != null) {
+      return fileSearch(this);
     }
     return orElse();
   }
@@ -57422,7 +58762,7 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
         codeInterpreter,
     required TResult Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
-        fileSearchObject,
+        fileSearch,
     required TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)
         function,
@@ -57441,7 +58781,7 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
         codeInterpreter,
     TResult? Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
-        fileSearchObject,
+        fileSearch,
     TResult? Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
@@ -57460,7 +58800,7 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
         codeInterpreter,
     TResult Function(String id, String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
-        fileSearchObject,
+        fileSearch,
     TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
@@ -57478,7 +58818,7 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
     required TResult Function(RunStepDetailsToolCallsCodeObject value)
         codeInterpreter,
     required TResult Function(RunStepDetailsToolCallsFileSearchObject value)
-        fileSearchObject,
+        fileSearch,
     required TResult Function(RunStepDetailsToolCallsFunctionObject value)
         function,
   }) {
@@ -57490,7 +58830,7 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
     TResult? Function(RunStepDetailsToolCallsFileSearchObject value)?
-        fileSearchObject,
+        fileSearch,
     TResult? Function(RunStepDetailsToolCallsFunctionObject value)? function,
   }) {
     return function?.call(this);
@@ -57500,8 +58840,7 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
-    TResult Function(RunStepDetailsToolCallsFileSearchObject value)?
-        fileSearchObject,
+    TResult Function(RunStepDetailsToolCallsFileSearchObject value)? fileSearch,
     TResult Function(RunStepDetailsToolCallsFunctionObject value)? function,
     required TResult orElse(),
   }) {
@@ -57759,7 +59098,7 @@ RunStepDeltaStepDetailsToolCalls _$RunStepDeltaStepDetailsToolCallsFromJson(
   switch (json['type']) {
     case 'code_interpreter':
       return RunStepDeltaStepDetailsToolCallsCodeObject.fromJson(json);
-    case 'file_search_object':
+    case 'file_search':
       return RunStepDeltaStepDetailsToolCallsFileSearchObject.fromJson(json);
     case 'function':
       return RunStepDeltaStepDetailsToolCallsFunctionObject.fromJson(json);
@@ -57799,7 +59138,7 @@ mixin _$RunStepDeltaStepDetailsToolCalls {
             @JsonKey(includeIfNull: false) String? id,
             String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
-        fileSearchObject,
+        fileSearch,
     required TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -57824,7 +59163,7 @@ mixin _$RunStepDeltaStepDetailsToolCalls {
             @JsonKey(includeIfNull: false) String? id,
             String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
-        fileSearchObject,
+        fileSearch,
     TResult? Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -57849,7 +59188,7 @@ mixin _$RunStepDeltaStepDetailsToolCalls {
             @JsonKey(includeIfNull: false) String? id,
             String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
-        fileSearchObject,
+        fileSearch,
     TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -57866,7 +59205,7 @@ mixin _$RunStepDeltaStepDetailsToolCalls {
         codeInterpreter,
     required TResult Function(
             RunStepDeltaStepDetailsToolCallsFileSearchObject value)
-        fileSearchObject,
+        fileSearch,
     required TResult Function(
             RunStepDeltaStepDetailsToolCallsFunctionObject value)
         function,
@@ -57877,7 +59216,7 @@ mixin _$RunStepDeltaStepDetailsToolCalls {
     TResult? Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
         codeInterpreter,
     TResult? Function(RunStepDeltaStepDetailsToolCallsFileSearchObject value)?
-        fileSearchObject,
+        fileSearch,
     TResult? Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
         function,
   }) =>
@@ -57887,7 +59226,7 @@ mixin _$RunStepDeltaStepDetailsToolCalls {
     TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
         codeInterpreter,
     TResult Function(RunStepDeltaStepDetailsToolCallsFileSearchObject value)?
-        fileSearchObject,
+        fileSearch,
     TResult Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
         function,
     required TResult orElse(),
@@ -58104,7 +59443,7 @@ class _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
             @JsonKey(includeIfNull: false) String? id,
             String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
-        fileSearchObject,
+        fileSearch,
     required TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -58132,7 +59471,7 @@ class _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
             @JsonKey(includeIfNull: false) String? id,
             String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
-        fileSearchObject,
+        fileSearch,
     TResult? Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -58160,7 +59499,7 @@ class _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
             @JsonKey(includeIfNull: false) String? id,
             String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
-        fileSearchObject,
+        fileSearch,
     TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -58183,7 +59522,7 @@ class _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
         codeInterpreter,
     required TResult Function(
             RunStepDeltaStepDetailsToolCallsFileSearchObject value)
-        fileSearchObject,
+        fileSearch,
     required TResult Function(
             RunStepDeltaStepDetailsToolCallsFunctionObject value)
         function,
@@ -58197,7 +59536,7 @@ class _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
     TResult? Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
         codeInterpreter,
     TResult? Function(RunStepDeltaStepDetailsToolCallsFileSearchObject value)?
-        fileSearchObject,
+        fileSearch,
     TResult? Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
         function,
   }) {
@@ -58210,7 +59549,7 @@ class _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
     TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
         codeInterpreter,
     TResult Function(RunStepDeltaStepDetailsToolCallsFileSearchObject value)?
-        fileSearchObject,
+        fileSearch,
     TResult Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
         function,
     required TResult orElse(),
@@ -58372,7 +59711,7 @@ class _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
 
   @override
   String toString() {
-    return 'RunStepDeltaStepDetailsToolCalls.fileSearchObject(index: $index, id: $id, type: $type, fileSearch: $fileSearch)';
+    return 'RunStepDeltaStepDetailsToolCalls.fileSearch(index: $index, id: $id, type: $type, fileSearch: $fileSearch)';
   }
 
   @override
@@ -58418,7 +59757,7 @@ class _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
             @JsonKey(includeIfNull: false) String? id,
             String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
-        fileSearchObject,
+        fileSearch,
     required TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -58427,7 +59766,7 @@ class _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
             RunStepDeltaStepDetailsToolCallsFunction? function)
         function,
   }) {
-    return fileSearchObject(index, id, type, fileSearch);
+    return fileSearch(index, id, type, this.fileSearch);
   }
 
   @override
@@ -58446,7 +59785,7 @@ class _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
             @JsonKey(includeIfNull: false) String? id,
             String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
-        fileSearchObject,
+        fileSearch,
     TResult? Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -58455,7 +59794,7 @@ class _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
             RunStepDeltaStepDetailsToolCallsFunction? function)?
         function,
   }) {
-    return fileSearchObject?.call(index, id, type, fileSearch);
+    return fileSearch?.call(index, id, type, this.fileSearch);
   }
 
   @override
@@ -58474,7 +59813,7 @@ class _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
             @JsonKey(includeIfNull: false) String? id,
             String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
-        fileSearchObject,
+        fileSearch,
     TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -58484,8 +59823,8 @@ class _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
         function,
     required TResult orElse(),
   }) {
-    if (fileSearchObject != null) {
-      return fileSearchObject(index, id, type, fileSearch);
+    if (fileSearch != null) {
+      return fileSearch(index, id, type, this.fileSearch);
     }
     return orElse();
   }
@@ -58497,12 +59836,12 @@ class _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
         codeInterpreter,
     required TResult Function(
             RunStepDeltaStepDetailsToolCallsFileSearchObject value)
-        fileSearchObject,
+        fileSearch,
     required TResult Function(
             RunStepDeltaStepDetailsToolCallsFunctionObject value)
         function,
   }) {
-    return fileSearchObject(this);
+    return fileSearch(this);
   }
 
   @override
@@ -58511,11 +59850,11 @@ class _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
     TResult? Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
         codeInterpreter,
     TResult? Function(RunStepDeltaStepDetailsToolCallsFileSearchObject value)?
-        fileSearchObject,
+        fileSearch,
     TResult? Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
         function,
   }) {
-    return fileSearchObject?.call(this);
+    return fileSearch?.call(this);
   }
 
   @override
@@ -58524,13 +59863,13 @@ class _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
     TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
         codeInterpreter,
     TResult Function(RunStepDeltaStepDetailsToolCallsFileSearchObject value)?
-        fileSearchObject,
+        fileSearch,
     TResult Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
         function,
     required TResult orElse(),
   }) {
-    if (fileSearchObject != null) {
-      return fileSearchObject(this);
+    if (fileSearch != null) {
+      return fileSearch(this);
     }
     return orElse();
   }
@@ -58735,7 +60074,7 @@ class _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
             @JsonKey(includeIfNull: false) String? id,
             String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
-        fileSearchObject,
+        fileSearch,
     required TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -58763,7 +60102,7 @@ class _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
             @JsonKey(includeIfNull: false) String? id,
             String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
-        fileSearchObject,
+        fileSearch,
     TResult? Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -58791,7 +60130,7 @@ class _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
             @JsonKey(includeIfNull: false) String? id,
             String type,
             @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
-        fileSearchObject,
+        fileSearch,
     TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -58814,7 +60153,7 @@ class _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
         codeInterpreter,
     required TResult Function(
             RunStepDeltaStepDetailsToolCallsFileSearchObject value)
-        fileSearchObject,
+        fileSearch,
     required TResult Function(
             RunStepDeltaStepDetailsToolCallsFunctionObject value)
         function,
@@ -58828,7 +60167,7 @@ class _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
     TResult? Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
         codeInterpreter,
     TResult? Function(RunStepDeltaStepDetailsToolCallsFileSearchObject value)?
-        fileSearchObject,
+        fileSearch,
     TResult? Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
         function,
   }) {
@@ -58841,7 +60180,7 @@ class _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
     TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
         codeInterpreter,
     TResult Function(RunStepDeltaStepDetailsToolCallsFileSearchObject value)?
-        fileSearchObject,
+        fileSearch,
     TResult Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
         function,
     required TResult orElse(),

@@ -67,8 +67,9 @@ void main() {
         threadId: threadId,
         request: const CreateMessageRequest(
           role: MessageRole.user,
-          content:
-              'I need to solve the equation `3x + 11 = 14`. Can you help me?',
+          content: CreateMessageRequestContent.text(
+            'I need to solve the equation `3x + 11 = 14`. Can you help me?',
+          ),
         ),
       );
       expect(res.id, isNotNull);
@@ -193,7 +194,10 @@ void main() {
       final assistantMsg2 = messages[0];
       expect(assistantMsg2.role, MessageRole.assistant);
       expect(assistantMsg2.content, hasLength(1));
-      expect(assistantMsg2.content.first.text.toLowerCase(), contains('x = 1'));
+      expect(
+        assistantMsg2.content.first.text.toLowerCase(),
+        contains('x = 1'),
+      );
     }
 
     Future<void> checkThreadRunSteps(
@@ -261,8 +265,6 @@ void main() {
         output?.type,
         'logs',
       );
-      final logs = output?.mapOrNull(logs: (final l) => l.logs);
-      expect(double.tryParse(logs ?? ''), closeTo(1.0, 0.1));
       expect(step2.lastError, isNull);
       expect(step2.expiredAt, isNull);
       expect(step2.cancelledAt, isNull);

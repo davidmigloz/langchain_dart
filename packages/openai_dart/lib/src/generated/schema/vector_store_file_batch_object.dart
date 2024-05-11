@@ -19,7 +19,7 @@ class VectorStoreFileBatchObject with _$VectorStoreFileBatchObject {
     required String id,
 
     /// The object type, which is always `vector_store.file_batch`.
-    required VectorStoreFileBatchObjectObject object,
+    required String object,
 
     /// The Unix timestamp (in seconds) for when the vector store files batch was created.
     @JsonKey(name: 'created_at') required int createdAt,
@@ -65,16 +65,6 @@ class VectorStoreFileBatchObject with _$VectorStoreFileBatchObject {
       'file_counts': fileCounts,
     };
   }
-}
-
-// ==========================================
-// ENUM: VectorStoreFileBatchObjectObject
-// ==========================================
-
-/// The object type, which is always `vector_store.file_batch`.
-enum VectorStoreFileBatchObjectObject {
-  @JsonValue('vector_store.files_batch')
-  vectorStoreFilesBatch,
 }
 
 // ==========================================

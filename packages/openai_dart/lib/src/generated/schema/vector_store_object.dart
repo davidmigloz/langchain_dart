@@ -19,18 +19,18 @@ class VectorStoreObject with _$VectorStoreObject {
     required String id,
 
     /// The object type, which is always `vector_store`.
-    required VectorStoreObjectObject object,
+    required String object,
 
     /// The Unix timestamp (in seconds) for when the vector store was created.
     @JsonKey(name: 'created_at') required int createdAt,
 
     /// The name of the vector store.
-    required String name,
+    required String? name,
 
     /// The total number of bytes used by the files in the vector store.
     @JsonKey(name: 'usage_bytes') required int usageBytes,
 
-    /// No Description
+    /// The number of files in the vector store.
     @JsonKey(name: 'file_counts')
     required VectorStoreObjectFileCounts fileCounts,
 
@@ -94,20 +94,10 @@ class VectorStoreObject with _$VectorStoreObject {
 }
 
 // ==========================================
-// ENUM: VectorStoreObjectObject
-// ==========================================
-
-/// The object type, which is always `vector_store`.
-enum VectorStoreObjectObject {
-  @JsonValue('vector_store')
-  vectorStore,
-}
-
-// ==========================================
 // CLASS: VectorStoreObjectFileCounts
 // ==========================================
 
-/// No Description
+/// The number of files in the vector store.
 @freezed
 class VectorStoreObjectFileCounts with _$VectorStoreObjectFileCounts {
   const VectorStoreObjectFileCounts._();

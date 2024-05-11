@@ -39,7 +39,7 @@ sealed class RunStepDeltaStepDetailsToolCalls
   // ------------------------------------------
 
   /// File search tool call
-  const factory RunStepDeltaStepDetailsToolCalls.fileSearchObject({
+  const factory RunStepDeltaStepDetailsToolCalls.fileSearch({
     /// The index of the tool call in the tool calls array.
     required int index,
 

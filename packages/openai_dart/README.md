@@ -743,7 +743,35 @@ final res = await client.createThreadMessage(
   threadId: threadId,
   request: CreateMessageRequest(
     role: CreateMessageRequestRole.user,
-    content: 'I need to solve the equation `3x + 11 = 14`. Can you help me?',
+    content: CreateMessageRequestContent.text(
+      'I need to solve the equation `3x + 11 = 14`. Can you help me?',
+    ),
+  ),
+);
+```
+
+If you need to send multi-modal content, you can use the `CreateMessageRequestContent.parts([...])` method:
+
+```dart
+final res = await client.createThreadMessage(
+  threadId: threadId,
+  request: CreateMessageRequest(
+    role: CreateMessageRequestRole.user,
+    content: CreateMessageRequestContent.parts([
+      MessageContent.text(
+        text: MessageContentText(
+          value: 'Some text...', 
+        ),
+      ),
+      MessageContent.imageFile(
+        imageFile: MessageContentImageFile(fileId: 'file-abc123'),
+      ),
+      MessageContent.imageUrl(
+        imageUrl: MessageContentImageUrl(
+          url: 'https://example.com/image.jpg',
+        ),
+      ),
+    ]),
   ),
 );
 ```

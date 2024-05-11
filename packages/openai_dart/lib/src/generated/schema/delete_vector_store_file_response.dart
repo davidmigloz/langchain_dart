@@ -22,7 +22,7 @@ class DeleteVectorStoreFileResponse with _$DeleteVectorStoreFileResponse {
     required bool deleted,
 
     /// The object type, which is always `vector_store.file.deleted`.
-    required DeleteVectorStoreFileResponseObject object,
+    required String object,
   }) = _DeleteVectorStoreFileResponse;
 
   /// Object construction from a JSON representation
@@ -45,14 +45,4 @@ class DeleteVectorStoreFileResponse with _$DeleteVectorStoreFileResponse {
       'object': object,
     };
   }
-}
-
-// ==========================================
-// ENUM: DeleteVectorStoreFileResponseObject
-// ==========================================
-
-/// The object type, which is always `vector_store.file.deleted`.
-enum DeleteVectorStoreFileResponseObject {
-  @JsonValue('vector_store.file.deleted')
-  vectorStoreFileDeleted,
 }
