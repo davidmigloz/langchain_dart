@@ -243,7 +243,6 @@ class Ollama extends BaseLLM<OllamaOptions> {
         numa: options?.numa ?? defaultOptions.numa,
         numCtx: options?.numCtx ?? defaultOptions.numCtx,
         numBatch: options?.numBatch ?? defaultOptions.numBatch,
-        numGqa: options?.numGqa ?? defaultOptions.numGqa,
         numGpu: options?.numGpu ?? defaultOptions.numGpu,
         mainGpu: options?.mainGpu ?? defaultOptions.mainGpu,
         lowVram: options?.lowVram ?? defaultOptions.lowVram,
@@ -252,11 +251,6 @@ class Ollama extends BaseLLM<OllamaOptions> {
         vocabOnly: options?.vocabOnly ?? defaultOptions.vocabOnly,
         useMmap: options?.useMmap ?? defaultOptions.useMmap,
         useMlock: options?.useMlock ?? defaultOptions.useMlock,
-        embeddingOnly: options?.embeddingOnly ?? defaultOptions.embeddingOnly,
-        ropeFrequencyBase:
-            options?.ropeFrequencyBase ?? defaultOptions.ropeFrequencyBase,
-        ropeFrequencyScale:
-            options?.ropeFrequencyScale ?? defaultOptions.ropeFrequencyScale,
         numThread: options?.numThread ?? defaultOptions.numThread,
       ),
     );

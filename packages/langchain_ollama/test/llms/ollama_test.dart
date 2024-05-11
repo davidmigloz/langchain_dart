@@ -52,7 +52,6 @@ void main() {
         numa: true,
         numCtx: 15,
         numBatch: 16,
-        numGqa: 17,
         numGpu: 0,
         mainGpu: 18,
         lowVram: true,
@@ -61,9 +60,6 @@ void main() {
         vocabOnly: true,
         useMmap: true,
         useMlock: true,
-        embeddingOnly: true,
-        ropeFrequencyBase: 19.0,
-        ropeFrequencyScale: 20.0,
         numThread: 21,
       );
 
@@ -96,7 +92,6 @@ void main() {
       expect(options.numa, true);
       expect(options.numCtx, 15);
       expect(options.numBatch, 16);
-      expect(options.numGqa, 17);
       expect(options.numGpu, 0);
       expect(options.mainGpu, 18);
       expect(options.lowVram, true);
@@ -105,9 +100,6 @@ void main() {
       expect(options.vocabOnly, true);
       expect(options.useMmap, true);
       expect(options.useMlock, true);
-      expect(options.embeddingOnly, true);
-      expect(options.ropeFrequencyBase, 19.0);
-      expect(options.ropeFrequencyScale, 20.0);
       expect(options.numThread, 21);
     });
 
