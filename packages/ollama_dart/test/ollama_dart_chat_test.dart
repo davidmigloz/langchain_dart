@@ -52,6 +52,7 @@ void main() {
         isNotEmpty,
       );
       expect(response.done, isTrue);
+      expect(response.doneReason, DoneReason.stop);
       expect(response.totalDuration, greaterThan(0));
       expect(response.promptEvalCount, greaterThan(0));
       expect(response.evalCount, greaterThan(0));
@@ -118,8 +119,7 @@ void main() {
             Message(
               role: MessageRole.user,
               content: 'List the numbers from 1 to 9 in order. '
-                  'Output ONLY the numbers in one line without any spaces or commas. '
-                  'NUMBERS: ',
+                  'Output ONLY the numbers without spaces or commas.',
             ),
           ],
           options: RequestOptions(stop: ['4']),
@@ -128,6 +128,27 @@ void main() {
       final generation = res.message?.content.replaceAll(RegExp(r'[\s\n]'), '');
       expect(generation, contains('123'));
       expect(generation, isNot(contains('456789')));
+      expect(res.doneReason, DoneReason.stop);
+    });
+
+    test('Test call chat completions API with max tokens', () async {
+      final res = await client.generateChatCompletion(
+        request: const GenerateChatCompletionRequest(
+          model: defaultModel,
+          messages: [
+            Message(
+              role: MessageRole.system,
+              content: 'You are a helpful assistant.',
+            ),
+            Message(
+              role: MessageRole.user,
+              content: 'List the numbers from 1 to 9 in order.',
+            ),
+          ],
+          options: RequestOptions(numPredict: 1),
+        ),
+      );
+      expect(res.doneReason, DoneReason.length);
     });
 
     test('Test call chat completions API with image', () async {

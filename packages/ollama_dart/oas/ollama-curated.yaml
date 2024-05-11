@@ -573,9 +573,7 @@ components:
           description: Whether the response has completed.
           example: true
         done_reason:
-          type: string
-          nullable: true
-          description: Reason the response is done.
+          $ref: '#/components/schemas/DoneReason'
         total_duration:
           type: integer
           format: int64
@@ -604,6 +602,13 @@ components:
           format: int64
           description: Time in nanoseconds spent generating the response.
           example: 1325948000
+    DoneReason:
+      type: string
+      description: Reason why the model is done generating a response.
+      enum:
+        - stop # The generation hit a stop token.
+        - length # The maximum num_tokens was reached.
+        - load # The request was sent with an empty body to load the model.
     Message:
       type: object
       description: A message in the chat endpoint
