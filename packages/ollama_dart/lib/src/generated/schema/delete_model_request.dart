@@ -18,7 +18,7 @@ class DeleteModelRequest with _$DeleteModelRequest {
     /// The model name.
     ///
     /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
-    required String name,
+    required String model,
   }) = _DeleteModelRequest;
 
   /// Object construction from a JSON representation
@@ -26,7 +26,7 @@ class DeleteModelRequest with _$DeleteModelRequest {
       _$DeleteModelRequestFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['name'];
+  static const List<String> propertyNames = ['model'];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -36,7 +36,7 @@ class DeleteModelRequest with _$DeleteModelRequest {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
-      'name': name,
+      'model': model,
     };
   }
 }

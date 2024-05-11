@@ -7,14 +7,14 @@ void main() {
   group('Ollama Models API tests', skip: Platform.environment.containsKey('CI'),
       () {
     late OllamaClient client;
-    const defaultModel = 'llama2:latest';
+    const defaultModel = 'llama3:latest';
 
     setUp(() async {
       client = OllamaClient();
       // Check that the model exists
       final res = await client.listModels();
       expect(
-        res.models?.firstWhere((final m) => m.name == defaultModel),
+        res.models?.firstWhere((final m) => m.model == defaultModel),
         isNotNull,
       );
     });
@@ -30,7 +30,7 @@ void main() {
 
       final res = await client.createModel(
         request: const CreateModelRequest(
-          name: modelName,
+          model: modelName,
           modelfile: modelfile,
         ),
       );
@@ -45,7 +45,7 @@ void main() {
 
       final stream = client.createModelStream(
         request: const CreateModelRequest(
-          name: modelName,
+          model: modelName,
           modelfile: modelfile,
         ),
       );
@@ -62,12 +62,12 @@ void main() {
 
     test('Test list models', () async {
       final res = await client.listModels();
-      expect(res.models?.any((final m) => m.name == defaultModel), isTrue);
+      expect(res.models?.any((final m) => m.model == defaultModel), isTrue);
     });
 
     test('Test show model info', () async {
       final res = await client.showModelInfo(
-        request: const ModelInfoRequest(name: defaultModel),
+        request: const ModelInfoRequest(model: defaultModel),
       );
       expect(res.license, isNotEmpty);
       expect(res.modelfile, isNotEmpty);
@@ -83,24 +83,24 @@ void main() {
         ),
       );
       final res = await client.listModels();
-      expect(res.models?.any((final m) => m.name == '$newName:latest'), isTrue);
+      expect(res.models?.any((final m) => m.model == '$newName:latest'), isTrue);
     });
 
     test('Test delete model', () async {
       const name = 'model-copy';
 
       final res1 = await client.listModels();
-      expect(res1.models?.any((final m) => m.name == '$name:latest'), isTrue);
+      expect(res1.models?.any((final m) => m.model == '$name:latest'), isTrue);
 
-      await client.deleteModel(request: const DeleteModelRequest(name: name));
+      await client.deleteModel(request: const DeleteModelRequest(model: name));
 
       final res2 = await client.listModels();
-      expect(res2.models?.any((final m) => m.name == '$name:latest'), isFalse);
+      expect(res2.models?.any((final m) => m.model == '$name:latest'), isFalse);
     });
 
     test('Test pull model', skip: true, () async {
       final res = await client.pullModel(
-        request: const PullModelRequest(name: 'yarn-llama2:13b-128k-q4_1'),
+        request: const PullModelRequest(model: 'yarn-llama2:13b-128k-q4_1'),
       );
 
       expect(res.status, PullModelStatus.success);
@@ -108,7 +108,7 @@ void main() {
 
     test('Test pull model stream', skip: true, () async {
       final stream = client.pullModelStream(
-        request: const PullModelRequest(name: 'yarn-llama2:13b-128k-q4_1'),
+        request: const PullModelRequest(model: 'yarn-llama2:13b-128k-q4_1'),
       );
 
       int count = 0;
@@ -123,7 +123,7 @@ void main() {
 
     test('Test push model', skip: true, () async {
       final res = await client.pushModel(
-        request: const PushModelRequest(name: 'mattw/pygmalion:latest'),
+        request: const PushModelRequest(model: 'mattw/pygmalion:latest'),
       );
 
       expect(res.status, PushModelStatus.success);
@@ -131,7 +131,7 @@ void main() {
 
     test('Test push model stream', skip: true, () async {
       final stream = client.pushModelStream(
-        request: const PushModelRequest(name: 'mattw/pygmalion:latest'),
+        request: const PushModelRequest(model: 'mattw/pygmalion:latest'),
       );
 
       int count = 0;

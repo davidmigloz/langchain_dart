@@ -17,13 +17,16 @@ Unofficial Dart client for [Ollama](https://ollama.ai/) API.
 **Supported endpoints:**
 
 - Completions (with streaming support)
+- Chat completions
 - Embeddings
 - Models
+- Blobs
 
 ## Table of contents
 
 - [Usage](#usage)
   * [Completions](#completions)
+  * [Chat completions](#chat-completions)
   * [Embeddings](#embeddings)
   * [Models](#models)
     + [Create model](#create-model)
@@ -31,6 +34,7 @@ Unofficial Dart client for [Ollama](https://ollama.ai/) API.
     + [Show Model Information](#show-model-information)
     + [Pull a Model](#pull-a-model)
     + [Push a Model](#push-a-model)
+    + [Check if a Blob Exists](#check-if-a-blob-exists)
 - [Advance Usage](#advance-usage)
   * [Default HTTP client](#default-http-client)
   * [Custom HTTP client ](#custom-http-client)
@@ -52,7 +56,7 @@ Given a prompt, the model will generate a response.
 
 ```dart
 final generated = await client.generateCompletion(
-  request: const GenerateCompletionRequest(
+  request: GenerateCompletionRequest(
     model: 'mistral:latest',
     prompt: 'Why is the sky blue?',
   ),
@@ -65,7 +69,7 @@ print(generated.response);
 
 ```dart
 final stream = client.generateCompletionStream(
-  request: const GenerateCompletionRequest(
+  request: GenerateCompletionRequest(
     model: 'mistral:latest',
     prompt: 'Why is the sky blue?',
   ),
@@ -75,6 +79,62 @@ await for (final res in stream) {
   text += res.response?.trim() ?? '';
 }
 print(text);
+// The sky appears blue because of a phenomenon called Rayleigh scattering...
+```
+
+### Chat completions
+
+Given a prompt, the model will generate a response in a chat format.
+
+**Generate chat completion:**
+
+```dart
+final res = await client.generateChatCompletion(
+  request: GenerateChatCompletionRequest(
+    model: defaultModel,
+    messages: [
+      Message(
+        role: MessageRole.system,
+        content: 'You are a helpful assistant.',
+      ),
+      Message(
+        role: MessageRole.user,
+        content: 'List the numbers from 1 to 9 in order.',
+      ),
+    ],
+    keepAlive: 1,
+  ),
+);
+print(res);
+// Message(role: MessageRole.assistant, content: 123456789)
+```
+
+**Stream chat completion:**
+
+```dart
+final stream = client.generateChatCompletionStream(
+  request: GenerateChatCompletionRequest(
+    model: defaultModel,
+    messages: [
+      Message(
+        role: MessageRole.system,
+        content: 'You are a helpful assistant.',
+      ),
+      Message(
+        role: MessageRole.user,
+        content: 'List the numbers from 1 to 9 in order.',
+      ),
+    ],
+    keepAlive: 1,
+  ),
+);
+
+String text = '';
+await for (final res in stream) {
+  text += (res.message?.content ?? '').trim();
+}
+print(text);
+// 123456789
 ```
 
 ### Embeddings
@@ -85,7 +145,7 @@ Given a prompt, the model will generate an embedding representing the prompt.
 
 ```dart
 final generated = await client.generateEmbedding(
-  request: const GenerateEmbeddingRequest(
+  request: GenerateEmbeddingRequest(
     model: 'mistral:latest',
     prompt: 'Here is an article about llamas...',
   ),
@@ -102,8 +162,8 @@ Creates a new local model using a modelfile.
 
 ```dart
 await client.createModel(
-  request: const CreateModelRequest(
-    name: 'mario',
+  request: CreateModelRequest(
+    model: 'mario',
     modelfile: 'FROM mistral:latest\nSYSTEM You are mario from Super Mario Bros.',
   ),
 );
@@ -113,8 +173,8 @@ You can also stream the status of the model creation:
 
 ```dart
 final stream = client.createModelStream(
-  request: const CreateModelRequest(
-    name: 'mario',
+  request: CreateModelRequest(
+    model: 'mario',
     modelfile: 'FROM mistral:latest\nSYSTEM You are mario from Super Mario Bros.',
   ),
 );
@@ -138,7 +198,7 @@ Show details about a model including modelfile, template, parameters, license, a
 
 ```dart
 final res = await client.showModelInfo(
-  request: const ModelInfoRequest(name: 'mistral:latest'),
+  request: ModelInfoRequest(model: 'mistral:latest'),
 );
 print(res);
 ```
@@ -149,7 +209,7 @@ Download a model from the ollama library. Cancelled pulls are resumed from where
 
 ```dart
 final res = await client.pullModel(
-  request: const PullModelRequest(name: 'yarn-llama2:13b-128k-q4_1'),
+  request: PullModelRequest(model: 'yarn-llama2:13b-128k-q4_1'),
 );
 print(res.status);
 ```
@@ -158,7 +218,7 @@ You can also stream the pulling status:
 
 ```dart
 final stream = client.pullModelStream(
-  request: const PullModelRequest(name: 'yarn-llama2:13b-128k-q4_1'),
+  request: PullModelRequest(model: 'yarn-llama2:13b-128k-q4_1'),
 );
 await for (final res in stream) {
   print(res.status);
@@ -173,7 +233,7 @@ Requires registering for ollama.ai and adding a public key first.
 
 ```dart
 final res = await client.pushModel(
-  request: const PushModelRequest(name: 'mattw/pygmalion:latest'),
+  request: PushModelRequest(model: 'mattw/pygmalion:latest'),
 );
 print(res.status);
 ```
@@ -182,7 +242,7 @@ You can also stream the pushing status:
 
 ```dart
 final stream = client.pushModelStream(
-  request: const PushModelRequest(name: 'mattw/pygmalion:latest'),
+  request: PushModelRequest(model: 'mattw/pygmalion:latest'),
 );
 await for (final res in stream) {
   print(res.status);

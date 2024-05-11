@@ -27,6 +27,9 @@ class PushModelResponse with _$PushModelResponse {
 
     /// total size of the model
     @JsonKey(includeIfNull: false) int? total,
+
+    /// Total bytes transferred.
+    @JsonKey(includeIfNull: false) int? completed,
   }) = _PushModelResponse;
 
   /// Object construction from a JSON representation
@@ -34,7 +37,12 @@ class PushModelResponse with _$PushModelResponse {
       _$PushModelResponseFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['status', 'digest', 'total'];
+  static const List<String> propertyNames = [
+    'status',
+    'digest',
+    'total',
+    'completed'
+  ];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -47,6 +55,7 @@ class PushModelResponse with _$PushModelResponse {
       'status': status,
       'digest': digest,
       'total': total,
+      'completed': completed,
     };
   }
 }

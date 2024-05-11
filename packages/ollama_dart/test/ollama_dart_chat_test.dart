@@ -7,7 +7,7 @@ void main() {
   group('Ollama Generate Completions API tests',
       skip: Platform.environment.containsKey('CI'), () {
     late OllamaClient client;
-    const defaultModel = 'llama2:latest';
+    const defaultModel = 'llama3:latest';
     const visionModel = 'llava:latest';
 
     setUp(() async {
@@ -15,11 +15,11 @@ void main() {
       // Check that the model exists
       final res = await client.listModels();
       expect(
-        res.models?.firstWhere((final m) => m.name == defaultModel),
+        res.models?.firstWhere((final m) => m.model == defaultModel),
         isNotNull,
       );
       expect(
-        res.models?.firstWhere((final m) => m.name == visionModel),
+        res.models?.firstWhere((final m) => m.model == visionModel),
         isNotNull,
       );
     });
@@ -95,7 +95,7 @@ void main() {
             Message(
               role: MessageRole.user,
               content: 'List the numbers from 1 to 9 in order. '
-                  'Output ONLY the numbers in one key-value pair without any spaces or commas. '
+                  'Output ONLY the numbers in a JSON list. '
                   'NUMBERS: ',
             ),
           ],

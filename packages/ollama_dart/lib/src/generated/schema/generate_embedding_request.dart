@@ -25,6 +25,14 @@ class GenerateEmbeddingRequest with _$GenerateEmbeddingRequest {
 
     /// Additional model parameters listed in the documentation for the Modelfile such as `temperature`.
     @JsonKey(includeIfNull: false) RequestOptions? options,
+
+    /// How long (in minutes) to keep the model loaded in memory.
+    ///
+    /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
+    /// - If set to a negative duration (e.g. -1), the model will stay loaded indefinitely.
+    /// - If set to 0, the model will be unloaded immediately once finished.
+    /// - If not set, the model will stay loaded for 5 minutes by default
+    @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,
   }) = _GenerateEmbeddingRequest;
 
   /// Object construction from a JSON representation
@@ -32,7 +40,12 @@ class GenerateEmbeddingRequest with _$GenerateEmbeddingRequest {
       _$GenerateEmbeddingRequestFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['model', 'prompt', 'options'];
+  static const List<String> propertyNames = [
+    'model',
+    'prompt',
+    'options',
+    'keep_alive'
+  ];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -45,6 +58,7 @@ class GenerateEmbeddingRequest with _$GenerateEmbeddingRequest {
       'model': model,
       'prompt': prompt,
       'options': options,
+      'keep_alive': keepAlive,
     };
   }
 }
