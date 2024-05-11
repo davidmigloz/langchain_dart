@@ -33,7 +33,6 @@ class OllamaOptions extends LLMOptions {
     this.numa,
     this.numCtx,
     this.numBatch,
-    this.numGqa,
     this.numGpu,
     this.mainGpu,
     this.lowVram,
@@ -42,9 +41,6 @@ class OllamaOptions extends LLMOptions {
     this.vocabOnly,
     this.useMmap,
     this.useMlock,
-    this.embeddingOnly,
-    this.ropeFrequencyBase,
-    this.ropeFrequencyScale,
     this.numThread,
     super.concurrencyLimit,
   });
@@ -185,10 +181,6 @@ class OllamaOptions extends LLMOptions {
   /// (Default: 1)
   final int? numBatch;
 
-  /// The number of GQA groups in the transformer layer. Required for some
-  /// models, for example it is 8 for `llama2:70b`.
-  final int? numGqa;
-
   /// The number of layers to send to the GPU(s). On macOS it defaults to 1 to
   /// enable metal support, 0 to disable.
   final int? numGpu;
@@ -220,18 +212,6 @@ class OllamaOptions extends LLMOptions {
   /// Enable mlock.
   /// (Default: false)
   final bool? useMlock;
-
-  /// Enable embedding only.
-  /// (Default: false)
-  final bool? embeddingOnly;
-
-  /// The base of the rope frequency scale.
-  /// (Default: 1.0)
-  final double? ropeFrequencyBase;
-
-  /// The scale of the rope frequency.
-  /// (Default: 1.0)
-  final double? ropeFrequencyScale;
 
   /// Sets the number of threads to use during computation. By default, Ollama
   /// will detect this for optimal performance. It is recommended to set this
@@ -309,7 +289,6 @@ class OllamaOptions extends LLMOptions {
       numa: numa ?? this.numa,
       numCtx: numCtx ?? this.numCtx,
       numBatch: numBatch ?? this.numBatch,
-      numGqa: numGqa ?? this.numGqa,
       numGpu: numGpu ?? this.numGpu,
       mainGpu: mainGpu ?? this.mainGpu,
       lowVram: lowVram ?? this.lowVram,
@@ -318,9 +297,6 @@ class OllamaOptions extends LLMOptions {
       vocabOnly: vocabOnly ?? this.vocabOnly,
       useMmap: useMmap ?? this.useMmap,
       useMlock: useMlock ?? this.useMlock,
-      embeddingOnly: embeddingOnly ?? this.embeddingOnly,
-      ropeFrequencyBase: ropeFrequencyBase ?? this.ropeFrequencyBase,
-      ropeFrequencyScale: ropeFrequencyScale ?? this.ropeFrequencyScale,
       numThread: numThread ?? this.numThread,
     );
   }
