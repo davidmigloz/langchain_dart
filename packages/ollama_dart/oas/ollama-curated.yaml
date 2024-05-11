@@ -3,7 +3,7 @@ openapi: 3.0.3
 info:
   title: Ollama API
   description: API Spec for Ollama API. Please see https://github.com/jmorganca/ollama/blob/main/docs/api.md for more details.
-  version: 0.1.9
+  version: 0.1.10
 
 servers:
   - url: http://localhost:11434/api
@@ -270,6 +270,7 @@ components:
           description: The context parameter returned from a previous request to [generateCompletion], this can be used to keep a short conversational memory.
           items:
             type: integer
+            format: int64
         options:
           $ref: '#/components/schemas/RequestOptions'
         format:
@@ -284,9 +285,10 @@ components:
           type: boolean
           description: &stream |
             If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
-          default: false
+          default: true
         keep_alive:
           type: integer
+          nullable: true
           description: &keep_alive |
             How long (in minutes) to keep the model loaded in memory.
             
@@ -303,75 +305,91 @@ components:
       properties:
         num_keep:
           type: integer
+          nullable: true
           description: |
             Number of tokens to keep from the prompt.
         seed:
           type: integer
+          nullable: true
           description: |
             Sets the random number seed to use for generation. Setting this to a specific number will make the model generate the same text for the same prompt. (Default: 0)
         num_predict:
           type: integer
+          nullable: true
           description: |
             Maximum number of tokens to predict when generating text. (Default: 128, -1 = infinite generation, -2 = fill context)
         top_k:
           type: integer
+          nullable: true
           description: |
             Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers, while a lower value (e.g. 10) will be more conservative. (Default: 40)
         top_p:
           type: number
           format: float
+          nullable: true
           description: |
             Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
         tfs_z:
           type: number
           format: float
+          nullable: true
           description: |
             Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
         typical_p:
           type: number
           format: float
+          nullable: true
           description: |
             Typical p is used to reduce the impact of less probable tokens from the output.
         repeat_last_n:
           type: integer
+          nullable: true
           description: |
             Sets how far back for the model to look back to prevent repetition. (Default: 64, 0 = disabled, -1 = num_ctx)
         temperature:
           type: number
           format: float
+          nullable: true
           description: |
             The temperature of the model. Increasing the temperature will make the model answer more creatively. (Default: 0.8)
         repeat_penalty:
           type: number
           format: float
+          nullable: true
           description: |
             Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more strongly, while a lower value (e.g., 0.9) will be more lenient. (Default: 1.1)
         presence_penalty:
           type: number
           format: float
+          nullable: true
           description: |
             Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
         frequency_penalty:
           type: number
           format: float
+          nullable: true
           description: |
             Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
         mirostat:
           type: integer
+          nullable: true
           description: |
             Enable Mirostat sampling for controlling perplexity. (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
         mirostat_tau:
           type: number
           format: float
+          nullable: true
           description: |
             Controls the balance between coherence and diversity of the output. A lower value will result in more focused and coherent text. (Default: 5.0)
         mirostat_eta:
           type: number
           format: float
+          nullable: true
           description: |
             Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate will result in slower adjustments, while a higher learning rate will make the algorithm more responsive. (Default: 0.1)
         penalize_newline:
           type: boolean
+          default: false
           description: |
             Penalize newlines in the output. (Default: false)
         stop:
@@ -381,68 +399,84 @@ components:
             type: string
         numa:
           type: boolean
+          default: false
           description: |
             Enable NUMA support. (Default: false)
         num_ctx:
           type: integer
+          nullable: true
           description: |
             Sets the size of the context window used to generate the next token.
         num_batch:
           type: integer
+          nullable: true
           description: |
             Sets the number of batches to use for generation. (Default: 1)
         num_gqa:
           type: integer
+          nullable: true
           description: |
             The number of GQA groups in the transformer layer. Required for some models, for example it is 8 for `llama2:70b`.
         num_gpu:
           type: integer
+          nullable: true
           description: |
             The number of layers to send to the GPU(s). On macOS it defaults to 1 to enable metal support, 0 to disable.
         main_gpu:
           type: integer
+          nullable: true
           description: |
             The GPU to use for the main model. Default is 0.
         low_vram:
           type: boolean
+          default: false
           description: |
             Enable low VRAM mode. (Default: false)
         f16_kv:
           type: boolean
+          default: false
           description: |
             Enable f16 key/value. (Default: false)
         logits_all:
           type: boolean
+          default: false
           description: |
             Enable logits all. (Default: false)
         vocab_only:
           type: boolean
+          default: false
           description: |
             Enable vocab only. (Default: false)
         use_mmap:
           type: boolean
+          default: false
           description: |
             Enable mmap. (Default: false)
         use_mlock:
           type: boolean
+          default: false
           description: |
             Enable mlock. (Default: false)
         embedding_only:
           type: boolean
+          default: false
           description: |
             Enable embedding only. (Default: false)
         rope_frequency_base:
           type: number
-          format: float
+          format: double
+          nullable: true
           description: |
             The base of the rope frequency scale. (Default: 1.0)
         rope_frequency_scale:
           type: number
-          format: float
+          format: double
+          nullable: true
           description: |
             The scale of the rope frequency. (Default: 1.0)
         num_thread:
           type: integer
+          nullable: true
           description: |
             Sets the number of threads to use during computation. By default, Ollama will detect this for optimal performance. It is recommended to set this value to the number of physical CPU cores your system has (as opposed to the logical number of cores).
     ResponseFormat:
@@ -482,13 +516,16 @@ components:
             An encoding of the conversation used in this response, this can be sent in the next request to keep a conversational memory.
           items:
             type: integer
+            format: int64
           example: [ 1, 2, 3 ]
         total_duration:
           type: integer
+          format: int64
           description: Time spent generating the response.
           example: 5589157167
         load_duration:
           type: integer
+          format: int64
           description: Time spent in nanoseconds loading the model.
           example: 3013701500
         prompt_eval_count:
@@ -497,6 +534,7 @@ components:
           example: 46
         prompt_eval_duration:
           type: integer
+          format: int64
           description: Time spent in nanoseconds evaluating the prompt.
           example: 1160282000
         eval_count:
@@ -505,6 +543,7 @@ components:
           example: 113
         eval_duration:
           type: integer
+          format: int64
           description: Time in nanoseconds spent generating the response.
           example: 1325948000
     GenerateChatCompletionRequest:
@@ -527,9 +566,10 @@ components:
         stream:
           type: boolean
           description: *stream
-          default: false
+          default: true
         keep_alive:
           type: integer
+          nullable: true
           description: *keep_alive
       required:
         - model
@@ -555,10 +595,12 @@ components:
           example: true
         total_duration:
           type: integer
+          format: int64
           description: Time spent generating the response.
           example: 5589157167
         load_duration:
           type: integer
+          format: int64
           description: Time spent in nanoseconds loading the model.
           example: 3013701500
         prompt_eval_count:
@@ -567,6 +609,7 @@ components:
           example: 46
         prompt_eval_duration:
           type: integer
+          format: int64
           description: Time spent in nanoseconds evaluating the prompt.
           example: 1160282000
         eval_count:
@@ -575,6 +618,7 @@ components:
           example: 113
         eval_duration:
           type: integer
+          format: int64
           description: Time in nanoseconds spent generating the response.
           example: 1325948000
     Message:
@@ -639,10 +683,13 @@ components:
           type: string
           description: The contents of the Modelfile.
           example: FROM llama2\nSYSTEM You are mario from Super Mario Bros.
+        path:
+          type: string
+          description: Path to the Modelfile (optional)
         stream:
           type: boolean
           description: *stream
-          default: false
+          default: true
       required:
         - name
         - modelfile
@@ -683,8 +730,31 @@ components:
           example: 2023-08-02T17:02:23.713454393-07:00
         size:
           type: integer
+          format: int64
           description: Size of the model on disk.
           example: 7323310500
+        digest:
+          type: string
+          description: The model's digest.
+          example: 'sha256:bc07c81de745696fdf5afca05e065818a8149fb0c77266fb584d9b2cba3711a'
+        details:
+          type: object
+          properties:
+            parent_model:
+              type: string
+            format:
+              type: string
+            family:
+              type: string
+            families:
+              type: array
+              items:
+                  type: string
+            parameter_size:
+              type: string
+            quantization_level:
+              type: string
+                  
     ModelInfoRequest:
       description: Request class for the show model info endpoint.
       type: object
@@ -758,7 +828,7 @@ components:
         stream:
           type: boolean
           description: *stream
-          default: false
+          default: true
       required:
         - name
     PullModelResponse:
@@ -778,10 +848,12 @@ components:
           example: 'sha256:bc07c81de745696fdf5afca05e065818a8149fb0c77266fb584d9b2cba3711a'
         total:
           type: integer
+          format: int64
           description: Total size of the model.
           example: 2142590208
         completed:
           type: integer
+          format: int64
           description: Total bytes transferred.
           example: 2142590208
     PullModelStatus:
@@ -813,7 +885,7 @@ components:
         stream:
           type: boolean
           description: *stream
-          default: false
+          default: true
       required:
         - name
     PushModelResponse:
@@ -828,6 +900,7 @@ components:
           example: 'sha256:bc07c81de745696fdf5afca05e065818a8149fb0c77266fb584d9b2cba3711a'
         total:
           type: integer
+          format: int64
           description: total size of the model
           example: 2142590208
     PushModelStatus:
