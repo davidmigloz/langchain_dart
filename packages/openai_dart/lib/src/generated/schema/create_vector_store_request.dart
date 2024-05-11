@@ -19,7 +19,7 @@ class CreateVectorStoreRequest with _$CreateVectorStoreRequest {
     @JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
 
     /// The name of the vector store.
-    @JsonKey(includeIfNull: false) String? name,
+    required String name,
 
     /// The expiration policy for a vector store.
     @JsonKey(name: 'expires_after', includeIfNull: false)

@@ -3688,7 +3688,8 @@ _$CreateMessageRequestImpl _$$CreateMessageRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateMessageRequestImpl(
       role: $enumDecode(_$MessageRoleEnumMap, json['role']),
-      content: json['content'] as String,
+      content: const _CreateMessageRequestContentConverter()
+          .fromJson(json['content']),
       attachments: (json['attachments'] as List<dynamic>?)
           ?.map((e) => MessageAttachment.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3699,7 +3700,8 @@ Map<String, dynamic> _$$CreateMessageRequestImplToJson(
     _$CreateMessageRequestImpl instance) {
   final val = <String, dynamic>{
     'role': _$MessageRoleEnumMap[instance.role]!,
-    'content': instance.content,
+    'content':
+        const _CreateMessageRequestContentConverter().toJson(instance.content),
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -3713,6 +3715,38 @@ Map<String, dynamic> _$$CreateMessageRequestImplToJson(
   writeNotNull('metadata', instance.metadata);
   return val;
 }
+
+_$CreateMessageRequestContentListMessageContentImpl
+    _$$CreateMessageRequestContentListMessageContentImplFromJson(
+            Map<String, dynamic> json) =>
+        _$CreateMessageRequestContentListMessageContentImpl(
+          (json['value'] as List<dynamic>)
+              .map((e) => MessageContent.fromJson(e as Map<String, dynamic>))
+              .toList(),
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$CreateMessageRequestContentListMessageContentImplToJson(
+        _$CreateMessageRequestContentListMessageContentImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value.map((e) => e.toJson()).toList(),
+      'runtimeType': instance.$type,
+    };
+
+_$CreateMessageRequestContentStringImpl
+    _$$CreateMessageRequestContentStringImplFromJson(
+            Map<String, dynamic> json) =>
+        _$CreateMessageRequestContentStringImpl(
+          json['value'] as String,
+          $type: json['runtimeType'] as String?,
+        );
+
+Map<String, dynamic> _$$CreateMessageRequestContentStringImplToJson(
+        _$CreateMessageRequestContentStringImpl instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'runtimeType': instance.$type,
+    };
 
 _$ModifyMessageRequestImpl _$$ModifyMessageRequestImplFromJson(
         Map<String, dynamic> json) =>
@@ -3780,30 +3814,80 @@ _$MessageContentImageFileImpl _$$MessageContentImageFileImplFromJson(
         Map<String, dynamic> json) =>
     _$MessageContentImageFileImpl(
       fileId: json['file_id'] as String,
+      detail: $enumDecodeNullable(
+              _$MessageContentImageDetailEnumMap, json['detail']) ??
+          MessageContentImageDetail.auto,
     );
 
 Map<String, dynamic> _$$MessageContentImageFileImplToJson(
         _$MessageContentImageFileImpl instance) =>
     <String, dynamic>{
       'file_id': instance.fileId,
+      'detail': _$MessageContentImageDetailEnumMap[instance.detail]!,
+    };
+
+const _$MessageContentImageDetailEnumMap = {
+  MessageContentImageDetail.auto: 'auto',
+  MessageContentImageDetail.low: 'low',
+  MessageContentImageDetail.high: 'high',
+};
+
+_$MessageContentImageUrlImpl _$$MessageContentImageUrlImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MessageContentImageUrlImpl(
+      url: json['url'] as String,
+      detail: $enumDecodeNullable(
+              _$MessageContentImageDetailEnumMap, json['detail']) ??
+          MessageContentImageDetail.auto,
+    );
+
+Map<String, dynamic> _$$MessageContentImageUrlImplToJson(
+        _$MessageContentImageUrlImpl instance) =>
+    <String, dynamic>{
+      'url': instance.url,
+      'detail': _$MessageContentImageDetailEnumMap[instance.detail]!,
+    };
+
+_$MessageRequestContentTextObjectImpl
+    _$$MessageRequestContentTextObjectImplFromJson(Map<String, dynamic> json) =>
+        _$MessageRequestContentTextObjectImpl(
+          type: json['type'] as String,
+          text: json['text'] as String,
+        );
+
+Map<String, dynamic> _$$MessageRequestContentTextObjectImplToJson(
+        _$MessageRequestContentTextObjectImpl instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'text': instance.text,
     };
 
 _$MessageContentTextImpl _$$MessageContentTextImplFromJson(
         Map<String, dynamic> json) =>
     _$MessageContentTextImpl(
       value: json['value'] as String,
-      annotations: (json['annotations'] as List<dynamic>)
-          .map((e) =>
+      annotations: (json['annotations'] as List<dynamic>?)
+          ?.map((e) =>
               MessageContentTextAnnotations.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
 Map<String, dynamic> _$$MessageContentTextImplToJson(
-        _$MessageContentTextImpl instance) =>
-    <String, dynamic>{
-      'value': instance.value,
-      'annotations': instance.annotations.map((e) => e.toJson()).toList(),
-    };
+    _$MessageContentTextImpl instance) {
+  final val = <String, dynamic>{
+    'value': instance.value,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'annotations', instance.annotations?.map((e) => e.toJson()).toList());
+  return val;
+}
 
 _$MessageContentTextAnnotationsFileCitationImpl
     _$$MessageContentTextAnnotationsFileCitationImplFromJson(
@@ -3819,6 +3903,34 @@ Map<String, dynamic> _$$MessageContentTextAnnotationsFileCitationImplToJson(
       'file_id': instance.fileId,
       'quote': instance.quote,
     };
+
+_$MessageDeltaContentImageUrlObjectImpl
+    _$$MessageDeltaContentImageUrlObjectImplFromJson(
+            Map<String, dynamic> json) =>
+        _$MessageDeltaContentImageUrlObjectImpl(
+          index: json['index'] as int?,
+          type: json['type'] as String?,
+          imageUrl: json['image_url'] == null
+              ? null
+              : MessageContentImageUrl.fromJson(
+                  json['image_url'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$MessageDeltaContentImageUrlObjectImplToJson(
+    _$MessageDeltaContentImageUrlObjectImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('index', instance.index);
+  writeNotNull('type', instance.type);
+  writeNotNull('image_url', instance.imageUrl?.toJson());
+  return val;
+}
 
 _$MessageDeltaContentTextImpl _$$MessageDeltaContentTextImplFromJson(
         Map<String, dynamic> json) =>
@@ -4170,9 +4282,9 @@ _$VectorStoreObjectImpl _$$VectorStoreObjectImplFromJson(
         Map<String, dynamic> json) =>
     _$VectorStoreObjectImpl(
       id: json['id'] as String,
-      object: $enumDecode(_$VectorStoreObjectObjectEnumMap, json['object']),
+      object: json['object'] as String,
       createdAt: json['created_at'] as int,
-      name: json['name'] as String,
+      name: json['name'] as String?,
       usageBytes: json['usage_bytes'] as int,
       fileCounts: VectorStoreObjectFileCounts.fromJson(
           json['file_counts'] as Map<String, dynamic>),
@@ -4190,7 +4302,7 @@ Map<String, dynamic> _$$VectorStoreObjectImplToJson(
     _$VectorStoreObjectImpl instance) {
   final val = <String, dynamic>{
     'id': instance.id,
-    'object': _$VectorStoreObjectObjectEnumMap[instance.object]!,
+    'object': instance.object,
     'created_at': instance.createdAt,
     'name': instance.name,
     'usage_bytes': instance.usageBytes,
@@ -4210,10 +4322,6 @@ Map<String, dynamic> _$$VectorStoreObjectImplToJson(
   val['metadata'] = instance.metadata;
   return val;
 }
-
-const _$VectorStoreObjectObjectEnumMap = {
-  VectorStoreObjectObject.vectorStore: 'vector_store',
-};
 
 const _$VectorStoreObjectStatusEnumMap = {
   VectorStoreObjectStatus.expired: 'expired',
@@ -4247,7 +4355,7 @@ _$CreateVectorStoreRequestImpl _$$CreateVectorStoreRequestImplFromJson(
       fileIds: (json['file_ids'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      name: json['name'] as String?,
+      name: json['name'] as String,
       expiresAfter: json['expires_after'] == null
           ? null
           : VectorStoreExpirationAfter.fromJson(
@@ -4266,7 +4374,7 @@ Map<String, dynamic> _$$CreateVectorStoreRequestImplToJson(
   }
 
   writeNotNull('file_ids', instance.fileIds);
-  writeNotNull('name', instance.name);
+  val['name'] = instance.name;
   writeNotNull('expires_after', instance.expiresAfter?.toJson());
   writeNotNull('metadata', instance.metadata);
   return val;
@@ -4306,8 +4414,8 @@ _$ListVectorStoresResponseImpl _$$ListVectorStoresResponseImplFromJson(
       data: (json['data'] as List<dynamic>)
           .map((e) => VectorStoreObject.fromJson(e as Map<String, dynamic>))
           .toList(),
-      firstId: json['first_id'] as String,
-      lastId: json['last_id'] as String,
+      firstId: json['first_id'] as String?,
+      lastId: json['last_id'] as String?,
       hasMore: json['has_more'] as bool,
     );
 
@@ -4326,8 +4434,7 @@ _$DeleteVectorStoreResponseImpl _$$DeleteVectorStoreResponseImplFromJson(
     _$DeleteVectorStoreResponseImpl(
       id: json['id'] as String,
       deleted: json['deleted'] as bool,
-      object:
-          $enumDecode(_$DeleteVectorStoreResponseObjectEnumMap, json['object']),
+      object: json['object'] as String,
     );
 
 Map<String, dynamic> _$$DeleteVectorStoreResponseImplToJson(
@@ -4335,18 +4442,14 @@ Map<String, dynamic> _$$DeleteVectorStoreResponseImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'deleted': instance.deleted,
-      'object': _$DeleteVectorStoreResponseObjectEnumMap[instance.object]!,
+      'object': instance.object,
     };
-
-const _$DeleteVectorStoreResponseObjectEnumMap = {
-  DeleteVectorStoreResponseObject.vectorStoreDeleted: 'vector_store.deleted',
-};
 
 _$VectorStoreFileObjectImpl _$$VectorStoreFileObjectImplFromJson(
         Map<String, dynamic> json) =>
     _$VectorStoreFileObjectImpl(
       id: json['id'] as String,
-      object: $enumDecode(_$VectorStoreFileObjectObjectEnumMap, json['object']),
+      object: json['object'] as String,
       usageBytes: json['usage_bytes'] as int,
       createdAt: json['created_at'] as int,
       vectorStoreId: json['vector_store_id'] as String,
@@ -4361,17 +4464,13 @@ Map<String, dynamic> _$$VectorStoreFileObjectImplToJson(
         _$VectorStoreFileObjectImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'object': _$VectorStoreFileObjectObjectEnumMap[instance.object]!,
+      'object': instance.object,
       'usage_bytes': instance.usageBytes,
       'created_at': instance.createdAt,
       'vector_store_id': instance.vectorStoreId,
       'status': _$VectorStoreFileStatusEnumMap[instance.status]!,
       'last_error': instance.lastError?.toJson(),
     };
-
-const _$VectorStoreFileObjectObjectEnumMap = {
-  VectorStoreFileObjectObject.vectorStoreFile: 'vector_store.file',
-};
 
 const _$VectorStoreFileStatusEnumMap = {
   VectorStoreFileStatus.inProgress: 'in_progress',
@@ -4441,8 +4540,7 @@ _$DeleteVectorStoreFileResponseImpl
         _$DeleteVectorStoreFileResponseImpl(
           id: json['id'] as String,
           deleted: json['deleted'] as bool,
-          object: $enumDecode(
-              _$DeleteVectorStoreFileResponseObjectEnumMap, json['object']),
+          object: json['object'] as String,
         );
 
 Map<String, dynamic> _$$DeleteVectorStoreFileResponseImplToJson(
@@ -4450,20 +4548,14 @@ Map<String, dynamic> _$$DeleteVectorStoreFileResponseImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'deleted': instance.deleted,
-      'object': _$DeleteVectorStoreFileResponseObjectEnumMap[instance.object]!,
+      'object': instance.object,
     };
-
-const _$DeleteVectorStoreFileResponseObjectEnumMap = {
-  DeleteVectorStoreFileResponseObject.vectorStoreFileDeleted:
-      'vector_store.file.deleted',
-};
 
 _$VectorStoreFileBatchObjectImpl _$$VectorStoreFileBatchObjectImplFromJson(
         Map<String, dynamic> json) =>
     _$VectorStoreFileBatchObjectImpl(
       id: json['id'] as String,
-      object: $enumDecode(
-          _$VectorStoreFileBatchObjectObjectEnumMap, json['object']),
+      object: json['object'] as String,
       createdAt: json['created_at'] as int,
       vectorStoreId: json['vector_store_id'] as String,
       status: $enumDecode(
@@ -4476,17 +4568,12 @@ Map<String, dynamic> _$$VectorStoreFileBatchObjectImplToJson(
         _$VectorStoreFileBatchObjectImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'object': _$VectorStoreFileBatchObjectObjectEnumMap[instance.object]!,
+      'object': instance.object,
       'created_at': instance.createdAt,
       'vector_store_id': instance.vectorStoreId,
       'status': _$VectorStoreFileBatchObjectStatusEnumMap[instance.status]!,
       'file_counts': instance.fileCounts.toJson(),
     };
-
-const _$VectorStoreFileBatchObjectObjectEnumMap = {
-  VectorStoreFileBatchObjectObject.vectorStoreFilesBatch:
-      'vector_store.files_batch',
-};
 
 const _$VectorStoreFileBatchObjectStatusEnumMap = {
   VectorStoreFileBatchObjectStatus.inProgress: 'in_progress',
@@ -5031,7 +5118,7 @@ Map<String, dynamic> _$$AssistantToolsFunctionImplToJson(
 _$MessageContentImageFileObjectImpl
     _$$MessageContentImageFileObjectImplFromJson(Map<String, dynamic> json) =>
         _$MessageContentImageFileObjectImpl(
-          type: json['type'] as String,
+          type: json['type'] as String? ?? 'image_file',
           imageFile: MessageContentImageFile.fromJson(
               json['image_file'] as Map<String, dynamic>),
         );
@@ -5043,10 +5130,25 @@ Map<String, dynamic> _$$MessageContentImageFileObjectImplToJson(
       'image_file': instance.imageFile.toJson(),
     };
 
+_$MessageContentImageUrlObjectImpl _$$MessageContentImageUrlObjectImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MessageContentImageUrlObjectImpl(
+      type: json['type'] as String? ?? 'image_url',
+      imageUrl: MessageContentImageUrl.fromJson(
+          json['image_url'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$MessageContentImageUrlObjectImplToJson(
+        _$MessageContentImageUrlObjectImpl instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'image_url': instance.imageUrl.toJson(),
+    };
+
 _$MessageContentTextObjectImpl _$$MessageContentTextObjectImplFromJson(
         Map<String, dynamic> json) =>
     _$MessageContentTextObjectImpl(
-      type: json['type'] as String,
+      type: json['type'] as String? ?? 'text',
       text: MessageContentText.fromJson(json['text'] as Map<String, dynamic>),
     );
 

@@ -5,29 +5,29 @@
 part of open_a_i_schema;
 
 // ==========================================
-// CLASS: MessageContentImageFile
+// CLASS: MessageContentImageUrl
 // ==========================================
 
-/// The image file that is part of a message.
+/// The image URL part of a message.
 @freezed
-class MessageContentImageFile with _$MessageContentImageFile {
-  const MessageContentImageFile._();
+class MessageContentImageUrl with _$MessageContentImageUrl {
+  const MessageContentImageUrl._();
 
-  /// Factory constructor for MessageContentImageFile
-  const factory MessageContentImageFile({
-    /// The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content. Set `purpose="vision"` when uploading the File if you need to later display the file content.
-    @JsonKey(name: 'file_id') required String fileId,
+  /// Factory constructor for MessageContentImageUrl
+  const factory MessageContentImageUrl({
+    /// The external URL of the image, must be a supported image types: jpeg, jpg, png, gif, webp.
+    required String url,
 
     /// Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
     @Default(MessageContentImageDetail.auto) MessageContentImageDetail detail,
-  }) = _MessageContentImageFile;
+  }) = _MessageContentImageUrl;
 
   /// Object construction from a JSON representation
-  factory MessageContentImageFile.fromJson(Map<String, dynamic> json) =>
-      _$MessageContentImageFileFromJson(json);
+  factory MessageContentImageUrl.fromJson(Map<String, dynamic> json) =>
+      _$MessageContentImageUrlFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['file_id', 'detail'];
+  static const List<String> propertyNames = ['url', 'detail'];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -37,7 +37,7 @@ class MessageContentImageFile with _$MessageContentImageFile {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
-      'file_id': fileId,
+      'url': url,
       'detail': detail,
     };
   }

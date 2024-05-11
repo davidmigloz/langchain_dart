@@ -19,7 +19,8 @@ class MessageContentText with _$MessageContentText {
     required String value,
 
     /// A list of annotations that point to specific quotes from specific files.
-    required List<MessageContentTextAnnotations> annotations,
+    @JsonKey(includeIfNull: false)
+    List<MessageContentTextAnnotations>? annotations,
   }) = _MessageContentText;
 
   /// Object construction from a JSON representation

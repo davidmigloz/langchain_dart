@@ -35,7 +35,7 @@ sealed class RunStepDetailsToolCalls with _$RunStepDetailsToolCalls {
   // ------------------------------------------
 
   /// File search tool call
-  const factory RunStepDetailsToolCalls.fileSearchObject({
+  const factory RunStepDetailsToolCalls.fileSearch({
     /// The ID of the tool call object.
     required String id,
 
