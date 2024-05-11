@@ -2,7 +2,7 @@
 
 Wrapper around [Ollama](https://ollama.ai) Completions API that enables to interact with the LLMs in a chat-like fashion.
 
-Ollama allows you to run open-source large language models, such as Llama 2, locally.
+Ollama allows you to run open-source large language models, such as Llama 3, locally.
 
 Ollama bundles model weights, configuration, and data into a single package, defined by a Modelfile.
 
@@ -16,22 +16,19 @@ Follow [these instructions](https://github.com/jmorganca/ollama) to set up and r
 
 1. Download and install [Ollama](https://ollama.ai)
 2. Fetch a model via `ollama pull <model family>`
-  * e.g., for `Llama-7b`: `ollama pull llama2`
+  * e.g., for Llama 3: `ollama pull llama3`
 
 ## Usage
 
 ```dart
 final promptTemplate = ChatPromptTemplate.fromTemplates([
-  (
-  ChatMessageType.system,
-  'You are a helpful assistant that translates {input_language} to {output_language}.',
-  ),
+  (ChatMessageType.system, 'You are a helpful assistant that translates {input_language} to {output_language}.'),
   (ChatMessageType.human, '{text}'),
 ]);
 
 final chatModel = ChatOllama(
   defaultOptions: ChatOllamaOptions(
-    model: 'llama2',
+    model: 'llama3',
     temperature: 0,
   ),
 );
@@ -51,16 +48,12 @@ print(res);
 
 ```dart
 final promptTemplate = ChatPromptTemplate.fromTemplates([
-  (
-  ChatMessageType.system,
-  'You are a helpful assistant that replies only with numbers '
-      'in order without any spaces or commas',
-  ),
-  (ChatMessageType.human,    'List the numbers from 1 to {max_num}'),
+  (ChatMessageType.system, 'You are a helpful assistant that replies only with numbers in order without any spaces or commas'),
+  (ChatMessageType.human, 'List the numbers from 1 to {max_num}'),
 ]);
 final chat = ChatOllama(
   defaultOptions: ChatOllamaOptions(
-    model: 'llama2',
+    model: 'llama3',
     temperature: 0,
   ),
 );
@@ -77,28 +70,31 @@ await stream.forEach(print);
 
 ## JSON mode
 
-You can enforce the model to produce a JSON output, useful for extracting structured data.
+You can force the model to produce JSON output that you can easily parse using `JsonOutputParser`, useful for extracting structured data.
 
 ```dart
 final promptTemplate = ChatPromptTemplate.fromTemplates(const [
-  (ChatMessageType.system, 'Respond using JSON'),
+  (ChatMessageType.system, 'You are an assistant that respond question using JSON format.'),
   (ChatMessageType.human, '{question}'),
 ]);
 final chat = ChatOllama(
-  defaultOptions: const ChatOllamaOptions(
-    model: 'llama2',
+  defaultOptions: ChatOllamaOptions(
+    model: 'llama3',
     temperature: 0,
     format: OllamaResponseFormat.json,
   ),
 );
 
-final chain = promptTemplate.pipe(chat);
+final chain = Runnable.getMapFromInput<String>('question')
+    .pipe(promptTemplate)
+    .pipe(chat)
+    .pipe(JsonOutputParser());
 
 final res = await chain.invoke(
-  {'question': 'What color is the sky at different times of the day?'},
+  'What is the population of Spain, The Netherlands, and France?',
 );
-print(res.output.content);
-// {"morning": {"sky": "pink", "sun": "rise"}, "daytime": {"sky": "blue", "sun": "high"}, "afternoon": ...}
+print(res);
+// {Spain: 46735727, The Netherlands: 17398435, France: 65273538}
 ```
 
 ## Multimodal support
@@ -109,7 +105,7 @@ You can provide several base64-encoded `png` or `jpeg` images. Images up to 100M
 
 ```dart
 final chatModel = ChatOllama(
-  defaultOptions: const ChatOllamaOptions(
+  defaultOptions: ChatOllamaOptions(
     model: 'llava',
     temperature: 0,
   ),
@@ -136,7 +132,7 @@ We can easily create a fully local RAG pipeline using `OllamaEmbeddings` and `Ch
 ```dart
 // 1. Create a vector store and add documents to it
 final vectorStore = MemoryVectorStore(
-  embeddings: OllamaEmbeddings(model: 'llama2'),
+  embeddings: OllamaEmbeddings(model: 'llama3'),
 );
 await vectorStore.addDocuments(
   documents: [
@@ -153,7 +149,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplates([
 
 // 3. Define the model to use and the vector store retriever
 final chatModel = ChatOllama(
-  defaultOptions: ChatOllamaOptions(model: 'llama2'),
+  defaultOptions: ChatOllamaOptions(model: 'llama3'),
 );
 final retriever = vectorStore.asRetriever(
   defaultOptions: VectorStoreRetrieverOptions(

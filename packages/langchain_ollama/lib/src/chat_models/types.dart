@@ -8,7 +8,7 @@ import '../llms/types.dart';
 class ChatOllamaOptions extends ChatModelOptions {
   /// {@macro chat_ollama_options}
   const ChatOllamaOptions({
-    this.model = 'llama2',
+    this.model = 'llama3',
     this.format,
     this.keepAlive,
     this.numKeep,

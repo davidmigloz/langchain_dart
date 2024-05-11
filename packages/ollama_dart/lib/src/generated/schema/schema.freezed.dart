@@ -23,7 +23,7 @@ GenerateCompletionRequest _$GenerateCompletionRequestFromJson(
 mixin _$GenerateCompletionRequest {
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model => throw _privateConstructorUsedError;
 
   /// The prompt to generate a response.
@@ -324,7 +324,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   final String model;
 
@@ -489,7 +489,7 @@ abstract class _GenerateCompletionRequest extends GenerateCompletionRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model;
   @override
 
@@ -1604,7 +1604,7 @@ GenerateCompletionResponse _$GenerateCompletionResponseFromJson(
 mixin _$GenerateCompletionResponse {
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @JsonKey(includeIfNull: false)
   String? get model => throw _privateConstructorUsedError;
 
@@ -1877,7 +1877,7 @@ class _$GenerateCompletionResponseImpl extends _GenerateCompletionResponse {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   @JsonKey(includeIfNull: false)
   final String? model;
@@ -2031,7 +2031,7 @@ abstract class _GenerateCompletionResponse extends GenerateCompletionResponse {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @JsonKey(includeIfNull: false)
   String? get model;
   @override
@@ -2099,7 +2099,7 @@ GenerateChatCompletionRequest _$GenerateChatCompletionRequestFromJson(
 mixin _$GenerateChatCompletionRequest {
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model => throw _privateConstructorUsedError;
 
   /// The messages of the chat, this can be used to keep a chat memory
@@ -2316,7 +2316,7 @@ class _$GenerateChatCompletionRequestImpl
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   final String model;
 
@@ -2429,7 +2429,7 @@ abstract class _GenerateChatCompletionRequest
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model;
   @override
 
@@ -2484,7 +2484,7 @@ mixin _$GenerateChatCompletionResponse {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @JsonKey(includeIfNull: false)
   String? get model => throw _privateConstructorUsedError;
 
@@ -2791,7 +2791,7 @@ class _$GenerateChatCompletionResponseImpl
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   @JsonKey(includeIfNull: false)
   final String? model;
@@ -2945,7 +2945,7 @@ abstract class _GenerateChatCompletionResponse
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @JsonKey(includeIfNull: false)
   String? get model;
   @override
@@ -3221,7 +3221,7 @@ GenerateEmbeddingRequest _$GenerateEmbeddingRequestFromJson(
 mixin _$GenerateEmbeddingRequest {
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model => throw _privateConstructorUsedError;
 
   /// Text to generate embeddings for.
@@ -3386,7 +3386,7 @@ class _$GenerateEmbeddingRequestImpl extends _GenerateEmbeddingRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   final String model;
 
@@ -3462,7 +3462,7 @@ abstract class _GenerateEmbeddingRequest extends GenerateEmbeddingRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model;
   @override
 
@@ -3663,7 +3663,7 @@ CreateModelRequest _$CreateModelRequestFromJson(Map<String, dynamic> json) {
 mixin _$CreateModelRequest {
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model => throw _privateConstructorUsedError;
 
   /// The contents of the Modelfile.
@@ -3818,7 +3818,7 @@ class _$CreateModelRequestImpl extends _CreateModelRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   final String model;
 
@@ -3896,7 +3896,7 @@ abstract class _CreateModelRequest extends CreateModelRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model;
   @override
 
@@ -4255,7 +4255,7 @@ Model _$ModelFromJson(Map<String, dynamic> json) {
 mixin _$Model {
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @JsonKey(includeIfNull: false)
   String? get model => throw _privateConstructorUsedError;
 
@@ -4427,7 +4427,7 @@ class _$ModelImpl extends _Model {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   @JsonKey(includeIfNull: false)
   final String? model;
@@ -4506,7 +4506,7 @@ abstract class _Model extends Model {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @JsonKey(includeIfNull: false)
   String? get model;
   @override
@@ -4865,7 +4865,7 @@ ModelInfoRequest _$ModelInfoRequestFromJson(Map<String, dynamic> json) {
 mixin _$ModelInfoRequest {
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -4950,7 +4950,7 @@ class _$ModelInfoRequestImpl extends _ModelInfoRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   final String model;
 
@@ -4998,7 +4998,7 @@ abstract class _ModelInfoRequest extends ModelInfoRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model;
   @override
   @JsonKey(ignore: true)
@@ -5544,7 +5544,7 @@ DeleteModelRequest _$DeleteModelRequestFromJson(Map<String, dynamic> json) {
 mixin _$DeleteModelRequest {
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -5629,7 +5629,7 @@ class _$DeleteModelRequestImpl extends _DeleteModelRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   final String model;
 
@@ -5677,7 +5677,7 @@ abstract class _DeleteModelRequest extends DeleteModelRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model;
   @override
   @JsonKey(ignore: true)
@@ -5693,7 +5693,7 @@ PullModelRequest _$PullModelRequestFromJson(Map<String, dynamic> json) {
 mixin _$PullModelRequest {
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model => throw _privateConstructorUsedError;
 
   /// Allow insecure connections to the library.
@@ -5850,7 +5850,7 @@ class _$PullModelRequestImpl extends _PullModelRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   final String model;
 
@@ -5932,7 +5932,7 @@ abstract class _PullModelRequest extends PullModelRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model;
   @override
 

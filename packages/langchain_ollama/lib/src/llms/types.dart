@@ -6,7 +6,7 @@ import 'package:langchain_core/llms.dart';
 class OllamaOptions extends LLMOptions {
   /// {@macro ollama_options}
   const OllamaOptions({
-    this.model = 'llama2',
+    this.model = 'llama3',
     this.system,
     this.template,
     this.context,

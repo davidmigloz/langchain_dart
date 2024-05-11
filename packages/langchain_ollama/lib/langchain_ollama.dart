@@ -1,4 +1,4 @@
-/// LangChain.dart integration module for Ollama (run Llama 2, Mistral, Vicuna and other models locally).
+/// LangChain.dart integration module for Ollama (run Llama 3, Mistral, Vicuna and other models locally).
 library;
 
 export 'src/chat_models/chat_models.dart';

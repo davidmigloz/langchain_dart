@@ -209,7 +209,7 @@ Download a model from the ollama library. Cancelled pulls are resumed from where
 
 ```dart
 final res = await client.pullModel(
-  request: PullModelRequest(model: 'yarn-llama2:13b-128k-q4_1'),
+  request: PullModelRequest(model: 'yarn-llama3:13b-128k-q4_1'),
 );
 print(res.status);
 ```
@@ -218,7 +218,7 @@ You can also stream the pulling status:
 
 ```dart
 final stream = client.pullModelStream(
-  request: PullModelRequest(model: 'yarn-llama2:13b-128k-q4_1'),
+  request: PullModelRequest(model: 'yarn-llama3:13b-128k-q4_1'),
 );
 await for (final res in stream) {
   print(res.status);

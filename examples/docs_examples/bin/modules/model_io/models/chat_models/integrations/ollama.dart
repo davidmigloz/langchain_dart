@@ -24,7 +24,7 @@ Future<void> _chatOllama() async {
 
   final chatModel = ChatOllama(
     defaultOptions: const ChatOllamaOptions(
-      model: 'llama2',
+      model: 'llama3',
       temperature: 0,
     ),
   );
@@ -51,7 +51,7 @@ Future<void> _chatOllamaStreaming() async {
   ]);
   final chat = ChatOllama(
     defaultOptions: const ChatOllamaOptions(
-      model: 'llama2',
+      model: 'llama3',
       temperature: 0,
     ),
   );
@@ -68,24 +68,30 @@ Future<void> _chatOllamaStreaming() async {
 
 Future<void> _chatOllamaJsonMode() async {
   final promptTemplate = ChatPromptTemplate.fromTemplates(const [
-    (ChatMessageType.system, 'Respond using JSON'),
+    (
+      ChatMessageType.system,
+      'You are an assistant that respond question using JSON format.'
+    ),
     (ChatMessageType.human, '{question}'),
   ]);
   final chat = ChatOllama(
     defaultOptions: const ChatOllamaOptions(
-      model: 'llama2',
+      model: 'llama3',
       temperature: 0,
       format: OllamaResponseFormat.json,
     ),
   );
 
-  final chain = promptTemplate.pipe(chat);
+  final chain = Runnable.getMapFromInput<String>('question')
+      .pipe(promptTemplate)
+      .pipe(chat)
+      .pipe(JsonOutputParser());
 
   final res = await chain.invoke(
-    {'question': 'What color is the sky at different times of the day?'},
+    'What is the population of Spain, The Netherlands, and France?',
   );
-  print(res.output.content);
-  // {"morning": {"sky": "pink", "sun": "rise"}, "daytime": {"sky": "blue", "sun": "high"}, "afternoon": ...}
+  print(res);
+  // {Spain: 46735727, The Netherlands: 17398435, France: 65273538}
 }
 
 Future<void> _chatOllamaMultimodal() async {
@@ -113,7 +119,7 @@ Future<void> _chatOllamaMultimodal() async {
 Future<void> _rag() async {
   // 1. Create a vector store and add documents to it
   final vectorStore = MemoryVectorStore(
-    embeddings: OllamaEmbeddings(model: 'llama2'),
+    embeddings: OllamaEmbeddings(model: 'llama3'),
   );
   await vectorStore.addDocuments(
     documents: [
@@ -135,7 +141,7 @@ Future<void> _rag() async {
 
   // 3. Define the model to use and the vector store retriever
   final chatModel = ChatOllama(
-    defaultOptions: const ChatOllamaOptions(model: 'llama2'),
+    defaultOptions: const ChatOllamaOptions(model: 'llama3'),
   );
   final retriever = vectorStore.asRetriever(
     defaultOptions: const VectorStoreRetrieverOptions(

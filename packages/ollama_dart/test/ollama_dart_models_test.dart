@@ -84,7 +84,9 @@ void main() {
       );
       final res = await client.listModels();
       expect(
-          res.models?.any((final m) => m.model == '$newName:latest'), isTrue);
+        res.models?.any((final m) => m.model == '$newName:latest'),
+        isTrue,
+      );
     });
 
     test('Test delete model', () async {
@@ -101,7 +103,7 @@ void main() {
 
     test('Test pull model', skip: true, () async {
       final res = await client.pullModel(
-        request: const PullModelRequest(model: 'yarn-llama2:13b-128k-q4_1'),
+        request: const PullModelRequest(model: 'yarn-llama3:13b-128k-q4_1'),
       );
 
       expect(res.status, PullModelStatus.success);
@@ -109,7 +111,7 @@ void main() {
 
     test('Test pull model stream', skip: true, () async {
       final stream = client.pullModelStream(
-        request: const PullModelRequest(model: 'yarn-llama2:13b-128k-q4_1'),
+        request: const PullModelRequest(model: 'yarn-llama3:13b-128k-q4_1'),
       );
 
       int count = 0;
