@@ -3,7 +3,7 @@ openapi: 3.0.3
 info:
   title: Ollama API
   description: API Spec for Ollama API. Please see https://github.com/jmorganca/ollama/blob/main/docs/api.md for more details.
-  version: 0.1.10
+  version: 0.1.36
 
 servers:
   - url: http://localhost:11434/api
@@ -285,7 +285,7 @@ components:
           type: boolean
           description: &stream |
             If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
-          default: true
+          default: false
         keep_alive:
           type: integer
           nullable: true
@@ -389,17 +389,18 @@ components:
             Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate will result in slower adjustments, while a higher learning rate will make the algorithm more responsive. (Default: 0.1)
         penalize_newline:
           type: boolean
-          default: false
+          nullable: true
           description: |
             Penalize newlines in the output. (Default: false)
         stop:
           type: array
+          nullable: true
           description: Sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
           items:
             type: string
         numa:
           type: boolean
-          default: false
+          nullable: true
           description: |
             Enable NUMA support. (Default: false)
         num_ctx:
@@ -412,11 +413,6 @@ components:
           nullable: true
           description: |
             Sets the number of batches to use for generation. (Default: 1)
-        num_gqa:
-          type: integer
-          nullable: true
-          description: |
-            The number of GQA groups in the transformer layer. Required for some models, for example it is 8 for `llama2:70b`.
         num_gpu:
           type: integer
           nullable: true
@@ -429,51 +425,34 @@ components:
             The GPU to use for the main model. Default is 0.
         low_vram:
           type: boolean
-          default: false
+          nullable: true
           description: |
             Enable low VRAM mode. (Default: false)
         f16_kv:
           type: boolean
-          default: false
+          nullable: true
           description: |
             Enable f16 key/value. (Default: false)
         logits_all:
           type: boolean
-          default: false
+          nullable: true
           description: |
             Enable logits all. (Default: false)
         vocab_only:
           type: boolean
-          default: false
+          nullable: true
           description: |
             Enable vocab only. (Default: false)
         use_mmap:
           type: boolean
-          default: false
+          nullable: true
           description: |
             Enable mmap. (Default: false)
         use_mlock:
           type: boolean
-          default: false
+          nullable: true
           description: |
             Enable mlock. (Default: false)
-        embedding_only:
-          type: boolean
-          default: false
-          description: |
-            Enable embedding only. (Default: false)
-        rope_frequency_base:
-          type: number
-          format: double
-          nullable: true
-          description: |
-            The base of the rope frequency scale. (Default: 1.0)
-        rope_frequency_scale:
-          type: number
-          format: double
-          nullable: true
-          description: |
-            The scale of the rope frequency. (Default: 1.0)
         num_thread:
           type: integer
           nullable: true
@@ -566,7 +545,7 @@ components:
         stream:
           type: boolean
           description: *stream
-          default: true
+          default: false
         keep_alive:
           type: integer
           nullable: true
@@ -593,6 +572,10 @@ components:
           type: boolean
           description: Whether the response has completed.
           example: true
+        done_reason:
+          type: string
+          nullable: true
+          description: Reason the response is done.
         total_duration:
           type: integer
           format: int64
@@ -657,6 +640,10 @@ components:
           example: 'Here is an article about llamas...'
         options:
           $ref: '#/components/schemas/RequestOptions'
+        keep_alive:
+          type: integer
+          nullable: true
+          description: *keep_alive
       required:
         - model
         - prompt
@@ -675,7 +662,7 @@ components:
       type: object
       description: Create model request object.
       properties:
-        name:
+        model:
           type: string
           description: *model_name
           example: mario
@@ -686,12 +673,16 @@ components:
         path:
           type: string
           description: Path to the Modelfile (optional)
+        quantize:
+          type: string
+          nullable: true
+          description: The quantization level of the model.
         stream:
           type: boolean
           description: *stream
-          default: true
+          default: false
       required:
-        - name
+        - model
         - modelfile
     CreateModelResponse:
       description: Response object for creating a model. When finished, `status` is `success`.
@@ -719,7 +710,7 @@ components:
       type: object
       description: A model available locally.
       properties:
-        name:
+        model:
           type: string
           description: *model_name
           example: llama2:7b
@@ -738,53 +729,77 @@ components:
           description: The model's digest.
           example: 'sha256:bc07c81de745696fdf5afca05e065818a8149fb0c77266fb584d9b2cba3711a'
         details:
-          type: object
-          properties:
-            parent_model:
-              type: string
-            format:
-              type: string
-            family:
-              type: string
-            families:
-              type: array
-              items:
-                  type: string
-            parameter_size:
-              type: string
-            quantization_level:
-              type: string
-                  
+          $ref: '#/components/schemas/ModelDetails'
+    ModelDetails:
+      type: object
+      description: Details about a model.
+      properties:
+        parent_model:
+          type: string
+          description: The parent model of the model.
+        format:
+          type: string
+          description: The format of the model.
+        family:
+          type: string
+          description: The family of the model.
+        families:
+          type: array
+          description: The families of the model.
+          items:
+            type: string
+        parameter_size:
+          type: string
+          description: The size of the model's parameters.
+        quantization_level:
+          type: string
+          description: The quantization level of the model.
     ModelInfoRequest:
       description: Request class for the show model info endpoint.
       type: object
       properties:
-        name:
+        model:
           type: string
           description: *model_name
           example: llama2:7b
       required:
-        - name
+        - model
     ModelInfo:
       description: Details about a model including modelfile, template, parameters, license, and system prompt.
       type: object
       properties:
         license:
           type: string
+          nullable: true
           description: The model's license.
           example: <contents of license block>
         modelfile:
           type: string
+          nullable: true
           description: The modelfile associated with the model.
           example: 'Modelfile generated by \"ollama show\"\n# To build a new Modelfile based on this one, replace the FROM line with:\n# FROM llama2:latest\n\nFROM /Users/username/.ollama/models/blobs/sha256:8daa9615cce30c259a9555b1cc250d461d1bc69980a274b44d7eda0be78076d8\nTEMPLATE \"\"\"[INST] {{ if and .First .System }}<<SYS>>{{ .System }}<</SYS>>\n\n{{ end }}{{ .Prompt }} [/INST] \"\"\"\nSYSTEM \"\"\"\"\"\"\nPARAMETER stop [INST]\nPARAMETER stop [/INST]\nPARAMETER stop <<SYS>>\nPARAMETER stop <</SYS>>\n"'
         parameters:
           type: string
+          nullable: true
           description: The model parameters.
           example: 'stop [INST]\nstop [/INST]\nstop <<SYS>>\nstop <</SYS>>'
         template:
           type: string
+          nullable: true
           description: The prompt template for the model.
           example: '[INST] {{ if and .First .System }}<<SYS>>{{ .System }}<</SYS>>\n\n{{ end }}{{ .Prompt }} [/INST]'
+        system:
+          type: string
+          nullable: true
+          description: The system prompt for the model.
+        details:
+          $ref: '#/components/schemas/ModelDetails'
+        messages:
+          type: array
+          nullable: true
+          description: The default messages for the model.
+          items:
+              $ref: '#/components/schemas/Message'
     CopyModelRequest:
       description: Request class for copying a model.
       type: object
@@ -804,17 +819,17 @@ components:
       description: Request class for deleting a model.
       type: object
       properties:
-        name:
+        model:
           type: string
           description: *model_name
           example: llama2:13b
       required:
-        - name
+        - model
     PullModelRequest:
       description: Request class for pulling a model.
       type: object
       properties:
-        name:
+        model:
           type: string
           description: *model_name
           example: llama2:7b
@@ -825,12 +840,18 @@ components:
             
             Only use this if you are pulling from your own library during development.
           default: false
+        username:
+          type: string
+          description: Ollama username.
+        password:
+          type: string
+          description: Ollama password.
         stream:
           type: boolean
           description: *stream
-          default: true
+          default: false
       required:
-        - name
+        - model
     PullModelResponse:
       description: |
         Response class for pulling a model. 
@@ -871,7 +892,7 @@ components:
       description: Request class for pushing a model.
       type: object
       properties:
-        name:
+        model:
           type: string
           description: The name of the model to push in the form of <namespace>/<model>:<tag>.
           example: 'mattw/pygmalion:latest'
@@ -882,12 +903,18 @@ components:
             
             Only use this if you are pushing to your library during development.
           default: false
+        username:
+          type: string
+          description: Ollama username.
+        password:
+          type: string
+          description: Ollama password.
         stream:
           type: boolean
           description: *stream
-          default: true
+          default: false
       required:
-        - name
+        - model
     PushModelResponse:
       type: object
       description: Response class for pushing a model.
@@ -902,6 +929,11 @@ components:
           type: integer
           format: int64
           description: total size of the model
+          example: 2142590208
+        completed:
+          type: integer
+          format: int64
+          description: Total bytes transferred.
           example: 2142590208
     PushModelStatus:
       type: string
