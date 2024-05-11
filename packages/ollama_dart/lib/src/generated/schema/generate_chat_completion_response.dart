@@ -20,7 +20,7 @@ class GenerateChatCompletionResponse with _$GenerateChatCompletionResponse {
 
     /// The model name.
     ///
-    /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+    /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
     @JsonKey(includeIfNull: false) String? model,
 
     /// Date on which a model was created.

@@ -69,7 +69,7 @@ Future<void> _generateCompletionStream(final OllamaClient client) async {
 Future<void> _generateChatCompletion(final OllamaClient client) async {
   final generated = await client.generateChatCompletion(
     request: const GenerateChatCompletionRequest(
-      model: 'llama2:latest',
+      model: 'llama3:latest',
       messages: [
         Message(
           role: MessageRole.system,
@@ -94,7 +94,7 @@ Future<void> _generateChatCompletionWithHistory(
 ) async {
   final generated = await client.generateChatCompletion(
     request: const GenerateChatCompletionRequest(
-      model: 'llama2:latest',
+      model: 'llama3:latest',
       messages: [
         Message(
           role: MessageRole.user,
@@ -117,7 +117,7 @@ Future<void> _generateChatCompletionWithHistory(
 Future<void> _generateChatCompletionStream(final OllamaClient client) async {
   final stream = client.generateChatCompletionStream(
     request: const GenerateChatCompletionRequest(
-      model: 'llama2:latest',
+      model: 'llama3:latest',
       messages: [
         Message(
           role: MessageRole.system,
@@ -185,14 +185,14 @@ Future<void> _showModelInfo(final OllamaClient client) async {
 
 Future<void> _pullModel(final OllamaClient client) async {
   final res = await client.pullModel(
-    request: const PullModelRequest(model: 'yarn-llama2:13b-128k-q4_1'),
+    request: const PullModelRequest(model: 'yarn-llama3:13b-128k-q4_1'),
   );
   print(res.status);
 }
 
 Future<void> _pullModelStream(final OllamaClient client) async {
   final stream = client.pullModelStream(
-    request: const PullModelRequest(model: 'yarn-llama2:13b-128k-q4_1'),
+    request: const PullModelRequest(model: 'yarn-llama3:13b-128k-q4_1'),
   );
   await for (final res in stream) {
     print(res.status);

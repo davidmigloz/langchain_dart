@@ -17,7 +17,7 @@ class PullModelRequest with _$PullModelRequest {
   const factory PullModelRequest({
     /// The model name.
     ///
-    /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+    /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
     required String model,
 
     /// Allow insecure connections to the library.

@@ -1,4 +1,4 @@
-/// Dart Client for the Ollama API (run Llama 2, Code Llama, and other models locally).
+/// Dart Client for the Ollama API (run Llama 3, Code Llama, and other models locally).
 library ollama_dart;
 
 export 'src/client.dart';
