@@ -66,6 +66,7 @@ class OllamaEmbeddings implements Embeddings {
   ///
   /// Main configuration options:
   /// - `baseUrl`: the base URL of Ollama API.
+  /// - [OllamaEmbeddings.keepAlive]
   ///
   /// Advance configuration options:
   /// - `headers`: global headers to send with every request. You can use
@@ -76,6 +77,7 @@ class OllamaEmbeddings implements Embeddings {
   ///   you need further customization (e.g. to use a Socks5 proxy).
   OllamaEmbeddings({
     this.model = 'llama2',
+    this.keepAlive,
     final String baseUrl = 'http://localhost:11434/api',
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
@@ -93,6 +95,14 @@ class OllamaEmbeddings implements Embeddings {
   /// The embeddings model to use.
   final String model;
 
+  /// How long (in minutes) to keep the model loaded in memory.
+  ///
+  /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
+  /// - If set to a negative duration (e.g. -1), the model will stay loaded indefinitely.
+  /// - If set to 0, the model will be unloaded immediately once finished.
+  /// - If not set, the model will stay loaded for 5 minutes by default
+  final int? keepAlive;
+
   @override
   Future<List<List<double>>> embedDocuments(
     final List<Document> documents,
@@ -103,6 +113,7 @@ class OllamaEmbeddings implements Embeddings {
         request: GenerateEmbeddingRequest(
           model: model,
           prompt: doc.pageContent,
+          keepAlive: keepAlive,
         ),
       );
       embeddings.add(data.embedding ?? []);
