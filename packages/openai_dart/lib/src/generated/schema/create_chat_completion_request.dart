@@ -266,14 +266,18 @@ enum ChatCompletionModels {
   gpt40613,
   @JsonValue('gpt-4-1106-preview')
   gpt41106Preview,
-  @JsonValue('gpt-4-vision-preview')
-  gpt4VisionPreview,
   @JsonValue('gpt-4-turbo')
   gpt4Turbo,
   @JsonValue('gpt-4-turbo-2024-04-09')
   gpt4Turbo20240409,
   @JsonValue('gpt-4-turbo-preview')
   gpt4TurboPreview,
+  @JsonValue('gpt-4-vision-preview')
+  gpt4VisionPreview,
+  @JsonValue('gpt-4o')
+  gpt4o,
+  @JsonValue('gpt-4o-2024-05-13')
+  gpt4o20240513,
   @JsonValue('gpt-3.5-turbo')
   gpt35Turbo,
   @JsonValue('gpt-3.5-turbo-16k')
