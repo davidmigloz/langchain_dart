@@ -14,6 +14,8 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
     this.temperature,
     this.stopSequences,
     this.safetySettings,
+    super.tools,
+    super.toolChoice,
     super.concurrencyLimit,
   });
 

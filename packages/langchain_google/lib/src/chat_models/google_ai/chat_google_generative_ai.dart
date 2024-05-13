@@ -110,6 +110,41 @@ import 'types.dart';
 /// final res = await chain.invoke({'name': 'David'});
 /// ```
 ///
+/// ### Tool calling
+///
+/// [ChatGoogleGenerativeAI] supports tool calling.
+///
+/// Check the [docs](https://langchaindart.com/#/modules/model_io/models/chat_models/how_to/tools)
+/// for more information on how to use tools.
+///
+/// Example:
+/// ```dart
+/// const tool = ToolSpec(
+///   name: 'get_current_weather',
+///   description: 'Get the current weather in a given location',
+///   inputJsonSchema: {
+///     'type': 'object',
+///     'properties': {
+///       'location': {
+///         'type': 'string',
+///         'description': 'The city and state, e.g. San Francisco, CA',
+///       },
+///     },
+///     'required': ['location'],
+///   },
+/// );
+/// final chatModel = ChatGoogleGenerativeAI(
+///   defaultOptions: ChatGoogleGenerativeAIOptions(
+///     model: 'gemini-1.5-pro-latest',
+///     temperature: 0,
+///     tools: [tool],
+///   ),
+/// );
+/// final res = await model.invoke(
+///   PromptValue.string('What’s the weather like in Boston and Madrid right now in celsius?'),
+/// );
+/// ```
+///
 /// ### Advance
 ///
 /// #### Custom HTTP client
@@ -284,8 +319,8 @@ class ChatGoogleGenerativeAI
         topP: options?.topP ?? defaultOptions.topP,
         topK: options?.topK ?? defaultOptions.topK,
       ),
-      null, // options?.tools?.toTools(),
-      null, // options?.toolConfig?.toToolConfig(),
+      (options?.tools ?? defaultOptions.tools)?.toToolList(),
+      (options?.toolChoice ?? defaultOptions.toolChoice)?.toToolConfig(),
     );
   }
 

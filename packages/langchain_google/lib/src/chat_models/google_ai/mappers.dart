@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:google_generative_ai/google_generative_ai.dart' as g;
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
+import 'package:langchain_core/tools.dart';
 
 import 'types.dart';
 
@@ -15,24 +16,17 @@ extension ChatMessagesMapper on List<ChatMessage> {
           (final message) => switch (message) {
             SystemChatMessage() =>
               throw AssertionError('System messages should be filtered out'),
-            final HumanChatMessage msg =>
-              g.Content.multi(_mapHumanChatMessageContentParts(msg.content)),
-            final AIChatMessage msg =>
-              g.Content.model([g.TextPart(msg.content)]),
-            final CustomChatMessage msg =>
-              g.Content(msg.role, [g.TextPart(msg.content)]),
-            ToolChatMessage() => throw UnsupportedError(
-                'Google AI does not support tool messages',
-              ),
+            final HumanChatMessage msg => _mapHumanChatMessage(msg),
+            final AIChatMessage msg => _mapAIChatMessage(msg),
+            final ToolChatMessage msg => _mapToolChatMessage(msg),
+            final CustomChatMessage msg => _mapCustomChatMessage(msg),
           },
         )
         .toList(growable: false);
   }
 
-  List<g.Part> _mapHumanChatMessageContentParts(
-    final ChatMessageContent content,
-  ) {
-    return switch (content) {
+  g.Content _mapHumanChatMessage(final HumanChatMessage msg) {
+    final contentParts = switch (msg.content) {
       final ChatMessageContentText c => [g.TextPart(c.text)],
       final ChatMessageContentImage c => [
           if (c.data.startsWith('http'))
@@ -54,6 +48,35 @@ extension ChatMessagesMapper on List<ChatMessage> {
           )
           .toList(growable: false),
     };
+    return g.Content.multi(contentParts);
+  }
+
+  g.Content _mapAIChatMessage(final AIChatMessage msg) {
+    final contentParts = [
+      if (msg.content.isNotEmpty) g.TextPart(msg.content),
+      if (msg.toolCalls.isNotEmpty)
+        ...msg.toolCalls.map(
+          (final call) => g.FunctionCall(call.name, call.arguments),
+        ),
+    ];
+    return g.Content.model(contentParts);
+  }
+
+  g.Content _mapToolChatMessage(final ToolChatMessage msg) {
+    Map<String, Object?>? response;
+    try {
+      response = jsonDecode(msg.content) as Map<String, Object?>;
+    } catch (_) {
+      response = {'result': msg.content};
+    }
+
+    return g.Content.functionResponses(
+      [g.FunctionResponse(msg.toolCallId, response)],
+    );
+  }
+
+  g.Content _mapCustomChatMessage(final CustomChatMessage msg) {
+    return g.Content(msg.role, [g.TextPart(msg.content)]);
   }
 }
 
@@ -69,16 +92,23 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
                 final g.TextPart p => p.text,
                 final g.DataPart p => base64Encode(p.bytes),
                 final g.FilePart p => p.uri.toString(),
-                g.FunctionResponse() => throw UnimplementedError(
-                    'FunctionResponse part not yet supported',
-                  ),
-                g.FunctionCall() => throw UnimplementedError(
-                    'FunctionResponse part not yet supported',
-                  ),
+                g.FunctionResponse() || g.FunctionCall() => '',
+                _ => throw AssertionError('Unknown part type: $p'),
               },
             )
             .whereNotNull()
             .join('\n'),
+        toolCalls: candidate.content.parts
+            .whereType<g.FunctionCall>()
+            .map(
+              (final call) => AIChatMessageToolCall(
+                id: call.name,
+                name: call.name,
+                argumentsRaw: jsonEncode(call.args),
+                arguments: call.args,
+              ),
+            )
+            .toList(growable: false),
       ),
       finishReason: _mapFinishReason(candidate.finishReason),
       metadata: {
@@ -157,5 +187,113 @@ extension SafetySettingsMapper on List<ChatGoogleGenerativeAISafetySetting> {
         },
       ),
     ).toList(growable: false);
+  }
+}
+
+extension ChatToolListMapper on List<ToolSpec> {
+  List<g.Tool> toToolList() {
+    return [
+      g.Tool(
+        functionDeclarations: map(
+          (tool) => g.FunctionDeclaration(
+            tool.name,
+            tool.description,
+            _mapJsonSchemaToSchema(tool.inputJsonSchema),
+          ),
+        ).toList(growable: false),
+      ),
+    ];
+  }
+
+  g.Schema _mapJsonSchemaToSchema(final Map<String, dynamic> jsonSchema) {
+    final type = jsonSchema['type'] as String;
+    final description = jsonSchema['description'] as String?;
+    final nullable = jsonSchema['nullable'] as bool?;
+    final enumValues = jsonSchema['enum'] as List<String>?;
+    final format = jsonSchema['format'] as String?;
+    final items = jsonSchema['items'] as Map<String, dynamic>?;
+    final properties = jsonSchema['properties'] as Map<String, dynamic>?;
+    final requiredProperties = jsonSchema['required'] as List<String>?;
+
+    switch (type) {
+      case 'string':
+        if (enumValues != null) {
+          return g.Schema.enumString(
+            enumValues: enumValues,
+            description: description,
+            nullable: nullable,
+          );
+        } else {
+          return g.Schema.string(
+            description: description,
+            nullable: nullable,
+          );
+        }
+      case 'number':
+        return g.Schema.number(
+          description: description,
+          nullable: nullable,
+          format: format,
+        );
+      case 'integer':
+        return g.Schema.integer(
+          description: description,
+          nullable: nullable,
+          format: format,
+        );
+      case 'boolean':
+        return g.Schema.boolean(
+          description: description,
+          nullable: nullable,
+        );
+      case 'array':
+        if (items != null) {
+          final itemsSchema = _mapJsonSchemaToSchema(items);
+          return g.Schema.array(
+            items: itemsSchema,
+            description: description,
+            nullable: nullable,
+          );
+        }
+        throw ArgumentError('Array schema must have "items" property');
+      case 'object':
+        if (properties != null) {
+          final propertiesSchema = properties.map(
+            (key, value) => MapEntry(key, _mapJsonSchemaToSchema(value)),
+          );
+          return g.Schema.object(
+            properties: propertiesSchema,
+            requiredProperties: requiredProperties,
+            description: description,
+            nullable: nullable,
+          );
+        }
+        throw ArgumentError('Object schema must have "properties" property');
+      default:
+        throw ArgumentError('Invalid schema type: $type');
+    }
+  }
+}
+
+extension ChatToolChoiceMapper on ChatToolChoice {
+  g.ToolConfig toToolConfig() {
+    return switch (this) {
+      ChatToolChoiceNone _ => g.ToolConfig(
+          functionCallingConfig: g.FunctionCallingConfig(
+            mode: g.FunctionCallingMode.none,
+          ),
+        ),
+      ChatToolChoiceAuto _ => g.ToolConfig(
+          functionCallingConfig: g.FunctionCallingConfig(
+            mode: g.FunctionCallingMode.auto,
+          ),
+        ),
+      final ChatToolChoiceForced t => g.ToolConfig(
+          functionCallingConfig: g.FunctionCallingConfig(
+            mode: g.FunctionCallingMode.any,
+            allowedFunctionNames: {t.name},
+          ),
+        ),
+    };
   }
 }
