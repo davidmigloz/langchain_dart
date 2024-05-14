@@ -2640,6 +2640,7 @@ const _$RunStatusEnumMap = {
   RunStatus.cancelled: 'cancelled',
   RunStatus.failed: 'failed',
   RunStatus.completed: 'completed',
+  RunStatus.incomplete: 'incomplete',
   RunStatus.expired: 'expired',
 };
 
