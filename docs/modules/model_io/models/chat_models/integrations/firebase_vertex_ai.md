@@ -90,7 +90,7 @@ Mind that this list may not be up-to-date. Refer to the [documentation](https://
 ```dart
 final chatModel = ChatFirebaseVertexAI(
   defaultOptions: ChatFirebaseVertexAIOptions(
-    model: 'gemini-1.5-pro-preview-0409',
+    model: 'gemini-1.5-pro-preview-0514',
   ),
 );
 final res = await chatModel.invoke(
@@ -122,7 +122,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplates(const [
 
 final chatModel = ChatFirebaseVertexAI(
   defaultOptions: ChatFirebaseVertexAIOptions(
-    model: 'gemini-1.5-pro-preview-0409',
+    model: 'gemini-1.5-pro-preview-0514',
   ),
 );
 
@@ -160,7 +160,7 @@ const tool = ToolSpec(
 );
 final chatModel = ChatFirebaseVertexAI(
   defaultOptions: ChatFirebaseVertexAIOptions(
-    model: 'gemini-1.5-pro-preview-0409',
+    model: 'gemini-1.5-pro-preview-0514',
     temperature: 0,
     tools: [tool],
   ),

@@ -132,7 +132,7 @@ import 'types.dart';
 /// );
 /// final chatModel = ChatFirebaseVertexAI(
 ///   defaultOptions: ChatFirebaseVertexAIOptions(
-///     model: 'gemini-1.5-pro-preview-0409',
+///     model: 'gemini-1.5-pro-preview-0514',
 ///     temperature: 0,
 ///     tools: [tool],
 ///   ),

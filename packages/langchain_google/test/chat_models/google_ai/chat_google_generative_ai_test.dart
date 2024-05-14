@@ -32,7 +32,11 @@ void main() {
     });
 
     test('Test Text-only input with gemini-pro', () async {
-      const models = ['gemini-1.0-pro', 'gemini-1.5-pro-latest'];
+      const models = [
+        'gemini-1.0-pro',
+        'gemini-1.5-pro-latest',
+        'gemini-1.5-flash-latest',
+      ];
       for (final model in models) {
         final res = await chatModel.invoke(
           PromptValue.string(
