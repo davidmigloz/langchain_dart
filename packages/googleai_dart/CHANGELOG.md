@@ -1,3 +1,7 @@
+## 0.1.0
+
+- **REFACTOR**: Minor changes ([#407](https://github.com/davidmigloz/langchain_dart/issues/407)). ([fa4b5c37](https://github.com/davidmigloz/langchain_dart/commit/fa4b5c376a191fea50c3f8b1d6b07cef0480a74e))
+
 ## 0.0.4
 
  - **FEAT**: Support generateContent for tuned model in googleai_dart client ([#358](https://github.com/davidmigloz/langchain_dart/issues/358)). ([b4641a09](https://github.com/davidmigloz/langchain_dart/commit/b4641a09af7f6d67d503d526451a370eca920c5c))

@@ -1,3 +1,8 @@
+## 0.3.1
+
+ - **FEAT**: Add equals to ChatToolChoiceForced ([#422](https://github.com/davidmigloz/langchain_dart/issues/422)). ([8d0786bc](https://github.com/davidmigloz/langchain_dart/commit/8d0786bc6228ce86de962d30e9c2cc9728a08f3f))
+ - **FIX**: Fix finishReason null check ([#406](https://github.com/davidmigloz/langchain_dart/issues/406)). ([5e2b0ecc](https://github.com/davidmigloz/langchain_dart/commit/5e2b0eccd54c6c1dc15af8ff6d62c395f12fbd90))
+
 ## 0.3.0
 
 > Note: This release has breaking changes.  

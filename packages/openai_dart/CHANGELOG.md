@@ -1,3 +1,10 @@
+## 0.3.2
+
+ - **FEAT**: Add GPT-4o to model catalog ([#420](https://github.com/davidmigloz/langchain_dart/issues/420)). ([96214307](https://github.com/davidmigloz/langchain_dart/commit/96214307ec8ae045dade687d4c623bd4dc1be896))
+ - **FEAT**: Add support for different content types in Assistants API and other fixes ([#412](https://github.com/davidmigloz/langchain_dart/issues/412)). ([97acab45](https://github.com/davidmigloz/langchain_dart/commit/97acab45a5770422c666795ad3443c083fa08895))
+ - **FEAT**: Add support for completions and embeddings in batch API in openai_dart ([#425](https://github.com/davidmigloz/langchain_dart/issues/425)). ([16fe4c68](https://github.com/davidmigloz/langchain_dart/commit/16fe4c6814a828fb0d271a6793598f8369da259d))
+ - **FEAT**: Add incomplete status to RunObject in openai_dart ([#424](https://github.com/davidmigloz/langchain_dart/issues/424)). ([71b116e6](https://github.com/davidmigloz/langchain_dart/commit/71b116e6252a9dce5a92e979164e0af8fe96efc3))
+
 ## 0.3.1
 
  - **FEAT**: Add support for stream_options in openai_dart ([#405](https://github.com/davidmigloz/langchain_dart/issues/405)). ([c15714ca](https://github.com/davidmigloz/langchain_dart/commit/c15714ca2df9e30873bc8e4901482faa2d858d8a))

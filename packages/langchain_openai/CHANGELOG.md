@@ -1,3 +1,8 @@
+## 0.6.1
+
+ - **FEAT**: Add GPT-4o to model catalog ([#420](https://github.com/davidmigloz/langchain_dart/issues/420)). ([96214307](https://github.com/davidmigloz/langchain_dart/commit/96214307ec8ae045dade687d4c623bd4dc1be896))
+ - **FEAT**: Include usage stats when streaming with OpenAI and ChatOpenAI ([#406](https://github.com/davidmigloz/langchain_dart/issues/406)). ([5e2b0ecc](https://github.com/davidmigloz/langchain_dart/commit/5e2b0eccd54c6c1dc15af8ff6d62c395f12fbd90))
+
 ## 0.6.0+2
 
  - Update a dependency to the latest release.

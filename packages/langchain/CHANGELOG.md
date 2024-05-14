@@ -1,3 +1,10 @@
+## 0.7.1
+
+> Note: VertexAI for Firebase (`ChatFirebaseVertexAI`) is available in the new [`langchain_firebase`](https://pub.dev/packages/langchain_firebase) package.
+
+ - **DOCS**: Add docs for ChatFirebaseVertexAI ([#422](https://github.com/davidmigloz/langchain_dart/issues/422)). ([8d0786bc](https://github.com/davidmigloz/langchain_dart/commit/8d0786bc6228ce86de962d30e9c2cc9728a08f3f))
+ - **DOCS**: Update ChatOllama docs ([#417](https://github.com/davidmigloz/langchain_dart/issues/417)). ([9d30b1a1](https://github.com/davidmigloz/langchain_dart/commit/9d30b1a1c811d73cfa27110b8c3c10b10da1801e))
+
 ## 0.7.0
 
 > Note: This release has breaking changes.  
