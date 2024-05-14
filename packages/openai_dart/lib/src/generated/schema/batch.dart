@@ -21,7 +21,7 @@ class Batch with _$Batch {
     /// The object type, which is always `batch`.
     required BatchObject object,
 
-    /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+    /// The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
     required BatchEndpoint endpoint,
 
     /// No Description

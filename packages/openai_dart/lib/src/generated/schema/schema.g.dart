@@ -4678,6 +4678,8 @@ Map<String, dynamic> _$$CreateBatchRequestImplToJson(
 
 const _$BatchEndpointEnumMap = {
   BatchEndpoint.v1ChatCompletions: '/v1/chat/completions',
+  BatchEndpoint.v1Embeddings: '/v1/embeddings',
+  BatchEndpoint.v1Completions: '/v1/completions',
 };
 
 const _$BatchCompletionWindowEnumMap = {

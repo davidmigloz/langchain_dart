@@ -48058,7 +48058,7 @@ mixin _$CreateBatchRequest {
   @JsonKey(name: 'input_file_id')
   String get inputFileId => throw _privateConstructorUsedError;
 
-  /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+  /// The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
   BatchEndpoint get endpoint => throw _privateConstructorUsedError;
 
   /// The time frame within which the batch should be processed. Currently only `24h` is supported.
@@ -48205,7 +48205,7 @@ class _$CreateBatchRequestImpl extends _CreateBatchRequest {
   @JsonKey(name: 'input_file_id')
   final String inputFileId;
 
-  /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+  /// The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
   @override
   final BatchEndpoint endpoint;
 
@@ -48291,7 +48291,7 @@ abstract class _CreateBatchRequest extends CreateBatchRequest {
   String get inputFileId;
   @override
 
-  /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+  /// The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
   BatchEndpoint get endpoint;
   @override
 
@@ -48321,7 +48321,7 @@ mixin _$Batch {
   /// The object type, which is always `batch`.
   BatchObject get object => throw _privateConstructorUsedError;
 
-  /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+  /// The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
   BatchEndpoint get endpoint => throw _privateConstructorUsedError;
 
   /// No Description
@@ -48766,7 +48766,7 @@ class _$BatchImpl extends _Batch {
   @override
   final BatchObject object;
 
-  /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+  /// The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
   @override
   final BatchEndpoint endpoint;
 
@@ -48986,7 +48986,7 @@ abstract class _Batch extends Batch {
   BatchObject get object;
   @override
 
-  /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+  /// The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
   BatchEndpoint get endpoint;
   @override
 
