@@ -30,7 +30,7 @@ class RunObject with _$RunObject {
     /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for execution of this run.
     @JsonKey(name: 'assistant_id') required String assistantId,
 
-    /// The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, or `expired`.
+    /// The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, `incomplete`, or `expired`.
     required RunStatus status,
 
     /// Details on the action required to continue the run. Will be `null` if no action is required.
@@ -99,7 +99,7 @@ class RunObject with _$RunObject {
     @JsonKey(name: 'tool_choice')
     required RunObjectToolChoice? toolChoice,
 
-    /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+    /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
     ///
     /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
     ///
@@ -206,7 +206,7 @@ enum RunObjectObject {
 // ENUM: RunStatus
 // ==========================================
 
-/// The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, or `expired`.
+/// The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, `incomplete`, or `expired`.
 enum RunStatus {
   @JsonValue('queued')
   queued,
@@ -222,6 +222,8 @@ enum RunStatus {
   failed,
   @JsonValue('completed')
   completed,
+  @JsonValue('incomplete')
+  incomplete,
   @JsonValue('expired')
   expired,
 }
@@ -440,7 +442,7 @@ enum RunObjectResponseFormatMode {
 // CLASS: RunObjectResponseFormat
 // ==========================================
 
-/// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+/// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
 ///
 /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
 ///
