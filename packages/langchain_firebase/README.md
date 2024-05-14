@@ -10,7 +10,10 @@ Firebase module for [LangChain.dart](https://github.com/davidmigloz/langchain_da
 
 ## Features
 
-- TODO
+- Chat models:
+  * `ChatFirebaseVertexAI`: wrapper around [Vertex AI for Firebase](https://firebase.google.com/docs/vertex-ai) API (Gemini).
+
+> Note: GCP VertexAI (`ChatVertexAI`) and Google AI for Developers (`ChatGoogleGenerativeAI`) are available in the [`langchain_google`](https://pub.dev/packages/langchain_google) package.
 
 ## License
 
