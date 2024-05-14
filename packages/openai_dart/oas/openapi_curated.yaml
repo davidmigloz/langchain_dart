@@ -6130,8 +6130,8 @@ components:
           nullable: true
     BatchEndpoint:
       type: string
-      enum: ["/v1/chat/completions"]
-      description: The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+      enum: ["/v1/chat/completions", "/v1/embeddings", "/v1/completions"]
+      description: The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
     BatchCompletionWindow:
       type: string
       enum: ["24h"]
@@ -6268,7 +6268,7 @@ components:
             description: The HTTP method to be used for the request. Currently only `POST` is supported.
           url:
             type: string
-            description: The OpenAI API relative URL to be used for the request. Currently only `/v1/chat/completions` is supported.
+            description: The OpenAI API relative URL to be used for the request. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported.
       BatchRequestOutput:
         type: object
         description: The per-line object of the batch output and error files
