@@ -108,6 +108,38 @@ await stream.forEach(print);
 // 2345678910111213
 // 1415161718192021
 // 222324252627282930 
+```
 
-chatModel.close();
+## Tool calling
+
+`ChatGoogleGenerativeAI` supports tool calling.
+
+Check the [docs](https://langchaindart.com/#/modules/model_io/models/chat_models/how_to/tools) for more information on how to use tools.
+
+Example:
+```dart
+const tool = ToolSpec(
+  name: 'get_current_weather',
+  description: 'Get the current weather in a given location',
+  inputJsonSchema: {
+    'type': 'object',
+    'properties': {
+      'location': {
+        'type': 'string',
+        'description': 'The city and state, e.g. San Francisco, CA',
+      },
+    },
+    'required': ['location'],
+  },
+);
+final chatModel = ChatGoogleGenerativeAI(
+  defaultOptions: ChatGoogleGenerativeAIOptions(
+    model: 'gemini-1.5-pro-latest',
+    temperature: 0,
+    tools: [tool],
+  ),
+);
+final res = await model.invoke(
+  PromptValue.string('What’s the weather like in Boston and Madrid right now in celsius?'),
+);
 ```
