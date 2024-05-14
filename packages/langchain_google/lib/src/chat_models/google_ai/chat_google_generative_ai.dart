@@ -40,7 +40,11 @@ import 'types.dart';
 ///   * Max input token: 12288
 ///   * Max output tokens: 4096
 /// - `gemini-1.5-pro-latest`: text / image -> text model
-///   * text / image -> text model
+///   * text / image / audio -> text model
+///   * Max input token: 1048576
+///   * Max output tokens: 8192
+/// - `gemini-1.5-flash-latest`:
+///   * text / image / audio -> text model
 ///   * Max input token: 1048576
 ///   * Max output tokens: 8192
 ///
