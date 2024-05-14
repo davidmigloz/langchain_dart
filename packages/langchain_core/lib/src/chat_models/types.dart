@@ -740,6 +740,7 @@ final class ChatToolChoiceAuto extends ChatToolChoice {
 /// {@template chat_tool_choice_forced}
 /// The model is forced to to call the specified tool.
 /// {@endtemplate}
+@immutable
 final class ChatToolChoiceForced extends ChatToolChoice {
   /// {@macro chat_tool_choice_forced}
   const ChatToolChoiceForced({
@@ -748,6 +749,14 @@ final class ChatToolChoiceForced extends ChatToolChoice {
 
   /// The name of the tool to call.
   final String name;
+
+  @override
+  bool operator ==(covariant final ChatToolChoiceForced other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType && name == other.name;
+
+  @override
+  int get hashCode => name.hashCode;
 }
 
 /// {@template chat_example}

@@ -194,11 +194,6 @@ void main() {
       final humanMessage = ChatMessage.humanText(
         'What’s the weather like in Boston and Madrid right now in celsius?',
       );
-      final re1 = await model.invoke(
-        PromptValue.string(
-          'What’s the weather like in Boston and Madrid right now in celsius?',
-        ),
-      );
       final res1 = await model.invoke(PromptValue.chat([humanMessage]));
 
       final aiMessage1 = res1.output;

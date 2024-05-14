@@ -57,6 +57,7 @@
           - [LLMChain](/modules/model_io/models/chat_models/how_to/llm_chain.md)
         - Integrations
           - [OpenAI](/modules/model_io/models/chat_models/integrations/openai.md)
+          - [Firebase Vertex AI](/modules/model_io/models/chat_models/integrations/firebase_vertex_ai.md)
           - [GCP Vertex AI](/modules/model_io/models/chat_models/integrations/gcp_vertex_ai.md)
           - [Google AI](/modules/model_io/models/chat_models/integrations/googleai.md)
           - [Ollama](/modules/model_io/models/chat_models/integrations/ollama.md)
