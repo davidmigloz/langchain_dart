@@ -4,3 +4,5 @@ dependency_overrides:
     path: ../langchain_core
   vertex_ai:
     path: ../vertex_ai
+  langchain_firebase:
+    path: ../langchain_firebase

@@ -2,3 +2,4 @@
 library;
 
 export 'src/chat_models/chat_models.dart';
+export 'src/stores/firestore.dart';

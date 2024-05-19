@@ -1,6 +1,6 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:langchain_google/langchain_google.dart';
 import 'package:langchain/langchain.dart';
+import 'package:langchain_firebase/langchain_firebase.dart';
 
 Future<void> main() async {
   await _history();
