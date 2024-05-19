@@ -393,17 +393,17 @@ AIChatMessage{
 
   @override
   Map<String, dynamic> toJson() => {
-        'type': defaultPrefix,
         'content': content,
-        'functionCall': functionCall?.toJson(),
+        'toolCalls': toolCalls.map((toolCall) => toolCall.toJson()).toList(),
       };
 
+  /// Will be used to get an AIChatMessage from a json format
   factory AIChatMessage.fromJson(final Map<String, dynamic> json) {
     return AIChatMessage(
       content: json['content'],
-      functionCall: json['functionCall'] != null
-          ? AIChatMessageFunctionCall.fromJson(json['functionCall'])
-          : null,
+      toolCalls: (json['toolCalls'] as List)
+          .map((toolCallJson) => AIChatMessageToolCall.fromJson(toolCallJson))
+          .toList(),
     );
   }
 }
@@ -475,16 +475,17 @@ AIChatMessageToolCall{
 }''';
   }
 
-  ///The toJson function will convert the ChatMessage to a json object
+  /// The toJson function will convert the AIChatMessageToolCall to a json object
   Map<String, dynamic> toJson() => {
         'name': name,
         'argumentsRaw': argumentsRaw,
         'arguments': arguments,
       };
 
-  ///The fromJson will create a AI
-  factory AIChatMessageFunctionCall.fromJson(final Map<String, dynamic> json) {
-    return AIChatMessageFunctionCall(
+  /// Will be used to get an AIChatMessageToolCall from a json format
+  factory AIChatMessageToolCall.fromJson(final Map<String, dynamic> json) {
+    return AIChatMessageToolCall(
+      id: json['id'],
       name: json['name'],
       argumentsRaw: json['argumentsRaw'],
       arguments: json['arguments'],
@@ -544,12 +545,13 @@ ToolChatMessage{
   @override
   Map<String, dynamic> toJson() => {
         'type': defaultPrefix,
-        'name': name,
+        'toolCallId': toolCallId,
         'content': content,
       };
 
-  factory FunctionChatMessage.fromJson(final Map<String, dynamic> json) =>
-      FunctionChatMessage(content: json['content'], name: json['name']);
+  /// Will be used to get an ToolChatMessage from a json format
+  factory ToolChatMessage.fromJson(final Map<String, dynamic> json) =>
+      ToolChatMessage(content: json['content'], toolCallId: json['toolCallId']);
 }
 
 /// {@template custom_chat_message}
@@ -602,6 +604,8 @@ CustomChatMessage{
         'content': content,
         'role': role,
       };
+
+  /// Will be used to get an ToolChatMessage from a json format
   factory CustomChatMessage.fromJson(final Map<String, dynamic> json) =>
       CustomChatMessage(content: json['content'], role: json['role']);
 }

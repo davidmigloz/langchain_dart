@@ -170,9 +170,9 @@ class FirestoreChatMessageField {
           createdAt: json['createdAt'],
         );
 
-      case FunctionChatMessage.defaultPrefix:
+      case ToolChatMessage.defaultPrefix:
         return FirestoreChatMessageField(
-          message: FunctionChatMessage.fromJson(json['message']),
+          message: ToolChatMessage.fromJson(json['message']),
           createdAt: json['createdAt'],
         );
 
