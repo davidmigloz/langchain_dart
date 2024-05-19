@@ -29,6 +29,7 @@ dependencies:
   uuid: ^4.3.3
   vertex_ai: ^0.1.0
   langchain_firebase: ^0.1.0
+  firebase_core: ^2.31.0
 
 dev_dependencies:
   test: ^1.24.9

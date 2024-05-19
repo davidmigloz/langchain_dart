@@ -10,13 +10,7 @@ final class FirestoreChatMessageHistory extends BaseChatMessageHistory {
     required this.collections,
     required this.options,
     required this.userId,
-  });
-
-  ///Function to initialize firebaseinstance
-  Future<void> ensureFirestore() async {
-    await Firebase.initializeApp(
-      options: options,
-    );
+  }) {
     collectionReference = FirebaseFirestore.instance.collection(collections);
   }
 
@@ -30,51 +24,40 @@ final class FirestoreChatMessageHistory extends BaseChatMessageHistory {
   String userId;
 
   ///Firestore instance
-  CollectionReference<Map<String, dynamic>>? collectionReference;
+  late CollectionReference<Map<String, dynamic>> collectionReference;
 
   @override
   Future<void> addChatMessage(final ChatMessage message) async {
     final FirestoreChatMessageField messageField =
         FirestoreChatMessageField(message: message);
-    if (collectionReference == null) {
-      throw Exception('Remember to initialize firestore');
-    } else {
-      await collectionReference!.doc().set(messageField.toJson(userId));
-    }
+
+    await collectionReference.doc().set(messageField.toJson(userId));
   }
 
   @override
   Future<void> clear() async {
-    if (collectionReference == null) {
-      throw Exception('Remember to initialize firestore');
-    } else {
-      final snapshot = await collectionReference!.get();
+    final snapshot = await collectionReference.get();
 
-      //Delete all docs in firestore
-      for (final doc in snapshot.docs) {
-        await doc.reference.delete();
-      }
+    //Delete all docs in firestore
+    for (final doc in snapshot.docs) {
+      await doc.reference.delete();
     }
   }
 
   @override
   Future<List<ChatMessage>> getChatMessages() async {
-    if (collectionReference == null) {
-      throw Exception('Remember to initialize firestore');
-    } else {
-      //Get chat messages in ascending order so the newest message is the last in the list
-      final snapshot = await collectionReference!
-          .where('createdBy', isEqualTo: userId)
-          .orderBy('createdAt', descending: false)
-          .get();
+    //Get chat messages in ascending order so the newest message is the last in the list
+    final snapshot = await collectionReference
+        .where('createdBy', isEqualTo: userId)
+        .orderBy('createdAt', descending: false)
+        .get();
 
-      //Take each doc and add it to the conversation list.
-      final List<ChatMessage> conversation = snapshot.docs.map((final doc) {
-        return FirestoreChatMessageField.fromJson(doc.data()).message;
-      }).toList();
+    //Take each doc and add it to the conversation list.
+    final List<ChatMessage> conversation = snapshot.docs.map((final doc) {
+      return FirestoreChatMessageField.fromJson(doc.data()).message;
+    }).toList();
 
-      return conversation;
-    }
+    return conversation;
   }
 
   /// Removes and returns the first (oldest) element of the history.
@@ -82,24 +65,20 @@ final class FirestoreChatMessageHistory extends BaseChatMessageHistory {
   /// The history must not be empty when this method is called.
   @override
   Future<ChatMessage> removeFirst() async {
-    if (collectionReference == null) {
-      throw Exception('Remember to initialize firestore');
-    } else {
-      final snapshot = await collectionReference!
-          .where('createdBy', isEqualTo: userId)
-          .orderBy('createdAt', descending: false)
-          .limit(1)
-          .get();
+    final snapshot = await collectionReference
+        .where('createdBy', isEqualTo: userId)
+        .orderBy('createdAt', descending: false)
+        .limit(1)
+        .get();
 
-      //get oldest document
-      final oldest = snapshot.docs.first;
+    //get oldest document
+    final oldest = snapshot.docs.first;
 
-      //Delete doc in firestore
-      await oldest.reference.delete();
+    //Delete doc in firestore
+    await oldest.reference.delete();
 
-      //Create FirestoreChatMessageField and return ChatMessage
-      return FirestoreChatMessageField.fromJson(oldest.data()).message;
-    }
+    //Create FirestoreChatMessageField and return ChatMessage
+    return FirestoreChatMessageField.fromJson(oldest.data()).message;
   }
 
   /// Removes and returns the last (newest) element of the history.
@@ -107,24 +86,20 @@ final class FirestoreChatMessageHistory extends BaseChatMessageHistory {
   /// The history must not be empty when this method is called.
   @override
   Future<ChatMessage> removeLast() async {
-    if (collectionReference == null) {
-      throw Exception('Remember to initialize firestore');
-    } else {
-      final snapshot = await collectionReference!
-          .where('createdBy', isEqualTo: userId)
-          .orderBy('createdAt', descending: true)
-          .limit(1)
-          .get();
+    final snapshot = await collectionReference
+        .where('createdBy', isEqualTo: userId)
+        .orderBy('createdAt', descending: true)
+        .limit(1)
+        .get();
 
-      //get newest document
-      final newest = snapshot.docs.first;
+    //get newest document
+    final newest = snapshot.docs.first;
 
-      //Delete doc in firestore
-      await newest.reference.delete();
+    //Delete doc in firestore
+    await newest.reference.delete();
 
-      //Create FirestoreChatMessageField and return ChatMessage
-      return FirestoreChatMessageField.fromJson(newest.data()).message;
-    }
+    //Create FirestoreChatMessageField and return ChatMessage
+    return FirestoreChatMessageField.fromJson(newest.data()).message;
   }
 }
 

@@ -1,4 +1,5 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:langchain/langchain.dart';
 import 'package:langchain_firebase/langchain_firebase.dart';
 
@@ -12,13 +13,14 @@ Future<void> _history() async {
   final db = FakeFirebaseFirestore();
   const String userId = '1234';
 
+  // Initialize your firebase app
+  await Firebase.initializeApp(name: db.app.name, options: db.app.options);
+
   final FirestoreChatMessageHistory history = FirestoreChatMessageHistory(
     collections: 'Langchain',
     options: db.app.options,
     userId: userId,
   );
-  //Very important to initialize firestore
-  await history.ensureFirestore();
 
   await history.addHumanChatMessage('hi!');
   await history.addAIChatMessage('whats up?');
@@ -31,14 +33,14 @@ Future<void> _historyWithNestedCollection() async {
   final db = FakeFirebaseFirestore();
   const String userId = '1234';
 
+  // Initialize your firebase app
+  await Firebase.initializeApp(name: db.app.name, options: db.app.options);
+
   final FirestoreChatMessageHistory history = FirestoreChatMessageHistory(
     collections: 'Users/$userId/Messages',
     options: db.app.options,
     userId: userId,
   );
-
-  //Very important to initialize firestore
-  await history.ensureFirestore();
 
   await history.addHumanChatMessage('hi!');
   await history.addAIChatMessage('whats up?');
@@ -53,15 +55,15 @@ Future<void> _chainWithFirestoreHistory() async {
   final db = FakeFirebaseFirestore();
   const String userId = '1234';
 
+  // Initialize your firebase app
+  await Firebase.initializeApp(name: db.app.name, options: db.app.options);
+
   //Create firestore history to give to ConversationBufferMemory
   final FirestoreChatMessageHistory history = FirestoreChatMessageHistory(
     collections: 'Users/$userId/Messages',
     options: db.app.options,
     userId: userId,
   );
-
-  //Very important to initialize firestore
-  await history.ensureFirestore();
 
   //Create llm instanse
   final llm = FakeLLM(
