@@ -8,18 +8,20 @@ extension ChatMessagesX on List<ChatMessage> {
     final String systemPrefix = SystemChatMessage.defaultPrefix,
     final String humanPrefix = HumanChatMessage.defaultPrefix,
     final String aiPrefix = AIChatMessage.defaultPrefix,
-    final String functionPrefix = FunctionChatMessage.defaultPrefix,
+    final String toolPrefix = ToolChatMessage.defaultPrefix,
   }) {
     return map(
       (final m) {
         return switch (m) {
           SystemChatMessage _ => '$systemPrefix: ${m.contentAsString}',
           HumanChatMessage _ => '$humanPrefix: ${m.contentAsString}',
-          AIChatMessage _ => m.functionCall == null
+          AIChatMessage _ => m.toolCalls.isEmpty
               ? '$aiPrefix: ${m.contentAsString}'
-              : '$aiPrefix: ${m.functionCall!.name}(${m.functionCall!.arguments})',
-          FunctionChatMessage(name: final n, content: final c) =>
-            '$functionPrefix: $n=$c',
+              : m.toolCalls
+                  .map((c) => '$aiPrefix: ${c.id} ${c.name}(${c.arguments})')
+                  .join('\n'),
+          ToolChatMessage(toolCallId: final id, content: final c) =>
+            '$toolPrefix: $id=$c',
           final CustomChatMessage m => '${m.role}: ${m.contentAsString}',
         };
       },

@@ -96,6 +96,11 @@ mixin _$CreateCompletionRequest {
   @JsonKey(includeIfNull: false)
   bool? get stream => throw _privateConstructorUsedError;
 
+  /// Options for streaming response. Only set this when you set `stream: true`.
+  @JsonKey(name: 'stream_options', includeIfNull: false)
+  ChatCompletionStreamOptions? get streamOptions =>
+      throw _privateConstructorUsedError;
+
   /// The suffix that comes after a completion of inserted text.
   ///
   /// This parameter is only supported for `gpt-3.5-turbo-instruct`.
@@ -149,6 +154,8 @@ abstract class $CreateCompletionRequestCopyWith<$Res> {
       @JsonKey(includeIfNull: false)
       CompletionStop? stop,
       @JsonKey(includeIfNull: false) bool? stream,
+      @JsonKey(name: 'stream_options', includeIfNull: false)
+      ChatCompletionStreamOptions? streamOptions,
       @JsonKey(includeIfNull: false) String? suffix,
       @JsonKey(includeIfNull: false) double? temperature,
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
@@ -157,6 +164,7 @@ abstract class $CreateCompletionRequestCopyWith<$Res> {
   $CompletionModelCopyWith<$Res> get model;
   $CompletionPromptCopyWith<$Res>? get prompt;
   $CompletionStopCopyWith<$Res>? get stop;
+  $ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions;
 }
 
 /// @nodoc
@@ -186,6 +194,7 @@ class _$CreateCompletionRequestCopyWithImpl<$Res,
     Object? seed = freezed,
     Object? stop = freezed,
     Object? stream = freezed,
+    Object? streamOptions = freezed,
     Object? suffix = freezed,
     Object? temperature = freezed,
     Object? topP = freezed,
@@ -244,6 +253,10 @@ class _$CreateCompletionRequestCopyWithImpl<$Res,
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool?,
+      streamOptions: freezed == streamOptions
+          ? _value.streamOptions
+          : streamOptions // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionStreamOptions?,
       suffix: freezed == suffix
           ? _value.suffix
           : suffix // ignore: cast_nullable_to_non_nullable
@@ -294,6 +307,19 @@ class _$CreateCompletionRequestCopyWithImpl<$Res,
       return _then(_value.copyWith(stop: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions {
+    if (_value.streamOptions == null) {
+      return null;
+    }
+
+    return $ChatCompletionStreamOptionsCopyWith<$Res>(_value.streamOptions!,
+        (value) {
+      return _then(_value.copyWith(streamOptions: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -324,6 +350,8 @@ abstract class _$$CreateCompletionRequestImplCopyWith<$Res>
       @JsonKey(includeIfNull: false)
       CompletionStop? stop,
       @JsonKey(includeIfNull: false) bool? stream,
+      @JsonKey(name: 'stream_options', includeIfNull: false)
+      ChatCompletionStreamOptions? streamOptions,
       @JsonKey(includeIfNull: false) String? suffix,
       @JsonKey(includeIfNull: false) double? temperature,
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
@@ -335,6 +363,8 @@ abstract class _$$CreateCompletionRequestImplCopyWith<$Res>
   $CompletionPromptCopyWith<$Res>? get prompt;
   @override
   $CompletionStopCopyWith<$Res>? get stop;
+  @override
+  $ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions;
 }
 
 /// @nodoc
@@ -363,6 +393,7 @@ class __$$CreateCompletionRequestImplCopyWithImpl<$Res>
     Object? seed = freezed,
     Object? stop = freezed,
     Object? stream = freezed,
+    Object? streamOptions = freezed,
     Object? suffix = freezed,
     Object? temperature = freezed,
     Object? topP = freezed,
@@ -421,6 +452,10 @@ class __$$CreateCompletionRequestImplCopyWithImpl<$Res>
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool?,
+      streamOptions: freezed == streamOptions
+          ? _value.streamOptions
+          : streamOptions // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionStreamOptions?,
       suffix: freezed == suffix
           ? _value.suffix
           : suffix // ignore: cast_nullable_to_non_nullable
@@ -461,6 +496,7 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
       @JsonKey(includeIfNull: false) this.seed,
       @_CompletionStopConverter() @JsonKey(includeIfNull: false) this.stop,
       @JsonKey(includeIfNull: false) this.stream = false,
+      @JsonKey(name: 'stream_options', includeIfNull: false) this.streamOptions,
       @JsonKey(includeIfNull: false) this.suffix,
       @JsonKey(includeIfNull: false) this.temperature = 1.0,
       @JsonKey(name: 'top_p', includeIfNull: false) this.topP = 1.0,
@@ -572,6 +608,11 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
   @JsonKey(includeIfNull: false)
   final bool? stream;
 
+  /// Options for streaming response. Only set this when you set `stream: true`.
+  @override
+  @JsonKey(name: 'stream_options', includeIfNull: false)
+  final ChatCompletionStreamOptions? streamOptions;
+
   /// The suffix that comes after a completion of inserted text.
   ///
   /// This parameter is only supported for `gpt-3.5-turbo-instruct`.
@@ -600,7 +641,7 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
 
   @override
   String toString() {
-    return 'CreateCompletionRequest(model: $model, prompt: $prompt, bestOf: $bestOf, echo: $echo, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, maxTokens: $maxTokens, n: $n, presencePenalty: $presencePenalty, seed: $seed, stop: $stop, stream: $stream, suffix: $suffix, temperature: $temperature, topP: $topP, user: $user)';
+    return 'CreateCompletionRequest(model: $model, prompt: $prompt, bestOf: $bestOf, echo: $echo, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, maxTokens: $maxTokens, n: $n, presencePenalty: $presencePenalty, seed: $seed, stop: $stop, stream: $stream, streamOptions: $streamOptions, suffix: $suffix, temperature: $temperature, topP: $topP, user: $user)';
   }
 
   @override
@@ -626,6 +667,8 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
             (identical(other.seed, seed) || other.seed == seed) &&
             (identical(other.stop, stop) || other.stop == stop) &&
             (identical(other.stream, stream) || other.stream == stream) &&
+            (identical(other.streamOptions, streamOptions) ||
+                other.streamOptions == streamOptions) &&
             (identical(other.suffix, suffix) || other.suffix == suffix) &&
             (identical(other.temperature, temperature) ||
                 other.temperature == temperature) &&
@@ -650,6 +693,7 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
       seed,
       stop,
       stream,
+      streamOptions,
       suffix,
       temperature,
       topP,
@@ -690,6 +734,8 @@ abstract class _CreateCompletionRequest extends CreateCompletionRequest {
       @JsonKey(includeIfNull: false)
       final CompletionStop? stop,
       @JsonKey(includeIfNull: false) final bool? stream,
+      @JsonKey(name: 'stream_options', includeIfNull: false)
+      final ChatCompletionStreamOptions? streamOptions,
       @JsonKey(includeIfNull: false) final String? suffix,
       @JsonKey(includeIfNull: false) final double? temperature,
       @JsonKey(name: 'top_p', includeIfNull: false) final double? topP,
@@ -788,6 +834,11 @@ abstract class _CreateCompletionRequest extends CreateCompletionRequest {
   /// Whether to stream back partial progress. If set, tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format) as they become available, with the stream terminated by a `data: [DONE]` message. [Example Python code](https://cookbook.openai.com/examples/how_to_stream_completions).
   @JsonKey(includeIfNull: false)
   bool? get stream;
+  @override
+
+  /// Options for streaming response. Only set this when you set `stream: true`.
+  @JsonKey(name: 'stream_options', includeIfNull: false)
+  ChatCompletionStreamOptions? get streamOptions;
   @override
 
   /// The suffix that comes after a completion of inserted text.
@@ -3416,6 +3467,11 @@ mixin _$CreateChatCompletionRequest {
   @JsonKey(includeIfNull: false)
   bool? get stream => throw _privateConstructorUsedError;
 
+  /// Options for streaming response. Only set this when you set `stream: true`.
+  @JsonKey(name: 'stream_options', includeIfNull: false)
+  ChatCompletionStreamOptions? get streamOptions =>
+      throw _privateConstructorUsedError;
+
   /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
   ///
   /// We generally recommend altering this or `top_p` but not both.
@@ -3432,12 +3488,13 @@ mixin _$CreateChatCompletionRequest {
   @JsonKey(includeIfNull: false)
   List<ChatCompletionTool>? get tools => throw _privateConstructorUsedError;
 
-  /// Controls which (if any) function is called by the model.
-  /// `none` means the model will not call a function and instead generates a message.
-  /// `auto` means the model can pick between generating a message or calling a function.
-  /// Specifying a particular function via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that function.
+  /// Controls which (if any) tool is called by the model.
+  /// `none` means the model will not call any tool and instead generates a message.
+  /// `auto` means the model can pick between generating a message or calling one or more tools.
+  /// `required` means the model must call one or more tools.
+  /// Specifying a particular tool via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
   ///
-  /// `none` is the default when no functions are present. `auto` is the default if functions are present.
+  /// `none` is the default when no tools are present. `auto` is the default if tools are present.
   @_ChatCompletionToolChoiceOptionConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   ChatCompletionToolChoiceOption? get toolChoice =>
@@ -3500,6 +3557,8 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
       @JsonKey(includeIfNull: false)
       ChatCompletionStop? stop,
       @JsonKey(includeIfNull: false) bool? stream,
+      @JsonKey(name: 'stream_options', includeIfNull: false)
+      ChatCompletionStreamOptions? streamOptions,
       @JsonKey(includeIfNull: false) double? temperature,
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
       @JsonKey(includeIfNull: false) List<ChatCompletionTool>? tools,
@@ -3515,6 +3574,7 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
   $ChatCompletionModelCopyWith<$Res> get model;
   $ChatCompletionResponseFormatCopyWith<$Res>? get responseFormat;
   $ChatCompletionStopCopyWith<$Res>? get stop;
+  $ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions;
   $ChatCompletionToolChoiceOptionCopyWith<$Res>? get toolChoice;
   $ChatCompletionFunctionCallCopyWith<$Res>? get functionCall;
 }
@@ -3546,6 +3606,7 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
     Object? seed = freezed,
     Object? stop = freezed,
     Object? stream = freezed,
+    Object? streamOptions = freezed,
     Object? temperature = freezed,
     Object? topP = freezed,
     Object? tools = freezed,
@@ -3607,6 +3668,10 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool?,
+      streamOptions: freezed == streamOptions
+          ? _value.streamOptions
+          : streamOptions // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionStreamOptions?,
       temperature: freezed == temperature
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
@@ -3673,6 +3738,19 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
 
   @override
   @pragma('vm:prefer-inline')
+  $ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions {
+    if (_value.streamOptions == null) {
+      return null;
+    }
+
+    return $ChatCompletionStreamOptionsCopyWith<$Res>(_value.streamOptions!,
+        (value) {
+      return _then(_value.copyWith(streamOptions: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $ChatCompletionToolChoiceOptionCopyWith<$Res>? get toolChoice {
     if (_value.toolChoice == null) {
       return null;
@@ -3727,6 +3805,8 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
       @JsonKey(includeIfNull: false)
       ChatCompletionStop? stop,
       @JsonKey(includeIfNull: false) bool? stream,
+      @JsonKey(name: 'stream_options', includeIfNull: false)
+      ChatCompletionStreamOptions? streamOptions,
       @JsonKey(includeIfNull: false) double? temperature,
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
       @JsonKey(includeIfNull: false) List<ChatCompletionTool>? tools,
@@ -3745,6 +3825,8 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
   $ChatCompletionResponseFormatCopyWith<$Res>? get responseFormat;
   @override
   $ChatCompletionStopCopyWith<$Res>? get stop;
+  @override
+  $ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions;
   @override
   $ChatCompletionToolChoiceOptionCopyWith<$Res>? get toolChoice;
   @override
@@ -3777,6 +3859,7 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
     Object? seed = freezed,
     Object? stop = freezed,
     Object? stream = freezed,
+    Object? streamOptions = freezed,
     Object? temperature = freezed,
     Object? topP = freezed,
     Object? tools = freezed,
@@ -3838,6 +3921,10 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
               as bool?,
+      streamOptions: freezed == streamOptions
+          ? _value.streamOptions
+          : streamOptions // ignore: cast_nullable_to_non_nullable
+              as ChatCompletionStreamOptions?,
       temperature: freezed == temperature
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
@@ -3891,6 +3978,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
       @JsonKey(includeIfNull: false) this.seed,
       @_ChatCompletionStopConverter() @JsonKey(includeIfNull: false) this.stop,
       @JsonKey(includeIfNull: false) this.stream = false,
+      @JsonKey(name: 'stream_options', includeIfNull: false) this.streamOptions,
       @JsonKey(includeIfNull: false) this.temperature = 1.0,
       @JsonKey(name: 'top_p', includeIfNull: false) this.topP = 1.0,
       @JsonKey(includeIfNull: false) final List<ChatCompletionTool>? tools,
@@ -4009,6 +4097,11 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   @JsonKey(includeIfNull: false)
   final bool? stream;
 
+  /// Options for streaming response. Only set this when you set `stream: true`.
+  @override
+  @JsonKey(name: 'stream_options', includeIfNull: false)
+  final ChatCompletionStreamOptions? streamOptions;
+
   /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
   ///
   /// We generally recommend altering this or `top_p` but not both.
@@ -4037,12 +4130,13 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
     return EqualUnmodifiableListView(value);
   }
 
-  /// Controls which (if any) function is called by the model.
-  /// `none` means the model will not call a function and instead generates a message.
-  /// `auto` means the model can pick between generating a message or calling a function.
-  /// Specifying a particular function via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that function.
+  /// Controls which (if any) tool is called by the model.
+  /// `none` means the model will not call any tool and instead generates a message.
+  /// `auto` means the model can pick between generating a message or calling one or more tools.
+  /// `required` means the model must call one or more tools.
+  /// Specifying a particular tool via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
   ///
-  /// `none` is the default when no functions are present. `auto` is the default if functions are present.
+  /// `none` is the default when no tools are present. `auto` is the default if tools are present.
   @override
   @_ChatCompletionToolChoiceOptionConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
@@ -4086,7 +4180,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
 
   @override
   String toString() {
-    return 'CreateChatCompletionRequest(model: $model, messages: $messages, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, n: $n, presencePenalty: $presencePenalty, responseFormat: $responseFormat, seed: $seed, stop: $stop, stream: $stream, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, user: $user, functionCall: $functionCall, functions: $functions)';
+    return 'CreateChatCompletionRequest(model: $model, messages: $messages, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, n: $n, presencePenalty: $presencePenalty, responseFormat: $responseFormat, seed: $seed, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, user: $user, functionCall: $functionCall, functions: $functions)';
   }
 
   @override
@@ -4114,6 +4208,8 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
             (identical(other.seed, seed) || other.seed == seed) &&
             (identical(other.stop, stop) || other.stop == stop) &&
             (identical(other.stream, stream) || other.stream == stream) &&
+            (identical(other.streamOptions, streamOptions) ||
+                other.streamOptions == streamOptions) &&
             (identical(other.temperature, temperature) ||
                 other.temperature == temperature) &&
             (identical(other.topP, topP) || other.topP == topP) &&
@@ -4144,6 +4240,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
         seed,
         stop,
         stream,
+        streamOptions,
         temperature,
         topP,
         const DeepCollectionEquality().hash(_tools),
@@ -4192,6 +4289,8 @@ abstract class _CreateChatCompletionRequest
       @JsonKey(includeIfNull: false)
       final ChatCompletionStop? stop,
       @JsonKey(includeIfNull: false) final bool? stream,
+      @JsonKey(name: 'stream_options', includeIfNull: false)
+      final ChatCompletionStreamOptions? streamOptions,
       @JsonKey(includeIfNull: false) final double? temperature,
       @JsonKey(name: 'top_p', includeIfNull: false) final double? topP,
       @JsonKey(includeIfNull: false) final List<ChatCompletionTool>? tools,
@@ -4291,6 +4390,11 @@ abstract class _CreateChatCompletionRequest
   bool? get stream;
   @override
 
+  /// Options for streaming response. Only set this when you set `stream: true`.
+  @JsonKey(name: 'stream_options', includeIfNull: false)
+  ChatCompletionStreamOptions? get streamOptions;
+  @override
+
   /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
   ///
   /// We generally recommend altering this or `top_p` but not both.
@@ -4310,12 +4414,13 @@ abstract class _CreateChatCompletionRequest
   List<ChatCompletionTool>? get tools;
   @override
 
-  /// Controls which (if any) function is called by the model.
-  /// `none` means the model will not call a function and instead generates a message.
-  /// `auto` means the model can pick between generating a message or calling a function.
-  /// Specifying a particular function via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that function.
+  /// Controls which (if any) tool is called by the model.
+  /// `none` means the model will not call any tool and instead generates a message.
+  /// `auto` means the model can pick between generating a message or calling one or more tools.
+  /// `required` means the model must call one or more tools.
+  /// Specifying a particular tool via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
   ///
-  /// `none` is the default when no functions are present. `auto` is the default if functions are present.
+  /// `none` is the default when no tools are present. `auto` is the default if tools are present.
   @_ChatCompletionToolChoiceOptionConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   ChatCompletionToolChoiceOption? get toolChoice;
@@ -7414,6 +7519,169 @@ abstract class _ChatCompletionMessageToolCall
       get copyWith => throw _privateConstructorUsedError;
 }
 
+ChatCompletionStreamOptions _$ChatCompletionStreamOptionsFromJson(
+    Map<String, dynamic> json) {
+  return _ChatCompletionStreamOptions.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ChatCompletionStreamOptions {
+  /// If set, an additional chunk will be streamed before the `data: [DONE]` message. The `usage` field on this chunk shows the token usage statistics for the entire request, and the `choices` field will always be an empty array. All other chunks will also include a `usage` field, but with a null value.
+  @JsonKey(name: 'include_usage', includeIfNull: false)
+  bool? get includeUsage => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ChatCompletionStreamOptionsCopyWith<ChatCompletionStreamOptions>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChatCompletionStreamOptionsCopyWith<$Res> {
+  factory $ChatCompletionStreamOptionsCopyWith(
+          ChatCompletionStreamOptions value,
+          $Res Function(ChatCompletionStreamOptions) then) =
+      _$ChatCompletionStreamOptionsCopyWithImpl<$Res,
+          ChatCompletionStreamOptions>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'include_usage', includeIfNull: false)
+      bool? includeUsage});
+}
+
+/// @nodoc
+class _$ChatCompletionStreamOptionsCopyWithImpl<$Res,
+        $Val extends ChatCompletionStreamOptions>
+    implements $ChatCompletionStreamOptionsCopyWith<$Res> {
+  _$ChatCompletionStreamOptionsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? includeUsage = freezed,
+  }) {
+    return _then(_value.copyWith(
+      includeUsage: freezed == includeUsage
+          ? _value.includeUsage
+          : includeUsage // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ChatCompletionStreamOptionsImplCopyWith<$Res>
+    implements $ChatCompletionStreamOptionsCopyWith<$Res> {
+  factory _$$ChatCompletionStreamOptionsImplCopyWith(
+          _$ChatCompletionStreamOptionsImpl value,
+          $Res Function(_$ChatCompletionStreamOptionsImpl) then) =
+      __$$ChatCompletionStreamOptionsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'include_usage', includeIfNull: false)
+      bool? includeUsage});
+}
+
+/// @nodoc
+class __$$ChatCompletionStreamOptionsImplCopyWithImpl<$Res>
+    extends _$ChatCompletionStreamOptionsCopyWithImpl<$Res,
+        _$ChatCompletionStreamOptionsImpl>
+    implements _$$ChatCompletionStreamOptionsImplCopyWith<$Res> {
+  __$$ChatCompletionStreamOptionsImplCopyWithImpl(
+      _$ChatCompletionStreamOptionsImpl _value,
+      $Res Function(_$ChatCompletionStreamOptionsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? includeUsage = freezed,
+  }) {
+    return _then(_$ChatCompletionStreamOptionsImpl(
+      includeUsage: freezed == includeUsage
+          ? _value.includeUsage
+          : includeUsage // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChatCompletionStreamOptionsImpl extends _ChatCompletionStreamOptions {
+  const _$ChatCompletionStreamOptionsImpl(
+      {@JsonKey(name: 'include_usage', includeIfNull: false) this.includeUsage})
+      : super._();
+
+  factory _$ChatCompletionStreamOptionsImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ChatCompletionStreamOptionsImplFromJson(json);
+
+  /// If set, an additional chunk will be streamed before the `data: [DONE]` message. The `usage` field on this chunk shows the token usage statistics for the entire request, and the `choices` field will always be an empty array. All other chunks will also include a `usage` field, but with a null value.
+  @override
+  @JsonKey(name: 'include_usage', includeIfNull: false)
+  final bool? includeUsage;
+
+  @override
+  String toString() {
+    return 'ChatCompletionStreamOptions(includeUsage: $includeUsage)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatCompletionStreamOptionsImpl &&
+            (identical(other.includeUsage, includeUsage) ||
+                other.includeUsage == includeUsage));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, includeUsage);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatCompletionStreamOptionsImplCopyWith<_$ChatCompletionStreamOptionsImpl>
+      get copyWith => __$$ChatCompletionStreamOptionsImplCopyWithImpl<
+          _$ChatCompletionStreamOptionsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChatCompletionStreamOptionsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ChatCompletionStreamOptions
+    extends ChatCompletionStreamOptions {
+  const factory _ChatCompletionStreamOptions(
+      {@JsonKey(name: 'include_usage', includeIfNull: false)
+      final bool? includeUsage}) = _$ChatCompletionStreamOptionsImpl;
+  const _ChatCompletionStreamOptions._() : super._();
+
+  factory _ChatCompletionStreamOptions.fromJson(Map<String, dynamic> json) =
+      _$ChatCompletionStreamOptionsImpl.fromJson;
+
+  @override
+
+  /// If set, an additional chunk will be streamed before the `data: [DONE]` message. The `usage` field on this chunk shows the token usage statistics for the entire request, and the `choices` field will always be an empty array. All other chunks will also include a `usage` field, but with a null value.
+  @JsonKey(name: 'include_usage', includeIfNull: false)
+  bool? get includeUsage;
+  @override
+  @JsonKey(ignore: true)
+  _$$ChatCompletionStreamOptionsImplCopyWith<_$ChatCompletionStreamOptionsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 CreateChatCompletionResponse _$CreateChatCompletionResponseFromJson(
     Map<String, dynamic> json) {
   return _CreateChatCompletionResponse.fromJson(json);
@@ -8730,7 +8998,8 @@ mixin _$CreateChatCompletionStreamResponse {
   @JsonKey(includeIfNull: false)
   String? get id => throw _privateConstructorUsedError;
 
-  /// A list of chat completion choices. Can be more than one if `n` is greater than 1.
+  /// A list of chat completion choices. Can contain more than one elements if `n` is greater than 1. Can also be empty for the
+  /// last chunk if you set `stream_options: {"include_usage": true}`.
   List<ChatCompletionStreamResponseChoice> get choices =>
       throw _privateConstructorUsedError;
 
@@ -8749,6 +9018,10 @@ mixin _$CreateChatCompletionStreamResponse {
 
   /// The object type, which is always `chat.completion.chunk`.
   String get object => throw _privateConstructorUsedError;
+
+  /// Usage statistics for the completion request.
+  @JsonKey(includeIfNull: false)
+  CompletionUsage? get usage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -8772,7 +9045,10 @@ abstract class $CreateChatCompletionStreamResponseCopyWith<$Res> {
       @JsonKey(includeIfNull: false) String? model,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
-      String object});
+      String object,
+      @JsonKey(includeIfNull: false) CompletionUsage? usage});
+
+  $CompletionUsageCopyWith<$Res>? get usage;
 }
 
 /// @nodoc
@@ -8795,6 +9071,7 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
     Object? model = freezed,
     Object? systemFingerprint = freezed,
     Object? object = null,
+    Object? usage = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -8821,7 +9098,23 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
               as String,
+      usage: freezed == usage
+          ? _value.usage
+          : usage // ignore: cast_nullable_to_non_nullable
+              as CompletionUsage?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CompletionUsageCopyWith<$Res>? get usage {
+    if (_value.usage == null) {
+      return null;
+    }
+
+    return $CompletionUsageCopyWith<$Res>(_value.usage!, (value) {
+      return _then(_value.copyWith(usage: value) as $Val);
+    });
   }
 }
 
@@ -8841,7 +9134,11 @@ abstract class _$$CreateChatCompletionStreamResponseImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) String? model,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
-      String object});
+      String object,
+      @JsonKey(includeIfNull: false) CompletionUsage? usage});
+
+  @override
+  $CompletionUsageCopyWith<$Res>? get usage;
 }
 
 /// @nodoc
@@ -8863,6 +9160,7 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
     Object? model = freezed,
     Object? systemFingerprint = freezed,
     Object? object = null,
+    Object? usage = freezed,
   }) {
     return _then(_$CreateChatCompletionStreamResponseImpl(
       id: freezed == id
@@ -8889,6 +9187,10 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
               as String,
+      usage: freezed == usage
+          ? _value.usage
+          : usage // ignore: cast_nullable_to_non_nullable
+              as CompletionUsage?,
     ));
   }
 }
@@ -8904,7 +9206,8 @@ class _$CreateChatCompletionStreamResponseImpl
       @JsonKey(includeIfNull: false) this.model,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       this.systemFingerprint,
-      required this.object})
+      required this.object,
+      @JsonKey(includeIfNull: false) this.usage})
       : _choices = choices,
         super._();
 
@@ -8917,10 +9220,12 @@ class _$CreateChatCompletionStreamResponseImpl
   @JsonKey(includeIfNull: false)
   final String? id;
 
-  /// A list of chat completion choices. Can be more than one if `n` is greater than 1.
+  /// A list of chat completion choices. Can contain more than one elements if `n` is greater than 1. Can also be empty for the
+  /// last chunk if you set `stream_options: {"include_usage": true}`.
   final List<ChatCompletionStreamResponseChoice> _choices;
 
-  /// A list of chat completion choices. Can be more than one if `n` is greater than 1.
+  /// A list of chat completion choices. Can contain more than one elements if `n` is greater than 1. Can also be empty for the
+  /// last chunk if you set `stream_options: {"include_usage": true}`.
   @override
   List<ChatCompletionStreamResponseChoice> get choices {
     if (_choices is EqualUnmodifiableListView) return _choices;
@@ -8948,9 +9253,14 @@ class _$CreateChatCompletionStreamResponseImpl
   @override
   final String object;
 
+  /// Usage statistics for the completion request.
+  @override
+  @JsonKey(includeIfNull: false)
+  final CompletionUsage? usage;
+
   @override
   String toString() {
-    return 'CreateChatCompletionStreamResponse(id: $id, choices: $choices, created: $created, model: $model, systemFingerprint: $systemFingerprint, object: $object)';
+    return 'CreateChatCompletionStreamResponse(id: $id, choices: $choices, created: $created, model: $model, systemFingerprint: $systemFingerprint, object: $object, usage: $usage)';
   }
 
   @override
@@ -8964,7 +9274,8 @@ class _$CreateChatCompletionStreamResponseImpl
             (identical(other.model, model) || other.model == model) &&
             (identical(other.systemFingerprint, systemFingerprint) ||
                 other.systemFingerprint == systemFingerprint) &&
-            (identical(other.object, object) || other.object == object));
+            (identical(other.object, object) || other.object == object) &&
+            (identical(other.usage, usage) || other.usage == usage));
   }
 
   @JsonKey(ignore: true)
@@ -8976,7 +9287,8 @@ class _$CreateChatCompletionStreamResponseImpl
       created,
       model,
       systemFingerprint,
-      object);
+      object,
+      usage);
 
   @JsonKey(ignore: true)
   @override
@@ -8997,13 +9309,15 @@ class _$CreateChatCompletionStreamResponseImpl
 abstract class _CreateChatCompletionStreamResponse
     extends CreateChatCompletionStreamResponse {
   const factory _CreateChatCompletionStreamResponse(
-      {@JsonKey(includeIfNull: false) final String? id,
-      required final List<ChatCompletionStreamResponseChoice> choices,
-      required final int created,
-      @JsonKey(includeIfNull: false) final String? model,
-      @JsonKey(name: 'system_fingerprint', includeIfNull: false)
-      final String? systemFingerprint,
-      required final String object}) = _$CreateChatCompletionStreamResponseImpl;
+          {@JsonKey(includeIfNull: false) final String? id,
+          required final List<ChatCompletionStreamResponseChoice> choices,
+          required final int created,
+          @JsonKey(includeIfNull: false) final String? model,
+          @JsonKey(name: 'system_fingerprint', includeIfNull: false)
+          final String? systemFingerprint,
+          required final String object,
+          @JsonKey(includeIfNull: false) final CompletionUsage? usage}) =
+      _$CreateChatCompletionStreamResponseImpl;
   const _CreateChatCompletionStreamResponse._() : super._();
 
   factory _CreateChatCompletionStreamResponse.fromJson(
@@ -9017,7 +9331,8 @@ abstract class _CreateChatCompletionStreamResponse
   String? get id;
   @override
 
-  /// A list of chat completion choices. Can be more than one if `n` is greater than 1.
+  /// A list of chat completion choices. Can contain more than one elements if `n` is greater than 1. Can also be empty for the
+  /// last chunk if you set `stream_options: {"include_usage": true}`.
   List<ChatCompletionStreamResponseChoice> get choices;
   @override
 
@@ -9039,6 +9354,11 @@ abstract class _CreateChatCompletionStreamResponse
 
   /// The object type, which is always `chat.completion.chunk`.
   String get object;
+  @override
+
+  /// Usage statistics for the completion request.
+  @JsonKey(includeIfNull: false)
+  CompletionUsage? get usage;
   @override
   @JsonKey(ignore: true)
   _$$CreateChatCompletionStreamResponseImplCopyWith<
@@ -21687,15 +22007,35 @@ mixin _$AssistantObject {
   /// The system instructions that the assistant uses. The maximum length is 256,000 characters.
   String? get instructions => throw _privateConstructorUsedError;
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
   List<AssistantTools> get tools => throw _privateConstructorUsedError;
 
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
-  @JsonKey(name: 'file_ids')
-  List<String> get fileIds => throw _privateConstructorUsedError;
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @JsonKey(name: 'tool_resources', includeIfNull: false)
+  ToolResources? get toolResources => throw _privateConstructorUsedError;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
+
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  @JsonKey(includeIfNull: false)
+  double? get temperature => throw _privateConstructorUsedError;
+
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  ///
+  /// We generally recommend altering this or temperature but not both.
+  @JsonKey(name: 'top_p', includeIfNull: false)
+  double? get topP => throw _privateConstructorUsedError;
+
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @_AssistantObjectResponseFormatConverter()
+  @JsonKey(name: 'response_format', includeIfNull: false)
+  AssistantObjectResponseFormat? get responseFormat =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -21718,8 +22058,17 @@ abstract class $AssistantObjectCopyWith<$Res> {
       String model,
       String? instructions,
       List<AssistantTools> tools,
-      @JsonKey(name: 'file_ids') List<String> fileIds,
-      Map<String, dynamic>? metadata});
+      @JsonKey(name: 'tool_resources', includeIfNull: false)
+      ToolResources? toolResources,
+      Map<String, dynamic>? metadata,
+      @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
+      @_AssistantObjectResponseFormatConverter()
+      @JsonKey(name: 'response_format', includeIfNull: false)
+      AssistantObjectResponseFormat? responseFormat});
+
+  $ToolResourcesCopyWith<$Res>? get toolResources;
+  $AssistantObjectResponseFormatCopyWith<$Res>? get responseFormat;
 }
 
 /// @nodoc
@@ -21743,8 +22092,11 @@ class _$AssistantObjectCopyWithImpl<$Res, $Val extends AssistantObject>
     Object? model = null,
     Object? instructions = freezed,
     Object? tools = null,
-    Object? fileIds = null,
+    Object? toolResources = freezed,
     Object? metadata = freezed,
+    Object? temperature = freezed,
+    Object? topP = freezed,
+    Object? responseFormat = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -21779,15 +22131,52 @@ class _$AssistantObjectCopyWithImpl<$Res, $Val extends AssistantObject>
           ? _value.tools
           : tools // ignore: cast_nullable_to_non_nullable
               as List<AssistantTools>,
-      fileIds: null == fileIds
-          ? _value.fileIds
-          : fileIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      toolResources: freezed == toolResources
+          ? _value.toolResources
+          : toolResources // ignore: cast_nullable_to_non_nullable
+              as ToolResources?,
       metadata: freezed == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      temperature: freezed == temperature
+          ? _value.temperature
+          : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
+      topP: freezed == topP
+          ? _value.topP
+          : topP // ignore: cast_nullable_to_non_nullable
+              as double?,
+      responseFormat: freezed == responseFormat
+          ? _value.responseFormat
+          : responseFormat // ignore: cast_nullable_to_non_nullable
+              as AssistantObjectResponseFormat?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ToolResourcesCopyWith<$Res>? get toolResources {
+    if (_value.toolResources == null) {
+      return null;
+    }
+
+    return $ToolResourcesCopyWith<$Res>(_value.toolResources!, (value) {
+      return _then(_value.copyWith(toolResources: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AssistantObjectResponseFormatCopyWith<$Res>? get responseFormat {
+    if (_value.responseFormat == null) {
+      return null;
+    }
+
+    return $AssistantObjectResponseFormatCopyWith<$Res>(_value.responseFormat!,
+        (value) {
+      return _then(_value.copyWith(responseFormat: value) as $Val);
+    });
   }
 }
 
@@ -21808,8 +22197,19 @@ abstract class _$$AssistantObjectImplCopyWith<$Res>
       String model,
       String? instructions,
       List<AssistantTools> tools,
-      @JsonKey(name: 'file_ids') List<String> fileIds,
-      Map<String, dynamic>? metadata});
+      @JsonKey(name: 'tool_resources', includeIfNull: false)
+      ToolResources? toolResources,
+      Map<String, dynamic>? metadata,
+      @JsonKey(includeIfNull: false) double? temperature,
+      @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
+      @_AssistantObjectResponseFormatConverter()
+      @JsonKey(name: 'response_format', includeIfNull: false)
+      AssistantObjectResponseFormat? responseFormat});
+
+  @override
+  $ToolResourcesCopyWith<$Res>? get toolResources;
+  @override
+  $AssistantObjectResponseFormatCopyWith<$Res>? get responseFormat;
 }
 
 /// @nodoc
@@ -21831,8 +22231,11 @@ class __$$AssistantObjectImplCopyWithImpl<$Res>
     Object? model = null,
     Object? instructions = freezed,
     Object? tools = null,
-    Object? fileIds = null,
+    Object? toolResources = freezed,
     Object? metadata = freezed,
+    Object? temperature = freezed,
+    Object? topP = freezed,
+    Object? responseFormat = freezed,
   }) {
     return _then(_$AssistantObjectImpl(
       id: null == id
@@ -21867,14 +22270,26 @@ class __$$AssistantObjectImplCopyWithImpl<$Res>
           ? _value._tools
           : tools // ignore: cast_nullable_to_non_nullable
               as List<AssistantTools>,
-      fileIds: null == fileIds
-          ? _value._fileIds
-          : fileIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      toolResources: freezed == toolResources
+          ? _value.toolResources
+          : toolResources // ignore: cast_nullable_to_non_nullable
+              as ToolResources?,
       metadata: freezed == metadata
           ? _value._metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      temperature: freezed == temperature
+          ? _value.temperature
+          : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
+      topP: freezed == topP
+          ? _value.topP
+          : topP // ignore: cast_nullable_to_non_nullable
+              as double?,
+      responseFormat: freezed == responseFormat
+          ? _value.responseFormat
+          : responseFormat // ignore: cast_nullable_to_non_nullable
+              as AssistantObjectResponseFormat?,
     ));
   }
 }
@@ -21891,10 +22306,14 @@ class _$AssistantObjectImpl extends _AssistantObject {
       required this.model,
       required this.instructions,
       required final List<AssistantTools> tools,
-      @JsonKey(name: 'file_ids') required final List<String> fileIds,
-      required final Map<String, dynamic>? metadata})
+      @JsonKey(name: 'tool_resources', includeIfNull: false) this.toolResources,
+      required final Map<String, dynamic>? metadata,
+      @JsonKey(includeIfNull: false) this.temperature = 1.0,
+      @JsonKey(name: 'top_p', includeIfNull: false) this.topP = 1.0,
+      @_AssistantObjectResponseFormatConverter()
+      @JsonKey(name: 'response_format', includeIfNull: false)
+      this.responseFormat})
       : _tools = tools,
-        _fileIds = fileIds,
         _metadata = metadata,
         super._();
 
@@ -21930,10 +22349,10 @@ class _$AssistantObjectImpl extends _AssistantObject {
   @override
   final String? instructions;
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
   final List<AssistantTools> _tools;
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
   @override
   List<AssistantTools> get tools {
     if (_tools is EqualUnmodifiableListView) return _tools;
@@ -21941,17 +22360,10 @@ class _$AssistantObjectImpl extends _AssistantObject {
     return EqualUnmodifiableListView(_tools);
   }
 
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
-  final List<String> _fileIds;
-
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
   @override
-  @JsonKey(name: 'file_ids')
-  List<String> get fileIds {
-    if (_fileIds is EqualUnmodifiableListView) return _fileIds;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_fileIds);
-  }
+  @JsonKey(name: 'tool_resources', includeIfNull: false)
+  final ToolResources? toolResources;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
@@ -21966,9 +22378,31 @@ class _$AssistantObjectImpl extends _AssistantObject {
     return EqualUnmodifiableMapView(value);
   }
 
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  @override
+  @JsonKey(includeIfNull: false)
+  final double? temperature;
+
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  ///
+  /// We generally recommend altering this or temperature but not both.
+  @override
+  @JsonKey(name: 'top_p', includeIfNull: false)
+  final double? topP;
+
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @override
+  @_AssistantObjectResponseFormatConverter()
+  @JsonKey(name: 'response_format', includeIfNull: false)
+  final AssistantObjectResponseFormat? responseFormat;
+
   @override
   String toString() {
-    return 'AssistantObject(id: $id, object: $object, createdAt: $createdAt, name: $name, description: $description, model: $model, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata)';
+    return 'AssistantObject(id: $id, object: $object, createdAt: $createdAt, name: $name, description: $description, model: $model, instructions: $instructions, tools: $tools, toolResources: $toolResources, metadata: $metadata, temperature: $temperature, topP: $topP, responseFormat: $responseFormat)';
   }
 
   @override
@@ -21987,8 +22421,14 @@ class _$AssistantObjectImpl extends _AssistantObject {
             (identical(other.instructions, instructions) ||
                 other.instructions == instructions) &&
             const DeepCollectionEquality().equals(other._tools, _tools) &&
-            const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
-            const DeepCollectionEquality().equals(other._metadata, _metadata));
+            (identical(other.toolResources, toolResources) ||
+                other.toolResources == toolResources) &&
+            const DeepCollectionEquality().equals(other._metadata, _metadata) &&
+            (identical(other.temperature, temperature) ||
+                other.temperature == temperature) &&
+            (identical(other.topP, topP) || other.topP == topP) &&
+            (identical(other.responseFormat, responseFormat) ||
+                other.responseFormat == responseFormat));
   }
 
   @JsonKey(ignore: true)
@@ -22003,8 +22443,11 @@ class _$AssistantObjectImpl extends _AssistantObject {
       model,
       instructions,
       const DeepCollectionEquality().hash(_tools),
-      const DeepCollectionEquality().hash(_fileIds),
-      const DeepCollectionEquality().hash(_metadata));
+      toolResources,
+      const DeepCollectionEquality().hash(_metadata),
+      temperature,
+      topP,
+      responseFormat);
 
   @JsonKey(ignore: true)
   @override
@@ -22023,16 +22466,23 @@ class _$AssistantObjectImpl extends _AssistantObject {
 
 abstract class _AssistantObject extends AssistantObject {
   const factory _AssistantObject(
-      {required final String id,
-      required final AssistantObjectObject object,
-      @JsonKey(name: 'created_at') required final int createdAt,
-      required final String? name,
-      required final String? description,
-      required final String model,
-      required final String? instructions,
-      required final List<AssistantTools> tools,
-      @JsonKey(name: 'file_ids') required final List<String> fileIds,
-      required final Map<String, dynamic>? metadata}) = _$AssistantObjectImpl;
+          {required final String id,
+          required final AssistantObjectObject object,
+          @JsonKey(name: 'created_at') required final int createdAt,
+          required final String? name,
+          required final String? description,
+          required final String model,
+          required final String? instructions,
+          required final List<AssistantTools> tools,
+          @JsonKey(name: 'tool_resources', includeIfNull: false)
+          final ToolResources? toolResources,
+          required final Map<String, dynamic>? metadata,
+          @JsonKey(includeIfNull: false) final double? temperature,
+          @JsonKey(name: 'top_p', includeIfNull: false) final double? topP,
+          @_AssistantObjectResponseFormatConverter()
+          @JsonKey(name: 'response_format', includeIfNull: false)
+          final AssistantObjectResponseFormat? responseFormat}) =
+      _$AssistantObjectImpl;
   const _AssistantObject._() : super._();
 
   factory _AssistantObject.fromJson(Map<String, dynamic> json) =
@@ -22069,21 +22519,513 @@ abstract class _AssistantObject extends AssistantObject {
   String? get instructions;
   @override
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
   List<AssistantTools> get tools;
   @override
 
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
-  @JsonKey(name: 'file_ids')
-  List<String> get fileIds;
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @JsonKey(name: 'tool_resources', includeIfNull: false)
+  ToolResources? get toolResources;
   @override
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   Map<String, dynamic>? get metadata;
   @override
+
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  @JsonKey(includeIfNull: false)
+  double? get temperature;
+  @override
+
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  ///
+  /// We generally recommend altering this or temperature but not both.
+  @JsonKey(name: 'top_p', includeIfNull: false)
+  double? get topP;
+  @override
+
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  ///
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @_AssistantObjectResponseFormatConverter()
+  @JsonKey(name: 'response_format', includeIfNull: false)
+  AssistantObjectResponseFormat? get responseFormat;
+  @override
   @JsonKey(ignore: true)
   _$$AssistantObjectImplCopyWith<_$AssistantObjectImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+AssistantObjectResponseFormat _$AssistantObjectResponseFormatFromJson(
+    Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'enumeration':
+      return AssistantObjectResponseFormatEnumeration.fromJson(json);
+    case 'assistantsResponseFormat':
+      return AssistantObjectResponseFormatAssistantsResponseFormat.fromJson(
+          json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'runtimeType',
+          'AssistantObjectResponseFormat',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$AssistantObjectResponseFormat {
+  Object get value => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(AssistantResponseFormatMode value) enumeration,
+    required TResult Function(AssistantsResponseFormat value)
+        assistantsResponseFormat,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(AssistantResponseFormatMode value)? enumeration,
+    TResult? Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(AssistantResponseFormatMode value)? enumeration,
+    TResult Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AssistantObjectResponseFormatEnumeration value)
+        enumeration,
+    required TResult Function(
+            AssistantObjectResponseFormatAssistantsResponseFormat value)
+        assistantsResponseFormat,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AssistantObjectResponseFormatEnumeration value)?
+        enumeration,
+    TResult? Function(
+            AssistantObjectResponseFormatAssistantsResponseFormat value)?
+        assistantsResponseFormat,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AssistantObjectResponseFormatEnumeration value)?
+        enumeration,
+    TResult Function(
+            AssistantObjectResponseFormatAssistantsResponseFormat value)?
+        assistantsResponseFormat,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AssistantObjectResponseFormatCopyWith<$Res> {
+  factory $AssistantObjectResponseFormatCopyWith(
+          AssistantObjectResponseFormat value,
+          $Res Function(AssistantObjectResponseFormat) then) =
+      _$AssistantObjectResponseFormatCopyWithImpl<$Res,
+          AssistantObjectResponseFormat>;
+}
+
+/// @nodoc
+class _$AssistantObjectResponseFormatCopyWithImpl<$Res,
+        $Val extends AssistantObjectResponseFormat>
+    implements $AssistantObjectResponseFormatCopyWith<$Res> {
+  _$AssistantObjectResponseFormatCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$AssistantObjectResponseFormatEnumerationImplCopyWith<$Res> {
+  factory _$$AssistantObjectResponseFormatEnumerationImplCopyWith(
+          _$AssistantObjectResponseFormatEnumerationImpl value,
+          $Res Function(_$AssistantObjectResponseFormatEnumerationImpl) then) =
+      __$$AssistantObjectResponseFormatEnumerationImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({AssistantResponseFormatMode value});
+}
+
+/// @nodoc
+class __$$AssistantObjectResponseFormatEnumerationImplCopyWithImpl<$Res>
+    extends _$AssistantObjectResponseFormatCopyWithImpl<$Res,
+        _$AssistantObjectResponseFormatEnumerationImpl>
+    implements _$$AssistantObjectResponseFormatEnumerationImplCopyWith<$Res> {
+  __$$AssistantObjectResponseFormatEnumerationImplCopyWithImpl(
+      _$AssistantObjectResponseFormatEnumerationImpl _value,
+      $Res Function(_$AssistantObjectResponseFormatEnumerationImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$AssistantObjectResponseFormatEnumerationImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as AssistantResponseFormatMode,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AssistantObjectResponseFormatEnumerationImpl
+    extends AssistantObjectResponseFormatEnumeration {
+  const _$AssistantObjectResponseFormatEnumerationImpl(this.value,
+      {final String? $type})
+      : $type = $type ?? 'enumeration',
+        super._();
+
+  factory _$AssistantObjectResponseFormatEnumerationImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$AssistantObjectResponseFormatEnumerationImplFromJson(json);
+
+  @override
+  final AssistantResponseFormatMode value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'AssistantObjectResponseFormat.enumeration(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AssistantObjectResponseFormatEnumerationImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AssistantObjectResponseFormatEnumerationImplCopyWith<
+          _$AssistantObjectResponseFormatEnumerationImpl>
+      get copyWith =>
+          __$$AssistantObjectResponseFormatEnumerationImplCopyWithImpl<
+              _$AssistantObjectResponseFormatEnumerationImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(AssistantResponseFormatMode value) enumeration,
+    required TResult Function(AssistantsResponseFormat value)
+        assistantsResponseFormat,
+  }) {
+    return enumeration(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(AssistantResponseFormatMode value)? enumeration,
+    TResult? Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+  }) {
+    return enumeration?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(AssistantResponseFormatMode value)? enumeration,
+    TResult Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+    required TResult orElse(),
+  }) {
+    if (enumeration != null) {
+      return enumeration(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AssistantObjectResponseFormatEnumeration value)
+        enumeration,
+    required TResult Function(
+            AssistantObjectResponseFormatAssistantsResponseFormat value)
+        assistantsResponseFormat,
+  }) {
+    return enumeration(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AssistantObjectResponseFormatEnumeration value)?
+        enumeration,
+    TResult? Function(
+            AssistantObjectResponseFormatAssistantsResponseFormat value)?
+        assistantsResponseFormat,
+  }) {
+    return enumeration?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AssistantObjectResponseFormatEnumeration value)?
+        enumeration,
+    TResult Function(
+            AssistantObjectResponseFormatAssistantsResponseFormat value)?
+        assistantsResponseFormat,
+    required TResult orElse(),
+  }) {
+    if (enumeration != null) {
+      return enumeration(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AssistantObjectResponseFormatEnumerationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class AssistantObjectResponseFormatEnumeration
+    extends AssistantObjectResponseFormat {
+  const factory AssistantObjectResponseFormatEnumeration(
+          final AssistantResponseFormatMode value) =
+      _$AssistantObjectResponseFormatEnumerationImpl;
+  const AssistantObjectResponseFormatEnumeration._() : super._();
+
+  factory AssistantObjectResponseFormatEnumeration.fromJson(
+          Map<String, dynamic> json) =
+      _$AssistantObjectResponseFormatEnumerationImpl.fromJson;
+
+  @override
+  AssistantResponseFormatMode get value;
+  @JsonKey(ignore: true)
+  _$$AssistantObjectResponseFormatEnumerationImplCopyWith<
+          _$AssistantObjectResponseFormatEnumerationImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWith<
+    $Res> {
+  factory _$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWith(
+          _$AssistantObjectResponseFormatAssistantsResponseFormatImpl value,
+          $Res Function(
+                  _$AssistantObjectResponseFormatAssistantsResponseFormatImpl)
+              then) =
+      __$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+          $Res>;
+  @useResult
+  $Res call({AssistantsResponseFormat value});
+
+  $AssistantsResponseFormatCopyWith<$Res> get value;
+}
+
+/// @nodoc
+class __$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+        $Res>
+    extends _$AssistantObjectResponseFormatCopyWithImpl<$Res,
+        _$AssistantObjectResponseFormatAssistantsResponseFormatImpl>
+    implements
+        _$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWith<
+            $Res> {
+  __$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl(
+      _$AssistantObjectResponseFormatAssistantsResponseFormatImpl _value,
+      $Res Function(_$AssistantObjectResponseFormatAssistantsResponseFormatImpl)
+          _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$AssistantObjectResponseFormatAssistantsResponseFormatImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as AssistantsResponseFormat,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AssistantsResponseFormatCopyWith<$Res> get value {
+    return $AssistantsResponseFormatCopyWith<$Res>(_value.value, (value) {
+      return _then(_value.copyWith(value: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AssistantObjectResponseFormatAssistantsResponseFormatImpl
+    extends AssistantObjectResponseFormatAssistantsResponseFormat {
+  const _$AssistantObjectResponseFormatAssistantsResponseFormatImpl(this.value,
+      {final String? $type})
+      : $type = $type ?? 'assistantsResponseFormat',
+        super._();
+
+  factory _$AssistantObjectResponseFormatAssistantsResponseFormatImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$AssistantObjectResponseFormatAssistantsResponseFormatImplFromJson(
+          json);
+
+  @override
+  final AssistantsResponseFormat value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'AssistantObjectResponseFormat.assistantsResponseFormat(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other
+                is _$AssistantObjectResponseFormatAssistantsResponseFormatImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWith<
+          _$AssistantObjectResponseFormatAssistantsResponseFormatImpl>
+      get copyWith =>
+          __$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<
+                  _$AssistantObjectResponseFormatAssistantsResponseFormatImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(AssistantResponseFormatMode value) enumeration,
+    required TResult Function(AssistantsResponseFormat value)
+        assistantsResponseFormat,
+  }) {
+    return assistantsResponseFormat(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(AssistantResponseFormatMode value)? enumeration,
+    TResult? Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+  }) {
+    return assistantsResponseFormat?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(AssistantResponseFormatMode value)? enumeration,
+    TResult Function(AssistantsResponseFormat value)? assistantsResponseFormat,
+    required TResult orElse(),
+  }) {
+    if (assistantsResponseFormat != null) {
+      return assistantsResponseFormat(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AssistantObjectResponseFormatEnumeration value)
+        enumeration,
+    required TResult Function(
+            AssistantObjectResponseFormatAssistantsResponseFormat value)
+        assistantsResponseFormat,
+  }) {
+    return assistantsResponseFormat(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AssistantObjectResponseFormatEnumeration value)?
+        enumeration,
+    TResult? Function(
+            AssistantObjectResponseFormatAssistantsResponseFormat value)?
+        assistantsResponseFormat,
+  }) {
+    return assistantsResponseFormat?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AssistantObjectResponseFormatEnumeration value)?
+        enumeration,
+    TResult Function(
+            AssistantObjectResponseFormatAssistantsResponseFormat value)?
+        assistantsResponseFormat,
+    required TResult orElse(),
+  }) {
+    if (assistantsResponseFormat != null) {
+      return assistantsResponseFormat(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AssistantObjectResponseFormatAssistantsResponseFormatImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class AssistantObjectResponseFormatAssistantsResponseFormat
+    extends AssistantObjectResponseFormat {
+  const factory AssistantObjectResponseFormatAssistantsResponseFormat(
+          final AssistantsResponseFormat value) =
+      _$AssistantObjectResponseFormatAssistantsResponseFormatImpl;
+  const AssistantObjectResponseFormatAssistantsResponseFormat._() : super._();
+
+  factory AssistantObjectResponseFormatAssistantsResponseFormat.fromJson(
+          Map<String, dynamic> json) =
+      _$AssistantObjectResponseFormatAssistantsResponseFormatImpl.fromJson;
+
+  @override
+  AssistantsResponseFormat get value;
+  @JsonKey(ignore: true)
+  _$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWith<
+          _$AssistantObjectResponseFormatAssistantsResponseFormatImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 CreateAssistantRequest _$CreateAssistantRequestFromJson(
@@ -22109,12 +23051,12 @@ mixin _$CreateAssistantRequest {
   @JsonKey(includeIfNull: false)
   String? get instructions => throw _privateConstructorUsedError;
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
   List<AssistantTools> get tools => throw _privateConstructorUsedError;
 
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
-  @JsonKey(name: 'file_ids')
-  List<String> get fileIds => throw _privateConstructorUsedError;
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @JsonKey(name: 'tool_resources', includeIfNull: false)
+  ToolResources? get toolResources => throw _privateConstructorUsedError;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
@@ -22130,7 +23072,7 @@ mixin _$CreateAssistantRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP => throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -22158,7 +23100,8 @@ abstract class $CreateAssistantRequestCopyWith<$Res> {
       @JsonKey(includeIfNull: false) String? description,
       @JsonKey(includeIfNull: false) String? instructions,
       List<AssistantTools> tools,
-      @JsonKey(name: 'file_ids') List<String> fileIds,
+      @JsonKey(name: 'tool_resources', includeIfNull: false)
+      ToolResources? toolResources,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) double? temperature,
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
@@ -22167,6 +23110,7 @@ abstract class $CreateAssistantRequestCopyWith<$Res> {
       CreateAssistantRequestResponseFormat? responseFormat});
 
   $AssistantModelCopyWith<$Res> get model;
+  $ToolResourcesCopyWith<$Res>? get toolResources;
   $CreateAssistantRequestResponseFormatCopyWith<$Res>? get responseFormat;
 }
 
@@ -22189,7 +23133,7 @@ class _$CreateAssistantRequestCopyWithImpl<$Res,
     Object? description = freezed,
     Object? instructions = freezed,
     Object? tools = null,
-    Object? fileIds = null,
+    Object? toolResources = freezed,
     Object? metadata = freezed,
     Object? temperature = freezed,
     Object? topP = freezed,
@@ -22216,10 +23160,10 @@ class _$CreateAssistantRequestCopyWithImpl<$Res,
           ? _value.tools
           : tools // ignore: cast_nullable_to_non_nullable
               as List<AssistantTools>,
-      fileIds: null == fileIds
-          ? _value.fileIds
-          : fileIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      toolResources: freezed == toolResources
+          ? _value.toolResources
+          : toolResources // ignore: cast_nullable_to_non_nullable
+              as ToolResources?,
       metadata: freezed == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -22244,6 +23188,18 @@ class _$CreateAssistantRequestCopyWithImpl<$Res,
   $AssistantModelCopyWith<$Res> get model {
     return $AssistantModelCopyWith<$Res>(_value.model, (value) {
       return _then(_value.copyWith(model: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ToolResourcesCopyWith<$Res>? get toolResources {
+    if (_value.toolResources == null) {
+      return null;
+    }
+
+    return $ToolResourcesCopyWith<$Res>(_value.toolResources!, (value) {
+      return _then(_value.copyWith(toolResources: value) as $Val);
     });
   }
 
@@ -22276,7 +23232,8 @@ abstract class _$$CreateAssistantRequestImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) String? description,
       @JsonKey(includeIfNull: false) String? instructions,
       List<AssistantTools> tools,
-      @JsonKey(name: 'file_ids') List<String> fileIds,
+      @JsonKey(name: 'tool_resources', includeIfNull: false)
+      ToolResources? toolResources,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) double? temperature,
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
@@ -22286,6 +23243,8 @@ abstract class _$$CreateAssistantRequestImplCopyWith<$Res>
 
   @override
   $AssistantModelCopyWith<$Res> get model;
+  @override
+  $ToolResourcesCopyWith<$Res>? get toolResources;
   @override
   $CreateAssistantRequestResponseFormatCopyWith<$Res>? get responseFormat;
 }
@@ -22308,7 +23267,7 @@ class __$$CreateAssistantRequestImplCopyWithImpl<$Res>
     Object? description = freezed,
     Object? instructions = freezed,
     Object? tools = null,
-    Object? fileIds = null,
+    Object? toolResources = freezed,
     Object? metadata = freezed,
     Object? temperature = freezed,
     Object? topP = freezed,
@@ -22335,10 +23294,10 @@ class __$$CreateAssistantRequestImplCopyWithImpl<$Res>
           ? _value._tools
           : tools // ignore: cast_nullable_to_non_nullable
               as List<AssistantTools>,
-      fileIds: null == fileIds
-          ? _value._fileIds
-          : fileIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      toolResources: freezed == toolResources
+          ? _value.toolResources
+          : toolResources // ignore: cast_nullable_to_non_nullable
+              as ToolResources?,
       metadata: freezed == metadata
           ? _value._metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -22368,7 +23327,7 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
       @JsonKey(includeIfNull: false) this.description,
       @JsonKey(includeIfNull: false) this.instructions,
       final List<AssistantTools> tools = const [],
-      @JsonKey(name: 'file_ids') final List<String> fileIds = const [],
+      @JsonKey(name: 'tool_resources', includeIfNull: false) this.toolResources,
       @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) this.temperature = 1.0,
       @JsonKey(name: 'top_p', includeIfNull: false) this.topP = 1.0,
@@ -22376,7 +23335,6 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
       @JsonKey(name: 'response_format', includeIfNull: false)
       this.responseFormat})
       : _tools = tools,
-        _fileIds = fileIds,
         _metadata = metadata,
         super._();
 
@@ -22403,10 +23361,10 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
   @JsonKey(includeIfNull: false)
   final String? instructions;
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
   final List<AssistantTools> _tools;
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
   @override
   @JsonKey()
   List<AssistantTools> get tools {
@@ -22415,17 +23373,10 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
     return EqualUnmodifiableListView(_tools);
   }
 
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
-  final List<String> _fileIds;
-
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
   @override
-  @JsonKey(name: 'file_ids')
-  List<String> get fileIds {
-    if (_fileIds is EqualUnmodifiableListView) return _fileIds;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_fileIds);
-  }
+  @JsonKey(name: 'tool_resources', includeIfNull: false)
+  final ToolResources? toolResources;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
@@ -22453,7 +23404,7 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   final double? topP;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -22465,7 +23416,7 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
 
   @override
   String toString() {
-    return 'CreateAssistantRequest(model: $model, name: $name, description: $description, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata, temperature: $temperature, topP: $topP, responseFormat: $responseFormat)';
+    return 'CreateAssistantRequest(model: $model, name: $name, description: $description, instructions: $instructions, tools: $tools, toolResources: $toolResources, metadata: $metadata, temperature: $temperature, topP: $topP, responseFormat: $responseFormat)';
   }
 
   @override
@@ -22480,7 +23431,8 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
             (identical(other.instructions, instructions) ||
                 other.instructions == instructions) &&
             const DeepCollectionEquality().equals(other._tools, _tools) &&
-            const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
+            (identical(other.toolResources, toolResources) ||
+                other.toolResources == toolResources) &&
             const DeepCollectionEquality().equals(other._metadata, _metadata) &&
             (identical(other.temperature, temperature) ||
                 other.temperature == temperature) &&
@@ -22498,7 +23450,7 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
       description,
       instructions,
       const DeepCollectionEquality().hash(_tools),
-      const DeepCollectionEquality().hash(_fileIds),
+      toolResources,
       const DeepCollectionEquality().hash(_metadata),
       temperature,
       topP,
@@ -22526,7 +23478,8 @@ abstract class _CreateAssistantRequest extends CreateAssistantRequest {
           @JsonKey(includeIfNull: false) final String? description,
           @JsonKey(includeIfNull: false) final String? instructions,
           final List<AssistantTools> tools,
-          @JsonKey(name: 'file_ids') final List<String> fileIds,
+          @JsonKey(name: 'tool_resources', includeIfNull: false)
+          final ToolResources? toolResources,
           @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
           @JsonKey(includeIfNull: false) final double? temperature,
           @JsonKey(name: 'top_p', includeIfNull: false) final double? topP,
@@ -22561,13 +23514,13 @@ abstract class _CreateAssistantRequest extends CreateAssistantRequest {
   String? get instructions;
   @override
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
   List<AssistantTools> get tools;
   @override
 
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
-  @JsonKey(name: 'file_ids')
-  List<String> get fileIds;
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @JsonKey(name: 'tool_resources', includeIfNull: false)
+  ToolResources? get toolResources;
   @override
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
@@ -22587,7 +23540,7 @@ abstract class _CreateAssistantRequest extends CreateAssistantRequest {
   double? get topP;
   @override
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -23494,12 +24447,16 @@ mixin _$ModifyAssistantRequest {
   @JsonKey(includeIfNull: false)
   String? get instructions => throw _privateConstructorUsedError;
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
   List<AssistantTools> get tools => throw _privateConstructorUsedError;
 
   /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order. If a file was previosuly attached to the list but does not show up in the list, it will be deleted from the assistant.
   @JsonKey(name: 'file_ids')
   List<String> get fileIds => throw _privateConstructorUsedError;
+
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @JsonKey(name: 'tool_resources', includeIfNull: false)
+  ToolResources? get toolResources => throw _privateConstructorUsedError;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
@@ -23515,7 +24472,7 @@ mixin _$ModifyAssistantRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP => throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -23544,6 +24501,8 @@ abstract class $ModifyAssistantRequestCopyWith<$Res> {
       @JsonKey(includeIfNull: false) String? instructions,
       List<AssistantTools> tools,
       @JsonKey(name: 'file_ids') List<String> fileIds,
+      @JsonKey(name: 'tool_resources', includeIfNull: false)
+      ToolResources? toolResources,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) double? temperature,
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
@@ -23551,6 +24510,7 @@ abstract class $ModifyAssistantRequestCopyWith<$Res> {
       @JsonKey(name: 'response_format', includeIfNull: false)
       ModifyAssistantRequestResponseFormat? responseFormat});
 
+  $ToolResourcesCopyWith<$Res>? get toolResources;
   $ModifyAssistantRequestResponseFormatCopyWith<$Res>? get responseFormat;
 }
 
@@ -23574,6 +24534,7 @@ class _$ModifyAssistantRequestCopyWithImpl<$Res,
     Object? instructions = freezed,
     Object? tools = null,
     Object? fileIds = null,
+    Object? toolResources = freezed,
     Object? metadata = freezed,
     Object? temperature = freezed,
     Object? topP = freezed,
@@ -23604,6 +24565,10 @@ class _$ModifyAssistantRequestCopyWithImpl<$Res,
           ? _value.fileIds
           : fileIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      toolResources: freezed == toolResources
+          ? _value.toolResources
+          : toolResources // ignore: cast_nullable_to_non_nullable
+              as ToolResources?,
       metadata: freezed == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -23621,6 +24586,18 @@ class _$ModifyAssistantRequestCopyWithImpl<$Res,
           : responseFormat // ignore: cast_nullable_to_non_nullable
               as ModifyAssistantRequestResponseFormat?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ToolResourcesCopyWith<$Res>? get toolResources {
+    if (_value.toolResources == null) {
+      return null;
+    }
+
+    return $ToolResourcesCopyWith<$Res>(_value.toolResources!, (value) {
+      return _then(_value.copyWith(toolResources: value) as $Val);
+    });
   }
 
   @override
@@ -23653,6 +24630,8 @@ abstract class _$$ModifyAssistantRequestImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) String? instructions,
       List<AssistantTools> tools,
       @JsonKey(name: 'file_ids') List<String> fileIds,
+      @JsonKey(name: 'tool_resources', includeIfNull: false)
+      ToolResources? toolResources,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) double? temperature,
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
@@ -23660,6 +24639,8 @@ abstract class _$$ModifyAssistantRequestImplCopyWith<$Res>
       @JsonKey(name: 'response_format', includeIfNull: false)
       ModifyAssistantRequestResponseFormat? responseFormat});
 
+  @override
+  $ToolResourcesCopyWith<$Res>? get toolResources;
   @override
   $ModifyAssistantRequestResponseFormatCopyWith<$Res>? get responseFormat;
 }
@@ -23683,6 +24664,7 @@ class __$$ModifyAssistantRequestImplCopyWithImpl<$Res>
     Object? instructions = freezed,
     Object? tools = null,
     Object? fileIds = null,
+    Object? toolResources = freezed,
     Object? metadata = freezed,
     Object? temperature = freezed,
     Object? topP = freezed,
@@ -23713,6 +24695,10 @@ class __$$ModifyAssistantRequestImplCopyWithImpl<$Res>
           ? _value._fileIds
           : fileIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      toolResources: freezed == toolResources
+          ? _value.toolResources
+          : toolResources // ignore: cast_nullable_to_non_nullable
+              as ToolResources?,
       metadata: freezed == metadata
           ? _value._metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -23743,6 +24729,7 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
       @JsonKey(includeIfNull: false) this.instructions,
       final List<AssistantTools> tools = const [],
       @JsonKey(name: 'file_ids') final List<String> fileIds = const [],
+      @JsonKey(name: 'tool_resources', includeIfNull: false) this.toolResources,
       @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) this.temperature = 1.0,
       @JsonKey(name: 'top_p', includeIfNull: false) this.topP = 1.0,
@@ -23777,10 +24764,10 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
   @JsonKey(includeIfNull: false)
   final String? instructions;
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
   final List<AssistantTools> _tools;
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
   @override
   @JsonKey()
   List<AssistantTools> get tools {
@@ -23800,6 +24787,11 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_fileIds);
   }
+
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @override
+  @JsonKey(name: 'tool_resources', includeIfNull: false)
+  final ToolResources? toolResources;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
@@ -23827,7 +24819,7 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   final double? topP;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -23839,7 +24831,7 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
 
   @override
   String toString() {
-    return 'ModifyAssistantRequest(model: $model, name: $name, description: $description, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata, temperature: $temperature, topP: $topP, responseFormat: $responseFormat)';
+    return 'ModifyAssistantRequest(model: $model, name: $name, description: $description, instructions: $instructions, tools: $tools, fileIds: $fileIds, toolResources: $toolResources, metadata: $metadata, temperature: $temperature, topP: $topP, responseFormat: $responseFormat)';
   }
 
   @override
@@ -23855,6 +24847,8 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
                 other.instructions == instructions) &&
             const DeepCollectionEquality().equals(other._tools, _tools) &&
             const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
+            (identical(other.toolResources, toolResources) ||
+                other.toolResources == toolResources) &&
             const DeepCollectionEquality().equals(other._metadata, _metadata) &&
             (identical(other.temperature, temperature) ||
                 other.temperature == temperature) &&
@@ -23873,6 +24867,7 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
       instructions,
       const DeepCollectionEquality().hash(_tools),
       const DeepCollectionEquality().hash(_fileIds),
+      toolResources,
       const DeepCollectionEquality().hash(_metadata),
       temperature,
       topP,
@@ -23901,6 +24896,8 @@ abstract class _ModifyAssistantRequest extends ModifyAssistantRequest {
           @JsonKey(includeIfNull: false) final String? instructions,
           final List<AssistantTools> tools,
           @JsonKey(name: 'file_ids') final List<String> fileIds,
+          @JsonKey(name: 'tool_resources', includeIfNull: false)
+          final ToolResources? toolResources,
           @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
           @JsonKey(includeIfNull: false) final double? temperature,
           @JsonKey(name: 'top_p', includeIfNull: false) final double? topP,
@@ -23935,13 +24932,18 @@ abstract class _ModifyAssistantRequest extends ModifyAssistantRequest {
   String? get instructions;
   @override
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
   List<AssistantTools> get tools;
   @override
 
   /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order. If a file was previosuly attached to the list but does not show up in the list, it will be deleted from the assistant.
   @JsonKey(name: 'file_ids')
   List<String> get fileIds;
+  @override
+
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @JsonKey(name: 'tool_resources', includeIfNull: false)
+  ToolResources? get toolResources;
   @override
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
@@ -23961,7 +24963,7 @@ abstract class _ModifyAssistantRequest extends ModifyAssistantRequest {
   double? get topP;
   @override
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -25638,7 +26640,7 @@ mixin _$RunObject {
   @JsonKey(name: 'assistant_id')
   String get assistantId => throw _privateConstructorUsedError;
 
-  /// The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, or `expired`.
+  /// The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, `incomplete`, or `expired`.
   RunStatus get status => throw _privateConstructorUsedError;
 
   /// Details on the action required to continue the run. Will be `null` if no action is required.
@@ -25683,10 +26685,6 @@ mixin _$RunObject {
   /// The list of tools that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
   List<AssistantTools> get tools => throw _privateConstructorUsedError;
 
-  /// The list of [File](https://platform.openai.com/docs/api-reference/files) IDs the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
-  @JsonKey(name: 'file_ids')
-  List<String> get fileIds => throw _privateConstructorUsedError;
-
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
@@ -25709,20 +26707,21 @@ mixin _$RunObject {
   @JsonKey(name: 'max_completion_tokens')
   int? get maxCompletionTokens => throw _privateConstructorUsedError;
 
-  /// Thread truncation controls
+  /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
   @JsonKey(name: 'truncation_strategy')
   TruncationObject? get truncationStrategy =>
       throw _privateConstructorUsedError;
 
   /// Controls which (if any) tool is called by the model.
   /// `none` means the model will not call any tools and instead generates a message.
-  /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
-  /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  /// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+  /// `required` means the model must call one or more tools before responding to the user.
+  /// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
   @_RunObjectToolChoiceConverter()
   @JsonKey(name: 'tool_choice')
   RunObjectToolChoice? get toolChoice => throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -25762,7 +26761,6 @@ abstract class $RunObjectCopyWith<$Res> {
       String model,
       String instructions,
       List<AssistantTools> tools,
-      @JsonKey(name: 'file_ids') List<String> fileIds,
       Map<String, dynamic>? metadata,
       RunCompletionUsage? usage,
       @JsonKey(includeIfNull: false) double? temperature,
@@ -25817,7 +26815,6 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
     Object? model = null,
     Object? instructions = null,
     Object? tools = null,
-    Object? fileIds = null,
     Object? metadata = freezed,
     Object? usage = freezed,
     Object? temperature = freezed,
@@ -25897,10 +26894,6 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
           ? _value.tools
           : tools // ignore: cast_nullable_to_non_nullable
               as List<AssistantTools>,
-      fileIds: null == fileIds
-          ? _value.fileIds
-          : fileIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       metadata: freezed == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -26050,7 +27043,6 @@ abstract class _$$RunObjectImplCopyWith<$Res>
       String model,
       String instructions,
       List<AssistantTools> tools,
-      @JsonKey(name: 'file_ids') List<String> fileIds,
       Map<String, dynamic>? metadata,
       RunCompletionUsage? usage,
       @JsonKey(includeIfNull: false) double? temperature,
@@ -26110,7 +27102,6 @@ class __$$RunObjectImplCopyWithImpl<$Res>
     Object? model = null,
     Object? instructions = null,
     Object? tools = null,
-    Object? fileIds = null,
     Object? metadata = freezed,
     Object? usage = freezed,
     Object? temperature = freezed,
@@ -26190,10 +27181,6 @@ class __$$RunObjectImplCopyWithImpl<$Res>
           ? _value._tools
           : tools // ignore: cast_nullable_to_non_nullable
               as List<AssistantTools>,
-      fileIds: null == fileIds
-          ? _value._fileIds
-          : fileIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       metadata: freezed == metadata
           ? _value._metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -26255,7 +27242,6 @@ class _$RunObjectImpl extends _RunObject {
       required this.model,
       required this.instructions,
       required final List<AssistantTools> tools,
-      @JsonKey(name: 'file_ids') required final List<String> fileIds,
       required final Map<String, dynamic>? metadata,
       required this.usage,
       @JsonKey(includeIfNull: false) this.temperature,
@@ -26270,7 +27256,6 @@ class _$RunObjectImpl extends _RunObject {
       @JsonKey(name: 'response_format')
       required this.responseFormat})
       : _tools = tools,
-        _fileIds = fileIds,
         _metadata = metadata,
         super._();
 
@@ -26300,7 +27285,7 @@ class _$RunObjectImpl extends _RunObject {
   @JsonKey(name: 'assistant_id')
   final String assistantId;
 
-  /// The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, or `expired`.
+  /// The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, `incomplete`, or `expired`.
   @override
   final RunStatus status;
 
@@ -26363,18 +27348,6 @@ class _$RunObjectImpl extends _RunObject {
     return EqualUnmodifiableListView(_tools);
   }
 
-  /// The list of [File](https://platform.openai.com/docs/api-reference/files) IDs the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
-  final List<String> _fileIds;
-
-  /// The list of [File](https://platform.openai.com/docs/api-reference/files) IDs the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
-  @override
-  @JsonKey(name: 'file_ids')
-  List<String> get fileIds {
-    if (_fileIds is EqualUnmodifiableListView) return _fileIds;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_fileIds);
-  }
-
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
@@ -26412,21 +27385,22 @@ class _$RunObjectImpl extends _RunObject {
   @JsonKey(name: 'max_completion_tokens')
   final int? maxCompletionTokens;
 
-  /// Thread truncation controls
+  /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
   @override
   @JsonKey(name: 'truncation_strategy')
   final TruncationObject? truncationStrategy;
 
   /// Controls which (if any) tool is called by the model.
   /// `none` means the model will not call any tools and instead generates a message.
-  /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
-  /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  /// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+  /// `required` means the model must call one or more tools before responding to the user.
+  /// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
   @override
   @_RunObjectToolChoiceConverter()
   @JsonKey(name: 'tool_choice')
   final RunObjectToolChoice? toolChoice;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -26438,7 +27412,7 @@ class _$RunObjectImpl extends _RunObject {
 
   @override
   String toString() {
-    return 'RunObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, assistantId: $assistantId, status: $status, requiredAction: $requiredAction, lastError: $lastError, expiresAt: $expiresAt, startedAt: $startedAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, incompleteDetails: $incompleteDetails, model: $model, instructions: $instructions, tools: $tools, fileIds: $fileIds, metadata: $metadata, usage: $usage, temperature: $temperature, topP: $topP, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, responseFormat: $responseFormat)';
+    return 'RunObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, assistantId: $assistantId, status: $status, requiredAction: $requiredAction, lastError: $lastError, expiresAt: $expiresAt, startedAt: $startedAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, incompleteDetails: $incompleteDetails, model: $model, instructions: $instructions, tools: $tools, metadata: $metadata, usage: $usage, temperature: $temperature, topP: $topP, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, responseFormat: $responseFormat)';
   }
 
   @override
@@ -26475,7 +27449,6 @@ class _$RunObjectImpl extends _RunObject {
             (identical(other.instructions, instructions) ||
                 other.instructions == instructions) &&
             const DeepCollectionEquality().equals(other._tools, _tools) &&
-            const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
             const DeepCollectionEquality().equals(other._metadata, _metadata) &&
             (identical(other.usage, usage) || other.usage == usage) &&
             (identical(other.temperature, temperature) ||
@@ -26514,7 +27487,6 @@ class _$RunObjectImpl extends _RunObject {
         model,
         instructions,
         const DeepCollectionEquality().hash(_tools),
-        const DeepCollectionEquality().hash(_fileIds),
         const DeepCollectionEquality().hash(_metadata),
         usage,
         temperature,
@@ -26561,7 +27533,6 @@ abstract class _RunObject extends RunObject {
       required final String model,
       required final String instructions,
       required final List<AssistantTools> tools,
-      @JsonKey(name: 'file_ids') required final List<String> fileIds,
       required final Map<String, dynamic>? metadata,
       required final RunCompletionUsage? usage,
       @JsonKey(includeIfNull: false) final double? temperature,
@@ -26607,7 +27578,7 @@ abstract class _RunObject extends RunObject {
   String get assistantId;
   @override
 
-  /// The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, or `expired`.
+  /// The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, `incomplete`, or `expired`.
   RunStatus get status;
   @override
 
@@ -26663,11 +27634,6 @@ abstract class _RunObject extends RunObject {
   List<AssistantTools> get tools;
   @override
 
-  /// The list of [File](https://platform.openai.com/docs/api-reference/files) IDs the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
-  @JsonKey(name: 'file_ids')
-  List<String> get fileIds;
-  @override
-
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   Map<String, dynamic>? get metadata;
   @override
@@ -26696,21 +27662,22 @@ abstract class _RunObject extends RunObject {
   int? get maxCompletionTokens;
   @override
 
-  /// Thread truncation controls
+  /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
   @JsonKey(name: 'truncation_strategy')
   TruncationObject? get truncationStrategy;
   @override
 
   /// Controls which (if any) tool is called by the model.
   /// `none` means the model will not call any tools and instead generates a message.
-  /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
-  /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  /// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+  /// `required` means the model must call one or more tools before responding to the user.
+  /// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
   @_RunObjectToolChoiceConverter()
   @JsonKey(name: 'tool_choice')
   RunObjectToolChoice? get toolChoice;
   @override
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -28551,29 +29518,30 @@ mixin _$CreateRunRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP => throw _privateConstructorUsedError;
 
-  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
   @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
   int? get maxPromptTokens => throw _privateConstructorUsedError;
 
-  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   int? get maxCompletionTokens => throw _privateConstructorUsedError;
 
-  /// Thread truncation controls
+  /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   TruncationObject? get truncationStrategy =>
       throw _privateConstructorUsedError;
 
   /// Controls which (if any) tool is called by the model.
   /// `none` means the model will not call any tools and instead generates a message.
-  /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
-  /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  /// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+  /// `required` means the model must call one or more tools before responding to the user.
+  /// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
   @_CreateRunRequestToolChoiceConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   CreateRunRequestToolChoice? get toolChoice =>
       throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -29029,31 +29997,32 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   final double? topP;
 
-  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
   @override
   @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
   final int? maxPromptTokens;
 
-  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
   @override
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   final int? maxCompletionTokens;
 
-  /// Thread truncation controls
+  /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
   @override
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   final TruncationObject? truncationStrategy;
 
   /// Controls which (if any) tool is called by the model.
   /// `none` means the model will not call any tools and instead generates a message.
-  /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
-  /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  /// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+  /// `required` means the model must call one or more tools before responding to the user.
+  /// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
   @override
   @_CreateRunRequestToolChoiceConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   final CreateRunRequestToolChoice? toolChoice;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -29224,31 +30193,32 @@ abstract class _CreateRunRequest extends CreateRunRequest {
   double? get topP;
   @override
 
-  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
   @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
   int? get maxPromptTokens;
   @override
 
-  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   int? get maxCompletionTokens;
   @override
 
-  /// Thread truncation controls
+  /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   TruncationObject? get truncationStrategy;
   @override
 
   /// Controls which (if any) tool is called by the model.
   /// `none` means the model will not call any tools and instead generates a message.
-  /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
-  /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  /// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+  /// `required` means the model must call one or more tools before responding to the user.
+  /// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
   @_CreateRunRequestToolChoiceConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   CreateRunRequestToolChoice? get toolChoice;
   @override
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -31805,6 +32775,10 @@ mixin _$CreateThreadAndRunRequest {
   @JsonKey(includeIfNull: false)
   List<AssistantTools>? get tools => throw _privateConstructorUsedError;
 
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @JsonKey(name: 'tool_resources', includeIfNull: false)
+  ToolResources? get toolResources => throw _privateConstructorUsedError;
+
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
@@ -31819,29 +32793,30 @@ mixin _$CreateThreadAndRunRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP => throw _privateConstructorUsedError;
 
-  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
   @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
   int? get maxPromptTokens => throw _privateConstructorUsedError;
 
-  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   int? get maxCompletionTokens => throw _privateConstructorUsedError;
 
-  /// Thread truncation controls
+  /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   TruncationObject? get truncationStrategy =>
       throw _privateConstructorUsedError;
 
   /// Controls which (if any) tool is called by the model.
   /// `none` means the model will not call any tools and instead generates a message.
-  /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
-  /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  /// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+  /// `required` means the model must call one or more tools before responding to the user.
+  /// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
   @_CreateThreadAndRunRequestToolChoiceConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   CreateThreadAndRunRequestToolChoice? get toolChoice =>
       throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -31875,6 +32850,8 @@ abstract class $CreateThreadAndRunRequestCopyWith<$Res> {
       ThreadAndRunModel? model,
       @JsonKey(includeIfNull: false) String? instructions,
       @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
+      @JsonKey(name: 'tool_resources', includeIfNull: false)
+      ToolResources? toolResources,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) double? temperature,
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
@@ -31894,6 +32871,7 @@ abstract class $CreateThreadAndRunRequestCopyWith<$Res> {
 
   $CreateThreadRequestCopyWith<$Res>? get thread;
   $ThreadAndRunModelCopyWith<$Res>? get model;
+  $ToolResourcesCopyWith<$Res>? get toolResources;
   $TruncationObjectCopyWith<$Res>? get truncationStrategy;
   $CreateThreadAndRunRequestToolChoiceCopyWith<$Res>? get toolChoice;
   $CreateThreadAndRunRequestResponseFormatCopyWith<$Res>? get responseFormat;
@@ -31918,6 +32896,7 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
     Object? model = freezed,
     Object? instructions = freezed,
     Object? tools = freezed,
+    Object? toolResources = freezed,
     Object? metadata = freezed,
     Object? temperature = freezed,
     Object? topP = freezed,
@@ -31949,6 +32928,10 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
           ? _value.tools
           : tools // ignore: cast_nullable_to_non_nullable
               as List<AssistantTools>?,
+      toolResources: freezed == toolResources
+          ? _value.toolResources
+          : toolResources // ignore: cast_nullable_to_non_nullable
+              as ToolResources?,
       metadata: freezed == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -32014,6 +32997,18 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
 
   @override
   @pragma('vm:prefer-inline')
+  $ToolResourcesCopyWith<$Res>? get toolResources {
+    if (_value.toolResources == null) {
+      return null;
+    }
+
+    return $ToolResourcesCopyWith<$Res>(_value.toolResources!, (value) {
+      return _then(_value.copyWith(toolResources: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $TruncationObjectCopyWith<$Res>? get truncationStrategy {
     if (_value.truncationStrategy == null) {
       return null;
@@ -32068,6 +33063,8 @@ abstract class _$$CreateThreadAndRunRequestImplCopyWith<$Res>
       ThreadAndRunModel? model,
       @JsonKey(includeIfNull: false) String? instructions,
       @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
+      @JsonKey(name: 'tool_resources', includeIfNull: false)
+      ToolResources? toolResources,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) double? temperature,
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
@@ -32089,6 +33086,8 @@ abstract class _$$CreateThreadAndRunRequestImplCopyWith<$Res>
   $CreateThreadRequestCopyWith<$Res>? get thread;
   @override
   $ThreadAndRunModelCopyWith<$Res>? get model;
+  @override
+  $ToolResourcesCopyWith<$Res>? get toolResources;
   @override
   $TruncationObjectCopyWith<$Res>? get truncationStrategy;
   @override
@@ -32115,6 +33114,7 @@ class __$$CreateThreadAndRunRequestImplCopyWithImpl<$Res>
     Object? model = freezed,
     Object? instructions = freezed,
     Object? tools = freezed,
+    Object? toolResources = freezed,
     Object? metadata = freezed,
     Object? temperature = freezed,
     Object? topP = freezed,
@@ -32146,6 +33146,10 @@ class __$$CreateThreadAndRunRequestImplCopyWithImpl<$Res>
           ? _value._tools
           : tools // ignore: cast_nullable_to_non_nullable
               as List<AssistantTools>?,
+      toolResources: freezed == toolResources
+          ? _value.toolResources
+          : toolResources // ignore: cast_nullable_to_non_nullable
+              as ToolResources?,
       metadata: freezed == metadata
           ? _value._metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -32195,6 +33199,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
       @_ThreadAndRunModelConverter() @JsonKey(includeIfNull: false) this.model,
       @JsonKey(includeIfNull: false) this.instructions,
       @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
+      @JsonKey(name: 'tool_resources', includeIfNull: false) this.toolResources,
       @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
       @JsonKey(includeIfNull: false) this.temperature = 1.0,
       @JsonKey(name: 'top_p', includeIfNull: false) this.topP = 1.0,
@@ -32253,6 +33258,11 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
     return EqualUnmodifiableListView(value);
   }
 
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @override
+  @JsonKey(name: 'tool_resources', includeIfNull: false)
+  final ToolResources? toolResources;
+
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
@@ -32279,31 +33289,32 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
   @JsonKey(name: 'top_p', includeIfNull: false)
   final double? topP;
 
-  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
   @override
   @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
   final int? maxPromptTokens;
 
-  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
   @override
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   final int? maxCompletionTokens;
 
-  /// Thread truncation controls
+  /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
   @override
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   final TruncationObject? truncationStrategy;
 
   /// Controls which (if any) tool is called by the model.
   /// `none` means the model will not call any tools and instead generates a message.
-  /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
-  /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  /// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+  /// `required` means the model must call one or more tools before responding to the user.
+  /// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
   @override
   @_CreateThreadAndRunRequestToolChoiceConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   final CreateThreadAndRunRequestToolChoice? toolChoice;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -32320,7 +33331,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
 
   @override
   String toString() {
-    return 'CreateThreadAndRunRequest(assistantId: $assistantId, thread: $thread, model: $model, instructions: $instructions, tools: $tools, metadata: $metadata, temperature: $temperature, topP: $topP, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, responseFormat: $responseFormat, stream: $stream)';
+    return 'CreateThreadAndRunRequest(assistantId: $assistantId, thread: $thread, model: $model, instructions: $instructions, tools: $tools, toolResources: $toolResources, metadata: $metadata, temperature: $temperature, topP: $topP, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, responseFormat: $responseFormat, stream: $stream)';
   }
 
   @override
@@ -32335,6 +33346,8 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
             (identical(other.instructions, instructions) ||
                 other.instructions == instructions) &&
             const DeepCollectionEquality().equals(other._tools, _tools) &&
+            (identical(other.toolResources, toolResources) ||
+                other.toolResources == toolResources) &&
             const DeepCollectionEquality().equals(other._metadata, _metadata) &&
             (identical(other.temperature, temperature) ||
                 other.temperature == temperature) &&
@@ -32361,6 +33374,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
       model,
       instructions,
       const DeepCollectionEquality().hash(_tools),
+      toolResources,
       const DeepCollectionEquality().hash(_metadata),
       temperature,
       topP,
@@ -32395,6 +33409,8 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
           final ThreadAndRunModel? model,
           @JsonKey(includeIfNull: false) final String? instructions,
           @JsonKey(includeIfNull: false) final List<AssistantTools>? tools,
+          @JsonKey(name: 'tool_resources', includeIfNull: false)
+          final ToolResources? toolResources,
           @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata,
           @JsonKey(includeIfNull: false) final double? temperature,
           @JsonKey(name: 'top_p', includeIfNull: false) final double? topP,
@@ -32445,6 +33461,11 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   List<AssistantTools>? get tools;
   @override
 
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @JsonKey(name: 'tool_resources', includeIfNull: false)
+  ToolResources? get toolResources;
+  @override
+
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
@@ -32462,31 +33483,32 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   double? get topP;
   @override
 
-  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
   @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
   int? get maxPromptTokens;
   @override
 
-  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+  /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   int? get maxCompletionTokens;
   @override
 
-  /// Thread truncation controls
+  /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   TruncationObject? get truncationStrategy;
   @override
 
   /// Controls which (if any) tool is called by the model.
   /// `none` means the model will not call any tools and instead generates a message.
-  /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
-  /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  /// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+  /// `required` means the model must call one or more tools before responding to the user.
+  /// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
   @_CreateThreadAndRunRequestToolChoiceConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   CreateThreadAndRunRequestToolChoice? get toolChoice;
   @override
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
@@ -33898,6 +34920,10 @@ mixin _$ThreadObject {
   @JsonKey(name: 'created_at')
   int get createdAt => throw _privateConstructorUsedError;
 
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @JsonKey(name: 'tool_resources')
+  ToolResources? get toolResources => throw _privateConstructorUsedError;
+
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
@@ -33917,7 +34943,10 @@ abstract class $ThreadObjectCopyWith<$Res> {
       {String id,
       ThreadObjectObject object,
       @JsonKey(name: 'created_at') int createdAt,
+      @JsonKey(name: 'tool_resources') ToolResources? toolResources,
       Map<String, dynamic>? metadata});
+
+  $ToolResourcesCopyWith<$Res>? get toolResources;
 }
 
 /// @nodoc
@@ -33936,6 +34965,7 @@ class _$ThreadObjectCopyWithImpl<$Res, $Val extends ThreadObject>
     Object? id = null,
     Object? object = null,
     Object? createdAt = null,
+    Object? toolResources = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_value.copyWith(
@@ -33951,11 +34981,27 @@ class _$ThreadObjectCopyWithImpl<$Res, $Val extends ThreadObject>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as int,
+      toolResources: freezed == toolResources
+          ? _value.toolResources
+          : toolResources // ignore: cast_nullable_to_non_nullable
+              as ToolResources?,
       metadata: freezed == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ToolResourcesCopyWith<$Res>? get toolResources {
+    if (_value.toolResources == null) {
+      return null;
+    }
+
+    return $ToolResourcesCopyWith<$Res>(_value.toolResources!, (value) {
+      return _then(_value.copyWith(toolResources: value) as $Val);
+    });
   }
 }
 
@@ -33971,7 +35017,11 @@ abstract class _$$ThreadObjectImplCopyWith<$Res>
       {String id,
       ThreadObjectObject object,
       @JsonKey(name: 'created_at') int createdAt,
+      @JsonKey(name: 'tool_resources') ToolResources? toolResources,
       Map<String, dynamic>? metadata});
+
+  @override
+  $ToolResourcesCopyWith<$Res>? get toolResources;
 }
 
 /// @nodoc
@@ -33988,6 +35038,7 @@ class __$$ThreadObjectImplCopyWithImpl<$Res>
     Object? id = null,
     Object? object = null,
     Object? createdAt = null,
+    Object? toolResources = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_$ThreadObjectImpl(
@@ -34003,6 +35054,10 @@ class __$$ThreadObjectImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as int,
+      toolResources: freezed == toolResources
+          ? _value.toolResources
+          : toolResources // ignore: cast_nullable_to_non_nullable
+              as ToolResources?,
       metadata: freezed == metadata
           ? _value._metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -34018,6 +35073,7 @@ class _$ThreadObjectImpl extends _ThreadObject {
       {required this.id,
       required this.object,
       @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'tool_resources') required this.toolResources,
       required final Map<String, dynamic>? metadata})
       : _metadata = metadata,
         super._();
@@ -34038,6 +35094,11 @@ class _$ThreadObjectImpl extends _ThreadObject {
   @JsonKey(name: 'created_at')
   final int createdAt;
 
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @override
+  @JsonKey(name: 'tool_resources')
+  final ToolResources? toolResources;
+
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
@@ -34053,7 +35114,7 @@ class _$ThreadObjectImpl extends _ThreadObject {
 
   @override
   String toString() {
-    return 'ThreadObject(id: $id, object: $object, createdAt: $createdAt, metadata: $metadata)';
+    return 'ThreadObject(id: $id, object: $object, createdAt: $createdAt, toolResources: $toolResources, metadata: $metadata)';
   }
 
   @override
@@ -34065,13 +35126,15 @@ class _$ThreadObjectImpl extends _ThreadObject {
             (identical(other.object, object) || other.object == object) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            (identical(other.toolResources, toolResources) ||
+                other.toolResources == toolResources) &&
             const DeepCollectionEquality().equals(other._metadata, _metadata));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, object, createdAt,
-      const DeepCollectionEquality().hash(_metadata));
+      toolResources, const DeepCollectionEquality().hash(_metadata));
 
   @JsonKey(ignore: true)
   @override
@@ -34092,6 +35155,8 @@ abstract class _ThreadObject extends ThreadObject {
       {required final String id,
       required final ThreadObjectObject object,
       @JsonKey(name: 'created_at') required final int createdAt,
+      @JsonKey(name: 'tool_resources')
+      required final ToolResources? toolResources,
       required final Map<String, dynamic>? metadata}) = _$ThreadObjectImpl;
   const _ThreadObject._() : super._();
 
@@ -34113,6 +35178,11 @@ abstract class _ThreadObject extends ThreadObject {
   int get createdAt;
   @override
 
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @JsonKey(name: 'tool_resources')
+  ToolResources? get toolResources;
+  @override
+
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   Map<String, dynamic>? get metadata;
   @override
@@ -34132,6 +35202,10 @@ mixin _$CreateThreadRequest {
   List<CreateMessageRequest>? get messages =>
       throw _privateConstructorUsedError;
 
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @JsonKey(name: 'tool_resources', includeIfNull: false)
+  ToolResources? get toolResources => throw _privateConstructorUsedError;
+
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
@@ -34150,7 +35224,11 @@ abstract class $CreateThreadRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(includeIfNull: false) List<CreateMessageRequest>? messages,
+      @JsonKey(name: 'tool_resources', includeIfNull: false)
+      ToolResources? toolResources,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+
+  $ToolResourcesCopyWith<$Res>? get toolResources;
 }
 
 /// @nodoc
@@ -34167,6 +35245,7 @@ class _$CreateThreadRequestCopyWithImpl<$Res, $Val extends CreateThreadRequest>
   @override
   $Res call({
     Object? messages = freezed,
+    Object? toolResources = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_value.copyWith(
@@ -34174,11 +35253,27 @@ class _$CreateThreadRequestCopyWithImpl<$Res, $Val extends CreateThreadRequest>
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<CreateMessageRequest>?,
+      toolResources: freezed == toolResources
+          ? _value.toolResources
+          : toolResources // ignore: cast_nullable_to_non_nullable
+              as ToolResources?,
       metadata: freezed == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ToolResourcesCopyWith<$Res>? get toolResources {
+    if (_value.toolResources == null) {
+      return null;
+    }
+
+    return $ToolResourcesCopyWith<$Res>(_value.toolResources!, (value) {
+      return _then(_value.copyWith(toolResources: value) as $Val);
+    });
   }
 }
 
@@ -34192,7 +35287,12 @@ abstract class _$$CreateThreadRequestImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(includeIfNull: false) List<CreateMessageRequest>? messages,
+      @JsonKey(name: 'tool_resources', includeIfNull: false)
+      ToolResources? toolResources,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+
+  @override
+  $ToolResourcesCopyWith<$Res>? get toolResources;
 }
 
 /// @nodoc
@@ -34207,6 +35307,7 @@ class __$$CreateThreadRequestImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? messages = freezed,
+    Object? toolResources = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_$CreateThreadRequestImpl(
@@ -34214,6 +35315,10 @@ class __$$CreateThreadRequestImplCopyWithImpl<$Res>
           ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<CreateMessageRequest>?,
+      toolResources: freezed == toolResources
+          ? _value.toolResources
+          : toolResources // ignore: cast_nullable_to_non_nullable
+              as ToolResources?,
       metadata: freezed == metadata
           ? _value._metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -34228,6 +35333,7 @@ class _$CreateThreadRequestImpl extends _CreateThreadRequest {
   const _$CreateThreadRequestImpl(
       {@JsonKey(includeIfNull: false)
       final List<CreateMessageRequest>? messages,
+      @JsonKey(name: 'tool_resources', includeIfNull: false) this.toolResources,
       @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata})
       : _messages = messages,
         _metadata = metadata,
@@ -34250,6 +35356,11 @@ class _$CreateThreadRequestImpl extends _CreateThreadRequest {
     return EqualUnmodifiableListView(value);
   }
 
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @override
+  @JsonKey(name: 'tool_resources', includeIfNull: false)
+  final ToolResources? toolResources;
+
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
@@ -34266,7 +35377,7 @@ class _$CreateThreadRequestImpl extends _CreateThreadRequest {
 
   @override
   String toString() {
-    return 'CreateThreadRequest(messages: $messages, metadata: $metadata)';
+    return 'CreateThreadRequest(messages: $messages, toolResources: $toolResources, metadata: $metadata)';
   }
 
   @override
@@ -34275,6 +35386,8 @@ class _$CreateThreadRequestImpl extends _CreateThreadRequest {
         (other.runtimeType == runtimeType &&
             other is _$CreateThreadRequestImpl &&
             const DeepCollectionEquality().equals(other._messages, _messages) &&
+            (identical(other.toolResources, toolResources) ||
+                other.toolResources == toolResources) &&
             const DeepCollectionEquality().equals(other._metadata, _metadata));
   }
 
@@ -34283,6 +35396,7 @@ class _$CreateThreadRequestImpl extends _CreateThreadRequest {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_messages),
+      toolResources,
       const DeepCollectionEquality().hash(_metadata));
 
   @JsonKey(ignore: true)
@@ -34304,6 +35418,8 @@ abstract class _CreateThreadRequest extends CreateThreadRequest {
   const factory _CreateThreadRequest(
       {@JsonKey(includeIfNull: false)
       final List<CreateMessageRequest>? messages,
+      @JsonKey(name: 'tool_resources', includeIfNull: false)
+      final ToolResources? toolResources,
       @JsonKey(includeIfNull: false)
       final Map<String, dynamic>? metadata}) = _$CreateThreadRequestImpl;
   const _CreateThreadRequest._() : super._();
@@ -34316,6 +35432,11 @@ abstract class _CreateThreadRequest extends CreateThreadRequest {
   /// A list of [messages](https://platform.openai.com/docs/api-reference/messages) to start the thread with.
   @JsonKey(includeIfNull: false)
   List<CreateMessageRequest>? get messages;
+  @override
+
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @JsonKey(name: 'tool_resources', includeIfNull: false)
+  ToolResources? get toolResources;
   @override
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
@@ -34333,6 +35454,10 @@ ModifyThreadRequest _$ModifyThreadRequestFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ModifyThreadRequest {
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @JsonKey(name: 'tool_resources', includeIfNull: false)
+  ToolResources? get toolResources => throw _privateConstructorUsedError;
+
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
@@ -34349,7 +35474,12 @@ abstract class $ModifyThreadRequestCopyWith<$Res> {
           ModifyThreadRequest value, $Res Function(ModifyThreadRequest) then) =
       _$ModifyThreadRequestCopyWithImpl<$Res, ModifyThreadRequest>;
   @useResult
-  $Res call({@JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+  $Res call(
+      {@JsonKey(name: 'tool_resources', includeIfNull: false)
+      ToolResources? toolResources,
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+
+  $ToolResourcesCopyWith<$Res>? get toolResources;
 }
 
 /// @nodoc
@@ -34365,14 +35495,31 @@ class _$ModifyThreadRequestCopyWithImpl<$Res, $Val extends ModifyThreadRequest>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? toolResources = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_value.copyWith(
+      toolResources: freezed == toolResources
+          ? _value.toolResources
+          : toolResources // ignore: cast_nullable_to_non_nullable
+              as ToolResources?,
       metadata: freezed == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ToolResourcesCopyWith<$Res>? get toolResources {
+    if (_value.toolResources == null) {
+      return null;
+    }
+
+    return $ToolResourcesCopyWith<$Res>(_value.toolResources!, (value) {
+      return _then(_value.copyWith(toolResources: value) as $Val);
+    });
   }
 }
 
@@ -34384,7 +35531,13 @@ abstract class _$$ModifyThreadRequestImplCopyWith<$Res>
       __$$ModifyThreadRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+  $Res call(
+      {@JsonKey(name: 'tool_resources', includeIfNull: false)
+      ToolResources? toolResources,
+      @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+
+  @override
+  $ToolResourcesCopyWith<$Res>? get toolResources;
 }
 
 /// @nodoc
@@ -34398,9 +35551,14 @@ class __$$ModifyThreadRequestImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? toolResources = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_$ModifyThreadRequestImpl(
+      toolResources: freezed == toolResources
+          ? _value.toolResources
+          : toolResources // ignore: cast_nullable_to_non_nullable
+              as ToolResources?,
       metadata: freezed == metadata
           ? _value._metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -34413,12 +35571,19 @@ class __$$ModifyThreadRequestImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ModifyThreadRequestImpl extends _ModifyThreadRequest {
   const _$ModifyThreadRequestImpl(
-      {@JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata})
+      {@JsonKey(name: 'tool_resources', includeIfNull: false)
+      this.toolResources,
+      @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata})
       : _metadata = metadata,
         super._();
 
   factory _$ModifyThreadRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$ModifyThreadRequestImplFromJson(json);
+
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @override
+  @JsonKey(name: 'tool_resources', includeIfNull: false)
+  final ToolResources? toolResources;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
@@ -34436,7 +35601,7 @@ class _$ModifyThreadRequestImpl extends _ModifyThreadRequest {
 
   @override
   String toString() {
-    return 'ModifyThreadRequest(metadata: $metadata)';
+    return 'ModifyThreadRequest(toolResources: $toolResources, metadata: $metadata)';
   }
 
   @override
@@ -34444,13 +35609,15 @@ class _$ModifyThreadRequestImpl extends _ModifyThreadRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ModifyThreadRequestImpl &&
+            (identical(other.toolResources, toolResources) ||
+                other.toolResources == toolResources) &&
             const DeepCollectionEquality().equals(other._metadata, _metadata));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_metadata));
+  int get hashCode => Object.hash(runtimeType, toolResources,
+      const DeepCollectionEquality().hash(_metadata));
 
   @JsonKey(ignore: true)
   @override
@@ -34469,13 +35636,20 @@ class _$ModifyThreadRequestImpl extends _ModifyThreadRequest {
 
 abstract class _ModifyThreadRequest extends ModifyThreadRequest {
   const factory _ModifyThreadRequest(
-      {@JsonKey(includeIfNull: false)
+      {@JsonKey(name: 'tool_resources', includeIfNull: false)
+      final ToolResources? toolResources,
+      @JsonKey(includeIfNull: false)
       final Map<String, dynamic>? metadata}) = _$ModifyThreadRequestImpl;
   const _ModifyThreadRequest._() : super._();
 
   factory _ModifyThreadRequest.fromJson(Map<String, dynamic> json) =
       _$ModifyThreadRequestImpl.fromJson;
 
+  @override
+
+  /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @JsonKey(name: 'tool_resources', includeIfNull: false)
+  ToolResources? get toolResources;
   @override
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
@@ -34485,6 +35659,824 @@ abstract class _ModifyThreadRequest extends ModifyThreadRequest {
   @JsonKey(ignore: true)
   _$$ModifyThreadRequestImplCopyWith<_$ModifyThreadRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+ToolResources _$ToolResourcesFromJson(Map<String, dynamic> json) {
+  return _ToolResources.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ToolResources {
+  /// No Description
+  @JsonKey(name: 'code_interpreter', includeIfNull: false)
+  ToolResourcesCodeInterpreter? get codeInterpreter =>
+      throw _privateConstructorUsedError;
+
+  /// No Description
+  @JsonKey(name: 'file_search', includeIfNull: false)
+  ToolResourcesFileSearch? get fileSearch => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ToolResourcesCopyWith<ToolResources> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ToolResourcesCopyWith<$Res> {
+  factory $ToolResourcesCopyWith(
+          ToolResources value, $Res Function(ToolResources) then) =
+      _$ToolResourcesCopyWithImpl<$Res, ToolResources>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'code_interpreter', includeIfNull: false)
+      ToolResourcesCodeInterpreter? codeInterpreter,
+      @JsonKey(name: 'file_search', includeIfNull: false)
+      ToolResourcesFileSearch? fileSearch});
+
+  $ToolResourcesCodeInterpreterCopyWith<$Res>? get codeInterpreter;
+  $ToolResourcesFileSearchCopyWith<$Res>? get fileSearch;
+}
+
+/// @nodoc
+class _$ToolResourcesCopyWithImpl<$Res, $Val extends ToolResources>
+    implements $ToolResourcesCopyWith<$Res> {
+  _$ToolResourcesCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? codeInterpreter = freezed,
+    Object? fileSearch = freezed,
+  }) {
+    return _then(_value.copyWith(
+      codeInterpreter: freezed == codeInterpreter
+          ? _value.codeInterpreter
+          : codeInterpreter // ignore: cast_nullable_to_non_nullable
+              as ToolResourcesCodeInterpreter?,
+      fileSearch: freezed == fileSearch
+          ? _value.fileSearch
+          : fileSearch // ignore: cast_nullable_to_non_nullable
+              as ToolResourcesFileSearch?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ToolResourcesCodeInterpreterCopyWith<$Res>? get codeInterpreter {
+    if (_value.codeInterpreter == null) {
+      return null;
+    }
+
+    return $ToolResourcesCodeInterpreterCopyWith<$Res>(_value.codeInterpreter!,
+        (value) {
+      return _then(_value.copyWith(codeInterpreter: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ToolResourcesFileSearchCopyWith<$Res>? get fileSearch {
+    if (_value.fileSearch == null) {
+      return null;
+    }
+
+    return $ToolResourcesFileSearchCopyWith<$Res>(_value.fileSearch!, (value) {
+      return _then(_value.copyWith(fileSearch: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$ToolResourcesImplCopyWith<$Res>
+    implements $ToolResourcesCopyWith<$Res> {
+  factory _$$ToolResourcesImplCopyWith(
+          _$ToolResourcesImpl value, $Res Function(_$ToolResourcesImpl) then) =
+      __$$ToolResourcesImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'code_interpreter', includeIfNull: false)
+      ToolResourcesCodeInterpreter? codeInterpreter,
+      @JsonKey(name: 'file_search', includeIfNull: false)
+      ToolResourcesFileSearch? fileSearch});
+
+  @override
+  $ToolResourcesCodeInterpreterCopyWith<$Res>? get codeInterpreter;
+  @override
+  $ToolResourcesFileSearchCopyWith<$Res>? get fileSearch;
+}
+
+/// @nodoc
+class __$$ToolResourcesImplCopyWithImpl<$Res>
+    extends _$ToolResourcesCopyWithImpl<$Res, _$ToolResourcesImpl>
+    implements _$$ToolResourcesImplCopyWith<$Res> {
+  __$$ToolResourcesImplCopyWithImpl(
+      _$ToolResourcesImpl _value, $Res Function(_$ToolResourcesImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? codeInterpreter = freezed,
+    Object? fileSearch = freezed,
+  }) {
+    return _then(_$ToolResourcesImpl(
+      codeInterpreter: freezed == codeInterpreter
+          ? _value.codeInterpreter
+          : codeInterpreter // ignore: cast_nullable_to_non_nullable
+              as ToolResourcesCodeInterpreter?,
+      fileSearch: freezed == fileSearch
+          ? _value.fileSearch
+          : fileSearch // ignore: cast_nullable_to_non_nullable
+              as ToolResourcesFileSearch?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ToolResourcesImpl extends _ToolResources {
+  const _$ToolResourcesImpl(
+      {@JsonKey(name: 'code_interpreter', includeIfNull: false)
+      this.codeInterpreter,
+      @JsonKey(name: 'file_search', includeIfNull: false) this.fileSearch})
+      : super._();
+
+  factory _$ToolResourcesImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ToolResourcesImplFromJson(json);
+
+  /// No Description
+  @override
+  @JsonKey(name: 'code_interpreter', includeIfNull: false)
+  final ToolResourcesCodeInterpreter? codeInterpreter;
+
+  /// No Description
+  @override
+  @JsonKey(name: 'file_search', includeIfNull: false)
+  final ToolResourcesFileSearch? fileSearch;
+
+  @override
+  String toString() {
+    return 'ToolResources(codeInterpreter: $codeInterpreter, fileSearch: $fileSearch)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ToolResourcesImpl &&
+            (identical(other.codeInterpreter, codeInterpreter) ||
+                other.codeInterpreter == codeInterpreter) &&
+            (identical(other.fileSearch, fileSearch) ||
+                other.fileSearch == fileSearch));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, codeInterpreter, fileSearch);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ToolResourcesImplCopyWith<_$ToolResourcesImpl> get copyWith =>
+      __$$ToolResourcesImplCopyWithImpl<_$ToolResourcesImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ToolResourcesImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ToolResources extends ToolResources {
+  const factory _ToolResources(
+      {@JsonKey(name: 'code_interpreter', includeIfNull: false)
+      final ToolResourcesCodeInterpreter? codeInterpreter,
+      @JsonKey(name: 'file_search', includeIfNull: false)
+      final ToolResourcesFileSearch? fileSearch}) = _$ToolResourcesImpl;
+  const _ToolResources._() : super._();
+
+  factory _ToolResources.fromJson(Map<String, dynamic> json) =
+      _$ToolResourcesImpl.fromJson;
+
+  @override
+
+  /// No Description
+  @JsonKey(name: 'code_interpreter', includeIfNull: false)
+  ToolResourcesCodeInterpreter? get codeInterpreter;
+  @override
+
+  /// No Description
+  @JsonKey(name: 'file_search', includeIfNull: false)
+  ToolResourcesFileSearch? get fileSearch;
+  @override
+  @JsonKey(ignore: true)
+  _$$ToolResourcesImplCopyWith<_$ToolResourcesImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ToolResourcesCodeInterpreter _$ToolResourcesCodeInterpreterFromJson(
+    Map<String, dynamic> json) {
+  return _ToolResourcesCodeInterpreter.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ToolResourcesCodeInterpreter {
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ToolResourcesCodeInterpreterCopyWith<ToolResourcesCodeInterpreter>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ToolResourcesCodeInterpreterCopyWith<$Res> {
+  factory $ToolResourcesCodeInterpreterCopyWith(
+          ToolResourcesCodeInterpreter value,
+          $Res Function(ToolResourcesCodeInterpreter) then) =
+      _$ToolResourcesCodeInterpreterCopyWithImpl<$Res,
+          ToolResourcesCodeInterpreter>;
+  @useResult
+  $Res call({@JsonKey(name: 'file_ids') List<String> fileIds});
+}
+
+/// @nodoc
+class _$ToolResourcesCodeInterpreterCopyWithImpl<$Res,
+        $Val extends ToolResourcesCodeInterpreter>
+    implements $ToolResourcesCodeInterpreterCopyWith<$Res> {
+  _$ToolResourcesCodeInterpreterCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileIds = null,
+  }) {
+    return _then(_value.copyWith(
+      fileIds: null == fileIds
+          ? _value.fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ToolResourcesCodeInterpreterImplCopyWith<$Res>
+    implements $ToolResourcesCodeInterpreterCopyWith<$Res> {
+  factory _$$ToolResourcesCodeInterpreterImplCopyWith(
+          _$ToolResourcesCodeInterpreterImpl value,
+          $Res Function(_$ToolResourcesCodeInterpreterImpl) then) =
+      __$$ToolResourcesCodeInterpreterImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'file_ids') List<String> fileIds});
+}
+
+/// @nodoc
+class __$$ToolResourcesCodeInterpreterImplCopyWithImpl<$Res>
+    extends _$ToolResourcesCodeInterpreterCopyWithImpl<$Res,
+        _$ToolResourcesCodeInterpreterImpl>
+    implements _$$ToolResourcesCodeInterpreterImplCopyWith<$Res> {
+  __$$ToolResourcesCodeInterpreterImplCopyWithImpl(
+      _$ToolResourcesCodeInterpreterImpl _value,
+      $Res Function(_$ToolResourcesCodeInterpreterImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileIds = null,
+  }) {
+    return _then(_$ToolResourcesCodeInterpreterImpl(
+      fileIds: null == fileIds
+          ? _value._fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ToolResourcesCodeInterpreterImpl extends _ToolResourcesCodeInterpreter {
+  const _$ToolResourcesCodeInterpreterImpl(
+      {@JsonKey(name: 'file_ids') final List<String> fileIds = const []})
+      : _fileIds = fileIds,
+        super._();
+
+  factory _$ToolResourcesCodeInterpreterImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ToolResourcesCodeInterpreterImplFromJson(json);
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
+  final List<String> _fileIds;
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
+  @override
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds {
+    if (_fileIds is EqualUnmodifiableListView) return _fileIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_fileIds);
+  }
+
+  @override
+  String toString() {
+    return 'ToolResourcesCodeInterpreter(fileIds: $fileIds)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ToolResourcesCodeInterpreterImpl &&
+            const DeepCollectionEquality().equals(other._fileIds, _fileIds));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_fileIds));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ToolResourcesCodeInterpreterImplCopyWith<
+          _$ToolResourcesCodeInterpreterImpl>
+      get copyWith => __$$ToolResourcesCodeInterpreterImplCopyWithImpl<
+          _$ToolResourcesCodeInterpreterImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ToolResourcesCodeInterpreterImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ToolResourcesCodeInterpreter
+    extends ToolResourcesCodeInterpreter {
+  const factory _ToolResourcesCodeInterpreter(
+          {@JsonKey(name: 'file_ids') final List<String> fileIds}) =
+      _$ToolResourcesCodeInterpreterImpl;
+  const _ToolResourcesCodeInterpreter._() : super._();
+
+  factory _ToolResourcesCodeInterpreter.fromJson(Map<String, dynamic> json) =
+      _$ToolResourcesCodeInterpreterImpl.fromJson;
+
+  @override
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds;
+  @override
+  @JsonKey(ignore: true)
+  _$$ToolResourcesCodeInterpreterImplCopyWith<
+          _$ToolResourcesCodeInterpreterImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ToolResourcesFileSearch _$ToolResourcesFileSearchFromJson(
+    Map<String, dynamic> json) {
+  return _ToolResourcesFileSearch.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ToolResourcesFileSearch {
+  /// The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.
+  @JsonKey(name: 'vector_store_ids', includeIfNull: false)
+  List<String>? get vectorStoreIds => throw _privateConstructorUsedError;
+
+  /// A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.
+  @JsonKey(name: 'vector_stores', includeIfNull: false)
+  List<ToolResourcesFileSearchVectorStore>? get vectorStores =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ToolResourcesFileSearchCopyWith<ToolResourcesFileSearch> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ToolResourcesFileSearchCopyWith<$Res> {
+  factory $ToolResourcesFileSearchCopyWith(ToolResourcesFileSearch value,
+          $Res Function(ToolResourcesFileSearch) then) =
+      _$ToolResourcesFileSearchCopyWithImpl<$Res, ToolResourcesFileSearch>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'vector_store_ids', includeIfNull: false)
+      List<String>? vectorStoreIds,
+      @JsonKey(name: 'vector_stores', includeIfNull: false)
+      List<ToolResourcesFileSearchVectorStore>? vectorStores});
+}
+
+/// @nodoc
+class _$ToolResourcesFileSearchCopyWithImpl<$Res,
+        $Val extends ToolResourcesFileSearch>
+    implements $ToolResourcesFileSearchCopyWith<$Res> {
+  _$ToolResourcesFileSearchCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? vectorStoreIds = freezed,
+    Object? vectorStores = freezed,
+  }) {
+    return _then(_value.copyWith(
+      vectorStoreIds: freezed == vectorStoreIds
+          ? _value.vectorStoreIds
+          : vectorStoreIds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      vectorStores: freezed == vectorStores
+          ? _value.vectorStores
+          : vectorStores // ignore: cast_nullable_to_non_nullable
+              as List<ToolResourcesFileSearchVectorStore>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ToolResourcesFileSearchImplCopyWith<$Res>
+    implements $ToolResourcesFileSearchCopyWith<$Res> {
+  factory _$$ToolResourcesFileSearchImplCopyWith(
+          _$ToolResourcesFileSearchImpl value,
+          $Res Function(_$ToolResourcesFileSearchImpl) then) =
+      __$$ToolResourcesFileSearchImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'vector_store_ids', includeIfNull: false)
+      List<String>? vectorStoreIds,
+      @JsonKey(name: 'vector_stores', includeIfNull: false)
+      List<ToolResourcesFileSearchVectorStore>? vectorStores});
+}
+
+/// @nodoc
+class __$$ToolResourcesFileSearchImplCopyWithImpl<$Res>
+    extends _$ToolResourcesFileSearchCopyWithImpl<$Res,
+        _$ToolResourcesFileSearchImpl>
+    implements _$$ToolResourcesFileSearchImplCopyWith<$Res> {
+  __$$ToolResourcesFileSearchImplCopyWithImpl(
+      _$ToolResourcesFileSearchImpl _value,
+      $Res Function(_$ToolResourcesFileSearchImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? vectorStoreIds = freezed,
+    Object? vectorStores = freezed,
+  }) {
+    return _then(_$ToolResourcesFileSearchImpl(
+      vectorStoreIds: freezed == vectorStoreIds
+          ? _value._vectorStoreIds
+          : vectorStoreIds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      vectorStores: freezed == vectorStores
+          ? _value._vectorStores
+          : vectorStores // ignore: cast_nullable_to_non_nullable
+              as List<ToolResourcesFileSearchVectorStore>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ToolResourcesFileSearchImpl extends _ToolResourcesFileSearch {
+  const _$ToolResourcesFileSearchImpl(
+      {@JsonKey(name: 'vector_store_ids', includeIfNull: false)
+      final List<String>? vectorStoreIds,
+      @JsonKey(name: 'vector_stores', includeIfNull: false)
+      final List<ToolResourcesFileSearchVectorStore>? vectorStores})
+      : _vectorStoreIds = vectorStoreIds,
+        _vectorStores = vectorStores,
+        super._();
+
+  factory _$ToolResourcesFileSearchImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ToolResourcesFileSearchImplFromJson(json);
+
+  /// The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.
+  final List<String>? _vectorStoreIds;
+
+  /// The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.
+  @override
+  @JsonKey(name: 'vector_store_ids', includeIfNull: false)
+  List<String>? get vectorStoreIds {
+    final value = _vectorStoreIds;
+    if (value == null) return null;
+    if (_vectorStoreIds is EqualUnmodifiableListView) return _vectorStoreIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  /// A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.
+  final List<ToolResourcesFileSearchVectorStore>? _vectorStores;
+
+  /// A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.
+  @override
+  @JsonKey(name: 'vector_stores', includeIfNull: false)
+  List<ToolResourcesFileSearchVectorStore>? get vectorStores {
+    final value = _vectorStores;
+    if (value == null) return null;
+    if (_vectorStores is EqualUnmodifiableListView) return _vectorStores;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'ToolResourcesFileSearch(vectorStoreIds: $vectorStoreIds, vectorStores: $vectorStores)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ToolResourcesFileSearchImpl &&
+            const DeepCollectionEquality()
+                .equals(other._vectorStoreIds, _vectorStoreIds) &&
+            const DeepCollectionEquality()
+                .equals(other._vectorStores, _vectorStores));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_vectorStoreIds),
+      const DeepCollectionEquality().hash(_vectorStores));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ToolResourcesFileSearchImplCopyWith<_$ToolResourcesFileSearchImpl>
+      get copyWith => __$$ToolResourcesFileSearchImplCopyWithImpl<
+          _$ToolResourcesFileSearchImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ToolResourcesFileSearchImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ToolResourcesFileSearch extends ToolResourcesFileSearch {
+  const factory _ToolResourcesFileSearch(
+          {@JsonKey(name: 'vector_store_ids', includeIfNull: false)
+          final List<String>? vectorStoreIds,
+          @JsonKey(name: 'vector_stores', includeIfNull: false)
+          final List<ToolResourcesFileSearchVectorStore>? vectorStores}) =
+      _$ToolResourcesFileSearchImpl;
+  const _ToolResourcesFileSearch._() : super._();
+
+  factory _ToolResourcesFileSearch.fromJson(Map<String, dynamic> json) =
+      _$ToolResourcesFileSearchImpl.fromJson;
+
+  @override
+
+  /// The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.
+  @JsonKey(name: 'vector_store_ids', includeIfNull: false)
+  List<String>? get vectorStoreIds;
+  @override
+
+  /// A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.
+  @JsonKey(name: 'vector_stores', includeIfNull: false)
+  List<ToolResourcesFileSearchVectorStore>? get vectorStores;
+  @override
+  @JsonKey(ignore: true)
+  _$$ToolResourcesFileSearchImplCopyWith<_$ToolResourcesFileSearchImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ToolResourcesFileSearchVectorStore _$ToolResourcesFileSearchVectorStoreFromJson(
+    Map<String, dynamic> json) {
+  return _ToolResourcesFileSearchVectorStore.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ToolResourcesFileSearchVectorStore {
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.
+  @JsonKey(name: 'file_ids', includeIfNull: false)
+  List<String>? get fileIds => throw _privateConstructorUsedError;
+
+  /// Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  dynamic get metadata => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ToolResourcesFileSearchVectorStoreCopyWith<
+          ToolResourcesFileSearchVectorStore>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ToolResourcesFileSearchVectorStoreCopyWith<$Res> {
+  factory $ToolResourcesFileSearchVectorStoreCopyWith(
+          ToolResourcesFileSearchVectorStore value,
+          $Res Function(ToolResourcesFileSearchVectorStore) then) =
+      _$ToolResourcesFileSearchVectorStoreCopyWithImpl<$Res,
+          ToolResourcesFileSearchVectorStore>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
+      @JsonKey(includeIfNull: false) dynamic metadata});
+}
+
+/// @nodoc
+class _$ToolResourcesFileSearchVectorStoreCopyWithImpl<$Res,
+        $Val extends ToolResourcesFileSearchVectorStore>
+    implements $ToolResourcesFileSearchVectorStoreCopyWith<$Res> {
+  _$ToolResourcesFileSearchVectorStoreCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileIds = freezed,
+    Object? metadata = freezed,
+  }) {
+    return _then(_value.copyWith(
+      fileIds: freezed == fileIds
+          ? _value.fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ToolResourcesFileSearchVectorStoreImplCopyWith<$Res>
+    implements $ToolResourcesFileSearchVectorStoreCopyWith<$Res> {
+  factory _$$ToolResourcesFileSearchVectorStoreImplCopyWith(
+          _$ToolResourcesFileSearchVectorStoreImpl value,
+          $Res Function(_$ToolResourcesFileSearchVectorStoreImpl) then) =
+      __$$ToolResourcesFileSearchVectorStoreImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
+      @JsonKey(includeIfNull: false) dynamic metadata});
+}
+
+/// @nodoc
+class __$$ToolResourcesFileSearchVectorStoreImplCopyWithImpl<$Res>
+    extends _$ToolResourcesFileSearchVectorStoreCopyWithImpl<$Res,
+        _$ToolResourcesFileSearchVectorStoreImpl>
+    implements _$$ToolResourcesFileSearchVectorStoreImplCopyWith<$Res> {
+  __$$ToolResourcesFileSearchVectorStoreImplCopyWithImpl(
+      _$ToolResourcesFileSearchVectorStoreImpl _value,
+      $Res Function(_$ToolResourcesFileSearchVectorStoreImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileIds = freezed,
+    Object? metadata = freezed,
+  }) {
+    return _then(_$ToolResourcesFileSearchVectorStoreImpl(
+      fileIds: freezed == fileIds
+          ? _value._fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ToolResourcesFileSearchVectorStoreImpl
+    extends _ToolResourcesFileSearchVectorStore {
+  const _$ToolResourcesFileSearchVectorStoreImpl(
+      {@JsonKey(name: 'file_ids', includeIfNull: false)
+      final List<String>? fileIds,
+      @JsonKey(includeIfNull: false) this.metadata})
+      : _fileIds = fileIds,
+        super._();
+
+  factory _$ToolResourcesFileSearchVectorStoreImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ToolResourcesFileSearchVectorStoreImplFromJson(json);
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.
+  final List<String>? _fileIds;
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.
+  @override
+  @JsonKey(name: 'file_ids', includeIfNull: false)
+  List<String>? get fileIds {
+    final value = _fileIds;
+    if (value == null) return null;
+    if (_fileIds is EqualUnmodifiableListView) return _fileIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  /// Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
+  @JsonKey(includeIfNull: false)
+  final dynamic metadata;
+
+  @override
+  String toString() {
+    return 'ToolResourcesFileSearchVectorStore(fileIds: $fileIds, metadata: $metadata)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ToolResourcesFileSearchVectorStoreImpl &&
+            const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
+            const DeepCollectionEquality().equals(other.metadata, metadata));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_fileIds),
+      const DeepCollectionEquality().hash(metadata));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ToolResourcesFileSearchVectorStoreImplCopyWith<
+          _$ToolResourcesFileSearchVectorStoreImpl>
+      get copyWith => __$$ToolResourcesFileSearchVectorStoreImplCopyWithImpl<
+          _$ToolResourcesFileSearchVectorStoreImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ToolResourcesFileSearchVectorStoreImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ToolResourcesFileSearchVectorStore
+    extends ToolResourcesFileSearchVectorStore {
+  const factory _ToolResourcesFileSearchVectorStore(
+          {@JsonKey(name: 'file_ids', includeIfNull: false)
+          final List<String>? fileIds,
+          @JsonKey(includeIfNull: false) final dynamic metadata}) =
+      _$ToolResourcesFileSearchVectorStoreImpl;
+  const _ToolResourcesFileSearchVectorStore._() : super._();
+
+  factory _ToolResourcesFileSearchVectorStore.fromJson(
+          Map<String, dynamic> json) =
+      _$ToolResourcesFileSearchVectorStoreImpl.fromJson;
+
+  @override
+
+  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.
+  @JsonKey(name: 'file_ids', includeIfNull: false)
+  List<String>? get fileIds;
+  @override
+
+  /// Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  dynamic get metadata;
+  @override
+  @JsonKey(ignore: true)
+  _$$ToolResourcesFileSearchVectorStoreImplCopyWith<
+          _$ToolResourcesFileSearchVectorStoreImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 DeleteThreadResponse _$DeleteThreadResponseFromJson(Map<String, dynamic> json) {
@@ -35002,9 +36994,9 @@ mixin _$MessageObject {
   @JsonKey(name: 'run_id')
   String? get runId => throw _privateConstructorUsedError;
 
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
-  @JsonKey(name: 'file_ids')
-  List<String> get fileIds => throw _privateConstructorUsedError;
+  /// A list of files attached to the message, and the tools they were added to.
+  List<MessageAttachment>? get attachments =>
+      throw _privateConstructorUsedError;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
@@ -35036,7 +37028,7 @@ abstract class $MessageObjectCopyWith<$Res> {
       List<MessageContent> content,
       @JsonKey(name: 'assistant_id') String? assistantId,
       @JsonKey(name: 'run_id') String? runId,
-      @JsonKey(name: 'file_ids') List<String> fileIds,
+      List<MessageAttachment>? attachments,
       Map<String, dynamic>? metadata});
 
   $MessageObjectIncompleteDetailsCopyWith<$Res>? get incompleteDetails;
@@ -35067,7 +37059,7 @@ class _$MessageObjectCopyWithImpl<$Res, $Val extends MessageObject>
     Object? content = null,
     Object? assistantId = freezed,
     Object? runId = freezed,
-    Object? fileIds = null,
+    Object? attachments = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_value.copyWith(
@@ -35119,10 +37111,10 @@ class _$MessageObjectCopyWithImpl<$Res, $Val extends MessageObject>
           ? _value.runId
           : runId // ignore: cast_nullable_to_non_nullable
               as String?,
-      fileIds: null == fileIds
-          ? _value.fileIds
-          : fileIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      attachments: freezed == attachments
+          ? _value.attachments
+          : attachments // ignore: cast_nullable_to_non_nullable
+              as List<MessageAttachment>?,
       metadata: freezed == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -35167,7 +37159,7 @@ abstract class _$$MessageObjectImplCopyWith<$Res>
       List<MessageContent> content,
       @JsonKey(name: 'assistant_id') String? assistantId,
       @JsonKey(name: 'run_id') String? runId,
-      @JsonKey(name: 'file_ids') List<String> fileIds,
+      List<MessageAttachment>? attachments,
       Map<String, dynamic>? metadata});
 
   @override
@@ -35197,7 +37189,7 @@ class __$$MessageObjectImplCopyWithImpl<$Res>
     Object? content = null,
     Object? assistantId = freezed,
     Object? runId = freezed,
-    Object? fileIds = null,
+    Object? attachments = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_$MessageObjectImpl(
@@ -35249,10 +37241,10 @@ class __$$MessageObjectImplCopyWithImpl<$Res>
           ? _value.runId
           : runId // ignore: cast_nullable_to_non_nullable
               as String?,
-      fileIds: null == fileIds
-          ? _value._fileIds
-          : fileIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      attachments: freezed == attachments
+          ? _value._attachments
+          : attachments // ignore: cast_nullable_to_non_nullable
+              as List<MessageAttachment>?,
       metadata: freezed == metadata
           ? _value._metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -35278,10 +37270,10 @@ class _$MessageObjectImpl extends _MessageObject {
       required final List<MessageContent> content,
       @JsonKey(name: 'assistant_id') required this.assistantId,
       @JsonKey(name: 'run_id') required this.runId,
-      @JsonKey(name: 'file_ids') required final List<String> fileIds,
+      required final List<MessageAttachment>? attachments,
       required final Map<String, dynamic>? metadata})
       : _content = content,
-        _fileIds = fileIds,
+        _attachments = attachments,
         _metadata = metadata,
         super._();
 
@@ -35351,16 +37343,17 @@ class _$MessageObjectImpl extends _MessageObject {
   @JsonKey(name: 'run_id')
   final String? runId;
 
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
-  final List<String> _fileIds;
+  /// A list of files attached to the message, and the tools they were added to.
+  final List<MessageAttachment>? _attachments;
 
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
+  /// A list of files attached to the message, and the tools they were added to.
   @override
-  @JsonKey(name: 'file_ids')
-  List<String> get fileIds {
-    if (_fileIds is EqualUnmodifiableListView) return _fileIds;
+  List<MessageAttachment>? get attachments {
+    final value = _attachments;
+    if (value == null) return null;
+    if (_attachments is EqualUnmodifiableListView) return _attachments;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_fileIds);
+    return EqualUnmodifiableListView(value);
   }
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
@@ -35378,7 +37371,7 @@ class _$MessageObjectImpl extends _MessageObject {
 
   @override
   String toString() {
-    return 'MessageObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, status: $status, incompleteDetails: $incompleteDetails, completedAt: $completedAt, incompleteAt: $incompleteAt, role: $role, content: $content, assistantId: $assistantId, runId: $runId, fileIds: $fileIds, metadata: $metadata)';
+    return 'MessageObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, status: $status, incompleteDetails: $incompleteDetails, completedAt: $completedAt, incompleteAt: $incompleteAt, role: $role, content: $content, assistantId: $assistantId, runId: $runId, attachments: $attachments, metadata: $metadata)';
   }
 
   @override
@@ -35404,7 +37397,8 @@ class _$MessageObjectImpl extends _MessageObject {
             (identical(other.assistantId, assistantId) ||
                 other.assistantId == assistantId) &&
             (identical(other.runId, runId) || other.runId == runId) &&
-            const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
+            const DeepCollectionEquality()
+                .equals(other._attachments, _attachments) &&
             const DeepCollectionEquality().equals(other._metadata, _metadata));
   }
 
@@ -35424,7 +37418,7 @@ class _$MessageObjectImpl extends _MessageObject {
       const DeepCollectionEquality().hash(_content),
       assistantId,
       runId,
-      const DeepCollectionEquality().hash(_fileIds),
+      const DeepCollectionEquality().hash(_attachments),
       const DeepCollectionEquality().hash(_metadata));
 
   @JsonKey(ignore: true)
@@ -35457,7 +37451,7 @@ abstract class _MessageObject extends MessageObject {
       required final List<MessageContent> content,
       @JsonKey(name: 'assistant_id') required final String? assistantId,
       @JsonKey(name: 'run_id') required final String? runId,
-      @JsonKey(name: 'file_ids') required final List<String> fileIds,
+      required final List<MessageAttachment>? attachments,
       required final Map<String, dynamic>? metadata}) = _$MessageObjectImpl;
   const _MessageObject._() : super._();
 
@@ -35522,9 +37516,8 @@ abstract class _MessageObject extends MessageObject {
   String? get runId;
   @override
 
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
-  @JsonKey(name: 'file_ids')
-  List<String> get fileIds;
+  /// A list of files attached to the message, and the tools they were added to.
+  List<MessageAttachment>? get attachments;
   @override
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
@@ -35691,6 +37684,197 @@ abstract class _MessageObjectIncompleteDetails
   _$$MessageObjectIncompleteDetailsImplCopyWith<
           _$MessageObjectIncompleteDetailsImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+MessageAttachment _$MessageAttachmentFromJson(Map<String, dynamic> json) {
+  return _MessageAttachment.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageAttachment {
+  /// The ID of the file to attach to the message.
+  @JsonKey(name: 'file_id', includeIfNull: false)
+  String? get fileId => throw _privateConstructorUsedError;
+
+  /// The tools to add this file to.
+  @JsonKey(includeIfNull: false)
+  List<AssistantTools>? get tools => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageAttachmentCopyWith<MessageAttachment> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageAttachmentCopyWith<$Res> {
+  factory $MessageAttachmentCopyWith(
+          MessageAttachment value, $Res Function(MessageAttachment) then) =
+      _$MessageAttachmentCopyWithImpl<$Res, MessageAttachment>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'file_id', includeIfNull: false) String? fileId,
+      @JsonKey(includeIfNull: false) List<AssistantTools>? tools});
+}
+
+/// @nodoc
+class _$MessageAttachmentCopyWithImpl<$Res, $Val extends MessageAttachment>
+    implements $MessageAttachmentCopyWith<$Res> {
+  _$MessageAttachmentCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = freezed,
+    Object? tools = freezed,
+  }) {
+    return _then(_value.copyWith(
+      fileId: freezed == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tools: freezed == tools
+          ? _value.tools
+          : tools // ignore: cast_nullable_to_non_nullable
+              as List<AssistantTools>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageAttachmentImplCopyWith<$Res>
+    implements $MessageAttachmentCopyWith<$Res> {
+  factory _$$MessageAttachmentImplCopyWith(_$MessageAttachmentImpl value,
+          $Res Function(_$MessageAttachmentImpl) then) =
+      __$$MessageAttachmentImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'file_id', includeIfNull: false) String? fileId,
+      @JsonKey(includeIfNull: false) List<AssistantTools>? tools});
+}
+
+/// @nodoc
+class __$$MessageAttachmentImplCopyWithImpl<$Res>
+    extends _$MessageAttachmentCopyWithImpl<$Res, _$MessageAttachmentImpl>
+    implements _$$MessageAttachmentImplCopyWith<$Res> {
+  __$$MessageAttachmentImplCopyWithImpl(_$MessageAttachmentImpl _value,
+      $Res Function(_$MessageAttachmentImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = freezed,
+    Object? tools = freezed,
+  }) {
+    return _then(_$MessageAttachmentImpl(
+      fileId: freezed == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tools: freezed == tools
+          ? _value._tools
+          : tools // ignore: cast_nullable_to_non_nullable
+              as List<AssistantTools>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageAttachmentImpl extends _MessageAttachment {
+  const _$MessageAttachmentImpl(
+      {@JsonKey(name: 'file_id', includeIfNull: false) this.fileId,
+      @JsonKey(includeIfNull: false) final List<AssistantTools>? tools})
+      : _tools = tools,
+        super._();
+
+  factory _$MessageAttachmentImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageAttachmentImplFromJson(json);
+
+  /// The ID of the file to attach to the message.
+  @override
+  @JsonKey(name: 'file_id', includeIfNull: false)
+  final String? fileId;
+
+  /// The tools to add this file to.
+  final List<AssistantTools>? _tools;
+
+  /// The tools to add this file to.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<AssistantTools>? get tools {
+    final value = _tools;
+    if (value == null) return null;
+    if (_tools is EqualUnmodifiableListView) return _tools;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'MessageAttachment(fileId: $fileId, tools: $tools)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageAttachmentImpl &&
+            (identical(other.fileId, fileId) || other.fileId == fileId) &&
+            const DeepCollectionEquality().equals(other._tools, _tools));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, fileId, const DeepCollectionEquality().hash(_tools));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageAttachmentImplCopyWith<_$MessageAttachmentImpl> get copyWith =>
+      __$$MessageAttachmentImplCopyWithImpl<_$MessageAttachmentImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageAttachmentImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageAttachment extends MessageAttachment {
+  const factory _MessageAttachment(
+          {@JsonKey(name: 'file_id', includeIfNull: false) final String? fileId,
+          @JsonKey(includeIfNull: false) final List<AssistantTools>? tools}) =
+      _$MessageAttachmentImpl;
+  const _MessageAttachment._() : super._();
+
+  factory _MessageAttachment.fromJson(Map<String, dynamic> json) =
+      _$MessageAttachmentImpl.fromJson;
+
+  @override
+
+  /// The ID of the file to attach to the message.
+  @JsonKey(name: 'file_id', includeIfNull: false)
+  String? get fileId;
+  @override
+
+  /// The tools to add this file to.
+  @JsonKey(includeIfNull: false)
+  List<AssistantTools>? get tools;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageAttachmentImplCopyWith<_$MessageAttachmentImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 MessageDeltaObject _$MessageDeltaObjectFromJson(Map<String, dynamic> json) {
@@ -35912,10 +38096,6 @@ mixin _$MessageDelta {
   @JsonKey(includeIfNull: false)
   List<MessageDeltaContent>? get content => throw _privateConstructorUsedError;
 
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
-  @JsonKey(name: 'file_ids')
-  List<String> get fileIds => throw _privateConstructorUsedError;
-
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $MessageDeltaCopyWith<MessageDelta> get copyWith =>
@@ -35933,8 +38113,7 @@ abstract class $MessageDeltaCopyWith<$Res> {
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       MessageRole? role,
-      @JsonKey(includeIfNull: false) List<MessageDeltaContent>? content,
-      @JsonKey(name: 'file_ids') List<String> fileIds});
+      @JsonKey(includeIfNull: false) List<MessageDeltaContent>? content});
 }
 
 /// @nodoc
@@ -35952,7 +38131,6 @@ class _$MessageDeltaCopyWithImpl<$Res, $Val extends MessageDelta>
   $Res call({
     Object? role = freezed,
     Object? content = freezed,
-    Object? fileIds = null,
   }) {
     return _then(_value.copyWith(
       role: freezed == role
@@ -35963,10 +38141,6 @@ class _$MessageDeltaCopyWithImpl<$Res, $Val extends MessageDelta>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as List<MessageDeltaContent>?,
-      fileIds: null == fileIds
-          ? _value.fileIds
-          : fileIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
     ) as $Val);
   }
 }
@@ -35984,8 +38158,7 @@ abstract class _$$MessageDeltaImplCopyWith<$Res>
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       MessageRole? role,
-      @JsonKey(includeIfNull: false) List<MessageDeltaContent>? content,
-      @JsonKey(name: 'file_ids') List<String> fileIds});
+      @JsonKey(includeIfNull: false) List<MessageDeltaContent>? content});
 }
 
 /// @nodoc
@@ -36001,7 +38174,6 @@ class __$$MessageDeltaImplCopyWithImpl<$Res>
   $Res call({
     Object? role = freezed,
     Object? content = freezed,
-    Object? fileIds = null,
   }) {
     return _then(_$MessageDeltaImpl(
       role: freezed == role
@@ -36012,10 +38184,6 @@ class __$$MessageDeltaImplCopyWithImpl<$Res>
           ? _value._content
           : content // ignore: cast_nullable_to_non_nullable
               as List<MessageDeltaContent>?,
-      fileIds: null == fileIds
-          ? _value._fileIds
-          : fileIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
     ));
   }
 }
@@ -36028,10 +38196,8 @@ class _$MessageDeltaImpl extends _MessageDelta {
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       this.role,
-      @JsonKey(includeIfNull: false) final List<MessageDeltaContent>? content,
-      @JsonKey(name: 'file_ids') final List<String> fileIds = const []})
+      @JsonKey(includeIfNull: false) final List<MessageDeltaContent>? content})
       : _content = content,
-        _fileIds = fileIds,
         super._();
 
   factory _$MessageDeltaImpl.fromJson(Map<String, dynamic> json) =>
@@ -36057,21 +38223,9 @@ class _$MessageDeltaImpl extends _MessageDelta {
     return EqualUnmodifiableListView(value);
   }
 
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
-  final List<String> _fileIds;
-
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
-  @override
-  @JsonKey(name: 'file_ids')
-  List<String> get fileIds {
-    if (_fileIds is EqualUnmodifiableListView) return _fileIds;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_fileIds);
-  }
-
   @override
   String toString() {
-    return 'MessageDelta(role: $role, content: $content, fileIds: $fileIds)';
+    return 'MessageDelta(role: $role, content: $content)';
   }
 
   @override
@@ -36080,17 +38234,13 @@ class _$MessageDeltaImpl extends _MessageDelta {
         (other.runtimeType == runtimeType &&
             other is _$MessageDeltaImpl &&
             (identical(other.role, role) || other.role == role) &&
-            const DeepCollectionEquality().equals(other._content, _content) &&
-            const DeepCollectionEquality().equals(other._fileIds, _fileIds));
+            const DeepCollectionEquality().equals(other._content, _content));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      role,
-      const DeepCollectionEquality().hash(_content),
-      const DeepCollectionEquality().hash(_fileIds));
+      runtimeType, role, const DeepCollectionEquality().hash(_content));
 
   @JsonKey(ignore: true)
   @override
@@ -36112,9 +38262,8 @@ abstract class _MessageDelta extends MessageDelta {
           includeIfNull: false,
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       final MessageRole? role,
-      @JsonKey(includeIfNull: false) final List<MessageDeltaContent>? content,
-      @JsonKey(name: 'file_ids')
-      final List<String> fileIds}) = _$MessageDeltaImpl;
+      @JsonKey(includeIfNull: false)
+      final List<MessageDeltaContent>? content}) = _$MessageDeltaImpl;
   const _MessageDelta._() : super._();
 
   factory _MessageDelta.fromJson(Map<String, dynamic> json) =
@@ -36132,11 +38281,6 @@ abstract class _MessageDelta extends MessageDelta {
   @JsonKey(includeIfNull: false)
   List<MessageDeltaContent>? get content;
   @override
-
-  /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
-  @JsonKey(name: 'file_ids')
-  List<String> get fileIds;
-  @override
   @JsonKey(ignore: true)
   _$$MessageDeltaImplCopyWith<_$MessageDeltaImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -36152,11 +38296,13 @@ mixin _$CreateMessageRequest {
   MessageRole get role => throw _privateConstructorUsedError;
 
   /// The content of the message.
-  String get content => throw _privateConstructorUsedError;
+  @_CreateMessageRequestContentConverter()
+  CreateMessageRequestContent get content => throw _privateConstructorUsedError;
 
-  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the message should use. There can be a maximum of 10 files attached to a message. Useful for tools like `retrieval` and `code_interpreter` that can access and use files.
-  @JsonKey(name: 'file_ids')
-  List<String> get fileIds => throw _privateConstructorUsedError;
+  /// A list of files attached to the message, and the tools they were added to.
+  @JsonKey(includeIfNull: false)
+  List<MessageAttachment>? get attachments =>
+      throw _privateConstructorUsedError;
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
@@ -36176,9 +38322,12 @@ abstract class $CreateMessageRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {MessageRole role,
-      String content,
-      @JsonKey(name: 'file_ids') List<String> fileIds,
+      @_CreateMessageRequestContentConverter()
+      CreateMessageRequestContent content,
+      @JsonKey(includeIfNull: false) List<MessageAttachment>? attachments,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+
+  $CreateMessageRequestContentCopyWith<$Res> get content;
 }
 
 /// @nodoc
@@ -36197,7 +38346,7 @@ class _$CreateMessageRequestCopyWithImpl<$Res,
   $Res call({
     Object? role = null,
     Object? content = null,
-    Object? fileIds = null,
+    Object? attachments = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_value.copyWith(
@@ -36208,16 +38357,24 @@ class _$CreateMessageRequestCopyWithImpl<$Res,
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
-              as String,
-      fileIds: null == fileIds
-          ? _value.fileIds
-          : fileIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as CreateMessageRequestContent,
+      attachments: freezed == attachments
+          ? _value.attachments
+          : attachments // ignore: cast_nullable_to_non_nullable
+              as List<MessageAttachment>?,
       metadata: freezed == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CreateMessageRequestContentCopyWith<$Res> get content {
+    return $CreateMessageRequestContentCopyWith<$Res>(_value.content, (value) {
+      return _then(_value.copyWith(content: value) as $Val);
+    });
   }
 }
 
@@ -36231,9 +38388,13 @@ abstract class _$$CreateMessageRequestImplCopyWith<$Res>
   @useResult
   $Res call(
       {MessageRole role,
-      String content,
-      @JsonKey(name: 'file_ids') List<String> fileIds,
+      @_CreateMessageRequestContentConverter()
+      CreateMessageRequestContent content,
+      @JsonKey(includeIfNull: false) List<MessageAttachment>? attachments,
       @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata});
+
+  @override
+  $CreateMessageRequestContentCopyWith<$Res> get content;
 }
 
 /// @nodoc
@@ -36249,7 +38410,7 @@ class __$$CreateMessageRequestImplCopyWithImpl<$Res>
   $Res call({
     Object? role = null,
     Object? content = null,
-    Object? fileIds = null,
+    Object? attachments = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_$CreateMessageRequestImpl(
@@ -36260,11 +38421,11 @@ class __$$CreateMessageRequestImplCopyWithImpl<$Res>
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
-              as String,
-      fileIds: null == fileIds
-          ? _value._fileIds
-          : fileIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as CreateMessageRequestContent,
+      attachments: freezed == attachments
+          ? _value._attachments
+          : attachments // ignore: cast_nullable_to_non_nullable
+              as List<MessageAttachment>?,
       metadata: freezed == metadata
           ? _value._metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -36278,10 +38439,10 @@ class __$$CreateMessageRequestImplCopyWithImpl<$Res>
 class _$CreateMessageRequestImpl extends _CreateMessageRequest {
   const _$CreateMessageRequestImpl(
       {required this.role,
-      required this.content,
-      @JsonKey(name: 'file_ids') final List<String> fileIds = const [],
+      @_CreateMessageRequestContentConverter() required this.content,
+      @JsonKey(includeIfNull: false) final List<MessageAttachment>? attachments,
       @JsonKey(includeIfNull: false) final Map<String, dynamic>? metadata})
-      : _fileIds = fileIds,
+      : _attachments = attachments,
         _metadata = metadata,
         super._();
 
@@ -36294,18 +38455,21 @@ class _$CreateMessageRequestImpl extends _CreateMessageRequest {
 
   /// The content of the message.
   @override
-  final String content;
+  @_CreateMessageRequestContentConverter()
+  final CreateMessageRequestContent content;
 
-  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the message should use. There can be a maximum of 10 files attached to a message. Useful for tools like `retrieval` and `code_interpreter` that can access and use files.
-  final List<String> _fileIds;
+  /// A list of files attached to the message, and the tools they were added to.
+  final List<MessageAttachment>? _attachments;
 
-  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the message should use. There can be a maximum of 10 files attached to a message. Useful for tools like `retrieval` and `code_interpreter` that can access and use files.
+  /// A list of files attached to the message, and the tools they were added to.
   @override
-  @JsonKey(name: 'file_ids')
-  List<String> get fileIds {
-    if (_fileIds is EqualUnmodifiableListView) return _fileIds;
+  @JsonKey(includeIfNull: false)
+  List<MessageAttachment>? get attachments {
+    final value = _attachments;
+    if (value == null) return null;
+    if (_attachments is EqualUnmodifiableListView) return _attachments;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_fileIds);
+    return EqualUnmodifiableListView(value);
   }
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
@@ -36324,7 +38488,7 @@ class _$CreateMessageRequestImpl extends _CreateMessageRequest {
 
   @override
   String toString() {
-    return 'CreateMessageRequest(role: $role, content: $content, fileIds: $fileIds, metadata: $metadata)';
+    return 'CreateMessageRequest(role: $role, content: $content, attachments: $attachments, metadata: $metadata)';
   }
 
   @override
@@ -36334,7 +38498,8 @@ class _$CreateMessageRequestImpl extends _CreateMessageRequest {
             other is _$CreateMessageRequestImpl &&
             (identical(other.role, role) || other.role == role) &&
             (identical(other.content, content) || other.content == content) &&
-            const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
+            const DeepCollectionEquality()
+                .equals(other._attachments, _attachments) &&
             const DeepCollectionEquality().equals(other._metadata, _metadata));
   }
 
@@ -36344,7 +38509,7 @@ class _$CreateMessageRequestImpl extends _CreateMessageRequest {
       runtimeType,
       role,
       content,
-      const DeepCollectionEquality().hash(_fileIds),
+      const DeepCollectionEquality().hash(_attachments),
       const DeepCollectionEquality().hash(_metadata));
 
   @JsonKey(ignore: true)
@@ -36366,8 +38531,9 @@ class _$CreateMessageRequestImpl extends _CreateMessageRequest {
 abstract class _CreateMessageRequest extends CreateMessageRequest {
   const factory _CreateMessageRequest(
       {required final MessageRole role,
-      required final String content,
-      @JsonKey(name: 'file_ids') final List<String> fileIds,
+      @_CreateMessageRequestContentConverter()
+      required final CreateMessageRequestContent content,
+      @JsonKey(includeIfNull: false) final List<MessageAttachment>? attachments,
       @JsonKey(includeIfNull: false)
       final Map<String, dynamic>? metadata}) = _$CreateMessageRequestImpl;
   const _CreateMessageRequest._() : super._();
@@ -36382,12 +38548,13 @@ abstract class _CreateMessageRequest extends CreateMessageRequest {
   @override
 
   /// The content of the message.
-  String get content;
+  @_CreateMessageRequestContentConverter()
+  CreateMessageRequestContent get content;
   @override
 
-  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the message should use. There can be a maximum of 10 files attached to a message. Useful for tools like `retrieval` and `code_interpreter` that can access and use files.
-  @JsonKey(name: 'file_ids')
-  List<String> get fileIds;
+  /// A list of files attached to the message, and the tools they were added to.
+  @JsonKey(includeIfNull: false)
+  List<MessageAttachment>? get attachments;
   @override
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
@@ -36396,6 +38563,446 @@ abstract class _CreateMessageRequest extends CreateMessageRequest {
   @override
   @JsonKey(ignore: true)
   _$$CreateMessageRequestImplCopyWith<_$CreateMessageRequestImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+CreateMessageRequestContent _$CreateMessageRequestContentFromJson(
+    Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'parts':
+      return CreateMessageRequestContentListMessageContent.fromJson(json);
+    case 'text':
+      return CreateMessageRequestContentString.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'runtimeType',
+          'CreateMessageRequestContent',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$CreateMessageRequestContent {
+  Object get value => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<MessageContent> value) parts,
+    required TResult Function(String value) text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<MessageContent> value)? parts,
+    TResult? Function(String value)? text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<MessageContent> value)? parts,
+    TResult Function(String value)? text,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            CreateMessageRequestContentListMessageContent value)
+        parts,
+    required TResult Function(CreateMessageRequestContentString value) text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateMessageRequestContentListMessageContent value)?
+        parts,
+    TResult? Function(CreateMessageRequestContentString value)? text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateMessageRequestContentListMessageContent value)?
+        parts,
+    TResult Function(CreateMessageRequestContentString value)? text,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateMessageRequestContentCopyWith<$Res> {
+  factory $CreateMessageRequestContentCopyWith(
+          CreateMessageRequestContent value,
+          $Res Function(CreateMessageRequestContent) then) =
+      _$CreateMessageRequestContentCopyWithImpl<$Res,
+          CreateMessageRequestContent>;
+}
+
+/// @nodoc
+class _$CreateMessageRequestContentCopyWithImpl<$Res,
+        $Val extends CreateMessageRequestContent>
+    implements $CreateMessageRequestContentCopyWith<$Res> {
+  _$CreateMessageRequestContentCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$CreateMessageRequestContentListMessageContentImplCopyWith<
+    $Res> {
+  factory _$$CreateMessageRequestContentListMessageContentImplCopyWith(
+          _$CreateMessageRequestContentListMessageContentImpl value,
+          $Res Function(_$CreateMessageRequestContentListMessageContentImpl)
+              then) =
+      __$$CreateMessageRequestContentListMessageContentImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<MessageContent> value});
+}
+
+/// @nodoc
+class __$$CreateMessageRequestContentListMessageContentImplCopyWithImpl<$Res>
+    extends _$CreateMessageRequestContentCopyWithImpl<$Res,
+        _$CreateMessageRequestContentListMessageContentImpl>
+    implements
+        _$$CreateMessageRequestContentListMessageContentImplCopyWith<$Res> {
+  __$$CreateMessageRequestContentListMessageContentImplCopyWithImpl(
+      _$CreateMessageRequestContentListMessageContentImpl _value,
+      $Res Function(_$CreateMessageRequestContentListMessageContentImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$CreateMessageRequestContentListMessageContentImpl(
+      null == value
+          ? _value._value
+          : value // ignore: cast_nullable_to_non_nullable
+              as List<MessageContent>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateMessageRequestContentListMessageContentImpl
+    extends CreateMessageRequestContentListMessageContent {
+  const _$CreateMessageRequestContentListMessageContentImpl(
+      final List<MessageContent> value,
+      {final String? $type})
+      : _value = value,
+        $type = $type ?? 'parts',
+        super._();
+
+  factory _$CreateMessageRequestContentListMessageContentImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$CreateMessageRequestContentListMessageContentImplFromJson(json);
+
+  final List<MessageContent> _value;
+  @override
+  List<MessageContent> get value {
+    if (_value is EqualUnmodifiableListView) return _value;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_value);
+  }
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'CreateMessageRequestContent.parts(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateMessageRequestContentListMessageContentImpl &&
+            const DeepCollectionEquality().equals(other._value, _value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_value));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateMessageRequestContentListMessageContentImplCopyWith<
+          _$CreateMessageRequestContentListMessageContentImpl>
+      get copyWith =>
+          __$$CreateMessageRequestContentListMessageContentImplCopyWithImpl<
+                  _$CreateMessageRequestContentListMessageContentImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<MessageContent> value) parts,
+    required TResult Function(String value) text,
+  }) {
+    return parts(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<MessageContent> value)? parts,
+    TResult? Function(String value)? text,
+  }) {
+    return parts?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<MessageContent> value)? parts,
+    TResult Function(String value)? text,
+    required TResult orElse(),
+  }) {
+    if (parts != null) {
+      return parts(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            CreateMessageRequestContentListMessageContent value)
+        parts,
+    required TResult Function(CreateMessageRequestContentString value) text,
+  }) {
+    return parts(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateMessageRequestContentListMessageContent value)?
+        parts,
+    TResult? Function(CreateMessageRequestContentString value)? text,
+  }) {
+    return parts?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateMessageRequestContentListMessageContent value)?
+        parts,
+    TResult Function(CreateMessageRequestContentString value)? text,
+    required TResult orElse(),
+  }) {
+    if (parts != null) {
+      return parts(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateMessageRequestContentListMessageContentImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class CreateMessageRequestContentListMessageContent
+    extends CreateMessageRequestContent {
+  const factory CreateMessageRequestContentListMessageContent(
+          final List<MessageContent> value) =
+      _$CreateMessageRequestContentListMessageContentImpl;
+  const CreateMessageRequestContentListMessageContent._() : super._();
+
+  factory CreateMessageRequestContentListMessageContent.fromJson(
+          Map<String, dynamic> json) =
+      _$CreateMessageRequestContentListMessageContentImpl.fromJson;
+
+  @override
+  List<MessageContent> get value;
+  @JsonKey(ignore: true)
+  _$$CreateMessageRequestContentListMessageContentImplCopyWith<
+          _$CreateMessageRequestContentListMessageContentImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$CreateMessageRequestContentStringImplCopyWith<$Res> {
+  factory _$$CreateMessageRequestContentStringImplCopyWith(
+          _$CreateMessageRequestContentStringImpl value,
+          $Res Function(_$CreateMessageRequestContentStringImpl) then) =
+      __$$CreateMessageRequestContentStringImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String value});
+}
+
+/// @nodoc
+class __$$CreateMessageRequestContentStringImplCopyWithImpl<$Res>
+    extends _$CreateMessageRequestContentCopyWithImpl<$Res,
+        _$CreateMessageRequestContentStringImpl>
+    implements _$$CreateMessageRequestContentStringImplCopyWith<$Res> {
+  __$$CreateMessageRequestContentStringImplCopyWithImpl(
+      _$CreateMessageRequestContentStringImpl _value,
+      $Res Function(_$CreateMessageRequestContentStringImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$CreateMessageRequestContentStringImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateMessageRequestContentStringImpl
+    extends CreateMessageRequestContentString {
+  const _$CreateMessageRequestContentStringImpl(this.value,
+      {final String? $type})
+      : $type = $type ?? 'text',
+        super._();
+
+  factory _$CreateMessageRequestContentStringImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$CreateMessageRequestContentStringImplFromJson(json);
+
+  @override
+  final String value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'CreateMessageRequestContent.text(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateMessageRequestContentStringImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateMessageRequestContentStringImplCopyWith<
+          _$CreateMessageRequestContentStringImpl>
+      get copyWith => __$$CreateMessageRequestContentStringImplCopyWithImpl<
+          _$CreateMessageRequestContentStringImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<MessageContent> value) parts,
+    required TResult Function(String value) text,
+  }) {
+    return text(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<MessageContent> value)? parts,
+    TResult? Function(String value)? text,
+  }) {
+    return text?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<MessageContent> value)? parts,
+    TResult Function(String value)? text,
+    required TResult orElse(),
+  }) {
+    if (text != null) {
+      return text(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            CreateMessageRequestContentListMessageContent value)
+        parts,
+    required TResult Function(CreateMessageRequestContentString value) text,
+  }) {
+    return text(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateMessageRequestContentListMessageContent value)?
+        parts,
+    TResult? Function(CreateMessageRequestContentString value)? text,
+  }) {
+    return text?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateMessageRequestContentListMessageContent value)?
+        parts,
+    TResult Function(CreateMessageRequestContentString value)? text,
+    required TResult orElse(),
+  }) {
+    if (text != null) {
+      return text(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateMessageRequestContentStringImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class CreateMessageRequestContentString
+    extends CreateMessageRequestContent {
+  const factory CreateMessageRequestContentString(final String value) =
+      _$CreateMessageRequestContentStringImpl;
+  const CreateMessageRequestContentString._() : super._();
+
+  factory CreateMessageRequestContentString.fromJson(
+          Map<String, dynamic> json) =
+      _$CreateMessageRequestContentStringImpl.fromJson;
+
+  @override
+  String get value;
+  @JsonKey(ignore: true)
+  _$$CreateMessageRequestContentStringImplCopyWith<
+          _$CreateMessageRequestContentStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -37036,9 +39643,12 @@ MessageContentImageFile _$MessageContentImageFileFromJson(
 
 /// @nodoc
 mixin _$MessageContentImageFile {
-  /// The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content.
+  /// The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content. Set `purpose="vision"` when uploading the File if you need to later display the file content.
   @JsonKey(name: 'file_id')
   String get fileId => throw _privateConstructorUsedError;
+
+  /// Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
+  MessageContentImageDetail get detail => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37052,7 +39662,9 @@ abstract class $MessageContentImageFileCopyWith<$Res> {
           $Res Function(MessageContentImageFile) then) =
       _$MessageContentImageFileCopyWithImpl<$Res, MessageContentImageFile>;
   @useResult
-  $Res call({@JsonKey(name: 'file_id') String fileId});
+  $Res call(
+      {@JsonKey(name: 'file_id') String fileId,
+      MessageContentImageDetail detail});
 }
 
 /// @nodoc
@@ -37070,12 +39682,17 @@ class _$MessageContentImageFileCopyWithImpl<$Res,
   @override
   $Res call({
     Object? fileId = null,
+    Object? detail = null,
   }) {
     return _then(_value.copyWith(
       fileId: null == fileId
           ? _value.fileId
           : fileId // ignore: cast_nullable_to_non_nullable
               as String,
+      detail: null == detail
+          ? _value.detail
+          : detail // ignore: cast_nullable_to_non_nullable
+              as MessageContentImageDetail,
     ) as $Val);
   }
 }
@@ -37089,7 +39706,9 @@ abstract class _$$MessageContentImageFileImplCopyWith<$Res>
       __$$MessageContentImageFileImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'file_id') String fileId});
+  $Res call(
+      {@JsonKey(name: 'file_id') String fileId,
+      MessageContentImageDetail detail});
 }
 
 /// @nodoc
@@ -37106,12 +39725,17 @@ class __$$MessageContentImageFileImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fileId = null,
+    Object? detail = null,
   }) {
     return _then(_$MessageContentImageFileImpl(
       fileId: null == fileId
           ? _value.fileId
           : fileId // ignore: cast_nullable_to_non_nullable
               as String,
+      detail: null == detail
+          ? _value.detail
+          : detail // ignore: cast_nullable_to_non_nullable
+              as MessageContentImageDetail,
     ));
   }
 }
@@ -37120,20 +39744,26 @@ class __$$MessageContentImageFileImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$MessageContentImageFileImpl extends _MessageContentImageFile {
   const _$MessageContentImageFileImpl(
-      {@JsonKey(name: 'file_id') required this.fileId})
+      {@JsonKey(name: 'file_id') required this.fileId,
+      this.detail = MessageContentImageDetail.auto})
       : super._();
 
   factory _$MessageContentImageFileImpl.fromJson(Map<String, dynamic> json) =>
       _$$MessageContentImageFileImplFromJson(json);
 
-  /// The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content.
+  /// The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content. Set `purpose="vision"` when uploading the File if you need to later display the file content.
   @override
   @JsonKey(name: 'file_id')
   final String fileId;
 
+  /// Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
+  @override
+  @JsonKey()
+  final MessageContentImageDetail detail;
+
   @override
   String toString() {
-    return 'MessageContentImageFile(fileId: $fileId)';
+    return 'MessageContentImageFile(fileId: $fileId, detail: $detail)';
   }
 
   @override
@@ -37141,12 +39771,13 @@ class _$MessageContentImageFileImpl extends _MessageContentImageFile {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MessageContentImageFileImpl &&
-            (identical(other.fileId, fileId) || other.fileId == fileId));
+            (identical(other.fileId, fileId) || other.fileId == fileId) &&
+            (identical(other.detail, detail) || other.detail == detail));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, fileId);
+  int get hashCode => Object.hash(runtimeType, fileId, detail);
 
   @JsonKey(ignore: true)
   @override
@@ -37165,8 +39796,8 @@ class _$MessageContentImageFileImpl extends _MessageContentImageFile {
 
 abstract class _MessageContentImageFile extends MessageContentImageFile {
   const factory _MessageContentImageFile(
-          {@JsonKey(name: 'file_id') required final String fileId}) =
-      _$MessageContentImageFileImpl;
+      {@JsonKey(name: 'file_id') required final String fileId,
+      final MessageContentImageDetail detail}) = _$MessageContentImageFileImpl;
   const _MessageContentImageFile._() : super._();
 
   factory _MessageContentImageFile.fromJson(Map<String, dynamic> json) =
@@ -37174,12 +39805,370 @@ abstract class _MessageContentImageFile extends MessageContentImageFile {
 
   @override
 
-  /// The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content.
+  /// The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content. Set `purpose="vision"` when uploading the File if you need to later display the file content.
   @JsonKey(name: 'file_id')
   String get fileId;
   @override
+
+  /// Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
+  MessageContentImageDetail get detail;
+  @override
   @JsonKey(ignore: true)
   _$$MessageContentImageFileImplCopyWith<_$MessageContentImageFileImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+MessageContentImageUrl _$MessageContentImageUrlFromJson(
+    Map<String, dynamic> json) {
+  return _MessageContentImageUrl.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageContentImageUrl {
+  /// The external URL of the image, must be a supported image types: jpeg, jpg, png, gif, webp.
+  String get url => throw _privateConstructorUsedError;
+
+  /// Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
+  MessageContentImageDetail get detail => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageContentImageUrlCopyWith<MessageContentImageUrl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageContentImageUrlCopyWith<$Res> {
+  factory $MessageContentImageUrlCopyWith(MessageContentImageUrl value,
+          $Res Function(MessageContentImageUrl) then) =
+      _$MessageContentImageUrlCopyWithImpl<$Res, MessageContentImageUrl>;
+  @useResult
+  $Res call({String url, MessageContentImageDetail detail});
+}
+
+/// @nodoc
+class _$MessageContentImageUrlCopyWithImpl<$Res,
+        $Val extends MessageContentImageUrl>
+    implements $MessageContentImageUrlCopyWith<$Res> {
+  _$MessageContentImageUrlCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? url = null,
+    Object? detail = null,
+  }) {
+    return _then(_value.copyWith(
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      detail: null == detail
+          ? _value.detail
+          : detail // ignore: cast_nullable_to_non_nullable
+              as MessageContentImageDetail,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageContentImageUrlImplCopyWith<$Res>
+    implements $MessageContentImageUrlCopyWith<$Res> {
+  factory _$$MessageContentImageUrlImplCopyWith(
+          _$MessageContentImageUrlImpl value,
+          $Res Function(_$MessageContentImageUrlImpl) then) =
+      __$$MessageContentImageUrlImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String url, MessageContentImageDetail detail});
+}
+
+/// @nodoc
+class __$$MessageContentImageUrlImplCopyWithImpl<$Res>
+    extends _$MessageContentImageUrlCopyWithImpl<$Res,
+        _$MessageContentImageUrlImpl>
+    implements _$$MessageContentImageUrlImplCopyWith<$Res> {
+  __$$MessageContentImageUrlImplCopyWithImpl(
+      _$MessageContentImageUrlImpl _value,
+      $Res Function(_$MessageContentImageUrlImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? url = null,
+    Object? detail = null,
+  }) {
+    return _then(_$MessageContentImageUrlImpl(
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      detail: null == detail
+          ? _value.detail
+          : detail // ignore: cast_nullable_to_non_nullable
+              as MessageContentImageDetail,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageContentImageUrlImpl extends _MessageContentImageUrl {
+  const _$MessageContentImageUrlImpl(
+      {required this.url, this.detail = MessageContentImageDetail.auto})
+      : super._();
+
+  factory _$MessageContentImageUrlImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageContentImageUrlImplFromJson(json);
+
+  /// The external URL of the image, must be a supported image types: jpeg, jpg, png, gif, webp.
+  @override
+  final String url;
+
+  /// Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
+  @override
+  @JsonKey()
+  final MessageContentImageDetail detail;
+
+  @override
+  String toString() {
+    return 'MessageContentImageUrl(url: $url, detail: $detail)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageContentImageUrlImpl &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.detail, detail) || other.detail == detail));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, url, detail);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageContentImageUrlImplCopyWith<_$MessageContentImageUrlImpl>
+      get copyWith => __$$MessageContentImageUrlImplCopyWithImpl<
+          _$MessageContentImageUrlImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageContentImageUrlImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageContentImageUrl extends MessageContentImageUrl {
+  const factory _MessageContentImageUrl(
+      {required final String url,
+      final MessageContentImageDetail detail}) = _$MessageContentImageUrlImpl;
+  const _MessageContentImageUrl._() : super._();
+
+  factory _MessageContentImageUrl.fromJson(Map<String, dynamic> json) =
+      _$MessageContentImageUrlImpl.fromJson;
+
+  @override
+
+  /// The external URL of the image, must be a supported image types: jpeg, jpg, png, gif, webp.
+  String get url;
+  @override
+
+  /// Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
+  MessageContentImageDetail get detail;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageContentImageUrlImplCopyWith<_$MessageContentImageUrlImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+MessageRequestContentTextObject _$MessageRequestContentTextObjectFromJson(
+    Map<String, dynamic> json) {
+  return _MessageRequestContentTextObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageRequestContentTextObject {
+  /// Always `text`.
+  String get type => throw _privateConstructorUsedError;
+
+  /// Text content to be sent to the model
+  String get text => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageRequestContentTextObjectCopyWith<MessageRequestContentTextObject>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageRequestContentTextObjectCopyWith<$Res> {
+  factory $MessageRequestContentTextObjectCopyWith(
+          MessageRequestContentTextObject value,
+          $Res Function(MessageRequestContentTextObject) then) =
+      _$MessageRequestContentTextObjectCopyWithImpl<$Res,
+          MessageRequestContentTextObject>;
+  @useResult
+  $Res call({String type, String text});
+}
+
+/// @nodoc
+class _$MessageRequestContentTextObjectCopyWithImpl<$Res,
+        $Val extends MessageRequestContentTextObject>
+    implements $MessageRequestContentTextObjectCopyWith<$Res> {
+  _$MessageRequestContentTextObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? text = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageRequestContentTextObjectImplCopyWith<$Res>
+    implements $MessageRequestContentTextObjectCopyWith<$Res> {
+  factory _$$MessageRequestContentTextObjectImplCopyWith(
+          _$MessageRequestContentTextObjectImpl value,
+          $Res Function(_$MessageRequestContentTextObjectImpl) then) =
+      __$$MessageRequestContentTextObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String type, String text});
+}
+
+/// @nodoc
+class __$$MessageRequestContentTextObjectImplCopyWithImpl<$Res>
+    extends _$MessageRequestContentTextObjectCopyWithImpl<$Res,
+        _$MessageRequestContentTextObjectImpl>
+    implements _$$MessageRequestContentTextObjectImplCopyWith<$Res> {
+  __$$MessageRequestContentTextObjectImplCopyWithImpl(
+      _$MessageRequestContentTextObjectImpl _value,
+      $Res Function(_$MessageRequestContentTextObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? text = null,
+  }) {
+    return _then(_$MessageRequestContentTextObjectImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageRequestContentTextObjectImpl
+    extends _MessageRequestContentTextObject {
+  const _$MessageRequestContentTextObjectImpl(
+      {required this.type, required this.text})
+      : super._();
+
+  factory _$MessageRequestContentTextObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageRequestContentTextObjectImplFromJson(json);
+
+  /// Always `text`.
+  @override
+  final String type;
+
+  /// Text content to be sent to the model
+  @override
+  final String text;
+
+  @override
+  String toString() {
+    return 'MessageRequestContentTextObject(type: $type, text: $text)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageRequestContentTextObjectImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.text, text) || other.text == text));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, text);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageRequestContentTextObjectImplCopyWith<
+          _$MessageRequestContentTextObjectImpl>
+      get copyWith => __$$MessageRequestContentTextObjectImplCopyWithImpl<
+          _$MessageRequestContentTextObjectImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageRequestContentTextObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageRequestContentTextObject
+    extends MessageRequestContentTextObject {
+  const factory _MessageRequestContentTextObject(
+      {required final String type,
+      required final String text}) = _$MessageRequestContentTextObjectImpl;
+  const _MessageRequestContentTextObject._() : super._();
+
+  factory _MessageRequestContentTextObject.fromJson(Map<String, dynamic> json) =
+      _$MessageRequestContentTextObjectImpl.fromJson;
+
+  @override
+
+  /// Always `text`.
+  String get type;
+  @override
+
+  /// Text content to be sent to the model
+  String get text;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageRequestContentTextObjectImplCopyWith<
+          _$MessageRequestContentTextObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -37193,7 +40182,8 @@ mixin _$MessageContentText {
   String get value => throw _privateConstructorUsedError;
 
   /// A list of annotations that point to specific quotes from specific files.
-  List<MessageContentTextAnnotations> get annotations =>
+  @JsonKey(includeIfNull: false)
+  List<MessageContentTextAnnotations>? get annotations =>
       throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -37208,7 +40198,10 @@ abstract class $MessageContentTextCopyWith<$Res> {
           MessageContentText value, $Res Function(MessageContentText) then) =
       _$MessageContentTextCopyWithImpl<$Res, MessageContentText>;
   @useResult
-  $Res call({String value, List<MessageContentTextAnnotations> annotations});
+  $Res call(
+      {String value,
+      @JsonKey(includeIfNull: false)
+      List<MessageContentTextAnnotations>? annotations});
 }
 
 /// @nodoc
@@ -37225,17 +40218,17 @@ class _$MessageContentTextCopyWithImpl<$Res, $Val extends MessageContentText>
   @override
   $Res call({
     Object? value = null,
-    Object? annotations = null,
+    Object? annotations = freezed,
   }) {
     return _then(_value.copyWith(
       value: null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
-      annotations: null == annotations
+      annotations: freezed == annotations
           ? _value.annotations
           : annotations // ignore: cast_nullable_to_non_nullable
-              as List<MessageContentTextAnnotations>,
+              as List<MessageContentTextAnnotations>?,
     ) as $Val);
   }
 }
@@ -37248,7 +40241,10 @@ abstract class _$$MessageContentTextImplCopyWith<$Res>
       __$$MessageContentTextImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String value, List<MessageContentTextAnnotations> annotations});
+  $Res call(
+      {String value,
+      @JsonKey(includeIfNull: false)
+      List<MessageContentTextAnnotations>? annotations});
 }
 
 /// @nodoc
@@ -37263,17 +40259,17 @@ class __$$MessageContentTextImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? value = null,
-    Object? annotations = null,
+    Object? annotations = freezed,
   }) {
     return _then(_$MessageContentTextImpl(
       value: null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
-      annotations: null == annotations
+      annotations: freezed == annotations
           ? _value._annotations
           : annotations // ignore: cast_nullable_to_non_nullable
-              as List<MessageContentTextAnnotations>,
+              as List<MessageContentTextAnnotations>?,
     ));
   }
 }
@@ -37283,7 +40279,8 @@ class __$$MessageContentTextImplCopyWithImpl<$Res>
 class _$MessageContentTextImpl extends _MessageContentText {
   const _$MessageContentTextImpl(
       {required this.value,
-      required final List<MessageContentTextAnnotations> annotations})
+      @JsonKey(includeIfNull: false)
+      final List<MessageContentTextAnnotations>? annotations})
       : _annotations = annotations,
         super._();
 
@@ -37295,14 +40292,17 @@ class _$MessageContentTextImpl extends _MessageContentText {
   final String value;
 
   /// A list of annotations that point to specific quotes from specific files.
-  final List<MessageContentTextAnnotations> _annotations;
+  final List<MessageContentTextAnnotations>? _annotations;
 
   /// A list of annotations that point to specific quotes from specific files.
   @override
-  List<MessageContentTextAnnotations> get annotations {
+  @JsonKey(includeIfNull: false)
+  List<MessageContentTextAnnotations>? get annotations {
+    final value = _annotations;
+    if (value == null) return null;
     if (_annotations is EqualUnmodifiableListView) return _annotations;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_annotations);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -37343,7 +40343,8 @@ class _$MessageContentTextImpl extends _MessageContentText {
 abstract class _MessageContentText extends MessageContentText {
   const factory _MessageContentText(
           {required final String value,
-          required final List<MessageContentTextAnnotations> annotations}) =
+          @JsonKey(includeIfNull: false)
+          final List<MessageContentTextAnnotations>? annotations}) =
       _$MessageContentTextImpl;
   const _MessageContentText._() : super._();
 
@@ -37357,7 +40358,8 @@ abstract class _MessageContentText extends MessageContentText {
   @override
 
   /// A list of annotations that point to specific quotes from specific files.
-  List<MessageContentTextAnnotations> get annotations;
+  @JsonKey(includeIfNull: false)
+  List<MessageContentTextAnnotations>? get annotations;
   @override
   @JsonKey(ignore: true)
   _$$MessageContentTextImplCopyWith<_$MessageContentTextImpl> get copyWith =>
@@ -37551,6 +40553,249 @@ abstract class _MessageContentTextAnnotationsFileCitation
   @JsonKey(ignore: true)
   _$$MessageContentTextAnnotationsFileCitationImplCopyWith<
           _$MessageContentTextAnnotationsFileCitationImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+MessageDeltaContentImageUrlObject _$MessageDeltaContentImageUrlObjectFromJson(
+    Map<String, dynamic> json) {
+  return _MessageDeltaContentImageUrlObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageDeltaContentImageUrlObject {
+  /// The index of the content part in the message.
+  @JsonKey(includeIfNull: false)
+  int? get index => throw _privateConstructorUsedError;
+
+  /// Always `image_url`.
+  @JsonKey(includeIfNull: false)
+  String? get type => throw _privateConstructorUsedError;
+
+  /// The image URL part of a message.
+  @JsonKey(name: 'image_url', includeIfNull: false)
+  MessageContentImageUrl? get imageUrl => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageDeltaContentImageUrlObjectCopyWith<MessageDeltaContentImageUrlObject>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageDeltaContentImageUrlObjectCopyWith<$Res> {
+  factory $MessageDeltaContentImageUrlObjectCopyWith(
+          MessageDeltaContentImageUrlObject value,
+          $Res Function(MessageDeltaContentImageUrlObject) then) =
+      _$MessageDeltaContentImageUrlObjectCopyWithImpl<$Res,
+          MessageDeltaContentImageUrlObject>;
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) int? index,
+      @JsonKey(includeIfNull: false) String? type,
+      @JsonKey(name: 'image_url', includeIfNull: false)
+      MessageContentImageUrl? imageUrl});
+
+  $MessageContentImageUrlCopyWith<$Res>? get imageUrl;
+}
+
+/// @nodoc
+class _$MessageDeltaContentImageUrlObjectCopyWithImpl<$Res,
+        $Val extends MessageDeltaContentImageUrlObject>
+    implements $MessageDeltaContentImageUrlObjectCopyWith<$Res> {
+  _$MessageDeltaContentImageUrlObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = freezed,
+    Object? type = freezed,
+    Object? imageUrl = freezed,
+  }) {
+    return _then(_value.copyWith(
+      index: freezed == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as MessageContentImageUrl?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageContentImageUrlCopyWith<$Res>? get imageUrl {
+    if (_value.imageUrl == null) {
+      return null;
+    }
+
+    return $MessageContentImageUrlCopyWith<$Res>(_value.imageUrl!, (value) {
+      return _then(_value.copyWith(imageUrl: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageDeltaContentImageUrlObjectImplCopyWith<$Res>
+    implements $MessageDeltaContentImageUrlObjectCopyWith<$Res> {
+  factory _$$MessageDeltaContentImageUrlObjectImplCopyWith(
+          _$MessageDeltaContentImageUrlObjectImpl value,
+          $Res Function(_$MessageDeltaContentImageUrlObjectImpl) then) =
+      __$$MessageDeltaContentImageUrlObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) int? index,
+      @JsonKey(includeIfNull: false) String? type,
+      @JsonKey(name: 'image_url', includeIfNull: false)
+      MessageContentImageUrl? imageUrl});
+
+  @override
+  $MessageContentImageUrlCopyWith<$Res>? get imageUrl;
+}
+
+/// @nodoc
+class __$$MessageDeltaContentImageUrlObjectImplCopyWithImpl<$Res>
+    extends _$MessageDeltaContentImageUrlObjectCopyWithImpl<$Res,
+        _$MessageDeltaContentImageUrlObjectImpl>
+    implements _$$MessageDeltaContentImageUrlObjectImplCopyWith<$Res> {
+  __$$MessageDeltaContentImageUrlObjectImplCopyWithImpl(
+      _$MessageDeltaContentImageUrlObjectImpl _value,
+      $Res Function(_$MessageDeltaContentImageUrlObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = freezed,
+    Object? type = freezed,
+    Object? imageUrl = freezed,
+  }) {
+    return _then(_$MessageDeltaContentImageUrlObjectImpl(
+      index: freezed == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as MessageContentImageUrl?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageDeltaContentImageUrlObjectImpl
+    extends _MessageDeltaContentImageUrlObject {
+  const _$MessageDeltaContentImageUrlObjectImpl(
+      {@JsonKey(includeIfNull: false) this.index,
+      @JsonKey(includeIfNull: false) this.type,
+      @JsonKey(name: 'image_url', includeIfNull: false) this.imageUrl})
+      : super._();
+
+  factory _$MessageDeltaContentImageUrlObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageDeltaContentImageUrlObjectImplFromJson(json);
+
+  /// The index of the content part in the message.
+  @override
+  @JsonKey(includeIfNull: false)
+  final int? index;
+
+  /// Always `image_url`.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? type;
+
+  /// The image URL part of a message.
+  @override
+  @JsonKey(name: 'image_url', includeIfNull: false)
+  final MessageContentImageUrl? imageUrl;
+
+  @override
+  String toString() {
+    return 'MessageDeltaContentImageUrlObject(index: $index, type: $type, imageUrl: $imageUrl)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageDeltaContentImageUrlObjectImpl &&
+            (identical(other.index, index) || other.index == index) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, index, type, imageUrl);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageDeltaContentImageUrlObjectImplCopyWith<
+          _$MessageDeltaContentImageUrlObjectImpl>
+      get copyWith => __$$MessageDeltaContentImageUrlObjectImplCopyWithImpl<
+          _$MessageDeltaContentImageUrlObjectImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageDeltaContentImageUrlObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageDeltaContentImageUrlObject
+    extends MessageDeltaContentImageUrlObject {
+  const factory _MessageDeltaContentImageUrlObject(
+          {@JsonKey(includeIfNull: false) final int? index,
+          @JsonKey(includeIfNull: false) final String? type,
+          @JsonKey(name: 'image_url', includeIfNull: false)
+          final MessageContentImageUrl? imageUrl}) =
+      _$MessageDeltaContentImageUrlObjectImpl;
+  const _MessageDeltaContentImageUrlObject._() : super._();
+
+  factory _MessageDeltaContentImageUrlObject.fromJson(
+          Map<String, dynamic> json) =
+      _$MessageDeltaContentImageUrlObjectImpl.fromJson;
+
+  @override
+
+  /// The index of the content part in the message.
+  @JsonKey(includeIfNull: false)
+  int? get index;
+  @override
+
+  /// Always `image_url`.
+  @JsonKey(includeIfNull: false)
+  String? get type;
+  @override
+
+  /// The image URL part of a message.
+  @JsonKey(name: 'image_url', includeIfNull: false)
+  MessageContentImageUrl? get imageUrl;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageDeltaContentImageUrlObjectImplCopyWith<
+          _$MessageDeltaContentImageUrlObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -40746,49 +43991,263 @@ abstract class _RunStepCompletionUsage extends RunStepCompletionUsage {
       get copyWith => throw _privateConstructorUsedError;
 }
 
-AssistantFileObject _$AssistantFileObjectFromJson(Map<String, dynamic> json) {
-  return _AssistantFileObject.fromJson(json);
+VectorStoreExpirationAfter _$VectorStoreExpirationAfterFromJson(
+    Map<String, dynamic> json) {
+  return _VectorStoreExpirationAfter.fromJson(json);
 }
 
 /// @nodoc
-mixin _$AssistantFileObject {
-  /// The identifier, which can be referenced in API endpoints.
-  String get id => throw _privateConstructorUsedError;
+mixin _$VectorStoreExpirationAfter {
+  /// Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`.
+  VectorStoreExpirationAfterAnchor get anchor =>
+      throw _privateConstructorUsedError;
 
-  /// The object type, which is always `assistant.file`.
-  AssistantFileObjectObject get object => throw _privateConstructorUsedError;
-
-  /// The Unix timestamp (in seconds) for when the assistant file was created.
-  @JsonKey(name: 'created_at')
-  int get createdAt => throw _privateConstructorUsedError;
-
-  /// The assistant ID that the file is attached to.
-  @JsonKey(name: 'assistant_id')
-  String get assistantId => throw _privateConstructorUsedError;
+  /// The number of days after the anchor time that the vector store will expire.
+  int get days => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $AssistantFileObjectCopyWith<AssistantFileObject> get copyWith =>
+  $VectorStoreExpirationAfterCopyWith<VectorStoreExpirationAfter>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $VectorStoreExpirationAfterCopyWith<$Res> {
+  factory $VectorStoreExpirationAfterCopyWith(VectorStoreExpirationAfter value,
+          $Res Function(VectorStoreExpirationAfter) then) =
+      _$VectorStoreExpirationAfterCopyWithImpl<$Res,
+          VectorStoreExpirationAfter>;
+  @useResult
+  $Res call({VectorStoreExpirationAfterAnchor anchor, int days});
+}
+
+/// @nodoc
+class _$VectorStoreExpirationAfterCopyWithImpl<$Res,
+        $Val extends VectorStoreExpirationAfter>
+    implements $VectorStoreExpirationAfterCopyWith<$Res> {
+  _$VectorStoreExpirationAfterCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? anchor = null,
+    Object? days = null,
+  }) {
+    return _then(_value.copyWith(
+      anchor: null == anchor
+          ? _value.anchor
+          : anchor // ignore: cast_nullable_to_non_nullable
+              as VectorStoreExpirationAfterAnchor,
+      days: null == days
+          ? _value.days
+          : days // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$VectorStoreExpirationAfterImplCopyWith<$Res>
+    implements $VectorStoreExpirationAfterCopyWith<$Res> {
+  factory _$$VectorStoreExpirationAfterImplCopyWith(
+          _$VectorStoreExpirationAfterImpl value,
+          $Res Function(_$VectorStoreExpirationAfterImpl) then) =
+      __$$VectorStoreExpirationAfterImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({VectorStoreExpirationAfterAnchor anchor, int days});
+}
+
+/// @nodoc
+class __$$VectorStoreExpirationAfterImplCopyWithImpl<$Res>
+    extends _$VectorStoreExpirationAfterCopyWithImpl<$Res,
+        _$VectorStoreExpirationAfterImpl>
+    implements _$$VectorStoreExpirationAfterImplCopyWith<$Res> {
+  __$$VectorStoreExpirationAfterImplCopyWithImpl(
+      _$VectorStoreExpirationAfterImpl _value,
+      $Res Function(_$VectorStoreExpirationAfterImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? anchor = null,
+    Object? days = null,
+  }) {
+    return _then(_$VectorStoreExpirationAfterImpl(
+      anchor: null == anchor
+          ? _value.anchor
+          : anchor // ignore: cast_nullable_to_non_nullable
+              as VectorStoreExpirationAfterAnchor,
+      days: null == days
+          ? _value.days
+          : days // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$VectorStoreExpirationAfterImpl extends _VectorStoreExpirationAfter {
+  const _$VectorStoreExpirationAfterImpl(
+      {required this.anchor, required this.days})
+      : super._();
+
+  factory _$VectorStoreExpirationAfterImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$VectorStoreExpirationAfterImplFromJson(json);
+
+  /// Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`.
+  @override
+  final VectorStoreExpirationAfterAnchor anchor;
+
+  /// The number of days after the anchor time that the vector store will expire.
+  @override
+  final int days;
+
+  @override
+  String toString() {
+    return 'VectorStoreExpirationAfter(anchor: $anchor, days: $days)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$VectorStoreExpirationAfterImpl &&
+            (identical(other.anchor, anchor) || other.anchor == anchor) &&
+            (identical(other.days, days) || other.days == days));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, anchor, days);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$VectorStoreExpirationAfterImplCopyWith<_$VectorStoreExpirationAfterImpl>
+      get copyWith => __$$VectorStoreExpirationAfterImplCopyWithImpl<
+          _$VectorStoreExpirationAfterImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$VectorStoreExpirationAfterImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _VectorStoreExpirationAfter extends VectorStoreExpirationAfter {
+  const factory _VectorStoreExpirationAfter(
+      {required final VectorStoreExpirationAfterAnchor anchor,
+      required final int days}) = _$VectorStoreExpirationAfterImpl;
+  const _VectorStoreExpirationAfter._() : super._();
+
+  factory _VectorStoreExpirationAfter.fromJson(Map<String, dynamic> json) =
+      _$VectorStoreExpirationAfterImpl.fromJson;
+
+  @override
+
+  /// Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`.
+  VectorStoreExpirationAfterAnchor get anchor;
+  @override
+
+  /// The number of days after the anchor time that the vector store will expire.
+  int get days;
+  @override
+  @JsonKey(ignore: true)
+  _$$VectorStoreExpirationAfterImplCopyWith<_$VectorStoreExpirationAfterImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+VectorStoreObject _$VectorStoreObjectFromJson(Map<String, dynamic> json) {
+  return _VectorStoreObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$VectorStoreObject {
+  /// The identifier, which can be referenced in API endpoints.
+  String get id => throw _privateConstructorUsedError;
+
+  /// The object type, which is always `vector_store`.
+  String get object => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the vector store was created.
+  @JsonKey(name: 'created_at')
+  int get createdAt => throw _privateConstructorUsedError;
+
+  /// The name of the vector store.
+  String? get name => throw _privateConstructorUsedError;
+
+  /// The total number of bytes used by the files in the vector store.
+  @JsonKey(name: 'usage_bytes')
+  int get usageBytes => throw _privateConstructorUsedError;
+
+  /// The number of files in the vector store.
+  @JsonKey(name: 'file_counts')
+  VectorStoreObjectFileCounts get fileCounts =>
+      throw _privateConstructorUsedError;
+
+  /// The status of the vector store, which can be either `expired`, `in_progress`, or `completed`. A status of `completed` indicates that the vector store is ready for use.
+  VectorStoreObjectStatus get status => throw _privateConstructorUsedError;
+
+  /// The expiration policy for a vector store.
+  @JsonKey(name: 'expires_after', includeIfNull: false)
+  VectorStoreExpirationAfter? get expiresAfter =>
+      throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the vector store will expire.
+  @JsonKey(name: 'expires_at', includeIfNull: false)
+  int? get expiresAt => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the vector store was last active.
+  @JsonKey(name: 'last_active_at')
+  int? get lastActiveAt => throw _privateConstructorUsedError;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  dynamic get metadata => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $VectorStoreObjectCopyWith<VectorStoreObject> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AssistantFileObjectCopyWith<$Res> {
-  factory $AssistantFileObjectCopyWith(
-          AssistantFileObject value, $Res Function(AssistantFileObject) then) =
-      _$AssistantFileObjectCopyWithImpl<$Res, AssistantFileObject>;
+abstract class $VectorStoreObjectCopyWith<$Res> {
+  factory $VectorStoreObjectCopyWith(
+          VectorStoreObject value, $Res Function(VectorStoreObject) then) =
+      _$VectorStoreObjectCopyWithImpl<$Res, VectorStoreObject>;
   @useResult
   $Res call(
       {String id,
-      AssistantFileObjectObject object,
+      String object,
       @JsonKey(name: 'created_at') int createdAt,
-      @JsonKey(name: 'assistant_id') String assistantId});
+      String? name,
+      @JsonKey(name: 'usage_bytes') int usageBytes,
+      @JsonKey(name: 'file_counts') VectorStoreObjectFileCounts fileCounts,
+      VectorStoreObjectStatus status,
+      @JsonKey(name: 'expires_after', includeIfNull: false)
+      VectorStoreExpirationAfter? expiresAfter,
+      @JsonKey(name: 'expires_at', includeIfNull: false) int? expiresAt,
+      @JsonKey(name: 'last_active_at') int? lastActiveAt,
+      dynamic metadata});
+
+  $VectorStoreObjectFileCountsCopyWith<$Res> get fileCounts;
+  $VectorStoreExpirationAfterCopyWith<$Res>? get expiresAfter;
 }
 
 /// @nodoc
-class _$AssistantFileObjectCopyWithImpl<$Res, $Val extends AssistantFileObject>
-    implements $AssistantFileObjectCopyWith<$Res> {
-  _$AssistantFileObjectCopyWithImpl(this._value, this._then);
+class _$VectorStoreObjectCopyWithImpl<$Res, $Val extends VectorStoreObject>
+    implements $VectorStoreObjectCopyWith<$Res> {
+  _$VectorStoreObjectCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -40801,7 +44260,14 @@ class _$AssistantFileObjectCopyWithImpl<$Res, $Val extends AssistantFileObject>
     Object? id = null,
     Object? object = null,
     Object? createdAt = null,
-    Object? assistantId = null,
+    Object? name = freezed,
+    Object? usageBytes = null,
+    Object? fileCounts = null,
+    Object? status = null,
+    Object? expiresAfter = freezed,
+    Object? expiresAt = freezed,
+    Object? lastActiveAt = freezed,
+    Object? metadata = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -40811,40 +44277,103 @@ class _$AssistantFileObjectCopyWithImpl<$Res, $Val extends AssistantFileObject>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as AssistantFileObjectObject,
+              as String,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as int,
-      assistantId: null == assistantId
-          ? _value.assistantId
-          : assistantId // ignore: cast_nullable_to_non_nullable
-              as String,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      usageBytes: null == usageBytes
+          ? _value.usageBytes
+          : usageBytes // ignore: cast_nullable_to_non_nullable
+              as int,
+      fileCounts: null == fileCounts
+          ? _value.fileCounts
+          : fileCounts // ignore: cast_nullable_to_non_nullable
+              as VectorStoreObjectFileCounts,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as VectorStoreObjectStatus,
+      expiresAfter: freezed == expiresAfter
+          ? _value.expiresAfter
+          : expiresAfter // ignore: cast_nullable_to_non_nullable
+              as VectorStoreExpirationAfter?,
+      expiresAt: freezed == expiresAt
+          ? _value.expiresAt
+          : expiresAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      lastActiveAt: freezed == lastActiveAt
+          ? _value.lastActiveAt
+          : lastActiveAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $VectorStoreObjectFileCountsCopyWith<$Res> get fileCounts {
+    return $VectorStoreObjectFileCountsCopyWith<$Res>(_value.fileCounts,
+        (value) {
+      return _then(_value.copyWith(fileCounts: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $VectorStoreExpirationAfterCopyWith<$Res>? get expiresAfter {
+    if (_value.expiresAfter == null) {
+      return null;
+    }
+
+    return $VectorStoreExpirationAfterCopyWith<$Res>(_value.expiresAfter!,
+        (value) {
+      return _then(_value.copyWith(expiresAfter: value) as $Val);
+    });
   }
 }
 
 /// @nodoc
-abstract class _$$AssistantFileObjectImplCopyWith<$Res>
-    implements $AssistantFileObjectCopyWith<$Res> {
-  factory _$$AssistantFileObjectImplCopyWith(_$AssistantFileObjectImpl value,
-          $Res Function(_$AssistantFileObjectImpl) then) =
-      __$$AssistantFileObjectImplCopyWithImpl<$Res>;
+abstract class _$$VectorStoreObjectImplCopyWith<$Res>
+    implements $VectorStoreObjectCopyWith<$Res> {
+  factory _$$VectorStoreObjectImplCopyWith(_$VectorStoreObjectImpl value,
+          $Res Function(_$VectorStoreObjectImpl) then) =
+      __$$VectorStoreObjectImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String id,
-      AssistantFileObjectObject object,
+      String object,
       @JsonKey(name: 'created_at') int createdAt,
-      @JsonKey(name: 'assistant_id') String assistantId});
+      String? name,
+      @JsonKey(name: 'usage_bytes') int usageBytes,
+      @JsonKey(name: 'file_counts') VectorStoreObjectFileCounts fileCounts,
+      VectorStoreObjectStatus status,
+      @JsonKey(name: 'expires_after', includeIfNull: false)
+      VectorStoreExpirationAfter? expiresAfter,
+      @JsonKey(name: 'expires_at', includeIfNull: false) int? expiresAt,
+      @JsonKey(name: 'last_active_at') int? lastActiveAt,
+      dynamic metadata});
+
+  @override
+  $VectorStoreObjectFileCountsCopyWith<$Res> get fileCounts;
+  @override
+  $VectorStoreExpirationAfterCopyWith<$Res>? get expiresAfter;
 }
 
 /// @nodoc
-class __$$AssistantFileObjectImplCopyWithImpl<$Res>
-    extends _$AssistantFileObjectCopyWithImpl<$Res, _$AssistantFileObjectImpl>
-    implements _$$AssistantFileObjectImplCopyWith<$Res> {
-  __$$AssistantFileObjectImplCopyWithImpl(_$AssistantFileObjectImpl _value,
-      $Res Function(_$AssistantFileObjectImpl) _then)
+class __$$VectorStoreObjectImplCopyWithImpl<$Res>
+    extends _$VectorStoreObjectCopyWithImpl<$Res, _$VectorStoreObjectImpl>
+    implements _$$VectorStoreObjectImplCopyWith<$Res> {
+  __$$VectorStoreObjectImplCopyWithImpl(_$VectorStoreObjectImpl _value,
+      $Res Function(_$VectorStoreObjectImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -40853,9 +44382,16 @@ class __$$AssistantFileObjectImplCopyWithImpl<$Res>
     Object? id = null,
     Object? object = null,
     Object? createdAt = null,
-    Object? assistantId = null,
+    Object? name = freezed,
+    Object? usageBytes = null,
+    Object? fileCounts = null,
+    Object? status = null,
+    Object? expiresAfter = freezed,
+    Object? expiresAt = freezed,
+    Object? lastActiveAt = freezed,
+    Object? metadata = freezed,
   }) {
-    return _then(_$AssistantFileObjectImpl(
+    return _then(_$VectorStoreObjectImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -40863,99 +44399,196 @@ class __$$AssistantFileObjectImplCopyWithImpl<$Res>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as AssistantFileObjectObject,
+              as String,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as int,
-      assistantId: null == assistantId
-          ? _value.assistantId
-          : assistantId // ignore: cast_nullable_to_non_nullable
-              as String,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      usageBytes: null == usageBytes
+          ? _value.usageBytes
+          : usageBytes // ignore: cast_nullable_to_non_nullable
+              as int,
+      fileCounts: null == fileCounts
+          ? _value.fileCounts
+          : fileCounts // ignore: cast_nullable_to_non_nullable
+              as VectorStoreObjectFileCounts,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as VectorStoreObjectStatus,
+      expiresAfter: freezed == expiresAfter
+          ? _value.expiresAfter
+          : expiresAfter // ignore: cast_nullable_to_non_nullable
+              as VectorStoreExpirationAfter?,
+      expiresAt: freezed == expiresAt
+          ? _value.expiresAt
+          : expiresAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      lastActiveAt: freezed == lastActiveAt
+          ? _value.lastActiveAt
+          : lastActiveAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$AssistantFileObjectImpl extends _AssistantFileObject {
-  const _$AssistantFileObjectImpl(
+class _$VectorStoreObjectImpl extends _VectorStoreObject {
+  const _$VectorStoreObjectImpl(
       {required this.id,
       required this.object,
       @JsonKey(name: 'created_at') required this.createdAt,
-      @JsonKey(name: 'assistant_id') required this.assistantId})
+      required this.name,
+      @JsonKey(name: 'usage_bytes') required this.usageBytes,
+      @JsonKey(name: 'file_counts') required this.fileCounts,
+      required this.status,
+      @JsonKey(name: 'expires_after', includeIfNull: false) this.expiresAfter,
+      @JsonKey(name: 'expires_at', includeIfNull: false) this.expiresAt,
+      @JsonKey(name: 'last_active_at') required this.lastActiveAt,
+      required this.metadata})
       : super._();
 
-  factory _$AssistantFileObjectImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AssistantFileObjectImplFromJson(json);
+  factory _$VectorStoreObjectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$VectorStoreObjectImplFromJson(json);
 
   /// The identifier, which can be referenced in API endpoints.
   @override
   final String id;
 
-  /// The object type, which is always `assistant.file`.
+  /// The object type, which is always `vector_store`.
   @override
-  final AssistantFileObjectObject object;
+  final String object;
 
-  /// The Unix timestamp (in seconds) for when the assistant file was created.
+  /// The Unix timestamp (in seconds) for when the vector store was created.
   @override
   @JsonKey(name: 'created_at')
   final int createdAt;
 
-  /// The assistant ID that the file is attached to.
+  /// The name of the vector store.
   @override
-  @JsonKey(name: 'assistant_id')
-  final String assistantId;
+  final String? name;
+
+  /// The total number of bytes used by the files in the vector store.
+  @override
+  @JsonKey(name: 'usage_bytes')
+  final int usageBytes;
+
+  /// The number of files in the vector store.
+  @override
+  @JsonKey(name: 'file_counts')
+  final VectorStoreObjectFileCounts fileCounts;
+
+  /// The status of the vector store, which can be either `expired`, `in_progress`, or `completed`. A status of `completed` indicates that the vector store is ready for use.
+  @override
+  final VectorStoreObjectStatus status;
+
+  /// The expiration policy for a vector store.
+  @override
+  @JsonKey(name: 'expires_after', includeIfNull: false)
+  final VectorStoreExpirationAfter? expiresAfter;
+
+  /// The Unix timestamp (in seconds) for when the vector store will expire.
+  @override
+  @JsonKey(name: 'expires_at', includeIfNull: false)
+  final int? expiresAt;
+
+  /// The Unix timestamp (in seconds) for when the vector store was last active.
+  @override
+  @JsonKey(name: 'last_active_at')
+  final int? lastActiveAt;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
+  final dynamic metadata;
 
   @override
   String toString() {
-    return 'AssistantFileObject(id: $id, object: $object, createdAt: $createdAt, assistantId: $assistantId)';
+    return 'VectorStoreObject(id: $id, object: $object, createdAt: $createdAt, name: $name, usageBytes: $usageBytes, fileCounts: $fileCounts, status: $status, expiresAfter: $expiresAfter, expiresAt: $expiresAt, lastActiveAt: $lastActiveAt, metadata: $metadata)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AssistantFileObjectImpl &&
+            other is _$VectorStoreObjectImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.object, object) || other.object == object) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.assistantId, assistantId) ||
-                other.assistantId == assistantId));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.usageBytes, usageBytes) ||
+                other.usageBytes == usageBytes) &&
+            (identical(other.fileCounts, fileCounts) ||
+                other.fileCounts == fileCounts) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.expiresAfter, expiresAfter) ||
+                other.expiresAfter == expiresAfter) &&
+            (identical(other.expiresAt, expiresAt) ||
+                other.expiresAt == expiresAt) &&
+            (identical(other.lastActiveAt, lastActiveAt) ||
+                other.lastActiveAt == lastActiveAt) &&
+            const DeepCollectionEquality().equals(other.metadata, metadata));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, object, createdAt, assistantId);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      object,
+      createdAt,
+      name,
+      usageBytes,
+      fileCounts,
+      status,
+      expiresAfter,
+      expiresAt,
+      lastActiveAt,
+      const DeepCollectionEquality().hash(metadata));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$AssistantFileObjectImplCopyWith<_$AssistantFileObjectImpl> get copyWith =>
-      __$$AssistantFileObjectImplCopyWithImpl<_$AssistantFileObjectImpl>(
+  _$$VectorStoreObjectImplCopyWith<_$VectorStoreObjectImpl> get copyWith =>
+      __$$VectorStoreObjectImplCopyWithImpl<_$VectorStoreObjectImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AssistantFileObjectImplToJson(
+    return _$$VectorStoreObjectImplToJson(
       this,
     );
   }
 }
 
-abstract class _AssistantFileObject extends AssistantFileObject {
-  const factory _AssistantFileObject(
-          {required final String id,
-          required final AssistantFileObjectObject object,
-          @JsonKey(name: 'created_at') required final int createdAt,
-          @JsonKey(name: 'assistant_id') required final String assistantId}) =
-      _$AssistantFileObjectImpl;
-  const _AssistantFileObject._() : super._();
+abstract class _VectorStoreObject extends VectorStoreObject {
+  const factory _VectorStoreObject(
+      {required final String id,
+      required final String object,
+      @JsonKey(name: 'created_at') required final int createdAt,
+      required final String? name,
+      @JsonKey(name: 'usage_bytes') required final int usageBytes,
+      @JsonKey(name: 'file_counts')
+      required final VectorStoreObjectFileCounts fileCounts,
+      required final VectorStoreObjectStatus status,
+      @JsonKey(name: 'expires_after', includeIfNull: false)
+      final VectorStoreExpirationAfter? expiresAfter,
+      @JsonKey(name: 'expires_at', includeIfNull: false) final int? expiresAt,
+      @JsonKey(name: 'last_active_at') required final int? lastActiveAt,
+      required final dynamic metadata}) = _$VectorStoreObjectImpl;
+  const _VectorStoreObject._() : super._();
 
-  factory _AssistantFileObject.fromJson(Map<String, dynamic> json) =
-      _$AssistantFileObjectImpl.fromJson;
+  factory _VectorStoreObject.fromJson(Map<String, dynamic> json) =
+      _$VectorStoreObjectImpl.fromJson;
 
   @override
 
@@ -40963,56 +44596,106 @@ abstract class _AssistantFileObject extends AssistantFileObject {
   String get id;
   @override
 
-  /// The object type, which is always `assistant.file`.
-  AssistantFileObjectObject get object;
+  /// The object type, which is always `vector_store`.
+  String get object;
   @override
 
-  /// The Unix timestamp (in seconds) for when the assistant file was created.
+  /// The Unix timestamp (in seconds) for when the vector store was created.
   @JsonKey(name: 'created_at')
   int get createdAt;
   @override
 
-  /// The assistant ID that the file is attached to.
-  @JsonKey(name: 'assistant_id')
-  String get assistantId;
+  /// The name of the vector store.
+  String? get name;
+  @override
+
+  /// The total number of bytes used by the files in the vector store.
+  @JsonKey(name: 'usage_bytes')
+  int get usageBytes;
+  @override
+
+  /// The number of files in the vector store.
+  @JsonKey(name: 'file_counts')
+  VectorStoreObjectFileCounts get fileCounts;
+  @override
+
+  /// The status of the vector store, which can be either `expired`, `in_progress`, or `completed`. A status of `completed` indicates that the vector store is ready for use.
+  VectorStoreObjectStatus get status;
+  @override
+
+  /// The expiration policy for a vector store.
+  @JsonKey(name: 'expires_after', includeIfNull: false)
+  VectorStoreExpirationAfter? get expiresAfter;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the vector store will expire.
+  @JsonKey(name: 'expires_at', includeIfNull: false)
+  int? get expiresAt;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the vector store was last active.
+  @JsonKey(name: 'last_active_at')
+  int? get lastActiveAt;
+  @override
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  dynamic get metadata;
   @override
   @JsonKey(ignore: true)
-  _$$AssistantFileObjectImplCopyWith<_$AssistantFileObjectImpl> get copyWith =>
+  _$$VectorStoreObjectImplCopyWith<_$VectorStoreObjectImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-CreateAssistantFileRequest _$CreateAssistantFileRequestFromJson(
+VectorStoreObjectFileCounts _$VectorStoreObjectFileCountsFromJson(
     Map<String, dynamic> json) {
-  return _CreateAssistantFileRequest.fromJson(json);
+  return _VectorStoreObjectFileCounts.fromJson(json);
 }
 
 /// @nodoc
-mixin _$CreateAssistantFileRequest {
-  /// A [File](https://platform.openai.com/docs/api-reference/files) ID (with `purpose="assistants"`) that the assistant should use. Useful for tools like `retrieval` and `code_interpreter` that can access files.
-  @JsonKey(name: 'file_id')
-  String get fileId => throw _privateConstructorUsedError;
+mixin _$VectorStoreObjectFileCounts {
+  /// The number of files that are currently being processed.
+  @JsonKey(name: 'in_progress')
+  int get inProgress => throw _privateConstructorUsedError;
+
+  /// The number of files that have been successfully processed.
+  int get completed => throw _privateConstructorUsedError;
+
+  /// The number of files that have failed to process.
+  int get failed => throw _privateConstructorUsedError;
+
+  /// The number of files that were cancelled.
+  int get cancelled => throw _privateConstructorUsedError;
+
+  /// The total number of files.
+  int get total => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $CreateAssistantFileRequestCopyWith<CreateAssistantFileRequest>
+  $VectorStoreObjectFileCountsCopyWith<VectorStoreObjectFileCounts>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CreateAssistantFileRequestCopyWith<$Res> {
-  factory $CreateAssistantFileRequestCopyWith(CreateAssistantFileRequest value,
-          $Res Function(CreateAssistantFileRequest) then) =
-      _$CreateAssistantFileRequestCopyWithImpl<$Res,
-          CreateAssistantFileRequest>;
+abstract class $VectorStoreObjectFileCountsCopyWith<$Res> {
+  factory $VectorStoreObjectFileCountsCopyWith(
+          VectorStoreObjectFileCounts value,
+          $Res Function(VectorStoreObjectFileCounts) then) =
+      _$VectorStoreObjectFileCountsCopyWithImpl<$Res,
+          VectorStoreObjectFileCounts>;
   @useResult
-  $Res call({@JsonKey(name: 'file_id') String fileId});
+  $Res call(
+      {@JsonKey(name: 'in_progress') int inProgress,
+      int completed,
+      int failed,
+      int cancelled,
+      int total});
 }
 
 /// @nodoc
-class _$CreateAssistantFileRequestCopyWithImpl<$Res,
-        $Val extends CreateAssistantFileRequest>
-    implements $CreateAssistantFileRequestCopyWith<$Res> {
-  _$CreateAssistantFileRequestCopyWithImpl(this._value, this._then);
+class _$VectorStoreObjectFileCountsCopyWithImpl<$Res,
+        $Val extends VectorStoreObjectFileCounts>
+    implements $VectorStoreObjectFileCountsCopyWith<$Res> {
+  _$VectorStoreObjectFileCountsCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -41022,161 +44705,1043 @@ class _$CreateAssistantFileRequestCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? fileId = null,
+    Object? inProgress = null,
+    Object? completed = null,
+    Object? failed = null,
+    Object? cancelled = null,
+    Object? total = null,
   }) {
     return _then(_value.copyWith(
-      fileId: null == fileId
-          ? _value.fileId
-          : fileId // ignore: cast_nullable_to_non_nullable
-              as String,
+      inProgress: null == inProgress
+          ? _value.inProgress
+          : inProgress // ignore: cast_nullable_to_non_nullable
+              as int,
+      completed: null == completed
+          ? _value.completed
+          : completed // ignore: cast_nullable_to_non_nullable
+              as int,
+      failed: null == failed
+          ? _value.failed
+          : failed // ignore: cast_nullable_to_non_nullable
+              as int,
+      cancelled: null == cancelled
+          ? _value.cancelled
+          : cancelled // ignore: cast_nullable_to_non_nullable
+              as int,
+      total: null == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$CreateAssistantFileRequestImplCopyWith<$Res>
-    implements $CreateAssistantFileRequestCopyWith<$Res> {
-  factory _$$CreateAssistantFileRequestImplCopyWith(
-          _$CreateAssistantFileRequestImpl value,
-          $Res Function(_$CreateAssistantFileRequestImpl) then) =
-      __$$CreateAssistantFileRequestImplCopyWithImpl<$Res>;
+abstract class _$$VectorStoreObjectFileCountsImplCopyWith<$Res>
+    implements $VectorStoreObjectFileCountsCopyWith<$Res> {
+  factory _$$VectorStoreObjectFileCountsImplCopyWith(
+          _$VectorStoreObjectFileCountsImpl value,
+          $Res Function(_$VectorStoreObjectFileCountsImpl) then) =
+      __$$VectorStoreObjectFileCountsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'file_id') String fileId});
+  $Res call(
+      {@JsonKey(name: 'in_progress') int inProgress,
+      int completed,
+      int failed,
+      int cancelled,
+      int total});
 }
 
 /// @nodoc
-class __$$CreateAssistantFileRequestImplCopyWithImpl<$Res>
-    extends _$CreateAssistantFileRequestCopyWithImpl<$Res,
-        _$CreateAssistantFileRequestImpl>
-    implements _$$CreateAssistantFileRequestImplCopyWith<$Res> {
-  __$$CreateAssistantFileRequestImplCopyWithImpl(
-      _$CreateAssistantFileRequestImpl _value,
-      $Res Function(_$CreateAssistantFileRequestImpl) _then)
+class __$$VectorStoreObjectFileCountsImplCopyWithImpl<$Res>
+    extends _$VectorStoreObjectFileCountsCopyWithImpl<$Res,
+        _$VectorStoreObjectFileCountsImpl>
+    implements _$$VectorStoreObjectFileCountsImplCopyWith<$Res> {
+  __$$VectorStoreObjectFileCountsImplCopyWithImpl(
+      _$VectorStoreObjectFileCountsImpl _value,
+      $Res Function(_$VectorStoreObjectFileCountsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? fileId = null,
+    Object? inProgress = null,
+    Object? completed = null,
+    Object? failed = null,
+    Object? cancelled = null,
+    Object? total = null,
   }) {
-    return _then(_$CreateAssistantFileRequestImpl(
-      fileId: null == fileId
-          ? _value.fileId
-          : fileId // ignore: cast_nullable_to_non_nullable
-              as String,
+    return _then(_$VectorStoreObjectFileCountsImpl(
+      inProgress: null == inProgress
+          ? _value.inProgress
+          : inProgress // ignore: cast_nullable_to_non_nullable
+              as int,
+      completed: null == completed
+          ? _value.completed
+          : completed // ignore: cast_nullable_to_non_nullable
+              as int,
+      failed: null == failed
+          ? _value.failed
+          : failed // ignore: cast_nullable_to_non_nullable
+              as int,
+      cancelled: null == cancelled
+          ? _value.cancelled
+          : cancelled // ignore: cast_nullable_to_non_nullable
+              as int,
+      total: null == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$CreateAssistantFileRequestImpl extends _CreateAssistantFileRequest {
-  const _$CreateAssistantFileRequestImpl(
-      {@JsonKey(name: 'file_id') required this.fileId})
+class _$VectorStoreObjectFileCountsImpl extends _VectorStoreObjectFileCounts {
+  const _$VectorStoreObjectFileCountsImpl(
+      {@JsonKey(name: 'in_progress') required this.inProgress,
+      required this.completed,
+      required this.failed,
+      required this.cancelled,
+      required this.total})
       : super._();
 
-  factory _$CreateAssistantFileRequestImpl.fromJson(
+  factory _$VectorStoreObjectFileCountsImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$CreateAssistantFileRequestImplFromJson(json);
+      _$$VectorStoreObjectFileCountsImplFromJson(json);
 
-  /// A [File](https://platform.openai.com/docs/api-reference/files) ID (with `purpose="assistants"`) that the assistant should use. Useful for tools like `retrieval` and `code_interpreter` that can access files.
+  /// The number of files that are currently being processed.
   @override
-  @JsonKey(name: 'file_id')
-  final String fileId;
+  @JsonKey(name: 'in_progress')
+  final int inProgress;
+
+  /// The number of files that have been successfully processed.
+  @override
+  final int completed;
+
+  /// The number of files that have failed to process.
+  @override
+  final int failed;
+
+  /// The number of files that were cancelled.
+  @override
+  final int cancelled;
+
+  /// The total number of files.
+  @override
+  final int total;
 
   @override
   String toString() {
-    return 'CreateAssistantFileRequest(fileId: $fileId)';
+    return 'VectorStoreObjectFileCounts(inProgress: $inProgress, completed: $completed, failed: $failed, cancelled: $cancelled, total: $total)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CreateAssistantFileRequestImpl &&
-            (identical(other.fileId, fileId) || other.fileId == fileId));
+            other is _$VectorStoreObjectFileCountsImpl &&
+            (identical(other.inProgress, inProgress) ||
+                other.inProgress == inProgress) &&
+            (identical(other.completed, completed) ||
+                other.completed == completed) &&
+            (identical(other.failed, failed) || other.failed == failed) &&
+            (identical(other.cancelled, cancelled) ||
+                other.cancelled == cancelled) &&
+            (identical(other.total, total) || other.total == total));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, fileId);
+  int get hashCode =>
+      Object.hash(runtimeType, inProgress, completed, failed, cancelled, total);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CreateAssistantFileRequestImplCopyWith<_$CreateAssistantFileRequestImpl>
-      get copyWith => __$$CreateAssistantFileRequestImplCopyWithImpl<
-          _$CreateAssistantFileRequestImpl>(this, _$identity);
+  _$$VectorStoreObjectFileCountsImplCopyWith<_$VectorStoreObjectFileCountsImpl>
+      get copyWith => __$$VectorStoreObjectFileCountsImplCopyWithImpl<
+          _$VectorStoreObjectFileCountsImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CreateAssistantFileRequestImplToJson(
+    return _$$VectorStoreObjectFileCountsImplToJson(
       this,
     );
   }
 }
 
-abstract class _CreateAssistantFileRequest extends CreateAssistantFileRequest {
-  const factory _CreateAssistantFileRequest(
-          {@JsonKey(name: 'file_id') required final String fileId}) =
-      _$CreateAssistantFileRequestImpl;
-  const _CreateAssistantFileRequest._() : super._();
+abstract class _VectorStoreObjectFileCounts
+    extends VectorStoreObjectFileCounts {
+  const factory _VectorStoreObjectFileCounts(
+      {@JsonKey(name: 'in_progress') required final int inProgress,
+      required final int completed,
+      required final int failed,
+      required final int cancelled,
+      required final int total}) = _$VectorStoreObjectFileCountsImpl;
+  const _VectorStoreObjectFileCounts._() : super._();
 
-  factory _CreateAssistantFileRequest.fromJson(Map<String, dynamic> json) =
-      _$CreateAssistantFileRequestImpl.fromJson;
+  factory _VectorStoreObjectFileCounts.fromJson(Map<String, dynamic> json) =
+      _$VectorStoreObjectFileCountsImpl.fromJson;
 
   @override
 
-  /// A [File](https://platform.openai.com/docs/api-reference/files) ID (with `purpose="assistants"`) that the assistant should use. Useful for tools like `retrieval` and `code_interpreter` that can access files.
-  @JsonKey(name: 'file_id')
-  String get fileId;
+  /// The number of files that are currently being processed.
+  @JsonKey(name: 'in_progress')
+  int get inProgress;
+  @override
+
+  /// The number of files that have been successfully processed.
+  int get completed;
+  @override
+
+  /// The number of files that have failed to process.
+  int get failed;
+  @override
+
+  /// The number of files that were cancelled.
+  int get cancelled;
+  @override
+
+  /// The total number of files.
+  int get total;
   @override
   @JsonKey(ignore: true)
-  _$$CreateAssistantFileRequestImplCopyWith<_$CreateAssistantFileRequestImpl>
+  _$$VectorStoreObjectFileCountsImplCopyWith<_$VectorStoreObjectFileCountsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
-DeleteAssistantFileResponse _$DeleteAssistantFileResponseFromJson(
+CreateVectorStoreRequest _$CreateVectorStoreRequestFromJson(
     Map<String, dynamic> json) {
-  return _DeleteAssistantFileResponse.fromJson(json);
+  return _CreateVectorStoreRequest.fromJson(json);
 }
 
 /// @nodoc
-mixin _$DeleteAssistantFileResponse {
-  /// The ID of the assistant file.
-  String get id => throw _privateConstructorUsedError;
+mixin _$CreateVectorStoreRequest {
+  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
+  @JsonKey(name: 'file_ids', includeIfNull: false)
+  List<String>? get fileIds => throw _privateConstructorUsedError;
 
-  /// Whether the assistant file was deleted.
-  bool get deleted => throw _privateConstructorUsedError;
+  /// The name of the vector store.
+  String get name => throw _privateConstructorUsedError;
 
-  /// The object type, which is always `assistant.file.deleted`.
-  DeleteAssistantFileResponseObject get object =>
+  /// The expiration policy for a vector store.
+  @JsonKey(name: 'expires_after', includeIfNull: false)
+  VectorStoreExpirationAfter? get expiresAfter =>
       throw _privateConstructorUsedError;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  dynamic get metadata => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $DeleteAssistantFileResponseCopyWith<DeleteAssistantFileResponse>
+  $CreateVectorStoreRequestCopyWith<CreateVectorStoreRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateVectorStoreRequestCopyWith<$Res> {
+  factory $CreateVectorStoreRequestCopyWith(CreateVectorStoreRequest value,
+          $Res Function(CreateVectorStoreRequest) then) =
+      _$CreateVectorStoreRequestCopyWithImpl<$Res, CreateVectorStoreRequest>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
+      String name,
+      @JsonKey(name: 'expires_after', includeIfNull: false)
+      VectorStoreExpirationAfter? expiresAfter,
+      @JsonKey(includeIfNull: false) dynamic metadata});
+
+  $VectorStoreExpirationAfterCopyWith<$Res>? get expiresAfter;
+}
+
+/// @nodoc
+class _$CreateVectorStoreRequestCopyWithImpl<$Res,
+        $Val extends CreateVectorStoreRequest>
+    implements $CreateVectorStoreRequestCopyWith<$Res> {
+  _$CreateVectorStoreRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileIds = freezed,
+    Object? name = null,
+    Object? expiresAfter = freezed,
+    Object? metadata = freezed,
+  }) {
+    return _then(_value.copyWith(
+      fileIds: freezed == fileIds
+          ? _value.fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      expiresAfter: freezed == expiresAfter
+          ? _value.expiresAfter
+          : expiresAfter // ignore: cast_nullable_to_non_nullable
+              as VectorStoreExpirationAfter?,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $VectorStoreExpirationAfterCopyWith<$Res>? get expiresAfter {
+    if (_value.expiresAfter == null) {
+      return null;
+    }
+
+    return $VectorStoreExpirationAfterCopyWith<$Res>(_value.expiresAfter!,
+        (value) {
+      return _then(_value.copyWith(expiresAfter: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$CreateVectorStoreRequestImplCopyWith<$Res>
+    implements $CreateVectorStoreRequestCopyWith<$Res> {
+  factory _$$CreateVectorStoreRequestImplCopyWith(
+          _$CreateVectorStoreRequestImpl value,
+          $Res Function(_$CreateVectorStoreRequestImpl) then) =
+      __$$CreateVectorStoreRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
+      String name,
+      @JsonKey(name: 'expires_after', includeIfNull: false)
+      VectorStoreExpirationAfter? expiresAfter,
+      @JsonKey(includeIfNull: false) dynamic metadata});
+
+  @override
+  $VectorStoreExpirationAfterCopyWith<$Res>? get expiresAfter;
+}
+
+/// @nodoc
+class __$$CreateVectorStoreRequestImplCopyWithImpl<$Res>
+    extends _$CreateVectorStoreRequestCopyWithImpl<$Res,
+        _$CreateVectorStoreRequestImpl>
+    implements _$$CreateVectorStoreRequestImplCopyWith<$Res> {
+  __$$CreateVectorStoreRequestImplCopyWithImpl(
+      _$CreateVectorStoreRequestImpl _value,
+      $Res Function(_$CreateVectorStoreRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileIds = freezed,
+    Object? name = null,
+    Object? expiresAfter = freezed,
+    Object? metadata = freezed,
+  }) {
+    return _then(_$CreateVectorStoreRequestImpl(
+      fileIds: freezed == fileIds
+          ? _value._fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      expiresAfter: freezed == expiresAfter
+          ? _value.expiresAfter
+          : expiresAfter // ignore: cast_nullable_to_non_nullable
+              as VectorStoreExpirationAfter?,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
+  const _$CreateVectorStoreRequestImpl(
+      {@JsonKey(name: 'file_ids', includeIfNull: false)
+      final List<String>? fileIds,
+      required this.name,
+      @JsonKey(name: 'expires_after', includeIfNull: false) this.expiresAfter,
+      @JsonKey(includeIfNull: false) this.metadata})
+      : _fileIds = fileIds,
+        super._();
+
+  factory _$CreateVectorStoreRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CreateVectorStoreRequestImplFromJson(json);
+
+  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
+  final List<String>? _fileIds;
+
+  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
+  @override
+  @JsonKey(name: 'file_ids', includeIfNull: false)
+  List<String>? get fileIds {
+    final value = _fileIds;
+    if (value == null) return null;
+    if (_fileIds is EqualUnmodifiableListView) return _fileIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  /// The name of the vector store.
+  @override
+  final String name;
+
+  /// The expiration policy for a vector store.
+  @override
+  @JsonKey(name: 'expires_after', includeIfNull: false)
+  final VectorStoreExpirationAfter? expiresAfter;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
+  @JsonKey(includeIfNull: false)
+  final dynamic metadata;
+
+  @override
+  String toString() {
+    return 'CreateVectorStoreRequest(fileIds: $fileIds, name: $name, expiresAfter: $expiresAfter, metadata: $metadata)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateVectorStoreRequestImpl &&
+            const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.expiresAfter, expiresAfter) ||
+                other.expiresAfter == expiresAfter) &&
+            const DeepCollectionEquality().equals(other.metadata, metadata));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_fileIds),
+      name,
+      expiresAfter,
+      const DeepCollectionEquality().hash(metadata));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateVectorStoreRequestImplCopyWith<_$CreateVectorStoreRequestImpl>
+      get copyWith => __$$CreateVectorStoreRequestImplCopyWithImpl<
+          _$CreateVectorStoreRequestImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateVectorStoreRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CreateVectorStoreRequest extends CreateVectorStoreRequest {
+  const factory _CreateVectorStoreRequest(
+          {@JsonKey(name: 'file_ids', includeIfNull: false)
+          final List<String>? fileIds,
+          required final String name,
+          @JsonKey(name: 'expires_after', includeIfNull: false)
+          final VectorStoreExpirationAfter? expiresAfter,
+          @JsonKey(includeIfNull: false) final dynamic metadata}) =
+      _$CreateVectorStoreRequestImpl;
+  const _CreateVectorStoreRequest._() : super._();
+
+  factory _CreateVectorStoreRequest.fromJson(Map<String, dynamic> json) =
+      _$CreateVectorStoreRequestImpl.fromJson;
+
+  @override
+
+  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
+  @JsonKey(name: 'file_ids', includeIfNull: false)
+  List<String>? get fileIds;
+  @override
+
+  /// The name of the vector store.
+  String get name;
+  @override
+
+  /// The expiration policy for a vector store.
+  @JsonKey(name: 'expires_after', includeIfNull: false)
+  VectorStoreExpirationAfter? get expiresAfter;
+  @override
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  dynamic get metadata;
+  @override
+  @JsonKey(ignore: true)
+  _$$CreateVectorStoreRequestImplCopyWith<_$CreateVectorStoreRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
-/// @nodoc
-abstract class $DeleteAssistantFileResponseCopyWith<$Res> {
-  factory $DeleteAssistantFileResponseCopyWith(
-          DeleteAssistantFileResponse value,
-          $Res Function(DeleteAssistantFileResponse) then) =
-      _$DeleteAssistantFileResponseCopyWithImpl<$Res,
-          DeleteAssistantFileResponse>;
-  @useResult
-  $Res call(
-      {String id, bool deleted, DeleteAssistantFileResponseObject object});
+UpdateVectorStoreRequest _$UpdateVectorStoreRequestFromJson(
+    Map<String, dynamic> json) {
+  return _UpdateVectorStoreRequest.fromJson(json);
 }
 
 /// @nodoc
-class _$DeleteAssistantFileResponseCopyWithImpl<$Res,
-        $Val extends DeleteAssistantFileResponse>
-    implements $DeleteAssistantFileResponseCopyWith<$Res> {
-  _$DeleteAssistantFileResponseCopyWithImpl(this._value, this._then);
+mixin _$UpdateVectorStoreRequest {
+  /// The name of the vector store.
+  @JsonKey(includeIfNull: false)
+  String? get name => throw _privateConstructorUsedError;
+
+  /// The expiration policy for a vector store.
+  @JsonKey(name: 'expires_after', includeIfNull: false)
+  VectorStoreExpirationAfter? get expiresAfter =>
+      throw _privateConstructorUsedError;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  dynamic get metadata => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $UpdateVectorStoreRequestCopyWith<UpdateVectorStoreRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UpdateVectorStoreRequestCopyWith<$Res> {
+  factory $UpdateVectorStoreRequestCopyWith(UpdateVectorStoreRequest value,
+          $Res Function(UpdateVectorStoreRequest) then) =
+      _$UpdateVectorStoreRequestCopyWithImpl<$Res, UpdateVectorStoreRequest>;
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? name,
+      @JsonKey(name: 'expires_after', includeIfNull: false)
+      VectorStoreExpirationAfter? expiresAfter,
+      @JsonKey(includeIfNull: false) dynamic metadata});
+
+  $VectorStoreExpirationAfterCopyWith<$Res>? get expiresAfter;
+}
+
+/// @nodoc
+class _$UpdateVectorStoreRequestCopyWithImpl<$Res,
+        $Val extends UpdateVectorStoreRequest>
+    implements $UpdateVectorStoreRequestCopyWith<$Res> {
+  _$UpdateVectorStoreRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = freezed,
+    Object? expiresAfter = freezed,
+    Object? metadata = freezed,
+  }) {
+    return _then(_value.copyWith(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      expiresAfter: freezed == expiresAfter
+          ? _value.expiresAfter
+          : expiresAfter // ignore: cast_nullable_to_non_nullable
+              as VectorStoreExpirationAfter?,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $VectorStoreExpirationAfterCopyWith<$Res>? get expiresAfter {
+    if (_value.expiresAfter == null) {
+      return null;
+    }
+
+    return $VectorStoreExpirationAfterCopyWith<$Res>(_value.expiresAfter!,
+        (value) {
+      return _then(_value.copyWith(expiresAfter: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$UpdateVectorStoreRequestImplCopyWith<$Res>
+    implements $UpdateVectorStoreRequestCopyWith<$Res> {
+  factory _$$UpdateVectorStoreRequestImplCopyWith(
+          _$UpdateVectorStoreRequestImpl value,
+          $Res Function(_$UpdateVectorStoreRequestImpl) then) =
+      __$$UpdateVectorStoreRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? name,
+      @JsonKey(name: 'expires_after', includeIfNull: false)
+      VectorStoreExpirationAfter? expiresAfter,
+      @JsonKey(includeIfNull: false) dynamic metadata});
+
+  @override
+  $VectorStoreExpirationAfterCopyWith<$Res>? get expiresAfter;
+}
+
+/// @nodoc
+class __$$UpdateVectorStoreRequestImplCopyWithImpl<$Res>
+    extends _$UpdateVectorStoreRequestCopyWithImpl<$Res,
+        _$UpdateVectorStoreRequestImpl>
+    implements _$$UpdateVectorStoreRequestImplCopyWith<$Res> {
+  __$$UpdateVectorStoreRequestImplCopyWithImpl(
+      _$UpdateVectorStoreRequestImpl _value,
+      $Res Function(_$UpdateVectorStoreRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = freezed,
+    Object? expiresAfter = freezed,
+    Object? metadata = freezed,
+  }) {
+    return _then(_$UpdateVectorStoreRequestImpl(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      expiresAfter: freezed == expiresAfter
+          ? _value.expiresAfter
+          : expiresAfter // ignore: cast_nullable_to_non_nullable
+              as VectorStoreExpirationAfter?,
+      metadata: freezed == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UpdateVectorStoreRequestImpl extends _UpdateVectorStoreRequest {
+  const _$UpdateVectorStoreRequestImpl(
+      {@JsonKey(includeIfNull: false) this.name,
+      @JsonKey(name: 'expires_after', includeIfNull: false) this.expiresAfter,
+      @JsonKey(includeIfNull: false) this.metadata})
+      : super._();
+
+  factory _$UpdateVectorStoreRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UpdateVectorStoreRequestImplFromJson(json);
+
+  /// The name of the vector store.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? name;
+
+  /// The expiration policy for a vector store.
+  @override
+  @JsonKey(name: 'expires_after', includeIfNull: false)
+  final VectorStoreExpirationAfter? expiresAfter;
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
+  @JsonKey(includeIfNull: false)
+  final dynamic metadata;
+
+  @override
+  String toString() {
+    return 'UpdateVectorStoreRequest(name: $name, expiresAfter: $expiresAfter, metadata: $metadata)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UpdateVectorStoreRequestImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.expiresAfter, expiresAfter) ||
+                other.expiresAfter == expiresAfter) &&
+            const DeepCollectionEquality().equals(other.metadata, metadata));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, name, expiresAfter,
+      const DeepCollectionEquality().hash(metadata));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UpdateVectorStoreRequestImplCopyWith<_$UpdateVectorStoreRequestImpl>
+      get copyWith => __$$UpdateVectorStoreRequestImplCopyWithImpl<
+          _$UpdateVectorStoreRequestImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UpdateVectorStoreRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _UpdateVectorStoreRequest extends UpdateVectorStoreRequest {
+  const factory _UpdateVectorStoreRequest(
+          {@JsonKey(includeIfNull: false) final String? name,
+          @JsonKey(name: 'expires_after', includeIfNull: false)
+          final VectorStoreExpirationAfter? expiresAfter,
+          @JsonKey(includeIfNull: false) final dynamic metadata}) =
+      _$UpdateVectorStoreRequestImpl;
+  const _UpdateVectorStoreRequest._() : super._();
+
+  factory _UpdateVectorStoreRequest.fromJson(Map<String, dynamic> json) =
+      _$UpdateVectorStoreRequestImpl.fromJson;
+
+  @override
+
+  /// The name of the vector store.
+  @JsonKey(includeIfNull: false)
+  String? get name;
+  @override
+
+  /// The expiration policy for a vector store.
+  @JsonKey(name: 'expires_after', includeIfNull: false)
+  VectorStoreExpirationAfter? get expiresAfter;
+  @override
+
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @JsonKey(includeIfNull: false)
+  dynamic get metadata;
+  @override
+  @JsonKey(ignore: true)
+  _$$UpdateVectorStoreRequestImplCopyWith<_$UpdateVectorStoreRequestImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ListVectorStoresResponse _$ListVectorStoresResponseFromJson(
+    Map<String, dynamic> json) {
+  return _ListVectorStoresResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ListVectorStoresResponse {
+  /// The object type, which is always `list`.
+  String get object => throw _privateConstructorUsedError;
+
+  /// A list of assistant files.
+  List<VectorStoreObject> get data => throw _privateConstructorUsedError;
+
+  /// The ID of the first assistant file in the list.
+  @JsonKey(name: 'first_id')
+  String? get firstId => throw _privateConstructorUsedError;
+
+  /// The ID of the last assistant file in the list.
+  @JsonKey(name: 'last_id')
+  String? get lastId => throw _privateConstructorUsedError;
+
+  /// Whether there are more assistant files available.
+  @JsonKey(name: 'has_more')
+  bool get hasMore => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ListVectorStoresResponseCopyWith<ListVectorStoresResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ListVectorStoresResponseCopyWith<$Res> {
+  factory $ListVectorStoresResponseCopyWith(ListVectorStoresResponse value,
+          $Res Function(ListVectorStoresResponse) then) =
+      _$ListVectorStoresResponseCopyWithImpl<$Res, ListVectorStoresResponse>;
+  @useResult
+  $Res call(
+      {String object,
+      List<VectorStoreObject> data,
+      @JsonKey(name: 'first_id') String? firstId,
+      @JsonKey(name: 'last_id') String? lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class _$ListVectorStoresResponseCopyWithImpl<$Res,
+        $Val extends ListVectorStoresResponse>
+    implements $ListVectorStoresResponseCopyWith<$Res> {
+  _$ListVectorStoresResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = null,
+    Object? data = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
+    Object? hasMore = null,
+  }) {
+    return _then(_value.copyWith(
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<VectorStoreObject>,
+      firstId: freezed == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastId: freezed == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ListVectorStoresResponseImplCopyWith<$Res>
+    implements $ListVectorStoresResponseCopyWith<$Res> {
+  factory _$$ListVectorStoresResponseImplCopyWith(
+          _$ListVectorStoresResponseImpl value,
+          $Res Function(_$ListVectorStoresResponseImpl) then) =
+      __$$ListVectorStoresResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String object,
+      List<VectorStoreObject> data,
+      @JsonKey(name: 'first_id') String? firstId,
+      @JsonKey(name: 'last_id') String? lastId,
+      @JsonKey(name: 'has_more') bool hasMore});
+}
+
+/// @nodoc
+class __$$ListVectorStoresResponseImplCopyWithImpl<$Res>
+    extends _$ListVectorStoresResponseCopyWithImpl<$Res,
+        _$ListVectorStoresResponseImpl>
+    implements _$$ListVectorStoresResponseImplCopyWith<$Res> {
+  __$$ListVectorStoresResponseImplCopyWithImpl(
+      _$ListVectorStoresResponseImpl _value,
+      $Res Function(_$ListVectorStoresResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? object = null,
+    Object? data = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
+    Object? hasMore = null,
+  }) {
+    return _then(_$ListVectorStoresResponseImpl(
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<VectorStoreObject>,
+      firstId: freezed == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastId: freezed == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ListVectorStoresResponseImpl extends _ListVectorStoresResponse {
+  const _$ListVectorStoresResponseImpl(
+      {required this.object,
+      required final List<VectorStoreObject> data,
+      @JsonKey(name: 'first_id') required this.firstId,
+      @JsonKey(name: 'last_id') required this.lastId,
+      @JsonKey(name: 'has_more') required this.hasMore})
+      : _data = data,
+        super._();
+
+  factory _$ListVectorStoresResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ListVectorStoresResponseImplFromJson(json);
+
+  /// The object type, which is always `list`.
+  @override
+  final String object;
+
+  /// A list of assistant files.
+  final List<VectorStoreObject> _data;
+
+  /// A list of assistant files.
+  @override
+  List<VectorStoreObject> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_data);
+  }
+
+  /// The ID of the first assistant file in the list.
+  @override
+  @JsonKey(name: 'first_id')
+  final String? firstId;
+
+  /// The ID of the last assistant file in the list.
+  @override
+  @JsonKey(name: 'last_id')
+  final String? lastId;
+
+  /// Whether there are more assistant files available.
+  @override
+  @JsonKey(name: 'has_more')
+  final bool hasMore;
+
+  @override
+  String toString() {
+    return 'ListVectorStoresResponse(object: $object, data: $data, firstId: $firstId, lastId: $lastId, hasMore: $hasMore)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ListVectorStoresResponseImpl &&
+            (identical(other.object, object) || other.object == object) &&
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.firstId, firstId) || other.firstId == firstId) &&
+            (identical(other.lastId, lastId) || other.lastId == lastId) &&
+            (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, object,
+      const DeepCollectionEquality().hash(_data), firstId, lastId, hasMore);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ListVectorStoresResponseImplCopyWith<_$ListVectorStoresResponseImpl>
+      get copyWith => __$$ListVectorStoresResponseImplCopyWithImpl<
+          _$ListVectorStoresResponseImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ListVectorStoresResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ListVectorStoresResponse extends ListVectorStoresResponse {
+  const factory _ListVectorStoresResponse(
+          {required final String object,
+          required final List<VectorStoreObject> data,
+          @JsonKey(name: 'first_id') required final String? firstId,
+          @JsonKey(name: 'last_id') required final String? lastId,
+          @JsonKey(name: 'has_more') required final bool hasMore}) =
+      _$ListVectorStoresResponseImpl;
+  const _ListVectorStoresResponse._() : super._();
+
+  factory _ListVectorStoresResponse.fromJson(Map<String, dynamic> json) =
+      _$ListVectorStoresResponseImpl.fromJson;
+
+  @override
+
+  /// The object type, which is always `list`.
+  String get object;
+  @override
+
+  /// A list of assistant files.
+  List<VectorStoreObject> get data;
+  @override
+
+  /// The ID of the first assistant file in the list.
+  @JsonKey(name: 'first_id')
+  String? get firstId;
+  @override
+
+  /// The ID of the last assistant file in the list.
+  @JsonKey(name: 'last_id')
+  String? get lastId;
+  @override
+
+  /// Whether there are more assistant files available.
+  @JsonKey(name: 'has_more')
+  bool get hasMore;
+  @override
+  @JsonKey(ignore: true)
+  _$$ListVectorStoresResponseImplCopyWith<_$ListVectorStoresResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+DeleteVectorStoreResponse _$DeleteVectorStoreResponseFromJson(
+    Map<String, dynamic> json) {
+  return _DeleteVectorStoreResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$DeleteVectorStoreResponse {
+  /// The ID of the deleted vector store.
+  String get id => throw _privateConstructorUsedError;
+
+  /// Whether the vector store was deleted.
+  bool get deleted => throw _privateConstructorUsedError;
+
+  /// The object type, which is always `vector_store.deleted`.
+  String get object => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $DeleteVectorStoreResponseCopyWith<DeleteVectorStoreResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DeleteVectorStoreResponseCopyWith<$Res> {
+  factory $DeleteVectorStoreResponseCopyWith(DeleteVectorStoreResponse value,
+          $Res Function(DeleteVectorStoreResponse) then) =
+      _$DeleteVectorStoreResponseCopyWithImpl<$Res, DeleteVectorStoreResponse>;
+  @useResult
+  $Res call({String id, bool deleted, String object});
+}
+
+/// @nodoc
+class _$DeleteVectorStoreResponseCopyWithImpl<$Res,
+        $Val extends DeleteVectorStoreResponse>
+    implements $DeleteVectorStoreResponseCopyWith<$Res> {
+  _$DeleteVectorStoreResponseCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -41202,32 +45767,31 @@ class _$DeleteAssistantFileResponseCopyWithImpl<$Res,
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as DeleteAssistantFileResponseObject,
+              as String,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$DeleteAssistantFileResponseImplCopyWith<$Res>
-    implements $DeleteAssistantFileResponseCopyWith<$Res> {
-  factory _$$DeleteAssistantFileResponseImplCopyWith(
-          _$DeleteAssistantFileResponseImpl value,
-          $Res Function(_$DeleteAssistantFileResponseImpl) then) =
-      __$$DeleteAssistantFileResponseImplCopyWithImpl<$Res>;
+abstract class _$$DeleteVectorStoreResponseImplCopyWith<$Res>
+    implements $DeleteVectorStoreResponseCopyWith<$Res> {
+  factory _$$DeleteVectorStoreResponseImplCopyWith(
+          _$DeleteVectorStoreResponseImpl value,
+          $Res Function(_$DeleteVectorStoreResponseImpl) then) =
+      __$$DeleteVectorStoreResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id, bool deleted, DeleteAssistantFileResponseObject object});
+  $Res call({String id, bool deleted, String object});
 }
 
 /// @nodoc
-class __$$DeleteAssistantFileResponseImplCopyWithImpl<$Res>
-    extends _$DeleteAssistantFileResponseCopyWithImpl<$Res,
-        _$DeleteAssistantFileResponseImpl>
-    implements _$$DeleteAssistantFileResponseImplCopyWith<$Res> {
-  __$$DeleteAssistantFileResponseImplCopyWithImpl(
-      _$DeleteAssistantFileResponseImpl _value,
-      $Res Function(_$DeleteAssistantFileResponseImpl) _then)
+class __$$DeleteVectorStoreResponseImplCopyWithImpl<$Res>
+    extends _$DeleteVectorStoreResponseCopyWithImpl<$Res,
+        _$DeleteVectorStoreResponseImpl>
+    implements _$$DeleteVectorStoreResponseImplCopyWith<$Res> {
+  __$$DeleteVectorStoreResponseImplCopyWithImpl(
+      _$DeleteVectorStoreResponseImpl _value,
+      $Res Function(_$DeleteVectorStoreResponseImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -41237,7 +45801,7 @@ class __$$DeleteAssistantFileResponseImplCopyWithImpl<$Res>
     Object? deleted = null,
     Object? object = null,
   }) {
-    return _then(_$DeleteAssistantFileResponseImpl(
+    return _then(_$DeleteVectorStoreResponseImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -41249,44 +45813,43 @@ class __$$DeleteAssistantFileResponseImplCopyWithImpl<$Res>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as DeleteAssistantFileResponseObject,
+              as String,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$DeleteAssistantFileResponseImpl extends _DeleteAssistantFileResponse {
-  const _$DeleteAssistantFileResponseImpl(
+class _$DeleteVectorStoreResponseImpl extends _DeleteVectorStoreResponse {
+  const _$DeleteVectorStoreResponseImpl(
       {required this.id, required this.deleted, required this.object})
       : super._();
 
-  factory _$DeleteAssistantFileResponseImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$DeleteAssistantFileResponseImplFromJson(json);
+  factory _$DeleteVectorStoreResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DeleteVectorStoreResponseImplFromJson(json);
 
-  /// The ID of the assistant file.
+  /// The ID of the deleted vector store.
   @override
   final String id;
 
-  /// Whether the assistant file was deleted.
+  /// Whether the vector store was deleted.
   @override
   final bool deleted;
 
-  /// The object type, which is always `assistant.file.deleted`.
+  /// The object type, which is always `vector_store.deleted`.
   @override
-  final DeleteAssistantFileResponseObject object;
+  final String object;
 
   @override
   String toString() {
-    return 'DeleteAssistantFileResponse(id: $id, deleted: $deleted, object: $object)';
+    return 'DeleteVectorStoreResponse(id: $id, deleted: $deleted, object: $object)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DeleteAssistantFileResponseImpl &&
+            other is _$DeleteVectorStoreResponseImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.deleted, deleted) || other.deleted == deleted) &&
             (identical(other.object, object) || other.object == object));
@@ -41299,368 +45862,108 @@ class _$DeleteAssistantFileResponseImpl extends _DeleteAssistantFileResponse {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$DeleteAssistantFileResponseImplCopyWith<_$DeleteAssistantFileResponseImpl>
-      get copyWith => __$$DeleteAssistantFileResponseImplCopyWithImpl<
-          _$DeleteAssistantFileResponseImpl>(this, _$identity);
+  _$$DeleteVectorStoreResponseImplCopyWith<_$DeleteVectorStoreResponseImpl>
+      get copyWith => __$$DeleteVectorStoreResponseImplCopyWithImpl<
+          _$DeleteVectorStoreResponseImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$DeleteAssistantFileResponseImplToJson(
+    return _$$DeleteVectorStoreResponseImplToJson(
       this,
     );
   }
 }
 
-abstract class _DeleteAssistantFileResponse
-    extends DeleteAssistantFileResponse {
-  const factory _DeleteAssistantFileResponse(
-          {required final String id,
-          required final bool deleted,
-          required final DeleteAssistantFileResponseObject object}) =
-      _$DeleteAssistantFileResponseImpl;
-  const _DeleteAssistantFileResponse._() : super._();
+abstract class _DeleteVectorStoreResponse extends DeleteVectorStoreResponse {
+  const factory _DeleteVectorStoreResponse(
+      {required final String id,
+      required final bool deleted,
+      required final String object}) = _$DeleteVectorStoreResponseImpl;
+  const _DeleteVectorStoreResponse._() : super._();
 
-  factory _DeleteAssistantFileResponse.fromJson(Map<String, dynamic> json) =
-      _$DeleteAssistantFileResponseImpl.fromJson;
+  factory _DeleteVectorStoreResponse.fromJson(Map<String, dynamic> json) =
+      _$DeleteVectorStoreResponseImpl.fromJson;
 
   @override
 
-  /// The ID of the assistant file.
+  /// The ID of the deleted vector store.
   String get id;
   @override
 
-  /// Whether the assistant file was deleted.
+  /// Whether the vector store was deleted.
   bool get deleted;
   @override
 
-  /// The object type, which is always `assistant.file.deleted`.
-  DeleteAssistantFileResponseObject get object;
-  @override
-  @JsonKey(ignore: true)
-  _$$DeleteAssistantFileResponseImplCopyWith<_$DeleteAssistantFileResponseImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-ListAssistantFilesResponse _$ListAssistantFilesResponseFromJson(
-    Map<String, dynamic> json) {
-  return _ListAssistantFilesResponse.fromJson(json);
-}
-
-/// @nodoc
-mixin _$ListAssistantFilesResponse {
-  /// The object type, which is always `list`.
-  String get object => throw _privateConstructorUsedError;
-
-  /// A list of assistant files.
-  List<AssistantFileObject> get data => throw _privateConstructorUsedError;
-
-  /// The ID of the first assistant file in the list.
-  @JsonKey(name: 'first_id')
-  String get firstId => throw _privateConstructorUsedError;
-
-  /// The ID of the last assistant file in the list.
-  @JsonKey(name: 'last_id')
-  String get lastId => throw _privateConstructorUsedError;
-
-  /// Whether there are more assistant files available.
-  @JsonKey(name: 'has_more')
-  bool get hasMore => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $ListAssistantFilesResponseCopyWith<ListAssistantFilesResponse>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ListAssistantFilesResponseCopyWith<$Res> {
-  factory $ListAssistantFilesResponseCopyWith(ListAssistantFilesResponse value,
-          $Res Function(ListAssistantFilesResponse) then) =
-      _$ListAssistantFilesResponseCopyWithImpl<$Res,
-          ListAssistantFilesResponse>;
-  @useResult
-  $Res call(
-      {String object,
-      List<AssistantFileObject> data,
-      @JsonKey(name: 'first_id') String firstId,
-      @JsonKey(name: 'last_id') String lastId,
-      @JsonKey(name: 'has_more') bool hasMore});
-}
-
-/// @nodoc
-class _$ListAssistantFilesResponseCopyWithImpl<$Res,
-        $Val extends ListAssistantFilesResponse>
-    implements $ListAssistantFilesResponseCopyWith<$Res> {
-  _$ListAssistantFilesResponseCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? object = null,
-    Object? data = null,
-    Object? firstId = null,
-    Object? lastId = null,
-    Object? hasMore = null,
-  }) {
-    return _then(_value.copyWith(
-      object: null == object
-          ? _value.object
-          : object // ignore: cast_nullable_to_non_nullable
-              as String,
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as List<AssistantFileObject>,
-      firstId: null == firstId
-          ? _value.firstId
-          : firstId // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastId: null == lastId
-          ? _value.lastId
-          : lastId // ignore: cast_nullable_to_non_nullable
-              as String,
-      hasMore: null == hasMore
-          ? _value.hasMore
-          : hasMore // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$ListAssistantFilesResponseImplCopyWith<$Res>
-    implements $ListAssistantFilesResponseCopyWith<$Res> {
-  factory _$$ListAssistantFilesResponseImplCopyWith(
-          _$ListAssistantFilesResponseImpl value,
-          $Res Function(_$ListAssistantFilesResponseImpl) then) =
-      __$$ListAssistantFilesResponseImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String object,
-      List<AssistantFileObject> data,
-      @JsonKey(name: 'first_id') String firstId,
-      @JsonKey(name: 'last_id') String lastId,
-      @JsonKey(name: 'has_more') bool hasMore});
-}
-
-/// @nodoc
-class __$$ListAssistantFilesResponseImplCopyWithImpl<$Res>
-    extends _$ListAssistantFilesResponseCopyWithImpl<$Res,
-        _$ListAssistantFilesResponseImpl>
-    implements _$$ListAssistantFilesResponseImplCopyWith<$Res> {
-  __$$ListAssistantFilesResponseImplCopyWithImpl(
-      _$ListAssistantFilesResponseImpl _value,
-      $Res Function(_$ListAssistantFilesResponseImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? object = null,
-    Object? data = null,
-    Object? firstId = null,
-    Object? lastId = null,
-    Object? hasMore = null,
-  }) {
-    return _then(_$ListAssistantFilesResponseImpl(
-      object: null == object
-          ? _value.object
-          : object // ignore: cast_nullable_to_non_nullable
-              as String,
-      data: null == data
-          ? _value._data
-          : data // ignore: cast_nullable_to_non_nullable
-              as List<AssistantFileObject>,
-      firstId: null == firstId
-          ? _value.firstId
-          : firstId // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastId: null == lastId
-          ? _value.lastId
-          : lastId // ignore: cast_nullable_to_non_nullable
-              as String,
-      hasMore: null == hasMore
-          ? _value.hasMore
-          : hasMore // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$ListAssistantFilesResponseImpl extends _ListAssistantFilesResponse {
-  const _$ListAssistantFilesResponseImpl(
-      {required this.object,
-      required final List<AssistantFileObject> data,
-      @JsonKey(name: 'first_id') required this.firstId,
-      @JsonKey(name: 'last_id') required this.lastId,
-      @JsonKey(name: 'has_more') required this.hasMore})
-      : _data = data,
-        super._();
-
-  factory _$ListAssistantFilesResponseImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$ListAssistantFilesResponseImplFromJson(json);
-
-  /// The object type, which is always `list`.
-  @override
-  final String object;
-
-  /// A list of assistant files.
-  final List<AssistantFileObject> _data;
-
-  /// A list of assistant files.
-  @override
-  List<AssistantFileObject> get data {
-    if (_data is EqualUnmodifiableListView) return _data;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_data);
-  }
-
-  /// The ID of the first assistant file in the list.
-  @override
-  @JsonKey(name: 'first_id')
-  final String firstId;
-
-  /// The ID of the last assistant file in the list.
-  @override
-  @JsonKey(name: 'last_id')
-  final String lastId;
-
-  /// Whether there are more assistant files available.
-  @override
-  @JsonKey(name: 'has_more')
-  final bool hasMore;
-
-  @override
-  String toString() {
-    return 'ListAssistantFilesResponse(object: $object, data: $data, firstId: $firstId, lastId: $lastId, hasMore: $hasMore)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ListAssistantFilesResponseImpl &&
-            (identical(other.object, object) || other.object == object) &&
-            const DeepCollectionEquality().equals(other._data, _data) &&
-            (identical(other.firstId, firstId) || other.firstId == firstId) &&
-            (identical(other.lastId, lastId) || other.lastId == lastId) &&
-            (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, object,
-      const DeepCollectionEquality().hash(_data), firstId, lastId, hasMore);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ListAssistantFilesResponseImplCopyWith<_$ListAssistantFilesResponseImpl>
-      get copyWith => __$$ListAssistantFilesResponseImplCopyWithImpl<
-          _$ListAssistantFilesResponseImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ListAssistantFilesResponseImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _ListAssistantFilesResponse extends ListAssistantFilesResponse {
-  const factory _ListAssistantFilesResponse(
-          {required final String object,
-          required final List<AssistantFileObject> data,
-          @JsonKey(name: 'first_id') required final String firstId,
-          @JsonKey(name: 'last_id') required final String lastId,
-          @JsonKey(name: 'has_more') required final bool hasMore}) =
-      _$ListAssistantFilesResponseImpl;
-  const _ListAssistantFilesResponse._() : super._();
-
-  factory _ListAssistantFilesResponse.fromJson(Map<String, dynamic> json) =
-      _$ListAssistantFilesResponseImpl.fromJson;
-
-  @override
-
-  /// The object type, which is always `list`.
+  /// The object type, which is always `vector_store.deleted`.
   String get object;
   @override
-
-  /// A list of assistant files.
-  List<AssistantFileObject> get data;
-  @override
-
-  /// The ID of the first assistant file in the list.
-  @JsonKey(name: 'first_id')
-  String get firstId;
-  @override
-
-  /// The ID of the last assistant file in the list.
-  @JsonKey(name: 'last_id')
-  String get lastId;
-  @override
-
-  /// Whether there are more assistant files available.
-  @JsonKey(name: 'has_more')
-  bool get hasMore;
-  @override
   @JsonKey(ignore: true)
-  _$$ListAssistantFilesResponseImplCopyWith<_$ListAssistantFilesResponseImpl>
+  _$$DeleteVectorStoreResponseImplCopyWith<_$DeleteVectorStoreResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
-MessageFileObject _$MessageFileObjectFromJson(Map<String, dynamic> json) {
-  return _MessageFileObject.fromJson(json);
+VectorStoreFileObject _$VectorStoreFileObjectFromJson(
+    Map<String, dynamic> json) {
+  return _VectorStoreFileObject.fromJson(json);
 }
 
 /// @nodoc
-mixin _$MessageFileObject {
+mixin _$VectorStoreFileObject {
   /// The identifier, which can be referenced in API endpoints.
   String get id => throw _privateConstructorUsedError;
 
-  /// The object type, which is always `thread.message.file`.
-  MessageFileObjectObject get object => throw _privateConstructorUsedError;
+  /// The object type, which is always `vector_store.file`.
+  String get object => throw _privateConstructorUsedError;
 
-  /// The Unix timestamp (in seconds) for when the message file was created.
+  /// The total vector store usage in bytes. Note that this may be different from the original file size.
+  @JsonKey(name: 'usage_bytes')
+  int get usageBytes => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the vector store file was created.
   @JsonKey(name: 'created_at')
   int get createdAt => throw _privateConstructorUsedError;
 
-  /// The ID of the [message](https://platform.openai.com/docs/api-reference/messages) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to.
-  @JsonKey(name: 'message_id')
-  String get messageId => throw _privateConstructorUsedError;
+  /// The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to.
+  @JsonKey(name: 'vector_store_id')
+  String get vectorStoreId => throw _privateConstructorUsedError;
+
+  /// The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use.
+  VectorStoreFileStatus get status => throw _privateConstructorUsedError;
+
+  /// The last error associated with this vector store file. Will be `null` if there are no errors.
+  @JsonKey(name: 'last_error')
+  VectorStoreFileObjectLastError? get lastError =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $MessageFileObjectCopyWith<MessageFileObject> get copyWith =>
+  $VectorStoreFileObjectCopyWith<VectorStoreFileObject> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $MessageFileObjectCopyWith<$Res> {
-  factory $MessageFileObjectCopyWith(
-          MessageFileObject value, $Res Function(MessageFileObject) then) =
-      _$MessageFileObjectCopyWithImpl<$Res, MessageFileObject>;
+abstract class $VectorStoreFileObjectCopyWith<$Res> {
+  factory $VectorStoreFileObjectCopyWith(VectorStoreFileObject value,
+          $Res Function(VectorStoreFileObject) then) =
+      _$VectorStoreFileObjectCopyWithImpl<$Res, VectorStoreFileObject>;
   @useResult
   $Res call(
       {String id,
-      MessageFileObjectObject object,
+      String object,
+      @JsonKey(name: 'usage_bytes') int usageBytes,
       @JsonKey(name: 'created_at') int createdAt,
-      @JsonKey(name: 'message_id') String messageId});
+      @JsonKey(name: 'vector_store_id') String vectorStoreId,
+      VectorStoreFileStatus status,
+      @JsonKey(name: 'last_error') VectorStoreFileObjectLastError? lastError});
+
+  $VectorStoreFileObjectLastErrorCopyWith<$Res>? get lastError;
 }
 
 /// @nodoc
-class _$MessageFileObjectCopyWithImpl<$Res, $Val extends MessageFileObject>
-    implements $MessageFileObjectCopyWith<$Res> {
-  _$MessageFileObjectCopyWithImpl(this._value, this._then);
+class _$VectorStoreFileObjectCopyWithImpl<$Res,
+        $Val extends VectorStoreFileObject>
+    implements $VectorStoreFileObjectCopyWith<$Res> {
+  _$VectorStoreFileObjectCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -41672,8 +45975,11 @@ class _$MessageFileObjectCopyWithImpl<$Res, $Val extends MessageFileObject>
   $Res call({
     Object? id = null,
     Object? object = null,
+    Object? usageBytes = null,
     Object? createdAt = null,
-    Object? messageId = null,
+    Object? vectorStoreId = null,
+    Object? status = null,
+    Object? lastError = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -41683,40 +45989,73 @@ class _$MessageFileObjectCopyWithImpl<$Res, $Val extends MessageFileObject>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as MessageFileObjectObject,
+              as String,
+      usageBytes: null == usageBytes
+          ? _value.usageBytes
+          : usageBytes // ignore: cast_nullable_to_non_nullable
+              as int,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as int,
-      messageId: null == messageId
-          ? _value.messageId
-          : messageId // ignore: cast_nullable_to_non_nullable
+      vectorStoreId: null == vectorStoreId
+          ? _value.vectorStoreId
+          : vectorStoreId // ignore: cast_nullable_to_non_nullable
               as String,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as VectorStoreFileStatus,
+      lastError: freezed == lastError
+          ? _value.lastError
+          : lastError // ignore: cast_nullable_to_non_nullable
+              as VectorStoreFileObjectLastError?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $VectorStoreFileObjectLastErrorCopyWith<$Res>? get lastError {
+    if (_value.lastError == null) {
+      return null;
+    }
+
+    return $VectorStoreFileObjectLastErrorCopyWith<$Res>(_value.lastError!,
+        (value) {
+      return _then(_value.copyWith(lastError: value) as $Val);
+    });
   }
 }
 
 /// @nodoc
-abstract class _$$MessageFileObjectImplCopyWith<$Res>
-    implements $MessageFileObjectCopyWith<$Res> {
-  factory _$$MessageFileObjectImplCopyWith(_$MessageFileObjectImpl value,
-          $Res Function(_$MessageFileObjectImpl) then) =
-      __$$MessageFileObjectImplCopyWithImpl<$Res>;
+abstract class _$$VectorStoreFileObjectImplCopyWith<$Res>
+    implements $VectorStoreFileObjectCopyWith<$Res> {
+  factory _$$VectorStoreFileObjectImplCopyWith(
+          _$VectorStoreFileObjectImpl value,
+          $Res Function(_$VectorStoreFileObjectImpl) then) =
+      __$$VectorStoreFileObjectImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String id,
-      MessageFileObjectObject object,
+      String object,
+      @JsonKey(name: 'usage_bytes') int usageBytes,
       @JsonKey(name: 'created_at') int createdAt,
-      @JsonKey(name: 'message_id') String messageId});
+      @JsonKey(name: 'vector_store_id') String vectorStoreId,
+      VectorStoreFileStatus status,
+      @JsonKey(name: 'last_error') VectorStoreFileObjectLastError? lastError});
+
+  @override
+  $VectorStoreFileObjectLastErrorCopyWith<$Res>? get lastError;
 }
 
 /// @nodoc
-class __$$MessageFileObjectImplCopyWithImpl<$Res>
-    extends _$MessageFileObjectCopyWithImpl<$Res, _$MessageFileObjectImpl>
-    implements _$$MessageFileObjectImplCopyWith<$Res> {
-  __$$MessageFileObjectImplCopyWithImpl(_$MessageFileObjectImpl _value,
-      $Res Function(_$MessageFileObjectImpl) _then)
+class __$$VectorStoreFileObjectImplCopyWithImpl<$Res>
+    extends _$VectorStoreFileObjectCopyWithImpl<$Res,
+        _$VectorStoreFileObjectImpl>
+    implements _$$VectorStoreFileObjectImplCopyWith<$Res> {
+  __$$VectorStoreFileObjectImplCopyWithImpl(_$VectorStoreFileObjectImpl _value,
+      $Res Function(_$VectorStoreFileObjectImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -41724,10 +46063,13 @@ class __$$MessageFileObjectImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? object = null,
+    Object? usageBytes = null,
     Object? createdAt = null,
-    Object? messageId = null,
+    Object? vectorStoreId = null,
+    Object? status = null,
+    Object? lastError = freezed,
   }) {
-    return _then(_$MessageFileObjectImpl(
+    return _then(_$VectorStoreFileObjectImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -41735,99 +46077,137 @@ class __$$MessageFileObjectImplCopyWithImpl<$Res>
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as MessageFileObjectObject,
+              as String,
+      usageBytes: null == usageBytes
+          ? _value.usageBytes
+          : usageBytes // ignore: cast_nullable_to_non_nullable
+              as int,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as int,
-      messageId: null == messageId
-          ? _value.messageId
-          : messageId // ignore: cast_nullable_to_non_nullable
+      vectorStoreId: null == vectorStoreId
+          ? _value.vectorStoreId
+          : vectorStoreId // ignore: cast_nullable_to_non_nullable
               as String,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as VectorStoreFileStatus,
+      lastError: freezed == lastError
+          ? _value.lastError
+          : lastError // ignore: cast_nullable_to_non_nullable
+              as VectorStoreFileObjectLastError?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$MessageFileObjectImpl extends _MessageFileObject {
-  const _$MessageFileObjectImpl(
+class _$VectorStoreFileObjectImpl extends _VectorStoreFileObject {
+  const _$VectorStoreFileObjectImpl(
       {required this.id,
       required this.object,
+      @JsonKey(name: 'usage_bytes') required this.usageBytes,
       @JsonKey(name: 'created_at') required this.createdAt,
-      @JsonKey(name: 'message_id') required this.messageId})
+      @JsonKey(name: 'vector_store_id') required this.vectorStoreId,
+      required this.status,
+      @JsonKey(name: 'last_error') required this.lastError})
       : super._();
 
-  factory _$MessageFileObjectImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MessageFileObjectImplFromJson(json);
+  factory _$VectorStoreFileObjectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$VectorStoreFileObjectImplFromJson(json);
 
   /// The identifier, which can be referenced in API endpoints.
   @override
   final String id;
 
-  /// The object type, which is always `thread.message.file`.
+  /// The object type, which is always `vector_store.file`.
   @override
-  final MessageFileObjectObject object;
+  final String object;
 
-  /// The Unix timestamp (in seconds) for when the message file was created.
+  /// The total vector store usage in bytes. Note that this may be different from the original file size.
+  @override
+  @JsonKey(name: 'usage_bytes')
+  final int usageBytes;
+
+  /// The Unix timestamp (in seconds) for when the vector store file was created.
   @override
   @JsonKey(name: 'created_at')
   final int createdAt;
 
-  /// The ID of the [message](https://platform.openai.com/docs/api-reference/messages) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to.
+  /// The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to.
   @override
-  @JsonKey(name: 'message_id')
-  final String messageId;
+  @JsonKey(name: 'vector_store_id')
+  final String vectorStoreId;
+
+  /// The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use.
+  @override
+  final VectorStoreFileStatus status;
+
+  /// The last error associated with this vector store file. Will be `null` if there are no errors.
+  @override
+  @JsonKey(name: 'last_error')
+  final VectorStoreFileObjectLastError? lastError;
 
   @override
   String toString() {
-    return 'MessageFileObject(id: $id, object: $object, createdAt: $createdAt, messageId: $messageId)';
+    return 'VectorStoreFileObject(id: $id, object: $object, usageBytes: $usageBytes, createdAt: $createdAt, vectorStoreId: $vectorStoreId, status: $status, lastError: $lastError)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MessageFileObjectImpl &&
+            other is _$VectorStoreFileObjectImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.object, object) || other.object == object) &&
+            (identical(other.usageBytes, usageBytes) ||
+                other.usageBytes == usageBytes) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.messageId, messageId) ||
-                other.messageId == messageId));
+            (identical(other.vectorStoreId, vectorStoreId) ||
+                other.vectorStoreId == vectorStoreId) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.lastError, lastError) ||
+                other.lastError == lastError));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, object, createdAt, messageId);
+  int get hashCode => Object.hash(runtimeType, id, object, usageBytes,
+      createdAt, vectorStoreId, status, lastError);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$MessageFileObjectImplCopyWith<_$MessageFileObjectImpl> get copyWith =>
-      __$$MessageFileObjectImplCopyWithImpl<_$MessageFileObjectImpl>(
-          this, _$identity);
+  _$$VectorStoreFileObjectImplCopyWith<_$VectorStoreFileObjectImpl>
+      get copyWith => __$$VectorStoreFileObjectImplCopyWithImpl<
+          _$VectorStoreFileObjectImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$MessageFileObjectImplToJson(
+    return _$$VectorStoreFileObjectImplToJson(
       this,
     );
   }
 }
 
-abstract class _MessageFileObject extends MessageFileObject {
-  const factory _MessageFileObject(
+abstract class _VectorStoreFileObject extends VectorStoreFileObject {
+  const factory _VectorStoreFileObject(
           {required final String id,
-          required final MessageFileObjectObject object,
+          required final String object,
+          @JsonKey(name: 'usage_bytes') required final int usageBytes,
           @JsonKey(name: 'created_at') required final int createdAt,
-          @JsonKey(name: 'message_id') required final String messageId}) =
-      _$MessageFileObjectImpl;
-  const _MessageFileObject._() : super._();
+          @JsonKey(name: 'vector_store_id') required final String vectorStoreId,
+          required final VectorStoreFileStatus status,
+          @JsonKey(name: 'last_error')
+          required final VectorStoreFileObjectLastError? lastError}) =
+      _$VectorStoreFileObjectImpl;
+  const _VectorStoreFileObject._() : super._();
 
-  factory _MessageFileObject.fromJson(Map<String, dynamic> json) =
-      _$MessageFileObjectImpl.fromJson;
+  factory _VectorStoreFileObject.fromJson(Map<String, dynamic> json) =
+      _$VectorStoreFileObjectImpl.fromJson;
 
   @override
 
@@ -41835,36 +46215,391 @@ abstract class _MessageFileObject extends MessageFileObject {
   String get id;
   @override
 
-  /// The object type, which is always `thread.message.file`.
-  MessageFileObjectObject get object;
+  /// The object type, which is always `vector_store.file`.
+  String get object;
   @override
 
-  /// The Unix timestamp (in seconds) for when the message file was created.
+  /// The total vector store usage in bytes. Note that this may be different from the original file size.
+  @JsonKey(name: 'usage_bytes')
+  int get usageBytes;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the vector store file was created.
   @JsonKey(name: 'created_at')
   int get createdAt;
   @override
 
-  /// The ID of the [message](https://platform.openai.com/docs/api-reference/messages) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to.
-  @JsonKey(name: 'message_id')
-  String get messageId;
+  /// The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to.
+  @JsonKey(name: 'vector_store_id')
+  String get vectorStoreId;
+  @override
+
+  /// The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use.
+  VectorStoreFileStatus get status;
+  @override
+
+  /// The last error associated with this vector store file. Will be `null` if there are no errors.
+  @JsonKey(name: 'last_error')
+  VectorStoreFileObjectLastError? get lastError;
   @override
   @JsonKey(ignore: true)
-  _$$MessageFileObjectImplCopyWith<_$MessageFileObjectImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$VectorStoreFileObjectImplCopyWith<_$VectorStoreFileObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
-ListMessageFilesResponse _$ListMessageFilesResponseFromJson(
+VectorStoreFileObjectLastError _$VectorStoreFileObjectLastErrorFromJson(
     Map<String, dynamic> json) {
-  return _ListMessageFilesResponse.fromJson(json);
+  return _VectorStoreFileObjectLastError.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ListMessageFilesResponse {
+mixin _$VectorStoreFileObjectLastError {
+  /// One of `server_error` or `rate_limit_exceeded`.
+  VectorStoreFileObjectLastErrorCode get code =>
+      throw _privateConstructorUsedError;
+
+  /// A human-readable description of the error.
+  String get message => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $VectorStoreFileObjectLastErrorCopyWith<VectorStoreFileObjectLastError>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $VectorStoreFileObjectLastErrorCopyWith<$Res> {
+  factory $VectorStoreFileObjectLastErrorCopyWith(
+          VectorStoreFileObjectLastError value,
+          $Res Function(VectorStoreFileObjectLastError) then) =
+      _$VectorStoreFileObjectLastErrorCopyWithImpl<$Res,
+          VectorStoreFileObjectLastError>;
+  @useResult
+  $Res call({VectorStoreFileObjectLastErrorCode code, String message});
+}
+
+/// @nodoc
+class _$VectorStoreFileObjectLastErrorCopyWithImpl<$Res,
+        $Val extends VectorStoreFileObjectLastError>
+    implements $VectorStoreFileObjectLastErrorCopyWith<$Res> {
+  _$VectorStoreFileObjectLastErrorCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? code = null,
+    Object? message = null,
+  }) {
+    return _then(_value.copyWith(
+      code: null == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as VectorStoreFileObjectLastErrorCode,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$VectorStoreFileObjectLastErrorImplCopyWith<$Res>
+    implements $VectorStoreFileObjectLastErrorCopyWith<$Res> {
+  factory _$$VectorStoreFileObjectLastErrorImplCopyWith(
+          _$VectorStoreFileObjectLastErrorImpl value,
+          $Res Function(_$VectorStoreFileObjectLastErrorImpl) then) =
+      __$$VectorStoreFileObjectLastErrorImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({VectorStoreFileObjectLastErrorCode code, String message});
+}
+
+/// @nodoc
+class __$$VectorStoreFileObjectLastErrorImplCopyWithImpl<$Res>
+    extends _$VectorStoreFileObjectLastErrorCopyWithImpl<$Res,
+        _$VectorStoreFileObjectLastErrorImpl>
+    implements _$$VectorStoreFileObjectLastErrorImplCopyWith<$Res> {
+  __$$VectorStoreFileObjectLastErrorImplCopyWithImpl(
+      _$VectorStoreFileObjectLastErrorImpl _value,
+      $Res Function(_$VectorStoreFileObjectLastErrorImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? code = null,
+    Object? message = null,
+  }) {
+    return _then(_$VectorStoreFileObjectLastErrorImpl(
+      code: null == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as VectorStoreFileObjectLastErrorCode,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$VectorStoreFileObjectLastErrorImpl
+    extends _VectorStoreFileObjectLastError {
+  const _$VectorStoreFileObjectLastErrorImpl(
+      {required this.code, required this.message})
+      : super._();
+
+  factory _$VectorStoreFileObjectLastErrorImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$VectorStoreFileObjectLastErrorImplFromJson(json);
+
+  /// One of `server_error` or `rate_limit_exceeded`.
+  @override
+  final VectorStoreFileObjectLastErrorCode code;
+
+  /// A human-readable description of the error.
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'VectorStoreFileObjectLastError(code: $code, message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$VectorStoreFileObjectLastErrorImpl &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, code, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$VectorStoreFileObjectLastErrorImplCopyWith<
+          _$VectorStoreFileObjectLastErrorImpl>
+      get copyWith => __$$VectorStoreFileObjectLastErrorImplCopyWithImpl<
+          _$VectorStoreFileObjectLastErrorImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$VectorStoreFileObjectLastErrorImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _VectorStoreFileObjectLastError
+    extends VectorStoreFileObjectLastError {
+  const factory _VectorStoreFileObjectLastError(
+      {required final VectorStoreFileObjectLastErrorCode code,
+      required final String message}) = _$VectorStoreFileObjectLastErrorImpl;
+  const _VectorStoreFileObjectLastError._() : super._();
+
+  factory _VectorStoreFileObjectLastError.fromJson(Map<String, dynamic> json) =
+      _$VectorStoreFileObjectLastErrorImpl.fromJson;
+
+  @override
+
+  /// One of `server_error` or `rate_limit_exceeded`.
+  VectorStoreFileObjectLastErrorCode get code;
+  @override
+
+  /// A human-readable description of the error.
+  String get message;
+  @override
+  @JsonKey(ignore: true)
+  _$$VectorStoreFileObjectLastErrorImplCopyWith<
+          _$VectorStoreFileObjectLastErrorImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+CreateVectorStoreFileRequest _$CreateVectorStoreFileRequestFromJson(
+    Map<String, dynamic> json) {
+  return _CreateVectorStoreFileRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CreateVectorStoreFileRequest {
+  /// A [File](https://platform.openai.com/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files.
+  @JsonKey(name: 'file_id')
+  String get fileId => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CreateVectorStoreFileRequestCopyWith<CreateVectorStoreFileRequest>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateVectorStoreFileRequestCopyWith<$Res> {
+  factory $CreateVectorStoreFileRequestCopyWith(
+          CreateVectorStoreFileRequest value,
+          $Res Function(CreateVectorStoreFileRequest) then) =
+      _$CreateVectorStoreFileRequestCopyWithImpl<$Res,
+          CreateVectorStoreFileRequest>;
+  @useResult
+  $Res call({@JsonKey(name: 'file_id') String fileId});
+}
+
+/// @nodoc
+class _$CreateVectorStoreFileRequestCopyWithImpl<$Res,
+        $Val extends CreateVectorStoreFileRequest>
+    implements $CreateVectorStoreFileRequestCopyWith<$Res> {
+  _$CreateVectorStoreFileRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = null,
+  }) {
+    return _then(_value.copyWith(
+      fileId: null == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CreateVectorStoreFileRequestImplCopyWith<$Res>
+    implements $CreateVectorStoreFileRequestCopyWith<$Res> {
+  factory _$$CreateVectorStoreFileRequestImplCopyWith(
+          _$CreateVectorStoreFileRequestImpl value,
+          $Res Function(_$CreateVectorStoreFileRequestImpl) then) =
+      __$$CreateVectorStoreFileRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'file_id') String fileId});
+}
+
+/// @nodoc
+class __$$CreateVectorStoreFileRequestImplCopyWithImpl<$Res>
+    extends _$CreateVectorStoreFileRequestCopyWithImpl<$Res,
+        _$CreateVectorStoreFileRequestImpl>
+    implements _$$CreateVectorStoreFileRequestImplCopyWith<$Res> {
+  __$$CreateVectorStoreFileRequestImplCopyWithImpl(
+      _$CreateVectorStoreFileRequestImpl _value,
+      $Res Function(_$CreateVectorStoreFileRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileId = null,
+  }) {
+    return _then(_$CreateVectorStoreFileRequestImpl(
+      fileId: null == fileId
+          ? _value.fileId
+          : fileId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateVectorStoreFileRequestImpl extends _CreateVectorStoreFileRequest {
+  const _$CreateVectorStoreFileRequestImpl(
+      {@JsonKey(name: 'file_id') required this.fileId})
+      : super._();
+
+  factory _$CreateVectorStoreFileRequestImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$CreateVectorStoreFileRequestImplFromJson(json);
+
+  /// A [File](https://platform.openai.com/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files.
+  @override
+  @JsonKey(name: 'file_id')
+  final String fileId;
+
+  @override
+  String toString() {
+    return 'CreateVectorStoreFileRequest(fileId: $fileId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateVectorStoreFileRequestImpl &&
+            (identical(other.fileId, fileId) || other.fileId == fileId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, fileId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateVectorStoreFileRequestImplCopyWith<
+          _$CreateVectorStoreFileRequestImpl>
+      get copyWith => __$$CreateVectorStoreFileRequestImplCopyWithImpl<
+          _$CreateVectorStoreFileRequestImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateVectorStoreFileRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CreateVectorStoreFileRequest
+    extends CreateVectorStoreFileRequest {
+  const factory _CreateVectorStoreFileRequest(
+          {@JsonKey(name: 'file_id') required final String fileId}) =
+      _$CreateVectorStoreFileRequestImpl;
+  const _CreateVectorStoreFileRequest._() : super._();
+
+  factory _CreateVectorStoreFileRequest.fromJson(Map<String, dynamic> json) =
+      _$CreateVectorStoreFileRequestImpl.fromJson;
+
+  @override
+
+  /// A [File](https://platform.openai.com/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files.
+  @JsonKey(name: 'file_id')
+  String get fileId;
+  @override
+  @JsonKey(ignore: true)
+  _$$CreateVectorStoreFileRequestImplCopyWith<
+          _$CreateVectorStoreFileRequestImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ListVectorStoreFilesResponse _$ListVectorStoreFilesResponseFromJson(
+    Map<String, dynamic> json) {
+  return _ListVectorStoreFilesResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ListVectorStoreFilesResponse {
   /// The object type, which is always `list`.
   String get object => throw _privateConstructorUsedError;
 
   /// A list of message files.
-  List<MessageFileObject> get data => throw _privateConstructorUsedError;
+  List<VectorStoreFileObject> get data => throw _privateConstructorUsedError;
 
   /// The ID of the first message file in the list.
   @JsonKey(name: 'first_id')
@@ -41880,29 +46615,31 @@ mixin _$ListMessageFilesResponse {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ListMessageFilesResponseCopyWith<ListMessageFilesResponse> get copyWith =>
-      throw _privateConstructorUsedError;
+  $ListVectorStoreFilesResponseCopyWith<ListVectorStoreFilesResponse>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ListMessageFilesResponseCopyWith<$Res> {
-  factory $ListMessageFilesResponseCopyWith(ListMessageFilesResponse value,
-          $Res Function(ListMessageFilesResponse) then) =
-      _$ListMessageFilesResponseCopyWithImpl<$Res, ListMessageFilesResponse>;
+abstract class $ListVectorStoreFilesResponseCopyWith<$Res> {
+  factory $ListVectorStoreFilesResponseCopyWith(
+          ListVectorStoreFilesResponse value,
+          $Res Function(ListVectorStoreFilesResponse) then) =
+      _$ListVectorStoreFilesResponseCopyWithImpl<$Res,
+          ListVectorStoreFilesResponse>;
   @useResult
   $Res call(
       {String object,
-      List<MessageFileObject> data,
+      List<VectorStoreFileObject> data,
       @JsonKey(name: 'first_id') String firstId,
       @JsonKey(name: 'last_id') String lastId,
       @JsonKey(name: 'has_more') bool hasMore});
 }
 
 /// @nodoc
-class _$ListMessageFilesResponseCopyWithImpl<$Res,
-        $Val extends ListMessageFilesResponse>
-    implements $ListMessageFilesResponseCopyWith<$Res> {
-  _$ListMessageFilesResponseCopyWithImpl(this._value, this._then);
+class _$ListVectorStoreFilesResponseCopyWithImpl<$Res,
+        $Val extends ListVectorStoreFilesResponse>
+    implements $ListVectorStoreFilesResponseCopyWith<$Res> {
+  _$ListVectorStoreFilesResponseCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -41926,7 +46663,7 @@ class _$ListMessageFilesResponseCopyWithImpl<$Res,
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<MessageFileObject>,
+              as List<VectorStoreFileObject>,
       firstId: null == firstId
           ? _value.firstId
           : firstId // ignore: cast_nullable_to_non_nullable
@@ -41944,30 +46681,30 @@ class _$ListMessageFilesResponseCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$ListMessageFilesResponseImplCopyWith<$Res>
-    implements $ListMessageFilesResponseCopyWith<$Res> {
-  factory _$$ListMessageFilesResponseImplCopyWith(
-          _$ListMessageFilesResponseImpl value,
-          $Res Function(_$ListMessageFilesResponseImpl) then) =
-      __$$ListMessageFilesResponseImplCopyWithImpl<$Res>;
+abstract class _$$ListVectorStoreFilesResponseImplCopyWith<$Res>
+    implements $ListVectorStoreFilesResponseCopyWith<$Res> {
+  factory _$$ListVectorStoreFilesResponseImplCopyWith(
+          _$ListVectorStoreFilesResponseImpl value,
+          $Res Function(_$ListVectorStoreFilesResponseImpl) then) =
+      __$$ListVectorStoreFilesResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String object,
-      List<MessageFileObject> data,
+      List<VectorStoreFileObject> data,
       @JsonKey(name: 'first_id') String firstId,
       @JsonKey(name: 'last_id') String lastId,
       @JsonKey(name: 'has_more') bool hasMore});
 }
 
 /// @nodoc
-class __$$ListMessageFilesResponseImplCopyWithImpl<$Res>
-    extends _$ListMessageFilesResponseCopyWithImpl<$Res,
-        _$ListMessageFilesResponseImpl>
-    implements _$$ListMessageFilesResponseImplCopyWith<$Res> {
-  __$$ListMessageFilesResponseImplCopyWithImpl(
-      _$ListMessageFilesResponseImpl _value,
-      $Res Function(_$ListMessageFilesResponseImpl) _then)
+class __$$ListVectorStoreFilesResponseImplCopyWithImpl<$Res>
+    extends _$ListVectorStoreFilesResponseCopyWithImpl<$Res,
+        _$ListVectorStoreFilesResponseImpl>
+    implements _$$ListVectorStoreFilesResponseImplCopyWith<$Res> {
+  __$$ListVectorStoreFilesResponseImplCopyWithImpl(
+      _$ListVectorStoreFilesResponseImpl _value,
+      $Res Function(_$ListVectorStoreFilesResponseImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -41979,7 +46716,7 @@ class __$$ListMessageFilesResponseImplCopyWithImpl<$Res>
     Object? lastId = null,
     Object? hasMore = null,
   }) {
-    return _then(_$ListMessageFilesResponseImpl(
+    return _then(_$ListVectorStoreFilesResponseImpl(
       object: null == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
@@ -41987,7 +46724,7 @@ class __$$ListMessageFilesResponseImplCopyWithImpl<$Res>
       data: null == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<MessageFileObject>,
+              as List<VectorStoreFileObject>,
       firstId: null == firstId
           ? _value.firstId
           : firstId // ignore: cast_nullable_to_non_nullable
@@ -42006,29 +46743,30 @@ class __$$ListMessageFilesResponseImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ListMessageFilesResponseImpl extends _ListMessageFilesResponse {
-  const _$ListMessageFilesResponseImpl(
+class _$ListVectorStoreFilesResponseImpl extends _ListVectorStoreFilesResponse {
+  const _$ListVectorStoreFilesResponseImpl(
       {required this.object,
-      required final List<MessageFileObject> data,
+      required final List<VectorStoreFileObject> data,
       @JsonKey(name: 'first_id') required this.firstId,
       @JsonKey(name: 'last_id') required this.lastId,
       @JsonKey(name: 'has_more') required this.hasMore})
       : _data = data,
         super._();
 
-  factory _$ListMessageFilesResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ListMessageFilesResponseImplFromJson(json);
+  factory _$ListVectorStoreFilesResponseImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ListVectorStoreFilesResponseImplFromJson(json);
 
   /// The object type, which is always `list`.
   @override
   final String object;
 
   /// A list of message files.
-  final List<MessageFileObject> _data;
+  final List<VectorStoreFileObject> _data;
 
   /// A list of message files.
   @override
-  List<MessageFileObject> get data {
+  List<VectorStoreFileObject> get data {
     if (_data is EqualUnmodifiableListView) return _data;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_data);
@@ -42051,14 +46789,14 @@ class _$ListMessageFilesResponseImpl extends _ListMessageFilesResponse {
 
   @override
   String toString() {
-    return 'ListMessageFilesResponse(object: $object, data: $data, firstId: $firstId, lastId: $lastId, hasMore: $hasMore)';
+    return 'ListVectorStoreFilesResponse(object: $object, data: $data, firstId: $firstId, lastId: $lastId, hasMore: $hasMore)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ListMessageFilesResponseImpl &&
+            other is _$ListVectorStoreFilesResponseImpl &&
             (identical(other.object, object) || other.object == object) &&
             const DeepCollectionEquality().equals(other._data, _data) &&
             (identical(other.firstId, firstId) || other.firstId == firstId) &&
@@ -42074,30 +46812,32 @@ class _$ListMessageFilesResponseImpl extends _ListMessageFilesResponse {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ListMessageFilesResponseImplCopyWith<_$ListMessageFilesResponseImpl>
-      get copyWith => __$$ListMessageFilesResponseImplCopyWithImpl<
-          _$ListMessageFilesResponseImpl>(this, _$identity);
+  _$$ListVectorStoreFilesResponseImplCopyWith<
+          _$ListVectorStoreFilesResponseImpl>
+      get copyWith => __$$ListVectorStoreFilesResponseImplCopyWithImpl<
+          _$ListVectorStoreFilesResponseImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ListMessageFilesResponseImplToJson(
+    return _$$ListVectorStoreFilesResponseImplToJson(
       this,
     );
   }
 }
 
-abstract class _ListMessageFilesResponse extends ListMessageFilesResponse {
-  const factory _ListMessageFilesResponse(
+abstract class _ListVectorStoreFilesResponse
+    extends ListVectorStoreFilesResponse {
+  const factory _ListVectorStoreFilesResponse(
           {required final String object,
-          required final List<MessageFileObject> data,
+          required final List<VectorStoreFileObject> data,
           @JsonKey(name: 'first_id') required final String firstId,
           @JsonKey(name: 'last_id') required final String lastId,
           @JsonKey(name: 'has_more') required final bool hasMore}) =
-      _$ListMessageFilesResponseImpl;
-  const _ListMessageFilesResponse._() : super._();
+      _$ListVectorStoreFilesResponseImpl;
+  const _ListVectorStoreFilesResponse._() : super._();
 
-  factory _ListMessageFilesResponse.fromJson(Map<String, dynamic> json) =
-      _$ListMessageFilesResponseImpl.fromJson;
+  factory _ListVectorStoreFilesResponse.fromJson(Map<String, dynamic> json) =
+      _$ListVectorStoreFilesResponseImpl.fromJson;
 
   @override
 
@@ -42106,7 +46846,7 @@ abstract class _ListMessageFilesResponse extends ListMessageFilesResponse {
   @override
 
   /// A list of message files.
-  List<MessageFileObject> get data;
+  List<VectorStoreFileObject> get data;
   @override
 
   /// The ID of the first message file in the list.
@@ -42124,7 +46864,971 @@ abstract class _ListMessageFilesResponse extends ListMessageFilesResponse {
   bool get hasMore;
   @override
   @JsonKey(ignore: true)
-  _$$ListMessageFilesResponseImplCopyWith<_$ListMessageFilesResponseImpl>
+  _$$ListVectorStoreFilesResponseImplCopyWith<
+          _$ListVectorStoreFilesResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+DeleteVectorStoreFileResponse _$DeleteVectorStoreFileResponseFromJson(
+    Map<String, dynamic> json) {
+  return _DeleteVectorStoreFileResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$DeleteVectorStoreFileResponse {
+  /// The ID of the deleted vector store file.
+  String get id => throw _privateConstructorUsedError;
+
+  /// Whether the vector store file was deleted.
+  bool get deleted => throw _privateConstructorUsedError;
+
+  /// The object type, which is always `vector_store.file.deleted`.
+  String get object => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $DeleteVectorStoreFileResponseCopyWith<DeleteVectorStoreFileResponse>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DeleteVectorStoreFileResponseCopyWith<$Res> {
+  factory $DeleteVectorStoreFileResponseCopyWith(
+          DeleteVectorStoreFileResponse value,
+          $Res Function(DeleteVectorStoreFileResponse) then) =
+      _$DeleteVectorStoreFileResponseCopyWithImpl<$Res,
+          DeleteVectorStoreFileResponse>;
+  @useResult
+  $Res call({String id, bool deleted, String object});
+}
+
+/// @nodoc
+class _$DeleteVectorStoreFileResponseCopyWithImpl<$Res,
+        $Val extends DeleteVectorStoreFileResponse>
+    implements $DeleteVectorStoreFileResponseCopyWith<$Res> {
+  _$DeleteVectorStoreFileResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? deleted = null,
+    Object? object = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      deleted: null == deleted
+          ? _value.deleted
+          : deleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DeleteVectorStoreFileResponseImplCopyWith<$Res>
+    implements $DeleteVectorStoreFileResponseCopyWith<$Res> {
+  factory _$$DeleteVectorStoreFileResponseImplCopyWith(
+          _$DeleteVectorStoreFileResponseImpl value,
+          $Res Function(_$DeleteVectorStoreFileResponseImpl) then) =
+      __$$DeleteVectorStoreFileResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id, bool deleted, String object});
+}
+
+/// @nodoc
+class __$$DeleteVectorStoreFileResponseImplCopyWithImpl<$Res>
+    extends _$DeleteVectorStoreFileResponseCopyWithImpl<$Res,
+        _$DeleteVectorStoreFileResponseImpl>
+    implements _$$DeleteVectorStoreFileResponseImplCopyWith<$Res> {
+  __$$DeleteVectorStoreFileResponseImplCopyWithImpl(
+      _$DeleteVectorStoreFileResponseImpl _value,
+      $Res Function(_$DeleteVectorStoreFileResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? deleted = null,
+    Object? object = null,
+  }) {
+    return _then(_$DeleteVectorStoreFileResponseImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      deleted: null == deleted
+          ? _value.deleted
+          : deleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DeleteVectorStoreFileResponseImpl
+    extends _DeleteVectorStoreFileResponse {
+  const _$DeleteVectorStoreFileResponseImpl(
+      {required this.id, required this.deleted, required this.object})
+      : super._();
+
+  factory _$DeleteVectorStoreFileResponseImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$DeleteVectorStoreFileResponseImplFromJson(json);
+
+  /// The ID of the deleted vector store file.
+  @override
+  final String id;
+
+  /// Whether the vector store file was deleted.
+  @override
+  final bool deleted;
+
+  /// The object type, which is always `vector_store.file.deleted`.
+  @override
+  final String object;
+
+  @override
+  String toString() {
+    return 'DeleteVectorStoreFileResponse(id: $id, deleted: $deleted, object: $object)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DeleteVectorStoreFileResponseImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.deleted, deleted) || other.deleted == deleted) &&
+            (identical(other.object, object) || other.object == object));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, deleted, object);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DeleteVectorStoreFileResponseImplCopyWith<
+          _$DeleteVectorStoreFileResponseImpl>
+      get copyWith => __$$DeleteVectorStoreFileResponseImplCopyWithImpl<
+          _$DeleteVectorStoreFileResponseImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DeleteVectorStoreFileResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _DeleteVectorStoreFileResponse
+    extends DeleteVectorStoreFileResponse {
+  const factory _DeleteVectorStoreFileResponse(
+      {required final String id,
+      required final bool deleted,
+      required final String object}) = _$DeleteVectorStoreFileResponseImpl;
+  const _DeleteVectorStoreFileResponse._() : super._();
+
+  factory _DeleteVectorStoreFileResponse.fromJson(Map<String, dynamic> json) =
+      _$DeleteVectorStoreFileResponseImpl.fromJson;
+
+  @override
+
+  /// The ID of the deleted vector store file.
+  String get id;
+  @override
+
+  /// Whether the vector store file was deleted.
+  bool get deleted;
+  @override
+
+  /// The object type, which is always `vector_store.file.deleted`.
+  String get object;
+  @override
+  @JsonKey(ignore: true)
+  _$$DeleteVectorStoreFileResponseImplCopyWith<
+          _$DeleteVectorStoreFileResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+VectorStoreFileBatchObject _$VectorStoreFileBatchObjectFromJson(
+    Map<String, dynamic> json) {
+  return _VectorStoreFileBatchObject.fromJson(json);
+}
+
+/// @nodoc
+mixin _$VectorStoreFileBatchObject {
+  /// The identifier, which can be referenced in API endpoints.
+  String get id => throw _privateConstructorUsedError;
+
+  /// The object type, which is always `vector_store.file_batch`.
+  String get object => throw _privateConstructorUsedError;
+
+  /// The Unix timestamp (in seconds) for when the vector store files batch was created.
+  @JsonKey(name: 'created_at')
+  int get createdAt => throw _privateConstructorUsedError;
+
+  /// The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to.
+  @JsonKey(name: 'vector_store_id')
+  String get vectorStoreId => throw _privateConstructorUsedError;
+
+  /// The status of the vector store files batch, which can be either `in_progress`, `completed`, `cancelled` or `failed`.
+  VectorStoreFileBatchObjectStatus get status =>
+      throw _privateConstructorUsedError;
+
+  /// The number of files per status.
+  @JsonKey(name: 'file_counts')
+  VectorStoreFileBatchObjectFileCounts get fileCounts =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $VectorStoreFileBatchObjectCopyWith<VectorStoreFileBatchObject>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $VectorStoreFileBatchObjectCopyWith<$Res> {
+  factory $VectorStoreFileBatchObjectCopyWith(VectorStoreFileBatchObject value,
+          $Res Function(VectorStoreFileBatchObject) then) =
+      _$VectorStoreFileBatchObjectCopyWithImpl<$Res,
+          VectorStoreFileBatchObject>;
+  @useResult
+  $Res call(
+      {String id,
+      String object,
+      @JsonKey(name: 'created_at') int createdAt,
+      @JsonKey(name: 'vector_store_id') String vectorStoreId,
+      VectorStoreFileBatchObjectStatus status,
+      @JsonKey(name: 'file_counts')
+      VectorStoreFileBatchObjectFileCounts fileCounts});
+
+  $VectorStoreFileBatchObjectFileCountsCopyWith<$Res> get fileCounts;
+}
+
+/// @nodoc
+class _$VectorStoreFileBatchObjectCopyWithImpl<$Res,
+        $Val extends VectorStoreFileBatchObject>
+    implements $VectorStoreFileBatchObjectCopyWith<$Res> {
+  _$VectorStoreFileBatchObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? createdAt = null,
+    Object? vectorStoreId = null,
+    Object? status = null,
+    Object? fileCounts = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      vectorStoreId: null == vectorStoreId
+          ? _value.vectorStoreId
+          : vectorStoreId // ignore: cast_nullable_to_non_nullable
+              as String,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as VectorStoreFileBatchObjectStatus,
+      fileCounts: null == fileCounts
+          ? _value.fileCounts
+          : fileCounts // ignore: cast_nullable_to_non_nullable
+              as VectorStoreFileBatchObjectFileCounts,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $VectorStoreFileBatchObjectFileCountsCopyWith<$Res> get fileCounts {
+    return $VectorStoreFileBatchObjectFileCountsCopyWith<$Res>(
+        _value.fileCounts, (value) {
+      return _then(_value.copyWith(fileCounts: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$VectorStoreFileBatchObjectImplCopyWith<$Res>
+    implements $VectorStoreFileBatchObjectCopyWith<$Res> {
+  factory _$$VectorStoreFileBatchObjectImplCopyWith(
+          _$VectorStoreFileBatchObjectImpl value,
+          $Res Function(_$VectorStoreFileBatchObjectImpl) then) =
+      __$$VectorStoreFileBatchObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      String object,
+      @JsonKey(name: 'created_at') int createdAt,
+      @JsonKey(name: 'vector_store_id') String vectorStoreId,
+      VectorStoreFileBatchObjectStatus status,
+      @JsonKey(name: 'file_counts')
+      VectorStoreFileBatchObjectFileCounts fileCounts});
+
+  @override
+  $VectorStoreFileBatchObjectFileCountsCopyWith<$Res> get fileCounts;
+}
+
+/// @nodoc
+class __$$VectorStoreFileBatchObjectImplCopyWithImpl<$Res>
+    extends _$VectorStoreFileBatchObjectCopyWithImpl<$Res,
+        _$VectorStoreFileBatchObjectImpl>
+    implements _$$VectorStoreFileBatchObjectImplCopyWith<$Res> {
+  __$$VectorStoreFileBatchObjectImplCopyWithImpl(
+      _$VectorStoreFileBatchObjectImpl _value,
+      $Res Function(_$VectorStoreFileBatchObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? object = null,
+    Object? createdAt = null,
+    Object? vectorStoreId = null,
+    Object? status = null,
+    Object? fileCounts = null,
+  }) {
+    return _then(_$VectorStoreFileBatchObjectImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      vectorStoreId: null == vectorStoreId
+          ? _value.vectorStoreId
+          : vectorStoreId // ignore: cast_nullable_to_non_nullable
+              as String,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as VectorStoreFileBatchObjectStatus,
+      fileCounts: null == fileCounts
+          ? _value.fileCounts
+          : fileCounts // ignore: cast_nullable_to_non_nullable
+              as VectorStoreFileBatchObjectFileCounts,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$VectorStoreFileBatchObjectImpl extends _VectorStoreFileBatchObject {
+  const _$VectorStoreFileBatchObjectImpl(
+      {required this.id,
+      required this.object,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'vector_store_id') required this.vectorStoreId,
+      required this.status,
+      @JsonKey(name: 'file_counts') required this.fileCounts})
+      : super._();
+
+  factory _$VectorStoreFileBatchObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$VectorStoreFileBatchObjectImplFromJson(json);
+
+  /// The identifier, which can be referenced in API endpoints.
+  @override
+  final String id;
+
+  /// The object type, which is always `vector_store.file_batch`.
+  @override
+  final String object;
+
+  /// The Unix timestamp (in seconds) for when the vector store files batch was created.
+  @override
+  @JsonKey(name: 'created_at')
+  final int createdAt;
+
+  /// The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to.
+  @override
+  @JsonKey(name: 'vector_store_id')
+  final String vectorStoreId;
+
+  /// The status of the vector store files batch, which can be either `in_progress`, `completed`, `cancelled` or `failed`.
+  @override
+  final VectorStoreFileBatchObjectStatus status;
+
+  /// The number of files per status.
+  @override
+  @JsonKey(name: 'file_counts')
+  final VectorStoreFileBatchObjectFileCounts fileCounts;
+
+  @override
+  String toString() {
+    return 'VectorStoreFileBatchObject(id: $id, object: $object, createdAt: $createdAt, vectorStoreId: $vectorStoreId, status: $status, fileCounts: $fileCounts)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$VectorStoreFileBatchObjectImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.object, object) || other.object == object) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.vectorStoreId, vectorStoreId) ||
+                other.vectorStoreId == vectorStoreId) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.fileCounts, fileCounts) ||
+                other.fileCounts == fileCounts));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, id, object, createdAt, vectorStoreId, status, fileCounts);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$VectorStoreFileBatchObjectImplCopyWith<_$VectorStoreFileBatchObjectImpl>
+      get copyWith => __$$VectorStoreFileBatchObjectImplCopyWithImpl<
+          _$VectorStoreFileBatchObjectImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$VectorStoreFileBatchObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _VectorStoreFileBatchObject extends VectorStoreFileBatchObject {
+  const factory _VectorStoreFileBatchObject(
+          {required final String id,
+          required final String object,
+          @JsonKey(name: 'created_at') required final int createdAt,
+          @JsonKey(name: 'vector_store_id') required final String vectorStoreId,
+          required final VectorStoreFileBatchObjectStatus status,
+          @JsonKey(name: 'file_counts')
+          required final VectorStoreFileBatchObjectFileCounts fileCounts}) =
+      _$VectorStoreFileBatchObjectImpl;
+  const _VectorStoreFileBatchObject._() : super._();
+
+  factory _VectorStoreFileBatchObject.fromJson(Map<String, dynamic> json) =
+      _$VectorStoreFileBatchObjectImpl.fromJson;
+
+  @override
+
+  /// The identifier, which can be referenced in API endpoints.
+  String get id;
+  @override
+
+  /// The object type, which is always `vector_store.file_batch`.
+  String get object;
+  @override
+
+  /// The Unix timestamp (in seconds) for when the vector store files batch was created.
+  @JsonKey(name: 'created_at')
+  int get createdAt;
+  @override
+
+  /// The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to.
+  @JsonKey(name: 'vector_store_id')
+  String get vectorStoreId;
+  @override
+
+  /// The status of the vector store files batch, which can be either `in_progress`, `completed`, `cancelled` or `failed`.
+  VectorStoreFileBatchObjectStatus get status;
+  @override
+
+  /// The number of files per status.
+  @JsonKey(name: 'file_counts')
+  VectorStoreFileBatchObjectFileCounts get fileCounts;
+  @override
+  @JsonKey(ignore: true)
+  _$$VectorStoreFileBatchObjectImplCopyWith<_$VectorStoreFileBatchObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+VectorStoreFileBatchObjectFileCounts
+    _$VectorStoreFileBatchObjectFileCountsFromJson(Map<String, dynamic> json) {
+  return _VectorStoreFileBatchObjectFileCounts.fromJson(json);
+}
+
+/// @nodoc
+mixin _$VectorStoreFileBatchObjectFileCounts {
+  /// The number of files that are currently being processed.
+  @JsonKey(name: 'in_progress')
+  int get inProgress => throw _privateConstructorUsedError;
+
+  /// The number of files that have been processed.
+  int get completed => throw _privateConstructorUsedError;
+
+  /// The number of files that have failed to process.
+  int get failed => throw _privateConstructorUsedError;
+
+  /// The number of files that where cancelled.
+  int get cancelled => throw _privateConstructorUsedError;
+
+  /// The total number of files.
+  int get total => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $VectorStoreFileBatchObjectFileCountsCopyWith<
+          VectorStoreFileBatchObjectFileCounts>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $VectorStoreFileBatchObjectFileCountsCopyWith<$Res> {
+  factory $VectorStoreFileBatchObjectFileCountsCopyWith(
+          VectorStoreFileBatchObjectFileCounts value,
+          $Res Function(VectorStoreFileBatchObjectFileCounts) then) =
+      _$VectorStoreFileBatchObjectFileCountsCopyWithImpl<$Res,
+          VectorStoreFileBatchObjectFileCounts>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'in_progress') int inProgress,
+      int completed,
+      int failed,
+      int cancelled,
+      int total});
+}
+
+/// @nodoc
+class _$VectorStoreFileBatchObjectFileCountsCopyWithImpl<$Res,
+        $Val extends VectorStoreFileBatchObjectFileCounts>
+    implements $VectorStoreFileBatchObjectFileCountsCopyWith<$Res> {
+  _$VectorStoreFileBatchObjectFileCountsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? inProgress = null,
+    Object? completed = null,
+    Object? failed = null,
+    Object? cancelled = null,
+    Object? total = null,
+  }) {
+    return _then(_value.copyWith(
+      inProgress: null == inProgress
+          ? _value.inProgress
+          : inProgress // ignore: cast_nullable_to_non_nullable
+              as int,
+      completed: null == completed
+          ? _value.completed
+          : completed // ignore: cast_nullable_to_non_nullable
+              as int,
+      failed: null == failed
+          ? _value.failed
+          : failed // ignore: cast_nullable_to_non_nullable
+              as int,
+      cancelled: null == cancelled
+          ? _value.cancelled
+          : cancelled // ignore: cast_nullable_to_non_nullable
+              as int,
+      total: null == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$VectorStoreFileBatchObjectFileCountsImplCopyWith<$Res>
+    implements $VectorStoreFileBatchObjectFileCountsCopyWith<$Res> {
+  factory _$$VectorStoreFileBatchObjectFileCountsImplCopyWith(
+          _$VectorStoreFileBatchObjectFileCountsImpl value,
+          $Res Function(_$VectorStoreFileBatchObjectFileCountsImpl) then) =
+      __$$VectorStoreFileBatchObjectFileCountsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'in_progress') int inProgress,
+      int completed,
+      int failed,
+      int cancelled,
+      int total});
+}
+
+/// @nodoc
+class __$$VectorStoreFileBatchObjectFileCountsImplCopyWithImpl<$Res>
+    extends _$VectorStoreFileBatchObjectFileCountsCopyWithImpl<$Res,
+        _$VectorStoreFileBatchObjectFileCountsImpl>
+    implements _$$VectorStoreFileBatchObjectFileCountsImplCopyWith<$Res> {
+  __$$VectorStoreFileBatchObjectFileCountsImplCopyWithImpl(
+      _$VectorStoreFileBatchObjectFileCountsImpl _value,
+      $Res Function(_$VectorStoreFileBatchObjectFileCountsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? inProgress = null,
+    Object? completed = null,
+    Object? failed = null,
+    Object? cancelled = null,
+    Object? total = null,
+  }) {
+    return _then(_$VectorStoreFileBatchObjectFileCountsImpl(
+      inProgress: null == inProgress
+          ? _value.inProgress
+          : inProgress // ignore: cast_nullable_to_non_nullable
+              as int,
+      completed: null == completed
+          ? _value.completed
+          : completed // ignore: cast_nullable_to_non_nullable
+              as int,
+      failed: null == failed
+          ? _value.failed
+          : failed // ignore: cast_nullable_to_non_nullable
+              as int,
+      cancelled: null == cancelled
+          ? _value.cancelled
+          : cancelled // ignore: cast_nullable_to_non_nullable
+              as int,
+      total: null == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$VectorStoreFileBatchObjectFileCountsImpl
+    extends _VectorStoreFileBatchObjectFileCounts {
+  const _$VectorStoreFileBatchObjectFileCountsImpl(
+      {@JsonKey(name: 'in_progress') required this.inProgress,
+      required this.completed,
+      required this.failed,
+      required this.cancelled,
+      required this.total})
+      : super._();
+
+  factory _$VectorStoreFileBatchObjectFileCountsImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$VectorStoreFileBatchObjectFileCountsImplFromJson(json);
+
+  /// The number of files that are currently being processed.
+  @override
+  @JsonKey(name: 'in_progress')
+  final int inProgress;
+
+  /// The number of files that have been processed.
+  @override
+  final int completed;
+
+  /// The number of files that have failed to process.
+  @override
+  final int failed;
+
+  /// The number of files that where cancelled.
+  @override
+  final int cancelled;
+
+  /// The total number of files.
+  @override
+  final int total;
+
+  @override
+  String toString() {
+    return 'VectorStoreFileBatchObjectFileCounts(inProgress: $inProgress, completed: $completed, failed: $failed, cancelled: $cancelled, total: $total)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$VectorStoreFileBatchObjectFileCountsImpl &&
+            (identical(other.inProgress, inProgress) ||
+                other.inProgress == inProgress) &&
+            (identical(other.completed, completed) ||
+                other.completed == completed) &&
+            (identical(other.failed, failed) || other.failed == failed) &&
+            (identical(other.cancelled, cancelled) ||
+                other.cancelled == cancelled) &&
+            (identical(other.total, total) || other.total == total));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, inProgress, completed, failed, cancelled, total);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$VectorStoreFileBatchObjectFileCountsImplCopyWith<
+          _$VectorStoreFileBatchObjectFileCountsImpl>
+      get copyWith => __$$VectorStoreFileBatchObjectFileCountsImplCopyWithImpl<
+          _$VectorStoreFileBatchObjectFileCountsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$VectorStoreFileBatchObjectFileCountsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _VectorStoreFileBatchObjectFileCounts
+    extends VectorStoreFileBatchObjectFileCounts {
+  const factory _VectorStoreFileBatchObjectFileCounts(
+      {@JsonKey(name: 'in_progress') required final int inProgress,
+      required final int completed,
+      required final int failed,
+      required final int cancelled,
+      required final int total}) = _$VectorStoreFileBatchObjectFileCountsImpl;
+  const _VectorStoreFileBatchObjectFileCounts._() : super._();
+
+  factory _VectorStoreFileBatchObjectFileCounts.fromJson(
+          Map<String, dynamic> json) =
+      _$VectorStoreFileBatchObjectFileCountsImpl.fromJson;
+
+  @override
+
+  /// The number of files that are currently being processed.
+  @JsonKey(name: 'in_progress')
+  int get inProgress;
+  @override
+
+  /// The number of files that have been processed.
+  int get completed;
+  @override
+
+  /// The number of files that have failed to process.
+  int get failed;
+  @override
+
+  /// The number of files that where cancelled.
+  int get cancelled;
+  @override
+
+  /// The total number of files.
+  int get total;
+  @override
+  @JsonKey(ignore: true)
+  _$$VectorStoreFileBatchObjectFileCountsImplCopyWith<
+          _$VectorStoreFileBatchObjectFileCountsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+CreateVectorStoreFileBatchRequest _$CreateVectorStoreFileBatchRequestFromJson(
+    Map<String, dynamic> json) {
+  return _CreateVectorStoreFileBatchRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CreateVectorStoreFileBatchRequest {
+  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CreateVectorStoreFileBatchRequestCopyWith<CreateVectorStoreFileBatchRequest>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateVectorStoreFileBatchRequestCopyWith<$Res> {
+  factory $CreateVectorStoreFileBatchRequestCopyWith(
+          CreateVectorStoreFileBatchRequest value,
+          $Res Function(CreateVectorStoreFileBatchRequest) then) =
+      _$CreateVectorStoreFileBatchRequestCopyWithImpl<$Res,
+          CreateVectorStoreFileBatchRequest>;
+  @useResult
+  $Res call({@JsonKey(name: 'file_ids') List<String> fileIds});
+}
+
+/// @nodoc
+class _$CreateVectorStoreFileBatchRequestCopyWithImpl<$Res,
+        $Val extends CreateVectorStoreFileBatchRequest>
+    implements $CreateVectorStoreFileBatchRequestCopyWith<$Res> {
+  _$CreateVectorStoreFileBatchRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileIds = null,
+  }) {
+    return _then(_value.copyWith(
+      fileIds: null == fileIds
+          ? _value.fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CreateVectorStoreFileBatchRequestImplCopyWith<$Res>
+    implements $CreateVectorStoreFileBatchRequestCopyWith<$Res> {
+  factory _$$CreateVectorStoreFileBatchRequestImplCopyWith(
+          _$CreateVectorStoreFileBatchRequestImpl value,
+          $Res Function(_$CreateVectorStoreFileBatchRequestImpl) then) =
+      __$$CreateVectorStoreFileBatchRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'file_ids') List<String> fileIds});
+}
+
+/// @nodoc
+class __$$CreateVectorStoreFileBatchRequestImplCopyWithImpl<$Res>
+    extends _$CreateVectorStoreFileBatchRequestCopyWithImpl<$Res,
+        _$CreateVectorStoreFileBatchRequestImpl>
+    implements _$$CreateVectorStoreFileBatchRequestImplCopyWith<$Res> {
+  __$$CreateVectorStoreFileBatchRequestImplCopyWithImpl(
+      _$CreateVectorStoreFileBatchRequestImpl _value,
+      $Res Function(_$CreateVectorStoreFileBatchRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fileIds = null,
+  }) {
+    return _then(_$CreateVectorStoreFileBatchRequestImpl(
+      fileIds: null == fileIds
+          ? _value._fileIds
+          : fileIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateVectorStoreFileBatchRequestImpl
+    extends _CreateVectorStoreFileBatchRequest {
+  const _$CreateVectorStoreFileBatchRequestImpl(
+      {@JsonKey(name: 'file_ids') required final List<String> fileIds})
+      : _fileIds = fileIds,
+        super._();
+
+  factory _$CreateVectorStoreFileBatchRequestImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$CreateVectorStoreFileBatchRequestImplFromJson(json);
+
+  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
+  final List<String> _fileIds;
+
+  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
+  @override
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds {
+    if (_fileIds is EqualUnmodifiableListView) return _fileIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_fileIds);
+  }
+
+  @override
+  String toString() {
+    return 'CreateVectorStoreFileBatchRequest(fileIds: $fileIds)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateVectorStoreFileBatchRequestImpl &&
+            const DeepCollectionEquality().equals(other._fileIds, _fileIds));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_fileIds));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateVectorStoreFileBatchRequestImplCopyWith<
+          _$CreateVectorStoreFileBatchRequestImpl>
+      get copyWith => __$$CreateVectorStoreFileBatchRequestImplCopyWithImpl<
+          _$CreateVectorStoreFileBatchRequestImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateVectorStoreFileBatchRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CreateVectorStoreFileBatchRequest
+    extends CreateVectorStoreFileBatchRequest {
+  const factory _CreateVectorStoreFileBatchRequest(
+          {@JsonKey(name: 'file_ids') required final List<String> fileIds}) =
+      _$CreateVectorStoreFileBatchRequestImpl;
+  const _CreateVectorStoreFileBatchRequest._() : super._();
+
+  factory _CreateVectorStoreFileBatchRequest.fromJson(
+          Map<String, dynamic> json) =
+      _$CreateVectorStoreFileBatchRequestImpl.fromJson;
+
+  @override
+
+  /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
+  @JsonKey(name: 'file_ids')
+  List<String> get fileIds;
+  @override
+  @JsonKey(ignore: true)
+  _$$CreateVectorStoreFileBatchRequestImplCopyWith<
+          _$CreateVectorStoreFileBatchRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -42354,7 +48058,7 @@ mixin _$CreateBatchRequest {
   @JsonKey(name: 'input_file_id')
   String get inputFileId => throw _privateConstructorUsedError;
 
-  /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+  /// The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
   BatchEndpoint get endpoint => throw _privateConstructorUsedError;
 
   /// The time frame within which the batch should be processed. Currently only `24h` is supported.
@@ -42501,7 +48205,7 @@ class _$CreateBatchRequestImpl extends _CreateBatchRequest {
   @JsonKey(name: 'input_file_id')
   final String inputFileId;
 
-  /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+  /// The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
   @override
   final BatchEndpoint endpoint;
 
@@ -42587,7 +48291,7 @@ abstract class _CreateBatchRequest extends CreateBatchRequest {
   String get inputFileId;
   @override
 
-  /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+  /// The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
   BatchEndpoint get endpoint;
   @override
 
@@ -42617,7 +48321,7 @@ mixin _$Batch {
   /// The object type, which is always `batch`.
   BatchObject get object => throw _privateConstructorUsedError;
 
-  /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+  /// The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
   BatchEndpoint get endpoint => throw _privateConstructorUsedError;
 
   /// No Description
@@ -42646,39 +48350,39 @@ mixin _$Batch {
 
   /// The Unix timestamp (in seconds) for when the batch was created.
   @JsonKey(name: 'created_at')
-  String get createdAt => throw _privateConstructorUsedError;
+  int get createdAt => throw _privateConstructorUsedError;
 
   /// The Unix timestamp (in seconds) for when the batch started processing.
   @JsonKey(name: 'in_progress_at', includeIfNull: false)
-  String? get inProgressAt => throw _privateConstructorUsedError;
+  int? get inProgressAt => throw _privateConstructorUsedError;
 
   /// The Unix timestamp (in seconds) for when the batch will expire.
   @JsonKey(name: 'expires_at', includeIfNull: false)
-  String? get expiresAt => throw _privateConstructorUsedError;
+  int? get expiresAt => throw _privateConstructorUsedError;
 
   /// The Unix timestamp (in seconds) for when the batch started finalizing.
   @JsonKey(name: 'finalizing_at', includeIfNull: false)
-  String? get finalizingAt => throw _privateConstructorUsedError;
+  int? get finalizingAt => throw _privateConstructorUsedError;
 
   /// The Unix timestamp (in seconds) for when the batch was completed.
   @JsonKey(name: 'completed_at', includeIfNull: false)
-  String? get completedAt => throw _privateConstructorUsedError;
+  int? get completedAt => throw _privateConstructorUsedError;
 
   /// The Unix timestamp (in seconds) for when the batch failed.
   @JsonKey(name: 'failed_at', includeIfNull: false)
-  String? get failedAt => throw _privateConstructorUsedError;
+  int? get failedAt => throw _privateConstructorUsedError;
 
   /// The Unix timestamp (in seconds) for when the batch expired.
   @JsonKey(name: 'expired_at', includeIfNull: false)
-  String? get expiredAt => throw _privateConstructorUsedError;
+  int? get expiredAt => throw _privateConstructorUsedError;
 
   /// The Unix timestamp (in seconds) for when the batch started cancelling.
   @JsonKey(name: 'cancelling_at', includeIfNull: false)
-  String? get cancellingAt => throw _privateConstructorUsedError;
+  int? get cancellingAt => throw _privateConstructorUsedError;
 
   /// The Unix timestamp (in seconds) for when the batch was cancelled.
   @JsonKey(name: 'cancelled_at', includeIfNull: false)
-  String? get cancelledAt => throw _privateConstructorUsedError;
+  int? get cancelledAt => throw _privateConstructorUsedError;
 
   /// The request counts for different statuses within the batch.
   @JsonKey(name: 'request_counts', includeIfNull: false)
@@ -42710,18 +48414,15 @@ abstract class $BatchCopyWith<$Res> {
       @JsonKey(name: 'output_file_id', includeIfNull: false)
       String? outputFileId,
       @JsonKey(name: 'error_file_id', includeIfNull: false) String? errorFileId,
-      @JsonKey(name: 'created_at') String createdAt,
-      @JsonKey(name: 'in_progress_at', includeIfNull: false)
-      String? inProgressAt,
-      @JsonKey(name: 'expires_at', includeIfNull: false) String? expiresAt,
-      @JsonKey(name: 'finalizing_at', includeIfNull: false)
-      String? finalizingAt,
-      @JsonKey(name: 'completed_at', includeIfNull: false) String? completedAt,
-      @JsonKey(name: 'failed_at', includeIfNull: false) String? failedAt,
-      @JsonKey(name: 'expired_at', includeIfNull: false) String? expiredAt,
-      @JsonKey(name: 'cancelling_at', includeIfNull: false)
-      String? cancellingAt,
-      @JsonKey(name: 'cancelled_at', includeIfNull: false) String? cancelledAt,
+      @JsonKey(name: 'created_at') int createdAt,
+      @JsonKey(name: 'in_progress_at', includeIfNull: false) int? inProgressAt,
+      @JsonKey(name: 'expires_at', includeIfNull: false) int? expiresAt,
+      @JsonKey(name: 'finalizing_at', includeIfNull: false) int? finalizingAt,
+      @JsonKey(name: 'completed_at', includeIfNull: false) int? completedAt,
+      @JsonKey(name: 'failed_at', includeIfNull: false) int? failedAt,
+      @JsonKey(name: 'expired_at', includeIfNull: false) int? expiredAt,
+      @JsonKey(name: 'cancelling_at', includeIfNull: false) int? cancellingAt,
+      @JsonKey(name: 'cancelled_at', includeIfNull: false) int? cancelledAt,
       @JsonKey(name: 'request_counts', includeIfNull: false)
       BatchRequestCounts? requestCounts,
       @JsonKey(includeIfNull: false) dynamic metadata});
@@ -42804,39 +48505,39 @@ class _$BatchCopyWithImpl<$Res, $Val extends Batch>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       inProgressAt: freezed == inProgressAt
           ? _value.inProgressAt
           : inProgressAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       expiresAt: freezed == expiresAt
           ? _value.expiresAt
           : expiresAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       finalizingAt: freezed == finalizingAt
           ? _value.finalizingAt
           : finalizingAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       completedAt: freezed == completedAt
           ? _value.completedAt
           : completedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       failedAt: freezed == failedAt
           ? _value.failedAt
           : failedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       expiredAt: freezed == expiredAt
           ? _value.expiredAt
           : expiredAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       cancellingAt: freezed == cancellingAt
           ? _value.cancellingAt
           : cancellingAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       cancelledAt: freezed == cancelledAt
           ? _value.cancelledAt
           : cancelledAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       requestCounts: freezed == requestCounts
           ? _value.requestCounts
           : requestCounts // ignore: cast_nullable_to_non_nullable
@@ -42892,18 +48593,15 @@ abstract class _$$BatchImplCopyWith<$Res> implements $BatchCopyWith<$Res> {
       @JsonKey(name: 'output_file_id', includeIfNull: false)
       String? outputFileId,
       @JsonKey(name: 'error_file_id', includeIfNull: false) String? errorFileId,
-      @JsonKey(name: 'created_at') String createdAt,
-      @JsonKey(name: 'in_progress_at', includeIfNull: false)
-      String? inProgressAt,
-      @JsonKey(name: 'expires_at', includeIfNull: false) String? expiresAt,
-      @JsonKey(name: 'finalizing_at', includeIfNull: false)
-      String? finalizingAt,
-      @JsonKey(name: 'completed_at', includeIfNull: false) String? completedAt,
-      @JsonKey(name: 'failed_at', includeIfNull: false) String? failedAt,
-      @JsonKey(name: 'expired_at', includeIfNull: false) String? expiredAt,
-      @JsonKey(name: 'cancelling_at', includeIfNull: false)
-      String? cancellingAt,
-      @JsonKey(name: 'cancelled_at', includeIfNull: false) String? cancelledAt,
+      @JsonKey(name: 'created_at') int createdAt,
+      @JsonKey(name: 'in_progress_at', includeIfNull: false) int? inProgressAt,
+      @JsonKey(name: 'expires_at', includeIfNull: false) int? expiresAt,
+      @JsonKey(name: 'finalizing_at', includeIfNull: false) int? finalizingAt,
+      @JsonKey(name: 'completed_at', includeIfNull: false) int? completedAt,
+      @JsonKey(name: 'failed_at', includeIfNull: false) int? failedAt,
+      @JsonKey(name: 'expired_at', includeIfNull: false) int? expiredAt,
+      @JsonKey(name: 'cancelling_at', includeIfNull: false) int? cancellingAt,
+      @JsonKey(name: 'cancelled_at', includeIfNull: false) int? cancelledAt,
       @JsonKey(name: 'request_counts', includeIfNull: false)
       BatchRequestCounts? requestCounts,
       @JsonKey(includeIfNull: false) dynamic metadata});
@@ -42986,39 +48684,39 @@ class __$$BatchImplCopyWithImpl<$Res>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       inProgressAt: freezed == inProgressAt
           ? _value.inProgressAt
           : inProgressAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       expiresAt: freezed == expiresAt
           ? _value.expiresAt
           : expiresAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       finalizingAt: freezed == finalizingAt
           ? _value.finalizingAt
           : finalizingAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       completedAt: freezed == completedAt
           ? _value.completedAt
           : completedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       failedAt: freezed == failedAt
           ? _value.failedAt
           : failedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       expiredAt: freezed == expiredAt
           ? _value.expiredAt
           : expiredAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       cancellingAt: freezed == cancellingAt
           ? _value.cancellingAt
           : cancellingAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       cancelledAt: freezed == cancelledAt
           ? _value.cancelledAt
           : cancelledAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       requestCounts: freezed == requestCounts
           ? _value.requestCounts
           : requestCounts // ignore: cast_nullable_to_non_nullable
@@ -43068,7 +48766,7 @@ class _$BatchImpl extends _Batch {
   @override
   final BatchObject object;
 
-  /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+  /// The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
   @override
   final BatchEndpoint endpoint;
 
@@ -43104,47 +48802,47 @@ class _$BatchImpl extends _Batch {
   /// The Unix timestamp (in seconds) for when the batch was created.
   @override
   @JsonKey(name: 'created_at')
-  final String createdAt;
+  final int createdAt;
 
   /// The Unix timestamp (in seconds) for when the batch started processing.
   @override
   @JsonKey(name: 'in_progress_at', includeIfNull: false)
-  final String? inProgressAt;
+  final int? inProgressAt;
 
   /// The Unix timestamp (in seconds) for when the batch will expire.
   @override
   @JsonKey(name: 'expires_at', includeIfNull: false)
-  final String? expiresAt;
+  final int? expiresAt;
 
   /// The Unix timestamp (in seconds) for when the batch started finalizing.
   @override
   @JsonKey(name: 'finalizing_at', includeIfNull: false)
-  final String? finalizingAt;
+  final int? finalizingAt;
 
   /// The Unix timestamp (in seconds) for when the batch was completed.
   @override
   @JsonKey(name: 'completed_at', includeIfNull: false)
-  final String? completedAt;
+  final int? completedAt;
 
   /// The Unix timestamp (in seconds) for when the batch failed.
   @override
   @JsonKey(name: 'failed_at', includeIfNull: false)
-  final String? failedAt;
+  final int? failedAt;
 
   /// The Unix timestamp (in seconds) for when the batch expired.
   @override
   @JsonKey(name: 'expired_at', includeIfNull: false)
-  final String? expiredAt;
+  final int? expiredAt;
 
   /// The Unix timestamp (in seconds) for when the batch started cancelling.
   @override
   @JsonKey(name: 'cancelling_at', includeIfNull: false)
-  final String? cancellingAt;
+  final int? cancellingAt;
 
   /// The Unix timestamp (in seconds) for when the batch was cancelled.
   @override
   @JsonKey(name: 'cancelled_at', includeIfNull: false)
-  final String? cancelledAt;
+  final int? cancelledAt;
 
   /// The request counts for different statuses within the batch.
   @override
@@ -43257,22 +48955,20 @@ abstract class _Batch extends Batch {
       final String? outputFileId,
       @JsonKey(name: 'error_file_id', includeIfNull: false)
       final String? errorFileId,
-      @JsonKey(name: 'created_at') required final String createdAt,
+      @JsonKey(name: 'created_at') required final int createdAt,
       @JsonKey(name: 'in_progress_at', includeIfNull: false)
-      final String? inProgressAt,
-      @JsonKey(name: 'expires_at', includeIfNull: false)
-      final String? expiresAt,
+      final int? inProgressAt,
+      @JsonKey(name: 'expires_at', includeIfNull: false) final int? expiresAt,
       @JsonKey(name: 'finalizing_at', includeIfNull: false)
-      final String? finalizingAt,
+      final int? finalizingAt,
       @JsonKey(name: 'completed_at', includeIfNull: false)
-      final String? completedAt,
-      @JsonKey(name: 'failed_at', includeIfNull: false) final String? failedAt,
-      @JsonKey(name: 'expired_at', includeIfNull: false)
-      final String? expiredAt,
+      final int? completedAt,
+      @JsonKey(name: 'failed_at', includeIfNull: false) final int? failedAt,
+      @JsonKey(name: 'expired_at', includeIfNull: false) final int? expiredAt,
       @JsonKey(name: 'cancelling_at', includeIfNull: false)
-      final String? cancellingAt,
+      final int? cancellingAt,
       @JsonKey(name: 'cancelled_at', includeIfNull: false)
-      final String? cancelledAt,
+      final int? cancelledAt,
       @JsonKey(name: 'request_counts', includeIfNull: false)
       final BatchRequestCounts? requestCounts,
       @JsonKey(includeIfNull: false) final dynamic metadata}) = _$BatchImpl;
@@ -43290,7 +48986,7 @@ abstract class _Batch extends Batch {
   BatchObject get object;
   @override
 
-  /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+  /// The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
   BatchEndpoint get endpoint;
   @override
 
@@ -43325,47 +49021,47 @@ abstract class _Batch extends Batch {
 
   /// The Unix timestamp (in seconds) for when the batch was created.
   @JsonKey(name: 'created_at')
-  String get createdAt;
+  int get createdAt;
   @override
 
   /// The Unix timestamp (in seconds) for when the batch started processing.
   @JsonKey(name: 'in_progress_at', includeIfNull: false)
-  String? get inProgressAt;
+  int? get inProgressAt;
   @override
 
   /// The Unix timestamp (in seconds) for when the batch will expire.
   @JsonKey(name: 'expires_at', includeIfNull: false)
-  String? get expiresAt;
+  int? get expiresAt;
   @override
 
   /// The Unix timestamp (in seconds) for when the batch started finalizing.
   @JsonKey(name: 'finalizing_at', includeIfNull: false)
-  String? get finalizingAt;
+  int? get finalizingAt;
   @override
 
   /// The Unix timestamp (in seconds) for when the batch was completed.
   @JsonKey(name: 'completed_at', includeIfNull: false)
-  String? get completedAt;
+  int? get completedAt;
   @override
 
   /// The Unix timestamp (in seconds) for when the batch failed.
   @JsonKey(name: 'failed_at', includeIfNull: false)
-  String? get failedAt;
+  int? get failedAt;
   @override
 
   /// The Unix timestamp (in seconds) for when the batch expired.
   @JsonKey(name: 'expired_at', includeIfNull: false)
-  String? get expiredAt;
+  int? get expiredAt;
   @override
 
   /// The Unix timestamp (in seconds) for when the batch started cancelling.
   @JsonKey(name: 'cancelling_at', includeIfNull: false)
-  String? get cancellingAt;
+  int? get cancellingAt;
   @override
 
   /// The Unix timestamp (in seconds) for when the batch was cancelled.
   @JsonKey(name: 'cancelled_at', includeIfNull: false)
-  String? get cancelledAt;
+  int? get cancelledAt;
   @override
 
   /// The request counts for different statuses within the batch.
@@ -44002,6 +49698,281 @@ abstract class _BatchErrorsDataInner extends BatchErrorsDataInner {
   @JsonKey(ignore: true)
   _$$BatchErrorsDataInnerImplCopyWith<_$BatchErrorsDataInnerImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+ListBatchesResponse _$ListBatchesResponseFromJson(Map<String, dynamic> json) {
+  return _ListBatchesResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ListBatchesResponse {
+  /// No Description
+  List<Batch> get data => throw _privateConstructorUsedError;
+
+  /// The ID of the first batch in the list.
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  String? get firstId => throw _privateConstructorUsedError;
+
+  /// The ID of the last batch in the list.
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  String? get lastId => throw _privateConstructorUsedError;
+
+  /// Whether there are more batches available.
+  @JsonKey(name: 'has_more')
+  bool get hasMore => throw _privateConstructorUsedError;
+
+  /// The object type, which is always `list`.
+  ListBatchesResponseObject get object => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ListBatchesResponseCopyWith<ListBatchesResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ListBatchesResponseCopyWith<$Res> {
+  factory $ListBatchesResponseCopyWith(
+          ListBatchesResponse value, $Res Function(ListBatchesResponse) then) =
+      _$ListBatchesResponseCopyWithImpl<$Res, ListBatchesResponse>;
+  @useResult
+  $Res call(
+      {List<Batch> data,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
+      @JsonKey(name: 'has_more') bool hasMore,
+      ListBatchesResponseObject object});
+}
+
+/// @nodoc
+class _$ListBatchesResponseCopyWithImpl<$Res, $Val extends ListBatchesResponse>
+    implements $ListBatchesResponseCopyWith<$Res> {
+  _$ListBatchesResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
+    Object? hasMore = null,
+    Object? object = null,
+  }) {
+    return _then(_value.copyWith(
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<Batch>,
+      firstId: freezed == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastId: freezed == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as ListBatchesResponseObject,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ListBatchesResponseImplCopyWith<$Res>
+    implements $ListBatchesResponseCopyWith<$Res> {
+  factory _$$ListBatchesResponseImplCopyWith(_$ListBatchesResponseImpl value,
+          $Res Function(_$ListBatchesResponseImpl) then) =
+      __$$ListBatchesResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {List<Batch> data,
+      @JsonKey(name: 'first_id', includeIfNull: false) String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) String? lastId,
+      @JsonKey(name: 'has_more') bool hasMore,
+      ListBatchesResponseObject object});
+}
+
+/// @nodoc
+class __$$ListBatchesResponseImplCopyWithImpl<$Res>
+    extends _$ListBatchesResponseCopyWithImpl<$Res, _$ListBatchesResponseImpl>
+    implements _$$ListBatchesResponseImplCopyWith<$Res> {
+  __$$ListBatchesResponseImplCopyWithImpl(_$ListBatchesResponseImpl _value,
+      $Res Function(_$ListBatchesResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+    Object? firstId = freezed,
+    Object? lastId = freezed,
+    Object? hasMore = null,
+    Object? object = null,
+  }) {
+    return _then(_$ListBatchesResponseImpl(
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<Batch>,
+      firstId: freezed == firstId
+          ? _value.firstId
+          : firstId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastId: freezed == lastId
+          ? _value.lastId
+          : lastId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+      object: null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as ListBatchesResponseObject,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ListBatchesResponseImpl extends _ListBatchesResponse {
+  const _$ListBatchesResponseImpl(
+      {required final List<Batch> data,
+      @JsonKey(name: 'first_id', includeIfNull: false) this.firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) this.lastId,
+      @JsonKey(name: 'has_more') required this.hasMore,
+      required this.object})
+      : _data = data,
+        super._();
+
+  factory _$ListBatchesResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ListBatchesResponseImplFromJson(json);
+
+  /// No Description
+  final List<Batch> _data;
+
+  /// No Description
+  @override
+  List<Batch> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_data);
+  }
+
+  /// The ID of the first batch in the list.
+  @override
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  final String? firstId;
+
+  /// The ID of the last batch in the list.
+  @override
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  final String? lastId;
+
+  /// Whether there are more batches available.
+  @override
+  @JsonKey(name: 'has_more')
+  final bool hasMore;
+
+  /// The object type, which is always `list`.
+  @override
+  final ListBatchesResponseObject object;
+
+  @override
+  String toString() {
+    return 'ListBatchesResponse(data: $data, firstId: $firstId, lastId: $lastId, hasMore: $hasMore, object: $object)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ListBatchesResponseImpl &&
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.firstId, firstId) || other.firstId == firstId) &&
+            (identical(other.lastId, lastId) || other.lastId == lastId) &&
+            (identical(other.hasMore, hasMore) || other.hasMore == hasMore) &&
+            (identical(other.object, object) || other.object == object));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_data),
+      firstId,
+      lastId,
+      hasMore,
+      object);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ListBatchesResponseImplCopyWith<_$ListBatchesResponseImpl> get copyWith =>
+      __$$ListBatchesResponseImplCopyWithImpl<_$ListBatchesResponseImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ListBatchesResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ListBatchesResponse extends ListBatchesResponse {
+  const factory _ListBatchesResponse(
+      {required final List<Batch> data,
+      @JsonKey(name: 'first_id', includeIfNull: false) final String? firstId,
+      @JsonKey(name: 'last_id', includeIfNull: false) final String? lastId,
+      @JsonKey(name: 'has_more') required final bool hasMore,
+      required final ListBatchesResponseObject
+          object}) = _$ListBatchesResponseImpl;
+  const _ListBatchesResponse._() : super._();
+
+  factory _ListBatchesResponse.fromJson(Map<String, dynamic> json) =
+      _$ListBatchesResponseImpl.fromJson;
+
+  @override
+
+  /// No Description
+  List<Batch> get data;
+  @override
+
+  /// The ID of the first batch in the list.
+  @JsonKey(name: 'first_id', includeIfNull: false)
+  String? get firstId;
+  @override
+
+  /// The ID of the last batch in the list.
+  @JsonKey(name: 'last_id', includeIfNull: false)
+  String? get lastId;
+  @override
+
+  /// Whether there are more batches available.
+  @JsonKey(name: 'has_more')
+  bool get hasMore;
+  @override
+
+  /// The object type, which is always `list`.
+  ListBatchesResponseObject get object;
+  @override
+  @JsonKey(ignore: true)
+  _$$ListBatchesResponseImplCopyWith<_$ListBatchesResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 ChatCompletionMessage _$ChatCompletionMessageFromJson(
@@ -46787,8 +52758,8 @@ AssistantTools _$AssistantToolsFromJson(Map<String, dynamic> json) {
   switch (json['type']) {
     case 'code_interpreter':
       return AssistantToolsCodeInterpreter.fromJson(json);
-    case 'retrieval':
-      return AssistantToolsRetrieval.fromJson(json);
+    case 'file_search':
+      return AssistantToolsFileSearch.fromJson(json);
     case 'function':
       return AssistantToolsFunction.fromJson(json);
 
@@ -46805,21 +52776,21 @@ mixin _$AssistantTools {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String type) codeInterpreter,
-    required TResult Function(String type) retrieval,
+    required TResult Function(String type) fileSearch,
     required TResult Function(String type, FunctionObject function) function,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type)? codeInterpreter,
-    TResult? Function(String type)? retrieval,
+    TResult? Function(String type)? fileSearch,
     TResult? Function(String type, FunctionObject function)? function,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type)? codeInterpreter,
-    TResult Function(String type)? retrieval,
+    TResult Function(String type)? fileSearch,
     TResult Function(String type, FunctionObject function)? function,
     required TResult orElse(),
   }) =>
@@ -46828,21 +52799,21 @@ mixin _$AssistantTools {
   TResult map<TResult extends Object?>({
     required TResult Function(AssistantToolsCodeInterpreter value)
         codeInterpreter,
-    required TResult Function(AssistantToolsRetrieval value) retrieval,
+    required TResult Function(AssistantToolsFileSearch value) fileSearch,
     required TResult Function(AssistantToolsFunction value) function,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AssistantToolsCodeInterpreter value)? codeInterpreter,
-    TResult? Function(AssistantToolsRetrieval value)? retrieval,
+    TResult? Function(AssistantToolsFileSearch value)? fileSearch,
     TResult? Function(AssistantToolsFunction value)? function,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AssistantToolsCodeInterpreter value)? codeInterpreter,
-    TResult Function(AssistantToolsRetrieval value)? retrieval,
+    TResult Function(AssistantToolsFileSearch value)? fileSearch,
     TResult Function(AssistantToolsFunction value)? function,
     required TResult orElse(),
   }) =>
@@ -46967,7 +52938,7 @@ class _$AssistantToolsCodeInterpreterImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String type) codeInterpreter,
-    required TResult Function(String type) retrieval,
+    required TResult Function(String type) fileSearch,
     required TResult Function(String type, FunctionObject function) function,
   }) {
     return codeInterpreter(type);
@@ -46977,7 +52948,7 @@ class _$AssistantToolsCodeInterpreterImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type)? codeInterpreter,
-    TResult? Function(String type)? retrieval,
+    TResult? Function(String type)? fileSearch,
     TResult? Function(String type, FunctionObject function)? function,
   }) {
     return codeInterpreter?.call(type);
@@ -46987,7 +52958,7 @@ class _$AssistantToolsCodeInterpreterImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type)? codeInterpreter,
-    TResult Function(String type)? retrieval,
+    TResult Function(String type)? fileSearch,
     TResult Function(String type, FunctionObject function)? function,
     required TResult orElse(),
   }) {
@@ -47002,7 +52973,7 @@ class _$AssistantToolsCodeInterpreterImpl
   TResult map<TResult extends Object?>({
     required TResult Function(AssistantToolsCodeInterpreter value)
         codeInterpreter,
-    required TResult Function(AssistantToolsRetrieval value) retrieval,
+    required TResult Function(AssistantToolsFileSearch value) fileSearch,
     required TResult Function(AssistantToolsFunction value) function,
   }) {
     return codeInterpreter(this);
@@ -47012,7 +52983,7 @@ class _$AssistantToolsCodeInterpreterImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AssistantToolsCodeInterpreter value)? codeInterpreter,
-    TResult? Function(AssistantToolsRetrieval value)? retrieval,
+    TResult? Function(AssistantToolsFileSearch value)? fileSearch,
     TResult? Function(AssistantToolsFunction value)? function,
   }) {
     return codeInterpreter?.call(this);
@@ -47022,7 +52993,7 @@ class _$AssistantToolsCodeInterpreterImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AssistantToolsCodeInterpreter value)? codeInterpreter,
-    TResult Function(AssistantToolsRetrieval value)? retrieval,
+    TResult Function(AssistantToolsFileSearch value)? fileSearch,
     TResult Function(AssistantToolsFunction value)? function,
     required TResult orElse(),
   }) {
@@ -47060,24 +53031,24 @@ abstract class AssistantToolsCodeInterpreter extends AssistantTools {
 }
 
 /// @nodoc
-abstract class _$$AssistantToolsRetrievalImplCopyWith<$Res>
+abstract class _$$AssistantToolsFileSearchImplCopyWith<$Res>
     implements $AssistantToolsCopyWith<$Res> {
-  factory _$$AssistantToolsRetrievalImplCopyWith(
-          _$AssistantToolsRetrievalImpl value,
-          $Res Function(_$AssistantToolsRetrievalImpl) then) =
-      __$$AssistantToolsRetrievalImplCopyWithImpl<$Res>;
+  factory _$$AssistantToolsFileSearchImplCopyWith(
+          _$AssistantToolsFileSearchImpl value,
+          $Res Function(_$AssistantToolsFileSearchImpl) then) =
+      __$$AssistantToolsFileSearchImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String type});
 }
 
 /// @nodoc
-class __$$AssistantToolsRetrievalImplCopyWithImpl<$Res>
-    extends _$AssistantToolsCopyWithImpl<$Res, _$AssistantToolsRetrievalImpl>
-    implements _$$AssistantToolsRetrievalImplCopyWith<$Res> {
-  __$$AssistantToolsRetrievalImplCopyWithImpl(
-      _$AssistantToolsRetrievalImpl _value,
-      $Res Function(_$AssistantToolsRetrievalImpl) _then)
+class __$$AssistantToolsFileSearchImplCopyWithImpl<$Res>
+    extends _$AssistantToolsCopyWithImpl<$Res, _$AssistantToolsFileSearchImpl>
+    implements _$$AssistantToolsFileSearchImplCopyWith<$Res> {
+  __$$AssistantToolsFileSearchImplCopyWithImpl(
+      _$AssistantToolsFileSearchImpl _value,
+      $Res Function(_$AssistantToolsFileSearchImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -47085,7 +53056,7 @@ class __$$AssistantToolsRetrievalImplCopyWithImpl<$Res>
   $Res call({
     Object? type = null,
   }) {
-    return _then(_$AssistantToolsRetrievalImpl(
+    return _then(_$AssistantToolsFileSearchImpl(
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -47096,27 +53067,27 @@ class __$$AssistantToolsRetrievalImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$AssistantToolsRetrievalImpl extends AssistantToolsRetrieval {
-  const _$AssistantToolsRetrievalImpl({this.type = 'retrieval'}) : super._();
+class _$AssistantToolsFileSearchImpl extends AssistantToolsFileSearch {
+  const _$AssistantToolsFileSearchImpl({this.type = 'file_search'}) : super._();
 
-  factory _$AssistantToolsRetrievalImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AssistantToolsRetrievalImplFromJson(json);
+  factory _$AssistantToolsFileSearchImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AssistantToolsFileSearchImplFromJson(json);
 
-  /// The type of tool being defined: `retrieval`
+  /// The type of tool being defined: `file_search`
   @override
   @JsonKey()
   final String type;
 
   @override
   String toString() {
-    return 'AssistantTools.retrieval(type: $type)';
+    return 'AssistantTools.fileSearch(type: $type)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AssistantToolsRetrievalImpl &&
+            other is _$AssistantToolsFileSearchImpl &&
             (identical(other.type, type) || other.type == type));
   }
 
@@ -47127,40 +53098,40 @@ class _$AssistantToolsRetrievalImpl extends AssistantToolsRetrieval {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$AssistantToolsRetrievalImplCopyWith<_$AssistantToolsRetrievalImpl>
-      get copyWith => __$$AssistantToolsRetrievalImplCopyWithImpl<
-          _$AssistantToolsRetrievalImpl>(this, _$identity);
+  _$$AssistantToolsFileSearchImplCopyWith<_$AssistantToolsFileSearchImpl>
+      get copyWith => __$$AssistantToolsFileSearchImplCopyWithImpl<
+          _$AssistantToolsFileSearchImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String type) codeInterpreter,
-    required TResult Function(String type) retrieval,
+    required TResult Function(String type) fileSearch,
     required TResult Function(String type, FunctionObject function) function,
   }) {
-    return retrieval(type);
+    return fileSearch(type);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type)? codeInterpreter,
-    TResult? Function(String type)? retrieval,
+    TResult? Function(String type)? fileSearch,
     TResult? Function(String type, FunctionObject function)? function,
   }) {
-    return retrieval?.call(type);
+    return fileSearch?.call(type);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type)? codeInterpreter,
-    TResult Function(String type)? retrieval,
+    TResult Function(String type)? fileSearch,
     TResult Function(String type, FunctionObject function)? function,
     required TResult orElse(),
   }) {
-    if (retrieval != null) {
-      return retrieval(type);
+    if (fileSearch != null) {
+      return fileSearch(type);
     }
     return orElse();
   }
@@ -47170,59 +53141,59 @@ class _$AssistantToolsRetrievalImpl extends AssistantToolsRetrieval {
   TResult map<TResult extends Object?>({
     required TResult Function(AssistantToolsCodeInterpreter value)
         codeInterpreter,
-    required TResult Function(AssistantToolsRetrieval value) retrieval,
+    required TResult Function(AssistantToolsFileSearch value) fileSearch,
     required TResult Function(AssistantToolsFunction value) function,
   }) {
-    return retrieval(this);
+    return fileSearch(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AssistantToolsCodeInterpreter value)? codeInterpreter,
-    TResult? Function(AssistantToolsRetrieval value)? retrieval,
+    TResult? Function(AssistantToolsFileSearch value)? fileSearch,
     TResult? Function(AssistantToolsFunction value)? function,
   }) {
-    return retrieval?.call(this);
+    return fileSearch?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AssistantToolsCodeInterpreter value)? codeInterpreter,
-    TResult Function(AssistantToolsRetrieval value)? retrieval,
+    TResult Function(AssistantToolsFileSearch value)? fileSearch,
     TResult Function(AssistantToolsFunction value)? function,
     required TResult orElse(),
   }) {
-    if (retrieval != null) {
-      return retrieval(this);
+    if (fileSearch != null) {
+      return fileSearch(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AssistantToolsRetrievalImplToJson(
+    return _$$AssistantToolsFileSearchImplToJson(
       this,
     );
   }
 }
 
-abstract class AssistantToolsRetrieval extends AssistantTools {
-  const factory AssistantToolsRetrieval({final String type}) =
-      _$AssistantToolsRetrievalImpl;
-  const AssistantToolsRetrieval._() : super._();
+abstract class AssistantToolsFileSearch extends AssistantTools {
+  const factory AssistantToolsFileSearch({final String type}) =
+      _$AssistantToolsFileSearchImpl;
+  const AssistantToolsFileSearch._() : super._();
 
-  factory AssistantToolsRetrieval.fromJson(Map<String, dynamic> json) =
-      _$AssistantToolsRetrievalImpl.fromJson;
+  factory AssistantToolsFileSearch.fromJson(Map<String, dynamic> json) =
+      _$AssistantToolsFileSearchImpl.fromJson;
 
   @override
 
-  /// The type of tool being defined: `retrieval`
+  /// The type of tool being defined: `file_search`
   String get type;
   @override
   @JsonKey(ignore: true)
-  _$$AssistantToolsRetrievalImplCopyWith<_$AssistantToolsRetrievalImpl>
+  _$$AssistantToolsFileSearchImplCopyWith<_$AssistantToolsFileSearchImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -47325,7 +53296,7 @@ class _$AssistantToolsFunctionImpl extends AssistantToolsFunction {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String type) codeInterpreter,
-    required TResult Function(String type) retrieval,
+    required TResult Function(String type) fileSearch,
     required TResult Function(String type, FunctionObject function) function,
   }) {
     return function(type, this.function);
@@ -47335,7 +53306,7 @@ class _$AssistantToolsFunctionImpl extends AssistantToolsFunction {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type)? codeInterpreter,
-    TResult? Function(String type)? retrieval,
+    TResult? Function(String type)? fileSearch,
     TResult? Function(String type, FunctionObject function)? function,
   }) {
     return function?.call(type, this.function);
@@ -47345,7 +53316,7 @@ class _$AssistantToolsFunctionImpl extends AssistantToolsFunction {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type)? codeInterpreter,
-    TResult Function(String type)? retrieval,
+    TResult Function(String type)? fileSearch,
     TResult Function(String type, FunctionObject function)? function,
     required TResult orElse(),
   }) {
@@ -47360,7 +53331,7 @@ class _$AssistantToolsFunctionImpl extends AssistantToolsFunction {
   TResult map<TResult extends Object?>({
     required TResult Function(AssistantToolsCodeInterpreter value)
         codeInterpreter,
-    required TResult Function(AssistantToolsRetrieval value) retrieval,
+    required TResult Function(AssistantToolsFileSearch value) fileSearch,
     required TResult Function(AssistantToolsFunction value) function,
   }) {
     return function(this);
@@ -47370,7 +53341,7 @@ class _$AssistantToolsFunctionImpl extends AssistantToolsFunction {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AssistantToolsCodeInterpreter value)? codeInterpreter,
-    TResult? Function(AssistantToolsRetrieval value)? retrieval,
+    TResult? Function(AssistantToolsFileSearch value)? fileSearch,
     TResult? Function(AssistantToolsFunction value)? function,
   }) {
     return function?.call(this);
@@ -47380,7 +53351,7 @@ class _$AssistantToolsFunctionImpl extends AssistantToolsFunction {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AssistantToolsCodeInterpreter value)? codeInterpreter,
-    TResult Function(AssistantToolsRetrieval value)? retrieval,
+    TResult Function(AssistantToolsFileSearch value)? fileSearch,
     TResult Function(AssistantToolsFunction value)? function,
     required TResult orElse(),
   }) {
@@ -47424,6 +53395,8 @@ MessageContent _$MessageContentFromJson(Map<String, dynamic> json) {
   switch (json['type']) {
     case 'image_file':
       return MessageContentImageFileObject.fromJson(json);
+    case 'image_url':
+      return MessageContentImageUrlObject.fromJson(json);
     case 'text':
       return MessageContentTextObject.fromJson(json);
 
@@ -47442,6 +53415,9 @@ mixin _$MessageContent {
     required TResult Function(String type,
             @JsonKey(name: 'image_file') MessageContentImageFile imageFile)
         imageFile,
+    required TResult Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)
+        imageUrl,
     required TResult Function(String type, MessageContentText text) text,
   }) =>
       throw _privateConstructorUsedError;
@@ -47450,6 +53426,9 @@ mixin _$MessageContent {
     TResult? Function(String type,
             @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
         imageFile,
+    TResult? Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
+        imageUrl,
     TResult? Function(String type, MessageContentText text)? text,
   }) =>
       throw _privateConstructorUsedError;
@@ -47458,6 +53437,9 @@ mixin _$MessageContent {
     TResult Function(String type,
             @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
         imageFile,
+    TResult Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
+        imageUrl,
     TResult Function(String type, MessageContentText text)? text,
     required TResult orElse(),
   }) =>
@@ -47465,18 +53447,21 @@ mixin _$MessageContent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(MessageContentImageFileObject value) imageFile,
+    required TResult Function(MessageContentImageUrlObject value) imageUrl,
     required TResult Function(MessageContentTextObject value) text,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(MessageContentImageFileObject value)? imageFile,
+    TResult? Function(MessageContentImageUrlObject value)? imageUrl,
     TResult? Function(MessageContentTextObject value)? text,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(MessageContentImageFileObject value)? imageFile,
+    TResult Function(MessageContentImageUrlObject value)? imageUrl,
     TResult Function(MessageContentTextObject value)? text,
     required TResult orElse(),
   }) =>
@@ -47578,7 +53563,7 @@ class __$$MessageContentImageFileObjectImplCopyWithImpl<$Res>
 class _$MessageContentImageFileObjectImpl
     extends MessageContentImageFileObject {
   const _$MessageContentImageFileObjectImpl(
-      {required this.type,
+      {this.type = 'image_file',
       @JsonKey(name: 'image_file') required this.imageFile})
       : super._();
 
@@ -47588,6 +53573,7 @@ class _$MessageContentImageFileObjectImpl
 
   /// Always `image_file`.
   @override
+  @JsonKey()
   final String type;
 
   /// The image file that is part of a message.
@@ -47628,6 +53614,9 @@ class _$MessageContentImageFileObjectImpl
     required TResult Function(String type,
             @JsonKey(name: 'image_file') MessageContentImageFile imageFile)
         imageFile,
+    required TResult Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)
+        imageUrl,
     required TResult Function(String type, MessageContentText text) text,
   }) {
     return imageFile(type, this.imageFile);
@@ -47639,6 +53628,9 @@ class _$MessageContentImageFileObjectImpl
     TResult? Function(String type,
             @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
         imageFile,
+    TResult? Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
+        imageUrl,
     TResult? Function(String type, MessageContentText text)? text,
   }) {
     return imageFile?.call(type, this.imageFile);
@@ -47650,6 +53642,9 @@ class _$MessageContentImageFileObjectImpl
     TResult Function(String type,
             @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
         imageFile,
+    TResult Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
+        imageUrl,
     TResult Function(String type, MessageContentText text)? text,
     required TResult orElse(),
   }) {
@@ -47663,6 +53658,7 @@ class _$MessageContentImageFileObjectImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(MessageContentImageFileObject value) imageFile,
+    required TResult Function(MessageContentImageUrlObject value) imageUrl,
     required TResult Function(MessageContentTextObject value) text,
   }) {
     return imageFile(this);
@@ -47672,6 +53668,7 @@ class _$MessageContentImageFileObjectImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(MessageContentImageFileObject value)? imageFile,
+    TResult? Function(MessageContentImageUrlObject value)? imageUrl,
     TResult? Function(MessageContentTextObject value)? text,
   }) {
     return imageFile?.call(this);
@@ -47681,6 +53678,7 @@ class _$MessageContentImageFileObjectImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(MessageContentImageFileObject value)? imageFile,
+    TResult Function(MessageContentImageUrlObject value)? imageUrl,
     TResult Function(MessageContentTextObject value)? text,
     required TResult orElse(),
   }) {
@@ -47700,7 +53698,7 @@ class _$MessageContentImageFileObjectImpl
 
 abstract class MessageContentImageFileObject extends MessageContent {
   const factory MessageContentImageFileObject(
-          {required final String type,
+          {final String type,
           @JsonKey(name: 'image_file')
           required final MessageContentImageFile imageFile}) =
       _$MessageContentImageFileObjectImpl;
@@ -47721,6 +53719,222 @@ abstract class MessageContentImageFileObject extends MessageContent {
   @JsonKey(ignore: true)
   _$$MessageContentImageFileObjectImplCopyWith<
           _$MessageContentImageFileObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$MessageContentImageUrlObjectImplCopyWith<$Res>
+    implements $MessageContentCopyWith<$Res> {
+  factory _$$MessageContentImageUrlObjectImplCopyWith(
+          _$MessageContentImageUrlObjectImpl value,
+          $Res Function(_$MessageContentImageUrlObjectImpl) then) =
+      __$$MessageContentImageUrlObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String type,
+      @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl});
+
+  $MessageContentImageUrlCopyWith<$Res> get imageUrl;
+}
+
+/// @nodoc
+class __$$MessageContentImageUrlObjectImplCopyWithImpl<$Res>
+    extends _$MessageContentCopyWithImpl<$Res,
+        _$MessageContentImageUrlObjectImpl>
+    implements _$$MessageContentImageUrlObjectImplCopyWith<$Res> {
+  __$$MessageContentImageUrlObjectImplCopyWithImpl(
+      _$MessageContentImageUrlObjectImpl _value,
+      $Res Function(_$MessageContentImageUrlObjectImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? imageUrl = null,
+  }) {
+    return _then(_$MessageContentImageUrlObjectImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as MessageContentImageUrl,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageContentImageUrlCopyWith<$Res> get imageUrl {
+    return $MessageContentImageUrlCopyWith<$Res>(_value.imageUrl, (value) {
+      return _then(_value.copyWith(imageUrl: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageContentImageUrlObjectImpl extends MessageContentImageUrlObject {
+  const _$MessageContentImageUrlObjectImpl(
+      {this.type = 'image_url',
+      @JsonKey(name: 'image_url') required this.imageUrl})
+      : super._();
+
+  factory _$MessageContentImageUrlObjectImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MessageContentImageUrlObjectImplFromJson(json);
+
+  /// The type of the content part. Always `image_url`.
+  @override
+  @JsonKey()
+  final String type;
+
+  /// The image URL part of a message.
+  @override
+  @JsonKey(name: 'image_url')
+  final MessageContentImageUrl imageUrl;
+
+  @override
+  String toString() {
+    return 'MessageContent.imageUrl(type: $type, imageUrl: $imageUrl)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageContentImageUrlObjectImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, imageUrl);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageContentImageUrlObjectImplCopyWith<
+          _$MessageContentImageUrlObjectImpl>
+      get copyWith => __$$MessageContentImageUrlObjectImplCopyWithImpl<
+          _$MessageContentImageUrlObjectImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type,
+            @JsonKey(name: 'image_file') MessageContentImageFile imageFile)
+        imageFile,
+    required TResult Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)
+        imageUrl,
+    required TResult Function(String type, MessageContentText text) text,
+  }) {
+    return imageUrl(type, this.imageUrl);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type,
+            @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
+        imageFile,
+    TResult? Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
+        imageUrl,
+    TResult? Function(String type, MessageContentText text)? text,
+  }) {
+    return imageUrl?.call(type, this.imageUrl);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type,
+            @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
+        imageFile,
+    TResult Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
+        imageUrl,
+    TResult Function(String type, MessageContentText text)? text,
+    required TResult orElse(),
+  }) {
+    if (imageUrl != null) {
+      return imageUrl(type, this.imageUrl);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(MessageContentImageFileObject value) imageFile,
+    required TResult Function(MessageContentImageUrlObject value) imageUrl,
+    required TResult Function(MessageContentTextObject value) text,
+  }) {
+    return imageUrl(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MessageContentImageFileObject value)? imageFile,
+    TResult? Function(MessageContentImageUrlObject value)? imageUrl,
+    TResult? Function(MessageContentTextObject value)? text,
+  }) {
+    return imageUrl?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MessageContentImageFileObject value)? imageFile,
+    TResult Function(MessageContentImageUrlObject value)? imageUrl,
+    TResult Function(MessageContentTextObject value)? text,
+    required TResult orElse(),
+  }) {
+    if (imageUrl != null) {
+      return imageUrl(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageContentImageUrlObjectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class MessageContentImageUrlObject extends MessageContent {
+  const factory MessageContentImageUrlObject(
+          {final String type,
+          @JsonKey(name: 'image_url')
+          required final MessageContentImageUrl imageUrl}) =
+      _$MessageContentImageUrlObjectImpl;
+  const MessageContentImageUrlObject._() : super._();
+
+  factory MessageContentImageUrlObject.fromJson(Map<String, dynamic> json) =
+      _$MessageContentImageUrlObjectImpl.fromJson;
+
+  @override
+
+  /// The type of the content part. Always `image_url`.
+  String get type;
+
+  /// The image URL part of a message.
+  @JsonKey(name: 'image_url')
+  MessageContentImageUrl get imageUrl;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageContentImageUrlObjectImplCopyWith<
+          _$MessageContentImageUrlObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -47777,7 +53991,7 @@ class __$$MessageContentTextObjectImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$MessageContentTextObjectImpl extends MessageContentTextObject {
-  const _$MessageContentTextObjectImpl({required this.type, required this.text})
+  const _$MessageContentTextObjectImpl({this.type = 'text', required this.text})
       : super._();
 
   factory _$MessageContentTextObjectImpl.fromJson(Map<String, dynamic> json) =>
@@ -47785,6 +53999,7 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
 
   /// Always `text`.
   @override
+  @JsonKey()
   final String type;
 
   /// The text content that is part of a message.
@@ -47822,6 +54037,9 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
     required TResult Function(String type,
             @JsonKey(name: 'image_file') MessageContentImageFile imageFile)
         imageFile,
+    required TResult Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)
+        imageUrl,
     required TResult Function(String type, MessageContentText text) text,
   }) {
     return text(type, this.text);
@@ -47833,6 +54051,9 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
     TResult? Function(String type,
             @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
         imageFile,
+    TResult? Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
+        imageUrl,
     TResult? Function(String type, MessageContentText text)? text,
   }) {
     return text?.call(type, this.text);
@@ -47844,6 +54065,9 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
     TResult Function(String type,
             @JsonKey(name: 'image_file') MessageContentImageFile imageFile)?
         imageFile,
+    TResult Function(String type,
+            @JsonKey(name: 'image_url') MessageContentImageUrl imageUrl)?
+        imageUrl,
     TResult Function(String type, MessageContentText text)? text,
     required TResult orElse(),
   }) {
@@ -47857,6 +54081,7 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(MessageContentImageFileObject value) imageFile,
+    required TResult Function(MessageContentImageUrlObject value) imageUrl,
     required TResult Function(MessageContentTextObject value) text,
   }) {
     return text(this);
@@ -47866,6 +54091,7 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(MessageContentImageFileObject value)? imageFile,
+    TResult? Function(MessageContentImageUrlObject value)? imageUrl,
     TResult? Function(MessageContentTextObject value)? text,
   }) {
     return text?.call(this);
@@ -47875,6 +54101,7 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(MessageContentImageFileObject value)? imageFile,
+    TResult Function(MessageContentImageUrlObject value)? imageUrl,
     TResult Function(MessageContentTextObject value)? text,
     required TResult orElse(),
   }) {
@@ -47894,7 +54121,7 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
 
 abstract class MessageContentTextObject extends MessageContent {
   const factory MessageContentTextObject(
-      {required final String type,
+      {final String type,
       required final MessageContentText text}) = _$MessageContentTextObjectImpl;
   const MessageContentTextObject._() : super._();
 
@@ -51000,10 +57227,10 @@ class _$RunStepDetailsToolCallsObjectImpl
   @override
   final String type;
 
-  /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
+  /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.
   final List<RunStepDetailsToolCalls> _toolCalls;
 
-  /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
+  /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.
   @override
   @JsonKey(name: 'tool_calls')
   List<RunStepDetailsToolCalls> get toolCalls {
@@ -51153,7 +57380,7 @@ abstract class RunStepDetailsToolCallsObject extends RunStepDetails {
   /// Always `tool_calls`.
   String get type;
 
-  /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
+  /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.
   @JsonKey(name: 'tool_calls')
   List<RunStepDetailsToolCalls> get toolCalls;
   @override
@@ -51589,10 +57816,10 @@ class _$RunStepDeltaStepDetailsToolCallsObjectImpl
   @override
   final String type;
 
-  /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
+  /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.
   final List<RunStepDeltaStepDetailsToolCalls>? _toolCalls;
 
-  /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
+  /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.
   @override
   @JsonKey(name: 'tool_calls', includeIfNull: false)
   List<RunStepDeltaStepDetailsToolCalls>? get toolCalls {
@@ -51749,7 +57976,7 @@ abstract class RunStepDeltaStepDetailsToolCallsObject
   /// Always `tool_calls`.
   String get type;
 
-  /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
+  /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.
   @JsonKey(name: 'tool_calls', includeIfNull: false)
   List<RunStepDeltaStepDetailsToolCalls>? get toolCalls;
   @override
@@ -51764,8 +57991,8 @@ RunStepDetailsToolCalls _$RunStepDetailsToolCallsFromJson(
   switch (json['type']) {
     case 'code_interpreter':
       return RunStepDetailsToolCallsCodeObject.fromJson(json);
-    case 'retrieval':
-      return RunStepDetailsToolCallsRetrievalObject.fromJson(json);
+    case 'file_search':
+      return RunStepDetailsToolCallsFileSearchObject.fromJson(json);
     case 'function':
       return RunStepDetailsToolCallsFunctionObject.fromJson(json);
 
@@ -51790,9 +58017,9 @@ mixin _$RunStepDetailsToolCalls {
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
         codeInterpreter,
-    required TResult Function(
-            String id, String type, Map<String, dynamic> retrieval)
-        retrieval,
+    required TResult Function(String id, String type,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
+        fileSearch,
     required TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)
         function,
@@ -51806,8 +58033,9 @@ mixin _$RunStepDetailsToolCalls {
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult? Function(String id, String type, Map<String, dynamic> retrieval)?
-        retrieval,
+    TResult? Function(String id, String type,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+        fileSearch,
     TResult? Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
@@ -51821,8 +58049,9 @@ mixin _$RunStepDetailsToolCalls {
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult Function(String id, String type, Map<String, dynamic> retrieval)?
-        retrieval,
+    TResult Function(String id, String type,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+        fileSearch,
     TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
@@ -51833,8 +58062,8 @@ mixin _$RunStepDetailsToolCalls {
   TResult map<TResult extends Object?>({
     required TResult Function(RunStepDetailsToolCallsCodeObject value)
         codeInterpreter,
-    required TResult Function(RunStepDetailsToolCallsRetrievalObject value)
-        retrieval,
+    required TResult Function(RunStepDetailsToolCallsFileSearchObject value)
+        fileSearch,
     required TResult Function(RunStepDetailsToolCallsFunctionObject value)
         function,
   }) =>
@@ -51842,14 +58071,15 @@ mixin _$RunStepDetailsToolCalls {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
-    TResult? Function(RunStepDetailsToolCallsRetrievalObject value)? retrieval,
+    TResult? Function(RunStepDetailsToolCallsFileSearchObject value)?
+        fileSearch,
     TResult? Function(RunStepDetailsToolCallsFunctionObject value)? function,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
-    TResult Function(RunStepDetailsToolCallsRetrievalObject value)? retrieval,
+    TResult Function(RunStepDetailsToolCallsFileSearchObject value)? fileSearch,
     TResult Function(RunStepDetailsToolCallsFunctionObject value)? function,
     required TResult orElse(),
   }) =>
@@ -52026,9 +58256,9 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
         codeInterpreter,
-    required TResult Function(
-            String id, String type, Map<String, dynamic> retrieval)
-        retrieval,
+    required TResult Function(String id, String type,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
+        fileSearch,
     required TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)
         function,
@@ -52045,8 +58275,9 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult? Function(String id, String type, Map<String, dynamic> retrieval)?
-        retrieval,
+    TResult? Function(String id, String type,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+        fileSearch,
     TResult? Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
@@ -52063,8 +58294,9 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult Function(String id, String type, Map<String, dynamic> retrieval)?
-        retrieval,
+    TResult Function(String id, String type,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+        fileSearch,
     TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
@@ -52081,8 +58313,8 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
   TResult map<TResult extends Object?>({
     required TResult Function(RunStepDetailsToolCallsCodeObject value)
         codeInterpreter,
-    required TResult Function(RunStepDetailsToolCallsRetrievalObject value)
-        retrieval,
+    required TResult Function(RunStepDetailsToolCallsFileSearchObject value)
+        fileSearch,
     required TResult Function(RunStepDetailsToolCallsFunctionObject value)
         function,
   }) {
@@ -52093,7 +58325,8 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
-    TResult? Function(RunStepDetailsToolCallsRetrievalObject value)? retrieval,
+    TResult? Function(RunStepDetailsToolCallsFileSearchObject value)?
+        fileSearch,
     TResult? Function(RunStepDetailsToolCallsFunctionObject value)? function,
   }) {
     return codeInterpreter?.call(this);
@@ -52103,7 +58336,7 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
-    TResult Function(RunStepDetailsToolCallsRetrievalObject value)? retrieval,
+    TResult Function(RunStepDetailsToolCallsFileSearchObject value)? fileSearch,
     TResult Function(RunStepDetailsToolCallsFunctionObject value)? function,
     required TResult orElse(),
   }) {
@@ -52155,25 +58388,28 @@ abstract class RunStepDetailsToolCallsCodeObject
 }
 
 /// @nodoc
-abstract class _$$RunStepDetailsToolCallsRetrievalObjectImplCopyWith<$Res>
+abstract class _$$RunStepDetailsToolCallsFileSearchObjectImplCopyWith<$Res>
     implements $RunStepDetailsToolCallsCopyWith<$Res> {
-  factory _$$RunStepDetailsToolCallsRetrievalObjectImplCopyWith(
-          _$RunStepDetailsToolCallsRetrievalObjectImpl value,
-          $Res Function(_$RunStepDetailsToolCallsRetrievalObjectImpl) then) =
-      __$$RunStepDetailsToolCallsRetrievalObjectImplCopyWithImpl<$Res>;
+  factory _$$RunStepDetailsToolCallsFileSearchObjectImplCopyWith(
+          _$RunStepDetailsToolCallsFileSearchObjectImpl value,
+          $Res Function(_$RunStepDetailsToolCallsFileSearchObjectImpl) then) =
+      __$$RunStepDetailsToolCallsFileSearchObjectImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String type, Map<String, dynamic> retrieval});
+  $Res call(
+      {String id,
+      String type,
+      @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch});
 }
 
 /// @nodoc
-class __$$RunStepDetailsToolCallsRetrievalObjectImplCopyWithImpl<$Res>
+class __$$RunStepDetailsToolCallsFileSearchObjectImplCopyWithImpl<$Res>
     extends _$RunStepDetailsToolCallsCopyWithImpl<$Res,
-        _$RunStepDetailsToolCallsRetrievalObjectImpl>
-    implements _$$RunStepDetailsToolCallsRetrievalObjectImplCopyWith<$Res> {
-  __$$RunStepDetailsToolCallsRetrievalObjectImplCopyWithImpl(
-      _$RunStepDetailsToolCallsRetrievalObjectImpl _value,
-      $Res Function(_$RunStepDetailsToolCallsRetrievalObjectImpl) _then)
+        _$RunStepDetailsToolCallsFileSearchObjectImpl>
+    implements _$$RunStepDetailsToolCallsFileSearchObjectImplCopyWith<$Res> {
+  __$$RunStepDetailsToolCallsFileSearchObjectImplCopyWithImpl(
+      _$RunStepDetailsToolCallsFileSearchObjectImpl _value,
+      $Res Function(_$RunStepDetailsToolCallsFileSearchObjectImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -52181,9 +58417,9 @@ class __$$RunStepDetailsToolCallsRetrievalObjectImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? type = null,
-    Object? retrieval = null,
+    Object? fileSearch = null,
   }) {
-    return _then(_$RunStepDetailsToolCallsRetrievalObjectImpl(
+    return _then(_$RunStepDetailsToolCallsFileSearchObjectImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -52192,9 +58428,9 @@ class __$$RunStepDetailsToolCallsRetrievalObjectImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      retrieval: null == retrieval
-          ? _value._retrieval
-          : retrieval // ignore: cast_nullable_to_non_nullable
+      fileSearch: null == fileSearch
+          ? _value._fileSearch
+          : fileSearch // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
     ));
   }
@@ -52202,67 +58438,69 @@ class __$$RunStepDetailsToolCallsRetrievalObjectImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$RunStepDetailsToolCallsRetrievalObjectImpl
-    extends RunStepDetailsToolCallsRetrievalObject {
-  const _$RunStepDetailsToolCallsRetrievalObjectImpl(
+class _$RunStepDetailsToolCallsFileSearchObjectImpl
+    extends RunStepDetailsToolCallsFileSearchObject {
+  const _$RunStepDetailsToolCallsFileSearchObjectImpl(
       {required this.id,
       required this.type,
-      required final Map<String, dynamic> retrieval})
-      : _retrieval = retrieval,
+      @JsonKey(name: 'file_search')
+      required final Map<String, dynamic> fileSearch})
+      : _fileSearch = fileSearch,
         super._();
 
-  factory _$RunStepDetailsToolCallsRetrievalObjectImpl.fromJson(
+  factory _$RunStepDetailsToolCallsFileSearchObjectImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$RunStepDetailsToolCallsRetrievalObjectImplFromJson(json);
+      _$$RunStepDetailsToolCallsFileSearchObjectImplFromJson(json);
 
   /// The ID of the tool call object.
   @override
   final String id;
 
-  /// Always `retrieval`.
+  /// The type of tool call. This is always going to be `file_search` for this type of tool call.
   @override
   final String type;
 
   /// For now, this is always going to be an empty object.
-  final Map<String, dynamic> _retrieval;
+  final Map<String, dynamic> _fileSearch;
 
   /// For now, this is always going to be an empty object.
   @override
-  Map<String, dynamic> get retrieval {
-    if (_retrieval is EqualUnmodifiableMapView) return _retrieval;
+  @JsonKey(name: 'file_search')
+  Map<String, dynamic> get fileSearch {
+    if (_fileSearch is EqualUnmodifiableMapView) return _fileSearch;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_retrieval);
+    return EqualUnmodifiableMapView(_fileSearch);
   }
 
   @override
   String toString() {
-    return 'RunStepDetailsToolCalls.retrieval(id: $id, type: $type, retrieval: $retrieval)';
+    return 'RunStepDetailsToolCalls.fileSearch(id: $id, type: $type, fileSearch: $fileSearch)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RunStepDetailsToolCallsRetrievalObjectImpl &&
+            other is _$RunStepDetailsToolCallsFileSearchObjectImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality()
-                .equals(other._retrieval, _retrieval));
+                .equals(other._fileSearch, _fileSearch));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, type, const DeepCollectionEquality().hash(_retrieval));
+      runtimeType, id, type, const DeepCollectionEquality().hash(_fileSearch));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$RunStepDetailsToolCallsRetrievalObjectImplCopyWith<
-          _$RunStepDetailsToolCallsRetrievalObjectImpl>
+  _$$RunStepDetailsToolCallsFileSearchObjectImplCopyWith<
+          _$RunStepDetailsToolCallsFileSearchObjectImpl>
       get copyWith =>
-          __$$RunStepDetailsToolCallsRetrievalObjectImplCopyWithImpl<
-              _$RunStepDetailsToolCallsRetrievalObjectImpl>(this, _$identity);
+          __$$RunStepDetailsToolCallsFileSearchObjectImplCopyWithImpl<
+              _$RunStepDetailsToolCallsFileSearchObjectImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -52273,14 +58511,14 @@ class _$RunStepDetailsToolCallsRetrievalObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
         codeInterpreter,
-    required TResult Function(
-            String id, String type, Map<String, dynamic> retrieval)
-        retrieval,
+    required TResult Function(String id, String type,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
+        fileSearch,
     required TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)
         function,
   }) {
-    return retrieval(id, type, this.retrieval);
+    return fileSearch(id, type, this.fileSearch);
   }
 
   @override
@@ -52292,13 +58530,14 @@ class _$RunStepDetailsToolCallsRetrievalObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult? Function(String id, String type, Map<String, dynamic> retrieval)?
-        retrieval,
+    TResult? Function(String id, String type,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+        fileSearch,
     TResult? Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
   }) {
-    return retrieval?.call(id, type, this.retrieval);
+    return fileSearch?.call(id, type, this.fileSearch);
   }
 
   @override
@@ -52310,15 +58549,16 @@ class _$RunStepDetailsToolCallsRetrievalObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult Function(String id, String type, Map<String, dynamic> retrieval)?
-        retrieval,
+    TResult Function(String id, String type,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+        fileSearch,
     TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
     required TResult orElse(),
   }) {
-    if (retrieval != null) {
-      return retrieval(id, type, this.retrieval);
+    if (fileSearch != null) {
+      return fileSearch(id, type, this.fileSearch);
     }
     return orElse();
   }
@@ -52328,58 +58568,60 @@ class _$RunStepDetailsToolCallsRetrievalObjectImpl
   TResult map<TResult extends Object?>({
     required TResult Function(RunStepDetailsToolCallsCodeObject value)
         codeInterpreter,
-    required TResult Function(RunStepDetailsToolCallsRetrievalObject value)
-        retrieval,
+    required TResult Function(RunStepDetailsToolCallsFileSearchObject value)
+        fileSearch,
     required TResult Function(RunStepDetailsToolCallsFunctionObject value)
         function,
   }) {
-    return retrieval(this);
+    return fileSearch(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
-    TResult? Function(RunStepDetailsToolCallsRetrievalObject value)? retrieval,
+    TResult? Function(RunStepDetailsToolCallsFileSearchObject value)?
+        fileSearch,
     TResult? Function(RunStepDetailsToolCallsFunctionObject value)? function,
   }) {
-    return retrieval?.call(this);
+    return fileSearch?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
-    TResult Function(RunStepDetailsToolCallsRetrievalObject value)? retrieval,
+    TResult Function(RunStepDetailsToolCallsFileSearchObject value)? fileSearch,
     TResult Function(RunStepDetailsToolCallsFunctionObject value)? function,
     required TResult orElse(),
   }) {
-    if (retrieval != null) {
-      return retrieval(this);
+    if (fileSearch != null) {
+      return fileSearch(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RunStepDetailsToolCallsRetrievalObjectImplToJson(
+    return _$$RunStepDetailsToolCallsFileSearchObjectImplToJson(
       this,
     );
   }
 }
 
-abstract class RunStepDetailsToolCallsRetrievalObject
+abstract class RunStepDetailsToolCallsFileSearchObject
     extends RunStepDetailsToolCalls {
-  const factory RunStepDetailsToolCallsRetrievalObject(
+  const factory RunStepDetailsToolCallsFileSearchObject(
           {required final String id,
           required final String type,
-          required final Map<String, dynamic> retrieval}) =
-      _$RunStepDetailsToolCallsRetrievalObjectImpl;
-  const RunStepDetailsToolCallsRetrievalObject._() : super._();
+          @JsonKey(name: 'file_search')
+          required final Map<String, dynamic> fileSearch}) =
+      _$RunStepDetailsToolCallsFileSearchObjectImpl;
+  const RunStepDetailsToolCallsFileSearchObject._() : super._();
 
-  factory RunStepDetailsToolCallsRetrievalObject.fromJson(
+  factory RunStepDetailsToolCallsFileSearchObject.fromJson(
           Map<String, dynamic> json) =
-      _$RunStepDetailsToolCallsRetrievalObjectImpl.fromJson;
+      _$RunStepDetailsToolCallsFileSearchObjectImpl.fromJson;
 
   @override
 
@@ -52387,15 +58629,16 @@ abstract class RunStepDetailsToolCallsRetrievalObject
   String get id;
   @override
 
-  /// Always `retrieval`.
+  /// The type of tool call. This is always going to be `file_search` for this type of tool call.
   String get type;
 
   /// For now, this is always going to be an empty object.
-  Map<String, dynamic> get retrieval;
+  @JsonKey(name: 'file_search')
+  Map<String, dynamic> get fileSearch;
   @override
   @JsonKey(ignore: true)
-  _$$RunStepDetailsToolCallsRetrievalObjectImplCopyWith<
-          _$RunStepDetailsToolCallsRetrievalObjectImpl>
+  _$$RunStepDetailsToolCallsFileSearchObjectImplCopyWith<
+          _$RunStepDetailsToolCallsFileSearchObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -52517,9 +58760,9 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)
         codeInterpreter,
-    required TResult Function(
-            String id, String type, Map<String, dynamic> retrieval)
-        retrieval,
+    required TResult Function(String id, String type,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
+        fileSearch,
     required TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)
         function,
@@ -52536,8 +58779,9 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult? Function(String id, String type, Map<String, dynamic> retrieval)?
-        retrieval,
+    TResult? Function(String id, String type,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+        fileSearch,
     TResult? Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
@@ -52554,8 +58798,9 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
             @JsonKey(name: 'code_interpreter')
             RunStepDetailsToolCallsCodeObjectCodeInterpreter codeInterpreter)?
         codeInterpreter,
-    TResult Function(String id, String type, Map<String, dynamic> retrieval)?
-        retrieval,
+    TResult Function(String id, String type,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+        fileSearch,
     TResult Function(
             String id, String type, RunStepDetailsToolCallsFunction function)?
         function,
@@ -52572,8 +58817,8 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
   TResult map<TResult extends Object?>({
     required TResult Function(RunStepDetailsToolCallsCodeObject value)
         codeInterpreter,
-    required TResult Function(RunStepDetailsToolCallsRetrievalObject value)
-        retrieval,
+    required TResult Function(RunStepDetailsToolCallsFileSearchObject value)
+        fileSearch,
     required TResult Function(RunStepDetailsToolCallsFunctionObject value)
         function,
   }) {
@@ -52584,7 +58829,8 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
-    TResult? Function(RunStepDetailsToolCallsRetrievalObject value)? retrieval,
+    TResult? Function(RunStepDetailsToolCallsFileSearchObject value)?
+        fileSearch,
     TResult? Function(RunStepDetailsToolCallsFunctionObject value)? function,
   }) {
     return function?.call(this);
@@ -52594,7 +58840,7 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(RunStepDetailsToolCallsCodeObject value)? codeInterpreter,
-    TResult Function(RunStepDetailsToolCallsRetrievalObject value)? retrieval,
+    TResult Function(RunStepDetailsToolCallsFileSearchObject value)? fileSearch,
     TResult Function(RunStepDetailsToolCallsFunctionObject value)? function,
     required TResult orElse(),
   }) {
@@ -52852,8 +59098,8 @@ RunStepDeltaStepDetailsToolCalls _$RunStepDeltaStepDetailsToolCallsFromJson(
   switch (json['type']) {
     case 'code_interpreter':
       return RunStepDeltaStepDetailsToolCallsCodeObject.fromJson(json);
-    case 'retrieval':
-      return RunStepDeltaStepDetailsToolCallsRetrievalObject.fromJson(json);
+    case 'file_search':
+      return RunStepDeltaStepDetailsToolCallsFileSearchObject.fromJson(json);
     case 'function':
       return RunStepDeltaStepDetailsToolCallsFunctionObject.fromJson(json);
 
@@ -52891,8 +59137,8 @@ mixin _$RunStepDeltaStepDetailsToolCalls {
             int index,
             @JsonKey(includeIfNull: false) String? id,
             String type,
-            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)
-        retrieval,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
+        fileSearch,
     required TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -52916,8 +59162,8 @@ mixin _$RunStepDeltaStepDetailsToolCalls {
             int index,
             @JsonKey(includeIfNull: false) String? id,
             String type,
-            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)?
-        retrieval,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+        fileSearch,
     TResult? Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -52941,8 +59187,8 @@ mixin _$RunStepDeltaStepDetailsToolCalls {
             int index,
             @JsonKey(includeIfNull: false) String? id,
             String type,
-            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)?
-        retrieval,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+        fileSearch,
     TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -52958,8 +59204,8 @@ mixin _$RunStepDeltaStepDetailsToolCalls {
     required TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)
         codeInterpreter,
     required TResult Function(
-            RunStepDeltaStepDetailsToolCallsRetrievalObject value)
-        retrieval,
+            RunStepDeltaStepDetailsToolCallsFileSearchObject value)
+        fileSearch,
     required TResult Function(
             RunStepDeltaStepDetailsToolCallsFunctionObject value)
         function,
@@ -52969,8 +59215,8 @@ mixin _$RunStepDeltaStepDetailsToolCalls {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
         codeInterpreter,
-    TResult? Function(RunStepDeltaStepDetailsToolCallsRetrievalObject value)?
-        retrieval,
+    TResult? Function(RunStepDeltaStepDetailsToolCallsFileSearchObject value)?
+        fileSearch,
     TResult? Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
         function,
   }) =>
@@ -52979,8 +59225,8 @@ mixin _$RunStepDeltaStepDetailsToolCalls {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
         codeInterpreter,
-    TResult Function(RunStepDeltaStepDetailsToolCallsRetrievalObject value)?
-        retrieval,
+    TResult Function(RunStepDeltaStepDetailsToolCallsFileSearchObject value)?
+        fileSearch,
     TResult Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
         function,
     required TResult orElse(),
@@ -53196,8 +59442,8 @@ class _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
             int index,
             @JsonKey(includeIfNull: false) String? id,
             String type,
-            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)
-        retrieval,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
+        fileSearch,
     required TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -53224,8 +59470,8 @@ class _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
             int index,
             @JsonKey(includeIfNull: false) String? id,
             String type,
-            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)?
-        retrieval,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+        fileSearch,
     TResult? Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -53252,8 +59498,8 @@ class _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
             int index,
             @JsonKey(includeIfNull: false) String? id,
             String type,
-            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)?
-        retrieval,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+        fileSearch,
     TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -53275,8 +59521,8 @@ class _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
     required TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)
         codeInterpreter,
     required TResult Function(
-            RunStepDeltaStepDetailsToolCallsRetrievalObject value)
-        retrieval,
+            RunStepDeltaStepDetailsToolCallsFileSearchObject value)
+        fileSearch,
     required TResult Function(
             RunStepDeltaStepDetailsToolCallsFunctionObject value)
         function,
@@ -53289,8 +59535,8 @@ class _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
         codeInterpreter,
-    TResult? Function(RunStepDeltaStepDetailsToolCallsRetrievalObject value)?
-        retrieval,
+    TResult? Function(RunStepDeltaStepDetailsToolCallsFileSearchObject value)?
+        fileSearch,
     TResult? Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
         function,
   }) {
@@ -53302,8 +59548,8 @@ class _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
   TResult maybeMap<TResult extends Object?>({
     TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
         codeInterpreter,
-    TResult Function(RunStepDeltaStepDetailsToolCallsRetrievalObject value)?
-        retrieval,
+    TResult Function(RunStepDeltaStepDetailsToolCallsFileSearchObject value)?
+        fileSearch,
     TResult Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
         function,
     required TResult orElse(),
@@ -53363,31 +59609,32 @@ abstract class RunStepDeltaStepDetailsToolCallsCodeObject
 }
 
 /// @nodoc
-abstract class _$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWith<
+abstract class _$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplCopyWith<
     $Res> implements $RunStepDeltaStepDetailsToolCallsCopyWith<$Res> {
-  factory _$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWith(
-          _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl value,
-          $Res Function(_$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl)
+  factory _$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplCopyWith(
+          _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl value,
+          $Res Function(_$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl)
               then) =
-      __$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWithImpl<$Res>;
+      __$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplCopyWithImpl<
+          $Res>;
   @override
   @useResult
   $Res call(
       {int index,
       @JsonKey(includeIfNull: false) String? id,
       String type,
-      @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval});
+      @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch});
 }
 
 /// @nodoc
-class __$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWithImpl<$Res>
+class __$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplCopyWithImpl<$Res>
     extends _$RunStepDeltaStepDetailsToolCallsCopyWithImpl<$Res,
-        _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl>
+        _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl>
     implements
-        _$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWith<$Res> {
-  __$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWithImpl(
-      _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl _value,
-      $Res Function(_$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl)
+        _$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplCopyWith<$Res> {
+  __$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplCopyWithImpl(
+      _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl _value,
+      $Res Function(_$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl)
           _then)
       : super(_value, _then);
 
@@ -53397,9 +59644,9 @@ class __$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWithImpl<$Res>
     Object? index = null,
     Object? id = freezed,
     Object? type = null,
-    Object? retrieval = freezed,
+    Object? fileSearch = null,
   }) {
-    return _then(_$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl(
+    return _then(_$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl(
       index: null == index
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
@@ -53412,29 +59659,30 @@ class __$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      retrieval: freezed == retrieval
-          ? _value._retrieval
-          : retrieval // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
+      fileSearch: null == fileSearch
+          ? _value._fileSearch
+          : fileSearch // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl
-    extends RunStepDeltaStepDetailsToolCallsRetrievalObject {
-  const _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl(
+class _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
+    extends RunStepDeltaStepDetailsToolCallsFileSearchObject {
+  const _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl(
       {required this.index,
       @JsonKey(includeIfNull: false) this.id,
       required this.type,
-      @JsonKey(includeIfNull: false) final Map<String, dynamic>? retrieval})
-      : _retrieval = retrieval,
+      @JsonKey(name: 'file_search')
+      required final Map<String, dynamic> fileSearch})
+      : _fileSearch = fileSearch,
         super._();
 
-  factory _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl.fromJson(
+  factory _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplFromJson(json);
+      _$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplFromJson(json);
 
   /// The index of the tool call in the tool calls array.
   @override
@@ -53445,54 +59693,52 @@ class _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl
   @JsonKey(includeIfNull: false)
   final String? id;
 
-  /// Always `retrieval`.
+  /// The type of tool call. This is always going to be `file_search` for this type of tool call.
   @override
   final String type;
 
   /// For now, this is always going to be an empty object.
-  final Map<String, dynamic>? _retrieval;
+  final Map<String, dynamic> _fileSearch;
 
   /// For now, this is always going to be an empty object.
   @override
-  @JsonKey(includeIfNull: false)
-  Map<String, dynamic>? get retrieval {
-    final value = _retrieval;
-    if (value == null) return null;
-    if (_retrieval is EqualUnmodifiableMapView) return _retrieval;
+  @JsonKey(name: 'file_search')
+  Map<String, dynamic> get fileSearch {
+    if (_fileSearch is EqualUnmodifiableMapView) return _fileSearch;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(value);
+    return EqualUnmodifiableMapView(_fileSearch);
   }
 
   @override
   String toString() {
-    return 'RunStepDeltaStepDetailsToolCalls.retrieval(index: $index, id: $id, type: $type, retrieval: $retrieval)';
+    return 'RunStepDeltaStepDetailsToolCalls.fileSearch(index: $index, id: $id, type: $type, fileSearch: $fileSearch)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl &&
+            other is _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl &&
             (identical(other.index, index) || other.index == index) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality()
-                .equals(other._retrieval, _retrieval));
+                .equals(other._fileSearch, _fileSearch));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, index, id, type,
-      const DeepCollectionEquality().hash(_retrieval));
+      const DeepCollectionEquality().hash(_fileSearch));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWith<
-          _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl>
+  _$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl>
       get copyWith =>
-          __$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWithImpl<
-                  _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl>(
+          __$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplCopyWithImpl<
+                  _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl>(
               this, _$identity);
 
   @override
@@ -53510,8 +59756,8 @@ class _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl
             int index,
             @JsonKey(includeIfNull: false) String? id,
             String type,
-            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)
-        retrieval,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
+        fileSearch,
     required TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -53520,7 +59766,7 @@ class _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl
             RunStepDeltaStepDetailsToolCallsFunction? function)
         function,
   }) {
-    return retrieval(index, id, type, this.retrieval);
+    return fileSearch(index, id, type, this.fileSearch);
   }
 
   @override
@@ -53538,8 +59784,8 @@ class _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl
             int index,
             @JsonKey(includeIfNull: false) String? id,
             String type,
-            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)?
-        retrieval,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+        fileSearch,
     TResult? Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -53548,7 +59794,7 @@ class _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl
             RunStepDeltaStepDetailsToolCallsFunction? function)?
         function,
   }) {
-    return retrieval?.call(index, id, type, this.retrieval);
+    return fileSearch?.call(index, id, type, this.fileSearch);
   }
 
   @override
@@ -53566,8 +59812,8 @@ class _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl
             int index,
             @JsonKey(includeIfNull: false) String? id,
             String type,
-            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)?
-        retrieval,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+        fileSearch,
     TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -53577,8 +59823,8 @@ class _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl
         function,
     required TResult orElse(),
   }) {
-    if (retrieval != null) {
-      return retrieval(index, id, type, this.retrieval);
+    if (fileSearch != null) {
+      return fileSearch(index, id, type, this.fileSearch);
     }
     return orElse();
   }
@@ -53589,13 +59835,13 @@ class _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl
     required TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)
         codeInterpreter,
     required TResult Function(
-            RunStepDeltaStepDetailsToolCallsRetrievalObject value)
-        retrieval,
+            RunStepDeltaStepDetailsToolCallsFileSearchObject value)
+        fileSearch,
     required TResult Function(
             RunStepDeltaStepDetailsToolCallsFunctionObject value)
         function,
   }) {
-    return retrieval(this);
+    return fileSearch(this);
   }
 
   @override
@@ -53603,12 +59849,12 @@ class _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
         codeInterpreter,
-    TResult? Function(RunStepDeltaStepDetailsToolCallsRetrievalObject value)?
-        retrieval,
+    TResult? Function(RunStepDeltaStepDetailsToolCallsFileSearchObject value)?
+        fileSearch,
     TResult? Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
         function,
   }) {
-    return retrieval?.call(this);
+    return fileSearch?.call(this);
   }
 
   @override
@@ -53616,40 +59862,40 @@ class _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl
   TResult maybeMap<TResult extends Object?>({
     TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
         codeInterpreter,
-    TResult Function(RunStepDeltaStepDetailsToolCallsRetrievalObject value)?
-        retrieval,
+    TResult Function(RunStepDeltaStepDetailsToolCallsFileSearchObject value)?
+        fileSearch,
     TResult Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
         function,
     required TResult orElse(),
   }) {
-    if (retrieval != null) {
-      return retrieval(this);
+    if (fileSearch != null) {
+      return fileSearch(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplToJson(
+    return _$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplToJson(
       this,
     );
   }
 }
 
-abstract class RunStepDeltaStepDetailsToolCallsRetrievalObject
+abstract class RunStepDeltaStepDetailsToolCallsFileSearchObject
     extends RunStepDeltaStepDetailsToolCalls {
-  const factory RunStepDeltaStepDetailsToolCallsRetrievalObject(
+  const factory RunStepDeltaStepDetailsToolCallsFileSearchObject(
           {required final int index,
           @JsonKey(includeIfNull: false) final String? id,
           required final String type,
-          @JsonKey(includeIfNull: false)
-          final Map<String, dynamic>? retrieval}) =
-      _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl;
-  const RunStepDeltaStepDetailsToolCallsRetrievalObject._() : super._();
+          @JsonKey(name: 'file_search')
+          required final Map<String, dynamic> fileSearch}) =
+      _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl;
+  const RunStepDeltaStepDetailsToolCallsFileSearchObject._() : super._();
 
-  factory RunStepDeltaStepDetailsToolCallsRetrievalObject.fromJson(
+  factory RunStepDeltaStepDetailsToolCallsFileSearchObject.fromJson(
           Map<String, dynamic> json) =
-      _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl.fromJson;
+      _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl.fromJson;
 
   @override
 
@@ -53662,16 +59908,16 @@ abstract class RunStepDeltaStepDetailsToolCallsRetrievalObject
   String? get id;
   @override
 
-  /// Always `retrieval`.
+  /// The type of tool call. This is always going to be `file_search` for this type of tool call.
   String get type;
 
   /// For now, this is always going to be an empty object.
-  @JsonKey(includeIfNull: false)
-  Map<String, dynamic>? get retrieval;
+  @JsonKey(name: 'file_search')
+  Map<String, dynamic> get fileSearch;
   @override
   @JsonKey(ignore: true)
-  _$$RunStepDeltaStepDetailsToolCallsRetrievalObjectImplCopyWith<
-          _$RunStepDeltaStepDetailsToolCallsRetrievalObjectImpl>
+  _$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplCopyWith<
+          _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -53827,8 +60073,8 @@ class _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
             int index,
             @JsonKey(includeIfNull: false) String? id,
             String type,
-            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)
-        retrieval,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)
+        fileSearch,
     required TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -53855,8 +60101,8 @@ class _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
             int index,
             @JsonKey(includeIfNull: false) String? id,
             String type,
-            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)?
-        retrieval,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+        fileSearch,
     TResult? Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -53883,8 +60129,8 @@ class _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
             int index,
             @JsonKey(includeIfNull: false) String? id,
             String type,
-            @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval)?
-        retrieval,
+            @JsonKey(name: 'file_search') Map<String, dynamic> fileSearch)?
+        fileSearch,
     TResult Function(
             int index,
             @JsonKey(includeIfNull: false) String? id,
@@ -53906,8 +60152,8 @@ class _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
     required TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)
         codeInterpreter,
     required TResult Function(
-            RunStepDeltaStepDetailsToolCallsRetrievalObject value)
-        retrieval,
+            RunStepDeltaStepDetailsToolCallsFileSearchObject value)
+        fileSearch,
     required TResult Function(
             RunStepDeltaStepDetailsToolCallsFunctionObject value)
         function,
@@ -53920,8 +60166,8 @@ class _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
         codeInterpreter,
-    TResult? Function(RunStepDeltaStepDetailsToolCallsRetrievalObject value)?
-        retrieval,
+    TResult? Function(RunStepDeltaStepDetailsToolCallsFileSearchObject value)?
+        fileSearch,
     TResult? Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
         function,
   }) {
@@ -53933,8 +60179,8 @@ class _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
   TResult maybeMap<TResult extends Object?>({
     TResult Function(RunStepDeltaStepDetailsToolCallsCodeObject value)?
         codeInterpreter,
-    TResult Function(RunStepDeltaStepDetailsToolCallsRetrievalObject value)?
-        retrieval,
+    TResult Function(RunStepDeltaStepDetailsToolCallsFileSearchObject value)?
+        fileSearch,
     TResult Function(RunStepDeltaStepDetailsToolCallsFunctionObject value)?
         function,
     required TResult orElse(),

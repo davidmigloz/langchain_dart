@@ -1,0 +1,27 @@
+name: langchain_firebase_example
+description: Example project to show how to use the Firebase integration module for LangChain.dart
+version: 1.0.0+1
+publish_to: 'none'
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.19.0"
+
+dependencies:
+  cupertino_icons: ^1.0.6
+  firebase_core: ^2.31.0
+  flutter:
+    sdk: flutter
+  flutter_markdown: ^0.6.22
+  langchain: 0.7.1
+  langchain_firebase: 0.1.0
+
+dev_dependencies:
+  flutter_lints: ^3.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/

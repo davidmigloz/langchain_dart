@@ -13,7 +13,7 @@ import 'types.dart';
 /// to interact with the LLMs in a chat-like fashion.
 ///
 /// Ollama allows you to run open-source large language models,
-/// such as Llama 2 or LLaVA, locally.
+/// such as Llama 3 or LLaVA, locally.
 ///
 /// For a complete list of supported models and model variants, see the
 /// [Ollama model library](https://ollama.ai/library).
@@ -35,7 +35,7 @@ import 'types.dart';
 ///
 /// 1. Download and install [Ollama](https://ollama.ai)
 /// 2. Fetch a model via `ollama pull <model family>`
-///   * e.g., for `Llama-7b`: `ollama pull llama2`
+///   * e.g., for Llama 3: `ollama pull llama3`
 ///
 /// ### Ollama base URL
 ///
@@ -56,7 +56,7 @@ import 'types.dart';
 /// ```dart
 /// final chatModel = ChatOllama(
 ///   defaultOptions: const ChatOllamaOptions(
-///     model: 'llama2',
+///     model: 'llama3',
 ///     temperature: 0,
 ///     format: 'json',
 ///   ),
@@ -88,7 +88,7 @@ import 'types.dart';
 /// final prompt1 = PromptTemplate.fromTemplate('How are you {name}?');
 /// final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
 /// final chain = Runnable.fromMap({
-///   'q1': prompt1 | chatModel.bind(const ChatOllamaOptions(model: 'llama2')) | outputParser,
+///   'q1': prompt1 | chatModel.bind(const ChatOllamaOptions(model: 'llama3')) | outputParser,
 ///   'q2': prompt2| chatModel.bind(const ChatOllamaOptions(model: 'mistral')) | outputParser,
 /// });
 /// final res = await chain.invoke({'name': 'David'});
@@ -151,7 +151,7 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     super.defaultOptions = const ChatOllamaOptions(
-      model: 'llama2',
+      model: 'llama3',
     ),
     this.encoding = 'cl100k_base',
   }) : _client = OllamaClient(
@@ -245,7 +245,6 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
         numa: options?.numa ?? defaultOptions.numa,
         numCtx: options?.numCtx ?? defaultOptions.numCtx,
         numBatch: options?.numBatch ?? defaultOptions.numBatch,
-        numGqa: options?.numGqa ?? defaultOptions.numGqa,
         numGpu: options?.numGpu ?? defaultOptions.numGpu,
         mainGpu: options?.mainGpu ?? defaultOptions.mainGpu,
         lowVram: options?.lowVram ?? defaultOptions.lowVram,
@@ -254,11 +253,6 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
         vocabOnly: options?.vocabOnly ?? defaultOptions.vocabOnly,
         useMmap: options?.useMmap ?? defaultOptions.useMmap,
         useMlock: options?.useMlock ?? defaultOptions.useMlock,
-        embeddingOnly: options?.embeddingOnly ?? defaultOptions.embeddingOnly,
-        ropeFrequencyBase:
-            options?.ropeFrequencyBase ?? defaultOptions.ropeFrequencyBase,
-        ropeFrequencyScale:
-            options?.ropeFrequencyScale ?? defaultOptions.ropeFrequencyScale,
         numThread: options?.numThread ?? defaultOptions.numThread,
       ),
     );

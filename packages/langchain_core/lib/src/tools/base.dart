@@ -1,30 +1,25 @@
-// ignore_for_file: avoid_equals_and_hash_code_on_mutable_classes
+// ignore_for_file: avoid_equals_and_hash_code_on_mutable_classes, avoid_implementing_value_types
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
-import '../chat_models/types.dart';
 import '../langchain/base.dart';
 import '../utils/reduce.dart';
+import 'string.dart';
 import 'types.dart';
 
-/// {@template base_tool}
-/// Base class LangChain tools must extend.
-/// The input to the tool needs to be described by [inputJsonSchema].
+/// {@template tool_spec}
+/// The specification of a LangChain tool without the actual implementation.
 /// {@endtemplate}
-abstract base class BaseTool<Options extends ToolOptions>
-    extends BaseLangChain<Map<String, dynamic>, Options, String> {
-  /// {@macro base_tool}
-  BaseTool({
+@immutable
+class ToolSpec {
+  /// {@macro tool_spec}
+  const ToolSpec({
     required this.name,
     required this.description,
     required this.inputJsonSchema,
-    this.returnDirect = false,
-    this.handleToolError,
-    final Options? defaultOptions,
-  })  : assert(name.isNotEmpty, 'Tool name cannot be empty.'),
-        assert(description.isNotEmpty, 'Tool description cannot be empty.'),
-        super(defaultOptions: defaultOptions ?? const ToolOptions() as Options);
+  });
 
   /// The unique name of the tool that clearly communicates its purpose.
   final String name;
@@ -35,6 +30,84 @@ abstract base class BaseTool<Options extends ToolOptions>
 
   /// Schema to parse and validate tool's input arguments.
   /// Following the [JSON Schema specification](https://json-schema.org).
+  ///
+  /// Example:
+  /// ```json
+  /// {
+  ///   'type': 'object',
+  ///   'properties': {
+  ///     'answer': {
+  ///       'type': 'string',
+  ///       'description': 'The answer to the question being asked',
+  ///     },
+  ///     'sources': {
+  ///       'type': 'array',
+  ///       'items': {'type': 'string'},
+  ///       'description': 'The sources used to answer the question',
+  ///     },
+  ///   },
+  ///   'required': ['answer', 'sources'],
+  /// },
+  /// ```
+  final Map<String, dynamic> inputJsonSchema;
+
+  @override
+  bool operator ==(covariant final ToolSpec other) {
+    final mapEquals = const DeepCollectionEquality().equals;
+    return identical(this, other) ||
+        name == other.name &&
+            description == other.description &&
+            mapEquals(inputJsonSchema, other.inputJsonSchema);
+  }
+
+  @override
+  int get hashCode =>
+      name.hashCode ^ description.hashCode ^ inputJsonSchema.hashCode;
+
+  @override
+  String toString() {
+    return '''
+ToolSpec{
+  name: $name,
+  description: $description,
+  inputJsonSchema: $inputJsonSchema,
+}
+''';
+  }
+}
+
+/// {@template tool}
+/// A LangChain tool.
+///
+/// The [Input] to the tool needs to be described by the [inputJsonSchema].
+///
+/// You can easily create a tool from a function using [Tool.fromFunction].
+///
+/// If you want to create a tool that accepts a single string input and returns
+/// a string output, you can use [StringTool] or [StringTool.fromFunction].
+/// {@endtemplate}
+abstract base class Tool<Input extends Object, Options extends ToolOptions,
+        Output extends Object> extends BaseLangChain<Input, Options, Output>
+    implements ToolSpec {
+  /// {@macro tool}
+  Tool({
+    required this.name,
+    required this.description,
+    required this.inputJsonSchema,
+    this.returnDirect = false,
+    this.handleToolError,
+    final Options? defaultOptions,
+  })  : assert(name.isNotEmpty, 'Tool name cannot be empty.'),
+        assert(description.isNotEmpty, 'Tool description cannot be empty.'),
+        super(defaultOptions: defaultOptions ?? const ToolOptions() as Options);
+
+  @override
+  final String name;
+
+  @override
+  final String description;
+
+  @override
   final Map<String, dynamic> inputJsonSchema;
 
   /// Whether to return the tool's output directly.
@@ -43,42 +116,43 @@ abstract base class BaseTool<Options extends ToolOptions>
   final bool returnDirect;
 
   /// Handle the content of the [ToolException] thrown by the tool.
-  final String Function(ToolException)? handleToolError;
+  final Output Function(ToolException)? handleToolError;
 
-  /// Creates a [BaseTool] from a function.
+  /// Creates a [Tool] from a function.
   ///
   /// - [name] is the unique name of the tool that clearly communicates its
   ///   purpose.
   /// - [description] is used to tell the model how/when/why to use the tool.
   ///   You can provide few-shot examples as a part of the description.
-  /// - [func] is the function that will be called when the tool is run.
   /// - [inputJsonSchema] is the schema to parse and validate tool's input
+  /// - [func] is the function that will be called when the tool is run.
   ///   arguments.
+  /// - [getInputFromJson] is a function that parses the input JSON to the
+  ///   tool's input type. By default, it assumes the input values is under
+  ///   the key 'input'. Define your own deserialization logic if the input
+  ///   is not a primitive type or is under a different key.
   /// - [returnDirect] whether to return the tool's output directly.
   ///   Setting this to true means that after the tool is called,
   ///   the AgentExecutor will stop looping.
   /// - [handleToolError] is a function that handles the content of the
   ///   [ToolException] thrown by the tool.
-  static BaseTool fromFunction<Options extends ToolOptions>({
+  static Tool fromFunction<Input extends Object, Output extends Object>({
     required final String name,
     required final String description,
-    required final FutureOr<String> Function(
-      Map<String, dynamic> toolInput, {
-      Options? options,
-    }) func,
     required final Map<String, dynamic> inputJsonSchema,
-    final Options? defaultOptions,
+    required final FutureOr<Output> Function(Input input) func,
+    Input Function(Map<String, dynamic> json)? getInputFromJson,
     final bool returnDirect = false,
-    final String Function(ToolException)? handleToolError,
+    final Output Function(ToolException)? handleToolError,
   }) {
-    return _BaseToolFunc<Options>(
+    return _ToolFunc<Input, Output>(
       name: name,
       description: description,
-      func: func,
       inputJsonSchema: inputJsonSchema,
+      function: func,
+      getInputFromJson: getInputFromJson ?? (json) => json['input'] as Input,
       returnDirect: returnDirect,
       handleToolError: handleToolError,
-      defaultOptions: defaultOptions ?? const ToolOptions() as Options,
     );
   }
 
@@ -87,38 +161,12 @@ abstract base class BaseTool<Options extends ToolOptions>
   /// - [input] is the input to the tool.
   /// - [options] is the options to pass to the tool.
   @override
-  Future<String> invoke(
-    final Map<String, dynamic> input, {
+  Future<Output> invoke(
+    final Input input, {
     final Options? options,
   }) async {
-    return run(input);
-  }
-
-  /// Streams the tool's output for the input resulting from
-  /// reducing the input stream.
-  ///
-  /// - [inputStream] - the input stream to reduce and use as the input.
-  /// - [options] is the options to pass to the tool.
-  @override
-  Stream<String> streamFromInputStream(
-    final Stream<Map<String, dynamic>> inputStream, {
-    final Options? options,
-  }) async* {
-    final input = await inputStream.toList();
-    final reduced = reduce<Map<String, dynamic>>(input);
-    yield* stream(reduced, options: options);
-  }
-
-  /// Runs the tool.
-  ///
-  /// - [toolInput] the input to the tool.
-  /// - [options] the options to pass to the tool.
-  FutureOr<String> run(
-    final Map<String, dynamic> toolInput, {
-    final Options? options,
-  }) {
     try {
-      return runInternal(toolInput);
+      return invokeInternal(input, options: options);
     } on ToolException catch (e) {
       if (handleToolError != null) {
         return handleToolError!(e);
@@ -130,178 +178,80 @@ abstract base class BaseTool<Options extends ToolOptions>
     }
   }
 
-  /// Actual implementation of [run] method logic.
+  /// Actual implementation of [invoke] method logic.
   @protected
-  FutureOr<String> runInternal(
-    final Map<String, dynamic> toolInput, {
+  Future<Output> invokeInternal(
+    final Input input, {
     final Options? options,
   });
 
-  /// Runs the tool (same as [run] but using callable class syntax).
+  /// Streams the tool's output for the input resulting from
+  /// reducing the input stream.
   ///
-  /// - [toolInput] the input to the tool.
-  /// - [options] the options to pass to the tool.
-  FutureOr<String> call({
-    required final Map<String, dynamic> toolInput,
+  /// - [inputStream] - the input stream to reduce and use as the input.
+  /// - [options] is the options to pass to the tool.
+  @override
+  Stream<Output> streamFromInputStream(
+    final Stream<Input> inputStream, {
     final Options? options,
-  }) {
-    return run(toolInput, options: options);
+  }) async* {
+    final input = await inputStream.toList();
+    final reduced = reduce<Input>(input);
+    yield* stream(reduced, options: options);
   }
 
-  /// Converts the tool to a [ChatFunction].
-  ChatFunction toChatFunction() {
-    return ChatFunction(
-      name: name,
-      description: description,
-      parameters: inputJsonSchema,
-    );
+  /// Parses the input JSON to the tool's input type.
+  Input getInputFromJson(final Map<String, dynamic> json);
+
+  @override
+  bool operator ==(covariant final ToolSpec other) {
+    final mapEquals = const DeepCollectionEquality().equals;
+    return identical(this, other) ||
+        name == other.name &&
+            description == other.description &&
+            mapEquals(inputJsonSchema, other.inputJsonSchema);
   }
 
   @override
-  bool operator ==(covariant final BaseTool other) =>
-      identical(this, other) || name == other.name;
-
-  @override
-  int get hashCode => name.hashCode;
-}
-
-/// {@template base_tool_func}
-/// A tool that accepts a function as input.
-/// Used in [BaseTool.fromFunction].
-/// {@endtemplate}
-final class _BaseToolFunc<Options extends ToolOptions>
-    extends BaseTool<Options> {
-  /// {@macro base_tool_func}
-  _BaseToolFunc({
-    required super.name,
-    required super.description,
-    required this.func,
-    required super.inputJsonSchema,
-    super.returnDirect = false,
-    super.handleToolError,
-    super.defaultOptions,
-  });
-
-  /// The function to run when the tool is called.
-  final FutureOr<String> Function(
-    Map<String, dynamic> toolInput, {
-    Options? options,
-  }) func;
-
-  @override
-  FutureOr<String> runInternal(
-    final Map<String, dynamic> toolInput, {
-    final Options? options,
-  }) {
-    return func(toolInput, options: options);
-  }
-}
-
-/// {@template tool}
-/// This class wraps functions that accept a single string input and returns a
-/// string output.
-/// {@endtemplate}
-abstract base class Tool<Options extends ToolOptions>
-    extends BaseTool<Options> {
-  /// {@macro tool}
-  Tool({
-    required super.name,
-    required super.description,
-    final String inputDescription = 'The input to the tool',
-    super.returnDirect = false,
-    super.handleToolError,
-    super.defaultOptions,
-  }) : super(
-          inputJsonSchema: {
-            'type': 'object',
-            'properties': {
-              inputVar: {
-                'type': 'string',
-                'description': inputDescription,
-              },
-            },
-            'required': ['input'],
-          },
-        );
-
-  /// The name of the input variable.
-  static const inputVar = 'input';
-
-  /// Creates a [Tool] from a function.
-  ///
-  /// - [name] is the unique name of the tool that clearly communicates its
-  ///   purpose.
-  /// - [description] is used to tell the model how/when/why to use the tool.
-  ///   You can provide few-shot examples as a part of the description.
-  /// - [func] is the function that will be called when the tool is run.
-  /// - [returnDirect] whether to return the tool's output directly.
-  ///   Setting this to true means that after the tool is called,
-  ///   the AgentExecutor will stop looping.
-  /// - [handleToolError] is a function that handles the content of the
-  ///   [ToolException] thrown by the tool.
-  static Tool fromFunction<Options extends ToolOptions>({
-    required final String name,
-    required final String description,
-    final String inputDescription = 'The input to the tool',
-    required final FutureOr<String> Function(
-      String toolInput, {
-      Options? options,
-    }) func,
-    final bool returnDirect = false,
-    final String Function(ToolException)? handleToolError,
-  }) {
-    return _ToolFunc<Options>(
-      name: name,
-      description: description,
-      inputDescription: inputDescription,
-      func: func,
-      returnDirect: returnDirect,
-      handleToolError: handleToolError,
-    );
-  }
-
-  @override
-  FutureOr<String> runInternal(
-    final Map<String, dynamic> toolInput, {
-    final Options? options,
-  }) {
-    return runInternalString(toolInput[Tool.inputVar], options: options);
-  }
-
-  /// Actual implementation of [run] method logic with string input.
-  @protected
-  FutureOr<String> runInternalString(
-    final String toolInput, {
-    final Options? options,
-  });
+  int get hashCode =>
+      name.hashCode ^ description.hashCode ^ inputJsonSchema.hashCode;
 }
 
 /// {@template tool_func}
-/// Implementation of [Tool] that accepts a function as input.
+/// A tool that accepts a function as input.
 /// Used in [Tool.fromFunction].
 /// {@endtemplate}
-final class _ToolFunc<Options extends ToolOptions> extends Tool<Options> {
+final class _ToolFunc<Input extends Object, Output extends Object>
+    extends Tool<Input, ToolOptions, Output> {
   /// {@macro tool_func}
   _ToolFunc({
     required super.name,
     required super.description,
-    super.inputDescription,
-    required this.func,
+    required super.inputJsonSchema,
+    required FutureOr<Output> Function(Input input) function,
+    required Input Function(Map<String, dynamic> json) getInputFromJson,
     super.returnDirect = false,
     super.handleToolError,
     super.defaultOptions,
-  });
+  })  : _getInputFromJson = getInputFromJson,
+        _function = function;
 
-  final FutureOr<String> Function(
-    String toolInput, {
-    Options? options,
-  }) func;
+  /// The function to run when the tool is called.
+  final FutureOr<Output> Function(Input toolInput) _function;
+
+  /// The function to parse the input JSON to the tool's input type.
+  final Input Function(Map<String, dynamic> json) _getInputFromJson;
 
   @override
-  FutureOr<String> runInternalString(
-    final String toolInput, {
-    final Options? options,
-  }) {
-    return func(toolInput, options: options);
+  Future<Output> invokeInternal(
+    final Input toolInput, {
+    final ToolOptions? options,
+  }) async {
+    return _function(toolInput);
+  }
+
+  @override
+  Input getInputFromJson(final Map<String, dynamic> json) {
+    return _getInputFromJson(json);
   }
 }

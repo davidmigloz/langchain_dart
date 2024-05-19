@@ -1,5 +1,6 @@
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/output_parsers.dart';
+import 'package:langchain_core/tools.dart';
 
 import 'qa_with_structure.dart';
 
@@ -35,11 +36,11 @@ class OpenAIQAWithSourcesChain extends OpenAIQAWithStructureChain {
   OpenAIQAWithSourcesChain({
     required super.llm,
   }) : super(
-          function: const ChatFunction(
+          tool: const ToolSpec(
             name: 'answer_with_sources',
             description:
                 'Answers a question with the sources used to answer it',
-            parameters: {
+            inputJsonSchema: {
               'type': 'object',
               'properties': {
                 'answer': {
@@ -91,14 +92,44 @@ class QAWithSources {
 /// A parser that converts the output of the OpenAI API into a [QAWithSources].
 /// {@endtemplate}
 class QAWithSourcesOutputParser
-    extends BaseOutputFunctionsParser<OutputParserOptions, QAWithSources> {
+    extends BaseOutputParser<ChatResult, OutputParserOptions, QAWithSources> {
   /// {@macro qa_with_sources_output_parser}
-  QAWithSourcesOutputParser();
+  QAWithSourcesOutputParser()
+      : _toolsOutputParser = ToolsOutputParser(),
+        super(
+          defaultOptions: const OutputParserOptions(),
+        );
+
+  final ToolsOutputParser _toolsOutputParser;
 
   @override
-  Future<QAWithSources> parseFunctionCall(
-    final AIChatMessageFunctionCall? functionCall,
-  ) async {
-    return QAWithSources.fromMap(functionCall?.arguments ?? const {});
+  Future<QAWithSources> invoke(
+    final ChatResult input, {
+    final OutputParserOptions? options,
+  }) async {
+    return _toolsOutputParser.invoke(input, options: options).then(_parse);
+  }
+
+  @override
+  Stream<QAWithSources> stream(
+    final ChatResult input, {
+    final OutputParserOptions? options,
+  }) {
+    return _toolsOutputParser.stream(input, options: options).map(_parse);
+  }
+
+  @override
+  Stream<QAWithSources> streamFromInputStream(
+    final Stream<ChatResult> inputStream, {
+    final OutputParserOptions? options,
+  }) {
+    return _toolsOutputParser
+        .streamFromInputStream(inputStream, options: options)
+        .map(_parse);
+  }
+
+  QAWithSources _parse(final List<ParsedToolCall> input) {
+    final arguments = input.firstOrNull?.arguments ?? const {};
+    return QAWithSources.fromMap(arguments);
   }
 }

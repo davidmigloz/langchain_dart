@@ -17,21 +17,33 @@ class Model with _$Model {
   const factory Model({
     /// The model name.
     ///
-    /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
-    @JsonKey(includeIfNull: false) String? name,
+    /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+    @JsonKey(includeIfNull: false) String? model,
 
     /// Model modification date.
     @JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt,
 
     /// Size of the model on disk.
     @JsonKey(includeIfNull: false) int? size,
+
+    /// The model's digest.
+    @JsonKey(includeIfNull: false) String? digest,
+
+    /// Details about a model.
+    @JsonKey(includeIfNull: false) ModelDetails? details,
   }) = _Model;
 
   /// Object construction from a JSON representation
   factory Model.fromJson(Map<String, dynamic> json) => _$ModelFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['name', 'modified_at', 'size'];
+  static const List<String> propertyNames = [
+    'model',
+    'modified_at',
+    'size',
+    'digest',
+    'details'
+  ];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -41,9 +53,11 @@ class Model with _$Model {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
-      'name': name,
+      'model': model,
       'modified_at': modifiedAt,
       'size': size,
+      'digest': digest,
+      'details': details,
     };
   }
 }

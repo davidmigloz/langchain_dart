@@ -17,9 +17,12 @@ Google module for [LangChain.dart](https://github.com/davidmigloz/langchain_dart
   * `ChatGoogleGenerativeAI`: wrapper around [Google AI for Developers](https://ai.google.dev) API (Gemini).
 - Embeddings:
   * `VertexAIEmbeddings`: wrapper around GCP Vertex AI text embedding models API.
+  * `GoogleGenerativeAIEmbeddings` wrapper around [Google AI for Developers](https://ai.google.dev) API (Gemini).
 - Vector stores:
   * `VertexAIMatchingEngine` vector store that uses GCP Vertex AI Matching 
     Engine and Cloud Storage.
+
+> Note: VertexAI for Firebase (`ChatFirebaseVertexAI`) is available in the [`langchain_firebase`](https://pub.dev/packages/langchain_firebase) package. 
 
 ## License
 

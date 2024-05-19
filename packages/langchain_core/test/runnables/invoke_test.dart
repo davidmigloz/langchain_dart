@@ -75,7 +75,7 @@ void main() {
 
     test('Tool as Runnable', () async {
       final run = FakeTool();
-      final res = await run.invoke({'input': 'hello'});
+      final res = await run.invoke('hello');
       expect(res, 'hello');
     });
   });

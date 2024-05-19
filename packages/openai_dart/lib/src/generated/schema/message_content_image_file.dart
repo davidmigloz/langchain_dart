@@ -15,8 +15,11 @@ class MessageContentImageFile with _$MessageContentImageFile {
 
   /// Factory constructor for MessageContentImageFile
   const factory MessageContentImageFile({
-    /// The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content.
+    /// The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content. Set `purpose="vision"` when uploading the File if you need to later display the file content.
     @JsonKey(name: 'file_id') required String fileId,
+
+    /// Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
+    @Default(MessageContentImageDetail.auto) MessageContentImageDetail detail,
   }) = _MessageContentImageFile;
 
   /// Object construction from a JSON representation
@@ -24,7 +27,7 @@ class MessageContentImageFile with _$MessageContentImageFile {
       _$MessageContentImageFileFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['file_id'];
+  static const List<String> propertyNames = ['file_id', 'detail'];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -35,6 +38,7 @@ class MessageContentImageFile with _$MessageContentImageFile {
   Map<String, dynamic> toMap() {
     return {
       'file_id': fileId,
+      'detail': detail,
     };
   }
 }

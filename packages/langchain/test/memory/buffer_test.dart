@@ -40,11 +40,16 @@ void main() {
       expect(result1, {BaseMemory.defaultMemoryKey: <ChatMessage>[]});
 
       await memory.saveContext(
-        inputValues: {'foo': ChatMessage.function(name: 'foo', content: 'bar')},
+        inputValues: {
+          'foo': ChatMessage.tool(
+            toolCallId: 'foo',
+            content: 'bar',
+          ),
+        },
         outputValues: {'bar': ChatMessage.ai('baz')},
       );
       final expectedResult = [
-        ChatMessage.function(name: 'foo', content: 'bar'),
+        ChatMessage.tool(toolCallId: 'foo', content: 'bar'),
         ChatMessage.ai('baz'),
       ];
       final result2 = await memory.loadMemoryVariables();

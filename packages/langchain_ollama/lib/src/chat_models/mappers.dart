@@ -24,8 +24,8 @@ extension OllamaChatMessagesMapper on List<ChatMessage> {
             content: msg.content,
           ),
         ],
-      FunctionChatMessage() =>
-        throw UnsupportedError('Ollama does not support function calls'),
+      ToolChatMessage() =>
+        throw UnsupportedError('Ollama does not support tool calls'),
       CustomChatMessage() =>
         throw UnsupportedError('Ollama does not support custom messages'),
     };
@@ -103,7 +103,7 @@ extension ChatResultMapper on GenerateChatCompletionResponse {
       output: AIChatMessage(
         content: message?.content ?? '',
       ),
-      finishReason: FinishReason.unspecified,
+      finishReason: _mapFinishReason(doneReason),
       metadata: {
         'model': model,
         'created_at': createdAt,
@@ -124,9 +124,19 @@ extension ChatResultMapper on GenerateChatCompletionResponse {
     return LanguageModelUsage(
       promptTokens: promptEvalCount,
       responseTokens: evalCount,
-      totalTokens: (promptEvalCount != null && evalCount != null)
-          ? promptEvalCount! + evalCount!
+      totalTokens: (promptEvalCount != null || evalCount != null)
+          ? (promptEvalCount ?? 0) + (evalCount ?? 0)
           : null,
     );
   }
+
+  FinishReason _mapFinishReason(
+    final DoneReason? reason,
+  ) =>
+      switch (reason) {
+        DoneReason.stop => FinishReason.stop,
+        DoneReason.length => FinishReason.length,
+        DoneReason.load => FinishReason.unspecified,
+        null => FinishReason.unspecified,
+      };
 }

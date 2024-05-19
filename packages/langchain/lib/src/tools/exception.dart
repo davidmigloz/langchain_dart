@@ -7,7 +7,7 @@ import 'package:langchain_core/tools.dart';
 ///
 /// Returns the output of [AgentExecutor.handleParsingErrors].
 /// {@endtemplate}
-final class ExceptionTool extends Tool<ToolOptions> {
+final class ExceptionTool extends StringTool<ToolOptions> {
   /// {@macro exception_tool}
   ExceptionTool()
       : super(
@@ -19,10 +19,10 @@ final class ExceptionTool extends Tool<ToolOptions> {
   static const toolName = '_exception';
 
   @override
-  FutureOr<String> runInternalString(
+  Future<String> invokeInternal(
     final String toolInput, {
     final ToolOptions? options,
   }) {
-    return toolInput;
+    return Future.value(toolInput);
   }
 }

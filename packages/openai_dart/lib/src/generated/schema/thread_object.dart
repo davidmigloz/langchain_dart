@@ -24,6 +24,9 @@ class ThreadObject with _$ThreadObject {
     /// The Unix timestamp (in seconds) for when the thread was created.
     @JsonKey(name: 'created_at') required int createdAt,
 
+    /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+    @JsonKey(name: 'tool_resources') required ToolResources? toolResources,
+
     /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
     required Map<String, dynamic>? metadata,
   }) = _ThreadObject;
@@ -37,6 +40,7 @@ class ThreadObject with _$ThreadObject {
     'id',
     'object',
     'created_at',
+    'tool_resources',
     'metadata'
   ];
 
@@ -51,6 +55,7 @@ class ThreadObject with _$ThreadObject {
       'id': id,
       'object': object,
       'created_at': createdAt,
+      'tool_resources': toolResources,
       'metadata': metadata,
     };
   }

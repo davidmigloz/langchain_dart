@@ -41,7 +41,7 @@ class OpenAIClient extends g.OpenAIClient {
           baseUrl: baseUrl,
           headers: {
             if (organization != null) 'OpenAI-Organization': organization,
-            'OpenAI-Beta': 'assistants=v1',
+            'OpenAI-Beta': 'assistants=v2',
             ...?headers,
           },
           queryParams: queryParams ?? const {},

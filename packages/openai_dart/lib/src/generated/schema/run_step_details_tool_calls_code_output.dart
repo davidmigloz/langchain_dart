@@ -31,7 +31,7 @@ sealed class RunStepDetailsToolCallsCodeOutput
   // UNION: RunStepDetailsToolCallsCodeOutputImageObject
   // ------------------------------------------
 
-  /// Code interpreter image output
+  /// Code Interpreter image output
   const factory RunStepDetailsToolCallsCodeOutput.image({
     /// Always `image`.
     required String type,

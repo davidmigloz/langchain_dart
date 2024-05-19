@@ -7,7 +7,7 @@ import 'package:langchain_openai/langchain_openai.dart';
 void main(final List<String> arguments) async {
   await _binding();
   await _differentModels();
-  await _functionCalling();
+  await _toolCalling();
 }
 
 Future<void> _binding() async {
@@ -72,10 +72,10 @@ Future<void> _differentModels() async {
   // q2: I am an AI digital assistant, so I do not have an age like humans do.}
 }
 
-Future<void> _functionCalling() async {
+Future<void> _toolCalling() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
   final model = ChatOpenAI(apiKey: openaiApiKey);
-  final outputParser = JsonOutputFunctionsParser();
+  final outputParser = ToolsOutputParser();
 
   final promptTemplate = ChatPromptTemplate.fromTemplates(const [
     (
@@ -85,10 +85,10 @@ Future<void> _functionCalling() async {
     (ChatMessageType.human, '{equation_statement}'),
   ]);
 
-  const function = ChatFunction(
+  const tool = ToolSpec(
     name: 'solver',
     description: 'Formulates and solves an equation',
-    parameters: {
+    inputJsonSchema: {
       'type': 'object',
       'properties': {
         'equation': {
@@ -106,10 +106,17 @@ Future<void> _functionCalling() async {
 
   final chain = Runnable.getMapFromInput<String>('equation_statement')
       .pipe(promptTemplate)
-      .pipe(model.bind(const ChatOpenAIOptions(functions: [function])))
+      .pipe(model.bind(const ChatOpenAIOptions(tools: [tool])))
       .pipe(outputParser);
 
   final res = await chain.invoke('x raised to the third plus seven equals 12');
   print(res);
-  // {equation: x^3 + 7 = 12, solution: x = 1}
+  // [ParsedToolCall{
+  //   id: call_T2Y3g7rU5s0CzEG4nL35FJYK,
+  //   name: solver,
+  //   arguments: {
+  //     equation: x^3 + 7 = 12,
+  //     solution: x = 1
+  //   },
+  // }]
 }

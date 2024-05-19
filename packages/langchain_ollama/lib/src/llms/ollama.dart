@@ -11,7 +11,7 @@ import 'types.dart';
 /// Wrapper around [Ollama](https://ollama.ai) Completions API.
 ///
 /// Ollama allows you to run open-source large language models,
-/// such as Llama 2 or LLaVA, locally.
+/// such as Llama 3 or LLaVA, locally.
 ///
 /// For a complete list of supported models and model variants, see the
 /// [Ollama model library](https://ollama.ai/library).
@@ -20,7 +20,7 @@ import 'types.dart';
 /// ```dart
 /// final llm = Ollama(
 ///   defaultOption: const OllamaOptions(
-///     model: 'llama2',
+///     model: 'llama3',
 ///     temperature: 1,
 ///   ),
 /// );
@@ -49,7 +49,7 @@ import 'types.dart';
 /// ```dart
 /// final llm = Ollama(
 ///   defaultOptions: const OllamaOptions(
-///     model: 'llama2',
+///     model: 'llama3',
 ///     temperature: 0,
 ///     format: 'json',
 ///   ),
@@ -83,7 +83,7 @@ import 'types.dart';
 /// final prompt1 = PromptTemplate.fromTemplate('How are you {name}?');
 /// final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
 /// final chain = Runnable.fromMap({
-///   'q1': prompt1 | llm.bind(const OllamaOptions(model: 'llama2')) | outputParser,
+///   'q1': prompt1 | llm.bind(const OllamaOptions(model: 'llama3')) | outputParser,
 ///   'q2': prompt2| llm.bind(const OllamaOptions(model: 'mistral')) | outputParser,
 /// });
 /// final res = await chain.invoke({'name': 'David'});
@@ -93,7 +93,7 @@ import 'types.dart';
 ///
 /// 1. Download and install [Ollama](https://ollama.ai)
 /// 2. Fetch a model via `ollama pull <model family>`
-///   * e.g., for `Llama-7b`: `ollama pull llama2`
+///   * e.g., for `Llama-7b`: `ollama pull llama3`
 ///
 /// ### Advance
 ///
@@ -152,7 +152,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     super.defaultOptions = const OllamaOptions(
-      model: 'llama2',
+      model: 'llama3',
     ),
     this.encoding = 'cl100k_base',
   }) : _client = OllamaClient(
@@ -243,7 +243,6 @@ class Ollama extends BaseLLM<OllamaOptions> {
         numa: options?.numa ?? defaultOptions.numa,
         numCtx: options?.numCtx ?? defaultOptions.numCtx,
         numBatch: options?.numBatch ?? defaultOptions.numBatch,
-        numGqa: options?.numGqa ?? defaultOptions.numGqa,
         numGpu: options?.numGpu ?? defaultOptions.numGpu,
         mainGpu: options?.mainGpu ?? defaultOptions.mainGpu,
         lowVram: options?.lowVram ?? defaultOptions.lowVram,
@@ -252,11 +251,6 @@ class Ollama extends BaseLLM<OllamaOptions> {
         vocabOnly: options?.vocabOnly ?? defaultOptions.vocabOnly,
         useMmap: options?.useMmap ?? defaultOptions.useMmap,
         useMlock: options?.useMlock ?? defaultOptions.useMlock,
-        embeddingOnly: options?.embeddingOnly ?? defaultOptions.embeddingOnly,
-        ropeFrequencyBase:
-            options?.ropeFrequencyBase ?? defaultOptions.ropeFrequencyBase,
-        ropeFrequencyScale:
-            options?.ropeFrequencyScale ?? defaultOptions.ropeFrequencyScale,
         numThread: options?.numThread ?? defaultOptions.numThread,
       ),
     );

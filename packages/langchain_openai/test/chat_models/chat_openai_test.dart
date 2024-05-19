@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/output_parsers.dart';
 import 'package:langchain_core/prompts.dart';
+import 'package:langchain_core/tools.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 import 'package:test/test.dart';
 
@@ -117,14 +118,14 @@ void main() {
       expect(res.content, isNotEmpty);
     });
 
-    test('Test ChatOpenAI functions',
+    test('Test ChatOpenAI tool calling',
         timeout: const Timeout(Duration(minutes: 1)), () async {
       final chat = ChatOpenAI(apiKey: openaiApiKey);
 
-      const function = ChatFunction(
+      const tool = ToolSpec(
         name: 'get_current_weather',
         description: 'Get the current weather in a given location',
-        parameters: {
+        inputJsonSchema: {
           'type': 'object',
           'properties': {
             'location': {
@@ -146,37 +147,37 @@ void main() {
       );
       final res1 = await chat.invoke(
         PromptValue.chat([humanMessage]),
-        options: const ChatOpenAIOptions(functions: [function]),
+        options: const ChatOpenAIOptions(tools: [tool]),
       );
 
       final aiMessage1 = res1.output;
 
       expect(aiMessage1.content, isEmpty);
-      expect(aiMessage1.functionCall, isNotNull);
-      final functionCall = aiMessage1.functionCall!;
+      expect(aiMessage1.toolCalls, isNotEmpty);
+      final toolCall = aiMessage1.toolCalls.first;
 
-      expect(functionCall.name, function.name);
-      expect(functionCall.arguments.containsKey('location'), isTrue);
-      expect(functionCall.arguments['location'], contains('Boston'));
+      expect(toolCall.name, tool.name);
+      expect(toolCall.arguments.containsKey('location'), isTrue);
+      expect(toolCall.arguments['location'], contains('Boston'));
 
       final functionResult = {
         'temperature': '22',
         'unit': 'celsius',
         'description': 'Sunny',
       };
-      final functionMessage = ChatMessage.function(
-        name: function.name,
+      final functionMessage = ChatMessage.tool(
+        toolCallId: toolCall.id,
         content: json.encode(functionResult),
       );
 
       final res2 = await chat.invoke(
         PromptValue.chat([humanMessage, aiMessage1, functionMessage]),
-        options: const ChatOpenAIOptions(functions: [function]),
+        options: const ChatOpenAIOptions(tools: [tool]),
       );
 
       final aiMessage2 = res2.output;
 
-      expect(aiMessage2.functionCall, isNull);
+      expect(aiMessage2.toolCalls, isEmpty);
       expect(aiMessage2.content, contains('22'));
     });
 
@@ -240,36 +241,40 @@ void main() {
     });
 
     test('Test ChatOpenAI streaming', () async {
-      final promptTemplate = ChatPromptTemplate.fromPromptMessages([
-        SystemChatMessagePromptTemplate.fromTemplate(
+      final promptTemplate = ChatPromptTemplate.fromTemplates(const [
+        (
+          ChatMessageType.system,
           'You are a helpful assistant that replies only with numbers '
-          'in order without any spaces or commas',
+              'in order without any spaces or commas',
         ),
-        HumanChatMessagePromptTemplate.fromTemplate(
-          'List the numbers from 1 to {max_num}',
-        ),
+        (ChatMessageType.human, 'List the numbers from 1 to {max_num}'),
       ]);
       final chat = ChatOpenAI(apiKey: openaiApiKey);
-      const stringOutputParser = StringOutputParser<ChatResult>();
 
-      final chain = promptTemplate.pipe(chat).pipe(stringOutputParser);
+      final chain = promptTemplate.pipe(chat);
       final stream = chain.stream({'max_num': '9'});
 
-      String content = '';
+      ChatResult? result;
       int count = 0;
-      await for (final res in stream) {
-        content += res;
+      await for (final ChatResult res in stream) {
+        result = result?.concat(res) ?? res;
         count++;
       }
       expect(count, greaterThan(1));
-      expect(content.replaceAll(RegExp(r'[\s\n]'), ''), contains('123456789'));
+      expect(
+        result!.output.content.replaceAll(RegExp(r'[\s\n]'), ''),
+        contains('123456789'),
+      );
+      expect(result.usage.promptTokens, greaterThan(0));
+      expect(result.usage.responseTokens, greaterThan(0));
+      expect(result.usage.totalTokens, greaterThan(0));
     });
 
     test('Test ChatOpenAI streaming with functions', () async {
-      const function = ChatFunction(
+      const tool = ToolSpec(
         name: 'joke',
         description: 'A joke',
-        parameters: {
+        inputJsonSchema: {
           'type': 'object',
           'properties': {
             'setup': {
@@ -296,17 +301,17 @@ void main() {
         ),
       ).bind(
         ChatOpenAIOptions(
-          functions: const [function],
-          functionCall: ChatFunctionCall.forced(functionName: 'joke'),
+          tools: const [tool],
+          toolChoice: ChatToolChoice.forced(name: 'joke'),
         ),
       );
-      final jsonOutputParser = JsonOutputFunctionsParser();
+      final jsonOutputParser = ToolsOutputParser();
 
       final chain = promptTemplate.pipe(chat).pipe(jsonOutputParser);
 
       final stream = chain.stream({'foo': 'bears'});
 
-      Map<String, dynamic> lastResult = {};
+      List<ParsedToolCall> lastResult = [];
       int count = 0;
       await for (final res in stream) {
         lastResult = res;
@@ -314,8 +319,10 @@ void main() {
       }
 
       expect(count, greaterThan(1));
-      expect(lastResult['setup'], isNotEmpty);
-      expect(lastResult['punchline'], isNotEmpty);
+      expect(lastResult, hasLength(1));
+      final toolCall = lastResult.first;
+      expect(toolCall.arguments['setup'], isNotEmpty);
+      expect(toolCall.arguments['punchline'], isNotEmpty);
     });
 
     test('Test response seed', skip: true, () async {
@@ -323,7 +330,7 @@ void main() {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: 'gpt-4-turbo-preview',
+          model: 'gpt-4-turbo',
           temperature: 0,
           seed: 12345,
         ),

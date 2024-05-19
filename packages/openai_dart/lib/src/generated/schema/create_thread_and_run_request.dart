@@ -32,6 +32,10 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
     @JsonKey(includeIfNull: false) List<AssistantTools>? tools,
 
+    /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+    @JsonKey(name: 'tool_resources', includeIfNull: false)
+    ToolResources? toolResources,
+
     /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
     @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
 
@@ -43,27 +47,28 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     /// We generally recommend altering this or temperature but not both.
     @JsonKey(name: 'top_p', includeIfNull: false) @Default(1.0) double? topP,
 
-    /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+    /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
     @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
     int? maxPromptTokens,
 
-    /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `complete`. See `incomplete_details` for more info.
+    /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
     @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
     int? maxCompletionTokens,
 
-    /// Thread truncation controls
+    /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
     @JsonKey(name: 'truncation_strategy', includeIfNull: false)
     TruncationObject? truncationStrategy,
 
     /// Controls which (if any) tool is called by the model.
     /// `none` means the model will not call any tools and instead generates a message.
-    /// `auto` is the default value and means the model can pick between generating a message or calling a tool.
-    /// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+    /// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+    /// `required` means the model must call one or more tools before responding to the user.
+    /// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
     @_CreateThreadAndRunRequestToolChoiceConverter()
     @JsonKey(name: 'tool_choice', includeIfNull: false)
     CreateThreadAndRunRequestToolChoice? toolChoice,
 
-    /// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+    /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
     ///
     /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
     ///
@@ -87,6 +92,7 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     'model',
     'instructions',
     'tools',
+    'tool_resources',
     'metadata',
     'temperature',
     'top_p',
@@ -140,6 +146,7 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
       'model': model,
       'instructions': instructions,
       'tools': tools,
+      'tool_resources': toolResources,
       'metadata': metadata,
       'temperature': temperature,
       'top_p': topP,
@@ -175,14 +182,18 @@ enum ThreadAndRunModels {
   gpt40613,
   @JsonValue('gpt-4-1106-preview')
   gpt41106Preview,
-  @JsonValue('gpt-4-vision-preview')
-  gpt4VisionPreview,
   @JsonValue('gpt-4-turbo')
   gpt4Turbo,
   @JsonValue('gpt-4-turbo-2024-04-09')
   gpt4Turbo20240409,
   @JsonValue('gpt-4-turbo-preview')
   gpt4TurboPreview,
+  @JsonValue('gpt-4-vision-preview')
+  gpt4VisionPreview,
+  @JsonValue('gpt-4o')
+  gpt4o,
+  @JsonValue('gpt-4o-2024-05-13')
+  gpt4o20240513,
   @JsonValue('gpt-3.5-turbo')
   gpt35Turbo,
   @JsonValue('gpt-3.5-turbo-16k')
@@ -191,6 +202,8 @@ enum ThreadAndRunModels {
   gpt35Turbo16k0613,
   @JsonValue('gpt-3.5-turbo-0125')
   gpt35Turbo0125,
+  @JsonValue('gpt-3.5-turbo-0301')
+  gpt35Turbo0301,
   @JsonValue('gpt-3.5-turbo-0613')
   gpt35Turbo0613,
   @JsonValue('gpt-3.5-turbo-1106')
@@ -261,12 +274,14 @@ class _ThreadAndRunModelConverter
 // ENUM: CreateThreadAndRunRequestToolChoiceMode
 // ==========================================
 
-/// `none` means the model will not call a function and instead generates a message. `auto` means the model can pick between generating a message or calling a function.
+/// `none` means the model will not call any tools and instead generates a message. `auto` means the model can pick between generating a message or calling one or more tools. `required` means the model must call one or more tools before responding to the user.
 enum CreateThreadAndRunRequestToolChoiceMode {
   @JsonValue('none')
   none,
   @JsonValue('auto')
   auto,
+  @JsonValue('required')
+  required,
 }
 
 // ==========================================
@@ -275,14 +290,15 @@ enum CreateThreadAndRunRequestToolChoiceMode {
 
 /// Controls which (if any) tool is called by the model.
 /// `none` means the model will not call any tools and instead generates a message.
-/// `auto` is the default value and means the model can pick between generating a message or calling a tool.
-/// Specifying a particular tool like `{"type": "TOOL_TYPE"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+/// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
+/// `required` means the model must call one or more tools before responding to the user.
+/// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
 @freezed
 sealed class CreateThreadAndRunRequestToolChoice
     with _$CreateThreadAndRunRequestToolChoice {
   const CreateThreadAndRunRequestToolChoice._();
 
-  /// `none` means the model will not call a function and instead generates a message. `auto` means the model can pick between generating a message or calling a function.
+  /// `none` means the model will not call any tools and instead generates a message. `auto` means the model can pick between generating a message or calling one or more tools. `required` means the model must call one or more tools before responding to the user.
   const factory CreateThreadAndRunRequestToolChoice.mode(
     CreateThreadAndRunRequestToolChoiceMode value,
   ) = CreateThreadAndRunRequestToolChoiceEnumeration;
@@ -361,7 +377,7 @@ enum CreateThreadAndRunRequestResponseFormatMode {
 // CLASS: CreateThreadAndRunRequestResponseFormat
 // ==========================================
 
-/// Specifies the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
+/// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
 ///
 /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
 ///

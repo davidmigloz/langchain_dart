@@ -109,7 +109,7 @@ void main() {
 
     test('Streaming Tool', () async {
       final run = FakeTool();
-      final stream = run.stream({'input': 'hello'});
+      final stream = run.stream('hello');
 
       final streamList = await stream.toList();
       expect(streamList.length, 1);
@@ -241,17 +241,17 @@ void main() {
 
   test('Test call to Tool from streaming input', () async {
     final inputStream = Stream.fromIterable([
-      {'input': 'H'},
-      {'input': 'e'},
-      {'input': 'l'},
-      {'input': 'l'},
-      {'input': 'o'},
-      {'input': ' '},
-      {'input': 'W'},
-      {'input': 'o'},
-      {'input': 'r'},
-      {'input': 'l'},
-      {'input': 'd'},
+      'H',
+      'e',
+      'l',
+      'l',
+      'o',
+      ' ',
+      'W',
+      'o',
+      'r',
+      'l',
+      'd',
     ]);
 
     final tool = FakeTool();

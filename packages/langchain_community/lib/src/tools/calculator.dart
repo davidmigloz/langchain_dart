@@ -14,13 +14,13 @@ import 'package:math_expressions/math_expressions.dart';
 ///   temperature: 0,
 /// );
 /// final tool = CalculatorTool();
-/// final agent = OpenAIFunctionsAgent.fromLLMAndTools(llm: llm, tools: [tool]);
+/// final agent = OpenAIToolsAgent.fromLLMAndTools(llm: llm, tools: [tool]);
 /// final executor = AgentExecutor(agent: agent);
 /// final res = await executor.run('What is 40 raised to the 0.43 power? ');
 /// print(res); // -> '40 raised to the power of 0.43 is approximately 4.8852'
 /// ```
 /// {@endtemplate}
-final class CalculatorTool extends Tool<ToolOptions> {
+final class CalculatorTool extends StringTool<ToolOptions> {
   /// {@macro calculator_tool}
   CalculatorTool()
       : super(
@@ -34,10 +34,10 @@ final class CalculatorTool extends Tool<ToolOptions> {
   final _parser = Parser();
 
   @override
-  FutureOr<String> runInternalString(
+  Future<String> invokeInternal(
     final String toolInput, {
     final ToolOptions? options,
-  }) {
+  }) async {
     try {
       return _parser
           .parse(toolInput)

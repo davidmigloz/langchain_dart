@@ -22,7 +22,7 @@ void main() {
           size: ImageSize.v256x256,
         ),
       );
-      final res = await tool.invoke({Tool.inputVar: 'A cute baby sea otter'});
+      final res = await tool.invoke('A cute baby sea otter');
       expect(res, startsWith('http'));
       tool.close();
     });
@@ -36,13 +36,13 @@ void main() {
           responseFormat: ImageResponseFormat.b64Json,
         ),
       );
-      final res = await tool.invoke({Tool.inputVar: 'A cute baby sea otter'});
+      final res = await tool.invoke('A cute baby sea otter');
       expect(res, isNot(startsWith('http')));
       tool.close();
     });
 
     test('Test OpenAIDallETool in an agent',
-        timeout: const Timeout(Duration(minutes: 2)), skip: true, () async {
+        timeout: const Timeout(Duration(minutes: 2)), skip: false, () async {
       final llm = ChatOpenAI(
         apiKey: openAiKey,
         defaultOptions: const ChatOpenAIOptions(
@@ -51,7 +51,7 @@ void main() {
         ),
       );
 
-      final List<BaseTool<ToolOptions>> tools = [
+      final List<Tool> tools = [
         CalculatorTool(),
         OpenAIDallETool(
           apiKey: openAiKey,
@@ -62,7 +62,7 @@ void main() {
         ),
       ];
 
-      final agent = OpenAIFunctionsAgent.fromLLMAndTools(
+      final agent = OpenAIToolsAgent.fromLLMAndTools(
         llm: llm,
         tools: tools,
       );

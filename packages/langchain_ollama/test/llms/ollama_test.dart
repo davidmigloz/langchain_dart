@@ -10,12 +10,13 @@ import 'package:test/test.dart';
 void main() {
   group('Ollama tests', skip: Platform.environment.containsKey('CI'), () {
     late Ollama llm;
-    const defaultModel = 'llama2:latest';
+    const defaultModel = 'llama3:latest';
 
     setUp(() async {
       llm = Ollama(
         defaultOptions: const OllamaOptions(
           model: defaultModel,
+          keepAlive: 1,
         ),
       );
     });
@@ -52,7 +53,6 @@ void main() {
         numa: true,
         numCtx: 15,
         numBatch: 16,
-        numGqa: 17,
         numGpu: 0,
         mainGpu: 18,
         lowVram: true,
@@ -61,17 +61,11 @@ void main() {
         vocabOnly: true,
         useMmap: true,
         useMlock: true,
-        embeddingOnly: true,
-        ropeFrequencyBase: 19.0,
-        ropeFrequencyScale: 20.0,
         numThread: 21,
       );
 
-      expect(llm.defaultOptions.model, 'foo');
-      expect(
-        llm.defaultOptions.system,
-        'system prompt',
-      );
+      expect(options.model, 'foo');
+      expect(options.system, 'system prompt');
       expect(options.template, 'TEMPLATE """');
       expect(options.context, [1, 2, 3]);
       expect(options.format, OllamaResponseFormat.json);
@@ -96,7 +90,6 @@ void main() {
       expect(options.numa, true);
       expect(options.numCtx, 15);
       expect(options.numBatch, 16);
-      expect(options.numGqa, 17);
       expect(options.numGpu, 0);
       expect(options.mainGpu, 18);
       expect(options.lowVram, true);
@@ -105,9 +98,6 @@ void main() {
       expect(options.vocabOnly, true);
       expect(options.useMmap, true);
       expect(options.useMlock, true);
-      expect(options.embeddingOnly, true);
-      expect(options.ropeFrequencyBase, 19.0);
-      expect(options.ropeFrequencyScale, 20.0);
       expect(options.numThread, 21);
     });
 
@@ -142,7 +132,6 @@ void main() {
       expect(res.metadata['context'], isNotEmpty);
       expect(res.metadata['total_duration'], greaterThan(0));
       expect(res.metadata['load_duration'], greaterThan(0));
-      // expect(res.metadata['prompt_eval_count'], greaterThan(0)); // TODO check why it's null
       expect(res.metadata['eval_count'], greaterThan(0));
       expect(res.metadata['eval_duration'], greaterThan(0));
     });
@@ -207,9 +196,16 @@ void main() {
     test('Test raw mode', () async {
       final res = await llm.invoke(
         PromptValue.string(
-          '[INST] List the numbers from 1 to 9 in order. '
-          'Output ONLY the numbers in one line without any spaces or commas. '
-          'NUMBERS: [/INST]',
+          '''
+<|start_header_id|>system<|end_header_id|>
+
+You are an AI assistant that follows instructions precisely.
+<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+List the numbers from 1 to 9 in order. Output ONLY the numbers on one line without any spaces or commas between them.
+<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+'''
+              .trim(),
         ),
         options: const OllamaOptions(raw: true),
       );

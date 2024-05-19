@@ -22,8 +22,8 @@ extension ChatMessageListMapper on List<ChatMessage> {
           role: ChatCompletionMessageRole.assistant,
           content: aiChatMessage.content,
         ),
-      FunctionChatMessage() =>
-        throw UnsupportedError('Mistral AI does not support function calls'),
+      ToolChatMessage() =>
+        throw UnsupportedError('Mistral AI does not support tool calls'),
       CustomChatMessage() =>
         throw UnsupportedError('Mistral AI does not support custom messages'),
     };

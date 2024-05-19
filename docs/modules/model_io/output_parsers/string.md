@@ -1,6 +1,14 @@
 # String output parser
 
-The `StringOutputParser` takes language model output (either an entire response or as a stream) and converts it into a string. This is useful for standardizing chat model and LLM output.
+The `StringOutputParser` takes the output of the previous `Runnable` in the chain and converts it into a String. 
+
+If the input is:
+- `null`, the parser returns an empty String.
+- A `LLMResult`, the parser returns the output String.
+- A `ChatResult`, the parser returns the content of the output message as a String.
+- A `ChatMessage`, the parser returns the content of the message as a String.
+- A `Document`, the parser returns the page content as a String.
+- Anything else, the parser returns the String representation of the input.
 
 ## Usage
 

@@ -3,12 +3,13 @@ import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/memory.dart';
 import 'package:langchain_core/output_parsers.dart';
 import 'package:langchain_core/prompts.dart';
+import 'package:langchain_core/tools.dart';
 
 import '../chat_models/chat_models.dart';
 
 /// {@template openai_qa_with_structure_chain}
 /// A chain that answers questions returning the answers with the specified
-/// structure ([ChatFunction]).
+/// structure ([ToolSpec]).
 ///
 /// OpenAI functions allows for structuring of response output. This is often
 /// useful in question answering when you want the answer to be returned with
@@ -20,15 +21,16 @@ class OpenAIQAWithStructureChain<S extends Object>
   /// {@macro openai_qa_with_structure_chain}
   OpenAIQAWithStructureChain({
     required super.llm,
-    required final ChatFunction function,
-    required BaseOutputFunctionsParser<OutputParserOptions, S>
+    required final ToolSpec tool,
+    required BaseOutputParser<ChatResult, OutputParserOptions, S>
         super.outputParser,
     final BasePromptTemplate? prompt,
   }) : super(
           prompt: prompt ?? _getPrompt(),
           llmOptions: ChatOpenAIOptions(
             model: llm.defaultOptions.model,
-            functions: [function],
+            tools: [tool],
+            toolChoice: ChatToolChoice.forced(name: tool.name),
           ),
         );
 

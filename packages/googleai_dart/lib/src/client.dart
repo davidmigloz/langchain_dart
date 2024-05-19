@@ -16,7 +16,7 @@ class GoogleAIClient extends g.GoogleAIClient {
   ///
   /// Main configuration options:
   /// - `apiKey`: your Google AI API key. You can find your API key in the
-  ///   [Google AI Studio dashboard](https://makersuite.google.com/app/apikey).
+  ///   [Google AI Studio dashboard](https://aistudio.google.com/app/apikey).
   ///
   /// Advance configuration options:
   /// - `baseUrl`: the base URL to use.You can override this to use a different

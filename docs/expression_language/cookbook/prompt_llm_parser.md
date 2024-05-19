@@ -27,15 +27,22 @@ final chain = promptTemplate | model;
 final res = await chain.invoke({'foo': 'bears'});
 print(res);
 // ChatResult{
-//   generations: [
-//     ChatGeneration{
-//       output: AIChatMessage{
-//         content: Why don't bears wear shoes?\n\nBecause they have bear feet!,
-//       },
-//     },
-//   ], 
-//   usage: ...,
-//   modelOutput: ...,
+//   id: chatcmpl-9LBNiPXHzWIwc02rR6sS1HTcL9pOk,
+//   output: AIChatMessage{
+//     content: Why don't bears wear shoes?\nBecause they have bear feet!,
+//   },
+//   finishReason: FinishReason.stop,
+//   metadata: {
+//     model: gpt-3.5-turbo-0125,
+//     created: 1714835666,
+//     system_fingerprint: fp_3b956da36b
+//   },
+//   usage: LanguageModelUsage{
+//     promptTokens: 13,
+//     responseTokens: 13,
+//     totalTokens: 26,
+//   },
+//   streaming: false
 // }
 ```
 
@@ -61,19 +68,26 @@ final chain = promptTemplate | model.bind(ChatOpenAIOptions(stop: ['\n']));
 final res = await chain.invoke({'foo': 'bears'});
 print(res);
 // ChatResult{
-//   generations: [
-//     ChatGeneration{
-//       output: AIChatMessage{
-//         content: Why don't bears wear shoes?,
-//       },
-//     },
-//   ], 
-//   usage: ...,
-//   modelOutput: ...,
+//   id: chatcmpl-9LBOohTtdg12zD8zzz2GX1ib24UXO,
+//   output: AIChatMessage{
+//     content: Why don't bears wear shoes? ,
+//   },
+//   finishReason: FinishReason.stop,
+//   metadata: {
+//     model: gpt-3.5-turbo-0125,
+//     created: 1714835734,
+//     system_fingerprint: fp_a450710239
+//   },
+//   usage: LanguageModelUsage{
+//     promptTokens: 13,
+//     responseTokens: 8,
+//     totalTokens: 21
+//   },
+//   streaming: false
 // }
 ```
 
-### Attaching Function Call information
+### Attaching Tool Call information
 
 ```dart
 final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
@@ -83,10 +97,10 @@ final promptTemplate = ChatPromptTemplate.fromTemplate(
   'Tell me a joke about {foo}',
 );
 
-const function = ChatFunction(
+const tool = ToolSpec(
   name: 'joke',
   description: 'A joke',
-  parameters: {
+  inputJsonSchema: {
     'type': 'object',
     'properties': {
       'setup': {
@@ -105,30 +119,41 @@ const function = ChatFunction(
 final chain = promptTemplate |
     model.bind(
       ChatOpenAIOptions(
-        functions: const [function],
-        functionCall: ChatFunctionCall.forced(functionName: function.name),
+        tools: const [tool],
+        toolChoice: ChatToolChoice.forced(name: tool.name),
       ),
     );
 
 final res = await chain.invoke({'foo': 'bears'});
 print(res);
 // ChatResult{
-//   generations: [
-//     ChatGeneration{
-//       output: AIChatMessage{
-//         content: ,
-//         functionCall: AIChatMessageFunctionCall{
-//           name: joke,
-//           arguments: {
-//             setup: Why don't bears wear shoes?,
-//             punchline: Because they already have bear feet!
-//           },
-//         },    
-//       },
-//     },
-//   ], 
-//   usage: ...,
-//   modelOutput: ...,
+//   id: chatcmpl-9LBPyaZcFMgjmOvkD0JJKAyA4Cihb,
+//   output: AIChatMessage{
+//     content: ,
+//     toolCalls: [
+//       AIChatMessageToolCall{
+//         id: call_JIhyfu6jdIXaDHfYzbBwCKdb,
+//         name: joke,
+//         argumentsRaw: {"setup":"Why don't bears like fast food?","punchline":"Because they can't catch it!"},
+//         arguments: {
+//           setup: Why don't bears like fast food?,
+//           punchline: Because they can't catch it!
+//         },
+//       }
+//     ],
+//   },
+//   finishReason: FinishReason.stop,
+//   metadata: {
+//     model: gpt-3.5-turbo-0125,
+//     created: 1714835806,
+//     system_fingerprint: fp_3b956da36b
+//   },
+//   usage: LanguageModelUsage{
+//     promptTokens: 77,
+//     responseTokens: 24,
+//     totalTokens: 101
+//   },
+//   streaming: false
 // }
 ```
 
@@ -157,9 +182,9 @@ print(res);
 
 Notice that this now returns a string - a much more workable format for downstream tasks.
 
-### Functions Output Parser
+### Tools Output Parser
 
-When you specify the function to return, you may just want to parse that directly.
+When you specify a tool that the model should call, you may just want to parse the tool call directly.
 
 ```dart
 final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
@@ -169,10 +194,10 @@ final promptTemplate = ChatPromptTemplate.fromTemplate(
   'Tell me a joke about {foo}',
 );
 
-const function = ChatFunction(
+const tool = ToolSpec(
   name: 'joke',
   description: 'A joke',
-  parameters: {
+  inputJsonSchema: {
     'type': 'object',
     'properties': {
       'setup': {
@@ -191,32 +216,22 @@ const function = ChatFunction(
 final chain = promptTemplate |
     model.bind(
       ChatOpenAIOptions(
-        functions: const [function],
-        functionCall: ChatFunctionCall.forced(functionName: function.name),
+        tools: const [tool],
+        toolChoice: ChatToolChoice.forced(name: tool.name),
       ),
     ) |
-    JsonOutputFunctionsParser();
+    ToolsOutputParser();
 
 final res = await chain.invoke({'foo': 'bears'});
 print(res);
-// {setup: Why don't bears wear shoes?, punchline: Because they have bear feet!}
-```
-
-Or we can even extract one of the arguments from the function call using the `JsonKeyOutputFunctionsParser`:
-
-```dart
-final chain = promptTemplate |
-    model.bind(
-      ChatOpenAIOptions(
-        functions: const [function],
-        functionCall: ChatFunctionCall.forced(functionName: function.name),
-      ),
-    ) |
-    JsonKeyOutputFunctionsParser(keyName: 'setup');
-
-final res = await chain.invoke({'foo': 'bears'});
-print(res);
-// Why don't bears wear socks?
+// [ParsedToolCall{
+//   id: call_tDYrlcVwk7bCi9oh5IuknwHu,
+//   name: joke,
+//   arguments: {
+//     setup: What do you call a bear with no teeth?, 
+//     punchline: A gummy bear!
+//   },
+// }]
 ```
 
 ## Simplifying input
@@ -232,7 +247,7 @@ final chain = map | promptTemplate | model | StringOutputParser();
 
 *`Runnable.passthrough()` is a convenience method that creates a `RunnablePassthrough` object. This is a `Runnable` that takes the input it receives and passes it through as output.*
 
-However, this is a bit verbose. We can simplify it by using `Runnable.getItemFromMap` which does the same under the hood:
+However, this is a bit verbose. We can simplify it by using `Runnable.getMapFromInput` which does the same under the hood:
 
 ```dart
 final chain = Runnable.getMapFromInput('foo') |

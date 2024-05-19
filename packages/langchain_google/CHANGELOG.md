@@ -1,3 +1,20 @@
+## 0.5.0
+
+> Note: `ChatGoogleGenerativeAI` and `GoogleGenerativeAIEmbeddings` now use the version `v1beta` of the Gemini API (instead of `v1`) which support the latest models (`gemini-1.5-pro-latest` and `gemini-1.5-flash-latest`).
+> 
+> VertexAI for Firebase (`ChatFirebaseVertexAI`) is available in the new [`langchain_firebase`](https://pub.dev/packages/langchain_firebase) package.
+
+ - **FEAT**: Add support for tool calling in ChatGoogleGenerativeAI ([#419](https://github.com/davidmigloz/langchain_dart/issues/419)). ([df41f38a](https://github.com/davidmigloz/langchain_dart/commit/df41f38aab64651a06a42fc41d9c35f33250a3e9))
+ - **DOCS**: Add Gemini 1.5 Flash to models list ([#423](https://github.com/davidmigloz/langchain_dart/issues/423)). ([40f4c9de](https://github.com/davidmigloz/langchain_dart/commit/40f4c9de9c25804e298fd481c80f8c52d53302fb))
+ - **BREAKING** **FEAT**: Migrate internal client from googleai_dart to google_generative_ai ([#407](https://github.com/davidmigloz/langchain_dart/issues/407)). ([fa4b5c37](https://github.com/davidmigloz/langchain_dart/commit/fa4b5c376a191fea50c3f8b1d6b07cef0480a74e))
+
+## 0.4.0
+
+> Note: This release has breaking changes.  
+> If you are using "function calling" check [how to migrate to "tool calling"](https://github.com/davidmigloz/langchain_dart/issues/400).
+
+ - **BREAKING** **FEAT**: Migrate from function calling to tool calling ([#400](https://github.com/davidmigloz/langchain_dart/issues/400)). ([44413b83](https://github.com/davidmigloz/langchain_dart/commit/44413b8321b1188ff6b4027b1972a7ee0002761e))
+
 ## 0.3.0+2
 
  - Update a dependency to the latest release.

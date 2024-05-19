@@ -10,10 +10,7 @@ OpenAI [models](https://platform.openai.com/docs/models) using the Chat API.
 final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 
 final promptTemplate = ChatPromptTemplate.fromTemplates([
-  (
-  ChatMessageType.system,
-  'You are a helpful assistant that translates {input_language} to {output_language}.',
-  ),
+  (ChatMessageType.system, 'You are a helpful assistant that translates {input_language} to {output_language}.'),
   (ChatMessageType.human, '{text}'),
 ]);
 
@@ -60,14 +57,13 @@ await stream.forEach(print);
 // 789
 ```
 
-You can also stream OpenAI functions:
+You can also stream OpenAI tool calls:
 
 ```dart
-final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
-const function = ChatFunction(
+const tool = ToolSpec(
   name: 'joke',
   description: 'A joke',
-  parameters: {
+  inputJsonSchema: {
     'type': 'object',
     'properties': {
       'setup': {
@@ -87,46 +83,36 @@ final promptTemplate = ChatPromptTemplate.fromTemplate(
 );
 final chat = ChatOpenAI(
   apiKey: openaiApiKey,
-  defaultOptions: const ChatOpenAIOptions(
-    temperature: 0,
-  ),
-).bind(
-  ChatOpenAIOptions(
-    functions: const [function],
-    functionCall: ChatFunctionCall.forced(functionName: 'joke'),
+  defaultOptions: ChatOpenAIOptions(
+    tools: [tool],
+    toolChoice: ChatToolChoice.forced(name: 'joke'),
   ),
 );
-final jsonOutputParser = JsonOutputFunctionsParser();
+final outputParser = ToolsOutputParser();
 
-final chain = promptTemplate.pipe(chat).pipe(jsonOutputParser);
+final chain = promptTemplate.pipe(chat).pipe(outputParser);
 
 final stream = chain.stream({'foo': 'bears'});
-await stream.forEach(print);
+await for (final chunk in stream) {
+  final args = chunk.first.arguments;
+  print(args);
+}
 // {}
 // {setup: }
-// {setup: Why}
-// {setup: Why don}
 // {setup: Why don't}
 // {setup: Why don't bears}
-// {setup: Why don't bears like}
-// {setup: Why don't bears like fast}
 // {setup: Why don't bears like fast food}
 // {setup: Why don't bears like fast food?, punchline: }
 // {setup: Why don't bears like fast food?, punchline: Because}
-// {setup: Why don't bears like fast food?, punchline: Because they}
-// {setup: Why don't bears like fast food?, punchline: Because they can}
 // {setup: Why don't bears like fast food?, punchline: Because they can't}
-// {setup: Why don't bears like fast food?, punchline: Because they can't catch}
-// {setup: Why don't bears like fast food?, punchline: Because they can't catch it}
 // {setup: Why don't bears like fast food?, punchline: Because they can't catch it!}
 ```
 
 ## JSON mode
 
-GPT-4 Turbo supports a new JSON mode, which ensures the model will respond with valid JSON. JSON mode is useful for developers generating JSON in the Chat Completions API outside of function calling.
+GPT-4 Turbo supports a new JSON mode, which ensures the model will respond with valid JSON. JSON mode is useful for developers generating JSON in the Chat Completions API outside of function calling. You can use it in combination with a `JsonOutputParser` to parse the response into a JSON map.
 
 ```dart
-final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 final prompt = PromptValue.chat([
   ChatMessage.system(
     "Extract the 'name' and 'origin' of any companies mentioned in the "
@@ -139,16 +125,16 @@ final prompt = PromptValue.chat([
 final llm = ChatOpenAI(
   apiKey: openaiApiKey,
   defaultOptions: const ChatOpenAIOptions(
-    model: 'gpt-4-1106-preview',
+    model: 'gpt-4-turbo',
     temperature: 0,
     responseFormat: ChatOpenAIResponseFormat(
       type: ChatOpenAIResponseFormatType.jsonObject,
     ),
   ),
 );
-final res = await llm.invoke(prompt);
-final outputMsg = res.output.content;
-print(outputMsg);
+final chain = llm.pipe(JsonOutputParser());
+final res = await chain.invoke(prompt);
+print(res);
 // {
 //   "companies": [
 //     {

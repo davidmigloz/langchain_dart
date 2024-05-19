@@ -19,10 +19,11 @@ class CreateMessageRequest with _$CreateMessageRequest {
     required MessageRole role,
 
     /// The content of the message.
-    required String content,
+    @_CreateMessageRequestContentConverter()
+    required CreateMessageRequestContent content,
 
-    /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the message should use. There can be a maximum of 10 files attached to a message. Useful for tools like `retrieval` and `code_interpreter` that can access and use files.
-    @JsonKey(name: 'file_ids') @Default([]) List<String> fileIds,
+    /// A list of files attached to the message, and the tools they were added to.
+    @JsonKey(includeIfNull: false) List<MessageAttachment>? attachments,
 
     /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
     @JsonKey(includeIfNull: false) Map<String, dynamic>? metadata,
@@ -36,22 +37,12 @@ class CreateMessageRequest with _$CreateMessageRequest {
   static const List<String> propertyNames = [
     'role',
     'content',
-    'file_ids',
+    'attachments',
     'metadata'
   ];
 
-  /// Validation constants
-  static const contentMinLengthValue = 1;
-  static const contentMaxLengthValue = 256000;
-
   /// Perform validations on the schema property values
   String? validateSchema() {
-    if (content.length < contentMinLengthValue) {
-      return "The value of 'content' cannot be < $contentMinLengthValue characters";
-    }
-    if (content.length > contentMaxLengthValue) {
-      return "The length of 'content' cannot be > $contentMaxLengthValue characters";
-    }
     return null;
   }
 
@@ -60,8 +51,59 @@ class CreateMessageRequest with _$CreateMessageRequest {
     return {
       'role': role,
       'content': content,
-      'file_ids': fileIds,
+      'attachments': attachments,
       'metadata': metadata,
+    };
+  }
+}
+
+// ==========================================
+// CLASS: CreateMessageRequestContent
+// ==========================================
+
+/// The content of the message.
+@freezed
+sealed class CreateMessageRequestContent with _$CreateMessageRequestContent {
+  const CreateMessageRequestContent._();
+
+  /// An array of content parts with a defined type, each can be of type `text` or images can be passed with `image_url` or `image_file`. Image types are only supported on [Vision-compatible models](https://platform.openai.com/docs/models/overview).
+  const factory CreateMessageRequestContent.parts(
+    List<MessageContent> value,
+  ) = CreateMessageRequestContentListMessageContent;
+
+  /// The text contents of the message.
+  const factory CreateMessageRequestContent.text(
+    String value,
+  ) = CreateMessageRequestContentString;
+
+  /// Object construction from a JSON representation
+  factory CreateMessageRequestContent.fromJson(Map<String, dynamic> json) =>
+      _$CreateMessageRequestContentFromJson(json);
+}
+
+/// Custom JSON converter for [CreateMessageRequestContent]
+class _CreateMessageRequestContentConverter
+    implements JsonConverter<CreateMessageRequestContent, Object?> {
+  const _CreateMessageRequestContentConverter();
+
+  @override
+  CreateMessageRequestContent fromJson(Object? data) {
+    if (data is List && data.every((item) => item is MessageContent)) {
+      return CreateMessageRequestContentListMessageContent(data.cast());
+    }
+    if (data is String) {
+      return CreateMessageRequestContentString(data);
+    }
+    throw Exception(
+      'Unexpected value for CreateMessageRequestContent: $data',
+    );
+  }
+
+  @override
+  Object? toJson(CreateMessageRequestContent data) {
+    return switch (data) {
+      CreateMessageRequestContentListMessageContent(value: final v) => v,
+      CreateMessageRequestContentString(value: final v) => v,
     };
   }
 }

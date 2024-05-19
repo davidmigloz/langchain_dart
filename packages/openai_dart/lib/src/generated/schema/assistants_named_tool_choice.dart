@@ -53,6 +53,6 @@ enum AssistantsToolType {
   function,
   @JsonValue('code_interpreter')
   codeInterpreter,
-  @JsonValue('retrieval')
-  retrieval,
+  @JsonValue('file_search')
+  fileSearch,
 }

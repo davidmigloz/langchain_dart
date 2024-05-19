@@ -34,7 +34,7 @@ export 'package:openai_dart/openai_dart.dart'
 ///     ),
 ///   ),
 /// ];
-/// final agent = OpenAIFunctionsAgent.fromLLMAndTools(
+/// final agent = OpenAIToolsAgent.fromLLMAndTools(
 ///   llm: llm,
 ///   tools: tools,
 /// );
@@ -45,7 +45,7 @@ export 'package:openai_dart/openai_dart.dart'
 /// );
 /// ```
 /// {@endtemplate}
-final class OpenAIDallETool extends Tool<OpenAIDallEToolOptions> {
+final class OpenAIDallETool extends StringTool<OpenAIDallEToolOptions> {
   /// {@macro dall_e_tool}
   OpenAIDallETool({
     final String? apiKey,
@@ -80,7 +80,7 @@ final class OpenAIDallETool extends Tool<OpenAIDallEToolOptions> {
   String get apiKey => _client.apiKey;
 
   @override
-  FutureOr<String> runInternalString(
+  Future<String> invokeInternal(
     final String toolInput, {
     final OpenAIDallEToolOptions? options,
   }) async {

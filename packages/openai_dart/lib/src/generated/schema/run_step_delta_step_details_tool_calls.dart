@@ -35,23 +35,23 @@ sealed class RunStepDeltaStepDetailsToolCalls
   }) = RunStepDeltaStepDetailsToolCallsCodeObject;
 
   // ------------------------------------------
-  // UNION: RunStepDeltaStepDetailsToolCallsRetrievalObject
+  // UNION: RunStepDeltaStepDetailsToolCallsFileSearchObject
   // ------------------------------------------
 
-  /// Retrieval tool call
-  const factory RunStepDeltaStepDetailsToolCalls.retrieval({
+  /// File search tool call
+  const factory RunStepDeltaStepDetailsToolCalls.fileSearch({
     /// The index of the tool call in the tool calls array.
     required int index,
 
     /// The ID of the tool call object.
     @JsonKey(includeIfNull: false) String? id,
 
-    /// Always `retrieval`.
+    /// The type of tool call. This is always going to be `file_search` for this type of tool call.
     required String type,
 
     /// For now, this is always going to be an empty object.
-    @JsonKey(includeIfNull: false) Map<String, dynamic>? retrieval,
-  }) = RunStepDeltaStepDetailsToolCallsRetrievalObject;
+    @JsonKey(name: 'file_search') required Map<String, dynamic> fileSearch,
+  }) = RunStepDeltaStepDetailsToolCallsFileSearchObject;
 
   // ------------------------------------------
   // UNION: RunStepDeltaStepDetailsToolCallsFunctionObject

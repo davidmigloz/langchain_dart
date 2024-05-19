@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
+import 'package:langchain_core/tools.dart';
 import 'package:openai_dart/openai_dart.dart';
 
 import 'types.dart';
@@ -28,13 +29,16 @@ extension ChatMessageListMapper on List<ChatMessage> {
           },
         ),
       final AIChatMessage aiChatMessage => ChatCompletionMessage.assistant(
-          content: aiChatMessage.content, // TODO add tools support
-          functionCall: _mapMessageFunctionCall(aiChatMessage.functionCall),
+          content: aiChatMessage.content,
+          toolCalls: aiChatMessage.toolCalls.isNotEmpty
+              ? aiChatMessage.toolCalls
+                  .map(_mapMessageToolCall)
+                  .toList(growable: false)
+              : null,
         ),
-      final FunctionChatMessage functionChatMessage =>
-        ChatCompletionMessage.function(
-          name: functionChatMessage.name,
-          content: functionChatMessage.content,
+      final ToolChatMessage toolChatMessage => ChatCompletionMessage.tool(
+          toolCallId: toolChatMessage.toolCallId,
+          content: toolChatMessage.content,
         ),
       CustomChatMessage() =>
         throw UnsupportedError('OpenAI does not support custom messages'),
@@ -101,15 +105,16 @@ extension ChatMessageListMapper on List<ChatMessage> {
     return ChatCompletionMessageContentParts(partsList);
   }
 
-  ChatCompletionMessageFunctionCall? _mapMessageFunctionCall(
-    final AIChatMessageFunctionCall? functionCall,
+  ChatCompletionMessageToolCall _mapMessageToolCall(
+    final AIChatMessageToolCall toolCall,
   ) {
-    if (functionCall == null) {
-      return null;
-    }
-    return ChatCompletionMessageFunctionCall(
-      name: functionCall.name,
-      arguments: json.encode(functionCall.arguments),
+    return ChatCompletionMessageToolCall(
+      id: toolCall.id,
+      type: ChatCompletionMessageToolCallType.function,
+      function: ChatCompletionMessageFunctionCall(
+        name: toolCall.name,
+        arguments: json.encode(toolCall.arguments),
+      ),
     );
   }
 }
@@ -122,7 +127,9 @@ extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
       id: id,
       output: AIChatMessage(
         content: msg.content ?? '',
-        functionCall: _mapMessageFunctionCall(msg.functionCall),
+        toolCalls:
+            msg.toolCalls?.map(_mapMessageToolCall).toList(growable: false) ??
+                const [],
       ),
       finishReason: _mapFinishReason(choice.finishReason),
       metadata: {
@@ -134,56 +141,64 @@ extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
     );
   }
 
-  AIChatMessageFunctionCall? _mapMessageFunctionCall(
-    final ChatCompletionMessageFunctionCall? functionCall,
+  AIChatMessageToolCall _mapMessageToolCall(
+    final ChatCompletionMessageToolCall tooCall,
   ) {
-    if (functionCall == null) {
-      return null;
-    }
-    return AIChatMessageFunctionCall(
-      name: functionCall.name,
-      argumentsRaw: functionCall.arguments,
-      arguments: functionCall.arguments.isEmpty
+    Map<String, dynamic> args = {};
+    try {
+      args = tooCall.function.arguments.isEmpty
           ? {}
-          : json.decode(functionCall.arguments),
-    );
-  }
-
-  LanguageModelUsage _mapUsage(final CompletionUsage? usage) {
-    return LanguageModelUsage(
-      promptTokens: usage?.promptTokens,
-      responseTokens: usage?.completionTokens,
-      totalTokens: usage?.totalTokens,
-    );
-  }
-}
-
-extension ChatFunctionListMapper on List<ChatFunction> {
-  List<FunctionObject> toFunctionObjects() {
-    return map(_mapFunctionObject).toList(growable: false);
-  }
-
-  FunctionObject _mapFunctionObject(final ChatFunction func) {
-    return FunctionObject(
-      name: func.name,
-      description: func.description,
-      parameters: func.parameters ?? {},
+          : json.decode(tooCall.function.arguments);
+    } catch (_) {}
+    return AIChatMessageToolCall(
+      id: tooCall.id,
+      name: tooCall.function.name,
+      argumentsRaw: tooCall.function.arguments,
+      arguments: args,
     );
   }
 }
 
-extension ChatFunctionCallMapper on ChatFunctionCall {
-  ChatCompletionFunctionCall toChatCompletionFunctionCall() {
+LanguageModelUsage _mapUsage(final CompletionUsage? usage) {
+  return LanguageModelUsage(
+    promptTokens: usage?.promptTokens,
+    responseTokens: usage?.completionTokens,
+    totalTokens: usage?.totalTokens,
+  );
+}
+
+extension ChatToolListMapper on List<ToolSpec> {
+  List<ChatCompletionTool> toChatCompletionTool() {
+    return map(_mapChatCompletionTool).toList(growable: false);
+  }
+
+  ChatCompletionTool _mapChatCompletionTool(final ToolSpec tool) {
+    return ChatCompletionTool(
+      type: ChatCompletionToolType.function,
+      function: FunctionObject(
+        name: tool.name,
+        description: tool.description,
+        parameters: tool.inputJsonSchema,
+      ),
+    );
+  }
+}
+
+extension ChatToolChoiceMapper on ChatToolChoice {
+  ChatCompletionToolChoiceOption toChatCompletionToolChoice() {
     return switch (this) {
-      ChatFunctionCallNone _ => const ChatCompletionFunctionCall.mode(
-          ChatCompletionFunctionCallMode.none,
+      ChatToolChoiceNone _ => const ChatCompletionToolChoiceOption.mode(
+          ChatCompletionToolChoiceMode.none,
         ),
-      ChatFunctionCallAuto _ => const ChatCompletionFunctionCall.mode(
-          ChatCompletionFunctionCallMode.auto,
+      ChatToolChoiceAuto _ => const ChatCompletionToolChoiceOption.mode(
+          ChatCompletionToolChoiceMode.auto,
         ),
-      final ChatFunctionCallForced f => ChatCompletionFunctionCall.function(
-          ChatCompletionFunctionCallOption(name: f.functionName),
-        )
+      final ChatToolChoiceForced t => ChatCompletionToolChoiceOption.tool(
+          ChatCompletionNamedToolChoice(
+            type: ChatCompletionNamedToolChoiceType.function,
+            function: ChatCompletionFunctionCallOption(name: t.name),
+          ),
+        ),
     };
   }
 }
@@ -191,38 +206,39 @@ extension ChatFunctionCallMapper on ChatFunctionCall {
 extension CreateChatCompletionStreamResponseMapper
     on CreateChatCompletionStreamResponse {
   ChatResult toChatResult(final String id) {
-    final choice = choices.first;
-    final delta = choice.delta;
+    final choice = choices.firstOrNull;
+    final delta = choice?.delta;
     return ChatResult(
       id: id,
       output: AIChatMessage(
-        content: delta.content ?? '',
-        functionCall: _mapMessageFunctionCall(delta.functionCall),
+        content: delta?.content ?? '',
+        toolCalls: delta?.toolCalls
+                ?.map(_mapMessageToolCall)
+                .toList(growable: false) ??
+            const [],
       ),
-      finishReason: _mapFinishReason(choice.finishReason),
+      finishReason: _mapFinishReason(choice?.finishReason),
       metadata: {
-        'model': model,
         'created': created,
-        'system_fingerprint': systemFingerprint,
+        if (model != null) 'model': model,
+        if (systemFingerprint != null) 'system_fingerprint': systemFingerprint,
       },
-      usage: const LanguageModelUsage(),
+      usage: _mapUsage(usage),
       streaming: true,
     );
   }
 
-  AIChatMessageFunctionCall? _mapMessageFunctionCall(
-    final ChatCompletionStreamMessageFunctionCall? functionCall,
+  AIChatMessageToolCall _mapMessageToolCall(
+    final ChatCompletionStreamMessageToolCallChunk toolCall,
   ) {
-    if (functionCall == null) {
-      return null;
-    }
     Map<String, dynamic> args = {};
     try {
-      args = json.decode(functionCall.arguments ?? '');
+      args = json.decode(toolCall.function?.arguments ?? '');
     } catch (_) {}
-    return AIChatMessageFunctionCall(
-      name: functionCall.name ?? '',
-      argumentsRaw: functionCall.arguments ?? '',
+    return AIChatMessageToolCall(
+      id: toolCall.id ?? '',
+      name: toolCall.function?.name ?? '',
+      argumentsRaw: toolCall.function?.arguments ?? '',
       arguments: args,
     );
   }

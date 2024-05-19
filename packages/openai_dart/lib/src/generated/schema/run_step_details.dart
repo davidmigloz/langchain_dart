@@ -36,7 +36,7 @@ sealed class RunStepDetails with _$RunStepDetails {
     /// Always `tool_calls`.
     required String type,
 
-    /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.
+    /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.
     @JsonKey(name: 'tool_calls')
     required List<RunStepDetailsToolCalls> toolCalls,
   }) = RunStepDetailsToolCallsObject;

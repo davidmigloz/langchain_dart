@@ -36,14 +36,32 @@ class AssistantObject with _$AssistantObject {
     /// The system instructions that the assistant uses. The maximum length is 256,000 characters.
     required String? instructions,
 
-    /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.
+    /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
     required List<AssistantTools> tools,
 
-    /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.
-    @JsonKey(name: 'file_ids') required List<String> fileIds,
+    /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+    @JsonKey(name: 'tool_resources', includeIfNull: false)
+    ToolResources? toolResources,
 
     /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
     required Map<String, dynamic>? metadata,
+
+    /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+    @JsonKey(includeIfNull: false) @Default(1.0) double? temperature,
+
+    /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+    ///
+    /// We generally recommend altering this or temperature but not both.
+    @JsonKey(name: 'top_p', includeIfNull: false) @Default(1.0) double? topP,
+
+    /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+    ///
+    /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+    ///
+    /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+    @_AssistantObjectResponseFormatConverter()
+    @JsonKey(name: 'response_format', includeIfNull: false)
+    AssistantObjectResponseFormat? responseFormat,
   }) = _AssistantObject;
 
   /// Object construction from a JSON representation
@@ -60,14 +78,23 @@ class AssistantObject with _$AssistantObject {
     'model',
     'instructions',
     'tools',
-    'file_ids',
-    'metadata'
+    'tool_resources',
+    'metadata',
+    'temperature',
+    'top_p',
+    'response_format'
   ];
 
   /// Validation constants
   static const nameMaxLengthValue = 256;
   static const descriptionMaxLengthValue = 512;
   static const instructionsMaxLengthValue = 256000;
+  static const temperatureDefaultValue = 1.0;
+  static const temperatureMinValue = 0.0;
+  static const temperatureMaxValue = 2.0;
+  static const topPDefaultValue = 1.0;
+  static const topPMinValue = 0.0;
+  static const topPMaxValue = 1.0;
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -81,6 +108,18 @@ class AssistantObject with _$AssistantObject {
     if (instructions != null &&
         instructions!.length > instructionsMaxLengthValue) {
       return "The length of 'instructions' cannot be > $instructionsMaxLengthValue characters";
+    }
+    if (temperature != null && temperature! < temperatureMinValue) {
+      return "The value of 'temperature' cannot be < $temperatureMinValue";
+    }
+    if (temperature != null && temperature! > temperatureMaxValue) {
+      return "The value of 'temperature' cannot be > $temperatureMaxValue";
+    }
+    if (topP != null && topP! < topPMinValue) {
+      return "The value of 'topP' cannot be < $topPMinValue";
+    }
+    if (topP != null && topP! > topPMaxValue) {
+      return "The value of 'topP' cannot be > $topPMaxValue";
     }
     return null;
   }
@@ -96,8 +135,11 @@ class AssistantObject with _$AssistantObject {
       'model': model,
       'instructions': instructions,
       'tools': tools,
-      'file_ids': fileIds,
+      'tool_resources': toolResources,
       'metadata': metadata,
+      'temperature': temperature,
+      'top_p': topP,
+      'response_format': responseFormat,
     };
   }
 }
@@ -110,4 +152,87 @@ class AssistantObject with _$AssistantObject {
 enum AssistantObjectObject {
   @JsonValue('assistant')
   assistant,
+}
+
+// ==========================================
+// ENUM: AssistantResponseFormatMode
+// ==========================================
+
+/// `auto` is the default value
+enum AssistantResponseFormatMode {
+  @JsonValue('none')
+  none,
+  @JsonValue('auto')
+  auto,
+}
+
+// ==========================================
+// CLASS: AssistantObjectResponseFormat
+// ==========================================
+
+/// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+///
+/// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+///
+/// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+@freezed
+sealed class AssistantObjectResponseFormat
+    with _$AssistantObjectResponseFormat {
+  const AssistantObjectResponseFormat._();
+
+  /// `auto` is the default value
+  const factory AssistantObjectResponseFormat.enumeration(
+    AssistantResponseFormatMode value,
+  ) = AssistantObjectResponseFormatEnumeration;
+
+  /// No Description
+  const factory AssistantObjectResponseFormat.assistantsResponseFormat(
+    AssistantsResponseFormat value,
+  ) = AssistantObjectResponseFormatAssistantsResponseFormat;
+
+  /// Object construction from a JSON representation
+  factory AssistantObjectResponseFormat.fromJson(Map<String, dynamic> json) =>
+      _$AssistantObjectResponseFormatFromJson(json);
+}
+
+/// Custom JSON converter for [AssistantObjectResponseFormat]
+class _AssistantObjectResponseFormatConverter
+    implements JsonConverter<AssistantObjectResponseFormat?, Object?> {
+  const _AssistantObjectResponseFormatConverter();
+
+  @override
+  AssistantObjectResponseFormat? fromJson(Object? data) {
+    if (data == null) {
+      return null;
+    }
+    if (data is String &&
+        _$AssistantResponseFormatModeEnumMap.values.contains(data)) {
+      return AssistantObjectResponseFormatEnumeration(
+        _$AssistantResponseFormatModeEnumMap.keys.elementAt(
+          _$AssistantResponseFormatModeEnumMap.values.toList().indexOf(data),
+        ),
+      );
+    }
+    if (data is Map<String, dynamic>) {
+      try {
+        return AssistantObjectResponseFormatAssistantsResponseFormat(
+          AssistantsResponseFormat.fromJson(data),
+        );
+      } catch (e) {}
+    }
+    throw Exception(
+      'Unexpected value for AssistantObjectResponseFormat: $data',
+    );
+  }
+
+  @override
+  Object? toJson(AssistantObjectResponseFormat? data) {
+    return switch (data) {
+      AssistantObjectResponseFormatEnumeration(value: final v) =>
+        _$AssistantResponseFormatModeEnumMap[v]!,
+      AssistantObjectResponseFormatAssistantsResponseFormat(value: final v) =>
+        v.toJson(),
+      null => null,
+    };
+  }
 }

@@ -1,6 +1,6 @@
 name: openai_dart
 description: Dart Client for the OpenAI API (completions, chat, embeddings, etc.).
-version: 0.2.2
+version: 0.3.2
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/openai_dart
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:openai_dart
 homepage: https://github.com/davidmigloz/langchain_dart

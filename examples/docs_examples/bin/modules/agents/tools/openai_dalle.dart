@@ -10,15 +10,15 @@ void main() async {
   final llm = ChatOpenAI(
     apiKey: openAiKey,
     defaultOptions: const ChatOpenAIOptions(
-      model: 'gpt-4',
+      model: 'gpt-4-turbo',
       temperature: 0,
     ),
   );
-  final tools = <BaseTool>[
+  final tools = <Tool>[
     CalculatorTool(),
     OpenAIDallETool(apiKey: openAiKey),
   ];
-  final agent = OpenAIFunctionsAgent.fromLLMAndTools(llm: llm, tools: tools);
+  final agent = OpenAIToolsAgent.fromLLMAndTools(llm: llm, tools: tools);
   final executor = AgentExecutor(agent: agent);
   final res = await executor.run(
     'Calculate the result of 40 raised to the power of 0.43 and generate a funny illustration with it. '

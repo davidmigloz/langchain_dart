@@ -12,8 +12,9 @@ void main() {
         tools: [tool],
         actions: [
           AgentAction(
+            id: 'id',
             tool: tool.name,
-            toolInput: {Tool.inputVar: 'mock'},
+            toolInput: {'input': 'mock'},
           ),
         ],
       );
@@ -31,8 +32,9 @@ void main() {
         tools: [tool],
         actions: [
           AgentAction(
+            id: 'id',
             tool: tool.name,
-            toolInput: {Tool.inputVar: 'mock'},
+            toolInput: {'input': 'mock'},
           ),
         ],
       );
@@ -50,8 +52,9 @@ void main() {
         tools: [tool],
         actions: [
           AgentAction(
+            id: 'id',
             tool: tool.name,
-            toolInput: {Tool.inputVar: 'mock'},
+            toolInput: {'input': 'mock'},
           ),
           const AgentFinish(
             returnValues: {BaseActionAgent.agentReturnKey: 'mock'},
@@ -69,8 +72,9 @@ void main() {
         tools: [tool],
         actions: [
           const AgentAction(
+            id: 'id',
             tool: 'tool',
-            toolInput: {Tool.inputVar: 'mock'},
+            toolInput: {'input': 'mock'},
           ),
         ],
       );
@@ -97,14 +101,15 @@ void main() {
         tools: [tool],
         actions: [
           const AgentAction(
+            id: 'id',
             tool: 'invalid_tool',
-            toolInput: {Tool.inputVar: 'mock'},
+            toolInput: {'input': 'mock'},
           ),
         ],
       );
       final executor = AgentExecutor(
         agent: agent,
-        handleParsingErrors: (final _) => 'fallback',
+        handleParsingErrors: (final _) => {'input': 'fallback'},
         maxIterations: 1,
         returnIntermediateSteps: true,
       );
@@ -143,19 +148,17 @@ void main() {
   });
 }
 
-final class _MockTool extends Tool<ToolOptions> {
+final class _MockTool extends StringTool {
   _MockTool({
     super.name = 'tool',
     super.returnDirect = false,
-  }) : super(
-          description: '$name-description',
-        );
+  }) : super(description: '$name-description');
 
   @override
-  FutureOr<String> runInternalString(
+  Future<String> invokeInternal(
     final String toolInput, {
     final ToolOptions? options,
-  }) {
+  }) async {
     return '$name-output';
   }
 }

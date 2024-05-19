@@ -24,9 +24,6 @@ class MessageDelta with _$MessageDelta {
 
     /// The content of the message in array of text and/or images.
     @JsonKey(includeIfNull: false) List<MessageDeltaContent>? content,
-
-    /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message.
-    @JsonKey(name: 'file_ids') @Default([]) List<String> fileIds,
   }) = _MessageDelta;
 
   /// Object construction from a JSON representation
@@ -34,7 +31,7 @@ class MessageDelta with _$MessageDelta {
       _$MessageDeltaFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['role', 'content', 'file_ids'];
+  static const List<String> propertyNames = ['role', 'content'];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -46,7 +43,6 @@ class MessageDelta with _$MessageDelta {
     return {
       'role': role,
       'content': content,
-      'file_ids': fileIds,
     };
   }
 }

@@ -23,7 +23,7 @@ GenerateCompletionRequest _$GenerateCompletionRequestFromJson(
 mixin _$GenerateCompletionRequest {
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model => throw _privateConstructorUsedError;
 
   /// The prompt to generate a response.
@@ -324,7 +324,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   final String model;
 
@@ -489,7 +489,7 @@ abstract class _GenerateCompletionRequest extends GenerateCompletionRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model;
   @override
 
@@ -643,10 +643,6 @@ mixin _$RequestOptions {
   @JsonKey(name: 'num_batch', includeIfNull: false)
   int? get numBatch => throw _privateConstructorUsedError;
 
-  /// The number of GQA groups in the transformer layer. Required for some models, for example it is 8 for `llama2:70b`.
-  @JsonKey(name: 'num_gqa', includeIfNull: false)
-  int? get numGqa => throw _privateConstructorUsedError;
-
   /// The number of layers to send to the GPU(s). On macOS it defaults to 1 to enable metal support, 0 to disable.
   @JsonKey(name: 'num_gpu', includeIfNull: false)
   int? get numGpu => throw _privateConstructorUsedError;
@@ -678,18 +674,6 @@ mixin _$RequestOptions {
   /// Enable mlock. (Default: false)
   @JsonKey(name: 'use_mlock', includeIfNull: false)
   bool? get useMlock => throw _privateConstructorUsedError;
-
-  /// Enable embedding only. (Default: false)
-  @JsonKey(name: 'embedding_only', includeIfNull: false)
-  bool? get embeddingOnly => throw _privateConstructorUsedError;
-
-  /// The base of the rope frequency scale. (Default: 1.0)
-  @JsonKey(name: 'rope_frequency_base', includeIfNull: false)
-  double? get ropeFrequencyBase => throw _privateConstructorUsedError;
-
-  /// The scale of the rope frequency. (Default: 1.0)
-  @JsonKey(name: 'rope_frequency_scale', includeIfNull: false)
-  double? get ropeFrequencyScale => throw _privateConstructorUsedError;
 
   /// Sets the number of threads to use during computation. By default, Ollama will detect this for optimal performance. It is recommended to set this value to the number of physical CPU cores your system has (as opposed to the logical number of cores).
   @JsonKey(name: 'num_thread', includeIfNull: false)
@@ -732,7 +716,6 @@ abstract class $RequestOptionsCopyWith<$Res> {
       @JsonKey(includeIfNull: false) bool? numa,
       @JsonKey(name: 'num_ctx', includeIfNull: false) int? numCtx,
       @JsonKey(name: 'num_batch', includeIfNull: false) int? numBatch,
-      @JsonKey(name: 'num_gqa', includeIfNull: false) int? numGqa,
       @JsonKey(name: 'num_gpu', includeIfNull: false) int? numGpu,
       @JsonKey(name: 'main_gpu', includeIfNull: false) int? mainGpu,
       @JsonKey(name: 'low_vram', includeIfNull: false) bool? lowVram,
@@ -741,12 +724,6 @@ abstract class $RequestOptionsCopyWith<$Res> {
       @JsonKey(name: 'vocab_only', includeIfNull: false) bool? vocabOnly,
       @JsonKey(name: 'use_mmap', includeIfNull: false) bool? useMmap,
       @JsonKey(name: 'use_mlock', includeIfNull: false) bool? useMlock,
-      @JsonKey(name: 'embedding_only', includeIfNull: false)
-      bool? embeddingOnly,
-      @JsonKey(name: 'rope_frequency_base', includeIfNull: false)
-      double? ropeFrequencyBase,
-      @JsonKey(name: 'rope_frequency_scale', includeIfNull: false)
-      double? ropeFrequencyScale,
       @JsonKey(name: 'num_thread', includeIfNull: false) int? numThread});
 }
 
@@ -783,7 +760,6 @@ class _$RequestOptionsCopyWithImpl<$Res, $Val extends RequestOptions>
     Object? numa = freezed,
     Object? numCtx = freezed,
     Object? numBatch = freezed,
-    Object? numGqa = freezed,
     Object? numGpu = freezed,
     Object? mainGpu = freezed,
     Object? lowVram = freezed,
@@ -792,9 +768,6 @@ class _$RequestOptionsCopyWithImpl<$Res, $Val extends RequestOptions>
     Object? vocabOnly = freezed,
     Object? useMmap = freezed,
     Object? useMlock = freezed,
-    Object? embeddingOnly = freezed,
-    Object? ropeFrequencyBase = freezed,
-    Object? ropeFrequencyScale = freezed,
     Object? numThread = freezed,
   }) {
     return _then(_value.copyWith(
@@ -878,10 +851,6 @@ class _$RequestOptionsCopyWithImpl<$Res, $Val extends RequestOptions>
           ? _value.numBatch
           : numBatch // ignore: cast_nullable_to_non_nullable
               as int?,
-      numGqa: freezed == numGqa
-          ? _value.numGqa
-          : numGqa // ignore: cast_nullable_to_non_nullable
-              as int?,
       numGpu: freezed == numGpu
           ? _value.numGpu
           : numGpu // ignore: cast_nullable_to_non_nullable
@@ -914,18 +883,6 @@ class _$RequestOptionsCopyWithImpl<$Res, $Val extends RequestOptions>
           ? _value.useMlock
           : useMlock // ignore: cast_nullable_to_non_nullable
               as bool?,
-      embeddingOnly: freezed == embeddingOnly
-          ? _value.embeddingOnly
-          : embeddingOnly // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      ropeFrequencyBase: freezed == ropeFrequencyBase
-          ? _value.ropeFrequencyBase
-          : ropeFrequencyBase // ignore: cast_nullable_to_non_nullable
-              as double?,
-      ropeFrequencyScale: freezed == ropeFrequencyScale
-          ? _value.ropeFrequencyScale
-          : ropeFrequencyScale // ignore: cast_nullable_to_non_nullable
-              as double?,
       numThread: freezed == numThread
           ? _value.numThread
           : numThread // ignore: cast_nullable_to_non_nullable
@@ -967,7 +924,6 @@ abstract class _$$RequestOptionsImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) bool? numa,
       @JsonKey(name: 'num_ctx', includeIfNull: false) int? numCtx,
       @JsonKey(name: 'num_batch', includeIfNull: false) int? numBatch,
-      @JsonKey(name: 'num_gqa', includeIfNull: false) int? numGqa,
       @JsonKey(name: 'num_gpu', includeIfNull: false) int? numGpu,
       @JsonKey(name: 'main_gpu', includeIfNull: false) int? mainGpu,
       @JsonKey(name: 'low_vram', includeIfNull: false) bool? lowVram,
@@ -976,12 +932,6 @@ abstract class _$$RequestOptionsImplCopyWith<$Res>
       @JsonKey(name: 'vocab_only', includeIfNull: false) bool? vocabOnly,
       @JsonKey(name: 'use_mmap', includeIfNull: false) bool? useMmap,
       @JsonKey(name: 'use_mlock', includeIfNull: false) bool? useMlock,
-      @JsonKey(name: 'embedding_only', includeIfNull: false)
-      bool? embeddingOnly,
-      @JsonKey(name: 'rope_frequency_base', includeIfNull: false)
-      double? ropeFrequencyBase,
-      @JsonKey(name: 'rope_frequency_scale', includeIfNull: false)
-      double? ropeFrequencyScale,
       @JsonKey(name: 'num_thread', includeIfNull: false) int? numThread});
 }
 
@@ -1016,7 +966,6 @@ class __$$RequestOptionsImplCopyWithImpl<$Res>
     Object? numa = freezed,
     Object? numCtx = freezed,
     Object? numBatch = freezed,
-    Object? numGqa = freezed,
     Object? numGpu = freezed,
     Object? mainGpu = freezed,
     Object? lowVram = freezed,
@@ -1025,9 +974,6 @@ class __$$RequestOptionsImplCopyWithImpl<$Res>
     Object? vocabOnly = freezed,
     Object? useMmap = freezed,
     Object? useMlock = freezed,
-    Object? embeddingOnly = freezed,
-    Object? ropeFrequencyBase = freezed,
-    Object? ropeFrequencyScale = freezed,
     Object? numThread = freezed,
   }) {
     return _then(_$RequestOptionsImpl(
@@ -1111,10 +1057,6 @@ class __$$RequestOptionsImplCopyWithImpl<$Res>
           ? _value.numBatch
           : numBatch // ignore: cast_nullable_to_non_nullable
               as int?,
-      numGqa: freezed == numGqa
-          ? _value.numGqa
-          : numGqa // ignore: cast_nullable_to_non_nullable
-              as int?,
       numGpu: freezed == numGpu
           ? _value.numGpu
           : numGpu // ignore: cast_nullable_to_non_nullable
@@ -1147,18 +1089,6 @@ class __$$RequestOptionsImplCopyWithImpl<$Res>
           ? _value.useMlock
           : useMlock // ignore: cast_nullable_to_non_nullable
               as bool?,
-      embeddingOnly: freezed == embeddingOnly
-          ? _value.embeddingOnly
-          : embeddingOnly // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      ropeFrequencyBase: freezed == ropeFrequencyBase
-          ? _value.ropeFrequencyBase
-          : ropeFrequencyBase // ignore: cast_nullable_to_non_nullable
-              as double?,
-      ropeFrequencyScale: freezed == ropeFrequencyScale
-          ? _value.ropeFrequencyScale
-          : ropeFrequencyScale // ignore: cast_nullable_to_non_nullable
-              as double?,
       numThread: freezed == numThread
           ? _value.numThread
           : numThread // ignore: cast_nullable_to_non_nullable
@@ -1194,7 +1124,6 @@ class _$RequestOptionsImpl extends _RequestOptions {
       @JsonKey(includeIfNull: false) this.numa,
       @JsonKey(name: 'num_ctx', includeIfNull: false) this.numCtx,
       @JsonKey(name: 'num_batch', includeIfNull: false) this.numBatch,
-      @JsonKey(name: 'num_gqa', includeIfNull: false) this.numGqa,
       @JsonKey(name: 'num_gpu', includeIfNull: false) this.numGpu,
       @JsonKey(name: 'main_gpu', includeIfNull: false) this.mainGpu,
       @JsonKey(name: 'low_vram', includeIfNull: false) this.lowVram,
@@ -1203,11 +1132,6 @@ class _$RequestOptionsImpl extends _RequestOptions {
       @JsonKey(name: 'vocab_only', includeIfNull: false) this.vocabOnly,
       @JsonKey(name: 'use_mmap', includeIfNull: false) this.useMmap,
       @JsonKey(name: 'use_mlock', includeIfNull: false) this.useMlock,
-      @JsonKey(name: 'embedding_only', includeIfNull: false) this.embeddingOnly,
-      @JsonKey(name: 'rope_frequency_base', includeIfNull: false)
-      this.ropeFrequencyBase,
-      @JsonKey(name: 'rope_frequency_scale', includeIfNull: false)
-      this.ropeFrequencyScale,
       @JsonKey(name: 'num_thread', includeIfNull: false) this.numThread})
       : _stop = stop,
         super._();
@@ -1324,11 +1248,6 @@ class _$RequestOptionsImpl extends _RequestOptions {
   @JsonKey(name: 'num_batch', includeIfNull: false)
   final int? numBatch;
 
-  /// The number of GQA groups in the transformer layer. Required for some models, for example it is 8 for `llama2:70b`.
-  @override
-  @JsonKey(name: 'num_gqa', includeIfNull: false)
-  final int? numGqa;
-
   /// The number of layers to send to the GPU(s). On macOS it defaults to 1 to enable metal support, 0 to disable.
   @override
   @JsonKey(name: 'num_gpu', includeIfNull: false)
@@ -1369,21 +1288,6 @@ class _$RequestOptionsImpl extends _RequestOptions {
   @JsonKey(name: 'use_mlock', includeIfNull: false)
   final bool? useMlock;
 
-  /// Enable embedding only. (Default: false)
-  @override
-  @JsonKey(name: 'embedding_only', includeIfNull: false)
-  final bool? embeddingOnly;
-
-  /// The base of the rope frequency scale. (Default: 1.0)
-  @override
-  @JsonKey(name: 'rope_frequency_base', includeIfNull: false)
-  final double? ropeFrequencyBase;
-
-  /// The scale of the rope frequency. (Default: 1.0)
-  @override
-  @JsonKey(name: 'rope_frequency_scale', includeIfNull: false)
-  final double? ropeFrequencyScale;
-
   /// Sets the number of threads to use during computation. By default, Ollama will detect this for optimal performance. It is recommended to set this value to the number of physical CPU cores your system has (as opposed to the logical number of cores).
   @override
   @JsonKey(name: 'num_thread', includeIfNull: false)
@@ -1391,7 +1295,7 @@ class _$RequestOptionsImpl extends _RequestOptions {
 
   @override
   String toString() {
-    return 'RequestOptions(numKeep: $numKeep, seed: $seed, numPredict: $numPredict, topK: $topK, topP: $topP, tfsZ: $tfsZ, typicalP: $typicalP, repeatLastN: $repeatLastN, temperature: $temperature, repeatPenalty: $repeatPenalty, presencePenalty: $presencePenalty, frequencyPenalty: $frequencyPenalty, mirostat: $mirostat, mirostatTau: $mirostatTau, mirostatEta: $mirostatEta, penalizeNewline: $penalizeNewline, stop: $stop, numa: $numa, numCtx: $numCtx, numBatch: $numBatch, numGqa: $numGqa, numGpu: $numGpu, mainGpu: $mainGpu, lowVram: $lowVram, f16Kv: $f16Kv, logitsAll: $logitsAll, vocabOnly: $vocabOnly, useMmap: $useMmap, useMlock: $useMlock, embeddingOnly: $embeddingOnly, ropeFrequencyBase: $ropeFrequencyBase, ropeFrequencyScale: $ropeFrequencyScale, numThread: $numThread)';
+    return 'RequestOptions(numKeep: $numKeep, seed: $seed, numPredict: $numPredict, topK: $topK, topP: $topP, tfsZ: $tfsZ, typicalP: $typicalP, repeatLastN: $repeatLastN, temperature: $temperature, repeatPenalty: $repeatPenalty, presencePenalty: $presencePenalty, frequencyPenalty: $frequencyPenalty, mirostat: $mirostat, mirostatTau: $mirostatTau, mirostatEta: $mirostatEta, penalizeNewline: $penalizeNewline, stop: $stop, numa: $numa, numCtx: $numCtx, numBatch: $numBatch, numGpu: $numGpu, mainGpu: $mainGpu, lowVram: $lowVram, f16Kv: $f16Kv, logitsAll: $logitsAll, vocabOnly: $vocabOnly, useMmap: $useMmap, useMlock: $useMlock, numThread: $numThread)';
   }
 
   @override
@@ -1431,7 +1335,6 @@ class _$RequestOptionsImpl extends _RequestOptions {
             (identical(other.numCtx, numCtx) || other.numCtx == numCtx) &&
             (identical(other.numBatch, numBatch) ||
                 other.numBatch == numBatch) &&
-            (identical(other.numGqa, numGqa) || other.numGqa == numGqa) &&
             (identical(other.numGpu, numGpu) || other.numGpu == numGpu) &&
             (identical(other.mainGpu, mainGpu) || other.mainGpu == mainGpu) &&
             (identical(other.lowVram, lowVram) || other.lowVram == lowVram) &&
@@ -1443,12 +1346,6 @@ class _$RequestOptionsImpl extends _RequestOptions {
             (identical(other.useMmap, useMmap) || other.useMmap == useMmap) &&
             (identical(other.useMlock, useMlock) ||
                 other.useMlock == useMlock) &&
-            (identical(other.embeddingOnly, embeddingOnly) ||
-                other.embeddingOnly == embeddingOnly) &&
-            (identical(other.ropeFrequencyBase, ropeFrequencyBase) ||
-                other.ropeFrequencyBase == ropeFrequencyBase) &&
-            (identical(other.ropeFrequencyScale, ropeFrequencyScale) ||
-                other.ropeFrequencyScale == ropeFrequencyScale) &&
             (identical(other.numThread, numThread) ||
                 other.numThread == numThread));
   }
@@ -1477,7 +1374,6 @@ class _$RequestOptionsImpl extends _RequestOptions {
         numa,
         numCtx,
         numBatch,
-        numGqa,
         numGpu,
         mainGpu,
         lowVram,
@@ -1486,9 +1382,6 @@ class _$RequestOptionsImpl extends _RequestOptions {
         vocabOnly,
         useMmap,
         useMlock,
-        embeddingOnly,
-        ropeFrequencyBase,
-        ropeFrequencyScale,
         numThread
       ]);
 
@@ -1536,7 +1429,6 @@ abstract class _RequestOptions extends RequestOptions {
       @JsonKey(includeIfNull: false) final bool? numa,
       @JsonKey(name: 'num_ctx', includeIfNull: false) final int? numCtx,
       @JsonKey(name: 'num_batch', includeIfNull: false) final int? numBatch,
-      @JsonKey(name: 'num_gqa', includeIfNull: false) final int? numGqa,
       @JsonKey(name: 'num_gpu', includeIfNull: false) final int? numGpu,
       @JsonKey(name: 'main_gpu', includeIfNull: false) final int? mainGpu,
       @JsonKey(name: 'low_vram', includeIfNull: false) final bool? lowVram,
@@ -1545,12 +1437,6 @@ abstract class _RequestOptions extends RequestOptions {
       @JsonKey(name: 'vocab_only', includeIfNull: false) final bool? vocabOnly,
       @JsonKey(name: 'use_mmap', includeIfNull: false) final bool? useMmap,
       @JsonKey(name: 'use_mlock', includeIfNull: false) final bool? useMlock,
-      @JsonKey(name: 'embedding_only', includeIfNull: false)
-      final bool? embeddingOnly,
-      @JsonKey(name: 'rope_frequency_base', includeIfNull: false)
-      final double? ropeFrequencyBase,
-      @JsonKey(name: 'rope_frequency_scale', includeIfNull: false)
-      final double? ropeFrequencyScale,
       @JsonKey(name: 'num_thread', includeIfNull: false)
       final int? numThread}) = _$RequestOptionsImpl;
   const _RequestOptions._() : super._();
@@ -1660,11 +1546,6 @@ abstract class _RequestOptions extends RequestOptions {
   int? get numBatch;
   @override
 
-  /// The number of GQA groups in the transformer layer. Required for some models, for example it is 8 for `llama2:70b`.
-  @JsonKey(name: 'num_gqa', includeIfNull: false)
-  int? get numGqa;
-  @override
-
   /// The number of layers to send to the GPU(s). On macOS it defaults to 1 to enable metal support, 0 to disable.
   @JsonKey(name: 'num_gpu', includeIfNull: false)
   int? get numGpu;
@@ -1705,21 +1586,6 @@ abstract class _RequestOptions extends RequestOptions {
   bool? get useMlock;
   @override
 
-  /// Enable embedding only. (Default: false)
-  @JsonKey(name: 'embedding_only', includeIfNull: false)
-  bool? get embeddingOnly;
-  @override
-
-  /// The base of the rope frequency scale. (Default: 1.0)
-  @JsonKey(name: 'rope_frequency_base', includeIfNull: false)
-  double? get ropeFrequencyBase;
-  @override
-
-  /// The scale of the rope frequency. (Default: 1.0)
-  @JsonKey(name: 'rope_frequency_scale', includeIfNull: false)
-  double? get ropeFrequencyScale;
-  @override
-
   /// Sets the number of threads to use during computation. By default, Ollama will detect this for optimal performance. It is recommended to set this value to the number of physical CPU cores your system has (as opposed to the logical number of cores).
   @JsonKey(name: 'num_thread', includeIfNull: false)
   int? get numThread;
@@ -1738,7 +1604,7 @@ GenerateCompletionResponse _$GenerateCompletionResponseFromJson(
 mixin _$GenerateCompletionResponse {
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @JsonKey(includeIfNull: false)
   String? get model => throw _privateConstructorUsedError;
 
@@ -2011,7 +1877,7 @@ class _$GenerateCompletionResponseImpl extends _GenerateCompletionResponse {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   @JsonKey(includeIfNull: false)
   final String? model;
@@ -2165,7 +2031,7 @@ abstract class _GenerateCompletionResponse extends GenerateCompletionResponse {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @JsonKey(includeIfNull: false)
   String? get model;
   @override
@@ -2233,7 +2099,7 @@ GenerateChatCompletionRequest _$GenerateChatCompletionRequestFromJson(
 mixin _$GenerateChatCompletionRequest {
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model => throw _privateConstructorUsedError;
 
   /// The messages of the chat, this can be used to keep a chat memory
@@ -2450,7 +2316,7 @@ class _$GenerateChatCompletionRequestImpl
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   final String model;
 
@@ -2563,7 +2429,7 @@ abstract class _GenerateChatCompletionRequest
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model;
   @override
 
@@ -2618,7 +2484,7 @@ mixin _$GenerateChatCompletionResponse {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @JsonKey(includeIfNull: false)
   String? get model => throw _privateConstructorUsedError;
 
@@ -2629,6 +2495,13 @@ mixin _$GenerateChatCompletionResponse {
   /// Whether the response has completed.
   @JsonKey(includeIfNull: false)
   bool? get done => throw _privateConstructorUsedError;
+
+  /// Reason why the model is done generating a response.
+  @JsonKey(
+      name: 'done_reason',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  DoneReason? get doneReason => throw _privateConstructorUsedError;
 
   /// Time spent generating the response.
   @JsonKey(name: 'total_duration', includeIfNull: false)
@@ -2673,6 +2546,11 @@ abstract class $GenerateChatCompletionResponseCopyWith<$Res> {
       @JsonKey(includeIfNull: false) String? model,
       @JsonKey(name: 'created_at', includeIfNull: false) String? createdAt,
       @JsonKey(includeIfNull: false) bool? done,
+      @JsonKey(
+          name: 'done_reason',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      DoneReason? doneReason,
       @JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,
       @JsonKey(name: 'load_duration', includeIfNull: false) int? loadDuration,
       @JsonKey(name: 'prompt_eval_count', includeIfNull: false)
@@ -2703,6 +2581,7 @@ class _$GenerateChatCompletionResponseCopyWithImpl<$Res,
     Object? model = freezed,
     Object? createdAt = freezed,
     Object? done = freezed,
+    Object? doneReason = freezed,
     Object? totalDuration = freezed,
     Object? loadDuration = freezed,
     Object? promptEvalCount = freezed,
@@ -2727,6 +2606,10 @@ class _$GenerateChatCompletionResponseCopyWithImpl<$Res,
           ? _value.done
           : done // ignore: cast_nullable_to_non_nullable
               as bool?,
+      doneReason: freezed == doneReason
+          ? _value.doneReason
+          : doneReason // ignore: cast_nullable_to_non_nullable
+              as DoneReason?,
       totalDuration: freezed == totalDuration
           ? _value.totalDuration
           : totalDuration // ignore: cast_nullable_to_non_nullable
@@ -2781,6 +2664,11 @@ abstract class _$$GenerateChatCompletionResponseImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) String? model,
       @JsonKey(name: 'created_at', includeIfNull: false) String? createdAt,
       @JsonKey(includeIfNull: false) bool? done,
+      @JsonKey(
+          name: 'done_reason',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      DoneReason? doneReason,
       @JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,
       @JsonKey(name: 'load_duration', includeIfNull: false) int? loadDuration,
       @JsonKey(name: 'prompt_eval_count', includeIfNull: false)
@@ -2811,6 +2699,7 @@ class __$$GenerateChatCompletionResponseImplCopyWithImpl<$Res>
     Object? model = freezed,
     Object? createdAt = freezed,
     Object? done = freezed,
+    Object? doneReason = freezed,
     Object? totalDuration = freezed,
     Object? loadDuration = freezed,
     Object? promptEvalCount = freezed,
@@ -2835,6 +2724,10 @@ class __$$GenerateChatCompletionResponseImplCopyWithImpl<$Res>
           ? _value.done
           : done // ignore: cast_nullable_to_non_nullable
               as bool?,
+      doneReason: freezed == doneReason
+          ? _value.doneReason
+          : doneReason // ignore: cast_nullable_to_non_nullable
+              as DoneReason?,
       totalDuration: freezed == totalDuration
           ? _value.totalDuration
           : totalDuration // ignore: cast_nullable_to_non_nullable
@@ -2872,6 +2765,11 @@ class _$GenerateChatCompletionResponseImpl
       @JsonKey(includeIfNull: false) this.model,
       @JsonKey(name: 'created_at', includeIfNull: false) this.createdAt,
       @JsonKey(includeIfNull: false) this.done,
+      @JsonKey(
+          name: 'done_reason',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.doneReason,
       @JsonKey(name: 'total_duration', includeIfNull: false) this.totalDuration,
       @JsonKey(name: 'load_duration', includeIfNull: false) this.loadDuration,
       @JsonKey(name: 'prompt_eval_count', includeIfNull: false)
@@ -2893,7 +2791,7 @@ class _$GenerateChatCompletionResponseImpl
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   @JsonKey(includeIfNull: false)
   final String? model;
@@ -2907,6 +2805,14 @@ class _$GenerateChatCompletionResponseImpl
   @override
   @JsonKey(includeIfNull: false)
   final bool? done;
+
+  /// Reason why the model is done generating a response.
+  @override
+  @JsonKey(
+      name: 'done_reason',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final DoneReason? doneReason;
 
   /// Time spent generating the response.
   @override
@@ -2940,7 +2846,7 @@ class _$GenerateChatCompletionResponseImpl
 
   @override
   String toString() {
-    return 'GenerateChatCompletionResponse(message: $message, model: $model, createdAt: $createdAt, done: $done, totalDuration: $totalDuration, loadDuration: $loadDuration, promptEvalCount: $promptEvalCount, promptEvalDuration: $promptEvalDuration, evalCount: $evalCount, evalDuration: $evalDuration)';
+    return 'GenerateChatCompletionResponse(message: $message, model: $model, createdAt: $createdAt, done: $done, doneReason: $doneReason, totalDuration: $totalDuration, loadDuration: $loadDuration, promptEvalCount: $promptEvalCount, promptEvalDuration: $promptEvalDuration, evalCount: $evalCount, evalDuration: $evalDuration)';
   }
 
   @override
@@ -2953,6 +2859,8 @@ class _$GenerateChatCompletionResponseImpl
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.done, done) || other.done == done) &&
+            (identical(other.doneReason, doneReason) ||
+                other.doneReason == doneReason) &&
             (identical(other.totalDuration, totalDuration) ||
                 other.totalDuration == totalDuration) &&
             (identical(other.loadDuration, loadDuration) ||
@@ -2975,6 +2883,7 @@ class _$GenerateChatCompletionResponseImpl
       model,
       createdAt,
       done,
+      doneReason,
       totalDuration,
       loadDuration,
       promptEvalCount,
@@ -3006,6 +2915,11 @@ abstract class _GenerateChatCompletionResponse
       @JsonKey(name: 'created_at', includeIfNull: false)
       final String? createdAt,
       @JsonKey(includeIfNull: false) final bool? done,
+      @JsonKey(
+          name: 'done_reason',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final DoneReason? doneReason,
       @JsonKey(name: 'total_duration', includeIfNull: false)
       final int? totalDuration,
       @JsonKey(name: 'load_duration', includeIfNull: false)
@@ -3031,7 +2945,7 @@ abstract class _GenerateChatCompletionResponse
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @JsonKey(includeIfNull: false)
   String? get model;
   @override
@@ -3044,6 +2958,14 @@ abstract class _GenerateChatCompletionResponse
   /// Whether the response has completed.
   @JsonKey(includeIfNull: false)
   bool? get done;
+  @override
+
+  /// Reason why the model is done generating a response.
+  @JsonKey(
+      name: 'done_reason',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  DoneReason? get doneReason;
   @override
 
   /// Time spent generating the response.
@@ -3299,7 +3221,7 @@ GenerateEmbeddingRequest _$GenerateEmbeddingRequestFromJson(
 mixin _$GenerateEmbeddingRequest {
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model => throw _privateConstructorUsedError;
 
   /// Text to generate embeddings for.
@@ -3308,6 +3230,15 @@ mixin _$GenerateEmbeddingRequest {
   /// Additional model parameters listed in the documentation for the Modelfile such as `temperature`.
   @JsonKey(includeIfNull: false)
   RequestOptions? get options => throw _privateConstructorUsedError;
+
+  /// How long (in minutes) to keep the model loaded in memory.
+  ///
+  /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
+  /// - If set to a negative duration (e.g. -1), the model will stay loaded indefinitely.
+  /// - If set to 0, the model will be unloaded immediately once finished.
+  /// - If not set, the model will stay loaded for 5 minutes by default
+  @JsonKey(name: 'keep_alive', includeIfNull: false)
+  int? get keepAlive => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -3324,7 +3255,8 @@ abstract class $GenerateEmbeddingRequestCopyWith<$Res> {
   $Res call(
       {String model,
       String prompt,
-      @JsonKey(includeIfNull: false) RequestOptions? options});
+      @JsonKey(includeIfNull: false) RequestOptions? options,
+      @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive});
 
   $RequestOptionsCopyWith<$Res>? get options;
 }
@@ -3346,6 +3278,7 @@ class _$GenerateEmbeddingRequestCopyWithImpl<$Res,
     Object? model = null,
     Object? prompt = null,
     Object? options = freezed,
+    Object? keepAlive = freezed,
   }) {
     return _then(_value.copyWith(
       model: null == model
@@ -3360,6 +3293,10 @@ class _$GenerateEmbeddingRequestCopyWithImpl<$Res,
           ? _value.options
           : options // ignore: cast_nullable_to_non_nullable
               as RequestOptions?,
+      keepAlive: freezed == keepAlive
+          ? _value.keepAlive
+          : keepAlive // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 
@@ -3388,7 +3325,8 @@ abstract class _$$GenerateEmbeddingRequestImplCopyWith<$Res>
   $Res call(
       {String model,
       String prompt,
-      @JsonKey(includeIfNull: false) RequestOptions? options});
+      @JsonKey(includeIfNull: false) RequestOptions? options,
+      @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive});
 
   @override
   $RequestOptionsCopyWith<$Res>? get options;
@@ -3410,6 +3348,7 @@ class __$$GenerateEmbeddingRequestImplCopyWithImpl<$Res>
     Object? model = null,
     Object? prompt = null,
     Object? options = freezed,
+    Object? keepAlive = freezed,
   }) {
     return _then(_$GenerateEmbeddingRequestImpl(
       model: null == model
@@ -3424,6 +3363,10 @@ class __$$GenerateEmbeddingRequestImplCopyWithImpl<$Res>
           ? _value.options
           : options // ignore: cast_nullable_to_non_nullable
               as RequestOptions?,
+      keepAlive: freezed == keepAlive
+          ? _value.keepAlive
+          : keepAlive // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -3434,7 +3377,8 @@ class _$GenerateEmbeddingRequestImpl extends _GenerateEmbeddingRequest {
   const _$GenerateEmbeddingRequestImpl(
       {required this.model,
       required this.prompt,
-      @JsonKey(includeIfNull: false) this.options})
+      @JsonKey(includeIfNull: false) this.options,
+      @JsonKey(name: 'keep_alive', includeIfNull: false) this.keepAlive})
       : super._();
 
   factory _$GenerateEmbeddingRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -3442,7 +3386,7 @@ class _$GenerateEmbeddingRequestImpl extends _GenerateEmbeddingRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   final String model;
 
@@ -3455,9 +3399,19 @@ class _$GenerateEmbeddingRequestImpl extends _GenerateEmbeddingRequest {
   @JsonKey(includeIfNull: false)
   final RequestOptions? options;
 
+  /// How long (in minutes) to keep the model loaded in memory.
+  ///
+  /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
+  /// - If set to a negative duration (e.g. -1), the model will stay loaded indefinitely.
+  /// - If set to 0, the model will be unloaded immediately once finished.
+  /// - If not set, the model will stay loaded for 5 minutes by default
+  @override
+  @JsonKey(name: 'keep_alive', includeIfNull: false)
+  final int? keepAlive;
+
   @override
   String toString() {
-    return 'GenerateEmbeddingRequest(model: $model, prompt: $prompt, options: $options)';
+    return 'GenerateEmbeddingRequest(model: $model, prompt: $prompt, options: $options, keepAlive: $keepAlive)';
   }
 
   @override
@@ -3467,12 +3421,15 @@ class _$GenerateEmbeddingRequestImpl extends _GenerateEmbeddingRequest {
             other is _$GenerateEmbeddingRequestImpl &&
             (identical(other.model, model) || other.model == model) &&
             (identical(other.prompt, prompt) || other.prompt == prompt) &&
-            (identical(other.options, options) || other.options == options));
+            (identical(other.options, options) || other.options == options) &&
+            (identical(other.keepAlive, keepAlive) ||
+                other.keepAlive == keepAlive));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, model, prompt, options);
+  int get hashCode =>
+      Object.hash(runtimeType, model, prompt, options, keepAlive);
 
   @JsonKey(ignore: true)
   @override
@@ -3491,10 +3448,11 @@ class _$GenerateEmbeddingRequestImpl extends _GenerateEmbeddingRequest {
 
 abstract class _GenerateEmbeddingRequest extends GenerateEmbeddingRequest {
   const factory _GenerateEmbeddingRequest(
-          {required final String model,
-          required final String prompt,
-          @JsonKey(includeIfNull: false) final RequestOptions? options}) =
-      _$GenerateEmbeddingRequestImpl;
+      {required final String model,
+      required final String prompt,
+      @JsonKey(includeIfNull: false) final RequestOptions? options,
+      @JsonKey(name: 'keep_alive', includeIfNull: false)
+      final int? keepAlive}) = _$GenerateEmbeddingRequestImpl;
   const _GenerateEmbeddingRequest._() : super._();
 
   factory _GenerateEmbeddingRequest.fromJson(Map<String, dynamic> json) =
@@ -3504,7 +3462,7 @@ abstract class _GenerateEmbeddingRequest extends GenerateEmbeddingRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   String get model;
   @override
 
@@ -3515,6 +3473,16 @@ abstract class _GenerateEmbeddingRequest extends GenerateEmbeddingRequest {
   /// Additional model parameters listed in the documentation for the Modelfile such as `temperature`.
   @JsonKey(includeIfNull: false)
   RequestOptions? get options;
+  @override
+
+  /// How long (in minutes) to keep the model loaded in memory.
+  ///
+  /// - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
+  /// - If set to a negative duration (e.g. -1), the model will stay loaded indefinitely.
+  /// - If set to 0, the model will be unloaded immediately once finished.
+  /// - If not set, the model will stay loaded for 5 minutes by default
+  @JsonKey(name: 'keep_alive', includeIfNull: false)
+  int? get keepAlive;
   @override
   @JsonKey(ignore: true)
   _$$GenerateEmbeddingRequestImplCopyWith<_$GenerateEmbeddingRequestImpl>
@@ -3695,11 +3663,19 @@ CreateModelRequest _$CreateModelRequestFromJson(Map<String, dynamic> json) {
 mixin _$CreateModelRequest {
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
-  String get name => throw _privateConstructorUsedError;
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  String get model => throw _privateConstructorUsedError;
 
   /// The contents of the Modelfile.
   String get modelfile => throw _privateConstructorUsedError;
+
+  /// Path to the Modelfile (optional)
+  @JsonKey(includeIfNull: false)
+  String? get path => throw _privateConstructorUsedError;
+
+  /// The quantization level of the model.
+  @JsonKey(includeIfNull: false)
+  String? get quantize => throw _privateConstructorUsedError;
 
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   bool get stream => throw _privateConstructorUsedError;
@@ -3716,7 +3692,12 @@ abstract class $CreateModelRequestCopyWith<$Res> {
           CreateModelRequest value, $Res Function(CreateModelRequest) then) =
       _$CreateModelRequestCopyWithImpl<$Res, CreateModelRequest>;
   @useResult
-  $Res call({String name, String modelfile, bool stream});
+  $Res call(
+      {String model,
+      String modelfile,
+      @JsonKey(includeIfNull: false) String? path,
+      @JsonKey(includeIfNull: false) String? quantize,
+      bool stream});
 }
 
 /// @nodoc
@@ -3732,19 +3713,29 @@ class _$CreateModelRequestCopyWithImpl<$Res, $Val extends CreateModelRequest>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? model = null,
     Object? modelfile = null,
+    Object? path = freezed,
+    Object? quantize = freezed,
     Object? stream = null,
   }) {
     return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
               as String,
       modelfile: null == modelfile
           ? _value.modelfile
           : modelfile // ignore: cast_nullable_to_non_nullable
               as String,
+      path: freezed == path
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
+              as String?,
+      quantize: freezed == quantize
+          ? _value.quantize
+          : quantize // ignore: cast_nullable_to_non_nullable
+              as String?,
       stream: null == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
@@ -3761,7 +3752,12 @@ abstract class _$$CreateModelRequestImplCopyWith<$Res>
       __$$CreateModelRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String modelfile, bool stream});
+  $Res call(
+      {String model,
+      String modelfile,
+      @JsonKey(includeIfNull: false) String? path,
+      @JsonKey(includeIfNull: false) String? quantize,
+      bool stream});
 }
 
 /// @nodoc
@@ -3775,19 +3771,29 @@ class __$$CreateModelRequestImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? model = null,
     Object? modelfile = null,
+    Object? path = freezed,
+    Object? quantize = freezed,
     Object? stream = null,
   }) {
     return _then(_$CreateModelRequestImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
               as String,
       modelfile: null == modelfile
           ? _value.modelfile
           : modelfile // ignore: cast_nullable_to_non_nullable
               as String,
+      path: freezed == path
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
+              as String?,
+      quantize: freezed == quantize
+          ? _value.quantize
+          : quantize // ignore: cast_nullable_to_non_nullable
+              as String?,
       stream: null == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
@@ -3800,7 +3806,11 @@ class __$$CreateModelRequestImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CreateModelRequestImpl extends _CreateModelRequest {
   const _$CreateModelRequestImpl(
-      {required this.name, required this.modelfile, this.stream = false})
+      {required this.model,
+      required this.modelfile,
+      @JsonKey(includeIfNull: false) this.path,
+      @JsonKey(includeIfNull: false) this.quantize,
+      this.stream = false})
       : super._();
 
   factory _$CreateModelRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -3808,13 +3818,23 @@ class _$CreateModelRequestImpl extends _CreateModelRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
-  final String name;
+  final String model;
 
   /// The contents of the Modelfile.
   @override
   final String modelfile;
+
+  /// Path to the Modelfile (optional)
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? path;
+
+  /// The quantization level of the model.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? quantize;
 
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   @override
@@ -3823,7 +3843,7 @@ class _$CreateModelRequestImpl extends _CreateModelRequest {
 
   @override
   String toString() {
-    return 'CreateModelRequest(name: $name, modelfile: $modelfile, stream: $stream)';
+    return 'CreateModelRequest(model: $model, modelfile: $modelfile, path: $path, quantize: $quantize, stream: $stream)';
   }
 
   @override
@@ -3831,15 +3851,19 @@ class _$CreateModelRequestImpl extends _CreateModelRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateModelRequestImpl &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.model, model) || other.model == model) &&
             (identical(other.modelfile, modelfile) ||
                 other.modelfile == modelfile) &&
+            (identical(other.path, path) || other.path == path) &&
+            (identical(other.quantize, quantize) ||
+                other.quantize == quantize) &&
             (identical(other.stream, stream) || other.stream == stream));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, modelfile, stream);
+  int get hashCode =>
+      Object.hash(runtimeType, model, modelfile, path, quantize, stream);
 
   @JsonKey(ignore: true)
   @override
@@ -3858,8 +3882,10 @@ class _$CreateModelRequestImpl extends _CreateModelRequest {
 
 abstract class _CreateModelRequest extends CreateModelRequest {
   const factory _CreateModelRequest(
-      {required final String name,
+      {required final String model,
       required final String modelfile,
+      @JsonKey(includeIfNull: false) final String? path,
+      @JsonKey(includeIfNull: false) final String? quantize,
       final bool stream}) = _$CreateModelRequestImpl;
   const _CreateModelRequest._() : super._();
 
@@ -3870,12 +3896,22 @@ abstract class _CreateModelRequest extends CreateModelRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
-  String get name;
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  String get model;
   @override
 
   /// The contents of the Modelfile.
   String get modelfile;
+  @override
+
+  /// Path to the Modelfile (optional)
+  @JsonKey(includeIfNull: false)
+  String? get path;
+  @override
+
+  /// The quantization level of the model.
+  @JsonKey(includeIfNull: false)
+  String? get quantize;
   @override
 
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
@@ -4219,9 +4255,9 @@ Model _$ModelFromJson(Map<String, dynamic> json) {
 mixin _$Model {
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @JsonKey(includeIfNull: false)
-  String? get name => throw _privateConstructorUsedError;
+  String? get model => throw _privateConstructorUsedError;
 
   /// Model modification date.
   @JsonKey(name: 'modified_at', includeIfNull: false)
@@ -4230,6 +4266,14 @@ mixin _$Model {
   /// Size of the model on disk.
   @JsonKey(includeIfNull: false)
   int? get size => throw _privateConstructorUsedError;
+
+  /// The model's digest.
+  @JsonKey(includeIfNull: false)
+  String? get digest => throw _privateConstructorUsedError;
+
+  /// Details about a model.
+  @JsonKey(includeIfNull: false)
+  ModelDetails? get details => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -4242,9 +4286,13 @@ abstract class $ModelCopyWith<$Res> {
       _$ModelCopyWithImpl<$Res, Model>;
   @useResult
   $Res call(
-      {@JsonKey(includeIfNull: false) String? name,
+      {@JsonKey(includeIfNull: false) String? model,
       @JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt,
-      @JsonKey(includeIfNull: false) int? size});
+      @JsonKey(includeIfNull: false) int? size,
+      @JsonKey(includeIfNull: false) String? digest,
+      @JsonKey(includeIfNull: false) ModelDetails? details});
+
+  $ModelDetailsCopyWith<$Res>? get details;
 }
 
 /// @nodoc
@@ -4260,14 +4308,16 @@ class _$ModelCopyWithImpl<$Res, $Val extends Model>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
+    Object? model = freezed,
     Object? modifiedAt = freezed,
     Object? size = freezed,
+    Object? digest = freezed,
+    Object? details = freezed,
   }) {
     return _then(_value.copyWith(
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
               as String?,
       modifiedAt: freezed == modifiedAt
           ? _value.modifiedAt
@@ -4277,7 +4327,27 @@ class _$ModelCopyWithImpl<$Res, $Val extends Model>
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
               as int?,
+      digest: freezed == digest
+          ? _value.digest
+          : digest // ignore: cast_nullable_to_non_nullable
+              as String?,
+      details: freezed == details
+          ? _value.details
+          : details // ignore: cast_nullable_to_non_nullable
+              as ModelDetails?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ModelDetailsCopyWith<$Res>? get details {
+    if (_value.details == null) {
+      return null;
+    }
+
+    return $ModelDetailsCopyWith<$Res>(_value.details!, (value) {
+      return _then(_value.copyWith(details: value) as $Val);
+    });
   }
 }
 
@@ -4289,9 +4359,14 @@ abstract class _$$ModelImplCopyWith<$Res> implements $ModelCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(includeIfNull: false) String? name,
+      {@JsonKey(includeIfNull: false) String? model,
       @JsonKey(name: 'modified_at', includeIfNull: false) String? modifiedAt,
-      @JsonKey(includeIfNull: false) int? size});
+      @JsonKey(includeIfNull: false) int? size,
+      @JsonKey(includeIfNull: false) String? digest,
+      @JsonKey(includeIfNull: false) ModelDetails? details});
+
+  @override
+  $ModelDetailsCopyWith<$Res>? get details;
 }
 
 /// @nodoc
@@ -4305,14 +4380,16 @@ class __$$ModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
+    Object? model = freezed,
     Object? modifiedAt = freezed,
     Object? size = freezed,
+    Object? digest = freezed,
+    Object? details = freezed,
   }) {
     return _then(_$ModelImpl(
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
               as String?,
       modifiedAt: freezed == modifiedAt
           ? _value.modifiedAt
@@ -4322,6 +4399,14 @@ class __$$ModelImplCopyWithImpl<$Res>
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
               as int?,
+      digest: freezed == digest
+          ? _value.digest
+          : digest // ignore: cast_nullable_to_non_nullable
+              as String?,
+      details: freezed == details
+          ? _value.details
+          : details // ignore: cast_nullable_to_non_nullable
+              as ModelDetails?,
     ));
   }
 }
@@ -4330,9 +4415,11 @@ class __$$ModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ModelImpl extends _Model {
   const _$ModelImpl(
-      {@JsonKey(includeIfNull: false) this.name,
+      {@JsonKey(includeIfNull: false) this.model,
       @JsonKey(name: 'modified_at', includeIfNull: false) this.modifiedAt,
-      @JsonKey(includeIfNull: false) this.size})
+      @JsonKey(includeIfNull: false) this.size,
+      @JsonKey(includeIfNull: false) this.digest,
+      @JsonKey(includeIfNull: false) this.details})
       : super._();
 
   factory _$ModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -4340,10 +4427,10 @@ class _$ModelImpl extends _Model {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
   @JsonKey(includeIfNull: false)
-  final String? name;
+  final String? model;
 
   /// Model modification date.
   @override
@@ -4355,9 +4442,19 @@ class _$ModelImpl extends _Model {
   @JsonKey(includeIfNull: false)
   final int? size;
 
+  /// The model's digest.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? digest;
+
+  /// Details about a model.
+  @override
+  @JsonKey(includeIfNull: false)
+  final ModelDetails? details;
+
   @override
   String toString() {
-    return 'Model(name: $name, modifiedAt: $modifiedAt, size: $size)';
+    return 'Model(model: $model, modifiedAt: $modifiedAt, size: $size, digest: $digest, details: $details)';
   }
 
   @override
@@ -4365,15 +4462,18 @@ class _$ModelImpl extends _Model {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ModelImpl &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.model, model) || other.model == model) &&
             (identical(other.modifiedAt, modifiedAt) ||
                 other.modifiedAt == modifiedAt) &&
-            (identical(other.size, size) || other.size == size));
+            (identical(other.size, size) || other.size == size) &&
+            (identical(other.digest, digest) || other.digest == digest) &&
+            (identical(other.details, details) || other.details == details));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, modifiedAt, size);
+  int get hashCode =>
+      Object.hash(runtimeType, model, modifiedAt, size, digest, details);
 
   @JsonKey(ignore: true)
   @override
@@ -4391,10 +4491,13 @@ class _$ModelImpl extends _Model {
 
 abstract class _Model extends Model {
   const factory _Model(
-      {@JsonKey(includeIfNull: false) final String? name,
-      @JsonKey(name: 'modified_at', includeIfNull: false)
-      final String? modifiedAt,
-      @JsonKey(includeIfNull: false) final int? size}) = _$ModelImpl;
+          {@JsonKey(includeIfNull: false) final String? model,
+          @JsonKey(name: 'modified_at', includeIfNull: false)
+          final String? modifiedAt,
+          @JsonKey(includeIfNull: false) final int? size,
+          @JsonKey(includeIfNull: false) final String? digest,
+          @JsonKey(includeIfNull: false) final ModelDetails? details}) =
+      _$ModelImpl;
   const _Model._() : super._();
 
   factory _Model.fromJson(Map<String, dynamic> json) = _$ModelImpl.fromJson;
@@ -4403,9 +4506,9 @@ abstract class _Model extends Model {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @JsonKey(includeIfNull: false)
-  String? get name;
+  String? get model;
   @override
 
   /// Model modification date.
@@ -4417,8 +4520,340 @@ abstract class _Model extends Model {
   @JsonKey(includeIfNull: false)
   int? get size;
   @override
+
+  /// The model's digest.
+  @JsonKey(includeIfNull: false)
+  String? get digest;
+  @override
+
+  /// Details about a model.
+  @JsonKey(includeIfNull: false)
+  ModelDetails? get details;
+  @override
   @JsonKey(ignore: true)
   _$$ModelImplCopyWith<_$ModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ModelDetails _$ModelDetailsFromJson(Map<String, dynamic> json) {
+  return _ModelDetails.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ModelDetails {
+  /// The parent model of the model.
+  @JsonKey(name: 'parent_model', includeIfNull: false)
+  String? get parentModel => throw _privateConstructorUsedError;
+
+  /// The format of the model.
+  @JsonKey(includeIfNull: false)
+  String? get format => throw _privateConstructorUsedError;
+
+  /// The family of the model.
+  @JsonKey(includeIfNull: false)
+  String? get family => throw _privateConstructorUsedError;
+
+  /// The families of the model.
+  @JsonKey(includeIfNull: false)
+  List<String>? get families => throw _privateConstructorUsedError;
+
+  /// The size of the model's parameters.
+  @JsonKey(name: 'parameter_size', includeIfNull: false)
+  String? get parameterSize => throw _privateConstructorUsedError;
+
+  /// The quantization level of the model.
+  @JsonKey(name: 'quantization_level', includeIfNull: false)
+  String? get quantizationLevel => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ModelDetailsCopyWith<ModelDetails> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ModelDetailsCopyWith<$Res> {
+  factory $ModelDetailsCopyWith(
+          ModelDetails value, $Res Function(ModelDetails) then) =
+      _$ModelDetailsCopyWithImpl<$Res, ModelDetails>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'parent_model', includeIfNull: false) String? parentModel,
+      @JsonKey(includeIfNull: false) String? format,
+      @JsonKey(includeIfNull: false) String? family,
+      @JsonKey(includeIfNull: false) List<String>? families,
+      @JsonKey(name: 'parameter_size', includeIfNull: false)
+      String? parameterSize,
+      @JsonKey(name: 'quantization_level', includeIfNull: false)
+      String? quantizationLevel});
+}
+
+/// @nodoc
+class _$ModelDetailsCopyWithImpl<$Res, $Val extends ModelDetails>
+    implements $ModelDetailsCopyWith<$Res> {
+  _$ModelDetailsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? parentModel = freezed,
+    Object? format = freezed,
+    Object? family = freezed,
+    Object? families = freezed,
+    Object? parameterSize = freezed,
+    Object? quantizationLevel = freezed,
+  }) {
+    return _then(_value.copyWith(
+      parentModel: freezed == parentModel
+          ? _value.parentModel
+          : parentModel // ignore: cast_nullable_to_non_nullable
+              as String?,
+      format: freezed == format
+          ? _value.format
+          : format // ignore: cast_nullable_to_non_nullable
+              as String?,
+      family: freezed == family
+          ? _value.family
+          : family // ignore: cast_nullable_to_non_nullable
+              as String?,
+      families: freezed == families
+          ? _value.families
+          : families // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      parameterSize: freezed == parameterSize
+          ? _value.parameterSize
+          : parameterSize // ignore: cast_nullable_to_non_nullable
+              as String?,
+      quantizationLevel: freezed == quantizationLevel
+          ? _value.quantizationLevel
+          : quantizationLevel // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ModelDetailsImplCopyWith<$Res>
+    implements $ModelDetailsCopyWith<$Res> {
+  factory _$$ModelDetailsImplCopyWith(
+          _$ModelDetailsImpl value, $Res Function(_$ModelDetailsImpl) then) =
+      __$$ModelDetailsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'parent_model', includeIfNull: false) String? parentModel,
+      @JsonKey(includeIfNull: false) String? format,
+      @JsonKey(includeIfNull: false) String? family,
+      @JsonKey(includeIfNull: false) List<String>? families,
+      @JsonKey(name: 'parameter_size', includeIfNull: false)
+      String? parameterSize,
+      @JsonKey(name: 'quantization_level', includeIfNull: false)
+      String? quantizationLevel});
+}
+
+/// @nodoc
+class __$$ModelDetailsImplCopyWithImpl<$Res>
+    extends _$ModelDetailsCopyWithImpl<$Res, _$ModelDetailsImpl>
+    implements _$$ModelDetailsImplCopyWith<$Res> {
+  __$$ModelDetailsImplCopyWithImpl(
+      _$ModelDetailsImpl _value, $Res Function(_$ModelDetailsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? parentModel = freezed,
+    Object? format = freezed,
+    Object? family = freezed,
+    Object? families = freezed,
+    Object? parameterSize = freezed,
+    Object? quantizationLevel = freezed,
+  }) {
+    return _then(_$ModelDetailsImpl(
+      parentModel: freezed == parentModel
+          ? _value.parentModel
+          : parentModel // ignore: cast_nullable_to_non_nullable
+              as String?,
+      format: freezed == format
+          ? _value.format
+          : format // ignore: cast_nullable_to_non_nullable
+              as String?,
+      family: freezed == family
+          ? _value.family
+          : family // ignore: cast_nullable_to_non_nullable
+              as String?,
+      families: freezed == families
+          ? _value._families
+          : families // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      parameterSize: freezed == parameterSize
+          ? _value.parameterSize
+          : parameterSize // ignore: cast_nullable_to_non_nullable
+              as String?,
+      quantizationLevel: freezed == quantizationLevel
+          ? _value.quantizationLevel
+          : quantizationLevel // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ModelDetailsImpl extends _ModelDetails {
+  const _$ModelDetailsImpl(
+      {@JsonKey(name: 'parent_model', includeIfNull: false) this.parentModel,
+      @JsonKey(includeIfNull: false) this.format,
+      @JsonKey(includeIfNull: false) this.family,
+      @JsonKey(includeIfNull: false) final List<String>? families,
+      @JsonKey(name: 'parameter_size', includeIfNull: false) this.parameterSize,
+      @JsonKey(name: 'quantization_level', includeIfNull: false)
+      this.quantizationLevel})
+      : _families = families,
+        super._();
+
+  factory _$ModelDetailsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ModelDetailsImplFromJson(json);
+
+  /// The parent model of the model.
+  @override
+  @JsonKey(name: 'parent_model', includeIfNull: false)
+  final String? parentModel;
+
+  /// The format of the model.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? format;
+
+  /// The family of the model.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? family;
+
+  /// The families of the model.
+  final List<String>? _families;
+
+  /// The families of the model.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<String>? get families {
+    final value = _families;
+    if (value == null) return null;
+    if (_families is EqualUnmodifiableListView) return _families;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  /// The size of the model's parameters.
+  @override
+  @JsonKey(name: 'parameter_size', includeIfNull: false)
+  final String? parameterSize;
+
+  /// The quantization level of the model.
+  @override
+  @JsonKey(name: 'quantization_level', includeIfNull: false)
+  final String? quantizationLevel;
+
+  @override
+  String toString() {
+    return 'ModelDetails(parentModel: $parentModel, format: $format, family: $family, families: $families, parameterSize: $parameterSize, quantizationLevel: $quantizationLevel)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ModelDetailsImpl &&
+            (identical(other.parentModel, parentModel) ||
+                other.parentModel == parentModel) &&
+            (identical(other.format, format) || other.format == format) &&
+            (identical(other.family, family) || other.family == family) &&
+            const DeepCollectionEquality().equals(other._families, _families) &&
+            (identical(other.parameterSize, parameterSize) ||
+                other.parameterSize == parameterSize) &&
+            (identical(other.quantizationLevel, quantizationLevel) ||
+                other.quantizationLevel == quantizationLevel));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      parentModel,
+      format,
+      family,
+      const DeepCollectionEquality().hash(_families),
+      parameterSize,
+      quantizationLevel);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ModelDetailsImplCopyWith<_$ModelDetailsImpl> get copyWith =>
+      __$$ModelDetailsImplCopyWithImpl<_$ModelDetailsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ModelDetailsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ModelDetails extends ModelDetails {
+  const factory _ModelDetails(
+      {@JsonKey(name: 'parent_model', includeIfNull: false)
+      final String? parentModel,
+      @JsonKey(includeIfNull: false) final String? format,
+      @JsonKey(includeIfNull: false) final String? family,
+      @JsonKey(includeIfNull: false) final List<String>? families,
+      @JsonKey(name: 'parameter_size', includeIfNull: false)
+      final String? parameterSize,
+      @JsonKey(name: 'quantization_level', includeIfNull: false)
+      final String? quantizationLevel}) = _$ModelDetailsImpl;
+  const _ModelDetails._() : super._();
+
+  factory _ModelDetails.fromJson(Map<String, dynamic> json) =
+      _$ModelDetailsImpl.fromJson;
+
+  @override
+
+  /// The parent model of the model.
+  @JsonKey(name: 'parent_model', includeIfNull: false)
+  String? get parentModel;
+  @override
+
+  /// The format of the model.
+  @JsonKey(includeIfNull: false)
+  String? get format;
+  @override
+
+  /// The family of the model.
+  @JsonKey(includeIfNull: false)
+  String? get family;
+  @override
+
+  /// The families of the model.
+  @JsonKey(includeIfNull: false)
+  List<String>? get families;
+  @override
+
+  /// The size of the model's parameters.
+  @JsonKey(name: 'parameter_size', includeIfNull: false)
+  String? get parameterSize;
+  @override
+
+  /// The quantization level of the model.
+  @JsonKey(name: 'quantization_level', includeIfNull: false)
+  String? get quantizationLevel;
+  @override
+  @JsonKey(ignore: true)
+  _$$ModelDetailsImplCopyWith<_$ModelDetailsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -4430,8 +4865,8 @@ ModelInfoRequest _$ModelInfoRequestFromJson(Map<String, dynamic> json) {
 mixin _$ModelInfoRequest {
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
-  String get name => throw _privateConstructorUsedError;
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  String get model => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -4445,7 +4880,7 @@ abstract class $ModelInfoRequestCopyWith<$Res> {
           ModelInfoRequest value, $Res Function(ModelInfoRequest) then) =
       _$ModelInfoRequestCopyWithImpl<$Res, ModelInfoRequest>;
   @useResult
-  $Res call({String name});
+  $Res call({String model});
 }
 
 /// @nodoc
@@ -4461,12 +4896,12 @@ class _$ModelInfoRequestCopyWithImpl<$Res, $Val extends ModelInfoRequest>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? model = null,
   }) {
     return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -4480,7 +4915,7 @@ abstract class _$$ModelInfoRequestImplCopyWith<$Res>
       __$$ModelInfoRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name});
+  $Res call({String model});
 }
 
 /// @nodoc
@@ -4494,12 +4929,12 @@ class __$$ModelInfoRequestImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? model = null,
   }) {
     return _then(_$ModelInfoRequestImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -4508,20 +4943,20 @@ class __$$ModelInfoRequestImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ModelInfoRequestImpl extends _ModelInfoRequest {
-  const _$ModelInfoRequestImpl({required this.name}) : super._();
+  const _$ModelInfoRequestImpl({required this.model}) : super._();
 
   factory _$ModelInfoRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$ModelInfoRequestImplFromJson(json);
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
-  final String name;
+  final String model;
 
   @override
   String toString() {
-    return 'ModelInfoRequest(name: $name)';
+    return 'ModelInfoRequest(model: $model)';
   }
 
   @override
@@ -4529,12 +4964,12 @@ class _$ModelInfoRequestImpl extends _ModelInfoRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ModelInfoRequestImpl &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.model, model) || other.model == model));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name);
+  int get hashCode => Object.hash(runtimeType, model);
 
   @JsonKey(ignore: true)
   @override
@@ -4552,7 +4987,7 @@ class _$ModelInfoRequestImpl extends _ModelInfoRequest {
 }
 
 abstract class _ModelInfoRequest extends ModelInfoRequest {
-  const factory _ModelInfoRequest({required final String name}) =
+  const factory _ModelInfoRequest({required final String model}) =
       _$ModelInfoRequestImpl;
   const _ModelInfoRequest._() : super._();
 
@@ -4563,8 +4998,8 @@ abstract class _ModelInfoRequest extends ModelInfoRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
-  String get name;
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  String get model;
   @override
   @JsonKey(ignore: true)
   _$$ModelInfoRequestImplCopyWith<_$ModelInfoRequestImpl> get copyWith =>
@@ -4593,6 +5028,18 @@ mixin _$ModelInfo {
   @JsonKey(includeIfNull: false)
   String? get template => throw _privateConstructorUsedError;
 
+  /// The system prompt for the model.
+  @JsonKey(includeIfNull: false)
+  String? get system => throw _privateConstructorUsedError;
+
+  /// Details about a model.
+  @JsonKey(includeIfNull: false)
+  ModelDetails? get details => throw _privateConstructorUsedError;
+
+  /// The default messages for the model.
+  @JsonKey(includeIfNull: false)
+  List<Message>? get messages => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ModelInfoCopyWith<ModelInfo> get copyWith =>
@@ -4608,7 +5055,12 @@ abstract class $ModelInfoCopyWith<$Res> {
       {@JsonKey(includeIfNull: false) String? license,
       @JsonKey(includeIfNull: false) String? modelfile,
       @JsonKey(includeIfNull: false) String? parameters,
-      @JsonKey(includeIfNull: false) String? template});
+      @JsonKey(includeIfNull: false) String? template,
+      @JsonKey(includeIfNull: false) String? system,
+      @JsonKey(includeIfNull: false) ModelDetails? details,
+      @JsonKey(includeIfNull: false) List<Message>? messages});
+
+  $ModelDetailsCopyWith<$Res>? get details;
 }
 
 /// @nodoc
@@ -4628,6 +5080,9 @@ class _$ModelInfoCopyWithImpl<$Res, $Val extends ModelInfo>
     Object? modelfile = freezed,
     Object? parameters = freezed,
     Object? template = freezed,
+    Object? system = freezed,
+    Object? details = freezed,
+    Object? messages = freezed,
   }) {
     return _then(_value.copyWith(
       license: freezed == license
@@ -4646,7 +5101,31 @@ class _$ModelInfoCopyWithImpl<$Res, $Val extends ModelInfo>
           ? _value.template
           : template // ignore: cast_nullable_to_non_nullable
               as String?,
+      system: freezed == system
+          ? _value.system
+          : system // ignore: cast_nullable_to_non_nullable
+              as String?,
+      details: freezed == details
+          ? _value.details
+          : details // ignore: cast_nullable_to_non_nullable
+              as ModelDetails?,
+      messages: freezed == messages
+          ? _value.messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<Message>?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ModelDetailsCopyWith<$Res>? get details {
+    if (_value.details == null) {
+      return null;
+    }
+
+    return $ModelDetailsCopyWith<$Res>(_value.details!, (value) {
+      return _then(_value.copyWith(details: value) as $Val);
+    });
   }
 }
 
@@ -4662,7 +5141,13 @@ abstract class _$$ModelInfoImplCopyWith<$Res>
       {@JsonKey(includeIfNull: false) String? license,
       @JsonKey(includeIfNull: false) String? modelfile,
       @JsonKey(includeIfNull: false) String? parameters,
-      @JsonKey(includeIfNull: false) String? template});
+      @JsonKey(includeIfNull: false) String? template,
+      @JsonKey(includeIfNull: false) String? system,
+      @JsonKey(includeIfNull: false) ModelDetails? details,
+      @JsonKey(includeIfNull: false) List<Message>? messages});
+
+  @override
+  $ModelDetailsCopyWith<$Res>? get details;
 }
 
 /// @nodoc
@@ -4680,6 +5165,9 @@ class __$$ModelInfoImplCopyWithImpl<$Res>
     Object? modelfile = freezed,
     Object? parameters = freezed,
     Object? template = freezed,
+    Object? system = freezed,
+    Object? details = freezed,
+    Object? messages = freezed,
   }) {
     return _then(_$ModelInfoImpl(
       license: freezed == license
@@ -4698,6 +5186,18 @@ class __$$ModelInfoImplCopyWithImpl<$Res>
           ? _value.template
           : template // ignore: cast_nullable_to_non_nullable
               as String?,
+      system: freezed == system
+          ? _value.system
+          : system // ignore: cast_nullable_to_non_nullable
+              as String?,
+      details: freezed == details
+          ? _value.details
+          : details // ignore: cast_nullable_to_non_nullable
+              as ModelDetails?,
+      messages: freezed == messages
+          ? _value._messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<Message>?,
     ));
   }
 }
@@ -4709,8 +5209,12 @@ class _$ModelInfoImpl extends _ModelInfo {
       {@JsonKey(includeIfNull: false) this.license,
       @JsonKey(includeIfNull: false) this.modelfile,
       @JsonKey(includeIfNull: false) this.parameters,
-      @JsonKey(includeIfNull: false) this.template})
-      : super._();
+      @JsonKey(includeIfNull: false) this.template,
+      @JsonKey(includeIfNull: false) this.system,
+      @JsonKey(includeIfNull: false) this.details,
+      @JsonKey(includeIfNull: false) final List<Message>? messages})
+      : _messages = messages,
+        super._();
 
   factory _$ModelInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$ModelInfoImplFromJson(json);
@@ -4735,9 +5239,33 @@ class _$ModelInfoImpl extends _ModelInfo {
   @JsonKey(includeIfNull: false)
   final String? template;
 
+  /// The system prompt for the model.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? system;
+
+  /// Details about a model.
+  @override
+  @JsonKey(includeIfNull: false)
+  final ModelDetails? details;
+
+  /// The default messages for the model.
+  final List<Message>? _messages;
+
+  /// The default messages for the model.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<Message>? get messages {
+    final value = _messages;
+    if (value == null) return null;
+    if (_messages is EqualUnmodifiableListView) return _messages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'ModelInfo(license: $license, modelfile: $modelfile, parameters: $parameters, template: $template)';
+    return 'ModelInfo(license: $license, modelfile: $modelfile, parameters: $parameters, template: $template, system: $system, details: $details, messages: $messages)';
   }
 
   @override
@@ -4751,13 +5279,23 @@ class _$ModelInfoImpl extends _ModelInfo {
             (identical(other.parameters, parameters) ||
                 other.parameters == parameters) &&
             (identical(other.template, template) ||
-                other.template == template));
+                other.template == template) &&
+            (identical(other.system, system) || other.system == system) &&
+            (identical(other.details, details) || other.details == details) &&
+            const DeepCollectionEquality().equals(other._messages, _messages));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, license, modelfile, parameters, template);
+  int get hashCode => Object.hash(
+      runtimeType,
+      license,
+      modelfile,
+      parameters,
+      template,
+      system,
+      details,
+      const DeepCollectionEquality().hash(_messages));
 
   @JsonKey(ignore: true)
   @override
@@ -4775,10 +5313,14 @@ class _$ModelInfoImpl extends _ModelInfo {
 
 abstract class _ModelInfo extends ModelInfo {
   const factory _ModelInfo(
-      {@JsonKey(includeIfNull: false) final String? license,
-      @JsonKey(includeIfNull: false) final String? modelfile,
-      @JsonKey(includeIfNull: false) final String? parameters,
-      @JsonKey(includeIfNull: false) final String? template}) = _$ModelInfoImpl;
+          {@JsonKey(includeIfNull: false) final String? license,
+          @JsonKey(includeIfNull: false) final String? modelfile,
+          @JsonKey(includeIfNull: false) final String? parameters,
+          @JsonKey(includeIfNull: false) final String? template,
+          @JsonKey(includeIfNull: false) final String? system,
+          @JsonKey(includeIfNull: false) final ModelDetails? details,
+          @JsonKey(includeIfNull: false) final List<Message>? messages}) =
+      _$ModelInfoImpl;
   const _ModelInfo._() : super._();
 
   factory _ModelInfo.fromJson(Map<String, dynamic> json) =
@@ -4804,6 +5346,21 @@ abstract class _ModelInfo extends ModelInfo {
   /// The prompt template for the model.
   @JsonKey(includeIfNull: false)
   String? get template;
+  @override
+
+  /// The system prompt for the model.
+  @JsonKey(includeIfNull: false)
+  String? get system;
+  @override
+
+  /// Details about a model.
+  @JsonKey(includeIfNull: false)
+  ModelDetails? get details;
+  @override
+
+  /// The default messages for the model.
+  @JsonKey(includeIfNull: false)
+  List<Message>? get messages;
   @override
   @JsonKey(ignore: true)
   _$$ModelInfoImplCopyWith<_$ModelInfoImpl> get copyWith =>
@@ -4987,8 +5544,8 @@ DeleteModelRequest _$DeleteModelRequestFromJson(Map<String, dynamic> json) {
 mixin _$DeleteModelRequest {
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
-  String get name => throw _privateConstructorUsedError;
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  String get model => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -5002,7 +5559,7 @@ abstract class $DeleteModelRequestCopyWith<$Res> {
           DeleteModelRequest value, $Res Function(DeleteModelRequest) then) =
       _$DeleteModelRequestCopyWithImpl<$Res, DeleteModelRequest>;
   @useResult
-  $Res call({String name});
+  $Res call({String model});
 }
 
 /// @nodoc
@@ -5018,12 +5575,12 @@ class _$DeleteModelRequestCopyWithImpl<$Res, $Val extends DeleteModelRequest>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? model = null,
   }) {
     return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -5037,7 +5594,7 @@ abstract class _$$DeleteModelRequestImplCopyWith<$Res>
       __$$DeleteModelRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name});
+  $Res call({String model});
 }
 
 /// @nodoc
@@ -5051,12 +5608,12 @@ class __$$DeleteModelRequestImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? model = null,
   }) {
     return _then(_$DeleteModelRequestImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -5065,20 +5622,20 @@ class __$$DeleteModelRequestImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$DeleteModelRequestImpl extends _DeleteModelRequest {
-  const _$DeleteModelRequestImpl({required this.name}) : super._();
+  const _$DeleteModelRequestImpl({required this.model}) : super._();
 
   factory _$DeleteModelRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$DeleteModelRequestImplFromJson(json);
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
-  final String name;
+  final String model;
 
   @override
   String toString() {
-    return 'DeleteModelRequest(name: $name)';
+    return 'DeleteModelRequest(model: $model)';
   }
 
   @override
@@ -5086,12 +5643,12 @@ class _$DeleteModelRequestImpl extends _DeleteModelRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DeleteModelRequestImpl &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.model, model) || other.model == model));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name);
+  int get hashCode => Object.hash(runtimeType, model);
 
   @JsonKey(ignore: true)
   @override
@@ -5109,7 +5666,7 @@ class _$DeleteModelRequestImpl extends _DeleteModelRequest {
 }
 
 abstract class _DeleteModelRequest extends DeleteModelRequest {
-  const factory _DeleteModelRequest({required final String name}) =
+  const factory _DeleteModelRequest({required final String model}) =
       _$DeleteModelRequestImpl;
   const _DeleteModelRequest._() : super._();
 
@@ -5120,8 +5677,8 @@ abstract class _DeleteModelRequest extends DeleteModelRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
-  String get name;
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  String get model;
   @override
   @JsonKey(ignore: true)
   _$$DeleteModelRequestImplCopyWith<_$DeleteModelRequestImpl> get copyWith =>
@@ -5136,13 +5693,21 @@ PullModelRequest _$PullModelRequestFromJson(Map<String, dynamic> json) {
 mixin _$PullModelRequest {
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
-  String get name => throw _privateConstructorUsedError;
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  String get model => throw _privateConstructorUsedError;
 
   /// Allow insecure connections to the library.
   ///
   /// Only use this if you are pulling from your own library during development.
   bool get insecure => throw _privateConstructorUsedError;
+
+  /// Ollama username.
+  @JsonKey(includeIfNull: false)
+  String? get username => throw _privateConstructorUsedError;
+
+  /// Ollama password.
+  @JsonKey(includeIfNull: false)
+  String? get password => throw _privateConstructorUsedError;
 
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   bool get stream => throw _privateConstructorUsedError;
@@ -5159,7 +5724,12 @@ abstract class $PullModelRequestCopyWith<$Res> {
           PullModelRequest value, $Res Function(PullModelRequest) then) =
       _$PullModelRequestCopyWithImpl<$Res, PullModelRequest>;
   @useResult
-  $Res call({String name, bool insecure, bool stream});
+  $Res call(
+      {String model,
+      bool insecure,
+      @JsonKey(includeIfNull: false) String? username,
+      @JsonKey(includeIfNull: false) String? password,
+      bool stream});
 }
 
 /// @nodoc
@@ -5175,19 +5745,29 @@ class _$PullModelRequestCopyWithImpl<$Res, $Val extends PullModelRequest>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? model = null,
     Object? insecure = null,
+    Object? username = freezed,
+    Object? password = freezed,
     Object? stream = null,
   }) {
     return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
               as String,
       insecure: null == insecure
           ? _value.insecure
           : insecure // ignore: cast_nullable_to_non_nullable
               as bool,
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
+      password: freezed == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String?,
       stream: null == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
@@ -5204,7 +5784,12 @@ abstract class _$$PullModelRequestImplCopyWith<$Res>
       __$$PullModelRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, bool insecure, bool stream});
+  $Res call(
+      {String model,
+      bool insecure,
+      @JsonKey(includeIfNull: false) String? username,
+      @JsonKey(includeIfNull: false) String? password,
+      bool stream});
 }
 
 /// @nodoc
@@ -5218,19 +5803,29 @@ class __$$PullModelRequestImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? model = null,
     Object? insecure = null,
+    Object? username = freezed,
+    Object? password = freezed,
     Object? stream = null,
   }) {
     return _then(_$PullModelRequestImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
               as String,
       insecure: null == insecure
           ? _value.insecure
           : insecure // ignore: cast_nullable_to_non_nullable
               as bool,
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
+      password: freezed == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String?,
       stream: null == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
@@ -5243,7 +5838,11 @@ class __$$PullModelRequestImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PullModelRequestImpl extends _PullModelRequest {
   const _$PullModelRequestImpl(
-      {required this.name, this.insecure = false, this.stream = false})
+      {required this.model,
+      this.insecure = false,
+      @JsonKey(includeIfNull: false) this.username,
+      @JsonKey(includeIfNull: false) this.password,
+      this.stream = false})
       : super._();
 
   factory _$PullModelRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -5251,9 +5850,9 @@ class _$PullModelRequestImpl extends _PullModelRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
-  final String name;
+  final String model;
 
   /// Allow insecure connections to the library.
   ///
@@ -5262,6 +5861,16 @@ class _$PullModelRequestImpl extends _PullModelRequest {
   @JsonKey()
   final bool insecure;
 
+  /// Ollama username.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? username;
+
+  /// Ollama password.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? password;
+
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   @override
   @JsonKey()
@@ -5269,7 +5878,7 @@ class _$PullModelRequestImpl extends _PullModelRequest {
 
   @override
   String toString() {
-    return 'PullModelRequest(name: $name, insecure: $insecure, stream: $stream)';
+    return 'PullModelRequest(model: $model, insecure: $insecure, username: $username, password: $password, stream: $stream)';
   }
 
   @override
@@ -5277,15 +5886,20 @@ class _$PullModelRequestImpl extends _PullModelRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PullModelRequestImpl &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.model, model) || other.model == model) &&
             (identical(other.insecure, insecure) ||
                 other.insecure == insecure) &&
+            (identical(other.username, username) ||
+                other.username == username) &&
+            (identical(other.password, password) ||
+                other.password == password) &&
             (identical(other.stream, stream) || other.stream == stream));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, insecure, stream);
+  int get hashCode =>
+      Object.hash(runtimeType, model, insecure, username, password, stream);
 
   @JsonKey(ignore: true)
   @override
@@ -5304,8 +5918,10 @@ class _$PullModelRequestImpl extends _PullModelRequest {
 
 abstract class _PullModelRequest extends PullModelRequest {
   const factory _PullModelRequest(
-      {required final String name,
+      {required final String model,
       final bool insecure,
+      @JsonKey(includeIfNull: false) final String? username,
+      @JsonKey(includeIfNull: false) final String? password,
       final bool stream}) = _$PullModelRequestImpl;
   const _PullModelRequest._() : super._();
 
@@ -5316,14 +5932,24 @@ abstract class _PullModelRequest extends PullModelRequest {
 
   /// The model name.
   ///
-  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
-  String get name;
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  String get model;
   @override
 
   /// Allow insecure connections to the library.
   ///
   /// Only use this if you are pulling from your own library during development.
   bool get insecure;
+  @override
+
+  /// Ollama username.
+  @JsonKey(includeIfNull: false)
+  String? get username;
+  @override
+
+  /// Ollama password.
+  @JsonKey(includeIfNull: false)
+  String? get password;
   @override
 
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
@@ -5596,12 +6222,20 @@ PushModelRequest _$PushModelRequestFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PushModelRequest {
   /// The name of the model to push in the form of <namespace>/<model>:<tag>.
-  String get name => throw _privateConstructorUsedError;
+  String get model => throw _privateConstructorUsedError;
 
   /// Allow insecure connections to the library.
   ///
   /// Only use this if you are pushing to your library during development.
   bool get insecure => throw _privateConstructorUsedError;
+
+  /// Ollama username.
+  @JsonKey(includeIfNull: false)
+  String? get username => throw _privateConstructorUsedError;
+
+  /// Ollama password.
+  @JsonKey(includeIfNull: false)
+  String? get password => throw _privateConstructorUsedError;
 
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   bool get stream => throw _privateConstructorUsedError;
@@ -5618,7 +6252,12 @@ abstract class $PushModelRequestCopyWith<$Res> {
           PushModelRequest value, $Res Function(PushModelRequest) then) =
       _$PushModelRequestCopyWithImpl<$Res, PushModelRequest>;
   @useResult
-  $Res call({String name, bool insecure, bool stream});
+  $Res call(
+      {String model,
+      bool insecure,
+      @JsonKey(includeIfNull: false) String? username,
+      @JsonKey(includeIfNull: false) String? password,
+      bool stream});
 }
 
 /// @nodoc
@@ -5634,19 +6273,29 @@ class _$PushModelRequestCopyWithImpl<$Res, $Val extends PushModelRequest>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? model = null,
     Object? insecure = null,
+    Object? username = freezed,
+    Object? password = freezed,
     Object? stream = null,
   }) {
     return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
               as String,
       insecure: null == insecure
           ? _value.insecure
           : insecure // ignore: cast_nullable_to_non_nullable
               as bool,
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
+      password: freezed == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String?,
       stream: null == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
@@ -5663,7 +6312,12 @@ abstract class _$$PushModelRequestImplCopyWith<$Res>
       __$$PushModelRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, bool insecure, bool stream});
+  $Res call(
+      {String model,
+      bool insecure,
+      @JsonKey(includeIfNull: false) String? username,
+      @JsonKey(includeIfNull: false) String? password,
+      bool stream});
 }
 
 /// @nodoc
@@ -5677,19 +6331,29 @@ class __$$PushModelRequestImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? model = null,
     Object? insecure = null,
+    Object? username = freezed,
+    Object? password = freezed,
     Object? stream = null,
   }) {
     return _then(_$PushModelRequestImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
               as String,
       insecure: null == insecure
           ? _value.insecure
           : insecure // ignore: cast_nullable_to_non_nullable
               as bool,
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
+      password: freezed == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String?,
       stream: null == stream
           ? _value.stream
           : stream // ignore: cast_nullable_to_non_nullable
@@ -5702,7 +6366,11 @@ class __$$PushModelRequestImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PushModelRequestImpl extends _PushModelRequest {
   const _$PushModelRequestImpl(
-      {required this.name, this.insecure = false, this.stream = false})
+      {required this.model,
+      this.insecure = false,
+      @JsonKey(includeIfNull: false) this.username,
+      @JsonKey(includeIfNull: false) this.password,
+      this.stream = false})
       : super._();
 
   factory _$PushModelRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -5710,7 +6378,7 @@ class _$PushModelRequestImpl extends _PushModelRequest {
 
   /// The name of the model to push in the form of <namespace>/<model>:<tag>.
   @override
-  final String name;
+  final String model;
 
   /// Allow insecure connections to the library.
   ///
@@ -5719,6 +6387,16 @@ class _$PushModelRequestImpl extends _PushModelRequest {
   @JsonKey()
   final bool insecure;
 
+  /// Ollama username.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? username;
+
+  /// Ollama password.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? password;
+
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
   @override
   @JsonKey()
@@ -5726,7 +6404,7 @@ class _$PushModelRequestImpl extends _PushModelRequest {
 
   @override
   String toString() {
-    return 'PushModelRequest(name: $name, insecure: $insecure, stream: $stream)';
+    return 'PushModelRequest(model: $model, insecure: $insecure, username: $username, password: $password, stream: $stream)';
   }
 
   @override
@@ -5734,15 +6412,20 @@ class _$PushModelRequestImpl extends _PushModelRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PushModelRequestImpl &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.model, model) || other.model == model) &&
             (identical(other.insecure, insecure) ||
                 other.insecure == insecure) &&
+            (identical(other.username, username) ||
+                other.username == username) &&
+            (identical(other.password, password) ||
+                other.password == password) &&
             (identical(other.stream, stream) || other.stream == stream));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, insecure, stream);
+  int get hashCode =>
+      Object.hash(runtimeType, model, insecure, username, password, stream);
 
   @JsonKey(ignore: true)
   @override
@@ -5761,8 +6444,10 @@ class _$PushModelRequestImpl extends _PushModelRequest {
 
 abstract class _PushModelRequest extends PushModelRequest {
   const factory _PushModelRequest(
-      {required final String name,
+      {required final String model,
       final bool insecure,
+      @JsonKey(includeIfNull: false) final String? username,
+      @JsonKey(includeIfNull: false) final String? password,
       final bool stream}) = _$PushModelRequestImpl;
   const _PushModelRequest._() : super._();
 
@@ -5772,13 +6457,23 @@ abstract class _PushModelRequest extends PushModelRequest {
   @override
 
   /// The name of the model to push in the form of <namespace>/<model>:<tag>.
-  String get name;
+  String get model;
   @override
 
   /// Allow insecure connections to the library.
   ///
   /// Only use this if you are pushing to your library during development.
   bool get insecure;
+  @override
+
+  /// Ollama username.
+  @JsonKey(includeIfNull: false)
+  String? get username;
+  @override
+
+  /// Ollama password.
+  @JsonKey(includeIfNull: false)
+  String? get password;
   @override
 
   /// If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
@@ -5808,6 +6503,10 @@ mixin _$PushModelResponse {
   @JsonKey(includeIfNull: false)
   int? get total => throw _privateConstructorUsedError;
 
+  /// Total bytes transferred.
+  @JsonKey(includeIfNull: false)
+  int? get completed => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $PushModelResponseCopyWith<PushModelResponse> get copyWith =>
@@ -5826,7 +6525,8 @@ abstract class $PushModelResponseCopyWith<$Res> {
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       PushModelStatus? status,
       @JsonKey(includeIfNull: false) String? digest,
-      @JsonKey(includeIfNull: false) int? total});
+      @JsonKey(includeIfNull: false) int? total,
+      @JsonKey(includeIfNull: false) int? completed});
 }
 
 /// @nodoc
@@ -5845,6 +6545,7 @@ class _$PushModelResponseCopyWithImpl<$Res, $Val extends PushModelResponse>
     Object? status = freezed,
     Object? digest = freezed,
     Object? total = freezed,
+    Object? completed = freezed,
   }) {
     return _then(_value.copyWith(
       status: freezed == status
@@ -5858,6 +6559,10 @@ class _$PushModelResponseCopyWithImpl<$Res, $Val extends PushModelResponse>
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
+              as int?,
+      completed: freezed == completed
+          ? _value.completed
+          : completed // ignore: cast_nullable_to_non_nullable
               as int?,
     ) as $Val);
   }
@@ -5877,7 +6582,8 @@ abstract class _$$PushModelResponseImplCopyWith<$Res>
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       PushModelStatus? status,
       @JsonKey(includeIfNull: false) String? digest,
-      @JsonKey(includeIfNull: false) int? total});
+      @JsonKey(includeIfNull: false) int? total,
+      @JsonKey(includeIfNull: false) int? completed});
 }
 
 /// @nodoc
@@ -5894,6 +6600,7 @@ class __$$PushModelResponseImplCopyWithImpl<$Res>
     Object? status = freezed,
     Object? digest = freezed,
     Object? total = freezed,
+    Object? completed = freezed,
   }) {
     return _then(_$PushModelResponseImpl(
       status: freezed == status
@@ -5908,6 +6615,10 @@ class __$$PushModelResponseImplCopyWithImpl<$Res>
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
               as int?,
+      completed: freezed == completed
+          ? _value.completed
+          : completed // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -5921,7 +6632,8 @@ class _$PushModelResponseImpl extends _PushModelResponse {
           unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       this.status,
       @JsonKey(includeIfNull: false) this.digest,
-      @JsonKey(includeIfNull: false) this.total})
+      @JsonKey(includeIfNull: false) this.total,
+      @JsonKey(includeIfNull: false) this.completed})
       : super._();
 
   factory _$PushModelResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -5943,9 +6655,14 @@ class _$PushModelResponseImpl extends _PushModelResponse {
   @JsonKey(includeIfNull: false)
   final int? total;
 
+  /// Total bytes transferred.
+  @override
+  @JsonKey(includeIfNull: false)
+  final int? completed;
+
   @override
   String toString() {
-    return 'PushModelResponse(status: $status, digest: $digest, total: $total)';
+    return 'PushModelResponse(status: $status, digest: $digest, total: $total, completed: $completed)';
   }
 
   @override
@@ -5955,12 +6672,15 @@ class _$PushModelResponseImpl extends _PushModelResponse {
             other is _$PushModelResponseImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.digest, digest) || other.digest == digest) &&
-            (identical(other.total, total) || other.total == total));
+            (identical(other.total, total) || other.total == total) &&
+            (identical(other.completed, completed) ||
+                other.completed == completed));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, status, digest, total);
+  int get hashCode =>
+      Object.hash(runtimeType, status, digest, total, completed);
 
   @JsonKey(ignore: true)
   @override
@@ -5984,7 +6704,8 @@ abstract class _PushModelResponse extends PushModelResponse {
               unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
           final PushModelStatus? status,
           @JsonKey(includeIfNull: false) final String? digest,
-          @JsonKey(includeIfNull: false) final int? total}) =
+          @JsonKey(includeIfNull: false) final int? total,
+          @JsonKey(includeIfNull: false) final int? completed}) =
       _$PushModelResponseImpl;
   const _PushModelResponse._() : super._();
 
@@ -6007,6 +6728,11 @@ abstract class _PushModelResponse extends PushModelResponse {
   /// total size of the model
   @JsonKey(includeIfNull: false)
   int? get total;
+  @override
+
+  /// Total bytes transferred.
+  @JsonKey(includeIfNull: false)
+  int? get completed;
   @override
   @JsonKey(ignore: true)
   _$$PushModelResponseImplCopyWith<_$PushModelResponseImpl> get copyWith =>

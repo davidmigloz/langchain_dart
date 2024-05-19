@@ -21,7 +21,7 @@ OpenAI module for [LangChain.dart](https://github.com/davidmigloz/langchain_dart
     structure.
   * `OpenAIQAWithSourcesChain`: a chain that answer questions providing sources.
 - Agents:
-  * `OpenAIFunctionsAgent`: an agent driven by OpenAIs Functions powered API.
+  * `OpenAIToolsAgent`: an agent driven by OpenAIs Tools powered API.
 - Tools:
   * `OpenAIDallETool`: a tool that uses DallE to generate images from text.
 

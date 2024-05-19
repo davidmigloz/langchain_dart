@@ -80,7 +80,6 @@ _$RequestOptionsImpl _$$RequestOptionsImplFromJson(Map<String, dynamic> json) =>
       numa: json['numa'] as bool?,
       numCtx: json['num_ctx'] as int?,
       numBatch: json['num_batch'] as int?,
-      numGqa: json['num_gqa'] as int?,
       numGpu: json['num_gpu'] as int?,
       mainGpu: json['main_gpu'] as int?,
       lowVram: json['low_vram'] as bool?,
@@ -89,9 +88,6 @@ _$RequestOptionsImpl _$$RequestOptionsImplFromJson(Map<String, dynamic> json) =>
       vocabOnly: json['vocab_only'] as bool?,
       useMmap: json['use_mmap'] as bool?,
       useMlock: json['use_mlock'] as bool?,
-      embeddingOnly: json['embedding_only'] as bool?,
-      ropeFrequencyBase: (json['rope_frequency_base'] as num?)?.toDouble(),
-      ropeFrequencyScale: (json['rope_frequency_scale'] as num?)?.toDouble(),
       numThread: json['num_thread'] as int?,
     );
 
@@ -125,7 +121,6 @@ Map<String, dynamic> _$$RequestOptionsImplToJson(
   writeNotNull('numa', instance.numa);
   writeNotNull('num_ctx', instance.numCtx);
   writeNotNull('num_batch', instance.numBatch);
-  writeNotNull('num_gqa', instance.numGqa);
   writeNotNull('num_gpu', instance.numGpu);
   writeNotNull('main_gpu', instance.mainGpu);
   writeNotNull('low_vram', instance.lowVram);
@@ -134,9 +129,6 @@ Map<String, dynamic> _$$RequestOptionsImplToJson(
   writeNotNull('vocab_only', instance.vocabOnly);
   writeNotNull('use_mmap', instance.useMmap);
   writeNotNull('use_mlock', instance.useMlock);
-  writeNotNull('embedding_only', instance.embeddingOnly);
-  writeNotNull('rope_frequency_base', instance.ropeFrequencyBase);
-  writeNotNull('rope_frequency_scale', instance.ropeFrequencyScale);
   writeNotNull('num_thread', instance.numThread);
   return val;
 }
@@ -228,6 +220,9 @@ _$GenerateChatCompletionResponseImpl
           model: json['model'] as String?,
           createdAt: json['created_at'] as String?,
           done: json['done'] as bool?,
+          doneReason: $enumDecodeNullable(
+              _$DoneReasonEnumMap, json['done_reason'],
+              unknownValue: JsonKey.nullForUndefinedEnumValue),
           totalDuration: json['total_duration'] as int?,
           loadDuration: json['load_duration'] as int?,
           promptEvalCount: json['prompt_eval_count'] as int?,
@@ -250,6 +245,7 @@ Map<String, dynamic> _$$GenerateChatCompletionResponseImplToJson(
   writeNotNull('model', instance.model);
   writeNotNull('created_at', instance.createdAt);
   writeNotNull('done', instance.done);
+  writeNotNull('done_reason', _$DoneReasonEnumMap[instance.doneReason]);
   writeNotNull('total_duration', instance.totalDuration);
   writeNotNull('load_duration', instance.loadDuration);
   writeNotNull('prompt_eval_count', instance.promptEvalCount);
@@ -258,6 +254,12 @@ Map<String, dynamic> _$$GenerateChatCompletionResponseImplToJson(
   writeNotNull('eval_duration', instance.evalDuration);
   return val;
 }
+
+const _$DoneReasonEnumMap = {
+  DoneReason.stop: 'stop',
+  DoneReason.length: 'length',
+  DoneReason.load: 'load',
+};
 
 _$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
     _$MessageImpl(
@@ -297,6 +299,7 @@ _$GenerateEmbeddingRequestImpl _$$GenerateEmbeddingRequestImplFromJson(
       options: json['options'] == null
           ? null
           : RequestOptions.fromJson(json['options'] as Map<String, dynamic>),
+      keepAlive: json['keep_alive'] as int?,
     );
 
 Map<String, dynamic> _$$GenerateEmbeddingRequestImplToJson(
@@ -313,6 +316,7 @@ Map<String, dynamic> _$$GenerateEmbeddingRequestImplToJson(
   }
 
   writeNotNull('options', instance.options?.toJson());
+  writeNotNull('keep_alive', instance.keepAlive);
   return val;
 }
 
@@ -341,18 +345,31 @@ Map<String, dynamic> _$$GenerateEmbeddingResponseImplToJson(
 _$CreateModelRequestImpl _$$CreateModelRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateModelRequestImpl(
-      name: json['name'] as String,
+      model: json['model'] as String,
       modelfile: json['modelfile'] as String,
+      path: json['path'] as String?,
+      quantize: json['quantize'] as String?,
       stream: json['stream'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$CreateModelRequestImplToJson(
-        _$CreateModelRequestImpl instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'modelfile': instance.modelfile,
-      'stream': instance.stream,
-    };
+    _$CreateModelRequestImpl instance) {
+  final val = <String, dynamic>{
+    'model': instance.model,
+    'modelfile': instance.modelfile,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('path', instance.path);
+  writeNotNull('quantize', instance.quantize);
+  val['stream'] = instance.stream;
+  return val;
+}
 
 _$CreateModelResponseImpl _$$CreateModelResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -403,9 +420,13 @@ Map<String, dynamic> _$$ModelsResponseImplToJson(
 }
 
 _$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(
-      name: json['name'] as String?,
+      model: json['model'] as String?,
       modifiedAt: json['modified_at'] as String?,
       size: json['size'] as int?,
+      digest: json['digest'] as String?,
+      details: json['details'] == null
+          ? null
+          : ModelDetails.fromJson(json['details'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$ModelImplToJson(_$ModelImpl instance) {
@@ -417,22 +438,54 @@ Map<String, dynamic> _$$ModelImplToJson(_$ModelImpl instance) {
     }
   }
 
-  writeNotNull('name', instance.name);
+  writeNotNull('model', instance.model);
   writeNotNull('modified_at', instance.modifiedAt);
   writeNotNull('size', instance.size);
+  writeNotNull('digest', instance.digest);
+  writeNotNull('details', instance.details?.toJson());
+  return val;
+}
+
+_$ModelDetailsImpl _$$ModelDetailsImplFromJson(Map<String, dynamic> json) =>
+    _$ModelDetailsImpl(
+      parentModel: json['parent_model'] as String?,
+      format: json['format'] as String?,
+      family: json['family'] as String?,
+      families: (json['families'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      parameterSize: json['parameter_size'] as String?,
+      quantizationLevel: json['quantization_level'] as String?,
+    );
+
+Map<String, dynamic> _$$ModelDetailsImplToJson(_$ModelDetailsImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('parent_model', instance.parentModel);
+  writeNotNull('format', instance.format);
+  writeNotNull('family', instance.family);
+  writeNotNull('families', instance.families);
+  writeNotNull('parameter_size', instance.parameterSize);
+  writeNotNull('quantization_level', instance.quantizationLevel);
   return val;
 }
 
 _$ModelInfoRequestImpl _$$ModelInfoRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$ModelInfoRequestImpl(
-      name: json['name'] as String,
+      model: json['model'] as String,
     );
 
 Map<String, dynamic> _$$ModelInfoRequestImplToJson(
         _$ModelInfoRequestImpl instance) =>
     <String, dynamic>{
-      'name': instance.name,
+      'model': instance.model,
     };
 
 _$ModelInfoImpl _$$ModelInfoImplFromJson(Map<String, dynamic> json) =>
@@ -441,6 +494,13 @@ _$ModelInfoImpl _$$ModelInfoImplFromJson(Map<String, dynamic> json) =>
       modelfile: json['modelfile'] as String?,
       parameters: json['parameters'] as String?,
       template: json['template'] as String?,
+      system: json['system'] as String?,
+      details: json['details'] == null
+          ? null
+          : ModelDetails.fromJson(json['details'] as Map<String, dynamic>),
+      messages: (json['messages'] as List<dynamic>?)
+          ?.map((e) => Message.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$ModelInfoImplToJson(_$ModelInfoImpl instance) {
@@ -456,6 +516,9 @@ Map<String, dynamic> _$$ModelInfoImplToJson(_$ModelInfoImpl instance) {
   writeNotNull('modelfile', instance.modelfile);
   writeNotNull('parameters', instance.parameters);
   writeNotNull('template', instance.template);
+  writeNotNull('system', instance.system);
+  writeNotNull('details', instance.details?.toJson());
+  writeNotNull('messages', instance.messages?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -476,30 +539,43 @@ Map<String, dynamic> _$$CopyModelRequestImplToJson(
 _$DeleteModelRequestImpl _$$DeleteModelRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$DeleteModelRequestImpl(
-      name: json['name'] as String,
+      model: json['model'] as String,
     );
 
 Map<String, dynamic> _$$DeleteModelRequestImplToJson(
         _$DeleteModelRequestImpl instance) =>
     <String, dynamic>{
-      'name': instance.name,
+      'model': instance.model,
     };
 
 _$PullModelRequestImpl _$$PullModelRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$PullModelRequestImpl(
-      name: json['name'] as String,
+      model: json['model'] as String,
       insecure: json['insecure'] as bool? ?? false,
+      username: json['username'] as String?,
+      password: json['password'] as String?,
       stream: json['stream'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$PullModelRequestImplToJson(
-        _$PullModelRequestImpl instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'insecure': instance.insecure,
-      'stream': instance.stream,
-    };
+    _$PullModelRequestImpl instance) {
+  final val = <String, dynamic>{
+    'model': instance.model,
+    'insecure': instance.insecure,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('username', instance.username);
+  writeNotNull('password', instance.password);
+  val['stream'] = instance.stream;
+  return val;
+}
 
 _$PullModelResponseImpl _$$PullModelResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -540,18 +616,31 @@ const _$PullModelStatusEnumMap = {
 _$PushModelRequestImpl _$$PushModelRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$PushModelRequestImpl(
-      name: json['name'] as String,
+      model: json['model'] as String,
       insecure: json['insecure'] as bool? ?? false,
+      username: json['username'] as String?,
+      password: json['password'] as String?,
       stream: json['stream'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$PushModelRequestImplToJson(
-        _$PushModelRequestImpl instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'insecure': instance.insecure,
-      'stream': instance.stream,
-    };
+    _$PushModelRequestImpl instance) {
+  final val = <String, dynamic>{
+    'model': instance.model,
+    'insecure': instance.insecure,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('username', instance.username);
+  writeNotNull('password', instance.password);
+  val['stream'] = instance.stream;
+  return val;
+}
 
 _$PushModelResponseImpl _$$PushModelResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -560,6 +649,7 @@ _$PushModelResponseImpl _$$PushModelResponseImplFromJson(
           unknownValue: JsonKey.nullForUndefinedEnumValue),
       digest: json['digest'] as String?,
       total: json['total'] as int?,
+      completed: json['completed'] as int?,
     );
 
 Map<String, dynamic> _$$PushModelResponseImplToJson(
@@ -575,6 +665,7 @@ Map<String, dynamic> _$$PushModelResponseImplToJson(
   writeNotNull('status', _$PushModelStatusEnumMap[instance.status]);
   writeNotNull('digest', instance.digest);
   writeNotNull('total', instance.total);
+  writeNotNull('completed', instance.completed);
   return val;
 }
 

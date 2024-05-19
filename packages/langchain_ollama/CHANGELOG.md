@@ -1,3 +1,17 @@
+## 0.2.1
+
+ - **FEAT**: Handle finish reason in ChatOllama ([#416](https://github.com/davidmigloz/langchain_dart/issues/416)). ([a5e1af13](https://github.com/davidmigloz/langchain_dart/commit/a5e1af13ef4d2db690ab599dbf5e42f28659a059))
+ - **FEAT**: Add keepAlive option to OllamaEmbeddings ([#415](https://github.com/davidmigloz/langchain_dart/issues/415)). ([32e19028](https://github.com/davidmigloz/langchain_dart/commit/32e19028a7e19ef5fc32a410061eb85bc6e27c39))
+ - **FEAT**: Update Ollama default model from llama2 to llama3 ([#417](https://github.com/davidmigloz/langchain_dart/issues/417)). ([9d30b1a1](https://github.com/davidmigloz/langchain_dart/commit/9d30b1a1c811d73cfa27110b8c3c10b10da1801e))
+ - **REFACTOR**: Remove deprecated Ollama options ([#414](https://github.com/davidmigloz/langchain_dart/issues/414)). ([861a2b74](https://github.com/davidmigloz/langchain_dart/commit/861a2b7430d33718340676ec2804a7aaccb2a08a))
+
+## 0.2.0
+
+> Note: This release has breaking changes.  
+> If you are using "function calling" check [how to migrate to "tool calling"](https://github.com/davidmigloz/langchain_dart/issues/400).
+
+ - **BREAKING** **FEAT**: Migrate from function calling to tool calling ([#400](https://github.com/davidmigloz/langchain_dart/issues/400)). ([44413b83](https://github.com/davidmigloz/langchain_dart/commit/44413b8321b1188ff6b4027b1972a7ee0002761e))
+
 ## 0.1.0+2
 
  - Update a dependency to the latest release.

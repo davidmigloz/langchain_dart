@@ -4,11 +4,25 @@ Wrapper around [Google AI for Developers](https://ai.google.dev/) API (aka Gemin
 
 ## Setup
 
-To use `ChatGoogleGenerativeAI` you need to have an API key. You can get one [here](https://makersuite.google.com/app/apikey).
+To use `ChatGoogleGenerativeAI` you need to have an API key. You can get one [here](https://aistudio.google.com/app/apikey).
 
-The following models are available at the moment:
-- `gemini-pro`: text -> text model
-- `gemini-pro-vision`: text / image -> text model
+The following models are available:
+- `gemini-1.0-pro` (or `gemini-pro`):
+  * text -> text model
+  * Max input token: 30720
+  * Max output tokens: 2048
+- `gemini-pro-vision`:
+  * text / image -> text model
+  * Max input token: 12288
+  * Max output tokens: 4096
+- `gemini-1.5-pro-latest`: text / image -> text model
+  * text / image / audio -> text model
+  * Max input token: 1048576
+  * Max output tokens: 8192
+- `gemini-1.5-flash-latest`:
+  * text / image / audio -> text model
+  * Max input token: 1048576
+  * Max output tokens: 8192
 
 Mind that this list may not be up-to-date. Refer to the [documentation](https://ai.google.dev/models) for the updated list.
 
@@ -20,17 +34,15 @@ final apiKey = Platform.environment['GOOGLEAI_API_KEY'];
 final chatModel = ChatGoogleGenerativeAI(
   apiKey: apiKey,
   defaultOptions: ChatGoogleGenerativeAIOptions(
+    model: 'gemini-1.5-pro-latest',
     temperature: 0,
   ),
 );
 
-const template = '''
-You are a helpful assistant that translates {input_language} to {output_language}. 
-
-Text to translate: 
-{text}''';
-final humanMessagePrompt = HumanChatMessagePromptTemplate.fromTemplate(template);
-final chatPrompt = ChatPromptTemplate.fromPromptMessages([humanMessagePrompt]);
+final chatPrompt = ChatPromptTemplate.fromTemplates([
+  (ChatMessageType.system, 'You are a helpful assistant that translates {input_language} to {output_language}.'),
+  (ChatMessageType.human, 'Text to translate:\n{text}'),
+]);
 
 final chain = chatPrompt | chatModel | StringOutputParser();
 
@@ -40,7 +52,7 @@ final res = await chain.invoke({
   'text': 'I love programming.',
 });
 print(res);
-// -> 'J'adore la programmation.'final
+// -> 'J'adore programmer.'
 ```
 
 ## Multimodal support
@@ -51,7 +63,7 @@ final apiKey = Platform.environment['GOOGLEAI_API_KEY'];
 final chatModel = ChatGoogleGenerativeAI(
   apiKey: apiKey,
   defaultOptions: ChatGoogleGenerativeAIOptions(
-    model: 'gemini-pro-vision',
+    model: 'gemini-1.5-pro-latest',
     temperature: 0,
   ),
 );
@@ -71,7 +83,7 @@ final res = await chatModel.invoke(
   ]),
 );
 print(res.output.content);
-// -> 'A Red and Green Apple'
+// -> 'That is an apple.'
 ```
 
 ## Streaming
@@ -79,27 +91,59 @@ print(res.output.content);
 ```dart
 final apiKey = Platform.environment['GOOGLEAI_API_KEY'];
 
-final promptTemplate = ChatPromptTemplate.fromTemplate(
-    'You are a helpful assistant that replies only with numbers '
-    'in order without any spaces or commas '
-    'List the numbers from 1 to {max_num}');
+final promptTemplate = ChatPromptTemplate.fromTemplates(const [
+  (ChatMessageType.system, 'You are a helpful assistant that replies only with numbers in order without any spaces or commas.'),
+  (ChatMessageType.human, 'List the numbers from 1 to {max_num}'),
+]);
 
-final chatModel = ChatGoogleGenerativeAI(apiKey: apiKey);
+final chatModel = ChatGoogleGenerativeAI(
+  apiKey: apiKey,
+  defaultOptions: const ChatGoogleGenerativeAIOptions(
+    model: 'gemini-1.5-pro-latest',
+    temperature: 0,
+  ),
+);
 
 final chain = promptTemplate.pipe(chatModel).pipe(StringOutputParser());
 
 final stream = chain.stream({'max_num': '30'});
 await stream.forEach(print);
-// 1234567891011121
-// 31415161718192021222324252627282
-// 930
+// 1
+// 2345678910111213
+// 1415161718192021
+// 222324252627282930 
 ```
 
-## Limitations
+## Tool calling
 
-As of the time this doc was written (15/12/23), Gemini has some restrictions on the types and structure of prompts it accepts. Specifically:
+`ChatGoogleGenerativeAI` supports tool calling.
 
-1. When providing multimodal (image) inputs, you are restricted to at most 1 message of “human” (user) type. You cannot pass multiple messages (though the single human message may have multiple content entries).
-2. System messages are not accepted.
-3. For regular chat conversations, messages must follow the human/ai/human/ai alternating pattern. You may not provide 2 AI or human messages in sequence.
-4. Message may be blocked if they violate the safety checks of the LLM. In this case, the model will return an empty response.
+Check the [docs](https://langchaindart.com/#/modules/model_io/models/chat_models/how_to/tools) for more information on how to use tools.
+
+Example:
+```dart
+const tool = ToolSpec(
+  name: 'get_current_weather',
+  description: 'Get the current weather in a given location',
+  inputJsonSchema: {
+    'type': 'object',
+    'properties': {
+      'location': {
+        'type': 'string',
+        'description': 'The city and state, e.g. San Francisco, CA',
+      },
+    },
+    'required': ['location'],
+  },
+);
+final chatModel = ChatGoogleGenerativeAI(
+  defaultOptions: ChatGoogleGenerativeAIOptions(
+    model: 'gemini-1.5-pro-latest',
+    temperature: 0,
+    tools: [tool],
+  ),
+);
+final res = await model.invoke(
+  PromptValue.string('What’s the weather like in Boston and Madrid right now in celsius?'),
+);
+```

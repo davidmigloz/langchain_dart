@@ -20,7 +20,7 @@ class GenerateChatCompletionResponse with _$GenerateChatCompletionResponse {
 
     /// The model name.
     ///
-    /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama2:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+    /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
     @JsonKey(includeIfNull: false) String? model,
 
     /// Date on which a model was created.
@@ -28,6 +28,14 @@ class GenerateChatCompletionResponse with _$GenerateChatCompletionResponse {
 
     /// Whether the response has completed.
     @JsonKey(includeIfNull: false) bool? done,
+
+    /// Reason why the model is done generating a response.
+    @JsonKey(
+      name: 'done_reason',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
+    )
+    DoneReason? doneReason,
 
     /// Time spent generating the response.
     @JsonKey(name: 'total_duration', includeIfNull: false) int? totalDuration,
@@ -60,6 +68,7 @@ class GenerateChatCompletionResponse with _$GenerateChatCompletionResponse {
     'model',
     'created_at',
     'done',
+    'done_reason',
     'total_duration',
     'load_duration',
     'prompt_eval_count',
@@ -80,6 +89,7 @@ class GenerateChatCompletionResponse with _$GenerateChatCompletionResponse {
       'model': model,
       'created_at': createdAt,
       'done': done,
+      'done_reason': doneReason,
       'total_duration': totalDuration,
       'load_duration': loadDuration,
       'prompt_eval_count': promptEvalCount,

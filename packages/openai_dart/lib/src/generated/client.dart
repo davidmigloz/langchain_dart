@@ -604,76 +604,6 @@ class OpenAIClient {
   }
 
   // ------------------------------------------
-  // METHOD: createBatch
-  // ------------------------------------------
-
-  /// Creates and executes a batch from an uploaded file of requests
-  ///
-  /// `request`: Represents a request to create a new batch.
-  ///
-  /// `POST` `https://api.openai.com/v1/batches`
-  Future<Batch> createBatch({
-    required CreateBatchRequest request,
-  }) async {
-    final r = await makeRequest(
-      baseUrl: 'https://api.openai.com/v1',
-      path: '/batches',
-      method: HttpMethod.post,
-      isMultipart: false,
-      requestType: 'application/json',
-      responseType: 'application/json',
-      body: request,
-    );
-    return Batch.fromJson(_jsonDecode(r));
-  }
-
-  // ------------------------------------------
-  // METHOD: retrieveBatch
-  // ------------------------------------------
-
-  /// Retrieves a batch.
-  ///
-  /// `batchId`: The ID of the batch to retrieve.
-  ///
-  /// `GET` `https://api.openai.com/v1/batches/{batch_id}`
-  Future<Batch> retrieveBatch({
-    required String batchId,
-  }) async {
-    final r = await makeRequest(
-      baseUrl: 'https://api.openai.com/v1',
-      path: '/batches/$batchId',
-      method: HttpMethod.get,
-      isMultipart: false,
-      requestType: '',
-      responseType: 'application/json',
-    );
-    return Batch.fromJson(_jsonDecode(r));
-  }
-
-  // ------------------------------------------
-  // METHOD: cancelBatch
-  // ------------------------------------------
-
-  /// Cancels an in-progress batch.
-  ///
-  /// `batchId`: The ID of the batch to cancel.
-  ///
-  /// `POST` `https://api.openai.com/v1/batches/{batch_id}/cancel`
-  Future<Batch> cancelBatch({
-    required String batchId,
-  }) async {
-    final r = await makeRequest(
-      baseUrl: 'https://api.openai.com/v1',
-      path: '/batches/$batchId/cancel',
-      method: HttpMethod.post,
-      isMultipart: false,
-      requestType: '',
-      responseType: 'application/json',
-    );
-    return Batch.fromJson(_jsonDecode(r));
-  }
-
-  // ------------------------------------------
   // METHOD: createImage
   // ------------------------------------------
 
@@ -1147,6 +1077,32 @@ class OpenAIClient {
   }
 
   // ------------------------------------------
+  // METHOD: deleteThreadMessage
+  // ------------------------------------------
+
+  /// Deletes a message.
+  ///
+  /// `threadId`: The ID of the thread to which this message belongs.
+  ///
+  /// `messageId`: The ID of the message to delete.
+  ///
+  /// `DELETE` `https://api.openai.com/v1/threads/{thread_id}/messages/{message_id}`
+  Future<DeleteMessageResponse> deleteThreadMessage({
+    required String threadId,
+    required String messageId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/threads/$threadId/messages/$messageId',
+      method: HttpMethod.delete,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return DeleteMessageResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
   // METHOD: createThreadAndRun
   // ------------------------------------------
 
@@ -1424,12 +1380,10 @@ class OpenAIClient {
   }
 
   // ------------------------------------------
-  // METHOD: listAssistantFiles
+  // METHOD: listVectorStores
   // ------------------------------------------
 
-  /// Returns a list of assistant files.
-  ///
-  /// `assistantId`: The ID of the assistant the file belongs to.
+  /// Returns a list of vector stores.
   ///
   /// `limit`: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
   ///
@@ -1439,9 +1393,8 @@ class OpenAIClient {
   ///
   /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
   ///
-  /// `GET` `https://api.openai.com/v1/assistants/{assistant_id}/files`
-  Future<ListAssistantFilesResponse> listAssistantFiles({
-    required String assistantId,
+  /// `GET` `https://api.openai.com/v1/vector_stores`
+  Future<ListVectorStoresResponse> listVectorStores({
     int limit = 20,
     String order = 'desc',
     String? after,
@@ -1449,7 +1402,7 @@ class OpenAIClient {
   }) async {
     final r = await makeRequest(
       baseUrl: 'https://api.openai.com/v1',
-      path: '/assistants/$assistantId/files',
+      path: '/vector_stores',
       method: HttpMethod.get,
       isMultipart: false,
       requestType: '',
@@ -1461,97 +1414,113 @@ class OpenAIClient {
         if (before != null) 'before': before,
       },
     );
-    return ListAssistantFilesResponse.fromJson(_jsonDecode(r));
+    return ListVectorStoresResponse.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
-  // METHOD: createAssistantFile
+  // METHOD: createVectorStore
   // ------------------------------------------
 
-  /// Create an assistant file by attaching a [File](https://platform.openai.com/docs/api-reference/files) to an [assistant](https://platform.openai.com/docs/api-reference/assistants).
-  ///
-  /// `assistantId`: The ID of the assistant for which to create a File.
+  /// Create a vector store.
   ///
   /// `request`: Request object for the Create assistant file endpoint.
   ///
-  /// `POST` `https://api.openai.com/v1/assistants/{assistant_id}/files`
-  Future<AssistantFileObject> createAssistantFile({
-    required String assistantId,
-    required CreateAssistantFileRequest request,
+  /// `POST` `https://api.openai.com/v1/vector_stores`
+  Future<VectorStoreObject> createVectorStore({
+    required CreateVectorStoreRequest request,
   }) async {
     final r = await makeRequest(
       baseUrl: 'https://api.openai.com/v1',
-      path: '/assistants/$assistantId/files',
+      path: '/vector_stores',
       method: HttpMethod.post,
       isMultipart: false,
       requestType: 'application/json',
       responseType: 'application/json',
       body: request,
     );
-    return AssistantFileObject.fromJson(_jsonDecode(r));
+    return VectorStoreObject.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
-  // METHOD: getAssistantFile
+  // METHOD: getVectorStore
   // ------------------------------------------
 
-  /// Retrieves an AssistantFile.
+  /// Retrieves a vector store.
   ///
-  /// `assistantId`: The ID of the assistant who the file belongs to.
+  /// `vectorStoreId`: The ID of the vector store to retrieve.
   ///
-  /// `fileId`: The ID of the file we're getting.
-  ///
-  /// `GET` `https://api.openai.com/v1/assistants/{assistant_id}/files/{file_id}`
-  Future<AssistantFileObject> getAssistantFile({
-    required String assistantId,
-    required String fileId,
+  /// `GET` `https://api.openai.com/v1/vector_stores/{vector_store_id}`
+  Future<VectorStoreObject> getVectorStore({
+    required String vectorStoreId,
   }) async {
     final r = await makeRequest(
       baseUrl: 'https://api.openai.com/v1',
-      path: '/assistants/$assistantId/files/$fileId',
+      path: '/vector_stores/$vectorStoreId',
       method: HttpMethod.get,
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
     );
-    return AssistantFileObject.fromJson(_jsonDecode(r));
+    return VectorStoreObject.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
-  // METHOD: deleteAssistantFile
+  // METHOD: modifyVectorStore
   // ------------------------------------------
 
-  /// Delete an assistant file.
+  /// Modifies a vector store.
   ///
-  /// `assistantId`: The ID of the assistant that the file belongs to.
+  /// `vectorStoreId`: The ID of the vector store to modify.
   ///
-  /// `fileId`: The ID of the file to delete.
+  /// `request`: Request object for the Update vector store endpoint.
   ///
-  /// `DELETE` `https://api.openai.com/v1/assistants/{assistant_id}/files/{file_id}`
-  Future<DeleteAssistantFileResponse> deleteAssistantFile({
-    required String assistantId,
-    required String fileId,
+  /// `POST` `https://api.openai.com/v1/vector_stores/{vector_store_id}`
+  Future<VectorStoreObject> modifyVectorStore({
+    required String vectorStoreId,
+    required UpdateVectorStoreRequest request,
   }) async {
     final r = await makeRequest(
       baseUrl: 'https://api.openai.com/v1',
-      path: '/assistants/$assistantId/files/$fileId',
+      path: '/vector_stores/$vectorStoreId',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return VectorStoreObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: deleteVectorStore
+  // ------------------------------------------
+
+  /// Delete a vector store.
+  ///
+  /// `vectorStoreId`: The ID of the vector store to delete.
+  ///
+  /// `DELETE` `https://api.openai.com/v1/vector_stores/{vector_store_id}`
+  Future<DeleteVectorStoreResponse> deleteVectorStore({
+    required String vectorStoreId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/vector_stores/$vectorStoreId',
       method: HttpMethod.delete,
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
     );
-    return DeleteAssistantFileResponse.fromJson(_jsonDecode(r));
+    return DeleteVectorStoreResponse.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
-  // METHOD: listThreadMessageFiles
+  // METHOD: listVectorStoreFiles
   // ------------------------------------------
 
-  /// Returns a list of message files.
+  /// Returns a list of vector store files.
   ///
-  /// `threadId`: The ID of the thread that the message and files belong to.
-  ///
-  /// `messageId`: The ID of the message that the files belongs to.
+  /// `vectorStoreId`: The ID of the vector store that the files belong to.
   ///
   /// `limit`: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
   ///
@@ -1561,18 +1530,20 @@ class OpenAIClient {
   ///
   /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
   ///
-  /// `GET` `https://api.openai.com/v1/threads/{thread_id}/messages/{message_id}/files`
-  Future<ListMessageFilesResponse> listThreadMessageFiles({
-    required String threadId,
-    required String messageId,
+  /// `filter`: Filter by file status. One of `in_progress`, `completed`, `failed`, `cancelled`.
+  ///
+  /// `GET` `https://api.openai.com/v1/vector_stores/{vector_store_id}/files`
+  Future<ListVectorStoreFilesResponse> listVectorStoreFiles({
+    required String vectorStoreId,
     int limit = 20,
     String order = 'desc',
     String? after,
     String? before,
+    String? filter,
   }) async {
     final r = await makeRequest(
       baseUrl: 'https://api.openai.com/v1',
-      path: '/threads/$threadId/messages/$messageId/files',
+      path: '/vector_stores/$vectorStoreId/files',
       method: HttpMethod.get,
       isMultipart: false,
       requestType: '',
@@ -1582,37 +1553,315 @@ class OpenAIClient {
         'order': order,
         if (after != null) 'after': after,
         if (before != null) 'before': before,
+        if (filter != null) 'filter': filter,
       },
     );
-    return ListMessageFilesResponse.fromJson(_jsonDecode(r));
+    return ListVectorStoreFilesResponse.fromJson(_jsonDecode(r));
   }
 
   // ------------------------------------------
-  // METHOD: getThreadMessageFile
+  // METHOD: createVectorStoreFile
   // ------------------------------------------
 
-  /// Retrieves a message file.
+  /// Create a vector store file by attaching a [File](https://platform.openai.com/docs/api-reference/files) to a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object).
   ///
-  /// `threadId`: The ID of the thread to which the message and File belong.
+  /// `vectorStoreId`: The ID of the vector store for which to create a File.
   ///
-  /// `messageId`: The ID of the message the file belongs to.
+  /// `request`: Request object for the Create vector store file endpoint.
+  ///
+  /// `POST` `https://api.openai.com/v1/vector_stores/{vector_store_id}/files`
+  Future<VectorStoreFileObject> createVectorStoreFile({
+    required String vectorStoreId,
+    required CreateVectorStoreFileRequest request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/vector_stores/$vectorStoreId/files',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return VectorStoreFileObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: getVectorStoreFile
+  // ------------------------------------------
+
+  /// Retrieves a vector store file.
+  ///
+  /// `vectorStoreId`: The ID of the vector store that the file belongs to.
   ///
   /// `fileId`: The ID of the file being retrieved.
   ///
-  /// `GET` `https://api.openai.com/v1/threads/{thread_id}/messages/{message_id}/files/{file_id}`
-  Future<MessageFileObject> getThreadMessageFile({
-    required String threadId,
-    required String messageId,
+  /// `GET` `https://api.openai.com/v1/vector_stores/{vector_store_id}/files/{file_id}`
+  Future<VectorStoreFileObject> getVectorStoreFile({
+    required String vectorStoreId,
     required String fileId,
   }) async {
     final r = await makeRequest(
       baseUrl: 'https://api.openai.com/v1',
-      path: '/threads/$threadId/messages/$messageId/files/$fileId',
+      path: '/vector_stores/$vectorStoreId/files/$fileId',
       method: HttpMethod.get,
       isMultipart: false,
       requestType: '',
       responseType: 'application/json',
     );
-    return MessageFileObject.fromJson(_jsonDecode(r));
+    return VectorStoreFileObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: deleteVectorStoreFile
+  // ------------------------------------------
+
+  /// Delete a vector store file. This will remove the file from the vector store but the file itself will not be deleted. To delete the file, use the [delete file](https://platform.openai.com/docs/api-reference/files/delete) endpoint.
+  ///
+  /// `vectorStoreId`: The ID of the vector store that the file belongs to.
+  ///
+  /// `fileId`: The ID of the file to delete.
+  ///
+  /// `DELETE` `https://api.openai.com/v1/vector_stores/{vector_store_id}/files/{file_id}`
+  Future<DeleteVectorStoreFileResponse> deleteVectorStoreFile({
+    required String vectorStoreId,
+    required String fileId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/vector_stores/$vectorStoreId/files/$fileId',
+      method: HttpMethod.delete,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return DeleteVectorStoreFileResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: createVectorStoreFileBatch
+  // ------------------------------------------
+
+  /// Create a vector store file batch.
+  ///
+  /// `vectorStoreId`: The ID of the vector store for which to create a File Batch.
+  ///
+  /// `request`: Request object for the Create vector store file batch endpoint.
+  ///
+  /// `POST` `https://api.openai.com/v1/vector_stores/{vector_store_id}/file_batches`
+  Future<VectorStoreFileBatchObject> createVectorStoreFileBatch({
+    required String vectorStoreId,
+    required CreateVectorStoreFileBatchRequest request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/vector_stores/$vectorStoreId/file_batches',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return VectorStoreFileBatchObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: getVectorStoreFileBatch
+  // ------------------------------------------
+
+  /// Retrieves a vector store file batch.
+  ///
+  /// `vectorStoreId`: The ID of the vector store that the file batch belongs to.
+  ///
+  /// `batchId`: The ID of the file batch being retrieved.
+  ///
+  /// `GET` `https://api.openai.com/v1/vector_stores/{vector_store_id}/file_batches/{batch_id}`
+  Future<VectorStoreFileBatchObject> getVectorStoreFileBatch({
+    required String vectorStoreId,
+    required String batchId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/vector_stores/$vectorStoreId/file_batches/$batchId',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return VectorStoreFileBatchObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: cancelVectorStoreFileBatch
+  // ------------------------------------------
+
+  /// Cancel a vector store file batch. This attempts to cancel the processing of files in this batch as soon as possible.
+  ///
+  /// `vectorStoreId`: The ID of the vector store that the file batch belongs to.
+  ///
+  /// `batchId`: The ID of the file batch to cancel.
+  ///
+  /// `POST` `https://api.openai.com/v1/vector_stores/{vector_store_id}/file_batches/{batch_id}/cancel`
+  Future<VectorStoreFileBatchObject> cancelVectorStoreFileBatch({
+    required String vectorStoreId,
+    required String batchId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/vector_stores/$vectorStoreId/file_batches/$batchId/cancel',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return VectorStoreFileBatchObject.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: listFilesInVectorStoreBatch
+  // ------------------------------------------
+
+  /// Returns a list of vector store files in a batch.
+  ///
+  /// `vectorStoreId`: The ID of the vector store that the files belong to.
+  ///
+  /// `batchId`: The ID of the file batch that the files belong to.
+  ///
+  /// `limit`: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
+  ///
+  /// `order`: Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.
+  ///
+  /// `after`: A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
+  ///
+  /// `before`: A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+  ///
+  /// `filter`: Filter by file status. One of `in_progress`, `completed`, `failed`, `cancelled`.
+  ///
+  /// `GET` `https://api.openai.com/v1/vector_stores/{vector_store_id}/file_batches/{batch_id}/files`
+  Future<ListVectorStoreFilesResponse> listFilesInVectorStoreBatch({
+    required String vectorStoreId,
+    required String batchId,
+    int limit = 20,
+    String order = 'desc',
+    String? after,
+    String? before,
+    String? filter,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/vector_stores/$vectorStoreId/file_batches/$batchId/files',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+      queryParams: {
+        'limit': limit,
+        'order': order,
+        if (after != null) 'after': after,
+        if (before != null) 'before': before,
+        if (filter != null) 'filter': filter,
+      },
+    );
+    return ListVectorStoreFilesResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: listBatches
+  // ------------------------------------------
+
+  /// List your organization's batches.
+  ///
+  /// `after`: A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
+  ///
+  /// `limit`: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
+  ///
+  /// `GET` `https://api.openai.com/v1/batches`
+  Future<ListBatchesResponse> listBatches({
+    String? after,
+    int limit = 20,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/batches',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+      queryParams: {
+        if (after != null) 'after': after,
+        'limit': limit,
+      },
+    );
+    return ListBatchesResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: createBatch
+  // ------------------------------------------
+
+  /// Creates and executes a batch from an uploaded file of requests
+  ///
+  /// `request`: Represents a request to create a new batch.
+  ///
+  /// `POST` `https://api.openai.com/v1/batches`
+  Future<Batch> createBatch({
+    required CreateBatchRequest request,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/batches',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: 'application/json',
+      responseType: 'application/json',
+      body: request,
+    );
+    return Batch.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: retrieveBatch
+  // ------------------------------------------
+
+  /// Retrieves a batch.
+  ///
+  /// `batchId`: The ID of the batch to retrieve.
+  ///
+  /// `GET` `https://api.openai.com/v1/batches/{batch_id}`
+  Future<Batch> retrieveBatch({
+    required String batchId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/batches/$batchId',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return Batch.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
+  // METHOD: cancelBatch
+  // ------------------------------------------
+
+  /// Cancels an in-progress batch.
+  ///
+  /// `batchId`: The ID of the batch to cancel.
+  ///
+  /// `POST` `https://api.openai.com/v1/batches/{batch_id}/cancel`
+  Future<Batch> cancelBatch({
+    required String batchId,
+  }) async {
+    final r = await makeRequest(
+      baseUrl: 'https://api.openai.com/v1',
+      path: '/batches/$batchId/cancel',
+      method: HttpMethod.post,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return Batch.fromJson(_jsonDecode(r));
   }
 }

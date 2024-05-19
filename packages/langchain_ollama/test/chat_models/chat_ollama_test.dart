@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/output_parsers.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_ollama/langchain_ollama.dart';
@@ -11,13 +12,14 @@ import 'package:test/test.dart';
 void main() {
   group('ChatOllama tests', skip: Platform.environment.containsKey('CI'), () {
     late ChatOllama chatModel;
-    const defaultModel = 'llama2:latest';
+    const defaultModel = 'llama3:latest';
     const visionModel = 'llava:latest';
 
     setUp(() async {
       chatModel = ChatOllama(
         defaultOptions: const ChatOllamaOptions(
           model: defaultModel,
+          keepAlive: 1,
         ),
       );
     });
@@ -50,7 +52,6 @@ void main() {
         numa: true,
         numCtx: 15,
         numBatch: 16,
-        numGqa: 17,
         numGpu: 0,
         mainGpu: 18,
         lowVram: true,
@@ -59,9 +60,6 @@ void main() {
         vocabOnly: true,
         useMmap: true,
         useMlock: true,
-        embeddingOnly: true,
-        ropeFrequencyBase: 19.0,
-        ropeFrequencyScale: 20.0,
         numThread: 21,
       );
 
@@ -87,7 +85,6 @@ void main() {
       expect(options.numa, true);
       expect(options.numCtx, 15);
       expect(options.numBatch, 16);
-      expect(options.numGqa, 17);
       expect(options.numGpu, 0);
       expect(options.mainGpu, 18);
       expect(options.lowVram, true);
@@ -96,9 +93,6 @@ void main() {
       expect(options.vocabOnly, true);
       expect(options.useMmap, true);
       expect(options.useMlock, true);
-      expect(options.embeddingOnly, true);
-      expect(options.ropeFrequencyBase, 19.0);
-      expect(options.ropeFrequencyScale, 20.0);
       expect(options.numThread, 21);
     });
 
@@ -116,6 +110,7 @@ void main() {
         res.output.content.replaceAll(RegExp(r'[\s\n]'), ''),
         contains('123456789'),
       );
+      expect(res.finishReason, FinishReason.stop);
       expect(res.metadata, isNotNull);
       expect(res.metadata['model'], defaultModel);
       expect(res.metadata['created_at'], isNotNull);
@@ -128,44 +123,48 @@ void main() {
     });
 
     test('Test stop logic on valid configuration', () async {
-      const query = 'write an ordered list of five items';
-      final res = await chatModel(
-        [ChatMessage.humanText(query)],
+      final res = await chatModel.invoke(
+        PromptValue.string('write an ordered list of five items'),
         options: const ChatOllamaOptions(
           temperature: 0,
           stop: ['3'],
         ),
       );
-      expect(res.content.contains('2.'), isTrue);
-      expect(res.content.contains('3.'), isFalse);
+      expect(res.output.content.contains('2.'), isTrue);
+      expect(res.output.content.contains('3.'), isFalse);
+      expect(res.finishReason, FinishReason.stop);
+    });
+
+    test('Test max tokens', () async {
+      final res = await chatModel.invoke(
+        PromptValue.string('write an ordered list of five items'),
+        options: const ChatOllamaOptions(
+          numPredict: 2,
+        ),
+      );
+      expect(res.finishReason, FinishReason.length);
     });
 
     test('Test tokenize', () async {
-      const text = 'antidisestablishmentarianism';
-
       final tokens = await chatModel.tokenize(
-        PromptValue.chat([ChatMessage.humanText(text)]),
+        PromptValue.string('antidisestablishmentarianism'),
       );
-      expect(tokens, [35075, 25, 3276, 85342, 34500, 479, 8997, 2191]);
+      expect(tokens, [519, 85342, 34500, 479, 8997, 2191]);
     });
 
     test('Test different encoding than the model', () async {
       chatModel.encoding = 'cl100k_base';
-      const text = 'antidisestablishmentarianism';
-
       final tokens = await chatModel.tokenize(
-        PromptValue.chat([ChatMessage.humanText(text)]),
+        PromptValue.string('antidisestablishmentarianism'),
       );
-      expect(tokens, [35075, 25, 3276, 85342, 34500, 479, 8997, 2191]);
+      expect(tokens, [519, 85342, 34500, 479, 8997, 2191]);
     });
 
     test('Test countTokens', () async {
-      const text = 'Hello, how are you?';
-
       final numTokens = await chatModel.countTokens(
-        PromptValue.chat([ChatMessage.humanText(text)]),
+        PromptValue.string('Hello, how are you?'),
       );
-      expect(numTokens, 8);
+      expect(numTokens, 6);
     });
 
     test('Test streaming', () async {
@@ -210,11 +209,7 @@ void main() {
 
     test('Test Multi-turn conversations', () async {
       final prompt = PromptValue.chat([
-        ChatMessage.humanText(
-          'List the numbers from 1 to 9 in order. '
-          'Output ONLY the numbers in one line without any spaces or commas. '
-          'NUMBERS:',
-        ),
+        ChatMessage.humanText('List the numbers from 1 to 9 in order. '),
         ChatMessage.ai('123456789'),
         ChatMessage.humanText(
           'Remove the number "4" from the list',

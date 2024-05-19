@@ -22,7 +22,7 @@ class CreateBatchRequest with _$CreateBatchRequest {
     /// Your input file must be formatted as a JSONL file, and must be uploaded with the purpose `batch`.
     @JsonKey(name: 'input_file_id') required String inputFileId,
 
-    /// The endpoint to be used for all requests in the batch. Currently only `/v1/chat/completions` is supported.
+    /// The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
     required BatchEndpoint endpoint,
 
     /// The time frame within which the batch should be processed. Currently only `24h` is supported.

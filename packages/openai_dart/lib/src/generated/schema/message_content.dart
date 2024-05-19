@@ -20,11 +20,24 @@ sealed class MessageContent with _$MessageContent {
   /// References an image [File](https://platform.openai.com/docs/api-reference/files) in the content of a message.
   const factory MessageContent.imageFile({
     /// Always `image_file`.
-    required String type,
+    @Default('image_file') String type,
 
     /// The image file that is part of a message.
     @JsonKey(name: 'image_file') required MessageContentImageFile imageFile,
   }) = MessageContentImageFileObject;
+
+  // ------------------------------------------
+  // UNION: MessageContentImageUrlObject
+  // ------------------------------------------
+
+  /// References an image URL in the content of a message.
+  const factory MessageContent.imageUrl({
+    /// The type of the content part. Always `image_url`.
+    @Default('image_url') String type,
+
+    /// The image URL part of a message.
+    @JsonKey(name: 'image_url') required MessageContentImageUrl imageUrl,
+  }) = MessageContentImageUrlObject;
 
   // ------------------------------------------
   // UNION: MessageContentTextObject
@@ -33,7 +46,7 @@ sealed class MessageContent with _$MessageContent {
   /// The text content that is part of a message.
   const factory MessageContent.text({
     /// Always `text`.
-    required String type,
+    @Default('text') String type,
 
     /// The text content that is part of a message.
     required MessageContentText text,
@@ -42,4 +55,17 @@ sealed class MessageContent with _$MessageContent {
   /// Object construction from a JSON representation
   factory MessageContent.fromJson(Map<String, dynamic> json) =>
       _$MessageContentFromJson(json);
+}
+
+// ==========================================
+// ENUM: MessageContentEnumType
+// ==========================================
+
+enum MessageContentEnumType {
+  @JsonValue('image_file')
+  imageFile,
+  @JsonValue('image_url')
+  imageUrl,
+  @JsonValue('text')
+  text,
 }
