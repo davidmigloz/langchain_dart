@@ -251,11 +251,11 @@ await for (final res in stream) {
 
 #### Check if a Blob Exists
 
-Check if a blob is known to the server.
+Ensures that the file blob used for a FROM or ADAPTER field exists on the server. This is checking your Ollama server and not Ollama.ai.
 
 ```dart
 await client.checkBlob(
-  name: 'sha256:29fdb92e57cf0827ded04ae6461b5931d01fa595843f55d36f5b275a52087dd2',
+  digest: 'sha256:29fdb92e57cf0827ded04ae6461b5931d01fa595843f55d36f5b275a52087dd2',
 );
 ```
 
