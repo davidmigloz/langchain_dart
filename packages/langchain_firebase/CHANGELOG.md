@@ -1,3 +1,7 @@
+## 0.1.0+1
+
+ - **DOCS**: Fix lint issues in langchain_firebase example. ([f85a6ad7](https://github.com/davidmigloz/langchain_dart/commit/f85a6ad755e00c513bd4349663e33d40be8a696c))
+
 ## 0.1.0
 
  - **FEAT**: Add support for ChatFirebaseVertexAI ([#422](https://github.com/davidmigloz/langchain_dart/issues/422)). ([8d0786bc](https://github.com/davidmigloz/langchain_dart/commit/8d0786bc6228ce86de962d30e9c2cc9728a08f3f))

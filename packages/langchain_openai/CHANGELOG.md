@@ -1,3 +1,7 @@
+## 0.6.1+1
+
+ - Update a dependency to the latest release.
+
 ## 0.6.1
 
  - **FEAT**: Add GPT-4o to model catalog ([#420](https://github.com/davidmigloz/langchain_dart/issues/420)). ([96214307](https://github.com/davidmigloz/langchain_dart/commit/96214307ec8ae045dade687d4c623bd4dc1be896))

@@ -1,3 +1,8 @@
+## 0.3.2+1
+
+ - **FIX**: Rename CreateRunRequestModel factories names ([#429](https://github.com/davidmigloz/langchain_dart/issues/429)). ([fd15793b](https://github.com/davidmigloz/langchain_dart/commit/fd15793b3c4ac94dfc90567b4a709e1458f4e0e8))
+ - **FIX**: Make quote nullable in MessageContentTextAnnotationsFileCitation ([#428](https://github.com/davidmigloz/langchain_dart/issues/428)). ([75b95645](https://github.com/davidmigloz/langchain_dart/commit/75b95645a58d51b369a01e261393e17f7463e1f5))
+
 ## 0.3.2
 
  - **FEAT**: Add GPT-4o to model catalog ([#420](https://github.com/davidmigloz/langchain_dart/issues/420)). ([96214307](https://github.com/davidmigloz/langchain_dart/commit/96214307ec8ae045dade687d4c623bd4dc1be896))
