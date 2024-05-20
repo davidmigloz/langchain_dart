@@ -30240,9 +30240,9 @@ abstract class _CreateRunRequest extends CreateRunRequest {
 CreateRunRequestModel _$CreateRunRequestModelFromJson(
     Map<String, dynamic> json) {
   switch (json['runtimeType']) {
-    case 'enumeration':
+    case 'model':
       return CreateRunRequestModelEnumeration.fromJson(json);
-    case 'string':
+    case 'modelId':
       return CreateRunRequestModelString.fromJson(json);
 
     default:
@@ -30259,40 +30259,39 @@ mixin _$CreateRunRequestModel {
   Object get value => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(RunModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(RunModels value) model,
+    required TResult Function(String value) modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(RunModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(RunModels value)? model,
+    TResult? Function(String value)? modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(RunModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(RunModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(CreateRunRequestModelEnumeration value)
-        enumeration,
-    required TResult Function(CreateRunRequestModelString value) string,
+    required TResult Function(CreateRunRequestModelEnumeration value) model,
+    required TResult Function(CreateRunRequestModelString value) modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(CreateRunRequestModelEnumeration value)? enumeration,
-    TResult? Function(CreateRunRequestModelString value)? string,
+    TResult? Function(CreateRunRequestModelEnumeration value)? model,
+    TResult? Function(CreateRunRequestModelString value)? modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(CreateRunRequestModelEnumeration value)? enumeration,
-    TResult Function(CreateRunRequestModelString value)? string,
+    TResult Function(CreateRunRequestModelEnumeration value)? model,
+    TResult Function(CreateRunRequestModelString value)? modelId,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -30358,7 +30357,7 @@ class _$CreateRunRequestModelEnumerationImpl
     extends CreateRunRequestModelEnumeration {
   const _$CreateRunRequestModelEnumerationImpl(this.value,
       {final String? $type})
-      : $type = $type ?? 'enumeration',
+      : $type = $type ?? 'model',
         super._();
 
   factory _$CreateRunRequestModelEnumerationImpl.fromJson(
@@ -30373,7 +30372,7 @@ class _$CreateRunRequestModelEnumerationImpl
 
   @override
   String toString() {
-    return 'CreateRunRequestModel.enumeration(value: $value)';
+    return 'CreateRunRequestModel.model(value: $value)';
   }
 
   @override
@@ -30399,30 +30398,30 @@ class _$CreateRunRequestModelEnumerationImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(RunModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(RunModels value) model,
+    required TResult Function(String value) modelId,
   }) {
-    return enumeration(value);
+    return model(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(RunModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(RunModels value)? model,
+    TResult? Function(String value)? modelId,
   }) {
-    return enumeration?.call(value);
+    return model?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(RunModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(RunModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(value);
+    if (model != null) {
+      return model(value);
     }
     return orElse();
   }
@@ -30430,31 +30429,30 @@ class _$CreateRunRequestModelEnumerationImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(CreateRunRequestModelEnumeration value)
-        enumeration,
-    required TResult Function(CreateRunRequestModelString value) string,
+    required TResult Function(CreateRunRequestModelEnumeration value) model,
+    required TResult Function(CreateRunRequestModelString value) modelId,
   }) {
-    return enumeration(this);
+    return model(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(CreateRunRequestModelEnumeration value)? enumeration,
-    TResult? Function(CreateRunRequestModelString value)? string,
+    TResult? Function(CreateRunRequestModelEnumeration value)? model,
+    TResult? Function(CreateRunRequestModelString value)? modelId,
   }) {
-    return enumeration?.call(this);
+    return model?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(CreateRunRequestModelEnumeration value)? enumeration,
-    TResult Function(CreateRunRequestModelString value)? string,
+    TResult Function(CreateRunRequestModelEnumeration value)? model,
+    TResult Function(CreateRunRequestModelString value)? modelId,
     required TResult orElse(),
   }) {
-    if (enumeration != null) {
-      return enumeration(this);
+    if (model != null) {
+      return model(this);
     }
     return orElse();
   }
@@ -30521,7 +30519,7 @@ class __$$CreateRunRequestModelStringImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CreateRunRequestModelStringImpl extends CreateRunRequestModelString {
   const _$CreateRunRequestModelStringImpl(this.value, {final String? $type})
-      : $type = $type ?? 'string',
+      : $type = $type ?? 'modelId',
         super._();
 
   factory _$CreateRunRequestModelStringImpl.fromJson(
@@ -30536,7 +30534,7 @@ class _$CreateRunRequestModelStringImpl extends CreateRunRequestModelString {
 
   @override
   String toString() {
-    return 'CreateRunRequestModel.string(value: $value)';
+    return 'CreateRunRequestModel.modelId(value: $value)';
   }
 
   @override
@@ -30561,30 +30559,30 @@ class _$CreateRunRequestModelStringImpl extends CreateRunRequestModelString {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(RunModels value) enumeration,
-    required TResult Function(String value) string,
+    required TResult Function(RunModels value) model,
+    required TResult Function(String value) modelId,
   }) {
-    return string(value);
+    return modelId(value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(RunModels value)? enumeration,
-    TResult? Function(String value)? string,
+    TResult? Function(RunModels value)? model,
+    TResult? Function(String value)? modelId,
   }) {
-    return string?.call(value);
+    return modelId?.call(value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(RunModels value)? enumeration,
-    TResult Function(String value)? string,
+    TResult Function(RunModels value)? model,
+    TResult Function(String value)? modelId,
     required TResult orElse(),
   }) {
-    if (string != null) {
-      return string(value);
+    if (modelId != null) {
+      return modelId(value);
     }
     return orElse();
   }
@@ -30592,31 +30590,30 @@ class _$CreateRunRequestModelStringImpl extends CreateRunRequestModelString {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(CreateRunRequestModelEnumeration value)
-        enumeration,
-    required TResult Function(CreateRunRequestModelString value) string,
+    required TResult Function(CreateRunRequestModelEnumeration value) model,
+    required TResult Function(CreateRunRequestModelString value) modelId,
   }) {
-    return string(this);
+    return modelId(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(CreateRunRequestModelEnumeration value)? enumeration,
-    TResult? Function(CreateRunRequestModelString value)? string,
+    TResult? Function(CreateRunRequestModelEnumeration value)? model,
+    TResult? Function(CreateRunRequestModelString value)? modelId,
   }) {
-    return string?.call(this);
+    return modelId?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(CreateRunRequestModelEnumeration value)? enumeration,
-    TResult Function(CreateRunRequestModelString value)? string,
+    TResult Function(CreateRunRequestModelEnumeration value)? model,
+    TResult Function(CreateRunRequestModelString value)? modelId,
     required TResult orElse(),
   }) {
-    if (string != null) {
-      return string(this);
+    if (modelId != null) {
+      return modelId(this);
     }
     return orElse();
   }
