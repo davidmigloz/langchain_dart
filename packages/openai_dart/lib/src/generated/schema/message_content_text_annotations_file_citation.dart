@@ -20,7 +20,7 @@ class MessageContentTextAnnotationsFileCitation
     @JsonKey(name: 'file_id') required String fileId,
 
     /// The specific quote in the file.
-    required String quote,
+    @JsonKey(includeIfNull: false) String? quote,
   }) = _MessageContentTextAnnotationsFileCitation;
 
   /// Object construction from a JSON representation

@@ -40379,7 +40379,8 @@ mixin _$MessageContentTextAnnotationsFileCitation {
   String get fileId => throw _privateConstructorUsedError;
 
   /// The specific quote in the file.
-  String get quote => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
+  String? get quote => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40396,7 +40397,9 @@ abstract class $MessageContentTextAnnotationsFileCitationCopyWith<$Res> {
       _$MessageContentTextAnnotationsFileCitationCopyWithImpl<$Res,
           MessageContentTextAnnotationsFileCitation>;
   @useResult
-  $Res call({@JsonKey(name: 'file_id') String fileId, String quote});
+  $Res call(
+      {@JsonKey(name: 'file_id') String fileId,
+      @JsonKey(includeIfNull: false) String? quote});
 }
 
 /// @nodoc
@@ -40415,17 +40418,17 @@ class _$MessageContentTextAnnotationsFileCitationCopyWithImpl<$Res,
   @override
   $Res call({
     Object? fileId = null,
-    Object? quote = null,
+    Object? quote = freezed,
   }) {
     return _then(_value.copyWith(
       fileId: null == fileId
           ? _value.fileId
           : fileId // ignore: cast_nullable_to_non_nullable
               as String,
-      quote: null == quote
+      quote: freezed == quote
           ? _value.quote
           : quote // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -40439,7 +40442,9 @@ abstract class _$$MessageContentTextAnnotationsFileCitationImplCopyWith<$Res>
       __$$MessageContentTextAnnotationsFileCitationImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'file_id') String fileId, String quote});
+  $Res call(
+      {@JsonKey(name: 'file_id') String fileId,
+      @JsonKey(includeIfNull: false) String? quote});
 }
 
 /// @nodoc
@@ -40456,17 +40461,17 @@ class __$$MessageContentTextAnnotationsFileCitationImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fileId = null,
-    Object? quote = null,
+    Object? quote = freezed,
   }) {
     return _then(_$MessageContentTextAnnotationsFileCitationImpl(
       fileId: null == fileId
           ? _value.fileId
           : fileId // ignore: cast_nullable_to_non_nullable
               as String,
-      quote: null == quote
+      quote: freezed == quote
           ? _value.quote
           : quote // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -40476,7 +40481,8 @@ class __$$MessageContentTextAnnotationsFileCitationImplCopyWithImpl<$Res>
 class _$MessageContentTextAnnotationsFileCitationImpl
     extends _MessageContentTextAnnotationsFileCitation {
   const _$MessageContentTextAnnotationsFileCitationImpl(
-      {@JsonKey(name: 'file_id') required this.fileId, required this.quote})
+      {@JsonKey(name: 'file_id') required this.fileId,
+      @JsonKey(includeIfNull: false) this.quote})
       : super._();
 
   factory _$MessageContentTextAnnotationsFileCitationImpl.fromJson(
@@ -40490,7 +40496,8 @@ class _$MessageContentTextAnnotationsFileCitationImpl
 
   /// The specific quote in the file.
   @override
-  final String quote;
+  @JsonKey(includeIfNull: false)
+  final String? quote;
 
   @override
   String toString() {
@@ -40532,7 +40539,7 @@ abstract class _MessageContentTextAnnotationsFileCitation
     extends MessageContentTextAnnotationsFileCitation {
   const factory _MessageContentTextAnnotationsFileCitation(
           {@JsonKey(name: 'file_id') required final String fileId,
-          required final String quote}) =
+          @JsonKey(includeIfNull: false) final String? quote}) =
       _$MessageContentTextAnnotationsFileCitationImpl;
   const _MessageContentTextAnnotationsFileCitation._() : super._();
 
@@ -40548,7 +40555,8 @@ abstract class _MessageContentTextAnnotationsFileCitation
   @override
 
   /// The specific quote in the file.
-  String get quote;
+  @JsonKey(includeIfNull: false)
+  String? get quote;
   @override
   @JsonKey(ignore: true)
   _$$MessageContentTextAnnotationsFileCitationImplCopyWith<
