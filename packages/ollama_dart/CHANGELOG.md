@@ -1,3 +1,7 @@
+## 0.1.0+1
+
+ - **FIX**: digest path param in Ollama blob endpoints ([#430](https://github.com/davidmigloz/langchain_dart/issues/430)). ([2e9e935a](https://github.com/davidmigloz/langchain_dart/commit/2e9e935aefd74e5e9e09a23188a6c77ce535661d))
+
 ## 0.1.0
 
 > Note: This release has breaking changes.
