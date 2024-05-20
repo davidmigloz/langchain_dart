@@ -198,10 +198,11 @@ paths:
       operationId: checkBlob
       tags:
         - Models
-      summary: Check to see if a blob exists on the Ollama server which is useful when creating models.
+      summary: Ensures that the file blob used for a FROM or ADAPTER field exists on the server.
+      description: This is checking your Ollama server and not Ollama.ai.
       parameters:
-        - in: query
-          name: name
+        - in: path
+          name: digest
           schema:
             type: string
           required: true
@@ -218,8 +219,8 @@ paths:
         - Models
       summary: Create a blob from a file. Returns the server file path.
       parameters:
-        - in: query
-          name: name
+        - in: path
+          name: digest
           schema:
             type: string
           required: true

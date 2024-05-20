@@ -605,26 +605,23 @@ class OllamaClient {
 
   /// Create a blob from a file. Returns the server file path.
   ///
-  /// `name`: the SHA256 digest of the blob
+  /// `digest`: the SHA256 digest of the blob
   ///
   /// `request`: No description
   ///
   /// `POST` `http://localhost:11434/api/blobs/{digest}`
   Future<void> createBlob({
-    required String name,
+    required String digest,
     String? request,
   }) async {
     final _ = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
-      path: '/blobs/{digest}',
+      path: '/blobs/$digest',
       method: HttpMethod.post,
       isMultipart: false,
       requestType: 'application/octet-stream',
       responseType: '',
       body: request,
-      queryParams: {
-        'name': name,
-      },
     );
   }
 
@@ -632,24 +629,23 @@ class OllamaClient {
   // METHOD: checkBlob
   // ------------------------------------------
 
-  /// Check to see if a blob exists on the Ollama server which is useful when creating models.
+  /// Ensures that the file blob used for a FROM or ADAPTER field exists on the server.
   ///
-  /// `name`: the SHA256 digest of the blob
+  /// This is checking your Ollama server and not Ollama.ai.
+  ///
+  /// `digest`: the SHA256 digest of the blob
   ///
   /// `HEAD` `http://localhost:11434/api/blobs/{digest}`
   Future<void> checkBlob({
-    required String name,
+    required String digest,
   }) async {
     final _ = await makeRequest(
       baseUrl: 'http://localhost:11434/api',
-      path: '/blobs/{digest}',
+      path: '/blobs/$digest',
       method: HttpMethod.head,
       isMultipart: false,
       requestType: '',
       responseType: '',
-      queryParams: {
-        'name': name,
-      },
     );
   }
 }
