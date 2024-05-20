@@ -3906,15 +3906,24 @@ _$MessageContentTextAnnotationsFileCitationImpl
             Map<String, dynamic> json) =>
         _$MessageContentTextAnnotationsFileCitationImpl(
           fileId: json['file_id'] as String,
-          quote: json['quote'] as String,
+          quote: json['quote'] as String?,
         );
 
 Map<String, dynamic> _$$MessageContentTextAnnotationsFileCitationImplToJson(
-        _$MessageContentTextAnnotationsFileCitationImpl instance) =>
-    <String, dynamic>{
-      'file_id': instance.fileId,
-      'quote': instance.quote,
-    };
+    _$MessageContentTextAnnotationsFileCitationImpl instance) {
+  final val = <String, dynamic>{
+    'file_id': instance.fileId,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('quote', instance.quote);
+  return val;
+}
 
 _$MessageDeltaContentImageUrlObjectImpl
     _$$MessageDeltaContentImageUrlObjectImplFromJson(
