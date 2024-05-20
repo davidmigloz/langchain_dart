@@ -221,12 +221,12 @@ sealed class CreateRunRequestModel with _$CreateRunRequestModel {
   const CreateRunRequestModel._();
 
   /// Available models. Mind that the list may not be exhaustive nor up-to-date.
-  const factory CreateRunRequestModel.enumeration(
+  const factory CreateRunRequestModel.model(
     RunModels value,
   ) = CreateRunRequestModelEnumeration;
 
   /// The ID of the model to use for this request.
-  const factory CreateRunRequestModel.string(
+  const factory CreateRunRequestModel.modelId(
     String value,
   ) = CreateRunRequestModelString;
 
