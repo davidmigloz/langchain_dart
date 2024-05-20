@@ -4890,7 +4890,7 @@ components:
           type: string
       required:
         - file_id
-        - quote
+        # - quote # https://github.com/openai/openai-openapi/issues/263
     MessageContentTextAnnotationsFilePathObject:
       type: object
       description: A URL for the file that's generated when the assistant used the `code_interpreter` tool to generate a file.
