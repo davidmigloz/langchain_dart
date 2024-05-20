@@ -2,6 +2,46 @@
 
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details about each release.
 
+## 2024-05-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+- There are no breaking changes in this release.
+
+Packages with other changes:
+
+- [`langchain_firebase` - `v0.1.0+1`](#langchain_firebase---v0101)
+- [`ollama_dart` - `v0.1.0+1`](#ollama_dart---v0101)
+- [`openai_dart` - `v0.3.2+1`](#openai_dart---v0321)
+- [`langchain_ollama` - `v0.2.1+1`](#langchain_ollama---v0211)
+- [`langchain_openai` - `v0.6.1+1`](#langchain_openai---v0611)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+- `langchain_ollama` - `v0.2.1+1`
+- `langchain_openai` - `v0.6.1+1`
+
+---
+
+#### `openai_dart` - `v0.3.2+1`
+
+- **FIX**: Rename CreateRunRequestModel factories names ([#429](https://github.com/davidmigloz/langchain_dart/issues/429)). ([fd15793b](https://github.com/davidmigloz/langchain_dart/commit/fd15793b3c4ac94dfc90567b4a709e1458f4e0e8))
+- **FIX**: Make quote nullable in MessageContentTextAnnotationsFileCitation ([#428](https://github.com/davidmigloz/langchain_dart/issues/428)). ([75b95645](https://github.com/davidmigloz/langchain_dart/commit/75b95645a58d51b369a01e261393e17f7463e1f5))
+
+#### `ollama_dart` - `v0.1.0+1`
+
+- **FIX**: digest path param in Ollama blob endpoints ([#430](https://github.com/davidmigloz/langchain_dart/issues/430)). ([2e9e935a](https://github.com/davidmigloz/langchain_dart/commit/2e9e935aefd74e5e9e09a23188a6c77ce535661d))
+
+#### `langchain_firebase` - `v0.1.0+1`
+
+- **DOCS**: Fix lint issues in langchain_firebase example. ([f85a6ad7](https://github.com/davidmigloz/langchain_dart/commit/f85a6ad755e00c513bd4349663e33d40be8a696c))
+
 ## 2024-05-14
 
 ### Changes
@@ -2382,6 +2422,15 @@ Packages with changes:
 
  - **FIX**: OpenAIQAWithSourcesChain throws exception. ([45c6cb9d](https://github.com/davidmigloz/langchain_dart/commit/45c6cb9d32be670902dd2fe4cb92597765590d85))
  - **FEAT**: Support estimating the number of tokens for a given prompt ([#3](https://github.com/davidmigloz/langchain_dart/issues/3)). ([e22f22c8](https://github.com/davidmigloz/langchain_dart/commit/e22f22c89f188a019b96a7c0003dbd26471bebb7))
+
+## 2023-07-02
+
+### Changes
+
+#### `langchain` - `v0.0.1`
+
+ - Initial public release. 
+t/commit/e22f22c89f188a019b96a7c0003dbd26471bebb7))
 
 ## 2023-07-02
 
