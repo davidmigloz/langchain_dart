@@ -217,7 +217,7 @@ Future<void> _pushModelStream(final OllamaClient client) async {
 
 Future<void> _checkBlob(final OllamaClient client) async {
   await client.checkBlob(
-    name:
+    digest:
         'sha256:29fdb92e57cf0827ded04ae6461b5931d01fa595843f55d36f5b275a52087dd2',
   );
 }
