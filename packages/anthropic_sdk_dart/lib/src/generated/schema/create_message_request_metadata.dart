@@ -2,30 +2,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
 // ignore_for_file: invalid_annotation_target
-part of anthropic_a_i_schema;
+part of anthropic_schema;
 
 // ==========================================
-// CLASS: MessageStreamParamsMetadata
+// CLASS: CreateMessageRequestMetadata
 // ==========================================
 
-/// No Description
+/// An object describing metadata about the request.
 @freezed
-class MessageStreamParamsMetadata with _$MessageStreamParamsMetadata {
-  const MessageStreamParamsMetadata._();
+class CreateMessageRequestMetadata with _$CreateMessageRequestMetadata {
+  const CreateMessageRequestMetadata._();
 
-  /// Factory constructor for MessageStreamParamsMetadata
-  const factory MessageStreamParamsMetadata({
+  /// Factory constructor for CreateMessageRequestMetadata
+  const factory CreateMessageRequestMetadata({
     /// An external identifier for the user who is associated with the request.
     ///
     /// This should be a uuid, hash value, or other opaque identifier. Anthropic may use
     /// this id to help detect abuse. Do not include any identifying information such as
     /// name, email address, or phone number.
     @JsonKey(name: 'user_id', includeIfNull: false) String? userId,
-  }) = _MessageStreamParamsMetadata;
+  }) = _CreateMessageRequestMetadata;
 
   /// Object construction from a JSON representation
-  factory MessageStreamParamsMetadata.fromJson(Map<String, dynamic> json) =>
-      _$MessageStreamParamsMetadataFromJson(json);
+  factory CreateMessageRequestMetadata.fromJson(Map<String, dynamic> json) =>
+      _$CreateMessageRequestMetadataFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = ['user_id'];

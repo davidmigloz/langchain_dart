@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:openapi_spec/openapi_spec.dart';
 
-/// Generates Mistral AI API client Dart code from the OpenAPI spec.
-/// https://docs.mistral.ai/api
+/// Generates Anthropic API client Dart code from the OpenAPI spec.
+/// https://docs.anthropic.com/en/api
 void main() async {
   final spec = OpenApi.fromFile(source: 'oas/anthropic_openapi_curated.yaml');
 
   await spec.generate(
-    package: 'AnthropicAI',
+    package: 'Anthropic',
     destination: 'lib/src/generated/',
     replace: true,
     schemaOptions: const SchemaGeneratorOptions(
@@ -30,11 +30,16 @@ String? _onSchemaUnionFactoryName(
   final String unionSubclass,
 ) =>
     switch (unionSubclass) {
-      // Chat Completion
-      'ChatCompletionModelEnumeration' => 'model',
-      'ChatCompletionModelString' => 'modelId',
-      // Embeddings
-      'EmbeddingModelEnumeration' => 'model',
-      'EmbeddingModelString' => 'modelId',
+      'ModelEnumeration' => 'model',
+      'ModelString' => 'modelId',
+      'MessageContentListBlock' => 'blocks',
+      'MessageContentString' => 'text',
+      'MessageStartEvent' => 'messageStart',
+      'MessageDeltaEvent' => 'messageDelta',
+      'MessageStopEvent' => 'messageStop',
+      'ContentBlockStartEvent' => 'contentBlockStart',
+      'ContentBlockDeltaEvent' => 'contentBlockDelta',
+      'ContentBlockStopEvent' => 'contentBlockStop',
+      'PingEvent' => 'ping',
       _ => null,
     };

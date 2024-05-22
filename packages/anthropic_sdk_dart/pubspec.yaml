@@ -1,8 +1,8 @@
-name: anthropicai_dart
-description: Dart Client for the Anthropic AI API.
-version: 0.0.3+1
-repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/mistralai_dart
-issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:mistralai_dart
+name: anthropic_sdk_dart
+description: Dart Client for the Anthropic API (Claude 3 Opus, Sonnet, Haiku, etc.).
+version: 0.0.1-dev.1
+repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/anthropic_sdk_dart
+issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:anthropic_sdk_dart
 homepage: https://github.com/davidmigloz/langchain_dart
 documentation: https://langchaindart.com
 
@@ -10,7 +10,7 @@ topics:
   - ai
   - nlp
   - llms
-  - mistral
+  - anthropic
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -30,5 +30,5 @@ dev_dependencies:
   openapi_spec:
     git:
       url: https://github.com/davidmigloz/openapi_spec.git
-      ref: e14c0adaac69e9482e9b57f68fc7964032cdd44c
+      ref: 280ae0d41806eda25e923203d67bd6f4992a81e9
   test: ^1.25.2

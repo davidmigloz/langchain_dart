@@ -2,27 +2,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
 // ignore_for_file: invalid_annotation_target
-part of anthropic_a_i_schema;
+part of anthropic_schema;
 
 // ==========================================
-// CLASS: MessageStreamParams
+// CLASS: CreateMessageRequest
 // ==========================================
 
-/// No Description
+/// The request parameters for creating a message.
 @freezed
-class MessageStreamParams with _$MessageStreamParams {
-  const MessageStreamParams._();
+class CreateMessageRequest with _$CreateMessageRequest {
+  const CreateMessageRequest._();
 
-  /// Factory constructor for MessageStreamParams
-  const factory MessageStreamParams({
-    /// The maximum number of tokens to generate before stopping.
+  /// Factory constructor for CreateMessageRequest
+  const factory CreateMessageRequest({
+    /// The model that will complete your prompt.
     ///
-    /// Note that our models may stop _before_ reaching this maximum. This parameter
-    /// only specifies the absolute maximum number of tokens to generate.
-    ///
-    /// Different models have different maximum values for this parameter. See
-    /// [models](https://docs.anthropic.com/en/docs/models-overview) for details.
-    @JsonKey(name: 'max_tokens') required int maxTokens,
+    /// See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+    /// details and options.
+    @_ModelConverter() required Model model,
 
     /// Input messages.
     ///
@@ -109,16 +106,19 @@ class MessageStreamParams with _$MessageStreamParams {
     /// [system prompt](https://docs.anthropic.com/en/docs/system-prompts), you can use
     /// the top-level `system` parameter — there is no `"system"` role for input
     /// messages in the Messages API.
-    required List<MessageParam> messages,
+    required List<Message> messages,
 
-    /// The model that will complete your prompt.
+    /// The maximum number of tokens to generate before stopping.
     ///
-    /// See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
-    /// details and options.
-    required MessageStreamParamsModel model,
+    /// Note that our models may stop _before_ reaching this maximum. This parameter
+    /// only specifies the absolute maximum number of tokens to generate.
+    ///
+    /// Different models have different maximum values for this parameter. See
+    /// [models](https://docs.anthropic.com/en/docs/models-overview) for details.
+    @JsonKey(name: 'max_tokens') required int maxTokens,
 
     /// An object describing metadata about the request.
-    @JsonKey(includeIfNull: false) MessageStreamParamsMetadata? metadata,
+    @JsonKey(includeIfNull: false) CreateMessageRequestMetadata? metadata,
 
     /// Custom text sequences that will cause the model to stop generating.
     ///
@@ -168,23 +168,30 @@ class MessageStreamParams with _$MessageStreamParams {
     /// Recommended for advanced use cases only. You usually only need to use
     /// `temperature`.
     @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
-  }) = _MessageStreamParams;
+
+    /// Whether to incrementally stream the response using server-sent events.
+    ///
+    /// See [streaming](https://docs.anthropic.com/en/api/messages-streaming) for
+    /// details.
+    @Default(false) bool stream,
+  }) = _CreateMessageRequest;
 
   /// Object construction from a JSON representation
-  factory MessageStreamParams.fromJson(Map<String, dynamic> json) =>
-      _$MessageStreamParamsFromJson(json);
+  factory CreateMessageRequest.fromJson(Map<String, dynamic> json) =>
+      _$CreateMessageRequestFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
-    'max_tokens',
-    'messages',
     'model',
+    'messages',
+    'max_tokens',
     'metadata',
     'stop_sequences',
     'system',
     'temperature',
     'top_k',
-    'top_p'
+    'top_p',
+    'stream'
   ];
 
   /// Perform validations on the schema property values
@@ -195,28 +202,26 @@ class MessageStreamParams with _$MessageStreamParams {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
-      'max_tokens': maxTokens,
-      'messages': messages,
       'model': model,
+      'messages': messages,
+      'max_tokens': maxTokens,
       'metadata': metadata,
       'stop_sequences': stopSequences,
       'system': system,
       'temperature': temperature,
       'top_k': topK,
       'top_p': topP,
+      'stream': stream,
     };
   }
 }
 
 // ==========================================
-// ENUM: MessageStreamParamsModel
+// ENUM: Models
 // ==========================================
 
-/// The model that will complete your prompt.
-///
-/// See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
-/// details and options.
-enum MessageStreamParamsModel {
+/// Available models. Mind that the list may not be exhaustive nor up-to-date.
+enum Models {
   @JsonValue('claude-3-opus-20240229')
   claude3Opus20240229,
   @JsonValue('claude-3-sonnet-20240229')
@@ -229,4 +234,60 @@ enum MessageStreamParamsModel {
   claude20,
   @JsonValue('claude-instant-1.2')
   claudeInstant12,
+}
+
+// ==========================================
+// CLASS: Model
+// ==========================================
+
+/// The model that will complete your prompt.
+///
+/// See [models](https://docs.anthropic.com/en/docs/models-overview) for additional
+/// details and options.
+@freezed
+sealed class Model with _$Model {
+  const Model._();
+
+  /// Available models. Mind that the list may not be exhaustive nor up-to-date.
+  const factory Model.model(
+    Models value,
+  ) = ModelEnumeration;
+
+  /// The ID of the model to use for this request.
+  const factory Model.modelId(
+    String value,
+  ) = ModelString;
+
+  /// Object construction from a JSON representation
+  factory Model.fromJson(Map<String, dynamic> json) => _$ModelFromJson(json);
+}
+
+/// Custom JSON converter for [Model]
+class _ModelConverter implements JsonConverter<Model, Object?> {
+  const _ModelConverter();
+
+  @override
+  Model fromJson(Object? data) {
+    if (data is String && _$ModelsEnumMap.values.contains(data)) {
+      return ModelEnumeration(
+        _$ModelsEnumMap.keys.elementAt(
+          _$ModelsEnumMap.values.toList().indexOf(data),
+        ),
+      );
+    }
+    if (data is String) {
+      return ModelString(data);
+    }
+    throw Exception(
+      'Unexpected value for Model: $data',
+    );
+  }
+
+  @override
+  Object? toJson(Model data) {
+    return switch (data) {
+      ModelEnumeration(value: final v) => _$ModelsEnumMap[v]!,
+      ModelString(value: final v) => v,
+    };
+  }
 }

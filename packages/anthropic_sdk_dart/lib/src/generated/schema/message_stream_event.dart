@@ -2,13 +2,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
 // ignore_for_file: invalid_annotation_target
-part of anthropic_a_i_schema;
+part of anthropic_schema;
 
 // ==========================================
 // CLASS: MessageStreamEvent
 // ==========================================
 
-/// Union class for [MessageStartEvent], [MessageDeltaEvent], [MessageStopEvent], [ContentBlockStartEvent], [ContentBlockDeltaEvent], [ContentBlockStopEvent]
+/// A event in a streaming conversation.
 @Freezed(unionKey: 'type', unionValueCase: FreezedUnionCase.snake)
 sealed class MessageStreamEvent with _$MessageStreamEvent {
   const MessageStreamEvent._();
@@ -17,26 +17,26 @@ sealed class MessageStreamEvent with _$MessageStreamEvent {
   // UNION: MessageStartEvent
   // ------------------------------------------
 
-  /// Union constructor for [MessageStartEvent]
-  const factory MessageStreamEvent.messageStartEvent({
-    /// No Description
+  /// A start event in a streaming conversation.
+  const factory MessageStreamEvent.messageStart({
+    /// A message in a chat conversation.
     required Message message,
 
-    ///
-    required MessageStartEventType type,
+    /// The type of a streaming event.
+    required MessageStreamEventType type,
   }) = MessageStartEvent;
 
   // ------------------------------------------
   // UNION: MessageDeltaEvent
   // ------------------------------------------
 
-  /// Union constructor for [MessageDeltaEvent]
-  const factory MessageStreamEvent.messageDeltaEvent({
+  /// A delta event in a streaming conversation.
+  const factory MessageStreamEvent.messageDelta({
     /// No Description
-    required MessageDeltaEventDelta delta,
+    required MessageDelta delta,
 
-    ///
-    required MessageDeltaEventType type,
+    /// The type of a streaming event.
+    required MessageStreamEventType type,
 
     /// Billing and rate-limit usage.
     ///
@@ -57,118 +57,68 @@ sealed class MessageStreamEvent with _$MessageStreamEvent {
   // UNION: MessageStopEvent
   // ------------------------------------------
 
-  /// Union constructor for [MessageStopEvent]
-  const factory MessageStreamEvent.messageStopEvent({
-    ///
-    required MessageStopEventType type,
+  /// A stop event in a streaming conversation.
+  const factory MessageStreamEvent.messageStop({
+    /// The type of a streaming event.
+    required MessageStreamEventType type,
   }) = MessageStopEvent;
 
   // ------------------------------------------
   // UNION: ContentBlockStartEvent
   // ------------------------------------------
 
-  /// Union constructor for [ContentBlockStartEvent]
-  const factory MessageStreamEvent.contentBlockStartEvent({
-    /// No Description
+  /// A start event in a streaming content block.
+  const factory MessageStreamEvent.contentBlockStart({
+    /// A block of text content.
     @JsonKey(name: 'content_block') required TextBlock contentBlock,
 
-    /// No Description
+    /// The index of the content block.
     required int index,
 
-    ///
-    required ContentBlockStartEventType type,
+    /// The type of a streaming event.
+    required MessageStreamEventType type,
   }) = ContentBlockStartEvent;
 
   // ------------------------------------------
   // UNION: ContentBlockDeltaEvent
   // ------------------------------------------
 
-  /// Union constructor for [ContentBlockDeltaEvent]
-  const factory MessageStreamEvent.contentBlockDeltaEvent({
-    /// No Description
-    required TextDelta delta,
+  /// A delta event in a streaming content block.
+  const factory MessageStreamEvent.contentBlockDelta({
+    /// A delta in a streaming text block.
+    required TextBlockDelta delta,
 
-    /// No Description
+    /// The index of the content block.
     required int index,
 
-    ///
-    required ContentBlockDeltaEventType type,
+    /// The type of a streaming event.
+    required MessageStreamEventType type,
   }) = ContentBlockDeltaEvent;
 
   // ------------------------------------------
   // UNION: ContentBlockStopEvent
   // ------------------------------------------
 
-  /// Union constructor for [ContentBlockStopEvent]
-  const factory MessageStreamEvent.contentBlockStopEvent({
-    /// No Description
+  /// A stop event in a streaming content block.
+  const factory MessageStreamEvent.contentBlockStop({
+    /// The index of the content block.
     required int index,
 
-    ///
-    required ContentBlockStopEventType type,
+    /// The type of a streaming event.
+    required MessageStreamEventType type,
   }) = ContentBlockStopEvent;
+
+  // ------------------------------------------
+  // UNION: PingEvent
+  // ------------------------------------------
+
+  /// A ping event in a streaming conversation.
+  const factory MessageStreamEvent.ping({
+    /// The type of a streaming event.
+    required MessageStreamEventType type,
+  }) = PingEvent;
 
   /// Object construction from a JSON representation
   factory MessageStreamEvent.fromJson(Map<String, dynamic> json) =>
       _$MessageStreamEventFromJson(json);
-}
-
-// ==========================================
-// ENUM: MessageStartEventType
-// ==========================================
-
-/// No Description
-enum MessageStartEventType {
-  @JsonValue('message_start')
-  messageStart,
-}
-
-// ==========================================
-// ENUM: MessageDeltaEventType
-// ==========================================
-
-/// No Description
-enum MessageDeltaEventType {
-  @JsonValue('message_delta')
-  messageDelta,
-}
-
-// ==========================================
-// ENUM: MessageStopEventType
-// ==========================================
-
-/// No Description
-enum MessageStopEventType {
-  @JsonValue('message_stop')
-  messageStop,
-}
-
-// ==========================================
-// ENUM: ContentBlockStartEventType
-// ==========================================
-
-/// No Description
-enum ContentBlockStartEventType {
-  @JsonValue('content_block_start')
-  contentBlockStart,
-}
-
-// ==========================================
-// ENUM: ContentBlockDeltaEventType
-// ==========================================
-
-/// No Description
-enum ContentBlockDeltaEventType {
-  @JsonValue('content_block_delta')
-  contentBlockDelta,
-}
-
-// ==========================================
-// ENUM: ContentBlockStopEventType
-// ==========================================
-
-/// No Description
-enum ContentBlockStopEventType {
-  @JsonValue('content_block_stop')
-  contentBlockStop,
 }

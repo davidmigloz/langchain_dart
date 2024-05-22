@@ -16,12 +16,12 @@ import 'schema/schema.dart';
 enum HttpMethod { get, put, post, delete, options, head, patch, trace }
 
 // ==========================================
-// CLASS: AnthropicAIClientException
+// CLASS: AnthropicClientException
 // ==========================================
 
-/// HTTP exception handler for AnthropicAIClient
-class AnthropicAIClientException implements Exception {
-  AnthropicAIClientException({
+/// HTTP exception handler for AnthropicClient
+class AnthropicClientException implements Exception {
+  AnthropicClientException({
     required this.message,
     required this.uri,
     required this.method,
@@ -50,25 +50,26 @@ class AnthropicAIClientException implements Exception {
       'message': message,
       'body': data,
     });
-    return 'AnthropicAIClientException($s)';
+    return 'AnthropicClientException($s)';
   }
 }
 
 // ==========================================
-// CLASS: AnthropicAIClient
+// CLASS: AnthropicClient
 // ==========================================
 
-/// Client for Anthropic API (v.v1)
+/// Client for Anthropic API (v.1)
 ///
-/// No description
-class AnthropicAIClient {
-  /// Creates a new AnthropicAIClient instance.
+/// API Spec for Anthropic API. Please see https://docs.anthropic.com/en/api for more details.
+class AnthropicClient {
+  /// Creates a new AnthropicClient instance.
   ///
-  /// - [AnthropicAIClient.baseUrl] Override base URL (default: server url defined in spec)
-  /// - [AnthropicAIClient.headers] Global headers to be sent with every request
-  /// - [AnthropicAIClient.queryParams] Global query parameters to be sent with every request
-  /// - [AnthropicAIClient.client] Override HTTP client to use for requests
-  AnthropicAIClient({
+  /// - [AnthropicClient.baseUrl] Override base URL (default: server url defined in spec)
+  /// - [AnthropicClient.headers] Global headers to be sent with every request
+  /// - [AnthropicClient.queryParams] Global query parameters to be sent with every request
+  /// - [AnthropicClient.client] Override HTTP client to use for requests
+  AnthropicClient({
+    this.apiKey = '',
     this.baseUrl,
     this.headers = const {},
     this.queryParams = const {},
@@ -94,6 +95,9 @@ class AnthropicAIClient {
 
   /// HTTP client for requests
   final http.Client client;
+
+  /// Authentication related variables
+  final String apiKey;
 
   // ------------------------------------------
   // METHOD: endSession
@@ -222,7 +226,7 @@ class AnthropicAIClient {
         }
       } catch (e) {
         // Handle request encoding error
-        throw AnthropicAIClientException(
+        throw AnthropicClientException(
           uri: uri,
           method: method,
           message: 'Could not encode: ${body.runtimeType}',
@@ -275,7 +279,7 @@ class AnthropicAIClient {
       response = await onStreamedResponse(response);
     } catch (e) {
       // Handle request and response errors
-      throw AnthropicAIClientException(
+      throw AnthropicClientException(
         uri: uri,
         method: method,
         message: 'Response error',
@@ -289,7 +293,7 @@ class AnthropicAIClient {
     }
 
     // Handle unsuccessful response
-    throw AnthropicAIClientException(
+    throw AnthropicClientException(
       uri: uri,
       method: method,
       message: 'Unsuccessful response',
@@ -333,7 +337,7 @@ class AnthropicAIClient {
       response = await onResponse(response);
     } catch (e) {
       // Handle request and response errors
-      throw AnthropicAIClientException(
+      throw AnthropicClientException(
         uri: uri,
         method: method,
         message: 'Response error',
@@ -347,7 +351,7 @@ class AnthropicAIClient {
     }
 
     // Handle unsuccessful response
-    throw AnthropicAIClientException(
+    throw AnthropicClientException(
       uri: uri,
       method: method,
       message: 'Unsuccessful response',
@@ -368,20 +372,23 @@ class AnthropicAIClient {
   /// The Messages API can be used for either single queries or stateless multi-turn
   /// conversations.
   ///
-  /// `request`: No description
+  /// `request`: The request parameters for creating a message.
   ///
-  /// `POST` `https://{host}v1/messages`
+  /// `POST` `https://api.anthropic.com/v1/messages`
   Future<Message> createMessage({
-    MessageCreateParamsNonStreaming? request,
+    required CreateMessageRequest request,
   }) async {
     final r = await makeRequest(
-      baseUrl: '',
-      path: '/v1/messages',
+      baseUrl: 'https://api.anthropic.com/v1',
+      path: '/messages',
       method: HttpMethod.post,
       isMultipart: false,
       requestType: 'application/json',
       responseType: 'application/json',
       body: request,
+      headerParams: {
+        if (apiKey.isNotEmpty) 'x-api-key': apiKey,
+      },
     );
     return Message.fromJson(_jsonDecode(r));
   }

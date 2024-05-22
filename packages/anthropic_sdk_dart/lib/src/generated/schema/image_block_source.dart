@@ -2,33 +2,32 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
 // ignore_for_file: invalid_annotation_target
-part of anthropic_a_i_schema;
+part of anthropic_schema;
 
 // ==========================================
-// CLASS: ImageBlockParamSource
+// CLASS: ImageBlockSource
 // ==========================================
 
-/// No Description
+/// The source of an image block.
 @freezed
-class ImageBlockParamSource with _$ImageBlockParamSource {
-  const ImageBlockParamSource._();
+class ImageBlockSource with _$ImageBlockSource {
+  const ImageBlockSource._();
 
-  /// Factory constructor for ImageBlockParamSource
-  const factory ImageBlockParamSource({
-    /// No Description
+  /// Factory constructor for ImageBlockSource
+  const factory ImageBlockSource({
+    /// The base64-encoded image data.
     required String data,
 
-    ///
-    @JsonKey(name: 'media_type')
-    required ImageBlockParamSourceMediaType mediaType,
+    /// The media type of the image.
+    @JsonKey(name: 'media_type') required ImageBlockSourceMediaType mediaType,
 
-    ///
-    required ImageBlockParamSourceType type,
-  }) = _ImageBlockParamSource;
+    /// The type of image source.
+    required ImageBlockSourceType type,
+  }) = _ImageBlockSource;
 
   /// Object construction from a JSON representation
-  factory ImageBlockParamSource.fromJson(Map<String, dynamic> json) =>
-      _$ImageBlockParamSourceFromJson(json);
+  factory ImageBlockSource.fromJson(Map<String, dynamic> json) =>
+      _$ImageBlockSourceFromJson(json);
 
   /// List of all property names of schema
   static const List<String> propertyNames = ['data', 'media_type', 'type'];
@@ -49,11 +48,11 @@ class ImageBlockParamSource with _$ImageBlockParamSource {
 }
 
 // ==========================================
-// ENUM: ImageBlockParamSourceMediaType
+// ENUM: ImageBlockSourceMediaType
 // ==========================================
 
-/// No Description
-enum ImageBlockParamSourceMediaType {
+/// The media type of the image.
+enum ImageBlockSourceMediaType {
   @JsonValue('image/jpeg')
   imageJpeg,
   @JsonValue('image/png')
@@ -65,11 +64,11 @@ enum ImageBlockParamSourceMediaType {
 }
 
 // ==========================================
-// ENUM: ImageBlockParamSourceType
+// ENUM: ImageBlockSourceType
 // ==========================================
 
-/// No Description
-enum ImageBlockParamSourceType {
+/// The type of image source.
+enum ImageBlockSourceType {
   @JsonValue('base64')
   base64,
 }

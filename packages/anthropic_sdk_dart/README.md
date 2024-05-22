@@ -1,35 +1,28 @@
-# Mistral AI Dart Client
+# Anthropic Dart Client
 
 [![tests](https://img.shields.io/github/actions/workflow/status/davidmigloz/langchain_dart/test.yaml?logo=github&label=tests)](https://github.com/davidmigloz/langchain_dart/actions/workflows/test.yaml)
-[![mistralai_dart](https://img.shields.io/pub/v/mistralai_dart.svg)](https://pub.dev/packages/mistralai_dart)
+[![anthropic_sdk_dart](https://img.shields.io/pub/v/anthropic_sdk_dart.svg)](https://pub.dev/packages/anthropic_sdk_dart)
 [![](https://dcbadge.vercel.app/api/server/x4qbhqecVR?style=flat)](https://discord.gg/x4qbhqecVR)
 [![MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://github.com/davidmigloz/langchain_dart/blob/main/LICENSE)
 
-Unofficial Dart client for [Mistral AI](https://docs.mistral.ai/api) API.
-
-> Note: Mistral AI API is currently in closed beta. You can request access [here](https://console.mistral.ai).
+Unofficial Dart client for [Anthropic](https://docs.anthropic.com/en/api) API (aka Claude API).
 
 ## Features
 
-- Generated from the official Mistral AI [OpenAPI specification](https://docs.mistral.ai/redocusaurus/plugin-redoc-0.yaml)
-- Fully type-safe, [documented](https://pub.dev/documentation/mistralai_dart/latest) and tested
+- Fully type-safe, [documented](https://pub.dev/documentation/anthropic_sdk_dart/latest) and tested
 - All platforms supported (including streaming on web)
 - Custom base URL, headers and query params support (e.g. HTTP proxies)
 - Custom HTTP client support (e.g. SOCKS5 proxies or advanced use cases)
 
 **Supported endpoints:**
 
-- Chat Completions (with streaming support)
-- Embeddings
-- Models
+- Messages (with streaming support)
 
 ## Table of contents
 
 - [Usage](#usage)
-  * [Chat Completions](#chat-completions)
-  * [Embeddings](#embeddings)
-  * [Models](#models)
-    + [List models](#list-models)
+  * [Authentication](#authentication)
+  * [Messages](#messages)
 - [Advance Usage](#advance-usage)
   * [Default HTTP client](#default-http-client)
   * [Custom HTTP client](#custom-http-client)
@@ -41,106 +34,87 @@ Unofficial Dart client for [Mistral AI](https://docs.mistral.ai/api) API.
 
 ## Usage
 
-Refer to the [documentation](https://docs.mistral.ai) for more information about the API.
+Refer to the [documentation](https://docs.anthropic.com) for more information about the API.
 
-### Chat Completions
+### Authentication
 
-Given a list of messages comprising a conversation, the model will return a response.
+The Anthropic API uses API keys for authentication. Visit the [Anthropic console](https://console.anthropic.com/settings/keys) to retrieve the API key you'll use in your requests.
 
-**Generate chat completion:**
+> **Remember that your API key is a secret!**  
+> Do not share it with others or expose it in any client-side code (browsers, apps). Production requests must be routed through your own backend server where your API key can be securely loaded from an environment variable or key management service.
 
 ```dart
-final res = await client.createChatCompletion(
-  request: ChatCompletionRequest(
-    model: ChatCompletionModel.model(ChatCompletionModels.mistralMedium),
-    temperature: 0,
+final apiKey = Platform.environment['ANTHROPIC_API_KEY'];
+final client = AnthropicClient(apiKey: apiKey);
+```
+
+### Messages
+
+Send a structured list of input messages with text and/or image content, and the model will generate the next message in the conversation.
+
+**Create a Message:**
+
+```dart
+final res = await client.createMessage(
+  request: CreateMessageRequest(
+    model: Model.model(Models.claude3Opus20240229),
+    maxTokens: 1024,
     messages: [
-      ChatCompletionMessage(
-        role: ChatCompletionMessageRole.user,
-        content: 'Why is the sky blue?',
+      Message(
+        role: MessageRole.user,
+        content: 'Hello, Claude',
       ),
     ],
   ),
 );
-print(res.choices.first.message?.content);
-// The sky appears blue due to a phenomenon called Rayleigh scattering...
+print(res.content.text);
+// Hi there! How can I help you today?
 ```
 
-`ChatCompletionModel` is a sealed class that offers two ways to specify the model:
-- `ChatCompletionModel.modelId('model-id')`: the model ID as string (e.g. `'mistral-small'`).
-- `ChatCompletionModel.model(ChatCompletionModels.mistralMedium)`: a value from `ChatCompletionModels` enum which lists all the available models.
+`Model` is a sealed class that offers two ways to specify the model:
+- `Model.modelId('model-id')`: the model ID as string (e.g. `'claude-3-haiku-20240307'`).
+- `Model.model(Models.claude3Opus20240229)`: a value from `Models` enum which lists all the available models.
 
-The following models are available at the moment:
-- `mistral-tiny`: Mistral 7B Instruct v0.2 (a minor release of Mistral 7B Instruct). It only works in English and obtains 7.6 on MT-Bench.
-- `mistral-small`: Mixtral 8x7B. It masters English/French/Italian/German/Spanish and code and obtains 8.3 on MT-Bench.
-- `mistral-medium`: a prototype model, that is currently among the top serviced models available based on standard benchmarks. It masters English/French/Italian/German/Spanish and code and obtains a score of 8.6 on MT-Bench.
+Mind that this list may not be up-to-date. Refer to the [documentation](https://docs.anthropic.com/en/docs/models-overview) for the updated list.
 
-Mind that this list may not be up-to-date. Refer to the [documentation](https://docs.mistral.ai/models) for the updated list.
-
-**Stream chat completion:**
+**Streaming messages:**
 
 ```dart
-final stream = client.createChatCompletionStream(
-  request: const ChatCompletionRequest(
-    model: ChatCompletionModel.model(ChatCompletionModels.mistralMedium),
-    temperature: 0,
+final stream = await client.createMessageStream(
+  request: CreateMessageRequest(
+    model: Model.model(Models.claude3Opus20240229),
+    maxTokens: 1024,
     messages: [
-      ChatCompletionMessage(
-        role: ChatCompletionMessageRole.user,
-        content: 'Why is the sky blue?',
+      Message(
+        role: MessageRole.user,
+        content: 'Hello, Claude',
       ),
     ],
   ),
 );
 String text = '';
 await for (final res in stream) {
-  text += res.choices.first.delta.content?.trim() ?? '';
+  res.map(
+      messageStart: (e) {},
+      messageDelta: (e) {},
+      messageStop: (e) {},
+      contentBlockStart: (e) {},
+      contentBlockDelta: (e) {
+        text += e.delta.text;
+      },
+      contentBlockStop: (e) {},
+      ping: (e) {},
+  );
 }
 print(text);
-// The sky appears blue due to a phenomenon called Rayleigh scattering...
-```
-
-### Embeddings
-
-Given a prompt, the model will generate an embedding representing the prompt.
-
-**Generate embedding:**
-
-```dart
-final generated = await client.createEmbedding(
-  request: const EmbeddingRequest(
-    model: EmbeddingModel.model(EmbeddingModels.mistralEmbed),
-    input: ['Why is the sky blue?'],
-  ),
-);
-print(generated.data.first.embedding);
-// [-0.0182342529296875, 0.03594970703125, 0.0286102294921875, ...]
-```
-
-`EmbeddingModel` is a sealed class that offers two ways to specify the model:
-- `EmbeddingModel.modelId('model-id')`: the model ID as string (e.g. `'mistral-embed'`).
-- `EmbeddingModel.model(EmbeddingModels.mistralEmbed)`: a value from `EmbeddingModels` enum which lists all the available models.
-
-The following models are available at the moment:
-- `mistral-embed`: an embedding model with a 1024 embedding dimensions designed with retrieval capabilities in mind. It achieves a retrieval score of 55.26 on MTEB.
-
-### Models
-
-#### List models
-
-List models that are available.
-
-```dart
-final res = await client.listModels();
-print(res.data);
-// [Model(id: mistral-medium, object: model, created: 1702396611, ownedBy: mistralai), ...]
+// Hi there! How can I help you today?
 ```
 
 ## Advance Usage
 
 ### Default HTTP client
 
-By default, the client uses `https://api.mistral.ai/v1` as the `baseUrl` and the following implementations of `http.Client`:
+By default, the client uses `https://api.anthropic.com/v1` as the `baseUrl` and the following implementations of `http.Client`:
 
 - Non-web: [`IOClient`](https://pub.dev/documentation/http/latest/io_client/IOClient-class.html)
 - Web: [`FetchClient`](https://pub.dev/documentation/fetch_client/latest/fetch_client/FetchClient-class.html) (to support streaming on web)
@@ -150,7 +124,7 @@ By default, the client uses `https://api.mistral.ai/v1` as the `baseUrl` and the
 You can always provide your own implementation of `http.Client` for further customization:
 
 ```dart
-final client = MistralAIClient(
+final client = AnthropicClient(
   apiKey: 'MISTRAL_API_KEY',
   client: MyHttpClient(),
 );
@@ -163,7 +137,7 @@ final client = MistralAIClient(
 You can use your own HTTP proxy by overriding the `baseUrl` and providing your required `headers`:
 
 ```dart 
-final client = MistralAIClient(
+final client = AnthropicClient(
   baseUrl: 'https://my-proxy.com',
   headers: {
       'x-my-proxy-header': 'value',
@@ -184,7 +158,7 @@ SocksTCPClient.assignToHttpClient(baseHttpClient, [
 ]);
 final httpClient = IOClient(baseClient);
 
-final client = MistralAIClient(
+final client = AnthropicClient(
   client: httpClient,
 );
 ```
@@ -195,4 +169,4 @@ The generation of this client was made possible by the [openapi_spec](https://gi
 
 ## License
 
-Mistral AI Dart Client is licensed under the [MIT License](https://github.com/davidmigloz/langchain_dart/blob/main/LICENSE).
+Anthropic Dart Client is licensed under the [MIT License](https://github.com/davidmigloz/langchain_dart/blob/main/LICENSE).
