@@ -32,7 +32,7 @@ sealed class MessageStreamEvent with _$MessageStreamEvent {
 
   /// A delta event in a streaming conversation.
   const factory MessageStreamEvent.messageDelta({
-    /// No Description
+    /// A delta in a streaming message.
     required MessageDelta delta,
 
     /// The type of a streaming event.

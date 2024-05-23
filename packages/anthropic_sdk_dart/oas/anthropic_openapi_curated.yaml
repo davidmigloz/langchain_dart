@@ -453,6 +453,7 @@ components:
         - usage
     MessageDelta:
       type: object
+      description: A delta in a streaming message.
       properties:
         stop_reason:
           $ref: "#/components/schemas/StopReason"

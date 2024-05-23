@@ -4257,7 +4257,7 @@ class _$MessageDeltaEventImpl extends MessageDeltaEvent {
   factory _$MessageDeltaEventImpl.fromJson(Map<String, dynamic> json) =>
       _$$MessageDeltaEventImplFromJson(json);
 
-  /// No Description
+  /// A delta in a streaming message.
   @override
   final MessageDelta delta;
 
@@ -4440,7 +4440,7 @@ abstract class MessageDeltaEvent extends MessageStreamEvent {
   factory MessageDeltaEvent.fromJson(Map<String, dynamic> json) =
       _$MessageDeltaEventImpl.fromJson;
 
-  /// No Description
+  /// A delta in a streaming message.
   MessageDelta get delta;
   @override
 

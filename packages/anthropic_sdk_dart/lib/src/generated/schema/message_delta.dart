@@ -8,7 +8,7 @@ part of anthropic_schema;
 // CLASS: MessageDelta
 // ==========================================
 
-/// No Description
+/// A delta in a streaming message.
 @freezed
 class MessageDelta with _$MessageDelta {
   const MessageDelta._();
