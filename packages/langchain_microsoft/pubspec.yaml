@@ -4,7 +4,7 @@ version: 0.0.1-dev.1
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_microsoft
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:langchain_microsoft
 homepage: https://github.com/davidmigloz/langchain_dart
-documentation: https://langchaindart.com
+documentation: https://langchaindart.dev
 publish_to: none # Remove when the package is ready to be published
 
 topics:
