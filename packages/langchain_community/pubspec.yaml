@@ -4,7 +4,7 @@ version: 0.2.0+1
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_community
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:langchain_community
 homepage: https://github.com/davidmigloz/langchain_dart
-documentation: https://langchaindart.com
+documentation: https://langchaindart.dev
 
 topics:
   - ai

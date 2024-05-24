@@ -156,9 +156,9 @@ print(res);
 
 ## Documentation
 
-- [LangChain.dart documentation](https://langchaindart.com)
+- [LangChain.dart documentation](https://langchaindart.dev)
 - [Sample apps](https://github.com/davidmigloz/langchain_dart/tree/main/examples)
-- [LangChain.dart blog](https://blog.langchaindart.com)
+- [LangChain.dart blog](https://blog.langchaindart.dev)
 - [Project board](https://github.com/users/davidmigloz/projects/2/views/1)
 
 ## Community

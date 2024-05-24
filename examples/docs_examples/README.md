@@ -1,3 +1,3 @@
 # Docs examples
 
-Examples used in https://langchaindart.com documentation.
+Examples used in https://langchaindart.dev documentation.
