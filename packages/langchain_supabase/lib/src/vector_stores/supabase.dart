@@ -54,7 +54,7 @@ import 'package:supabase/supabase.dart';
 /// ```
 ///
 /// See documentation for more details:
-/// - [LangChain.dart Supabase docs](https://langchaindart.com/#/modules/retrieval/vector_stores/integrations/supabase)
+/// - [LangChain.dart Supabase docs](https://langchaindart.dev/#/modules/retrieval/vector_stores/integrations/supabase)
 /// - [Supabase Vector docs](https://supabase.com/docs/guides/ai)
 /// {@endtemplate}
 class Supabase extends VectorStore {

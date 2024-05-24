@@ -4,7 +4,7 @@ version: 0.3.1
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_core
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:langchain_core
 homepage: https://github.com/davidmigloz/langchain_dart
-documentation: https://langchaindart.com
+documentation: https://langchaindart.dev
 
 topics:
   - ai

@@ -111,7 +111,7 @@ import 'types.dart';
 ///
 /// [ChatFirebaseVertexAI] supports tool calling.
 ///
-/// Check the [docs](https://langchaindart.com/#/modules/model_io/models/chat_models/how_to/tools)
+/// Check the [docs](https://langchaindart.dev/#/modules/model_io/models/chat_models/how_to/tools)
 /// for more information on how to use tools.
 ///
 /// Example:
