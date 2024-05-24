@@ -153,7 +153,7 @@
 
 ## 0.0.13
 
-> Check out the [LangChain Expression Language documentation](https://langchaindart.com/#/expression_language/interface) for more details
+> Check out the [LangChain Expression Language documentation](https://langchaindart.dev/#/expression_language/interface) for more details
 
  - **FEAT**: Add support for JsonOutputFunctionsParser ([#165](https://github.com/davidmigloz/langchain_dart/issues/165)). ([66c8e644](https://github.com/davidmigloz/langchain_dart/commit/66c8e64410d1dbf8b75e5734cb0cbb0e43dc0615))
  - **FEAT**: Add support for StringOutputParser ([#164](https://github.com/davidmigloz/langchain_dart/issues/164)). ([ee29e99a](https://github.com/davidmigloz/langchain_dart/commit/ee29e99a410c3cc6a7ae263fea1cde283f904edf))
@@ -274,7 +274,7 @@
  - Initial public release. 
 
 Check out the announcement post for all the details: 
-https://blog.langchaindart.com/introducing-langchain-dart-6b1d34fc41ef
+https://blog.langchaindart.dev/introducing-langchain-dart-6b1d34fc41ef
 
 ## 0.0.1-dev.7
 
@@ -322,7 +322,7 @@ https://blog.langchaindart.com/introducing-langchain-dart-6b1d34fc41ef
 - Add support for LLMs - `BaseLLM` class (#14).
 - Add support for Chat models - `BaseChatModel` class (#10).
 - Add support for prompt templates - `PromptTemplate` class (#7).
-- Publish LangChain.dart documentation on http://langchaindart.com.
+- Publish LangChain.dart documentation on http://langchaindart.dev.
 
 ## 0.0.1-dev.1
 
