@@ -44925,12 +44925,13 @@ CreateVectorStoreRequest _$CreateVectorStoreRequestFromJson(
 
 /// @nodoc
 mixin _$CreateVectorStoreRequest {
+  /// The name of the vector store.
+  @JsonKey(includeIfNull: false)
+  String? get name => throw _privateConstructorUsedError;
+
   /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
   @JsonKey(name: 'file_ids', includeIfNull: false)
   List<String>? get fileIds => throw _privateConstructorUsedError;
-
-  /// The name of the vector store.
-  String get name => throw _privateConstructorUsedError;
 
   /// The expiration policy for a vector store.
   @JsonKey(name: 'expires_after', includeIfNull: false)
@@ -44954,8 +44955,8 @@ abstract class $CreateVectorStoreRequestCopyWith<$Res> {
       _$CreateVectorStoreRequestCopyWithImpl<$Res, CreateVectorStoreRequest>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
-      String name,
+      {@JsonKey(includeIfNull: false) String? name,
+      @JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
       @JsonKey(name: 'expires_after', includeIfNull: false)
       VectorStoreExpirationAfter? expiresAfter,
       @JsonKey(includeIfNull: false) dynamic metadata});
@@ -44977,20 +44978,20 @@ class _$CreateVectorStoreRequestCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? name = freezed,
     Object? fileIds = freezed,
-    Object? name = null,
     Object? expiresAfter = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_value.copyWith(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
       fileIds: freezed == fileIds
           ? _value.fileIds
           : fileIds // ignore: cast_nullable_to_non_nullable
               as List<String>?,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
       expiresAfter: freezed == expiresAfter
           ? _value.expiresAfter
           : expiresAfter // ignore: cast_nullable_to_non_nullable
@@ -45026,8 +45027,8 @@ abstract class _$$CreateVectorStoreRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
-      String name,
+      {@JsonKey(includeIfNull: false) String? name,
+      @JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
       @JsonKey(name: 'expires_after', includeIfNull: false)
       VectorStoreExpirationAfter? expiresAfter,
       @JsonKey(includeIfNull: false) dynamic metadata});
@@ -45049,20 +45050,20 @@ class __$$CreateVectorStoreRequestImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? name = freezed,
     Object? fileIds = freezed,
-    Object? name = null,
     Object? expiresAfter = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_$CreateVectorStoreRequestImpl(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
       fileIds: freezed == fileIds
           ? _value._fileIds
           : fileIds // ignore: cast_nullable_to_non_nullable
               as List<String>?,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
       expiresAfter: freezed == expiresAfter
           ? _value.expiresAfter
           : expiresAfter // ignore: cast_nullable_to_non_nullable
@@ -45079,9 +45080,9 @@ class __$$CreateVectorStoreRequestImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
   const _$CreateVectorStoreRequestImpl(
-      {@JsonKey(name: 'file_ids', includeIfNull: false)
+      {@JsonKey(includeIfNull: false) this.name,
+      @JsonKey(name: 'file_ids', includeIfNull: false)
       final List<String>? fileIds,
-      required this.name,
       @JsonKey(name: 'expires_after', includeIfNull: false) this.expiresAfter,
       @JsonKey(includeIfNull: false) this.metadata})
       : _fileIds = fileIds,
@@ -45089,6 +45090,11 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
 
   factory _$CreateVectorStoreRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreateVectorStoreRequestImplFromJson(json);
+
+  /// The name of the vector store.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? name;
 
   /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
   final List<String>? _fileIds;
@@ -45104,10 +45110,6 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
     return EqualUnmodifiableListView(value);
   }
 
-  /// The name of the vector store.
-  @override
-  final String name;
-
   /// The expiration policy for a vector store.
   @override
   @JsonKey(name: 'expires_after', includeIfNull: false)
@@ -45120,7 +45122,7 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
 
   @override
   String toString() {
-    return 'CreateVectorStoreRequest(fileIds: $fileIds, name: $name, expiresAfter: $expiresAfter, metadata: $metadata)';
+    return 'CreateVectorStoreRequest(name: $name, fileIds: $fileIds, expiresAfter: $expiresAfter, metadata: $metadata)';
   }
 
   @override
@@ -45128,8 +45130,8 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateVectorStoreRequestImpl &&
-            const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
             (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
             (identical(other.expiresAfter, expiresAfter) ||
                 other.expiresAfter == expiresAfter) &&
             const DeepCollectionEquality().equals(other.metadata, metadata));
@@ -45139,8 +45141,8 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_fileIds),
       name,
+      const DeepCollectionEquality().hash(_fileIds),
       expiresAfter,
       const DeepCollectionEquality().hash(metadata));
 
@@ -45161,9 +45163,9 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
 
 abstract class _CreateVectorStoreRequest extends CreateVectorStoreRequest {
   const factory _CreateVectorStoreRequest(
-          {@JsonKey(name: 'file_ids', includeIfNull: false)
+          {@JsonKey(includeIfNull: false) final String? name,
+          @JsonKey(name: 'file_ids', includeIfNull: false)
           final List<String>? fileIds,
-          required final String name,
           @JsonKey(name: 'expires_after', includeIfNull: false)
           final VectorStoreExpirationAfter? expiresAfter,
           @JsonKey(includeIfNull: false) final dynamic metadata}) =
@@ -45175,13 +45177,14 @@ abstract class _CreateVectorStoreRequest extends CreateVectorStoreRequest {
 
   @override
 
+  /// The name of the vector store.
+  @JsonKey(includeIfNull: false)
+  String? get name;
+  @override
+
   /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
   @JsonKey(name: 'file_ids', includeIfNull: false)
   List<String>? get fileIds;
-  @override
-
-  /// The name of the vector store.
-  String get name;
   @override
 
   /// The expiration policy for a vector store.

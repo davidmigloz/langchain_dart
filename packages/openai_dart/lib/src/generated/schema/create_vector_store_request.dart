@@ -15,11 +15,11 @@ class CreateVectorStoreRequest with _$CreateVectorStoreRequest {
 
   /// Factory constructor for CreateVectorStoreRequest
   const factory CreateVectorStoreRequest({
+    /// The name of the vector store.
+    @JsonKey(includeIfNull: false) String? name,
+
     /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
     @JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
-
-    /// The name of the vector store.
-    required String name,
 
     /// The expiration policy for a vector store.
     @JsonKey(name: 'expires_after', includeIfNull: false)
@@ -35,8 +35,8 @@ class CreateVectorStoreRequest with _$CreateVectorStoreRequest {
 
   /// List of all property names of schema
   static const List<String> propertyNames = [
-    'file_ids',
     'name',
+    'file_ids',
     'expires_after',
     'metadata'
   ];
@@ -49,8 +49,8 @@ class CreateVectorStoreRequest with _$CreateVectorStoreRequest {
   /// Map representation of object (not serialized)
   Map<String, dynamic> toMap() {
     return {
-      'file_ids': fileIds,
       'name': name,
+      'file_ids': fileIds,
       'expires_after': expiresAfter,
       'metadata': metadata,
     };

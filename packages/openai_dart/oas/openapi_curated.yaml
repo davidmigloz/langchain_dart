@@ -5669,23 +5669,21 @@ components:
       description: Request object for the Create assistant file endpoint.
       additionalProperties: false
       properties:
+        name:
+          description: The name of the vector store.
+          type: string
         file_ids:
           description: A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
           type: array
           maxItems: 500
           items:
             type: string
-        name:
-          description: The name of the vector store.
-          type: string
         expires_after:
           $ref: "#/components/schemas/VectorStoreExpirationAfter"
         metadata:
           description: *metadata_description
           type: object
           nullable: true
-      required:
-        - name
     UpdateVectorStoreRequest:
       type: object
       description: Request object for the Update vector store endpoint.
