@@ -88,8 +88,10 @@ class _CreateMessageRequestContentConverter
 
   @override
   CreateMessageRequestContent fromJson(Object? data) {
-    if (data is List && data.every((item) => item is MessageContent)) {
-      return CreateMessageRequestContentListMessageContent(data.cast());
+    if (data is List && data.every((item) => item is Map)) {
+      return CreateMessageRequestContentListMessageContent(data
+          .map((i) => MessageContent.fromJson(i as Map<String, dynamic>))
+          .toList(growable: false));
     }
     if (data is String) {
       return CreateMessageRequestContentString(data);
