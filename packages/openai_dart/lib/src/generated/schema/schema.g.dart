@@ -4373,10 +4373,10 @@ Map<String, dynamic> _$$VectorStoreObjectFileCountsImplToJson(
 _$CreateVectorStoreRequestImpl _$$CreateVectorStoreRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateVectorStoreRequestImpl(
+      name: json['name'] as String?,
       fileIds: (json['file_ids'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      name: json['name'] as String,
       expiresAfter: json['expires_after'] == null
           ? null
           : VectorStoreExpirationAfter.fromJson(
@@ -4394,8 +4394,8 @@ Map<String, dynamic> _$$CreateVectorStoreRequestImplToJson(
     }
   }
 
+  writeNotNull('name', instance.name);
   writeNotNull('file_ids', instance.fileIds);
-  val['name'] = instance.name;
   writeNotNull('expires_after', instance.expiresAfter?.toJson());
   writeNotNull('metadata', instance.metadata);
   return val;
