@@ -158,9 +158,11 @@ class _ChatCompletionUserMessageContentConverter
 
   @override
   ChatCompletionUserMessageContent fromJson(Object? data) {
-    if (data is List &&
-        data.every((item) => item is ChatCompletionMessageContentPart)) {
-      return ChatCompletionMessageContentParts(data.cast());
+    if (data is List && data.every((item) => item is Map)) {
+      return ChatCompletionMessageContentParts(data
+          .map((i) => ChatCompletionMessageContentPart.fromJson(
+              i as Map<String, dynamic>))
+          .toList(growable: false));
     }
     if (data is String) {
       return ChatCompletionUserMessageContentString(data);
