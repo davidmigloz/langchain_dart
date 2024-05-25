@@ -147,6 +147,9 @@ sealed class ChatMessage {
 
   /// Merges this message with another by concatenating the content.
   ChatMessage concat(final ChatMessage other);
+
+  ///Converts ChatMessage to json string
+  Map<String, dynamic> toJson();
 }
 
 /// {@template system_chat_message}
@@ -187,6 +190,15 @@ SystemChatMessage{
   content: $content,
 }''';
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': defaultPrefix,
+        'content': content,
+      };
+
+  factory SystemChatMessage.fromJson(final Map<String, dynamic> json) =>
+      SystemChatMessage(content: json['content']);
 }
 
 /// {@template human_chat_message}
@@ -279,6 +291,18 @@ HumanChatMessage{
   content: $content,
 }''';
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': defaultPrefix,
+        'content': content.toJson(),
+      };
+
+  factory HumanChatMessage.fromJson(final Map<String, dynamic> json) {
+    return HumanChatMessage(
+      content: ChatMessageContentText.fromJson(json['content']),
+    );
+  }
 }
 
 /// {@template ai_chat_message}
@@ -366,6 +390,23 @@ AIChatMessage{
   toolCalls: $toolCalls,
 }''';
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': defaultPrefix,
+        'content': content,
+        'toolCalls': toolCalls.map((toolCall) => toolCall.toJson()).toList(),
+      };
+
+  /// Will be used to get an [AIChatMessage] from a json format
+  factory AIChatMessage.fromJson(final Map<String, dynamic> json) {
+    return AIChatMessage(
+      content: json['content'],
+      toolCalls: (json['toolCalls'] as List)
+          .map((toolCallJson) => AIChatMessageToolCall.fromJson(toolCallJson))
+          .toList(),
+    );
+  }
 }
 
 /// {@template ai_chat_message_tool_call}
@@ -434,6 +475,24 @@ AIChatMessageToolCall{
   arguments: $arguments,
 }''';
   }
+
+  /// The toJson function will convert the [AIChatMessageToolCall] to a json object
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'argumentsRaw': argumentsRaw,
+        'arguments': arguments,
+      };
+
+  /// Will be used to get an AIChatMessageToolCall from a json format
+  factory AIChatMessageToolCall.fromJson(final Map<String, dynamic> json) {
+    return AIChatMessageToolCall(
+      id: json['id'],
+      name: json['name'],
+      argumentsRaw: json['argumentsRaw'],
+      arguments: json['arguments'],
+    );
+  }
 }
 
 /// {@template tool_chat_message}
@@ -484,6 +543,17 @@ ToolChatMessage{
   content: $content,
 }''';
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': defaultPrefix,
+        'toolCallId': toolCallId,
+        'content': content,
+      };
+
+  /// Will be used to get an [ToolChatMessage] from a json format
+  factory ToolChatMessage.fromJson(final Map<String, dynamic> json) =>
+      ToolChatMessage(content: json['content'], toolCallId: json['toolCallId']);
 }
 
 /// {@template custom_chat_message}
@@ -529,6 +599,17 @@ CustomChatMessage{
   role: $role,
 }''';
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': 'Custom',
+        'content': content,
+        'role': role,
+      };
+
+  /// Will be used to get an [ToolChatMessage] from a json format
+  factory CustomChatMessage.fromJson(final Map<String, dynamic> json) =>
+      CustomChatMessage(content: json['content'], role: json['role']);
 }
 
 /// Role of a chat message
@@ -580,6 +661,9 @@ sealed class ChatMessageContent {
     final List<ChatMessageContent> parts,
   ) =>
       ChatMessageContentMultiModal(parts: parts);
+
+  /// Converts the class to a json object
+  Map<String, dynamic> toJson();
 }
 
 /// {@template chat_message_content_text}
@@ -608,6 +692,15 @@ ChatMessageContentText{
   text: $text,
 }''';
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'text': text,
+      };
+
+  /// Takes a json object and returns a new ChatMessageContentText
+  factory ChatMessageContentText.fromJson(final Map<String, dynamic> json) =>
+      ChatMessageContentText(text: json['text']);
 }
 
 /// {@template chat_message_content_image}
@@ -657,6 +750,13 @@ ChatMessageContentImage{
   imageDetail: $detail,
 }''';
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'data': data,
+        'mimeType': mimeType,
+        'imageDetail': detail,
+      };
 }
 
 /// {@template chat_message_content_multi_modal}
@@ -689,6 +789,11 @@ ChatMessageContentMultiModal{
   parts: $parts,
 }''';
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'parts': parts.map((part) => part.toJson()).toList(),
+      };
 }
 
 /// Specifies the detail level of the image.
