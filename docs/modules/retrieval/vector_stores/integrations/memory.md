@@ -1,8 +1,8 @@
 # MemoryVectorStore
 
-`MemoryVectorStore` is an in-memory, ephemeral vector store that stores
-embeddings in-memory and does an exact, linear search for the most similar
-embeddings. The default similarity metric is cosine similarity.
+`MemoryVectorStore` is an in-memory, ephemeral vector store that stores embeddings in-memory and does an exact, linear search for the most similar embeddings. The default similarity metric is cosine similarity.
+
+This class is useful for testing and prototyping, but it is not recommended for production use cases. See other vector store integrations for production use cases.
 
 ```dart
 const filePath = './test/chains/assets/state_of_the_union.txt';
@@ -30,7 +30,7 @@ final docSearch = await MemoryVectorStore.fromDocuments(
 );
 final llm = ChatOpenAI(
   apiKey: openAiKey,
-  defaultOptions: const ChatOpenAIOptions(temperature: 0),
+  defaultOptions: ChatOpenAIOptions(temperature: 0),
 );
 final qaChain = OpenAIQAWithSourcesChain(llm: llm);
 final docPrompt = PromptTemplate.fromTemplate(
