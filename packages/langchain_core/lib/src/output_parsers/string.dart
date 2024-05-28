@@ -68,9 +68,7 @@ class StringOutputParser<ParserInput extends Object?>
     if (reduceOutputStream) {
       yield await inputStream.map(_parse).reduce((final a, final b) => '$a$b');
     } else {
-      await for (final input in inputStream) {
-        yield _parse(input);
-      }
+      yield* inputStream.map(_parse);
     }
   }
 
