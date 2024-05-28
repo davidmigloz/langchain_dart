@@ -1,10 +1,22 @@
-# melos_managed_dependency_overrides: langchain,langchain_openai,openai_dart,langchain_core
+# melos_managed_dependency_overrides: langchain,langchain_openai,openai_dart,langchain_core,langchain_google,langchain_mistralai,langchain_ollama,mistralai_dart,ollama_dart,vertex_ai
 dependency_overrides:
   langchain:
     path: ../../packages/langchain
   langchain_core:
     path: ../../packages/langchain_core
+  langchain_google:
+    path: ../../packages/langchain_google
+  langchain_mistralai:
+    path: ../../packages/langchain_mistralai
+  langchain_ollama:
+    path: ../../packages/langchain_ollama
   langchain_openai:
     path: ../../packages/langchain_openai
+  mistralai_dart:
+    path: ../../packages/mistralai_dart
+  ollama_dart:
+    path: ../../packages/ollama_dart
   openai_dart:
     path: ../../packages/openai_dart
+  vertex_ai:
+    path: ../../packages/vertex_ai
