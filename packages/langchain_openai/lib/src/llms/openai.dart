@@ -345,7 +345,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     return encoding.encode(promptValue.toString());
   }
 
-  /// Closes the client and cleans up any resources associated with it.
+  @override
   void close() {
     _client.endSession();
   }

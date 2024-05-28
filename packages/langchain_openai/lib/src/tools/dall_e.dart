@@ -111,7 +111,7 @@ final class OpenAIDallETool extends StringTool<OpenAIDallEToolOptions> {
     }
   }
 
-  /// Closes the client and cleans up any resources associated with it.
+  @override
   void close() {
     _client.endSession();
   }
