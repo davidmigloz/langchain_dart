@@ -205,4 +205,11 @@ Please ensure that the output of the previous runnable in the sequence matches t
     ''';
     throw ArgumentError(errorMessage);
   }
+
+  @override
+  void close() {
+    for (final step in steps) {
+      step.close();
+    }
+  }
 }

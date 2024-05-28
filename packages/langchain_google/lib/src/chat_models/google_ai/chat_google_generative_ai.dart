@@ -349,7 +349,7 @@ class ChatGoogleGenerativeAI
     return tokens.totalTokens;
   }
 
-  /// Closes the client and cleans up any resources associated with it.
+  @override
   void close() {
     _httpClient.close();
   }

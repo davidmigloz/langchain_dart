@@ -107,8 +107,8 @@ void main() {
       }
     });
 
-    test('Test tool calling',
-        timeout: const Timeout(Duration(minutes: 1)), () async {
+    test('Test tool calling', timeout: const Timeout(Duration(minutes: 1)),
+        () async {
       const tool = ToolSpec(
         name: 'get_current_weather',
         description: 'Get the current weather in a given location',

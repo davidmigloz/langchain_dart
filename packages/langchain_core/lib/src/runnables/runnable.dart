@@ -289,4 +289,14 @@ abstract class Runnable<RunInput extends Object?,
   ) {
     return options is CallOptions ? options : null;
   }
+
+  /// Cleans up any resources associated with it the [Runnable].
+  ///
+  /// For example, if the [Runnable] uses a http client internally, it closes
+  /// it. If there is no resource to clean up, this method does nothing.
+  ///
+  /// Don't try to call the [Runnable] after calling this method.
+  void close() {
+    // Override this method if the Runnable needs to clean up resources
+  }
 }
