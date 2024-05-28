@@ -399,7 +399,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
         : getEncoding('cl100k_base');
   }
 
-  /// Closes the client and cleans up any resources associated with it.
+  @override
   void close() {
     _client.endSession();
   }

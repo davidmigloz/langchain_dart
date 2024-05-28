@@ -70,4 +70,9 @@ class RunnableBinding<RunInput extends Object?,
       options: options ?? this.options,
     );
   }
+
+  @override
+  void close() {
+    bound.close();
+  }
 }
