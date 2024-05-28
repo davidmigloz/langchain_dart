@@ -94,6 +94,7 @@
     - [Vector stores](/modules/retrieval/vector_stores/vector_stores.md)
       - Integrations
         - [Memory](/modules/retrieval/vector_stores/integrations/memory.md)
+        - [ObjectBox](/modules/retrieval/vector_stores/integrations/objectbox.md)
         - [Chroma](/modules/retrieval/vector_stores/integrations/chroma.md)
         - [Pinecone](/modules/retrieval/vector_stores/integrations/pinecone.md)
         - [Supabase](/modules/retrieval/vector_stores/integrations/supabase.md)
