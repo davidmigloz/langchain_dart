@@ -14,7 +14,9 @@ import 'package:uuid/uuid.dart';
 /// This is not efficient for large vector stores as it has a time complexity
 /// of O(vector_dimensionality * num_vectors).
 ///
-/// For more efficient vector stores, see [VertexAIMatchingEngine](https://pub.dev/documentation/langchain_google/latest/langchain_google/VertexAIMatchingEngine-class.html).
+/// This class is useful for testing and prototyping, but it is not recommended
+/// for production use cases. See other vector store integrations for
+/// production use cases.
 ///
 /// ### Filtering
 ///
