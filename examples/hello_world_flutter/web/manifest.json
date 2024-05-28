@@ -1,11 +1,11 @@
 {
     "name": "hello_world_flutter",
-    "short_name": "hello_world_flutter",
+    "short_name": "Hello World Flutter",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "A sample Flutter app integrating LangChain.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

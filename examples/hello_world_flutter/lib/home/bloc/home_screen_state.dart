@@ -6,36 +6,40 @@ class HomeScreenState extends Equatable {
   const HomeScreenState({
     this.status = HomeScreenStatus.idle,
     this.error,
-    this.clientType = ClientType.openAI,
-    this.openAIKey,
-    this.localUrl,
-    this.query,
-    this.response,
+    this.provider = Provider.ollama,
+    this.model = const {},
+    this.apiKey = const {},
+    this.baseUrl = const {},
+    this.query = '',
+    this.response = '',
   });
 
   final HomeScreenStatus status;
   final HomeScreenError? error;
-  final ClientType clientType;
-  final String? openAIKey;
-  final String? localUrl;
-  final String? query;
-  final String? response;
+  final Provider provider;
+  final Map<Provider, String> model;
+  final Map<Provider, String> apiKey;
+  final Map<Provider, String> baseUrl;
+  final String query;
+  final String response;
 
   HomeScreenState copyWith({
     final HomeScreenStatus? status,
     final HomeScreenError? error,
-    final ClientType? clientType,
-    final String? openAIKey,
-    final String? localUrl,
+    final Provider? provider,
+    final Map<Provider, String>? model,
+    final Map<Provider, String>? apiKey,
+    final Map<Provider, String>? baseUrl,
     final String? query,
     final String? response,
   }) {
     return HomeScreenState(
       status: status ?? this.status,
       error: error,
-      clientType: clientType ?? this.clientType,
-      openAIKey: openAIKey ?? this.openAIKey,
-      localUrl: localUrl ?? this.localUrl,
+      provider: provider ?? this.provider,
+      model: model ?? this.model,
+      apiKey: apiKey ?? this.apiKey,
+      baseUrl: baseUrl ?? this.baseUrl,
       query: query ?? this.query,
       response: response ?? this.response,
     );
@@ -45,9 +49,10 @@ class HomeScreenState extends Equatable {
   List<Object?> get props => [
         status,
         error,
-        clientType,
-        openAIKey,
-        localUrl,
+        provider,
+        model,
+        apiKey,
+        baseUrl,
         query,
         response,
       ];
@@ -59,12 +64,9 @@ enum HomeScreenStatus {
 }
 
 enum HomeScreenError {
-  openAIKeyEmpty,
-  localUrlEmpty,
+  modelEmpty,
+  apiKeyEmpty,
+  baseUrlEmpty,
   queryEmpty,
-}
-
-enum ClientType {
-  openAI,
-  local,
+  generationError,
 }
