@@ -49,6 +49,7 @@ command:
       langchain_tiktoken: ^1.0.1
       math_expressions: ^2.4.0
       meta: ^1.11.0
+      objectbox: ^4.0.1
       pinecone: ^0.7.2
       shared_preferences: ^2.2.2
       shelf: ^1.4.1
@@ -59,6 +60,7 @@ command:
       build_runner: ^2.4.9
       freezed: ^2.4.7
       json_serializable: ^6.7.1
+      objectbox_generator: ^4.0.0
       openapi_spec:
         git:
           url: https://github.com/davidmigloz/openapi_spec.git
