@@ -3,23 +3,58 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:langchain/langchain.dart';
+import 'package:langchain_google/langchain_google.dart';
+import 'package:langchain_mistralai/langchain_mistralai.dart';
+import 'package:langchain_ollama/langchain_ollama.dart';
 import 'package:langchain_openai/langchain_openai.dart';
+
+import 'providers.dart';
 
 part 'home_screen_state.dart';
 
 class HomeScreenCubit extends Cubit<HomeScreenState> {
-  HomeScreenCubit() : super(const HomeScreenState());
-
-  void onClientTypeChanged(final ClientType clientType) {
-    emit(state.copyWith(clientType: clientType, response: ''));
+  HomeScreenCubit() : super(const HomeScreenState()) {
+    _updateChain();
   }
 
-  void onOpenAIKeyChanged(final String openAIKey) {
-    emit(state.copyWith(openAIKey: openAIKey));
+  RunnableSequence<String, String>? chain;
+
+  void onProviderChanged(final Provider provider) {
+    emit(
+      state.copyWith(
+        status: HomeScreenStatus.idle,
+        provider: provider,
+        response: '',
+      ),
+    );
+    _updateChain();
   }
 
-  void onLocalUrlChanged(final String localUrl) {
-    emit(state.copyWith(localUrl: localUrl));
+  void onModelChanged(final String model) {
+    final newModel = {
+      ...state.model,
+      state.provider: model,
+    };
+    emit(state.copyWith(model: newModel));
+    _updateChain();
+  }
+
+  void onApiKeyChanged(final String apiKey) {
+    final newApiKey = {
+      ...state.apiKey,
+      state.provider: apiKey,
+    };
+    emit(state.copyWith(apiKey: newApiKey));
+    _updateChain();
+  }
+
+  void onBaseUrlChanged(final String baseUrl) {
+    final newBaseUrl = {
+      ...state.baseUrl,
+      state.provider: baseUrl,
+    };
+    emit(state.copyWith(baseUrl: newBaseUrl));
+    _updateChain();
   }
 
   void onQueryChanged(final String query) {
@@ -27,68 +62,106 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   }
 
   Future<void> onSubmitPressed() async {
-    final config = _getClientConfig();
-    if (config == null) {
-      return;
-    }
-    final (apiKey, baseUrl) = config;
+    if (!_validateInput()) return;
+    emit(state.copyWith(status: HomeScreenStatus.generating, response: ''));
 
-    final query = state.query;
-    if (query == null || query.isEmpty) {
+    assert(chain != null);
+    final stream = chain!.stream(state.query).handleError(_onErrorGenerating);
+    await for (final result in stream) {
+      emit(
+        state.copyWith(
+          status: HomeScreenStatus.idle,
+          response: (state.response) + result,
+        ),
+      );
+    }
+  }
+
+  bool _validateInput() {
+    final provider = state.provider;
+    if (provider.isRemote && (state.apiKey[provider] ?? '').isEmpty) {
+      emit(
+        state.copyWith(
+          status: HomeScreenStatus.idle,
+          error: HomeScreenError.apiKeyEmpty,
+        ),
+      );
+      return false;
+    }
+
+    if (state.query.isEmpty) {
       emit(
         state.copyWith(
           status: HomeScreenStatus.idle,
           error: HomeScreenError.queryEmpty,
         ),
       );
-      return;
+      return false;
     }
 
-    emit(state.copyWith(status: HomeScreenStatus.generating, response: ''));
+    return true;
+  }
 
-    final llm = ChatOpenAI(
-      apiKey: apiKey,
-      baseUrl: baseUrl ?? '',
-    );
+  void _updateChain() {
+    try {
+      final provider = state.provider;
+      final model = state.model;
+      final apiKey = state.apiKey;
 
-    final result = await llm([ChatMessage.humanText(query)]);
+      final chatModel = switch (provider) {
+        Provider.googleAI => ChatGoogleGenerativeAI(
+            apiKey: apiKey[provider] ?? '',
+            baseUrl: state.baseUrl[provider] ?? provider.defaultBaseUrl,
+            defaultOptions: ChatGoogleGenerativeAIOptions(
+              model: model[provider] ?? provider.defaultModel,
+            ),
+          ),
+        Provider.mistral => ChatMistralAI(
+            apiKey: apiKey[provider] ?? '',
+            baseUrl: state.baseUrl[provider] ?? provider.defaultBaseUrl,
+            defaultOptions: ChatMistralAIOptions(
+              model: model[provider] ?? provider.defaultModel,
+            ),
+          ),
+        Provider.openAI => ChatOpenAI(
+            apiKey: apiKey[provider] ?? '',
+            baseUrl: state.baseUrl[provider] ?? provider.defaultBaseUrl,
+            defaultOptions: ChatOpenAIOptions(
+              model: model[provider] ?? provider.defaultModel,
+            ),
+          ),
+        Provider.ollama => ChatOllama(
+            baseUrl: state.baseUrl[provider] ?? provider.defaultBaseUrl,
+            defaultOptions: ChatOllamaOptions(
+              model: model[provider] ?? provider.defaultModel,
+            ),
+          ),
+      } as BaseChatModel<ChatModelOptions>;
+
+      chain?.close();
+      chain = Runnable.getMapFromInput<String>('query')
+          .pipe(
+            ChatPromptTemplate.fromTemplates(const [
+              (
+                ChatMessageType.system,
+                'Your are a helpful assistant. Reply to the user using Markdown.',
+              ),
+              (ChatMessageType.human, '{query}'),
+            ]),
+          )
+          .pipe(chatModel)
+          .pipe(const StringOutputParser());
+    } catch (_) {
+      // Ignore invalid base URL exceptions
+    }
+  }
+
+  void _onErrorGenerating(final Object error) {
     emit(
       state.copyWith(
         status: HomeScreenStatus.idle,
-        response: result.content.trim(),
+        error: HomeScreenError.generationError,
       ),
     );
-  }
-
-  (String? apiKey, String? baseUrl)? _getClientConfig() {
-    final clientType = state.clientType;
-
-    if (clientType == ClientType.openAI) {
-      final openAIKey = state.openAIKey;
-      if (openAIKey == null || openAIKey.isEmpty) {
-        emit(
-          state.copyWith(
-            status: HomeScreenStatus.idle,
-            error: HomeScreenError.openAIKeyEmpty,
-          ),
-        );
-        return null;
-      }
-
-      return (openAIKey, null);
-    } else {
-      final localUrl = state.localUrl;
-      if (localUrl == null || localUrl.isEmpty) {
-        emit(
-          state.copyWith(
-            status: HomeScreenStatus.idle,
-            error: HomeScreenError.localUrlEmpty,
-          ),
-        );
-        return null;
-      }
-
-      return (null, localUrl);
-    }
   }
 }
