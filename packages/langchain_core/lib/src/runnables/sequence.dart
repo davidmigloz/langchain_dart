@@ -129,7 +129,7 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
   Stream<RunOutput> streamFromInputStream(
     final Stream<RunInput> inputStream, {
     final RunnableOptions? options,
-  }) {
+  }) async* {
     Stream<Object?> nextStepStream;
     try {
       nextStepStream = first.streamFromInputStream(
@@ -152,7 +152,7 @@ class RunnableSequence<RunInput extends Object?, RunOutput extends Object?>
     }
 
     try {
-      return last.streamFromInputStream(
+      yield* last.streamFromInputStream(
         nextStepStream,
         options: last.getCompatibleOptions(options),
       );
