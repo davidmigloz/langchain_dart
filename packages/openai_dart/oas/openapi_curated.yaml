@@ -2212,7 +2212,7 @@ components:
         - name
     FunctionParameters:
       type: object
-      description: "The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format. \n\nOmitting `parameters` defines a function with an empty parameter list."
+      description: "The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format. \n\nOmitting `parameters` defines a function with an empty parameter list."
       additionalProperties: true
     ChatCompletionTool:
       type: object
@@ -2426,10 +2426,10 @@ components:
           $ref: "#/components/schemas/CompletionUsage"
       required:
         - choices
-        - created
+        # - created # Made nullable to support FastChat API which doesn't return this field with some models
         # - id # Made nullable to support OpenRouter API which doesn't return this field with some models
         # - model # Made nullable to support TogetherAI API which doesn't return this field with some models
-        - object
+        # - object # Made nullable to support FastChat API which doesn't return this field with some models
     ChatCompletionStreamResponseChoice:
       type: object
       description: A choice the model generated for the input prompt.
@@ -6128,7 +6128,12 @@ components:
           nullable: true
     BatchEndpoint:
       type: string
-      enum: [ "/v1/chat/completions", "/v1/embeddings", "/v1/completions" ]
+      enum:
+        [
+          "/v1/chat/completions",
+          "/v1/embeddings",
+          "/v1/completions",
+        ]
       description: The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
     BatchCompletionWindow:
       type: string

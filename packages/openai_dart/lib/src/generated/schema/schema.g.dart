@@ -835,10 +835,10 @@ _$CreateChatCompletionStreamResponseImpl
               .map((e) => ChatCompletionStreamResponseChoice.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
-          created: json['created'] as int,
+          created: json['created'] as int?,
           model: json['model'] as String?,
           systemFingerprint: json['system_fingerprint'] as String?,
-          object: json['object'] as String,
+          object: json['object'] as String?,
           usage: json['usage'] == null
               ? null
               : CompletionUsage.fromJson(json['usage'] as Map<String, dynamic>),
@@ -856,10 +856,10 @@ Map<String, dynamic> _$$CreateChatCompletionStreamResponseImplToJson(
 
   writeNotNull('id', instance.id);
   val['choices'] = instance.choices.map((e) => e.toJson()).toList();
-  val['created'] = instance.created;
+  writeNotNull('created', instance.created);
   writeNotNull('model', instance.model);
   writeNotNull('system_fingerprint', instance.systemFingerprint);
-  val['object'] = instance.object;
+  writeNotNull('object', instance.object);
   writeNotNull('usage', instance.usage?.toJson());
   return val;
 }
