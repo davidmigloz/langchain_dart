@@ -1027,7 +1027,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: ["asc", "desc"]
+            enum: [ "asc", "desc" ]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -1153,7 +1153,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: ["asc", "desc"]
+            enum: [ "asc", "desc" ]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -1169,7 +1169,7 @@ paths:
           description: "Filter by file status. One of `in_progress`, `completed`, `failed`, `cancelled`."
           schema:
             type: string
-            enum: ["in_progress", "completed", "failed", "cancelled"]
+            enum: [ "in_progress", "completed", "failed", "cancelled" ]
       responses:
         "200":
           description: OK
@@ -1371,7 +1371,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: ["asc", "desc"]
+            enum: [ "asc", "desc" ]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -1387,7 +1387,7 @@ paths:
           description: "Filter by file status. One of `in_progress`, `completed`, `failed`, `cancelled`."
           schema:
             type: string
-            enum: ["in_progress", "completed", "failed", "cancelled"]
+            enum: [ "in_progress", "completed", "failed", "cancelled" ]
       responses:
         "200":
           description: OK
@@ -1963,7 +1963,7 @@ components:
             `auto` means the model can pick between generating a message or calling one or more tools.
             `required` means the model must call one or more tools.
             Specifying a particular tool via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
-    
+            
             `none` is the default when no tools are present. `auto` is the default if tools are present.
           oneOf:
             - type: string
@@ -1972,7 +1972,7 @@ components:
                 `none` means the model will not call any tool and instead generates a message.
                 `auto` means the model can pick between generating a message or calling one or more tools.
                 `required` means the model must call one or more tools.
-              enum: [none, auto, required]
+              enum: [ none, auto, required ]
             - $ref: "#/components/schemas/ChatCompletionNamedToolChoice"
         user: *end_user_param_configuration
         function_call:
@@ -2808,7 +2808,7 @@ components:
           type: string
           description: |
             The type of integration to enable. Currently, only "wandb" (Weights and Biases) is supported.
-          enum: ["wandb"]
+          enum: [ "wandb" ]
         wandb:
           id: FineTuningIntegrationWandB
           type: object
@@ -2943,7 +2943,7 @@ components:
         object:
           type: string
           description: The object type, which is always "list".
-          enum: [list]
+          enum: [ list ]
         first_id:
           type: string
           description: The ID of the first checkpoint in the list.
@@ -3036,7 +3036,7 @@ components:
         object:
           type: string
           description: The object type, which is always "fine_tuning.job.checkpoint".
-          enum: [fine_tuning.job.checkpoint]
+          enum: [ fine_tuning.job.checkpoint ]
       required:
         - created_at
         - fine_tuning_job_id
@@ -3442,7 +3442,7 @@ components:
               title: AssistantResponseFormatMode
               description: >
                 `auto` is the default value
-              enum: [none, auto]
+              enum: [ none, auto ]
             - $ref: "#/components/schemas/AssistantsResponseFormat"
       required:
         - id
@@ -3555,7 +3555,7 @@ components:
               title: CreateAssistantResponseFormatMode
               description: >
                 `auto` is the default value
-              enum: [none, auto]
+              enum: [ none, auto ]
             - $ref: "#/components/schemas/AssistantsResponseFormat"
       required:
         - model
@@ -3635,7 +3635,7 @@ components:
               title: ModifyAssistantResponseFormatMode
               description: >
                 `auto` is the default value
-              enum: [none, auto]
+              enum: [ none, auto ]
             - $ref: "#/components/schemas/AssistantsResponseFormat"
     DeleteAssistantResponse:
       type: object
@@ -3730,7 +3730,7 @@ components:
         type:
           type: string
           title: AssistantsToolType
-          enum: ["function", "code_interpreter", "file_search"]
+          enum: [ "function", "code_interpreter", "file_search" ]
           description: The type of the tool. If type is `function`, the function name must be set
         function:
           $ref: "#/components/schemas/AssistantsFunctionCallOption"
@@ -3752,7 +3752,7 @@ components:
         type:
           type: string
           title: AssistantsResponseFormatType
-          enum: ["text", "json_object"]
+          enum: [ "text", "json_object" ]
           example: "json_object"
           default: "text"
           description: Must be one of `text` or `json_object`.
@@ -3764,7 +3764,7 @@ components:
           type: string
           name: TruncationStrategy
           description: The truncation strategy to use for the thread. The default is `auto`. If set to `last_messages`, the thread will be truncated to the n most recent messages in the thread. When set to `auto`, messages in the middle of the thread will be dropped to fit the context length of the model, `max_prompt_tokens`.
-          enum: ["auto", "last_messages"]
+          enum: [ "auto", "last_messages" ]
         last_messages:
           type: integer
           description: The number of most recent messages from the thread when constructing the context for the run.
@@ -3842,7 +3842,7 @@ components:
             code:
               type: string
               description: One of `server_error`, `rate_limit_exceeded`, or `invalid_prompt`.
-              enum: ["server_error", "rate_limit_exceeded", "invalid_prompt"]
+              enum: [ "server_error", "rate_limit_exceeded", "invalid_prompt" ]
             message:
               type: string
               description: A human-readable description of the error.
@@ -3877,7 +3877,7 @@ components:
             reason:
               description: The reason why the run is incomplete. This will point to which specific token limit was reached over the course of the run.
               type: string
-              enum: ["max_completion_tokens", "max_prompt_tokens"]
+              enum: [ "max_completion_tokens", "max_prompt_tokens" ]
         model:
           description: The model that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
           type: string
@@ -3936,21 +3936,21 @@ components:
                 `none` means the model will not call any tools and instead generates a message.
                 `auto` means the model can pick between generating a message or calling one or more tools.
                 `required` means the model must call one or more tools before responding to the user.
-              enum: [none, auto, required]
+              enum: [ none, auto, required ]
             - $ref: "#/components/schemas/AssistantsNamedToolChoice"
         response_format:
           description: |
             Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
-    
+            
             Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
-    
+            
             **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
           oneOf:
             - type: string
               title: RunObjectResponseFormatMode
               description: >
                 `auto` is the default value
-              enum: [none, auto]
+              enum: [ none, auto ]
             - $ref: "#/components/schemas/AssistantsResponseFormat"
       required:
         - id
@@ -4113,7 +4113,7 @@ components:
                 `none` means the model will not call any tools and instead generates a message.
                 `auto` means the model can pick between generating a message or calling one or more tools.
                 `required` means the model must call one or more tools before responding to the user.
-              enum: [none, auto, required]
+              enum: [ none, auto, required ]
             - $ref: "#/components/schemas/AssistantsNamedToolChoice"
         response_format:
           description: |
@@ -4127,7 +4127,7 @@ components:
               title: CreateRunRequestResponseFormatMode
               description: >
                 `auto` is the default value
-              enum: [none, auto]
+              enum: [ none, auto ]
             - $ref: "#/components/schemas/AssistantsResponseFormat"
         stream:
           type: boolean
@@ -4343,7 +4343,7 @@ components:
                 `none` means the model will not call any tools and instead generates a message.
                 `auto` means the model can pick between generating a message or calling one or more tools.
                 `required` means the model must call one or more tools before responding to the user.
-              enum: [none, auto, required]
+              enum: [ none, auto, required ]
             - $ref: "#/components/schemas/AssistantsNamedToolChoice"
         response_format:
           description: |
@@ -4357,7 +4357,7 @@ components:
               title: CreateThreadAndRunRequestResponseFormatMode
               description: >
                 `auto` is the default value
-              enum: [none, auto]
+              enum: [ none, auto ]
             - $ref: "#/components/schemas/AssistantsResponseFormat"
         stream:
           type: boolean
@@ -4436,7 +4436,7 @@ components:
               type: array
               description: |
                 A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
-              default: []
+              default: [ ]
               maxItems: 20
               items:
                 type: string
@@ -4544,7 +4544,7 @@ components:
           description: The status of the message, which can be either `in_progress`, `incomplete`, or `completed`.
           type: string
           nullable: true
-          enum: ["in_progress", "incomplete", "completed"]
+          enum: [ "in_progress", "incomplete", "completed" ]
         incomplete_details:
           id: MessageIncompleteDetails
           type: object
@@ -4641,7 +4641,7 @@ components:
         object:
           description: The object type, which is always `thread.message.delta`.
           type: string
-          enum: ["thread.message.delta"]
+          enum: [ "thread.message.delta" ]
         delta:
           $ref: "#/components/schemas/MessageDelta"
       required:
@@ -5166,7 +5166,7 @@ components:
         object:
           description: The object type, which is always `thread.run.step.delta`.
           type: string
-          enum: ["thread.run.step.delta"]
+          enum: [ "thread.run.step.delta" ]
         delta:
           $ref: "#/components/schemas/RunStepDelta"
       required:
@@ -5580,7 +5580,7 @@ components:
         anchor:
           description: "Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`."
           type: string
-          enum: ["last_active_at"]
+          enum: [ "last_active_at" ]
         days:
           description: The number of days after the anchor time that the vector store will expire.
           type: integer
@@ -5639,7 +5639,7 @@ components:
           description: The status of the vector store, which can be either `expired`, `in_progress`, or `completed`. A status of `completed` indicates that the vector store is ready for use.
           type: string
           name: VectorStoreStatus
-          enum: ["expired", "in_progress", "completed"]
+          enum: [ "expired", "in_progress", "completed" ]
         expires_after:
           $ref: "#/components/schemas/VectorStoreExpirationAfter"
         expires_at:
@@ -5772,7 +5772,7 @@ components:
           description: The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use.
           type: string
           title: VectorStoreFileStatus
-          enum: ["in_progress", "completed", "cancelled", "failed"]
+          enum: [ "in_progress", "completed", "cancelled", "failed" ]
         last_error:
           id: VectorStoreFileLastError
           type: object
@@ -5879,7 +5879,7 @@ components:
         status:
           description: The status of the vector store files batch, which can be either `in_progress`, `completed`, `cancelled` or `failed`.
           type: string
-          enum: ["in_progress", "completed", "cancelled", "failed"]
+          enum: [ "in_progress", "completed", "cancelled", "failed" ]
         file_counts:
           type: object
           description: The number of files per status.
@@ -6128,11 +6128,11 @@ components:
           nullable: true
     BatchEndpoint:
       type: string
-      enum: ["/v1/chat/completions", "/v1/embeddings", "/v1/completions"]
+      enum: [ "/v1/chat/completions", "/v1/embeddings", "/v1/completions" ]
       description: The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
     BatchCompletionWindow:
       type: string
-      enum: ["24h"]
+      enum: [ "24h" ]
       description: The time frame within which the batch should be processed. Currently only `24h` is supported.
     Batch:
       type: object
@@ -6142,7 +6142,7 @@ components:
           type: string
         object:
           type: string
-          enum: [batch]
+          enum: [ batch ]
           description: The object type, which is always `batch`.
         endpoint:
           $ref: "#/components/schemas/BatchEndpoint"
@@ -6262,7 +6262,7 @@ components:
             description: A developer-provided per-request id that will be used to match outputs to inputs. Must be unique for each request in a batch.
           method:
             type: string
-            enum: ["POST"]
+            enum: [ "POST" ]
             description: The HTTP method to be used for the request. Currently only `POST` is supported.
           url:
             type: string
@@ -6327,7 +6327,7 @@ components:
         object:
           type: string
           description: The object type, which is always `list`.
-          enum: [list]
+          enum: [ list ]
       required:
         - object
         - data
