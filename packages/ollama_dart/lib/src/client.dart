@@ -1,4 +1,5 @@
 // ignore_for_file: use_super_parameters
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -56,11 +57,9 @@ class OllamaClient extends g.OllamaClient {
       responseType: 'application/x-ndjson',
       body: request.copyWith(stream: true),
     );
-    yield* r.stream.map(
-      (final d) => GenerateCompletionResponse.fromJson(
-        json.decode(const Utf8Decoder().convert(d)),
-      ),
-    );
+    yield* r.stream
+        .transform(const _OllamaStreamTransformer()) //
+        .map((d) => GenerateCompletionResponse.fromJson(json.decode(d)));
   }
 
   // ------------------------------------------
@@ -85,11 +84,9 @@ class OllamaClient extends g.OllamaClient {
       responseType: 'application/x-ndjson',
       body: request.copyWith(stream: true),
     );
-    yield* r.stream.map(
-      (final d) => GenerateChatCompletionResponse.fromJson(
-        json.decode(const Utf8Decoder().convert(d)),
-      ),
-    );
+    yield* r.stream
+        .transform(const _OllamaStreamTransformer()) //
+        .map((d) => GenerateChatCompletionResponse.fromJson(json.decode(d)));
   }
 
   // ------------------------------------------
@@ -114,11 +111,9 @@ class OllamaClient extends g.OllamaClient {
       responseType: 'application/x-ndjson',
       body: request.copyWith(stream: true),
     );
-    yield* r.stream.map(
-      (final d) => CreateModelResponse.fromJson(
-        json.decode(const Utf8Decoder().convert(d)),
-      ),
-    );
+    yield* r.stream
+        .transform(const _OllamaStreamTransformer()) //
+        .map((d) => CreateModelResponse.fromJson(json.decode(d)));
   }
 
   // ------------------------------------------
@@ -143,11 +138,9 @@ class OllamaClient extends g.OllamaClient {
       responseType: 'application/x-ndjson',
       body: request.copyWith(stream: true),
     );
-    yield* r.stream.map(
-      (final d) => PullModelResponse.fromJson(
-        json.decode(const Utf8Decoder().convert(d)),
-      ),
-    );
+    yield* r.stream
+        .transform(const _OllamaStreamTransformer()) //
+        .map((d) => PullModelResponse.fromJson(json.decode(d)));
   }
 
   // ------------------------------------------
@@ -172,15 +165,25 @@ class OllamaClient extends g.OllamaClient {
       responseType: 'application/x-ndjson',
       body: request.copyWith(stream: true),
     );
-    yield* r.stream.map(
-      (final d) => PushModelResponse.fromJson(
-        json.decode(const Utf8Decoder().convert(d)),
-      ),
-    );
+    yield* r.stream
+        .transform(const _OllamaStreamTransformer()) //
+        .map((d) => PushModelResponse.fromJson(json.decode(d)));
   }
 
   @override
   Future<http.BaseRequest> onRequest(final http.BaseRequest request) {
     return onRequestHandler(request);
+  }
+}
+
+class _OllamaStreamTransformer
+    extends StreamTransformerBase<List<int>, String> {
+  const _OllamaStreamTransformer();
+
+  @override
+  Stream<String> bind(final Stream<List<int>> stream) {
+    return stream //
+        .transform(utf8.decoder) //
+        .transform(const LineSplitter());
   }
 }
