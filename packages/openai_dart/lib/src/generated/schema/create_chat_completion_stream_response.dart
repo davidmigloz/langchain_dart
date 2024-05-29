@@ -24,7 +24,7 @@ class CreateChatCompletionStreamResponse
     required List<ChatCompletionStreamResponseChoice> choices,
 
     /// The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp.
-    required int created,
+    @JsonKey(includeIfNull: false) int? created,
 
     /// The model to generate the completion.
     @JsonKey(includeIfNull: false) String? model,
@@ -36,7 +36,7 @@ class CreateChatCompletionStreamResponse
     String? systemFingerprint,
 
     /// The object type, which is always `chat.completion.chunk`.
-    required String object,
+    @JsonKey(includeIfNull: false) String? object,
 
     /// Usage statistics for the completion request.
     @JsonKey(includeIfNull: false) CompletionUsage? usage,

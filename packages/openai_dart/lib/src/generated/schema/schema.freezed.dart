@@ -6695,7 +6695,7 @@ mixin _$FunctionObject {
   @JsonKey(includeIfNull: false)
   String? get description => throw _privateConstructorUsedError;
 
-  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
   ///
   /// Omitting `parameters` defines a function with an empty parameter list.
   @JsonKey(includeIfNull: false)
@@ -6821,12 +6821,12 @@ class _$FunctionObjectImpl extends _FunctionObject {
   @JsonKey(includeIfNull: false)
   final String? description;
 
-  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
   ///
   /// Omitting `parameters` defines a function with an empty parameter list.
   final Map<String, dynamic>? _parameters;
 
-  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
   ///
   /// Omitting `parameters` defines a function with an empty parameter list.
   @override
@@ -6898,7 +6898,7 @@ abstract class _FunctionObject extends FunctionObject {
   String? get description;
   @override
 
-  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+  /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
   ///
   /// Omitting `parameters` defines a function with an empty parameter list.
   @JsonKey(includeIfNull: false)
@@ -9004,7 +9004,8 @@ mixin _$CreateChatCompletionStreamResponse {
       throw _privateConstructorUsedError;
 
   /// The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp.
-  int get created => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
+  int? get created => throw _privateConstructorUsedError;
 
   /// The model to generate the completion.
   @JsonKey(includeIfNull: false)
@@ -9017,7 +9018,8 @@ mixin _$CreateChatCompletionStreamResponse {
   String? get systemFingerprint => throw _privateConstructorUsedError;
 
   /// The object type, which is always `chat.completion.chunk`.
-  String get object => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
+  String? get object => throw _privateConstructorUsedError;
 
   /// Usage statistics for the completion request.
   @JsonKey(includeIfNull: false)
@@ -9041,11 +9043,11 @@ abstract class $CreateChatCompletionStreamResponseCopyWith<$Res> {
   $Res call(
       {@JsonKey(includeIfNull: false) String? id,
       List<ChatCompletionStreamResponseChoice> choices,
-      int created,
+      @JsonKey(includeIfNull: false) int? created,
       @JsonKey(includeIfNull: false) String? model,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
-      String object,
+      @JsonKey(includeIfNull: false) String? object,
       @JsonKey(includeIfNull: false) CompletionUsage? usage});
 
   $CompletionUsageCopyWith<$Res>? get usage;
@@ -9067,10 +9069,10 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
   $Res call({
     Object? id = freezed,
     Object? choices = null,
-    Object? created = null,
+    Object? created = freezed,
     Object? model = freezed,
     Object? systemFingerprint = freezed,
-    Object? object = null,
+    Object? object = freezed,
     Object? usage = freezed,
   }) {
     return _then(_value.copyWith(
@@ -9082,10 +9084,10 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
           ? _value.choices
           : choices // ignore: cast_nullable_to_non_nullable
               as List<ChatCompletionStreamResponseChoice>,
-      created: null == created
+      created: freezed == created
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       model: freezed == model
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
@@ -9094,10 +9096,10 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
           ? _value.systemFingerprint
           : systemFingerprint // ignore: cast_nullable_to_non_nullable
               as String?,
-      object: null == object
+      object: freezed == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       usage: freezed == usage
           ? _value.usage
           : usage // ignore: cast_nullable_to_non_nullable
@@ -9130,11 +9132,11 @@ abstract class _$$CreateChatCompletionStreamResponseImplCopyWith<$Res>
   $Res call(
       {@JsonKey(includeIfNull: false) String? id,
       List<ChatCompletionStreamResponseChoice> choices,
-      int created,
+      @JsonKey(includeIfNull: false) int? created,
       @JsonKey(includeIfNull: false) String? model,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
-      String object,
+      @JsonKey(includeIfNull: false) String? object,
       @JsonKey(includeIfNull: false) CompletionUsage? usage});
 
   @override
@@ -9156,10 +9158,10 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? choices = null,
-    Object? created = null,
+    Object? created = freezed,
     Object? model = freezed,
     Object? systemFingerprint = freezed,
-    Object? object = null,
+    Object? object = freezed,
     Object? usage = freezed,
   }) {
     return _then(_$CreateChatCompletionStreamResponseImpl(
@@ -9171,10 +9173,10 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
           ? _value._choices
           : choices // ignore: cast_nullable_to_non_nullable
               as List<ChatCompletionStreamResponseChoice>,
-      created: null == created
+      created: freezed == created
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       model: freezed == model
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
@@ -9183,10 +9185,10 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
           ? _value.systemFingerprint
           : systemFingerprint // ignore: cast_nullable_to_non_nullable
               as String?,
-      object: null == object
+      object: freezed == object
           ? _value.object
           : object // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       usage: freezed == usage
           ? _value.usage
           : usage // ignore: cast_nullable_to_non_nullable
@@ -9202,11 +9204,11 @@ class _$CreateChatCompletionStreamResponseImpl
   const _$CreateChatCompletionStreamResponseImpl(
       {@JsonKey(includeIfNull: false) this.id,
       required final List<ChatCompletionStreamResponseChoice> choices,
-      required this.created,
+      @JsonKey(includeIfNull: false) this.created,
       @JsonKey(includeIfNull: false) this.model,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       this.systemFingerprint,
-      required this.object,
+      @JsonKey(includeIfNull: false) this.object,
       @JsonKey(includeIfNull: false) this.usage})
       : _choices = choices,
         super._();
@@ -9235,7 +9237,8 @@ class _$CreateChatCompletionStreamResponseImpl
 
   /// The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp.
   @override
-  final int created;
+  @JsonKey(includeIfNull: false)
+  final int? created;
 
   /// The model to generate the completion.
   @override
@@ -9251,7 +9254,8 @@ class _$CreateChatCompletionStreamResponseImpl
 
   /// The object type, which is always `chat.completion.chunk`.
   @override
-  final String object;
+  @JsonKey(includeIfNull: false)
+  final String? object;
 
   /// Usage statistics for the completion request.
   @override
@@ -9311,11 +9315,11 @@ abstract class _CreateChatCompletionStreamResponse
   const factory _CreateChatCompletionStreamResponse(
           {@JsonKey(includeIfNull: false) final String? id,
           required final List<ChatCompletionStreamResponseChoice> choices,
-          required final int created,
+          @JsonKey(includeIfNull: false) final int? created,
           @JsonKey(includeIfNull: false) final String? model,
           @JsonKey(name: 'system_fingerprint', includeIfNull: false)
           final String? systemFingerprint,
-          required final String object,
+          @JsonKey(includeIfNull: false) final String? object,
           @JsonKey(includeIfNull: false) final CompletionUsage? usage}) =
       _$CreateChatCompletionStreamResponseImpl;
   const _CreateChatCompletionStreamResponse._() : super._();
@@ -9337,7 +9341,8 @@ abstract class _CreateChatCompletionStreamResponse
   @override
 
   /// The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp.
-  int get created;
+  @JsonKey(includeIfNull: false)
+  int? get created;
   @override
 
   /// The model to generate the completion.
@@ -9353,7 +9358,8 @@ abstract class _CreateChatCompletionStreamResponse
   @override
 
   /// The object type, which is always `chat.completion.chunk`.
-  String get object;
+  @JsonKey(includeIfNull: false)
+  String? get object;
   @override
 
   /// Usage statistics for the completion request.
