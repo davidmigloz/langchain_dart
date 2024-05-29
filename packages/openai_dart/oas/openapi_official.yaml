@@ -2608,7 +2608,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: ["asc", "desc"]
+            enum: [ "asc", "desc" ]
         - name: after
           in: query
           description: &pagination_after_param_description |
@@ -3457,7 +3457,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: ["asc", "desc"]
+            enum: [ "asc", "desc" ]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -4300,7 +4300,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: ["asc", "desc"]
+            enum: [ "asc", "desc" ]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -5409,7 +5409,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: ["asc", "desc"]
+            enum: [ "asc", "desc" ]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -5615,7 +5615,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: ["asc", "desc"]
+            enum: [ "asc", "desc" ]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -5990,7 +5990,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: ["asc", "desc"]
+            enum: [ "asc", "desc" ]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -6006,7 +6006,7 @@ paths:
           description: "Filter by file status. One of `in_progress`, `completed`, `failed`, `cancelled`."
           schema:
             type: string
-            enum: ["in_progress", "completed", "failed", "cancelled"]
+            enum: [ "in_progress", "completed", "failed", "cancelled" ]
       responses:
         "200":
           description: OK
@@ -6552,7 +6552,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: ["asc", "desc"]
+            enum: [ "asc", "desc" ]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -6568,7 +6568,7 @@ paths:
           description: "Filter by file status. One of `in_progress`, `completed`, `failed`, `cancelled`."
           schema:
             type: string
-            enum: ["in_progress", "completed", "failed", "cancelled"]
+            enum: [ "in_progress", "completed", "failed", "cancelled" ]
       responses:
         "200":
           description: OK
@@ -6659,11 +6659,11 @@ paths:
                     Your input file must be formatted as a [JSONL file](/docs/api-reference/batch/requestInput), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 100 MB in size.
                 endpoint:
                   type: string
-                  enum: ["/v1/chat/completions", "/v1/embeddings", "/v1/completions"]
+                  enum: [ "/v1/chat/completions", "/v1/embeddings", "/v1/completions" ]
                   description: The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
                 completion_window:
                   type: string
-                  enum: ["24h"]
+                  enum: [ "24h" ]
                   description: The time frame within which the batch should be processed. Currently only `24h` is supported.
                 metadata:
                   type: object
@@ -7040,7 +7040,7 @@ components:
       properties:
         object:
           type: string
-          enum: [list]
+          enum: [ list ]
         data:
           type: array
           items:
@@ -7071,7 +7071,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum: ["gpt-3.5-turbo-instruct", "davinci-002", "babbage-002"]
+              enum: [ "gpt-3.5-turbo-instruct", "davinci-002", "babbage-002" ]
           x-oaiTypeLabel: string
         prompt:
           description: &completions_prompt_description |
@@ -7283,7 +7283,7 @@ components:
                   The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
                   `length` if the maximum number of tokens specified in the request was reached,
                   or `content_filter` if content was omitted due to a flag from our content filters.
-                enum: ["stop", "length", "content_filter"]
+                enum: [ "stop", "length", "content_filter" ]
               index:
                 type: integer
               logprobs:
@@ -7325,7 +7325,7 @@ components:
         object:
           type: string
           description: The object type, which is always "text_completion"
-          enum: [text_completion]
+          enum: [ text_completion ]
         usage:
           $ref: "#/components/schemas/CompletionUsage"
       required:
@@ -7370,7 +7370,7 @@ components:
       properties:
         type:
           type: string
-          enum: ["image_url"]
+          enum: [ "image_url" ]
           description: The type of the content part.
         image_url:
           type: object
@@ -7382,7 +7382,7 @@ components:
             detail:
               type: string
               description: Specifies the detail level of the image. Learn more in the [Vision guide](/docs/guides/vision/low-or-high-fidelity-image-understanding).
-              enum: ["auto", "low", "high"]
+              enum: [ "auto", "low", "high" ]
               default: "auto"
           required:
             - url
@@ -7396,7 +7396,7 @@ components:
       properties:
         type:
           type: string
-          enum: ["text"]
+          enum: [ "text" ]
           description: The type of the content part.
         text:
           type: string
@@ -7423,7 +7423,7 @@ components:
           type: string
         role:
           type: string
-          enum: ["system"]
+          enum: [ "system" ]
           description: The role of the messages author, in this case `system`.
         name:
           type: string
@@ -7452,7 +7452,7 @@ components:
           x-oaiExpandable: true
         role:
           type: string
-          enum: ["user"]
+          enum: [ "user" ]
           description: The role of the messages author, in this case `user`.
         name:
           type: string
@@ -7472,7 +7472,7 @@ components:
             The contents of the assistant message. Required unless `tool_calls` or `function_call` is specified.
         role:
           type: string
-          enum: ["assistant"]
+          enum: [ "assistant" ]
           description: The role of the messages author, in this case `assistant`.
         name:
           type: string
@@ -7502,7 +7502,7 @@ components:
       properties:
         role:
           type: string
-          enum: ["tool"]
+          enum: [ "tool" ]
           description: The role of the messages author, in this case `tool`.
         content:
           type: string
@@ -7522,7 +7522,7 @@ components:
       properties:
         role:
           type: string
-          enum: ["function"]
+          enum: [ "function" ]
           description: The role of the messages author, in this case `function`.
         content:
           nullable: true
@@ -7572,7 +7572,7 @@ components:
       properties:
         type:
           type: string
-          enum: ["function"]
+          enum: [ "function" ]
           description: The type of the tool. Currently, only `function` is supported.
         function:
           $ref: "#/components/schemas/FunctionObject"
@@ -7609,7 +7609,7 @@ components:
             `none` means the model will not call any tool and instead generates a message.
             `auto` means the model can pick between generating a message or calling one or more tools.
             `required` means the model must call one or more tools.
-          enum: [none, auto, required]
+          enum: [ none, auto, required ]
         - $ref: "#/components/schemas/ChatCompletionNamedToolChoice"
       x-oaiExpandable: true
 
@@ -7619,7 +7619,7 @@ components:
       properties:
         type:
           type: string
-          enum: ["function"]
+          enum: [ "function" ]
           description: The type of the tool. Currently, only `function` is supported.
         function:
           type: object
@@ -7648,7 +7648,7 @@ components:
           description: The ID of the tool call.
         type:
           type: string
-          enum: ["function"]
+          enum: [ "function" ]
           description: The type of the tool. Currently, only `function` is supported.
         function:
           type: object
@@ -7678,7 +7678,7 @@ components:
           description: The ID of the tool call.
         type:
           type: string
-          enum: ["function"]
+          enum: [ "function" ]
           description: The type of the tool. Currently, only `function` is supported.
         function:
           type: object
@@ -7727,7 +7727,7 @@ components:
           $ref: "#/components/schemas/ChatCompletionMessageToolCalls"
         role:
           type: string
-          enum: ["assistant"]
+          enum: [ "assistant" ]
           description: The role of the author of this message.
         function_call:
           type: object
@@ -7772,7 +7772,7 @@ components:
             $ref: "#/components/schemas/ChatCompletionMessageToolCallChunk"
         role:
           type: string
-          enum: ["system", "user", "assistant", "tool"]
+          enum: [ "system", "user", "assistant", "tool" ]
           description: The role of the author of this message.
 
     CreateChatCompletionRequest:
@@ -7877,7 +7877,7 @@ components:
           properties:
             type:
               type: string
-              enum: ["text", "json_object"]
+              enum: [ "text", "json_object" ]
               example: "json_object"
               default: "text"
               description: Must be one of `text` or `json_object`.
@@ -7955,7 +7955,7 @@ components:
               description: >
                 `none` means the model will not call a function and instead generates a message.
                 `auto` means the model can pick between generating a message or calling a function.
-              enum: [none, auto]
+              enum: [ none, auto ]
             - $ref: "#/components/schemas/ChatCompletionFunctionCallOption"
           x-oaiExpandable: true
         functions:
@@ -8040,7 +8040,7 @@ components:
         object:
           type: string
           description: The object type, which is always `chat.completion`.
-          enum: [chat.completion]
+          enum: [ chat.completion ]
         usage:
           $ref: "#/components/schemas/CompletionUsage"
       required:
@@ -8077,7 +8077,7 @@ components:
                 description:
                   &chat_completion_function_finish_reason_description |
                   The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence, `length` if the maximum number of tokens specified in the request was reached, `content_filter` if content was omitted due to a flag from our content filters, or `function_call` if the model called a function.
-                enum: ["stop", "length", "function_call", "content_filter"]
+                enum: [ "stop", "length", "function_call", "content_filter" ]
               index:
                 type: integer
                 description: The index of the choice in the list of choices.
@@ -8098,7 +8098,7 @@ components:
         object:
           type: string
           description: The object type, which is always `chat.completion`.
-          enum: [chat.completion]
+          enum: [ chat.completion ]
         usage:
           $ref: "#/components/schemas/CompletionUsage"
       required:
@@ -8157,7 +8157,7 @@ components:
           type: boolean
         object:
           type: string
-          enum: [list]
+          enum: [ list ]
       required:
         - object
         - data
@@ -8214,7 +8214,7 @@ components:
         object:
           type: string
           description: The object type, which is always `chat.completion.chunk`.
-          enum: [chat.completion.chunk]
+          enum: [ chat.completion.chunk ]
         usage:
           type: object
           description: |
@@ -8264,7 +8264,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum: ["dall-e-2", "dall-e-3"]
+              enum: [ "dall-e-2", "dall-e-3" ]
           x-oaiTypeLabel: string
           default: "dall-e-2"
           example: "dall-e-3"
@@ -8280,27 +8280,27 @@ components:
           description: The number of images to generate. Must be between 1 and 10. For `dall-e-3`, only `n=1` is supported.
         quality:
           type: string
-          enum: ["standard", "hd"]
+          enum: [ "standard", "hd" ]
           default: "standard"
           example: "standard"
           description: The quality of the image that will be generated. `hd` creates images with finer details and greater consistency across the image. This param is only supported for `dall-e-3`.
         response_format: &images_response_format
           type: string
-          enum: ["url", "b64_json"]
+          enum: [ "url", "b64_json" ]
           default: "url"
           example: "url"
           nullable: true
           description: The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated.
         size: &images_size
           type: string
-          enum: ["256x256", "512x512", "1024x1024", "1792x1024", "1024x1792"]
+          enum: [ "256x256", "512x512", "1024x1024", "1792x1024", "1024x1792" ]
           default: "1024x1024"
           example: "1024x1024"
           nullable: true
           description: The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`. Must be one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3` models.
         style:
           type: string
-          enum: ["vivid", "natural"]
+          enum: [ "vivid", "natural" ]
           default: "vivid"
           example: "vivid"
           nullable: true
@@ -8361,7 +8361,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum: ["dall-e-2"]
+              enum: [ "dall-e-2" ]
           x-oaiTypeLabel: string
           default: "dall-e-2"
           example: "dall-e-2"
@@ -8377,7 +8377,7 @@ components:
           description: The number of images to generate. Must be between 1 and 10.
         size: &dalle2_images_size
           type: string
-          enum: ["256x256", "512x512", "1024x1024"]
+          enum: [ "256x256", "512x512", "1024x1024" ]
           default: "1024x1024"
           example: "1024x1024"
           nullable: true
@@ -8399,7 +8399,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum: ["dall-e-2"]
+              enum: [ "dall-e-2" ]
           x-oaiTypeLabel: string
           default: "dall-e-2"
           example: "dall-e-2"
@@ -8437,7 +8437,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum: ["text-moderation-latest", "text-moderation-stable"]
+              enum: [ "text-moderation-latest", "text-moderation-stable" ]
           x-oaiTypeLabel: string
       required:
         - input
@@ -8580,7 +8580,7 @@ components:
             $ref: "#/components/schemas/OpenAIFile"
         object:
           type: string
-          enum: [list]
+          enum: [ list ]
       required:
         - object
         - data
@@ -8600,7 +8600,7 @@ components:
 
             Use "assistants" for [Assistants](/docs/api-reference/assistants) and [Message](/docs/api-reference/messages) files, "vision" for Assistants image file inputs, "batch" for [Batch API](/docs/guides/batch), and "fine-tune" for [Fine-tuning](/docs/api-reference/fine-tuning).
           type: string
-          enum: ["assistants", "batch", "fine-tune"]
+          enum: [ "assistants", "batch", "fine-tune" ]
       required:
         - file
         - purpose
@@ -8612,7 +8612,7 @@ components:
           type: string
         object:
           type: string
-          enum: [file]
+          enum: [ file ]
         deleted:
           type: boolean
       required:
@@ -8631,7 +8631,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum: ["babbage-002", "davinci-002", "gpt-3.5-turbo"]
+              enum: [ "babbage-002", "davinci-002", "gpt-3.5-turbo" ]
           x-oaiTypeLabel: string
         training_file:
           description: |
@@ -8654,7 +8654,7 @@ components:
                 are updated less frequently, but with lower variance.
               oneOf:
                 - type: string
-                  enum: [auto]
+                  enum: [ auto ]
                 - type: integer
                   minimum: 1
                   maximum: 256
@@ -8665,7 +8665,7 @@ components:
                 overfitting.
               oneOf:
                 - type: string
-                  enum: [auto]
+                  enum: [ auto ]
                 - type: number
                   minimum: 0
                   exclusiveMinimum: true
@@ -8676,7 +8676,7 @@ components:
                 through the training dataset.
               oneOf:
                 - type: string
-                  enum: [auto]
+                  enum: [ auto ]
                 - type: integer
                   minimum: 1
                   maximum: 50
@@ -8721,7 +8721,7 @@ components:
                   The type of integration to enable. Currently, only "wandb" (Weights and Biases) is supported.
                 oneOf:
                   - type: string
-                    enum: [wandb]
+                    enum: [ wandb ]
               wandb:
                 type: object
                 description: |
@@ -8778,7 +8778,7 @@ components:
             $ref: "#/components/schemas/FineTuningJobEvent"
         object:
           type: string
-          enum: [list]
+          enum: [ list ]
       required:
         - object
         - data
@@ -8792,7 +8792,7 @@ components:
             $ref: "#/components/schemas/FineTuningJobCheckpoint"
         object:
           type: string
-          enum: [list]
+          enum: [ list ]
         first_id:
           type: string
           nullable: true
@@ -8867,7 +8867,7 @@ components:
           example: "float"
           default: "float"
           type: string
-          enum: ["float", "base64"]
+          enum: [ "float", "base64" ]
         dimensions:
           description: |
             The number of dimensions the resulting output embeddings should have. Only supported in `text-embedding-3` and later models.
@@ -8892,7 +8892,7 @@ components:
         object:
           type: string
           description: The object type, which is always "list".
-          enum: [list]
+          enum: [ list ]
         usage:
           type: object
           description: The usage information for the request.
@@ -8929,7 +8929,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum: ["whisper-1"]
+              enum: [ "whisper-1" ]
           x-oaiTypeLabel: string
         language:
           description: |
@@ -8964,7 +8964,7 @@ components:
             enum:
               - word
               - segment
-          default: [segment]
+          default: [ segment ]
       required:
         - file
         - model
@@ -9051,7 +9051,7 @@ components:
           type: number
           format: float
           description: End time of the word in seconds.
-      required: [word, start, end]
+      required: [ word, start, end ]
 
     CreateTranscriptionResponseVerboseJson:
       type: object
@@ -9076,7 +9076,7 @@ components:
           description: Segments of the transcribed text and their corresponding details.
           items:
             $ref: "#/components/schemas/TranscriptionSegment"
-      required: [language, duration, text]
+      required: [ language, duration, text ]
       x-oaiMeta:
         name: The transcription object
         group: audio
@@ -9099,7 +9099,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum: ["whisper-1"]
+              enum: [ "whisper-1" ]
           x-oaiTypeLabel: string
         prompt:
           description: |
@@ -9145,7 +9145,7 @@ components:
           description: Segments of the translated text and their corresponding details.
           items:
             $ref: "#/components/schemas/TranscriptionSegment"
-      required: [language, duration, text]
+      required: [ language, duration, text ]
 
     CreateSpeechRequest:
       type: object
@@ -9157,7 +9157,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum: ["tts-1", "tts-1-hd"]
+              enum: [ "tts-1", "tts-1-hd" ]
           x-oaiTypeLabel: string
         input:
           type: string
@@ -9166,12 +9166,12 @@ components:
         voice:
           description: The voice to use when generating the audio. Supported voices are `alloy`, `echo`, `fable`, `onyx`, `nova`, and `shimmer`. Previews of the voices are available in the [Text to speech guide](/docs/guides/text-to-speech/voice-options).
           type: string
-          enum: ["alloy", "echo", "fable", "onyx", "nova", "shimmer"]
+          enum: [ "alloy", "echo", "fable", "onyx", "nova", "shimmer" ]
         response_format:
           description: "The format to audio in. Supported formats are `mp3`, `opus`, `aac`, `flac`, `wav`, and `pcm`."
           default: "mp3"
           type: string
-          enum: ["mp3", "opus", "aac", "flac", "wav", "pcm"]
+          enum: [ "mp3", "opus", "aac", "flac", "wav", "pcm" ]
         speed:
           description: "The speed of the generated audio. Select a value from `0.25` to `4.0`. `1.0` is the default."
           type: number
@@ -9196,7 +9196,7 @@ components:
         object:
           type: string
           description: The object type, which is always "model".
-          enum: [model]
+          enum: [ model ]
         owned_by:
           type: string
           description: The organization that owns the model.
@@ -9228,7 +9228,7 @@ components:
         object:
           type: string
           description: The object type, which is always `file`.
-          enum: ["file"]
+          enum: [ "file" ]
         purpose:
           type: string
           description: The intended purpose of the file. Supported values are `assistants`, `assistants_output`, `batch`, `batch_output`, `fine-tune`, `fine-tune-results` and `vision`.
@@ -9246,7 +9246,7 @@ components:
           type: string
           deprecated: true
           description: Deprecated. The current status of the file, which can be either `uploaded`, `processed`, or `error`.
-          enum: ["uploaded", "processed", "error"]
+          enum: [ "uploaded", "processed", "error" ]
         status_details:
           type: string
           deprecated: true
@@ -9287,7 +9287,7 @@ components:
         object:
           type: string
           description: The object type, which is always "embedding".
-          enum: [embedding]
+          enum: [ embedding ]
       required:
         - index
         - object
@@ -9352,15 +9352,15 @@ components:
             n_epochs:
               oneOf:
                 - type: string
-                  enum: [auto]
+                  enum: [ auto ]
                 - type: integer
                   minimum: 1
                   maximum: 50
               default: auto
               description:
-                  The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.
-                    
-                    "auto" decides the optimal number of epochs based on the size of the dataset. If setting the number manually, we support any number between 1 and 50 epochs.
+                The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.
+                
+                "auto" decides the optimal number of epochs based on the size of the dataset. If setting the number manually, we support any number between 1 and 50 epochs.
           required:
             - n_epochs
         model:
@@ -9369,7 +9369,7 @@ components:
         object:
           type: string
           description: The object type, which is always "fine_tuning.job".
-          enum: [fine_tuning.job]
+          enum: [ fine_tuning.job ]
         organization_id:
           type: string
           description: The organization that owns the fine-tuning job.
@@ -9448,7 +9448,7 @@ components:
         type:
           type: string
           description: "The type of the integration being enabled for the fine-tuning job"
-          enum: ["wandb"]
+          enum: [ "wandb" ]
         wandb:
           type: object
           description: |
@@ -9493,12 +9493,12 @@ components:
           type: integer
         level:
           type: string
-          enum: ["info", "warn", "error"]
+          enum: [ "info", "warn", "error" ]
         message:
           type: string
         object:
           type: string
-          enum: [fine_tuning.job.event]
+          enum: [ fine_tuning.job.event ]
       required:
         - id
         - object
@@ -9558,7 +9558,7 @@ components:
         object:
           type: string
           description: The object type, which is always "fine_tuning.job.checkpoint".
-          enum: [fine_tuning.job.checkpoint]
+          enum: [ fine_tuning.job.checkpoint ]
       required:
         - created_at
         - fine_tuning_job_id
@@ -9655,7 +9655,7 @@ components:
         - type: string
           description: >
             `auto` is the default value
-          enum: [none, auto]
+          enum: [ none, auto ]
         - $ref: "#/components/schemas/AssistantsApiResponseFormat"
       x-oaiExpandable: true
 
@@ -9666,7 +9666,7 @@ components:
       properties:
         type:
           type: string
-          enum: ["text", "json_object"]
+          enum: [ "text", "json_object" ]
           example: "json_object"
           default: "text"
           description: Must be one of `text` or `json_object`.
@@ -9682,7 +9682,7 @@ components:
         object:
           description: The object type, which is always `assistant`.
           type: string
-          enum: [assistant]
+          enum: [ assistant ]
         created_at:
           description: The Unix timestamp (in seconds) for when the assistant was created.
           type: integer
@@ -9710,7 +9710,7 @@ components:
         tools:
           description: &assistant_tools_param_description |
             A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
-          default: []
+          default: [ ]
           type: array
           maxItems: 128
           items:
@@ -9731,7 +9731,7 @@ components:
                   type: array
                   description: |
                     A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter`` tool. There can be a maximum of 20 files associated with the tool.
-                  default: []
+                  default: [ ]
                   maxItems: 20
                   items:
                     type: string
@@ -9841,7 +9841,7 @@ components:
           maxLength: 256000
         tools:
           description: *assistant_tools_param_description
-          default: []
+          default: [ ]
           type: array
           maxItems: 128
           items:
@@ -9862,7 +9862,7 @@ components:
                   type: array
                   description: |
                     A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
-                  default: []
+                  default: [ ]
                   maxItems: 20
                   items:
                     type: string
@@ -9897,8 +9897,8 @@ components:
                           Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
                         x-oaiTypeLabel: map
               oneOf:
-                - required: [vector_store_ids]
-                - required: [vector_stores]
+                - required: [ vector_store_ids ]
+                - required: [ vector_stores ]
           nullable: true
         metadata:
           description: *metadata_description
@@ -9956,7 +9956,7 @@ components:
           maxLength: 256000
         tools:
           description: *assistant_tools_param_description
-          default: []
+          default: [ ]
           type: array
           maxItems: 128
           items:
@@ -9977,7 +9977,7 @@ components:
                   type: array
                   description: |
                     Overrides the list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
-                  default: []
+                  default: [ ]
                   maxItems: 20
                   items:
                     type: string
@@ -10029,7 +10029,7 @@ components:
           type: boolean
         object:
           type: string
-          enum: [assistant.deleted]
+          enum: [ assistant.deleted ]
       required:
         - id
         - object
@@ -10072,7 +10072,7 @@ components:
         type:
           type: string
           description: "The type of tool being defined: `code_interpreter`"
-          enum: ["code_interpreter"]
+          enum: [ "code_interpreter" ]
       required:
         - type
 
@@ -10083,7 +10083,7 @@ components:
         type:
           type: string
           description: "The type of tool being defined: `file_search`"
-          enum: ["file_search"]
+          enum: [ "file_search" ]
       required:
         - type
 
@@ -10094,7 +10094,7 @@ components:
         type:
           type: string
           description: "The type of tool being defined: `function`"
-          enum: ["function"]
+          enum: [ "function" ]
         function:
           $ref: "#/components/schemas/FunctionObject"
       required:
@@ -10109,7 +10109,7 @@ components:
         type:
           type: string
           description: The truncation strategy to use for the thread. The default is `auto`. If set to `last_messages`, the thread will be truncated to the n most recent messages in the thread. When set to `auto`, messages in the middle of the thread will be dropped to fit the context length of the model, `max_prompt_tokens`.
-          enum: ["auto", "last_messages"]
+          enum: [ "auto", "last_messages" ]
         last_messages:
           type: integer
           description: The number of most recent messages from the thread when constructing the context for the run.
@@ -10132,7 +10132,7 @@ components:
             `none` means the model will not call any tools and instead generates a message.
             `auto` means the model can pick between generating a message or calling one or more tools.
             `required` means the model must call one or more tools before responding to the user.
-          enum: [none, auto, required]
+          enum: [ none, auto, required ]
         - $ref: "#/components/schemas/AssistantsNamedToolChoice"
       x-oaiExpandable: true
 
@@ -10142,7 +10142,7 @@ components:
       properties:
         type:
           type: string
-          enum: ["function", "code_interpreter", "file_search"]
+          enum: [ "function", "code_interpreter", "file_search" ]
           description: The type of the tool. If type is `function`, the function name must be set
         function:
           type: object
@@ -10166,7 +10166,7 @@ components:
         object:
           description: The object type, which is always `thread.run`.
           type: string
-          enum: ["thread.run"]
+          enum: [ "thread.run" ]
         created_at:
           description: The Unix timestamp (in seconds) for when the run was created.
           type: integer
@@ -10199,7 +10199,7 @@ components:
             type:
               description: For now, this is always `submit_tool_outputs`.
               type: string
-              enum: ["submit_tool_outputs"]
+              enum: [ "submit_tool_outputs" ]
             submit_tool_outputs:
               type: object
               description: Details on the tool outputs needed for this run to continue.
@@ -10222,7 +10222,7 @@ components:
             code:
               type: string
               description: One of `server_error`, `rate_limit_exceeded`, or `invalid_prompt`.
-              enum: ["server_error", "rate_limit_exceeded", "invalid_prompt"]
+              enum: [ "server_error", "rate_limit_exceeded", "invalid_prompt" ]
             message:
               type: string
               description: A human-readable description of the error.
@@ -10257,7 +10257,7 @@ components:
             reason:
               description: The reason why the run is incomplete. This will point to which specific token limit was reached over the course of the run.
               type: string
-              enum: ["max_completion_tokens", "max_prompt_tokens"]
+              enum: [ "max_completion_tokens", "max_prompt_tokens" ]
         model:
           description: The model that the [assistant](/docs/api-reference/assistants) used for this run.
           type: string
@@ -10266,7 +10266,7 @@ components:
           type: string
         tools:
           description: The list of tools that the [assistant](/docs/api-reference/assistants) used for this run.
-          default: []
+          default: [ ]
           type: array
           maxItems: 20
           items:
@@ -10558,7 +10558,7 @@ components:
         type:
           type: string
           description: The type of tool call the output is required for. For now, this is always `function`.
-          enum: ["function"]
+          enum: [ "function" ]
         function:
           type: object
           description: The function definition.
@@ -10644,7 +10644,7 @@ components:
                   type: array
                   description: |
                     A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
-                  default: []
+                  default: [ ]
                   maxItems: 20
                   items:
                     type: string
@@ -10721,7 +10721,7 @@ components:
         object:
           description: The object type, which is always `thread`.
           type: string
-          enum: ["thread"]
+          enum: [ "thread" ]
         created_at:
           description: The Unix timestamp (in seconds) for when the thread was created.
           type: integer
@@ -10737,7 +10737,7 @@ components:
                   type: array
                   description: |
                     A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
-                  default: []
+                  default: [ ]
                   maxItems: 20
                   items:
                     type: string
@@ -10795,7 +10795,7 @@ components:
                   type: array
                   description: |
                     A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
-                  default: []
+                  default: [ ]
                   maxItems: 20
                   items:
                     type: string
@@ -10830,8 +10830,8 @@ components:
                           Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
                         x-oaiTypeLabel: map
               oneOf:
-                - required: [vector_store_ids]
-                - required: [vector_stores]
+                - required: [ vector_store_ids ]
+                - required: [ vector_stores ]
           nullable: true
         metadata:
           description: *metadata_description
@@ -10855,7 +10855,7 @@ components:
                   type: array
                   description: |
                     A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
-                  default: []
+                  default: [ ]
                   maxItems: 20
                   items:
                     type: string
@@ -10885,7 +10885,7 @@ components:
           type: boolean
         object:
           type: string
-          enum: [thread.deleted]
+          enum: [ thread.deleted ]
       required:
         - id
         - object
@@ -10927,7 +10927,7 @@ components:
         object:
           description: The object type, which is always `thread.message`.
           type: string
-          enum: ["thread.message"]
+          enum: [ "thread.message" ]
         created_at:
           description: The Unix timestamp (in seconds) for when the message was created.
           type: integer
@@ -10937,7 +10937,7 @@ components:
         status:
           description: The status of the message, which can be either `in_progress`, `incomplete`, or `completed`.
           type: string
-          enum: ["in_progress", "incomplete", "completed"]
+          enum: [ "in_progress", "incomplete", "completed" ]
         incomplete_details:
           description: On an incomplete message, details about why the message is incomplete.
           type: object
@@ -10967,7 +10967,7 @@ components:
         role:
           description: The entity that produced the message. One of `user` or `assistant`.
           type: string
-          enum: ["user", "assistant"]
+          enum: [ "user", "assistant" ]
         content:
           description: The content of the message in array of text and/or images.
           type: array
@@ -11060,7 +11060,7 @@ components:
         object:
           description: The object type, which is always `thread.message.delta`.
           type: string
-          enum: ["thread.message.delta"]
+          enum: [ "thread.message.delta" ]
         delta:
           description: The delta containing the fields that have changed on the Message.
           type: object
@@ -11068,7 +11068,7 @@ components:
             role:
               description: The entity that produced the message. One of `user` or `assistant`.
               type: string
-              enum: ["user", "assistant"]
+              enum: [ "user", "assistant" ]
             content:
               description: The content of the message in array of text and/or images.
               type: array
@@ -11109,7 +11109,7 @@ components:
       properties:
         role:
           type: string
-          enum: ["user", "assistant"]
+          enum: [ "user", "assistant" ]
           description: |
             The role of the entity that is creating the message. Allowed values include:
             - `user`: Indicates the message is sent by an actual user and should be used in most cases to represent user-generated messages.
@@ -11176,7 +11176,7 @@ components:
           type: boolean
         object:
           type: string
-          enum: [thread.message.deleted]
+          enum: [ thread.message.deleted ]
       required:
         - id
         - object
@@ -11215,7 +11215,7 @@ components:
         type:
           description: Always `image_file`.
           type: string
-          enum: ["image_file"]
+          enum: [ "image_file" ]
         image_file:
           type: object
           properties:
@@ -11225,7 +11225,7 @@ components:
             detail:
               type: string
               description: Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
-              enum: ["auto", "low", "high"]
+              enum: [ "auto", "low", "high" ]
               default: "auto"
           required:
             - file_id
@@ -11244,7 +11244,7 @@ components:
         type:
           description: Always `image_file`.
           type: string
-          enum: ["image_file"]
+          enum: [ "image_file" ]
         image_file:
           type: object
           properties:
@@ -11254,7 +11254,7 @@ components:
             detail:
               type: string
               description: Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
-              enum: ["auto", "low", "high"]
+              enum: [ "auto", "low", "high" ]
               default: "auto"
       required:
         - index
@@ -11267,7 +11267,7 @@ components:
       properties:
         type:
           type: string
-          enum: ["image_url"]
+          enum: [ "image_url" ]
           description: The type of the content part.
         image_url:
           type: object
@@ -11279,7 +11279,7 @@ components:
             detail:
               type: string
               description: Specifies the detail level of the image. `low` uses fewer tokens, you can opt in to high resolution using `high`. Default value is `auto`
-              enum: ["auto", "low", "high"]
+              enum: [ "auto", "low", "high" ]
               default: "auto"
           required:
             - url
@@ -11298,7 +11298,7 @@ components:
         type:
           description: Always `image_url`.
           type: string
-          enum: ["image_url"]
+          enum: [ "image_url" ]
         image_url:
           type: object
           properties:
@@ -11308,7 +11308,7 @@ components:
             detail:
               type: string
               description: Specifies the detail level of the image. `low` uses fewer tokens, you can opt in to high resolution using `high`.
-              enum: ["auto", "low", "high"]
+              enum: [ "auto", "low", "high" ]
               default: "auto"
       required:
         - index
@@ -11322,7 +11322,7 @@ components:
         type:
           description: Always `text`.
           type: string
-          enum: ["text"]
+          enum: [ "text" ]
         text:
           type: object
           properties:
@@ -11351,7 +11351,7 @@ components:
         type:
           description: Always `text`.
           type: string
-          enum: ["text"]
+          enum: [ "text" ]
         text:
           type: string
           description: Text content to be sent to the model
@@ -11367,7 +11367,7 @@ components:
         type:
           description: Always `file_citation`.
           type: string
-          enum: ["file_citation"]
+          enum: [ "file_citation" ]
         text:
           description: The text in the message content that needs to be replaced.
           type: string
@@ -11404,7 +11404,7 @@ components:
         type:
           description: Always `file_path`.
           type: string
-          enum: ["file_path"]
+          enum: [ "file_path" ]
         text:
           description: The text in the message content that needs to be replaced.
           type: string
@@ -11440,7 +11440,7 @@ components:
         type:
           description: Always `text`.
           type: string
-          enum: ["text"]
+          enum: [ "text" ]
         text:
           type: object
           properties:
@@ -11469,7 +11469,7 @@ components:
         type:
           description: Always `file_citation`.
           type: string
-          enum: ["file_citation"]
+          enum: [ "file_citation" ]
         text:
           description: The text in the message content that needs to be replaced.
           type: string
@@ -11503,7 +11503,7 @@ components:
         type:
           description: Always `file_path`.
           type: string
-          enum: ["file_path"]
+          enum: [ "file_path" ]
         text:
           description: The text in the message content that needs to be replaced.
           type: string
@@ -11535,7 +11535,7 @@ components:
         object:
           description: The object type, which is always `thread.run.step`.
           type: string
-          enum: ["thread.run.step"]
+          enum: [ "thread.run.step" ]
         created_at:
           description: The Unix timestamp (in seconds) for when the run step was created.
           type: integer
@@ -11551,11 +11551,11 @@ components:
         type:
           description: The type of run step, which can be either `message_creation` or `tool_calls`.
           type: string
-          enum: ["message_creation", "tool_calls"]
+          enum: [ "message_creation", "tool_calls" ]
         status:
           description: The status of the run step, which can be either `in_progress`, `cancelled`, `failed`, `completed`, or `expired`.
           type: string
-          enum: ["in_progress", "cancelled", "failed", "completed", "expired"]
+          enum: [ "in_progress", "cancelled", "failed", "completed", "expired" ]
         step_details:
           type: object
           description: The details of the run step.
@@ -11571,7 +11571,7 @@ components:
             code:
               type: string
               description: One of `server_error` or `rate_limit_exceeded`.
-              enum: ["server_error", "rate_limit_exceeded"]
+              enum: [ "server_error", "rate_limit_exceeded" ]
             message:
               type: string
               description: A human-readable description of the error.
@@ -11635,7 +11635,7 @@ components:
         object:
           description: The object type, which is always `thread.run.step.delta`.
           type: string
-          enum: ["thread.run.step.delta"]
+          enum: [ "thread.run.step.delta" ]
         delta:
           description: The delta containing the fields that have changed on the run step.
           type: object
@@ -11706,7 +11706,7 @@ components:
         type:
           description: Always `message_creation`.
           type: string
-          enum: ["message_creation"]
+          enum: [ "message_creation" ]
         message_creation:
           type: object
           properties:
@@ -11727,7 +11727,7 @@ components:
         type:
           description: Always `message_creation`.
           type: string
-          enum: ["message_creation"]
+          enum: [ "message_creation" ]
         message_creation:
           type: object
           properties:
@@ -11745,7 +11745,7 @@ components:
         type:
           description: Always `tool_calls`.
           type: string
-          enum: ["tool_calls"]
+          enum: [ "tool_calls" ]
         tool_calls:
           type: array
           description: |
@@ -11768,7 +11768,7 @@ components:
         type:
           description: Always `tool_calls`.
           type: string
-          enum: ["tool_calls"]
+          enum: [ "tool_calls" ]
         tool_calls:
           type: array
           description: |
@@ -11793,7 +11793,7 @@ components:
         type:
           type: string
           description: The type of tool call. This is always going to be `code_interpreter` for this type of tool call.
-          enum: ["code_interpreter"]
+          enum: [ "code_interpreter" ]
         code_interpreter:
           type: object
           description: The Code Interpreter tool call definition.
@@ -11832,7 +11832,7 @@ components:
         type:
           type: string
           description: The type of tool call. This is always going to be `code_interpreter` for this type of tool call.
-          enum: ["code_interpreter"]
+          enum: [ "code_interpreter" ]
         code_interpreter:
           type: object
           description: The Code Interpreter tool call definition.
@@ -11861,7 +11861,7 @@ components:
         type:
           description: Always `logs`.
           type: string
-          enum: ["logs"]
+          enum: [ "logs" ]
         logs:
           type: string
           description: The text output from the Code Interpreter tool call.
@@ -11880,7 +11880,7 @@ components:
         type:
           description: Always `logs`.
           type: string
-          enum: ["logs"]
+          enum: [ "logs" ]
         logs:
           type: string
           description: The text output from the Code Interpreter tool call.
@@ -11895,7 +11895,7 @@ components:
         type:
           description: Always `image`.
           type: string
-          enum: ["image"]
+          enum: [ "image" ]
         image:
           type: object
           properties:
@@ -11918,7 +11918,7 @@ components:
         type:
           description: Always `image`.
           type: string
-          enum: ["image"]
+          enum: [ "image" ]
         image:
           type: object
           properties:
@@ -11939,7 +11939,7 @@ components:
         type:
           type: string
           description: The type of tool call. This is always going to be `file_search` for this type of tool call.
-          enum: ["file_search"]
+          enum: [ "file_search" ]
         file_search:
           type: object
           description: For now, this is always going to be an empty object.
@@ -11962,7 +11962,7 @@ components:
         type:
           type: string
           description: The type of tool call. This is always going to be `file_search` for this type of tool call.
-          enum: ["file_search"]
+          enum: [ "file_search" ]
         file_search:
           type: object
           description: For now, this is always going to be an empty object.
@@ -11982,7 +11982,7 @@ components:
         type:
           type: string
           description: The type of tool call. This is always going to be `function` for this type of tool call.
-          enum: ["function"]
+          enum: [ "function" ]
         function:
           type: object
           description: The definition of the function that was called.
@@ -12019,7 +12019,7 @@ components:
         type:
           type: string
           description: The type of tool call. This is always going to be `function` for this type of tool call.
-          enum: ["function"]
+          enum: [ "function" ]
         function:
           type: object
           description: The definition of the function that was called.
@@ -12046,7 +12046,7 @@ components:
         anchor:
           description: "Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`."
           type: string
-          enum: ["last_active_at"]
+          enum: [ "last_active_at" ]
         days:
           description: The number of days after the anchor time that the vector store will expire.
           type: integer
@@ -12067,7 +12067,7 @@ components:
         object:
           description: The object type, which is always `vector_store`.
           type: string
-          enum: ["vector_store"]
+          enum: [ "vector_store" ]
         created_at:
           description: The Unix timestamp (in seconds) for when the vector store was created.
           type: integer
@@ -12104,7 +12104,7 @@ components:
         status:
           description: The status of the vector store, which can be either `expired`, `in_progress`, or `completed`. A status of `completed` indicates that the vector store is ready for use.
           type: string
-          enum: ["expired", "in_progress", "completed"]
+          enum: [ "expired", "in_progress", "completed" ]
         expires_after:
           $ref: "#/components/schemas/VectorStoreExpirationAfter"
         expires_at:
@@ -12225,7 +12225,7 @@ components:
           type: boolean
         object:
           type: string
-          enum: [vector_store.deleted]
+          enum: [ vector_store.deleted ]
       required:
         - id
         - object
@@ -12242,7 +12242,7 @@ components:
         object:
           description: The object type, which is always `vector_store.file`.
           type: string
-          enum: ["vector_store.file"]
+          enum: [ "vector_store.file" ]
         usage_bytes:
           description: The total vector store usage in bytes. Note that this may be different from the original file size.
           type: integer
@@ -12255,7 +12255,7 @@ components:
         status:
           description: The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use.
           type: string
-          enum: ["in_progress", "completed", "cancelled", "failed"]
+          enum: [ "in_progress", "completed", "cancelled", "failed" ]
         last_error:
           type: object
           description: The last error associated with this vector store file. Will be `null` if there are no errors.
@@ -12343,7 +12343,7 @@ components:
           type: boolean
         object:
           type: string
-          enum: [vector_store.file.deleted]
+          enum: [ vector_store.file.deleted ]
       required:
         - id
         - object
@@ -12360,7 +12360,7 @@ components:
         object:
           description: The object type, which is always `vector_store.file_batch`.
           type: string
-          enum: ["vector_store.files_batch"]
+          enum: [ "vector_store.files_batch" ]
         created_at:
           description: The Unix timestamp (in seconds) for when the vector store files batch was created.
           type: integer
@@ -12370,7 +12370,7 @@ components:
         status:
           description: The status of the vector store files batch, which can be either `in_progress`, `completed`, `cancelled` or `failed`.
           type: string
-          enum: ["in_progress", "completed", "cancelled", "failed"]
+          enum: [ "in_progress", "completed", "cancelled", "failed" ]
         file_counts:
           type: object
           properties:
@@ -12473,7 +12473,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.created"]
+              enum: [ "thread.created" ]
             data:
               $ref: "#/components/schemas/ThreadObject"
           required:
@@ -12489,7 +12489,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.run.created"]
+              enum: [ "thread.run.created" ]
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -12502,7 +12502,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.run.queued"]
+              enum: [ "thread.run.queued" ]
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -12515,7 +12515,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.run.in_progress"]
+              enum: [ "thread.run.in_progress" ]
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -12528,7 +12528,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.run.requires_action"]
+              enum: [ "thread.run.requires_action" ]
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -12541,7 +12541,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.run.completed"]
+              enum: [ "thread.run.completed" ]
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -12554,7 +12554,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.run.failed"]
+              enum: [ "thread.run.failed" ]
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -12567,7 +12567,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.run.cancelling"]
+              enum: [ "thread.run.cancelling" ]
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -12580,7 +12580,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.run.cancelled"]
+              enum: [ "thread.run.cancelled" ]
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -12593,7 +12593,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.run.expired"]
+              enum: [ "thread.run.expired" ]
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -12609,7 +12609,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.run.step.created"]
+              enum: [ "thread.run.step.created" ]
             data:
               $ref: "#/components/schemas/RunStepObject"
           required:
@@ -12622,7 +12622,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.run.step.in_progress"]
+              enum: [ "thread.run.step.in_progress" ]
             data:
               $ref: "#/components/schemas/RunStepObject"
           required:
@@ -12635,7 +12635,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.run.step.delta"]
+              enum: [ "thread.run.step.delta" ]
             data:
               $ref: "#/components/schemas/RunStepDeltaObject"
           required:
@@ -12648,7 +12648,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.run.step.completed"]
+              enum: [ "thread.run.step.completed" ]
             data:
               $ref: "#/components/schemas/RunStepObject"
           required:
@@ -12661,7 +12661,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.run.step.failed"]
+              enum: [ "thread.run.step.failed" ]
             data:
               $ref: "#/components/schemas/RunStepObject"
           required:
@@ -12674,7 +12674,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.run.step.cancelled"]
+              enum: [ "thread.run.step.cancelled" ]
             data:
               $ref: "#/components/schemas/RunStepObject"
           required:
@@ -12687,7 +12687,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.run.step.expired"]
+              enum: [ "thread.run.step.expired" ]
             data:
               $ref: "#/components/schemas/RunStepObject"
           required:
@@ -12703,7 +12703,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.message.created"]
+              enum: [ "thread.message.created" ]
             data:
               $ref: "#/components/schemas/MessageObject"
           required:
@@ -12716,7 +12716,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.message.in_progress"]
+              enum: [ "thread.message.in_progress" ]
             data:
               $ref: "#/components/schemas/MessageObject"
           required:
@@ -12729,7 +12729,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.message.delta"]
+              enum: [ "thread.message.delta" ]
             data:
               $ref: "#/components/schemas/MessageDeltaObject"
           required:
@@ -12742,7 +12742,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.message.completed"]
+              enum: [ "thread.message.completed" ]
             data:
               $ref: "#/components/schemas/MessageObject"
           required:
@@ -12755,7 +12755,7 @@ components:
           properties:
             event:
               type: string
-              enum: ["thread.message.incomplete"]
+              enum: [ "thread.message.incomplete" ]
             data:
               $ref: "#/components/schemas/MessageObject"
           required:
@@ -12770,7 +12770,7 @@ components:
       properties:
         event:
           type: string
-          enum: ["error"]
+          enum: [ "error" ]
         data:
           $ref: "#/components/schemas/Error"
       required:
@@ -12785,10 +12785,10 @@ components:
       properties:
         event:
           type: string
-          enum: ["done"]
+          enum: [ "done" ]
         data:
           type: string
-          enum: ["[DONE]"]
+          enum: [ "[DONE]" ]
       required:
         - event
         - data
@@ -12803,7 +12803,7 @@ components:
           type: string
         object:
           type: string
-          enum: [batch]
+          enum: [ batch ]
           description: The object type, which is always `batch`.
         endpoint:
           type: string
@@ -12928,7 +12928,7 @@ components:
           description: A developer-provided per-request id that will be used to match outputs to inputs. Must be unique for each request in a batch.
         method:
           type: string
-          enum: ["POST"]
+          enum: [ "POST" ]
           description: The HTTP method to be used for the request. Currently only `POST` is supported.
         url:
           type: string
@@ -12994,14 +12994,14 @@ components:
           type: boolean
         object:
           type: string
-          enum: [list]
+          enum: [ list ]
       required:
         - object
         - data
         - has_more
 
 security:
-  - ApiKeyAuth: []
+  - ApiKeyAuth: [ ]
 
 x-oaiMeta:
   navigationGroups:
