@@ -1,0 +1,16 @@
+# melos_managed_dependency_overrides: langchain,langchain_openai,openai_dart,langchain_core,langchain_community,langchain_ollama,ollama_dart
+dependency_overrides:
+  langchain:
+    path: ../../packages/langchain
+  langchain_community:
+    path: ../../packages/langchain_community
+  langchain_core:
+    path: ../../packages/langchain_core
+  langchain_ollama:
+    path: ../../packages/langchain_ollama
+  langchain_openai:
+    path: ../../packages/langchain_openai
+  ollama_dart:
+    path: ../../packages/ollama_dart
+  openai_dart:
+    path: ../../packages/openai_dart
