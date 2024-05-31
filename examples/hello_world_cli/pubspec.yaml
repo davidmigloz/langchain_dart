@@ -7,5 +7,5 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  langchain: ^0.7.1
-  langchain_openai: ^0.6.1+1
+  langchain: ^0.7.2
+  langchain_openai: ^0.6.2
