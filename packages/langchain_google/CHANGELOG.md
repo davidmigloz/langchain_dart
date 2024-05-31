@@ -1,3 +1,7 @@
+## 0.5.1
+
+ - **FEAT**: Add Runnable.close() to close any resources associated with it ([#439](https://github.com/davidmigloz/langchain_dart/issues/439)). ([4e08cced](https://github.com/davidmigloz/langchain_dart/commit/4e08cceda964921178061e9721618a1505198ff5))
+
 ## 0.5.0
 
 > Note: `ChatGoogleGenerativeAI` and `GoogleGenerativeAIEmbeddings` now use the version `v1beta` of the Gemini API (instead of `v1`) which support the latest models (`gemini-1.5-pro-latest` and `gemini-1.5-flash-latest`).

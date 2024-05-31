@@ -1,3 +1,7 @@
+## 0.1.0+1
+
+ - **FIX**: Fix deserialization of sealed classes ([#435](https://github.com/davidmigloz/langchain_dart/issues/435)). ([7b9cf223](https://github.com/davidmigloz/langchain_dart/commit/7b9cf223e42eae8496f864ad7ef2f8d0dca45678))
+
 ## 0.1.0
 
 - **REFACTOR**: Minor changes ([#407](https://github.com/davidmigloz/langchain_dart/issues/407)). ([fa4b5c37](https://github.com/davidmigloz/langchain_dart/commit/fa4b5c376a191fea50c3f8b1d6b07cef0480a74e))

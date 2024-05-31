@@ -1,3 +1,8 @@
+## 0.2.1
+
+ - **FEAT**: Add support for ObjectBoxVectorStore ([#438](https://github.com/davidmigloz/langchain_dart/issues/438)). ([81e167a6](https://github.com/davidmigloz/langchain_dart/commit/81e167a6888fff9f8db381caaef6ee788acef3a8))
+   + Check out the [ObjectBoxVectorStore documentation](https://langchaindart.dev/#/modules/retrieval/vector_stores/integrations/objectbox?id=objectbox)
+
 ## 0.2.0+1
 
 - Update a dependency to the latest release.

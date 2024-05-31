@@ -1,3 +1,7 @@
+## 0.2.2
+
+ - **FEAT**: Add Runnable.close() to close any resources associated with it ([#439](https://github.com/davidmigloz/langchain_dart/issues/439)). ([4e08cced](https://github.com/davidmigloz/langchain_dart/commit/4e08cceda964921178061e9721618a1505198ff5))
+
 ## 0.2.1+1
 
  - Update a dependency to the latest release.

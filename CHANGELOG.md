@@ -2,6 +2,73 @@
 
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details about each release.
 
+## 2024-06-01
+
+### Changes
+
+---
+
+New packages:
+
+ - [`anthropic_sdk_dart` - `v0.0.1`](#anthropic_sdk_dart---v001)
+
+Packages with other changes:
+
+ - [`langchain` - `v0.7.2`](#langchain---v072)
+ - [`langchain_core` - `v0.3.2`](#langchain_core---v032)
+ - [`langchain_community` - `v0.2.1`](#langchain_community---v021)
+ - [`langchain_chroma` - `v0.2.0+5`](#langchain_chroma---v0205)
+ - [`langchain_firebase` - `v0.1.0+2`](#langchain_firebase---v0102)
+ - [`langchain_google` - `v0.5.1`](#langchain_google---v051)
+ - [`langchain_mistralai` - `v0.2.1`](#langchain_mistralai---v021)
+ - [`langchain_ollama` - `v0.2.2`](#langchain_ollama---v022)
+ - [`langchain_openai` - `v0.6.2`](#langchain_openai---v062)
+ - [`langchain_pinecone` - `v0.1.0+5`](#langchain_pinecone---v0105)
+ - [`langchain_supabase` - `v0.1.0+5`](#langchain_supabase---v0105)
+ - [`chromadb` - `v0.2.0+1`](#chromadb---v0201)
+ - [`googleai_dart` - `v0.1.0+1`](#googleai_dart---v0101)
+ - [`mistralai_dart` - `v0.0.3+2`](#mistralai_dart---v0032)
+ - [`ollama_dart` - `v0.1.1`](#ollama_dart---v011)
+ - [`openai_dart` - `v0.3.3`](#openai_dart---v033)
+ - [`vertex_ai` - `v0.1.0+1`](#vertex_ai---v0101)
+
+---
+
+#### `langchain` - `v0.7.2`
+
+ - **FEAT**: Add support for ObjectBoxVectorStore ([#438](https://github.com/davidmigloz/langchain_dart/issues/438)). ([81e167a6](https://github.com/davidmigloz/langchain_dart/commit/81e167a6888fff9f8db381caaef6ee788acef3a8))
+   + Check out the [ObjectBoxVectorStore documentation](https://langchaindart.dev/#/modules/retrieval/vector_stores/integrations/objectbox?id=objectbox)
+ - **REFACTOR**: Migrate to langchaindart.dev domain ([#434](https://github.com/davidmigloz/langchain_dart/issues/434)). ([358f79d6](https://github.com/davidmigloz/langchain_dart/commit/358f79d6e0bae2ecd657aeed2eae7fad16d97c18))
+
+#### `langchain_core` - `v0.3.2`
+
+ - **FEAT**: Add Runnable.close() to close any resources associated with it ([#439](https://github.com/davidmigloz/langchain_dart/issues/439)). ([4e08cced](https://github.com/davidmigloz/langchain_dart/commit/4e08cceda964921178061e9721618a1505198ff5))
+ - **FIX**: Stream errors are not propagated by StringOutputParser ([#440](https://github.com/davidmigloz/langchain_dart/issues/440)). ([496b11cc](https://github.com/davidmigloz/langchain_dart/commit/496b11cca9bbf9892c425e49138562537398bc70))
+
+#### `langchain_community` - `v0.2.1`
+
+ - **FEAT**: Add support for ObjectBoxVectorStore ([#438](https://github.com/davidmigloz/langchain_dart/issues/438)). ([81e167a6](https://github.com/davidmigloz/langchain_dart/commit/81e167a6888fff9f8db381caaef6ee788acef3a8))
+   + Check out the [ObjectBoxVectorStore documentation](https://langchaindart.dev/#/modules/retrieval/vector_stores/integrations/objectbox?id=objectbox)
+
+#### `langchain_openai` - `v0.6.2`
+
+ - **DOCS**: Document tool calling with OpenRouter ([#437](https://github.com/davidmigloz/langchain_dart/issues/437)). ([47986592](https://github.com/davidmigloz/langchain_dart/commit/47986592a674322fe2f69aff7166a3e594756ace))
+
+#### `anthropic_sdk_dart` - `v0.0.1`
+
+ - **FEAT**: Implement anthropic_sdk_dart, a Dart client for Anthropic API ([#433](https://github.com/davidmigloz/langchain_dart/issues/433)). ([e5412b](https://github.com/davidmigloz/langchain_dart/commit/e5412bdedc7de911f7de88eb51e9d41cd85ab4ae))
+
+#### `ollama_dart` - `v0.1.1`
+
+ - **FEAT**: Support buffered stream responses ([#445](https://github.com/davidmigloz/langchain_dart/issues/445)). ([ce2ef30c](https://github.com/davidmigloz/langchain_dart/commit/ce2ef30c9a9a0dfe8f3059988b7007c94c45b9bd))
+
+#### `openai_dart` - `v0.3.3`
+
+ - **FEAT**: Support FastChat OpenAI-compatible API ([#444](https://github.com/davidmigloz/langchain_dart/issues/444)). ([ddaf1f69](https://github.com/davidmigloz/langchain_dart/commit/ddaf1f69d8262210637999367690bf362f2dc5c3))
+ - **FIX**: Make vector store name optional ([#436](https://github.com/davidmigloz/langchain_dart/issues/436)). ([29a46c7f](https://github.com/davidmigloz/langchain_dart/commit/29a46c7fa645439e8f4acc10a16da904e7cf14ff))
+ - **FIX**: Fix deserialization of sealed classes ([#435](https://github.com/davidmigloz/langchain_dart/issues/435)). ([7b9cf223](https://github.com/davidmigloz/langchain_dart/commit/7b9cf223e42eae8496f864ad7ef2f8d0dca45678))
+
+
 ## 2024-05-20
 
 ### Changes
@@ -2422,20 +2489,3 @@ Packages with changes:
 
  - **FIX**: OpenAIQAWithSourcesChain throws exception. ([45c6cb9d](https://github.com/davidmigloz/langchain_dart/commit/45c6cb9d32be670902dd2fe4cb92597765590d85))
  - **FEAT**: Support estimating the number of tokens for a given prompt ([#3](https://github.com/davidmigloz/langchain_dart/issues/3)). ([e22f22c8](https://github.com/davidmigloz/langchain_dart/commit/e22f22c89f188a019b96a7c0003dbd26471bebb7))
-
-## 2023-07-02
-
-### Changes
-
-#### `langchain` - `v0.0.1`
-
- - Initial public release. 
-t/commit/e22f22c89f188a019b96a7c0003dbd26471bebb7))
-
-## 2023-07-02
-
-### Changes
-
-#### `langchain` - `v0.0.1`
-
- - Initial public release. 
