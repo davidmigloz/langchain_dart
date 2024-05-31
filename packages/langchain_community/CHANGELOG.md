@@ -1,3 +1,7 @@
+## 0.2.1+1
+
+ - **FIX**: Add missing dependency in langchain_community package ([#448](https://github.com/davidmigloz/langchain_dart/issues/448)). ([70ffd027](https://github.com/davidmigloz/langchain_dart/commit/70ffd027cb41c5c5058bb266966734894f773330))
+
 ## 0.2.1
 
  - **FEAT**: Add support for ObjectBoxVectorStore ([#438](https://github.com/davidmigloz/langchain_dart/issues/438)). ([81e167a6](https://github.com/davidmigloz/langchain_dart/commit/81e167a6888fff9f8db381caaef6ee788acef3a8))

@@ -27,5 +27,5 @@ dependencies:
 
 dev_dependencies:
   langchain: ^0.7.2
-  langchain_community: 0.2.1
+  langchain_community: 0.2.1+1
   test: ^1.25.2

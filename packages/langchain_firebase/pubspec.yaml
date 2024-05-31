@@ -1,6 +1,6 @@
 name: langchain_firebase
 description: LangChain.dart integration module for Firebase (VertexAI for Firebase, Firestore, etc.).
-version: 0.1.0+2
+version: 0.1.0+3
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_firebase
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:langchain_firebase
 homepage: https://github.com/davidmigloz/langchain_dart
