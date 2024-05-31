@@ -26,5 +26,5 @@ dependencies:
 dev_dependencies:
   test: ^1.25.2
   langchain: ^0.7.2
-  langchain_community: 0.2.1
+  langchain_community: 0.2.1+1
   langchain_openai: ^0.6.2

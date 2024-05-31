@@ -204,42 +204,42 @@ packages:
       path: "../../packages/langchain"
       relative: true
     source: path
-    version: "0.7.1"
+    version: "0.7.2"
   langchain_core:
     dependency: "direct overridden"
     description:
       path: "../../packages/langchain_core"
       relative: true
     source: path
-    version: "0.3.1"
+    version: "0.3.2"
   langchain_google:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_google"
       relative: true
     source: path
-    version: "0.5.0"
+    version: "0.5.1"
   langchain_mistralai:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_mistralai"
       relative: true
     source: path
-    version: "0.2.0+1"
+    version: "0.2.1"
   langchain_ollama:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_ollama"
       relative: true
     source: path
-    version: "0.2.1+1"
+    version: "0.2.2"
   langchain_openai:
     dependency: "direct main"
     description:
       path: "../../packages/langchain_openai"
       relative: true
     source: path
-    version: "0.6.1+1"
+    version: "0.6.2"
   langchain_tiktoken:
     dependency: transitive
     description:
@@ -278,7 +278,7 @@ packages:
       path: "../../packages/mistralai_dart"
       relative: true
     source: path
-    version: "0.0.3+1"
+    version: "0.0.3+2"
   nested:
     dependency: transitive
     description:
@@ -293,14 +293,14 @@ packages:
       path: "../../packages/ollama_dart"
       relative: true
     source: path
-    version: "0.1.0+1"
+    version: "0.1.1"
   openai_dart:
     dependency: "direct overridden"
     description:
       path: "../../packages/openai_dart"
       relative: true
     source: path
-    version: "0.3.2+1"
+    version: "0.3.3"
   path:
     dependency: transitive
     description:
@@ -400,7 +400,7 @@ packages:
       path: "../../packages/vertex_ai"
       relative: true
     source: path
-    version: "0.1.0"
+    version: "0.1.0+1"
   web:
     dependency: transitive
     description:
