@@ -1,3 +1,7 @@
+## 0.1.0+1
+
+ - Update a dependency to the latest release.
+
 ## 0.1.0
 
  - **REFACTOR**: Minor changes ([#363](https://github.com/davidmigloz/langchain_dart/issues/363)). ([ffe539c1](https://github.com/davidmigloz/langchain_dart/commit/ffe539c13f92cce5f564107430163b44be1dfd96))

@@ -1,3 +1,7 @@
+## 0.1.0+2
+
+ - Update a dependency to the latest release.
+
 ## 0.1.0+1
 
  - **DOCS**: Fix lint issues in langchain_firebase example. ([f85a6ad7](https://github.com/davidmigloz/langchain_dart/commit/f85a6ad755e00c513bd4349663e33d40be8a696c))
