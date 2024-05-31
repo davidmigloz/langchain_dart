@@ -10,9 +10,9 @@ Build LLM-powered Dart/Flutter applications.
 
 ## What is LangChain.dart?
 
-LangChain.dart is a Dart port of the popular [LangChain](https://github.com/hwchase17/langchain) Python framework created by [Harrison Chase](https://www.linkedin.com/in/harrison-chase-961287118).
+LangChain.dart is an unofficial Dart port of the popular [LangChain](https://github.com/hwchase17/langchain) Python framework created by [Harrison Chase](https://www.linkedin.com/in/harrison-chase-961287118).
 
-LangChain provides a set of ready-to-use components for working with language models and a standard interface for chaining them together to formulate more advanced use cases (e.g. chatbots, Q&A with RAG, agents, summarization, extraction, etc.).
+LangChain provides a set of ready-to-use components for working with language models and a standard interface for chaining them together to formulate more advanced use cases (e.g. chatbots, Q&A with RAG, agents, summarization, translation, extraction, recsys, etc.).
 
 The components can be grouped into a few core modules:
 
@@ -22,7 +22,7 @@ The components can be grouped into a few core modules:
 - 📚 **Retrieval:** assists in loading user data (via document loaders), transforming it (with text splitters), extracting its meaning (using embedding models), storing (in vector stores) and retrieving it (through retrievers) so that it can be used to ground the model's responses (i.e. Retrieval-Augmented Generation or RAG). 
 - 🤖 **Agents:** "bots" that leverage LLMs to make informed decisions about which available tools (such as web search, calculators, database lookup, etc.) to use to accomplish the designated task.
 
-The different components can be composed together using the LangChain Expression Language (LCEL).
+The different components can be composed together using the [LangChain Expression Language (LCEL)](https://langchaindart.dev/#/expression_language/get_started).
 
 ## Motivation
 
@@ -37,15 +37,32 @@ LangChain.dart aims to fill this gap by abstracting the intricacies of working w
 ## Packages
 
 LangChain.dart has a modular design that allows developers to import only the components they need. The ecosystem consists of several packages:
-- [`langchain_core`](https://pub.dev/packages/langchain_core): contains only the core abstractions as well as LangChain Expression Language as a way to compose them together. 
-  > Depend on this package to build frameworks on top of LangChain.dart or to interoperate with it.
-- [`langchain`](https://pub.dev/packages/langchain): contains higher-level and use-case specific chains, agents, and retrieval algorithms that are at the core of the application's cognitive architecture.
-  > Depend on this package to build LLM applications with LangChain.dart.  
-  > This package exposes `langchain_core` so you don't need to depend on it explicitly.
-- [`langchain_community`](https://pub.dev/packages/langchain_community): contains third-party integrations and community-contributed components that are not part of the core LangChain.dart API.
-  > Depend on this package if you want to use any of the integrations or components it provides. 
-- Integration-specific packages (e.g. [`langchain_openai`](https://pub.dev/packages/langchain_openai), [`langchain_google`](https://pub.dev/packages/langchain_google), etc.): popular third-party integrations are moved to their own packages so that they can be imported independently without depending on the entire `langchain_community` package.
-  > Depend on an integration-specific package if you want to use the specific integration.
+
+### [`langchain_core`](https://pub.dev/packages/langchain_core)
+
+Contains only the core abstractions as well as LangChain Expression Language as a way to compose them together. 
+
+> Depend on this package to build frameworks on top of LangChain.dart or to interoperate with it.
+
+### [`langchain`](https://pub.dev/packages/langchain)
+
+Contains higher-level and use-case specific chains, agents, and retrieval algorithms that are at the core of the application's cognitive architecture.
+
+> Depend on this package to build LLM applications with LangChain.dart.  
+> 
+> This package exposes `langchain_core` so you don't need to depend on it explicitly.
+
+### [`langchain_community`](https://pub.dev/packages/langchain_community)
+
+Contains third-party integrations and community-contributed components that are not part of the core LangChain.dart API.
+
+> Depend on this package if you want to use any of the integrations or components it provides.
+
+### Integration-specific packages
+
+Popular third-party integrations (e.g. [`langchain_openai`](https://pub.dev/packages/langchain_openai), [`langchain_google`](https://pub.dev/packages/langchain_google), [`langchain_ollama`](https://pub.dev/packages/langchain_ollama), etc.) are moved to their own packages so that they can be imported independently without depending on the entire `langchain_community` package.
+
+> Depend on an integration-specific package if you want to use the specific integration.
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/davidmigloz/langchain_dart/main/docs/img/langchain_packages.png" width="500">
@@ -81,22 +98,24 @@ Functionality provided by each integration package:
 
 The following packages are maintained (and used internally) by LangChain.dart, although they can also be used independently:
 
-| Package                                                   | Version                                                                                                       | Description                                   | 
-|-----------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|-----------------------------------------------|
-| [chromadb](https://pub.dev/packages/chromadb)             | [![chromadb](https://img.shields.io/pub/v/chromadb.svg)](https://pub.dev/packages/chromadb)                   | Chroma DB API client                          |
-| [googleai_dart](https://pub.dev/packages/googleai_dart)   | [![googleai_dart](https://img.shields.io/pub/v/googleai_dart.svg)](https://pub.dev/packages/googleai_dart)    | Google AI for Developers (Gemini API) client  |
-| [mistralai_dart](https://pub.dev/packages/mistralai_dart) | [![mistralai_dart](https://img.shields.io/pub/v/mistralai_dart.svg)](https://pub.dev/packages/mistralai_dart) | Mistral AI API client                         |
-| [ollama_dart](https://pub.dev/packages/ollama_dart)       | [![ollama_dart](https://img.shields.io/pub/v/ollama_dart.svg)](https://pub.dev/packages/ollama_dart)          | Ollama API client                             |
-| [openai_dart](https://pub.dev/packages/openai_dart)       | [![openai_dart](https://img.shields.io/pub/v/openai_dart.svg)](https://pub.dev/packages/openai_dart)          | OpenAI API client                             |
-| [vertex_ai](https://pub.dev/packages/vertex_ai)           | [![vertex_ai](https://img.shields.io/pub/v/vertex_ai.svg)](https://pub.dev/packages/vertex_ai)                | GCP Vertex AI API client                      |
+| Package                                                           | Version                                                                                                                   | Description                                  | 
+|-------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
+| [anthropic_sdk_dart](https://pub.dev/packages/anthropic_sdk_dart) | [![anthropic_sdk_dart](https://img.shields.io/pub/v/anthropic_sdk_dart.svg)](https://pub.dev/packages/anthropic_sdk_dart) | Anthropic (Claude API) client                |
+| [chromadb](https://pub.dev/packages/chromadb)                     | [![chromadb](https://img.shields.io/pub/v/chromadb.svg)](https://pub.dev/packages/chromadb)                               | Chroma DB API client                         |
+| [googleai_dart](https://pub.dev/packages/googleai_dart)           | [![googleai_dart](https://img.shields.io/pub/v/googleai_dart.svg)](https://pub.dev/packages/googleai_dart)                | Google AI for Developers (Gemini API) client |
+| [mistralai_dart](https://pub.dev/packages/mistralai_dart)         | [![mistralai_dart](https://img.shields.io/pub/v/mistralai_dart.svg)](https://pub.dev/packages/mistralai_dart)             | Mistral AI API client                        |
+| [ollama_dart](https://pub.dev/packages/ollama_dart)               | [![ollama_dart](https://img.shields.io/pub/v/ollama_dart.svg)](https://pub.dev/packages/ollama_dart)                      | Ollama API client                            |
+| [openai_dart](https://pub.dev/packages/openai_dart)               | [![openai_dart](https://img.shields.io/pub/v/openai_dart.svg)](https://pub.dev/packages/openai_dart)                      | OpenAI API client                            |
+| [vertex_ai](https://pub.dev/packages/vertex_ai)                   | [![vertex_ai](https://img.shields.io/pub/v/vertex_ai.svg)](https://pub.dev/packages/vertex_ai)                            | GCP Vertex AI API client                     |
 
 ## Getting started
 
-To start using LangChain.dart, add `langchain` as a dependency to your `pubspec.yaml` file. Also, include the dependencies for the specific integrations you want to use (e.g.`langchain_openai` or `langchain_google`):
+To start using LangChain.dart, add `langchain` as a dependency to your `pubspec.yaml` file. Also, include the dependencies for the specific integrations you want to use (e.g.`langchain_community`, `langchain_openai`, `langchain_google`, etc.):
 
 ```yaml
 dependencies:
   langchain: {version}
+  langchain_community: {version}
   langchain_openai: {version}
   langchain_google: {version}
   ...
