@@ -70,7 +70,7 @@ Added 160 documents to the vector store.
 
 The chatbot script implements the RAG pipeline. It does the following:
 1. Takes a user query as input.
-2. Uses the `mxbai-embed-large:335m` model to create an embedding for the query.
+2. Uses the `jina/jina-embeddings-v2-small-en` model to create an embedding for the query.
 3. Retrieves the 5 most similar documents from the ObjectBox database.
 4. Builds a prompt using the retrieved documents and the query.
 5. Uses the `llama3:8b` model to generate a response to the prompt.

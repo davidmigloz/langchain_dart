@@ -13,6 +13,7 @@ ObjectBox features:
 - Low memory footprint: ObjectBox itself just takes a few MB of memory. The entire binary is only about 3 MB (compressed around 1 MB)
 - Scales with hardware: efficient resource usage is also an advantage when running on more capable devices like the latest phones, desktops and servers
 
+Official ObjectBox resources:
 - [ObjectBox Vector Search docs](https://docs.objectbox.io/ann-vector-search)
 - [The first On-Device Vector Database: ObjectBox 4.0](https://objectbox.io/the-first-on-device-vector-database-objectbox-4-0)
 - [On-device Vector Database for Dart/Flutter](https://objectbox.io/on-device-vector-database-for-dart-flutter)
@@ -42,21 +43,21 @@ dependencies:
 ### 3. Instantiate the ObjectBox vector store
 
 ```dart
-final embeddings = OllamaEmbeddings(model: 'mxbai-embed-large:335m');
+final embeddings = OllamaEmbeddings(model: 'jina/jina-embeddings-v2-small-en');
 final vectorStore = ObjectBoxVectorStore(
   embeddings: embeddings,
-  dimensions: 1024,
+  dimensions: 512,
 );
 ```
 
-The dimensions parameter specifies the number of dimensions of the embeddings. It will depend on the embeddings model you are using. In this example, we are using the `mxbai-embed-large:335m` model, which has 1024 dimensions.
+The dimensions parameter specifies the number of dimensions of the embeddings. It will depend on the embeddings model you are using. In this example, we are using the [jina/jina-embeddings-v2-small-en](https://ollama.com/jina/jina-embeddings-v2-small-en) model, which has 512 dimensions.
 
 The `ObjectBoxVectorStore` constructor allows you to customize the ObjectBox store that is created under the hood. For example, you can change the directory where the database is stored:
 
 ```dart
 final vectorStore = ObjectBoxVectorStore(
   embeddings: embeddings,
-  dimensions: 1024,
+  dimensions: 512,
   directory: 'path/to/db',
 );
 ```
@@ -129,7 +130,7 @@ This example demonstrates how to build a fully local RAG (Retrieval-Augmented Ge
 Before running the example, make sure you have the following:
 
 - Ollama installed (see the [Ollama documentation](https://ollama.com/) for installation instructions).
-- [mxbai-embed-large:335m](https://ollama.com/library/mxbai-embed-large:335m) and [`llama3:8b`](https://ollama.com/library/llama3:8b) models downloaded.
+- [jina/jina-embeddings-v2-small-en](https://ollama.com/jina/jina-embeddings-v2-small-en) and [llama3:8b](https://ollama.com/library/llama3:8b) models downloaded.
 
 #### Steps
 
@@ -137,7 +138,7 @@ Before running the example, make sure you have the following:
 
 1. Retrieve several posts from the ObjectBox blog using a `WebBaseLoader` document loader.
 2. Split the retrieved posts into chunks using a `RecursiveCharacterTextSplitter`.
-3. Create embeddings from the document chunks using the `mxbai-embed-large:335m` embeddings model via `OllamaEmbeddings`.
+3. Create embeddings from the document chunks using the `jina/jina-embeddings-v2-small-en` embeddings model via `OllamaEmbeddings`.
 4. Add the document chunks and their corresponding embeddings to the `ObjectBoxVectorStore`.
 
 > Note: this step only needs to be executed once (unless the documents change). The stored documents can be used for multiple queries.
@@ -151,8 +152,8 @@ Before running the example, make sure you have the following:
 ```dart
 // 1. Instantiate vector store
 final vectorStore = ObjectBoxVectorStore(
-  embeddings: OllamaEmbeddings(model: 'mxbai-embed-large:335m'),
-  dimensions: 1024,
+  embeddings: OllamaEmbeddings(model: 'jina/jina-embeddings-v2-small-en'),
+  dimensions: 512,
 );
 
 // 2. Load documents
@@ -240,6 +241,10 @@ await stream.forEach(stdout.write);
 // [1] https://objectbox.io/first-on-device-vector-database-objectbox-4-0/
 // [2] https://objectbox.io/on-device-vector-database-for-dart-flutter/
 ```
+
+## Example: Wikivoyage EU
+
+Check out the [Wikivoyage EU example](https://github.com/davidmigloz/langchain_dart/tree/main/examples/wikivoyage_eu), to see how to build a fully local chatbot that uses RAG to plan vacation plans in Europe.
 
 ## Advance
 
