@@ -109,6 +109,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelsResponse'
+  /ps:
+    get:
+      operationId: listRunningModels
+      tags:
+        - Models
+      summary: List models that are running.
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunningModelsResponse'
   /show:
     post:
       operationId: showModelInfo
@@ -171,7 +184,7 @@ paths:
         '200':
           description: Successful operation.
           content:
-            application/json:
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/PullModelResponse'
   /push:
@@ -190,7 +203,7 @@ paths:
         '200':
           description: Successful operation.
           content:
-            application/json:
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/PushModelResponse'
   /blobs/{digest}:
@@ -414,6 +427,11 @@ components:
           nullable: true
           description: |
             Sets the number of batches to use for generation. (Default: 1)
+        num_gqa:
+          type: integer
+          nullable: true
+          description: |
+            The number of GQA groups in the transformer layer. Required for some models, for example it is 8 for `llama3:70b`.
         num_gpu:
           type: integer
           nullable: true
@@ -604,12 +622,14 @@ components:
           description: Time in nanoseconds spent generating the response.
           example: 1325948000
     DoneReason:
-      type: string
       description: Reason why the model is done generating a response.
-      enum:
-        - stop # The generation hit a stop token.
-        - length # The maximum num_tokens was reached.
-        - load # The request was sent with an empty body to load the model.
+      anyOf:
+        - type: string
+        - type: string
+          enum:
+            - stop # The generation hit a stop token.
+            - length # The maximum num_tokens was reached.
+            - load # The request was sent with an empty body to load the model.
     Message:
       type: object
       description: A message in the chat endpoint
@@ -697,12 +717,14 @@ components:
         status:
           $ref: '#/components/schemas/CreateModelStatus'
     CreateModelStatus:
-      type: string
       description: Status creating the model
-      enum:
-        - creating system layer
-        - parsing modelfile
-        - success
+      anyOf:
+        - type: string
+        - type: string
+          enum:
+            - creating system layer
+            - parsing modelfile
+            - success
     ModelsResponse:
       description: Response class for the list models endpoint.
       type: object
@@ -711,8 +733,17 @@ components:
           type: array
           description: List of models available locally.
           items:
-            $ref: '#/components/schemas/Model'
-    Model:
+            $ref: '#/components/schemas/LocalModel'
+    RunningModelsResponse:
+      description: Response class for the list running models endpoint.
+      type: object
+      properties:
+        models:
+          type: array
+          description: List of running models.
+          items:
+            $ref: '#/components/schemas/RunningModel'
+    LocalModel:
       type: object
       description: A model available locally.
       properties:
@@ -726,6 +757,39 @@ components:
           description: Model modification date.
           example: 2023-08-02T17:02:23.713454393-07:00
         size:
+          type: integer
+          format: int64
+          description: Size of the model on disk.
+          example: 7323310500
+        digest:
+          type: string
+          description: The model's digest.
+          example: 'sha256:bc07c81de745696fdf5afca05e065818a8149fb0c77266fb584d9b2cba3711a'
+        details:
+          $ref: '#/components/schemas/ModelDetails'
+    RunningModel:
+      type: object
+      description: A model available locally.
+      properties:
+        model:
+          type: string
+          description: *model_name
+          example: llama3:8b
+        modified_at:
+          type: string
+          format: date-time
+          description: Model modification date.
+          example: 2023-08-02T17:02:23.713454393-07:00
+        expires_at:
+          type: string
+          format: date-time
+          example: 2023-08-02T17:02:23.713454393-07:00
+        size:
+          type: integer
+          format: int64
+          description: Size of the model on disk.
+          example: 7323310500
+        size_vram:
           type: integer
           format: int64
           description: Size of the model on disk.
@@ -805,7 +869,7 @@ components:
           nullable: true
           description: The default messages for the model.
           items:
-              $ref: '#/components/schemas/Message'
+            $ref: '#/components/schemas/Message'
     CopyModelRequest:
       description: Request class for copying a model.
       type: object
@@ -884,15 +948,17 @@ components:
           description: Total bytes transferred.
           example: 2142590208
     PullModelStatus:
-      type: string
       description: Status pulling the model.
-      enum:
-        - pulling manifest
-        - downloading digestname
-        - verifying sha256 digest
-        - writing manifest
-        - removing any unused layers
-        - success
+      anyOf:
+        - type: string
+        - type: string
+          enum:
+            - pulling manifest
+            - downloading digestname
+            - verifying sha256 digest
+            - writing manifest
+            - removing any unused layers
+            - success
       example: pulling manifest
     PushModelRequest:
       description: Request class for pushing a model.
@@ -942,10 +1008,12 @@ components:
           description: Total bytes transferred.
           example: 2142590208
     PushModelStatus:
-      type: string
       description: Status pushing the model.
-      enum:
-        - retrieving manifest
-        - starting upload
-        - pushing manifest
-        - success
+      anyOf:
+        - type: string
+        - type: string
+          enum:
+            - retrieving manifest
+            - starting upload
+            - pushing manifest
+            - success
