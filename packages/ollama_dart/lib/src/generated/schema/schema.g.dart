@@ -476,6 +476,58 @@ Map<String, dynamic> _$$ModelDetailsImplToJson(_$ModelDetailsImpl instance) {
   return val;
 }
 
+_$ProcessResponseImpl _$$ProcessResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ProcessResponseImpl(
+      models: (json['models'] as List<dynamic>?)
+          ?.map((e) => ProcessModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$ProcessResponseImplToJson(
+    _$ProcessResponseImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('models', instance.models?.map((e) => e.toJson()).toList());
+  return val;
+}
+
+_$ProcessModelImpl _$$ProcessModelImplFromJson(Map<String, dynamic> json) =>
+    _$ProcessModelImpl(
+      model: json['model'] as String?,
+      size: json['size'] as int?,
+      digest: json['digest'] as String?,
+      details: json['details'] == null
+          ? null
+          : ModelDetails.fromJson(json['details'] as Map<String, dynamic>),
+      expiresAt: json['expires_at'] as String?,
+      sizeVram: json['size_vram'] as int?,
+    );
+
+Map<String, dynamic> _$$ProcessModelImplToJson(_$ProcessModelImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('model', instance.model);
+  writeNotNull('size', instance.size);
+  writeNotNull('digest', instance.digest);
+  writeNotNull('details', instance.details?.toJson());
+  writeNotNull('expires_at', instance.expiresAt);
+  writeNotNull('size_vram', instance.sizeVram);
+  return val;
+}
+
 _$ModelInfoRequestImpl _$$ModelInfoRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$ModelInfoRequestImpl(
