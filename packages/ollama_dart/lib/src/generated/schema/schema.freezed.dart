@@ -4857,6 +4857,488 @@ abstract class _ModelDetails extends ModelDetails {
       throw _privateConstructorUsedError;
 }
 
+ProcessResponse _$ProcessResponseFromJson(Map<String, dynamic> json) {
+  return _ProcessResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ProcessResponse {
+  /// List of running models.
+  @JsonKey(includeIfNull: false)
+  List<ProcessModel>? get models => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ProcessResponseCopyWith<ProcessResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ProcessResponseCopyWith<$Res> {
+  factory $ProcessResponseCopyWith(
+          ProcessResponse value, $Res Function(ProcessResponse) then) =
+      _$ProcessResponseCopyWithImpl<$Res, ProcessResponse>;
+  @useResult
+  $Res call({@JsonKey(includeIfNull: false) List<ProcessModel>? models});
+}
+
+/// @nodoc
+class _$ProcessResponseCopyWithImpl<$Res, $Val extends ProcessResponse>
+    implements $ProcessResponseCopyWith<$Res> {
+  _$ProcessResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? models = freezed,
+  }) {
+    return _then(_value.copyWith(
+      models: freezed == models
+          ? _value.models
+          : models // ignore: cast_nullable_to_non_nullable
+              as List<ProcessModel>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ProcessResponseImplCopyWith<$Res>
+    implements $ProcessResponseCopyWith<$Res> {
+  factory _$$ProcessResponseImplCopyWith(_$ProcessResponseImpl value,
+          $Res Function(_$ProcessResponseImpl) then) =
+      __$$ProcessResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(includeIfNull: false) List<ProcessModel>? models});
+}
+
+/// @nodoc
+class __$$ProcessResponseImplCopyWithImpl<$Res>
+    extends _$ProcessResponseCopyWithImpl<$Res, _$ProcessResponseImpl>
+    implements _$$ProcessResponseImplCopyWith<$Res> {
+  __$$ProcessResponseImplCopyWithImpl(
+      _$ProcessResponseImpl _value, $Res Function(_$ProcessResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? models = freezed,
+  }) {
+    return _then(_$ProcessResponseImpl(
+      models: freezed == models
+          ? _value._models
+          : models // ignore: cast_nullable_to_non_nullable
+              as List<ProcessModel>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ProcessResponseImpl extends _ProcessResponse {
+  const _$ProcessResponseImpl(
+      {@JsonKey(includeIfNull: false) final List<ProcessModel>? models})
+      : _models = models,
+        super._();
+
+  factory _$ProcessResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ProcessResponseImplFromJson(json);
+
+  /// List of running models.
+  final List<ProcessModel>? _models;
+
+  /// List of running models.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<ProcessModel>? get models {
+    final value = _models;
+    if (value == null) return null;
+    if (_models is EqualUnmodifiableListView) return _models;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'ProcessResponse(models: $models)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ProcessResponseImpl &&
+            const DeepCollectionEquality().equals(other._models, _models));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_models));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ProcessResponseImplCopyWith<_$ProcessResponseImpl> get copyWith =>
+      __$$ProcessResponseImplCopyWithImpl<_$ProcessResponseImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ProcessResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ProcessResponse extends ProcessResponse {
+  const factory _ProcessResponse(
+          {@JsonKey(includeIfNull: false) final List<ProcessModel>? models}) =
+      _$ProcessResponseImpl;
+  const _ProcessResponse._() : super._();
+
+  factory _ProcessResponse.fromJson(Map<String, dynamic> json) =
+      _$ProcessResponseImpl.fromJson;
+
+  @override
+
+  /// List of running models.
+  @JsonKey(includeIfNull: false)
+  List<ProcessModel>? get models;
+  @override
+  @JsonKey(ignore: true)
+  _$$ProcessResponseImplCopyWith<_$ProcessResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ProcessModel _$ProcessModelFromJson(Map<String, dynamic> json) {
+  return _ProcessModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ProcessModel {
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  @JsonKey(includeIfNull: false)
+  String? get model => throw _privateConstructorUsedError;
+
+  /// Size of the model on disk.
+  @JsonKey(includeIfNull: false)
+  int? get size => throw _privateConstructorUsedError;
+
+  /// The model's digest.
+  @JsonKey(includeIfNull: false)
+  String? get digest => throw _privateConstructorUsedError;
+
+  /// Details about a model.
+  @JsonKey(includeIfNull: false)
+  ModelDetails? get details => throw _privateConstructorUsedError;
+
+  /// No Description
+  @JsonKey(name: 'expires_at', includeIfNull: false)
+  String? get expiresAt => throw _privateConstructorUsedError;
+
+  /// Size of the model on disk.
+  @JsonKey(name: 'size_vram', includeIfNull: false)
+  int? get sizeVram => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ProcessModelCopyWith<ProcessModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ProcessModelCopyWith<$Res> {
+  factory $ProcessModelCopyWith(
+          ProcessModel value, $Res Function(ProcessModel) then) =
+      _$ProcessModelCopyWithImpl<$Res, ProcessModel>;
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? model,
+      @JsonKey(includeIfNull: false) int? size,
+      @JsonKey(includeIfNull: false) String? digest,
+      @JsonKey(includeIfNull: false) ModelDetails? details,
+      @JsonKey(name: 'expires_at', includeIfNull: false) String? expiresAt,
+      @JsonKey(name: 'size_vram', includeIfNull: false) int? sizeVram});
+
+  $ModelDetailsCopyWith<$Res>? get details;
+}
+
+/// @nodoc
+class _$ProcessModelCopyWithImpl<$Res, $Val extends ProcessModel>
+    implements $ProcessModelCopyWith<$Res> {
+  _$ProcessModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? model = freezed,
+    Object? size = freezed,
+    Object? digest = freezed,
+    Object? details = freezed,
+    Object? expiresAt = freezed,
+    Object? sizeVram = freezed,
+  }) {
+    return _then(_value.copyWith(
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String?,
+      size: freezed == size
+          ? _value.size
+          : size // ignore: cast_nullable_to_non_nullable
+              as int?,
+      digest: freezed == digest
+          ? _value.digest
+          : digest // ignore: cast_nullable_to_non_nullable
+              as String?,
+      details: freezed == details
+          ? _value.details
+          : details // ignore: cast_nullable_to_non_nullable
+              as ModelDetails?,
+      expiresAt: freezed == expiresAt
+          ? _value.expiresAt
+          : expiresAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      sizeVram: freezed == sizeVram
+          ? _value.sizeVram
+          : sizeVram // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ModelDetailsCopyWith<$Res>? get details {
+    if (_value.details == null) {
+      return null;
+    }
+
+    return $ModelDetailsCopyWith<$Res>(_value.details!, (value) {
+      return _then(_value.copyWith(details: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$ProcessModelImplCopyWith<$Res>
+    implements $ProcessModelCopyWith<$Res> {
+  factory _$$ProcessModelImplCopyWith(
+          _$ProcessModelImpl value, $Res Function(_$ProcessModelImpl) then) =
+      __$$ProcessModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(includeIfNull: false) String? model,
+      @JsonKey(includeIfNull: false) int? size,
+      @JsonKey(includeIfNull: false) String? digest,
+      @JsonKey(includeIfNull: false) ModelDetails? details,
+      @JsonKey(name: 'expires_at', includeIfNull: false) String? expiresAt,
+      @JsonKey(name: 'size_vram', includeIfNull: false) int? sizeVram});
+
+  @override
+  $ModelDetailsCopyWith<$Res>? get details;
+}
+
+/// @nodoc
+class __$$ProcessModelImplCopyWithImpl<$Res>
+    extends _$ProcessModelCopyWithImpl<$Res, _$ProcessModelImpl>
+    implements _$$ProcessModelImplCopyWith<$Res> {
+  __$$ProcessModelImplCopyWithImpl(
+      _$ProcessModelImpl _value, $Res Function(_$ProcessModelImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? model = freezed,
+    Object? size = freezed,
+    Object? digest = freezed,
+    Object? details = freezed,
+    Object? expiresAt = freezed,
+    Object? sizeVram = freezed,
+  }) {
+    return _then(_$ProcessModelImpl(
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String?,
+      size: freezed == size
+          ? _value.size
+          : size // ignore: cast_nullable_to_non_nullable
+              as int?,
+      digest: freezed == digest
+          ? _value.digest
+          : digest // ignore: cast_nullable_to_non_nullable
+              as String?,
+      details: freezed == details
+          ? _value.details
+          : details // ignore: cast_nullable_to_non_nullable
+              as ModelDetails?,
+      expiresAt: freezed == expiresAt
+          ? _value.expiresAt
+          : expiresAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      sizeVram: freezed == sizeVram
+          ? _value.sizeVram
+          : sizeVram // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ProcessModelImpl extends _ProcessModel {
+  const _$ProcessModelImpl(
+      {@JsonKey(includeIfNull: false) this.model,
+      @JsonKey(includeIfNull: false) this.size,
+      @JsonKey(includeIfNull: false) this.digest,
+      @JsonKey(includeIfNull: false) this.details,
+      @JsonKey(name: 'expires_at', includeIfNull: false) this.expiresAt,
+      @JsonKey(name: 'size_vram', includeIfNull: false) this.sizeVram})
+      : super._();
+
+  factory _$ProcessModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ProcessModelImplFromJson(json);
+
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? model;
+
+  /// Size of the model on disk.
+  @override
+  @JsonKey(includeIfNull: false)
+  final int? size;
+
+  /// The model's digest.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? digest;
+
+  /// Details about a model.
+  @override
+  @JsonKey(includeIfNull: false)
+  final ModelDetails? details;
+
+  /// No Description
+  @override
+  @JsonKey(name: 'expires_at', includeIfNull: false)
+  final String? expiresAt;
+
+  /// Size of the model on disk.
+  @override
+  @JsonKey(name: 'size_vram', includeIfNull: false)
+  final int? sizeVram;
+
+  @override
+  String toString() {
+    return 'ProcessModel(model: $model, size: $size, digest: $digest, details: $details, expiresAt: $expiresAt, sizeVram: $sizeVram)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ProcessModelImpl &&
+            (identical(other.model, model) || other.model == model) &&
+            (identical(other.size, size) || other.size == size) &&
+            (identical(other.digest, digest) || other.digest == digest) &&
+            (identical(other.details, details) || other.details == details) &&
+            (identical(other.expiresAt, expiresAt) ||
+                other.expiresAt == expiresAt) &&
+            (identical(other.sizeVram, sizeVram) ||
+                other.sizeVram == sizeVram));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, model, size, digest, details, expiresAt, sizeVram);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ProcessModelImplCopyWith<_$ProcessModelImpl> get copyWith =>
+      __$$ProcessModelImplCopyWithImpl<_$ProcessModelImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ProcessModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ProcessModel extends ProcessModel {
+  const factory _ProcessModel(
+      {@JsonKey(includeIfNull: false) final String? model,
+      @JsonKey(includeIfNull: false) final int? size,
+      @JsonKey(includeIfNull: false) final String? digest,
+      @JsonKey(includeIfNull: false) final ModelDetails? details,
+      @JsonKey(name: 'expires_at', includeIfNull: false)
+      final String? expiresAt,
+      @JsonKey(name: 'size_vram', includeIfNull: false)
+      final int? sizeVram}) = _$ProcessModelImpl;
+  const _ProcessModel._() : super._();
+
+  factory _ProcessModel.fromJson(Map<String, dynamic> json) =
+      _$ProcessModelImpl.fromJson;
+
+  @override
+
+  /// The model name.
+  ///
+  /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
+  @JsonKey(includeIfNull: false)
+  String? get model;
+  @override
+
+  /// Size of the model on disk.
+  @JsonKey(includeIfNull: false)
+  int? get size;
+  @override
+
+  /// The model's digest.
+  @JsonKey(includeIfNull: false)
+  String? get digest;
+  @override
+
+  /// Details about a model.
+  @JsonKey(includeIfNull: false)
+  ModelDetails? get details;
+  @override
+
+  /// No Description
+  @JsonKey(name: 'expires_at', includeIfNull: false)
+  String? get expiresAt;
+  @override
+
+  /// Size of the model on disk.
+  @JsonKey(name: 'size_vram', includeIfNull: false)
+  int? get sizeVram;
+  @override
+  @JsonKey(ignore: true)
+  _$$ProcessModelImplCopyWith<_$ProcessModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 ModelInfoRequest _$ModelInfoRequestFromJson(Map<String, dynamic> json) {
   return _ModelInfoRequest.fromJson(json);
 }

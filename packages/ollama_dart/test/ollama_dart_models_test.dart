@@ -65,6 +65,19 @@ void main() {
       expect(res.models?.any((final m) => m.model == defaultModel), isTrue);
     });
 
+    test('Test list running models', () async {
+      await client.generateCompletion(
+        request: const GenerateCompletionRequest(
+          model: defaultModel,
+          prompt: 'You are a llama',
+          options: RequestOptions(numPredict: 1),
+        ),
+      );
+
+      final res = await client.listRunningModels();
+      expect(res.models?.any((final m) => m.model == defaultModel), isTrue);
+    });
+
     test('Test show model info', () async {
       final res = await client.showModelInfo(
         request: const ModelInfoRequest(model: defaultModel),

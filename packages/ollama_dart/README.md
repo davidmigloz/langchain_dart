@@ -31,6 +31,7 @@ Unofficial Dart client for [Ollama](https://ollama.ai/) API.
   * [Models](#models)
     + [Create model](#create-model)
     + [List models](#list-models)
+    + [List running models](#list-running-models)
     + [Show Model Information](#show-model-information)
     + [Pull a Model](#pull-a-model)
     + [Push a Model](#push-a-model)
@@ -189,6 +190,15 @@ List models that are available locally.
 
 ```dart
 final res = await client.listModels();
+print(res.models);
+```
+
+#### List running models
+
+Lists models currently loaded and their memory footprint.
+
+```dart
+final res = await client.listRunningModels();
 print(res.models);
 ```
 

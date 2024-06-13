@@ -478,6 +478,25 @@ class OllamaClient {
   }
 
   // ------------------------------------------
+  // METHOD: listRunningModels
+  // ------------------------------------------
+
+  /// List models that are running.
+  ///
+  /// `GET` `http://localhost:11434/api/ps`
+  Future<ProcessResponse> listRunningModels() async {
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:11434/api',
+      path: '/ps',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return ProcessResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
   // METHOD: showModelInfo
   // ------------------------------------------
 
@@ -567,7 +586,7 @@ class OllamaClient {
       method: HttpMethod.post,
       isMultipart: false,
       requestType: 'application/json',
-      responseType: 'application/json',
+      responseType: 'application/x-ndjson',
       body: request,
     );
     return PullModelResponse.fromJson(_jsonDecode(r));
@@ -593,7 +612,7 @@ class OllamaClient {
       method: HttpMethod.post,
       isMultipart: false,
       requestType: 'application/json',
-      responseType: 'application/json',
+      responseType: 'application/x-ndjson',
       body: request,
     );
     return PushModelResponse.fromJson(_jsonDecode(r));
