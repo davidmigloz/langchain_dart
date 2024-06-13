@@ -26,6 +26,8 @@ part 'create_model_status.dart';
 part 'models_response.dart';
 part 'model.dart';
 part 'model_details.dart';
+part 'process_response.dart';
+part 'process_model.dart';
 part 'model_info_request.dart';
 part 'model_info.dart';
 part 'copy_model_request.dart';
