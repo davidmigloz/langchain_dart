@@ -109,6 +109,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelsResponse'
+  /ps:
+    get:
+      operationId: listRunningModels
+      tags:
+        - Models
+      summary: List models that are running.
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessResponse'
   /show:
     post:
       operationId: showModelInfo
@@ -171,7 +184,7 @@ paths:
         '200':
           description: Successful operation.
           content:
-            application/json:
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/PullModelResponse'
   /push:
@@ -190,7 +203,7 @@ paths:
         '200':
           description: Successful operation.
           content:
-            application/json:
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/PushModelResponse'
   /blobs/{digest}:
@@ -760,6 +773,43 @@ components:
         quantization_level:
           type: string
           description: The quantization level of the model.
+    ProcessResponse:
+      type: object
+      description: Response class for the list running models endpoint.
+      properties:
+        models:
+          type: array
+          description: List of running models.
+          items:
+            $ref: '#/components/schemas/ProcessModel'
+    ProcessModel:
+      type: object
+      description: A model that is currently loaded.
+      properties:
+        model:
+          type: string
+          description: *model_name
+          example: llama3:8b
+        size:
+          type: integer
+          format: int64
+          description: Size of the model on disk.
+          example: 7323310500
+        digest:
+          type: string
+          description: The model's digest.
+          example: 'sha256:bc07c81de745696fdf5afca05e065818a8149fb0c77266fb584d9b2cba3711a'
+        details:
+          $ref: '#/components/schemas/ModelDetails'
+        expires_at:
+          type: string
+          format: date-time
+          example: 2023-08-02T17:02:23.713454393-07:00
+        size_vram:
+          type: integer
+          format: int64
+          description: Size of the model on disk.
+          example: 7323310500
     ModelInfoRequest:
       description: Request class for the show model info endpoint.
       type: object
@@ -805,7 +855,7 @@ components:
           nullable: true
           description: The default messages for the model.
           items:
-              $ref: '#/components/schemas/Message'
+            $ref: '#/components/schemas/Message'
     CopyModelRequest:
       description: Request class for copying a model.
       type: object
