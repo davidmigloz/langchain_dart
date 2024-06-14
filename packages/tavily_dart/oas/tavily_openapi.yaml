@@ -1,0 +1,156 @@
+openapi: 3.0.3
+
+info:
+  title: Tavily API
+  description: Tavily Search is a robust search API tailored specifically for LLM Agents. It seamlessly integrates with diverse data sources to ensure a superior, relevant search experience.
+  version: 1.0.0
+  contact:
+    name: Tavily Support
+    url: https://tavily.com
+
+servers:
+  - url: https://api.tavily.com
+
+paths:
+  /search:
+    post:
+      summary: Search for data based on a query.
+      operationId: search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+      responses:
+        '200':
+          description: Successful search response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '400':
+          description: Bad Request — Your request is invalid.
+        '401':
+          description: Unauthorized — Your API key is wrong.
+        '403':
+          description: Forbidden — The endpoint requested is hidden for administrators only.
+        '404':
+          description: Not Found — The specified endpoint could not be found.
+        '405':
+          description: Method Not Allowed — You tried to access an endpoint with an invalid method.
+        '429':
+          description: Too Many Requests — You're requesting too many results! Slow down!
+        '500':
+          description: Internal Server Error — We had a problem with our server. Try again later.
+        '503':
+          description: Service Unavailable — We're temporarily offline for maintenance. Please try again later.
+        '504':
+          description: Gateway Timeout — We're temporarily offline for maintenance. Please try again later.
+
+components:
+  schemas:
+    SearchRequest:
+      type: object
+      description: The search request object.
+      properties:
+        api_key:
+          type: string
+          description: Your unique API key.
+          example: "your api key"
+        query:
+          type: string
+          description: The search query string.
+          example: "your search query"
+        search_depth:
+          type: string
+          description: The depth of the search. It can be 'basic' or advanced. Default is 'basic'.
+          enum:
+            - basic
+            - advanced
+          default: basic
+        include_images:
+          type: boolean
+          description: Include a list of query related images in the response. Default is False.
+          default: false
+        include_answer:
+          type: boolean
+          description: Include answers in the search results. Default is False.
+          default: false
+        include_raw_content:
+          type: boolean
+          description: Include raw content in the search results. Default is False.
+          default: false
+        max_results:
+          type: integer
+          description: The number of maximum search results to return. Default is 5.
+          default: 5
+        include_domains:
+          type: array
+          items:
+            type: string
+          description: A list of domains to specifically include in the search results. Default is None.
+        exclude_domains:
+          type: array
+          items:
+            type: string
+          description: A list of domains to specifically exclude from the search results. Default is None.
+      required:
+        - api_key
+        - query
+    SearchResponse:
+      type: object
+      description: The response data from the search query.
+      properties:
+        answer:
+          type: string
+          description: The answer to your search query.
+        query:
+          type: string
+          description: Your search query.
+        response_time:
+          type: number
+          description: Your search result response time.
+        images:
+          type: array
+          items:
+            type: string
+          description: A list of query related image urls.
+        follow_up_questions:
+          type: array
+          items:
+            type: string
+          description: A list of suggested research follow up questions related to original query.
+        results:
+          type: array
+          description: A list of search results.
+          items:
+            $ref: '#/components/schemas/SearchResult'
+      required:
+        - query
+        - response_time
+        - results
+    SearchResult:
+      type: object
+      description: The search result object.
+      properties:
+        title:
+          type: string
+          description: The title of the search result url.
+        url:
+          type: string
+          description: The url of the search result.
+        content:
+          type: string
+          description: The most query related content from the scraped url.
+        raw_content:
+          type: string
+          description: The parsed and cleaned HTML of the site. For now includes parsed text only.
+        score:
+          type: number
+          description: The relevance score of the search result.
+      required:
+        - title
+        - url
+        - content
+        - score
