@@ -6,7 +6,7 @@ import 'package:langchain_core/chat_models.dart';
 class ChatFirebaseVertexAIOptions extends ChatModelOptions {
   /// {@macro chat_firebase_vertex_ai_options}
   const ChatFirebaseVertexAIOptions({
-    this.model = 'gemini-1.0-pro',
+    this.model = 'gemini-1.5-flash',
     this.topP,
     this.topK,
     this.candidateCount,
