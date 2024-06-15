@@ -13,6 +13,7 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
     this.maxOutputTokens,
     this.temperature,
     this.stopSequences,
+    this.responseMimeType,
     this.safetySettings,
     super.tools,
     super.toolChoice,
@@ -68,6 +69,13 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
   /// If specified, the API will stop at the first appearance of a stop sequence.
   /// The stop sequence will not be included as part of the response.
   final List<String>? stopSequences;
+
+  /// Output response mimetype of the generated candidate text.
+  ///
+  /// Supported mimetype:
+  /// - `text/plain`: (default) Text output.
+  /// - `application/json`: JSON response in the candidates.
+  final String? responseMimeType;
 
   /// A list of unique [ChatFirebaseVertexAISafetySetting] instances for blocking
   /// unsafe content.
