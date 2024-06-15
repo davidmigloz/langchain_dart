@@ -13,6 +13,8 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
     this.maxOutputTokens,
     this.temperature,
     this.stopSequences,
+    this.responseMimeType,
+    this.responseSchema,
     this.safetySettings,
     super.tools,
     super.toolChoice,
@@ -67,6 +69,39 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
   /// If specified, the API will stop at the first appearance of a stop sequence.
   /// The stop sequence will not be included as part of the response.
   final List<String>? stopSequences;
+
+  /// Output response mimetype of the generated candidate text.
+  ///
+  /// Supported mimetype:
+  /// - `text/plain`: (default) Text output.
+  /// - `application/json`: JSON response in the candidates.
+  final String? responseMimeType;
+
+  /// Output response schema of the generated candidate text.
+  /// Following the [JSON Schema specification](https://json-schema.org).
+  ///
+  /// - Note: This only applies when the specified ``responseMIMEType`` supports
+  ///   a schema; currently this is limited to `application/json`.
+  ///
+  /// Example:
+  /// ```json
+  /// {
+  ///   'type': 'object',
+  ///   'properties': {
+  ///     'answer': {
+  ///       'type': 'string',
+  ///       'description': 'The answer to the question being asked',
+  ///     },
+  ///     'sources': {
+  ///       'type': 'array',
+  ///       'items': {'type': 'string'},
+  ///       'description': 'The sources used to answer the question',
+  ///     },
+  ///   },
+  ///   'required': ['answer', 'sources'],
+  /// },
+  /// ```
+  final Map<String, dynamic>? responseSchema;
 
   /// A list of unique [ChatGoogleGenerativeAISafetySetting] instances for blocking
   /// unsafe content.
