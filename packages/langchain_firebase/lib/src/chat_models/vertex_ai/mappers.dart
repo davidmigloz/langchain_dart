@@ -197,14 +197,17 @@ extension ChatToolListMapper on List<ToolSpec> {
           (tool) => f.FunctionDeclaration(
             tool.name,
             tool.description,
-            _mapJsonSchemaToSchema(tool.inputJsonSchema),
+            tool.inputJsonSchema.toSchema(),
           ),
         ).toList(growable: false),
       ),
     ];
   }
+}
 
-  f.Schema _mapJsonSchemaToSchema(final Map<String, dynamic> jsonSchema) {
+extension SchemaMapper on Map<String, dynamic> {
+  f.Schema toSchema() {
+    final jsonSchema = this;
     final type = jsonSchema['type'] as String;
     final description = jsonSchema['description'] as String?;
     final nullable = jsonSchema['nullable'] as bool?;
@@ -247,7 +250,7 @@ extension ChatToolListMapper on List<ToolSpec> {
         );
       case 'array':
         if (items != null) {
-          final itemsSchema = _mapJsonSchemaToSchema(items);
+          final itemsSchema = items.toSchema();
           return f.Schema.array(
             description: description,
             nullable: nullable,
@@ -258,7 +261,10 @@ extension ChatToolListMapper on List<ToolSpec> {
       case 'object':
         if (properties != null) {
           final propertiesSchema = properties.map(
-            (key, value) => MapEntry(key, _mapJsonSchemaToSchema(value)),
+            (key, value) => MapEntry(
+              key,
+              (value as Map<String, dynamic>).toSchema(),
+            ),
           );
           return f.Schema.object(
             properties: propertiesSchema,
