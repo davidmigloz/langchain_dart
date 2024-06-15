@@ -36,22 +36,22 @@ import 'types.dart';
 /// ### Available models
 ///
 /// The following models are available:
-/// - `gemini-1.0-pro`
-///   * text -> text model
-///   * Max input token: 30720
-///   * Max output tokens: 2048
+/// - `gemini-1.5-flash`:
+///   * text / image / audio -> text model
+///   * Max input token: 1048576
+///   * Max output tokens: 8192
+/// - `gemini-1.5-pro`:
+///   * text / image / audio -> text model
+///   * Max input token: 1048576
+///   * Max output tokens: 8192
 /// - `gemini-1.0-pro-vision`:
 ///   * text / image -> text model
 ///   * Max input token: 12288
 ///   * Max output tokens: 4096
-/// - `gemini-1.5-pro-preview-0514`:
-///   * text / image / audio -> text model
-///   * Max input token: 1048576
-///   * Max output tokens: 8192
-/// - `gemini-1.5-flash-preview-0514`:
-///   * text / image / audio -> text model
-///   * Max input token: 1048576
-///   * Max output tokens: 8192
+/// - `gemini-1.0-pro`
+///   * text -> text model
+///   * Max input token: 30720
+///   * Max output tokens: 2048
 ///
 /// Mind that this list may not be up-to-date.
 /// Refer to the [documentation](https://firebase.google.com/docs/vertex-ai/gemini-models)
@@ -132,7 +132,7 @@ import 'types.dart';
 /// );
 /// final chatModel = ChatFirebaseVertexAI(
 ///   defaultOptions: ChatFirebaseVertexAIOptions(
-///     model: 'gemini-1.5-pro-preview-0514',
+///     model: 'gemini-1.5-pro',
 ///     temperature: 0,
 ///     tools: [tool],
 ///   ),
