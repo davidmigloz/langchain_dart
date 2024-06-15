@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:langchain_core/chat_models.dart';
@@ -157,6 +158,7 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
     ),
     this.app,
     this.appCheck,
+    this.auth,
     this.options,
     this.location,
   }) : _currentModel = defaultOptions.model ?? '' {
@@ -170,6 +172,9 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
 
   /// The optional [FirebaseAppCheck] to use to protect the project from abuse.
   final FirebaseAppCheck? appCheck;
+
+  /// The optional [FirebaseAuth] to use for authentication.
+  final FirebaseAuth? auth;
 
   /// Configuration parameters for sending requests to Firebase.
   final RequestOptions? options;
