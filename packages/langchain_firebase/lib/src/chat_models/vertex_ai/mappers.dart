@@ -217,45 +217,38 @@ extension ChatToolListMapper on List<ToolSpec> {
     switch (type) {
       case 'string':
         if (enumValues != null) {
-          return f.Schema(
-            f.SchemaType.string,
+          return f.Schema.enumString(
             enumValues: enumValues,
             description: description,
             nullable: nullable,
-            format: 'enum',
           );
         } else {
-          return f.Schema(
-            f.SchemaType.string,
+          return f.Schema.string(
             description: description,
             nullable: nullable,
           );
         }
       case 'number':
-        return f.Schema(
-          f.SchemaType.number,
+        return f.Schema.number(
           description: description,
           nullable: nullable,
           format: format,
         );
       case 'integer':
-        return f.Schema(
-          f.SchemaType.integer,
+        return f.Schema.integer(
           description: description,
           nullable: nullable,
           format: format,
         );
       case 'boolean':
-        return f.Schema(
-          f.SchemaType.boolean,
+        return f.Schema.boolean(
           description: description,
           nullable: nullable,
         );
       case 'array':
         if (items != null) {
           final itemsSchema = _mapJsonSchemaToSchema(items);
-          return f.Schema(
-            f.SchemaType.array,
+          return f.Schema.array(
             description: description,
             nullable: nullable,
             items: itemsSchema,
@@ -267,8 +260,7 @@ extension ChatToolListMapper on List<ToolSpec> {
           final propertiesSchema = properties.map(
             (key, value) => MapEntry(key, _mapJsonSchemaToSchema(value)),
           );
-          return f.Schema(
-            f.SchemaType.object,
+          return f.Schema.object(
             properties: propertiesSchema,
             requiredProperties: requiredProperties,
             description: description,
