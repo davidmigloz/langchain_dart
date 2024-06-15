@@ -322,6 +322,11 @@ class ChatGoogleGenerativeAI
         temperature: options?.temperature ?? defaultOptions.temperature,
         topP: options?.topP ?? defaultOptions.topP,
         topK: options?.topK ?? defaultOptions.topK,
+        responseMimeType:
+            options?.responseMimeType ?? defaultOptions.responseMimeType,
+        responseSchema:
+            (options?.responseSchema ?? defaultOptions.responseSchema)
+                ?.toSchema(),
       ),
       (options?.tools ?? defaultOptions.tools)?.toToolList(),
       (options?.toolChoice ?? defaultOptions.toolChoice)?.toToolConfig(),
