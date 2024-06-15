@@ -155,7 +155,7 @@ class _ChatWidgetState extends State<ChatWidget> {
 
     _model = ChatFirebaseVertexAI(
       defaultOptions: ChatFirebaseVertexAIOptions(
-        model: 'gemini-1.5-pro-preview-0514',
+        model: 'gemini-1.5-pro',
         tools: [exchangeRateTool],
       ),
       // location: 'us-central1',
