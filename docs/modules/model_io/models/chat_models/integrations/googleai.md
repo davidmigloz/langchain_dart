@@ -7,22 +7,22 @@ Wrapper around [Google AI for Developers](https://ai.google.dev/) API (aka Gemin
 To use `ChatGoogleGenerativeAI` you need to have an API key. You can get one [here](https://aistudio.google.com/app/apikey).
 
 The following models are available:
-- `gemini-1.0-pro` (or `gemini-pro`):
-  * text -> text model
-  * Max input token: 30720
-  * Max output tokens: 2048
+- `gemini-1.5-flash`:
+  * text / image / audio -> text model
+  * Max input token: 1048576
+  * Max output tokens: 8192
+- `gemini-1.5-pro`: text / image -> text model
+  * text / image / audio -> text model
+  * Max input token: 1048576
+  * Max output tokens: 8192
 - `gemini-pro-vision`:
   * text / image -> text model
   * Max input token: 12288
   * Max output tokens: 4096
-- `gemini-1.5-pro-latest`: text / image -> text model
-  * text / image / audio -> text model
-  * Max input token: 1048576
-  * Max output tokens: 8192
-- `gemini-1.5-flash-latest`:
-  * text / image / audio -> text model
-  * Max input token: 1048576
-  * Max output tokens: 8192
+- `gemini-1.0-pro` (or `gemini-pro`):
+  * text -> text model
+  * Max input token: 30720
+  * Max output tokens: 2048
 
 Mind that this list may not be up-to-date. Refer to the [documentation](https://ai.google.dev/models) for the updated list.
 
@@ -34,7 +34,7 @@ final apiKey = Platform.environment['GOOGLEAI_API_KEY'];
 final chatModel = ChatGoogleGenerativeAI(
   apiKey: apiKey,
   defaultOptions: ChatGoogleGenerativeAIOptions(
-    model: 'gemini-1.5-pro-latest',
+    model: 'gemini-1.5-pro',
     temperature: 0,
   ),
 );
@@ -63,7 +63,7 @@ final apiKey = Platform.environment['GOOGLEAI_API_KEY'];
 final chatModel = ChatGoogleGenerativeAI(
   apiKey: apiKey,
   defaultOptions: ChatGoogleGenerativeAIOptions(
-    model: 'gemini-1.5-pro-latest',
+    model: 'gemini-1.5-pro',
     temperature: 0,
   ),
 );
@@ -99,7 +99,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplates(const [
 final chatModel = ChatGoogleGenerativeAI(
   apiKey: apiKey,
   defaultOptions: const ChatGoogleGenerativeAIOptions(
-    model: 'gemini-1.5-pro-latest',
+    model: 'gemini-1.5-pro',
     temperature: 0,
   ),
 );
@@ -138,7 +138,7 @@ const tool = ToolSpec(
 );
 final chatModel = ChatGoogleGenerativeAI(
   defaultOptions: ChatGoogleGenerativeAIOptions(
-    model: 'gemini-1.5-pro-latest',
+    model: 'gemini-1.5-pro',
     temperature: 0,
     tools: [tool],
   ),

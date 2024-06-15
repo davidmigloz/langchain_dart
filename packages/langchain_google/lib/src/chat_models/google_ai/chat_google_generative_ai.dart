@@ -31,22 +31,22 @@ import 'types.dart';
 /// ### Available models
 ///
 /// The following models are available:
-/// - `gemini-1.0-pro` (or `gemini-pro`):
-///   * text -> text model
-///   * Max input token: 30720
-///   * Max output tokens: 2048
+/// - `gemini-1.5-flash`:
+///   * text / image / audio -> text model
+///   * Max input token: 1048576
+///   * Max output tokens: 8192
+/// - `gemini-1.5-pro`: text / image -> text model
+///   * text / image / audio -> text model
+///   * Max input token: 1048576
+///   * Max output tokens: 8192
 /// - `gemini-pro-vision`:
 ///   * text / image -> text model
 ///   * Max input token: 12288
 ///   * Max output tokens: 4096
-/// - `gemini-1.5-pro-latest`: text / image -> text model
-///   * text / image / audio -> text model
-///   * Max input token: 1048576
-///   * Max output tokens: 8192
-/// - `gemini-1.5-flash-latest`:
-///   * text / image / audio -> text model
-///   * Max input token: 1048576
-///   * Max output tokens: 8192
+/// - `gemini-1.0-pro` (or `gemini-pro`):
+///   * text -> text model
+///   * Max input token: 30720
+///   * Max output tokens: 2048
 ///
 /// Mind that this list may not be up-to-date.
 /// Refer to the [documentation](https://ai.google.dev/models) for the updated list.
@@ -211,7 +211,7 @@ class ChatGoogleGenerativeAI
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     super.defaultOptions = const ChatGoogleGenerativeAIOptions(
-      model: 'gemini-pro',
+      model: 'gemini-1.5-flash',
     ),
   })  : _currentModel = defaultOptions.model ?? '',
         _httpClient = createDefaultHttpClient(
