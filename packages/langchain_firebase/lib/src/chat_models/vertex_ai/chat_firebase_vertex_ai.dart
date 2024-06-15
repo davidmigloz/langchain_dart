@@ -154,7 +154,7 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
   /// - [ChatFirebaseVertexAI.location]
   ChatFirebaseVertexAI({
     super.defaultOptions = const ChatFirebaseVertexAIOptions(
-      model: 'gemini-1.0-pro',
+      model: 'gemini-1.5-flash',
     ),
     this.app,
     this.appCheck,

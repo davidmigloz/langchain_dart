@@ -6,7 +6,7 @@ import 'package:langchain_core/chat_models.dart';
 class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
   /// {@macro chat_google_generative_ai_options}
   const ChatGoogleGenerativeAIOptions({
-    this.model = 'gemini-pro',
+    this.model = 'gemini-1.5-flash',
     this.topP,
     this.topK,
     this.candidateCount,
