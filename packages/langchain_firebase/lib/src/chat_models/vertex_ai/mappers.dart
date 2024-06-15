@@ -134,11 +134,11 @@ extension GenerateContentResponseMapper on f.GenerateContentResponse {
             .toList(growable: false),
         'finish_message': candidate.finishMessage,
       },
-      usage: const LanguageModelUsage(
-          // promptTokens: usageMetadata?.promptTokenCount, // not yet supported
-          // responseTokens: usageMetadata?.candidatesTokenCount,
-          // totalTokens: usageMetadata?.totalTokenCount,
-          ),
+      usage: LanguageModelUsage(
+        promptTokens: usageMetadata?.promptTokenCount,
+        responseTokens: usageMetadata?.candidatesTokenCount,
+        totalTokens: usageMetadata?.totalTokenCount,
+      ),
     );
   }
 
