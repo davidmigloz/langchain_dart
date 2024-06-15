@@ -19,9 +19,9 @@ environment:
 
 dependencies:
   collection: '>=1.17.0 <1.19.0'
-  firebase_app_check: ^0.2.2+5
-  firebase_core: ^2.31.0
-  firebase_vertexai: ^0.1.0
+  firebase_app_check: ^0.3.0
+  firebase_core: ^3.1.0
+  firebase_vertexai: ^0.2.2
   langchain_core: ^0.3.2
   meta: ^1.11.0
   uuid: ^4.3.3
