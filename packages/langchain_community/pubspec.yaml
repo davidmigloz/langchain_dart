@@ -26,6 +26,7 @@ dependencies:
   math_expressions: ^2.4.0
   meta: ^1.11.0
   objectbox: ^4.0.1
+  tavily_dart: ^0.0.1-dev.1
   uuid: ^4.3.3
 
 dev_dependencies:
