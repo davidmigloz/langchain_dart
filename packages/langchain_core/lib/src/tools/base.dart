@@ -12,7 +12,6 @@ import 'types.dart';
 /// {@template tool_spec}
 /// The specification of a LangChain tool without the actual implementation.
 /// {@endtemplate}
-@immutable
 class ToolSpec {
   /// {@macro tool_spec}
   const ToolSpec({

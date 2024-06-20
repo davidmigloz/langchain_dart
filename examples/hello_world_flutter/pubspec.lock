@@ -138,10 +138,10 @@ packages:
     dependency: transitive
     description:
       name: google_generative_ai
-      sha256: bb7d3480b05afb3b1f2459b52893cb22f69ded4e2fb853e212437123c457f1be
+      sha256: "76e35d93b8c1cd888f69a1a371f8c5dc54cec372b6c74a4c0a5d506e7cf82c1a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.0"
+    version: "0.4.3"
   google_identity_services_web:
     dependency: transitive
     description:
