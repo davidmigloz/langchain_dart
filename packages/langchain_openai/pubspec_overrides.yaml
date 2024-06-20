@@ -1,4 +1,4 @@
-# melos_managed_dependency_overrides: openai_dart,langchain_core,langchain_community,langchain
+# melos_managed_dependency_overrides: openai_dart,langchain_core,langchain_community,langchain,tavily_dart
 dependency_overrides:
   langchain:
     path: ../langchain
@@ -8,3 +8,5 @@ dependency_overrides:
     path: ../langchain_core
   openai_dart:
     path: ../openai_dart
+  tavily_dart:
+    path: ../tavily_dart
