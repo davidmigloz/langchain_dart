@@ -76,8 +76,11 @@ class AnthropicClient extends g.AnthropicClient {
     yield* r.stream
         .transform(const _AnthropicStreamTransformer()) //
         .map(
-          (final d) => MessageStreamEvent.fromJson(json.decode(d)),
-        );
+      (final d) {
+        final j = json.decode(d) as Map<String, dynamic>;
+        return MessageStreamEvent.fromJson(j);
+      },
+    );
   }
 
   @override
