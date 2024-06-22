@@ -57,57 +57,188 @@ Send a structured list of input messages with text and/or image content, and the
 ```dart
 final res = await client.createMessage(
   request: CreateMessageRequest(
-    model: Model.model(Models.claude3Opus20240229),
+    model: Model.model(Models.claude35Sonnet20240620),
     maxTokens: 1024,
     messages: [
       Message(
         role: MessageRole.user,
-        content: 'Hello, Claude',
+        content: MessageContent.text('Hello, Claude'),
       ),
     ],
   ),
 );
 print(res.content.text);
-// Hi there! How can I help you today?
+// Hello! It's nice to meet you. How are you doing today?
 ```
 
 `Model` is a sealed class that offers two ways to specify the model:
-- `Model.modelId('model-id')`: the model ID as string (e.g. `'claude-3-haiku-20240307'`).
-- `Model.model(Models.claude3Opus20240229)`: a value from `Models` enum which lists all the available models.
+- `Model.modelId('model-id')`: the model ID as string (e.g. `'claude-instant-1.2'`).
+- `Model.model(Models.claude35Sonnet20240620)`: a value from `Models` enum which lists all the available models.
 
 Mind that this list may not be up-to-date. Refer to the [documentation](https://docs.anthropic.com/en/docs/models-overview) for the updated list.
 
 **Streaming messages:**
 
 ```dart
-final stream = await client.createMessageStream(
+final stream = client.createMessageStream(
   request: CreateMessageRequest(
-    model: Model.model(Models.claude3Opus20240229),
+    model: Model.model(Models.claude35Sonnet20240620),
     maxTokens: 1024,
     messages: [
       Message(
         role: MessageRole.user,
-        content: 'Hello, Claude',
+        content: MessageContent.text('Hello, Claude'),
       ),
     ],
   ),
 );
-String text = '';
 await for (final res in stream) {
   res.map(
-      messageStart: (e) {},
-      messageDelta: (e) {},
-      messageStop: (e) {},
-      contentBlockStart: (e) {},
-      contentBlockDelta: (e) {
-        text += e.delta.text;
-      },
-      contentBlockStop: (e) {},
-      ping: (e) {},
+    messageStart: (MessageStartEvent e) {},
+    messageDelta: (MessageDeltaEvent e) {},
+    messageStop: (MessageStopEvent e) {},
+    contentBlockStart: (ContentBlockStartEvent e) {},
+    contentBlockDelta: (ContentBlockDeltaEvent e) {
+      stdout.write(e.delta.text);
+    },
+    contentBlockStop: (ContentBlockStopEvent e) {},
+    ping: (PingEvent e) {},
   );
 }
-print(text);
-// Hi there! How can I help you today?
+// Hello! It's nice to meet you. How are you doing today?
+```
+
+### Tool use
+
+Claude is capable of interacting with external client-side tools and functions, allowing you to equip Claude with your own custom tools to perform a wider variety of tasks.
+
+Refer to the [official documentation](https://docs.anthropic.com/en/docs/build-with-claude/tool-use) for more information.
+
+In the following example, we want the model to be able to use our function that return the current weather in a given city:
+
+```dart
+Map<String, dynamic> _getCurrentWeather(
+  final String location,
+  final String unit,
+) {
+  const temperature = 22;
+  const weather = 'Sunny';
+  return {
+    'temperature': unit == 'celsius' ? temperature : (temperature * 9 / 5) + 32,
+    'unit': unit,
+    'description': weather,
+  };
+}
+```
+
+To do that, we need to provide the definition of the tool:
+```dart
+const tool = Tool(
+  name: 'get_current_weather',
+  description: 'Get the current weather in a given location',
+  inputSchema: {
+    'type': 'object',
+    'properties': {
+      'location': {
+        'type': 'string',
+        'description': 'The city and state, e.g. San Francisco, CA',
+      },
+      'unit': {
+        'type': 'string',
+        'description': 'The unit of temperature to return',
+        'enum': ['celsius', 'fahrenheit'],
+      },
+    },
+    'required': ['location'],
+  },
+);
+```
+
+Then we can use the tool in the message request:
+```dart
+final request1 = CreateMessageRequest(
+  model: Model.model(Models.claude35Sonnet20240620),
+  messages: [
+    Message(
+      role: MessageRole.user,
+      content: MessageContent.text(
+        'What’s the weather like in Boston right now?',
+      ),
+    ),
+  ],
+  tools: [tool],
+  toolChoice: ToolChoice(
+    type: ToolChoiceType.tool,
+    name: tool.name,
+  ),
+  maxTokens: 1024,
+);
+final aiMessage1 = await client.createMessage(request: request1);
+
+final toolUse = aiMessage1.content.blocks.firstOrNull;
+if (toolUse == null || toolUse is! ToolUseBlock) {
+  return;
+}
+
+// Call your tool here with the given input
+final toolResult = _getCurrentWeather(
+  toolUse.input['location'],
+  toolUse.input['unit'],
+);
+
+final request2 = CreateMessageRequest(
+  model: Model.model(Models.claude35Sonnet20240620),
+  messages: [
+    Message(
+      role: MessageRole.user,
+      content: MessageContent.text(
+        'What’s the weather like in Boston right now in Fahrenheit?',
+      ),
+    ),
+    Message(
+      role: MessageRole.assistant,
+      content: aiMessage1.content,
+    ),
+    Message(
+      role: MessageRole.user,
+      content: MessageContent.blocks([
+        Block.toolResult(
+          toolUseId: toolUse.id,
+          content: ToolResultBlockContent.text(json.encode(toolResult)),
+        ),
+      ]),
+    ),
+  ],
+  tools: [tool],
+  maxTokens: 1024,
+);
+final aiMessage2 = await client.createMessage(request: request2);
+
+print(aiMessage2.content.text);
+// Based on the current weather information for Boston, here's what it's like right now:
+//
+// The temperature in Boston is 71.6°F (Fahrenheit).
+// The weather conditions are described as sunny.
+```
+
+You can also stream the input for a tool:
+
+```dart
+final stream = client.createMessageStream(request: request);
+await for (final res in stream) {
+  res.map(
+    messageStart: (MessageStartEvent v) {},
+    messageDelta: (MessageDeltaEvent v) {},
+    messageStop: (MessageStopEvent v) {},
+    contentBlockStart: (ContentBlockStartEvent v) {},
+    contentBlockDelta: (ContentBlockDeltaEvent v) {
+      stdout.write(v.delta.inputJson);
+    },
+    contentBlockStop: (ContentBlockStopEvent v) {},
+    ping: (PingEvent v) {},
+  );
+}
+// {"location": "Boston, MA", "unit": "fahrenheit"}
 ```
 
 ## Advance Usage
