@@ -100,22 +100,25 @@ import 'types.dart';
 /// {@endtemplate}
 class Chroma extends VectorStore {
   /// {@macro chroma}
-  Chroma({
+  CustomChroma({
     this.collectionName = 'langchain',
     this.collectionMetadata,
+    this.baseUrl  = 'http://localhost:8000',
     required super.embeddings,
     final String tenant = 'default_tenant',
     final String database = 'default_database',
-    final String baseUrl = 'http://localhost:8000',
     final Map<String, String> headers = const {},
     final http.Client? client,
   }) : _client = ChromaClient(
-          tenant: tenant,
-          database: database,
-          baseUrl: baseUrl,
-          headers: headers,
-          client: client,
-        );
+    tenant: tenant,
+    database: database,
+    baseUrl: baseUrl,
+    headers: headers,
+    client: client,
+  );
+
+  /// Optional base URI.
+  String baseUrl;
 
   /// Name of the collection to use.
   final String collectionName;
