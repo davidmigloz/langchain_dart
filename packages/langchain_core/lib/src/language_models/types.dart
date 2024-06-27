@@ -99,12 +99,16 @@ class LanguageModelUsage {
   });
 
   /// The number of tokens in the prompt.
+  ///
+  /// Some providers call this "input_tokens".
   final int? promptTokens;
 
   /// The total number of billable characters in the prompt if applicable.
   final int? promptBillableCharacters;
 
   /// The number of tokens in the completion.
+  ///
+  /// Some providers call this "output_tokens".
   final int? responseTokens;
 
   /// The total number of billable characters in the completion if applicable.
@@ -172,9 +176,13 @@ LanguageModelUsage{
 /// The reason the model stopped generating tokens.
 enum FinishReason {
   /// The model hit a natural stop point or a provided stop sequence.
+  ///
+  /// Some providers call this "end_turn".
   stop,
 
   /// The maximum number of tokens specified in the request was reached.
+  ///
+  /// Some providers call this "max_tokens".
   length,
 
   /// The content was flagged for content filter reasons.
@@ -184,6 +192,8 @@ enum FinishReason {
   recitation,
 
   /// The model called a tool.
+  ///
+  /// Some providers call this "tool_use".
   toolCalls,
 
   /// The finish reason is unspecified.

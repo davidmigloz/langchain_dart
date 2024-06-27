@@ -193,6 +193,9 @@ extension ChatToolChoiceMapper on ChatToolChoice {
       ChatToolChoiceAuto _ => const ChatCompletionToolChoiceOption.mode(
           ChatCompletionToolChoiceMode.auto,
         ),
+      ChatToolChoiceRequired() => const ChatCompletionToolChoiceOption.mode(
+          ChatCompletionToolChoiceMode.required,
+        ),
       final ChatToolChoiceForced t => ChatCompletionToolChoiceOption.tool(
           ChatCompletionNamedToolChoice(
             type: ChatCompletionNamedToolChoiceType.function,
