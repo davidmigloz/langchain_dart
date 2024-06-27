@@ -120,12 +120,12 @@ sealed class MessageContent with _$MessageContent {
   /// An array of content blocks.
   const factory MessageContent.blocks(
     List<Block> value,
-  ) = MessageContentListBlock;
+  ) = MessageContentBlocks;
 
   /// A single text block.
   const factory MessageContent.text(
     String value,
-  ) = MessageContentString;
+  ) = MessageContentText;
 
   /// Object construction from a JSON representation
   factory MessageContent.fromJson(Map<String, dynamic> json) =>
@@ -140,12 +140,12 @@ class _MessageContentConverter
   @override
   MessageContent fromJson(Object? data) {
     if (data is List && data.every((item) => item is Map)) {
-      return MessageContentListBlock(data
+      return MessageContentBlocks(data
           .map((i) => Block.fromJson(i as Map<String, dynamic>))
           .toList(growable: false));
     }
     if (data is String) {
-      return MessageContentString(data);
+      return MessageContentText(data);
     }
     throw Exception(
       'Unexpected value for MessageContent: $data',
@@ -155,8 +155,8 @@ class _MessageContentConverter
   @override
   Object? toJson(MessageContent data) {
     return switch (data) {
-      MessageContentListBlock(value: final v) => v,
-      MessageContentString(value: final v) => v,
+      MessageContentBlocks(value: final v) => v,
+      MessageContentText(value: final v) => v,
     };
   }
 }
