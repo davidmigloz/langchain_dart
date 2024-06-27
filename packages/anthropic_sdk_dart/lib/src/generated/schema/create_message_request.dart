@@ -338,12 +338,12 @@ sealed class Model with _$Model {
   /// Available models. Mind that the list may not be exhaustive nor up-to-date.
   const factory Model.model(
     Models value,
-  ) = ModelEnumeration;
+  ) = ModelCatalog;
 
   /// The ID of the model to use for this request.
   const factory Model.modelId(
     String value,
-  ) = ModelString;
+  ) = ModelId;
 
   /// Object construction from a JSON representation
   factory Model.fromJson(Map<String, dynamic> json) => _$ModelFromJson(json);
@@ -356,14 +356,14 @@ class _ModelConverter implements JsonConverter<Model, Object?> {
   @override
   Model fromJson(Object? data) {
     if (data is String && _$ModelsEnumMap.values.contains(data)) {
-      return ModelEnumeration(
+      return ModelCatalog(
         _$ModelsEnumMap.keys.elementAt(
           _$ModelsEnumMap.values.toList().indexOf(data),
         ),
       );
     }
     if (data is String) {
-      return ModelString(data);
+      return ModelId(data);
     }
     throw Exception(
       'Unexpected value for Model: $data',
@@ -373,8 +373,8 @@ class _ModelConverter implements JsonConverter<Model, Object?> {
   @override
   Object? toJson(Model data) {
     return switch (data) {
-      ModelEnumeration(value: final v) => _$ModelsEnumMap[v]!,
-      ModelString(value: final v) => v,
+      ModelCatalog(value: final v) => _$ModelsEnumMap[v]!,
+      ModelId(value: final v) => v,
     };
   }
 }
