@@ -12,6 +12,7 @@ void main() async {
     destination: 'lib/src/generated/',
     replace: true,
     schemaOptions: const SchemaGeneratorOptions(
+      onSchemaName: _onSchemaName,
       onSchemaUnionFactoryName: _onSchemaUnionFactoryName,
     ),
     clientOptions: const ClientGeneratorOptions(
@@ -25,17 +26,27 @@ void main() async {
   );
 }
 
+String? _onSchemaName(final String schemaName) => switch (schemaName) {
+      'ModelEnumeration' => 'ModelCatalog',
+      'ModelString' => 'ModelId',
+      'MessageContentString' => 'MessageContentText',
+      'MessageContentListBlock' => 'MessageContentBlocks',
+      'ToolResultBlockContentListBlock' => 'ToolResultBlockContentBlocks',
+      'ToolResultBlockContentString' => 'ToolResultBlockContentText',
+      _ => schemaName,
+    };
+
 String? _onSchemaUnionFactoryName(
   final String union,
   final String unionSubclass,
 ) =>
     switch (unionSubclass) {
-      'ModelEnumeration' => 'model',
-      'ModelString' => 'modelId',
-      'MessageContentListBlock' => 'blocks',
-      'MessageContentString' => 'text',
-      'ToolResultBlockContentListBlock' => 'blocks',
-      'ToolResultBlockContentString' => 'text',
+      'ModelCatalog' => 'model',
+      'ModelId' => 'modelId',
+      'MessageContentText' => 'text',
+      'MessageContentBlocks' => 'blocks',
+      'ToolResultBlockContentBlocks' => 'blocks',
+      'ToolResultBlockContentText' => 'text',
       'TextBlockDelta' => 'textDelta',
       'InputJsonBlockDelta' => 'inputJsonDelta',
       'MessageStartEvent' => 'messageStart',

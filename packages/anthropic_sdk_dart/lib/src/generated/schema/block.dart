@@ -113,12 +113,12 @@ sealed class ToolResultBlockContent with _$ToolResultBlockContent {
   /// An array of content blocks.
   const factory ToolResultBlockContent.blocks(
     List<Block> value,
-  ) = ToolResultBlockContentListBlock;
+  ) = ToolResultBlockContentBlocks;
 
   /// A single text block.
   const factory ToolResultBlockContent.text(
     String value,
-  ) = ToolResultBlockContentString;
+  ) = ToolResultBlockContentText;
 
   /// Object construction from a JSON representation
   factory ToolResultBlockContent.fromJson(Map<String, dynamic> json) =>
@@ -133,12 +133,12 @@ class _ToolResultBlockContentConverter
   @override
   ToolResultBlockContent fromJson(Object? data) {
     if (data is List && data.every((item) => item is Map)) {
-      return ToolResultBlockContentListBlock(data
+      return ToolResultBlockContentBlocks(data
           .map((i) => Block.fromJson(i as Map<String, dynamic>))
           .toList(growable: false));
     }
     if (data is String) {
-      return ToolResultBlockContentString(data);
+      return ToolResultBlockContentText(data);
     }
     throw Exception(
       'Unexpected value for ToolResultBlockContent: $data',
@@ -148,8 +148,8 @@ class _ToolResultBlockContentConverter
   @override
   Object? toJson(ToolResultBlockContent data) {
     return switch (data) {
-      ToolResultBlockContentListBlock(value: final v) => v,
-      ToolResultBlockContentString(value: final v) => v,
+      ToolResultBlockContentBlocks(value: final v) => v,
+      ToolResultBlockContentText(value: final v) => v,
     };
   }
 }
