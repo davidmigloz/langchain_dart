@@ -1356,9 +1356,9 @@ abstract class _CreateMessageRequest extends CreateMessageRequest {
 Model _$ModelFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
     case 'model':
-      return ModelEnumeration.fromJson(json);
+      return ModelCatalog.fromJson(json);
     case 'modelId':
-      return ModelString.fromJson(json);
+      return ModelId.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'Model',
@@ -1390,20 +1390,20 @@ mixin _$Model {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(ModelEnumeration value) model,
-    required TResult Function(ModelString value) modelId,
+    required TResult Function(ModelCatalog value) model,
+    required TResult Function(ModelId value) modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ModelEnumeration value)? model,
-    TResult? Function(ModelString value)? modelId,
+    TResult? Function(ModelCatalog value)? model,
+    TResult? Function(ModelId value)? modelId,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(ModelEnumeration value)? model,
-    TResult Function(ModelString value)? modelId,
+    TResult Function(ModelCatalog value)? model,
+    TResult Function(ModelId value)? modelId,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -1428,20 +1428,20 @@ class _$ModelCopyWithImpl<$Res, $Val extends Model>
 }
 
 /// @nodoc
-abstract class _$$ModelEnumerationImplCopyWith<$Res> {
-  factory _$$ModelEnumerationImplCopyWith(_$ModelEnumerationImpl value,
-          $Res Function(_$ModelEnumerationImpl) then) =
-      __$$ModelEnumerationImplCopyWithImpl<$Res>;
+abstract class _$$ModelCatalogImplCopyWith<$Res> {
+  factory _$$ModelCatalogImplCopyWith(
+          _$ModelCatalogImpl value, $Res Function(_$ModelCatalogImpl) then) =
+      __$$ModelCatalogImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Models value});
 }
 
 /// @nodoc
-class __$$ModelEnumerationImplCopyWithImpl<$Res>
-    extends _$ModelCopyWithImpl<$Res, _$ModelEnumerationImpl>
-    implements _$$ModelEnumerationImplCopyWith<$Res> {
-  __$$ModelEnumerationImplCopyWithImpl(_$ModelEnumerationImpl _value,
-      $Res Function(_$ModelEnumerationImpl) _then)
+class __$$ModelCatalogImplCopyWithImpl<$Res>
+    extends _$ModelCopyWithImpl<$Res, _$ModelCatalogImpl>
+    implements _$$ModelCatalogImplCopyWith<$Res> {
+  __$$ModelCatalogImplCopyWithImpl(
+      _$ModelCatalogImpl _value, $Res Function(_$ModelCatalogImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1449,7 +1449,7 @@ class __$$ModelEnumerationImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$ModelEnumerationImpl(
+    return _then(_$ModelCatalogImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -1460,13 +1460,13 @@ class __$$ModelEnumerationImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ModelEnumerationImpl extends ModelEnumeration {
-  const _$ModelEnumerationImpl(this.value, {final String? $type})
+class _$ModelCatalogImpl extends ModelCatalog {
+  const _$ModelCatalogImpl(this.value, {final String? $type})
       : $type = $type ?? 'model',
         super._();
 
-  factory _$ModelEnumerationImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ModelEnumerationImplFromJson(json);
+  factory _$ModelCatalogImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ModelCatalogImplFromJson(json);
 
   @override
   final Models value;
@@ -1483,7 +1483,7 @@ class _$ModelEnumerationImpl extends ModelEnumeration {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ModelEnumerationImpl &&
+            other is _$ModelCatalogImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -1494,9 +1494,8 @@ class _$ModelEnumerationImpl extends ModelEnumeration {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ModelEnumerationImplCopyWith<_$ModelEnumerationImpl> get copyWith =>
-      __$$ModelEnumerationImplCopyWithImpl<_$ModelEnumerationImpl>(
-          this, _$identity);
+  _$$ModelCatalogImplCopyWith<_$ModelCatalogImpl> get copyWith =>
+      __$$ModelCatalogImplCopyWithImpl<_$ModelCatalogImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1532,8 +1531,8 @@ class _$ModelEnumerationImpl extends ModelEnumeration {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(ModelEnumeration value) model,
-    required TResult Function(ModelString value) modelId,
+    required TResult Function(ModelCatalog value) model,
+    required TResult Function(ModelId value) modelId,
   }) {
     return model(this);
   }
@@ -1541,8 +1540,8 @@ class _$ModelEnumerationImpl extends ModelEnumeration {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ModelEnumeration value)? model,
-    TResult? Function(ModelString value)? modelId,
+    TResult? Function(ModelCatalog value)? model,
+    TResult? Function(ModelId value)? modelId,
   }) {
     return model?.call(this);
   }
@@ -1550,8 +1549,8 @@ class _$ModelEnumerationImpl extends ModelEnumeration {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(ModelEnumeration value)? model,
-    TResult Function(ModelString value)? modelId,
+    TResult Function(ModelCatalog value)? model,
+    TResult Function(ModelId value)? modelId,
     required TResult orElse(),
   }) {
     if (model != null) {
@@ -1562,41 +1561,41 @@ class _$ModelEnumerationImpl extends ModelEnumeration {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ModelEnumerationImplToJson(
+    return _$$ModelCatalogImplToJson(
       this,
     );
   }
 }
 
-abstract class ModelEnumeration extends Model {
-  const factory ModelEnumeration(final Models value) = _$ModelEnumerationImpl;
-  const ModelEnumeration._() : super._();
+abstract class ModelCatalog extends Model {
+  const factory ModelCatalog(final Models value) = _$ModelCatalogImpl;
+  const ModelCatalog._() : super._();
 
-  factory ModelEnumeration.fromJson(Map<String, dynamic> json) =
-      _$ModelEnumerationImpl.fromJson;
+  factory ModelCatalog.fromJson(Map<String, dynamic> json) =
+      _$ModelCatalogImpl.fromJson;
 
   @override
   Models get value;
   @JsonKey(ignore: true)
-  _$$ModelEnumerationImplCopyWith<_$ModelEnumerationImpl> get copyWith =>
+  _$$ModelCatalogImplCopyWith<_$ModelCatalogImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ModelStringImplCopyWith<$Res> {
-  factory _$$ModelStringImplCopyWith(
-          _$ModelStringImpl value, $Res Function(_$ModelStringImpl) then) =
-      __$$ModelStringImplCopyWithImpl<$Res>;
+abstract class _$$ModelIdImplCopyWith<$Res> {
+  factory _$$ModelIdImplCopyWith(
+          _$ModelIdImpl value, $Res Function(_$ModelIdImpl) then) =
+      __$$ModelIdImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String value});
 }
 
 /// @nodoc
-class __$$ModelStringImplCopyWithImpl<$Res>
-    extends _$ModelCopyWithImpl<$Res, _$ModelStringImpl>
-    implements _$$ModelStringImplCopyWith<$Res> {
-  __$$ModelStringImplCopyWithImpl(
-      _$ModelStringImpl _value, $Res Function(_$ModelStringImpl) _then)
+class __$$ModelIdImplCopyWithImpl<$Res>
+    extends _$ModelCopyWithImpl<$Res, _$ModelIdImpl>
+    implements _$$ModelIdImplCopyWith<$Res> {
+  __$$ModelIdImplCopyWithImpl(
+      _$ModelIdImpl _value, $Res Function(_$ModelIdImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1604,7 +1603,7 @@ class __$$ModelStringImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$ModelStringImpl(
+    return _then(_$ModelIdImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -1615,13 +1614,13 @@ class __$$ModelStringImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ModelStringImpl extends ModelString {
-  const _$ModelStringImpl(this.value, {final String? $type})
+class _$ModelIdImpl extends ModelId {
+  const _$ModelIdImpl(this.value, {final String? $type})
       : $type = $type ?? 'modelId',
         super._();
 
-  factory _$ModelStringImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ModelStringImplFromJson(json);
+  factory _$ModelIdImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ModelIdImplFromJson(json);
 
   @override
   final String value;
@@ -1638,7 +1637,7 @@ class _$ModelStringImpl extends ModelString {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ModelStringImpl &&
+            other is _$ModelIdImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -1649,8 +1648,8 @@ class _$ModelStringImpl extends ModelString {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ModelStringImplCopyWith<_$ModelStringImpl> get copyWith =>
-      __$$ModelStringImplCopyWithImpl<_$ModelStringImpl>(this, _$identity);
+  _$$ModelIdImplCopyWith<_$ModelIdImpl> get copyWith =>
+      __$$ModelIdImplCopyWithImpl<_$ModelIdImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1686,8 +1685,8 @@ class _$ModelStringImpl extends ModelString {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(ModelEnumeration value) model,
-    required TResult Function(ModelString value) modelId,
+    required TResult Function(ModelCatalog value) model,
+    required TResult Function(ModelId value) modelId,
   }) {
     return modelId(this);
   }
@@ -1695,8 +1694,8 @@ class _$ModelStringImpl extends ModelString {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ModelEnumeration value)? model,
-    TResult? Function(ModelString value)? modelId,
+    TResult? Function(ModelCatalog value)? model,
+    TResult? Function(ModelId value)? modelId,
   }) {
     return modelId?.call(this);
   }
@@ -1704,8 +1703,8 @@ class _$ModelStringImpl extends ModelString {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(ModelEnumeration value)? model,
-    TResult Function(ModelString value)? modelId,
+    TResult Function(ModelCatalog value)? model,
+    TResult Function(ModelId value)? modelId,
     required TResult orElse(),
   }) {
     if (modelId != null) {
@@ -1716,23 +1715,22 @@ class _$ModelStringImpl extends ModelString {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ModelStringImplToJson(
+    return _$$ModelIdImplToJson(
       this,
     );
   }
 }
 
-abstract class ModelString extends Model {
-  const factory ModelString(final String value) = _$ModelStringImpl;
-  const ModelString._() : super._();
+abstract class ModelId extends Model {
+  const factory ModelId(final String value) = _$ModelIdImpl;
+  const ModelId._() : super._();
 
-  factory ModelString.fromJson(Map<String, dynamic> json) =
-      _$ModelStringImpl.fromJson;
+  factory ModelId.fromJson(Map<String, dynamic> json) = _$ModelIdImpl.fromJson;
 
   @override
   String get value;
   @JsonKey(ignore: true)
-  _$$ModelStringImplCopyWith<_$ModelStringImpl> get copyWith =>
+  _$$ModelIdImplCopyWith<_$ModelIdImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -2581,9 +2579,9 @@ abstract class _Message extends Message {
 MessageContent _$MessageContentFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
     case 'blocks':
-      return MessageContentListBlock.fromJson(json);
+      return MessageContentBlocks.fromJson(json);
     case 'text':
-      return MessageContentString.fromJson(json);
+      return MessageContentText.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'MessageContent',
@@ -2615,20 +2613,20 @@ mixin _$MessageContent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(MessageContentListBlock value) blocks,
-    required TResult Function(MessageContentString value) text,
+    required TResult Function(MessageContentBlocks value) blocks,
+    required TResult Function(MessageContentText value) text,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MessageContentListBlock value)? blocks,
-    TResult? Function(MessageContentString value)? text,
+    TResult? Function(MessageContentBlocks value)? blocks,
+    TResult? Function(MessageContentText value)? text,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(MessageContentListBlock value)? blocks,
-    TResult Function(MessageContentString value)? text,
+    TResult Function(MessageContentBlocks value)? blocks,
+    TResult Function(MessageContentText value)? text,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -2654,22 +2652,20 @@ class _$MessageContentCopyWithImpl<$Res, $Val extends MessageContent>
 }
 
 /// @nodoc
-abstract class _$$MessageContentListBlockImplCopyWith<$Res> {
-  factory _$$MessageContentListBlockImplCopyWith(
-          _$MessageContentListBlockImpl value,
-          $Res Function(_$MessageContentListBlockImpl) then) =
-      __$$MessageContentListBlockImplCopyWithImpl<$Res>;
+abstract class _$$MessageContentBlocksImplCopyWith<$Res> {
+  factory _$$MessageContentBlocksImplCopyWith(_$MessageContentBlocksImpl value,
+          $Res Function(_$MessageContentBlocksImpl) then) =
+      __$$MessageContentBlocksImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<Block> value});
 }
 
 /// @nodoc
-class __$$MessageContentListBlockImplCopyWithImpl<$Res>
-    extends _$MessageContentCopyWithImpl<$Res, _$MessageContentListBlockImpl>
-    implements _$$MessageContentListBlockImplCopyWith<$Res> {
-  __$$MessageContentListBlockImplCopyWithImpl(
-      _$MessageContentListBlockImpl _value,
-      $Res Function(_$MessageContentListBlockImpl) _then)
+class __$$MessageContentBlocksImplCopyWithImpl<$Res>
+    extends _$MessageContentCopyWithImpl<$Res, _$MessageContentBlocksImpl>
+    implements _$$MessageContentBlocksImplCopyWith<$Res> {
+  __$$MessageContentBlocksImplCopyWithImpl(_$MessageContentBlocksImpl _value,
+      $Res Function(_$MessageContentBlocksImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2677,7 +2673,7 @@ class __$$MessageContentListBlockImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$MessageContentListBlockImpl(
+    return _then(_$MessageContentBlocksImpl(
       null == value
           ? _value._value
           : value // ignore: cast_nullable_to_non_nullable
@@ -2688,15 +2684,15 @@ class __$$MessageContentListBlockImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$MessageContentListBlockImpl extends MessageContentListBlock {
-  const _$MessageContentListBlockImpl(final List<Block> value,
+class _$MessageContentBlocksImpl extends MessageContentBlocks {
+  const _$MessageContentBlocksImpl(final List<Block> value,
       {final String? $type})
       : _value = value,
         $type = $type ?? 'blocks',
         super._();
 
-  factory _$MessageContentListBlockImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MessageContentListBlockImplFromJson(json);
+  factory _$MessageContentBlocksImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageContentBlocksImplFromJson(json);
 
   final List<Block> _value;
   @override
@@ -2718,7 +2714,7 @@ class _$MessageContentListBlockImpl extends MessageContentListBlock {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MessageContentListBlockImpl &&
+            other is _$MessageContentBlocksImpl &&
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
@@ -2730,9 +2726,10 @@ class _$MessageContentListBlockImpl extends MessageContentListBlock {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$MessageContentListBlockImplCopyWith<_$MessageContentListBlockImpl>
-      get copyWith => __$$MessageContentListBlockImplCopyWithImpl<
-          _$MessageContentListBlockImpl>(this, _$identity);
+  _$$MessageContentBlocksImplCopyWith<_$MessageContentBlocksImpl>
+      get copyWith =>
+          __$$MessageContentBlocksImplCopyWithImpl<_$MessageContentBlocksImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -2768,8 +2765,8 @@ class _$MessageContentListBlockImpl extends MessageContentListBlock {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(MessageContentListBlock value) blocks,
-    required TResult Function(MessageContentString value) text,
+    required TResult Function(MessageContentBlocks value) blocks,
+    required TResult Function(MessageContentText value) text,
   }) {
     return blocks(this);
   }
@@ -2777,8 +2774,8 @@ class _$MessageContentListBlockImpl extends MessageContentListBlock {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MessageContentListBlock value)? blocks,
-    TResult? Function(MessageContentString value)? text,
+    TResult? Function(MessageContentBlocks value)? blocks,
+    TResult? Function(MessageContentText value)? text,
   }) {
     return blocks?.call(this);
   }
@@ -2786,8 +2783,8 @@ class _$MessageContentListBlockImpl extends MessageContentListBlock {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(MessageContentListBlock value)? blocks,
-    TResult Function(MessageContentString value)? text,
+    TResult Function(MessageContentBlocks value)? blocks,
+    TResult Function(MessageContentText value)? text,
     required TResult orElse(),
   }) {
     if (blocks != null) {
@@ -2798,42 +2795,42 @@ class _$MessageContentListBlockImpl extends MessageContentListBlock {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$MessageContentListBlockImplToJson(
+    return _$$MessageContentBlocksImplToJson(
       this,
     );
   }
 }
 
-abstract class MessageContentListBlock extends MessageContent {
-  const factory MessageContentListBlock(final List<Block> value) =
-      _$MessageContentListBlockImpl;
-  const MessageContentListBlock._() : super._();
+abstract class MessageContentBlocks extends MessageContent {
+  const factory MessageContentBlocks(final List<Block> value) =
+      _$MessageContentBlocksImpl;
+  const MessageContentBlocks._() : super._();
 
-  factory MessageContentListBlock.fromJson(Map<String, dynamic> json) =
-      _$MessageContentListBlockImpl.fromJson;
+  factory MessageContentBlocks.fromJson(Map<String, dynamic> json) =
+      _$MessageContentBlocksImpl.fromJson;
 
   @override
   List<Block> get value;
   @JsonKey(ignore: true)
-  _$$MessageContentListBlockImplCopyWith<_$MessageContentListBlockImpl>
+  _$$MessageContentBlocksImplCopyWith<_$MessageContentBlocksImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$MessageContentStringImplCopyWith<$Res> {
-  factory _$$MessageContentStringImplCopyWith(_$MessageContentStringImpl value,
-          $Res Function(_$MessageContentStringImpl) then) =
-      __$$MessageContentStringImplCopyWithImpl<$Res>;
+abstract class _$$MessageContentTextImplCopyWith<$Res> {
+  factory _$$MessageContentTextImplCopyWith(_$MessageContentTextImpl value,
+          $Res Function(_$MessageContentTextImpl) then) =
+      __$$MessageContentTextImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String value});
 }
 
 /// @nodoc
-class __$$MessageContentStringImplCopyWithImpl<$Res>
-    extends _$MessageContentCopyWithImpl<$Res, _$MessageContentStringImpl>
-    implements _$$MessageContentStringImplCopyWith<$Res> {
-  __$$MessageContentStringImplCopyWithImpl(_$MessageContentStringImpl _value,
-      $Res Function(_$MessageContentStringImpl) _then)
+class __$$MessageContentTextImplCopyWithImpl<$Res>
+    extends _$MessageContentCopyWithImpl<$Res, _$MessageContentTextImpl>
+    implements _$$MessageContentTextImplCopyWith<$Res> {
+  __$$MessageContentTextImplCopyWithImpl(_$MessageContentTextImpl _value,
+      $Res Function(_$MessageContentTextImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2841,7 +2838,7 @@ class __$$MessageContentStringImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$MessageContentStringImpl(
+    return _then(_$MessageContentTextImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -2852,13 +2849,13 @@ class __$$MessageContentStringImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$MessageContentStringImpl extends MessageContentString {
-  const _$MessageContentStringImpl(this.value, {final String? $type})
+class _$MessageContentTextImpl extends MessageContentText {
+  const _$MessageContentTextImpl(this.value, {final String? $type})
       : $type = $type ?? 'text',
         super._();
 
-  factory _$MessageContentStringImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MessageContentStringImplFromJson(json);
+  factory _$MessageContentTextImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageContentTextImplFromJson(json);
 
   @override
   final String value;
@@ -2875,7 +2872,7 @@ class _$MessageContentStringImpl extends MessageContentString {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MessageContentStringImpl &&
+            other is _$MessageContentTextImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -2886,10 +2883,9 @@ class _$MessageContentStringImpl extends MessageContentString {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$MessageContentStringImplCopyWith<_$MessageContentStringImpl>
-      get copyWith =>
-          __$$MessageContentStringImplCopyWithImpl<_$MessageContentStringImpl>(
-              this, _$identity);
+  _$$MessageContentTextImplCopyWith<_$MessageContentTextImpl> get copyWith =>
+      __$$MessageContentTextImplCopyWithImpl<_$MessageContentTextImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -2925,8 +2921,8 @@ class _$MessageContentStringImpl extends MessageContentString {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(MessageContentListBlock value) blocks,
-    required TResult Function(MessageContentString value) text,
+    required TResult Function(MessageContentBlocks value) blocks,
+    required TResult Function(MessageContentText value) text,
   }) {
     return text(this);
   }
@@ -2934,8 +2930,8 @@ class _$MessageContentStringImpl extends MessageContentString {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MessageContentListBlock value)? blocks,
-    TResult? Function(MessageContentString value)? text,
+    TResult? Function(MessageContentBlocks value)? blocks,
+    TResult? Function(MessageContentText value)? text,
   }) {
     return text?.call(this);
   }
@@ -2943,8 +2939,8 @@ class _$MessageContentStringImpl extends MessageContentString {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(MessageContentListBlock value)? blocks,
-    TResult Function(MessageContentString value)? text,
+    TResult Function(MessageContentBlocks value)? blocks,
+    TResult Function(MessageContentText value)? text,
     required TResult orElse(),
   }) {
     if (text != null) {
@@ -2955,25 +2951,25 @@ class _$MessageContentStringImpl extends MessageContentString {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$MessageContentStringImplToJson(
+    return _$$MessageContentTextImplToJson(
       this,
     );
   }
 }
 
-abstract class MessageContentString extends MessageContent {
-  const factory MessageContentString(final String value) =
-      _$MessageContentStringImpl;
-  const MessageContentString._() : super._();
+abstract class MessageContentText extends MessageContent {
+  const factory MessageContentText(final String value) =
+      _$MessageContentTextImpl;
+  const MessageContentText._() : super._();
 
-  factory MessageContentString.fromJson(Map<String, dynamic> json) =
-      _$MessageContentStringImpl.fromJson;
+  factory MessageContentText.fromJson(Map<String, dynamic> json) =
+      _$MessageContentTextImpl.fromJson;
 
   @override
   String get value;
   @JsonKey(ignore: true)
-  _$$MessageContentStringImplCopyWith<_$MessageContentStringImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$MessageContentTextImplCopyWith<_$MessageContentTextImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 Tool _$ToolFromJson(Map<String, dynamic> json) {
@@ -5048,9 +5044,9 @@ ToolResultBlockContent _$ToolResultBlockContentFromJson(
     Map<String, dynamic> json) {
   switch (json['runtimeType']) {
     case 'blocks':
-      return ToolResultBlockContentListBlock.fromJson(json);
+      return ToolResultBlockContentBlocks.fromJson(json);
     case 'text':
-      return ToolResultBlockContentString.fromJson(json);
+      return ToolResultBlockContentText.fromJson(json);
 
     default:
       throw CheckedFromJsonException(
@@ -5085,20 +5081,20 @@ mixin _$ToolResultBlockContent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(ToolResultBlockContentListBlock value) blocks,
-    required TResult Function(ToolResultBlockContentString value) text,
+    required TResult Function(ToolResultBlockContentBlocks value) blocks,
+    required TResult Function(ToolResultBlockContentText value) text,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ToolResultBlockContentListBlock value)? blocks,
-    TResult? Function(ToolResultBlockContentString value)? text,
+    TResult? Function(ToolResultBlockContentBlocks value)? blocks,
+    TResult? Function(ToolResultBlockContentText value)? text,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(ToolResultBlockContentListBlock value)? blocks,
-    TResult Function(ToolResultBlockContentString value)? text,
+    TResult Function(ToolResultBlockContentBlocks value)? blocks,
+    TResult Function(ToolResultBlockContentText value)? text,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -5125,23 +5121,23 @@ class _$ToolResultBlockContentCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$ToolResultBlockContentListBlockImplCopyWith<$Res> {
-  factory _$$ToolResultBlockContentListBlockImplCopyWith(
-          _$ToolResultBlockContentListBlockImpl value,
-          $Res Function(_$ToolResultBlockContentListBlockImpl) then) =
-      __$$ToolResultBlockContentListBlockImplCopyWithImpl<$Res>;
+abstract class _$$ToolResultBlockContentBlocksImplCopyWith<$Res> {
+  factory _$$ToolResultBlockContentBlocksImplCopyWith(
+          _$ToolResultBlockContentBlocksImpl value,
+          $Res Function(_$ToolResultBlockContentBlocksImpl) then) =
+      __$$ToolResultBlockContentBlocksImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<Block> value});
 }
 
 /// @nodoc
-class __$$ToolResultBlockContentListBlockImplCopyWithImpl<$Res>
+class __$$ToolResultBlockContentBlocksImplCopyWithImpl<$Res>
     extends _$ToolResultBlockContentCopyWithImpl<$Res,
-        _$ToolResultBlockContentListBlockImpl>
-    implements _$$ToolResultBlockContentListBlockImplCopyWith<$Res> {
-  __$$ToolResultBlockContentListBlockImplCopyWithImpl(
-      _$ToolResultBlockContentListBlockImpl _value,
-      $Res Function(_$ToolResultBlockContentListBlockImpl) _then)
+        _$ToolResultBlockContentBlocksImpl>
+    implements _$$ToolResultBlockContentBlocksImplCopyWith<$Res> {
+  __$$ToolResultBlockContentBlocksImplCopyWithImpl(
+      _$ToolResultBlockContentBlocksImpl _value,
+      $Res Function(_$ToolResultBlockContentBlocksImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -5149,7 +5145,7 @@ class __$$ToolResultBlockContentListBlockImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$ToolResultBlockContentListBlockImpl(
+    return _then(_$ToolResultBlockContentBlocksImpl(
       null == value
           ? _value._value
           : value // ignore: cast_nullable_to_non_nullable
@@ -5160,17 +5156,16 @@ class __$$ToolResultBlockContentListBlockImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ToolResultBlockContentListBlockImpl
-    extends ToolResultBlockContentListBlock {
-  const _$ToolResultBlockContentListBlockImpl(final List<Block> value,
+class _$ToolResultBlockContentBlocksImpl extends ToolResultBlockContentBlocks {
+  const _$ToolResultBlockContentBlocksImpl(final List<Block> value,
       {final String? $type})
       : _value = value,
         $type = $type ?? 'blocks',
         super._();
 
-  factory _$ToolResultBlockContentListBlockImpl.fromJson(
+  factory _$ToolResultBlockContentBlocksImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$ToolResultBlockContentListBlockImplFromJson(json);
+      _$$ToolResultBlockContentBlocksImplFromJson(json);
 
   final List<Block> _value;
   @override
@@ -5192,7 +5187,7 @@ class _$ToolResultBlockContentListBlockImpl
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ToolResultBlockContentListBlockImpl &&
+            other is _$ToolResultBlockContentBlocksImpl &&
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
@@ -5204,10 +5199,10 @@ class _$ToolResultBlockContentListBlockImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ToolResultBlockContentListBlockImplCopyWith<
-          _$ToolResultBlockContentListBlockImpl>
-      get copyWith => __$$ToolResultBlockContentListBlockImplCopyWithImpl<
-          _$ToolResultBlockContentListBlockImpl>(this, _$identity);
+  _$$ToolResultBlockContentBlocksImplCopyWith<
+          _$ToolResultBlockContentBlocksImpl>
+      get copyWith => __$$ToolResultBlockContentBlocksImplCopyWithImpl<
+          _$ToolResultBlockContentBlocksImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -5243,8 +5238,8 @@ class _$ToolResultBlockContentListBlockImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(ToolResultBlockContentListBlock value) blocks,
-    required TResult Function(ToolResultBlockContentString value) text,
+    required TResult Function(ToolResultBlockContentBlocks value) blocks,
+    required TResult Function(ToolResultBlockContentText value) text,
   }) {
     return blocks(this);
   }
@@ -5252,8 +5247,8 @@ class _$ToolResultBlockContentListBlockImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ToolResultBlockContentListBlock value)? blocks,
-    TResult? Function(ToolResultBlockContentString value)? text,
+    TResult? Function(ToolResultBlockContentBlocks value)? blocks,
+    TResult? Function(ToolResultBlockContentText value)? text,
   }) {
     return blocks?.call(this);
   }
@@ -5261,8 +5256,8 @@ class _$ToolResultBlockContentListBlockImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(ToolResultBlockContentListBlock value)? blocks,
-    TResult Function(ToolResultBlockContentString value)? text,
+    TResult Function(ToolResultBlockContentBlocks value)? blocks,
+    TResult Function(ToolResultBlockContentText value)? text,
     required TResult orElse(),
   }) {
     if (blocks != null) {
@@ -5273,46 +5268,46 @@ class _$ToolResultBlockContentListBlockImpl
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ToolResultBlockContentListBlockImplToJson(
+    return _$$ToolResultBlockContentBlocksImplToJson(
       this,
     );
   }
 }
 
-abstract class ToolResultBlockContentListBlock extends ToolResultBlockContent {
-  const factory ToolResultBlockContentListBlock(final List<Block> value) =
-      _$ToolResultBlockContentListBlockImpl;
-  const ToolResultBlockContentListBlock._() : super._();
+abstract class ToolResultBlockContentBlocks extends ToolResultBlockContent {
+  const factory ToolResultBlockContentBlocks(final List<Block> value) =
+      _$ToolResultBlockContentBlocksImpl;
+  const ToolResultBlockContentBlocks._() : super._();
 
-  factory ToolResultBlockContentListBlock.fromJson(Map<String, dynamic> json) =
-      _$ToolResultBlockContentListBlockImpl.fromJson;
+  factory ToolResultBlockContentBlocks.fromJson(Map<String, dynamic> json) =
+      _$ToolResultBlockContentBlocksImpl.fromJson;
 
   @override
   List<Block> get value;
   @JsonKey(ignore: true)
-  _$$ToolResultBlockContentListBlockImplCopyWith<
-          _$ToolResultBlockContentListBlockImpl>
+  _$$ToolResultBlockContentBlocksImplCopyWith<
+          _$ToolResultBlockContentBlocksImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ToolResultBlockContentStringImplCopyWith<$Res> {
-  factory _$$ToolResultBlockContentStringImplCopyWith(
-          _$ToolResultBlockContentStringImpl value,
-          $Res Function(_$ToolResultBlockContentStringImpl) then) =
-      __$$ToolResultBlockContentStringImplCopyWithImpl<$Res>;
+abstract class _$$ToolResultBlockContentTextImplCopyWith<$Res> {
+  factory _$$ToolResultBlockContentTextImplCopyWith(
+          _$ToolResultBlockContentTextImpl value,
+          $Res Function(_$ToolResultBlockContentTextImpl) then) =
+      __$$ToolResultBlockContentTextImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String value});
 }
 
 /// @nodoc
-class __$$ToolResultBlockContentStringImplCopyWithImpl<$Res>
+class __$$ToolResultBlockContentTextImplCopyWithImpl<$Res>
     extends _$ToolResultBlockContentCopyWithImpl<$Res,
-        _$ToolResultBlockContentStringImpl>
-    implements _$$ToolResultBlockContentStringImplCopyWith<$Res> {
-  __$$ToolResultBlockContentStringImplCopyWithImpl(
-      _$ToolResultBlockContentStringImpl _value,
-      $Res Function(_$ToolResultBlockContentStringImpl) _then)
+        _$ToolResultBlockContentTextImpl>
+    implements _$$ToolResultBlockContentTextImplCopyWith<$Res> {
+  __$$ToolResultBlockContentTextImplCopyWithImpl(
+      _$ToolResultBlockContentTextImpl _value,
+      $Res Function(_$ToolResultBlockContentTextImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -5320,7 +5315,7 @@ class __$$ToolResultBlockContentStringImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$ToolResultBlockContentStringImpl(
+    return _then(_$ToolResultBlockContentTextImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -5331,14 +5326,14 @@ class __$$ToolResultBlockContentStringImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ToolResultBlockContentStringImpl extends ToolResultBlockContentString {
-  const _$ToolResultBlockContentStringImpl(this.value, {final String? $type})
+class _$ToolResultBlockContentTextImpl extends ToolResultBlockContentText {
+  const _$ToolResultBlockContentTextImpl(this.value, {final String? $type})
       : $type = $type ?? 'text',
         super._();
 
-  factory _$ToolResultBlockContentStringImpl.fromJson(
+  factory _$ToolResultBlockContentTextImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$ToolResultBlockContentStringImplFromJson(json);
+      _$$ToolResultBlockContentTextImplFromJson(json);
 
   @override
   final String value;
@@ -5355,7 +5350,7 @@ class _$ToolResultBlockContentStringImpl extends ToolResultBlockContentString {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ToolResultBlockContentStringImpl &&
+            other is _$ToolResultBlockContentTextImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -5366,10 +5361,9 @@ class _$ToolResultBlockContentStringImpl extends ToolResultBlockContentString {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ToolResultBlockContentStringImplCopyWith<
-          _$ToolResultBlockContentStringImpl>
-      get copyWith => __$$ToolResultBlockContentStringImplCopyWithImpl<
-          _$ToolResultBlockContentStringImpl>(this, _$identity);
+  _$$ToolResultBlockContentTextImplCopyWith<_$ToolResultBlockContentTextImpl>
+      get copyWith => __$$ToolResultBlockContentTextImplCopyWithImpl<
+          _$ToolResultBlockContentTextImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -5405,8 +5399,8 @@ class _$ToolResultBlockContentStringImpl extends ToolResultBlockContentString {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(ToolResultBlockContentListBlock value) blocks,
-    required TResult Function(ToolResultBlockContentString value) text,
+    required TResult Function(ToolResultBlockContentBlocks value) blocks,
+    required TResult Function(ToolResultBlockContentText value) text,
   }) {
     return text(this);
   }
@@ -5414,8 +5408,8 @@ class _$ToolResultBlockContentStringImpl extends ToolResultBlockContentString {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ToolResultBlockContentListBlock value)? blocks,
-    TResult? Function(ToolResultBlockContentString value)? text,
+    TResult? Function(ToolResultBlockContentBlocks value)? blocks,
+    TResult? Function(ToolResultBlockContentText value)? text,
   }) {
     return text?.call(this);
   }
@@ -5423,8 +5417,8 @@ class _$ToolResultBlockContentStringImpl extends ToolResultBlockContentString {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(ToolResultBlockContentListBlock value)? blocks,
-    TResult Function(ToolResultBlockContentString value)? text,
+    TResult Function(ToolResultBlockContentBlocks value)? blocks,
+    TResult Function(ToolResultBlockContentText value)? text,
     required TResult orElse(),
   }) {
     if (text != null) {
@@ -5435,25 +5429,24 @@ class _$ToolResultBlockContentStringImpl extends ToolResultBlockContentString {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ToolResultBlockContentStringImplToJson(
+    return _$$ToolResultBlockContentTextImplToJson(
       this,
     );
   }
 }
 
-abstract class ToolResultBlockContentString extends ToolResultBlockContent {
-  const factory ToolResultBlockContentString(final String value) =
-      _$ToolResultBlockContentStringImpl;
-  const ToolResultBlockContentString._() : super._();
+abstract class ToolResultBlockContentText extends ToolResultBlockContent {
+  const factory ToolResultBlockContentText(final String value) =
+      _$ToolResultBlockContentTextImpl;
+  const ToolResultBlockContentText._() : super._();
 
-  factory ToolResultBlockContentString.fromJson(Map<String, dynamic> json) =
-      _$ToolResultBlockContentStringImpl.fromJson;
+  factory ToolResultBlockContentText.fromJson(Map<String, dynamic> json) =
+      _$ToolResultBlockContentTextImpl.fromJson;
 
   @override
   String get value;
   @JsonKey(ignore: true)
-  _$$ToolResultBlockContentStringImplCopyWith<
-          _$ToolResultBlockContentStringImpl>
+  _$$ToolResultBlockContentTextImplCopyWith<_$ToolResultBlockContentTextImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 

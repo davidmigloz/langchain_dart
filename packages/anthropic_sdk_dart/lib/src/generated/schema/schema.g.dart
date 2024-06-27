@@ -62,15 +62,13 @@ Map<String, dynamic> _$$CreateMessageRequestImplToJson(
   return val;
 }
 
-_$ModelEnumerationImpl _$$ModelEnumerationImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ModelEnumerationImpl(
+_$ModelCatalogImpl _$$ModelCatalogImplFromJson(Map<String, dynamic> json) =>
+    _$ModelCatalogImpl(
       $enumDecode(_$ModelsEnumMap, json['value']),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ModelEnumerationImplToJson(
-        _$ModelEnumerationImpl instance) =>
+Map<String, dynamic> _$$ModelCatalogImplToJson(_$ModelCatalogImpl instance) =>
     <String, dynamic>{
       'value': _$ModelsEnumMap[instance.value]!,
       'runtimeType': instance.$type,
@@ -86,13 +84,13 @@ const _$ModelsEnumMap = {
   Models.claudeInstant12: 'claude-instant-1.2',
 };
 
-_$ModelStringImpl _$$ModelStringImplFromJson(Map<String, dynamic> json) =>
-    _$ModelStringImpl(
+_$ModelIdImpl _$$ModelIdImplFromJson(Map<String, dynamic> json) =>
+    _$ModelIdImpl(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ModelStringImplToJson(_$ModelStringImpl instance) =>
+Map<String, dynamic> _$$ModelIdImplToJson(_$ModelIdImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
@@ -192,31 +190,31 @@ const _$StopReasonEnumMap = {
   StopReason.toolUse: 'tool_use',
 };
 
-_$MessageContentListBlockImpl _$$MessageContentListBlockImplFromJson(
+_$MessageContentBlocksImpl _$$MessageContentBlocksImplFromJson(
         Map<String, dynamic> json) =>
-    _$MessageContentListBlockImpl(
+    _$MessageContentBlocksImpl(
       (json['value'] as List<dynamic>)
           .map((e) => Block.fromJson(e as Map<String, dynamic>))
           .toList(),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$MessageContentListBlockImplToJson(
-        _$MessageContentListBlockImpl instance) =>
+Map<String, dynamic> _$$MessageContentBlocksImplToJson(
+        _$MessageContentBlocksImpl instance) =>
     <String, dynamic>{
       'value': instance.value.map((e) => e.toJson()).toList(),
       'runtimeType': instance.$type,
     };
 
-_$MessageContentStringImpl _$$MessageContentStringImplFromJson(
+_$MessageContentTextImpl _$$MessageContentTextImplFromJson(
         Map<String, dynamic> json) =>
-    _$MessageContentStringImpl(
+    _$MessageContentTextImpl(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$MessageContentStringImplToJson(
-        _$MessageContentStringImpl instance) =>
+Map<String, dynamic> _$$MessageContentTextImplToJson(
+        _$MessageContentTextImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
@@ -385,31 +383,31 @@ Map<String, dynamic> _$$ToolResultBlockImplToJson(
   return val;
 }
 
-_$ToolResultBlockContentListBlockImpl
-    _$$ToolResultBlockContentListBlockImplFromJson(Map<String, dynamic> json) =>
-        _$ToolResultBlockContentListBlockImpl(
-          (json['value'] as List<dynamic>)
-              .map((e) => Block.fromJson(e as Map<String, dynamic>))
-              .toList(),
-          $type: json['runtimeType'] as String?,
-        );
+_$ToolResultBlockContentBlocksImpl _$$ToolResultBlockContentBlocksImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ToolResultBlockContentBlocksImpl(
+      (json['value'] as List<dynamic>)
+          .map((e) => Block.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      $type: json['runtimeType'] as String?,
+    );
 
-Map<String, dynamic> _$$ToolResultBlockContentListBlockImplToJson(
-        _$ToolResultBlockContentListBlockImpl instance) =>
+Map<String, dynamic> _$$ToolResultBlockContentBlocksImplToJson(
+        _$ToolResultBlockContentBlocksImpl instance) =>
     <String, dynamic>{
       'value': instance.value.map((e) => e.toJson()).toList(),
       'runtimeType': instance.$type,
     };
 
-_$ToolResultBlockContentStringImpl _$$ToolResultBlockContentStringImplFromJson(
+_$ToolResultBlockContentTextImpl _$$ToolResultBlockContentTextImplFromJson(
         Map<String, dynamic> json) =>
-    _$ToolResultBlockContentStringImpl(
+    _$ToolResultBlockContentTextImpl(
       json['value'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ToolResultBlockContentStringImplToJson(
-        _$ToolResultBlockContentStringImpl instance) =>
+Map<String, dynamic> _$$ToolResultBlockContentTextImplToJson(
+        _$ToolResultBlockContentTextImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'runtimeType': instance.$type,
