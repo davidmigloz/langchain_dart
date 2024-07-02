@@ -9,7 +9,7 @@ import '../llms/mappers.dart';
 import 'mappers.dart';
 import 'types.dart';
 
-/// Wrapper around [Ollama](https://ollama.ai) Completions API that enables
+/// Wrapper around [Ollama](https://ollama.ai) Chat API that enables
 /// to interact with the LLMs in a chat-like fashion.
 ///
 /// Ollama allows you to run open-source large language models,
