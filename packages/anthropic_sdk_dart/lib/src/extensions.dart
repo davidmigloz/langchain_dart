@@ -20,6 +20,26 @@ extension MessageContentX on MessageContent {
   }
 }
 
+/// Extension methods for [ToolResultBlockContent].
+extension ToolResultBlockContentX on ToolResultBlockContent {
+  /// Returns the text content of the tool result block content.
+  String get text {
+    return map(
+      text: (ToolResultBlockContentText t) => t.value,
+      blocks: (b) =>
+          b.value.whereType<TextBlock>().map((t) => t.text).join('\n'),
+    );
+  }
+
+  /// Returns the blocks of the tool result block content.
+  List<Block> get blocks {
+    return map(
+      text: (t) => [Block.text(text: t.value)],
+      blocks: (b) => b.value,
+    );
+  }
+}
+
 /// Extension methods for [Block].
 extension BlockX on Block {
   /// Returns the text content of the block.
