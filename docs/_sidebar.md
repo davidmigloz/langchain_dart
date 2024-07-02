@@ -56,6 +56,7 @@
           - [Tool calling](/modules/model_io/models/chat_models/how_to/tools.md)
           - [LLMChain](/modules/model_io/models/chat_models/how_to/llm_chain.md)
         - Integrations
+          - [Anthropic](/modules/model_io/models/chat_models/integrations/anthropic.md) 
           - [OpenAI](/modules/model_io/models/chat_models/integrations/openai.md)
           - [Firebase Vertex AI](/modules/model_io/models/chat_models/integrations/firebase_vertex_ai.md)
           - [GCP Vertex AI](/modules/model_io/models/chat_models/integrations/gcp_vertex_ai.md)
