@@ -3,6 +3,7 @@
 > We use the term "tool calling" interchangeably with "function calling". Although function calling is sometimes meant to refer to invocations of a single function, we treat all models as though they can return multiple tool or function calls in each message.
 
 > Tool calling is currently supported by:
+> - [`ChatAnthropic`](/modules/model_io/models/chat_models/integrations/anthropic.md)
 > - [`ChatOpenAI`](/modules/model_io/models/chat_models/integrations/openai.md)
 > - [`ChatFirebaseVertexAI`](/modules/model_io/models/chat_models/integrations/firebase_vertex_ai.md)
 > - [`ChatGoogleGenerativeAI`](/modules/model_io/models/chat_models/integrations/googleai.md)

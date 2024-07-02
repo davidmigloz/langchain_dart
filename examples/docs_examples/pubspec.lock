@@ -9,6 +9,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.6"
+  anthropic_sdk_dart:
+    dependency: "direct overridden"
+    description:
+      path: "../../packages/anthropic_sdk_dart"
+      relative: true
+    source: path
+    version: "0.0.1"
   args:
     dependency: transitive
     description:
@@ -239,6 +246,13 @@ packages:
       relative: true
     source: path
     version: "0.7.2"
+  langchain_anthropic:
+    dependency: "direct main"
+    description:
+      path: "../../packages/langchain_anthropic"
+      relative: true
+    source: path
+    version: "0.0.1-dev.1"
   langchain_chroma:
     dependency: "direct main"
     description:
