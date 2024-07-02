@@ -12,11 +12,11 @@ dependencies:
   equatable: ^2.0.5
   flutter_bloc: ^8.1.5
   flutter_markdown: ^0.6.22
-  langchain: ^0.7.2
-  langchain_google: ^0.5.1
+  langchain: ^0.7.3
+  langchain_google: ^0.6.0
   langchain_mistralai: ^0.2.1
-  langchain_ollama: ^0.2.2
-  langchain_openai: ^0.6.2
+  langchain_ollama: ^0.2.2+1
+  langchain_openai: ^0.6.3
 
 flutter:
   uses-material-design: true

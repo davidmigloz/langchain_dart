@@ -1,6 +1,6 @@
 name: ollama_dart
 description: Dart Client for the Ollama API (run Llama 3, Phi-3, WizardLM-2, Mistral 7B, Gemma and other models locally).
-version: 0.1.1
+version: 0.1.2
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/ollama_dart
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:ollama_dart
 homepage: https://github.com/davidmigloz/langchain_dart
