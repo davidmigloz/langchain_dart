@@ -2,6 +2,133 @@
 
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details about each release.
 
+## 2024-07-02
+
+### Changes
+
+---
+
+New packages:
+
+- [`langchain_anthropic` - `v0.1.0`](#langchain_anthropic---v010)
+- [`tavily_dart` - `v0.1.0`](#tavily_dart---v010)
+
+Packages with breaking changes:
+
+- [`langchain_firebase` - `v0.2.0`](#langchain_firebase---v020)
+- [`langchain_google` - `v0.6.0`](#langchain_google---v060)
+
+Packages with other changes:
+
+- [`langchain` - `v0.7.3`](#langchain---v073)
+- [`langchain_core` - `v0.3.3`](#langchain_core---v033)
+- [`langchain_community` - `v0.2.2`](#langchain_community---v022)
+- [`langchain_chroma` - `v0.2.1`](#langchain_chroma---v021)
+- [`langchain_mistralai` - `v0.2.1`](#langchain_mistralai---v021)
+- [`langchain_ollama` - `v0.2.2+1`](#langchain_ollama---v0221)
+- [`langchain_openai` - `v0.6.3`](#langchain_openai---v063)
+- [`langchain_pinecone` - `v0.1.0+6`](#langchain_pinecone---v0106)
+- [`langchain_supabase` - `v0.1.1`](#langchain_supabase---v011)
+- [`anthropic_sdk_dart` - `v0.1.0`](#anthropic_sdk_dart---v010)
+- [`googleai_dart` - `v0.1.0+2`](#googleai_dart---v0102)
+- [`mistralai_dart` - `v0.0.3+3`](#mistralai_dart---v0033)
+- [`ollama_dart` - `v0.1.2`](#ollama_dart---v012)
+- [`openai_dart` - `v0.3.3+1`](#openai_dart---v0331)
+
+---
+
+#### `langchain` - `v0.7.3`
+
+> Note: Anthropic integration (`ChatAnthropic`) is available in the new [`langchain_anthropic`](https://pub.dev/packages/langchain_anthropic) package.
+
+- **FEAT**: Add support for TavilySearchResultsTool and TavilyAnswerTool ([#467](https://github.com/davidmigloz/langchain_dart/issues/467)). ([a9f35755](https://github.com/davidmigloz/langchain_dart/commit/a9f35755dfac9d257efb251c4a6c5948673c2f6c))
+- **DOCS**: Document existing integrations in README.md. ([cc4246c8](https://github.com/davidmigloz/langchain_dart/commit/cc4246c8ab907de2c82843bff145edfffe32d302))
+
+#### `langchain_core` - `v0.3.3`
+
+- **FEAT**: Add support for ChatToolChoiceRequired ([#474](https://github.com/davidmigloz/langchain_dart/issues/474)). ([bf324f36](https://github.com/davidmigloz/langchain_dart/commit/bf324f36f645c53458d5891f8285991cd50f2649))
+- **FEAT**: Update ChatResult.id concat logic ([#477](https://github.com/davidmigloz/langchain_dart/issues/477)). ([44c7fafd](https://github.com/davidmigloz/langchain_dart/commit/44c7fafd934bf6517e285830b1ca98282127cb7d))
+
+#### `langchain_community` - `v0.2.2`
+
+- **FEAT**: Add support for TavilySearchResultsTool and TavilyAnswerTool ([#467](https://github.com/davidmigloz/langchain_dart/issues/467)). ([a9f35755](https://github.com/davidmigloz/langchain_dart/commit/a9f35755dfac9d257efb251c4a6c5948673c2f6c))
+
+#### `langchain_anthropic` - `v0.1.0`
+
+- **FEAT**: Add ChatAnthropic integration ([#477](https://github.com/davidmigloz/langchain_dart/issues/477)). ([44c7fafd](https://github.com/davidmigloz/langchain_dart/commit/44c7fafd934bf6517e285830b1ca98282127cb7d))
+
+#### `langchain_firebase` - `v0.2.0`
+
+> Note: `ChatFirebaseVertexAI` now uses `gemini-1.5-flash` model by default.
+
+- **BREAKING** **FEAT**: Update ChatFirebaseVertexAI default model to  gemini-1.5-flash ([#458](https://github.com/davidmigloz/langchain_dart/issues/458)). ([d3c96c52](https://github.com/davidmigloz/langchain_dart/commit/d3c96c52e95e889ba6955e3de80a83978b27618b))
+- **FEAT**: Add support for ChatToolChoiceRequired ([#474](https://github.com/davidmigloz/langchain_dart/issues/474)). ([bf324f36](https://github.com/davidmigloz/langchain_dart/commit/bf324f36f645c53458d5891f8285991cd50f2649))
+- **FEAT**: Support response MIME type in ChatFirebaseVertexAI ([#461](https://github.com/davidmigloz/langchain_dart/issues/461)) ([#463](https://github.com/davidmigloz/langchain_dart/issues/463)). ([c3452721](https://github.com/davidmigloz/langchain_dart/commit/c3452721c78ba3071ed2510a243f9c824a291c34))
+- **FEAT**: Add support for Firebase Auth in ChatFirebaseVertexAI ([#460](https://github.com/davidmigloz/langchain_dart/issues/460)). ([6d137290](https://github.com/davidmigloz/langchain_dart/commit/6d137290ca0f56c9fcc725e6211e838a3e3c6d16))
+- **FEAT**: Add support for usage metadata in ChatFirebaseVertexAI ([#457](https://github.com/davidmigloz/langchain_dart/issues/457)). ([2587f9e2](https://github.com/davidmigloz/langchain_dart/commit/2587f9e2bcbcc2bf5e2295dce409e92a89bf3c44))
+- **REFACTOR**: Simplify how tools are passed to the internal Firebase client ([#459](https://github.com/davidmigloz/langchain_dart/issues/459)). ([7f772396](https://github.com/davidmigloz/langchain_dart/commit/7f77239601fb216a01ec9d25680ec4d3dc4b97c7))
+
+#### `langchain_google` - `v0.6.0`
+
+> Note: `ChatGoogleGenerativeAI` now uses `gemini-1.5-flash` model by default.
+
+- **BREAKING** **FEAT**: Update ChatGoogleGenerativeAI default model to  gemini-1.5-flash ([#462](https://github.com/davidmigloz/langchain_dart/issues/462)). ([c8b30c90](https://github.com/davidmigloz/langchain_dart/commit/c8b30c906a17751547cc340f987b6670fbd67e69))
+- **FEAT**: Add support for ChatToolChoiceRequired ([#474](https://github.com/davidmigloz/langchain_dart/issues/474)). ([bf324f36](https://github.com/davidmigloz/langchain_dart/commit/bf324f36f645c53458d5891f8285991cd50f2649))
+- **FEAT**: Support response MIME type and schema in ChatGoogleGenerativeAI ([#461](https://github.com/davidmigloz/langchain_dart/issues/461)). ([e258399e](https://github.com/davidmigloz/langchain_dart/commit/e258399e03437e8abe25417a14671dfb719cb273))
+- **REFACTOR**: Migrate conditional imports to js_interop ([#453](https://github.com/davidmigloz/langchain_dart/issues/453)). ([a6a78cfe](https://github.com/davidmigloz/langchain_dart/commit/a6a78cfe05fb8ce68e683e1ad4395ca86197a6c5))
+
+#### `langchain_openai` - `v0.6.3`
+
+- **FEAT**: Add support for ChatToolChoiceRequired ([#474](https://github.com/davidmigloz/langchain_dart/issues/474)). ([bf324f36](https://github.com/davidmigloz/langchain_dart/commit/bf324f36f645c53458d5891f8285991cd50f2649))
+
+#### `langchain_ollama` - `v0.2.2+1`
+
+- **DOCS**: Update ChatOllama API docs. ([cc4246c8](https://github.com/davidmigloz/langchain_dart/commit/cc4246c8ab907de2c82843bff145edfffe32d302))
+
+#### `langchain_chroma` - `v0.2.1`
+
+- Update a dependency to the latest release.
+
+#### `langchain_mistralai` - `v0.2.1`
+
+- Update a dependency to the latest release.
+
+#### `langchain_pinecone` - `v0.1.0+6`
+
+- Update a dependency to the latest release.
+
+#### `langchain_supabase` - `v0.1.1`
+
+- Update a dependency to the latest release.
+
+#### `anthropic_sdk_dart` - `v0.1.0`
+
+- **FEAT**: Add support for tool use in anthropic_sdk_dart client ([#469](https://github.com/davidmigloz/langchain_dart/issues/469)). ([81896cfd](https://github.com/davidmigloz/langchain_dart/commit/81896cfdfce116b010dd51391994251d2a836333))
+- **FEAT**: Add extensions on ToolResultBlockContent in anthropic_sdk_dart ([#476](https://github.com/davidmigloz/langchain_dart/issues/476)). ([8d92d9b0](https://github.com/davidmigloz/langchain_dart/commit/8d92d9b008755ff9b9ca3545eb26fc49a296a909))
+- **REFACTOR**: Improve schemas names in anthropic_sdk_dart ([#475](https://github.com/davidmigloz/langchain_dart/issues/475)). ([8ebeacde](https://github.com/davidmigloz/langchain_dart/commit/8ebeacded02ab92885354c9447b1a55e024b56d1))
+- **REFACTOR**: Migrate conditional imports to js_interop ([#453](https://github.com/davidmigloz/langchain_dart/issues/453)). ([a6a78cfe](https://github.com/davidmigloz/langchain_dart/commit/a6a78cfe05fb8ce68e683e1ad4395ca86197a6c5))
+
+#### `ollama_dart` - `v0.1.2`
+
+- **FEAT**: Add support for listing running Ollama models ([#451](https://github.com/davidmigloz/langchain_dart/issues/451)). ([cfaa31fb](https://github.com/davidmigloz/langchain_dart/commit/cfaa31fb8ce1dc128570c95d403809f71e0199d9))
+- **REFACTOR**: Migrate conditional imports to js_interop ([#453](https://github.com/davidmigloz/langchain_dart/issues/453)). ([a6a78cfe](https://github.com/davidmigloz/langchain_dart/commit/a6a78cfe05fb8ce68e683e1ad4395ca86197a6c5))
+
+#### `tavily_dart` - `v0.1.0`
+
+- **FEAT**: Implement tavily_dart, a Dart client for Tavily API ([#456](https://github.com/davidmigloz/langchain_dart/issues/456)). ([fbfb79ba](https://github.com/davidmigloz/langchain_dart/commit/fbfb79bad81dbbd5844a90938fda79b201f20047))
+
+#### `googleai_dart` - `v0.1.0+2`
+
+- **REFACTOR**: Migrate conditional imports to js_interop ([#453](https://github.com/davidmigloz/langchain_dart/issues/453)). ([a6a78cfe](https://github.com/davidmigloz/langchain_dart/commit/a6a78cfe05fb8ce68e683e1ad4395ca86197a6c5))
+
+#### `mistralai_dart` - `v0.0.3+3`
+
+- **REFACTOR**: Migrate conditional imports to js_interop ([#453](https://github.com/davidmigloz/langchain_dart/issues/453)). ([a6a78cfe](https://github.com/davidmigloz/langchain_dart/commit/a6a78cfe05fb8ce68e683e1ad4395ca86197a6c5))
+
+#### `openai_dart` - `v0.3.3+1`
+
+- **REFACTOR**: Migrate conditional imports to js_interop ([#453](https://github.com/davidmigloz/langchain_dart/issues/453)). ([a6a78cfe](https://github.com/davidmigloz/langchain_dart/commit/a6a78cfe05fb8ce68e683e1ad4395ca86197a6c5))
+
 ## 2024-06-01
 
 ### Changes
