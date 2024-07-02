@@ -23,6 +23,7 @@ Unofficial Dart client for [Anthropic](https://docs.anthropic.com/en/api) API (a
 - [Usage](#usage)
   * [Authentication](#authentication)
   * [Messages](#messages)
+  * [Tool use](#tool-use)
 - [Advance Usage](#advance-usage)
   * [Default HTTP client](#default-http-client)
   * [Custom HTTP client](#custom-http-client)

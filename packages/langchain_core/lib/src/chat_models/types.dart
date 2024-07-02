@@ -44,7 +44,7 @@ class ChatResult extends LanguageModelResult<AIChatMessage> {
     final LanguageModelResult<AIChatMessage> other,
   ) {
     return ChatResult(
-      id: other.id,
+      id: other.id.isNotEmpty ? other.id : id,
       output: output.concat(other.output),
       finishReason: finishReason != FinishReason.unspecified &&
               other.finishReason == FinishReason.unspecified
