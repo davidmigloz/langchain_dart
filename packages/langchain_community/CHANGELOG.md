@@ -1,3 +1,7 @@
+## 0.2.2
+
+ - **FEAT**: Add support for TavilySearchResultsTool and TavilyAnswerTool ([#467](https://github.com/davidmigloz/langchain_dart/issues/467)). ([a9f35755](https://github.com/davidmigloz/langchain_dart/commit/a9f35755dfac9d257efb251c4a6c5948673c2f6c))
+
 ## 0.2.1+1
 
  - **FIX**: Add missing dependency in langchain_community package ([#448](https://github.com/davidmigloz/langchain_dart/issues/448)). ([70ffd027](https://github.com/davidmigloz/langchain_dart/commit/70ffd027cb41c5c5058bb266966734894f773330))

@@ -1,3 +1,12 @@
+## 0.6.0
+
+> Note: `ChatGoogleGenerativeAI` now uses `gemini-1.5-flash` model by default.
+
+ - **BREAKING** **FEAT**: Update ChatGoogleGenerativeAI default model to  gemini-1.5-flash ([#462](https://github.com/davidmigloz/langchain_dart/issues/462)). ([c8b30c90](https://github.com/davidmigloz/langchain_dart/commit/c8b30c906a17751547cc340f987b6670fbd67e69))
+ - **FEAT**: Add support for ChatToolChoiceRequired ([#474](https://github.com/davidmigloz/langchain_dart/issues/474)). ([bf324f36](https://github.com/davidmigloz/langchain_dart/commit/bf324f36f645c53458d5891f8285991cd50f2649))
+ - **FEAT**: Support response MIME type and schema in ChatGoogleGenerativeAI ([#461](https://github.com/davidmigloz/langchain_dart/issues/461)). ([e258399e](https://github.com/davidmigloz/langchain_dart/commit/e258399e03437e8abe25417a14671dfb719cb273))
+ - **REFACTOR**: Migrate conditional imports to js_interop ([#453](https://github.com/davidmigloz/langchain_dart/issues/453)). ([a6a78cfe](https://github.com/davidmigloz/langchain_dart/commit/a6a78cfe05fb8ce68e683e1ad4395ca86197a6c5))
+
 ## 0.5.1
 
  - **FEAT**: Add Runnable.close() to close any resources associated with it ([#439](https://github.com/davidmigloz/langchain_dart/issues/439)). ([4e08cced](https://github.com/davidmigloz/langchain_dart/commit/4e08cceda964921178061e9721618a1505198ff5))

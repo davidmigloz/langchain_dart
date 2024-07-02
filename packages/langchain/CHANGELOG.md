@@ -1,6 +1,13 @@
+## 0.7.3
+
+> Note: Anthropic integration (`ChatAnthropic`) is now available in the new [`langchain_anthropic`](https://pub.dev/packages/langchain_anthropic) package.
+
+- **FEAT**: Add support for TavilySearchResultsTool and TavilyAnswerTool ([#467](https://github.com/davidmigloz/langchain_dart/issues/467)). ([a9f35755](https://github.com/davidmigloz/langchain_dart/commit/a9f35755dfac9d257efb251c4a6c5948673c2f6c))
+- **DOCS**: Document existing integrations in README.md. ([cc4246c8](https://github.com/davidmigloz/langchain_dart/commit/cc4246c8ab907de2c82843bff145edfffe32d302))
+
 ## 0.7.2
 
-> Note: ObjectBox Vector DB integration (`ObjectBoxVectorStore`) is now available in the [`langchain_community`](https://pub.dev/packages/langchain_community) package
+> Note: ObjectBox Vector DB integration (`ObjectBoxVectorStore`) is now available in the [`langchain_community`](https://pub.dev/packages/langchain_community) package.
 
  - **FEAT**: Add support for ObjectBoxVectorStore ([#438](https://github.com/davidmigloz/langchain_dart/issues/438)). ([81e167a6](https://github.com/davidmigloz/langchain_dart/commit/81e167a6888fff9f8db381caaef6ee788acef3a8))
    + Check out the [ObjectBoxVectorStore documentation](https://langchaindart.dev/#/modules/retrieval/vector_stores/integrations/objectbox?id=objectbox) 
@@ -8,7 +15,7 @@
 
 ## 0.7.1
 
-> Note: VertexAI for Firebase (`ChatFirebaseVertexAI`) is available in the new [`langchain_firebase`](https://pub.dev/packages/langchain_firebase) package.
+> Note: VertexAI for Firebase (`ChatFirebaseVertexAI`) is now available in the new [`langchain_firebase`](https://pub.dev/packages/langchain_firebase) package.
 
  - **DOCS**: Add docs for ChatFirebaseVertexAI ([#422](https://github.com/davidmigloz/langchain_dart/issues/422)). ([8d0786bc](https://github.com/davidmigloz/langchain_dart/commit/8d0786bc6228ce86de962d30e9c2cc9728a08f3f))
  - **DOCS**: Update ChatOllama docs ([#417](https://github.com/davidmigloz/langchain_dart/issues/417)). ([9d30b1a1](https://github.com/davidmigloz/langchain_dart/commit/9d30b1a1c811d73cfa27110b8c3c10b10da1801e))

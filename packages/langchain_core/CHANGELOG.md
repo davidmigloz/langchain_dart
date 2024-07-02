@@ -1,3 +1,8 @@
+## 0.3.3
+
+ - **FEAT**: Add support for ChatToolChoiceRequired ([#474](https://github.com/davidmigloz/langchain_dart/issues/474)). ([bf324f36](https://github.com/davidmigloz/langchain_dart/commit/bf324f36f645c53458d5891f8285991cd50f2649))
+ - **FEAT**: Update ChatResult.id concat logic ([#477](https://github.com/davidmigloz/langchain_dart/issues/477)). ([44c7fafd](https://github.com/davidmigloz/langchain_dart/commit/44c7fafd934bf6517e285830b1ca98282127cb7d))
+
 ## 0.3.2
 
  - **REFACTOR**: Migrate to langchaindart.dev domain ([#434](https://github.com/davidmigloz/langchain_dart/issues/434)). ([358f79d6](https://github.com/davidmigloz/langchain_dart/commit/358f79d6e0bae2ecd657aeed2eae7fad16d97c18))

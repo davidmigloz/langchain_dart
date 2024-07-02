@@ -1,3 +1,7 @@
+## 0.3.3+1
+
+ - **REFACTOR**: Migrate conditional imports to js_interop ([#453](https://github.com/davidmigloz/langchain_dart/issues/453)). ([a6a78cfe](https://github.com/davidmigloz/langchain_dart/commit/a6a78cfe05fb8ce68e683e1ad4395ca86197a6c5))
+
 ## 0.3.3
 
  - **FEAT**: Support FastChat OpenAI-compatible API ([#444](https://github.com/davidmigloz/langchain_dart/issues/444)). ([ddaf1f69](https://github.com/davidmigloz/langchain_dart/commit/ddaf1f69d8262210637999367690bf362f2dc5c3))
