@@ -1,4 +1,5 @@
 import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/prompts.dart';
 
 import '../llms/types.dart';
 
@@ -269,5 +270,32 @@ class ChatOllamaOptions extends ChatModelOptions {
       useMlock: useMlock ?? this.useMlock,
       numThread: numThread ?? this.numThread,
     );
+  }
+}
+
+class ChatOllamaToolOptions extends ChatModelOptions {
+  const ChatOllamaToolOptions({
+    required this.options,
+    super.tools,
+    super.toolChoice,
+    this.toolSystemPromptTemplate,
+  });
+
+  final ChatOllamaOptions options;
+  final String? toolSystemPromptTemplate;
+  static const String defaultToolSystemPromtTemplate =
+      'You have access to the following tools: {tools} You must always select one of the above tools based on question and respond with only a JSON object matching the following schema:{{"tool": <name of the selected tool>,"tool_input": <parameters for the selected tool, matching the tools JSON schema>}}. Respond using JSON';
+
+  PromptValue formatTemplate(PromptValue input) {
+    final String template =
+        toolSystemPromptTemplate ?? defaultToolSystemPromtTemplate;
+    final systemTemplate = PromptTemplate.fromTemplate(template);
+    final finalSystemPrompt =
+        systemTemplate.formatPrompt({'tools': tools.toString()});
+
+    final systemMessage = ChatMessage.system(finalSystemPrompt.toString());
+    final finalPrompt =
+        PromptValue.chat([systemMessage, ...input.toChatMessages()]);
+    return finalPrompt;
   }
 }
