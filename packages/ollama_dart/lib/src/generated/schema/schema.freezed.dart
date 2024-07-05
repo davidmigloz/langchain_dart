@@ -567,67 +567,82 @@ mixin _$RequestOptions {
   @JsonKey(name: 'num_keep', includeIfNull: false)
   int? get numKeep => throw _privateConstructorUsedError;
 
-  /// Sets the random number seed to use for generation. Setting this to a specific number will make the model generate the same text for the same prompt. (Default: 0)
+  /// Sets the random number seed to use for generation. Setting this to a specific number will make the model
+  /// generate the same text for the same prompt. (Default: 0)
   @JsonKey(includeIfNull: false)
   int? get seed => throw _privateConstructorUsedError;
 
-  /// Maximum number of tokens to predict when generating text. (Default: 128, -1 = infinite generation, -2 = fill context)
+  /// Maximum number of tokens to predict when generating text.
+  /// (Default: 128, -1 = infinite generation, -2 = fill context)
   @JsonKey(name: 'num_predict', includeIfNull: false)
   int? get numPredict => throw _privateConstructorUsedError;
 
-  /// Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers, while a lower value (e.g. 10) will be more conservative. (Default: 40)
+  /// Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers,
+  /// while a lower value (e.g. 10) will be more conservative. (Default: 40)
   @JsonKey(name: 'top_k', includeIfNull: false)
   int? get topK => throw _privateConstructorUsedError;
 
-  /// Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
+  /// Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value
+  /// (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP => throw _privateConstructorUsedError;
 
-  /// Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
+  /// Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value
+  /// (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
   @JsonKey(name: 'tfs_z', includeIfNull: false)
   double? get tfsZ => throw _privateConstructorUsedError;
 
-  /// Typical p is used to reduce the impact of less probable tokens from the output.
+  /// Typical p is used to reduce the impact of less probable tokens from the output. (default: 1)
   @JsonKey(name: 'typical_p', includeIfNull: false)
   double? get typicalP => throw _privateConstructorUsedError;
 
-  /// Sets how far back for the model to look back to prevent repetition. (Default: 64, 0 = disabled, -1 = num_ctx)
+  /// Sets how far back for the model to look back to prevent repetition.
+  /// (Default: 64, 0 = disabled, -1 = num_ctx)
   @JsonKey(name: 'repeat_last_n', includeIfNull: false)
   int? get repeatLastN => throw _privateConstructorUsedError;
 
-  /// The temperature of the model. Increasing the temperature will make the model answer more creatively. (Default: 0.8)
+  /// The temperature of the model. Increasing the temperature will make the model answer more creatively.
+  /// (Default: 0.8)
   @JsonKey(includeIfNull: false)
   double? get temperature => throw _privateConstructorUsedError;
 
-  /// Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more strongly, while a lower value (e.g., 0.9) will be more lenient. (Default: 1.1)
+  /// Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more
+  /// strongly, while a lower value (e.g., 0.9) will be more lenient. (Default: 1.1)
   @JsonKey(name: 'repeat_penalty', includeIfNull: false)
   double? get repeatPenalty => throw _privateConstructorUsedError;
 
-  /// Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
+  /// Positive values penalize new tokens based on whether they appear in the text so far, increasing the
+  /// model's likelihood to talk about new topics. (Default: 0)
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty => throw _privateConstructorUsedError;
 
-  /// Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+  /// Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the
+  /// model's likelihood to repeat the same line verbatim. (Default: 0)
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   double? get frequencyPenalty => throw _privateConstructorUsedError;
 
-  /// Enable Mirostat sampling for controlling perplexity. (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
+  /// Enable Mirostat sampling for controlling perplexity.
+  /// (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
   @JsonKey(includeIfNull: false)
   int? get mirostat => throw _privateConstructorUsedError;
 
-  /// Controls the balance between coherence and diversity of the output. A lower value will result in more focused and coherent text. (Default: 5.0)
+  /// Controls the balance between coherence and diversity of the output. A lower value will result in more
+  /// focused and coherent text. (Default: 5.0)
   @JsonKey(name: 'mirostat_tau', includeIfNull: false)
   double? get mirostatTau => throw _privateConstructorUsedError;
 
-  /// Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate will result in slower adjustments, while a higher learning rate will make the algorithm more responsive. (Default: 0.1)
+  /// Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate
+  /// will result in slower adjustments, while a higher learning rate will make the algorithm more responsive.
+  /// (Default: 0.1)
   @JsonKey(name: 'mirostat_eta', includeIfNull: false)
   double? get mirostatEta => throw _privateConstructorUsedError;
 
-  /// Penalize newlines in the output. (Default: false)
+  /// Penalize newlines in the output. (Default: true)
   @JsonKey(name: 'penalize_newline', includeIfNull: false)
   bool? get penalizeNewline => throw _privateConstructorUsedError;
 
-  /// Sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
+  /// Sequences where the API will stop generating further tokens. The returned text will not contain the stop
+  /// sequence.
   @JsonKey(includeIfNull: false)
   List<String>? get stop => throw _privateConstructorUsedError;
 
@@ -635,15 +650,16 @@ mixin _$RequestOptions {
   @JsonKey(includeIfNull: false)
   bool? get numa => throw _privateConstructorUsedError;
 
-  /// Sets the size of the context window used to generate the next token.
+  /// Sets the size of the context window used to generate the next token. (Default: 2048)
   @JsonKey(name: 'num_ctx', includeIfNull: false)
   int? get numCtx => throw _privateConstructorUsedError;
 
-  /// Sets the number of batches to use for generation. (Default: 1)
+  /// Sets the number of batches to use for generation. (Default: 512)
   @JsonKey(name: 'num_batch', includeIfNull: false)
   int? get numBatch => throw _privateConstructorUsedError;
 
-  /// The number of layers to send to the GPU(s). On macOS it defaults to 1 to enable metal support, 0 to disable.
+  /// The number of layers to send to the GPU(s).
+  /// On macOS it defaults to 1 to enable metal support, 0 to disable.
   @JsonKey(name: 'num_gpu', includeIfNull: false)
   int? get numGpu => throw _privateConstructorUsedError;
 
@@ -655,7 +671,7 @@ mixin _$RequestOptions {
   @JsonKey(name: 'low_vram', includeIfNull: false)
   bool? get lowVram => throw _privateConstructorUsedError;
 
-  /// Enable f16 key/value. (Default: false)
+  /// Enable f16 key/value. (Default: true)
   @JsonKey(name: 'f16_kv', includeIfNull: false)
   bool? get f16Kv => throw _privateConstructorUsedError;
 
@@ -675,7 +691,9 @@ mixin _$RequestOptions {
   @JsonKey(name: 'use_mlock', includeIfNull: false)
   bool? get useMlock => throw _privateConstructorUsedError;
 
-  /// Sets the number of threads to use during computation. By default, Ollama will detect this for optimal performance. It is recommended to set this value to the number of physical CPU cores your system has (as opposed to the logical number of cores).
+  /// Sets the number of threads to use during computation. By default, Ollama will detect this for optimal
+  /// performance. It is recommended to set this value to the number of physical CPU cores your system has
+  /// (as opposed to the logical number of cores).
   @JsonKey(name: 'num_thread', includeIfNull: false)
   int? get numThread => throw _privateConstructorUsedError;
 
@@ -1144,85 +1162,101 @@ class _$RequestOptionsImpl extends _RequestOptions {
   @JsonKey(name: 'num_keep', includeIfNull: false)
   final int? numKeep;
 
-  /// Sets the random number seed to use for generation. Setting this to a specific number will make the model generate the same text for the same prompt. (Default: 0)
+  /// Sets the random number seed to use for generation. Setting this to a specific number will make the model
+  /// generate the same text for the same prompt. (Default: 0)
   @override
   @JsonKey(includeIfNull: false)
   final int? seed;
 
-  /// Maximum number of tokens to predict when generating text. (Default: 128, -1 = infinite generation, -2 = fill context)
+  /// Maximum number of tokens to predict when generating text.
+  /// (Default: 128, -1 = infinite generation, -2 = fill context)
   @override
   @JsonKey(name: 'num_predict', includeIfNull: false)
   final int? numPredict;
 
-  /// Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers, while a lower value (e.g. 10) will be more conservative. (Default: 40)
+  /// Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers,
+  /// while a lower value (e.g. 10) will be more conservative. (Default: 40)
   @override
   @JsonKey(name: 'top_k', includeIfNull: false)
   final int? topK;
 
-  /// Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
+  /// Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value
+  /// (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
   @override
   @JsonKey(name: 'top_p', includeIfNull: false)
   final double? topP;
 
-  /// Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
+  /// Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value
+  /// (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
   @override
   @JsonKey(name: 'tfs_z', includeIfNull: false)
   final double? tfsZ;
 
-  /// Typical p is used to reduce the impact of less probable tokens from the output.
+  /// Typical p is used to reduce the impact of less probable tokens from the output. (default: 1)
   @override
   @JsonKey(name: 'typical_p', includeIfNull: false)
   final double? typicalP;
 
-  /// Sets how far back for the model to look back to prevent repetition. (Default: 64, 0 = disabled, -1 = num_ctx)
+  /// Sets how far back for the model to look back to prevent repetition.
+  /// (Default: 64, 0 = disabled, -1 = num_ctx)
   @override
   @JsonKey(name: 'repeat_last_n', includeIfNull: false)
   final int? repeatLastN;
 
-  /// The temperature of the model. Increasing the temperature will make the model answer more creatively. (Default: 0.8)
+  /// The temperature of the model. Increasing the temperature will make the model answer more creatively.
+  /// (Default: 0.8)
   @override
   @JsonKey(includeIfNull: false)
   final double? temperature;
 
-  /// Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more strongly, while a lower value (e.g., 0.9) will be more lenient. (Default: 1.1)
+  /// Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more
+  /// strongly, while a lower value (e.g., 0.9) will be more lenient. (Default: 1.1)
   @override
   @JsonKey(name: 'repeat_penalty', includeIfNull: false)
   final double? repeatPenalty;
 
-  /// Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
+  /// Positive values penalize new tokens based on whether they appear in the text so far, increasing the
+  /// model's likelihood to talk about new topics. (Default: 0)
   @override
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   final double? presencePenalty;
 
-  /// Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+  /// Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the
+  /// model's likelihood to repeat the same line verbatim. (Default: 0)
   @override
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   final double? frequencyPenalty;
 
-  /// Enable Mirostat sampling for controlling perplexity. (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
+  /// Enable Mirostat sampling for controlling perplexity.
+  /// (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
   @override
   @JsonKey(includeIfNull: false)
   final int? mirostat;
 
-  /// Controls the balance between coherence and diversity of the output. A lower value will result in more focused and coherent text. (Default: 5.0)
+  /// Controls the balance between coherence and diversity of the output. A lower value will result in more
+  /// focused and coherent text. (Default: 5.0)
   @override
   @JsonKey(name: 'mirostat_tau', includeIfNull: false)
   final double? mirostatTau;
 
-  /// Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate will result in slower adjustments, while a higher learning rate will make the algorithm more responsive. (Default: 0.1)
+  /// Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate
+  /// will result in slower adjustments, while a higher learning rate will make the algorithm more responsive.
+  /// (Default: 0.1)
   @override
   @JsonKey(name: 'mirostat_eta', includeIfNull: false)
   final double? mirostatEta;
 
-  /// Penalize newlines in the output. (Default: false)
+  /// Penalize newlines in the output. (Default: true)
   @override
   @JsonKey(name: 'penalize_newline', includeIfNull: false)
   final bool? penalizeNewline;
 
-  /// Sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
+  /// Sequences where the API will stop generating further tokens. The returned text will not contain the stop
+  /// sequence.
   final List<String>? _stop;
 
-  /// Sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
+  /// Sequences where the API will stop generating further tokens. The returned text will not contain the stop
+  /// sequence.
   @override
   @JsonKey(includeIfNull: false)
   List<String>? get stop {
@@ -1238,17 +1272,18 @@ class _$RequestOptionsImpl extends _RequestOptions {
   @JsonKey(includeIfNull: false)
   final bool? numa;
 
-  /// Sets the size of the context window used to generate the next token.
+  /// Sets the size of the context window used to generate the next token. (Default: 2048)
   @override
   @JsonKey(name: 'num_ctx', includeIfNull: false)
   final int? numCtx;
 
-  /// Sets the number of batches to use for generation. (Default: 1)
+  /// Sets the number of batches to use for generation. (Default: 512)
   @override
   @JsonKey(name: 'num_batch', includeIfNull: false)
   final int? numBatch;
 
-  /// The number of layers to send to the GPU(s). On macOS it defaults to 1 to enable metal support, 0 to disable.
+  /// The number of layers to send to the GPU(s).
+  /// On macOS it defaults to 1 to enable metal support, 0 to disable.
   @override
   @JsonKey(name: 'num_gpu', includeIfNull: false)
   final int? numGpu;
@@ -1263,7 +1298,7 @@ class _$RequestOptionsImpl extends _RequestOptions {
   @JsonKey(name: 'low_vram', includeIfNull: false)
   final bool? lowVram;
 
-  /// Enable f16 key/value. (Default: false)
+  /// Enable f16 key/value. (Default: true)
   @override
   @JsonKey(name: 'f16_kv', includeIfNull: false)
   final bool? f16Kv;
@@ -1288,7 +1323,9 @@ class _$RequestOptionsImpl extends _RequestOptions {
   @JsonKey(name: 'use_mlock', includeIfNull: false)
   final bool? useMlock;
 
-  /// Sets the number of threads to use during computation. By default, Ollama will detect this for optimal performance. It is recommended to set this value to the number of physical CPU cores your system has (as opposed to the logical number of cores).
+  /// Sets the number of threads to use during computation. By default, Ollama will detect this for optimal
+  /// performance. It is recommended to set this value to the number of physical CPU cores your system has
+  /// (as opposed to the logical number of cores).
   @override
   @JsonKey(name: 'num_thread', includeIfNull: false)
   final int? numThread;
@@ -1451,82 +1488,97 @@ abstract class _RequestOptions extends RequestOptions {
   int? get numKeep;
   @override
 
-  /// Sets the random number seed to use for generation. Setting this to a specific number will make the model generate the same text for the same prompt. (Default: 0)
+  /// Sets the random number seed to use for generation. Setting this to a specific number will make the model
+  /// generate the same text for the same prompt. (Default: 0)
   @JsonKey(includeIfNull: false)
   int? get seed;
   @override
 
-  /// Maximum number of tokens to predict when generating text. (Default: 128, -1 = infinite generation, -2 = fill context)
+  /// Maximum number of tokens to predict when generating text.
+  /// (Default: 128, -1 = infinite generation, -2 = fill context)
   @JsonKey(name: 'num_predict', includeIfNull: false)
   int? get numPredict;
   @override
 
-  /// Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers, while a lower value (e.g. 10) will be more conservative. (Default: 40)
+  /// Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers,
+  /// while a lower value (e.g. 10) will be more conservative. (Default: 40)
   @JsonKey(name: 'top_k', includeIfNull: false)
   int? get topK;
   @override
 
-  /// Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
+  /// Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value
+  /// (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP;
   @override
 
-  /// Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
+  /// Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value
+  /// (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
   @JsonKey(name: 'tfs_z', includeIfNull: false)
   double? get tfsZ;
   @override
 
-  /// Typical p is used to reduce the impact of less probable tokens from the output.
+  /// Typical p is used to reduce the impact of less probable tokens from the output. (default: 1)
   @JsonKey(name: 'typical_p', includeIfNull: false)
   double? get typicalP;
   @override
 
-  /// Sets how far back for the model to look back to prevent repetition. (Default: 64, 0 = disabled, -1 = num_ctx)
+  /// Sets how far back for the model to look back to prevent repetition.
+  /// (Default: 64, 0 = disabled, -1 = num_ctx)
   @JsonKey(name: 'repeat_last_n', includeIfNull: false)
   int? get repeatLastN;
   @override
 
-  /// The temperature of the model. Increasing the temperature will make the model answer more creatively. (Default: 0.8)
+  /// The temperature of the model. Increasing the temperature will make the model answer more creatively.
+  /// (Default: 0.8)
   @JsonKey(includeIfNull: false)
   double? get temperature;
   @override
 
-  /// Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more strongly, while a lower value (e.g., 0.9) will be more lenient. (Default: 1.1)
+  /// Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more
+  /// strongly, while a lower value (e.g., 0.9) will be more lenient. (Default: 1.1)
   @JsonKey(name: 'repeat_penalty', includeIfNull: false)
   double? get repeatPenalty;
   @override
 
-  /// Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
+  /// Positive values penalize new tokens based on whether they appear in the text so far, increasing the
+  /// model's likelihood to talk about new topics. (Default: 0)
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty;
   @override
 
-  /// Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+  /// Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the
+  /// model's likelihood to repeat the same line verbatim. (Default: 0)
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   double? get frequencyPenalty;
   @override
 
-  /// Enable Mirostat sampling for controlling perplexity. (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
+  /// Enable Mirostat sampling for controlling perplexity.
+  /// (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
   @JsonKey(includeIfNull: false)
   int? get mirostat;
   @override
 
-  /// Controls the balance between coherence and diversity of the output. A lower value will result in more focused and coherent text. (Default: 5.0)
+  /// Controls the balance between coherence and diversity of the output. A lower value will result in more
+  /// focused and coherent text. (Default: 5.0)
   @JsonKey(name: 'mirostat_tau', includeIfNull: false)
   double? get mirostatTau;
   @override
 
-  /// Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate will result in slower adjustments, while a higher learning rate will make the algorithm more responsive. (Default: 0.1)
+  /// Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate
+  /// will result in slower adjustments, while a higher learning rate will make the algorithm more responsive.
+  /// (Default: 0.1)
   @JsonKey(name: 'mirostat_eta', includeIfNull: false)
   double? get mirostatEta;
   @override
 
-  /// Penalize newlines in the output. (Default: false)
+  /// Penalize newlines in the output. (Default: true)
   @JsonKey(name: 'penalize_newline', includeIfNull: false)
   bool? get penalizeNewline;
   @override
 
-  /// Sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
+  /// Sequences where the API will stop generating further tokens. The returned text will not contain the stop
+  /// sequence.
   @JsonKey(includeIfNull: false)
   List<String>? get stop;
   @override
@@ -1536,17 +1588,18 @@ abstract class _RequestOptions extends RequestOptions {
   bool? get numa;
   @override
 
-  /// Sets the size of the context window used to generate the next token.
+  /// Sets the size of the context window used to generate the next token. (Default: 2048)
   @JsonKey(name: 'num_ctx', includeIfNull: false)
   int? get numCtx;
   @override
 
-  /// Sets the number of batches to use for generation. (Default: 1)
+  /// Sets the number of batches to use for generation. (Default: 512)
   @JsonKey(name: 'num_batch', includeIfNull: false)
   int? get numBatch;
   @override
 
-  /// The number of layers to send to the GPU(s). On macOS it defaults to 1 to enable metal support, 0 to disable.
+  /// The number of layers to send to the GPU(s).
+  /// On macOS it defaults to 1 to enable metal support, 0 to disable.
   @JsonKey(name: 'num_gpu', includeIfNull: false)
   int? get numGpu;
   @override
@@ -1561,7 +1614,7 @@ abstract class _RequestOptions extends RequestOptions {
   bool? get lowVram;
   @override
 
-  /// Enable f16 key/value. (Default: false)
+  /// Enable f16 key/value. (Default: true)
   @JsonKey(name: 'f16_kv', includeIfNull: false)
   bool? get f16Kv;
   @override
@@ -1586,7 +1639,9 @@ abstract class _RequestOptions extends RequestOptions {
   bool? get useMlock;
   @override
 
-  /// Sets the number of threads to use during computation. By default, Ollama will detect this for optimal performance. It is recommended to set this value to the number of physical CPU cores your system has (as opposed to the logical number of cores).
+  /// Sets the number of threads to use during computation. By default, Ollama will detect this for optimal
+  /// performance. It is recommended to set this value to the number of physical CPU cores your system has
+  /// (as opposed to the logical number of cores).
   @JsonKey(name: 'num_thread', includeIfNull: false)
   int? get numThread;
   @override
