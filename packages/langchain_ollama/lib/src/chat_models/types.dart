@@ -141,7 +141,7 @@ class ChatOllamaOptions extends ChatModelOptions {
   final double? mirostatEta;
 
   /// Penalize newlines in the output.
-  /// (Default: false)
+  /// (Default: true)
   final bool? penalizeNewline;
 
   /// Sequences where the API will stop generating further tokens. The returned
@@ -172,7 +172,7 @@ class ChatOllamaOptions extends ChatModelOptions {
   final bool? lowVram;
 
   /// Enable f16 key/value.
-  /// (Default: false)
+  /// (Default: true)
   final bool? f16KV;
 
   /// Enable logits all.
