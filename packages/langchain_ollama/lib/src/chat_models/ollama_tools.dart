@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/prompts.dart';
@@ -48,8 +47,15 @@ class OllamaTools extends BaseChatModel<ChatOllamaToolOptions> {
       ),
     );
     final finalCompletion = completion.toChatResult(id);
-    final parsedContent =
-        jsonDecode(finalCompletion.output.content) as Map<String, dynamic>;
+    Map<String, dynamic>? parsedContent;
+    try {
+      parsedContent =
+          jsonDecode(finalCompletion.output.content) as Map<String, dynamic>;
+    } catch (e) {
+      throw Exception(
+        'Model did not respond in vaild json string format, try improving your prompt, instruct to "respond in JSON"',
+      );
+    }
 
     final tool = AIChatMessageToolCall(
       id: _uuid.v4(),
@@ -130,6 +136,11 @@ class OllamaTools extends BaseChatModel<ChatOllamaToolOptions> {
   }) async {
     final encoding = getEncoding(this.encoding);
     return encoding.encode(promptValue.toString());
+  }
+
+  @override
+  void close() {
+    _client.endSession();
   }
 }
 
