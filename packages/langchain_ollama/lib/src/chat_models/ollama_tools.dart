@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/prompts.dart';
-import 'package:langchain_core/tools.dart';
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:ollama_dart/ollama_dart.dart';
 import 'package:uuid/uuid.dart';
@@ -10,7 +9,55 @@ import '../../langchain_ollama.dart';
 import '../llms/mappers.dart';
 import 'mappers.dart';
 
+/// Wrapper around [Ollama](https://ollama.ai) Chat API that enables tool calling
+/// feature like OpenAi's API and others.
+///
+/// Example:
+/// ```dart
+///final ollamaTools = OllamaTools();
+///const toolOptions = ChatOllamaToolOptions(
+///  options: ChatOllamaOptions(model: 'llama3:8b'),
+///  tools: [tool1],
+///);
+///final messages = [
+///  ChatMessage.humanText("What's the weather in Bangalore,Inida?"),
+///];
+///final prompt = PromptValue.chat(messages);
+///final res = await ollamaTools.invoke(prompt, options: toolOptions);
+///
+///const tool1 = ToolSpec(
+///name: 'get_current_weather',
+///description: 'Get the current weather in a given location',
+///inputJsonSchema: {
+///  'type': 'object',
+///  'properties': {
+///    'location': {
+///      'type': 'string',
+///      'description': 'The city and state, e.g. San Francisco, CA',
+///    },
+///    'unit': {
+///      'type': 'string',
+///      'enum': ['celsius', 'fahrenheit'],
+///    },
+///  },
+///  'required': ['location'],
+///},
+///);
+///```
 class OllamaTools extends BaseChatModel<ChatOllamaToolOptions> {
+  /// Create a new [OllamaTools] instance.
+  ///
+  /// Main configuration options:
+  /// - `baseUrl`: the base URL of Ollama API.
+  /// - [OllamaTools.defaultOptions]
+  ///
+  /// Advance configuration options:
+  /// - `headers`: global headers to send with every request. You can use
+  ///   this to set custom headers, or to override the default headers.
+  /// - `queryParams`: global query parameters to send with every request. You
+  ///   can use this to set custom query parameters.
+  /// - `client`: the HTTP client to use. You can set your own HTTP client if
+  ///   you need further customization (e.g. to use a Socks5 proxy).
   OllamaTools({
     final String baseUrl = 'http://localhost:11434/api',
     final Map<String, String>? headers,
@@ -27,11 +74,20 @@ class OllamaTools extends BaseChatModel<ChatOllamaToolOptions> {
           client: client,
         );
 
+  /// A client for interacting with Ollama API.
   final OllamaClient _client;
 
+  /// A UUID generator.
   late final Uuid _uuid = const Uuid();
 
+  /// The encoding to use by tiktoken when [tokenize] is called.
+  ///
+  /// Ollama does not provide any API to count tokens, so we use tiktoken
+  /// to get an estimation of the number of tokens in a prompt.
   String encoding;
+
+  @override
+  String get modelType => 'ollama-tools';
 
   @override
   Future<ChatResult> invoke(
@@ -75,9 +131,7 @@ class OllamaTools extends BaseChatModel<ChatOllamaToolOptions> {
     return finalResult;
   }
 
-  @override
-  String get modelType => 'ollama-function';
-
+  /// Creates a [GenerateChatCompletionRequest] from the given input.
   GenerateChatCompletionRequest _generateCompletionRequest(
     final List<ChatMessage> messages, {
     final bool stream = false,
@@ -129,6 +183,17 @@ class OllamaTools extends BaseChatModel<ChatOllamaToolOptions> {
     );
   }
 
+  /// Tokenizes the given prompt using tiktoken.
+  ///
+  /// Currently Ollama does not provide a tokenizer for the models it supports.
+  /// So we use tiktoken and [encoding] model to get an approximation
+  /// for counting tokens. Mind that the actual tokens will be totally
+  /// different from the ones used by the Ollama model.
+  ///
+  /// If an encoding model is specified in [encoding] field, that
+  /// encoding is used instead.
+  ///
+  /// - [promptValue] The prompt to tokenize.
   @override
   Future<List<int>> tokenize(
     PromptValue promptValue, {
@@ -143,47 +208,3 @@ class OllamaTools extends BaseChatModel<ChatOllamaToolOptions> {
     _client.endSession();
   }
 }
-
-//demo
-void main() {
-  getTool();
-}
-
-void getTool() async {
-  final model = OllamaTools(
-    defaultOptions: const ChatOllamaToolOptions(
-      options: ChatOllamaOptions(
-        model: 'llama3:8b',
-        format: OllamaResponseFormat.json,
-      ),
-      tools: [tool1],
-    ),
-  );
-  final messages = [
-    ChatMessage.humanText("What's the weather in Vellore,India?"),
-  ];
-  final prompt = PromptValue.chat(messages);
-  final res = await model.invoke(prompt);
-  print(res);
-}
-
-const tool1 = ToolSpec(
-  name: 'get_current_weather',
-  description: 'Get the current weather in a given location',
-  inputJsonSchema: getWeatherInputJsonSchema,
-);
-
-const Map<String, dynamic> getWeatherInputJsonSchema = {
-  'type': 'object',
-  'properties': {
-    'location': {
-      'type': 'string',
-      'description': 'The city and state, e.g. San Francisco, CA',
-    },
-    'unit': {
-      'type': 'string',
-      'enum': ['celsius', 'fahrenheit'],
-    },
-  },
-  'required': ['location'],
-};

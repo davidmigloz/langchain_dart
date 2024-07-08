@@ -1,6 +1,8 @@
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/prompts.dart';
+import 'package:langchain_core/tools.dart';
 
+import '../../langchain_ollama.dart';
 import '../llms/types.dart';
 
 /// {@template chat_ollama_options}
@@ -273,7 +275,11 @@ class ChatOllamaOptions extends ChatModelOptions {
   }
 }
 
+/// {@template chat_ollama_tool_options}
+/// Options to pass into OllamaTools.
+/// {@endtemplate}
 class ChatOllamaToolOptions extends ChatModelOptions {
+  /// {@macro chat_ollama_tool_options}
   const ChatOllamaToolOptions({
     required this.options,
     super.tools,
@@ -281,18 +287,46 @@ class ChatOllamaToolOptions extends ChatModelOptions {
     this.toolSystemPromptTemplate,
   });
 
+  ///[ChatOllamaOptions] that needs to be provided
   final ChatOllamaOptions options;
+
+  ///It will be used as system message for model to instruct it on tool calling,
+  ///its optional to provide, a [defaultToolSystemPromtTemplate] will be used if its not provided
   final String? toolSystemPromptTemplate;
+
+  ///Default system template that will be used
   static const String defaultToolSystemPromtTemplate =
       'You have access to the following tools: {tools} You must always select one of the above tools based on question and respond with only a JSON object matching the following schema:{{"tool": <name of the selected tool>,"tool_input": <parameters for the selected tool, matching the tools JSON schema>}}. Respond using JSON';
 
+  ///This default tool will be returend if model decides
+  ///no other tools should be called for a given query
+  static const defaultTool = ToolSpec(
+    name: '__conversational_response',
+    description:
+        'Respond conversationally if no other tools should be called for a given query.',
+    inputJsonSchema: {
+      'type': 'object',
+      'properties': {
+        'response': {
+          'type': 'string',
+          'description': 'Conversational response to the user.',
+        },
+      },
+      'required': ['response'],
+    },
+  );
+
+  ///Creates final prompt that will be passed to the model
+  ///
+  ///It will format the [toolSystemPromptTemplate] with the provided [tools] and chat messages
+  ///and return the final prompt
   PromptValue formatTemplate(PromptValue input) {
     final String template =
         toolSystemPromptTemplate ?? defaultToolSystemPromtTemplate;
     final systemTemplate = PromptTemplate.fromTemplate(template);
-    final finalSystemPrompt =
-        systemTemplate.formatPrompt({'tools': tools.toString()});
-
+    final finalSystemPrompt = systemTemplate.formatPrompt({
+      'tools': [...?tools, defaultTool],
+    });
     final systemMessage = ChatMessage.system(finalSystemPrompt.toString());
     final finalPrompt =
         PromptValue.chat([systemMessage, ...input.toChatMessages()]);
