@@ -1,17 +1,16 @@
-//import 'dart:io';
+import 'dart:io';
 
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:langchain_ollama/langchain_ollama.dart';
-import 'package:langchain_ollama/src/chat_models/ollama_tools.dart';
 import 'package:test/test.dart';
 
 void main() {
   group(
     'OllamaTools tests',
-    //skip: Platform.environment.containsKey('CI'),
+    skip: Platform.environment.containsKey('CI'),
     () {
       late OllamaTools ollamaTool;
       final humanMessage = PromptValue.chat([
