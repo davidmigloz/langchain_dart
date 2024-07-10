@@ -24,7 +24,7 @@ dependencies:
   firebase_core: ^3.1.0
   cloud_firestore: ^4.17.0
   firebase_vertexai: ^0.2.2
-  langchain_core: ^0.3.3
+  langchain_core: 0.3.3
   meta: ^1.11.0
   uuid: ^4.3.3
 
