@@ -22,7 +22,7 @@ dependencies:
   flat_buffers: ^23.5.26
   http: ^1.1.0
   json_path: ^0.7.1
-  langchain_core: ^0.3.3
+  langchain_core: 0.3.3
   math_expressions: ^2.4.0
   meta: ^1.11.0
   objectbox: ^4.0.1
