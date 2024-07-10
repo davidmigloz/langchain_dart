@@ -26,7 +26,7 @@ command:
       async: ^2.11.0
       beautiful_soup_dart: ^0.3.0
       characters: ^1.3.0
-      collection: '>=1.17.0 <1.19.0'
+      collection: '>=1.17.0 <1.20.0'
       cross_file: ^0.3.4+1
       crypto: ^3.0.3
       csv: ^6.0.0

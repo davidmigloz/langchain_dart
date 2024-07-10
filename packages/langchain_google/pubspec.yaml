@@ -17,7 +17,7 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  collection: '>=1.17.0 <1.19.0'
+  collection: ">=1.17.0 <1.20.0"
   fetch_client: ^1.0.2
   gcloud: ^0.8.12
   google_generative_ai: 0.4.3
