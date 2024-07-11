@@ -5,7 +5,7 @@ import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:ollama_dart/ollama_dart.dart';
 import 'package:uuid/uuid.dart';
 
-import '../llms/mappers.dart';
+import '../../llms/mappers.dart';
 import 'mappers.dart';
 import 'types.dart';
 
@@ -30,6 +30,8 @@ import 'types.dart';
 /// ```
 ///
 /// - [Ollama API docs](https://github.com/jmorganca/ollama/blob/main/docs/api.md#generate-a-completion)
+///
+/// If you need to use tools, consider using the [ChatOllamaTools] instead.
 ///
 /// ### Setup
 ///
@@ -218,8 +220,8 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
     return GenerateChatCompletionRequest(
       model: options?.model ?? defaultOptions.model ?? throwNullModelError(),
       messages: messages.toMessages(),
-      format: options?.format?.toResponseFormat(),
-      keepAlive: options?.keepAlive,
+      format: (options?.format ?? defaultOptions.format)?.toResponseFormat(),
+      keepAlive: options?.keepAlive ?? defaultOptions.keepAlive,
       stream: stream,
       options: RequestOptions(
         numKeep: options?.numKeep ?? defaultOptions.numKeep,

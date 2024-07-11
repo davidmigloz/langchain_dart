@@ -1,6 +1,7 @@
 import 'package:langchain_core/chat_models.dart';
 
-import '../llms/types.dart';
+import '../../../langchain_ollama.dart';
+import '../../llms/types.dart';
 
 /// {@template chat_ollama_options}
 /// Options to pass into ChatOllama.
