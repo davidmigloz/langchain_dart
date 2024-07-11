@@ -195,7 +195,7 @@ void main() {
           toolsSystemPromptTemplate: 'toolSystemPromptTemplate',
         );
 
-        expect(toolOptions.options.model, defaultModel);
+        expect(toolOptions.options?.model, defaultModel);
         expect(
           toolOptions.toolsSystemPromptTemplate,
           'toolSystemPromptTemplate',

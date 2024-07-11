@@ -49,6 +49,8 @@ import 'types.dart';
 /// final res = await ollamaTools.invoke(prompt);
 /// ```
 ///
+/// If you don't need to use tools, use [ChatOllama] instead.
+///
 /// ### Setup
 ///
 /// 1. Download and install [Ollama](https://ollama.ai)
@@ -127,7 +129,8 @@ class ChatOllamaTools extends BaseChatModel<ChatOllamaToolsOptions> {
   }) {
     final messages = _formatPrompt(input, toolsOptions).toChatMessages();
     final options = toolsOptions?.options;
-    final defaultOptions = this.defaultOptions.options;
+    final defaultOptions =
+        this.defaultOptions.options ?? const ChatOllamaOptions();
     return GenerateChatCompletionRequest(
       model: options?.model ?? defaultOptions.model ?? throwNullModelError(),
       messages: messages.toMessages(),

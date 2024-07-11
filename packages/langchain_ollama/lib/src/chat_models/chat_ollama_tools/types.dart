@@ -12,14 +12,14 @@ export '../chat_ollama/types.dart';
 class ChatOllamaToolsOptions extends ChatModelOptions {
   /// {@macro chat_ollama_tools_options}
   const ChatOllamaToolsOptions({
-    required this.options,
+    this.options,
     super.tools,
     super.toolChoice,
     this.toolsSystemPromptTemplate,
   });
 
   /// [ChatOllamaOptions] to pass into Ollama.
-  final ChatOllamaOptions options;
+  final ChatOllamaOptions? options;
 
   /// Prompt template for the system message where the model is instructed to
   /// use the tools.
