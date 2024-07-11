@@ -62,6 +62,7 @@
           - [GCP Vertex AI](/modules/model_io/models/chat_models/integrations/gcp_vertex_ai.md)
           - [Google AI](/modules/model_io/models/chat_models/integrations/googleai.md)
           - [Ollama](/modules/model_io/models/chat_models/integrations/ollama.md)
+          - [OllamaTools](/modules/model_io/models/chat_models/integrations/ollama_tools.md)
           - [Mistral AI](/modules/model_io/models/chat_models/integrations/mistralai.md)
           - [OpenRouter](/modules/model_io/models/chat_models/integrations/open_router.md)
           - [Together AI](/modules/model_io/models/chat_models/integrations/together_ai.md)
