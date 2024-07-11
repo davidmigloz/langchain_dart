@@ -13,7 +13,8 @@
 - LLMs:
   * `Ollama`: wrapper around Ollama Completions API.
 - Chat models:
-  * `ChatOllama`: wrapper around Ollama Completions API in a chat-like fashion.
+  * `ChatOllama`: wrapper around Ollama Chat API in a chat-like fashion.
+  * `ChatOllamaTools`: Wrapper around Ollama Chat API that enables tool calling capabilities.
 - Embeddings:
   * `OllamaEmbeddings`: wrapper around Ollama Embeddings API.
 
