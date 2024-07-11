@@ -73,6 +73,15 @@ ToolSpec{
 }
 ''';
   }
+
+  /// Converts the tool spec to a JSON-serializable map.
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'description': description,
+      'inputJsonSchema': inputJsonSchema,
+    };
+  }
 }
 
 /// {@template tool}
@@ -214,6 +223,15 @@ abstract base class Tool<Input extends Object, Options extends ToolOptions,
   @override
   int get hashCode =>
       name.hashCode ^ description.hashCode ^ inputJsonSchema.hashCode;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'description': description,
+      'inputJsonSchema': inputJsonSchema,
+    };
+  }
 }
 
 /// {@template tool_func}
