@@ -20,6 +20,18 @@ tags:
     description: List and describe the various models available.
 
 paths:
+  /version:
+    get:
+      operationId: getVersion
+      summary: Returns the version of the Ollama server.
+      description: This endpoint returns the version of the Ollama server.
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResponse'
   /generate:
     post:
       operationId: generateCompletion
@@ -501,6 +513,13 @@ components:
         Note: it's important to instruct the model to use JSON in the prompt. Otherwise, the model may generate large amounts whitespace.
       enum:
         - json
+    VersionResponse:
+      type: object
+      description: The response class for the version endpoint.
+      properties:
+        version:
+          type: string
+          description: The version of the Ollama server.
     GenerateCompletionResponse:
       type: object
       description: The response class for the generate endpoint.
@@ -792,6 +811,27 @@ components:
         quantization_level:
           type: string
           description: The quantization level of the model.
+    ModelInformation:
+      type: object
+      description: Details about a model.
+      properties:
+        general.architecture:
+          type: string
+          description: The architecture of the model.
+        general.file_type:
+          type: integer
+          nullable: true
+          description: The file type of the model.
+        general.parameter_count:
+          type: integer
+          format: int64
+          nullable: true
+          description: The number of parameters in the model.
+        general.quantization_version:
+          type: integer
+          nullable: true
+          description: The number of parameters in the model.
+
     ProcessResponse:
       type: object
       description: Response class for the list running models endpoint.
@@ -869,6 +909,8 @@ components:
           description: The system prompt for the model.
         details:
           $ref: '#/components/schemas/ModelDetails'
+        model_info:
+          $ref: '#/components/schemas/ModelInformation'
         messages:
           type: array
           nullable: true

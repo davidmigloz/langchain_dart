@@ -33,6 +33,10 @@ class ModelInfo with _$ModelInfo {
     /// Details about a model.
     @JsonKey(includeIfNull: false) ModelDetails? details,
 
+    /// Details about a model.
+    @JsonKey(name: 'model_info', includeIfNull: false)
+    ModelInformation? modelInfo,
+
     /// The default messages for the model.
     @JsonKey(includeIfNull: false) List<Message>? messages,
   }) = _ModelInfo;
@@ -49,6 +53,7 @@ class ModelInfo with _$ModelInfo {
     'template',
     'system',
     'details',
+    'model_info',
     'messages'
   ];
 
@@ -66,6 +71,7 @@ class ModelInfo with _$ModelInfo {
       'template': template,
       'system': system,
       'details': details,
+      'model_info': modelInfo,
       'messages': messages,
     };
   }

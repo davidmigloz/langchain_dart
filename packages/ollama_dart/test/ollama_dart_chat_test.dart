@@ -7,19 +7,19 @@ void main() {
   group('Ollama Generate Completions API tests',
       skip: Platform.environment.containsKey('CI'), () {
     late OllamaClient client;
-    const defaultModel = 'llama3:latest';
-    const visionModel = 'llava:latest';
+    const defaultModel = 'gemma2';
+    const visionModel = 'llava';
 
     setUp(() async {
       client = OllamaClient();
       // Check that the model exists
       final res = await client.listModels();
       expect(
-        res.models?.firstWhere((final m) => m.model == defaultModel),
+        res.models?.firstWhere((final m) => m.model!.startsWith(defaultModel)),
         isNotNull,
       );
       expect(
-        res.models?.firstWhere((final m) => m.model == visionModel),
+        res.models?.firstWhere((final m) => m.model!.startsWith(visionModel)),
         isNotNull,
       );
     });

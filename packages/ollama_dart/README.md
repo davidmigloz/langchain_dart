@@ -36,6 +36,7 @@ Unofficial Dart client for [Ollama](https://ollama.ai/) API.
     + [Pull a Model](#pull-a-model)
     + [Push a Model](#push-a-model)
     + [Check if a Blob Exists](#check-if-a-blob-exists)
+  * [Version](#version)
 - [Advance Usage](#advance-usage)
   * [Default HTTP client](#default-http-client)
   * [Custom HTTP client ](#custom-http-client)
@@ -270,6 +271,15 @@ await client.checkBlob(
 ```
 
 If the blob doesn't exist, an `OllamaClientException` exception will be thrown.
+
+### Version
+
+Get the version of the Ollama server.
+
+```dart
+final res = await client.getVersion();
+print(res.version);
+```
 
 ## Advance Usage
 
