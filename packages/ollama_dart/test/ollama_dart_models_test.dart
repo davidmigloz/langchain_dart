@@ -7,14 +7,14 @@ void main() {
   group('Ollama Models API tests', skip: Platform.environment.containsKey('CI'),
       () {
     late OllamaClient client;
-    const defaultModel = 'llama3:latest';
+    const defaultModel = 'gemma2';
 
     setUp(() async {
       client = OllamaClient();
       // Check that the model exists
       final res = await client.listModels();
       expect(
-        res.models?.firstWhere((final m) => m.model == defaultModel),
+        res.models?.firstWhere((final m) => m.model!.startsWith(defaultModel)),
         isNotNull,
       );
     });
@@ -62,7 +62,10 @@ void main() {
 
     test('Test list models', () async {
       final res = await client.listModels();
-      expect(res.models?.any((final m) => m.model == defaultModel), isTrue);
+      expect(
+        res.models?.any((final m) => m.model!.startsWith(defaultModel)),
+        isTrue,
+      );
     });
 
     test('Test list running models', () async {
@@ -75,7 +78,10 @@ void main() {
       );
 
       final res = await client.listRunningModels();
-      expect(res.models?.any((final m) => m.model == defaultModel), isTrue);
+      expect(
+        res.models?.any((final m) => m.model!.startsWith(defaultModel)),
+        isTrue,
+      );
     });
 
     test('Test show model info', () async {
@@ -84,7 +90,17 @@ void main() {
       );
       expect(res.license, isNotEmpty);
       expect(res.modelfile, isNotEmpty);
+      expect(res.parameters, isNotEmpty);
       expect(res.template, isNotEmpty);
+      expect(res.details?.format, isNotEmpty);
+      expect(res.details?.family, isNotEmpty);
+      expect(res.details?.families, isNotEmpty);
+      expect(res.details?.parameterSize, isNotEmpty);
+      expect(res.details?.quantizationLevel, isNotEmpty);
+      expect(res.modelInfo?.generalArchitecture, isNotEmpty);
+      expect(res.modelInfo?.generalFileType, greaterThan(0));
+      expect(res.modelInfo?.generalParameterCount, greaterThan(0));
+      expect(res.modelInfo?.generalQuantizationVersion, greaterThan(0));
     });
 
     test('Test copy model', () async {

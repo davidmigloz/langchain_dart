@@ -519,6 +519,7 @@ components:
       properties:
         version:
           type: string
+          description: The version of the Ollama server.
     GenerateCompletionResponse:
       type: object
       description: The response class for the generate endpoint.
@@ -830,7 +831,7 @@ components:
           type: integer
           nullable: true
           description: The number of parameters in the model.
-          
+
     ProcessResponse:
       type: object
       description: Response class for the list running models endpoint.

@@ -7,20 +7,19 @@ void main() {
   group('Ollama Generate Completions API tests',
       skip: Platform.environment.containsKey('CI'), () {
     late OllamaClient client;
-    const defaultModel = 'llama3:latest';
-    const visionModel = 'llava:latest';
+    const defaultModel = 'gemma2';
+    const visionModel = 'llava';
 
     setUp(() async {
       client = OllamaClient();
       // Check that the model exists
       final res = await client.listModels();
       expect(
-        res.models?.firstWhere((final m) => m.model == defaultModel),
+        res.models?.firstWhere((final m) => m.model!.startsWith(defaultModel)),
         isNotNull,
       );
-
       expect(
-        res.models?.firstWhere((final m) => m.model == visionModel),
+        res.models?.firstWhere((final m) => m.model!.startsWith(visionModel)),
         isNotNull,
       );
     });
@@ -76,9 +75,9 @@ void main() {
     });
 
     test('Test call completions API with raw mode', () async {
-      const testPrompt = '[INST] List the numbers from 1 to 9 in order. '
+      const testPrompt = 'List the numbers from 1 to 9 in order. '
           'Output ONLY the numbers in one line without any spaces or commas. '
-          'NUMBERS: [/INST]';
+          'NUMBERS:';
 
       final res = await client.generateCompletion(
         request: const GenerateCompletionRequest(
