@@ -7485,9 +7485,8 @@ PushModelResponse _$PushModelResponseFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PushModelResponse {
   /// Status pushing the model.
-  @JsonKey(
-      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-  PushModelStatus? get status => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
+  String? get status => throw _privateConstructorUsedError;
 
   /// the model's digest
   @JsonKey(includeIfNull: false)
@@ -7514,10 +7513,7 @@ abstract class $PushModelResponseCopyWith<$Res> {
       _$PushModelResponseCopyWithImpl<$Res, PushModelResponse>;
   @useResult
   $Res call(
-      {@JsonKey(
-          includeIfNull: false,
-          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      PushModelStatus? status,
+      {@JsonKey(includeIfNull: false) String? status,
       @JsonKey(includeIfNull: false) String? digest,
       @JsonKey(includeIfNull: false) int? total,
       @JsonKey(includeIfNull: false) int? completed});
@@ -7545,7 +7541,7 @@ class _$PushModelResponseCopyWithImpl<$Res, $Val extends PushModelResponse>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as PushModelStatus?,
+              as String?,
       digest: freezed == digest
           ? _value.digest
           : digest // ignore: cast_nullable_to_non_nullable
@@ -7571,10 +7567,7 @@ abstract class _$$PushModelResponseImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(
-          includeIfNull: false,
-          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      PushModelStatus? status,
+      {@JsonKey(includeIfNull: false) String? status,
       @JsonKey(includeIfNull: false) String? digest,
       @JsonKey(includeIfNull: false) int? total,
       @JsonKey(includeIfNull: false) int? completed});
@@ -7600,7 +7593,7 @@ class __$$PushModelResponseImplCopyWithImpl<$Res>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as PushModelStatus?,
+              as String?,
       digest: freezed == digest
           ? _value.digest
           : digest // ignore: cast_nullable_to_non_nullable
@@ -7621,10 +7614,7 @@ class __$$PushModelResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PushModelResponseImpl extends _PushModelResponse {
   const _$PushModelResponseImpl(
-      {@JsonKey(
-          includeIfNull: false,
-          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      this.status,
+      {@JsonKey(includeIfNull: false) this.status,
       @JsonKey(includeIfNull: false) this.digest,
       @JsonKey(includeIfNull: false) this.total,
       @JsonKey(includeIfNull: false) this.completed})
@@ -7635,9 +7625,8 @@ class _$PushModelResponseImpl extends _PushModelResponse {
 
   /// Status pushing the model.
   @override
-  @JsonKey(
-      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-  final PushModelStatus? status;
+  @JsonKey(includeIfNull: false)
+  final String? status;
 
   /// the model's digest
   @override
@@ -7693,10 +7682,7 @@ class _$PushModelResponseImpl extends _PushModelResponse {
 
 abstract class _PushModelResponse extends PushModelResponse {
   const factory _PushModelResponse(
-          {@JsonKey(
-              includeIfNull: false,
-              unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-          final PushModelStatus? status,
+          {@JsonKey(includeIfNull: false) final String? status,
           @JsonKey(includeIfNull: false) final String? digest,
           @JsonKey(includeIfNull: false) final int? total,
           @JsonKey(includeIfNull: false) final int? completed}) =
@@ -7709,9 +7695,8 @@ abstract class _PushModelResponse extends PushModelResponse {
   @override
 
   /// Status pushing the model.
-  @JsonKey(
-      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-  PushModelStatus? get status;
+  @JsonKey(includeIfNull: false)
+  String? get status;
   @override
 
   /// the model's digest

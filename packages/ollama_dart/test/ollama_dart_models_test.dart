@@ -158,7 +158,7 @@ void main() {
         request: const PushModelRequest(model: 'mattw/pygmalion:latest'),
       );
 
-      expect(res.status, PushModelStatus.success);
+      expect(res.status, equals('success'));
     });
 
     test('Test push model stream', skip: true, () async {
@@ -167,13 +167,13 @@ void main() {
       );
 
       int count = 0;
-      PushModelStatus? lastStatus;
+      String? lastStatus;
       await for (final res in stream) {
         lastStatus = res.status;
         count++;
       }
       expect(count, greaterThan(1));
-      expect(lastStatus, equals(PushModelStatus.success));
+      expect(lastStatus, equals('success'));
     });
 
     test('Test check blob', skip: true, () async {

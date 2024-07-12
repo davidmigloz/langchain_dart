@@ -16,11 +16,7 @@ class PushModelResponse with _$PushModelResponse {
   /// Factory constructor for PushModelResponse
   const factory PushModelResponse({
     /// Status pushing the model.
-    @JsonKey(
-      includeIfNull: false,
-      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
-    )
-    PushModelStatus? status,
+    @JsonKey(includeIfNull: false) String? status,
 
     /// the model's digest
     @JsonKey(includeIfNull: false) String? digest,

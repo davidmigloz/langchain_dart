@@ -39,4 +39,3 @@ part 'pull_model_response.dart';
 part 'pull_model_status.dart';
 part 'push_model_request.dart';
 part 'push_model_response.dart';
-part 'push_model_status.dart';
