@@ -7,14 +7,14 @@ void main() {
   group('Ollama Generate Embeddings API tests',
       skip: Platform.environment.containsKey('CI'), () {
     late OllamaClient client;
-    const defaultModel = 'llama3:latest';
+    const defaultModel = 'mxbai-embed-large:335m';
 
     setUp(() async {
       client = OllamaClient();
       // Check that the model exists
       final res = await client.listModels();
       expect(
-        res.models?.firstWhere((final m) => m.model == defaultModel),
+        res.models?.firstWhere((final m) => m.model!.startsWith(defaultModel)),
         isNotNull,
       );
     });

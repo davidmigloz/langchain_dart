@@ -1650,6 +1650,154 @@ abstract class _RequestOptions extends RequestOptions {
       throw _privateConstructorUsedError;
 }
 
+VersionResponse _$VersionResponseFromJson(Map<String, dynamic> json) {
+  return _VersionResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$VersionResponse {
+  /// The version of the Ollama server.
+  @JsonKey(includeIfNull: false)
+  String? get version => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $VersionResponseCopyWith<VersionResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $VersionResponseCopyWith<$Res> {
+  factory $VersionResponseCopyWith(
+          VersionResponse value, $Res Function(VersionResponse) then) =
+      _$VersionResponseCopyWithImpl<$Res, VersionResponse>;
+  @useResult
+  $Res call({@JsonKey(includeIfNull: false) String? version});
+}
+
+/// @nodoc
+class _$VersionResponseCopyWithImpl<$Res, $Val extends VersionResponse>
+    implements $VersionResponseCopyWith<$Res> {
+  _$VersionResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? version = freezed,
+  }) {
+    return _then(_value.copyWith(
+      version: freezed == version
+          ? _value.version
+          : version // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$VersionResponseImplCopyWith<$Res>
+    implements $VersionResponseCopyWith<$Res> {
+  factory _$$VersionResponseImplCopyWith(_$VersionResponseImpl value,
+          $Res Function(_$VersionResponseImpl) then) =
+      __$$VersionResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(includeIfNull: false) String? version});
+}
+
+/// @nodoc
+class __$$VersionResponseImplCopyWithImpl<$Res>
+    extends _$VersionResponseCopyWithImpl<$Res, _$VersionResponseImpl>
+    implements _$$VersionResponseImplCopyWith<$Res> {
+  __$$VersionResponseImplCopyWithImpl(
+      _$VersionResponseImpl _value, $Res Function(_$VersionResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? version = freezed,
+  }) {
+    return _then(_$VersionResponseImpl(
+      version: freezed == version
+          ? _value.version
+          : version // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$VersionResponseImpl extends _VersionResponse {
+  const _$VersionResponseImpl({@JsonKey(includeIfNull: false) this.version})
+      : super._();
+
+  factory _$VersionResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$VersionResponseImplFromJson(json);
+
+  /// The version of the Ollama server.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? version;
+
+  @override
+  String toString() {
+    return 'VersionResponse(version: $version)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$VersionResponseImpl &&
+            (identical(other.version, version) || other.version == version));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, version);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$VersionResponseImplCopyWith<_$VersionResponseImpl> get copyWith =>
+      __$$VersionResponseImplCopyWithImpl<_$VersionResponseImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$VersionResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _VersionResponse extends VersionResponse {
+  const factory _VersionResponse(
+          {@JsonKey(includeIfNull: false) final String? version}) =
+      _$VersionResponseImpl;
+  const _VersionResponse._() : super._();
+
+  factory _VersionResponse.fromJson(Map<String, dynamic> json) =
+      _$VersionResponseImpl.fromJson;
+
+  @override
+
+  /// The version of the Ollama server.
+  @JsonKey(includeIfNull: false)
+  String? get version;
+  @override
+  @JsonKey(ignore: true)
+  _$$VersionResponseImplCopyWith<_$VersionResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 GenerateCompletionResponse _$GenerateCompletionResponseFromJson(
     Map<String, dynamic> json) {
   return _GenerateCompletionResponse.fromJson(json);
@@ -4912,6 +5060,266 @@ abstract class _ModelDetails extends ModelDetails {
       throw _privateConstructorUsedError;
 }
 
+ModelInformation _$ModelInformationFromJson(Map<String, dynamic> json) {
+  return _ModelInformation.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ModelInformation {
+  /// The architecture of the model.
+  @JsonKey(name: 'general.architecture', includeIfNull: false)
+  String? get generalArchitecture => throw _privateConstructorUsedError;
+
+  /// The file type of the model.
+  @JsonKey(name: 'general.file_type', includeIfNull: false)
+  int? get generalFileType => throw _privateConstructorUsedError;
+
+  /// The number of parameters in the model.
+  @JsonKey(name: 'general.parameter_count', includeIfNull: false)
+  int? get generalParameterCount => throw _privateConstructorUsedError;
+
+  /// The number of parameters in the model.
+  @JsonKey(name: 'general.quantization_version', includeIfNull: false)
+  int? get generalQuantizationVersion => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ModelInformationCopyWith<ModelInformation> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ModelInformationCopyWith<$Res> {
+  factory $ModelInformationCopyWith(
+          ModelInformation value, $Res Function(ModelInformation) then) =
+      _$ModelInformationCopyWithImpl<$Res, ModelInformation>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'general.architecture', includeIfNull: false)
+      String? generalArchitecture,
+      @JsonKey(name: 'general.file_type', includeIfNull: false)
+      int? generalFileType,
+      @JsonKey(name: 'general.parameter_count', includeIfNull: false)
+      int? generalParameterCount,
+      @JsonKey(name: 'general.quantization_version', includeIfNull: false)
+      int? generalQuantizationVersion});
+}
+
+/// @nodoc
+class _$ModelInformationCopyWithImpl<$Res, $Val extends ModelInformation>
+    implements $ModelInformationCopyWith<$Res> {
+  _$ModelInformationCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? generalArchitecture = freezed,
+    Object? generalFileType = freezed,
+    Object? generalParameterCount = freezed,
+    Object? generalQuantizationVersion = freezed,
+  }) {
+    return _then(_value.copyWith(
+      generalArchitecture: freezed == generalArchitecture
+          ? _value.generalArchitecture
+          : generalArchitecture // ignore: cast_nullable_to_non_nullable
+              as String?,
+      generalFileType: freezed == generalFileType
+          ? _value.generalFileType
+          : generalFileType // ignore: cast_nullable_to_non_nullable
+              as int?,
+      generalParameterCount: freezed == generalParameterCount
+          ? _value.generalParameterCount
+          : generalParameterCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      generalQuantizationVersion: freezed == generalQuantizationVersion
+          ? _value.generalQuantizationVersion
+          : generalQuantizationVersion // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ModelInformationImplCopyWith<$Res>
+    implements $ModelInformationCopyWith<$Res> {
+  factory _$$ModelInformationImplCopyWith(_$ModelInformationImpl value,
+          $Res Function(_$ModelInformationImpl) then) =
+      __$$ModelInformationImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'general.architecture', includeIfNull: false)
+      String? generalArchitecture,
+      @JsonKey(name: 'general.file_type', includeIfNull: false)
+      int? generalFileType,
+      @JsonKey(name: 'general.parameter_count', includeIfNull: false)
+      int? generalParameterCount,
+      @JsonKey(name: 'general.quantization_version', includeIfNull: false)
+      int? generalQuantizationVersion});
+}
+
+/// @nodoc
+class __$$ModelInformationImplCopyWithImpl<$Res>
+    extends _$ModelInformationCopyWithImpl<$Res, _$ModelInformationImpl>
+    implements _$$ModelInformationImplCopyWith<$Res> {
+  __$$ModelInformationImplCopyWithImpl(_$ModelInformationImpl _value,
+      $Res Function(_$ModelInformationImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? generalArchitecture = freezed,
+    Object? generalFileType = freezed,
+    Object? generalParameterCount = freezed,
+    Object? generalQuantizationVersion = freezed,
+  }) {
+    return _then(_$ModelInformationImpl(
+      generalArchitecture: freezed == generalArchitecture
+          ? _value.generalArchitecture
+          : generalArchitecture // ignore: cast_nullable_to_non_nullable
+              as String?,
+      generalFileType: freezed == generalFileType
+          ? _value.generalFileType
+          : generalFileType // ignore: cast_nullable_to_non_nullable
+              as int?,
+      generalParameterCount: freezed == generalParameterCount
+          ? _value.generalParameterCount
+          : generalParameterCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      generalQuantizationVersion: freezed == generalQuantizationVersion
+          ? _value.generalQuantizationVersion
+          : generalQuantizationVersion // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ModelInformationImpl extends _ModelInformation {
+  const _$ModelInformationImpl(
+      {@JsonKey(name: 'general.architecture', includeIfNull: false)
+      this.generalArchitecture,
+      @JsonKey(name: 'general.file_type', includeIfNull: false)
+      this.generalFileType,
+      @JsonKey(name: 'general.parameter_count', includeIfNull: false)
+      this.generalParameterCount,
+      @JsonKey(name: 'general.quantization_version', includeIfNull: false)
+      this.generalQuantizationVersion})
+      : super._();
+
+  factory _$ModelInformationImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ModelInformationImplFromJson(json);
+
+  /// The architecture of the model.
+  @override
+  @JsonKey(name: 'general.architecture', includeIfNull: false)
+  final String? generalArchitecture;
+
+  /// The file type of the model.
+  @override
+  @JsonKey(name: 'general.file_type', includeIfNull: false)
+  final int? generalFileType;
+
+  /// The number of parameters in the model.
+  @override
+  @JsonKey(name: 'general.parameter_count', includeIfNull: false)
+  final int? generalParameterCount;
+
+  /// The number of parameters in the model.
+  @override
+  @JsonKey(name: 'general.quantization_version', includeIfNull: false)
+  final int? generalQuantizationVersion;
+
+  @override
+  String toString() {
+    return 'ModelInformation(generalArchitecture: $generalArchitecture, generalFileType: $generalFileType, generalParameterCount: $generalParameterCount, generalQuantizationVersion: $generalQuantizationVersion)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ModelInformationImpl &&
+            (identical(other.generalArchitecture, generalArchitecture) ||
+                other.generalArchitecture == generalArchitecture) &&
+            (identical(other.generalFileType, generalFileType) ||
+                other.generalFileType == generalFileType) &&
+            (identical(other.generalParameterCount, generalParameterCount) ||
+                other.generalParameterCount == generalParameterCount) &&
+            (identical(other.generalQuantizationVersion,
+                    generalQuantizationVersion) ||
+                other.generalQuantizationVersion ==
+                    generalQuantizationVersion));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, generalArchitecture,
+      generalFileType, generalParameterCount, generalQuantizationVersion);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ModelInformationImplCopyWith<_$ModelInformationImpl> get copyWith =>
+      __$$ModelInformationImplCopyWithImpl<_$ModelInformationImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ModelInformationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ModelInformation extends ModelInformation {
+  const factory _ModelInformation(
+      {@JsonKey(name: 'general.architecture', includeIfNull: false)
+      final String? generalArchitecture,
+      @JsonKey(name: 'general.file_type', includeIfNull: false)
+      final int? generalFileType,
+      @JsonKey(name: 'general.parameter_count', includeIfNull: false)
+      final int? generalParameterCount,
+      @JsonKey(name: 'general.quantization_version', includeIfNull: false)
+      final int? generalQuantizationVersion}) = _$ModelInformationImpl;
+  const _ModelInformation._() : super._();
+
+  factory _ModelInformation.fromJson(Map<String, dynamic> json) =
+      _$ModelInformationImpl.fromJson;
+
+  @override
+
+  /// The architecture of the model.
+  @JsonKey(name: 'general.architecture', includeIfNull: false)
+  String? get generalArchitecture;
+  @override
+
+  /// The file type of the model.
+  @JsonKey(name: 'general.file_type', includeIfNull: false)
+  int? get generalFileType;
+  @override
+
+  /// The number of parameters in the model.
+  @JsonKey(name: 'general.parameter_count', includeIfNull: false)
+  int? get generalParameterCount;
+  @override
+
+  /// The number of parameters in the model.
+  @JsonKey(name: 'general.quantization_version', includeIfNull: false)
+  int? get generalQuantizationVersion;
+  @override
+  @JsonKey(ignore: true)
+  _$$ModelInformationImplCopyWith<_$ModelInformationImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 ProcessResponse _$ProcessResponseFromJson(Map<String, dynamic> json) {
   return _ProcessResponse.fromJson(json);
 }
@@ -5573,6 +5981,10 @@ mixin _$ModelInfo {
   @JsonKey(includeIfNull: false)
   ModelDetails? get details => throw _privateConstructorUsedError;
 
+  /// Details about a model.
+  @JsonKey(name: 'model_info', includeIfNull: false)
+  ModelInformation? get modelInfo => throw _privateConstructorUsedError;
+
   /// The default messages for the model.
   @JsonKey(includeIfNull: false)
   List<Message>? get messages => throw _privateConstructorUsedError;
@@ -5595,9 +6007,12 @@ abstract class $ModelInfoCopyWith<$Res> {
       @JsonKey(includeIfNull: false) String? template,
       @JsonKey(includeIfNull: false) String? system,
       @JsonKey(includeIfNull: false) ModelDetails? details,
+      @JsonKey(name: 'model_info', includeIfNull: false)
+      ModelInformation? modelInfo,
       @JsonKey(includeIfNull: false) List<Message>? messages});
 
   $ModelDetailsCopyWith<$Res>? get details;
+  $ModelInformationCopyWith<$Res>? get modelInfo;
 }
 
 /// @nodoc
@@ -5619,6 +6034,7 @@ class _$ModelInfoCopyWithImpl<$Res, $Val extends ModelInfo>
     Object? template = freezed,
     Object? system = freezed,
     Object? details = freezed,
+    Object? modelInfo = freezed,
     Object? messages = freezed,
   }) {
     return _then(_value.copyWith(
@@ -5646,6 +6062,10 @@ class _$ModelInfoCopyWithImpl<$Res, $Val extends ModelInfo>
           ? _value.details
           : details // ignore: cast_nullable_to_non_nullable
               as ModelDetails?,
+      modelInfo: freezed == modelInfo
+          ? _value.modelInfo
+          : modelInfo // ignore: cast_nullable_to_non_nullable
+              as ModelInformation?,
       messages: freezed == messages
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
@@ -5662,6 +6082,18 @@ class _$ModelInfoCopyWithImpl<$Res, $Val extends ModelInfo>
 
     return $ModelDetailsCopyWith<$Res>(_value.details!, (value) {
       return _then(_value.copyWith(details: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ModelInformationCopyWith<$Res>? get modelInfo {
+    if (_value.modelInfo == null) {
+      return null;
+    }
+
+    return $ModelInformationCopyWith<$Res>(_value.modelInfo!, (value) {
+      return _then(_value.copyWith(modelInfo: value) as $Val);
     });
   }
 }
@@ -5681,10 +6113,14 @@ abstract class _$$ModelInfoImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) String? template,
       @JsonKey(includeIfNull: false) String? system,
       @JsonKey(includeIfNull: false) ModelDetails? details,
+      @JsonKey(name: 'model_info', includeIfNull: false)
+      ModelInformation? modelInfo,
       @JsonKey(includeIfNull: false) List<Message>? messages});
 
   @override
   $ModelDetailsCopyWith<$Res>? get details;
+  @override
+  $ModelInformationCopyWith<$Res>? get modelInfo;
 }
 
 /// @nodoc
@@ -5704,6 +6140,7 @@ class __$$ModelInfoImplCopyWithImpl<$Res>
     Object? template = freezed,
     Object? system = freezed,
     Object? details = freezed,
+    Object? modelInfo = freezed,
     Object? messages = freezed,
   }) {
     return _then(_$ModelInfoImpl(
@@ -5731,6 +6168,10 @@ class __$$ModelInfoImplCopyWithImpl<$Res>
           ? _value.details
           : details // ignore: cast_nullable_to_non_nullable
               as ModelDetails?,
+      modelInfo: freezed == modelInfo
+          ? _value.modelInfo
+          : modelInfo // ignore: cast_nullable_to_non_nullable
+              as ModelInformation?,
       messages: freezed == messages
           ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
@@ -5749,6 +6190,7 @@ class _$ModelInfoImpl extends _ModelInfo {
       @JsonKey(includeIfNull: false) this.template,
       @JsonKey(includeIfNull: false) this.system,
       @JsonKey(includeIfNull: false) this.details,
+      @JsonKey(name: 'model_info', includeIfNull: false) this.modelInfo,
       @JsonKey(includeIfNull: false) final List<Message>? messages})
       : _messages = messages,
         super._();
@@ -5786,6 +6228,11 @@ class _$ModelInfoImpl extends _ModelInfo {
   @JsonKey(includeIfNull: false)
   final ModelDetails? details;
 
+  /// Details about a model.
+  @override
+  @JsonKey(name: 'model_info', includeIfNull: false)
+  final ModelInformation? modelInfo;
+
   /// The default messages for the model.
   final List<Message>? _messages;
 
@@ -5802,7 +6249,7 @@ class _$ModelInfoImpl extends _ModelInfo {
 
   @override
   String toString() {
-    return 'ModelInfo(license: $license, modelfile: $modelfile, parameters: $parameters, template: $template, system: $system, details: $details, messages: $messages)';
+    return 'ModelInfo(license: $license, modelfile: $modelfile, parameters: $parameters, template: $template, system: $system, details: $details, modelInfo: $modelInfo, messages: $messages)';
   }
 
   @override
@@ -5819,6 +6266,8 @@ class _$ModelInfoImpl extends _ModelInfo {
                 other.template == template) &&
             (identical(other.system, system) || other.system == system) &&
             (identical(other.details, details) || other.details == details) &&
+            (identical(other.modelInfo, modelInfo) ||
+                other.modelInfo == modelInfo) &&
             const DeepCollectionEquality().equals(other._messages, _messages));
   }
 
@@ -5832,6 +6281,7 @@ class _$ModelInfoImpl extends _ModelInfo {
       template,
       system,
       details,
+      modelInfo,
       const DeepCollectionEquality().hash(_messages));
 
   @JsonKey(ignore: true)
@@ -5856,6 +6306,8 @@ abstract class _ModelInfo extends ModelInfo {
           @JsonKey(includeIfNull: false) final String? template,
           @JsonKey(includeIfNull: false) final String? system,
           @JsonKey(includeIfNull: false) final ModelDetails? details,
+          @JsonKey(name: 'model_info', includeIfNull: false)
+          final ModelInformation? modelInfo,
           @JsonKey(includeIfNull: false) final List<Message>? messages}) =
       _$ModelInfoImpl;
   const _ModelInfo._() : super._();
@@ -5893,6 +6345,11 @@ abstract class _ModelInfo extends ModelInfo {
   /// Details about a model.
   @JsonKey(includeIfNull: false)
   ModelDetails? get details;
+  @override
+
+  /// Details about a model.
+  @JsonKey(name: 'model_info', includeIfNull: false)
+  ModelInformation? get modelInfo;
   @override
 
   /// The default messages for the model.
