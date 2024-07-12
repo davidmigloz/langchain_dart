@@ -749,8 +749,7 @@ Map<String, dynamic> _$$PushModelRequestImplToJson(
 _$PushModelResponseImpl _$$PushModelResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$PushModelResponseImpl(
-      status: $enumDecodeNullable(_$PushModelStatusEnumMap, json['status'],
-          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      status: json['status'] as String?,
       digest: json['digest'] as String?,
       total: json['total'] as int?,
       completed: json['completed'] as int?,
@@ -766,16 +765,9 @@ Map<String, dynamic> _$$PushModelResponseImplToJson(
     }
   }
 
-  writeNotNull('status', _$PushModelStatusEnumMap[instance.status]);
+  writeNotNull('status', instance.status);
   writeNotNull('digest', instance.digest);
   writeNotNull('total', instance.total);
   writeNotNull('completed', instance.completed);
   return val;
 }
-
-const _$PushModelStatusEnumMap = {
-  PushModelStatus.retrievingManifest: 'retrieving manifest',
-  PushModelStatus.startingUpload: 'starting upload',
-  PushModelStatus.pushingManifest: 'pushing manifest',
-  PushModelStatus.success: 'success',
-};
