@@ -1037,7 +1037,8 @@ components:
       description: Response class for pushing a model.
       properties:
         status:
-          $ref: '#/components/schemas/PushModelStatus'
+          type: string
+          description: Status pushing the model.
         digest:
           type: string
           description: the model's digest
@@ -1052,11 +1053,3 @@ components:
           format: int64
           description: Total bytes transferred.
           example: 2142590208
-    PushModelStatus:
-      type: string
-      description: Status pushing the model.
-      enum:
-        - retrieving manifest
-        - starting upload
-        - pushing manifest
-        - success
