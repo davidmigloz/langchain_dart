@@ -133,6 +133,26 @@ Map<String, dynamic> _$$RequestOptionsImplToJson(
   return val;
 }
 
+_$VersionResponseImpl _$$VersionResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$VersionResponseImpl(
+      version: json['version'] as String?,
+    );
+
+Map<String, dynamic> _$$VersionResponseImplToJson(
+    _$VersionResponseImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('version', instance.version);
+  return val;
+}
+
 _$GenerateCompletionResponseImpl _$$GenerateCompletionResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$GenerateCompletionResponseImpl(
@@ -476,6 +496,33 @@ Map<String, dynamic> _$$ModelDetailsImplToJson(_$ModelDetailsImpl instance) {
   return val;
 }
 
+_$ModelInformationImpl _$$ModelInformationImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ModelInformationImpl(
+      generalArchitecture: json['general.architecture'] as String?,
+      generalFileType: json['general.file_type'] as int?,
+      generalParameterCount: json['general.parameter_count'] as int?,
+      generalQuantizationVersion: json['general.quantization_version'] as int?,
+    );
+
+Map<String, dynamic> _$$ModelInformationImplToJson(
+    _$ModelInformationImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('general.architecture', instance.generalArchitecture);
+  writeNotNull('general.file_type', instance.generalFileType);
+  writeNotNull('general.parameter_count', instance.generalParameterCount);
+  writeNotNull(
+      'general.quantization_version', instance.generalQuantizationVersion);
+  return val;
+}
+
 _$ProcessResponseImpl _$$ProcessResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$ProcessResponseImpl(
@@ -550,6 +597,10 @@ _$ModelInfoImpl _$$ModelInfoImplFromJson(Map<String, dynamic> json) =>
       details: json['details'] == null
           ? null
           : ModelDetails.fromJson(json['details'] as Map<String, dynamic>),
+      modelInfo: json['model_info'] == null
+          ? null
+          : ModelInformation.fromJson(
+              json['model_info'] as Map<String, dynamic>),
       messages: (json['messages'] as List<dynamic>?)
           ?.map((e) => Message.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -570,6 +621,7 @@ Map<String, dynamic> _$$ModelInfoImplToJson(_$ModelInfoImpl instance) {
   writeNotNull('template', instance.template);
   writeNotNull('system', instance.system);
   writeNotNull('details', instance.details?.toJson());
+  writeNotNull('model_info', instance.modelInfo?.toJson());
   writeNotNull('messages', instance.messages?.map((e) => e.toJson()).toList());
   return val;
 }

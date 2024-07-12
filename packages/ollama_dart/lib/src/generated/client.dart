@@ -357,6 +357,27 @@ class OllamaClient {
   }
 
   // ------------------------------------------
+  // METHOD: getVersion
+  // ------------------------------------------
+
+  /// Returns the version of the Ollama server.
+  ///
+  /// This endpoint returns the version of the Ollama server.
+  ///
+  /// `GET` `http://localhost:11434/api/version`
+  Future<VersionResponse> getVersion() async {
+    final r = await makeRequest(
+      baseUrl: 'http://localhost:11434/api',
+      path: '/version',
+      method: HttpMethod.get,
+      isMultipart: false,
+      requestType: '',
+      responseType: 'application/json',
+    );
+    return VersionResponse.fromJson(_jsonDecode(r));
+  }
+
+  // ------------------------------------------
   // METHOD: generateCompletion
   // ------------------------------------------
 
