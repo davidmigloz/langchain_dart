@@ -2,6 +2,7 @@ import 'dart:async';
 
 import '../../utils.dart';
 import 'binding.dart';
+import 'fallbacks.dart';
 import 'function.dart';
 import 'input_map.dart';
 import 'input_stream_map.dart';
@@ -267,6 +268,15 @@ abstract class Runnable<RunInput extends Object?,
     return RunnableSequence<RunInput, NewRunOutput>(
       first: this,
       last: next,
+    );
+  }
+
+  RunnableWithFallback<RunInput, RunOutput> withFallback(
+    List<Runnable<RunInput, RunnableOptions, RunOutput>> fallbacks,
+  ) {
+    return RunnableWithFallback<RunInput, RunOutput>(
+      mainRunnable: this,
+      fallbacks: fallbacks,
     );
   }
 
