@@ -40,4 +40,12 @@ class RunnableWithFallback<RunInput extends Object?, RunOutput extends Object?>
     }
     return runnableOutput;
   }
+
+  @override
+  Future<List<RunOutput>> batch(
+    List<RunInput> inputs, {
+    List<RunnableOptions>? options,
+  }) {
+    return super.batch(inputs, options: options);
+  }
 }
