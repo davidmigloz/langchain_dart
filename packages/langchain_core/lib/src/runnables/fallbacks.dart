@@ -25,7 +25,10 @@ class RunnableWithFallback<RunInput extends Object?, RunOutput extends Object?>
     RunOutput? runnableOutput;
     for (final runnable in yeildRunnables()) {
       if (firstError != null) {
-        runnableOutput = await runnable.invoke(input);
+        runnableOutput = await runnable.invoke(
+          input,
+          options: runnable.getCompatibleOptions(options),
+        );
         if (runnableOutput != null) break;
       } else {
         try {
