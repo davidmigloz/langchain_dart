@@ -68,6 +68,20 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// Determinism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to monitor changes in the backend.
     @JsonKey(includeIfNull: false) int? seed,
 
+    /// Specifies the latency tier to use for processing the request. This parameter is relevant for customers
+    /// subscribed to the scale tier service:
+    ///   - If set to 'auto', the system will utilize scale tier credits until they are exhausted.
+    ///   - If set to 'default', the request will be processed using the default service tier with a lower
+    ///     uptime SLA and no latency guarantee.
+    ///
+    ///   When this parameter is set, the response body will include the `service_tier` utilized.
+    @JsonKey(
+      name: 'service_tier',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
+    )
+    CreateChatCompletionRequestServiceTier? serviceTier,
+
     /// Up to 4 sequences where the API will stop generating further tokens.
     @_ChatCompletionStopConverter()
     @JsonKey(includeIfNull: false)
@@ -148,6 +162,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     'presence_penalty',
     'response_format',
     'seed',
+    'service_tier',
     'stop',
     'stream',
     'stream_options',
@@ -237,6 +252,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
       'presence_penalty': presencePenalty,
       'response_format': responseFormat,
       'seed': seed,
+      'service_tier': serviceTier,
       'stop': stop,
       'stream': stream,
       'stream_options': streamOptions,
@@ -396,6 +412,24 @@ class ChatCompletionResponseFormat with _$ChatCompletionResponseFormat {
       'type': type,
     };
   }
+}
+
+// ==========================================
+// ENUM: CreateChatCompletionRequestServiceTier
+// ==========================================
+
+/// Specifies the latency tier to use for processing the request. This parameter is relevant for customers
+/// subscribed to the scale tier service:
+///   - If set to 'auto', the system will utilize scale tier credits until they are exhausted.
+///   - If set to 'default', the request will be processed using the default service tier with a lower
+///     uptime SLA and no latency guarantee.
+///
+///   When this parameter is set, the response body will include the `service_tier` utilized.
+enum CreateChatCompletionRequestServiceTier {
+  @JsonValue('auto')
+  auto,
+  @JsonValue('default')
+  vDefault,
 }
 
 // ==========================================
