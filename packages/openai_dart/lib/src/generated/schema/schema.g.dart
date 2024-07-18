@@ -335,6 +335,7 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
           .toList(),
       toolChoice: const _ChatCompletionToolChoiceOptionConverter()
           .fromJson(json['tool_choice']),
+      parallelToolCalls: json['parallel_tool_calls'] as bool? ?? true,
       user: json['user'] as String?,
       functionCall: const _ChatCompletionFunctionCallConverter()
           .fromJson(json['function_call']),
@@ -376,6 +377,7 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
       'tool_choice',
       const _ChatCompletionToolChoiceOptionConverter()
           .toJson(instance.toolChoice));
+  writeNotNull('parallel_tool_calls', instance.parallelToolCalls);
   writeNotNull('user', instance.user);
   writeNotNull(
       'function_call',
@@ -2583,6 +2585,7 @@ _$RunObjectImpl _$$RunObjectImplFromJson(Map<String, dynamic> json) =>
               json['truncation_strategy'] as Map<String, dynamic>),
       toolChoice:
           const _RunObjectToolChoiceConverter().fromJson(json['tool_choice']),
+      parallelToolCalls: json['parallel_tool_calls'] as bool?,
       responseFormat: const _RunObjectResponseFormatConverter()
           .fromJson(json['response_format']),
     );
@@ -2623,6 +2626,7 @@ Map<String, dynamic> _$$RunObjectImplToJson(_$RunObjectImpl instance) {
   val['truncation_strategy'] = instance.truncationStrategy?.toJson();
   val['tool_choice'] = _$JsonConverterToJson<Object?, RunObjectToolChoice>(
       instance.toolChoice, const _RunObjectToolChoiceConverter().toJson);
+  val['parallel_tool_calls'] = instance.parallelToolCalls;
   val['response_format'] =
       const _RunObjectResponseFormatConverter().toJson(instance.responseFormat);
   return val;
@@ -2836,6 +2840,7 @@ _$CreateRunRequestImpl _$$CreateRunRequestImplFromJson(
               json['truncation_strategy'] as Map<String, dynamic>),
       toolChoice: const _CreateRunRequestToolChoiceConverter()
           .fromJson(json['tool_choice']),
+      parallelToolCalls: json['parallel_tool_calls'] as bool? ?? true,
       responseFormat: const _CreateRunRequestResponseFormatConverter()
           .fromJson(json['response_format']),
       stream: json['stream'] as bool?,
@@ -2868,6 +2873,7 @@ Map<String, dynamic> _$$CreateRunRequestImplToJson(
   writeNotNull('truncation_strategy', instance.truncationStrategy?.toJson());
   writeNotNull('tool_choice',
       const _CreateRunRequestToolChoiceConverter().toJson(instance.toolChoice));
+  writeNotNull('parallel_tool_calls', instance.parallelToolCalls);
   writeNotNull(
       'response_format',
       const _CreateRunRequestResponseFormatConverter()
@@ -3158,6 +3164,7 @@ _$CreateThreadAndRunRequestImpl _$$CreateThreadAndRunRequestImplFromJson(
               json['truncation_strategy'] as Map<String, dynamic>),
       toolChoice: const _CreateThreadAndRunRequestToolChoiceConverter()
           .fromJson(json['tool_choice']),
+      parallelToolCalls: json['parallel_tool_calls'] as bool? ?? true,
       responseFormat: const _CreateThreadAndRunRequestResponseFormatConverter()
           .fromJson(json['response_format']),
       stream: json['stream'] as bool?,
@@ -3191,6 +3198,7 @@ Map<String, dynamic> _$$CreateThreadAndRunRequestImplToJson(
       'tool_choice',
       const _CreateThreadAndRunRequestToolChoiceConverter()
           .toJson(instance.toolChoice));
+  writeNotNull('parallel_tool_calls', instance.parallelToolCalls);
   writeNotNull(
       'response_format',
       const _CreateThreadAndRunRequestResponseFormatConverter()
