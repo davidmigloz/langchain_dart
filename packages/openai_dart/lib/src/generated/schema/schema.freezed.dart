@@ -3458,6 +3458,20 @@ mixin _$CreateChatCompletionRequest {
   @JsonKey(includeIfNull: false)
   int? get seed => throw _privateConstructorUsedError;
 
+  /// Specifies the latency tier to use for processing the request. This parameter is relevant for customers
+  /// subscribed to the scale tier service:
+  ///   - If set to 'auto', the system will utilize scale tier credits until they are exhausted.
+  ///   - If set to 'default', the request will be processed using the default service tier with a lower
+  ///     uptime SLA and no latency guarantee.
+  ///
+  ///   When this parameter is set, the response body will include the `service_tier` utilized.
+  @JsonKey(
+      name: 'service_tier',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  CreateChatCompletionRequestServiceTier? get serviceTier =>
+      throw _privateConstructorUsedError;
+
   /// Up to 4 sequences where the API will stop generating further tokens.
   @_ChatCompletionStopConverter()
   @JsonKey(includeIfNull: false)
@@ -3558,6 +3572,11 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
       @JsonKey(name: 'response_format', includeIfNull: false)
       ChatCompletionResponseFormat? responseFormat,
       @JsonKey(includeIfNull: false) int? seed,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      CreateChatCompletionRequestServiceTier? serviceTier,
       @_ChatCompletionStopConverter()
       @JsonKey(includeIfNull: false)
       ChatCompletionStop? stop,
@@ -3611,6 +3630,7 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
     Object? presencePenalty = freezed,
     Object? responseFormat = freezed,
     Object? seed = freezed,
+    Object? serviceTier = freezed,
     Object? stop = freezed,
     Object? stream = freezed,
     Object? streamOptions = freezed,
@@ -3668,6 +3688,10 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
           ? _value.seed
           : seed // ignore: cast_nullable_to_non_nullable
               as int?,
+      serviceTier: freezed == serviceTier
+          ? _value.serviceTier
+          : serviceTier // ignore: cast_nullable_to_non_nullable
+              as CreateChatCompletionRequestServiceTier?,
       stop: freezed == stop
           ? _value.stop
           : stop // ignore: cast_nullable_to_non_nullable
@@ -3813,6 +3837,11 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
       @JsonKey(name: 'response_format', includeIfNull: false)
       ChatCompletionResponseFormat? responseFormat,
       @JsonKey(includeIfNull: false) int? seed,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      CreateChatCompletionRequestServiceTier? serviceTier,
       @_ChatCompletionStopConverter()
       @JsonKey(includeIfNull: false)
       ChatCompletionStop? stop,
@@ -3871,6 +3900,7 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
     Object? presencePenalty = freezed,
     Object? responseFormat = freezed,
     Object? seed = freezed,
+    Object? serviceTier = freezed,
     Object? stop = freezed,
     Object? stream = freezed,
     Object? streamOptions = freezed,
@@ -3928,6 +3958,10 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
           ? _value.seed
           : seed // ignore: cast_nullable_to_non_nullable
               as int?,
+      serviceTier: freezed == serviceTier
+          ? _value.serviceTier
+          : serviceTier // ignore: cast_nullable_to_non_nullable
+              as CreateChatCompletionRequestServiceTier?,
       stop: freezed == stop
           ? _value.stop
           : stop // ignore: cast_nullable_to_non_nullable
@@ -3995,6 +4029,11 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
       @JsonKey(name: 'response_format', includeIfNull: false)
       this.responseFormat,
       @JsonKey(includeIfNull: false) this.seed,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.serviceTier,
       @_ChatCompletionStopConverter() @JsonKey(includeIfNull: false) this.stop,
       @JsonKey(includeIfNull: false) this.stream = false,
       @JsonKey(name: 'stream_options', includeIfNull: false) this.streamOptions,
@@ -4107,6 +4146,20 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   @JsonKey(includeIfNull: false)
   final int? seed;
 
+  /// Specifies the latency tier to use for processing the request. This parameter is relevant for customers
+  /// subscribed to the scale tier service:
+  ///   - If set to 'auto', the system will utilize scale tier credits until they are exhausted.
+  ///   - If set to 'default', the request will be processed using the default service tier with a lower
+  ///     uptime SLA and no latency guarantee.
+  ///
+  ///   When this parameter is set, the response body will include the `service_tier` utilized.
+  @override
+  @JsonKey(
+      name: 'service_tier',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final CreateChatCompletionRequestServiceTier? serviceTier;
+
   /// Up to 4 sequences where the API will stop generating further tokens.
   @override
   @_ChatCompletionStopConverter()
@@ -4207,7 +4260,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
 
   @override
   String toString() {
-    return 'CreateChatCompletionRequest(model: $model, messages: $messages, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, n: $n, presencePenalty: $presencePenalty, responseFormat: $responseFormat, seed: $seed, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions)';
+    return 'CreateChatCompletionRequest(model: $model, messages: $messages, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, n: $n, presencePenalty: $presencePenalty, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions)';
   }
 
   @override
@@ -4233,6 +4286,8 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
             (identical(other.responseFormat, responseFormat) ||
                 other.responseFormat == responseFormat) &&
             (identical(other.seed, seed) || other.seed == seed) &&
+            (identical(other.serviceTier, serviceTier) ||
+                other.serviceTier == serviceTier) &&
             (identical(other.stop, stop) || other.stop == stop) &&
             (identical(other.stream, stream) || other.stream == stream) &&
             (identical(other.streamOptions, streamOptions) ||
@@ -4267,6 +4322,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
         presencePenalty,
         responseFormat,
         seed,
+        serviceTier,
         stop,
         stream,
         streamOptions,
@@ -4315,6 +4371,11 @@ abstract class _CreateChatCompletionRequest
       @JsonKey(name: 'response_format', includeIfNull: false)
       final ChatCompletionResponseFormat? responseFormat,
       @JsonKey(includeIfNull: false) final int? seed,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final CreateChatCompletionRequestServiceTier? serviceTier,
       @_ChatCompletionStopConverter()
       @JsonKey(includeIfNull: false)
       final ChatCompletionStop? stop,
@@ -4409,6 +4470,20 @@ abstract class _CreateChatCompletionRequest
   /// Determinism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to monitor changes in the backend.
   @JsonKey(includeIfNull: false)
   int? get seed;
+  @override
+
+  /// Specifies the latency tier to use for processing the request. This parameter is relevant for customers
+  /// subscribed to the scale tier service:
+  ///   - If set to 'auto', the system will utilize scale tier credits until they are exhausted.
+  ///   - If set to 'default', the request will be processed using the default service tier with a lower
+  ///     uptime SLA and no latency guarantee.
+  ///
+  ///   When this parameter is set, the response body will include the `service_tier` utilized.
+  @JsonKey(
+      name: 'service_tier',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  CreateChatCompletionRequestServiceTier? get serviceTier;
   @override
 
   /// Up to 4 sequences where the API will stop generating further tokens.
@@ -7741,6 +7816,14 @@ mixin _$CreateChatCompletionResponse {
   /// The model used for the chat completion.
   String get model => throw _privateConstructorUsedError;
 
+  /// The service tier used for processing the request. This field is only included if the `service_tier` parameter
+  /// is specified in the request.
+  @JsonKey(
+      name: 'service_tier',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ServiceTier? get serviceTier => throw _privateConstructorUsedError;
+
   /// This fingerprint represents the backend configuration that the model runs with.
   ///
   /// Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.
@@ -7773,6 +7856,11 @@ abstract class $CreateChatCompletionResponseCopyWith<$Res> {
       List<ChatCompletionResponseChoice> choices,
       int created,
       String model,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ServiceTier? serviceTier,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
       String object,
@@ -7799,6 +7887,7 @@ class _$CreateChatCompletionResponseCopyWithImpl<$Res,
     Object? choices = null,
     Object? created = null,
     Object? model = null,
+    Object? serviceTier = freezed,
     Object? systemFingerprint = freezed,
     Object? object = null,
     Object? usage = freezed,
@@ -7820,6 +7909,10 @@ class _$CreateChatCompletionResponseCopyWithImpl<$Res,
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as String,
+      serviceTier: freezed == serviceTier
+          ? _value.serviceTier
+          : serviceTier // ignore: cast_nullable_to_non_nullable
+              as ServiceTier?,
       systemFingerprint: freezed == systemFingerprint
           ? _value.systemFingerprint
           : systemFingerprint // ignore: cast_nullable_to_non_nullable
@@ -7862,6 +7955,11 @@ abstract class _$$CreateChatCompletionResponseImplCopyWith<$Res>
       List<ChatCompletionResponseChoice> choices,
       int created,
       String model,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ServiceTier? serviceTier,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
       String object,
@@ -7888,6 +7986,7 @@ class __$$CreateChatCompletionResponseImplCopyWithImpl<$Res>
     Object? choices = null,
     Object? created = null,
     Object? model = null,
+    Object? serviceTier = freezed,
     Object? systemFingerprint = freezed,
     Object? object = null,
     Object? usage = freezed,
@@ -7909,6 +8008,10 @@ class __$$CreateChatCompletionResponseImplCopyWithImpl<$Res>
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as String,
+      serviceTier: freezed == serviceTier
+          ? _value.serviceTier
+          : serviceTier // ignore: cast_nullable_to_non_nullable
+              as ServiceTier?,
       systemFingerprint: freezed == systemFingerprint
           ? _value.systemFingerprint
           : systemFingerprint // ignore: cast_nullable_to_non_nullable
@@ -7933,6 +8036,11 @@ class _$CreateChatCompletionResponseImpl extends _CreateChatCompletionResponse {
       required final List<ChatCompletionResponseChoice> choices,
       required this.created,
       required this.model,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.serviceTier,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       this.systemFingerprint,
       required this.object,
@@ -7968,6 +8076,15 @@ class _$CreateChatCompletionResponseImpl extends _CreateChatCompletionResponse {
   @override
   final String model;
 
+  /// The service tier used for processing the request. This field is only included if the `service_tier` parameter
+  /// is specified in the request.
+  @override
+  @JsonKey(
+      name: 'service_tier',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ServiceTier? serviceTier;
+
   /// This fingerprint represents the backend configuration that the model runs with.
   ///
   /// Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.
@@ -7986,7 +8103,7 @@ class _$CreateChatCompletionResponseImpl extends _CreateChatCompletionResponse {
 
   @override
   String toString() {
-    return 'CreateChatCompletionResponse(id: $id, choices: $choices, created: $created, model: $model, systemFingerprint: $systemFingerprint, object: $object, usage: $usage)';
+    return 'CreateChatCompletionResponse(id: $id, choices: $choices, created: $created, model: $model, serviceTier: $serviceTier, systemFingerprint: $systemFingerprint, object: $object, usage: $usage)';
   }
 
   @override
@@ -7998,6 +8115,8 @@ class _$CreateChatCompletionResponseImpl extends _CreateChatCompletionResponse {
             const DeepCollectionEquality().equals(other._choices, _choices) &&
             (identical(other.created, created) || other.created == created) &&
             (identical(other.model, model) || other.model == model) &&
+            (identical(other.serviceTier, serviceTier) ||
+                other.serviceTier == serviceTier) &&
             (identical(other.systemFingerprint, systemFingerprint) ||
                 other.systemFingerprint == systemFingerprint) &&
             (identical(other.object, object) || other.object == object) &&
@@ -8012,6 +8131,7 @@ class _$CreateChatCompletionResponseImpl extends _CreateChatCompletionResponse {
       const DeepCollectionEquality().hash(_choices),
       created,
       model,
+      serviceTier,
       systemFingerprint,
       object,
       usage);
@@ -8039,6 +8159,11 @@ abstract class _CreateChatCompletionResponse
           required final List<ChatCompletionResponseChoice> choices,
           required final int created,
           required final String model,
+          @JsonKey(
+              name: 'service_tier',
+              includeIfNull: false,
+              unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+          final ServiceTier? serviceTier,
           @JsonKey(name: 'system_fingerprint', includeIfNull: false)
           final String? systemFingerprint,
           required final String object,
@@ -8066,6 +8191,15 @@ abstract class _CreateChatCompletionResponse
 
   /// The model used for the chat completion.
   String get model;
+  @override
+
+  /// The service tier used for processing the request. This field is only included if the `service_tier` parameter
+  /// is specified in the request.
+  @JsonKey(
+      name: 'service_tier',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ServiceTier? get serviceTier;
   @override
 
   /// This fingerprint represents the backend configuration that the model runs with.
@@ -9049,6 +9183,14 @@ mixin _$CreateChatCompletionStreamResponse {
   @JsonKey(includeIfNull: false)
   String? get model => throw _privateConstructorUsedError;
 
+  /// The service tier used for processing the request. This field is only included if the `service_tier` parameter
+  /// is specified in the request.
+  @JsonKey(
+      name: 'service_tier',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ServiceTier? get serviceTier => throw _privateConstructorUsedError;
+
   /// This fingerprint represents the backend configuration that the model runs with.
   ///
   /// Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact
@@ -9083,6 +9225,11 @@ abstract class $CreateChatCompletionStreamResponseCopyWith<$Res> {
       List<ChatCompletionStreamResponseChoice> choices,
       @JsonKey(includeIfNull: false) int? created,
       @JsonKey(includeIfNull: false) String? model,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ServiceTier? serviceTier,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
       @JsonKey(includeIfNull: false) String? object,
@@ -9109,6 +9256,7 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
     Object? choices = null,
     Object? created = freezed,
     Object? model = freezed,
+    Object? serviceTier = freezed,
     Object? systemFingerprint = freezed,
     Object? object = freezed,
     Object? usage = freezed,
@@ -9130,6 +9278,10 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as String?,
+      serviceTier: freezed == serviceTier
+          ? _value.serviceTier
+          : serviceTier // ignore: cast_nullable_to_non_nullable
+              as ServiceTier?,
       systemFingerprint: freezed == systemFingerprint
           ? _value.systemFingerprint
           : systemFingerprint // ignore: cast_nullable_to_non_nullable
@@ -9172,6 +9324,11 @@ abstract class _$$CreateChatCompletionStreamResponseImplCopyWith<$Res>
       List<ChatCompletionStreamResponseChoice> choices,
       @JsonKey(includeIfNull: false) int? created,
       @JsonKey(includeIfNull: false) String? model,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ServiceTier? serviceTier,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
       @JsonKey(includeIfNull: false) String? object,
@@ -9198,6 +9355,7 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
     Object? choices = null,
     Object? created = freezed,
     Object? model = freezed,
+    Object? serviceTier = freezed,
     Object? systemFingerprint = freezed,
     Object? object = freezed,
     Object? usage = freezed,
@@ -9219,6 +9377,10 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as String?,
+      serviceTier: freezed == serviceTier
+          ? _value.serviceTier
+          : serviceTier // ignore: cast_nullable_to_non_nullable
+              as ServiceTier?,
       systemFingerprint: freezed == systemFingerprint
           ? _value.systemFingerprint
           : systemFingerprint // ignore: cast_nullable_to_non_nullable
@@ -9244,6 +9406,11 @@ class _$CreateChatCompletionStreamResponseImpl
       required final List<ChatCompletionStreamResponseChoice> choices,
       @JsonKey(includeIfNull: false) this.created,
       @JsonKey(includeIfNull: false) this.model,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.serviceTier,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       this.systemFingerprint,
       @JsonKey(includeIfNull: false) this.object,
@@ -9283,6 +9450,15 @@ class _$CreateChatCompletionStreamResponseImpl
   @JsonKey(includeIfNull: false)
   final String? model;
 
+  /// The service tier used for processing the request. This field is only included if the `service_tier` parameter
+  /// is specified in the request.
+  @override
+  @JsonKey(
+      name: 'service_tier',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ServiceTier? serviceTier;
+
   /// This fingerprint represents the backend configuration that the model runs with.
   ///
   /// Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact
@@ -9302,7 +9478,7 @@ class _$CreateChatCompletionStreamResponseImpl
 
   @override
   String toString() {
-    return 'CreateChatCompletionStreamResponse(id: $id, choices: $choices, created: $created, model: $model, systemFingerprint: $systemFingerprint, object: $object, usage: $usage)';
+    return 'CreateChatCompletionStreamResponse(id: $id, choices: $choices, created: $created, model: $model, serviceTier: $serviceTier, systemFingerprint: $systemFingerprint, object: $object, usage: $usage)';
   }
 
   @override
@@ -9314,6 +9490,8 @@ class _$CreateChatCompletionStreamResponseImpl
             const DeepCollectionEquality().equals(other._choices, _choices) &&
             (identical(other.created, created) || other.created == created) &&
             (identical(other.model, model) || other.model == model) &&
+            (identical(other.serviceTier, serviceTier) ||
+                other.serviceTier == serviceTier) &&
             (identical(other.systemFingerprint, systemFingerprint) ||
                 other.systemFingerprint == systemFingerprint) &&
             (identical(other.object, object) || other.object == object) &&
@@ -9328,6 +9506,7 @@ class _$CreateChatCompletionStreamResponseImpl
       const DeepCollectionEquality().hash(_choices),
       created,
       model,
+      serviceTier,
       systemFingerprint,
       object,
       usage);
@@ -9355,6 +9534,11 @@ abstract class _CreateChatCompletionStreamResponse
           required final List<ChatCompletionStreamResponseChoice> choices,
           @JsonKey(includeIfNull: false) final int? created,
           @JsonKey(includeIfNull: false) final String? model,
+          @JsonKey(
+              name: 'service_tier',
+              includeIfNull: false,
+              unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+          final ServiceTier? serviceTier,
           @JsonKey(name: 'system_fingerprint', includeIfNull: false)
           final String? systemFingerprint,
           @JsonKey(includeIfNull: false) final String? object,
@@ -9386,6 +9570,15 @@ abstract class _CreateChatCompletionStreamResponse
   /// The model to generate the completion.
   @JsonKey(includeIfNull: false)
   String? get model;
+  @override
+
+  /// The service tier used for processing the request. This field is only included if the `service_tier` parameter
+  /// is specified in the request.
+  @JsonKey(
+      name: 'service_tier',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ServiceTier? get serviceTier;
   @override
 
   /// This fingerprint represents the backend configuration that the model runs with.

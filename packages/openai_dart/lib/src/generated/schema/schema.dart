@@ -30,6 +30,7 @@ part 'chat_completion_stream_options.dart';
 part 'create_chat_completion_response.dart';
 part 'chat_completion_response_choice.dart';
 part 'chat_completion_finish_reason.dart';
+part 'service_tier.dart';
 part 'chat_completion_logprobs.dart';
 part 'chat_completion_token_logprob.dart';
 part 'chat_completion_token_top_logprob.dart';
