@@ -4,7 +4,7 @@ openapi: 3.0.0
 info:
   title: OpenAI API
   description: The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details.
-  version: "2.0.0"
+  version: "2.1.0"
   termsOfService: https://openai.com/policies/terms-of-use
   contact:
     name: OpenAI Support
@@ -1465,7 +1465,7 @@ paths:
       operationId: cancelBatch
       tags:
         - Batch
-      summary: Cancels an in-progress batch.
+      summary: Cancels an in-progress batch. The batch will be in status `cancelling` for up to 10 minutes, before changing to `cancelled`, where it will have partial results (if any) available in the output file.
       parameters:
         - in: path
           name: batch_id
@@ -2668,8 +2668,13 @@ components:
 
             See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
 
-            Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.
+            Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose 
+            `fine-tune`.
 
+            The contents of the file should differ depending on if the model uses the 
+            [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input) or 
+            [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format.
+            
             See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
           type: string
           example: "file-abc123"
@@ -3710,7 +3715,23 @@ components:
         type:
           type: string
           description: "The type of tool being defined: `file_search`"
-          default: "file_search"
+          default: file_search
+        file_search:
+          type: object
+          description: Overrides for the file search tool.
+          properties:
+            max_num_results:
+              type: integer
+              minimum: 1
+              maximum: 50
+              description: |
+                The maximum number of results the file search tool should output. The default is 20 for gpt-4* models 
+                and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
+                
+                Note that the file search tool may output fewer than `max_num_results` results. See the [file search 
+                tool documentation](/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
+      required:
+        - type
     AssistantToolsFunction:
       type: object
       description: Function tool
@@ -4885,12 +4906,8 @@ components:
         file_id:
           description: The ID of the specific File the citation is from.
           type: string
-        quote:
-          description: The specific quote in the file.
-          type: string
       required:
         - file_id
-        # - quote # https://github.com/openai/openai-openapi/issues/263
     MessageContentTextAnnotationsFilePathObject:
       type: object
       description: A URL for the file that's generated when the assistant used the `code_interpreter` tool to generate a file.
@@ -6115,7 +6132,7 @@ components:
             
             See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
             
-            Your input file must be formatted as a JSONL file, and must be uploaded with the purpose `batch`.
+            Your input file must be formatted as a [JSONL file](https://platform.openai.com/docs/api-reference/batch/request-input), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 100 MB in size.
         endpoint:
           $ref: "#/components/schemas/BatchEndpoint"
         completion_window:

@@ -13428,7 +13428,12 @@ mixin _$CreateFineTuningJobRequest {
   ///
   /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
   ///
-  /// Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.
+  /// Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose
+  /// `fine-tune`.
+  ///
+  /// The contents of the file should differ depending on if the model uses the
+  /// [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input) or
+  /// [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format.
   ///
   /// See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
   @JsonKey(name: 'training_file')
@@ -13682,7 +13687,12 @@ class _$CreateFineTuningJobRequestImpl extends _CreateFineTuningJobRequest {
   ///
   /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
   ///
-  /// Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.
+  /// Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose
+  /// `fine-tune`.
+  ///
+  /// The contents of the file should differ depending on if the model uses the
+  /// [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input) or
+  /// [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format.
   ///
   /// See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
   @override
@@ -13815,7 +13825,12 @@ abstract class _CreateFineTuningJobRequest extends CreateFineTuningJobRequest {
   ///
   /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
   ///
-  /// Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.
+  /// Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose
+  /// `fine-tune`.
+  ///
+  /// The contents of the file should differ depending on if the model uses the
+  /// [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input) or
+  /// [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format.
   ///
   /// See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
   @JsonKey(name: 'training_file')
@@ -40381,10 +40396,6 @@ mixin _$MessageContentTextAnnotationsFileCitation {
   @JsonKey(name: 'file_id')
   String get fileId => throw _privateConstructorUsedError;
 
-  /// The specific quote in the file.
-  @JsonKey(includeIfNull: false)
-  String? get quote => throw _privateConstructorUsedError;
-
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $MessageContentTextAnnotationsFileCitationCopyWith<
@@ -40400,9 +40411,7 @@ abstract class $MessageContentTextAnnotationsFileCitationCopyWith<$Res> {
       _$MessageContentTextAnnotationsFileCitationCopyWithImpl<$Res,
           MessageContentTextAnnotationsFileCitation>;
   @useResult
-  $Res call(
-      {@JsonKey(name: 'file_id') String fileId,
-      @JsonKey(includeIfNull: false) String? quote});
+  $Res call({@JsonKey(name: 'file_id') String fileId});
 }
 
 /// @nodoc
@@ -40421,17 +40430,12 @@ class _$MessageContentTextAnnotationsFileCitationCopyWithImpl<$Res,
   @override
   $Res call({
     Object? fileId = null,
-    Object? quote = freezed,
   }) {
     return _then(_value.copyWith(
       fileId: null == fileId
           ? _value.fileId
           : fileId // ignore: cast_nullable_to_non_nullable
               as String,
-      quote: freezed == quote
-          ? _value.quote
-          : quote // ignore: cast_nullable_to_non_nullable
-              as String?,
     ) as $Val);
   }
 }
@@ -40445,9 +40449,7 @@ abstract class _$$MessageContentTextAnnotationsFileCitationImplCopyWith<$Res>
       __$$MessageContentTextAnnotationsFileCitationImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: 'file_id') String fileId,
-      @JsonKey(includeIfNull: false) String? quote});
+  $Res call({@JsonKey(name: 'file_id') String fileId});
 }
 
 /// @nodoc
@@ -40464,17 +40466,12 @@ class __$$MessageContentTextAnnotationsFileCitationImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fileId = null,
-    Object? quote = freezed,
   }) {
     return _then(_$MessageContentTextAnnotationsFileCitationImpl(
       fileId: null == fileId
           ? _value.fileId
           : fileId // ignore: cast_nullable_to_non_nullable
               as String,
-      quote: freezed == quote
-          ? _value.quote
-          : quote // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 }
@@ -40484,8 +40481,7 @@ class __$$MessageContentTextAnnotationsFileCitationImplCopyWithImpl<$Res>
 class _$MessageContentTextAnnotationsFileCitationImpl
     extends _MessageContentTextAnnotationsFileCitation {
   const _$MessageContentTextAnnotationsFileCitationImpl(
-      {@JsonKey(name: 'file_id') required this.fileId,
-      @JsonKey(includeIfNull: false) this.quote})
+      {@JsonKey(name: 'file_id') required this.fileId})
       : super._();
 
   factory _$MessageContentTextAnnotationsFileCitationImpl.fromJson(
@@ -40497,14 +40493,9 @@ class _$MessageContentTextAnnotationsFileCitationImpl
   @JsonKey(name: 'file_id')
   final String fileId;
 
-  /// The specific quote in the file.
-  @override
-  @JsonKey(includeIfNull: false)
-  final String? quote;
-
   @override
   String toString() {
-    return 'MessageContentTextAnnotationsFileCitation(fileId: $fileId, quote: $quote)';
+    return 'MessageContentTextAnnotationsFileCitation(fileId: $fileId)';
   }
 
   @override
@@ -40512,13 +40503,12 @@ class _$MessageContentTextAnnotationsFileCitationImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MessageContentTextAnnotationsFileCitationImpl &&
-            (identical(other.fileId, fileId) || other.fileId == fileId) &&
-            (identical(other.quote, quote) || other.quote == quote));
+            (identical(other.fileId, fileId) || other.fileId == fileId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, fileId, quote);
+  int get hashCode => Object.hash(runtimeType, fileId);
 
   @JsonKey(ignore: true)
   @override
@@ -40541,8 +40531,7 @@ class _$MessageContentTextAnnotationsFileCitationImpl
 abstract class _MessageContentTextAnnotationsFileCitation
     extends MessageContentTextAnnotationsFileCitation {
   const factory _MessageContentTextAnnotationsFileCitation(
-          {@JsonKey(name: 'file_id') required final String fileId,
-          @JsonKey(includeIfNull: false) final String? quote}) =
+          {@JsonKey(name: 'file_id') required final String fileId}) =
       _$MessageContentTextAnnotationsFileCitationImpl;
   const _MessageContentTextAnnotationsFileCitation._() : super._();
 
@@ -40555,11 +40544,6 @@ abstract class _MessageContentTextAnnotationsFileCitation
   /// The ID of the specific File the citation is from.
   @JsonKey(name: 'file_id')
   String get fileId;
-  @override
-
-  /// The specific quote in the file.
-  @JsonKey(includeIfNull: false)
-  String? get quote;
   @override
   @JsonKey(ignore: true)
   _$$MessageContentTextAnnotationsFileCitationImplCopyWith<
@@ -48068,7 +48052,7 @@ mixin _$CreateBatchRequest {
   ///
   /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
   ///
-  /// Your input file must be formatted as a JSONL file, and must be uploaded with the purpose `batch`.
+  /// Your input file must be formatted as a [JSONL file](https://platform.openai.com/docs/api-reference/batch/request-input), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 100 MB in size.
   @JsonKey(name: 'input_file_id')
   String get inputFileId => throw _privateConstructorUsedError;
 
@@ -48214,7 +48198,7 @@ class _$CreateBatchRequestImpl extends _CreateBatchRequest {
   ///
   /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
   ///
-  /// Your input file must be formatted as a JSONL file, and must be uploaded with the purpose `batch`.
+  /// Your input file must be formatted as a [JSONL file](https://platform.openai.com/docs/api-reference/batch/request-input), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 100 MB in size.
   @override
   @JsonKey(name: 'input_file_id')
   final String inputFileId;
@@ -48300,7 +48284,7 @@ abstract class _CreateBatchRequest extends CreateBatchRequest {
   ///
   /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
   ///
-  /// Your input file must be formatted as a JSONL file, and must be uploaded with the purpose `batch`.
+  /// Your input file must be formatted as a [JSONL file](https://platform.openai.com/docs/api-reference/batch/request-input), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 100 MB in size.
   @JsonKey(name: 'input_file_id')
   String get inputFileId;
   @override
@@ -52790,21 +52774,33 @@ mixin _$AssistantTools {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String type) codeInterpreter,
-    required TResult Function(String type) fileSearch,
+    required TResult Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)
+        fileSearch,
     required TResult Function(String type, FunctionObject function) function,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type)? codeInterpreter,
-    TResult? Function(String type)? fileSearch,
+    TResult? Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)?
+        fileSearch,
     TResult? Function(String type, FunctionObject function)? function,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type)? codeInterpreter,
-    TResult Function(String type)? fileSearch,
+    TResult Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)?
+        fileSearch,
     TResult Function(String type, FunctionObject function)? function,
     required TResult orElse(),
   }) =>
@@ -52952,7 +52948,11 @@ class _$AssistantToolsCodeInterpreterImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String type) codeInterpreter,
-    required TResult Function(String type) fileSearch,
+    required TResult Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)
+        fileSearch,
     required TResult Function(String type, FunctionObject function) function,
   }) {
     return codeInterpreter(type);
@@ -52962,7 +52962,11 @@ class _$AssistantToolsCodeInterpreterImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type)? codeInterpreter,
-    TResult? Function(String type)? fileSearch,
+    TResult? Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)?
+        fileSearch,
     TResult? Function(String type, FunctionObject function)? function,
   }) {
     return codeInterpreter?.call(type);
@@ -52972,7 +52976,11 @@ class _$AssistantToolsCodeInterpreterImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type)? codeInterpreter,
-    TResult Function(String type)? fileSearch,
+    TResult Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)?
+        fileSearch,
     TResult Function(String type, FunctionObject function)? function,
     required TResult orElse(),
   }) {
@@ -53053,7 +53061,12 @@ abstract class _$$AssistantToolsFileSearchImplCopyWith<$Res>
       __$$AssistantToolsFileSearchImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String type});
+  $Res call(
+      {String type,
+      @JsonKey(name: 'file_search', includeIfNull: false)
+      AssistantToolsFileSearchFileSearch? fileSearch});
+
+  $AssistantToolsFileSearchFileSearchCopyWith<$Res>? get fileSearch;
 }
 
 /// @nodoc
@@ -53069,32 +53082,57 @@ class __$$AssistantToolsFileSearchImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? type = null,
+    Object? fileSearch = freezed,
   }) {
     return _then(_$AssistantToolsFileSearchImpl(
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
+      fileSearch: freezed == fileSearch
+          ? _value.fileSearch
+          : fileSearch // ignore: cast_nullable_to_non_nullable
+              as AssistantToolsFileSearchFileSearch?,
     ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AssistantToolsFileSearchFileSearchCopyWith<$Res>? get fileSearch {
+    if (_value.fileSearch == null) {
+      return null;
+    }
+
+    return $AssistantToolsFileSearchFileSearchCopyWith<$Res>(_value.fileSearch!,
+        (value) {
+      return _then(_value.copyWith(fileSearch: value));
+    });
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$AssistantToolsFileSearchImpl extends AssistantToolsFileSearch {
-  const _$AssistantToolsFileSearchImpl({this.type = 'file_search'}) : super._();
+  const _$AssistantToolsFileSearchImpl(
+      {required this.type,
+      @JsonKey(name: 'file_search', includeIfNull: false) this.fileSearch})
+      : super._();
 
   factory _$AssistantToolsFileSearchImpl.fromJson(Map<String, dynamic> json) =>
       _$$AssistantToolsFileSearchImplFromJson(json);
 
   /// The type of tool being defined: `file_search`
   @override
-  @JsonKey()
   final String type;
+
+  /// Overrides for the file search tool.
+  @override
+  @JsonKey(name: 'file_search', includeIfNull: false)
+  final AssistantToolsFileSearchFileSearch? fileSearch;
 
   @override
   String toString() {
-    return 'AssistantTools.fileSearch(type: $type)';
+    return 'AssistantTools.fileSearch(type: $type, fileSearch: $fileSearch)';
   }
 
   @override
@@ -53102,12 +53140,14 @@ class _$AssistantToolsFileSearchImpl extends AssistantToolsFileSearch {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AssistantToolsFileSearchImpl &&
-            (identical(other.type, type) || other.type == type));
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.fileSearch, fileSearch) ||
+                other.fileSearch == fileSearch));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, type);
+  int get hashCode => Object.hash(runtimeType, type, fileSearch);
 
   @JsonKey(ignore: true)
   @override
@@ -53120,32 +53160,44 @@ class _$AssistantToolsFileSearchImpl extends AssistantToolsFileSearch {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String type) codeInterpreter,
-    required TResult Function(String type) fileSearch,
+    required TResult Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)
+        fileSearch,
     required TResult Function(String type, FunctionObject function) function,
   }) {
-    return fileSearch(type);
+    return fileSearch(type, this.fileSearch);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type)? codeInterpreter,
-    TResult? Function(String type)? fileSearch,
+    TResult? Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)?
+        fileSearch,
     TResult? Function(String type, FunctionObject function)? function,
   }) {
-    return fileSearch?.call(type);
+    return fileSearch?.call(type, this.fileSearch);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type)? codeInterpreter,
-    TResult Function(String type)? fileSearch,
+    TResult Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)?
+        fileSearch,
     TResult Function(String type, FunctionObject function)? function,
     required TResult orElse(),
   }) {
     if (fileSearch != null) {
-      return fileSearch(type);
+      return fileSearch(type, this.fileSearch);
     }
     return orElse();
   }
@@ -53194,7 +53246,10 @@ class _$AssistantToolsFileSearchImpl extends AssistantToolsFileSearch {
 }
 
 abstract class AssistantToolsFileSearch extends AssistantTools {
-  const factory AssistantToolsFileSearch({final String type}) =
+  const factory AssistantToolsFileSearch(
+          {required final String type,
+          @JsonKey(name: 'file_search', includeIfNull: false)
+          final AssistantToolsFileSearchFileSearch? fileSearch}) =
       _$AssistantToolsFileSearchImpl;
   const AssistantToolsFileSearch._() : super._();
 
@@ -53205,6 +53260,10 @@ abstract class AssistantToolsFileSearch extends AssistantTools {
 
   /// The type of tool being defined: `file_search`
   String get type;
+
+  /// Overrides for the file search tool.
+  @JsonKey(name: 'file_search', includeIfNull: false)
+  AssistantToolsFileSearchFileSearch? get fileSearch;
   @override
   @JsonKey(ignore: true)
   _$$AssistantToolsFileSearchImplCopyWith<_$AssistantToolsFileSearchImpl>
@@ -53310,7 +53369,11 @@ class _$AssistantToolsFunctionImpl extends AssistantToolsFunction {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String type) codeInterpreter,
-    required TResult Function(String type) fileSearch,
+    required TResult Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)
+        fileSearch,
     required TResult Function(String type, FunctionObject function) function,
   }) {
     return function(type, this.function);
@@ -53320,7 +53383,11 @@ class _$AssistantToolsFunctionImpl extends AssistantToolsFunction {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type)? codeInterpreter,
-    TResult? Function(String type)? fileSearch,
+    TResult? Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)?
+        fileSearch,
     TResult? Function(String type, FunctionObject function)? function,
   }) {
     return function?.call(type, this.function);
@@ -53330,7 +53397,11 @@ class _$AssistantToolsFunctionImpl extends AssistantToolsFunction {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type)? codeInterpreter,
-    TResult Function(String type)? fileSearch,
+    TResult Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)?
+        fileSearch,
     TResult Function(String type, FunctionObject function)? function,
     required TResult orElse(),
   }) {
@@ -53402,6 +53473,187 @@ abstract class AssistantToolsFunction extends AssistantTools {
   @override
   @JsonKey(ignore: true)
   _$$AssistantToolsFunctionImplCopyWith<_$AssistantToolsFunctionImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+AssistantToolsFileSearchFileSearch _$AssistantToolsFileSearchFileSearchFromJson(
+    Map<String, dynamic> json) {
+  return _AssistantToolsFileSearchFileSearch.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AssistantToolsFileSearchFileSearch {
+  /// The maximum number of results the file search tool should output. The default is 20 for gpt-4* models
+  /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
+  ///
+  /// Note that the file search tool may output fewer than `max_num_results` results. See the [file search
+  /// tool documentation](/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
+  @JsonKey(name: 'max_num_results', includeIfNull: false)
+  int? get maxNumResults => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AssistantToolsFileSearchFileSearchCopyWith<
+          AssistantToolsFileSearchFileSearch>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AssistantToolsFileSearchFileSearchCopyWith<$Res> {
+  factory $AssistantToolsFileSearchFileSearchCopyWith(
+          AssistantToolsFileSearchFileSearch value,
+          $Res Function(AssistantToolsFileSearchFileSearch) then) =
+      _$AssistantToolsFileSearchFileSearchCopyWithImpl<$Res,
+          AssistantToolsFileSearchFileSearch>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'max_num_results', includeIfNull: false)
+      int? maxNumResults});
+}
+
+/// @nodoc
+class _$AssistantToolsFileSearchFileSearchCopyWithImpl<$Res,
+        $Val extends AssistantToolsFileSearchFileSearch>
+    implements $AssistantToolsFileSearchFileSearchCopyWith<$Res> {
+  _$AssistantToolsFileSearchFileSearchCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? maxNumResults = freezed,
+  }) {
+    return _then(_value.copyWith(
+      maxNumResults: freezed == maxNumResults
+          ? _value.maxNumResults
+          : maxNumResults // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AssistantToolsFileSearchFileSearchImplCopyWith<$Res>
+    implements $AssistantToolsFileSearchFileSearchCopyWith<$Res> {
+  factory _$$AssistantToolsFileSearchFileSearchImplCopyWith(
+          _$AssistantToolsFileSearchFileSearchImpl value,
+          $Res Function(_$AssistantToolsFileSearchFileSearchImpl) then) =
+      __$$AssistantToolsFileSearchFileSearchImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'max_num_results', includeIfNull: false)
+      int? maxNumResults});
+}
+
+/// @nodoc
+class __$$AssistantToolsFileSearchFileSearchImplCopyWithImpl<$Res>
+    extends _$AssistantToolsFileSearchFileSearchCopyWithImpl<$Res,
+        _$AssistantToolsFileSearchFileSearchImpl>
+    implements _$$AssistantToolsFileSearchFileSearchImplCopyWith<$Res> {
+  __$$AssistantToolsFileSearchFileSearchImplCopyWithImpl(
+      _$AssistantToolsFileSearchFileSearchImpl _value,
+      $Res Function(_$AssistantToolsFileSearchFileSearchImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? maxNumResults = freezed,
+  }) {
+    return _then(_$AssistantToolsFileSearchFileSearchImpl(
+      maxNumResults: freezed == maxNumResults
+          ? _value.maxNumResults
+          : maxNumResults // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AssistantToolsFileSearchFileSearchImpl
+    extends _AssistantToolsFileSearchFileSearch {
+  const _$AssistantToolsFileSearchFileSearchImpl(
+      {@JsonKey(name: 'max_num_results', includeIfNull: false)
+      this.maxNumResults})
+      : super._();
+
+  factory _$AssistantToolsFileSearchFileSearchImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$AssistantToolsFileSearchFileSearchImplFromJson(json);
+
+  /// The maximum number of results the file search tool should output. The default is 20 for gpt-4* models
+  /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
+  ///
+  /// Note that the file search tool may output fewer than `max_num_results` results. See the [file search
+  /// tool documentation](/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
+  @override
+  @JsonKey(name: 'max_num_results', includeIfNull: false)
+  final int? maxNumResults;
+
+  @override
+  String toString() {
+    return 'AssistantToolsFileSearchFileSearch(maxNumResults: $maxNumResults)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AssistantToolsFileSearchFileSearchImpl &&
+            (identical(other.maxNumResults, maxNumResults) ||
+                other.maxNumResults == maxNumResults));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, maxNumResults);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AssistantToolsFileSearchFileSearchImplCopyWith<
+          _$AssistantToolsFileSearchFileSearchImpl>
+      get copyWith => __$$AssistantToolsFileSearchFileSearchImplCopyWithImpl<
+          _$AssistantToolsFileSearchFileSearchImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AssistantToolsFileSearchFileSearchImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AssistantToolsFileSearchFileSearch
+    extends AssistantToolsFileSearchFileSearch {
+  const factory _AssistantToolsFileSearchFileSearch(
+      {@JsonKey(name: 'max_num_results', includeIfNull: false)
+      final int? maxNumResults}) = _$AssistantToolsFileSearchFileSearchImpl;
+  const _AssistantToolsFileSearchFileSearch._() : super._();
+
+  factory _AssistantToolsFileSearchFileSearch.fromJson(
+          Map<String, dynamic> json) =
+      _$AssistantToolsFileSearchFileSearchImpl.fromJson;
+
+  @override
+
+  /// The maximum number of results the file search tool should output. The default is 20 for gpt-4* models
+  /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
+  ///
+  /// Note that the file search tool may output fewer than `max_num_results` results. See the [file search
+  /// tool documentation](/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
+  @JsonKey(name: 'max_num_results', includeIfNull: false)
+  int? get maxNumResults;
+  @override
+  @JsonKey(ignore: true)
+  _$$AssistantToolsFileSearchFileSearchImplCopyWith<
+          _$AssistantToolsFileSearchFileSearchImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
