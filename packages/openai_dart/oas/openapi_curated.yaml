@@ -1974,6 +1974,13 @@ components:
                 `required` means the model must call one or more tools.
               enum: [ none, auto, required ]
             - $ref: "#/components/schemas/ChatCompletionNamedToolChoice"
+        parallel_tool_calls: &parallel_tool_calls
+          description: |
+            Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling) 
+            during tool use.
+          type: boolean
+          default: true
+          nullable: true
         user: *end_user_param_configuration
         function_call:
           title: ChatCompletionFunctionCall
@@ -3959,6 +3966,7 @@ components:
                 `required` means the model must call one or more tools before responding to the user.
               enum: [ none, auto, required ]
             - $ref: "#/components/schemas/AssistantsNamedToolChoice"
+        parallel_tool_calls: *parallel_tool_calls
         response_format:
           description: |
             Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
@@ -3997,6 +4005,7 @@ components:
         - max_completion_tokens
         - truncation_strategy
         - tool_choice
+        - parallel_tool_calls
         - response_format
     RunCompletionUsage:
       type: object
@@ -4136,6 +4145,7 @@ components:
                 `required` means the model must call one or more tools before responding to the user.
               enum: [ none, auto, required ]
             - $ref: "#/components/schemas/AssistantsNamedToolChoice"
+        parallel_tool_calls: *parallel_tool_calls
         response_format:
           description: |
             Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
@@ -4366,6 +4376,7 @@ components:
                 `required` means the model must call one or more tools before responding to the user.
               enum: [ none, auto, required ]
             - $ref: "#/components/schemas/AssistantsNamedToolChoice"
+        parallel_tool_calls: *parallel_tool_calls
         response_format:
           description: |
             Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
