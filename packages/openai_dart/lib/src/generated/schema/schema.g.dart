@@ -322,6 +322,9 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
           : ChatCompletionResponseFormat.fromJson(
               json['response_format'] as Map<String, dynamic>),
       seed: json['seed'] as int?,
+      serviceTier: $enumDecodeNullable(
+          _$CreateChatCompletionRequestServiceTierEnumMap, json['service_tier'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
       stop: const _ChatCompletionStopConverter().fromJson(json['stop']),
       stream: json['stream'] as bool? ?? false,
       streamOptions: json['stream_options'] == null
@@ -366,6 +369,8 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
   writeNotNull('presence_penalty', instance.presencePenalty);
   writeNotNull('response_format', instance.responseFormat?.toJson());
   writeNotNull('seed', instance.seed);
+  writeNotNull('service_tier',
+      _$CreateChatCompletionRequestServiceTierEnumMap[instance.serviceTier]);
   writeNotNull(
       'stop', const _ChatCompletionStopConverter().toJson(instance.stop));
   writeNotNull('stream', instance.stream);
@@ -387,6 +392,11 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
       'functions', instance.functions?.map((e) => e.toJson()).toList());
   return val;
 }
+
+const _$CreateChatCompletionRequestServiceTierEnumMap = {
+  CreateChatCompletionRequestServiceTier.auto: 'auto',
+  CreateChatCompletionRequestServiceTier.vDefault: 'default',
+};
 
 _$ChatCompletionModelEnumerationImpl
     _$$ChatCompletionModelEnumerationImplFromJson(Map<String, dynamic> json) =>
@@ -707,6 +717,9 @@ _$CreateChatCompletionResponseImpl _$$CreateChatCompletionResponseImplFromJson(
           .toList(),
       created: json['created'] as int,
       model: json['model'] as String,
+      serviceTier: $enumDecodeNullable(
+          _$ServiceTierEnumMap, json['service_tier'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
       systemFingerprint: json['system_fingerprint'] as String?,
       object: json['object'] as String,
       usage: json['usage'] == null
@@ -728,11 +741,17 @@ Map<String, dynamic> _$$CreateChatCompletionResponseImplToJson(
   val['choices'] = instance.choices.map((e) => e.toJson()).toList();
   val['created'] = instance.created;
   val['model'] = instance.model;
+  writeNotNull('service_tier', _$ServiceTierEnumMap[instance.serviceTier]);
   writeNotNull('system_fingerprint', instance.systemFingerprint);
   val['object'] = instance.object;
   writeNotNull('usage', instance.usage?.toJson());
   return val;
 }
+
+const _$ServiceTierEnumMap = {
+  ServiceTier.scale: 'scale',
+  ServiceTier.vDefault: 'default',
+};
 
 _$ChatCompletionResponseChoiceImpl _$$ChatCompletionResponseChoiceImplFromJson(
         Map<String, dynamic> json) =>
@@ -839,6 +858,9 @@ _$CreateChatCompletionStreamResponseImpl
               .toList(),
           created: json['created'] as int?,
           model: json['model'] as String?,
+          serviceTier: $enumDecodeNullable(
+              _$ServiceTierEnumMap, json['service_tier'],
+              unknownValue: JsonKey.nullForUndefinedEnumValue),
           systemFingerprint: json['system_fingerprint'] as String?,
           object: json['object'] as String?,
           usage: json['usage'] == null
@@ -860,6 +882,7 @@ Map<String, dynamic> _$$CreateChatCompletionStreamResponseImplToJson(
   val['choices'] = instance.choices.map((e) => e.toJson()).toList();
   writeNotNull('created', instance.created);
   writeNotNull('model', instance.model);
+  writeNotNull('service_tier', _$ServiceTierEnumMap[instance.serviceTier]);
   writeNotNull('system_fingerprint', instance.systemFingerprint);
   writeNotNull('object', instance.object);
   writeNotNull('usage', instance.usage?.toJson());
