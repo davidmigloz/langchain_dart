@@ -3500,6 +3500,11 @@ mixin _$CreateChatCompletionRequest {
   ChatCompletionToolChoiceOption? get toolChoice =>
       throw _privateConstructorUsedError;
 
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+  bool? get parallelToolCalls => throw _privateConstructorUsedError;
+
   /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
   @JsonKey(includeIfNull: false)
   String? get user => throw _privateConstructorUsedError;
@@ -3565,6 +3570,8 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
       @_ChatCompletionToolChoiceOptionConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       ChatCompletionToolChoiceOption? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      bool? parallelToolCalls,
       @JsonKey(includeIfNull: false) String? user,
       @_ChatCompletionFunctionCallConverter()
       @JsonKey(name: 'function_call', includeIfNull: false)
@@ -3611,6 +3618,7 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
     Object? topP = freezed,
     Object? tools = freezed,
     Object? toolChoice = freezed,
+    Object? parallelToolCalls = freezed,
     Object? user = freezed,
     Object? functionCall = freezed,
     Object? functions = freezed,
@@ -3688,6 +3696,10 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
           ? _value.toolChoice
           : toolChoice // ignore: cast_nullable_to_non_nullable
               as ChatCompletionToolChoiceOption?,
+      parallelToolCalls: freezed == parallelToolCalls
+          ? _value.parallelToolCalls
+          : parallelToolCalls // ignore: cast_nullable_to_non_nullable
+              as bool?,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -3813,6 +3825,8 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
       @_ChatCompletionToolChoiceOptionConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       ChatCompletionToolChoiceOption? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      bool? parallelToolCalls,
       @JsonKey(includeIfNull: false) String? user,
       @_ChatCompletionFunctionCallConverter()
       @JsonKey(name: 'function_call', includeIfNull: false)
@@ -3864,6 +3878,7 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
     Object? topP = freezed,
     Object? tools = freezed,
     Object? toolChoice = freezed,
+    Object? parallelToolCalls = freezed,
     Object? user = freezed,
     Object? functionCall = freezed,
     Object? functions = freezed,
@@ -3941,6 +3956,10 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
           ? _value.toolChoice
           : toolChoice // ignore: cast_nullable_to_non_nullable
               as ChatCompletionToolChoiceOption?,
+      parallelToolCalls: freezed == parallelToolCalls
+          ? _value.parallelToolCalls
+          : parallelToolCalls // ignore: cast_nullable_to_non_nullable
+              as bool?,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -3985,6 +4004,8 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
       @_ChatCompletionToolChoiceOptionConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       this.toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      this.parallelToolCalls = true,
       @JsonKey(includeIfNull: false) this.user,
       @_ChatCompletionFunctionCallConverter()
       @JsonKey(name: 'function_call', includeIfNull: false)
@@ -4142,6 +4163,12 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   final ChatCompletionToolChoiceOption? toolChoice;
 
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @override
+  @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+  final bool? parallelToolCalls;
+
   /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
   @override
   @JsonKey(includeIfNull: false)
@@ -4180,7 +4207,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
 
   @override
   String toString() {
-    return 'CreateChatCompletionRequest(model: $model, messages: $messages, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, n: $n, presencePenalty: $presencePenalty, responseFormat: $responseFormat, seed: $seed, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, user: $user, functionCall: $functionCall, functions: $functions)';
+    return 'CreateChatCompletionRequest(model: $model, messages: $messages, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, n: $n, presencePenalty: $presencePenalty, responseFormat: $responseFormat, seed: $seed, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions)';
   }
 
   @override
@@ -4216,6 +4243,8 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
             const DeepCollectionEquality().equals(other._tools, _tools) &&
             (identical(other.toolChoice, toolChoice) ||
                 other.toolChoice == toolChoice) &&
+            (identical(other.parallelToolCalls, parallelToolCalls) ||
+                other.parallelToolCalls == parallelToolCalls) &&
             (identical(other.user, user) || other.user == user) &&
             (identical(other.functionCall, functionCall) ||
                 other.functionCall == functionCall) &&
@@ -4245,6 +4274,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
         topP,
         const DeepCollectionEquality().hash(_tools),
         toolChoice,
+        parallelToolCalls,
         user,
         functionCall,
         const DeepCollectionEquality().hash(_functions)
@@ -4297,6 +4327,8 @@ abstract class _CreateChatCompletionRequest
       @_ChatCompletionToolChoiceOptionConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       final ChatCompletionToolChoiceOption? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      final bool? parallelToolCalls,
       @JsonKey(includeIfNull: false) final String? user,
       @_ChatCompletionFunctionCallConverter()
       @JsonKey(name: 'function_call', includeIfNull: false)
@@ -4424,6 +4456,12 @@ abstract class _CreateChatCompletionRequest
   @_ChatCompletionToolChoiceOptionConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   ChatCompletionToolChoiceOption? get toolChoice;
+  @override
+
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+  bool? get parallelToolCalls;
   @override
 
   /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
@@ -26742,6 +26780,11 @@ mixin _$RunObject {
   @JsonKey(name: 'tool_choice')
   RunObjectToolChoice? get toolChoice => throw _privateConstructorUsedError;
 
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @JsonKey(name: 'parallel_tool_calls')
+  bool? get parallelToolCalls => throw _privateConstructorUsedError;
+
   /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -26793,6 +26836,7 @@ abstract class $RunObjectCopyWith<$Res> {
       @_RunObjectToolChoiceConverter()
       @JsonKey(name: 'tool_choice')
       RunObjectToolChoice? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls') bool? parallelToolCalls,
       @_RunObjectResponseFormatConverter()
       @JsonKey(name: 'response_format')
       RunObjectResponseFormat responseFormat});
@@ -26844,6 +26888,7 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
     Object? toolChoice = freezed,
+    Object? parallelToolCalls = freezed,
     Object? responseFormat = null,
   }) {
     return _then(_value.copyWith(
@@ -26947,6 +26992,10 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
           ? _value.toolChoice
           : toolChoice // ignore: cast_nullable_to_non_nullable
               as RunObjectToolChoice?,
+      parallelToolCalls: freezed == parallelToolCalls
+          ? _value.parallelToolCalls
+          : parallelToolCalls // ignore: cast_nullable_to_non_nullable
+              as bool?,
       responseFormat: null == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -27075,6 +27124,7 @@ abstract class _$$RunObjectImplCopyWith<$Res>
       @_RunObjectToolChoiceConverter()
       @JsonKey(name: 'tool_choice')
       RunObjectToolChoice? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls') bool? parallelToolCalls,
       @_RunObjectResponseFormatConverter()
       @JsonKey(name: 'response_format')
       RunObjectResponseFormat responseFormat});
@@ -27131,6 +27181,7 @@ class __$$RunObjectImplCopyWithImpl<$Res>
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
     Object? toolChoice = freezed,
+    Object? parallelToolCalls = freezed,
     Object? responseFormat = null,
   }) {
     return _then(_$RunObjectImpl(
@@ -27234,6 +27285,10 @@ class __$$RunObjectImplCopyWithImpl<$Res>
           ? _value.toolChoice
           : toolChoice // ignore: cast_nullable_to_non_nullable
               as RunObjectToolChoice?,
+      parallelToolCalls: freezed == parallelToolCalls
+          ? _value.parallelToolCalls
+          : parallelToolCalls // ignore: cast_nullable_to_non_nullable
+              as bool?,
       responseFormat: null == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -27273,6 +27328,7 @@ class _$RunObjectImpl extends _RunObject {
       @_RunObjectToolChoiceConverter()
       @JsonKey(name: 'tool_choice')
       required this.toolChoice,
+      @JsonKey(name: 'parallel_tool_calls') required this.parallelToolCalls,
       @_RunObjectResponseFormatConverter()
       @JsonKey(name: 'response_format')
       required this.responseFormat})
@@ -27421,6 +27477,12 @@ class _$RunObjectImpl extends _RunObject {
   @JsonKey(name: 'tool_choice')
   final RunObjectToolChoice? toolChoice;
 
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @override
+  @JsonKey(name: 'parallel_tool_calls')
+  final bool? parallelToolCalls;
+
   /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -27433,7 +27495,7 @@ class _$RunObjectImpl extends _RunObject {
 
   @override
   String toString() {
-    return 'RunObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, assistantId: $assistantId, status: $status, requiredAction: $requiredAction, lastError: $lastError, expiresAt: $expiresAt, startedAt: $startedAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, incompleteDetails: $incompleteDetails, model: $model, instructions: $instructions, tools: $tools, metadata: $metadata, usage: $usage, temperature: $temperature, topP: $topP, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, responseFormat: $responseFormat)';
+    return 'RunObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, assistantId: $assistantId, status: $status, requiredAction: $requiredAction, lastError: $lastError, expiresAt: $expiresAt, startedAt: $startedAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, incompleteDetails: $incompleteDetails, model: $model, instructions: $instructions, tools: $tools, metadata: $metadata, usage: $usage, temperature: $temperature, topP: $topP, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, responseFormat: $responseFormat)';
   }
 
   @override
@@ -27483,6 +27545,8 @@ class _$RunObjectImpl extends _RunObject {
                 other.truncationStrategy == truncationStrategy) &&
             (identical(other.toolChoice, toolChoice) ||
                 other.toolChoice == toolChoice) &&
+            (identical(other.parallelToolCalls, parallelToolCalls) ||
+                other.parallelToolCalls == parallelToolCalls) &&
             (identical(other.responseFormat, responseFormat) ||
                 other.responseFormat == responseFormat));
   }
@@ -27516,6 +27580,7 @@ class _$RunObjectImpl extends _RunObject {
         maxCompletionTokens,
         truncationStrategy,
         toolChoice,
+        parallelToolCalls,
         responseFormat
       ]);
 
@@ -27566,6 +27631,8 @@ abstract class _RunObject extends RunObject {
       @_RunObjectToolChoiceConverter()
       @JsonKey(name: 'tool_choice')
       required final RunObjectToolChoice? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls')
+      required final bool? parallelToolCalls,
       @_RunObjectResponseFormatConverter()
       @JsonKey(name: 'response_format')
       required final RunObjectResponseFormat responseFormat}) = _$RunObjectImpl;
@@ -27696,6 +27763,12 @@ abstract class _RunObject extends RunObject {
   @_RunObjectToolChoiceConverter()
   @JsonKey(name: 'tool_choice')
   RunObjectToolChoice? get toolChoice;
+  @override
+
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @JsonKey(name: 'parallel_tool_calls')
+  bool? get parallelToolCalls;
   @override
 
   /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
@@ -29562,6 +29635,11 @@ mixin _$CreateRunRequest {
   CreateRunRequestToolChoice? get toolChoice =>
       throw _privateConstructorUsedError;
 
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+  bool? get parallelToolCalls => throw _privateConstructorUsedError;
+
   /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -29611,6 +29689,8 @@ abstract class $CreateRunRequestCopyWith<$Res> {
       @_CreateRunRequestToolChoiceConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       CreateRunRequestToolChoice? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      bool? parallelToolCalls,
       @_CreateRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       CreateRunRequestResponseFormat? responseFormat,
@@ -29648,6 +29728,7 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
     Object? toolChoice = freezed,
+    Object? parallelToolCalls = freezed,
     Object? responseFormat = freezed,
     Object? stream = freezed,
   }) {
@@ -29704,6 +29785,10 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
           ? _value.toolChoice
           : toolChoice // ignore: cast_nullable_to_non_nullable
               as CreateRunRequestToolChoice?,
+      parallelToolCalls: freezed == parallelToolCalls
+          ? _value.parallelToolCalls
+          : parallelToolCalls // ignore: cast_nullable_to_non_nullable
+              as bool?,
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -29797,6 +29882,8 @@ abstract class _$$CreateRunRequestImplCopyWith<$Res>
       @_CreateRunRequestToolChoiceConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       CreateRunRequestToolChoice? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      bool? parallelToolCalls,
       @_CreateRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       CreateRunRequestResponseFormat? responseFormat,
@@ -29836,6 +29923,7 @@ class __$$CreateRunRequestImplCopyWithImpl<$Res>
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
     Object? toolChoice = freezed,
+    Object? parallelToolCalls = freezed,
     Object? responseFormat = freezed,
     Object? stream = freezed,
   }) {
@@ -29892,6 +29980,10 @@ class __$$CreateRunRequestImplCopyWithImpl<$Res>
           ? _value.toolChoice
           : toolChoice // ignore: cast_nullable_to_non_nullable
               as CreateRunRequestToolChoice?,
+      parallelToolCalls: freezed == parallelToolCalls
+          ? _value.parallelToolCalls
+          : parallelToolCalls // ignore: cast_nullable_to_non_nullable
+              as bool?,
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -29930,6 +30022,8 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
       @_CreateRunRequestToolChoiceConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       this.toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      this.parallelToolCalls = true,
       @_CreateRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       this.responseFormat,
@@ -30043,6 +30137,12 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   final CreateRunRequestToolChoice? toolChoice;
 
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @override
+  @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+  final bool? parallelToolCalls;
+
   /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -30060,7 +30160,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
 
   @override
   String toString() {
-    return 'CreateRunRequest(assistantId: $assistantId, model: $model, instructions: $instructions, additionalInstructions: $additionalInstructions, additionalMessages: $additionalMessages, tools: $tools, metadata: $metadata, temperature: $temperature, topP: $topP, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, responseFormat: $responseFormat, stream: $stream)';
+    return 'CreateRunRequest(assistantId: $assistantId, model: $model, instructions: $instructions, additionalInstructions: $additionalInstructions, additionalMessages: $additionalMessages, tools: $tools, metadata: $metadata, temperature: $temperature, topP: $topP, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, responseFormat: $responseFormat, stream: $stream)';
   }
 
   @override
@@ -30090,6 +30190,8 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
                 other.truncationStrategy == truncationStrategy) &&
             (identical(other.toolChoice, toolChoice) ||
                 other.toolChoice == toolChoice) &&
+            (identical(other.parallelToolCalls, parallelToolCalls) ||
+                other.parallelToolCalls == parallelToolCalls) &&
             (identical(other.responseFormat, responseFormat) ||
                 other.responseFormat == responseFormat) &&
             (identical(other.stream, stream) || other.stream == stream));
@@ -30112,6 +30214,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
       maxCompletionTokens,
       truncationStrategy,
       toolChoice,
+      parallelToolCalls,
       responseFormat,
       stream);
 
@@ -30154,6 +30257,8 @@ abstract class _CreateRunRequest extends CreateRunRequest {
           @_CreateRunRequestToolChoiceConverter()
           @JsonKey(name: 'tool_choice', includeIfNull: false)
           final CreateRunRequestToolChoice? toolChoice,
+          @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+          final bool? parallelToolCalls,
           @_CreateRunRequestResponseFormatConverter()
           @JsonKey(name: 'response_format', includeIfNull: false)
           final CreateRunRequestResponseFormat? responseFormat,
@@ -30237,6 +30342,12 @@ abstract class _CreateRunRequest extends CreateRunRequest {
   @_CreateRunRequestToolChoiceConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   CreateRunRequestToolChoice? get toolChoice;
+  @override
+
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+  bool? get parallelToolCalls;
   @override
 
   /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
@@ -32834,6 +32945,11 @@ mixin _$CreateThreadAndRunRequest {
   CreateThreadAndRunRequestToolChoice? get toolChoice =>
       throw _privateConstructorUsedError;
 
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+  bool? get parallelToolCalls => throw _privateConstructorUsedError;
+
   /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -32882,6 +32998,8 @@ abstract class $CreateThreadAndRunRequestCopyWith<$Res> {
       @_CreateThreadAndRunRequestToolChoiceConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       CreateThreadAndRunRequestToolChoice? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      bool? parallelToolCalls,
       @_CreateThreadAndRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       CreateThreadAndRunRequestResponseFormat? responseFormat,
@@ -32922,6 +33040,7 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
     Object? toolChoice = freezed,
+    Object? parallelToolCalls = freezed,
     Object? responseFormat = freezed,
     Object? stream = freezed,
   }) {
@@ -32978,6 +33097,10 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
           ? _value.toolChoice
           : toolChoice // ignore: cast_nullable_to_non_nullable
               as CreateThreadAndRunRequestToolChoice?,
+      parallelToolCalls: freezed == parallelToolCalls
+          ? _value.parallelToolCalls
+          : parallelToolCalls // ignore: cast_nullable_to_non_nullable
+              as bool?,
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -33095,6 +33218,8 @@ abstract class _$$CreateThreadAndRunRequestImplCopyWith<$Res>
       @_CreateThreadAndRunRequestToolChoiceConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       CreateThreadAndRunRequestToolChoice? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      bool? parallelToolCalls,
       @_CreateThreadAndRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       CreateThreadAndRunRequestResponseFormat? responseFormat,
@@ -33140,6 +33265,7 @@ class __$$CreateThreadAndRunRequestImplCopyWithImpl<$Res>
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
     Object? toolChoice = freezed,
+    Object? parallelToolCalls = freezed,
     Object? responseFormat = freezed,
     Object? stream = freezed,
   }) {
@@ -33196,6 +33322,10 @@ class __$$CreateThreadAndRunRequestImplCopyWithImpl<$Res>
           ? _value.toolChoice
           : toolChoice // ignore: cast_nullable_to_non_nullable
               as CreateThreadAndRunRequestToolChoice?,
+      parallelToolCalls: freezed == parallelToolCalls
+          ? _value.parallelToolCalls
+          : parallelToolCalls // ignore: cast_nullable_to_non_nullable
+              as bool?,
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -33230,6 +33360,8 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
       @_CreateThreadAndRunRequestToolChoiceConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       this.toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      this.parallelToolCalls = true,
       @_CreateThreadAndRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       this.responseFormat,
@@ -33332,6 +33464,12 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   final CreateThreadAndRunRequestToolChoice? toolChoice;
 
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @override
+  @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+  final bool? parallelToolCalls;
+
   /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -33349,7 +33487,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
 
   @override
   String toString() {
-    return 'CreateThreadAndRunRequest(assistantId: $assistantId, thread: $thread, model: $model, instructions: $instructions, tools: $tools, toolResources: $toolResources, metadata: $metadata, temperature: $temperature, topP: $topP, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, responseFormat: $responseFormat, stream: $stream)';
+    return 'CreateThreadAndRunRequest(assistantId: $assistantId, thread: $thread, model: $model, instructions: $instructions, tools: $tools, toolResources: $toolResources, metadata: $metadata, temperature: $temperature, topP: $topP, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, responseFormat: $responseFormat, stream: $stream)';
   }
 
   @override
@@ -33378,6 +33516,8 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
                 other.truncationStrategy == truncationStrategy) &&
             (identical(other.toolChoice, toolChoice) ||
                 other.toolChoice == toolChoice) &&
+            (identical(other.parallelToolCalls, parallelToolCalls) ||
+                other.parallelToolCalls == parallelToolCalls) &&
             (identical(other.responseFormat, responseFormat) ||
                 other.responseFormat == responseFormat) &&
             (identical(other.stream, stream) || other.stream == stream));
@@ -33400,6 +33540,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
       maxCompletionTokens,
       truncationStrategy,
       toolChoice,
+      parallelToolCalls,
       responseFormat,
       stream);
 
@@ -33441,6 +33582,8 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
           @_CreateThreadAndRunRequestToolChoiceConverter()
           @JsonKey(name: 'tool_choice', includeIfNull: false)
           final CreateThreadAndRunRequestToolChoice? toolChoice,
+          @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+          final bool? parallelToolCalls,
           @_CreateThreadAndRunRequestResponseFormatConverter()
           @JsonKey(name: 'response_format', includeIfNull: false)
           final CreateThreadAndRunRequestResponseFormat? responseFormat,
@@ -33524,6 +33667,12 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   @_CreateThreadAndRunRequestToolChoiceConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   CreateThreadAndRunRequestToolChoice? get toolChoice;
+  @override
+
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+  bool? get parallelToolCalls;
   @override
 
   /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
