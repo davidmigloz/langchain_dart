@@ -18,6 +18,7 @@ class ChatOpenAIOptions extends ChatModelOptions {
     this.stop,
     this.temperature,
     this.topP,
+    this.parallelToolCalls,
     this.user,
     super.tools,
     super.toolChoice,
@@ -122,6 +123,13 @@ class ChatOpenAIOptions extends ChatModelOptions {
   ///
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-top_p
   final double? topP;
+
+  /// Whether to enable parallel tool calling during tool use.
+  /// By default, it is enabled.
+  ///
+  ///
+  /// Ref: https://platform.openai.com/docs/guides/function-calling/parallel-function-calling
+  final bool? parallelToolCalls;
 
   /// A unique identifier representing your end-user, which can help OpenAI to
   /// monitor and detect abuse.
