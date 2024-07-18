@@ -305,6 +305,8 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
           : null,
       temperature: options?.temperature ?? defaultOptions.temperature,
       topP: options?.topP ?? defaultOptions.topP,
+      parallelToolCalls:
+          options?.parallelToolCalls ?? defaultOptions.parallelToolCalls,
       user: options?.user ?? defaultOptions.user,
       streamOptions:
           stream ? const ChatCompletionStreamOptions(includeUsage: true) : null,
