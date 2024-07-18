@@ -3906,24 +3906,13 @@ _$MessageContentTextAnnotationsFileCitationImpl
             Map<String, dynamic> json) =>
         _$MessageContentTextAnnotationsFileCitationImpl(
           fileId: json['file_id'] as String,
-          quote: json['quote'] as String?,
         );
 
 Map<String, dynamic> _$$MessageContentTextAnnotationsFileCitationImplToJson(
-    _$MessageContentTextAnnotationsFileCitationImpl instance) {
-  final val = <String, dynamic>{
-    'file_id': instance.fileId,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('quote', instance.quote);
-  return val;
-}
+        _$MessageContentTextAnnotationsFileCitationImpl instance) =>
+    <String, dynamic>{
+      'file_id': instance.fileId,
+    };
 
 _$MessageDeltaContentImageUrlObjectImpl
     _$$MessageDeltaContentImageUrlObjectImplFromJson(
@@ -5114,14 +5103,28 @@ Map<String, dynamic> _$$AssistantToolsCodeInterpreterImplToJson(
 _$AssistantToolsFileSearchImpl _$$AssistantToolsFileSearchImplFromJson(
         Map<String, dynamic> json) =>
     _$AssistantToolsFileSearchImpl(
-      type: json['type'] as String? ?? 'file_search',
+      type: json['type'] as String,
+      fileSearch: json['file_search'] == null
+          ? null
+          : AssistantToolsFileSearchFileSearch.fromJson(
+              json['file_search'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$AssistantToolsFileSearchImplToJson(
-        _$AssistantToolsFileSearchImpl instance) =>
-    <String, dynamic>{
-      'type': instance.type,
-    };
+    _$AssistantToolsFileSearchImpl instance) {
+  final val = <String, dynamic>{
+    'type': instance.type,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('file_search', instance.fileSearch?.toJson());
+  return val;
+}
 
 _$AssistantToolsFunctionImpl _$$AssistantToolsFunctionImplFromJson(
         Map<String, dynamic> json) =>
@@ -5137,6 +5140,27 @@ Map<String, dynamic> _$$AssistantToolsFunctionImplToJson(
       'type': instance.type,
       'function': instance.function.toJson(),
     };
+
+_$AssistantToolsFileSearchFileSearchImpl
+    _$$AssistantToolsFileSearchFileSearchImplFromJson(
+            Map<String, dynamic> json) =>
+        _$AssistantToolsFileSearchFileSearchImpl(
+          maxNumResults: json['max_num_results'] as int?,
+        );
+
+Map<String, dynamic> _$$AssistantToolsFileSearchFileSearchImplToJson(
+    _$AssistantToolsFileSearchFileSearchImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('max_num_results', instance.maxNumResults);
+  return val;
+}
 
 _$MessageContentImageFileObjectImpl
     _$$MessageContentImageFileObjectImplFromJson(Map<String, dynamic> json) =>
