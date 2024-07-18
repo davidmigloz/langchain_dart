@@ -58,7 +58,7 @@ class OpenAIClientException implements Exception {
 // CLASS: OpenAIClient
 // ==========================================
 
-/// Client for OpenAI API (v.2.0.0)
+/// Client for OpenAI API (v.2.1.0)
 ///
 /// The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details.
 class OpenAIClient {
@@ -1846,7 +1846,7 @@ class OpenAIClient {
   // METHOD: cancelBatch
   // ------------------------------------------
 
-  /// Cancels an in-progress batch.
+  /// Cancels an in-progress batch. The batch will be in status `cancelling` for up to 10 minutes, before changing to `cancelled`, where it will have partial results (if any) available in the output file.
   ///
   /// `batchId`: The ID of the batch to cancel.
   ///
