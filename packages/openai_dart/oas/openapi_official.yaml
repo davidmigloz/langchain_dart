@@ -7925,6 +7925,17 @@ components:
             Determinism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to monitor changes in the backend.
           x-oaiMeta:
             beta: true
+        service_tier:
+          description: |
+            Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service:
+              - If set to 'auto', the system will utilize scale tier credits until they are exhausted.
+              - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.
+            
+              When this parameter is set, the response body will include the `service_tier` utilized.
+          type: string
+          enum: [ "auto", "default" ]
+          nullable: true
+          default: null
         stop:
           description: |
             Up to 4 sequences where the API will stop generating further tokens.
@@ -8066,6 +8077,12 @@ components:
         model:
           type: string
           description: The model used for the chat completion.
+        service_tier:
+          description: The service tier used for processing the request. This field is only included if the `service_tier` parameter is specified in the request.
+          type: string
+          enum: [ "scale", "default" ]
+          example: "scale"
+          nullable: true
         system_fingerprint:
           type: string
           description: |
@@ -8242,6 +8259,12 @@ components:
         model:
           type: string
           description: The model to generate the completion.
+        service_tier:
+          description: The service tier used for processing the request. This field is only included if the `service_tier` parameter is specified in the request.
+          type: string
+          enum: [ "scale", "default" ]
+          example: "scale"
+          nullable: true
         system_fingerprint:
           type: string
           description: |
@@ -10462,6 +10485,8 @@ components:
         tool_choice:
           $ref: "#/components/schemas/AssistantsApiToolChoiceOption"
           nullable: true
+        parallel_tool_calls:
+          $ref: "#/components/schemas/ParallelToolCalls"
         response_format:
           $ref: "#/components/schemas/AssistantsApiResponseFormatOption"
           nullable: true
@@ -10489,6 +10514,7 @@ components:
         - max_completion_tokens
         - truncation_strategy
         - tool_choice
+        - parallel_tool_calls
         - response_format
       x-oaiMeta:
         name: The run object
@@ -10526,7 +10552,8 @@ components:
               "last_messages": null
             },
             "response_format": "auto",
-            "tool_choice": "auto"
+            "tool_choice": "auto",
+            "parallel_tool_calls": true
           }
     CreateRunRequest:
       type: object
@@ -10638,6 +10665,8 @@ components:
         tool_choice:
           $ref: "#/components/schemas/AssistantsApiToolChoiceOption"
           nullable: true
+        parallel_tool_calls:
+          $ref: "#/components/schemas/ParallelToolCalls"
         response_format:
           $ref: "#/components/schemas/AssistantsApiResponseFormatOption"
           nullable: true
@@ -10857,6 +10886,8 @@ components:
         tool_choice:
           $ref: "#/components/schemas/AssistantsApiToolChoiceOption"
           nullable: true
+        parallel_tool_calls:
+          $ref: "#/components/schemas/ParallelToolCalls"
         response_format:
           $ref: "#/components/schemas/AssistantsApiResponseFormatOption"
           nullable: true
