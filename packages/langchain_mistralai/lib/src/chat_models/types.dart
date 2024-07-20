@@ -46,8 +46,7 @@ class ChatMistralAIOptions extends ChatModelOptions {
   /// If set, different calls will generate deterministic results.
   final int? randomSeed;
 
-  /// Creates a copy of this [ChatMistralAIOptions] object with the given fields
-  /// replaced with the new values.
+  @override
   ChatMistralAIOptions copyWith({
     final String? model,
     final double? temperature,
@@ -65,6 +64,19 @@ class ChatMistralAIOptions extends ChatModelOptions {
       safePrompt: safePrompt ?? this.safePrompt,
       randomSeed: randomSeed ?? this.randomSeed,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
+    );
+  }
+
+  @override
+  ChatMistralAIOptions merge(covariant ChatMistralAIOptions? other) {
+    return copyWith(
+      model: other?.model,
+      temperature: other?.temperature,
+      topP: other?.topP,
+      maxTokens: other?.maxTokens,
+      safePrompt: other?.safePrompt,
+      randomSeed: other?.randomSeed,
+      concurrencyLimit: other?.concurrencyLimit,
     );
   }
 

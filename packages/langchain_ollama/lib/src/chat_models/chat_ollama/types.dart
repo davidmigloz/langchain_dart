@@ -201,8 +201,7 @@ class ChatOllamaOptions extends ChatModelOptions {
   /// the logical number of cores).
   final int? numThread;
 
-  /// Creates a copy of this [ChatOllamaOptions] object with the given fields
-  /// replaced with the new values.
+  @override
   ChatOllamaOptions copyWith({
     final String? model,
     final OllamaResponseFormat? format,
@@ -272,6 +271,45 @@ class ChatOllamaOptions extends ChatModelOptions {
       useMlock: useMlock ?? this.useMlock,
       numThread: numThread ?? this.numThread,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
+    );
+  }
+
+  @override
+  ChatOllamaOptions merge(covariant final ChatOllamaOptions? other) {
+    return copyWith(
+      model: other?.model,
+      format: other?.format,
+      keepAlive: other?.keepAlive,
+      numKeep: other?.numKeep,
+      seed: other?.seed,
+      numPredict: other?.numPredict,
+      topK: other?.topK,
+      topP: other?.topP,
+      tfsZ: other?.tfsZ,
+      typicalP: other?.typicalP,
+      repeatLastN: other?.repeatLastN,
+      temperature: other?.temperature,
+      repeatPenalty: other?.repeatPenalty,
+      presencePenalty: other?.presencePenalty,
+      frequencyPenalty: other?.frequencyPenalty,
+      mirostat: other?.mirostat,
+      mirostatTau: other?.mirostatTau,
+      mirostatEta: other?.mirostatEta,
+      penalizeNewline: other?.penalizeNewline,
+      stop: other?.stop,
+      numa: other?.numa,
+      numCtx: other?.numCtx,
+      numBatch: other?.numBatch,
+      numGpu: other?.numGpu,
+      mainGpu: other?.mainGpu,
+      lowVram: other?.lowVram,
+      f16KV: other?.f16KV,
+      logitsAll: other?.logitsAll,
+      vocabOnly: other?.vocabOnly,
+      useMmap: other?.useMmap,
+      useMlock: other?.useMlock,
+      numThread: other?.numThread,
+      concurrencyLimit: other?.concurrencyLimit,
     );
   }
 

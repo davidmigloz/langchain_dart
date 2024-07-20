@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 import '../language_models/types.dart';
 
 /// {@template llm_options}
-/// Generation options to pass into the LLM.
+/// Options to pass into the LLM.
 /// {@endtemplate}
 @immutable
 class LLMOptions extends LanguageModelOptions {

@@ -115,8 +115,7 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
   /// the default safety setting for that category.
   final List<ChatGoogleGenerativeAISafetySetting>? safetySettings;
 
-  /// Creates a copy of this [ChatGoogleGenerativeAIOptions] object with the given fields
-  /// replaced with the new values.
+  @override
   ChatGoogleGenerativeAIOptions copyWith({
     final String? model,
     final double? topP,
@@ -142,6 +141,25 @@ class ChatGoogleGenerativeAIOptions extends ChatModelOptions {
       tools: tools ?? this.tools,
       toolChoice: toolChoice ?? this.toolChoice,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
+    );
+  }
+
+  @override
+  ChatGoogleGenerativeAIOptions merge(
+    covariant final ChatGoogleGenerativeAIOptions? other,
+  ) {
+    return copyWith(
+      model: other?.model,
+      topP: other?.topP,
+      topK: other?.topK,
+      candidateCount: other?.candidateCount,
+      maxOutputTokens: other?.maxOutputTokens,
+      temperature: other?.temperature,
+      stopSequences: other?.stopSequences,
+      safetySettings: other?.safetySettings,
+      tools: other?.tools,
+      toolChoice: other?.toolChoice,
+      concurrencyLimit: other?.concurrencyLimit,
     );
   }
 
