@@ -271,7 +271,9 @@ abstract class Runnable<RunInput extends Object?,
     );
   }
 
-  RunnableWithFallback<RunInput, RunOutput> withFallback(
+  ///Create a new [Runnable] from the current one that will try invoking
+  ///other passed [fallbacks] runnables if the initial invocation fails.
+  RunnableWithFallback<RunInput, RunOutput> withFallbacks(
     List<Runnable<RunInput, RunnableOptions, RunOutput>> fallbacks,
   ) {
     return RunnableWithFallback<RunInput, RunOutput>(
