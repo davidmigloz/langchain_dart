@@ -13,7 +13,7 @@ const config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://langchaindart.dev/',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -64,11 +64,11 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Replace with your project's social card
-      image: 'img/docusaurus-social-card.jpg',
+      image: 'img/langchain.dart.png',
       navbar: {
-        title: 'Langchain Dart',
+        title: 'LangchainDart',
         logo: {
-          alt: 'My Site Logo',
+          alt: 'LangchainDart Logo',
           src: 'img/favicon.ico',
         },
         items: [
@@ -80,7 +80,7 @@ const config = {
           },
           {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/davidmigloz/langchain_dart/',
             label: 'GitHub',
             position: 'right',
           },
@@ -102,16 +102,12 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-              },
-              {
                 label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
+                href: 'https://discord.gg/x4qbhqecVR',
               },
               {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                label: 'pub.dev',
+                href: 'https://pub.dev/packages/langchain',
               },
             ],
           },
@@ -124,16 +120,17 @@ const config = {
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/davidmigloz/langchain_dart',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} LangchainDart, Inc. Built with Docusaurus.`,
       },
       prism: {
         theme: prismThemes.vsLight,
         darkTheme: prismThemes.vsDark,
+        additionalLanguages: ['yaml','dart'],
       },
     }),
 };
