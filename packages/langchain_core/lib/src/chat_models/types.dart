@@ -10,9 +10,10 @@ import '../tools/base.dart';
 class ChatModelOptions extends LanguageModelOptions {
   /// {@macro chat_model_options}
   const ChatModelOptions({
-    super.concurrencyLimit,
+    super.model,
     this.tools,
     this.toolChoice,
+    super.concurrencyLimit,
   });
 
   /// A list of tools the model may call.
