@@ -53,7 +53,6 @@ void main() {
       final llm = ChatOpenAI(
         apiKey: openaiApiKey,
         defaultOptions: const ChatOpenAIOptions(
-          model: 'gpt-3.5-turbo-0613',
           temperature: 0,
         ),
       );

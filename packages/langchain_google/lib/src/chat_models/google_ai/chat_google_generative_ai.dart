@@ -211,7 +211,7 @@ class ChatGoogleGenerativeAI
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     super.defaultOptions = const ChatGoogleGenerativeAIOptions(
-      model: 'gemini-1.5-flash',
+      model: defaultModel,
     ),
   })  : _currentModel = defaultOptions.model ?? '',
         _httpClient = createDefaultHttpClient(
@@ -247,14 +247,17 @@ class ChatGoogleGenerativeAI
   /// Get the API key.
   String get apiKey => _httpClient.headers['x-goog-api-key'] ?? '';
 
-  @override
-  String get modelType => 'chat-google-generative-ai';
-
   /// The current model set in [_googleAiClient];
   String _currentModel;
 
   /// The current system instruction set in [_googleAiClient];
   String? _currentSystemInstruction;
+
+  @override
+  String get modelType => 'chat-google-generative-ai';
+
+  /// The default model to use unless another is specified.
+  static const defaultModel = 'gemini-1.5-flash';
 
   @override
   Future<ChatResult> invoke(
@@ -389,8 +392,7 @@ class ChatGoogleGenerativeAI
     final List<ChatMessage> messages,
     final ChatGoogleGenerativeAIOptions? options,
   ) {
-    final model =
-        options?.model ?? defaultOptions.model ?? throwNullModelError();
+    final model = options?.model ?? defaultOptions.model ?? defaultModel;
 
     final systemInstruction = messages.firstOrNull is SystemChatMessage
         ? messages.firstOrNull?.contentAsString
