@@ -9,6 +9,7 @@ import '../language_models/types.dart';
 class LLMOptions extends LanguageModelOptions {
   /// {@macro llm_options}
   const LLMOptions({
+    super.model,
     super.concurrencyLimit,
   });
 }
