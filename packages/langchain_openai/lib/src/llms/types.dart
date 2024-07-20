@@ -121,24 +121,23 @@ class OpenAIOptions extends LLMOptions {
   /// Ref: https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids
   final String? user;
 
-  /// Creates a copy of this [OpenAIOptions] object with the given fields
-  /// replaced with the new values.
+  @override
   OpenAIOptions copyWith({
-    String? model,
-    int? bestOf,
-    double? frequencyPenalty,
-    Map<String, int>? logitBias,
-    int? logprobs,
-    int? maxTokens,
-    int? n,
-    double? presencePenalty,
-    int? seed,
-    List<String>? stop,
-    String? suffix,
-    double? temperature,
-    double? topP,
-    String? user,
-    int? concurrencyLimit,
+    final String? model,
+    final int? bestOf,
+    final double? frequencyPenalty,
+    final Map<String, int>? logitBias,
+    final int? logprobs,
+    final int? maxTokens,
+    final int? n,
+    final double? presencePenalty,
+    final int? seed,
+    final List<String>? stop,
+    final String? suffix,
+    final double? temperature,
+    final double? topP,
+    final String? user,
+    final int? concurrencyLimit,
   }) {
     return OpenAIOptions(
       model: model ?? this.model,
@@ -156,6 +155,27 @@ class OpenAIOptions extends LLMOptions {
       topP: topP ?? this.topP,
       user: user ?? this.user,
       concurrencyLimit: concurrencyLimit ?? super.concurrencyLimit,
+    );
+  }
+
+  @override
+  OpenAIOptions merge(covariant final OpenAIOptions? other) {
+    return copyWith(
+      model: other?.model,
+      bestOf: other?.bestOf,
+      frequencyPenalty: other?.frequencyPenalty,
+      logitBias: other?.logitBias,
+      logprobs: other?.logprobs,
+      maxTokens: other?.maxTokens,
+      n: other?.n,
+      presencePenalty: other?.presencePenalty,
+      seed: other?.seed,
+      stop: other?.stop,
+      suffix: other?.suffix,
+      temperature: other?.temperature,
+      topP: other?.topP,
+      user: other?.user,
+      concurrencyLimit: other?.concurrencyLimit,
     );
   }
 

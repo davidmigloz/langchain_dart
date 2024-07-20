@@ -108,6 +108,7 @@ class TavilySearchResultsToolOptions extends ToolOptions {
 /// {@template tavily_answer_tool_options}
 /// Generation options to pass into the [TavilyAnswerTool].
 /// {@endtemplate}
+@immutable
 class TavilyAnswerToolOptions extends ToolOptions {
   /// {@macro tavily_answer_tool_options}
   const TavilyAnswerToolOptions({
@@ -115,6 +116,7 @@ class TavilyAnswerToolOptions extends ToolOptions {
     this.searchDepth = TavilySearchDepth.basic,
     this.includeDomains,
     this.excludeDomains,
+    super.concurrencyLimit,
   });
 
   /// The number of maximum search results to return.
@@ -128,4 +130,52 @@ class TavilyAnswerToolOptions extends ToolOptions {
 
   /// A list of domains to specifically exclude from the search results.
   final List<String>? excludeDomains;
+
+  @override
+  TavilyAnswerToolOptions copyWith({
+    final int? maxResults,
+    final TavilySearchDepth? searchDepth,
+    final List<String>? includeDomains,
+    final List<String>? excludeDomains,
+    final int? concurrencyLimit,
+  }) {
+    return TavilyAnswerToolOptions(
+      maxResults: maxResults ?? this.maxResults,
+      searchDepth: searchDepth ?? this.searchDepth,
+      includeDomains: includeDomains ?? this.includeDomains,
+      excludeDomains: excludeDomains ?? this.excludeDomains,
+      concurrencyLimit: concurrencyLimit ?? super.concurrencyLimit,
+    );
+  }
+
+  @override
+  TavilyAnswerToolOptions merge(
+    covariant final TavilyAnswerToolOptions? other,
+  ) {
+    return copyWith(
+      maxResults: other?.maxResults,
+      searchDepth: other?.searchDepth,
+      includeDomains: other?.includeDomains,
+      excludeDomains: other?.excludeDomains,
+      concurrencyLimit: other?.concurrencyLimit,
+    );
+  }
+
+  @override
+  bool operator ==(covariant final TavilyAnswerToolOptions other) {
+    return maxResults == other.maxResults &&
+        searchDepth == other.searchDepth &&
+        includeDomains == other.includeDomains &&
+        excludeDomains == other.excludeDomains &&
+        concurrencyLimit == other.concurrencyLimit;
+  }
+
+  @override
+  int get hashCode {
+    return maxResults.hashCode ^
+        searchDepth.hashCode ^
+        includeDomains.hashCode ^
+        excludeDomains.hashCode ^
+        concurrencyLimit.hashCode;
+  }
 }

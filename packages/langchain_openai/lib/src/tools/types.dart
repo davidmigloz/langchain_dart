@@ -1,10 +1,12 @@
 import 'package:langchain_core/tools.dart';
+import 'package:meta/meta.dart';
 
 import 'dall_e.dart';
 
 /// {@template open_ai_dall_e_tool_options}
 /// Generation options to pass into the [OpenAIDallETool].
 /// {@endtemplate}
+@immutable
 class OpenAIDallEToolOptions extends ToolOptions {
   /// {@macro open_ai_dall_e_tool_options}
   const OpenAIDallEToolOptions({
@@ -14,6 +16,7 @@ class OpenAIDallEToolOptions extends ToolOptions {
     this.size = ImageSize.v1024x1024,
     this.style = ImageStyle.vivid,
     this.user,
+    super.concurrencyLimit,
   });
 
   /// ID of the model to use (e.g. `dall-e-2` or 'dall-e-3').
@@ -63,4 +66,60 @@ class OpenAIDallEToolOptions extends ToolOptions {
   ///
   /// Ref: https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids
   final String? user;
+
+  @override
+  OpenAIDallEToolOptions copyWith({
+    final String? model,
+    final ImageQuality? quality,
+    final ImageResponseFormat? responseFormat,
+    final ImageSize? size,
+    final ImageStyle? style,
+    final String? user,
+    final int? concurrencyLimit,
+  }) {
+    return OpenAIDallEToolOptions(
+      model: model ?? this.model,
+      quality: quality ?? this.quality,
+      responseFormat: responseFormat ?? this.responseFormat,
+      size: size ?? this.size,
+      style: style ?? this.style,
+      user: user ?? this.user,
+      concurrencyLimit: concurrencyLimit ?? super.concurrencyLimit,
+    );
+  }
+
+  @override
+  OpenAIDallEToolOptions merge(covariant final OpenAIDallEToolOptions? other) {
+    return copyWith(
+      model: other?.model,
+      quality: other?.quality,
+      responseFormat: other?.responseFormat,
+      size: other?.size,
+      style: other?.style,
+      user: other?.user,
+      concurrencyLimit: other?.concurrencyLimit,
+    );
+  }
+
+  @override
+  bool operator ==(covariant final OpenAIDallEToolOptions other) {
+    return model == other.model &&
+        quality == other.quality &&
+        responseFormat == other.responseFormat &&
+        size == other.size &&
+        style == other.style &&
+        user == other.user &&
+        concurrencyLimit == other.concurrencyLimit;
+  }
+
+  @override
+  int get hashCode {
+    return model.hashCode ^
+        quality.hashCode ^
+        responseFormat.hashCode ^
+        size.hashCode ^
+        style.hashCode ^
+        user.hashCode ^
+        concurrencyLimit.hashCode;
+  }
 }

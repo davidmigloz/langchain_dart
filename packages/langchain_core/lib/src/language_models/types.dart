@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 import '../langchain/types.dart';
 
 /// {@template language_model_options}
-/// Generation options to pass into the language model.
+/// Options to pass into the language model.
 /// {@endtemplate}
 @immutable
 abstract class LanguageModelOptions extends BaseLangChainOptions {

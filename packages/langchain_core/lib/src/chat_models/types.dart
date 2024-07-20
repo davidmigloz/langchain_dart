@@ -7,7 +7,8 @@ import '../tools/base.dart';
 /// {@template chat_model_options}
 /// Generation options to pass into the Chat Model.
 /// {@endtemplate}
-class ChatModelOptions extends LanguageModelOptions {
+@immutable
+abstract class ChatModelOptions extends LanguageModelOptions {
   /// {@macro chat_model_options}
   const ChatModelOptions({
     super.model,

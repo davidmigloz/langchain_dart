@@ -93,8 +93,7 @@ class VertexAIOptions extends LLMOptions {
   /// Range: `[1–8]`
   final int? candidateCount;
 
-  /// Creates a copy of this [VertexAIOptions] object with the given fields
-  /// replaced with the new values.
+  @override
   VertexAIOptions copyWith({
     final String? publisher,
     final String? model,
@@ -120,6 +119,20 @@ class VertexAIOptions extends LLMOptions {
   }
 
   @override
+  VertexAIOptions merge(covariant final VertexAIOptions? other) {
+    return copyWith(
+      publisher: other?.publisher,
+      model: other?.model,
+      maxOutputTokens: other?.maxOutputTokens,
+      temperature: other?.temperature,
+      topP: other?.topP,
+      topK: other?.topK,
+      stopSequences: other?.stopSequences,
+      candidateCount: other?.candidateCount,
+      concurrencyLimit: other?.concurrencyLimit,
+    );
+  }
+
   @override
   bool operator ==(covariant final VertexAIOptions other) {
     return publisher == other.publisher &&
