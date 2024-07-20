@@ -19,6 +19,7 @@ class ChatOllamaToolsOptions extends ChatModelOptions {
     super.tools,
     super.toolChoice,
     this.toolsSystemPromptTemplate,
+    super.concurrencyLimit,
   });
 
   /// [ChatOllamaOptions] to pass into Ollama.
@@ -61,13 +62,13 @@ Example response format:
 Ensure your response is valid JSON and follows this exact format.
 ''';
 
-  /// Creates a copy of this [ChatOllamaToolsOptions] object with the given
-  /// fields replaced with the new values.
+  @override
   ChatOllamaToolsOptions copyWith({
-    ChatOllamaOptions? options,
-    List<Tool>? tools,
-    ChatToolChoice? toolChoice,
-    String? toolsSystemPromptTemplate,
+    final ChatOllamaOptions? options,
+    final List<ToolSpec>? tools,
+    final ChatToolChoice? toolChoice,
+    final String? toolsSystemPromptTemplate,
+    final int? concurrencyLimit,
   }) {
     return ChatOllamaToolsOptions(
       options: options ?? this.options,
@@ -75,6 +76,18 @@ Ensure your response is valid JSON and follows this exact format.
       toolChoice: toolChoice ?? this.toolChoice,
       toolsSystemPromptTemplate:
           toolsSystemPromptTemplate ?? this.toolsSystemPromptTemplate,
+      concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
+    );
+  }
+
+  @override
+  ChatOllamaToolsOptions merge(covariant final ChatOllamaToolsOptions? other) {
+    return copyWith(
+      options: other?.options,
+      tools: other?.tools,
+      toolChoice: other?.toolChoice,
+      toolsSystemPromptTemplate: other?.toolsSystemPromptTemplate,
+      concurrencyLimit: other?.concurrencyLimit,
     );
   }
 

@@ -142,26 +142,25 @@ class ChatOpenAIOptions extends ChatModelOptions {
   /// Ref: https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids
   final String? user;
 
-  /// Creates a copy of this [ChatOpenAIOptions] object with the given fields
-  /// replaced with the new values.
+  @override
   ChatOpenAIOptions copyWith({
-    String? model,
-    double? frequencyPenalty,
-    Map<String, int>? logitBias,
-    int? maxTokens,
-    int? n,
-    double? presencePenalty,
-    ChatOpenAIResponseFormat? responseFormat,
-    int? seed,
-    List<String>? stop,
-    double? temperature,
-    double? topP,
-    List<ToolSpec>? tools,
-    ChatToolChoice? toolChoice,
-    bool? parallelToolCalls,
-    ChatOpenAIServiceTier? serviceTier,
-    String? user,
-    int? concurrencyLimit,
+    final String? model,
+    final double? frequencyPenalty,
+    final Map<String, int>? logitBias,
+    final int? maxTokens,
+    final int? n,
+    final double? presencePenalty,
+    final ChatOpenAIResponseFormat? responseFormat,
+    final int? seed,
+    final List<String>? stop,
+    final double? temperature,
+    final double? topP,
+    final List<ToolSpec>? tools,
+    final ChatToolChoice? toolChoice,
+    final bool? parallelToolCalls,
+    final ChatOpenAIServiceTier? serviceTier,
+    final String? user,
+    final int? concurrencyLimit,
   }) {
     return ChatOpenAIOptions(
       model: model ?? this.model,
@@ -181,6 +180,29 @@ class ChatOpenAIOptions extends ChatModelOptions {
       serviceTier: serviceTier ?? this.serviceTier,
       user: user ?? this.user,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
+    );
+  }
+
+  @override
+  ChatOpenAIOptions merge(covariant final ChatOpenAIOptions? other) {
+    return copyWith(
+      model: other?.model,
+      frequencyPenalty: other?.frequencyPenalty,
+      logitBias: other?.logitBias,
+      maxTokens: other?.maxTokens,
+      n: other?.n,
+      presencePenalty: other?.presencePenalty,
+      responseFormat: other?.responseFormat,
+      seed: other?.seed,
+      stop: other?.stop,
+      temperature: other?.temperature,
+      topP: other?.topP,
+      tools: other?.tools,
+      toolChoice: other?.toolChoice,
+      parallelToolCalls: other?.parallelToolCalls,
+      serviceTier: other?.serviceTier,
+      user: other?.user,
+      concurrencyLimit: other?.concurrencyLimit,
     );
   }
 

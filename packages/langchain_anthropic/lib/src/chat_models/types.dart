@@ -86,19 +86,18 @@ class ChatAnthropicOptions extends ChatModelOptions {
   /// name, email address, or phone number.
   final String? userId;
 
-  /// Creates a copy of this [ChatAnthropicOptions] object with the given fields
-  /// replaced with the new values.
+  @override
   ChatAnthropicOptions copyWith({
-    String? model,
-    int? maxTokens,
-    List<String>? stopSequences,
-    double? temperature,
-    int? topK,
-    double? topP,
-    String? userId,
-    List<Tool>? tools,
-    ChatToolChoice? toolChoice,
-    int? concurrencyLimit,
+    final String? model,
+    final int? maxTokens,
+    final List<String>? stopSequences,
+    final double? temperature,
+    final int? topK,
+    final double? topP,
+    final String? userId,
+    final List<ToolSpec>? tools,
+    final ChatToolChoice? toolChoice,
+    final int? concurrencyLimit,
   }) {
     return ChatAnthropicOptions(
       model: model ?? this.model,
@@ -111,6 +110,22 @@ class ChatAnthropicOptions extends ChatModelOptions {
       tools: tools ?? this.tools,
       toolChoice: toolChoice ?? this.toolChoice,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
+    );
+  }
+
+  @override
+  ChatAnthropicOptions merge(covariant final ChatAnthropicOptions? other) {
+    return copyWith(
+      model: other?.model,
+      maxTokens: other?.maxTokens,
+      stopSequences: other?.stopSequences,
+      temperature: other?.temperature,
+      topK: other?.topK,
+      topP: other?.topP,
+      userId: other?.userId,
+      tools: other?.tools,
+      toolChoice: other?.toolChoice,
+      concurrencyLimit: other?.concurrencyLimit,
     );
   }
 
