@@ -1,13 +1,39 @@
+import 'package:collection/collection.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/tools.dart';
+import 'package:meta/meta.dart';
 
 /// {@template chat_openai_options}
 /// Options to pass into the OpenAI Chat Model.
+///
+/// Available [ChatOpenAIOptions.model]s:
+/// - `gpt-4`
+/// - `gpt-4-32k`
+/// - `gpt-4-32k-0314`
+/// - `gpt-4-32k-0613`
+/// - `gpt-4-0125-preview`
+/// - `gpt-4-0314`
+/// - `gpt-4-0613`
+/// - `gpt-4-1106-preview`
+/// - `gpt-4-turbo`
+/// - `gpt-4-turbo-2024-04-09`
+/// - `gpt-4-turbo-preview`
+/// - `gpt-4-vision-preview`
+/// - `gpt-4o`
+/// - `gpt-4o-2024-05-13`
+/// - `gpt-4o-mini`
+/// - `gpt-4o-mini-2024-07-18`
+/// - `gpt-3.5-turbo`
+/// - `gpt-3.5-turbo-16k`
+///
+/// Mind that the list may be outdated.
+/// See https://platform.openai.com/docs/models for the latest list.
 /// {@endtemplate}
+@immutable
 class ChatOpenAIOptions extends ChatModelOptions {
   /// {@macro chat_openai_options}
   const ChatOpenAIOptions({
-    this.model = 'gpt-3.5-turbo',
+    super.model,
     this.frequencyPenalty,
     this.logitBias,
     this.maxTokens,
@@ -18,39 +44,13 @@ class ChatOpenAIOptions extends ChatModelOptions {
     this.stop,
     this.temperature,
     this.topP,
+    super.tools,
+    super.toolChoice,
     this.parallelToolCalls,
     this.serviceTier,
     this.user,
-    super.tools,
-    super.toolChoice,
     super.concurrencyLimit,
   });
-
-  /// ID of the model to use (e.g. 'gpt-3.5-turbo').
-  ///
-  /// Available models:
-  /// - `gpt-4`
-  /// - `gpt-4-32k`
-  /// - `gpt-4-32k-0314`
-  /// - `gpt-4-32k-0613`
-  /// - `gpt-4-0125-preview`
-  /// - `gpt-4-0314`
-  /// - `gpt-4-0613`
-  /// - `gpt-4-1106-preview`
-  /// - `gpt-4-turbo`
-  /// - `gpt-4-turbo-2024-04-09`
-  /// - `gpt-4-turbo-preview`
-  /// - `gpt-4-vision-preview`
-  /// - `gpt-4o`
-  /// - `gpt-4o-2024-05-13`
-  /// - `gpt-4o-mini`
-  /// - `gpt-4o-mini-2024-07-18`
-  /// - `gpt-3.5-turbo`
-  /// - `gpt-3.5-turbo-16k`
-  ///
-  /// Mind that the list may be outdated.
-  /// See https://platform.openai.com/docs/models for the latest list.
-  final String? model;
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
   /// their existing frequency in the text so far, decreasing the model's
@@ -145,22 +145,23 @@ class ChatOpenAIOptions extends ChatModelOptions {
   /// Creates a copy of this [ChatOpenAIOptions] object with the given fields
   /// replaced with the new values.
   ChatOpenAIOptions copyWith({
-    final String? model,
-    final double? frequencyPenalty,
-    final Map<String, int>? logitBias,
-    final int? maxTokens,
-    final int? n,
-    final double? presencePenalty,
-    final ChatOpenAIResponseFormat? responseFormat,
-    final int? seed,
-    final List<String>? stop,
-    final double? temperature,
-    final double? topP,
-    final bool? parallelToolCalls,
-    final ChatOpenAIServiceTier? serviceTier,
-    final String? user,
-    final List<ToolSpec>? tools,
-    final ChatToolChoice? toolChoice,
+    String? model,
+    double? frequencyPenalty,
+    Map<String, int>? logitBias,
+    int? maxTokens,
+    int? n,
+    double? presencePenalty,
+    ChatOpenAIResponseFormat? responseFormat,
+    int? seed,
+    List<String>? stop,
+    double? temperature,
+    double? topP,
+    List<ToolSpec>? tools,
+    ChatToolChoice? toolChoice,
+    bool? parallelToolCalls,
+    ChatOpenAIServiceTier? serviceTier,
+    String? user,
+    int? concurrencyLimit,
   }) {
     return ChatOpenAIOptions(
       model: model ?? this.model,
@@ -174,12 +175,58 @@ class ChatOpenAIOptions extends ChatModelOptions {
       stop: stop ?? this.stop,
       temperature: temperature ?? this.temperature,
       topP: topP ?? this.topP,
+      tools: tools ?? this.tools,
+      toolChoice: toolChoice ?? this.toolChoice,
       parallelToolCalls: parallelToolCalls ?? this.parallelToolCalls,
       serviceTier: serviceTier ?? this.serviceTier,
       user: user ?? this.user,
-      tools: tools ?? this.tools,
-      toolChoice: toolChoice ?? this.toolChoice,
+      concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
+  }
+
+  @override
+  bool operator ==(covariant final ChatOpenAIOptions other) {
+    return identical(this, other) ||
+        runtimeType == other.runtimeType &&
+            model == other.model &&
+            frequencyPenalty == other.frequencyPenalty &&
+            const MapEquality<String, int>()
+                .equals(logitBias, other.logitBias) &&
+            maxTokens == other.maxTokens &&
+            n == other.n &&
+            presencePenalty == other.presencePenalty &&
+            responseFormat == other.responseFormat &&
+            seed == other.seed &&
+            const ListEquality<String>().equals(stop, other.stop) &&
+            temperature == other.temperature &&
+            topP == other.topP &&
+            const ListEquality<ToolSpec>().equals(tools, other.tools) &&
+            toolChoice == other.toolChoice &&
+            parallelToolCalls == other.parallelToolCalls &&
+            serviceTier == other.serviceTier &&
+            user == other.user &&
+            concurrencyLimit == other.concurrencyLimit;
+  }
+
+  @override
+  int get hashCode {
+    return model.hashCode ^
+        frequencyPenalty.hashCode ^
+        const MapEquality<String, int>().hash(logitBias) ^
+        maxTokens.hashCode ^
+        n.hashCode ^
+        presencePenalty.hashCode ^
+        responseFormat.hashCode ^
+        seed.hashCode ^
+        const ListEquality<String>().hash(stop) ^
+        temperature.hashCode ^
+        topP.hashCode ^
+        const ListEquality<ToolSpec>().hash(tools) ^
+        toolChoice.hashCode ^
+        parallelToolCalls.hashCode ^
+        serviceTier.hashCode ^
+        user.hashCode ^
+        concurrencyLimit.hashCode;
   }
 }
 

@@ -25,8 +25,10 @@ import 'types.dart';
 /// - [Completions API docs](https://platform.openai.com/docs/api-reference/chat)
 ///
 /// You can also use this wrapper to consume OpenAI-compatible APIs like
-/// [Anyscale](https://www.anyscale.com), [Together AI](https://www.together.ai),
-/// [OpenRouter](https://openrouter.ai), [One API](https://github.com/songquanpeng/one-api), etc.
+/// [TogetherAI](https://www.together.ai/), [Anyscale](https://www.anyscale.com/),
+/// [OpenRouter](https://openrouter.ai), [One API](https://github.com/songquanpeng/one-api),
+/// [Groq](https://groq.com/), [Llamafile](https://llamafile.ai/),
+/// [GPT4All](https://gpt4all.io/), [FastChat](https://github.com/lm-sys/FastChat), etc.
 ///
 /// ### Call options
 ///
@@ -172,7 +174,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   ///   [OpenAI dashboard](https://platform.openai.com/account/api-keys).
   /// - `organization`: your OpenAI organization ID (if applicable).
   /// - [ChatOpenAI.encoding]
-  /// - [OpenAI.defaultOptions]
+  /// - [ChatOpenAI.defaultOptions]
   ///
   /// Advance configuration options:
   /// - `baseUrl`: the base URL to use. Defaults to OpenAI's API URL. You can
@@ -192,7 +194,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     super.defaultOptions = const ChatOpenAIOptions(
-      model: 'gpt-3.5-turbo',
+      model: defaultModel,
     ),
     this.encoding,
   }) : _client = OpenAIClient(
@@ -235,6 +237,9 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
 
   @override
   String get modelType => 'openai-chat';
+
+  /// The default model to use unless another is specified.
+  static const defaultModel = 'gpt-3.5-turbo';
 
   @override
   Future<ChatResult> invoke(
@@ -288,7 +293,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
 
     return CreateChatCompletionRequest(
       model: ChatCompletionModel.modelId(
-        options?.model ?? defaultOptions.model ?? throwNullModelError(),
+        options?.model ?? defaultOptions.model ?? defaultModel,
       ),
       messages: messagesDtos,
       tools: toolsDtos,
@@ -334,8 +339,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final PromptValue promptValue, {
     final ChatOpenAIOptions? options,
   }) async {
-    final model =
-        options?.model ?? defaultOptions.model ?? throwNullModelError();
+    final model = options?.model ?? defaultOptions.model ?? defaultModel;
     final tiktoken = _getTiktoken();
     final messages = promptValue.toChatMessages();
 

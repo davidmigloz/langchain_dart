@@ -1,12 +1,18 @@
+import 'package:collection/collection.dart';
 import 'package:langchain_core/llms.dart';
+import 'package:meta/meta.dart';
 
 /// {@template ollama_options}
 /// Options to pass into the Ollama LLM.
+///
+/// For a complete list of supported models and model variants, see the
+/// [Ollama model library](https://ollama.ai/library).
 /// {@endtemplate}
+@immutable
 class OllamaOptions extends LLMOptions {
   /// {@macro ollama_options}
   const OllamaOptions({
-    this.model = 'llama3',
+    super.model,
     this.system,
     this.template,
     this.context,
@@ -44,9 +50,6 @@ class OllamaOptions extends LLMOptions {
     this.numThread,
     super.concurrencyLimit,
   });
-
-  /// The model used to generate completions
-  final String? model;
 
   /// The system prompt (Overrides what is defined in the Modelfile).
   final String? system;
@@ -228,6 +231,7 @@ class OllamaOptions extends LLMOptions {
     final List<int>? context,
     final OllamaResponseFormat? format,
     final bool? raw,
+    final int? keepAlive,
     final int? numKeep,
     final int? seed,
     final int? numPredict,
@@ -248,7 +252,6 @@ class OllamaOptions extends LLMOptions {
     final bool? numa,
     final int? numCtx,
     final int? numBatch,
-    final int? numGqa,
     final int? numGpu,
     final int? mainGpu,
     final bool? lowVram,
@@ -257,10 +260,8 @@ class OllamaOptions extends LLMOptions {
     final bool? vocabOnly,
     final bool? useMmap,
     final bool? useMlock,
-    final bool? embeddingOnly,
-    final double? ropeFrequencyBase,
-    final double? ropeFrequencyScale,
     final int? numThread,
+    final int? concurrencyLimit,
   }) {
     return OllamaOptions(
       model: model ?? this.model,
@@ -269,6 +270,7 @@ class OllamaOptions extends LLMOptions {
       context: context ?? this.context,
       format: format ?? this.format,
       raw: raw ?? this.raw,
+      keepAlive: keepAlive ?? this.keepAlive,
       numKeep: numKeep ?? this.numKeep,
       seed: seed ?? this.seed,
       numPredict: numPredict ?? this.numPredict,
@@ -298,7 +300,92 @@ class OllamaOptions extends LLMOptions {
       useMmap: useMmap ?? this.useMmap,
       useMlock: useMlock ?? this.useMlock,
       numThread: numThread ?? this.numThread,
+      concurrencyLimit: concurrencyLimit ?? super.concurrencyLimit,
     );
+  }
+
+  @override
+  bool operator ==(covariant final OllamaOptions other) {
+    return identical(this, other) ||
+        runtimeType == other.runtimeType &&
+            model == other.model &&
+            system == other.system &&
+            template == other.template &&
+            const ListEquality<int>().equals(context, other.context) &&
+            format == other.format &&
+            raw == other.raw &&
+            keepAlive == other.keepAlive &&
+            numKeep == other.numKeep &&
+            seed == other.seed &&
+            numPredict == other.numPredict &&
+            topK == other.topK &&
+            topP == other.topP &&
+            tfsZ == other.tfsZ &&
+            typicalP == other.typicalP &&
+            repeatLastN == other.repeatLastN &&
+            temperature == other.temperature &&
+            repeatPenalty == other.repeatPenalty &&
+            presencePenalty == other.presencePenalty &&
+            frequencyPenalty == other.frequencyPenalty &&
+            mirostat == other.mirostat &&
+            mirostatTau == other.mirostatTau &&
+            mirostatEta == other.mirostatEta &&
+            penalizeNewline == other.penalizeNewline &&
+            const ListEquality<String>().equals(stop, other.stop) &&
+            numa == other.numa &&
+            numCtx == other.numCtx &&
+            numBatch == other.numBatch &&
+            numGpu == other.numGpu &&
+            mainGpu == other.mainGpu &&
+            lowVram == other.lowVram &&
+            f16KV == other.f16KV &&
+            logitsAll == other.logitsAll &&
+            vocabOnly == other.vocabOnly &&
+            useMmap == other.useMmap &&
+            useMlock == other.useMlock &&
+            numThread == other.numThread &&
+            concurrencyLimit == other.concurrencyLimit;
+  }
+
+  @override
+  int get hashCode {
+    return model.hashCode ^
+        system.hashCode ^
+        template.hashCode ^
+        const ListEquality<int>().hash(context) ^
+        format.hashCode ^
+        raw.hashCode ^
+        keepAlive.hashCode ^
+        numKeep.hashCode ^
+        seed.hashCode ^
+        numPredict.hashCode ^
+        topK.hashCode ^
+        topP.hashCode ^
+        tfsZ.hashCode ^
+        typicalP.hashCode ^
+        repeatLastN.hashCode ^
+        temperature.hashCode ^
+        repeatPenalty.hashCode ^
+        presencePenalty.hashCode ^
+        frequencyPenalty.hashCode ^
+        mirostat.hashCode ^
+        mirostatTau.hashCode ^
+        mirostatEta.hashCode ^
+        penalizeNewline.hashCode ^
+        const ListEquality<String>().hash(stop) ^
+        numa.hashCode ^
+        numCtx.hashCode ^
+        numBatch.hashCode ^
+        numGpu.hashCode ^
+        mainGpu.hashCode ^
+        lowVram.hashCode ^
+        f16KV.hashCode ^
+        logitsAll.hashCode ^
+        vocabOnly.hashCode ^
+        useMmap.hashCode ^
+        useMlock.hashCode ^
+        numThread.hashCode ^
+        concurrencyLimit.hashCode;
   }
 }
 

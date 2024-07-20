@@ -117,8 +117,8 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
     final String location = 'us-central1',
     final String? rootUrl,
     super.defaultOptions = const ChatVertexAIOptions(
-      publisher: 'google',
-      model: 'chat-bison',
+      publisher: defaultPublisher,
+      model: defaultModel,
     ),
   }) : client = VertexAIGenAIClient(
           httpClient: httpClient,
@@ -139,6 +139,12 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
   @override
   String get modelType => 'vertex-ai-chat';
 
+  /// The default publisher to use unless another is specified.
+  static const defaultPublisher = 'google';
+
+  /// The default model to use unless another is specified.
+  static const defaultModel = 'chat-bison';
+
   @override
   Future<ChatResult> invoke(
     final PromptValue input, {
@@ -158,19 +164,15 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
     final examples = (options?.examples ?? defaultOptions.examples)
         ?.map((final e) => e.toVertexAIChatExample())
         .toList(growable: false);
-    final model =
-        options?.model ?? defaultOptions.model ?? throwNullModelError();
+    final publisher =
+        options?.publisher ?? defaultOptions.publisher ?? defaultPublisher;
+    final model = options?.model ?? defaultOptions.model ?? defaultModel;
 
     final result = await client.chat.predict(
       context: context,
       examples: examples,
       messages: vertexMessages,
-      publisher: options?.publisher ??
-          defaultOptions.publisher ??
-          ArgumentError.checkNotNull(
-            defaultOptions.publisher,
-            'VertexAIOptions.publisher',
-          ),
+      publisher: publisher,
       model: model,
       parameters: VertexAITextChatModelRequestParams(
         maxOutputTokens:
@@ -216,18 +218,15 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
     final examples = (options?.examples ?? defaultOptions.examples)
         ?.map((final e) => e.toVertexAIChatExample())
         .toList(growable: false);
-    final model =
-        options?.model ?? defaultOptions.model ?? throwNullModelError();
+    final publisher =
+        options?.publisher ?? defaultOptions.publisher ?? defaultPublisher;
+    final model = options?.model ?? defaultOptions.model ?? defaultModel;
 
     final res = await client.chat.countTokens(
       context: context,
       examples: examples,
       messages: vertexMessages,
-      publisher: options?.publisher ??
-          ArgumentError.checkNotNull(
-            defaultOptions.publisher,
-            'VertexAIOptions.publisher',
-          ),
+      publisher: publisher,
       model: model,
     );
     return res.totalTokens;

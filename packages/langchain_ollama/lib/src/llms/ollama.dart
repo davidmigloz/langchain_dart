@@ -152,7 +152,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     super.defaultOptions = const OllamaOptions(
-      model: 'llama3',
+      model: defaultModel,
     ),
     this.encoding = 'cl100k_base',
   }) : _client = OllamaClient(
@@ -176,6 +176,9 @@ class Ollama extends BaseLLM<OllamaOptions> {
 
   @override
   String get modelType => 'ollama';
+
+  /// The default model to use unless another is specified.
+  static const defaultModel = 'llama3';
 
   @override
   Future<LLMResult> invoke(
@@ -210,7 +213,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
     final OllamaOptions? options,
   }) {
     return GenerateCompletionRequest(
-      model: options?.model ?? defaultOptions.model ?? throwNullModelError(),
+      model: options?.model ?? defaultOptions.model ?? defaultModel,
       prompt: prompt,
       system: options?.system,
       template: options?.template,

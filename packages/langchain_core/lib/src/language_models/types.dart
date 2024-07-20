@@ -10,8 +10,13 @@ import '../langchain/types.dart';
 abstract class LanguageModelOptions extends BaseLangChainOptions {
   /// {@macro language_model_options}
   const LanguageModelOptions({
+    this.model,
     super.concurrencyLimit,
   });
+
+  /// ID of the language model to use.
+  /// Check the provider's documentation for available models.
+  final String? model;
 }
 
 /// {@template language_model}

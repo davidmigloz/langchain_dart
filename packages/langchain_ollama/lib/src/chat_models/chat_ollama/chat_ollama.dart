@@ -178,6 +178,9 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
   @override
   String get modelType => 'chat-ollama';
 
+  /// The default model to use unless another is specified.
+  static const defaultModel = 'llama3';
+
   @override
   Future<ChatResult> invoke(
     final PromptValue input, {
@@ -218,7 +221,7 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
     final ChatOllamaOptions? options,
   }) {
     return GenerateChatCompletionRequest(
-      model: options?.model ?? defaultOptions.model ?? throwNullModelError(),
+      model: options?.model ?? defaultOptions.model ?? defaultModel,
       messages: messages.toMessages(),
       format: (options?.format ?? defaultOptions.format)?.toResponseFormat(),
       keepAlive: options?.keepAlive ?? defaultOptions.keepAlive,
