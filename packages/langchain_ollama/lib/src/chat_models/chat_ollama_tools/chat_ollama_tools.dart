@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:http/http.dart' as http;
 import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:ollama_dart/ollama_dart.dart';
 import 'package:uuid/uuid.dart';
 
+import '../chat_ollama/mappers.dart' show ChatResultMapper;
 import 'mappers.dart';
 import 'types.dart';
 
@@ -252,10 +254,12 @@ class ChatOllamaTools extends BaseChatModel<ChatOllamaToolsOptions> {
       return ChatResult(
         id: result.id,
         output: AIChatMessage(
-          content: content,
+          content: '$content${outputMap['output']}',
           toolCalls: otherToolCalls,
         ),
-        finishReason: result.finishReason,
+        finishReason: otherToolCalls.isNotEmpty
+            ? FinishReason.toolCalls
+            : result.finishReason,
         metadata: result.metadata,
         usage: result.usage,
       );

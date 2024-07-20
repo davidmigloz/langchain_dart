@@ -36,12 +36,14 @@ class ChatOllamaToolsOptions extends ChatModelOptions {
 You have access to these tools: 
 {tools}
 
-Based on the user input, select {tool_choice} from the available tools.
+Instructions:
 
-Respond with a JSON containing a list of tool call objects. 
-The tool call objects should have two properties:
-- "tool_name": The name of the selected tool (string)
-- "tool_input": A JSON string with the input for the tool matching the tool's input schema
+Based on the user input, select {tool_choice} from the available tools.
+Respond with a JSON object containing a "tool_calls" array.
+Each tool call in the array should have:
+
+"tool_name": The name of the selected tool (string)
+"tool_input": A JSON string with the input for the tool
 
 Example response format:
 ```json
@@ -55,7 +57,22 @@ Example response format:
 }}
 ```
 
+Important notes:
+
 Ensure your response is valid JSON and follows this exact format.
+If no new tools need to be called, respond with an empty "tool_calls" array.
+If "tool_answer" is present anywhere, do not make a tool call. Instead, provide a response that incorporates the original question and the tool's answer.
+
+Example combined response:
+
+```json
+{{
+  "tool_calls": [],
+  "output": "You asked about [original question]. Based on our [tool name], [incorporate tool answer]."
+}}
+```
+
+Remember: Do not make a tool call if "tool_answer" is present in the response.
 ''';
 }
 
