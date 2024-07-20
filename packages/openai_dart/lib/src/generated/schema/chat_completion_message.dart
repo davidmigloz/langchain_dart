@@ -135,7 +135,7 @@ sealed class ChatCompletionUserMessageContent
     with _$ChatCompletionUserMessageContent {
   const ChatCompletionUserMessageContent._();
 
-  /// An array of content parts with a defined type, each can be of type `text` or `image_url` when passing in images. You can pass multiple images by adding multiple `image_url` content parts. Image input is only supported when using the `gpt-4-vision-preview` model.
+  /// An array of content parts with a defined type, each can be of type `text` or `image_url` when passing in images. You can pass multiple images by adding multiple `image_url` content parts. Image input is only supported when using the `gpt-4o` model.
   const factory ChatCompletionUserMessageContent.parts(
     List<ChatCompletionMessageContentPart> value,
   ) = ChatCompletionMessageContentParts;

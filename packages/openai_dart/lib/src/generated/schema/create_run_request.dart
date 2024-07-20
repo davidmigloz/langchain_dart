@@ -203,6 +203,10 @@ enum RunModels {
   gpt4o,
   @JsonValue('gpt-4o-2024-05-13')
   gpt4o20240513,
+  @JsonValue('gpt-4o-mini')
+  gpt4oMini,
+  @JsonValue('gpt-4o-mini-2024-07-18')
+  gpt4oMini20240718,
   @JsonValue('gpt-3.5-turbo')
   gpt35Turbo,
   @JsonValue('gpt-3.5-turbo-16k')
