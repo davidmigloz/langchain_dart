@@ -222,8 +222,7 @@ class OllamaOptions extends LLMOptions {
   /// the logical number of cores).
   final int? numThread;
 
-  /// Creates a copy of this [OllamaOptions] object with the given fields
-  /// replaced with the new values.
+  @override
   OllamaOptions copyWith({
     final String? model,
     final String? system,
@@ -301,6 +300,49 @@ class OllamaOptions extends LLMOptions {
       useMlock: useMlock ?? this.useMlock,
       numThread: numThread ?? this.numThread,
       concurrencyLimit: concurrencyLimit ?? super.concurrencyLimit,
+    );
+  }
+
+  @override
+  OllamaOptions merge(covariant final OllamaOptions? other) {
+    return copyWith(
+      model: other?.model,
+      system: other?.system,
+      template: other?.template,
+      context: other?.context,
+      format: other?.format,
+      raw: other?.raw,
+      keepAlive: other?.keepAlive,
+      numKeep: other?.numKeep,
+      seed: other?.seed,
+      numPredict: other?.numPredict,
+      topK: other?.topK,
+      topP: other?.topP,
+      tfsZ: other?.tfsZ,
+      typicalP: other?.typicalP,
+      repeatLastN: other?.repeatLastN,
+      temperature: other?.temperature,
+      repeatPenalty: other?.repeatPenalty,
+      presencePenalty: other?.presencePenalty,
+      frequencyPenalty: other?.frequencyPenalty,
+      mirostat: other?.mirostat,
+      mirostatTau: other?.mirostatTau,
+      mirostatEta: other?.mirostatEta,
+      penalizeNewline: other?.penalizeNewline,
+      stop: other?.stop,
+      numa: other?.numa,
+      numCtx: other?.numCtx,
+      numBatch: other?.numBatch,
+      numGpu: other?.numGpu,
+      mainGpu: other?.mainGpu,
+      lowVram: other?.lowVram,
+      f16KV: other?.f16KV,
+      logitsAll: other?.logitsAll,
+      vocabOnly: other?.vocabOnly,
+      useMmap: other?.useMmap,
+      useMlock: other?.useMlock,
+      numThread: other?.numThread,
+      concurrencyLimit: other?.concurrencyLimit,
     );
   }
 

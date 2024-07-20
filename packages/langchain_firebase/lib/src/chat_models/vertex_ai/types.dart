@@ -90,8 +90,7 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
   /// the default safety setting for that category.
   final List<ChatFirebaseVertexAISafetySetting>? safetySettings;
 
-  /// Creates a copy of this [ChatFirebaseVertexAIOptions] object with the given fields
-  /// replaced with the new values.
+  @override
   ChatFirebaseVertexAIOptions copyWith({
     final String? model,
     final double? topP,
@@ -119,6 +118,26 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
       tools: tools ?? this.tools,
       toolChoice: toolChoice ?? this.toolChoice,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
+    );
+  }
+
+  @override
+  ChatFirebaseVertexAIOptions merge(
+    covariant final ChatFirebaseVertexAIOptions? other,
+  ) {
+    return copyWith(
+      model: other?.model,
+      topP: other?.topP,
+      topK: other?.topK,
+      candidateCount: other?.candidateCount,
+      maxOutputTokens: other?.maxOutputTokens,
+      temperature: other?.temperature,
+      stopSequences: other?.stopSequences,
+      responseMimeType: other?.responseMimeType,
+      safetySettings: other?.safetySettings,
+      tools: other?.tools,
+      toolChoice: other?.toolChoice,
+      concurrencyLimit: other?.concurrencyLimit,
     );
   }
 

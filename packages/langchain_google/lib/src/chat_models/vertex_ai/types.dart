@@ -97,8 +97,7 @@ class ChatVertexAIOptions extends ChatModelOptions {
   /// List of messages to the model to learn how to respond to the conversation.
   final List<ChatExample>? examples;
 
-  /// Creates a copy of this [ChatVertexAIOptions] object with the given fields
-  /// replaced with the new values.
+  @override
   ChatVertexAIOptions copyWith({
     final String? publisher,
     final String? model,
@@ -122,6 +121,22 @@ class ChatVertexAIOptions extends ChatModelOptions {
       candidateCount: candidateCount ?? this.candidateCount,
       examples: examples ?? this.examples,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
+    );
+  }
+
+  @override
+  ChatVertexAIOptions merge(covariant ChatVertexAIOptions? other) {
+    return copyWith(
+      publisher: other?.publisher,
+      model: other?.model,
+      maxOutputTokens: other?.maxOutputTokens,
+      temperature: other?.temperature,
+      topP: other?.topP,
+      topK: other?.topK,
+      stopSequences: other?.stopSequences,
+      candidateCount: other?.candidateCount,
+      examples: other?.examples,
+      concurrencyLimit: other?.concurrencyLimit,
     );
   }
 
