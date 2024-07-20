@@ -36641,6 +36641,12 @@ mixin _$ToolResourcesFileSearchVectorStore {
   @JsonKey(name: 'file_ids', includeIfNull: false)
   List<String>? get fileIds => throw _privateConstructorUsedError;
 
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyRequestParam? get chunkingStrategy =>
+      throw _privateConstructorUsedError;
+
   /// Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   dynamic get metadata => throw _privateConstructorUsedError;
@@ -36662,7 +36668,11 @@ abstract class $ToolResourcesFileSearchVectorStoreCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyRequestParam? chunkingStrategy,
       @JsonKey(includeIfNull: false) dynamic metadata});
+
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -36680,6 +36690,7 @@ class _$ToolResourcesFileSearchVectorStoreCopyWithImpl<$Res,
   @override
   $Res call({
     Object? fileIds = freezed,
+    Object? chunkingStrategy = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_value.copyWith(
@@ -36687,11 +36698,28 @@ class _$ToolResourcesFileSearchVectorStoreCopyWithImpl<$Res,
           ? _value.fileIds
           : fileIds // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyRequestParam?,
       metadata: freezed == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as dynamic,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy {
+    if (_value.chunkingStrategy == null) {
+      return null;
+    }
+
+    return $ChunkingStrategyRequestParamCopyWith<$Res>(_value.chunkingStrategy!,
+        (value) {
+      return _then(_value.copyWith(chunkingStrategy: value) as $Val);
+    });
   }
 }
 
@@ -36706,7 +36734,12 @@ abstract class _$$ToolResourcesFileSearchVectorStoreImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyRequestParam? chunkingStrategy,
       @JsonKey(includeIfNull: false) dynamic metadata});
+
+  @override
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -36723,6 +36756,7 @@ class __$$ToolResourcesFileSearchVectorStoreImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fileIds = freezed,
+    Object? chunkingStrategy = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_$ToolResourcesFileSearchVectorStoreImpl(
@@ -36730,6 +36764,10 @@ class __$$ToolResourcesFileSearchVectorStoreImplCopyWithImpl<$Res>
           ? _value._fileIds
           : fileIds // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyRequestParam?,
       metadata: freezed == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -36745,6 +36783,8 @@ class _$ToolResourcesFileSearchVectorStoreImpl
   const _$ToolResourcesFileSearchVectorStoreImpl(
       {@JsonKey(name: 'file_ids', includeIfNull: false)
       final List<String>? fileIds,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      this.chunkingStrategy,
       @JsonKey(includeIfNull: false) this.metadata})
       : _fileIds = fileIds,
         super._();
@@ -36767,6 +36807,12 @@ class _$ToolResourcesFileSearchVectorStoreImpl
     return EqualUnmodifiableListView(value);
   }
 
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @override
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  final ChunkingStrategyRequestParam? chunkingStrategy;
+
   /// Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
@@ -36774,7 +36820,7 @@ class _$ToolResourcesFileSearchVectorStoreImpl
 
   @override
   String toString() {
-    return 'ToolResourcesFileSearchVectorStore(fileIds: $fileIds, metadata: $metadata)';
+    return 'ToolResourcesFileSearchVectorStore(fileIds: $fileIds, chunkingStrategy: $chunkingStrategy, metadata: $metadata)';
   }
 
   @override
@@ -36783,6 +36829,8 @@ class _$ToolResourcesFileSearchVectorStoreImpl
         (other.runtimeType == runtimeType &&
             other is _$ToolResourcesFileSearchVectorStoreImpl &&
             const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
+            (identical(other.chunkingStrategy, chunkingStrategy) ||
+                other.chunkingStrategy == chunkingStrategy) &&
             const DeepCollectionEquality().equals(other.metadata, metadata));
   }
 
@@ -36791,6 +36839,7 @@ class _$ToolResourcesFileSearchVectorStoreImpl
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_fileIds),
+      chunkingStrategy,
       const DeepCollectionEquality().hash(metadata));
 
   @JsonKey(ignore: true)
@@ -36814,6 +36863,8 @@ abstract class _ToolResourcesFileSearchVectorStore
   const factory _ToolResourcesFileSearchVectorStore(
           {@JsonKey(name: 'file_ids', includeIfNull: false)
           final List<String>? fileIds,
+          @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+          final ChunkingStrategyRequestParam? chunkingStrategy,
           @JsonKey(includeIfNull: false) final dynamic metadata}) =
       _$ToolResourcesFileSearchVectorStoreImpl;
   const _ToolResourcesFileSearchVectorStore._() : super._();
@@ -36827,6 +36878,12 @@ abstract class _ToolResourcesFileSearchVectorStore
   /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.
   @JsonKey(name: 'file_ids', includeIfNull: false)
   List<String>? get fileIds;
+  @override
+
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyRequestParam? get chunkingStrategy;
   @override
 
   /// Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
@@ -45270,6 +45327,12 @@ mixin _$CreateVectorStoreRequest {
   VectorStoreExpirationAfter? get expiresAfter =>
       throw _privateConstructorUsedError;
 
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyRequestParam? get chunkingStrategy =>
+      throw _privateConstructorUsedError;
+
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   dynamic get metadata => throw _privateConstructorUsedError;
@@ -45291,9 +45354,12 @@ abstract class $CreateVectorStoreRequestCopyWith<$Res> {
       @JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
       @JsonKey(name: 'expires_after', includeIfNull: false)
       VectorStoreExpirationAfter? expiresAfter,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyRequestParam? chunkingStrategy,
       @JsonKey(includeIfNull: false) dynamic metadata});
 
   $VectorStoreExpirationAfterCopyWith<$Res>? get expiresAfter;
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -45313,6 +45379,7 @@ class _$CreateVectorStoreRequestCopyWithImpl<$Res,
     Object? name = freezed,
     Object? fileIds = freezed,
     Object? expiresAfter = freezed,
+    Object? chunkingStrategy = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_value.copyWith(
@@ -45328,6 +45395,10 @@ class _$CreateVectorStoreRequestCopyWithImpl<$Res,
           ? _value.expiresAfter
           : expiresAfter // ignore: cast_nullable_to_non_nullable
               as VectorStoreExpirationAfter?,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyRequestParam?,
       metadata: freezed == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -45347,6 +45418,19 @@ class _$CreateVectorStoreRequestCopyWithImpl<$Res,
       return _then(_value.copyWith(expiresAfter: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy {
+    if (_value.chunkingStrategy == null) {
+      return null;
+    }
+
+    return $ChunkingStrategyRequestParamCopyWith<$Res>(_value.chunkingStrategy!,
+        (value) {
+      return _then(_value.copyWith(chunkingStrategy: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -45363,10 +45447,14 @@ abstract class _$$CreateVectorStoreRequestImplCopyWith<$Res>
       @JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
       @JsonKey(name: 'expires_after', includeIfNull: false)
       VectorStoreExpirationAfter? expiresAfter,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyRequestParam? chunkingStrategy,
       @JsonKey(includeIfNull: false) dynamic metadata});
 
   @override
   $VectorStoreExpirationAfterCopyWith<$Res>? get expiresAfter;
+  @override
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -45385,6 +45473,7 @@ class __$$CreateVectorStoreRequestImplCopyWithImpl<$Res>
     Object? name = freezed,
     Object? fileIds = freezed,
     Object? expiresAfter = freezed,
+    Object? chunkingStrategy = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_$CreateVectorStoreRequestImpl(
@@ -45400,6 +45489,10 @@ class __$$CreateVectorStoreRequestImplCopyWithImpl<$Res>
           ? _value.expiresAfter
           : expiresAfter // ignore: cast_nullable_to_non_nullable
               as VectorStoreExpirationAfter?,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyRequestParam?,
       metadata: freezed == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -45416,6 +45509,8 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
       @JsonKey(name: 'file_ids', includeIfNull: false)
       final List<String>? fileIds,
       @JsonKey(name: 'expires_after', includeIfNull: false) this.expiresAfter,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      this.chunkingStrategy,
       @JsonKey(includeIfNull: false) this.metadata})
       : _fileIds = fileIds,
         super._();
@@ -45447,6 +45542,12 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
   @JsonKey(name: 'expires_after', includeIfNull: false)
   final VectorStoreExpirationAfter? expiresAfter;
 
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @override
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  final ChunkingStrategyRequestParam? chunkingStrategy;
+
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
@@ -45454,7 +45555,7 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
 
   @override
   String toString() {
-    return 'CreateVectorStoreRequest(name: $name, fileIds: $fileIds, expiresAfter: $expiresAfter, metadata: $metadata)';
+    return 'CreateVectorStoreRequest(name: $name, fileIds: $fileIds, expiresAfter: $expiresAfter, chunkingStrategy: $chunkingStrategy, metadata: $metadata)';
   }
 
   @override
@@ -45466,6 +45567,8 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
             const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
             (identical(other.expiresAfter, expiresAfter) ||
                 other.expiresAfter == expiresAfter) &&
+            (identical(other.chunkingStrategy, chunkingStrategy) ||
+                other.chunkingStrategy == chunkingStrategy) &&
             const DeepCollectionEquality().equals(other.metadata, metadata));
   }
 
@@ -45476,6 +45579,7 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
       name,
       const DeepCollectionEquality().hash(_fileIds),
       expiresAfter,
+      chunkingStrategy,
       const DeepCollectionEquality().hash(metadata));
 
   @JsonKey(ignore: true)
@@ -45500,6 +45604,8 @@ abstract class _CreateVectorStoreRequest extends CreateVectorStoreRequest {
           final List<String>? fileIds,
           @JsonKey(name: 'expires_after', includeIfNull: false)
           final VectorStoreExpirationAfter? expiresAfter,
+          @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+          final ChunkingStrategyRequestParam? chunkingStrategy,
           @JsonKey(includeIfNull: false) final dynamic metadata}) =
       _$CreateVectorStoreRequestImpl;
   const _CreateVectorStoreRequest._() : super._();
@@ -45522,6 +45628,12 @@ abstract class _CreateVectorStoreRequest extends CreateVectorStoreRequest {
   /// The expiration policy for a vector store.
   @JsonKey(name: 'expires_after', includeIfNull: false)
   VectorStoreExpirationAfter? get expiresAfter;
+  @override
+
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyRequestParam? get chunkingStrategy;
   @override
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
@@ -46275,6 +46387,12 @@ mixin _$VectorStoreFileObject {
   VectorStoreFileObjectLastError? get lastError =>
       throw _privateConstructorUsedError;
 
+  /// The chunking strategy used to chunk the file(s).
+  /// Any of: [StaticChunkingStrategyResponseParam], [OtherChunkingStrategyResponseParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyResponseParam? get chunkingStrategy =>
+      throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $VectorStoreFileObjectCopyWith<VectorStoreFileObject> get copyWith =>
@@ -46294,9 +46412,12 @@ abstract class $VectorStoreFileObjectCopyWith<$Res> {
       @JsonKey(name: 'created_at') int createdAt,
       @JsonKey(name: 'vector_store_id') String vectorStoreId,
       VectorStoreFileStatus status,
-      @JsonKey(name: 'last_error') VectorStoreFileObjectLastError? lastError});
+      @JsonKey(name: 'last_error') VectorStoreFileObjectLastError? lastError,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyResponseParam? chunkingStrategy});
 
   $VectorStoreFileObjectLastErrorCopyWith<$Res>? get lastError;
+  $ChunkingStrategyResponseParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -46320,6 +46441,7 @@ class _$VectorStoreFileObjectCopyWithImpl<$Res,
     Object? vectorStoreId = null,
     Object? status = null,
     Object? lastError = freezed,
+    Object? chunkingStrategy = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -46350,6 +46472,10 @@ class _$VectorStoreFileObjectCopyWithImpl<$Res,
           ? _value.lastError
           : lastError // ignore: cast_nullable_to_non_nullable
               as VectorStoreFileObjectLastError?,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyResponseParam?,
     ) as $Val);
   }
 
@@ -46363,6 +46489,19 @@ class _$VectorStoreFileObjectCopyWithImpl<$Res,
     return $VectorStoreFileObjectLastErrorCopyWith<$Res>(_value.lastError!,
         (value) {
       return _then(_value.copyWith(lastError: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChunkingStrategyResponseParamCopyWith<$Res>? get chunkingStrategy {
+    if (_value.chunkingStrategy == null) {
+      return null;
+    }
+
+    return $ChunkingStrategyResponseParamCopyWith<$Res>(
+        _value.chunkingStrategy!, (value) {
+      return _then(_value.copyWith(chunkingStrategy: value) as $Val);
     });
   }
 }
@@ -46383,10 +46522,14 @@ abstract class _$$VectorStoreFileObjectImplCopyWith<$Res>
       @JsonKey(name: 'created_at') int createdAt,
       @JsonKey(name: 'vector_store_id') String vectorStoreId,
       VectorStoreFileStatus status,
-      @JsonKey(name: 'last_error') VectorStoreFileObjectLastError? lastError});
+      @JsonKey(name: 'last_error') VectorStoreFileObjectLastError? lastError,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyResponseParam? chunkingStrategy});
 
   @override
   $VectorStoreFileObjectLastErrorCopyWith<$Res>? get lastError;
+  @override
+  $ChunkingStrategyResponseParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -46408,6 +46551,7 @@ class __$$VectorStoreFileObjectImplCopyWithImpl<$Res>
     Object? vectorStoreId = null,
     Object? status = null,
     Object? lastError = freezed,
+    Object? chunkingStrategy = freezed,
   }) {
     return _then(_$VectorStoreFileObjectImpl(
       id: null == id
@@ -46438,6 +46582,10 @@ class __$$VectorStoreFileObjectImplCopyWithImpl<$Res>
           ? _value.lastError
           : lastError // ignore: cast_nullable_to_non_nullable
               as VectorStoreFileObjectLastError?,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyResponseParam?,
     ));
   }
 }
@@ -46452,7 +46600,9 @@ class _$VectorStoreFileObjectImpl extends _VectorStoreFileObject {
       @JsonKey(name: 'created_at') required this.createdAt,
       @JsonKey(name: 'vector_store_id') required this.vectorStoreId,
       required this.status,
-      @JsonKey(name: 'last_error') required this.lastError})
+      @JsonKey(name: 'last_error') required this.lastError,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      this.chunkingStrategy})
       : super._();
 
   factory _$VectorStoreFileObjectImpl.fromJson(Map<String, dynamic> json) =>
@@ -46490,9 +46640,15 @@ class _$VectorStoreFileObjectImpl extends _VectorStoreFileObject {
   @JsonKey(name: 'last_error')
   final VectorStoreFileObjectLastError? lastError;
 
+  /// The chunking strategy used to chunk the file(s).
+  /// Any of: [StaticChunkingStrategyResponseParam], [OtherChunkingStrategyResponseParam]
+  @override
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  final ChunkingStrategyResponseParam? chunkingStrategy;
+
   @override
   String toString() {
-    return 'VectorStoreFileObject(id: $id, object: $object, usageBytes: $usageBytes, createdAt: $createdAt, vectorStoreId: $vectorStoreId, status: $status, lastError: $lastError)';
+    return 'VectorStoreFileObject(id: $id, object: $object, usageBytes: $usageBytes, createdAt: $createdAt, vectorStoreId: $vectorStoreId, status: $status, lastError: $lastError, chunkingStrategy: $chunkingStrategy)';
   }
 
   @override
@@ -46510,13 +46666,15 @@ class _$VectorStoreFileObjectImpl extends _VectorStoreFileObject {
                 other.vectorStoreId == vectorStoreId) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.lastError, lastError) ||
-                other.lastError == lastError));
+                other.lastError == lastError) &&
+            (identical(other.chunkingStrategy, chunkingStrategy) ||
+                other.chunkingStrategy == chunkingStrategy));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, object, usageBytes,
-      createdAt, vectorStoreId, status, lastError);
+      createdAt, vectorStoreId, status, lastError, chunkingStrategy);
 
   @JsonKey(ignore: true)
   @override
@@ -46542,7 +46700,9 @@ abstract class _VectorStoreFileObject extends VectorStoreFileObject {
           @JsonKey(name: 'vector_store_id') required final String vectorStoreId,
           required final VectorStoreFileStatus status,
           @JsonKey(name: 'last_error')
-          required final VectorStoreFileObjectLastError? lastError}) =
+          required final VectorStoreFileObjectLastError? lastError,
+          @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+          final ChunkingStrategyResponseParam? chunkingStrategy}) =
       _$VectorStoreFileObjectImpl;
   const _VectorStoreFileObject._() : super._();
 
@@ -46581,6 +46741,12 @@ abstract class _VectorStoreFileObject extends VectorStoreFileObject {
   /// The last error associated with this vector store file. Will be `null` if there are no errors.
   @JsonKey(name: 'last_error')
   VectorStoreFileObjectLastError? get lastError;
+  @override
+
+  /// The chunking strategy used to chunk the file(s).
+  /// Any of: [StaticChunkingStrategyResponseParam], [OtherChunkingStrategyResponseParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyResponseParam? get chunkingStrategy;
   @override
   @JsonKey(ignore: true)
   _$$VectorStoreFileObjectImplCopyWith<_$VectorStoreFileObjectImpl>
@@ -46768,6 +46934,204 @@ abstract class _VectorStoreFileObjectLastError
       get copyWith => throw _privateConstructorUsedError;
 }
 
+StaticChunkingStrategy _$StaticChunkingStrategyFromJson(
+    Map<String, dynamic> json) {
+  return _StaticChunkingStrategy.fromJson(json);
+}
+
+/// @nodoc
+mixin _$StaticChunkingStrategy {
+  /// The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the
+  /// maximum value is `4096`.
+  @JsonKey(name: 'max_chunk_size_tokens')
+  int get maxChunkSizeTokens => throw _privateConstructorUsedError;
+
+  /// The number of tokens that overlap between chunks. The default value is `400`.
+  ///
+  /// Note that the overlap must not exceed half of `max_chunk_size_tokens`.
+  @JsonKey(name: 'chunk_overlap_tokens')
+  int get chunkOverlapTokens => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $StaticChunkingStrategyCopyWith<StaticChunkingStrategy> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $StaticChunkingStrategyCopyWith<$Res> {
+  factory $StaticChunkingStrategyCopyWith(StaticChunkingStrategy value,
+          $Res Function(StaticChunkingStrategy) then) =
+      _$StaticChunkingStrategyCopyWithImpl<$Res, StaticChunkingStrategy>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'max_chunk_size_tokens') int maxChunkSizeTokens,
+      @JsonKey(name: 'chunk_overlap_tokens') int chunkOverlapTokens});
+}
+
+/// @nodoc
+class _$StaticChunkingStrategyCopyWithImpl<$Res,
+        $Val extends StaticChunkingStrategy>
+    implements $StaticChunkingStrategyCopyWith<$Res> {
+  _$StaticChunkingStrategyCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? maxChunkSizeTokens = null,
+    Object? chunkOverlapTokens = null,
+  }) {
+    return _then(_value.copyWith(
+      maxChunkSizeTokens: null == maxChunkSizeTokens
+          ? _value.maxChunkSizeTokens
+          : maxChunkSizeTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+      chunkOverlapTokens: null == chunkOverlapTokens
+          ? _value.chunkOverlapTokens
+          : chunkOverlapTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$StaticChunkingStrategyImplCopyWith<$Res>
+    implements $StaticChunkingStrategyCopyWith<$Res> {
+  factory _$$StaticChunkingStrategyImplCopyWith(
+          _$StaticChunkingStrategyImpl value,
+          $Res Function(_$StaticChunkingStrategyImpl) then) =
+      __$$StaticChunkingStrategyImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'max_chunk_size_tokens') int maxChunkSizeTokens,
+      @JsonKey(name: 'chunk_overlap_tokens') int chunkOverlapTokens});
+}
+
+/// @nodoc
+class __$$StaticChunkingStrategyImplCopyWithImpl<$Res>
+    extends _$StaticChunkingStrategyCopyWithImpl<$Res,
+        _$StaticChunkingStrategyImpl>
+    implements _$$StaticChunkingStrategyImplCopyWith<$Res> {
+  __$$StaticChunkingStrategyImplCopyWithImpl(
+      _$StaticChunkingStrategyImpl _value,
+      $Res Function(_$StaticChunkingStrategyImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? maxChunkSizeTokens = null,
+    Object? chunkOverlapTokens = null,
+  }) {
+    return _then(_$StaticChunkingStrategyImpl(
+      maxChunkSizeTokens: null == maxChunkSizeTokens
+          ? _value.maxChunkSizeTokens
+          : maxChunkSizeTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+      chunkOverlapTokens: null == chunkOverlapTokens
+          ? _value.chunkOverlapTokens
+          : chunkOverlapTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$StaticChunkingStrategyImpl extends _StaticChunkingStrategy {
+  const _$StaticChunkingStrategyImpl(
+      {@JsonKey(name: 'max_chunk_size_tokens') required this.maxChunkSizeTokens,
+      @JsonKey(name: 'chunk_overlap_tokens') required this.chunkOverlapTokens})
+      : super._();
+
+  factory _$StaticChunkingStrategyImpl.fromJson(Map<String, dynamic> json) =>
+      _$$StaticChunkingStrategyImplFromJson(json);
+
+  /// The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the
+  /// maximum value is `4096`.
+  @override
+  @JsonKey(name: 'max_chunk_size_tokens')
+  final int maxChunkSizeTokens;
+
+  /// The number of tokens that overlap between chunks. The default value is `400`.
+  ///
+  /// Note that the overlap must not exceed half of `max_chunk_size_tokens`.
+  @override
+  @JsonKey(name: 'chunk_overlap_tokens')
+  final int chunkOverlapTokens;
+
+  @override
+  String toString() {
+    return 'StaticChunkingStrategy(maxChunkSizeTokens: $maxChunkSizeTokens, chunkOverlapTokens: $chunkOverlapTokens)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$StaticChunkingStrategyImpl &&
+            (identical(other.maxChunkSizeTokens, maxChunkSizeTokens) ||
+                other.maxChunkSizeTokens == maxChunkSizeTokens) &&
+            (identical(other.chunkOverlapTokens, chunkOverlapTokens) ||
+                other.chunkOverlapTokens == chunkOverlapTokens));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, maxChunkSizeTokens, chunkOverlapTokens);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$StaticChunkingStrategyImplCopyWith<_$StaticChunkingStrategyImpl>
+      get copyWith => __$$StaticChunkingStrategyImplCopyWithImpl<
+          _$StaticChunkingStrategyImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$StaticChunkingStrategyImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _StaticChunkingStrategy extends StaticChunkingStrategy {
+  const factory _StaticChunkingStrategy(
+      {@JsonKey(name: 'max_chunk_size_tokens')
+      required final int maxChunkSizeTokens,
+      @JsonKey(name: 'chunk_overlap_tokens')
+      required final int chunkOverlapTokens}) = _$StaticChunkingStrategyImpl;
+  const _StaticChunkingStrategy._() : super._();
+
+  factory _StaticChunkingStrategy.fromJson(Map<String, dynamic> json) =
+      _$StaticChunkingStrategyImpl.fromJson;
+
+  @override
+
+  /// The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the
+  /// maximum value is `4096`.
+  @JsonKey(name: 'max_chunk_size_tokens')
+  int get maxChunkSizeTokens;
+  @override
+
+  /// The number of tokens that overlap between chunks. The default value is `400`.
+  ///
+  /// Note that the overlap must not exceed half of `max_chunk_size_tokens`.
+  @JsonKey(name: 'chunk_overlap_tokens')
+  int get chunkOverlapTokens;
+  @override
+  @JsonKey(ignore: true)
+  _$$StaticChunkingStrategyImplCopyWith<_$StaticChunkingStrategyImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 CreateVectorStoreFileRequest _$CreateVectorStoreFileRequestFromJson(
     Map<String, dynamic> json) {
   return _CreateVectorStoreFileRequest.fromJson(json);
@@ -46778,6 +47142,12 @@ mixin _$CreateVectorStoreFileRequest {
   /// A [File](https://platform.openai.com/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files.
   @JsonKey(name: 'file_id')
   String get fileId => throw _privateConstructorUsedError;
+
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyRequestParam? get chunkingStrategy =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -46793,7 +47163,12 @@ abstract class $CreateVectorStoreFileRequestCopyWith<$Res> {
       _$CreateVectorStoreFileRequestCopyWithImpl<$Res,
           CreateVectorStoreFileRequest>;
   @useResult
-  $Res call({@JsonKey(name: 'file_id') String fileId});
+  $Res call(
+      {@JsonKey(name: 'file_id') String fileId,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyRequestParam? chunkingStrategy});
+
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -46811,13 +47186,31 @@ class _$CreateVectorStoreFileRequestCopyWithImpl<$Res,
   @override
   $Res call({
     Object? fileId = null,
+    Object? chunkingStrategy = freezed,
   }) {
     return _then(_value.copyWith(
       fileId: null == fileId
           ? _value.fileId
           : fileId // ignore: cast_nullable_to_non_nullable
               as String,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyRequestParam?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy {
+    if (_value.chunkingStrategy == null) {
+      return null;
+    }
+
+    return $ChunkingStrategyRequestParamCopyWith<$Res>(_value.chunkingStrategy!,
+        (value) {
+      return _then(_value.copyWith(chunkingStrategy: value) as $Val);
+    });
   }
 }
 
@@ -46830,7 +47223,13 @@ abstract class _$$CreateVectorStoreFileRequestImplCopyWith<$Res>
       __$$CreateVectorStoreFileRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'file_id') String fileId});
+  $Res call(
+      {@JsonKey(name: 'file_id') String fileId,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyRequestParam? chunkingStrategy});
+
+  @override
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -46847,12 +47246,17 @@ class __$$CreateVectorStoreFileRequestImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fileId = null,
+    Object? chunkingStrategy = freezed,
   }) {
     return _then(_$CreateVectorStoreFileRequestImpl(
       fileId: null == fileId
           ? _value.fileId
           : fileId // ignore: cast_nullable_to_non_nullable
               as String,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyRequestParam?,
     ));
   }
 }
@@ -46861,7 +47265,9 @@ class __$$CreateVectorStoreFileRequestImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CreateVectorStoreFileRequestImpl extends _CreateVectorStoreFileRequest {
   const _$CreateVectorStoreFileRequestImpl(
-      {@JsonKey(name: 'file_id') required this.fileId})
+      {@JsonKey(name: 'file_id') required this.fileId,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      this.chunkingStrategy})
       : super._();
 
   factory _$CreateVectorStoreFileRequestImpl.fromJson(
@@ -46873,9 +47279,15 @@ class _$CreateVectorStoreFileRequestImpl extends _CreateVectorStoreFileRequest {
   @JsonKey(name: 'file_id')
   final String fileId;
 
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @override
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  final ChunkingStrategyRequestParam? chunkingStrategy;
+
   @override
   String toString() {
-    return 'CreateVectorStoreFileRequest(fileId: $fileId)';
+    return 'CreateVectorStoreFileRequest(fileId: $fileId, chunkingStrategy: $chunkingStrategy)';
   }
 
   @override
@@ -46883,12 +47295,14 @@ class _$CreateVectorStoreFileRequestImpl extends _CreateVectorStoreFileRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateVectorStoreFileRequestImpl &&
-            (identical(other.fileId, fileId) || other.fileId == fileId));
+            (identical(other.fileId, fileId) || other.fileId == fileId) &&
+            (identical(other.chunkingStrategy, chunkingStrategy) ||
+                other.chunkingStrategy == chunkingStrategy));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, fileId);
+  int get hashCode => Object.hash(runtimeType, fileId, chunkingStrategy);
 
   @JsonKey(ignore: true)
   @override
@@ -46909,7 +47323,9 @@ class _$CreateVectorStoreFileRequestImpl extends _CreateVectorStoreFileRequest {
 abstract class _CreateVectorStoreFileRequest
     extends CreateVectorStoreFileRequest {
   const factory _CreateVectorStoreFileRequest(
-          {@JsonKey(name: 'file_id') required final String fileId}) =
+          {@JsonKey(name: 'file_id') required final String fileId,
+          @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+          final ChunkingStrategyRequestParam? chunkingStrategy}) =
       _$CreateVectorStoreFileRequestImpl;
   const _CreateVectorStoreFileRequest._() : super._();
 
@@ -46921,6 +47337,12 @@ abstract class _CreateVectorStoreFileRequest
   /// A [File](https://platform.openai.com/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files.
   @JsonKey(name: 'file_id')
   String get fileId;
+  @override
+
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyRequestParam? get chunkingStrategy;
   @override
   @JsonKey(ignore: true)
   _$$CreateVectorStoreFileRequestImplCopyWith<
@@ -48012,6 +48434,12 @@ mixin _$CreateVectorStoreFileBatchRequest {
   @JsonKey(name: 'file_ids')
   List<String> get fileIds => throw _privateConstructorUsedError;
 
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyRequestParam? get chunkingStrategy =>
+      throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $CreateVectorStoreFileBatchRequestCopyWith<CreateVectorStoreFileBatchRequest>
@@ -48026,7 +48454,12 @@ abstract class $CreateVectorStoreFileBatchRequestCopyWith<$Res> {
       _$CreateVectorStoreFileBatchRequestCopyWithImpl<$Res,
           CreateVectorStoreFileBatchRequest>;
   @useResult
-  $Res call({@JsonKey(name: 'file_ids') List<String> fileIds});
+  $Res call(
+      {@JsonKey(name: 'file_ids') List<String> fileIds,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyRequestParam? chunkingStrategy});
+
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -48044,13 +48477,31 @@ class _$CreateVectorStoreFileBatchRequestCopyWithImpl<$Res,
   @override
   $Res call({
     Object? fileIds = null,
+    Object? chunkingStrategy = freezed,
   }) {
     return _then(_value.copyWith(
       fileIds: null == fileIds
           ? _value.fileIds
           : fileIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyRequestParam?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy {
+    if (_value.chunkingStrategy == null) {
+      return null;
+    }
+
+    return $ChunkingStrategyRequestParamCopyWith<$Res>(_value.chunkingStrategy!,
+        (value) {
+      return _then(_value.copyWith(chunkingStrategy: value) as $Val);
+    });
   }
 }
 
@@ -48063,7 +48514,13 @@ abstract class _$$CreateVectorStoreFileBatchRequestImplCopyWith<$Res>
       __$$CreateVectorStoreFileBatchRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'file_ids') List<String> fileIds});
+  $Res call(
+      {@JsonKey(name: 'file_ids') List<String> fileIds,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyRequestParam? chunkingStrategy});
+
+  @override
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -48080,12 +48537,17 @@ class __$$CreateVectorStoreFileBatchRequestImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fileIds = null,
+    Object? chunkingStrategy = freezed,
   }) {
     return _then(_$CreateVectorStoreFileBatchRequestImpl(
       fileIds: null == fileIds
           ? _value._fileIds
           : fileIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyRequestParam?,
     ));
   }
 }
@@ -48095,7 +48557,9 @@ class __$$CreateVectorStoreFileBatchRequestImplCopyWithImpl<$Res>
 class _$CreateVectorStoreFileBatchRequestImpl
     extends _CreateVectorStoreFileBatchRequest {
   const _$CreateVectorStoreFileBatchRequestImpl(
-      {@JsonKey(name: 'file_ids') required final List<String> fileIds})
+      {@JsonKey(name: 'file_ids') required final List<String> fileIds,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      this.chunkingStrategy})
       : _fileIds = fileIds,
         super._();
 
@@ -48115,9 +48579,15 @@ class _$CreateVectorStoreFileBatchRequestImpl
     return EqualUnmodifiableListView(_fileIds);
   }
 
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @override
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  final ChunkingStrategyRequestParam? chunkingStrategy;
+
   @override
   String toString() {
-    return 'CreateVectorStoreFileBatchRequest(fileIds: $fileIds)';
+    return 'CreateVectorStoreFileBatchRequest(fileIds: $fileIds, chunkingStrategy: $chunkingStrategy)';
   }
 
   @override
@@ -48125,13 +48595,15 @@ class _$CreateVectorStoreFileBatchRequestImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateVectorStoreFileBatchRequestImpl &&
-            const DeepCollectionEquality().equals(other._fileIds, _fileIds));
+            const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
+            (identical(other.chunkingStrategy, chunkingStrategy) ||
+                other.chunkingStrategy == chunkingStrategy));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_fileIds));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_fileIds), chunkingStrategy);
 
   @JsonKey(ignore: true)
   @override
@@ -48152,7 +48624,9 @@ class _$CreateVectorStoreFileBatchRequestImpl
 abstract class _CreateVectorStoreFileBatchRequest
     extends CreateVectorStoreFileBatchRequest {
   const factory _CreateVectorStoreFileBatchRequest(
-          {@JsonKey(name: 'file_ids') required final List<String> fileIds}) =
+          {@JsonKey(name: 'file_ids') required final List<String> fileIds,
+          @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+          final ChunkingStrategyRequestParam? chunkingStrategy}) =
       _$CreateVectorStoreFileBatchRequestImpl;
   const _CreateVectorStoreFileBatchRequest._() : super._();
 
@@ -48165,6 +48639,12 @@ abstract class _CreateVectorStoreFileBatchRequest
   /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
   @JsonKey(name: 'file_ids')
   List<String> get fileIds;
+  @override
+
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyRequestParam? get chunkingStrategy;
   @override
   @JsonKey(ignore: true)
   _$$CreateVectorStoreFileBatchRequestImplCopyWith<
@@ -62241,6 +62721,933 @@ abstract class RunStepDeltaStepDetailsToolCallsCodeOutputImageObject
   @JsonKey(ignore: true)
   _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplCopyWith<
           _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ChunkingStrategyRequestParam _$ChunkingStrategyRequestParamFromJson(
+    Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'auto':
+      return AutoChunkingStrategyRequestParam.fromJson(json);
+    case 'static':
+      return StaticChunkingStrategyRequestParam.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'type',
+          'ChunkingStrategyRequestParam',
+          'Invalid union type "${json['type']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$ChunkingStrategyRequestParam {
+  /// Always `auto`.
+  String get type => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type) auto,
+    required TResult Function(String type, StaticChunkingStrategy static)
+        static,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type)? auto,
+    TResult? Function(String type, StaticChunkingStrategy static)? static,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type)? auto,
+    TResult Function(String type, StaticChunkingStrategy static)? static,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AutoChunkingStrategyRequestParam value) auto,
+    required TResult Function(StaticChunkingStrategyRequestParam value) static,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AutoChunkingStrategyRequestParam value)? auto,
+    TResult? Function(StaticChunkingStrategyRequestParam value)? static,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AutoChunkingStrategyRequestParam value)? auto,
+    TResult Function(StaticChunkingStrategyRequestParam value)? static,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ChunkingStrategyRequestParamCopyWith<ChunkingStrategyRequestParam>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChunkingStrategyRequestParamCopyWith<$Res> {
+  factory $ChunkingStrategyRequestParamCopyWith(
+          ChunkingStrategyRequestParam value,
+          $Res Function(ChunkingStrategyRequestParam) then) =
+      _$ChunkingStrategyRequestParamCopyWithImpl<$Res,
+          ChunkingStrategyRequestParam>;
+  @useResult
+  $Res call({String type});
+}
+
+/// @nodoc
+class _$ChunkingStrategyRequestParamCopyWithImpl<$Res,
+        $Val extends ChunkingStrategyRequestParam>
+    implements $ChunkingStrategyRequestParamCopyWith<$Res> {
+  _$ChunkingStrategyRequestParamCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AutoChunkingStrategyRequestParamImplCopyWith<$Res>
+    implements $ChunkingStrategyRequestParamCopyWith<$Res> {
+  factory _$$AutoChunkingStrategyRequestParamImplCopyWith(
+          _$AutoChunkingStrategyRequestParamImpl value,
+          $Res Function(_$AutoChunkingStrategyRequestParamImpl) then) =
+      __$$AutoChunkingStrategyRequestParamImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String type});
+}
+
+/// @nodoc
+class __$$AutoChunkingStrategyRequestParamImplCopyWithImpl<$Res>
+    extends _$ChunkingStrategyRequestParamCopyWithImpl<$Res,
+        _$AutoChunkingStrategyRequestParamImpl>
+    implements _$$AutoChunkingStrategyRequestParamImplCopyWith<$Res> {
+  __$$AutoChunkingStrategyRequestParamImplCopyWithImpl(
+      _$AutoChunkingStrategyRequestParamImpl _value,
+      $Res Function(_$AutoChunkingStrategyRequestParamImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_$AutoChunkingStrategyRequestParamImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AutoChunkingStrategyRequestParamImpl
+    extends AutoChunkingStrategyRequestParam {
+  const _$AutoChunkingStrategyRequestParamImpl({required this.type})
+      : super._();
+
+  factory _$AutoChunkingStrategyRequestParamImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$AutoChunkingStrategyRequestParamImplFromJson(json);
+
+  /// Always `auto`.
+  @override
+  final String type;
+
+  @override
+  String toString() {
+    return 'ChunkingStrategyRequestParam.auto(type: $type)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AutoChunkingStrategyRequestParamImpl &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AutoChunkingStrategyRequestParamImplCopyWith<
+          _$AutoChunkingStrategyRequestParamImpl>
+      get copyWith => __$$AutoChunkingStrategyRequestParamImplCopyWithImpl<
+          _$AutoChunkingStrategyRequestParamImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type) auto,
+    required TResult Function(String type, StaticChunkingStrategy static)
+        static,
+  }) {
+    return auto(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type)? auto,
+    TResult? Function(String type, StaticChunkingStrategy static)? static,
+  }) {
+    return auto?.call(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type)? auto,
+    TResult Function(String type, StaticChunkingStrategy static)? static,
+    required TResult orElse(),
+  }) {
+    if (auto != null) {
+      return auto(type);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AutoChunkingStrategyRequestParam value) auto,
+    required TResult Function(StaticChunkingStrategyRequestParam value) static,
+  }) {
+    return auto(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AutoChunkingStrategyRequestParam value)? auto,
+    TResult? Function(StaticChunkingStrategyRequestParam value)? static,
+  }) {
+    return auto?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AutoChunkingStrategyRequestParam value)? auto,
+    TResult Function(StaticChunkingStrategyRequestParam value)? static,
+    required TResult orElse(),
+  }) {
+    if (auto != null) {
+      return auto(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AutoChunkingStrategyRequestParamImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class AutoChunkingStrategyRequestParam
+    extends ChunkingStrategyRequestParam {
+  const factory AutoChunkingStrategyRequestParam({required final String type}) =
+      _$AutoChunkingStrategyRequestParamImpl;
+  const AutoChunkingStrategyRequestParam._() : super._();
+
+  factory AutoChunkingStrategyRequestParam.fromJson(Map<String, dynamic> json) =
+      _$AutoChunkingStrategyRequestParamImpl.fromJson;
+
+  @override
+
+  /// Always `auto`.
+  String get type;
+  @override
+  @JsonKey(ignore: true)
+  _$$AutoChunkingStrategyRequestParamImplCopyWith<
+          _$AutoChunkingStrategyRequestParamImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$StaticChunkingStrategyRequestParamImplCopyWith<$Res>
+    implements $ChunkingStrategyRequestParamCopyWith<$Res> {
+  factory _$$StaticChunkingStrategyRequestParamImplCopyWith(
+          _$StaticChunkingStrategyRequestParamImpl value,
+          $Res Function(_$StaticChunkingStrategyRequestParamImpl) then) =
+      __$$StaticChunkingStrategyRequestParamImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String type, StaticChunkingStrategy static});
+
+  $StaticChunkingStrategyCopyWith<$Res> get static;
+}
+
+/// @nodoc
+class __$$StaticChunkingStrategyRequestParamImplCopyWithImpl<$Res>
+    extends _$ChunkingStrategyRequestParamCopyWithImpl<$Res,
+        _$StaticChunkingStrategyRequestParamImpl>
+    implements _$$StaticChunkingStrategyRequestParamImplCopyWith<$Res> {
+  __$$StaticChunkingStrategyRequestParamImplCopyWithImpl(
+      _$StaticChunkingStrategyRequestParamImpl _value,
+      $Res Function(_$StaticChunkingStrategyRequestParamImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? static = null,
+  }) {
+    return _then(_$StaticChunkingStrategyRequestParamImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      static: null == static
+          ? _value.static
+          : static // ignore: cast_nullable_to_non_nullable
+              as StaticChunkingStrategy,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $StaticChunkingStrategyCopyWith<$Res> get static {
+    return $StaticChunkingStrategyCopyWith<$Res>(_value.static, (value) {
+      return _then(_value.copyWith(static: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$StaticChunkingStrategyRequestParamImpl
+    extends StaticChunkingStrategyRequestParam {
+  const _$StaticChunkingStrategyRequestParamImpl(
+      {required this.type, required this.static})
+      : super._();
+
+  factory _$StaticChunkingStrategyRequestParamImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$StaticChunkingStrategyRequestParamImplFromJson(json);
+
+  /// Always `static`.
+  @override
+  final String type;
+
+  /// Static chunking strategy
+  @override
+  final StaticChunkingStrategy static;
+
+  @override
+  String toString() {
+    return 'ChunkingStrategyRequestParam.static(type: $type, static: $static)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$StaticChunkingStrategyRequestParamImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.static, static) || other.static == static));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, static);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$StaticChunkingStrategyRequestParamImplCopyWith<
+          _$StaticChunkingStrategyRequestParamImpl>
+      get copyWith => __$$StaticChunkingStrategyRequestParamImplCopyWithImpl<
+          _$StaticChunkingStrategyRequestParamImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type) auto,
+    required TResult Function(String type, StaticChunkingStrategy static)
+        static,
+  }) {
+    return static(type, this.static);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type)? auto,
+    TResult? Function(String type, StaticChunkingStrategy static)? static,
+  }) {
+    return static?.call(type, this.static);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type)? auto,
+    TResult Function(String type, StaticChunkingStrategy static)? static,
+    required TResult orElse(),
+  }) {
+    if (static != null) {
+      return static(type, this.static);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AutoChunkingStrategyRequestParam value) auto,
+    required TResult Function(StaticChunkingStrategyRequestParam value) static,
+  }) {
+    return static(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AutoChunkingStrategyRequestParam value)? auto,
+    TResult? Function(StaticChunkingStrategyRequestParam value)? static,
+  }) {
+    return static?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AutoChunkingStrategyRequestParam value)? auto,
+    TResult Function(StaticChunkingStrategyRequestParam value)? static,
+    required TResult orElse(),
+  }) {
+    if (static != null) {
+      return static(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$StaticChunkingStrategyRequestParamImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class StaticChunkingStrategyRequestParam
+    extends ChunkingStrategyRequestParam {
+  const factory StaticChunkingStrategyRequestParam(
+          {required final String type,
+          required final StaticChunkingStrategy static}) =
+      _$StaticChunkingStrategyRequestParamImpl;
+  const StaticChunkingStrategyRequestParam._() : super._();
+
+  factory StaticChunkingStrategyRequestParam.fromJson(
+          Map<String, dynamic> json) =
+      _$StaticChunkingStrategyRequestParamImpl.fromJson;
+
+  @override
+
+  /// Always `static`.
+  String get type;
+
+  /// Static chunking strategy
+  StaticChunkingStrategy get static;
+  @override
+  @JsonKey(ignore: true)
+  _$$StaticChunkingStrategyRequestParamImplCopyWith<
+          _$StaticChunkingStrategyRequestParamImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ChunkingStrategyResponseParam _$ChunkingStrategyResponseParamFromJson(
+    Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'static':
+      return StaticChunkingStrategyResponseParam.fromJson(json);
+    case 'other':
+      return OtherChunkingStrategyResponseParam.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'type',
+          'ChunkingStrategyResponseParam',
+          'Invalid union type "${json['type']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$ChunkingStrategyResponseParam {
+  /// Always `static`.
+  String get type => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type, StaticChunkingStrategy static)
+        static,
+    required TResult Function(String type) other,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type, StaticChunkingStrategy static)? static,
+    TResult? Function(String type)? other,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type, StaticChunkingStrategy static)? static,
+    TResult Function(String type)? other,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(StaticChunkingStrategyResponseParam value) static,
+    required TResult Function(OtherChunkingStrategyResponseParam value) other,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(StaticChunkingStrategyResponseParam value)? static,
+    TResult? Function(OtherChunkingStrategyResponseParam value)? other,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(StaticChunkingStrategyResponseParam value)? static,
+    TResult Function(OtherChunkingStrategyResponseParam value)? other,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ChunkingStrategyResponseParamCopyWith<ChunkingStrategyResponseParam>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChunkingStrategyResponseParamCopyWith<$Res> {
+  factory $ChunkingStrategyResponseParamCopyWith(
+          ChunkingStrategyResponseParam value,
+          $Res Function(ChunkingStrategyResponseParam) then) =
+      _$ChunkingStrategyResponseParamCopyWithImpl<$Res,
+          ChunkingStrategyResponseParam>;
+  @useResult
+  $Res call({String type});
+}
+
+/// @nodoc
+class _$ChunkingStrategyResponseParamCopyWithImpl<$Res,
+        $Val extends ChunkingStrategyResponseParam>
+    implements $ChunkingStrategyResponseParamCopyWith<$Res> {
+  _$ChunkingStrategyResponseParamCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$StaticChunkingStrategyResponseParamImplCopyWith<$Res>
+    implements $ChunkingStrategyResponseParamCopyWith<$Res> {
+  factory _$$StaticChunkingStrategyResponseParamImplCopyWith(
+          _$StaticChunkingStrategyResponseParamImpl value,
+          $Res Function(_$StaticChunkingStrategyResponseParamImpl) then) =
+      __$$StaticChunkingStrategyResponseParamImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String type, StaticChunkingStrategy static});
+
+  $StaticChunkingStrategyCopyWith<$Res> get static;
+}
+
+/// @nodoc
+class __$$StaticChunkingStrategyResponseParamImplCopyWithImpl<$Res>
+    extends _$ChunkingStrategyResponseParamCopyWithImpl<$Res,
+        _$StaticChunkingStrategyResponseParamImpl>
+    implements _$$StaticChunkingStrategyResponseParamImplCopyWith<$Res> {
+  __$$StaticChunkingStrategyResponseParamImplCopyWithImpl(
+      _$StaticChunkingStrategyResponseParamImpl _value,
+      $Res Function(_$StaticChunkingStrategyResponseParamImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? static = null,
+  }) {
+    return _then(_$StaticChunkingStrategyResponseParamImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      static: null == static
+          ? _value.static
+          : static // ignore: cast_nullable_to_non_nullable
+              as StaticChunkingStrategy,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $StaticChunkingStrategyCopyWith<$Res> get static {
+    return $StaticChunkingStrategyCopyWith<$Res>(_value.static, (value) {
+      return _then(_value.copyWith(static: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$StaticChunkingStrategyResponseParamImpl
+    extends StaticChunkingStrategyResponseParam {
+  const _$StaticChunkingStrategyResponseParamImpl(
+      {required this.type, required this.static})
+      : super._();
+
+  factory _$StaticChunkingStrategyResponseParamImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$StaticChunkingStrategyResponseParamImplFromJson(json);
+
+  /// Always `static`.
+  @override
+  final String type;
+
+  /// Static chunking strategy
+  @override
+  final StaticChunkingStrategy static;
+
+  @override
+  String toString() {
+    return 'ChunkingStrategyResponseParam.static(type: $type, static: $static)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$StaticChunkingStrategyResponseParamImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.static, static) || other.static == static));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, static);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$StaticChunkingStrategyResponseParamImplCopyWith<
+          _$StaticChunkingStrategyResponseParamImpl>
+      get copyWith => __$$StaticChunkingStrategyResponseParamImplCopyWithImpl<
+          _$StaticChunkingStrategyResponseParamImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type, StaticChunkingStrategy static)
+        static,
+    required TResult Function(String type) other,
+  }) {
+    return static(type, this.static);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type, StaticChunkingStrategy static)? static,
+    TResult? Function(String type)? other,
+  }) {
+    return static?.call(type, this.static);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type, StaticChunkingStrategy static)? static,
+    TResult Function(String type)? other,
+    required TResult orElse(),
+  }) {
+    if (static != null) {
+      return static(type, this.static);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(StaticChunkingStrategyResponseParam value) static,
+    required TResult Function(OtherChunkingStrategyResponseParam value) other,
+  }) {
+    return static(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(StaticChunkingStrategyResponseParam value)? static,
+    TResult? Function(OtherChunkingStrategyResponseParam value)? other,
+  }) {
+    return static?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(StaticChunkingStrategyResponseParam value)? static,
+    TResult Function(OtherChunkingStrategyResponseParam value)? other,
+    required TResult orElse(),
+  }) {
+    if (static != null) {
+      return static(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$StaticChunkingStrategyResponseParamImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class StaticChunkingStrategyResponseParam
+    extends ChunkingStrategyResponseParam {
+  const factory StaticChunkingStrategyResponseParam(
+          {required final String type,
+          required final StaticChunkingStrategy static}) =
+      _$StaticChunkingStrategyResponseParamImpl;
+  const StaticChunkingStrategyResponseParam._() : super._();
+
+  factory StaticChunkingStrategyResponseParam.fromJson(
+          Map<String, dynamic> json) =
+      _$StaticChunkingStrategyResponseParamImpl.fromJson;
+
+  @override
+
+  /// Always `static`.
+  String get type;
+
+  /// Static chunking strategy
+  StaticChunkingStrategy get static;
+  @override
+  @JsonKey(ignore: true)
+  _$$StaticChunkingStrategyResponseParamImplCopyWith<
+          _$StaticChunkingStrategyResponseParamImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$OtherChunkingStrategyResponseParamImplCopyWith<$Res>
+    implements $ChunkingStrategyResponseParamCopyWith<$Res> {
+  factory _$$OtherChunkingStrategyResponseParamImplCopyWith(
+          _$OtherChunkingStrategyResponseParamImpl value,
+          $Res Function(_$OtherChunkingStrategyResponseParamImpl) then) =
+      __$$OtherChunkingStrategyResponseParamImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String type});
+}
+
+/// @nodoc
+class __$$OtherChunkingStrategyResponseParamImplCopyWithImpl<$Res>
+    extends _$ChunkingStrategyResponseParamCopyWithImpl<$Res,
+        _$OtherChunkingStrategyResponseParamImpl>
+    implements _$$OtherChunkingStrategyResponseParamImplCopyWith<$Res> {
+  __$$OtherChunkingStrategyResponseParamImplCopyWithImpl(
+      _$OtherChunkingStrategyResponseParamImpl _value,
+      $Res Function(_$OtherChunkingStrategyResponseParamImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_$OtherChunkingStrategyResponseParamImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$OtherChunkingStrategyResponseParamImpl
+    extends OtherChunkingStrategyResponseParam {
+  const _$OtherChunkingStrategyResponseParamImpl({required this.type})
+      : super._();
+
+  factory _$OtherChunkingStrategyResponseParamImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$OtherChunkingStrategyResponseParamImplFromJson(json);
+
+  /// Always `other`.
+  @override
+  final String type;
+
+  @override
+  String toString() {
+    return 'ChunkingStrategyResponseParam.other(type: $type)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$OtherChunkingStrategyResponseParamImpl &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$OtherChunkingStrategyResponseParamImplCopyWith<
+          _$OtherChunkingStrategyResponseParamImpl>
+      get copyWith => __$$OtherChunkingStrategyResponseParamImplCopyWithImpl<
+          _$OtherChunkingStrategyResponseParamImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type, StaticChunkingStrategy static)
+        static,
+    required TResult Function(String type) other,
+  }) {
+    return other(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type, StaticChunkingStrategy static)? static,
+    TResult? Function(String type)? other,
+  }) {
+    return other?.call(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type, StaticChunkingStrategy static)? static,
+    TResult Function(String type)? other,
+    required TResult orElse(),
+  }) {
+    if (other != null) {
+      return other(type);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(StaticChunkingStrategyResponseParam value) static,
+    required TResult Function(OtherChunkingStrategyResponseParam value) other,
+  }) {
+    return other(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(StaticChunkingStrategyResponseParam value)? static,
+    TResult? Function(OtherChunkingStrategyResponseParam value)? other,
+  }) {
+    return other?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(StaticChunkingStrategyResponseParam value)? static,
+    TResult Function(OtherChunkingStrategyResponseParam value)? other,
+    required TResult orElse(),
+  }) {
+    if (other != null) {
+      return other(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$OtherChunkingStrategyResponseParamImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class OtherChunkingStrategyResponseParam
+    extends ChunkingStrategyResponseParam {
+  const factory OtherChunkingStrategyResponseParam(
+      {required final String type}) = _$OtherChunkingStrategyResponseParamImpl;
+  const OtherChunkingStrategyResponseParam._() : super._();
+
+  factory OtherChunkingStrategyResponseParam.fromJson(
+          Map<String, dynamic> json) =
+      _$OtherChunkingStrategyResponseParamImpl.fromJson;
+
+  @override
+
+  /// Always `other`.
+  String get type;
+  @override
+  @JsonKey(ignore: true)
+  _$$OtherChunkingStrategyResponseParamImplCopyWith<
+          _$OtherChunkingStrategyResponseParamImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
