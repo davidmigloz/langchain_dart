@@ -43,7 +43,7 @@ void main() {
       expect(res[1].output.content, 'tell me a joke about cats');
     });
     test('test fallbacks response in batch', () async {
-      const options = ChatModelOptions(concurrencyLimit: 0);
+      const options = RunnableOptions(concurrencyLimit: 0);
       final fallbackChain = promptTemplate.pipe(fallbackModel);
       final chainWithFallbacks =
           promptTemplate.pipe(model).withFallbacks([fallbackChain]);
@@ -56,7 +56,7 @@ void main() {
       expect(res.first.output.content, 'fallback response');
     });
     test('should throw error if none of runnable returned output', () async {
-      const options = ChatModelOptions(concurrencyLimit: 0);
+      const options = RunnableOptions(concurrencyLimit: 0);
 
       final fallbackChain = promptTemplate.pipe(fallbackModel);
       final chainWithFallbacks = promptTemplate
