@@ -1820,6 +1820,8 @@ components:
                   "gpt-4-vision-preview",
                   "gpt-4o",
                   "gpt-4o-2024-05-13",
+                  "gpt-4o-mini",
+                  "gpt-4o-mini-2024-07-18",
                   "gpt-3.5-turbo",
                   "gpt-3.5-turbo-16k",
                   "gpt-3.5-turbo-16k-0613",
@@ -1915,6 +1917,7 @@ components:
               - If set to 'auto', the system will utilize scale tier credits until they are exhausted.
               - If set to 'default', the request will be processed using the default service tier with a lower 
                 uptime SLA and no latency guarantee.
+              - When not set, the default behavior is 'auto'.
             
               When this parameter is set, the response body will include the `service_tier` utilized.
           type: string
@@ -2071,7 +2074,7 @@ components:
             - type: string
               description: The text contents of the message.
             - type: array
-              description: An array of content parts with a defined type, each can be of type `text` or `image_url` when passing in images. You can pass multiple images by adding multiple `image_url` content parts. Image input is only supported when using the `gpt-4-vision-preview` model.
+              description: An array of content parts with a defined type, each can be of type `text` or `image_url` when passing in images. You can pass multiple images by adding multiple `image_url` content parts. Image input is only supported when using the `gpt-4o` model.
               items:
                 $ref: "#/components/schemas/ChatCompletionMessageContentPart"
               minItems: 1
@@ -2918,8 +2921,10 @@ components:
         n_epochs:
           title: FineTuningNEpochs
           description: |
-            The number of epochs to train the model for. An epoch refers to one
-            full cycle through the training dataset.
+            The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.
+            
+            "auto" decides the optimal number of epochs based on the size of the dataset. If setting the number 
+            manually, we support any number between 1 and 50 epochs.
           oneOf:
             - type: string
               title: FineTuningNEpochsOptions
@@ -3523,6 +3528,8 @@ components:
                   "gpt-4-vision-preview",
                   "gpt-4o",
                   "gpt-4o-2024-05-13",
+                  "gpt-4o-mini",
+                  "gpt-4o-mini-2024-07-18",
                   "gpt-3.5-turbo",
                   "gpt-3.5-turbo-16k",
                   "gpt-3.5-turbo-16k-0613",
@@ -4085,6 +4092,8 @@ components:
                   "gpt-4-vision-preview",
                   "gpt-4o",
                   "gpt-4o-2024-05-13",
+                  "gpt-4o-mini",
+                  "gpt-4o-mini-2024-07-18",
                   "gpt-3.5-turbo",
                   "gpt-3.5-turbo-16k",
                   "gpt-3.5-turbo-16k-0613",
@@ -4327,6 +4336,8 @@ components:
                   "gpt-4-vision-preview",
                   "gpt-4o",
                   "gpt-4o-2024-05-13",
+                  "gpt-4o-mini",
+                  "gpt-4o-mini-2024-07-18",
                   "gpt-3.5-turbo",
                   "gpt-3.5-turbo-16k",
                   "gpt-3.5-turbo-16k-0613",
@@ -5872,7 +5883,7 @@ components:
         propertyName: type
     AutoChunkingStrategyRequestParam:
       type: object
-      description: | 
+      description: |
         Auto Chunking Strategy, the default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` 
         and `chunk_overlap_tokens` of `400`.
       additionalProperties: false
@@ -5906,7 +5917,7 @@ components:
           type: integer
           minimum: 100
           maximum: 4096
-          description: | 
+          description: |
             The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the 
             maximum value is `4096`.
         chunk_overlap_tokens:
@@ -5922,13 +5933,13 @@ components:
       type: object
       description: The chunking strategy used to chunk the file(s).
       oneOf:
-          - $ref: "#/components/schemas/StaticChunkingStrategyResponseParam"
-          - $ref: "#/components/schemas/OtherChunkingStrategyResponseParam"
+        - $ref: "#/components/schemas/StaticChunkingStrategyResponseParam"
+        - $ref: "#/components/schemas/OtherChunkingStrategyResponseParam"
       discriminator:
-          propertyName: type
+        propertyName: type
     OtherChunkingStrategyResponseParam:
       type: object
-      description: | 
+      description: |
         Other Chunking Strategy. This is returned when the chunking strategy is unknown. Typically, this is because 
         the file was indexed before the `chunking_strategy` concept was introduced in the API.
       additionalProperties: false
