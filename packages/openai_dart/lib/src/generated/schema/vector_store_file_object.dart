@@ -36,6 +36,11 @@ class VectorStoreFileObject with _$VectorStoreFileObject {
     /// The last error associated with this vector store file. Will be `null` if there are no errors.
     @JsonKey(name: 'last_error')
     required VectorStoreFileObjectLastError? lastError,
+
+    /// The chunking strategy used to chunk the file(s).
+    /// Any of: [StaticChunkingStrategyResponseParam], [OtherChunkingStrategyResponseParam]
+    @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+    ChunkingStrategyResponseParam? chunkingStrategy,
   }) = _VectorStoreFileObject;
 
   /// Object construction from a JSON representation
@@ -50,7 +55,8 @@ class VectorStoreFileObject with _$VectorStoreFileObject {
     'created_at',
     'vector_store_id',
     'status',
-    'last_error'
+    'last_error',
+    'chunking_strategy'
   ];
 
   /// Perform validations on the schema property values
@@ -68,6 +74,7 @@ class VectorStoreFileObject with _$VectorStoreFileObject {
       'vector_store_id': vectorStoreId,
       'status': status,
       'last_error': lastError,
+      'chunking_strategy': chunkingStrategy,
     };
   }
 }

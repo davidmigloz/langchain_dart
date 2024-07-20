@@ -10044,6 +10044,52 @@ components:
                         maxItems: 10000
                         items:
                           type: string
+                      chunking_strategy:
+                        # Ideally we'd reuse the chunking strategy schema here, but it doesn't expand properly
+                        type: object
+                        description: The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+                        oneOf:
+                          - type: object
+                            title: Auto Chunking Strategy
+                            description: The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`.
+                            additionalProperties: false
+                            properties:
+                              type:
+                                type: string
+                                description: Always `auto`.
+                                enum: [ "auto" ]
+                            required:
+                              - type
+                          - type: object
+                            title: Static Chunking Strategy
+                            additionalProperties: false
+                            properties:
+                              type:
+                                type: string
+                                description: Always `static`.
+                                enum: [ "static" ]
+                              static:
+                                type: object
+                                additionalProperties: false
+                                properties:
+                                  max_chunk_size_tokens:
+                                    type: integer
+                                    minimum: 100
+                                    maximum: 4096
+                                    description: The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`.
+                                  chunk_overlap_tokens:
+                                    type: integer
+                                    description: |
+                                      The number of tokens that overlap between chunks. The default value is `400`.
+                                      
+                                      Note that the overlap must not exceed half of `max_chunk_size_tokens`.
+                                required:
+                                  - max_chunk_size_tokens
+                                  - chunk_overlap_tokens
+                            required:
+                              - type
+                              - static
+                        x-oaiExpandable: true
                       metadata:
                         type: object
                         description: |
@@ -11009,11 +11055,58 @@ components:
                         maxItems: 10000
                         items:
                           type: string
+                      chunking_strategy:
+                        # Ideally we'd reuse the chunking strategy schema here, but it doesn't expand properly
+                        type: object
+                        description: The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+                        oneOf:
+                          - type: object
+                            title: Auto Chunking Strategy
+                            description: The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`.
+                            additionalProperties: false
+                            properties:
+                              type:
+                                type: string
+                                description: Always `auto`.
+                                enum: [ "auto" ]
+                            required:
+                              - type
+                          - type: object
+                            title: Static Chunking Strategy
+                            additionalProperties: false
+                            properties:
+                              type:
+                                type: string
+                                description: Always `static`.
+                                enum: [ "static" ]
+                              static:
+                                type: object
+                                additionalProperties: false
+                                properties:
+                                  max_chunk_size_tokens:
+                                    type: integer
+                                    minimum: 100
+                                    maximum: 4096
+                                    description: The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`.
+                                  chunk_overlap_tokens:
+                                    type: integer
+                                    description: |
+                                      The number of tokens that overlap between chunks. The default value is `400`.
+                                      
+                                      Note that the overlap must not exceed half of `max_chunk_size_tokens`.
+                                required:
+                                  - max_chunk_size_tokens
+                                  - chunk_overlap_tokens
+                            required:
+                              - type
+                              - static
+                        x-oaiExpandable: true
                       metadata:
                         type: object
                         description: |
                           Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
                         x-oaiTypeLabel: map
+                    x-oaiExpandable: true
               oneOf:
                 - required: [ vector_store_ids ]
                 - required: [ vector_stores ]
@@ -12349,6 +12442,13 @@ components:
           type: string
         expires_after:
           $ref: "#/components/schemas/VectorStoreExpirationAfter"
+        chunking_strategy:
+          type: object
+          description: The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy. Only applicable if `file_ids` is non-empty.
+          oneOf:
+            - $ref: "#/components/schemas/AutoChunkingStrategyRequestParam"
+            - $ref: "#/components/schemas/StaticChunkingStrategyRequestParam"
+          x-oaiExpandable: true
         metadata:
           description: *metadata_description
           type: object
@@ -12458,6 +12558,13 @@ components:
           required:
             - code
             - message
+        chunking_strategy:
+          type: object
+          description: The strategy used to chunk the file.
+          oneOf:
+            - $ref: "#/components/schemas/StaticChunkingStrategyResponseParam"
+            - $ref: "#/components/schemas/OtherChunkingStrategyResponseParam"
+          x-oaiExpandable: true
       required:
         - id
         - object
@@ -12477,8 +12584,98 @@ components:
             "created_at": 1698107661,
             "vector_store_id": "vs_abc123",
             "status": "completed",
-            "last_error": null
+            "last_error": null,
+            "chunking_strategy": {
+              "type": "static",
+              "static": {
+                "max_chunk_size_tokens": 800,
+                "chunk_overlap_tokens": 400
+              }
+            }
           }
+
+    OtherChunkingStrategyResponseParam:
+      type: object
+      title: Other Chunking Strategy
+      description: This is returned when the chunking strategy is unknown. Typically, this is because the file was indexed before the `chunking_strategy` concept was introduced in the API.
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          description: Always `other`.
+          enum: [ "other" ]
+      required:
+        - type
+
+    StaticChunkingStrategyResponseParam:
+      type: object
+      title: Static Chunking Strategy
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          description: Always `static`.
+          enum: [ "static" ]
+        static:
+          $ref: "#/components/schemas/StaticChunkingStrategy"
+      required:
+        - type
+        - static
+
+    StaticChunkingStrategy:
+      type: object
+      additionalProperties: false
+      properties:
+        max_chunk_size_tokens:
+          type: integer
+          minimum: 100
+          maximum: 4096
+          description: The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`.
+        chunk_overlap_tokens:
+          type: integer
+          description: |
+            The number of tokens that overlap between chunks. The default value is `400`.
+            
+            Note that the overlap must not exceed half of `max_chunk_size_tokens`.
+      required:
+        - max_chunk_size_tokens
+        - chunk_overlap_tokens
+
+    AutoChunkingStrategyRequestParam:
+      type: object
+      title: Auto Chunking Strategy
+      description: The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`.
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          description: Always `auto`.
+          enum: [ "auto" ]
+      required:
+        - type
+
+    StaticChunkingStrategyRequestParam:
+      type: object
+      title: Static Chunking Strategy
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          description: Always `static`.
+          enum: [ "static" ]
+        static:
+          $ref: "#/components/schemas/StaticChunkingStrategy"
+      required:
+        - type
+        - static
+
+    ChunkingStrategyRequestParam:
+      type: object
+      description: The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+      oneOf:
+        - $ref: "#/components/schemas/AutoChunkingStrategyRequestParam"
+        - $ref: "#/components/schemas/StaticChunkingStrategyRequestParam"
+      x-oaiExpandable: true
 
     CreateVectorStoreFileRequest:
       type: object
@@ -12487,6 +12684,8 @@ components:
         file_id:
           description: A [File](/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files.
           type: string
+        chunking_strategy:
+          $ref: "#/components/schemas/ChunkingStrategyRequestParam"
       required:
         - file_id
 
@@ -12613,6 +12812,8 @@ components:
           maxItems: 500
           items:
             type: string
+        chunking_strategy:
+          $ref: "#/components/schemas/ChunkingStrategyRequestParam"
       required:
         - file_ids
 

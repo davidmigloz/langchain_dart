@@ -4527,6 +4527,8 @@ components:
           maxItems: 10000
           items:
             type: string
+        chunking_strategy:
+          $ref: "#/components/schemas/ChunkingStrategyRequestParam"
         metadata:
           type: object
           description: |
@@ -5733,6 +5735,8 @@ components:
             type: string
         expires_after:
           $ref: "#/components/schemas/VectorStoreExpirationAfter"
+        chunking_strategy:
+          $ref: "#/components/schemas/ChunkingStrategyRequestParam"
         metadata:
           description: *metadata_description
           type: object
@@ -5848,6 +5852,8 @@ components:
           required:
             - code
             - message
+        chunking_strategy:
+          $ref: "#/components/schemas/ChunkingStrategyResponseParam"
       required:
         - id
         - object
@@ -5856,6 +5862,97 @@ components:
         - vector_store_id
         - status
         - last_error
+    ChunkingStrategyRequestParam:
+      type: object
+      description: The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+      oneOf:
+        - $ref: "#/components/schemas/AutoChunkingStrategyRequestParam"
+        - $ref: "#/components/schemas/StaticChunkingStrategyRequestParam"
+      discriminator:
+        propertyName: type
+    AutoChunkingStrategyRequestParam:
+      type: object
+      description: | 
+        Auto Chunking Strategy, the default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` 
+        and `chunk_overlap_tokens` of `400`.
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          description: Always `auto`.
+          default: auto
+      required:
+        - type
+    StaticChunkingStrategyRequestParam:
+      type: object
+      description: Static chunking strategy
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          description: Always `static`.
+          default: static
+        static:
+          $ref: "#/components/schemas/StaticChunkingStrategy"
+      required:
+        - type
+        - static
+    StaticChunkingStrategy:
+      type: object
+      description: Static chunking strategy
+      additionalProperties: false
+      properties:
+        max_chunk_size_tokens:
+          type: integer
+          minimum: 100
+          maximum: 4096
+          description: | 
+            The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the 
+            maximum value is `4096`.
+        chunk_overlap_tokens:
+          type: integer
+          description: |
+            The number of tokens that overlap between chunks. The default value is `400`.
+            
+            Note that the overlap must not exceed half of `max_chunk_size_tokens`.
+      required:
+        - max_chunk_size_tokens
+        - chunk_overlap_tokens
+    ChunkingStrategyResponseParam:
+      type: object
+      description: The chunking strategy used to chunk the file(s).
+      oneOf:
+          - $ref: "#/components/schemas/StaticChunkingStrategyResponseParam"
+          - $ref: "#/components/schemas/OtherChunkingStrategyResponseParam"
+      discriminator:
+          propertyName: type
+    OtherChunkingStrategyResponseParam:
+      type: object
+      description: | 
+        Other Chunking Strategy. This is returned when the chunking strategy is unknown. Typically, this is because 
+        the file was indexed before the `chunking_strategy` concept was introduced in the API.
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          description: Always `other`.
+          default: other
+      required:
+        - type
+    StaticChunkingStrategyResponseParam:
+      type: object
+      description: Static Chunking Strategy.
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          description: Always `static`.
+          default: static
+        static:
+          $ref: "#/components/schemas/StaticChunkingStrategy"
+      required:
+        - type
+        - static
     CreateVectorStoreFileRequest:
       type: object
       description: Request object for the Create vector store file endpoint.
@@ -5863,6 +5960,8 @@ components:
         file_id:
           description: A [File](https://platform.openai.com/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files.
           type: string
+        chunking_strategy:
+          $ref: "#/components/schemas/ChunkingStrategyRequestParam"
       required:
         - file_id
     ListVectorStoreFilesResponse:
@@ -5976,6 +6075,8 @@ components:
           maxItems: 500
           items:
             type: string
+        chunking_strategy:
+          $ref: "#/components/schemas/ChunkingStrategyRequestParam"
       required:
         - file_ids
     AssistantStreamEvent:
