@@ -154,7 +154,8 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     super.defaultOptions = const ChatAnthropicOptions(
-      model: 'claude-3-5-sonnet-20240620',
+      model: defaultModel,
+      maxTokens: defaultMaxTokens,
     ),
     this.encoding = 'cl100k_base',
   }) : _client = a.AnthropicClient(
@@ -177,6 +178,12 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
   @override
   String get modelType => 'anthropic-chat';
 
+  /// The default model to use unless another is specified.
+  static const defaultModel = 'claude-3-5-sonnet-20240620';
+
+  /// The default max tokens to use unless another is specified.
+  static const defaultMaxTokens = 1024;
+
   @override
   Future<ChatResult> invoke(
     final PromptValue input, {
@@ -187,7 +194,6 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
         input.toChatMessages(),
         options: options,
         defaultOptions: defaultOptions,
-        throwNullModelError: throwNullModelError,
       ),
     );
     return completion.toChatResult();
@@ -205,7 +211,6 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
             options: options,
             defaultOptions: defaultOptions,
             stream: true,
-            throwNullModelError: throwNullModelError,
           ),
         )
         .transform(MessageStreamEventTransformer());

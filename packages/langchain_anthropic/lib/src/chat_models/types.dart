@@ -1,14 +1,28 @@
+import 'package:collection/collection.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/tools.dart';
+import 'package:meta/meta.dart';
 
 /// {@template chat_anthropic_options}
 /// Options to pass into the Anthropic Chat Model.
+///
+/// Available models:
+/// - `claude-3-5-sonnet-20240620`
+/// - `claude-3-haiku-20240307`
+/// - `claude-3-opus-20240229`
+/// - `claude-3-sonnet-20240229`
+/// - `claude-2.0`
+/// - `claude-2.1`
+///
+/// Mind that the list may be outdated.
+/// See https://docs.anthropic.com/en/docs/about-claude/models for the latest list.
 /// {@endtemplate}
+@immutable
 class ChatAnthropicOptions extends ChatModelOptions {
   /// {@macro chat_anthropic_options}
   const ChatAnthropicOptions({
-    this.model = 'claude-3-5-sonnet-20240620',
-    this.maxTokens = 1024,
+    super.model,
+    this.maxTokens,
     this.stopSequences,
     this.temperature,
     this.topK,
@@ -18,20 +32,6 @@ class ChatAnthropicOptions extends ChatModelOptions {
     super.toolChoice,
     super.concurrencyLimit,
   });
-
-  /// ID of the model to use (e.g. 'claude-3-5-sonnet-20240620').
-  ///
-  /// Available models:
-  /// - `claude-3-5-sonnet-20240620`
-  /// - `claude-3-haiku-20240307`
-  /// - `claude-3-opus-20240229`
-  /// - `claude-3-sonnet-20240229`
-  /// - `claude-2.0`
-  /// - `claude-2.1`
-  ///
-  /// Mind that the list may be outdated.
-  /// See https://docs.anthropic.com/en/docs/about-claude/models for the latest list.
-  final String? model;
 
   /// The maximum number of tokens to generate before stopping.
   ///
@@ -112,5 +112,34 @@ class ChatAnthropicOptions extends ChatModelOptions {
       toolChoice: toolChoice ?? this.toolChoice,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
+  }
+
+  @override
+  bool operator ==(covariant final ChatAnthropicOptions other) {
+    return model == other.model &&
+        maxTokens == other.maxTokens &&
+        const ListEquality<String>()
+            .equals(stopSequences, other.stopSequences) &&
+        temperature == other.temperature &&
+        topK == other.topK &&
+        topP == other.topP &&
+        userId == other.userId &&
+        const ListEquality<ToolSpec>().equals(tools, other.tools) &&
+        toolChoice == other.toolChoice &&
+        concurrencyLimit == other.concurrencyLimit;
+  }
+
+  @override
+  int get hashCode {
+    return model.hashCode ^
+        maxTokens.hashCode ^
+        const ListEquality<String>().hash(stopSequences) ^
+        temperature.hashCode ^
+        topK.hashCode ^
+        topP.hashCode ^
+        userId.hashCode ^
+        const ListEquality<ToolSpec>().hash(tools) ^
+        toolChoice.hashCode ^
+        concurrencyLimit.hashCode;
   }
 }

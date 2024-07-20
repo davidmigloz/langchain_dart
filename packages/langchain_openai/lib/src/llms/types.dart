@@ -4,17 +4,24 @@ import 'package:meta/meta.dart';
 
 /// {@template openai_options}
 /// Options to pass into the OpenAI LLM.
+///
+/// Available models:
+/// - `gpt-3.5-turbo-instruct`
+/// - `davinci-002`
+/// - `babbage-002`
+/// Mind that the list may be outdated.
+/// See https://platform.openai.com/docs/models for the latest list.
 /// {@endtemplate}
 @immutable
 class OpenAIOptions extends LLMOptions {
   /// {@macro openai_options}
   const OpenAIOptions({
-    this.model = 'gpt-3.5-turbo-instruct',
+    super.model,
     this.bestOf,
     this.frequencyPenalty,
     this.logitBias,
     this.logprobs,
-    this.maxTokens = 256,
+    this.maxTokens,
     this.n,
     this.presencePenalty,
     this.seed,
@@ -23,19 +30,8 @@ class OpenAIOptions extends LLMOptions {
     this.temperature,
     this.topP,
     this.user,
-    super.concurrencyLimit = 20,
+    super.concurrencyLimit,
   });
-
-  /// ID of the model to use (e.g. 'gpt-3.5-turbo-instruct').
-  ///
-  /// Available models:
-  /// - `gpt-3.5-turbo-instruct`
-  /// - `davinci-002`
-  /// - `babbage-002`
-  ///
-  /// Mind that the list may be outdated.
-  /// See https://platform.openai.com/docs/models for the latest list.
-  final String? model;
 
   /// Generates best_of completions server-side and returns the "best"
   /// (the one with the highest log probability per token).
@@ -128,20 +124,21 @@ class OpenAIOptions extends LLMOptions {
   /// Creates a copy of this [OpenAIOptions] object with the given fields
   /// replaced with the new values.
   OpenAIOptions copyWith({
-    final String? model,
-    final int? bestOf,
-    final double? frequencyPenalty,
-    final Map<String, int>? logitBias,
-    final int? logprobs,
-    final int? maxTokens,
-    final int? n,
-    final double? presencePenalty,
-    final int? seed,
-    final List<String>? stop,
-    final String? suffix,
-    final double? temperature,
-    final double? topP,
-    final String? user,
+    String? model,
+    int? bestOf,
+    double? frequencyPenalty,
+    Map<String, int>? logitBias,
+    int? logprobs,
+    int? maxTokens,
+    int? n,
+    double? presencePenalty,
+    int? seed,
+    List<String>? stop,
+    String? suffix,
+    double? temperature,
+    double? topP,
+    String? user,
+    int? concurrencyLimit,
   }) {
     return OpenAIOptions(
       model: model ?? this.model,
@@ -158,42 +155,48 @@ class OpenAIOptions extends LLMOptions {
       temperature: temperature ?? this.temperature,
       topP: topP ?? this.topP,
       user: user ?? this.user,
+      concurrencyLimit: concurrencyLimit ?? super.concurrencyLimit,
     );
   }
 
   @override
-  bool operator ==(covariant final OpenAIOptions other) =>
-      identical(this, other) ||
-      runtimeType == other.runtimeType &&
-          model == other.model &&
-          bestOf == other.bestOf &&
-          frequencyPenalty == other.frequencyPenalty &&
-          const MapEquality<String, int>().equals(logitBias, other.logitBias) &&
-          logprobs == other.logprobs &&
-          maxTokens == other.maxTokens &&
-          n == other.n &&
-          presencePenalty == other.presencePenalty &&
-          seed == other.seed &&
-          stop == other.stop &&
-          suffix == other.suffix &&
-          temperature == other.temperature &&
-          topP == other.topP &&
-          user == other.user;
+  bool operator ==(covariant final OpenAIOptions other) {
+    return identical(this, other) ||
+        runtimeType == other.runtimeType &&
+            model == other.model &&
+            bestOf == other.bestOf &&
+            frequencyPenalty == other.frequencyPenalty &&
+            const MapEquality<String, int>()
+                .equals(logitBias, other.logitBias) &&
+            logprobs == other.logprobs &&
+            maxTokens == other.maxTokens &&
+            n == other.n &&
+            presencePenalty == other.presencePenalty &&
+            seed == other.seed &&
+            const ListEquality<String>().equals(stop, other.stop) &&
+            suffix == other.suffix &&
+            temperature == other.temperature &&
+            topP == other.topP &&
+            user == other.user &&
+            concurrencyLimit == other.concurrencyLimit;
+  }
 
   @override
-  int get hashCode =>
-      model.hashCode ^
-      bestOf.hashCode ^
-      frequencyPenalty.hashCode ^
-      const MapEquality<String, int>().hash(logitBias) ^
-      logprobs.hashCode ^
-      maxTokens.hashCode ^
-      n.hashCode ^
-      presencePenalty.hashCode ^
-      seed.hashCode ^
-      stop.hashCode ^
-      suffix.hashCode ^
-      temperature.hashCode ^
-      topP.hashCode ^
-      user.hashCode;
+  int get hashCode {
+    return model.hashCode ^
+        bestOf.hashCode ^
+        frequencyPenalty.hashCode ^
+        const MapEquality<String, int>().hash(logitBias) ^
+        logprobs.hashCode ^
+        maxTokens.hashCode ^
+        n.hashCode ^
+        presencePenalty.hashCode ^
+        seed.hashCode ^
+        const ListEquality<String>().hash(stop) ^
+        suffix.hashCode ^
+        temperature.hashCode ^
+        topP.hashCode ^
+        user.hashCode ^
+        concurrencyLimit.hashCode;
+  }
 }
