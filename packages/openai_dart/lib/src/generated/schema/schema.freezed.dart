@@ -3463,6 +3463,7 @@ mixin _$CreateChatCompletionRequest {
   ///   - If set to 'auto', the system will utilize scale tier credits until they are exhausted.
   ///   - If set to 'default', the request will be processed using the default service tier with a lower
   ///     uptime SLA and no latency guarantee.
+  ///   - When not set, the default behavior is 'auto'.
   ///
   ///   When this parameter is set, the response body will include the `service_tier` utilized.
   @JsonKey(
@@ -4151,6 +4152,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   ///   - If set to 'auto', the system will utilize scale tier credits until they are exhausted.
   ///   - If set to 'default', the request will be processed using the default service tier with a lower
   ///     uptime SLA and no latency guarantee.
+  ///   - When not set, the default behavior is 'auto'.
   ///
   ///   When this parameter is set, the response body will include the `service_tier` utilized.
   @override
@@ -4477,6 +4479,7 @@ abstract class _CreateChatCompletionRequest
   ///   - If set to 'auto', the system will utilize scale tier credits until they are exhausted.
   ///   - If set to 'default', the request will be processed using the default service tier with a lower
   ///     uptime SLA and no latency guarantee.
+  ///   - When not set, the default behavior is 'auto'.
   ///
   ///   When this parameter is set, the response body will include the `service_tier` utilized.
   @JsonKey(
@@ -15766,8 +15769,10 @@ FineTuningJobHyperparameters _$FineTuningJobHyperparametersFromJson(
 
 /// @nodoc
 mixin _$FineTuningJobHyperparameters {
-  /// The number of epochs to train the model for. An epoch refers to one
-  /// full cycle through the training dataset.
+  /// The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.
+  ///
+  /// "auto" decides the optimal number of epochs based on the size of the dataset. If setting the number
+  /// manually, we support any number between 1 and 50 epochs.
   @_FineTuningNEpochsConverter()
   @JsonKey(name: 'n_epochs')
   FineTuningNEpochs get nEpochs => throw _privateConstructorUsedError;
@@ -15882,8 +15887,10 @@ class _$FineTuningJobHyperparametersImpl extends _FineTuningJobHyperparameters {
           Map<String, dynamic> json) =>
       _$$FineTuningJobHyperparametersImplFromJson(json);
 
-  /// The number of epochs to train the model for. An epoch refers to one
-  /// full cycle through the training dataset.
+  /// The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.
+  ///
+  /// "auto" decides the optimal number of epochs based on the size of the dataset. If setting the number
+  /// manually, we support any number between 1 and 50 epochs.
   @override
   @_FineTuningNEpochsConverter()
   @JsonKey(name: 'n_epochs')
@@ -15936,8 +15943,10 @@ abstract class _FineTuningJobHyperparameters
 
   @override
 
-  /// The number of epochs to train the model for. An epoch refers to one
-  /// full cycle through the training dataset.
+  /// The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.
+  ///
+  /// "auto" decides the optimal number of epochs based on the size of the dataset. If setting the number
+  /// manually, we support any number between 1 and 50 epochs.
   @_FineTuningNEpochsConverter()
   @JsonKey(name: 'n_epochs')
   FineTuningNEpochs get nEpochs;
