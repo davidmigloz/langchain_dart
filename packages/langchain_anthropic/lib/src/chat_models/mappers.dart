@@ -9,6 +9,7 @@ import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:rxdart/rxdart.dart' show WhereNotNullExtension;
 
+import 'chat_anthropic.dart';
 import 'types.dart';
 
 /// Creates a [CreateMessageRequest] from the given input.
@@ -17,7 +18,6 @@ a.CreateMessageRequest createMessageRequest(
   required final ChatAnthropicOptions? options,
   required final ChatAnthropicOptions defaultOptions,
   final bool stream = false,
-  required Never Function() throwNullModelError,
 }) {
   final systemMsg = messages.firstOrNull is SystemChatMessage
       ? messages.firstOrNull?.contentAsString
@@ -31,10 +31,12 @@ a.CreateMessageRequest createMessageRequest(
 
   return a.CreateMessageRequest(
     model: a.Model.modelId(
-      options?.model ?? defaultOptions.model ?? throwNullModelError(),
+      options?.model ?? defaultOptions.model ?? ChatAnthropic.defaultModel,
     ),
     messages: messagesDtos,
-    maxTokens: options?.maxTokens ?? defaultOptions.maxTokens ?? 1024,
+    maxTokens: options?.maxTokens ??
+        defaultOptions.maxTokens ??
+        ChatAnthropic.defaultMaxTokens,
     stopSequences: options?.stopSequences ?? defaultOptions.stopSequences,
     system: systemMsg,
     temperature: options?.temperature ?? defaultOptions.temperature,

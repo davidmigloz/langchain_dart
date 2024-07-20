@@ -1,12 +1,19 @@
+import 'package:collection/collection.dart';
 import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/tools.dart';
+import 'package:meta/meta.dart';
 
 /// {@template chat_firebase_vertex_ai_options}
 /// Options to pass into the Vertex AI for Firebase model.
+///
+/// You can find a list of available models here:
+/// https://firebase.google.com/docs/vertex-ai/gemini-models
 /// {@endtemplate}
+@immutable
 class ChatFirebaseVertexAIOptions extends ChatModelOptions {
   /// {@macro chat_firebase_vertex_ai_options}
   const ChatFirebaseVertexAIOptions({
-    this.model = 'gemini-1.5-flash',
+    super.model,
     this.topP,
     this.topK,
     this.candidateCount,
@@ -19,12 +26,6 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
     super.toolChoice,
     super.concurrencyLimit,
   });
-
-  /// The LLM to use.
-  ///
-  /// You can find a list of available models here:
-  /// https://firebase.google.com/docs/vertex-ai/gemini-models
-  final String? model;
 
   /// The maximum cumulative probability of tokens to consider when sampling.
   /// The model uses combined Top-k and nucleus sampling. Tokens are sorted
@@ -89,8 +90,7 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
   /// the default safety setting for that category.
   final List<ChatFirebaseVertexAISafetySetting>? safetySettings;
 
-  /// Creates a copy of this [ChatFirebaseVertexAIOptions] object with the given fields
-  /// replaced with the new values.
+  @override
   ChatFirebaseVertexAIOptions copyWith({
     final String? model,
     final double? topP,
@@ -99,7 +99,11 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
     final int? maxOutputTokens,
     final double? temperature,
     final List<String>? stopSequences,
+    final String? responseMimeType,
     final List<ChatFirebaseVertexAISafetySetting>? safetySettings,
+    final List<ToolSpec>? tools,
+    final ChatToolChoice? toolChoice,
+    final int? concurrencyLimit,
   }) {
     return ChatFirebaseVertexAIOptions(
       model: model ?? this.model,
@@ -109,8 +113,67 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
       maxOutputTokens: maxOutputTokens ?? this.maxOutputTokens,
       temperature: temperature ?? this.temperature,
       stopSequences: stopSequences ?? this.stopSequences,
+      responseMimeType: responseMimeType ?? this.responseMimeType,
       safetySettings: safetySettings ?? this.safetySettings,
+      tools: tools ?? this.tools,
+      toolChoice: toolChoice ?? this.toolChoice,
+      concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
+  }
+
+  @override
+  ChatFirebaseVertexAIOptions merge(
+    covariant final ChatFirebaseVertexAIOptions? other,
+  ) {
+    return copyWith(
+      model: other?.model,
+      topP: other?.topP,
+      topK: other?.topK,
+      candidateCount: other?.candidateCount,
+      maxOutputTokens: other?.maxOutputTokens,
+      temperature: other?.temperature,
+      stopSequences: other?.stopSequences,
+      responseMimeType: other?.responseMimeType,
+      safetySettings: other?.safetySettings,
+      tools: other?.tools,
+      toolChoice: other?.toolChoice,
+      concurrencyLimit: other?.concurrencyLimit,
+    );
+  }
+
+  @override
+  bool operator ==(covariant final ChatFirebaseVertexAIOptions other) {
+    return model == other.model &&
+        topP == other.topP &&
+        topK == other.topK &&
+        candidateCount == other.candidateCount &&
+        maxOutputTokens == other.maxOutputTokens &&
+        temperature == other.temperature &&
+        const ListEquality<String>()
+            .equals(stopSequences, other.stopSequences) &&
+        responseMimeType == other.responseMimeType &&
+        const ListEquality<ChatFirebaseVertexAISafetySetting>()
+            .equals(safetySettings, other.safetySettings) &&
+        const ListEquality<ToolSpec>().equals(tools, other.tools) &&
+        toolChoice == other.toolChoice &&
+        concurrencyLimit == other.concurrencyLimit;
+  }
+
+  @override
+  int get hashCode {
+    return model.hashCode ^
+        topP.hashCode ^
+        topK.hashCode ^
+        candidateCount.hashCode ^
+        maxOutputTokens.hashCode ^
+        temperature.hashCode ^
+        const ListEquality<String>().hash(stopSequences) ^
+        responseMimeType.hashCode ^
+        const ListEquality<ChatFirebaseVertexAISafetySetting>()
+            .hash(safetySettings) ^
+        const ListEquality<ToolSpec>().hash(tools) ^
+        toolChoice.hashCode ^
+        concurrencyLimit.hashCode;
   }
 }
 
@@ -119,6 +182,7 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
 /// Passing a safety setting for a category changes the allowed probability that
 /// content is blocked.
 /// {@endtemplate}
+@immutable
 class ChatFirebaseVertexAISafetySetting {
   /// {@macro chat_google_generative_ai_safety_setting}
   const ChatFirebaseVertexAISafetySetting({
@@ -131,6 +195,28 @@ class ChatFirebaseVertexAISafetySetting {
 
   /// Controls the probability threshold at which harm is blocked.
   final ChatFirebaseVertexAISafetySettingThreshold threshold;
+
+  /// Creates a copy of this [ChatFirebaseVertexAISafetySetting] object with
+  /// the given fields replaced with the new values.
+  ChatFirebaseVertexAISafetySetting copyWith({
+    final ChatFirebaseVertexAISafetySettingCategory? category,
+    final ChatFirebaseVertexAISafetySettingThreshold? threshold,
+  }) {
+    return ChatFirebaseVertexAISafetySetting(
+      category: category ?? this.category,
+      threshold: threshold ?? this.threshold,
+    );
+  }
+
+  @override
+  bool operator ==(covariant final ChatFirebaseVertexAISafetySetting other) {
+    return category == other.category && threshold == other.threshold;
+  }
+
+  @override
+  int get hashCode {
+    return category.hashCode ^ threshold.hashCode;
+  }
 }
 
 /// Safety settings categorizes.

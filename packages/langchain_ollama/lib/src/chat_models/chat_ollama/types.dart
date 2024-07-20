@@ -1,15 +1,21 @@
+import 'package:collection/collection.dart';
 import 'package:langchain_core/chat_models.dart';
+import 'package:meta/meta.dart';
 
 import '../../../langchain_ollama.dart';
 import '../../llms/types.dart';
 
 /// {@template chat_ollama_options}
 /// Options to pass into ChatOllama.
+///
+/// For a complete list of supported models and model variants, see the
+/// [Ollama model library](https://ollama.ai/library).
 /// {@endtemplate}
+@immutable
 class ChatOllamaOptions extends ChatModelOptions {
   /// {@macro chat_ollama_options}
   const ChatOllamaOptions({
-    this.model = 'llama3',
+    super.model,
     this.format,
     this.keepAlive,
     this.numKeep,
@@ -43,9 +49,6 @@ class ChatOllamaOptions extends ChatModelOptions {
     this.numThread,
     super.concurrencyLimit,
   });
-
-  /// The model used to generate completions
-  final String? model;
 
   /// The format to return a response in. Currently the only accepted value is
   /// json.
@@ -198,11 +201,11 @@ class ChatOllamaOptions extends ChatModelOptions {
   /// the logical number of cores).
   final int? numThread;
 
-  /// Creates a copy of this [ChatOllamaOptions] object with the given fields
-  /// replaced with the new values.
+  @override
   ChatOllamaOptions copyWith({
     final String? model,
     final OllamaResponseFormat? format,
+    final int? keepAlive,
     final int? numKeep,
     final int? seed,
     final int? numPredict,
@@ -223,7 +226,6 @@ class ChatOllamaOptions extends ChatModelOptions {
     final bool? numa,
     final int? numCtx,
     final int? numBatch,
-    final int? numGqa,
     final int? numGpu,
     final int? mainGpu,
     final bool? lowVram,
@@ -232,14 +234,13 @@ class ChatOllamaOptions extends ChatModelOptions {
     final bool? vocabOnly,
     final bool? useMmap,
     final bool? useMlock,
-    final bool? embeddingOnly,
-    final double? ropeFrequencyBase,
-    final double? ropeFrequencyScale,
     final int? numThread,
+    final int? concurrencyLimit,
   }) {
     return ChatOllamaOptions(
       model: model ?? this.model,
       format: format ?? this.format,
+      keepAlive: keepAlive ?? this.keepAlive,
       numKeep: numKeep ?? this.numKeep,
       seed: seed ?? this.seed,
       numPredict: numPredict ?? this.numPredict,
@@ -269,6 +270,120 @@ class ChatOllamaOptions extends ChatModelOptions {
       useMmap: useMmap ?? this.useMmap,
       useMlock: useMlock ?? this.useMlock,
       numThread: numThread ?? this.numThread,
+      concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
+  }
+
+  @override
+  ChatOllamaOptions merge(covariant final ChatOllamaOptions? other) {
+    return copyWith(
+      model: other?.model,
+      format: other?.format,
+      keepAlive: other?.keepAlive,
+      numKeep: other?.numKeep,
+      seed: other?.seed,
+      numPredict: other?.numPredict,
+      topK: other?.topK,
+      topP: other?.topP,
+      tfsZ: other?.tfsZ,
+      typicalP: other?.typicalP,
+      repeatLastN: other?.repeatLastN,
+      temperature: other?.temperature,
+      repeatPenalty: other?.repeatPenalty,
+      presencePenalty: other?.presencePenalty,
+      frequencyPenalty: other?.frequencyPenalty,
+      mirostat: other?.mirostat,
+      mirostatTau: other?.mirostatTau,
+      mirostatEta: other?.mirostatEta,
+      penalizeNewline: other?.penalizeNewline,
+      stop: other?.stop,
+      numa: other?.numa,
+      numCtx: other?.numCtx,
+      numBatch: other?.numBatch,
+      numGpu: other?.numGpu,
+      mainGpu: other?.mainGpu,
+      lowVram: other?.lowVram,
+      f16KV: other?.f16KV,
+      logitsAll: other?.logitsAll,
+      vocabOnly: other?.vocabOnly,
+      useMmap: other?.useMmap,
+      useMlock: other?.useMlock,
+      numThread: other?.numThread,
+      concurrencyLimit: other?.concurrencyLimit,
+    );
+  }
+
+  @override
+  bool operator ==(covariant final ChatOllamaOptions other) {
+    return model == other.model &&
+        format == other.format &&
+        keepAlive == other.keepAlive &&
+        numKeep == other.numKeep &&
+        seed == other.seed &&
+        numPredict == other.numPredict &&
+        topK == other.topK &&
+        topP == other.topP &&
+        tfsZ == other.tfsZ &&
+        typicalP == other.typicalP &&
+        repeatLastN == other.repeatLastN &&
+        temperature == other.temperature &&
+        repeatPenalty == other.repeatPenalty &&
+        presencePenalty == other.presencePenalty &&
+        frequencyPenalty == other.frequencyPenalty &&
+        mirostat == other.mirostat &&
+        mirostatTau == other.mirostatTau &&
+        mirostatEta == other.mirostatEta &&
+        penalizeNewline == other.penalizeNewline &&
+        const ListEquality<String>().equals(stop, other.stop) &&
+        numa == other.numa &&
+        numCtx == other.numCtx &&
+        numBatch == other.numBatch &&
+        numGpu == other.numGpu &&
+        mainGpu == other.mainGpu &&
+        lowVram == other.lowVram &&
+        f16KV == other.f16KV &&
+        logitsAll == other.logitsAll &&
+        vocabOnly == other.vocabOnly &&
+        useMmap == other.useMmap &&
+        useMlock == other.useMlock &&
+        numThread == other.numThread &&
+        concurrencyLimit == other.concurrencyLimit;
+  }
+
+  @override
+  int get hashCode {
+    return model.hashCode ^
+        format.hashCode ^
+        keepAlive.hashCode ^
+        numKeep.hashCode ^
+        seed.hashCode ^
+        numPredict.hashCode ^
+        topK.hashCode ^
+        topP.hashCode ^
+        tfsZ.hashCode ^
+        typicalP.hashCode ^
+        repeatLastN.hashCode ^
+        temperature.hashCode ^
+        repeatPenalty.hashCode ^
+        presencePenalty.hashCode ^
+        frequencyPenalty.hashCode ^
+        mirostat.hashCode ^
+        mirostatTau.hashCode ^
+        mirostatEta.hashCode ^
+        penalizeNewline.hashCode ^
+        const ListEquality<String>().hash(stop) ^
+        numa.hashCode ^
+        numCtx.hashCode ^
+        numBatch.hashCode ^
+        numGpu.hashCode ^
+        mainGpu.hashCode ^
+        lowVram.hashCode ^
+        f16KV.hashCode ^
+        logitsAll.hashCode ^
+        vocabOnly.hashCode ^
+        useMmap.hashCode ^
+        useMlock.hashCode ^
+        numThread.hashCode ^
+        concurrencyLimit.hashCode;
   }
 }

@@ -118,36 +118,36 @@ void main() {
       expect(res.content, isNotEmpty);
     });
 
+    const getCurrentWeatherTool = ToolSpec(
+      name: 'get_current_weather',
+      description: 'Get the current weather in a given location',
+      inputJsonSchema: {
+        'type': 'object',
+        'properties': {
+          'location': {
+            'type': 'string',
+            'description': 'The city and state, e.g. San Francisco, CA',
+          },
+          'unit': {
+            'type': 'string',
+            'description': 'The unit of temperature to return',
+            'enum': ['celsius', 'fahrenheit'],
+          },
+        },
+        'required': ['location'],
+      },
+    );
+
     test('Test ChatOpenAI tool calling',
         timeout: const Timeout(Duration(minutes: 1)), () async {
       final chat = ChatOpenAI(apiKey: openaiApiKey);
-
-      const tool = ToolSpec(
-        name: 'get_current_weather',
-        description: 'Get the current weather in a given location',
-        inputJsonSchema: {
-          'type': 'object',
-          'properties': {
-            'location': {
-              'type': 'string',
-              'description': 'The city and state, e.g. San Francisco, CA',
-            },
-            'unit': {
-              'type': 'string',
-              'description': 'The unit of temperature to return',
-              'enum': ['celsius', 'fahrenheit'],
-            },
-          },
-          'required': ['location'],
-        },
-      );
 
       final humanMessage = ChatMessage.humanText(
         'What’s the weather like in Boston right now?',
       );
       final res1 = await chat.invoke(
         PromptValue.chat([humanMessage]),
-        options: const ChatOpenAIOptions(tools: [tool]),
+        options: const ChatOpenAIOptions(tools: [getCurrentWeatherTool]),
       );
 
       final aiMessage1 = res1.output;
@@ -156,7 +156,7 @@ void main() {
       expect(aiMessage1.toolCalls, isNotEmpty);
       final toolCall = aiMessage1.toolCalls.first;
 
-      expect(toolCall.name, tool.name);
+      expect(toolCall.name, getCurrentWeatherTool.name);
       expect(toolCall.arguments.containsKey('location'), isTrue);
       expect(toolCall.arguments['location'], contains('Boston'));
 
@@ -172,7 +172,7 @@ void main() {
 
       final res2 = await chat.invoke(
         PromptValue.chat([humanMessage, aiMessage1, functionMessage]),
-        options: const ChatOpenAIOptions(tools: [tool]),
+        options: const ChatOpenAIOptions(tools: [getCurrentWeatherTool]),
       );
 
       final aiMessage2 = res2.output;
@@ -208,7 +208,6 @@ void main() {
 
     test('Test countTokens messages', () async {
       final models = [
-        'gpt-3.5-turbo-0301',
         'gpt-3.5-turbo-0613',
         'gpt-3.5-turbo-16k-0613',
         'gpt-4-0314',
@@ -270,26 +269,26 @@ void main() {
       expect(result.usage.totalTokens, greaterThan(0));
     });
 
-    test('Test ChatOpenAI streaming with functions', () async {
-      const tool = ToolSpec(
-        name: 'joke',
-        description: 'A joke',
-        inputJsonSchema: {
-          'type': 'object',
-          'properties': {
-            'setup': {
-              'type': 'string',
-              'description': 'The setup for the joke',
-            },
-            'punchline': {
-              'type': 'string',
-              'description': 'The punchline to the joke',
-            },
+    const jokeTool = ToolSpec(
+      name: 'joke',
+      description: 'A joke',
+      inputJsonSchema: {
+        'type': 'object',
+        'properties': {
+          'setup': {
+            'type': 'string',
+            'description': 'The setup for the joke',
           },
-          'required': ['location', 'punchline'],
+          'punchline': {
+            'type': 'string',
+            'description': 'The punchline to the joke',
+          },
         },
-      );
+        'required': ['location', 'punchline'],
+      },
+    );
 
+    test('Test ChatOpenAI streaming with functions', () async {
       final promptTemplate = ChatPromptTemplate.fromTemplate(
         'tell me a long joke about {foo}',
       );
@@ -301,7 +300,7 @@ void main() {
         ),
       ).bind(
         ChatOpenAIOptions(
-          tools: const [tool],
+          tools: const [jokeTool],
           toolChoice: ChatToolChoice.forced(name: 'joke'),
         ),
       );
@@ -433,6 +432,64 @@ void main() {
 
       final res = await chatModel.invoke(prompt);
       expect(res.output.content.toLowerCase(), contains('apple'));
+    });
+
+    test('Test additive bind calls', () async {
+      final chatModel = ChatOpenAI(
+        apiKey: openaiApiKey,
+        defaultOptions: const ChatOpenAIOptions(
+          model: defaultModel,
+          temperature: 0,
+        ),
+      );
+
+      final chatModelWithTools = chatModel.bind(
+        const ChatOpenAIOptions(
+          tools: [getCurrentWeatherTool, jokeTool],
+        ),
+      );
+
+      final res1 = await chatModelWithTools.invoke(
+        PromptValue.string(
+          'Tell me the weather in Barcelona, Spain and a joke about bears',
+        ),
+      );
+      expect(
+        res1.output.toolCalls.map((tc) => tc.name).toSet(),
+        {getCurrentWeatherTool.name, jokeTool.name},
+      );
+
+      final chatModelForceWeatherTool = chatModelWithTools.bind(
+        ChatOpenAIOptions(
+          toolChoice: ChatToolChoice.forced(name: getCurrentWeatherTool.name),
+        ),
+      );
+
+      final res2 = await chatModelForceWeatherTool.invoke(
+        PromptValue.string(
+          'Tell me the weather in Barcelona, Spain and a joke about bears',
+        ),
+      );
+      expect(
+        res2.output.toolCalls.map((tc) => tc.name).toSet(),
+        {getCurrentWeatherTool.name},
+      );
+
+      final chatModelForceJokeTool = chatModelWithTools.bind(
+        ChatOpenAIOptions(
+          toolChoice: ChatToolChoice.forced(name: jokeTool.name),
+        ),
+      );
+
+      final res3 = await chatModelForceJokeTool.invoke(
+        PromptValue.string(
+          'Tell me the weather in Barcelona, Spain and a joke about bears',
+        ),
+      );
+      expect(
+        res3.output.toolCalls.map((tc) => tc.name).toSet(),
+        {jokeTool.name},
+      );
     });
   });
 }

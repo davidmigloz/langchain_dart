@@ -1,5 +1,7 @@
+import 'package:collection/collection.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/tools.dart';
+import 'package:meta/meta.dart';
 
 import '../chat_ollama/types.dart';
 import 'chat_ollama_tools.dart';
@@ -9,6 +11,7 @@ export '../chat_ollama/types.dart';
 /// {@template chat_ollama_tools_options}
 /// Options to pass into [ChatOllamaTools].
 /// {@endtemplate}
+@immutable
 class ChatOllamaToolsOptions extends ChatModelOptions {
   /// {@macro chat_ollama_tools_options}
   const ChatOllamaToolsOptions({
@@ -16,6 +19,7 @@ class ChatOllamaToolsOptions extends ChatModelOptions {
     super.tools,
     super.toolChoice,
     this.toolsSystemPromptTemplate,
+    super.concurrencyLimit,
   });
 
   /// [ChatOllamaOptions] to pass into Ollama.
@@ -57,6 +61,51 @@ Example response format:
 
 Ensure your response is valid JSON and follows this exact format.
 ''';
+
+  @override
+  ChatOllamaToolsOptions copyWith({
+    final ChatOllamaOptions? options,
+    final List<ToolSpec>? tools,
+    final ChatToolChoice? toolChoice,
+    final String? toolsSystemPromptTemplate,
+    final int? concurrencyLimit,
+  }) {
+    return ChatOllamaToolsOptions(
+      options: options ?? this.options,
+      tools: tools ?? this.tools,
+      toolChoice: toolChoice ?? this.toolChoice,
+      toolsSystemPromptTemplate:
+          toolsSystemPromptTemplate ?? this.toolsSystemPromptTemplate,
+      concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
+    );
+  }
+
+  @override
+  ChatOllamaToolsOptions merge(covariant final ChatOllamaToolsOptions? other) {
+    return copyWith(
+      options: other?.options,
+      tools: other?.tools,
+      toolChoice: other?.toolChoice,
+      toolsSystemPromptTemplate: other?.toolsSystemPromptTemplate,
+      concurrencyLimit: other?.concurrencyLimit,
+    );
+  }
+
+  @override
+  bool operator ==(covariant final ChatOllamaToolsOptions other) {
+    return options == other.options &&
+        const ListEquality<ToolSpec>().equals(tools, other.tools) &&
+        toolChoice == other.toolChoice &&
+        toolsSystemPromptTemplate == other.toolsSystemPromptTemplate;
+  }
+
+  @override
+  int get hashCode {
+    return options.hashCode ^
+        const ListEquality<ToolSpec>().hash(tools) ^
+        toolChoice.hashCode ^
+        toolsSystemPromptTemplate.hashCode;
+  }
 }
 
 /// Default tool called if model decides no other tools should be called

@@ -6,7 +6,7 @@ import '../langchain/types.dart';
 typedef ChainValues = Map<String, dynamic>;
 
 /// {@template chain_options}
-/// Options to pass to a chain.
+/// Options to pass to the chain.
 /// {@endtemplate}
 @immutable
 class ChainOptions extends BaseLangChainOptions {

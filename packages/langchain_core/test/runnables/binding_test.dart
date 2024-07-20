@@ -20,6 +20,32 @@ void main() {
       expect(res, 'Hello ');
     });
 
+    test('Chaining bind calls', () async {
+      final model = FakeChatModel(
+        responses: ['a', 'b'],
+        defaultOptions: const FakeChatModelOptions(
+          model: 'modelA',
+          metadata: {'foo': 'bar'},
+        ),
+      );
+
+      final res1 = await model.invoke(PromptValue.string('1'));
+      expect(res1.metadata['model'], 'modelA');
+      expect(res1.metadata['foo'], 'bar');
+
+      final chain2 = model.bind(const FakeChatModelOptions(model: 'modelB'));
+      final res2 = await chain2.invoke(PromptValue.string('2'));
+      expect(res2.metadata['model'], 'modelB');
+      expect(res2.metadata['foo'], 'bar');
+
+      final chain3 = chain2.bind(
+        const FakeChatModelOptions(metadata: {'foo': 'baz'}),
+      );
+      final res3 = await chain3.invoke(PromptValue.string('3'));
+      expect(res3.metadata['model'], 'modelB');
+      expect(res3.metadata['foo'], 'baz');
+    });
+
     test('Streaming RunnableBinding', () async {
       final prompt = PromptTemplate.fromTemplate('Hello {input}');
       const model = _FakeOptionsChatModel();

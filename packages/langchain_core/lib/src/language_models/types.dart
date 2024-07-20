@@ -4,14 +4,19 @@ import 'package:meta/meta.dart';
 import '../langchain/types.dart';
 
 /// {@template language_model_options}
-/// Generation options to pass into the language model.
+/// Options to pass into the language model.
 /// {@endtemplate}
 @immutable
 abstract class LanguageModelOptions extends BaseLangChainOptions {
   /// {@macro language_model_options}
   const LanguageModelOptions({
+    this.model,
     super.concurrencyLimit,
   });
+
+  /// ID of the language model to use.
+  /// Check the provider's documentation for available models.
+  final String? model;
 }
 
 /// {@template language_model}

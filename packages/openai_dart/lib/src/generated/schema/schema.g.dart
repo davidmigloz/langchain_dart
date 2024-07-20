@@ -322,6 +322,9 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
           : ChatCompletionResponseFormat.fromJson(
               json['response_format'] as Map<String, dynamic>),
       seed: json['seed'] as int?,
+      serviceTier: $enumDecodeNullable(
+          _$CreateChatCompletionRequestServiceTierEnumMap, json['service_tier'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
       stop: const _ChatCompletionStopConverter().fromJson(json['stop']),
       stream: json['stream'] as bool? ?? false,
       streamOptions: json['stream_options'] == null
@@ -335,6 +338,7 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
           .toList(),
       toolChoice: const _ChatCompletionToolChoiceOptionConverter()
           .fromJson(json['tool_choice']),
+      parallelToolCalls: json['parallel_tool_calls'] as bool? ?? true,
       user: json['user'] as String?,
       functionCall: const _ChatCompletionFunctionCallConverter()
           .fromJson(json['function_call']),
@@ -365,6 +369,8 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
   writeNotNull('presence_penalty', instance.presencePenalty);
   writeNotNull('response_format', instance.responseFormat?.toJson());
   writeNotNull('seed', instance.seed);
+  writeNotNull('service_tier',
+      _$CreateChatCompletionRequestServiceTierEnumMap[instance.serviceTier]);
   writeNotNull(
       'stop', const _ChatCompletionStopConverter().toJson(instance.stop));
   writeNotNull('stream', instance.stream);
@@ -376,6 +382,7 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
       'tool_choice',
       const _ChatCompletionToolChoiceOptionConverter()
           .toJson(instance.toolChoice));
+  writeNotNull('parallel_tool_calls', instance.parallelToolCalls);
   writeNotNull('user', instance.user);
   writeNotNull(
       'function_call',
@@ -385,6 +392,11 @@ Map<String, dynamic> _$$CreateChatCompletionRequestImplToJson(
       'functions', instance.functions?.map((e) => e.toJson()).toList());
   return val;
 }
+
+const _$CreateChatCompletionRequestServiceTierEnumMap = {
+  CreateChatCompletionRequestServiceTier.auto: 'auto',
+  CreateChatCompletionRequestServiceTier.vDefault: 'default',
+};
 
 _$ChatCompletionModelEnumerationImpl
     _$$ChatCompletionModelEnumerationImplFromJson(Map<String, dynamic> json) =>
@@ -415,6 +427,8 @@ const _$ChatCompletionModelsEnumMap = {
   ChatCompletionModels.gpt4VisionPreview: 'gpt-4-vision-preview',
   ChatCompletionModels.gpt4o: 'gpt-4o',
   ChatCompletionModels.gpt4o20240513: 'gpt-4o-2024-05-13',
+  ChatCompletionModels.gpt4oMini: 'gpt-4o-mini',
+  ChatCompletionModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
   ChatCompletionModels.gpt35Turbo: 'gpt-3.5-turbo',
   ChatCompletionModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
   ChatCompletionModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
@@ -705,6 +719,9 @@ _$CreateChatCompletionResponseImpl _$$CreateChatCompletionResponseImplFromJson(
           .toList(),
       created: json['created'] as int,
       model: json['model'] as String,
+      serviceTier: $enumDecodeNullable(
+          _$ServiceTierEnumMap, json['service_tier'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
       systemFingerprint: json['system_fingerprint'] as String?,
       object: json['object'] as String,
       usage: json['usage'] == null
@@ -726,11 +743,17 @@ Map<String, dynamic> _$$CreateChatCompletionResponseImplToJson(
   val['choices'] = instance.choices.map((e) => e.toJson()).toList();
   val['created'] = instance.created;
   val['model'] = instance.model;
+  writeNotNull('service_tier', _$ServiceTierEnumMap[instance.serviceTier]);
   writeNotNull('system_fingerprint', instance.systemFingerprint);
   val['object'] = instance.object;
   writeNotNull('usage', instance.usage?.toJson());
   return val;
 }
+
+const _$ServiceTierEnumMap = {
+  ServiceTier.scale: 'scale',
+  ServiceTier.vDefault: 'default',
+};
 
 _$ChatCompletionResponseChoiceImpl _$$ChatCompletionResponseChoiceImplFromJson(
         Map<String, dynamic> json) =>
@@ -837,6 +860,9 @@ _$CreateChatCompletionStreamResponseImpl
               .toList(),
           created: json['created'] as int?,
           model: json['model'] as String?,
+          serviceTier: $enumDecodeNullable(
+              _$ServiceTierEnumMap, json['service_tier'],
+              unknownValue: JsonKey.nullForUndefinedEnumValue),
           systemFingerprint: json['system_fingerprint'] as String?,
           object: json['object'] as String?,
           usage: json['usage'] == null
@@ -858,6 +884,7 @@ Map<String, dynamic> _$$CreateChatCompletionStreamResponseImplToJson(
   val['choices'] = instance.choices.map((e) => e.toJson()).toList();
   writeNotNull('created', instance.created);
   writeNotNull('model', instance.model);
+  writeNotNull('service_tier', _$ServiceTierEnumMap[instance.serviceTier]);
   writeNotNull('system_fingerprint', instance.systemFingerprint);
   writeNotNull('object', instance.object);
   writeNotNull('usage', instance.usage?.toJson());
@@ -2250,6 +2277,8 @@ const _$AssistantModelsEnumMap = {
   AssistantModels.gpt4VisionPreview: 'gpt-4-vision-preview',
   AssistantModels.gpt4o: 'gpt-4o',
   AssistantModels.gpt4o20240513: 'gpt-4o-2024-05-13',
+  AssistantModels.gpt4oMini: 'gpt-4o-mini',
+  AssistantModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
   AssistantModels.gpt35Turbo: 'gpt-3.5-turbo',
   AssistantModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
   AssistantModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
@@ -2583,6 +2612,7 @@ _$RunObjectImpl _$$RunObjectImplFromJson(Map<String, dynamic> json) =>
               json['truncation_strategy'] as Map<String, dynamic>),
       toolChoice:
           const _RunObjectToolChoiceConverter().fromJson(json['tool_choice']),
+      parallelToolCalls: json['parallel_tool_calls'] as bool?,
       responseFormat: const _RunObjectResponseFormatConverter()
           .fromJson(json['response_format']),
     );
@@ -2623,6 +2653,7 @@ Map<String, dynamic> _$$RunObjectImplToJson(_$RunObjectImpl instance) {
   val['truncation_strategy'] = instance.truncationStrategy?.toJson();
   val['tool_choice'] = _$JsonConverterToJson<Object?, RunObjectToolChoice>(
       instance.toolChoice, const _RunObjectToolChoiceConverter().toJson);
+  val['parallel_tool_calls'] = instance.parallelToolCalls;
   val['response_format'] =
       const _RunObjectResponseFormatConverter().toJson(instance.responseFormat);
   return val;
@@ -2836,6 +2867,7 @@ _$CreateRunRequestImpl _$$CreateRunRequestImplFromJson(
               json['truncation_strategy'] as Map<String, dynamic>),
       toolChoice: const _CreateRunRequestToolChoiceConverter()
           .fromJson(json['tool_choice']),
+      parallelToolCalls: json['parallel_tool_calls'] as bool? ?? true,
       responseFormat: const _CreateRunRequestResponseFormatConverter()
           .fromJson(json['response_format']),
       stream: json['stream'] as bool?,
@@ -2868,6 +2900,7 @@ Map<String, dynamic> _$$CreateRunRequestImplToJson(
   writeNotNull('truncation_strategy', instance.truncationStrategy?.toJson());
   writeNotNull('tool_choice',
       const _CreateRunRequestToolChoiceConverter().toJson(instance.toolChoice));
+  writeNotNull('parallel_tool_calls', instance.parallelToolCalls);
   writeNotNull(
       'response_format',
       const _CreateRunRequestResponseFormatConverter()
@@ -2906,6 +2939,8 @@ const _$RunModelsEnumMap = {
   RunModels.gpt4VisionPreview: 'gpt-4-vision-preview',
   RunModels.gpt4o: 'gpt-4o',
   RunModels.gpt4o20240513: 'gpt-4o-2024-05-13',
+  RunModels.gpt4oMini: 'gpt-4o-mini',
+  RunModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
   RunModels.gpt35Turbo: 'gpt-3.5-turbo',
   RunModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
   RunModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
@@ -3158,6 +3193,7 @@ _$CreateThreadAndRunRequestImpl _$$CreateThreadAndRunRequestImplFromJson(
               json['truncation_strategy'] as Map<String, dynamic>),
       toolChoice: const _CreateThreadAndRunRequestToolChoiceConverter()
           .fromJson(json['tool_choice']),
+      parallelToolCalls: json['parallel_tool_calls'] as bool? ?? true,
       responseFormat: const _CreateThreadAndRunRequestResponseFormatConverter()
           .fromJson(json['response_format']),
       stream: json['stream'] as bool?,
@@ -3191,6 +3227,7 @@ Map<String, dynamic> _$$CreateThreadAndRunRequestImplToJson(
       'tool_choice',
       const _CreateThreadAndRunRequestToolChoiceConverter()
           .toJson(instance.toolChoice));
+  writeNotNull('parallel_tool_calls', instance.parallelToolCalls);
   writeNotNull(
       'response_format',
       const _CreateThreadAndRunRequestResponseFormatConverter()
@@ -3228,6 +3265,8 @@ const _$ThreadAndRunModelsEnumMap = {
   ThreadAndRunModels.gpt4VisionPreview: 'gpt-4-vision-preview',
   ThreadAndRunModels.gpt4o: 'gpt-4o',
   ThreadAndRunModels.gpt4o20240513: 'gpt-4o-2024-05-13',
+  ThreadAndRunModels.gpt4oMini: 'gpt-4o-mini',
+  ThreadAndRunModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
   ThreadAndRunModels.gpt35Turbo: 'gpt-3.5-turbo',
   ThreadAndRunModels.gpt35Turbo16k: 'gpt-3.5-turbo-16k',
   ThreadAndRunModels.gpt35Turbo16k0613: 'gpt-3.5-turbo-16k-0613',
@@ -3489,6 +3528,10 @@ _$ToolResourcesFileSearchVectorStoreImpl
           fileIds: (json['file_ids'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList(),
+          chunkingStrategy: json['chunking_strategy'] == null
+              ? null
+              : ChunkingStrategyRequestParam.fromJson(
+                  json['chunking_strategy'] as Map<String, dynamic>),
           metadata: json['metadata'],
         );
 
@@ -3503,6 +3546,7 @@ Map<String, dynamic> _$$ToolResourcesFileSearchVectorStoreImplToJson(
   }
 
   writeNotNull('file_ids', instance.fileIds);
+  writeNotNull('chunking_strategy', instance.chunkingStrategy?.toJson());
   writeNotNull('metadata', instance.metadata);
   return val;
 }
@@ -3906,24 +3950,13 @@ _$MessageContentTextAnnotationsFileCitationImpl
             Map<String, dynamic> json) =>
         _$MessageContentTextAnnotationsFileCitationImpl(
           fileId: json['file_id'] as String,
-          quote: json['quote'] as String?,
         );
 
 Map<String, dynamic> _$$MessageContentTextAnnotationsFileCitationImplToJson(
-    _$MessageContentTextAnnotationsFileCitationImpl instance) {
-  final val = <String, dynamic>{
-    'file_id': instance.fileId,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('quote', instance.quote);
-  return val;
-}
+        _$MessageContentTextAnnotationsFileCitationImpl instance) =>
+    <String, dynamic>{
+      'file_id': instance.fileId,
+    };
 
 _$MessageDeltaContentImageUrlObjectImpl
     _$$MessageDeltaContentImageUrlObjectImplFromJson(
@@ -4381,6 +4414,10 @@ _$CreateVectorStoreRequestImpl _$$CreateVectorStoreRequestImplFromJson(
           ? null
           : VectorStoreExpirationAfter.fromJson(
               json['expires_after'] as Map<String, dynamic>),
+      chunkingStrategy: json['chunking_strategy'] == null
+          ? null
+          : ChunkingStrategyRequestParam.fromJson(
+              json['chunking_strategy'] as Map<String, dynamic>),
       metadata: json['metadata'],
     );
 
@@ -4397,6 +4434,7 @@ Map<String, dynamic> _$$CreateVectorStoreRequestImplToJson(
   writeNotNull('name', instance.name);
   writeNotNull('file_ids', instance.fileIds);
   writeNotNull('expires_after', instance.expiresAfter?.toJson());
+  writeNotNull('chunking_strategy', instance.chunkingStrategy?.toJson());
   writeNotNull('metadata', instance.metadata);
   return val;
 }
@@ -4479,19 +4517,33 @@ _$VectorStoreFileObjectImpl _$$VectorStoreFileObjectImplFromJson(
           ? null
           : VectorStoreFileObjectLastError.fromJson(
               json['last_error'] as Map<String, dynamic>),
+      chunkingStrategy: json['chunking_strategy'] == null
+          ? null
+          : ChunkingStrategyResponseParam.fromJson(
+              json['chunking_strategy'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$VectorStoreFileObjectImplToJson(
-        _$VectorStoreFileObjectImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'object': instance.object,
-      'usage_bytes': instance.usageBytes,
-      'created_at': instance.createdAt,
-      'vector_store_id': instance.vectorStoreId,
-      'status': _$VectorStoreFileStatusEnumMap[instance.status]!,
-      'last_error': instance.lastError?.toJson(),
-    };
+    _$VectorStoreFileObjectImpl instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'object': instance.object,
+    'usage_bytes': instance.usageBytes,
+    'created_at': instance.createdAt,
+    'vector_store_id': instance.vectorStoreId,
+    'status': _$VectorStoreFileStatusEnumMap[instance.status]!,
+    'last_error': instance.lastError?.toJson(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('chunking_strategy', instance.chunkingStrategy?.toJson());
+  return val;
+}
 
 const _$VectorStoreFileStatusEnumMap = {
   VectorStoreFileStatus.inProgress: 'in_progress',
@@ -4522,17 +4574,45 @@ const _$VectorStoreFileObjectLastErrorCodeEnumMap = {
   VectorStoreFileObjectLastErrorCode.unhandledMimeType: 'unhandled_mime_type',
 };
 
+_$StaticChunkingStrategyImpl _$$StaticChunkingStrategyImplFromJson(
+        Map<String, dynamic> json) =>
+    _$StaticChunkingStrategyImpl(
+      maxChunkSizeTokens: json['max_chunk_size_tokens'] as int,
+      chunkOverlapTokens: json['chunk_overlap_tokens'] as int,
+    );
+
+Map<String, dynamic> _$$StaticChunkingStrategyImplToJson(
+        _$StaticChunkingStrategyImpl instance) =>
+    <String, dynamic>{
+      'max_chunk_size_tokens': instance.maxChunkSizeTokens,
+      'chunk_overlap_tokens': instance.chunkOverlapTokens,
+    };
+
 _$CreateVectorStoreFileRequestImpl _$$CreateVectorStoreFileRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateVectorStoreFileRequestImpl(
       fileId: json['file_id'] as String,
+      chunkingStrategy: json['chunking_strategy'] == null
+          ? null
+          : ChunkingStrategyRequestParam.fromJson(
+              json['chunking_strategy'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$CreateVectorStoreFileRequestImplToJson(
-        _$CreateVectorStoreFileRequestImpl instance) =>
-    <String, dynamic>{
-      'file_id': instance.fileId,
-    };
+    _$CreateVectorStoreFileRequestImpl instance) {
+  final val = <String, dynamic>{
+    'file_id': instance.fileId,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('chunking_strategy', instance.chunkingStrategy?.toJson());
+  return val;
+}
 
 _$ListVectorStoreFilesResponseImpl _$$ListVectorStoreFilesResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -4631,13 +4711,27 @@ _$CreateVectorStoreFileBatchRequestImpl
           fileIds: (json['file_ids'] as List<dynamic>)
               .map((e) => e as String)
               .toList(),
+          chunkingStrategy: json['chunking_strategy'] == null
+              ? null
+              : ChunkingStrategyRequestParam.fromJson(
+                  json['chunking_strategy'] as Map<String, dynamic>),
         );
 
 Map<String, dynamic> _$$CreateVectorStoreFileBatchRequestImplToJson(
-        _$CreateVectorStoreFileBatchRequestImpl instance) =>
-    <String, dynamic>{
-      'file_ids': instance.fileIds,
-    };
+    _$CreateVectorStoreFileBatchRequestImpl instance) {
+  final val = <String, dynamic>{
+    'file_ids': instance.fileIds,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('chunking_strategy', instance.chunkingStrategy?.toJson());
+  return val;
+}
 
 _$ErrorImpl _$$ErrorImplFromJson(Map<String, dynamic> json) => _$ErrorImpl(
       code: json['code'] as String?,
@@ -5114,14 +5208,28 @@ Map<String, dynamic> _$$AssistantToolsCodeInterpreterImplToJson(
 _$AssistantToolsFileSearchImpl _$$AssistantToolsFileSearchImplFromJson(
         Map<String, dynamic> json) =>
     _$AssistantToolsFileSearchImpl(
-      type: json['type'] as String? ?? 'file_search',
+      type: json['type'] as String,
+      fileSearch: json['file_search'] == null
+          ? null
+          : AssistantToolsFileSearchFileSearch.fromJson(
+              json['file_search'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$AssistantToolsFileSearchImplToJson(
-        _$AssistantToolsFileSearchImpl instance) =>
-    <String, dynamic>{
-      'type': instance.type,
-    };
+    _$AssistantToolsFileSearchImpl instance) {
+  final val = <String, dynamic>{
+    'type': instance.type,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('file_search', instance.fileSearch?.toJson());
+  return val;
+}
 
 _$AssistantToolsFunctionImpl _$$AssistantToolsFunctionImplFromJson(
         Map<String, dynamic> json) =>
@@ -5137,6 +5245,27 @@ Map<String, dynamic> _$$AssistantToolsFunctionImplToJson(
       'type': instance.type,
       'function': instance.function.toJson(),
     };
+
+_$AssistantToolsFileSearchFileSearchImpl
+    _$$AssistantToolsFileSearchFileSearchImplFromJson(
+            Map<String, dynamic> json) =>
+        _$AssistantToolsFileSearchFileSearchImpl(
+          maxNumResults: json['max_num_results'] as int?,
+        );
+
+Map<String, dynamic> _$$AssistantToolsFileSearchFileSearchImplToJson(
+    _$AssistantToolsFileSearchFileSearchImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('max_num_results', instance.maxNumResults);
+  return val;
+}
 
 _$MessageContentImageFileObjectImpl
     _$$MessageContentImageFileObjectImplFromJson(Map<String, dynamic> json) =>
@@ -5754,6 +5883,64 @@ Map<String, dynamic>
   writeNotNull('image', instance.image?.toJson());
   return val;
 }
+
+_$AutoChunkingStrategyRequestParamImpl
+    _$$AutoChunkingStrategyRequestParamImplFromJson(
+            Map<String, dynamic> json) =>
+        _$AutoChunkingStrategyRequestParamImpl(
+          type: json['type'] as String,
+        );
+
+Map<String, dynamic> _$$AutoChunkingStrategyRequestParamImplToJson(
+        _$AutoChunkingStrategyRequestParamImpl instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+    };
+
+_$StaticChunkingStrategyRequestParamImpl
+    _$$StaticChunkingStrategyRequestParamImplFromJson(
+            Map<String, dynamic> json) =>
+        _$StaticChunkingStrategyRequestParamImpl(
+          type: json['type'] as String,
+          static: StaticChunkingStrategy.fromJson(
+              json['static'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$StaticChunkingStrategyRequestParamImplToJson(
+        _$StaticChunkingStrategyRequestParamImpl instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'static': instance.static.toJson(),
+    };
+
+_$StaticChunkingStrategyResponseParamImpl
+    _$$StaticChunkingStrategyResponseParamImplFromJson(
+            Map<String, dynamic> json) =>
+        _$StaticChunkingStrategyResponseParamImpl(
+          type: json['type'] as String,
+          static: StaticChunkingStrategy.fromJson(
+              json['static'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$StaticChunkingStrategyResponseParamImplToJson(
+        _$StaticChunkingStrategyResponseParamImpl instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'static': instance.static.toJson(),
+    };
+
+_$OtherChunkingStrategyResponseParamImpl
+    _$$OtherChunkingStrategyResponseParamImplFromJson(
+            Map<String, dynamic> json) =>
+        _$OtherChunkingStrategyResponseParamImpl(
+          type: json['type'] as String,
+        );
+
+Map<String, dynamic> _$$OtherChunkingStrategyResponseParamImplToJson(
+        _$OtherChunkingStrategyResponseParamImpl instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+    };
 
 _$ThreadStreamEventImpl _$$ThreadStreamEventImplFromJson(
         Map<String, dynamic> json) =>

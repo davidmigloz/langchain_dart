@@ -3458,6 +3458,21 @@ mixin _$CreateChatCompletionRequest {
   @JsonKey(includeIfNull: false)
   int? get seed => throw _privateConstructorUsedError;
 
+  /// Specifies the latency tier to use for processing the request. This parameter is relevant for customers
+  /// subscribed to the scale tier service:
+  ///   - If set to 'auto', the system will utilize scale tier credits until they are exhausted.
+  ///   - If set to 'default', the request will be processed using the default service tier with a lower
+  ///     uptime SLA and no latency guarantee.
+  ///   - When not set, the default behavior is 'auto'.
+  ///
+  ///   When this parameter is set, the response body will include the `service_tier` utilized.
+  @JsonKey(
+      name: 'service_tier',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  CreateChatCompletionRequestServiceTier? get serviceTier =>
+      throw _privateConstructorUsedError;
+
   /// Up to 4 sequences where the API will stop generating further tokens.
   @_ChatCompletionStopConverter()
   @JsonKey(includeIfNull: false)
@@ -3499,6 +3514,11 @@ mixin _$CreateChatCompletionRequest {
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   ChatCompletionToolChoiceOption? get toolChoice =>
       throw _privateConstructorUsedError;
+
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+  bool? get parallelToolCalls => throw _privateConstructorUsedError;
 
   /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
   @JsonKey(includeIfNull: false)
@@ -3553,6 +3573,11 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
       @JsonKey(name: 'response_format', includeIfNull: false)
       ChatCompletionResponseFormat? responseFormat,
       @JsonKey(includeIfNull: false) int? seed,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      CreateChatCompletionRequestServiceTier? serviceTier,
       @_ChatCompletionStopConverter()
       @JsonKey(includeIfNull: false)
       ChatCompletionStop? stop,
@@ -3565,6 +3590,8 @@ abstract class $CreateChatCompletionRequestCopyWith<$Res> {
       @_ChatCompletionToolChoiceOptionConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       ChatCompletionToolChoiceOption? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      bool? parallelToolCalls,
       @JsonKey(includeIfNull: false) String? user,
       @_ChatCompletionFunctionCallConverter()
       @JsonKey(name: 'function_call', includeIfNull: false)
@@ -3604,6 +3631,7 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
     Object? presencePenalty = freezed,
     Object? responseFormat = freezed,
     Object? seed = freezed,
+    Object? serviceTier = freezed,
     Object? stop = freezed,
     Object? stream = freezed,
     Object? streamOptions = freezed,
@@ -3611,6 +3639,7 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
     Object? topP = freezed,
     Object? tools = freezed,
     Object? toolChoice = freezed,
+    Object? parallelToolCalls = freezed,
     Object? user = freezed,
     Object? functionCall = freezed,
     Object? functions = freezed,
@@ -3660,6 +3689,10 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
           ? _value.seed
           : seed // ignore: cast_nullable_to_non_nullable
               as int?,
+      serviceTier: freezed == serviceTier
+          ? _value.serviceTier
+          : serviceTier // ignore: cast_nullable_to_non_nullable
+              as CreateChatCompletionRequestServiceTier?,
       stop: freezed == stop
           ? _value.stop
           : stop // ignore: cast_nullable_to_non_nullable
@@ -3688,6 +3721,10 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
           ? _value.toolChoice
           : toolChoice // ignore: cast_nullable_to_non_nullable
               as ChatCompletionToolChoiceOption?,
+      parallelToolCalls: freezed == parallelToolCalls
+          ? _value.parallelToolCalls
+          : parallelToolCalls // ignore: cast_nullable_to_non_nullable
+              as bool?,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -3801,6 +3838,11 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
       @JsonKey(name: 'response_format', includeIfNull: false)
       ChatCompletionResponseFormat? responseFormat,
       @JsonKey(includeIfNull: false) int? seed,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      CreateChatCompletionRequestServiceTier? serviceTier,
       @_ChatCompletionStopConverter()
       @JsonKey(includeIfNull: false)
       ChatCompletionStop? stop,
@@ -3813,6 +3855,8 @@ abstract class _$$CreateChatCompletionRequestImplCopyWith<$Res>
       @_ChatCompletionToolChoiceOptionConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       ChatCompletionToolChoiceOption? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      bool? parallelToolCalls,
       @JsonKey(includeIfNull: false) String? user,
       @_ChatCompletionFunctionCallConverter()
       @JsonKey(name: 'function_call', includeIfNull: false)
@@ -3857,6 +3901,7 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
     Object? presencePenalty = freezed,
     Object? responseFormat = freezed,
     Object? seed = freezed,
+    Object? serviceTier = freezed,
     Object? stop = freezed,
     Object? stream = freezed,
     Object? streamOptions = freezed,
@@ -3864,6 +3909,7 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
     Object? topP = freezed,
     Object? tools = freezed,
     Object? toolChoice = freezed,
+    Object? parallelToolCalls = freezed,
     Object? user = freezed,
     Object? functionCall = freezed,
     Object? functions = freezed,
@@ -3913,6 +3959,10 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
           ? _value.seed
           : seed // ignore: cast_nullable_to_non_nullable
               as int?,
+      serviceTier: freezed == serviceTier
+          ? _value.serviceTier
+          : serviceTier // ignore: cast_nullable_to_non_nullable
+              as CreateChatCompletionRequestServiceTier?,
       stop: freezed == stop
           ? _value.stop
           : stop // ignore: cast_nullable_to_non_nullable
@@ -3941,6 +3991,10 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
           ? _value.toolChoice
           : toolChoice // ignore: cast_nullable_to_non_nullable
               as ChatCompletionToolChoiceOption?,
+      parallelToolCalls: freezed == parallelToolCalls
+          ? _value.parallelToolCalls
+          : parallelToolCalls // ignore: cast_nullable_to_non_nullable
+              as bool?,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -3976,6 +4030,11 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
       @JsonKey(name: 'response_format', includeIfNull: false)
       this.responseFormat,
       @JsonKey(includeIfNull: false) this.seed,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.serviceTier,
       @_ChatCompletionStopConverter() @JsonKey(includeIfNull: false) this.stop,
       @JsonKey(includeIfNull: false) this.stream = false,
       @JsonKey(name: 'stream_options', includeIfNull: false) this.streamOptions,
@@ -3985,6 +4044,8 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
       @_ChatCompletionToolChoiceOptionConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       this.toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      this.parallelToolCalls = true,
       @JsonKey(includeIfNull: false) this.user,
       @_ChatCompletionFunctionCallConverter()
       @JsonKey(name: 'function_call', includeIfNull: false)
@@ -4086,6 +4147,21 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   @JsonKey(includeIfNull: false)
   final int? seed;
 
+  /// Specifies the latency tier to use for processing the request. This parameter is relevant for customers
+  /// subscribed to the scale tier service:
+  ///   - If set to 'auto', the system will utilize scale tier credits until they are exhausted.
+  ///   - If set to 'default', the request will be processed using the default service tier with a lower
+  ///     uptime SLA and no latency guarantee.
+  ///   - When not set, the default behavior is 'auto'.
+  ///
+  ///   When this parameter is set, the response body will include the `service_tier` utilized.
+  @override
+  @JsonKey(
+      name: 'service_tier',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final CreateChatCompletionRequestServiceTier? serviceTier;
+
   /// Up to 4 sequences where the API will stop generating further tokens.
   @override
   @_ChatCompletionStopConverter()
@@ -4142,6 +4218,12 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   final ChatCompletionToolChoiceOption? toolChoice;
 
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @override
+  @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+  final bool? parallelToolCalls;
+
   /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
   @override
   @JsonKey(includeIfNull: false)
@@ -4180,7 +4262,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
 
   @override
   String toString() {
-    return 'CreateChatCompletionRequest(model: $model, messages: $messages, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, n: $n, presencePenalty: $presencePenalty, responseFormat: $responseFormat, seed: $seed, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, user: $user, functionCall: $functionCall, functions: $functions)';
+    return 'CreateChatCompletionRequest(model: $model, messages: $messages, frequencyPenalty: $frequencyPenalty, logitBias: $logitBias, logprobs: $logprobs, topLogprobs: $topLogprobs, maxTokens: $maxTokens, n: $n, presencePenalty: $presencePenalty, responseFormat: $responseFormat, seed: $seed, serviceTier: $serviceTier, stop: $stop, stream: $stream, streamOptions: $streamOptions, temperature: $temperature, topP: $topP, tools: $tools, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, user: $user, functionCall: $functionCall, functions: $functions)';
   }
 
   @override
@@ -4206,6 +4288,8 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
             (identical(other.responseFormat, responseFormat) ||
                 other.responseFormat == responseFormat) &&
             (identical(other.seed, seed) || other.seed == seed) &&
+            (identical(other.serviceTier, serviceTier) ||
+                other.serviceTier == serviceTier) &&
             (identical(other.stop, stop) || other.stop == stop) &&
             (identical(other.stream, stream) || other.stream == stream) &&
             (identical(other.streamOptions, streamOptions) ||
@@ -4216,6 +4300,8 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
             const DeepCollectionEquality().equals(other._tools, _tools) &&
             (identical(other.toolChoice, toolChoice) ||
                 other.toolChoice == toolChoice) &&
+            (identical(other.parallelToolCalls, parallelToolCalls) ||
+                other.parallelToolCalls == parallelToolCalls) &&
             (identical(other.user, user) || other.user == user) &&
             (identical(other.functionCall, functionCall) ||
                 other.functionCall == functionCall) &&
@@ -4238,6 +4324,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
         presencePenalty,
         responseFormat,
         seed,
+        serviceTier,
         stop,
         stream,
         streamOptions,
@@ -4245,6 +4332,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
         topP,
         const DeepCollectionEquality().hash(_tools),
         toolChoice,
+        parallelToolCalls,
         user,
         functionCall,
         const DeepCollectionEquality().hash(_functions)
@@ -4285,6 +4373,11 @@ abstract class _CreateChatCompletionRequest
       @JsonKey(name: 'response_format', includeIfNull: false)
       final ChatCompletionResponseFormat? responseFormat,
       @JsonKey(includeIfNull: false) final int? seed,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final CreateChatCompletionRequestServiceTier? serviceTier,
       @_ChatCompletionStopConverter()
       @JsonKey(includeIfNull: false)
       final ChatCompletionStop? stop,
@@ -4297,6 +4390,8 @@ abstract class _CreateChatCompletionRequest
       @_ChatCompletionToolChoiceOptionConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       final ChatCompletionToolChoiceOption? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      final bool? parallelToolCalls,
       @JsonKey(includeIfNull: false) final String? user,
       @_ChatCompletionFunctionCallConverter()
       @JsonKey(name: 'function_call', includeIfNull: false)
@@ -4379,6 +4474,21 @@ abstract class _CreateChatCompletionRequest
   int? get seed;
   @override
 
+  /// Specifies the latency tier to use for processing the request. This parameter is relevant for customers
+  /// subscribed to the scale tier service:
+  ///   - If set to 'auto', the system will utilize scale tier credits until they are exhausted.
+  ///   - If set to 'default', the request will be processed using the default service tier with a lower
+  ///     uptime SLA and no latency guarantee.
+  ///   - When not set, the default behavior is 'auto'.
+  ///
+  ///   When this parameter is set, the response body will include the `service_tier` utilized.
+  @JsonKey(
+      name: 'service_tier',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  CreateChatCompletionRequestServiceTier? get serviceTier;
+  @override
+
   /// Up to 4 sequences where the API will stop generating further tokens.
   @_ChatCompletionStopConverter()
   @JsonKey(includeIfNull: false)
@@ -4424,6 +4534,12 @@ abstract class _CreateChatCompletionRequest
   @_ChatCompletionToolChoiceOptionConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   ChatCompletionToolChoiceOption? get toolChoice;
+  @override
+
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+  bool? get parallelToolCalls;
   @override
 
   /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
@@ -7703,6 +7819,14 @@ mixin _$CreateChatCompletionResponse {
   /// The model used for the chat completion.
   String get model => throw _privateConstructorUsedError;
 
+  /// The service tier used for processing the request. This field is only included if the `service_tier` parameter
+  /// is specified in the request.
+  @JsonKey(
+      name: 'service_tier',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ServiceTier? get serviceTier => throw _privateConstructorUsedError;
+
   /// This fingerprint represents the backend configuration that the model runs with.
   ///
   /// Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.
@@ -7735,6 +7859,11 @@ abstract class $CreateChatCompletionResponseCopyWith<$Res> {
       List<ChatCompletionResponseChoice> choices,
       int created,
       String model,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ServiceTier? serviceTier,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
       String object,
@@ -7761,6 +7890,7 @@ class _$CreateChatCompletionResponseCopyWithImpl<$Res,
     Object? choices = null,
     Object? created = null,
     Object? model = null,
+    Object? serviceTier = freezed,
     Object? systemFingerprint = freezed,
     Object? object = null,
     Object? usage = freezed,
@@ -7782,6 +7912,10 @@ class _$CreateChatCompletionResponseCopyWithImpl<$Res,
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as String,
+      serviceTier: freezed == serviceTier
+          ? _value.serviceTier
+          : serviceTier // ignore: cast_nullable_to_non_nullable
+              as ServiceTier?,
       systemFingerprint: freezed == systemFingerprint
           ? _value.systemFingerprint
           : systemFingerprint // ignore: cast_nullable_to_non_nullable
@@ -7824,6 +7958,11 @@ abstract class _$$CreateChatCompletionResponseImplCopyWith<$Res>
       List<ChatCompletionResponseChoice> choices,
       int created,
       String model,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ServiceTier? serviceTier,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
       String object,
@@ -7850,6 +7989,7 @@ class __$$CreateChatCompletionResponseImplCopyWithImpl<$Res>
     Object? choices = null,
     Object? created = null,
     Object? model = null,
+    Object? serviceTier = freezed,
     Object? systemFingerprint = freezed,
     Object? object = null,
     Object? usage = freezed,
@@ -7871,6 +8011,10 @@ class __$$CreateChatCompletionResponseImplCopyWithImpl<$Res>
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as String,
+      serviceTier: freezed == serviceTier
+          ? _value.serviceTier
+          : serviceTier // ignore: cast_nullable_to_non_nullable
+              as ServiceTier?,
       systemFingerprint: freezed == systemFingerprint
           ? _value.systemFingerprint
           : systemFingerprint // ignore: cast_nullable_to_non_nullable
@@ -7895,6 +8039,11 @@ class _$CreateChatCompletionResponseImpl extends _CreateChatCompletionResponse {
       required final List<ChatCompletionResponseChoice> choices,
       required this.created,
       required this.model,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.serviceTier,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       this.systemFingerprint,
       required this.object,
@@ -7930,6 +8079,15 @@ class _$CreateChatCompletionResponseImpl extends _CreateChatCompletionResponse {
   @override
   final String model;
 
+  /// The service tier used for processing the request. This field is only included if the `service_tier` parameter
+  /// is specified in the request.
+  @override
+  @JsonKey(
+      name: 'service_tier',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ServiceTier? serviceTier;
+
   /// This fingerprint represents the backend configuration that the model runs with.
   ///
   /// Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.
@@ -7948,7 +8106,7 @@ class _$CreateChatCompletionResponseImpl extends _CreateChatCompletionResponse {
 
   @override
   String toString() {
-    return 'CreateChatCompletionResponse(id: $id, choices: $choices, created: $created, model: $model, systemFingerprint: $systemFingerprint, object: $object, usage: $usage)';
+    return 'CreateChatCompletionResponse(id: $id, choices: $choices, created: $created, model: $model, serviceTier: $serviceTier, systemFingerprint: $systemFingerprint, object: $object, usage: $usage)';
   }
 
   @override
@@ -7960,6 +8118,8 @@ class _$CreateChatCompletionResponseImpl extends _CreateChatCompletionResponse {
             const DeepCollectionEquality().equals(other._choices, _choices) &&
             (identical(other.created, created) || other.created == created) &&
             (identical(other.model, model) || other.model == model) &&
+            (identical(other.serviceTier, serviceTier) ||
+                other.serviceTier == serviceTier) &&
             (identical(other.systemFingerprint, systemFingerprint) ||
                 other.systemFingerprint == systemFingerprint) &&
             (identical(other.object, object) || other.object == object) &&
@@ -7974,6 +8134,7 @@ class _$CreateChatCompletionResponseImpl extends _CreateChatCompletionResponse {
       const DeepCollectionEquality().hash(_choices),
       created,
       model,
+      serviceTier,
       systemFingerprint,
       object,
       usage);
@@ -8001,6 +8162,11 @@ abstract class _CreateChatCompletionResponse
           required final List<ChatCompletionResponseChoice> choices,
           required final int created,
           required final String model,
+          @JsonKey(
+              name: 'service_tier',
+              includeIfNull: false,
+              unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+          final ServiceTier? serviceTier,
           @JsonKey(name: 'system_fingerprint', includeIfNull: false)
           final String? systemFingerprint,
           required final String object,
@@ -8028,6 +8194,15 @@ abstract class _CreateChatCompletionResponse
 
   /// The model used for the chat completion.
   String get model;
+  @override
+
+  /// The service tier used for processing the request. This field is only included if the `service_tier` parameter
+  /// is specified in the request.
+  @JsonKey(
+      name: 'service_tier',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ServiceTier? get serviceTier;
   @override
 
   /// This fingerprint represents the backend configuration that the model runs with.
@@ -9011,6 +9186,14 @@ mixin _$CreateChatCompletionStreamResponse {
   @JsonKey(includeIfNull: false)
   String? get model => throw _privateConstructorUsedError;
 
+  /// The service tier used for processing the request. This field is only included if the `service_tier` parameter
+  /// is specified in the request.
+  @JsonKey(
+      name: 'service_tier',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ServiceTier? get serviceTier => throw _privateConstructorUsedError;
+
   /// This fingerprint represents the backend configuration that the model runs with.
   ///
   /// Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact
@@ -9045,6 +9228,11 @@ abstract class $CreateChatCompletionStreamResponseCopyWith<$Res> {
       List<ChatCompletionStreamResponseChoice> choices,
       @JsonKey(includeIfNull: false) int? created,
       @JsonKey(includeIfNull: false) String? model,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ServiceTier? serviceTier,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
       @JsonKey(includeIfNull: false) String? object,
@@ -9071,6 +9259,7 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
     Object? choices = null,
     Object? created = freezed,
     Object? model = freezed,
+    Object? serviceTier = freezed,
     Object? systemFingerprint = freezed,
     Object? object = freezed,
     Object? usage = freezed,
@@ -9092,6 +9281,10 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as String?,
+      serviceTier: freezed == serviceTier
+          ? _value.serviceTier
+          : serviceTier // ignore: cast_nullable_to_non_nullable
+              as ServiceTier?,
       systemFingerprint: freezed == systemFingerprint
           ? _value.systemFingerprint
           : systemFingerprint // ignore: cast_nullable_to_non_nullable
@@ -9134,6 +9327,11 @@ abstract class _$$CreateChatCompletionStreamResponseImplCopyWith<$Res>
       List<ChatCompletionStreamResponseChoice> choices,
       @JsonKey(includeIfNull: false) int? created,
       @JsonKey(includeIfNull: false) String? model,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ServiceTier? serviceTier,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       String? systemFingerprint,
       @JsonKey(includeIfNull: false) String? object,
@@ -9160,6 +9358,7 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
     Object? choices = null,
     Object? created = freezed,
     Object? model = freezed,
+    Object? serviceTier = freezed,
     Object? systemFingerprint = freezed,
     Object? object = freezed,
     Object? usage = freezed,
@@ -9181,6 +9380,10 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as String?,
+      serviceTier: freezed == serviceTier
+          ? _value.serviceTier
+          : serviceTier // ignore: cast_nullable_to_non_nullable
+              as ServiceTier?,
       systemFingerprint: freezed == systemFingerprint
           ? _value.systemFingerprint
           : systemFingerprint // ignore: cast_nullable_to_non_nullable
@@ -9206,6 +9409,11 @@ class _$CreateChatCompletionStreamResponseImpl
       required final List<ChatCompletionStreamResponseChoice> choices,
       @JsonKey(includeIfNull: false) this.created,
       @JsonKey(includeIfNull: false) this.model,
+      @JsonKey(
+          name: 'service_tier',
+          includeIfNull: false,
+          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.serviceTier,
       @JsonKey(name: 'system_fingerprint', includeIfNull: false)
       this.systemFingerprint,
       @JsonKey(includeIfNull: false) this.object,
@@ -9245,6 +9453,15 @@ class _$CreateChatCompletionStreamResponseImpl
   @JsonKey(includeIfNull: false)
   final String? model;
 
+  /// The service tier used for processing the request. This field is only included if the `service_tier` parameter
+  /// is specified in the request.
+  @override
+  @JsonKey(
+      name: 'service_tier',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ServiceTier? serviceTier;
+
   /// This fingerprint represents the backend configuration that the model runs with.
   ///
   /// Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact
@@ -9264,7 +9481,7 @@ class _$CreateChatCompletionStreamResponseImpl
 
   @override
   String toString() {
-    return 'CreateChatCompletionStreamResponse(id: $id, choices: $choices, created: $created, model: $model, systemFingerprint: $systemFingerprint, object: $object, usage: $usage)';
+    return 'CreateChatCompletionStreamResponse(id: $id, choices: $choices, created: $created, model: $model, serviceTier: $serviceTier, systemFingerprint: $systemFingerprint, object: $object, usage: $usage)';
   }
 
   @override
@@ -9276,6 +9493,8 @@ class _$CreateChatCompletionStreamResponseImpl
             const DeepCollectionEquality().equals(other._choices, _choices) &&
             (identical(other.created, created) || other.created == created) &&
             (identical(other.model, model) || other.model == model) &&
+            (identical(other.serviceTier, serviceTier) ||
+                other.serviceTier == serviceTier) &&
             (identical(other.systemFingerprint, systemFingerprint) ||
                 other.systemFingerprint == systemFingerprint) &&
             (identical(other.object, object) || other.object == object) &&
@@ -9290,6 +9509,7 @@ class _$CreateChatCompletionStreamResponseImpl
       const DeepCollectionEquality().hash(_choices),
       created,
       model,
+      serviceTier,
       systemFingerprint,
       object,
       usage);
@@ -9317,6 +9537,11 @@ abstract class _CreateChatCompletionStreamResponse
           required final List<ChatCompletionStreamResponseChoice> choices,
           @JsonKey(includeIfNull: false) final int? created,
           @JsonKey(includeIfNull: false) final String? model,
+          @JsonKey(
+              name: 'service_tier',
+              includeIfNull: false,
+              unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+          final ServiceTier? serviceTier,
           @JsonKey(name: 'system_fingerprint', includeIfNull: false)
           final String? systemFingerprint,
           @JsonKey(includeIfNull: false) final String? object,
@@ -9348,6 +9573,15 @@ abstract class _CreateChatCompletionStreamResponse
   /// The model to generate the completion.
   @JsonKey(includeIfNull: false)
   String? get model;
+  @override
+
+  /// The service tier used for processing the request. This field is only included if the `service_tier` parameter
+  /// is specified in the request.
+  @JsonKey(
+      name: 'service_tier',
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ServiceTier? get serviceTier;
   @override
 
   /// This fingerprint represents the backend configuration that the model runs with.
@@ -13428,7 +13662,12 @@ mixin _$CreateFineTuningJobRequest {
   ///
   /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
   ///
-  /// Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.
+  /// Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose
+  /// `fine-tune`.
+  ///
+  /// The contents of the file should differ depending on if the model uses the
+  /// [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input) or
+  /// [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format.
   ///
   /// See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
   @JsonKey(name: 'training_file')
@@ -13682,7 +13921,12 @@ class _$CreateFineTuningJobRequestImpl extends _CreateFineTuningJobRequest {
   ///
   /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
   ///
-  /// Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.
+  /// Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose
+  /// `fine-tune`.
+  ///
+  /// The contents of the file should differ depending on if the model uses the
+  /// [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input) or
+  /// [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format.
   ///
   /// See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
   @override
@@ -13815,7 +14059,12 @@ abstract class _CreateFineTuningJobRequest extends CreateFineTuningJobRequest {
   ///
   /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
   ///
-  /// Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.
+  /// Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose
+  /// `fine-tune`.
+  ///
+  /// The contents of the file should differ depending on if the model uses the
+  /// [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input) or
+  /// [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format.
   ///
   /// See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
   @JsonKey(name: 'training_file')
@@ -15520,8 +15769,10 @@ FineTuningJobHyperparameters _$FineTuningJobHyperparametersFromJson(
 
 /// @nodoc
 mixin _$FineTuningJobHyperparameters {
-  /// The number of epochs to train the model for. An epoch refers to one
-  /// full cycle through the training dataset.
+  /// The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.
+  ///
+  /// "auto" decides the optimal number of epochs based on the size of the dataset. If setting the number
+  /// manually, we support any number between 1 and 50 epochs.
   @_FineTuningNEpochsConverter()
   @JsonKey(name: 'n_epochs')
   FineTuningNEpochs get nEpochs => throw _privateConstructorUsedError;
@@ -15636,8 +15887,10 @@ class _$FineTuningJobHyperparametersImpl extends _FineTuningJobHyperparameters {
           Map<String, dynamic> json) =>
       _$$FineTuningJobHyperparametersImplFromJson(json);
 
-  /// The number of epochs to train the model for. An epoch refers to one
-  /// full cycle through the training dataset.
+  /// The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.
+  ///
+  /// "auto" decides the optimal number of epochs based on the size of the dataset. If setting the number
+  /// manually, we support any number between 1 and 50 epochs.
   @override
   @_FineTuningNEpochsConverter()
   @JsonKey(name: 'n_epochs')
@@ -15690,8 +15943,10 @@ abstract class _FineTuningJobHyperparameters
 
   @override
 
-  /// The number of epochs to train the model for. An epoch refers to one
-  /// full cycle through the training dataset.
+  /// The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.
+  ///
+  /// "auto" decides the optimal number of epochs based on the size of the dataset. If setting the number
+  /// manually, we support any number between 1 and 50 epochs.
   @_FineTuningNEpochsConverter()
   @JsonKey(name: 'n_epochs')
   FineTuningNEpochs get nEpochs;
@@ -26727,6 +26982,11 @@ mixin _$RunObject {
   @JsonKey(name: 'tool_choice')
   RunObjectToolChoice? get toolChoice => throw _privateConstructorUsedError;
 
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @JsonKey(name: 'parallel_tool_calls')
+  bool? get parallelToolCalls => throw _privateConstructorUsedError;
+
   /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -26778,6 +27038,7 @@ abstract class $RunObjectCopyWith<$Res> {
       @_RunObjectToolChoiceConverter()
       @JsonKey(name: 'tool_choice')
       RunObjectToolChoice? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls') bool? parallelToolCalls,
       @_RunObjectResponseFormatConverter()
       @JsonKey(name: 'response_format')
       RunObjectResponseFormat responseFormat});
@@ -26829,6 +27090,7 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
     Object? toolChoice = freezed,
+    Object? parallelToolCalls = freezed,
     Object? responseFormat = null,
   }) {
     return _then(_value.copyWith(
@@ -26932,6 +27194,10 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
           ? _value.toolChoice
           : toolChoice // ignore: cast_nullable_to_non_nullable
               as RunObjectToolChoice?,
+      parallelToolCalls: freezed == parallelToolCalls
+          ? _value.parallelToolCalls
+          : parallelToolCalls // ignore: cast_nullable_to_non_nullable
+              as bool?,
       responseFormat: null == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -27060,6 +27326,7 @@ abstract class _$$RunObjectImplCopyWith<$Res>
       @_RunObjectToolChoiceConverter()
       @JsonKey(name: 'tool_choice')
       RunObjectToolChoice? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls') bool? parallelToolCalls,
       @_RunObjectResponseFormatConverter()
       @JsonKey(name: 'response_format')
       RunObjectResponseFormat responseFormat});
@@ -27116,6 +27383,7 @@ class __$$RunObjectImplCopyWithImpl<$Res>
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
     Object? toolChoice = freezed,
+    Object? parallelToolCalls = freezed,
     Object? responseFormat = null,
   }) {
     return _then(_$RunObjectImpl(
@@ -27219,6 +27487,10 @@ class __$$RunObjectImplCopyWithImpl<$Res>
           ? _value.toolChoice
           : toolChoice // ignore: cast_nullable_to_non_nullable
               as RunObjectToolChoice?,
+      parallelToolCalls: freezed == parallelToolCalls
+          ? _value.parallelToolCalls
+          : parallelToolCalls // ignore: cast_nullable_to_non_nullable
+              as bool?,
       responseFormat: null == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -27258,6 +27530,7 @@ class _$RunObjectImpl extends _RunObject {
       @_RunObjectToolChoiceConverter()
       @JsonKey(name: 'tool_choice')
       required this.toolChoice,
+      @JsonKey(name: 'parallel_tool_calls') required this.parallelToolCalls,
       @_RunObjectResponseFormatConverter()
       @JsonKey(name: 'response_format')
       required this.responseFormat})
@@ -27406,6 +27679,12 @@ class _$RunObjectImpl extends _RunObject {
   @JsonKey(name: 'tool_choice')
   final RunObjectToolChoice? toolChoice;
 
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @override
+  @JsonKey(name: 'parallel_tool_calls')
+  final bool? parallelToolCalls;
+
   /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -27418,7 +27697,7 @@ class _$RunObjectImpl extends _RunObject {
 
   @override
   String toString() {
-    return 'RunObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, assistantId: $assistantId, status: $status, requiredAction: $requiredAction, lastError: $lastError, expiresAt: $expiresAt, startedAt: $startedAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, incompleteDetails: $incompleteDetails, model: $model, instructions: $instructions, tools: $tools, metadata: $metadata, usage: $usage, temperature: $temperature, topP: $topP, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, responseFormat: $responseFormat)';
+    return 'RunObject(id: $id, object: $object, createdAt: $createdAt, threadId: $threadId, assistantId: $assistantId, status: $status, requiredAction: $requiredAction, lastError: $lastError, expiresAt: $expiresAt, startedAt: $startedAt, cancelledAt: $cancelledAt, failedAt: $failedAt, completedAt: $completedAt, incompleteDetails: $incompleteDetails, model: $model, instructions: $instructions, tools: $tools, metadata: $metadata, usage: $usage, temperature: $temperature, topP: $topP, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, responseFormat: $responseFormat)';
   }
 
   @override
@@ -27468,6 +27747,8 @@ class _$RunObjectImpl extends _RunObject {
                 other.truncationStrategy == truncationStrategy) &&
             (identical(other.toolChoice, toolChoice) ||
                 other.toolChoice == toolChoice) &&
+            (identical(other.parallelToolCalls, parallelToolCalls) ||
+                other.parallelToolCalls == parallelToolCalls) &&
             (identical(other.responseFormat, responseFormat) ||
                 other.responseFormat == responseFormat));
   }
@@ -27501,6 +27782,7 @@ class _$RunObjectImpl extends _RunObject {
         maxCompletionTokens,
         truncationStrategy,
         toolChoice,
+        parallelToolCalls,
         responseFormat
       ]);
 
@@ -27551,6 +27833,8 @@ abstract class _RunObject extends RunObject {
       @_RunObjectToolChoiceConverter()
       @JsonKey(name: 'tool_choice')
       required final RunObjectToolChoice? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls')
+      required final bool? parallelToolCalls,
       @_RunObjectResponseFormatConverter()
       @JsonKey(name: 'response_format')
       required final RunObjectResponseFormat responseFormat}) = _$RunObjectImpl;
@@ -27681,6 +27965,12 @@ abstract class _RunObject extends RunObject {
   @_RunObjectToolChoiceConverter()
   @JsonKey(name: 'tool_choice')
   RunObjectToolChoice? get toolChoice;
+  @override
+
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @JsonKey(name: 'parallel_tool_calls')
+  bool? get parallelToolCalls;
   @override
 
   /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
@@ -29547,6 +29837,11 @@ mixin _$CreateRunRequest {
   CreateRunRequestToolChoice? get toolChoice =>
       throw _privateConstructorUsedError;
 
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+  bool? get parallelToolCalls => throw _privateConstructorUsedError;
+
   /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -29596,6 +29891,8 @@ abstract class $CreateRunRequestCopyWith<$Res> {
       @_CreateRunRequestToolChoiceConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       CreateRunRequestToolChoice? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      bool? parallelToolCalls,
       @_CreateRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       CreateRunRequestResponseFormat? responseFormat,
@@ -29633,6 +29930,7 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
     Object? toolChoice = freezed,
+    Object? parallelToolCalls = freezed,
     Object? responseFormat = freezed,
     Object? stream = freezed,
   }) {
@@ -29689,6 +29987,10 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
           ? _value.toolChoice
           : toolChoice // ignore: cast_nullable_to_non_nullable
               as CreateRunRequestToolChoice?,
+      parallelToolCalls: freezed == parallelToolCalls
+          ? _value.parallelToolCalls
+          : parallelToolCalls // ignore: cast_nullable_to_non_nullable
+              as bool?,
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -29782,6 +30084,8 @@ abstract class _$$CreateRunRequestImplCopyWith<$Res>
       @_CreateRunRequestToolChoiceConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       CreateRunRequestToolChoice? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      bool? parallelToolCalls,
       @_CreateRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       CreateRunRequestResponseFormat? responseFormat,
@@ -29821,6 +30125,7 @@ class __$$CreateRunRequestImplCopyWithImpl<$Res>
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
     Object? toolChoice = freezed,
+    Object? parallelToolCalls = freezed,
     Object? responseFormat = freezed,
     Object? stream = freezed,
   }) {
@@ -29877,6 +30182,10 @@ class __$$CreateRunRequestImplCopyWithImpl<$Res>
           ? _value.toolChoice
           : toolChoice // ignore: cast_nullable_to_non_nullable
               as CreateRunRequestToolChoice?,
+      parallelToolCalls: freezed == parallelToolCalls
+          ? _value.parallelToolCalls
+          : parallelToolCalls // ignore: cast_nullable_to_non_nullable
+              as bool?,
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -29915,6 +30224,8 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
       @_CreateRunRequestToolChoiceConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       this.toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      this.parallelToolCalls = true,
       @_CreateRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       this.responseFormat,
@@ -30028,6 +30339,12 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   final CreateRunRequestToolChoice? toolChoice;
 
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @override
+  @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+  final bool? parallelToolCalls;
+
   /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -30045,7 +30362,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
 
   @override
   String toString() {
-    return 'CreateRunRequest(assistantId: $assistantId, model: $model, instructions: $instructions, additionalInstructions: $additionalInstructions, additionalMessages: $additionalMessages, tools: $tools, metadata: $metadata, temperature: $temperature, topP: $topP, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, responseFormat: $responseFormat, stream: $stream)';
+    return 'CreateRunRequest(assistantId: $assistantId, model: $model, instructions: $instructions, additionalInstructions: $additionalInstructions, additionalMessages: $additionalMessages, tools: $tools, metadata: $metadata, temperature: $temperature, topP: $topP, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, responseFormat: $responseFormat, stream: $stream)';
   }
 
   @override
@@ -30075,6 +30392,8 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
                 other.truncationStrategy == truncationStrategy) &&
             (identical(other.toolChoice, toolChoice) ||
                 other.toolChoice == toolChoice) &&
+            (identical(other.parallelToolCalls, parallelToolCalls) ||
+                other.parallelToolCalls == parallelToolCalls) &&
             (identical(other.responseFormat, responseFormat) ||
                 other.responseFormat == responseFormat) &&
             (identical(other.stream, stream) || other.stream == stream));
@@ -30097,6 +30416,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
       maxCompletionTokens,
       truncationStrategy,
       toolChoice,
+      parallelToolCalls,
       responseFormat,
       stream);
 
@@ -30139,6 +30459,8 @@ abstract class _CreateRunRequest extends CreateRunRequest {
           @_CreateRunRequestToolChoiceConverter()
           @JsonKey(name: 'tool_choice', includeIfNull: false)
           final CreateRunRequestToolChoice? toolChoice,
+          @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+          final bool? parallelToolCalls,
           @_CreateRunRequestResponseFormatConverter()
           @JsonKey(name: 'response_format', includeIfNull: false)
           final CreateRunRequestResponseFormat? responseFormat,
@@ -30222,6 +30544,12 @@ abstract class _CreateRunRequest extends CreateRunRequest {
   @_CreateRunRequestToolChoiceConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   CreateRunRequestToolChoice? get toolChoice;
+  @override
+
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+  bool? get parallelToolCalls;
   @override
 
   /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
@@ -32819,6 +33147,11 @@ mixin _$CreateThreadAndRunRequest {
   CreateThreadAndRunRequestToolChoice? get toolChoice =>
       throw _privateConstructorUsedError;
 
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+  bool? get parallelToolCalls => throw _privateConstructorUsedError;
+
   /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -32867,6 +33200,8 @@ abstract class $CreateThreadAndRunRequestCopyWith<$Res> {
       @_CreateThreadAndRunRequestToolChoiceConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       CreateThreadAndRunRequestToolChoice? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      bool? parallelToolCalls,
       @_CreateThreadAndRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       CreateThreadAndRunRequestResponseFormat? responseFormat,
@@ -32907,6 +33242,7 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
     Object? toolChoice = freezed,
+    Object? parallelToolCalls = freezed,
     Object? responseFormat = freezed,
     Object? stream = freezed,
   }) {
@@ -32963,6 +33299,10 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
           ? _value.toolChoice
           : toolChoice // ignore: cast_nullable_to_non_nullable
               as CreateThreadAndRunRequestToolChoice?,
+      parallelToolCalls: freezed == parallelToolCalls
+          ? _value.parallelToolCalls
+          : parallelToolCalls // ignore: cast_nullable_to_non_nullable
+              as bool?,
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -33080,6 +33420,8 @@ abstract class _$$CreateThreadAndRunRequestImplCopyWith<$Res>
       @_CreateThreadAndRunRequestToolChoiceConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       CreateThreadAndRunRequestToolChoice? toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      bool? parallelToolCalls,
       @_CreateThreadAndRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       CreateThreadAndRunRequestResponseFormat? responseFormat,
@@ -33125,6 +33467,7 @@ class __$$CreateThreadAndRunRequestImplCopyWithImpl<$Res>
     Object? maxCompletionTokens = freezed,
     Object? truncationStrategy = freezed,
     Object? toolChoice = freezed,
+    Object? parallelToolCalls = freezed,
     Object? responseFormat = freezed,
     Object? stream = freezed,
   }) {
@@ -33181,6 +33524,10 @@ class __$$CreateThreadAndRunRequestImplCopyWithImpl<$Res>
           ? _value.toolChoice
           : toolChoice // ignore: cast_nullable_to_non_nullable
               as CreateThreadAndRunRequestToolChoice?,
+      parallelToolCalls: freezed == parallelToolCalls
+          ? _value.parallelToolCalls
+          : parallelToolCalls // ignore: cast_nullable_to_non_nullable
+              as bool?,
       responseFormat: freezed == responseFormat
           ? _value.responseFormat
           : responseFormat // ignore: cast_nullable_to_non_nullable
@@ -33215,6 +33562,8 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
       @_CreateThreadAndRunRequestToolChoiceConverter()
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       this.toolChoice,
+      @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+      this.parallelToolCalls = true,
       @_CreateThreadAndRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       this.responseFormat,
@@ -33317,6 +33666,12 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   final CreateThreadAndRunRequestToolChoice? toolChoice;
 
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @override
+  @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+  final bool? parallelToolCalls;
+
   /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -33334,7 +33689,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
 
   @override
   String toString() {
-    return 'CreateThreadAndRunRequest(assistantId: $assistantId, thread: $thread, model: $model, instructions: $instructions, tools: $tools, toolResources: $toolResources, metadata: $metadata, temperature: $temperature, topP: $topP, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, responseFormat: $responseFormat, stream: $stream)';
+    return 'CreateThreadAndRunRequest(assistantId: $assistantId, thread: $thread, model: $model, instructions: $instructions, tools: $tools, toolResources: $toolResources, metadata: $metadata, temperature: $temperature, topP: $topP, maxPromptTokens: $maxPromptTokens, maxCompletionTokens: $maxCompletionTokens, truncationStrategy: $truncationStrategy, toolChoice: $toolChoice, parallelToolCalls: $parallelToolCalls, responseFormat: $responseFormat, stream: $stream)';
   }
 
   @override
@@ -33363,6 +33718,8 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
                 other.truncationStrategy == truncationStrategy) &&
             (identical(other.toolChoice, toolChoice) ||
                 other.toolChoice == toolChoice) &&
+            (identical(other.parallelToolCalls, parallelToolCalls) ||
+                other.parallelToolCalls == parallelToolCalls) &&
             (identical(other.responseFormat, responseFormat) ||
                 other.responseFormat == responseFormat) &&
             (identical(other.stream, stream) || other.stream == stream));
@@ -33385,6 +33742,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
       maxCompletionTokens,
       truncationStrategy,
       toolChoice,
+      parallelToolCalls,
       responseFormat,
       stream);
 
@@ -33426,6 +33784,8 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
           @_CreateThreadAndRunRequestToolChoiceConverter()
           @JsonKey(name: 'tool_choice', includeIfNull: false)
           final CreateThreadAndRunRequestToolChoice? toolChoice,
+          @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+          final bool? parallelToolCalls,
           @_CreateThreadAndRunRequestResponseFormatConverter()
           @JsonKey(name: 'response_format', includeIfNull: false)
           final CreateThreadAndRunRequestResponseFormat? responseFormat,
@@ -33509,6 +33869,12 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   @_CreateThreadAndRunRequestToolChoiceConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   CreateThreadAndRunRequestToolChoice? get toolChoice;
+  @override
+
+  /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+  /// during tool use.
+  @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+  bool? get parallelToolCalls;
   @override
 
   /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
@@ -36284,6 +36650,12 @@ mixin _$ToolResourcesFileSearchVectorStore {
   @JsonKey(name: 'file_ids', includeIfNull: false)
   List<String>? get fileIds => throw _privateConstructorUsedError;
 
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyRequestParam? get chunkingStrategy =>
+      throw _privateConstructorUsedError;
+
   /// Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   dynamic get metadata => throw _privateConstructorUsedError;
@@ -36305,7 +36677,11 @@ abstract class $ToolResourcesFileSearchVectorStoreCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyRequestParam? chunkingStrategy,
       @JsonKey(includeIfNull: false) dynamic metadata});
+
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -36323,6 +36699,7 @@ class _$ToolResourcesFileSearchVectorStoreCopyWithImpl<$Res,
   @override
   $Res call({
     Object? fileIds = freezed,
+    Object? chunkingStrategy = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_value.copyWith(
@@ -36330,11 +36707,28 @@ class _$ToolResourcesFileSearchVectorStoreCopyWithImpl<$Res,
           ? _value.fileIds
           : fileIds // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyRequestParam?,
       metadata: freezed == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as dynamic,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy {
+    if (_value.chunkingStrategy == null) {
+      return null;
+    }
+
+    return $ChunkingStrategyRequestParamCopyWith<$Res>(_value.chunkingStrategy!,
+        (value) {
+      return _then(_value.copyWith(chunkingStrategy: value) as $Val);
+    });
   }
 }
 
@@ -36349,7 +36743,12 @@ abstract class _$$ToolResourcesFileSearchVectorStoreImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyRequestParam? chunkingStrategy,
       @JsonKey(includeIfNull: false) dynamic metadata});
+
+  @override
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -36366,6 +36765,7 @@ class __$$ToolResourcesFileSearchVectorStoreImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fileIds = freezed,
+    Object? chunkingStrategy = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_$ToolResourcesFileSearchVectorStoreImpl(
@@ -36373,6 +36773,10 @@ class __$$ToolResourcesFileSearchVectorStoreImplCopyWithImpl<$Res>
           ? _value._fileIds
           : fileIds // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyRequestParam?,
       metadata: freezed == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -36388,6 +36792,8 @@ class _$ToolResourcesFileSearchVectorStoreImpl
   const _$ToolResourcesFileSearchVectorStoreImpl(
       {@JsonKey(name: 'file_ids', includeIfNull: false)
       final List<String>? fileIds,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      this.chunkingStrategy,
       @JsonKey(includeIfNull: false) this.metadata})
       : _fileIds = fileIds,
         super._();
@@ -36410,6 +36816,12 @@ class _$ToolResourcesFileSearchVectorStoreImpl
     return EqualUnmodifiableListView(value);
   }
 
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @override
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  final ChunkingStrategyRequestParam? chunkingStrategy;
+
   /// Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
@@ -36417,7 +36829,7 @@ class _$ToolResourcesFileSearchVectorStoreImpl
 
   @override
   String toString() {
-    return 'ToolResourcesFileSearchVectorStore(fileIds: $fileIds, metadata: $metadata)';
+    return 'ToolResourcesFileSearchVectorStore(fileIds: $fileIds, chunkingStrategy: $chunkingStrategy, metadata: $metadata)';
   }
 
   @override
@@ -36426,6 +36838,8 @@ class _$ToolResourcesFileSearchVectorStoreImpl
         (other.runtimeType == runtimeType &&
             other is _$ToolResourcesFileSearchVectorStoreImpl &&
             const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
+            (identical(other.chunkingStrategy, chunkingStrategy) ||
+                other.chunkingStrategy == chunkingStrategy) &&
             const DeepCollectionEquality().equals(other.metadata, metadata));
   }
 
@@ -36434,6 +36848,7 @@ class _$ToolResourcesFileSearchVectorStoreImpl
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_fileIds),
+      chunkingStrategy,
       const DeepCollectionEquality().hash(metadata));
 
   @JsonKey(ignore: true)
@@ -36457,6 +36872,8 @@ abstract class _ToolResourcesFileSearchVectorStore
   const factory _ToolResourcesFileSearchVectorStore(
           {@JsonKey(name: 'file_ids', includeIfNull: false)
           final List<String>? fileIds,
+          @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+          final ChunkingStrategyRequestParam? chunkingStrategy,
           @JsonKey(includeIfNull: false) final dynamic metadata}) =
       _$ToolResourcesFileSearchVectorStoreImpl;
   const _ToolResourcesFileSearchVectorStore._() : super._();
@@ -36470,6 +36887,12 @@ abstract class _ToolResourcesFileSearchVectorStore
   /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.
   @JsonKey(name: 'file_ids', includeIfNull: false)
   List<String>? get fileIds;
+  @override
+
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyRequestParam? get chunkingStrategy;
   @override
 
   /// Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
@@ -40381,10 +40804,6 @@ mixin _$MessageContentTextAnnotationsFileCitation {
   @JsonKey(name: 'file_id')
   String get fileId => throw _privateConstructorUsedError;
 
-  /// The specific quote in the file.
-  @JsonKey(includeIfNull: false)
-  String? get quote => throw _privateConstructorUsedError;
-
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $MessageContentTextAnnotationsFileCitationCopyWith<
@@ -40400,9 +40819,7 @@ abstract class $MessageContentTextAnnotationsFileCitationCopyWith<$Res> {
       _$MessageContentTextAnnotationsFileCitationCopyWithImpl<$Res,
           MessageContentTextAnnotationsFileCitation>;
   @useResult
-  $Res call(
-      {@JsonKey(name: 'file_id') String fileId,
-      @JsonKey(includeIfNull: false) String? quote});
+  $Res call({@JsonKey(name: 'file_id') String fileId});
 }
 
 /// @nodoc
@@ -40421,17 +40838,12 @@ class _$MessageContentTextAnnotationsFileCitationCopyWithImpl<$Res,
   @override
   $Res call({
     Object? fileId = null,
-    Object? quote = freezed,
   }) {
     return _then(_value.copyWith(
       fileId: null == fileId
           ? _value.fileId
           : fileId // ignore: cast_nullable_to_non_nullable
               as String,
-      quote: freezed == quote
-          ? _value.quote
-          : quote // ignore: cast_nullable_to_non_nullable
-              as String?,
     ) as $Val);
   }
 }
@@ -40445,9 +40857,7 @@ abstract class _$$MessageContentTextAnnotationsFileCitationImplCopyWith<$Res>
       __$$MessageContentTextAnnotationsFileCitationImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: 'file_id') String fileId,
-      @JsonKey(includeIfNull: false) String? quote});
+  $Res call({@JsonKey(name: 'file_id') String fileId});
 }
 
 /// @nodoc
@@ -40464,17 +40874,12 @@ class __$$MessageContentTextAnnotationsFileCitationImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fileId = null,
-    Object? quote = freezed,
   }) {
     return _then(_$MessageContentTextAnnotationsFileCitationImpl(
       fileId: null == fileId
           ? _value.fileId
           : fileId // ignore: cast_nullable_to_non_nullable
               as String,
-      quote: freezed == quote
-          ? _value.quote
-          : quote // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 }
@@ -40484,8 +40889,7 @@ class __$$MessageContentTextAnnotationsFileCitationImplCopyWithImpl<$Res>
 class _$MessageContentTextAnnotationsFileCitationImpl
     extends _MessageContentTextAnnotationsFileCitation {
   const _$MessageContentTextAnnotationsFileCitationImpl(
-      {@JsonKey(name: 'file_id') required this.fileId,
-      @JsonKey(includeIfNull: false) this.quote})
+      {@JsonKey(name: 'file_id') required this.fileId})
       : super._();
 
   factory _$MessageContentTextAnnotationsFileCitationImpl.fromJson(
@@ -40497,14 +40901,9 @@ class _$MessageContentTextAnnotationsFileCitationImpl
   @JsonKey(name: 'file_id')
   final String fileId;
 
-  /// The specific quote in the file.
-  @override
-  @JsonKey(includeIfNull: false)
-  final String? quote;
-
   @override
   String toString() {
-    return 'MessageContentTextAnnotationsFileCitation(fileId: $fileId, quote: $quote)';
+    return 'MessageContentTextAnnotationsFileCitation(fileId: $fileId)';
   }
 
   @override
@@ -40512,13 +40911,12 @@ class _$MessageContentTextAnnotationsFileCitationImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MessageContentTextAnnotationsFileCitationImpl &&
-            (identical(other.fileId, fileId) || other.fileId == fileId) &&
-            (identical(other.quote, quote) || other.quote == quote));
+            (identical(other.fileId, fileId) || other.fileId == fileId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, fileId, quote);
+  int get hashCode => Object.hash(runtimeType, fileId);
 
   @JsonKey(ignore: true)
   @override
@@ -40541,8 +40939,7 @@ class _$MessageContentTextAnnotationsFileCitationImpl
 abstract class _MessageContentTextAnnotationsFileCitation
     extends MessageContentTextAnnotationsFileCitation {
   const factory _MessageContentTextAnnotationsFileCitation(
-          {@JsonKey(name: 'file_id') required final String fileId,
-          @JsonKey(includeIfNull: false) final String? quote}) =
+          {@JsonKey(name: 'file_id') required final String fileId}) =
       _$MessageContentTextAnnotationsFileCitationImpl;
   const _MessageContentTextAnnotationsFileCitation._() : super._();
 
@@ -40555,11 +40952,6 @@ abstract class _MessageContentTextAnnotationsFileCitation
   /// The ID of the specific File the citation is from.
   @JsonKey(name: 'file_id')
   String get fileId;
-  @override
-
-  /// The specific quote in the file.
-  @JsonKey(includeIfNull: false)
-  String? get quote;
   @override
   @JsonKey(ignore: true)
   _$$MessageContentTextAnnotationsFileCitationImplCopyWith<
@@ -44944,6 +45336,12 @@ mixin _$CreateVectorStoreRequest {
   VectorStoreExpirationAfter? get expiresAfter =>
       throw _privateConstructorUsedError;
 
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyRequestParam? get chunkingStrategy =>
+      throw _privateConstructorUsedError;
+
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   dynamic get metadata => throw _privateConstructorUsedError;
@@ -44965,9 +45363,12 @@ abstract class $CreateVectorStoreRequestCopyWith<$Res> {
       @JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
       @JsonKey(name: 'expires_after', includeIfNull: false)
       VectorStoreExpirationAfter? expiresAfter,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyRequestParam? chunkingStrategy,
       @JsonKey(includeIfNull: false) dynamic metadata});
 
   $VectorStoreExpirationAfterCopyWith<$Res>? get expiresAfter;
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -44987,6 +45388,7 @@ class _$CreateVectorStoreRequestCopyWithImpl<$Res,
     Object? name = freezed,
     Object? fileIds = freezed,
     Object? expiresAfter = freezed,
+    Object? chunkingStrategy = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_value.copyWith(
@@ -45002,6 +45404,10 @@ class _$CreateVectorStoreRequestCopyWithImpl<$Res,
           ? _value.expiresAfter
           : expiresAfter // ignore: cast_nullable_to_non_nullable
               as VectorStoreExpirationAfter?,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyRequestParam?,
       metadata: freezed == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -45021,6 +45427,19 @@ class _$CreateVectorStoreRequestCopyWithImpl<$Res,
       return _then(_value.copyWith(expiresAfter: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy {
+    if (_value.chunkingStrategy == null) {
+      return null;
+    }
+
+    return $ChunkingStrategyRequestParamCopyWith<$Res>(_value.chunkingStrategy!,
+        (value) {
+      return _then(_value.copyWith(chunkingStrategy: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -45037,10 +45456,14 @@ abstract class _$$CreateVectorStoreRequestImplCopyWith<$Res>
       @JsonKey(name: 'file_ids', includeIfNull: false) List<String>? fileIds,
       @JsonKey(name: 'expires_after', includeIfNull: false)
       VectorStoreExpirationAfter? expiresAfter,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyRequestParam? chunkingStrategy,
       @JsonKey(includeIfNull: false) dynamic metadata});
 
   @override
   $VectorStoreExpirationAfterCopyWith<$Res>? get expiresAfter;
+  @override
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -45059,6 +45482,7 @@ class __$$CreateVectorStoreRequestImplCopyWithImpl<$Res>
     Object? name = freezed,
     Object? fileIds = freezed,
     Object? expiresAfter = freezed,
+    Object? chunkingStrategy = freezed,
     Object? metadata = freezed,
   }) {
     return _then(_$CreateVectorStoreRequestImpl(
@@ -45074,6 +45498,10 @@ class __$$CreateVectorStoreRequestImplCopyWithImpl<$Res>
           ? _value.expiresAfter
           : expiresAfter // ignore: cast_nullable_to_non_nullable
               as VectorStoreExpirationAfter?,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyRequestParam?,
       metadata: freezed == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -45090,6 +45518,8 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
       @JsonKey(name: 'file_ids', includeIfNull: false)
       final List<String>? fileIds,
       @JsonKey(name: 'expires_after', includeIfNull: false) this.expiresAfter,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      this.chunkingStrategy,
       @JsonKey(includeIfNull: false) this.metadata})
       : _fileIds = fileIds,
         super._();
@@ -45121,6 +45551,12 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
   @JsonKey(name: 'expires_after', includeIfNull: false)
   final VectorStoreExpirationAfter? expiresAfter;
 
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @override
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  final ChunkingStrategyRequestParam? chunkingStrategy;
+
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
@@ -45128,7 +45564,7 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
 
   @override
   String toString() {
-    return 'CreateVectorStoreRequest(name: $name, fileIds: $fileIds, expiresAfter: $expiresAfter, metadata: $metadata)';
+    return 'CreateVectorStoreRequest(name: $name, fileIds: $fileIds, expiresAfter: $expiresAfter, chunkingStrategy: $chunkingStrategy, metadata: $metadata)';
   }
 
   @override
@@ -45140,6 +45576,8 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
             const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
             (identical(other.expiresAfter, expiresAfter) ||
                 other.expiresAfter == expiresAfter) &&
+            (identical(other.chunkingStrategy, chunkingStrategy) ||
+                other.chunkingStrategy == chunkingStrategy) &&
             const DeepCollectionEquality().equals(other.metadata, metadata));
   }
 
@@ -45150,6 +45588,7 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
       name,
       const DeepCollectionEquality().hash(_fileIds),
       expiresAfter,
+      chunkingStrategy,
       const DeepCollectionEquality().hash(metadata));
 
   @JsonKey(ignore: true)
@@ -45174,6 +45613,8 @@ abstract class _CreateVectorStoreRequest extends CreateVectorStoreRequest {
           final List<String>? fileIds,
           @JsonKey(name: 'expires_after', includeIfNull: false)
           final VectorStoreExpirationAfter? expiresAfter,
+          @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+          final ChunkingStrategyRequestParam? chunkingStrategy,
           @JsonKey(includeIfNull: false) final dynamic metadata}) =
       _$CreateVectorStoreRequestImpl;
   const _CreateVectorStoreRequest._() : super._();
@@ -45196,6 +45637,12 @@ abstract class _CreateVectorStoreRequest extends CreateVectorStoreRequest {
   /// The expiration policy for a vector store.
   @JsonKey(name: 'expires_after', includeIfNull: false)
   VectorStoreExpirationAfter? get expiresAfter;
+  @override
+
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyRequestParam? get chunkingStrategy;
   @override
 
   /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
@@ -45949,6 +46396,12 @@ mixin _$VectorStoreFileObject {
   VectorStoreFileObjectLastError? get lastError =>
       throw _privateConstructorUsedError;
 
+  /// The chunking strategy used to chunk the file(s).
+  /// Any of: [StaticChunkingStrategyResponseParam], [OtherChunkingStrategyResponseParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyResponseParam? get chunkingStrategy =>
+      throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $VectorStoreFileObjectCopyWith<VectorStoreFileObject> get copyWith =>
@@ -45968,9 +46421,12 @@ abstract class $VectorStoreFileObjectCopyWith<$Res> {
       @JsonKey(name: 'created_at') int createdAt,
       @JsonKey(name: 'vector_store_id') String vectorStoreId,
       VectorStoreFileStatus status,
-      @JsonKey(name: 'last_error') VectorStoreFileObjectLastError? lastError});
+      @JsonKey(name: 'last_error') VectorStoreFileObjectLastError? lastError,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyResponseParam? chunkingStrategy});
 
   $VectorStoreFileObjectLastErrorCopyWith<$Res>? get lastError;
+  $ChunkingStrategyResponseParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -45994,6 +46450,7 @@ class _$VectorStoreFileObjectCopyWithImpl<$Res,
     Object? vectorStoreId = null,
     Object? status = null,
     Object? lastError = freezed,
+    Object? chunkingStrategy = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -46024,6 +46481,10 @@ class _$VectorStoreFileObjectCopyWithImpl<$Res,
           ? _value.lastError
           : lastError // ignore: cast_nullable_to_non_nullable
               as VectorStoreFileObjectLastError?,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyResponseParam?,
     ) as $Val);
   }
 
@@ -46037,6 +46498,19 @@ class _$VectorStoreFileObjectCopyWithImpl<$Res,
     return $VectorStoreFileObjectLastErrorCopyWith<$Res>(_value.lastError!,
         (value) {
       return _then(_value.copyWith(lastError: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChunkingStrategyResponseParamCopyWith<$Res>? get chunkingStrategy {
+    if (_value.chunkingStrategy == null) {
+      return null;
+    }
+
+    return $ChunkingStrategyResponseParamCopyWith<$Res>(
+        _value.chunkingStrategy!, (value) {
+      return _then(_value.copyWith(chunkingStrategy: value) as $Val);
     });
   }
 }
@@ -46057,10 +46531,14 @@ abstract class _$$VectorStoreFileObjectImplCopyWith<$Res>
       @JsonKey(name: 'created_at') int createdAt,
       @JsonKey(name: 'vector_store_id') String vectorStoreId,
       VectorStoreFileStatus status,
-      @JsonKey(name: 'last_error') VectorStoreFileObjectLastError? lastError});
+      @JsonKey(name: 'last_error') VectorStoreFileObjectLastError? lastError,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyResponseParam? chunkingStrategy});
 
   @override
   $VectorStoreFileObjectLastErrorCopyWith<$Res>? get lastError;
+  @override
+  $ChunkingStrategyResponseParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -46082,6 +46560,7 @@ class __$$VectorStoreFileObjectImplCopyWithImpl<$Res>
     Object? vectorStoreId = null,
     Object? status = null,
     Object? lastError = freezed,
+    Object? chunkingStrategy = freezed,
   }) {
     return _then(_$VectorStoreFileObjectImpl(
       id: null == id
@@ -46112,6 +46591,10 @@ class __$$VectorStoreFileObjectImplCopyWithImpl<$Res>
           ? _value.lastError
           : lastError // ignore: cast_nullable_to_non_nullable
               as VectorStoreFileObjectLastError?,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyResponseParam?,
     ));
   }
 }
@@ -46126,7 +46609,9 @@ class _$VectorStoreFileObjectImpl extends _VectorStoreFileObject {
       @JsonKey(name: 'created_at') required this.createdAt,
       @JsonKey(name: 'vector_store_id') required this.vectorStoreId,
       required this.status,
-      @JsonKey(name: 'last_error') required this.lastError})
+      @JsonKey(name: 'last_error') required this.lastError,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      this.chunkingStrategy})
       : super._();
 
   factory _$VectorStoreFileObjectImpl.fromJson(Map<String, dynamic> json) =>
@@ -46164,9 +46649,15 @@ class _$VectorStoreFileObjectImpl extends _VectorStoreFileObject {
   @JsonKey(name: 'last_error')
   final VectorStoreFileObjectLastError? lastError;
 
+  /// The chunking strategy used to chunk the file(s).
+  /// Any of: [StaticChunkingStrategyResponseParam], [OtherChunkingStrategyResponseParam]
+  @override
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  final ChunkingStrategyResponseParam? chunkingStrategy;
+
   @override
   String toString() {
-    return 'VectorStoreFileObject(id: $id, object: $object, usageBytes: $usageBytes, createdAt: $createdAt, vectorStoreId: $vectorStoreId, status: $status, lastError: $lastError)';
+    return 'VectorStoreFileObject(id: $id, object: $object, usageBytes: $usageBytes, createdAt: $createdAt, vectorStoreId: $vectorStoreId, status: $status, lastError: $lastError, chunkingStrategy: $chunkingStrategy)';
   }
 
   @override
@@ -46184,13 +46675,15 @@ class _$VectorStoreFileObjectImpl extends _VectorStoreFileObject {
                 other.vectorStoreId == vectorStoreId) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.lastError, lastError) ||
-                other.lastError == lastError));
+                other.lastError == lastError) &&
+            (identical(other.chunkingStrategy, chunkingStrategy) ||
+                other.chunkingStrategy == chunkingStrategy));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, object, usageBytes,
-      createdAt, vectorStoreId, status, lastError);
+      createdAt, vectorStoreId, status, lastError, chunkingStrategy);
 
   @JsonKey(ignore: true)
   @override
@@ -46216,7 +46709,9 @@ abstract class _VectorStoreFileObject extends VectorStoreFileObject {
           @JsonKey(name: 'vector_store_id') required final String vectorStoreId,
           required final VectorStoreFileStatus status,
           @JsonKey(name: 'last_error')
-          required final VectorStoreFileObjectLastError? lastError}) =
+          required final VectorStoreFileObjectLastError? lastError,
+          @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+          final ChunkingStrategyResponseParam? chunkingStrategy}) =
       _$VectorStoreFileObjectImpl;
   const _VectorStoreFileObject._() : super._();
 
@@ -46255,6 +46750,12 @@ abstract class _VectorStoreFileObject extends VectorStoreFileObject {
   /// The last error associated with this vector store file. Will be `null` if there are no errors.
   @JsonKey(name: 'last_error')
   VectorStoreFileObjectLastError? get lastError;
+  @override
+
+  /// The chunking strategy used to chunk the file(s).
+  /// Any of: [StaticChunkingStrategyResponseParam], [OtherChunkingStrategyResponseParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyResponseParam? get chunkingStrategy;
   @override
   @JsonKey(ignore: true)
   _$$VectorStoreFileObjectImplCopyWith<_$VectorStoreFileObjectImpl>
@@ -46442,6 +46943,204 @@ abstract class _VectorStoreFileObjectLastError
       get copyWith => throw _privateConstructorUsedError;
 }
 
+StaticChunkingStrategy _$StaticChunkingStrategyFromJson(
+    Map<String, dynamic> json) {
+  return _StaticChunkingStrategy.fromJson(json);
+}
+
+/// @nodoc
+mixin _$StaticChunkingStrategy {
+  /// The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the
+  /// maximum value is `4096`.
+  @JsonKey(name: 'max_chunk_size_tokens')
+  int get maxChunkSizeTokens => throw _privateConstructorUsedError;
+
+  /// The number of tokens that overlap between chunks. The default value is `400`.
+  ///
+  /// Note that the overlap must not exceed half of `max_chunk_size_tokens`.
+  @JsonKey(name: 'chunk_overlap_tokens')
+  int get chunkOverlapTokens => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $StaticChunkingStrategyCopyWith<StaticChunkingStrategy> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $StaticChunkingStrategyCopyWith<$Res> {
+  factory $StaticChunkingStrategyCopyWith(StaticChunkingStrategy value,
+          $Res Function(StaticChunkingStrategy) then) =
+      _$StaticChunkingStrategyCopyWithImpl<$Res, StaticChunkingStrategy>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'max_chunk_size_tokens') int maxChunkSizeTokens,
+      @JsonKey(name: 'chunk_overlap_tokens') int chunkOverlapTokens});
+}
+
+/// @nodoc
+class _$StaticChunkingStrategyCopyWithImpl<$Res,
+        $Val extends StaticChunkingStrategy>
+    implements $StaticChunkingStrategyCopyWith<$Res> {
+  _$StaticChunkingStrategyCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? maxChunkSizeTokens = null,
+    Object? chunkOverlapTokens = null,
+  }) {
+    return _then(_value.copyWith(
+      maxChunkSizeTokens: null == maxChunkSizeTokens
+          ? _value.maxChunkSizeTokens
+          : maxChunkSizeTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+      chunkOverlapTokens: null == chunkOverlapTokens
+          ? _value.chunkOverlapTokens
+          : chunkOverlapTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$StaticChunkingStrategyImplCopyWith<$Res>
+    implements $StaticChunkingStrategyCopyWith<$Res> {
+  factory _$$StaticChunkingStrategyImplCopyWith(
+          _$StaticChunkingStrategyImpl value,
+          $Res Function(_$StaticChunkingStrategyImpl) then) =
+      __$$StaticChunkingStrategyImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'max_chunk_size_tokens') int maxChunkSizeTokens,
+      @JsonKey(name: 'chunk_overlap_tokens') int chunkOverlapTokens});
+}
+
+/// @nodoc
+class __$$StaticChunkingStrategyImplCopyWithImpl<$Res>
+    extends _$StaticChunkingStrategyCopyWithImpl<$Res,
+        _$StaticChunkingStrategyImpl>
+    implements _$$StaticChunkingStrategyImplCopyWith<$Res> {
+  __$$StaticChunkingStrategyImplCopyWithImpl(
+      _$StaticChunkingStrategyImpl _value,
+      $Res Function(_$StaticChunkingStrategyImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? maxChunkSizeTokens = null,
+    Object? chunkOverlapTokens = null,
+  }) {
+    return _then(_$StaticChunkingStrategyImpl(
+      maxChunkSizeTokens: null == maxChunkSizeTokens
+          ? _value.maxChunkSizeTokens
+          : maxChunkSizeTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+      chunkOverlapTokens: null == chunkOverlapTokens
+          ? _value.chunkOverlapTokens
+          : chunkOverlapTokens // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$StaticChunkingStrategyImpl extends _StaticChunkingStrategy {
+  const _$StaticChunkingStrategyImpl(
+      {@JsonKey(name: 'max_chunk_size_tokens') required this.maxChunkSizeTokens,
+      @JsonKey(name: 'chunk_overlap_tokens') required this.chunkOverlapTokens})
+      : super._();
+
+  factory _$StaticChunkingStrategyImpl.fromJson(Map<String, dynamic> json) =>
+      _$$StaticChunkingStrategyImplFromJson(json);
+
+  /// The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the
+  /// maximum value is `4096`.
+  @override
+  @JsonKey(name: 'max_chunk_size_tokens')
+  final int maxChunkSizeTokens;
+
+  /// The number of tokens that overlap between chunks. The default value is `400`.
+  ///
+  /// Note that the overlap must not exceed half of `max_chunk_size_tokens`.
+  @override
+  @JsonKey(name: 'chunk_overlap_tokens')
+  final int chunkOverlapTokens;
+
+  @override
+  String toString() {
+    return 'StaticChunkingStrategy(maxChunkSizeTokens: $maxChunkSizeTokens, chunkOverlapTokens: $chunkOverlapTokens)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$StaticChunkingStrategyImpl &&
+            (identical(other.maxChunkSizeTokens, maxChunkSizeTokens) ||
+                other.maxChunkSizeTokens == maxChunkSizeTokens) &&
+            (identical(other.chunkOverlapTokens, chunkOverlapTokens) ||
+                other.chunkOverlapTokens == chunkOverlapTokens));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, maxChunkSizeTokens, chunkOverlapTokens);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$StaticChunkingStrategyImplCopyWith<_$StaticChunkingStrategyImpl>
+      get copyWith => __$$StaticChunkingStrategyImplCopyWithImpl<
+          _$StaticChunkingStrategyImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$StaticChunkingStrategyImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _StaticChunkingStrategy extends StaticChunkingStrategy {
+  const factory _StaticChunkingStrategy(
+      {@JsonKey(name: 'max_chunk_size_tokens')
+      required final int maxChunkSizeTokens,
+      @JsonKey(name: 'chunk_overlap_tokens')
+      required final int chunkOverlapTokens}) = _$StaticChunkingStrategyImpl;
+  const _StaticChunkingStrategy._() : super._();
+
+  factory _StaticChunkingStrategy.fromJson(Map<String, dynamic> json) =
+      _$StaticChunkingStrategyImpl.fromJson;
+
+  @override
+
+  /// The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the
+  /// maximum value is `4096`.
+  @JsonKey(name: 'max_chunk_size_tokens')
+  int get maxChunkSizeTokens;
+  @override
+
+  /// The number of tokens that overlap between chunks. The default value is `400`.
+  ///
+  /// Note that the overlap must not exceed half of `max_chunk_size_tokens`.
+  @JsonKey(name: 'chunk_overlap_tokens')
+  int get chunkOverlapTokens;
+  @override
+  @JsonKey(ignore: true)
+  _$$StaticChunkingStrategyImplCopyWith<_$StaticChunkingStrategyImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 CreateVectorStoreFileRequest _$CreateVectorStoreFileRequestFromJson(
     Map<String, dynamic> json) {
   return _CreateVectorStoreFileRequest.fromJson(json);
@@ -46452,6 +47151,12 @@ mixin _$CreateVectorStoreFileRequest {
   /// A [File](https://platform.openai.com/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files.
   @JsonKey(name: 'file_id')
   String get fileId => throw _privateConstructorUsedError;
+
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyRequestParam? get chunkingStrategy =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -46467,7 +47172,12 @@ abstract class $CreateVectorStoreFileRequestCopyWith<$Res> {
       _$CreateVectorStoreFileRequestCopyWithImpl<$Res,
           CreateVectorStoreFileRequest>;
   @useResult
-  $Res call({@JsonKey(name: 'file_id') String fileId});
+  $Res call(
+      {@JsonKey(name: 'file_id') String fileId,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyRequestParam? chunkingStrategy});
+
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -46485,13 +47195,31 @@ class _$CreateVectorStoreFileRequestCopyWithImpl<$Res,
   @override
   $Res call({
     Object? fileId = null,
+    Object? chunkingStrategy = freezed,
   }) {
     return _then(_value.copyWith(
       fileId: null == fileId
           ? _value.fileId
           : fileId // ignore: cast_nullable_to_non_nullable
               as String,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyRequestParam?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy {
+    if (_value.chunkingStrategy == null) {
+      return null;
+    }
+
+    return $ChunkingStrategyRequestParamCopyWith<$Res>(_value.chunkingStrategy!,
+        (value) {
+      return _then(_value.copyWith(chunkingStrategy: value) as $Val);
+    });
   }
 }
 
@@ -46504,7 +47232,13 @@ abstract class _$$CreateVectorStoreFileRequestImplCopyWith<$Res>
       __$$CreateVectorStoreFileRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'file_id') String fileId});
+  $Res call(
+      {@JsonKey(name: 'file_id') String fileId,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyRequestParam? chunkingStrategy});
+
+  @override
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -46521,12 +47255,17 @@ class __$$CreateVectorStoreFileRequestImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fileId = null,
+    Object? chunkingStrategy = freezed,
   }) {
     return _then(_$CreateVectorStoreFileRequestImpl(
       fileId: null == fileId
           ? _value.fileId
           : fileId // ignore: cast_nullable_to_non_nullable
               as String,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyRequestParam?,
     ));
   }
 }
@@ -46535,7 +47274,9 @@ class __$$CreateVectorStoreFileRequestImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CreateVectorStoreFileRequestImpl extends _CreateVectorStoreFileRequest {
   const _$CreateVectorStoreFileRequestImpl(
-      {@JsonKey(name: 'file_id') required this.fileId})
+      {@JsonKey(name: 'file_id') required this.fileId,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      this.chunkingStrategy})
       : super._();
 
   factory _$CreateVectorStoreFileRequestImpl.fromJson(
@@ -46547,9 +47288,15 @@ class _$CreateVectorStoreFileRequestImpl extends _CreateVectorStoreFileRequest {
   @JsonKey(name: 'file_id')
   final String fileId;
 
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @override
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  final ChunkingStrategyRequestParam? chunkingStrategy;
+
   @override
   String toString() {
-    return 'CreateVectorStoreFileRequest(fileId: $fileId)';
+    return 'CreateVectorStoreFileRequest(fileId: $fileId, chunkingStrategy: $chunkingStrategy)';
   }
 
   @override
@@ -46557,12 +47304,14 @@ class _$CreateVectorStoreFileRequestImpl extends _CreateVectorStoreFileRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateVectorStoreFileRequestImpl &&
-            (identical(other.fileId, fileId) || other.fileId == fileId));
+            (identical(other.fileId, fileId) || other.fileId == fileId) &&
+            (identical(other.chunkingStrategy, chunkingStrategy) ||
+                other.chunkingStrategy == chunkingStrategy));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, fileId);
+  int get hashCode => Object.hash(runtimeType, fileId, chunkingStrategy);
 
   @JsonKey(ignore: true)
   @override
@@ -46583,7 +47332,9 @@ class _$CreateVectorStoreFileRequestImpl extends _CreateVectorStoreFileRequest {
 abstract class _CreateVectorStoreFileRequest
     extends CreateVectorStoreFileRequest {
   const factory _CreateVectorStoreFileRequest(
-          {@JsonKey(name: 'file_id') required final String fileId}) =
+          {@JsonKey(name: 'file_id') required final String fileId,
+          @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+          final ChunkingStrategyRequestParam? chunkingStrategy}) =
       _$CreateVectorStoreFileRequestImpl;
   const _CreateVectorStoreFileRequest._() : super._();
 
@@ -46595,6 +47346,12 @@ abstract class _CreateVectorStoreFileRequest
   /// A [File](https://platform.openai.com/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files.
   @JsonKey(name: 'file_id')
   String get fileId;
+  @override
+
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyRequestParam? get chunkingStrategy;
   @override
   @JsonKey(ignore: true)
   _$$CreateVectorStoreFileRequestImplCopyWith<
@@ -47686,6 +48443,12 @@ mixin _$CreateVectorStoreFileBatchRequest {
   @JsonKey(name: 'file_ids')
   List<String> get fileIds => throw _privateConstructorUsedError;
 
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyRequestParam? get chunkingStrategy =>
+      throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $CreateVectorStoreFileBatchRequestCopyWith<CreateVectorStoreFileBatchRequest>
@@ -47700,7 +48463,12 @@ abstract class $CreateVectorStoreFileBatchRequestCopyWith<$Res> {
       _$CreateVectorStoreFileBatchRequestCopyWithImpl<$Res,
           CreateVectorStoreFileBatchRequest>;
   @useResult
-  $Res call({@JsonKey(name: 'file_ids') List<String> fileIds});
+  $Res call(
+      {@JsonKey(name: 'file_ids') List<String> fileIds,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyRequestParam? chunkingStrategy});
+
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -47718,13 +48486,31 @@ class _$CreateVectorStoreFileBatchRequestCopyWithImpl<$Res,
   @override
   $Res call({
     Object? fileIds = null,
+    Object? chunkingStrategy = freezed,
   }) {
     return _then(_value.copyWith(
       fileIds: null == fileIds
           ? _value.fileIds
           : fileIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyRequestParam?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy {
+    if (_value.chunkingStrategy == null) {
+      return null;
+    }
+
+    return $ChunkingStrategyRequestParamCopyWith<$Res>(_value.chunkingStrategy!,
+        (value) {
+      return _then(_value.copyWith(chunkingStrategy: value) as $Val);
+    });
   }
 }
 
@@ -47737,7 +48523,13 @@ abstract class _$$CreateVectorStoreFileBatchRequestImplCopyWith<$Res>
       __$$CreateVectorStoreFileBatchRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'file_ids') List<String> fileIds});
+  $Res call(
+      {@JsonKey(name: 'file_ids') List<String> fileIds,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      ChunkingStrategyRequestParam? chunkingStrategy});
+
+  @override
+  $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy;
 }
 
 /// @nodoc
@@ -47754,12 +48546,17 @@ class __$$CreateVectorStoreFileBatchRequestImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fileIds = null,
+    Object? chunkingStrategy = freezed,
   }) {
     return _then(_$CreateVectorStoreFileBatchRequestImpl(
       fileIds: null == fileIds
           ? _value._fileIds
           : fileIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      chunkingStrategy: freezed == chunkingStrategy
+          ? _value.chunkingStrategy
+          : chunkingStrategy // ignore: cast_nullable_to_non_nullable
+              as ChunkingStrategyRequestParam?,
     ));
   }
 }
@@ -47769,7 +48566,9 @@ class __$$CreateVectorStoreFileBatchRequestImplCopyWithImpl<$Res>
 class _$CreateVectorStoreFileBatchRequestImpl
     extends _CreateVectorStoreFileBatchRequest {
   const _$CreateVectorStoreFileBatchRequestImpl(
-      {@JsonKey(name: 'file_ids') required final List<String> fileIds})
+      {@JsonKey(name: 'file_ids') required final List<String> fileIds,
+      @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+      this.chunkingStrategy})
       : _fileIds = fileIds,
         super._();
 
@@ -47789,9 +48588,15 @@ class _$CreateVectorStoreFileBatchRequestImpl
     return EqualUnmodifiableListView(_fileIds);
   }
 
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @override
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  final ChunkingStrategyRequestParam? chunkingStrategy;
+
   @override
   String toString() {
-    return 'CreateVectorStoreFileBatchRequest(fileIds: $fileIds)';
+    return 'CreateVectorStoreFileBatchRequest(fileIds: $fileIds, chunkingStrategy: $chunkingStrategy)';
   }
 
   @override
@@ -47799,13 +48604,15 @@ class _$CreateVectorStoreFileBatchRequestImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateVectorStoreFileBatchRequestImpl &&
-            const DeepCollectionEquality().equals(other._fileIds, _fileIds));
+            const DeepCollectionEquality().equals(other._fileIds, _fileIds) &&
+            (identical(other.chunkingStrategy, chunkingStrategy) ||
+                other.chunkingStrategy == chunkingStrategy));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_fileIds));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_fileIds), chunkingStrategy);
 
   @JsonKey(ignore: true)
   @override
@@ -47826,7 +48633,9 @@ class _$CreateVectorStoreFileBatchRequestImpl
 abstract class _CreateVectorStoreFileBatchRequest
     extends CreateVectorStoreFileBatchRequest {
   const factory _CreateVectorStoreFileBatchRequest(
-          {@JsonKey(name: 'file_ids') required final List<String> fileIds}) =
+          {@JsonKey(name: 'file_ids') required final List<String> fileIds,
+          @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+          final ChunkingStrategyRequestParam? chunkingStrategy}) =
       _$CreateVectorStoreFileBatchRequestImpl;
   const _CreateVectorStoreFileBatchRequest._() : super._();
 
@@ -47839,6 +48648,12 @@ abstract class _CreateVectorStoreFileBatchRequest
   /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
   @JsonKey(name: 'file_ids')
   List<String> get fileIds;
+  @override
+
+  /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+  /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @JsonKey(name: 'chunking_strategy', includeIfNull: false)
+  ChunkingStrategyRequestParam? get chunkingStrategy;
   @override
   @JsonKey(ignore: true)
   _$$CreateVectorStoreFileBatchRequestImplCopyWith<
@@ -48068,7 +48883,7 @@ mixin _$CreateBatchRequest {
   ///
   /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
   ///
-  /// Your input file must be formatted as a JSONL file, and must be uploaded with the purpose `batch`.
+  /// Your input file must be formatted as a [JSONL file](https://platform.openai.com/docs/api-reference/batch/request-input), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 100 MB in size.
   @JsonKey(name: 'input_file_id')
   String get inputFileId => throw _privateConstructorUsedError;
 
@@ -48214,7 +49029,7 @@ class _$CreateBatchRequestImpl extends _CreateBatchRequest {
   ///
   /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
   ///
-  /// Your input file must be formatted as a JSONL file, and must be uploaded with the purpose `batch`.
+  /// Your input file must be formatted as a [JSONL file](https://platform.openai.com/docs/api-reference/batch/request-input), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 100 MB in size.
   @override
   @JsonKey(name: 'input_file_id')
   final String inputFileId;
@@ -48300,7 +49115,7 @@ abstract class _CreateBatchRequest extends CreateBatchRequest {
   ///
   /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
   ///
-  /// Your input file must be formatted as a JSONL file, and must be uploaded with the purpose `batch`.
+  /// Your input file must be formatted as a [JSONL file](https://platform.openai.com/docs/api-reference/batch/request-input), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 100 MB in size.
   @JsonKey(name: 'input_file_id')
   String get inputFileId;
   @override
@@ -52790,21 +53605,33 @@ mixin _$AssistantTools {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String type) codeInterpreter,
-    required TResult Function(String type) fileSearch,
+    required TResult Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)
+        fileSearch,
     required TResult Function(String type, FunctionObject function) function,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type)? codeInterpreter,
-    TResult? Function(String type)? fileSearch,
+    TResult? Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)?
+        fileSearch,
     TResult? Function(String type, FunctionObject function)? function,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type)? codeInterpreter,
-    TResult Function(String type)? fileSearch,
+    TResult Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)?
+        fileSearch,
     TResult Function(String type, FunctionObject function)? function,
     required TResult orElse(),
   }) =>
@@ -52952,7 +53779,11 @@ class _$AssistantToolsCodeInterpreterImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String type) codeInterpreter,
-    required TResult Function(String type) fileSearch,
+    required TResult Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)
+        fileSearch,
     required TResult Function(String type, FunctionObject function) function,
   }) {
     return codeInterpreter(type);
@@ -52962,7 +53793,11 @@ class _$AssistantToolsCodeInterpreterImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type)? codeInterpreter,
-    TResult? Function(String type)? fileSearch,
+    TResult? Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)?
+        fileSearch,
     TResult? Function(String type, FunctionObject function)? function,
   }) {
     return codeInterpreter?.call(type);
@@ -52972,7 +53807,11 @@ class _$AssistantToolsCodeInterpreterImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type)? codeInterpreter,
-    TResult Function(String type)? fileSearch,
+    TResult Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)?
+        fileSearch,
     TResult Function(String type, FunctionObject function)? function,
     required TResult orElse(),
   }) {
@@ -53053,7 +53892,12 @@ abstract class _$$AssistantToolsFileSearchImplCopyWith<$Res>
       __$$AssistantToolsFileSearchImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String type});
+  $Res call(
+      {String type,
+      @JsonKey(name: 'file_search', includeIfNull: false)
+      AssistantToolsFileSearchFileSearch? fileSearch});
+
+  $AssistantToolsFileSearchFileSearchCopyWith<$Res>? get fileSearch;
 }
 
 /// @nodoc
@@ -53069,32 +53913,57 @@ class __$$AssistantToolsFileSearchImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? type = null,
+    Object? fileSearch = freezed,
   }) {
     return _then(_$AssistantToolsFileSearchImpl(
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
+      fileSearch: freezed == fileSearch
+          ? _value.fileSearch
+          : fileSearch // ignore: cast_nullable_to_non_nullable
+              as AssistantToolsFileSearchFileSearch?,
     ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AssistantToolsFileSearchFileSearchCopyWith<$Res>? get fileSearch {
+    if (_value.fileSearch == null) {
+      return null;
+    }
+
+    return $AssistantToolsFileSearchFileSearchCopyWith<$Res>(_value.fileSearch!,
+        (value) {
+      return _then(_value.copyWith(fileSearch: value));
+    });
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$AssistantToolsFileSearchImpl extends AssistantToolsFileSearch {
-  const _$AssistantToolsFileSearchImpl({this.type = 'file_search'}) : super._();
+  const _$AssistantToolsFileSearchImpl(
+      {required this.type,
+      @JsonKey(name: 'file_search', includeIfNull: false) this.fileSearch})
+      : super._();
 
   factory _$AssistantToolsFileSearchImpl.fromJson(Map<String, dynamic> json) =>
       _$$AssistantToolsFileSearchImplFromJson(json);
 
   /// The type of tool being defined: `file_search`
   @override
-  @JsonKey()
   final String type;
+
+  /// Overrides for the file search tool.
+  @override
+  @JsonKey(name: 'file_search', includeIfNull: false)
+  final AssistantToolsFileSearchFileSearch? fileSearch;
 
   @override
   String toString() {
-    return 'AssistantTools.fileSearch(type: $type)';
+    return 'AssistantTools.fileSearch(type: $type, fileSearch: $fileSearch)';
   }
 
   @override
@@ -53102,12 +53971,14 @@ class _$AssistantToolsFileSearchImpl extends AssistantToolsFileSearch {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AssistantToolsFileSearchImpl &&
-            (identical(other.type, type) || other.type == type));
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.fileSearch, fileSearch) ||
+                other.fileSearch == fileSearch));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, type);
+  int get hashCode => Object.hash(runtimeType, type, fileSearch);
 
   @JsonKey(ignore: true)
   @override
@@ -53120,32 +53991,44 @@ class _$AssistantToolsFileSearchImpl extends AssistantToolsFileSearch {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String type) codeInterpreter,
-    required TResult Function(String type) fileSearch,
+    required TResult Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)
+        fileSearch,
     required TResult Function(String type, FunctionObject function) function,
   }) {
-    return fileSearch(type);
+    return fileSearch(type, this.fileSearch);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type)? codeInterpreter,
-    TResult? Function(String type)? fileSearch,
+    TResult? Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)?
+        fileSearch,
     TResult? Function(String type, FunctionObject function)? function,
   }) {
-    return fileSearch?.call(type);
+    return fileSearch?.call(type, this.fileSearch);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type)? codeInterpreter,
-    TResult Function(String type)? fileSearch,
+    TResult Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)?
+        fileSearch,
     TResult Function(String type, FunctionObject function)? function,
     required TResult orElse(),
   }) {
     if (fileSearch != null) {
-      return fileSearch(type);
+      return fileSearch(type, this.fileSearch);
     }
     return orElse();
   }
@@ -53194,7 +54077,10 @@ class _$AssistantToolsFileSearchImpl extends AssistantToolsFileSearch {
 }
 
 abstract class AssistantToolsFileSearch extends AssistantTools {
-  const factory AssistantToolsFileSearch({final String type}) =
+  const factory AssistantToolsFileSearch(
+          {required final String type,
+          @JsonKey(name: 'file_search', includeIfNull: false)
+          final AssistantToolsFileSearchFileSearch? fileSearch}) =
       _$AssistantToolsFileSearchImpl;
   const AssistantToolsFileSearch._() : super._();
 
@@ -53205,6 +54091,10 @@ abstract class AssistantToolsFileSearch extends AssistantTools {
 
   /// The type of tool being defined: `file_search`
   String get type;
+
+  /// Overrides for the file search tool.
+  @JsonKey(name: 'file_search', includeIfNull: false)
+  AssistantToolsFileSearchFileSearch? get fileSearch;
   @override
   @JsonKey(ignore: true)
   _$$AssistantToolsFileSearchImplCopyWith<_$AssistantToolsFileSearchImpl>
@@ -53310,7 +54200,11 @@ class _$AssistantToolsFunctionImpl extends AssistantToolsFunction {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String type) codeInterpreter,
-    required TResult Function(String type) fileSearch,
+    required TResult Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)
+        fileSearch,
     required TResult Function(String type, FunctionObject function) function,
   }) {
     return function(type, this.function);
@@ -53320,7 +54214,11 @@ class _$AssistantToolsFunctionImpl extends AssistantToolsFunction {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type)? codeInterpreter,
-    TResult? Function(String type)? fileSearch,
+    TResult? Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)?
+        fileSearch,
     TResult? Function(String type, FunctionObject function)? function,
   }) {
     return function?.call(type, this.function);
@@ -53330,7 +54228,11 @@ class _$AssistantToolsFunctionImpl extends AssistantToolsFunction {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type)? codeInterpreter,
-    TResult Function(String type)? fileSearch,
+    TResult Function(
+            String type,
+            @JsonKey(name: 'file_search', includeIfNull: false)
+            AssistantToolsFileSearchFileSearch? fileSearch)?
+        fileSearch,
     TResult Function(String type, FunctionObject function)? function,
     required TResult orElse(),
   }) {
@@ -53402,6 +54304,187 @@ abstract class AssistantToolsFunction extends AssistantTools {
   @override
   @JsonKey(ignore: true)
   _$$AssistantToolsFunctionImplCopyWith<_$AssistantToolsFunctionImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+AssistantToolsFileSearchFileSearch _$AssistantToolsFileSearchFileSearchFromJson(
+    Map<String, dynamic> json) {
+  return _AssistantToolsFileSearchFileSearch.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AssistantToolsFileSearchFileSearch {
+  /// The maximum number of results the file search tool should output. The default is 20 for gpt-4* models
+  /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
+  ///
+  /// Note that the file search tool may output fewer than `max_num_results` results. See the [file search
+  /// tool documentation](/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
+  @JsonKey(name: 'max_num_results', includeIfNull: false)
+  int? get maxNumResults => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AssistantToolsFileSearchFileSearchCopyWith<
+          AssistantToolsFileSearchFileSearch>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AssistantToolsFileSearchFileSearchCopyWith<$Res> {
+  factory $AssistantToolsFileSearchFileSearchCopyWith(
+          AssistantToolsFileSearchFileSearch value,
+          $Res Function(AssistantToolsFileSearchFileSearch) then) =
+      _$AssistantToolsFileSearchFileSearchCopyWithImpl<$Res,
+          AssistantToolsFileSearchFileSearch>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'max_num_results', includeIfNull: false)
+      int? maxNumResults});
+}
+
+/// @nodoc
+class _$AssistantToolsFileSearchFileSearchCopyWithImpl<$Res,
+        $Val extends AssistantToolsFileSearchFileSearch>
+    implements $AssistantToolsFileSearchFileSearchCopyWith<$Res> {
+  _$AssistantToolsFileSearchFileSearchCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? maxNumResults = freezed,
+  }) {
+    return _then(_value.copyWith(
+      maxNumResults: freezed == maxNumResults
+          ? _value.maxNumResults
+          : maxNumResults // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AssistantToolsFileSearchFileSearchImplCopyWith<$Res>
+    implements $AssistantToolsFileSearchFileSearchCopyWith<$Res> {
+  factory _$$AssistantToolsFileSearchFileSearchImplCopyWith(
+          _$AssistantToolsFileSearchFileSearchImpl value,
+          $Res Function(_$AssistantToolsFileSearchFileSearchImpl) then) =
+      __$$AssistantToolsFileSearchFileSearchImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'max_num_results', includeIfNull: false)
+      int? maxNumResults});
+}
+
+/// @nodoc
+class __$$AssistantToolsFileSearchFileSearchImplCopyWithImpl<$Res>
+    extends _$AssistantToolsFileSearchFileSearchCopyWithImpl<$Res,
+        _$AssistantToolsFileSearchFileSearchImpl>
+    implements _$$AssistantToolsFileSearchFileSearchImplCopyWith<$Res> {
+  __$$AssistantToolsFileSearchFileSearchImplCopyWithImpl(
+      _$AssistantToolsFileSearchFileSearchImpl _value,
+      $Res Function(_$AssistantToolsFileSearchFileSearchImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? maxNumResults = freezed,
+  }) {
+    return _then(_$AssistantToolsFileSearchFileSearchImpl(
+      maxNumResults: freezed == maxNumResults
+          ? _value.maxNumResults
+          : maxNumResults // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AssistantToolsFileSearchFileSearchImpl
+    extends _AssistantToolsFileSearchFileSearch {
+  const _$AssistantToolsFileSearchFileSearchImpl(
+      {@JsonKey(name: 'max_num_results', includeIfNull: false)
+      this.maxNumResults})
+      : super._();
+
+  factory _$AssistantToolsFileSearchFileSearchImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$AssistantToolsFileSearchFileSearchImplFromJson(json);
+
+  /// The maximum number of results the file search tool should output. The default is 20 for gpt-4* models
+  /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
+  ///
+  /// Note that the file search tool may output fewer than `max_num_results` results. See the [file search
+  /// tool documentation](/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
+  @override
+  @JsonKey(name: 'max_num_results', includeIfNull: false)
+  final int? maxNumResults;
+
+  @override
+  String toString() {
+    return 'AssistantToolsFileSearchFileSearch(maxNumResults: $maxNumResults)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AssistantToolsFileSearchFileSearchImpl &&
+            (identical(other.maxNumResults, maxNumResults) ||
+                other.maxNumResults == maxNumResults));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, maxNumResults);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AssistantToolsFileSearchFileSearchImplCopyWith<
+          _$AssistantToolsFileSearchFileSearchImpl>
+      get copyWith => __$$AssistantToolsFileSearchFileSearchImplCopyWithImpl<
+          _$AssistantToolsFileSearchFileSearchImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AssistantToolsFileSearchFileSearchImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AssistantToolsFileSearchFileSearch
+    extends AssistantToolsFileSearchFileSearch {
+  const factory _AssistantToolsFileSearchFileSearch(
+      {@JsonKey(name: 'max_num_results', includeIfNull: false)
+      final int? maxNumResults}) = _$AssistantToolsFileSearchFileSearchImpl;
+  const _AssistantToolsFileSearchFileSearch._() : super._();
+
+  factory _AssistantToolsFileSearchFileSearch.fromJson(
+          Map<String, dynamic> json) =
+      _$AssistantToolsFileSearchFileSearchImpl.fromJson;
+
+  @override
+
+  /// The maximum number of results the file search tool should output. The default is 20 for gpt-4* models
+  /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
+  ///
+  /// Note that the file search tool may output fewer than `max_num_results` results. See the [file search
+  /// tool documentation](/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
+  @JsonKey(name: 'max_num_results', includeIfNull: false)
+  int? get maxNumResults;
+  @override
+  @JsonKey(ignore: true)
+  _$$AssistantToolsFileSearchFileSearchImplCopyWith<
+          _$AssistantToolsFileSearchFileSearchImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -61647,6 +62730,933 @@ abstract class RunStepDeltaStepDetailsToolCallsCodeOutputImageObject
   @JsonKey(ignore: true)
   _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplCopyWith<
           _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ChunkingStrategyRequestParam _$ChunkingStrategyRequestParamFromJson(
+    Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'auto':
+      return AutoChunkingStrategyRequestParam.fromJson(json);
+    case 'static':
+      return StaticChunkingStrategyRequestParam.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'type',
+          'ChunkingStrategyRequestParam',
+          'Invalid union type "${json['type']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$ChunkingStrategyRequestParam {
+  /// Always `auto`.
+  String get type => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type) auto,
+    required TResult Function(String type, StaticChunkingStrategy static)
+        static,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type)? auto,
+    TResult? Function(String type, StaticChunkingStrategy static)? static,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type)? auto,
+    TResult Function(String type, StaticChunkingStrategy static)? static,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AutoChunkingStrategyRequestParam value) auto,
+    required TResult Function(StaticChunkingStrategyRequestParam value) static,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AutoChunkingStrategyRequestParam value)? auto,
+    TResult? Function(StaticChunkingStrategyRequestParam value)? static,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AutoChunkingStrategyRequestParam value)? auto,
+    TResult Function(StaticChunkingStrategyRequestParam value)? static,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ChunkingStrategyRequestParamCopyWith<ChunkingStrategyRequestParam>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChunkingStrategyRequestParamCopyWith<$Res> {
+  factory $ChunkingStrategyRequestParamCopyWith(
+          ChunkingStrategyRequestParam value,
+          $Res Function(ChunkingStrategyRequestParam) then) =
+      _$ChunkingStrategyRequestParamCopyWithImpl<$Res,
+          ChunkingStrategyRequestParam>;
+  @useResult
+  $Res call({String type});
+}
+
+/// @nodoc
+class _$ChunkingStrategyRequestParamCopyWithImpl<$Res,
+        $Val extends ChunkingStrategyRequestParam>
+    implements $ChunkingStrategyRequestParamCopyWith<$Res> {
+  _$ChunkingStrategyRequestParamCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AutoChunkingStrategyRequestParamImplCopyWith<$Res>
+    implements $ChunkingStrategyRequestParamCopyWith<$Res> {
+  factory _$$AutoChunkingStrategyRequestParamImplCopyWith(
+          _$AutoChunkingStrategyRequestParamImpl value,
+          $Res Function(_$AutoChunkingStrategyRequestParamImpl) then) =
+      __$$AutoChunkingStrategyRequestParamImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String type});
+}
+
+/// @nodoc
+class __$$AutoChunkingStrategyRequestParamImplCopyWithImpl<$Res>
+    extends _$ChunkingStrategyRequestParamCopyWithImpl<$Res,
+        _$AutoChunkingStrategyRequestParamImpl>
+    implements _$$AutoChunkingStrategyRequestParamImplCopyWith<$Res> {
+  __$$AutoChunkingStrategyRequestParamImplCopyWithImpl(
+      _$AutoChunkingStrategyRequestParamImpl _value,
+      $Res Function(_$AutoChunkingStrategyRequestParamImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_$AutoChunkingStrategyRequestParamImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AutoChunkingStrategyRequestParamImpl
+    extends AutoChunkingStrategyRequestParam {
+  const _$AutoChunkingStrategyRequestParamImpl({required this.type})
+      : super._();
+
+  factory _$AutoChunkingStrategyRequestParamImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$AutoChunkingStrategyRequestParamImplFromJson(json);
+
+  /// Always `auto`.
+  @override
+  final String type;
+
+  @override
+  String toString() {
+    return 'ChunkingStrategyRequestParam.auto(type: $type)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AutoChunkingStrategyRequestParamImpl &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AutoChunkingStrategyRequestParamImplCopyWith<
+          _$AutoChunkingStrategyRequestParamImpl>
+      get copyWith => __$$AutoChunkingStrategyRequestParamImplCopyWithImpl<
+          _$AutoChunkingStrategyRequestParamImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type) auto,
+    required TResult Function(String type, StaticChunkingStrategy static)
+        static,
+  }) {
+    return auto(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type)? auto,
+    TResult? Function(String type, StaticChunkingStrategy static)? static,
+  }) {
+    return auto?.call(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type)? auto,
+    TResult Function(String type, StaticChunkingStrategy static)? static,
+    required TResult orElse(),
+  }) {
+    if (auto != null) {
+      return auto(type);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AutoChunkingStrategyRequestParam value) auto,
+    required TResult Function(StaticChunkingStrategyRequestParam value) static,
+  }) {
+    return auto(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AutoChunkingStrategyRequestParam value)? auto,
+    TResult? Function(StaticChunkingStrategyRequestParam value)? static,
+  }) {
+    return auto?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AutoChunkingStrategyRequestParam value)? auto,
+    TResult Function(StaticChunkingStrategyRequestParam value)? static,
+    required TResult orElse(),
+  }) {
+    if (auto != null) {
+      return auto(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AutoChunkingStrategyRequestParamImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class AutoChunkingStrategyRequestParam
+    extends ChunkingStrategyRequestParam {
+  const factory AutoChunkingStrategyRequestParam({required final String type}) =
+      _$AutoChunkingStrategyRequestParamImpl;
+  const AutoChunkingStrategyRequestParam._() : super._();
+
+  factory AutoChunkingStrategyRequestParam.fromJson(Map<String, dynamic> json) =
+      _$AutoChunkingStrategyRequestParamImpl.fromJson;
+
+  @override
+
+  /// Always `auto`.
+  String get type;
+  @override
+  @JsonKey(ignore: true)
+  _$$AutoChunkingStrategyRequestParamImplCopyWith<
+          _$AutoChunkingStrategyRequestParamImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$StaticChunkingStrategyRequestParamImplCopyWith<$Res>
+    implements $ChunkingStrategyRequestParamCopyWith<$Res> {
+  factory _$$StaticChunkingStrategyRequestParamImplCopyWith(
+          _$StaticChunkingStrategyRequestParamImpl value,
+          $Res Function(_$StaticChunkingStrategyRequestParamImpl) then) =
+      __$$StaticChunkingStrategyRequestParamImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String type, StaticChunkingStrategy static});
+
+  $StaticChunkingStrategyCopyWith<$Res> get static;
+}
+
+/// @nodoc
+class __$$StaticChunkingStrategyRequestParamImplCopyWithImpl<$Res>
+    extends _$ChunkingStrategyRequestParamCopyWithImpl<$Res,
+        _$StaticChunkingStrategyRequestParamImpl>
+    implements _$$StaticChunkingStrategyRequestParamImplCopyWith<$Res> {
+  __$$StaticChunkingStrategyRequestParamImplCopyWithImpl(
+      _$StaticChunkingStrategyRequestParamImpl _value,
+      $Res Function(_$StaticChunkingStrategyRequestParamImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? static = null,
+  }) {
+    return _then(_$StaticChunkingStrategyRequestParamImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      static: null == static
+          ? _value.static
+          : static // ignore: cast_nullable_to_non_nullable
+              as StaticChunkingStrategy,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $StaticChunkingStrategyCopyWith<$Res> get static {
+    return $StaticChunkingStrategyCopyWith<$Res>(_value.static, (value) {
+      return _then(_value.copyWith(static: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$StaticChunkingStrategyRequestParamImpl
+    extends StaticChunkingStrategyRequestParam {
+  const _$StaticChunkingStrategyRequestParamImpl(
+      {required this.type, required this.static})
+      : super._();
+
+  factory _$StaticChunkingStrategyRequestParamImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$StaticChunkingStrategyRequestParamImplFromJson(json);
+
+  /// Always `static`.
+  @override
+  final String type;
+
+  /// Static chunking strategy
+  @override
+  final StaticChunkingStrategy static;
+
+  @override
+  String toString() {
+    return 'ChunkingStrategyRequestParam.static(type: $type, static: $static)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$StaticChunkingStrategyRequestParamImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.static, static) || other.static == static));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, static);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$StaticChunkingStrategyRequestParamImplCopyWith<
+          _$StaticChunkingStrategyRequestParamImpl>
+      get copyWith => __$$StaticChunkingStrategyRequestParamImplCopyWithImpl<
+          _$StaticChunkingStrategyRequestParamImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type) auto,
+    required TResult Function(String type, StaticChunkingStrategy static)
+        static,
+  }) {
+    return static(type, this.static);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type)? auto,
+    TResult? Function(String type, StaticChunkingStrategy static)? static,
+  }) {
+    return static?.call(type, this.static);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type)? auto,
+    TResult Function(String type, StaticChunkingStrategy static)? static,
+    required TResult orElse(),
+  }) {
+    if (static != null) {
+      return static(type, this.static);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AutoChunkingStrategyRequestParam value) auto,
+    required TResult Function(StaticChunkingStrategyRequestParam value) static,
+  }) {
+    return static(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AutoChunkingStrategyRequestParam value)? auto,
+    TResult? Function(StaticChunkingStrategyRequestParam value)? static,
+  }) {
+    return static?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AutoChunkingStrategyRequestParam value)? auto,
+    TResult Function(StaticChunkingStrategyRequestParam value)? static,
+    required TResult orElse(),
+  }) {
+    if (static != null) {
+      return static(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$StaticChunkingStrategyRequestParamImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class StaticChunkingStrategyRequestParam
+    extends ChunkingStrategyRequestParam {
+  const factory StaticChunkingStrategyRequestParam(
+          {required final String type,
+          required final StaticChunkingStrategy static}) =
+      _$StaticChunkingStrategyRequestParamImpl;
+  const StaticChunkingStrategyRequestParam._() : super._();
+
+  factory StaticChunkingStrategyRequestParam.fromJson(
+          Map<String, dynamic> json) =
+      _$StaticChunkingStrategyRequestParamImpl.fromJson;
+
+  @override
+
+  /// Always `static`.
+  String get type;
+
+  /// Static chunking strategy
+  StaticChunkingStrategy get static;
+  @override
+  @JsonKey(ignore: true)
+  _$$StaticChunkingStrategyRequestParamImplCopyWith<
+          _$StaticChunkingStrategyRequestParamImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ChunkingStrategyResponseParam _$ChunkingStrategyResponseParamFromJson(
+    Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'static':
+      return StaticChunkingStrategyResponseParam.fromJson(json);
+    case 'other':
+      return OtherChunkingStrategyResponseParam.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json,
+          'type',
+          'ChunkingStrategyResponseParam',
+          'Invalid union type "${json['type']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$ChunkingStrategyResponseParam {
+  /// Always `static`.
+  String get type => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type, StaticChunkingStrategy static)
+        static,
+    required TResult Function(String type) other,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type, StaticChunkingStrategy static)? static,
+    TResult? Function(String type)? other,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type, StaticChunkingStrategy static)? static,
+    TResult Function(String type)? other,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(StaticChunkingStrategyResponseParam value) static,
+    required TResult Function(OtherChunkingStrategyResponseParam value) other,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(StaticChunkingStrategyResponseParam value)? static,
+    TResult? Function(OtherChunkingStrategyResponseParam value)? other,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(StaticChunkingStrategyResponseParam value)? static,
+    TResult Function(OtherChunkingStrategyResponseParam value)? other,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ChunkingStrategyResponseParamCopyWith<ChunkingStrategyResponseParam>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChunkingStrategyResponseParamCopyWith<$Res> {
+  factory $ChunkingStrategyResponseParamCopyWith(
+          ChunkingStrategyResponseParam value,
+          $Res Function(ChunkingStrategyResponseParam) then) =
+      _$ChunkingStrategyResponseParamCopyWithImpl<$Res,
+          ChunkingStrategyResponseParam>;
+  @useResult
+  $Res call({String type});
+}
+
+/// @nodoc
+class _$ChunkingStrategyResponseParamCopyWithImpl<$Res,
+        $Val extends ChunkingStrategyResponseParam>
+    implements $ChunkingStrategyResponseParamCopyWith<$Res> {
+  _$ChunkingStrategyResponseParamCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$StaticChunkingStrategyResponseParamImplCopyWith<$Res>
+    implements $ChunkingStrategyResponseParamCopyWith<$Res> {
+  factory _$$StaticChunkingStrategyResponseParamImplCopyWith(
+          _$StaticChunkingStrategyResponseParamImpl value,
+          $Res Function(_$StaticChunkingStrategyResponseParamImpl) then) =
+      __$$StaticChunkingStrategyResponseParamImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String type, StaticChunkingStrategy static});
+
+  $StaticChunkingStrategyCopyWith<$Res> get static;
+}
+
+/// @nodoc
+class __$$StaticChunkingStrategyResponseParamImplCopyWithImpl<$Res>
+    extends _$ChunkingStrategyResponseParamCopyWithImpl<$Res,
+        _$StaticChunkingStrategyResponseParamImpl>
+    implements _$$StaticChunkingStrategyResponseParamImplCopyWith<$Res> {
+  __$$StaticChunkingStrategyResponseParamImplCopyWithImpl(
+      _$StaticChunkingStrategyResponseParamImpl _value,
+      $Res Function(_$StaticChunkingStrategyResponseParamImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? static = null,
+  }) {
+    return _then(_$StaticChunkingStrategyResponseParamImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      static: null == static
+          ? _value.static
+          : static // ignore: cast_nullable_to_non_nullable
+              as StaticChunkingStrategy,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $StaticChunkingStrategyCopyWith<$Res> get static {
+    return $StaticChunkingStrategyCopyWith<$Res>(_value.static, (value) {
+      return _then(_value.copyWith(static: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$StaticChunkingStrategyResponseParamImpl
+    extends StaticChunkingStrategyResponseParam {
+  const _$StaticChunkingStrategyResponseParamImpl(
+      {required this.type, required this.static})
+      : super._();
+
+  factory _$StaticChunkingStrategyResponseParamImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$StaticChunkingStrategyResponseParamImplFromJson(json);
+
+  /// Always `static`.
+  @override
+  final String type;
+
+  /// Static chunking strategy
+  @override
+  final StaticChunkingStrategy static;
+
+  @override
+  String toString() {
+    return 'ChunkingStrategyResponseParam.static(type: $type, static: $static)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$StaticChunkingStrategyResponseParamImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.static, static) || other.static == static));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, static);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$StaticChunkingStrategyResponseParamImplCopyWith<
+          _$StaticChunkingStrategyResponseParamImpl>
+      get copyWith => __$$StaticChunkingStrategyResponseParamImplCopyWithImpl<
+          _$StaticChunkingStrategyResponseParamImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type, StaticChunkingStrategy static)
+        static,
+    required TResult Function(String type) other,
+  }) {
+    return static(type, this.static);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type, StaticChunkingStrategy static)? static,
+    TResult? Function(String type)? other,
+  }) {
+    return static?.call(type, this.static);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type, StaticChunkingStrategy static)? static,
+    TResult Function(String type)? other,
+    required TResult orElse(),
+  }) {
+    if (static != null) {
+      return static(type, this.static);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(StaticChunkingStrategyResponseParam value) static,
+    required TResult Function(OtherChunkingStrategyResponseParam value) other,
+  }) {
+    return static(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(StaticChunkingStrategyResponseParam value)? static,
+    TResult? Function(OtherChunkingStrategyResponseParam value)? other,
+  }) {
+    return static?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(StaticChunkingStrategyResponseParam value)? static,
+    TResult Function(OtherChunkingStrategyResponseParam value)? other,
+    required TResult orElse(),
+  }) {
+    if (static != null) {
+      return static(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$StaticChunkingStrategyResponseParamImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class StaticChunkingStrategyResponseParam
+    extends ChunkingStrategyResponseParam {
+  const factory StaticChunkingStrategyResponseParam(
+          {required final String type,
+          required final StaticChunkingStrategy static}) =
+      _$StaticChunkingStrategyResponseParamImpl;
+  const StaticChunkingStrategyResponseParam._() : super._();
+
+  factory StaticChunkingStrategyResponseParam.fromJson(
+          Map<String, dynamic> json) =
+      _$StaticChunkingStrategyResponseParamImpl.fromJson;
+
+  @override
+
+  /// Always `static`.
+  String get type;
+
+  /// Static chunking strategy
+  StaticChunkingStrategy get static;
+  @override
+  @JsonKey(ignore: true)
+  _$$StaticChunkingStrategyResponseParamImplCopyWith<
+          _$StaticChunkingStrategyResponseParamImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$OtherChunkingStrategyResponseParamImplCopyWith<$Res>
+    implements $ChunkingStrategyResponseParamCopyWith<$Res> {
+  factory _$$OtherChunkingStrategyResponseParamImplCopyWith(
+          _$OtherChunkingStrategyResponseParamImpl value,
+          $Res Function(_$OtherChunkingStrategyResponseParamImpl) then) =
+      __$$OtherChunkingStrategyResponseParamImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String type});
+}
+
+/// @nodoc
+class __$$OtherChunkingStrategyResponseParamImplCopyWithImpl<$Res>
+    extends _$ChunkingStrategyResponseParamCopyWithImpl<$Res,
+        _$OtherChunkingStrategyResponseParamImpl>
+    implements _$$OtherChunkingStrategyResponseParamImplCopyWith<$Res> {
+  __$$OtherChunkingStrategyResponseParamImplCopyWithImpl(
+      _$OtherChunkingStrategyResponseParamImpl _value,
+      $Res Function(_$OtherChunkingStrategyResponseParamImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_$OtherChunkingStrategyResponseParamImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$OtherChunkingStrategyResponseParamImpl
+    extends OtherChunkingStrategyResponseParam {
+  const _$OtherChunkingStrategyResponseParamImpl({required this.type})
+      : super._();
+
+  factory _$OtherChunkingStrategyResponseParamImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$OtherChunkingStrategyResponseParamImplFromJson(json);
+
+  /// Always `other`.
+  @override
+  final String type;
+
+  @override
+  String toString() {
+    return 'ChunkingStrategyResponseParam.other(type: $type)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$OtherChunkingStrategyResponseParamImpl &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$OtherChunkingStrategyResponseParamImplCopyWith<
+          _$OtherChunkingStrategyResponseParamImpl>
+      get copyWith => __$$OtherChunkingStrategyResponseParamImplCopyWithImpl<
+          _$OtherChunkingStrategyResponseParamImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type, StaticChunkingStrategy static)
+        static,
+    required TResult Function(String type) other,
+  }) {
+    return other(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type, StaticChunkingStrategy static)? static,
+    TResult? Function(String type)? other,
+  }) {
+    return other?.call(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type, StaticChunkingStrategy static)? static,
+    TResult Function(String type)? other,
+    required TResult orElse(),
+  }) {
+    if (other != null) {
+      return other(type);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(StaticChunkingStrategyResponseParam value) static,
+    required TResult Function(OtherChunkingStrategyResponseParam value) other,
+  }) {
+    return other(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(StaticChunkingStrategyResponseParam value)? static,
+    TResult? Function(OtherChunkingStrategyResponseParam value)? other,
+  }) {
+    return other?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(StaticChunkingStrategyResponseParam value)? static,
+    TResult Function(OtherChunkingStrategyResponseParam value)? other,
+    required TResult orElse(),
+  }) {
+    if (other != null) {
+      return other(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$OtherChunkingStrategyResponseParamImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class OtherChunkingStrategyResponseParam
+    extends ChunkingStrategyResponseParam {
+  const factory OtherChunkingStrategyResponseParam(
+      {required final String type}) = _$OtherChunkingStrategyResponseParamImpl;
+  const OtherChunkingStrategyResponseParam._() : super._();
+
+  factory OtherChunkingStrategyResponseParam.fromJson(
+          Map<String, dynamic> json) =
+      _$OtherChunkingStrategyResponseParamImpl.fromJson;
+
+  @override
+
+  /// Always `other`.
+  String get type;
+  @override
+  @JsonKey(ignore: true)
+  _$$OtherChunkingStrategyResponseParamImplCopyWith<
+          _$OtherChunkingStrategyResponseParamImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 

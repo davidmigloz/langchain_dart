@@ -7,12 +7,14 @@ import '../tools/base.dart';
 /// {@template chat_model_options}
 /// Generation options to pass into the Chat Model.
 /// {@endtemplate}
-class ChatModelOptions extends LanguageModelOptions {
+@immutable
+abstract class ChatModelOptions extends LanguageModelOptions {
   /// {@macro chat_model_options}
   const ChatModelOptions({
-    super.concurrencyLimit,
+    super.model,
     this.tools,
     this.toolChoice,
+    super.concurrencyLimit,
   });
 
   /// A list of tools the model may call.

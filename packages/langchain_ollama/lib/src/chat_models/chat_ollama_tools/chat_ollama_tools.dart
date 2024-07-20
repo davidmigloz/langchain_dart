@@ -83,7 +83,7 @@ class ChatOllamaTools extends BaseChatModel<ChatOllamaToolsOptions> {
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     super.defaultOptions = const ChatOllamaToolsOptions(
-      options: ChatOllamaOptions(model: 'llama3'),
+      options: ChatOllamaOptions(model: defaultModel),
     ),
     this.encoding = 'cl100k_base',
   }) : _client = OllamaClient(
@@ -107,6 +107,9 @@ class ChatOllamaTools extends BaseChatModel<ChatOllamaToolsOptions> {
 
   @override
   String get modelType => 'chat-ollama-tools';
+
+  /// The default model to use unless another is specified.
+  static const defaultModel = 'llama3';
 
   @override
   Future<ChatResult> invoke(
@@ -132,7 +135,7 @@ class ChatOllamaTools extends BaseChatModel<ChatOllamaToolsOptions> {
     final defaultOptions =
         this.defaultOptions.options ?? const ChatOllamaOptions();
     return GenerateChatCompletionRequest(
-      model: options?.model ?? defaultOptions.model ?? throwNullModelError(),
+      model: options?.model ?? defaultOptions.model ?? defaultModel,
       messages: messages.toMessages(),
       format: ResponseFormat.json,
       keepAlive: options?.keepAlive ?? defaultOptions.keepAlive,

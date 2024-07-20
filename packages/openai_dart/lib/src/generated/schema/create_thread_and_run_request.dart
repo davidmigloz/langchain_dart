@@ -68,6 +68,12 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     @JsonKey(name: 'tool_choice', includeIfNull: false)
     CreateThreadAndRunRequestToolChoice? toolChoice,
 
+    /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
+    /// during tool use.
+    @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
+    @Default(true)
+    bool? parallelToolCalls,
+
     /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
     ///
     /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
@@ -100,6 +106,7 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
     'max_completion_tokens',
     'truncation_strategy',
     'tool_choice',
+    'parallel_tool_calls',
     'response_format',
     'stream'
   ];
@@ -154,6 +161,7 @@ class CreateThreadAndRunRequest with _$CreateThreadAndRunRequest {
       'max_completion_tokens': maxCompletionTokens,
       'truncation_strategy': truncationStrategy,
       'tool_choice': toolChoice,
+      'parallel_tool_calls': parallelToolCalls,
       'response_format': responseFormat,
       'stream': stream,
     };
@@ -194,6 +202,10 @@ enum ThreadAndRunModels {
   gpt4o,
   @JsonValue('gpt-4o-2024-05-13')
   gpt4o20240513,
+  @JsonValue('gpt-4o-mini')
+  gpt4oMini,
+  @JsonValue('gpt-4o-mini-2024-07-18')
+  gpt4oMini20240718,
   @JsonValue('gpt-3.5-turbo')
   gpt35Turbo,
   @JsonValue('gpt-3.5-turbo-16k')

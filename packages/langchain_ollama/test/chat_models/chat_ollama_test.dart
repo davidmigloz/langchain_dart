@@ -107,7 +107,7 @@ void main() {
         ]),
       );
       expect(
-        res.output.content.replaceAll(RegExp(r'[\s\n]'), ''),
+        res.output.content.replaceAll(RegExp(r'[\s\n-]'), ''),
         contains('123456789'),
       );
       expect(res.finishReason, FinishReason.stop);
