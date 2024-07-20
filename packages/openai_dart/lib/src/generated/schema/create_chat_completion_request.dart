@@ -73,6 +73,7 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     ///   - If set to 'auto', the system will utilize scale tier credits until they are exhausted.
     ///   - If set to 'default', the request will be processed using the default service tier with a lower
     ///     uptime SLA and no latency guarantee.
+    ///   - When not set, the default behavior is 'auto'.
     ///
     ///   When this parameter is set, the response body will include the `service_tier` utilized.
     @JsonKey(
@@ -302,6 +303,10 @@ enum ChatCompletionModels {
   gpt4o,
   @JsonValue('gpt-4o-2024-05-13')
   gpt4o20240513,
+  @JsonValue('gpt-4o-mini')
+  gpt4oMini,
+  @JsonValue('gpt-4o-mini-2024-07-18')
+  gpt4oMini20240718,
   @JsonValue('gpt-3.5-turbo')
   gpt35Turbo,
   @JsonValue('gpt-3.5-turbo-16k')
@@ -423,6 +428,7 @@ class ChatCompletionResponseFormat with _$ChatCompletionResponseFormat {
 ///   - If set to 'auto', the system will utilize scale tier credits until they are exhausted.
 ///   - If set to 'default', the request will be processed using the default service tier with a lower
 ///     uptime SLA and no latency guarantee.
+///   - When not set, the default behavior is 'auto'.
 ///
 ///   When this parameter is set, the response body will include the `service_tier` utilized.
 enum CreateChatCompletionRequestServiceTier {
