@@ -260,6 +260,17 @@ extension ChatOpenAIResponseFormatMapper on ChatOpenAIResponseFormat {
   }
 }
 
+extension ChatOpenAIServiceTierX on ChatOpenAIServiceTier? {
+  CreateChatCompletionRequestServiceTier?
+      toCreateChatCompletionRequestServiceTier() => switch (this) {
+            ChatOpenAIServiceTier.auto =>
+              CreateChatCompletionRequestServiceTier.auto,
+            ChatOpenAIServiceTier.vDefault =>
+              CreateChatCompletionRequestServiceTier.vDefault,
+            null => null,
+          };
+}
+
 FinishReason _mapFinishReason(
   final ChatCompletionFinishReason? reason,
 ) =>

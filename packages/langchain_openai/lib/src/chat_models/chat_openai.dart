@@ -276,13 +276,15 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final bool stream = false,
   }) {
     final messagesDtos = messages.toChatCompletionMessages();
-    final toolsDtos = options?.tools?.toChatCompletionTool() ??
-        defaultOptions.tools?.toChatCompletionTool();
-    final toolChoice = options?.toolChoice?.toChatCompletionToolChoice() ??
-        defaultOptions.toolChoice?.toChatCompletionToolChoice();
-    final responseFormat =
-        options?.responseFormat ?? defaultOptions.responseFormat;
-    final responseFormatDto = responseFormat?.toChatCompletionResponseFormat();
+    final toolsDtos =
+        (options?.tools ?? defaultOptions.tools)?.toChatCompletionTool();
+    final toolChoice = (options?.toolChoice ?? defaultOptions.toolChoice)
+        ?.toChatCompletionToolChoice();
+    final responseFormatDto =
+        (options?.responseFormat ?? defaultOptions.responseFormat)
+            ?.toChatCompletionResponseFormat();
+    final serviceTierDto = (options?.serviceTier ?? defaultOptions.serviceTier)
+        .toCreateChatCompletionRequestServiceTier();
 
     return CreateChatCompletionRequest(
       model: ChatCompletionModel.modelId(
@@ -307,6 +309,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
       topP: options?.topP ?? defaultOptions.topP,
       parallelToolCalls:
           options?.parallelToolCalls ?? defaultOptions.parallelToolCalls,
+      serviceTier: serviceTierDto,
       user: options?.user ?? defaultOptions.user,
       streamOptions:
           stream ? const ChatCompletionStreamOptions(includeUsage: true) : null,

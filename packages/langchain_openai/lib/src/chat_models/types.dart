@@ -19,6 +19,7 @@ class ChatOpenAIOptions extends ChatModelOptions {
     this.temperature,
     this.topP,
     this.parallelToolCalls,
+    this.serviceTier,
     this.user,
     super.tools,
     super.toolChoice,
@@ -131,6 +132,10 @@ class ChatOpenAIOptions extends ChatModelOptions {
   /// Ref: https://platform.openai.com/docs/guides/function-calling/parallel-function-calling
   final bool? parallelToolCalls;
 
+  /// Specifies the latency tier to use for processing the request.
+  /// This is relevant for customers subscribed to the scale tier service.
+  final ChatOpenAIServiceTier? serviceTier;
+
   /// A unique identifier representing your end-user, which can help OpenAI to
   /// monitor and detect abuse.
   ///
@@ -151,6 +156,8 @@ class ChatOpenAIOptions extends ChatModelOptions {
     final List<String>? stop,
     final double? temperature,
     final double? topP,
+    final bool? parallelToolCalls,
+    final ChatOpenAIServiceTier? serviceTier,
     final String? user,
     final List<ToolSpec>? tools,
     final ChatToolChoice? toolChoice,
@@ -167,6 +174,8 @@ class ChatOpenAIOptions extends ChatModelOptions {
       stop: stop ?? this.stop,
       temperature: temperature ?? this.temperature,
       topP: topP ?? this.topP,
+      parallelToolCalls: parallelToolCalls ?? this.parallelToolCalls,
+      serviceTier: serviceTier ?? this.serviceTier,
       user: user ?? this.user,
       tools: tools ?? this.tools,
       toolChoice: toolChoice ?? this.toolChoice,
@@ -195,4 +204,15 @@ enum ChatOpenAIResponseFormatType {
   /// [ChatOpenAIResponseFormatType.jsonObject] enables JSON mode, which
   /// guarantees the message the model generates is valid JSON.
   jsonObject,
+}
+
+/// Specifies the latency tier to use for processing the request.
+/// This is relevant for customers subscribed to the scale tier service.
+enum ChatOpenAIServiceTier {
+  /// The system will utilize scale tier credits until they are exhausted.
+  auto,
+
+  /// The request will be processed using the default service tier with a lower
+  /// uptime SLA and no latency guarantee.
+  vDefault,
 }
