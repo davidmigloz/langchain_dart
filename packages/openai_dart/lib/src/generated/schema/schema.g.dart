@@ -3520,6 +3520,10 @@ _$ToolResourcesFileSearchVectorStoreImpl
           fileIds: (json['file_ids'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList(),
+          chunkingStrategy: json['chunking_strategy'] == null
+              ? null
+              : ChunkingStrategyRequestParam.fromJson(
+                  json['chunking_strategy'] as Map<String, dynamic>),
           metadata: json['metadata'],
         );
 
@@ -3534,6 +3538,7 @@ Map<String, dynamic> _$$ToolResourcesFileSearchVectorStoreImplToJson(
   }
 
   writeNotNull('file_ids', instance.fileIds);
+  writeNotNull('chunking_strategy', instance.chunkingStrategy?.toJson());
   writeNotNull('metadata', instance.metadata);
   return val;
 }
@@ -4401,6 +4406,10 @@ _$CreateVectorStoreRequestImpl _$$CreateVectorStoreRequestImplFromJson(
           ? null
           : VectorStoreExpirationAfter.fromJson(
               json['expires_after'] as Map<String, dynamic>),
+      chunkingStrategy: json['chunking_strategy'] == null
+          ? null
+          : ChunkingStrategyRequestParam.fromJson(
+              json['chunking_strategy'] as Map<String, dynamic>),
       metadata: json['metadata'],
     );
 
@@ -4417,6 +4426,7 @@ Map<String, dynamic> _$$CreateVectorStoreRequestImplToJson(
   writeNotNull('name', instance.name);
   writeNotNull('file_ids', instance.fileIds);
   writeNotNull('expires_after', instance.expiresAfter?.toJson());
+  writeNotNull('chunking_strategy', instance.chunkingStrategy?.toJson());
   writeNotNull('metadata', instance.metadata);
   return val;
 }
@@ -4499,19 +4509,33 @@ _$VectorStoreFileObjectImpl _$$VectorStoreFileObjectImplFromJson(
           ? null
           : VectorStoreFileObjectLastError.fromJson(
               json['last_error'] as Map<String, dynamic>),
+      chunkingStrategy: json['chunking_strategy'] == null
+          ? null
+          : ChunkingStrategyResponseParam.fromJson(
+              json['chunking_strategy'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$VectorStoreFileObjectImplToJson(
-        _$VectorStoreFileObjectImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'object': instance.object,
-      'usage_bytes': instance.usageBytes,
-      'created_at': instance.createdAt,
-      'vector_store_id': instance.vectorStoreId,
-      'status': _$VectorStoreFileStatusEnumMap[instance.status]!,
-      'last_error': instance.lastError?.toJson(),
-    };
+    _$VectorStoreFileObjectImpl instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'object': instance.object,
+    'usage_bytes': instance.usageBytes,
+    'created_at': instance.createdAt,
+    'vector_store_id': instance.vectorStoreId,
+    'status': _$VectorStoreFileStatusEnumMap[instance.status]!,
+    'last_error': instance.lastError?.toJson(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('chunking_strategy', instance.chunkingStrategy?.toJson());
+  return val;
+}
 
 const _$VectorStoreFileStatusEnumMap = {
   VectorStoreFileStatus.inProgress: 'in_progress',
@@ -4542,17 +4566,45 @@ const _$VectorStoreFileObjectLastErrorCodeEnumMap = {
   VectorStoreFileObjectLastErrorCode.unhandledMimeType: 'unhandled_mime_type',
 };
 
+_$StaticChunkingStrategyImpl _$$StaticChunkingStrategyImplFromJson(
+        Map<String, dynamic> json) =>
+    _$StaticChunkingStrategyImpl(
+      maxChunkSizeTokens: json['max_chunk_size_tokens'] as int,
+      chunkOverlapTokens: json['chunk_overlap_tokens'] as int,
+    );
+
+Map<String, dynamic> _$$StaticChunkingStrategyImplToJson(
+        _$StaticChunkingStrategyImpl instance) =>
+    <String, dynamic>{
+      'max_chunk_size_tokens': instance.maxChunkSizeTokens,
+      'chunk_overlap_tokens': instance.chunkOverlapTokens,
+    };
+
 _$CreateVectorStoreFileRequestImpl _$$CreateVectorStoreFileRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateVectorStoreFileRequestImpl(
       fileId: json['file_id'] as String,
+      chunkingStrategy: json['chunking_strategy'] == null
+          ? null
+          : ChunkingStrategyRequestParam.fromJson(
+              json['chunking_strategy'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$CreateVectorStoreFileRequestImplToJson(
-        _$CreateVectorStoreFileRequestImpl instance) =>
-    <String, dynamic>{
-      'file_id': instance.fileId,
-    };
+    _$CreateVectorStoreFileRequestImpl instance) {
+  final val = <String, dynamic>{
+    'file_id': instance.fileId,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('chunking_strategy', instance.chunkingStrategy?.toJson());
+  return val;
+}
 
 _$ListVectorStoreFilesResponseImpl _$$ListVectorStoreFilesResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -4651,13 +4703,27 @@ _$CreateVectorStoreFileBatchRequestImpl
           fileIds: (json['file_ids'] as List<dynamic>)
               .map((e) => e as String)
               .toList(),
+          chunkingStrategy: json['chunking_strategy'] == null
+              ? null
+              : ChunkingStrategyRequestParam.fromJson(
+                  json['chunking_strategy'] as Map<String, dynamic>),
         );
 
 Map<String, dynamic> _$$CreateVectorStoreFileBatchRequestImplToJson(
-        _$CreateVectorStoreFileBatchRequestImpl instance) =>
-    <String, dynamic>{
-      'file_ids': instance.fileIds,
-    };
+    _$CreateVectorStoreFileBatchRequestImpl instance) {
+  final val = <String, dynamic>{
+    'file_ids': instance.fileIds,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('chunking_strategy', instance.chunkingStrategy?.toJson());
+  return val;
+}
 
 _$ErrorImpl _$$ErrorImplFromJson(Map<String, dynamic> json) => _$ErrorImpl(
       code: json['code'] as String?,
@@ -5809,6 +5875,64 @@ Map<String, dynamic>
   writeNotNull('image', instance.image?.toJson());
   return val;
 }
+
+_$AutoChunkingStrategyRequestParamImpl
+    _$$AutoChunkingStrategyRequestParamImplFromJson(
+            Map<String, dynamic> json) =>
+        _$AutoChunkingStrategyRequestParamImpl(
+          type: json['type'] as String,
+        );
+
+Map<String, dynamic> _$$AutoChunkingStrategyRequestParamImplToJson(
+        _$AutoChunkingStrategyRequestParamImpl instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+    };
+
+_$StaticChunkingStrategyRequestParamImpl
+    _$$StaticChunkingStrategyRequestParamImplFromJson(
+            Map<String, dynamic> json) =>
+        _$StaticChunkingStrategyRequestParamImpl(
+          type: json['type'] as String,
+          static: StaticChunkingStrategy.fromJson(
+              json['static'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$StaticChunkingStrategyRequestParamImplToJson(
+        _$StaticChunkingStrategyRequestParamImpl instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'static': instance.static.toJson(),
+    };
+
+_$StaticChunkingStrategyResponseParamImpl
+    _$$StaticChunkingStrategyResponseParamImplFromJson(
+            Map<String, dynamic> json) =>
+        _$StaticChunkingStrategyResponseParamImpl(
+          type: json['type'] as String,
+          static: StaticChunkingStrategy.fromJson(
+              json['static'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$$StaticChunkingStrategyResponseParamImplToJson(
+        _$StaticChunkingStrategyResponseParamImpl instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'static': instance.static.toJson(),
+    };
+
+_$OtherChunkingStrategyResponseParamImpl
+    _$$OtherChunkingStrategyResponseParamImplFromJson(
+            Map<String, dynamic> json) =>
+        _$OtherChunkingStrategyResponseParamImpl(
+          type: json['type'] as String,
+        );
+
+Map<String, dynamic> _$$OtherChunkingStrategyResponseParamImplToJson(
+        _$OtherChunkingStrategyResponseParamImpl instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+    };
 
 _$ThreadStreamEventImpl _$$ThreadStreamEventImplFromJson(
         Map<String, dynamic> json) =>
