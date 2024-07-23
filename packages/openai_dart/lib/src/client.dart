@@ -18,6 +18,8 @@ class OpenAIClient extends g.OpenAIClient {
   /// - `apiKey`: your OpenAI API key. You can find your API key in the
   ///   [OpenAI dashboard](https://platform.openai.com/account/api-keys).
   /// - `organization`: your OpenAI organization ID (if applicable).
+  /// - `beta`: the content to use for the `OpenAI-Beta` header which can be
+  ///    used to enable beta features.
   ///
   /// Advance configuration options:
   /// - `baseUrl`: the base URL to use. Defaults to OpenAI's API URL. You can
@@ -32,6 +34,7 @@ class OpenAIClient extends g.OpenAIClient {
   OpenAIClient({
     final String? apiKey,
     final String? organization,
+    final String? beta = 'assistants=v2',
     final String? baseUrl,
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
@@ -41,7 +44,7 @@ class OpenAIClient extends g.OpenAIClient {
           baseUrl: baseUrl,
           headers: {
             if (organization != null) 'OpenAI-Organization': organization,
-            'OpenAI-Beta': 'assistants=v2',
+            if (beta != null) 'OpenAI-Beta': beta,
             ...?headers,
           },
           queryParams: queryParams ?? const {},
