@@ -1,8 +1,25 @@
 import 'runnable.dart';
 import 'types.dart';
 
-/// {@template runnable_fallback}
-/// Runnable that can fallback to other Runnables if it fails.
+/// {@template runnable_with_fallback}
+/// A [Runnable] that can fallback to other [Runnable]s if it fails.
+///
+/// This class allows for the creation of a [Runnable] chain where a main
+/// [Runnable] is attempted first, and if it fails, a sequence of fallback
+/// [Runnable]s are tried in order. This process continues until one of the
+/// [Runnable]s succeeds or all of them fail, in which case an exception is
+/// thrown.
+///
+/// You can create a [RunnableWithFallback] using the [Runnable.withFallbacks]
+/// method.
+///
+/// Example:
+/// ```dart
+/// final mainChatModel = ChatOpenAI(...);
+/// final fallbackChatModel = ChatOpenAI(...);
+/// final chatModel = mainChatModel.withFallbacks([fallbackChatModel]);
+/// final res = await chatModel.invoke(...);
+/// ```
 /// {@endtemplate}
 class RunnableWithFallback<RunInput extends Object?, RunOutput extends Object?>
     extends Runnable<RunInput, RunnableOptions, RunOutput> {
@@ -15,40 +32,25 @@ class RunnableWithFallback<RunInput extends Object?, RunOutput extends Object?>
   /// The Runnable to run first.
   final Runnable<RunInput, RunnableOptions, RunOutput> mainRunnable;
 
-  ///A sequence of fallbacks to try.
+  /// A sequence of fallbacks to try if the [mainRunnable] fails.
   final List<Runnable<RunInput, RunnableOptions, RunOutput>> fallbacks;
-
-  Iterable<Runnable<RunInput, RunnableOptions, RunOutput>>
-      _yeildRunnables() sync* {
-    yield mainRunnable;
-    for (final runnable in fallbacks) {
-      yield runnable;
-    }
-  }
 
   @override
   Future<RunOutput> invoke(RunInput input, {RunnableOptions? options}) async {
-    dynamic firstError;
-    RunOutput? runnableOutput;
-    for (final runnable in _yeildRunnables()) {
+    Object? firstError;
+    for (final runnable in [mainRunnable, ...fallbacks]) {
       try {
-        runnableOutput = await runnable.invoke(
+        return await runnable.invoke(
           input,
           options: firstError == null
               ? options
               : runnable.getCompatibleOptions(options),
         );
-        break;
       } catch (e) {
-        firstError = e;
+        firstError ??= e;
       }
     }
-    if (runnableOutput == null) {
-      throw Exception(
-        'none of the Runnable returned output, error: $firstError',
-      );
-    }
-    return runnableOutput;
+    throw Exception('All runnables failed. First error: $firstError');
   }
 
   @override
@@ -56,22 +58,55 @@ class RunnableWithFallback<RunInput extends Object?, RunOutput extends Object?>
     List<RunInput> inputs, {
     List<RunnableOptions>? options,
   }) async {
-    dynamic error;
-    List<RunOutput>? runnableOutput;
-    for (final runnable in _yeildRunnables()) {
+    Object? firstError;
+    for (final runnable in [mainRunnable, ...fallbacks]) {
+      List<RunnableOptions>? currentOptions;
+      if (firstError == null) {
+        currentOptions = options;
+      } else {
+        final compatibleOptions =
+            options?.map(runnable.getCompatibleOptions).toList(growable: false);
+        final hasNullOptions =
+            compatibleOptions?.any((o) => o == null) ?? false;
+        if (!hasNullOptions) {
+          currentOptions = compatibleOptions?.cast();
+        }
+      }
+
       try {
-        runnableOutput = await runnable.batch(
+        return await runnable.batch(
           inputs,
-          options: error == null ? options : null,
+          options: currentOptions,
         );
-        break;
       } catch (e) {
-        error = e;
+        firstError ??= e;
       }
     }
-    if (runnableOutput == null) {
-      throw Exception('none of the Runnable returned output, error: $error');
+    throw Exception('All runnables failed. First error: $firstError');
+  }
+
+  @override
+  Stream<RunOutput> stream(
+    RunInput input, {
+    RunnableOptions? options,
+  }) async* {
+    Object? firstError;
+    for (final runnable in [mainRunnable, ...fallbacks]) {
+      try {
+        final stream = runnable.stream(
+          input,
+          options: firstError == null
+              ? options
+              : runnable.getCompatibleOptions(options),
+        );
+        await for (final output in stream) {
+          yield output;
+        }
+        return;
+      } catch (e) {
+        firstError ??= e;
+      }
     }
-    return runnableOutput;
+    throw Exception('All runnables failed. First error: $firstError');
   }
 }

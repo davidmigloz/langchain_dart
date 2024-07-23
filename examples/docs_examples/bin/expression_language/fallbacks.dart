@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 import 'dart:io';
 
-import 'package:langchain_core/prompts.dart';
+import 'package:langchain/langchain.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 
 void main() async {
@@ -13,8 +13,9 @@ void main() async {
 Future<void> _modelWithFallbacks() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 
-  final fakeOpenAIModel =
-      ChatOpenAI(defaultOptions: const ChatOpenAIOptions(model: 'tomato'));
+  final fakeOpenAIModel = ChatOpenAI(
+    defaultOptions: const ChatOpenAIOptions(model: 'tomato'),
+  );
 
   final latestModel = ChatOpenAI(
     apiKey: openaiApiKey,
@@ -27,7 +28,7 @@ Future<void> _modelWithFallbacks() async {
 
   final res = await modelWithFallbacks.invoke(prompt);
   print(res);
-  /*
+/*
 {
   "ChatResult": {
     "id": "chatcmpl-9nKBcFNkzo5qUrdNB92b36J0d1meA",
@@ -107,8 +108,9 @@ Future<void> _modelWithMultipleFallbacks() async {
 Future<void> _chainWithFallbacks() async {
   final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 
-  final fakeOpenAIModel =
-      ChatOpenAI(defaultOptions: const ChatOpenAIOptions(model: 'tomato'));
+  final fakeOpenAIModel = ChatOpenAI(
+    defaultOptions: const ChatOpenAIOptions(model: 'tomato'),
+  );
 
   final latestModel = ChatOpenAI(
     apiKey: openaiApiKey,
