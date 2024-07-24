@@ -7,7 +7,7 @@ void main() {
   group('Ollama Generate Completions API tests',
       skip: Platform.environment.containsKey('CI'), () {
     late OllamaClient client;
-    const defaultModel = 'gemma2';
+    const defaultModel = 'llama3.1';
     const visionModel = 'llava';
 
     setUp(() async {
@@ -48,7 +48,7 @@ void main() {
       expect(response.model, defaultModel);
       expect(response.createdAt, isNotNull);
       expect(
-        response.message?.content,
+        response.message.content,
         isNotEmpty,
       );
       expect(response.done, isTrue);
@@ -79,7 +79,7 @@ void main() {
       );
       String text = '';
       await for (final res in stream) {
-        text += (res.message?.content ?? '').trim();
+        text += res.message.content.trim();
       }
       expect(text, contains('123456789'));
     });
@@ -103,7 +103,7 @@ void main() {
           format: ResponseFormat.json,
         ),
       );
-      final generation = res.message?.content.replaceAll(RegExp(r'[\s\n]'), '');
+      final generation = res.message.content.replaceAll(RegExp(r'[\s\n]'), '');
       expect(generation, contains('[1,2,3,4,5,6,7,8,9]'));
     });
 
@@ -125,7 +125,7 @@ void main() {
           options: RequestOptions(stop: ['4']),
         ),
       );
-      final generation = res.message?.content.replaceAll(RegExp(r'[\s\n]'), '');
+      final generation = res.message.content.replaceAll(RegExp(r'[\s\n]'), '');
       expect(generation, contains('123'));
       expect(generation, isNot(contains('456789')));
       expect(res.doneReason, DoneReason.stop);
@@ -170,8 +170,65 @@ void main() {
       );
 
       final res1 = await client.generateChatCompletion(request: request);
-      final text1 = res1.message?.content;
+      final text1 = res1.message.content;
       expect(text1, contains('star'));
+    });
+
+    test('Test tool calling', () async {
+      const tool = Tool(
+        function: ToolFunction(
+          name: 'get_current_weather',
+          description: 'Get the current weather in a given location',
+          parameters: {
+            'type': 'object',
+            'properties': {
+              'location': {
+                'type': 'string',
+                'description': 'The city and country, e.g. San Francisco, US',
+              },
+              'unit': {
+                'type': 'string',
+                'description': 'The unit of temperature to return',
+                'enum': ['celsius', 'fahrenheit'],
+              },
+            },
+            'required': ['location'],
+          },
+        ),
+      );
+
+      final res = await client.generateChatCompletion(
+        request: const GenerateChatCompletionRequest(
+          model: defaultModel,
+          messages: [
+            Message(
+              role: MessageRole.system,
+              content: 'You are a helpful assistant.',
+            ),
+            Message(
+              role: MessageRole.user,
+              content:
+                  'What’s the weather like in Boston and Barcelona in celsius?',
+            ),
+          ],
+          tools: [tool],
+          keepAlive: 1,
+        ),
+      );
+      // https://github.com/ollama/ollama/issues/5796
+      expect(res.doneReason, DoneReason.stop);
+      expect(res.message.role, MessageRole.assistant);
+      expect(res.message.content, isEmpty);
+      final toolCalls = res.message.toolCalls;
+      expect(toolCalls, hasLength(2));
+      final toolCall1 = toolCalls?.first.function;
+      expect(toolCall1?.name, tool.function?.name);
+      expect(toolCall1?.arguments['location'], contains('Boston'));
+      expect(toolCall1?.arguments['unit'], 'celsius');
+      final toolCall2 = toolCalls?.last.function;
+      expect(toolCall2?.name, tool.function?.name);
+      expect(toolCall2?.arguments['location'], contains('Barcelona'));
+      expect(toolCall2?.arguments['unit'], 'celsius');
     });
   });
 }
