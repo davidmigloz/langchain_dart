@@ -14,6 +14,7 @@
     - [Binding: Configuring runnables](/expression_language/primitives/binding.md)
     - [Router: Routing inputs](/expression_language/primitives/router.md)
   - [Streaming](/expression_language/streaming.md)
+  - [Fallbacks](/expression_language/fallbacks.md)
   - Cookbook
     - [Prompt + LLM](/expression_language/cookbook/prompt_llm_parser.md)
     - [Multiple chains](/expression_language/cookbook/multiple_chains.md)

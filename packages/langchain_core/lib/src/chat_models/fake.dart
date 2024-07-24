@@ -149,6 +149,12 @@ class FakeEchoChatModel extends BaseChatModel<FakeEchoChatModelOptions> {
     final PromptValue input, {
     final FakeEchoChatModelOptions? options,
   }) async {
+    final throwError =
+        options?.throwRandomError ?? defaultOptions.throwRandomError;
+    if (throwError) {
+      throw Exception('Random error');
+    }
+
     final text = input.toChatMessages().last.contentAsString;
     final message = AIChatMessage(content: text);
     return ChatResult(
@@ -169,18 +175,29 @@ class FakeEchoChatModel extends BaseChatModel<FakeEchoChatModelOptions> {
     final FakeEchoChatModelOptions? options,
   }) {
     final prompt = input.toChatMessages().first.contentAsString.split('');
+    final throwError =
+        options?.throwRandomError ?? defaultOptions.throwRandomError;
+
+    var index = 0;
     return Stream.fromIterable(prompt).map(
-      (final char) => ChatResult(
-        id: 'fake-echo-chat-model',
-        output: AIChatMessage(content: char),
-        finishReason: FinishReason.stop,
-        metadata: {
-          'model': options?.model ?? defaultOptions.model,
-          ...?options?.metadata ?? defaultOptions.metadata,
-        },
-        usage: const LanguageModelUsage(),
-        streaming: true,
-      ),
+      (final char) {
+        if (throwError && index == prompt.length ~/ 2) {
+          throw Exception('Random error');
+        }
+
+        return ChatResult(
+          id: 'fake-echo-chat-model',
+          output: AIChatMessage(content: char),
+          finishReason: FinishReason.stop,
+          metadata: {
+            'model': options?.model ?? defaultOptions.model,
+            ...?options?.metadata ?? defaultOptions.metadata,
+            'index': index++,
+          },
+          usage: const LanguageModelUsage(),
+          streaming: true,
+        );
+      },
     );
   }
 
@@ -205,21 +222,27 @@ class FakeEchoChatModelOptions extends ChatModelOptions {
   const FakeEchoChatModelOptions({
     super.model,
     this.metadata,
+    this.throwRandomError = false,
     super.concurrencyLimit,
   });
 
   /// Metadata.
   final Map<String, dynamic>? metadata;
 
+  /// If true, throws a random error.
+  final bool throwRandomError;
+
   @override
   FakeEchoChatModelOptions copyWith({
     final String? model,
     final Map<String, dynamic>? metadata,
+    final bool? throwRandomError,
     final int? concurrencyLimit,
   }) {
     return FakeEchoChatModelOptions(
       model: model ?? this.model,
       metadata: metadata ?? this.metadata,
+      throwRandomError: throwRandomError ?? this.throwRandomError,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
   }
@@ -231,6 +254,7 @@ class FakeEchoChatModelOptions extends ChatModelOptions {
     return copyWith(
       model: other?.model,
       metadata: other?.metadata,
+      throwRandomError: other?.throwRandomError,
       concurrencyLimit: other?.concurrencyLimit,
     );
   }
@@ -239,6 +263,7 @@ class FakeEchoChatModelOptions extends ChatModelOptions {
   bool operator ==(covariant final FakeEchoChatModelOptions other) {
     return model == other.model &&
         const MapEquality<String, dynamic>().equals(metadata, other.metadata) &&
+        throwRandomError == other.throwRandomError &&
         concurrencyLimit == other.concurrencyLimit;
   }
 
@@ -246,6 +271,7 @@ class FakeEchoChatModelOptions extends ChatModelOptions {
   int get hashCode {
     return model.hashCode ^
         const MapEquality<String, dynamic>().hash(metadata) ^
+        throwRandomError.hashCode ^
         concurrencyLimit.hashCode;
   }
 }
