@@ -10,6 +10,7 @@ void main(final List<String> arguments) async {
   await _chatOllamaStreaming();
   await _chatOllamaJsonMode();
   await _chatOllamaMultimodal();
+  await _chatOllamaToolCalling();
   await _rag();
 }
 
@@ -92,6 +93,48 @@ Future<void> _chatOllamaJsonMode() async {
   );
   print(res);
   // {Spain: 46735727, The Netherlands: 17398435, France: 65273538}
+}
+
+Future<void> _chatOllamaToolCalling() async {
+  const tool = ToolSpec(
+    name: 'get_current_weather',
+    description: 'Get the current weather in a given location',
+    inputJsonSchema: {
+      'type': 'object',
+      'properties': {
+        'location': {
+          'type': 'string',
+          'description': 'The city and country, e.g. San Francisco, US',
+        },
+      },
+      'required': ['location'],
+    },
+  );
+
+  final chatModel = ChatOllama(
+    defaultOptions: const ChatOllamaOptions(
+      model: 'llama3.1',
+      temperature: 0,
+      tools: [tool],
+    ),
+  );
+
+  final res = await chatModel.invoke(
+    PromptValue.string(
+      'What’s the weather like in Boston and Madrid right now in celsius?',
+    ),
+  );
+  print(res.output.toolCalls);
+  // [AIChatMessageToolCall{
+  //   id: a621064b-03b3-4ca6-8278-f37504901034,
+  //   name: get_current_weather,
+  //   arguments: {location: Boston, US},
+  // },
+  // AIChatMessageToolCall{
+  //   id: f160d9ba-ae7d-4abc-a910-2b6cd503ec53,
+  //   name: get_current_weather,
+  //   arguments: {location: Madrid, ES},
+  // }]
 }
 
 Future<void> _chatOllamaMultimodal() async {

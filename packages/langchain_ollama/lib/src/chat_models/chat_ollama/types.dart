@@ -47,6 +47,8 @@ class ChatOllamaOptions extends ChatModelOptions {
     this.useMmap,
     this.useMlock,
     this.numThread,
+    super.tools,
+    super.toolChoice,
     super.concurrencyLimit,
   });
 

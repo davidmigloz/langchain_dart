@@ -112,7 +112,7 @@ await stream.forEach(print);
 
 `ChatAnthropic` supports tool calling.
 
-Check the [docs](https://langchaindart.dev/#/modules/model_io/models/chat_models/how_to/tools) for more information on how to use tools.
+Check the [docs](/modules/model_io/models/chat_models/how_to/tools.md) for more information on how to use tools.
 
 Example:
 ```dart
@@ -124,7 +124,7 @@ const tool = ToolSpec(
     'properties': {
       'location': {
         'type': 'string',
-        'description': 'The city and state, e.g. San Francisco, CA',
+        'description': 'The city and country, e.g. San Francisco, US',
       },
     },
     'required': ['location'],
