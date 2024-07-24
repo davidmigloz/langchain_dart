@@ -24,6 +24,10 @@ extension OllamaChatMessagesMapper on List<ChatMessage> {
             content: msg.content,
           ),
         ],
+      // final ToolChatMessage toolChatMessage => ChatCompletionMessage.tool(
+      //   toolCallId: toolChatMessage.toolCallId,
+      //   content: toolChatMessage.content,
+      // ),
       ToolChatMessage() =>
         throw UnsupportedError('Ollama does not support tool calls'),
       CustomChatMessage() =>
