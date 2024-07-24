@@ -13,6 +13,7 @@ _$GenerateCompletionRequestImpl _$$GenerateCompletionRequestImplFromJson(
     _$GenerateCompletionRequestImpl(
       model: json['model'] as String,
       prompt: json['prompt'] as String,
+      suffix: json['suffix'] as String?,
       images:
           (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       system: json['system'] as String?,
@@ -42,6 +43,7 @@ Map<String, dynamic> _$$GenerateCompletionRequestImplToJson(
     }
   }
 
+  writeNotNull('suffix', instance.suffix);
   writeNotNull('images', instance.images);
   writeNotNull('system', instance.system);
   writeNotNull('template', instance.template);

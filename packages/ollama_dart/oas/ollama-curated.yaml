@@ -278,6 +278,9 @@ components:
           type: string
           description: The prompt to generate a response.
           example: Why is the sky blue?
+        suffix:
+          type: string
+          description: The text that comes after the inserted text.
         images:
           type: array
           description: (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
@@ -312,10 +315,10 @@ components:
           description: &stream |
             If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
           default: false
-        keep_alive:
+        keep_alive: &keep_alive
           type: integer
           nullable: true
-          description: &keep_alive |
+          description: |
             How long (in minutes) to keep the model loaded in memory.
             
             - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
@@ -598,10 +601,7 @@ components:
           type: boolean
           description: *stream
           default: false
-        keep_alive:
-          type: integer
-          nullable: true
-          description: *keep_alive
+        keep_alive: *keep_alive
       required:
         - model
         - messages
@@ -697,10 +697,7 @@ components:
           example: 'Here is an article about llamas...'
         options:
           $ref: '#/components/schemas/RequestOptions'
-        keep_alive:
-          type: integer
-          nullable: true
-          description: *keep_alive
+        keep_alive: *keep_alive
       required:
         - model
         - prompt
@@ -831,7 +828,6 @@ components:
           type: integer
           nullable: true
           description: The number of parameters in the model.
-
     ProcessResponse:
       type: object
       description: Response class for the list running models endpoint.
