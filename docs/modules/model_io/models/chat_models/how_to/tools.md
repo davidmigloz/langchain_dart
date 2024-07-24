@@ -4,9 +4,10 @@
 
 > Tool calling is currently supported by:
 > - [`ChatAnthropic`](/modules/model_io/models/chat_models/integrations/anthropic.md)
-> - [`ChatOpenAI`](/modules/model_io/models/chat_models/integrations/openai.md)
 > - [`ChatFirebaseVertexAI`](/modules/model_io/models/chat_models/integrations/firebase_vertex_ai.md)
 > - [`ChatGoogleGenerativeAI`](/modules/model_io/models/chat_models/integrations/googleai.md)
+> - [`ChatOllama`](/modules/model_io/models/chat_models/integrations/ollama.md)
+> - [`ChatOpenAI`](/modules/model_io/models/chat_models/integrations/openai.md)
 
 Tool calling allows a model to respond to a given prompt by generating output that matches a user-defined schema. While the name implies that the model is performing some action, this is actually not the case! The model is coming up with the arguments to a tool, and actually running the tool (or not) is up to the user - for example, if you want to extract output matching some schema from unstructured text, you could give the model an “extraction” tool that takes parameters matching the desired schema, then treat the generated output as your final result.
 
