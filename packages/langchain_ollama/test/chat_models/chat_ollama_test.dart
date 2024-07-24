@@ -6,13 +6,14 @@ import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/output_parsers.dart';
 import 'package:langchain_core/prompts.dart';
+import 'package:langchain_core/tools.dart';
 import 'package:langchain_ollama/langchain_ollama.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('ChatOllama tests', skip: Platform.environment.containsKey('CI'), () {
     late ChatOllama chatModel;
-    const defaultModel = 'llama3:latest';
+    const defaultModel = 'llama3.1';
     const visionModel = 'llava:latest';
 
     setUp(() async {
@@ -250,6 +251,90 @@ void main() {
       );
 
       expect(res.output.content.toLowerCase(), contains('apple'));
+    });
+
+    test('Test tool calling', timeout: const Timeout(Duration(minutes: 1)),
+        () async {
+      const tool = ToolSpec(
+        name: 'get_current_weather',
+        description: 'Get the current weather in a given location',
+        inputJsonSchema: {
+          'type': 'object',
+          'properties': {
+            'location': {
+              'type': 'string',
+              'description': 'The city and country, e.g. San Francisco, US',
+            },
+            'unit': {
+              'type': 'string',
+              'description': 'The unit of temperature to return',
+              'enum': ['celsius', 'fahrenheit'],
+            },
+          },
+          'required': ['location'],
+        },
+      );
+      final model = chatModel.bind(
+        const ChatOllamaOptions(
+          model: defaultModel,
+          tools: [tool],
+        ),
+      );
+
+      final humanMessage = ChatMessage.humanText(
+        "What's the weather like in Boston and Madrid right now in celsius?",
+      );
+      final res1 = await model.invoke(PromptValue.chat([humanMessage]));
+
+      final aiMessage1 = res1.output;
+      expect(aiMessage1.toolCalls, hasLength(2));
+
+      final toolCall1 = aiMessage1.toolCalls.first;
+      expect(toolCall1.name, tool.name);
+      expect(toolCall1.arguments.containsKey('location'), isTrue);
+      expect(toolCall1.arguments['location'], contains('Boston'));
+      expect(toolCall1.arguments['unit'], 'celsius');
+
+      final toolCall2 = aiMessage1.toolCalls.last;
+      expect(toolCall2.name, tool.name);
+      expect(toolCall2.arguments.containsKey('location'), isTrue);
+      expect(toolCall2.arguments['location'], contains('Madrid'));
+      expect(toolCall2.arguments['unit'], 'celsius');
+
+      final functionResult1 = {
+        'temperature': '22',
+        'unit': 'celsius',
+        'description': 'Sunny',
+      };
+      final functionMessage1 = ChatMessage.tool(
+        toolCallId: toolCall1.id,
+        content: json.encode(functionResult1),
+      );
+
+      final functionResult2 = {
+        'temperature': '25',
+        'unit': 'celsius',
+        'description': 'Cloudy',
+      };
+      final functionMessage2 = ChatMessage.tool(
+        toolCallId: toolCall2.id,
+        content: json.encode(functionResult2),
+      );
+
+      final res2 = await model.invoke(
+        PromptValue.chat([
+          humanMessage,
+          aiMessage1,
+          functionMessage1,
+          functionMessage2,
+        ]),
+      );
+
+      final aiMessage2 = res2.output;
+
+      expect(aiMessage2.toolCalls, isEmpty);
+      expect(aiMessage2.content, contains('22'));
+      expect(aiMessage2.content, contains('25'));
     });
   });
 }

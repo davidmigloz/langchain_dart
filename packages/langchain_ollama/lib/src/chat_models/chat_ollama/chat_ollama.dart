@@ -5,7 +5,6 @@ import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:ollama_dart/ollama_dart.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../llms/mappers.dart';
 import 'mappers.dart';
 import 'types.dart';
 
@@ -13,7 +12,7 @@ import 'types.dart';
 /// to interact with the LLMs in a chat-like fashion.
 ///
 /// Ollama allows you to run open-source large language models,
-/// such as Llama 3 or LLaVA, locally.
+/// such as Llama 3.1, Gemma 2 or LLaVA, locally.
 ///
 /// For a complete list of supported models and model variants, see the
 /// [Ollama model library](https://ollama.ai/library).
@@ -37,7 +36,7 @@ import 'types.dart';
 ///
 /// 1. Download and install [Ollama](https://ollama.ai)
 /// 2. Fetch a model via `ollama pull <model family>`
-///   * e.g., for Llama 3: `ollama pull llama3`
+///   * e.g., for Llama 3: `ollama pull llama3.1`
 ///
 /// ### Ollama base URL
 ///
@@ -188,9 +187,10 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
   }) async {
     final id = _uuid.v4();
     final completion = await _client.generateChatCompletion(
-      request: _generateCompletionRequest(
+      request: generateChatCompletionRequest(
         input.toChatMessages(),
         options: options,
+        defaultOptions: defaultOptions,
       ),
     );
     return completion.toChatResult(id);
@@ -204,63 +204,16 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
     final id = _uuid.v4();
     return _client
         .generateChatCompletionStream(
-          request: _generateCompletionRequest(
+          request: generateChatCompletionRequest(
             input.toChatMessages(),
             options: options,
+            defaultOptions: defaultOptions,
+            stream: true,
           ),
         )
         .map(
           (final completion) => completion.toChatResult(id, streaming: true),
         );
-  }
-
-  /// Creates a [GenerateChatCompletionRequest] from the given input.
-  GenerateChatCompletionRequest _generateCompletionRequest(
-    final List<ChatMessage> messages, {
-    final bool stream = false,
-    final ChatOllamaOptions? options,
-  }) {
-    return GenerateChatCompletionRequest(
-      model: options?.model ?? defaultOptions.model ?? defaultModel,
-      messages: messages.toMessages(),
-      format: (options?.format ?? defaultOptions.format)?.toResponseFormat(),
-      keepAlive: options?.keepAlive ?? defaultOptions.keepAlive,
-      stream: stream,
-      options: RequestOptions(
-        numKeep: options?.numKeep ?? defaultOptions.numKeep,
-        seed: options?.seed ?? defaultOptions.seed,
-        numPredict: options?.numPredict ?? defaultOptions.numPredict,
-        topK: options?.topK ?? defaultOptions.topK,
-        topP: options?.topP ?? defaultOptions.topP,
-        tfsZ: options?.tfsZ ?? defaultOptions.tfsZ,
-        typicalP: options?.typicalP ?? defaultOptions.typicalP,
-        repeatLastN: options?.repeatLastN ?? defaultOptions.repeatLastN,
-        temperature: options?.temperature ?? defaultOptions.temperature,
-        repeatPenalty: options?.repeatPenalty ?? defaultOptions.repeatPenalty,
-        presencePenalty:
-            options?.presencePenalty ?? defaultOptions.presencePenalty,
-        frequencyPenalty:
-            options?.frequencyPenalty ?? defaultOptions.frequencyPenalty,
-        mirostat: options?.mirostat ?? defaultOptions.mirostat,
-        mirostatTau: options?.mirostatTau ?? defaultOptions.mirostatTau,
-        mirostatEta: options?.mirostatEta ?? defaultOptions.mirostatEta,
-        penalizeNewline:
-            options?.penalizeNewline ?? defaultOptions.penalizeNewline,
-        stop: options?.stop ?? defaultOptions.stop,
-        numa: options?.numa ?? defaultOptions.numa,
-        numCtx: options?.numCtx ?? defaultOptions.numCtx,
-        numBatch: options?.numBatch ?? defaultOptions.numBatch,
-        numGpu: options?.numGpu ?? defaultOptions.numGpu,
-        mainGpu: options?.mainGpu ?? defaultOptions.mainGpu,
-        lowVram: options?.lowVram ?? defaultOptions.lowVram,
-        f16Kv: options?.f16KV ?? defaultOptions.f16KV,
-        logitsAll: options?.logitsAll ?? defaultOptions.logitsAll,
-        vocabOnly: options?.vocabOnly ?? defaultOptions.vocabOnly,
-        useMmap: options?.useMmap ?? defaultOptions.useMmap,
-        useMlock: options?.useMlock ?? defaultOptions.useMlock,
-        numThread: options?.numThread ?? defaultOptions.numThread,
-      ),
-    );
   }
 
   /// Tokenizes the given prompt using tiktoken.
