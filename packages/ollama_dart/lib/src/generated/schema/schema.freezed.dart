@@ -29,6 +29,10 @@ mixin _$GenerateCompletionRequest {
   /// The prompt to generate a response.
   String get prompt => throw _privateConstructorUsedError;
 
+  /// The text that comes after the inserted text.
+  @JsonKey(includeIfNull: false)
+  String? get suffix => throw _privateConstructorUsedError;
+
   /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
   @JsonKey(includeIfNull: false)
   List<String>? get images => throw _privateConstructorUsedError;
@@ -91,6 +95,7 @@ abstract class $GenerateCompletionRequestCopyWith<$Res> {
   $Res call(
       {String model,
       String prompt,
+      @JsonKey(includeIfNull: false) String? suffix,
       @JsonKey(includeIfNull: false) List<String>? images,
       @JsonKey(includeIfNull: false) String? system,
       @JsonKey(includeIfNull: false) String? template,
@@ -123,6 +128,7 @@ class _$GenerateCompletionRequestCopyWithImpl<$Res,
   $Res call({
     Object? model = null,
     Object? prompt = null,
+    Object? suffix = freezed,
     Object? images = freezed,
     Object? system = freezed,
     Object? template = freezed,
@@ -142,6 +148,10 @@ class _$GenerateCompletionRequestCopyWithImpl<$Res,
           ? _value.prompt
           : prompt // ignore: cast_nullable_to_non_nullable
               as String,
+      suffix: freezed == suffix
+          ? _value.suffix
+          : suffix // ignore: cast_nullable_to_non_nullable
+              as String?,
       images: freezed == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
@@ -206,6 +216,7 @@ abstract class _$$GenerateCompletionRequestImplCopyWith<$Res>
   $Res call(
       {String model,
       String prompt,
+      @JsonKey(includeIfNull: false) String? suffix,
       @JsonKey(includeIfNull: false) List<String>? images,
       @JsonKey(includeIfNull: false) String? system,
       @JsonKey(includeIfNull: false) String? template,
@@ -238,6 +249,7 @@ class __$$GenerateCompletionRequestImplCopyWithImpl<$Res>
   $Res call({
     Object? model = null,
     Object? prompt = null,
+    Object? suffix = freezed,
     Object? images = freezed,
     Object? system = freezed,
     Object? template = freezed,
@@ -257,6 +269,10 @@ class __$$GenerateCompletionRequestImplCopyWithImpl<$Res>
           ? _value.prompt
           : prompt // ignore: cast_nullable_to_non_nullable
               as String,
+      suffix: freezed == suffix
+          ? _value.suffix
+          : suffix // ignore: cast_nullable_to_non_nullable
+              as String?,
       images: freezed == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
@@ -303,6 +319,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
   const _$GenerateCompletionRequestImpl(
       {required this.model,
       required this.prompt,
+      @JsonKey(includeIfNull: false) this.suffix,
       @JsonKey(includeIfNull: false) final List<String>? images,
       @JsonKey(includeIfNull: false) this.system,
       @JsonKey(includeIfNull: false) this.template,
@@ -331,6 +348,11 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
   /// The prompt to generate a response.
   @override
   final String prompt;
+
+  /// The text that comes after the inserted text.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? suffix;
 
   /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
   final List<String>? _images;
@@ -409,7 +431,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
 
   @override
   String toString() {
-    return 'GenerateCompletionRequest(model: $model, prompt: $prompt, images: $images, system: $system, template: $template, context: $context, options: $options, format: $format, raw: $raw, stream: $stream, keepAlive: $keepAlive)';
+    return 'GenerateCompletionRequest(model: $model, prompt: $prompt, suffix: $suffix, images: $images, system: $system, template: $template, context: $context, options: $options, format: $format, raw: $raw, stream: $stream, keepAlive: $keepAlive)';
   }
 
   @override
@@ -419,6 +441,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
             other is _$GenerateCompletionRequestImpl &&
             (identical(other.model, model) || other.model == model) &&
             (identical(other.prompt, prompt) || other.prompt == prompt) &&
+            (identical(other.suffix, suffix) || other.suffix == suffix) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
             (identical(other.system, system) || other.system == system) &&
             (identical(other.template, template) ||
@@ -438,6 +461,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
       runtimeType,
       model,
       prompt,
+      suffix,
       const DeepCollectionEquality().hash(_images),
       system,
       template,
@@ -467,6 +491,7 @@ abstract class _GenerateCompletionRequest extends GenerateCompletionRequest {
   const factory _GenerateCompletionRequest(
       {required final String model,
       required final String prompt,
+      @JsonKey(includeIfNull: false) final String? suffix,
       @JsonKey(includeIfNull: false) final List<String>? images,
       @JsonKey(includeIfNull: false) final String? system,
       @JsonKey(includeIfNull: false) final String? template,
@@ -495,6 +520,11 @@ abstract class _GenerateCompletionRequest extends GenerateCompletionRequest {
 
   /// The prompt to generate a response.
   String get prompt;
+  @override
+
+  /// The text that comes after the inserted text.
+  @JsonKey(includeIfNull: false)
+  String? get suffix;
   @override
 
   /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
