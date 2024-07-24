@@ -47,6 +47,9 @@ class GenerateChatCompletionRequest with _$GenerateChatCompletionRequest {
     /// - If set to 0, the model will be unloaded immediately once finished.
     /// - If not set, the model will stay loaded for 5 minutes by default
     @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,
+
+    /// A list of tools the model may call.
+    @JsonKey(includeIfNull: false) List<Tool>? tools,
   }) = _GenerateChatCompletionRequest;
 
   /// Object construction from a JSON representation
@@ -60,7 +63,8 @@ class GenerateChatCompletionRequest with _$GenerateChatCompletionRequest {
     'format',
     'options',
     'stream',
-    'keep_alive'
+    'keep_alive',
+    'tools'
   ];
 
   /// Perform validations on the schema property values
@@ -77,6 +81,7 @@ class GenerateChatCompletionRequest with _$GenerateChatCompletionRequest {
       'options': options,
       'stream': stream,
       'keep_alive': keepAlive,
+      'tools': tools,
     };
   }
 }

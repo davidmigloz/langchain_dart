@@ -101,7 +101,7 @@ extension ChatResultMapper on GenerateChatCompletionResponse {
     return ChatResult(
       id: id,
       output: AIChatMessage(
-        content: message?.content ?? '',
+        content: message.content,
       ),
       finishReason: _mapFinishReason(doneReason),
       metadata: {
