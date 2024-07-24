@@ -2363,6 +2363,10 @@ mixin _$GenerateChatCompletionRequest {
   @JsonKey(name: 'keep_alive', includeIfNull: false)
   int? get keepAlive => throw _privateConstructorUsedError;
 
+  /// A list of tools the model may call.
+  @JsonKey(includeIfNull: false)
+  List<Tool>? get tools => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $GenerateChatCompletionRequestCopyWith<GenerateChatCompletionRequest>
@@ -2386,7 +2390,8 @@ abstract class $GenerateChatCompletionRequestCopyWith<$Res> {
       ResponseFormat? format,
       @JsonKey(includeIfNull: false) RequestOptions? options,
       bool stream,
-      @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive});
+      @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,
+      @JsonKey(includeIfNull: false) List<Tool>? tools});
 
   $RequestOptionsCopyWith<$Res>? get options;
 }
@@ -2411,6 +2416,7 @@ class _$GenerateChatCompletionRequestCopyWithImpl<$Res,
     Object? options = freezed,
     Object? stream = null,
     Object? keepAlive = freezed,
+    Object? tools = freezed,
   }) {
     return _then(_value.copyWith(
       model: null == model
@@ -2437,6 +2443,10 @@ class _$GenerateChatCompletionRequestCopyWithImpl<$Res,
           ? _value.keepAlive
           : keepAlive // ignore: cast_nullable_to_non_nullable
               as int?,
+      tools: freezed == tools
+          ? _value.tools
+          : tools // ignore: cast_nullable_to_non_nullable
+              as List<Tool>?,
     ) as $Val);
   }
 
@@ -2471,7 +2481,8 @@ abstract class _$$GenerateChatCompletionRequestImplCopyWith<$Res>
       ResponseFormat? format,
       @JsonKey(includeIfNull: false) RequestOptions? options,
       bool stream,
-      @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive});
+      @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,
+      @JsonKey(includeIfNull: false) List<Tool>? tools});
 
   @override
   $RequestOptionsCopyWith<$Res>? get options;
@@ -2496,6 +2507,7 @@ class __$$GenerateChatCompletionRequestImplCopyWithImpl<$Res>
     Object? options = freezed,
     Object? stream = null,
     Object? keepAlive = freezed,
+    Object? tools = freezed,
   }) {
     return _then(_$GenerateChatCompletionRequestImpl(
       model: null == model
@@ -2522,6 +2534,10 @@ class __$$GenerateChatCompletionRequestImplCopyWithImpl<$Res>
           ? _value.keepAlive
           : keepAlive // ignore: cast_nullable_to_non_nullable
               as int?,
+      tools: freezed == tools
+          ? _value._tools
+          : tools // ignore: cast_nullable_to_non_nullable
+              as List<Tool>?,
     ));
   }
 }
@@ -2539,8 +2555,10 @@ class _$GenerateChatCompletionRequestImpl
       this.format,
       @JsonKey(includeIfNull: false) this.options,
       this.stream = false,
-      @JsonKey(name: 'keep_alive', includeIfNull: false) this.keepAlive})
+      @JsonKey(name: 'keep_alive', includeIfNull: false) this.keepAlive,
+      @JsonKey(includeIfNull: false) final List<Tool>? tools})
       : _messages = messages,
+        _tools = tools,
         super._();
 
   factory _$GenerateChatCompletionRequestImpl.fromJson(
@@ -2594,9 +2612,23 @@ class _$GenerateChatCompletionRequestImpl
   @JsonKey(name: 'keep_alive', includeIfNull: false)
   final int? keepAlive;
 
+  /// A list of tools the model may call.
+  final List<Tool>? _tools;
+
+  /// A list of tools the model may call.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<Tool>? get tools {
+    final value = _tools;
+    if (value == null) return null;
+    if (_tools is EqualUnmodifiableListView) return _tools;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'GenerateChatCompletionRequest(model: $model, messages: $messages, format: $format, options: $options, stream: $stream, keepAlive: $keepAlive)';
+    return 'GenerateChatCompletionRequest(model: $model, messages: $messages, format: $format, options: $options, stream: $stream, keepAlive: $keepAlive, tools: $tools)';
   }
 
   @override
@@ -2610,7 +2642,8 @@ class _$GenerateChatCompletionRequestImpl
             (identical(other.options, options) || other.options == options) &&
             (identical(other.stream, stream) || other.stream == stream) &&
             (identical(other.keepAlive, keepAlive) ||
-                other.keepAlive == keepAlive));
+                other.keepAlive == keepAlive) &&
+            const DeepCollectionEquality().equals(other._tools, _tools));
   }
 
   @JsonKey(ignore: true)
@@ -2622,7 +2655,8 @@ class _$GenerateChatCompletionRequestImpl
       format,
       options,
       stream,
-      keepAlive);
+      keepAlive,
+      const DeepCollectionEquality().hash(_tools));
 
   @JsonKey(ignore: true)
   @override
@@ -2651,8 +2685,9 @@ abstract class _GenerateChatCompletionRequest
       final ResponseFormat? format,
       @JsonKey(includeIfNull: false) final RequestOptions? options,
       final bool stream,
-      @JsonKey(name: 'keep_alive', includeIfNull: false)
-      final int? keepAlive}) = _$GenerateChatCompletionRequestImpl;
+      @JsonKey(name: 'keep_alive', includeIfNull: false) final int? keepAlive,
+      @JsonKey(includeIfNull: false)
+      final List<Tool>? tools}) = _$GenerateChatCompletionRequestImpl;
   const _GenerateChatCompletionRequest._() : super._();
 
   factory _GenerateChatCompletionRequest.fromJson(Map<String, dynamic> json) =
@@ -2698,6 +2733,11 @@ abstract class _GenerateChatCompletionRequest
   @JsonKey(name: 'keep_alive', includeIfNull: false)
   int? get keepAlive;
   @override
+
+  /// A list of tools the model may call.
+  @JsonKey(includeIfNull: false)
+  List<Tool>? get tools;
+  @override
   @JsonKey(ignore: true)
   _$$GenerateChatCompletionRequestImplCopyWith<
           _$GenerateChatCompletionRequestImpl>
@@ -2712,22 +2752,19 @@ GenerateChatCompletionResponse _$GenerateChatCompletionResponseFromJson(
 /// @nodoc
 mixin _$GenerateChatCompletionResponse {
   /// A message in the chat endpoint
-  @JsonKey(includeIfNull: false)
-  Message? get message => throw _privateConstructorUsedError;
+  Message get message => throw _privateConstructorUsedError;
 
   /// The model name.
   ///
   /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
-  @JsonKey(includeIfNull: false)
-  String? get model => throw _privateConstructorUsedError;
+  String get model => throw _privateConstructorUsedError;
 
   /// Date on which a model was created.
-  @JsonKey(name: 'created_at', includeIfNull: false)
-  String? get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
+  String get createdAt => throw _privateConstructorUsedError;
 
   /// Whether the response has completed.
-  @JsonKey(includeIfNull: false)
-  bool? get done => throw _privateConstructorUsedError;
+  bool get done => throw _privateConstructorUsedError;
 
   /// Reason why the model is done generating a response.
   @JsonKey(
@@ -2775,10 +2812,10 @@ abstract class $GenerateChatCompletionResponseCopyWith<$Res> {
           GenerateChatCompletionResponse>;
   @useResult
   $Res call(
-      {@JsonKey(includeIfNull: false) Message? message,
-      @JsonKey(includeIfNull: false) String? model,
-      @JsonKey(name: 'created_at', includeIfNull: false) String? createdAt,
-      @JsonKey(includeIfNull: false) bool? done,
+      {Message message,
+      String model,
+      @JsonKey(name: 'created_at') String createdAt,
+      bool done,
       @JsonKey(
           name: 'done_reason',
           includeIfNull: false,
@@ -2793,7 +2830,7 @@ abstract class $GenerateChatCompletionResponseCopyWith<$Res> {
       @JsonKey(name: 'eval_count', includeIfNull: false) int? evalCount,
       @JsonKey(name: 'eval_duration', includeIfNull: false) int? evalDuration});
 
-  $MessageCopyWith<$Res>? get message;
+  $MessageCopyWith<$Res> get message;
 }
 
 /// @nodoc
@@ -2810,10 +2847,10 @@ class _$GenerateChatCompletionResponseCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? message = freezed,
-    Object? model = freezed,
-    Object? createdAt = freezed,
-    Object? done = freezed,
+    Object? message = null,
+    Object? model = null,
+    Object? createdAt = null,
+    Object? done = null,
     Object? doneReason = freezed,
     Object? totalDuration = freezed,
     Object? loadDuration = freezed,
@@ -2823,22 +2860,22 @@ class _$GenerateChatCompletionResponseCopyWithImpl<$Res,
     Object? evalDuration = freezed,
   }) {
     return _then(_value.copyWith(
-      message: freezed == message
+      message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as Message?,
-      model: freezed == model
+              as Message,
+      model: null == model
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
+              as String,
+      createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      done: freezed == done
+              as String,
+      done: null == done
           ? _value.done
           : done // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
       doneReason: freezed == doneReason
           ? _value.doneReason
           : doneReason // ignore: cast_nullable_to_non_nullable
@@ -2872,12 +2909,8 @@ class _$GenerateChatCompletionResponseCopyWithImpl<$Res,
 
   @override
   @pragma('vm:prefer-inline')
-  $MessageCopyWith<$Res>? get message {
-    if (_value.message == null) {
-      return null;
-    }
-
-    return $MessageCopyWith<$Res>(_value.message!, (value) {
+  $MessageCopyWith<$Res> get message {
+    return $MessageCopyWith<$Res>(_value.message, (value) {
       return _then(_value.copyWith(message: value) as $Val);
     });
   }
@@ -2893,10 +2926,10 @@ abstract class _$$GenerateChatCompletionResponseImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(includeIfNull: false) Message? message,
-      @JsonKey(includeIfNull: false) String? model,
-      @JsonKey(name: 'created_at', includeIfNull: false) String? createdAt,
-      @JsonKey(includeIfNull: false) bool? done,
+      {Message message,
+      String model,
+      @JsonKey(name: 'created_at') String createdAt,
+      bool done,
       @JsonKey(
           name: 'done_reason',
           includeIfNull: false,
@@ -2912,7 +2945,7 @@ abstract class _$$GenerateChatCompletionResponseImplCopyWith<$Res>
       @JsonKey(name: 'eval_duration', includeIfNull: false) int? evalDuration});
 
   @override
-  $MessageCopyWith<$Res>? get message;
+  $MessageCopyWith<$Res> get message;
 }
 
 /// @nodoc
@@ -2928,10 +2961,10 @@ class __$$GenerateChatCompletionResponseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? message = freezed,
-    Object? model = freezed,
-    Object? createdAt = freezed,
-    Object? done = freezed,
+    Object? message = null,
+    Object? model = null,
+    Object? createdAt = null,
+    Object? done = null,
     Object? doneReason = freezed,
     Object? totalDuration = freezed,
     Object? loadDuration = freezed,
@@ -2941,22 +2974,22 @@ class __$$GenerateChatCompletionResponseImplCopyWithImpl<$Res>
     Object? evalDuration = freezed,
   }) {
     return _then(_$GenerateChatCompletionResponseImpl(
-      message: freezed == message
+      message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as Message?,
-      model: freezed == model
+              as Message,
+      model: null == model
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
+              as String,
+      createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      done: freezed == done
+              as String,
+      done: null == done
           ? _value.done
           : done // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
       doneReason: freezed == doneReason
           ? _value.doneReason
           : doneReason // ignore: cast_nullable_to_non_nullable
@@ -2994,10 +3027,10 @@ class __$$GenerateChatCompletionResponseImplCopyWithImpl<$Res>
 class _$GenerateChatCompletionResponseImpl
     extends _GenerateChatCompletionResponse {
   const _$GenerateChatCompletionResponseImpl(
-      {@JsonKey(includeIfNull: false) this.message,
-      @JsonKey(includeIfNull: false) this.model,
-      @JsonKey(name: 'created_at', includeIfNull: false) this.createdAt,
-      @JsonKey(includeIfNull: false) this.done,
+      {required this.message,
+      required this.model,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      required this.done,
       @JsonKey(
           name: 'done_reason',
           includeIfNull: false,
@@ -3019,25 +3052,22 @@ class _$GenerateChatCompletionResponseImpl
 
   /// A message in the chat endpoint
   @override
-  @JsonKey(includeIfNull: false)
-  final Message? message;
+  final Message message;
 
   /// The model name.
   ///
   /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
-  @JsonKey(includeIfNull: false)
-  final String? model;
+  final String model;
 
   /// Date on which a model was created.
   @override
-  @JsonKey(name: 'created_at', includeIfNull: false)
-  final String? createdAt;
+  @JsonKey(name: 'created_at')
+  final String createdAt;
 
   /// Whether the response has completed.
   @override
-  @JsonKey(includeIfNull: false)
-  final bool? done;
+  final bool done;
 
   /// Reason why the model is done generating a response.
   @override
@@ -3143,11 +3173,10 @@ class _$GenerateChatCompletionResponseImpl
 abstract class _GenerateChatCompletionResponse
     extends GenerateChatCompletionResponse {
   const factory _GenerateChatCompletionResponse(
-      {@JsonKey(includeIfNull: false) final Message? message,
-      @JsonKey(includeIfNull: false) final String? model,
-      @JsonKey(name: 'created_at', includeIfNull: false)
-      final String? createdAt,
-      @JsonKey(includeIfNull: false) final bool? done,
+      {required final Message message,
+      required final String model,
+      @JsonKey(name: 'created_at') required final String createdAt,
+      required final bool done,
       @JsonKey(
           name: 'done_reason',
           includeIfNull: false,
@@ -3172,25 +3201,22 @@ abstract class _GenerateChatCompletionResponse
   @override
 
   /// A message in the chat endpoint
-  @JsonKey(includeIfNull: false)
-  Message? get message;
+  Message get message;
   @override
 
   /// The model name.
   ///
   /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
-  @JsonKey(includeIfNull: false)
-  String? get model;
+  String get model;
   @override
 
   /// Date on which a model was created.
-  @JsonKey(name: 'created_at', includeIfNull: false)
-  String? get createdAt;
+  @JsonKey(name: 'created_at')
+  String get createdAt;
   @override
 
   /// Whether the response has completed.
-  @JsonKey(includeIfNull: false)
-  bool? get done;
+  bool get done;
   @override
 
   /// Reason why the model is done generating a response.
@@ -3252,6 +3278,10 @@ mixin _$Message {
   @JsonKey(includeIfNull: false)
   List<String>? get images => throw _privateConstructorUsedError;
 
+  /// A list of tools the model wants to call.
+  @JsonKey(name: 'tool_calls', includeIfNull: false)
+  List<ToolCall>? get toolCalls => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $MessageCopyWith<Message> get copyWith => throw _privateConstructorUsedError;
@@ -3265,7 +3295,9 @@ abstract class $MessageCopyWith<$Res> {
   $Res call(
       {MessageRole role,
       String content,
-      @JsonKey(includeIfNull: false) List<String>? images});
+      @JsonKey(includeIfNull: false) List<String>? images,
+      @JsonKey(name: 'tool_calls', includeIfNull: false)
+      List<ToolCall>? toolCalls});
 }
 
 /// @nodoc
@@ -3284,6 +3316,7 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
     Object? role = null,
     Object? content = null,
     Object? images = freezed,
+    Object? toolCalls = freezed,
   }) {
     return _then(_value.copyWith(
       role: null == role
@@ -3298,6 +3331,10 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      toolCalls: freezed == toolCalls
+          ? _value.toolCalls
+          : toolCalls // ignore: cast_nullable_to_non_nullable
+              as List<ToolCall>?,
     ) as $Val);
   }
 }
@@ -3312,7 +3349,9 @@ abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
   $Res call(
       {MessageRole role,
       String content,
-      @JsonKey(includeIfNull: false) List<String>? images});
+      @JsonKey(includeIfNull: false) List<String>? images,
+      @JsonKey(name: 'tool_calls', includeIfNull: false)
+      List<ToolCall>? toolCalls});
 }
 
 /// @nodoc
@@ -3329,6 +3368,7 @@ class __$$MessageImplCopyWithImpl<$Res>
     Object? role = null,
     Object? content = null,
     Object? images = freezed,
+    Object? toolCalls = freezed,
   }) {
     return _then(_$MessageImpl(
       role: null == role
@@ -3343,6 +3383,10 @@ class __$$MessageImplCopyWithImpl<$Res>
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      toolCalls: freezed == toolCalls
+          ? _value._toolCalls
+          : toolCalls // ignore: cast_nullable_to_non_nullable
+              as List<ToolCall>?,
     ));
   }
 }
@@ -3353,8 +3397,11 @@ class _$MessageImpl extends _Message {
   const _$MessageImpl(
       {required this.role,
       required this.content,
-      @JsonKey(includeIfNull: false) final List<String>? images})
+      @JsonKey(includeIfNull: false) final List<String>? images,
+      @JsonKey(name: 'tool_calls', includeIfNull: false)
+      final List<ToolCall>? toolCalls})
       : _images = images,
+        _toolCalls = toolCalls,
         super._();
 
   factory _$MessageImpl.fromJson(Map<String, dynamic> json) =>
@@ -3382,9 +3429,23 @@ class _$MessageImpl extends _Message {
     return EqualUnmodifiableListView(value);
   }
 
+  /// A list of tools the model wants to call.
+  final List<ToolCall>? _toolCalls;
+
+  /// A list of tools the model wants to call.
+  @override
+  @JsonKey(name: 'tool_calls', includeIfNull: false)
+  List<ToolCall>? get toolCalls {
+    final value = _toolCalls;
+    if (value == null) return null;
+    if (_toolCalls is EqualUnmodifiableListView) return _toolCalls;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'Message(role: $role, content: $content, images: $images)';
+    return 'Message(role: $role, content: $content, images: $images, toolCalls: $toolCalls)';
   }
 
   @override
@@ -3394,13 +3455,19 @@ class _$MessageImpl extends _Message {
             other is _$MessageImpl &&
             (identical(other.role, role) || other.role == role) &&
             (identical(other.content, content) || other.content == content) &&
-            const DeepCollectionEquality().equals(other._images, _images));
+            const DeepCollectionEquality().equals(other._images, _images) &&
+            const DeepCollectionEquality()
+                .equals(other._toolCalls, _toolCalls));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, role, content, const DeepCollectionEquality().hash(_images));
+      runtimeType,
+      role,
+      content,
+      const DeepCollectionEquality().hash(_images),
+      const DeepCollectionEquality().hash(_toolCalls));
 
   @JsonKey(ignore: true)
   @override
@@ -3418,10 +3485,11 @@ class _$MessageImpl extends _Message {
 
 abstract class _Message extends Message {
   const factory _Message(
-          {required final MessageRole role,
-          required final String content,
-          @JsonKey(includeIfNull: false) final List<String>? images}) =
-      _$MessageImpl;
+      {required final MessageRole role,
+      required final String content,
+      @JsonKey(includeIfNull: false) final List<String>? images,
+      @JsonKey(name: 'tool_calls', includeIfNull: false)
+      final List<ToolCall>? toolCalls}) = _$MessageImpl;
   const _Message._() : super._();
 
   factory _Message.fromJson(Map<String, dynamic> json) = _$MessageImpl.fromJson;
@@ -3440,8 +3508,746 @@ abstract class _Message extends Message {
   @JsonKey(includeIfNull: false)
   List<String>? get images;
   @override
+
+  /// A list of tools the model wants to call.
+  @JsonKey(name: 'tool_calls', includeIfNull: false)
+  List<ToolCall>? get toolCalls;
+  @override
   @JsonKey(ignore: true)
   _$$MessageImplCopyWith<_$MessageImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Tool _$ToolFromJson(Map<String, dynamic> json) {
+  return _Tool.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Tool {
+  /// The type of tool.
+  ToolType get type => throw _privateConstructorUsedError;
+
+  /// A function that the model may call.
+  @JsonKey(includeIfNull: false)
+  ToolFunction? get function => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ToolCopyWith<Tool> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ToolCopyWith<$Res> {
+  factory $ToolCopyWith(Tool value, $Res Function(Tool) then) =
+      _$ToolCopyWithImpl<$Res, Tool>;
+  @useResult
+  $Res call(
+      {ToolType type, @JsonKey(includeIfNull: false) ToolFunction? function});
+
+  $ToolFunctionCopyWith<$Res>? get function;
+}
+
+/// @nodoc
+class _$ToolCopyWithImpl<$Res, $Val extends Tool>
+    implements $ToolCopyWith<$Res> {
+  _$ToolCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? function = freezed,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ToolType,
+      function: freezed == function
+          ? _value.function
+          : function // ignore: cast_nullable_to_non_nullable
+              as ToolFunction?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ToolFunctionCopyWith<$Res>? get function {
+    if (_value.function == null) {
+      return null;
+    }
+
+    return $ToolFunctionCopyWith<$Res>(_value.function!, (value) {
+      return _then(_value.copyWith(function: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$ToolImplCopyWith<$Res> implements $ToolCopyWith<$Res> {
+  factory _$$ToolImplCopyWith(
+          _$ToolImpl value, $Res Function(_$ToolImpl) then) =
+      __$$ToolImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {ToolType type, @JsonKey(includeIfNull: false) ToolFunction? function});
+
+  @override
+  $ToolFunctionCopyWith<$Res>? get function;
+}
+
+/// @nodoc
+class __$$ToolImplCopyWithImpl<$Res>
+    extends _$ToolCopyWithImpl<$Res, _$ToolImpl>
+    implements _$$ToolImplCopyWith<$Res> {
+  __$$ToolImplCopyWithImpl(_$ToolImpl _value, $Res Function(_$ToolImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? function = freezed,
+  }) {
+    return _then(_$ToolImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ToolType,
+      function: freezed == function
+          ? _value.function
+          : function // ignore: cast_nullable_to_non_nullable
+              as ToolFunction?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ToolImpl extends _Tool {
+  const _$ToolImpl(
+      {this.type = ToolType.function,
+      @JsonKey(includeIfNull: false) this.function})
+      : super._();
+
+  factory _$ToolImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ToolImplFromJson(json);
+
+  /// The type of tool.
+  @override
+  @JsonKey()
+  final ToolType type;
+
+  /// A function that the model may call.
+  @override
+  @JsonKey(includeIfNull: false)
+  final ToolFunction? function;
+
+  @override
+  String toString() {
+    return 'Tool(type: $type, function: $function)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ToolImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.function, function) ||
+                other.function == function));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, function);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ToolImplCopyWith<_$ToolImpl> get copyWith =>
+      __$$ToolImplCopyWithImpl<_$ToolImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ToolImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Tool extends Tool {
+  const factory _Tool(
+          {final ToolType type,
+          @JsonKey(includeIfNull: false) final ToolFunction? function}) =
+      _$ToolImpl;
+  const _Tool._() : super._();
+
+  factory _Tool.fromJson(Map<String, dynamic> json) = _$ToolImpl.fromJson;
+
+  @override
+
+  /// The type of tool.
+  ToolType get type;
+  @override
+
+  /// A function that the model may call.
+  @JsonKey(includeIfNull: false)
+  ToolFunction? get function;
+  @override
+  @JsonKey(ignore: true)
+  _$$ToolImplCopyWith<_$ToolImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ToolFunction _$ToolFunctionFromJson(Map<String, dynamic> json) {
+  return _ToolFunction.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ToolFunction {
+  /// The name of the function to be called.
+  String get name => throw _privateConstructorUsedError;
+
+  /// A description of what the function does, used by the model to choose when and how to call the function.
+  String get description => throw _privateConstructorUsedError;
+
+  /// The parameters the functions accepts, described as a JSON Schema object.
+  Map<String, dynamic> get parameters => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ToolFunctionCopyWith<ToolFunction> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ToolFunctionCopyWith<$Res> {
+  factory $ToolFunctionCopyWith(
+          ToolFunction value, $Res Function(ToolFunction) then) =
+      _$ToolFunctionCopyWithImpl<$Res, ToolFunction>;
+  @useResult
+  $Res call({String name, String description, Map<String, dynamic> parameters});
+}
+
+/// @nodoc
+class _$ToolFunctionCopyWithImpl<$Res, $Val extends ToolFunction>
+    implements $ToolFunctionCopyWith<$Res> {
+  _$ToolFunctionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? description = null,
+    Object? parameters = null,
+  }) {
+    return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      parameters: null == parameters
+          ? _value.parameters
+          : parameters // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ToolFunctionImplCopyWith<$Res>
+    implements $ToolFunctionCopyWith<$Res> {
+  factory _$$ToolFunctionImplCopyWith(
+          _$ToolFunctionImpl value, $Res Function(_$ToolFunctionImpl) then) =
+      __$$ToolFunctionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String name, String description, Map<String, dynamic> parameters});
+}
+
+/// @nodoc
+class __$$ToolFunctionImplCopyWithImpl<$Res>
+    extends _$ToolFunctionCopyWithImpl<$Res, _$ToolFunctionImpl>
+    implements _$$ToolFunctionImplCopyWith<$Res> {
+  __$$ToolFunctionImplCopyWithImpl(
+      _$ToolFunctionImpl _value, $Res Function(_$ToolFunctionImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? description = null,
+    Object? parameters = null,
+  }) {
+    return _then(_$ToolFunctionImpl(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      parameters: null == parameters
+          ? _value._parameters
+          : parameters // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ToolFunctionImpl extends _ToolFunction {
+  const _$ToolFunctionImpl(
+      {required this.name,
+      required this.description,
+      required final Map<String, dynamic> parameters})
+      : _parameters = parameters,
+        super._();
+
+  factory _$ToolFunctionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ToolFunctionImplFromJson(json);
+
+  /// The name of the function to be called.
+  @override
+  final String name;
+
+  /// A description of what the function does, used by the model to choose when and how to call the function.
+  @override
+  final String description;
+
+  /// The parameters the functions accepts, described as a JSON Schema object.
+  final Map<String, dynamic> _parameters;
+
+  /// The parameters the functions accepts, described as a JSON Schema object.
+  @override
+  Map<String, dynamic> get parameters {
+    if (_parameters is EqualUnmodifiableMapView) return _parameters;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_parameters);
+  }
+
+  @override
+  String toString() {
+    return 'ToolFunction(name: $name, description: $description, parameters: $parameters)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ToolFunctionImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            const DeepCollectionEquality()
+                .equals(other._parameters, _parameters));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, name, description,
+      const DeepCollectionEquality().hash(_parameters));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ToolFunctionImplCopyWith<_$ToolFunctionImpl> get copyWith =>
+      __$$ToolFunctionImplCopyWithImpl<_$ToolFunctionImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ToolFunctionImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ToolFunction extends ToolFunction {
+  const factory _ToolFunction(
+      {required final String name,
+      required final String description,
+      required final Map<String, dynamic> parameters}) = _$ToolFunctionImpl;
+  const _ToolFunction._() : super._();
+
+  factory _ToolFunction.fromJson(Map<String, dynamic> json) =
+      _$ToolFunctionImpl.fromJson;
+
+  @override
+
+  /// The name of the function to be called.
+  String get name;
+  @override
+
+  /// A description of what the function does, used by the model to choose when and how to call the function.
+  String get description;
+  @override
+
+  /// The parameters the functions accepts, described as a JSON Schema object.
+  Map<String, dynamic> get parameters;
+  @override
+  @JsonKey(ignore: true)
+  _$$ToolFunctionImplCopyWith<_$ToolFunctionImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ToolCall _$ToolCallFromJson(Map<String, dynamic> json) {
+  return _ToolCall.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ToolCall {
+  /// The function the model wants to call.
+  @JsonKey(includeIfNull: false)
+  ToolCallFunction? get function => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ToolCallCopyWith<ToolCall> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ToolCallCopyWith<$Res> {
+  factory $ToolCallCopyWith(ToolCall value, $Res Function(ToolCall) then) =
+      _$ToolCallCopyWithImpl<$Res, ToolCall>;
+  @useResult
+  $Res call({@JsonKey(includeIfNull: false) ToolCallFunction? function});
+
+  $ToolCallFunctionCopyWith<$Res>? get function;
+}
+
+/// @nodoc
+class _$ToolCallCopyWithImpl<$Res, $Val extends ToolCall>
+    implements $ToolCallCopyWith<$Res> {
+  _$ToolCallCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? function = freezed,
+  }) {
+    return _then(_value.copyWith(
+      function: freezed == function
+          ? _value.function
+          : function // ignore: cast_nullable_to_non_nullable
+              as ToolCallFunction?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ToolCallFunctionCopyWith<$Res>? get function {
+    if (_value.function == null) {
+      return null;
+    }
+
+    return $ToolCallFunctionCopyWith<$Res>(_value.function!, (value) {
+      return _then(_value.copyWith(function: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$ToolCallImplCopyWith<$Res>
+    implements $ToolCallCopyWith<$Res> {
+  factory _$$ToolCallImplCopyWith(
+          _$ToolCallImpl value, $Res Function(_$ToolCallImpl) then) =
+      __$$ToolCallImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(includeIfNull: false) ToolCallFunction? function});
+
+  @override
+  $ToolCallFunctionCopyWith<$Res>? get function;
+}
+
+/// @nodoc
+class __$$ToolCallImplCopyWithImpl<$Res>
+    extends _$ToolCallCopyWithImpl<$Res, _$ToolCallImpl>
+    implements _$$ToolCallImplCopyWith<$Res> {
+  __$$ToolCallImplCopyWithImpl(
+      _$ToolCallImpl _value, $Res Function(_$ToolCallImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? function = freezed,
+  }) {
+    return _then(_$ToolCallImpl(
+      function: freezed == function
+          ? _value.function
+          : function // ignore: cast_nullable_to_non_nullable
+              as ToolCallFunction?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ToolCallImpl extends _ToolCall {
+  const _$ToolCallImpl({@JsonKey(includeIfNull: false) this.function})
+      : super._();
+
+  factory _$ToolCallImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ToolCallImplFromJson(json);
+
+  /// The function the model wants to call.
+  @override
+  @JsonKey(includeIfNull: false)
+  final ToolCallFunction? function;
+
+  @override
+  String toString() {
+    return 'ToolCall(function: $function)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ToolCallImpl &&
+            (identical(other.function, function) ||
+                other.function == function));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, function);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ToolCallImplCopyWith<_$ToolCallImpl> get copyWith =>
+      __$$ToolCallImplCopyWithImpl<_$ToolCallImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ToolCallImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ToolCall extends ToolCall {
+  const factory _ToolCall(
+          {@JsonKey(includeIfNull: false) final ToolCallFunction? function}) =
+      _$ToolCallImpl;
+  const _ToolCall._() : super._();
+
+  factory _ToolCall.fromJson(Map<String, dynamic> json) =
+      _$ToolCallImpl.fromJson;
+
+  @override
+
+  /// The function the model wants to call.
+  @JsonKey(includeIfNull: false)
+  ToolCallFunction? get function;
+  @override
+  @JsonKey(ignore: true)
+  _$$ToolCallImplCopyWith<_$ToolCallImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ToolCallFunction _$ToolCallFunctionFromJson(Map<String, dynamic> json) {
+  return _ToolCallFunction.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ToolCallFunction {
+  /// The name of the function to be called.
+  String get name => throw _privateConstructorUsedError;
+
+  /// The arguments to pass to the function.
+  Map<String, dynamic> get arguments => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ToolCallFunctionCopyWith<ToolCallFunction> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ToolCallFunctionCopyWith<$Res> {
+  factory $ToolCallFunctionCopyWith(
+          ToolCallFunction value, $Res Function(ToolCallFunction) then) =
+      _$ToolCallFunctionCopyWithImpl<$Res, ToolCallFunction>;
+  @useResult
+  $Res call({String name, Map<String, dynamic> arguments});
+}
+
+/// @nodoc
+class _$ToolCallFunctionCopyWithImpl<$Res, $Val extends ToolCallFunction>
+    implements $ToolCallFunctionCopyWith<$Res> {
+  _$ToolCallFunctionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? arguments = null,
+  }) {
+    return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      arguments: null == arguments
+          ? _value.arguments
+          : arguments // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ToolCallFunctionImplCopyWith<$Res>
+    implements $ToolCallFunctionCopyWith<$Res> {
+  factory _$$ToolCallFunctionImplCopyWith(_$ToolCallFunctionImpl value,
+          $Res Function(_$ToolCallFunctionImpl) then) =
+      __$$ToolCallFunctionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String name, Map<String, dynamic> arguments});
+}
+
+/// @nodoc
+class __$$ToolCallFunctionImplCopyWithImpl<$Res>
+    extends _$ToolCallFunctionCopyWithImpl<$Res, _$ToolCallFunctionImpl>
+    implements _$$ToolCallFunctionImplCopyWith<$Res> {
+  __$$ToolCallFunctionImplCopyWithImpl(_$ToolCallFunctionImpl _value,
+      $Res Function(_$ToolCallFunctionImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? arguments = null,
+  }) {
+    return _then(_$ToolCallFunctionImpl(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      arguments: null == arguments
+          ? _value._arguments
+          : arguments // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ToolCallFunctionImpl extends _ToolCallFunction {
+  const _$ToolCallFunctionImpl(
+      {required this.name, required final Map<String, dynamic> arguments})
+      : _arguments = arguments,
+        super._();
+
+  factory _$ToolCallFunctionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ToolCallFunctionImplFromJson(json);
+
+  /// The name of the function to be called.
+  @override
+  final String name;
+
+  /// The arguments to pass to the function.
+  final Map<String, dynamic> _arguments;
+
+  /// The arguments to pass to the function.
+  @override
+  Map<String, dynamic> get arguments {
+    if (_arguments is EqualUnmodifiableMapView) return _arguments;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_arguments);
+  }
+
+  @override
+  String toString() {
+    return 'ToolCallFunction(name: $name, arguments: $arguments)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ToolCallFunctionImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality()
+                .equals(other._arguments, _arguments));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, name, const DeepCollectionEquality().hash(_arguments));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ToolCallFunctionImplCopyWith<_$ToolCallFunctionImpl> get copyWith =>
+      __$$ToolCallFunctionImplCopyWithImpl<_$ToolCallFunctionImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ToolCallFunctionImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ToolCallFunction extends ToolCallFunction {
+  const factory _ToolCallFunction(
+      {required final String name,
+      required final Map<String, dynamic> arguments}) = _$ToolCallFunctionImpl;
+  const _ToolCallFunction._() : super._();
+
+  factory _ToolCallFunction.fromJson(Map<String, dynamic> json) =
+      _$ToolCallFunctionImpl.fromJson;
+
+  @override
+
+  /// The name of the function to be called.
+  String get name;
+  @override
+
+  /// The arguments to pass to the function.
+  Map<String, dynamic> get arguments;
+  @override
+  @JsonKey(ignore: true)
+  _$$ToolCallFunctionImplCopyWith<_$ToolCallFunctionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
