@@ -211,6 +211,9 @@ _$GenerateChatCompletionRequestImpl
                   json['options'] as Map<String, dynamic>),
           stream: json['stream'] as bool? ?? false,
           keepAlive: json['keep_alive'] as int?,
+          tools: (json['tools'] as List<dynamic>?)
+              ?.map((e) => Tool.fromJson(e as Map<String, dynamic>))
+              .toList(),
         );
 
 Map<String, dynamic> _$$GenerateChatCompletionRequestImplToJson(
@@ -230,18 +233,17 @@ Map<String, dynamic> _$$GenerateChatCompletionRequestImplToJson(
   writeNotNull('options', instance.options?.toJson());
   val['stream'] = instance.stream;
   writeNotNull('keep_alive', instance.keepAlive);
+  writeNotNull('tools', instance.tools?.map((e) => e.toJson()).toList());
   return val;
 }
 
 _$GenerateChatCompletionResponseImpl
     _$$GenerateChatCompletionResponseImplFromJson(Map<String, dynamic> json) =>
         _$GenerateChatCompletionResponseImpl(
-          message: json['message'] == null
-              ? null
-              : Message.fromJson(json['message'] as Map<String, dynamic>),
-          model: json['model'] as String?,
-          createdAt: json['created_at'] as String?,
-          done: json['done'] as bool?,
+          message: Message.fromJson(json['message'] as Map<String, dynamic>),
+          model: json['model'] as String,
+          createdAt: json['created_at'] as String,
+          done: json['done'] as bool,
           doneReason: $enumDecodeNullable(
               _$DoneReasonEnumMap, json['done_reason'],
               unknownValue: JsonKey.nullForUndefinedEnumValue),
@@ -255,7 +257,12 @@ _$GenerateChatCompletionResponseImpl
 
 Map<String, dynamic> _$$GenerateChatCompletionResponseImplToJson(
     _$GenerateChatCompletionResponseImpl instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'message': instance.message.toJson(),
+    'model': instance.model,
+    'created_at': instance.createdAt,
+    'done': instance.done,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -263,10 +270,6 @@ Map<String, dynamic> _$$GenerateChatCompletionResponseImplToJson(
     }
   }
 
-  writeNotNull('message', instance.message?.toJson());
-  writeNotNull('model', instance.model);
-  writeNotNull('created_at', instance.createdAt);
-  writeNotNull('done', instance.done);
   writeNotNull('done_reason', _$DoneReasonEnumMap[instance.doneReason]);
   writeNotNull('total_duration', instance.totalDuration);
   writeNotNull('load_duration', instance.loadDuration);
@@ -289,6 +292,9 @@ _$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
       content: json['content'] as String,
       images:
           (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      toolCalls: (json['tool_calls'] as List<dynamic>?)
+          ?.map((e) => ToolCall.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) {
@@ -304,6 +310,8 @@ Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) {
   }
 
   writeNotNull('images', instance.images);
+  writeNotNull(
+      'tool_calls', instance.toolCalls?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -311,7 +319,83 @@ const _$MessageRoleEnumMap = {
   MessageRole.system: 'system',
   MessageRole.user: 'user',
   MessageRole.assistant: 'assistant',
+  MessageRole.tool: 'tool',
 };
+
+_$ToolImpl _$$ToolImplFromJson(Map<String, dynamic> json) => _$ToolImpl(
+      type: $enumDecodeNullable(_$ToolTypeEnumMap, json['type']) ??
+          ToolType.function,
+      function: json['function'] == null
+          ? null
+          : ToolFunction.fromJson(json['function'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ToolImplToJson(_$ToolImpl instance) {
+  final val = <String, dynamic>{
+    'type': _$ToolTypeEnumMap[instance.type]!,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('function', instance.function?.toJson());
+  return val;
+}
+
+const _$ToolTypeEnumMap = {
+  ToolType.function: 'function',
+};
+
+_$ToolFunctionImpl _$$ToolFunctionImplFromJson(Map<String, dynamic> json) =>
+    _$ToolFunctionImpl(
+      name: json['name'] as String,
+      description: json['description'] as String,
+      parameters: json['parameters'] as Map<String, dynamic>,
+    );
+
+Map<String, dynamic> _$$ToolFunctionImplToJson(_$ToolFunctionImpl instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'description': instance.description,
+      'parameters': instance.parameters,
+    };
+
+_$ToolCallImpl _$$ToolCallImplFromJson(Map<String, dynamic> json) =>
+    _$ToolCallImpl(
+      function: json['function'] == null
+          ? null
+          : ToolCallFunction.fromJson(json['function'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ToolCallImplToJson(_$ToolCallImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('function', instance.function?.toJson());
+  return val;
+}
+
+_$ToolCallFunctionImpl _$$ToolCallFunctionImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ToolCallFunctionImpl(
+      name: json['name'] as String,
+      arguments: json['arguments'] as Map<String, dynamic>,
+    );
+
+Map<String, dynamic> _$$ToolCallFunctionImplToJson(
+        _$ToolCallFunctionImpl instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'arguments': instance.arguments,
+    };
 
 _$GenerateEmbeddingRequestImpl _$$GenerateEmbeddingRequestImplFromJson(
         Map<String, dynamic> json) =>
