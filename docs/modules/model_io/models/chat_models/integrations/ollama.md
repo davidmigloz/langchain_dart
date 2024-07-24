@@ -125,6 +125,57 @@ print(res.output.content);
 // -> 'An Apple'
 ```
 
+## Tool calling
+
+`ChatOllama` supports tool calling.
+
+Check the [docs](/modules/model_io/models/chat_models/how_to/tools.md) for more information on how to use tools.
+
+**Notes:**
+- Tool calling requires Ollama 0.2.8 or newer.
+- Streaming tool calls is not supported at the moment.
+- Not all models support tool calls. Check the Ollama catalogue for models that have the `Tools` tag (e.g. [`llama3.1`](https://ollama.com/library/llama3.1)).
+
+```dart
+const tool = ToolSpec(
+  name: 'get_current_weather',
+  description: 'Get the current weather in a given location',
+  inputJsonSchema: {
+    'type': 'object',
+    'properties': {
+      'location': {
+        'type': 'string',
+        'description': 'The city and country, e.g. San Francisco, US',
+      },
+    },
+    'required': ['location'],
+  },
+);
+
+final chatModel = ChatOllama(
+  defaultOptions: ChatOllamaOptions(
+    model: 'llama3.1',
+    temperature: 0,
+    tools: [tool],
+  ),
+);
+
+final res = await chatModel.invoke(
+  PromptValue.string('What’s the weather like in Boston and Madrid right now in celsius?'),
+);
+print(res.output.toolCalls);
+// [AIChatMessageToolCall{
+//   id: a621064b-03b3-4ca6-8278-f37504901034,
+//   name: get_current_weather,
+//   arguments: {location: Boston, US},
+// }, 
+// AIChatMessageToolCall{
+//   id: f160d9ba-ae7d-4abc-a910-2b6cd503ec53,
+//   name: get_current_weather,
+//   arguments: {location: Madrid, ES},
+// }]
+```
+
 ## RAG (Retrieval-Augmented Generation) pipeline
 
 We can easily create a fully local RAG pipeline using `OllamaEmbeddings` and `ChatOllama`.
