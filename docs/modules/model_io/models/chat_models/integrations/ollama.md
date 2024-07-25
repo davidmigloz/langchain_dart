@@ -16,7 +16,7 @@ Follow [these instructions](https://github.com/jmorganca/ollama) to set up and r
 
 1. Download and install [Ollama](https://ollama.ai)
 2. Fetch a model via `ollama pull <model family>`
-  * e.g., for Llama 3: `ollama pull llama3`
+  * e.g., for Llama 3: `ollama pull llama3.1`
 
 ## Usage
 
@@ -28,7 +28,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplates([
 
 final chatModel = ChatOllama(
   defaultOptions: ChatOllamaOptions(
-    model: 'llama3',
+    model: 'llama3.1',
     temperature: 0,
   ),
 );
@@ -53,7 +53,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplates([
 ]);
 final chat = ChatOllama(
   defaultOptions: ChatOllamaOptions(
-    model: 'llama3',
+    model: 'llama3.1',
     temperature: 0,
   ),
 );
@@ -79,7 +79,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplates(const [
 ]);
 final chat = ChatOllama(
   defaultOptions: ChatOllamaOptions(
-    model: 'llama3',
+    model: 'llama3.1',
     temperature: 0,
     format: OllamaResponseFormat.json,
   ),
@@ -183,7 +183,7 @@ We can easily create a fully local RAG pipeline using `OllamaEmbeddings` and `Ch
 ```dart
 // 1. Create a vector store and add documents to it
 final vectorStore = MemoryVectorStore(
-  embeddings: OllamaEmbeddings(model: 'llama3'),
+  embeddings: OllamaEmbeddings(model: 'llama3.1'),
 );
 await vectorStore.addDocuments(
   documents: [
@@ -200,7 +200,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplates([
 
 // 3. Define the model to use and the vector store retriever
 final chatModel = ChatOllama(
-  defaultOptions: ChatOllamaOptions(model: 'llama3'),
+  defaultOptions: ChatOllamaOptions(model: 'llama3.1'),
 );
 final retriever = vectorStore.asRetriever(
   defaultOptions: VectorStoreRetrieverOptions(
