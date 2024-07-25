@@ -17,11 +17,11 @@ This example demonstrates how to build a fully local Retrieval Augmented Generat
 
 - For this example we will be using the following models:
   * Embedding model: [`jina/jina-embeddings-v2-small-en`](https://ollama.com/jina/jina-embeddings-v2-small-en)
-  * LLM: [`llama3:8b`](https://ollama.com/library/llama3)
+  * LLM: [`llama3.1`](https://ollama.com/library/llama3.1)
 - Open your terminal and run:
 ```bash
 ollama pull jina/jina-embeddings-v2-small-en
-ollama run llama3:8b
+ollama run llama3.1
 ``` 
 
 ### 3. Setup ObjectBox
@@ -73,7 +73,7 @@ The chatbot script implements the RAG pipeline. It does the following:
 2. Uses the `jina/jina-embeddings-v2-small-en` model to create an embedding for the query.
 3. Retrieves the 5 most similar documents from the ObjectBox database.
 4. Builds a prompt using the retrieved documents and the query.
-5. Uses the `llama3:8b` model to generate a response to the prompt.
+5. Uses the `llama3.1` model to generate a response to the prompt.
 
 You can run the script using:
 ```bash

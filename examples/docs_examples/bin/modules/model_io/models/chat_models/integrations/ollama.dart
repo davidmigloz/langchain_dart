@@ -25,7 +25,7 @@ Future<void> _chatOllama() async {
 
   final chatModel = ChatOllama(
     defaultOptions: const ChatOllamaOptions(
-      model: 'llama3',
+      model: 'llama3.1',
       temperature: 0,
     ),
   );
@@ -52,7 +52,7 @@ Future<void> _chatOllamaStreaming() async {
   ]);
   final chat = ChatOllama(
     defaultOptions: const ChatOllamaOptions(
-      model: 'llama3',
+      model: 'llama3.1',
       temperature: 0,
     ),
   );
@@ -77,7 +77,7 @@ Future<void> _chatOllamaJsonMode() async {
   ]);
   final chat = ChatOllama(
     defaultOptions: const ChatOllamaOptions(
-      model: 'llama3',
+      model: 'llama3.1',
       temperature: 0,
       format: OllamaResponseFormat.json,
     ),
@@ -162,7 +162,7 @@ Future<void> _chatOllamaMultimodal() async {
 Future<void> _rag() async {
   // 1. Create a vector store and add documents to it
   final vectorStore = MemoryVectorStore(
-    embeddings: OllamaEmbeddings(model: 'llama3'),
+    embeddings: OllamaEmbeddings(model: 'llama3.1'),
   );
   await vectorStore.addDocuments(
     documents: [
@@ -184,7 +184,7 @@ Future<void> _rag() async {
 
   // 3. Define the model to use and the vector store retriever
   final chatModel = ChatOllama(
-    defaultOptions: const ChatOllamaOptions(model: 'llama3'),
+    defaultOptions: const ChatOllamaOptions(model: 'llama3.1'),
   );
   final retriever = vectorStore.asRetriever(
     defaultOptions: const VectorStoreRetrieverOptions(

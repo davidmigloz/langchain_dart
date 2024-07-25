@@ -57,7 +57,7 @@ import 'types.dart';
 /// ```dart
 /// final chatModel = ChatOllama(
 ///   defaultOptions: const ChatOllamaOptions(
-///     model: 'llama3',
+///     model: 'llama3.1',
 ///     temperature: 0,
 ///     format: 'json',
 ///   ),
@@ -89,7 +89,7 @@ import 'types.dart';
 /// final prompt1 = PromptTemplate.fromTemplate('How are you {name}?');
 /// final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
 /// final chain = Runnable.fromMap({
-///   'q1': prompt1 | chatModel.bind(const ChatOllamaOptions(model: 'llama3')) | outputParser,
+///   'q1': prompt1 | chatModel.bind(const ChatOllamaOptions(model: 'llama3.1')) | outputParser,
 ///   'q2': prompt2| chatModel.bind(const ChatOllamaOptions(model: 'mistral')) | outputParser,
 /// });
 /// final res = await chain.invoke({'name': 'David'});
@@ -152,7 +152,7 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     super.defaultOptions = const ChatOllamaOptions(
-      model: 'llama3',
+      model: defaultModel,
     ),
     this.encoding = 'cl100k_base',
   }) : _client = OllamaClient(
@@ -178,7 +178,7 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
   String get modelType => 'chat-ollama';
 
   /// The default model to use unless another is specified.
-  static const defaultModel = 'llama3';
+  static const defaultModel = 'llama3.1';
 
   @override
   Future<ChatResult> invoke(

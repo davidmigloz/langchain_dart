@@ -41,7 +41,7 @@ import 'types.dart';
 /// );
 /// final chatModel = ChatOllamaTools(
 ///   defaultOptions: ChatOllamaToolOptions(
-///     options: ChatOllamaOptions(model: 'llama3:8b'),
+///     options: ChatOllamaOptions(model: 'llama3.1'),
 ///     tools: [tool],
 ///   ),
 /// );
@@ -55,7 +55,7 @@ import 'types.dart';
 ///
 /// 1. Download and install [Ollama](https://ollama.ai)
 /// 2. Fetch a model via `ollama pull <model family>`
-///   * e.g., for Llama 3: `ollama pull llama3`
+///   * e.g., for Llama 3: `ollama pull llama3.1`
 ///
 /// ### Ollama base URL
 ///
@@ -109,7 +109,7 @@ class ChatOllamaTools extends BaseChatModel<ChatOllamaToolsOptions> {
   String get modelType => 'chat-ollama-tools';
 
   /// The default model to use unless another is specified.
-  static const defaultModel = 'llama3';
+  static const defaultModel = 'llama3.1';
 
   @override
   Future<ChatResult> invoke(
