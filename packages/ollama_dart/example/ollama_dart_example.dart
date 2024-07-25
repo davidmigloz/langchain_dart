@@ -70,7 +70,7 @@ Future<void> _generateCompletionStream(final OllamaClient client) async {
 Future<void> _generateChatCompletion(final OllamaClient client) async {
   final generated = await client.generateChatCompletion(
     request: const GenerateChatCompletionRequest(
-      model: 'llama3:latest',
+      model: 'llama3.1',
       messages: [
         Message(
           role: MessageRole.system,
@@ -95,7 +95,7 @@ Future<void> _generateChatCompletionWithHistory(
 ) async {
   final generated = await client.generateChatCompletion(
     request: const GenerateChatCompletionRequest(
-      model: 'llama3:latest',
+      model: 'llama3.1',
       messages: [
         Message(
           role: MessageRole.user,
@@ -118,7 +118,7 @@ Future<void> _generateChatCompletionWithHistory(
 Future<void> _generateChatCompletionStream(final OllamaClient client) async {
   final stream = client.generateChatCompletionStream(
     request: const GenerateChatCompletionRequest(
-      model: 'llama3:latest',
+      model: 'llama3.1',
       messages: [
         Message(
           role: MessageRole.system,

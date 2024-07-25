@@ -13,7 +13,7 @@ Future<void> _ollama() async {
   );
   final llm = Ollama(
     defaultOptions: const OllamaOptions(
-      model: 'llama3',
+      model: 'llama3.1',
     ),
   );
 
@@ -29,7 +29,7 @@ Future<void> _ollamaStreaming() async {
   );
   final llm = Ollama(
     defaultOptions: const OllamaOptions(
-      model: 'llama3',
+      model: 'llama3.1',
     ),
   );
   const stringOutputParser = StringOutputParser<LLMResult>();

@@ -273,7 +273,7 @@ components:
             The model name. 
             
             Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
-          example: llama3:8b
+          example: llama3.1
         prompt:
           type: string
           description: The prompt to generate a response.
@@ -530,7 +530,7 @@ components:
         model:
           type: string
           description: *model_name
-          example: llama3:8b
+          example: llama3.1
         created_at:
           type: string
           format: date-time
@@ -587,7 +587,7 @@ components:
         model:
           type: string
           description: *model_name
-          example: llama3:8b
+          example: llama3.1
         messages:
           type: array
           description: The messages of the chat, this can be used to keep a chat memory
@@ -619,7 +619,7 @@ components:
         model:
           type: string
           description: *model_name
-          example: llama3:8b
+          example: llama3.1
         created_at:
           type: string
           format: date-time
@@ -760,7 +760,7 @@ components:
         model:
           type: string
           description: *model_name
-          example: llama3:8b
+          example: llama3.1
         prompt:
           type: string
           description: Text to generate embeddings for.
@@ -837,7 +837,7 @@ components:
         model:
           type: string
           description: *model_name
-          example: llama3:8b
+          example: llama3.1
         modified_at:
           type: string
           format: date-time
@@ -914,7 +914,7 @@ components:
         model:
           type: string
           description: *model_name
-          example: llama3:8b
+          example: llama3.1
         size:
           type: integer
           format: int64
@@ -942,7 +942,7 @@ components:
         model:
           type: string
           description: *model_name
-          example: llama3:8b
+          example: llama3.1
       required:
         - model
     ModelInfo:
@@ -990,7 +990,7 @@ components:
         source:
           type: string
           description: Name of the model to copy.
-          example: llama3:8b
+          example: llama3.1
         destination:
           type: string
           description: Name of the new model.
@@ -1015,7 +1015,7 @@ components:
         model:
           type: string
           description: *model_name
-          example: llama3:8b
+          example: llama3.1
         insecure:
           type: boolean
           description: |
