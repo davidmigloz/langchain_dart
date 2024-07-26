@@ -1,3 +1,14 @@
+📣 Check out the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
+
+## 0.4.0
+
+ - **FEAT**: Add support for disabling parallel tool calls in openai_dart ([#492](https://github.com/davidmigloz/langchain_dart/issues/492)). ([a91e0719](https://github.com/davidmigloz/langchain_dart/commit/a91e07196278ae4da5917d52395f3c246fc35bf2))
+ - **FEAT**: Add GPT-4o-mini to model catalog ([#497](https://github.com/davidmigloz/langchain_dart/issues/497)). ([faa23aee](https://github.com/davidmigloz/langchain_dart/commit/faa23aeeecfb64dc7d018e642952e41cc7f9eeaf))
+ - **FEAT**: Support chunking strategy in file_search tool in openai_dart ([#496](https://github.com/davidmigloz/langchain_dart/issues/496)). ([cfa974a9](https://github.com/davidmigloz/langchain_dart/commit/cfa974a9e2fc4b79e5b66765b22d76710575d5bc))
+ - **FEAT**: Add support for overrides in the file search tool in openai_dart ([#491](https://github.com/davidmigloz/langchain_dart/issues/491)). ([89605638](https://github.com/davidmigloz/langchain_dart/commit/89605638c465be37c2738258d840c21d32fe9554))
+ - **FEAT**: Allow to customize OpenAI-Beta header in openai_dart ([#502](https://github.com/davidmigloz/langchain_dart/issues/502)). ([5fed8dbb](https://github.com/davidmigloz/langchain_dart/commit/5fed8dbb8205ba7925ca59d6f07a4f5e052b52b1))
+ - **FEAT**: Add support for service tier in openai_dart ([#494](https://github.com/davidmigloz/langchain_dart/issues/494)). ([0838e4b9](https://github.com/davidmigloz/langchain_dart/commit/0838e4b9f5bb25e29fbc163a0ff5cf3e64409d40))
+
 ## 0.3.3+1
 
  - **REFACTOR**: Migrate conditional imports to js_interop ([#453](https://github.com/davidmigloz/langchain_dart/issues/453)). ([a6a78cfe](https://github.com/davidmigloz/langchain_dart/commit/a6a78cfe05fb8ce68e683e1ad4395ca86197a6c5))
