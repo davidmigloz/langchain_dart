@@ -30,8 +30,6 @@ import 'types.dart';
 ///
 /// - [Ollama API docs](https://github.com/jmorganca/ollama/blob/main/docs/api.md#generate-a-completion)
 ///
-/// If you need to use tools, consider using the [ChatOllamaTools] instead.
-///
 /// ### Setup
 ///
 /// 1. Download and install [Ollama](https://ollama.ai)
