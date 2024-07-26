@@ -257,7 +257,7 @@ const tool = ChatCompletionTool(
 final res1 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
     model: const ChatCompletionModel.model(
-      ChatCompletionModels.gpt35Turbo,
+      ChatCompletionModels.gpt4oMini,
     ),
     messages: [
       ChatCompletionMessage.system(
@@ -333,7 +333,7 @@ const function = FunctionObject(
 
 final res1 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-3.5-turbo'),
+    model: ChatCompletionModel.modelId('gpt-4o-mini'),
     messages: [
       ChatCompletionMessage.system(
         content: 'You are a helpful assistant.',
@@ -355,7 +355,7 @@ final functionResult = getCurrentWeather(arguments['location'], arguments['unit'
 
 final res2 = await client.createChatCompletion(
   request: CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId('gpt-3.5-turbo'),
+    model: ChatCompletionModel.modelId('gpt-4o-mini'),
     messages: [
       ChatCompletionMessage.system(
         content: 'You are a helpful assistant.',
@@ -480,7 +480,7 @@ Related guide: [Fine-tune models](https://platform.openai.com/docs/guides/fine-t
 
 ```dart
 const request = CreateFineTuningJobRequest(
-  model: FineTuningModel.modelId('gpt-3.5-turbo'),
+  model: FineTuningModel.modelId('gpt-4o-mini'),
   trainingFile: 'file-abc123',
   validationFile: 'file-abc123',
   hyperparameters: FineTuningJobHyperparameters(
