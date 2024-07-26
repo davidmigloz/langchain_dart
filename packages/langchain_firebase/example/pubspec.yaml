@@ -13,8 +13,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_markdown: ^0.6.22
-  langchain: 0.7.3
-  langchain_firebase: 0.2.0
+  langchain: 0.7.4
+  langchain_firebase: 0.2.1
 
 dev_dependencies:
   flutter_lints: ^3.0.0

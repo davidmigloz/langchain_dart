@@ -1,3 +1,5 @@
+📣 Check out the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
+
 ## 0.1.0
 
  - **FEAT**: Add support for tool use in anthropic_sdk_dart client ([#469](https://github.com/davidmigloz/langchain_dart/issues/469)). ([81896cfd](https://github.com/davidmigloz/langchain_dart/commit/81896cfdfce116b010dd51391994251d2a836333))
