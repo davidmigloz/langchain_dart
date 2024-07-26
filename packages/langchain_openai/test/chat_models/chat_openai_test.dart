@@ -14,7 +14,7 @@ import 'package:test/test.dart';
 void main() {
   group('ChatOpenAI tests', () {
     final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
-    const defaultModel = 'gpt-3.5-turbo';
+    const defaultModel = 'gpt-4o-mini';
 
     test('Test ChatOpenAI parameters', () async {
       final chat = ChatOpenAI(
@@ -208,7 +208,6 @@ void main() {
 
     test('Test countTokens messages', () async {
       final models = [
-        'gpt-3.5-turbo-0613',
         'gpt-3.5-turbo-16k-0613',
         'gpt-4-0314',
         'gpt-4-0613',

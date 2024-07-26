@@ -1995,7 +1995,7 @@ components:
             Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling) 
             during tool use.
           type: boolean
-          default: true
+          default: null
           nullable: true
         user: *end_user_param_configuration
         function_call:
