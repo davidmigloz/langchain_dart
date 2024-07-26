@@ -167,7 +167,7 @@ print(res.output.toolCalls);
 // }]
 ```
 
-As you can see, `ChatOllamaTools` support calling multiple tools in a single request.
+As you can see, `ChatOllama` support calling multiple tools in a single request.
 
 If you want to customize how the model should respond to tool calls, you can use the `toolChoice` parameter:
 
