@@ -49,7 +49,7 @@ print(chunks.first);
 //   },
 //   finishReason: FinishReason.unspecified,
 //   metadata: {
-//     model: gpt-3.5-turbo-0125,
+//     model: gpt-4o-mini,
 //     created: 1714143945,
 //     system_fingerprint: fp_3b956da36b
 //   },
@@ -71,7 +71,7 @@ print(result);
 //   },
 //   finishReason: FinishReason.unspecified,
 //   metadata: {
-//     model: gpt-3.5-turbo-0125,
+//     model: gpt-4o-mini,
 //     created: 1714143945,
 //     system_fingerprint: fp_3b956da36b
 //   },
