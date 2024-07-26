@@ -7,6 +7,6 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  langchain: ^0.7.3
-  langchain_ollama: ^0.2.2+1
-  langchain_community: 0.2.2
+  langchain: ^0.7.4
+  langchain_ollama: ^0.3.0
+  langchain_community: 0.3.0

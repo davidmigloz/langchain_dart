@@ -1,3 +1,15 @@
+📣 Check out the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
+
+## 0.7.0
+
+ - **BREAKING** **FEAT**: Update ChatOpenAI default model to gpt-4o-mini ([#507](https://github.com/davidmigloz/langchain_dart/issues/507)). ([c7b8ce91](https://github.com/davidmigloz/langchain_dart/commit/c7b8ce91ac5b4dbe6bed563fae124a9f5ad76a84))
+ - **FEAT**: Add support for disabling parallel tool calls in ChatOpenAI ([#493](https://github.com/davidmigloz/langchain_dart/issues/493)). ([c46d676d](https://github.com/davidmigloz/langchain_dart/commit/c46d676dee836f1d17e0d1fd61a8f1f0ba5c2881))
+ - **FEAT**: Add GPT-4o-mini to model catalog ([#497](https://github.com/davidmigloz/langchain_dart/issues/497)). ([faa23aee](https://github.com/davidmigloz/langchain_dart/commit/faa23aeeecfb64dc7d018e642952e41cc7f9eeaf))
+ - **FEAT**: Add support for service tier in ChatOpenAI ([#495](https://github.com/davidmigloz/langchain_dart/issues/495)). ([af79a4ff](https://github.com/davidmigloz/langchain_dart/commit/af79a4ffcadb207bfc704365462edebfca1ed6c7))
+ - **FEAT**: Implement additive options merging for cascade bind calls ([#500](https://github.com/davidmigloz/langchain_dart/issues/500)). ([8691eb21](https://github.com/davidmigloz/langchain_dart/commit/8691eb21d5d2ffbf853997cbc0eaa29a56c6ca43))
+ - **REFACTOR**: Remove default model from the language model options ([#498](https://github.com/davidmigloz/langchain_dart/issues/498)). ([44363e43](https://github.com/davidmigloz/langchain_dart/commit/44363e435778282ed27bc1b2771cf8b25abc7560))
+ - **REFACTOR**: Depend on exact versions for internal 1st party dependencies ([#484](https://github.com/davidmigloz/langchain_dart/issues/484)). ([244e5e8f](https://github.com/davidmigloz/langchain_dart/commit/244e5e8f30e0d9a642fe01a804cc0de5e807e13d))
+
 ## 0.6.3
 
  - **FEAT**: Add support for ChatToolChoiceRequired ([#474](https://github.com/davidmigloz/langchain_dart/issues/474)). ([bf324f36](https://github.com/davidmigloz/langchain_dart/commit/bf324f36f645c53458d5891f8285991cd50f2649))

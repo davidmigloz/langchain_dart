@@ -1,3 +1,16 @@
+📣 Check out the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
+
+## 0.2.0
+
+> Note: This release has breaking changes.
+
+ - **FEAT**: Add tool calling support in ollama_dart ([#504](https://github.com/davidmigloz/langchain_dart/issues/504)). ([1ffdb41b](https://github.com/davidmigloz/langchain_dart/commit/1ffdb41b8f19941336c1cd911c73f0b3d46af975))
+ - **BREAKING** **FEAT**: Update Ollama default model to llama-3.1 ([#506](https://github.com/davidmigloz/langchain_dart/issues/506)). ([b1134bf1](https://github.com/davidmigloz/langchain_dart/commit/b1134bf1163cdcea26a9f1e65fee5c515be3857c))
+ - **FEAT**: Add support for Ollama version and model info ([#488](https://github.com/davidmigloz/langchain_dart/issues/488)). ([a110ecb7](https://github.com/davidmigloz/langchain_dart/commit/a110ecb7f10e7975bd2416aa65add98984c6efb8))
+ - **FEAT**: Add suffix support in Ollama completions API in ollama_dart ([#503](https://github.com/davidmigloz/langchain_dart/issues/503)). ([30d05a69](https://github.com/davidmigloz/langchain_dart/commit/30d05a69b07f88f803b9abfdf2fded9348a73490))
+ - **BREAKING** **REFACTOR**: Change Ollama push model status type from enum to String ([#489](https://github.com/davidmigloz/langchain_dart/issues/489)). ([90c9ccd9](https://github.com/davidmigloz/langchain_dart/commit/90c9ccd986c7b679ed30225d2380120e17dfec41))
+ - **DOCS**: Update Ollama request options default values in API docs ([#479](https://github.com/davidmigloz/langchain_dart/issues/479)). ([e1f93366](https://github.com/davidmigloz/langchain_dart/commit/e1f9336619ee12624a7b045ca18a3118ead0158f))
+
 ## 0.1.2
 
  - **FEAT**: Add support for listing running Ollama models ([#451](https://github.com/davidmigloz/langchain_dart/issues/451)). ([cfaa31fb](https://github.com/davidmigloz/langchain_dart/commit/cfaa31fb8ce1dc128570c95d403809f71e0199d9))
