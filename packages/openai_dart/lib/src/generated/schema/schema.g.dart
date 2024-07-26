@@ -338,7 +338,7 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
           .toList(),
       toolChoice: const _ChatCompletionToolChoiceOptionConverter()
           .fromJson(json['tool_choice']),
-      parallelToolCalls: json['parallel_tool_calls'] as bool? ?? true,
+      parallelToolCalls: json['parallel_tool_calls'] as bool?,
       user: json['user'] as String?,
       functionCall: const _ChatCompletionFunctionCallConverter()
           .fromJson(json['function_call']),
@@ -2867,7 +2867,7 @@ _$CreateRunRequestImpl _$$CreateRunRequestImplFromJson(
               json['truncation_strategy'] as Map<String, dynamic>),
       toolChoice: const _CreateRunRequestToolChoiceConverter()
           .fromJson(json['tool_choice']),
-      parallelToolCalls: json['parallel_tool_calls'] as bool? ?? true,
+      parallelToolCalls: json['parallel_tool_calls'] as bool?,
       responseFormat: const _CreateRunRequestResponseFormatConverter()
           .fromJson(json['response_format']),
       stream: json['stream'] as bool?,
@@ -3193,7 +3193,7 @@ _$CreateThreadAndRunRequestImpl _$$CreateThreadAndRunRequestImplFromJson(
               json['truncation_strategy'] as Map<String, dynamic>),
       toolChoice: const _CreateThreadAndRunRequestToolChoiceConverter()
           .fromJson(json['tool_choice']),
-      parallelToolCalls: json['parallel_tool_calls'] as bool? ?? true,
+      parallelToolCalls: json['parallel_tool_calls'] as bool?,
       responseFormat: const _CreateThreadAndRunRequestResponseFormatConverter()
           .fromJson(json['response_format']),
       stream: json['stream'] as bool?,

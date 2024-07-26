@@ -76,7 +76,7 @@ import 'types.dart';
 /// final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
 /// final chain = Runnable.fromMap({
 ///   'q1': prompt1 | chatModel.bind(const ChatOpenAIOptions(model: 'gpt-4')) | outputParser,
-///   'q2': prompt2| chatModel.bind(const ChatOpenAIOptions(model: 'gpt-3.5-turbo')) | outputParser,
+///   'q2': prompt2| chatModel.bind(const ChatOpenAIOptions(model: 'gpt-4o-mini')) | outputParser,
 /// });
 /// final res = await chain.invoke({'name': 'David'});
 /// ```
@@ -239,7 +239,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   String get modelType => 'openai-chat';
 
   /// The default model to use unless another is specified.
-  static const defaultModel = 'gpt-3.5-turbo';
+  static const defaultModel = 'gpt-4o-mini';
 
   @override
   Future<ChatResult> invoke(
@@ -348,7 +348,6 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final int tokensPerName;
 
     switch (model) {
-      case 'gpt-3.5-turbo-0613':
       case 'gpt-3.5-turbo-16k-0613':
       case 'gpt-4-0314':
       case 'gpt-4-32k-0314':
@@ -362,8 +361,8 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
         // If there's a name, the role is omitted
         tokensPerName = -1;
       default:
-        if (model.startsWith('gpt-3.5-turbo') || model.startsWith('gpt-4')) {
-          // Returning num tokens assuming gpt-3.5-turbo-0613
+        if (model.startsWith('gpt-4o-mini') || model.startsWith('gpt-4')) {
+          // Returning num tokens assuming gpt-4
           tokensPerMessage = 3;
           tokensPerName = 1;
         } else {

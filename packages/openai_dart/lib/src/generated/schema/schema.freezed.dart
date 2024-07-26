@@ -4045,7 +4045,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       this.toolChoice,
       @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
-      this.parallelToolCalls = true,
+      this.parallelToolCalls,
       @JsonKey(includeIfNull: false) this.user,
       @_ChatCompletionFunctionCallConverter()
       @JsonKey(name: 'function_call', includeIfNull: false)
@@ -30225,7 +30225,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       this.toolChoice,
       @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
-      this.parallelToolCalls = true,
+      this.parallelToolCalls,
       @_CreateRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       this.responseFormat,
@@ -33563,7 +33563,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
       @JsonKey(name: 'tool_choice', includeIfNull: false)
       this.toolChoice,
       @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
-      this.parallelToolCalls = true,
+      this.parallelToolCalls,
       @_CreateThreadAndRunRequestResponseFormatConverter()
       @JsonKey(name: 'response_format', includeIfNull: false)
       this.responseFormat,

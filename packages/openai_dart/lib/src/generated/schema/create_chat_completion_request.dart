@@ -122,7 +122,6 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
     /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
     /// during tool use.
     @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
-    @Default(true)
     bool? parallelToolCalls,
 
     /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).

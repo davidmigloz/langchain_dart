@@ -82,7 +82,7 @@ Future<void> _promptModelOutputParser() async {
   //   },
   //   finishReason: FinishReason.stop,
   //   metadata: {
-  //     model: gpt-3.5-turbo-0125,
+  //     model: gpt-4o-mini,
   //     created: 1714327251,
   //     system_fingerprint: fp_3b956da36b
   //   },
