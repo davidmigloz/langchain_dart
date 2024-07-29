@@ -612,10 +612,17 @@ mixin _$RequestOptions {
   @JsonKey(name: 'top_k', includeIfNull: false)
   int? get topK => throw _privateConstructorUsedError;
 
-  /// Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value
+  /// Works together with top_k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value
   /// (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP => throw _privateConstructorUsedError;
+
+  /// Alternative to the top_p, and aims to ensure a balance of quality and variety. min_p represents the minimum
+  /// probability for a token to be considered, relative to the probability of the most likely token. For
+  /// example, with min_p=0.05 and the most likely token having a probability of 0.9, logits with a value less
+  /// than 0.05*0.9=0.045 are filtered out. (Default: 0.0)
+  @JsonKey(name: 'min_p', includeIfNull: false)
+  double? get minP => throw _privateConstructorUsedError;
 
   /// Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value
   /// (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
@@ -745,6 +752,7 @@ abstract class $RequestOptionsCopyWith<$Res> {
       @JsonKey(name: 'num_predict', includeIfNull: false) int? numPredict,
       @JsonKey(name: 'top_k', includeIfNull: false) int? topK,
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
+      @JsonKey(name: 'min_p', includeIfNull: false) double? minP,
       @JsonKey(name: 'tfs_z', includeIfNull: false) double? tfsZ,
       @JsonKey(name: 'typical_p', includeIfNull: false) double? typicalP,
       @JsonKey(name: 'repeat_last_n', includeIfNull: false) int? repeatLastN,
@@ -793,6 +801,7 @@ class _$RequestOptionsCopyWithImpl<$Res, $Val extends RequestOptions>
     Object? numPredict = freezed,
     Object? topK = freezed,
     Object? topP = freezed,
+    Object? minP = freezed,
     Object? tfsZ = freezed,
     Object? typicalP = freezed,
     Object? repeatLastN = freezed,
@@ -838,6 +847,10 @@ class _$RequestOptionsCopyWithImpl<$Res, $Val extends RequestOptions>
       topP: freezed == topP
           ? _value.topP
           : topP // ignore: cast_nullable_to_non_nullable
+              as double?,
+      minP: freezed == minP
+          ? _value.minP
+          : minP // ignore: cast_nullable_to_non_nullable
               as double?,
       tfsZ: freezed == tfsZ
           ? _value.tfsZ
@@ -953,6 +966,7 @@ abstract class _$$RequestOptionsImplCopyWith<$Res>
       @JsonKey(name: 'num_predict', includeIfNull: false) int? numPredict,
       @JsonKey(name: 'top_k', includeIfNull: false) int? topK,
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
+      @JsonKey(name: 'min_p', includeIfNull: false) double? minP,
       @JsonKey(name: 'tfs_z', includeIfNull: false) double? tfsZ,
       @JsonKey(name: 'typical_p', includeIfNull: false) double? typicalP,
       @JsonKey(name: 'repeat_last_n', includeIfNull: false) int? repeatLastN,
@@ -999,6 +1013,7 @@ class __$$RequestOptionsImplCopyWithImpl<$Res>
     Object? numPredict = freezed,
     Object? topK = freezed,
     Object? topP = freezed,
+    Object? minP = freezed,
     Object? tfsZ = freezed,
     Object? typicalP = freezed,
     Object? repeatLastN = freezed,
@@ -1044,6 +1059,10 @@ class __$$RequestOptionsImplCopyWithImpl<$Res>
       topP: freezed == topP
           ? _value.topP
           : topP // ignore: cast_nullable_to_non_nullable
+              as double?,
+      minP: freezed == minP
+          ? _value.minP
+          : minP // ignore: cast_nullable_to_non_nullable
               as double?,
       tfsZ: freezed == tfsZ
           ? _value.tfsZ
@@ -1154,6 +1173,7 @@ class _$RequestOptionsImpl extends _RequestOptions {
       @JsonKey(name: 'num_predict', includeIfNull: false) this.numPredict,
       @JsonKey(name: 'top_k', includeIfNull: false) this.topK,
       @JsonKey(name: 'top_p', includeIfNull: false) this.topP,
+      @JsonKey(name: 'min_p', includeIfNull: false) this.minP,
       @JsonKey(name: 'tfs_z', includeIfNull: false) this.tfsZ,
       @JsonKey(name: 'typical_p', includeIfNull: false) this.typicalP,
       @JsonKey(name: 'repeat_last_n', includeIfNull: false) this.repeatLastN,
@@ -1210,11 +1230,19 @@ class _$RequestOptionsImpl extends _RequestOptions {
   @JsonKey(name: 'top_k', includeIfNull: false)
   final int? topK;
 
-  /// Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value
+  /// Works together with top_k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value
   /// (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
   @override
   @JsonKey(name: 'top_p', includeIfNull: false)
   final double? topP;
+
+  /// Alternative to the top_p, and aims to ensure a balance of quality and variety. min_p represents the minimum
+  /// probability for a token to be considered, relative to the probability of the most likely token. For
+  /// example, with min_p=0.05 and the most likely token having a probability of 0.9, logits with a value less
+  /// than 0.05*0.9=0.045 are filtered out. (Default: 0.0)
+  @override
+  @JsonKey(name: 'min_p', includeIfNull: false)
+  final double? minP;
 
   /// Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value
   /// (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
@@ -1362,7 +1390,7 @@ class _$RequestOptionsImpl extends _RequestOptions {
 
   @override
   String toString() {
-    return 'RequestOptions(numKeep: $numKeep, seed: $seed, numPredict: $numPredict, topK: $topK, topP: $topP, tfsZ: $tfsZ, typicalP: $typicalP, repeatLastN: $repeatLastN, temperature: $temperature, repeatPenalty: $repeatPenalty, presencePenalty: $presencePenalty, frequencyPenalty: $frequencyPenalty, mirostat: $mirostat, mirostatTau: $mirostatTau, mirostatEta: $mirostatEta, penalizeNewline: $penalizeNewline, stop: $stop, numa: $numa, numCtx: $numCtx, numBatch: $numBatch, numGpu: $numGpu, mainGpu: $mainGpu, lowVram: $lowVram, f16Kv: $f16Kv, logitsAll: $logitsAll, vocabOnly: $vocabOnly, useMmap: $useMmap, useMlock: $useMlock, numThread: $numThread)';
+    return 'RequestOptions(numKeep: $numKeep, seed: $seed, numPredict: $numPredict, topK: $topK, topP: $topP, minP: $minP, tfsZ: $tfsZ, typicalP: $typicalP, repeatLastN: $repeatLastN, temperature: $temperature, repeatPenalty: $repeatPenalty, presencePenalty: $presencePenalty, frequencyPenalty: $frequencyPenalty, mirostat: $mirostat, mirostatTau: $mirostatTau, mirostatEta: $mirostatEta, penalizeNewline: $penalizeNewline, stop: $stop, numa: $numa, numCtx: $numCtx, numBatch: $numBatch, numGpu: $numGpu, mainGpu: $mainGpu, lowVram: $lowVram, f16Kv: $f16Kv, logitsAll: $logitsAll, vocabOnly: $vocabOnly, useMmap: $useMmap, useMlock: $useMlock, numThread: $numThread)';
   }
 
   @override
@@ -1376,6 +1404,7 @@ class _$RequestOptionsImpl extends _RequestOptions {
                 other.numPredict == numPredict) &&
             (identical(other.topK, topK) || other.topK == topK) &&
             (identical(other.topP, topP) || other.topP == topP) &&
+            (identical(other.minP, minP) || other.minP == minP) &&
             (identical(other.tfsZ, tfsZ) || other.tfsZ == tfsZ) &&
             (identical(other.typicalP, typicalP) ||
                 other.typicalP == typicalP) &&
@@ -1426,6 +1455,7 @@ class _$RequestOptionsImpl extends _RequestOptions {
         numPredict,
         topK,
         topP,
+        minP,
         tfsZ,
         typicalP,
         repeatLastN,
@@ -1474,6 +1504,7 @@ abstract class _RequestOptions extends RequestOptions {
       @JsonKey(name: 'num_predict', includeIfNull: false) final int? numPredict,
       @JsonKey(name: 'top_k', includeIfNull: false) final int? topK,
       @JsonKey(name: 'top_p', includeIfNull: false) final double? topP,
+      @JsonKey(name: 'min_p', includeIfNull: false) final double? minP,
       @JsonKey(name: 'tfs_z', includeIfNull: false) final double? tfsZ,
       @JsonKey(name: 'typical_p', includeIfNull: false) final double? typicalP,
       @JsonKey(name: 'repeat_last_n', includeIfNull: false)
@@ -1536,10 +1567,18 @@ abstract class _RequestOptions extends RequestOptions {
   int? get topK;
   @override
 
-  /// Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value
+  /// Works together with top_k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value
   /// (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP;
+  @override
+
+  /// Alternative to the top_p, and aims to ensure a balance of quality and variety. min_p represents the minimum
+  /// probability for a token to be considered, relative to the probability of the most likely token. For
+  /// example, with min_p=0.05 and the most likely token having a probability of 0.9, logits with a value less
+  /// than 0.05*0.9=0.045 are filtered out. (Default: 0.0)
+  @JsonKey(name: 'min_p', includeIfNull: false)
+  double? get minP;
   @override
 
   /// Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value
