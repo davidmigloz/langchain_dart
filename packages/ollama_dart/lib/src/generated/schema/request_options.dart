@@ -30,9 +30,15 @@ class RequestOptions with _$RequestOptions {
     /// while a lower value (e.g. 10) will be more conservative. (Default: 40)
     @JsonKey(name: 'top_k', includeIfNull: false) int? topK,
 
-    /// Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value
+    /// Works together with top_k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value
     /// (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
     @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
+
+    /// Alternative to the top_p, and aims to ensure a balance of quality and variety. min_p represents the minimum
+    /// probability for a token to be considered, relative to the probability of the most likely token. For
+    /// example, with min_p=0.05 and the most likely token having a probability of 0.9, logits with a value less
+    /// than 0.05*0.9=0.045 are filtered out. (Default: 0.0)
+    @JsonKey(name: 'min_p', includeIfNull: false) double? minP,
 
     /// Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value
     /// (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
@@ -136,6 +142,7 @@ class RequestOptions with _$RequestOptions {
     'num_predict',
     'top_k',
     'top_p',
+    'min_p',
     'tfs_z',
     'typical_p',
     'repeat_last_n',
@@ -175,6 +182,7 @@ class RequestOptions with _$RequestOptions {
       'num_predict': numPredict,
       'top_k': topK,
       'top_p': topP,
+      'min_p': minP,
       'tfs_z': tfsZ,
       'typical_p': typicalP,
       'repeat_last_n': repeatLastN,

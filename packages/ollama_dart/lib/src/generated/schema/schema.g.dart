@@ -67,6 +67,7 @@ _$RequestOptionsImpl _$$RequestOptionsImplFromJson(Map<String, dynamic> json) =>
       numPredict: json['num_predict'] as int?,
       topK: json['top_k'] as int?,
       topP: (json['top_p'] as num?)?.toDouble(),
+      minP: (json['min_p'] as num?)?.toDouble(),
       tfsZ: (json['tfs_z'] as num?)?.toDouble(),
       typicalP: (json['typical_p'] as num?)?.toDouble(),
       repeatLastN: json['repeat_last_n'] as int?,
@@ -108,6 +109,7 @@ Map<String, dynamic> _$$RequestOptionsImplToJson(
   writeNotNull('num_predict', instance.numPredict);
   writeNotNull('top_k', instance.topK);
   writeNotNull('top_p', instance.topP);
+  writeNotNull('min_p', instance.minP);
   writeNotNull('tfs_z', instance.tfsZ);
   writeNotNull('typical_p', instance.typicalP);
   writeNotNull('repeat_last_n', instance.repeatLastN);
