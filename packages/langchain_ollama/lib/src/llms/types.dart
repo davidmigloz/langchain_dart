@@ -14,6 +14,7 @@ class OllamaOptions extends LLMOptions {
   const OllamaOptions({
     super.model,
     this.system,
+    this.suffix,
     this.template,
     this.context,
     this.format,
@@ -24,6 +25,7 @@ class OllamaOptions extends LLMOptions {
     this.numPredict,
     this.topK,
     this.topP,
+    this.minP,
     this.tfsZ,
     this.typicalP,
     this.repeatLastN,
@@ -53,6 +55,9 @@ class OllamaOptions extends LLMOptions {
 
   /// The system prompt (Overrides what is defined in the Modelfile).
   final String? system;
+
+  /// The text that comes after the inserted text.
+  final String? suffix;
 
   /// The full prompt or prompt template (overrides what is defined in the
   /// Modelfile).
@@ -109,11 +114,19 @@ class OllamaOptions extends LLMOptions {
   /// (Default: 40)
   final int? topK;
 
-  /// Works together with top-k. A higher value (e.g., 0.95) will lead to more
+  /// Works together with [topK]. A higher value (e.g., 0.95) will lead to more
   /// diverse text, while a lower value (e.g., 0.5) will generate more focused
   /// and conservative text.
   /// (Default: 0.9)
   final double? topP;
+
+  /// Alternative to the [topP], and aims to ensure a balance of quality and
+  /// variety. [minP] represents the minimum probability for a token to be
+  /// considered, relative to the probability of the most likely token. For
+  /// example, with min_p=0.05 and the most likely token having a probability
+  /// of 0.9, logits with a value less than 0.05*0.9=0.045 are filtered out.
+  /// (Default: 0.0)
+  final double? minP;
 
   /// Tail free sampling is used to reduce the impact of less probable tokens
   /// from the output. A higher value (e.g., 2.0) will reduce the impact more,
@@ -226,6 +239,7 @@ class OllamaOptions extends LLMOptions {
   OllamaOptions copyWith({
     final String? model,
     final String? system,
+    final String? suffix,
     final String? template,
     final List<int>? context,
     final OllamaResponseFormat? format,
@@ -236,6 +250,7 @@ class OllamaOptions extends LLMOptions {
     final int? numPredict,
     final int? topK,
     final double? topP,
+    final double? minP,
     final double? tfsZ,
     final double? typicalP,
     final int? repeatLastN,
@@ -265,6 +280,7 @@ class OllamaOptions extends LLMOptions {
     return OllamaOptions(
       model: model ?? this.model,
       system: system ?? this.system,
+      suffix: suffix ?? this.suffix,
       template: template ?? this.template,
       context: context ?? this.context,
       format: format ?? this.format,
@@ -275,6 +291,7 @@ class OllamaOptions extends LLMOptions {
       numPredict: numPredict ?? this.numPredict,
       topK: topK ?? this.topK,
       topP: topP ?? this.topP,
+      minP: minP ?? this.minP,
       tfsZ: tfsZ ?? this.tfsZ,
       typicalP: typicalP ?? this.typicalP,
       repeatLastN: repeatLastN ?? this.repeatLastN,
@@ -308,6 +325,7 @@ class OllamaOptions extends LLMOptions {
     return copyWith(
       model: other?.model,
       system: other?.system,
+      suffix: other?.suffix,
       template: other?.template,
       context: other?.context,
       format: other?.format,
@@ -318,6 +336,7 @@ class OllamaOptions extends LLMOptions {
       numPredict: other?.numPredict,
       topK: other?.topK,
       topP: other?.topP,
+      minP: other?.minP,
       tfsZ: other?.tfsZ,
       typicalP: other?.typicalP,
       repeatLastN: other?.repeatLastN,
@@ -352,6 +371,7 @@ class OllamaOptions extends LLMOptions {
         runtimeType == other.runtimeType &&
             model == other.model &&
             system == other.system &&
+            suffix == other.suffix &&
             template == other.template &&
             const ListEquality<int>().equals(context, other.context) &&
             format == other.format &&
@@ -362,6 +382,7 @@ class OllamaOptions extends LLMOptions {
             numPredict == other.numPredict &&
             topK == other.topK &&
             topP == other.topP &&
+            minP == other.minP &&
             tfsZ == other.tfsZ &&
             typicalP == other.typicalP &&
             repeatLastN == other.repeatLastN &&
@@ -393,6 +414,7 @@ class OllamaOptions extends LLMOptions {
   int get hashCode {
     return model.hashCode ^
         system.hashCode ^
+        suffix.hashCode ^
         template.hashCode ^
         const ListEquality<int>().hash(context) ^
         format.hashCode ^
@@ -403,6 +425,7 @@ class OllamaOptions extends LLMOptions {
         numPredict.hashCode ^
         topK.hashCode ^
         topP.hashCode ^
+        minP.hashCode ^
         tfsZ.hashCode ^
         typicalP.hashCode ^
         repeatLastN.hashCode ^
