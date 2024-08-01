@@ -6,15 +6,15 @@ class RunnableRetry<RunInput extends Object?, RunOutput extends Object?>
   RunnableRetry({
     required super.bound,
     required super.options,
-    this.maxAttempt = 3,
+    required this.maxAttempt,
   });
 
-  final int? maxAttempt;
+  final int maxAttempt;
 
   @override
   Future<RunOutput> invoke(RunInput input, {RunnableOptions? options}) async {
     Object? error;
-    for (int attempt = 0; attempt <= maxAttempt!; attempt++) {
+    for (int attempt = 1; attempt <= maxAttempt; attempt++) {
       try {
         return await bound.invoke(input, options: options ?? defaultOptions);
       } catch (e) {

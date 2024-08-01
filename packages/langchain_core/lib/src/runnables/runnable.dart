@@ -8,6 +8,7 @@ import 'input_map.dart';
 import 'input_stream_map.dart';
 import 'map.dart';
 import 'passthrough.dart';
+import 'retry.dart';
 import 'router.dart';
 import 'sequence.dart';
 import 'types.dart';
@@ -299,6 +300,14 @@ abstract class Runnable<RunInput extends Object?,
     return RunnableWithFallback<RunInput, RunOutput>(
       mainRunnable: this,
       fallbacks: fallbacks,
+    );
+  }
+
+  RunnableRetry<RunInput, RunOutput> withRetry(int maxAttempt) {
+    return RunnableRetry(
+      bound: this,
+      options: this.defaultOptions,
+      maxAttempt: maxAttempt,
     );
   }
 
