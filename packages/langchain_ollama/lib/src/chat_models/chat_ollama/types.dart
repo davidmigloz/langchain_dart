@@ -23,6 +23,7 @@ class ChatOllamaOptions extends ChatModelOptions {
     this.numPredict,
     this.topK,
     this.topP,
+    this.minP,
     this.tfsZ,
     this.typicalP,
     this.repeatLastN,
@@ -90,11 +91,19 @@ class ChatOllamaOptions extends ChatModelOptions {
   /// (Default: 40)
   final int? topK;
 
-  /// Works together with top-k. A higher value (e.g., 0.95) will lead to more
+  /// Works together with [topK]. A higher value (e.g., 0.95) will lead to more
   /// diverse text, while a lower value (e.g., 0.5) will generate more focused
   /// and conservative text.
   /// (Default: 0.9)
   final double? topP;
+
+  /// Alternative to the [topP], and aims to ensure a balance of quality and
+  /// variety. [minP] represents the minimum probability for a token to be
+  /// considered, relative to the probability of the most likely token. For
+  /// example, with min_p=0.05 and the most likely token having a probability
+  /// of 0.9, logits with a value less than 0.05*0.9=0.045 are filtered out.
+  /// (Default: 0.0)
+  final double? minP;
 
   /// Tail free sampling is used to reduce the impact of less probable tokens
   /// from the output. A higher value (e.g., 2.0) will reduce the impact more,
@@ -213,6 +222,7 @@ class ChatOllamaOptions extends ChatModelOptions {
     final int? numPredict,
     final int? topK,
     final double? topP,
+    final double? minP,
     final double? tfsZ,
     final double? typicalP,
     final int? repeatLastN,
@@ -248,6 +258,7 @@ class ChatOllamaOptions extends ChatModelOptions {
       numPredict: numPredict ?? this.numPredict,
       topK: topK ?? this.topK,
       topP: topP ?? this.topP,
+      minP: minP ?? this.minP,
       tfsZ: tfsZ ?? this.tfsZ,
       typicalP: typicalP ?? this.typicalP,
       repeatLastN: repeatLastN ?? this.repeatLastN,
@@ -287,6 +298,7 @@ class ChatOllamaOptions extends ChatModelOptions {
       numPredict: other?.numPredict,
       topK: other?.topK,
       topP: other?.topP,
+      minP: other?.minP,
       tfsZ: other?.tfsZ,
       typicalP: other?.typicalP,
       repeatLastN: other?.repeatLastN,
@@ -325,6 +337,7 @@ class ChatOllamaOptions extends ChatModelOptions {
         numPredict == other.numPredict &&
         topK == other.topK &&
         topP == other.topP &&
+        minP == other.minP &&
         tfsZ == other.tfsZ &&
         typicalP == other.typicalP &&
         repeatLastN == other.repeatLastN &&
@@ -362,6 +375,7 @@ class ChatOllamaOptions extends ChatModelOptions {
         numPredict.hashCode ^
         topK.hashCode ^
         topP.hashCode ^
+        minP.hashCode ^
         tfsZ.hashCode ^
         typicalP.hashCode ^
         repeatLastN.hashCode ^

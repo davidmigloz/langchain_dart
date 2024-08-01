@@ -200,6 +200,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   }) : _client = OpenAIClient(
           apiKey: apiKey ?? '',
           organization: organization,
+          beta: null,
           baseUrl: baseUrl,
           headers: headers,
           queryParams: queryParams,

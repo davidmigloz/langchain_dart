@@ -35,6 +35,7 @@ o.GenerateChatCompletionRequest generateChatCompletionRequest(
       numPredict: options?.numPredict ?? defaultOptions.numPredict,
       topK: options?.topK ?? defaultOptions.topK,
       topP: options?.topP ?? defaultOptions.topP,
+      minP: options?.minP ?? defaultOptions.minP,
       tfsZ: options?.tfsZ ?? defaultOptions.tfsZ,
       typicalP: options?.typicalP ?? defaultOptions.typicalP,
       repeatLastN: options?.repeatLastN ?? defaultOptions.repeatLastN,
