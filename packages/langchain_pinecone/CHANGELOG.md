@@ -1,3 +1,13 @@
+📣 Check out the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
+
+## 0.1.0+7
+
+ - **REFACTOR**: Depend on exact versions for internal 1st party dependencies ([#484](https://github.com/davidmigloz/langchain_dart/issues/484)). ([244e5e8f](https://github.com/davidmigloz/langchain_dart/commit/244e5e8f30e0d9a642fe01a804cc0de5e807e13d))
+
+## 0.1.0+6
+
+ - Update a dependency to the latest release.
+
 ## 0.1.0+5
 
  - Update a dependency to the latest release.

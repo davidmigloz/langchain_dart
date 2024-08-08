@@ -29,6 +29,10 @@ mixin _$GenerateCompletionRequest {
   /// The prompt to generate a response.
   String get prompt => throw _privateConstructorUsedError;
 
+  /// The text that comes after the inserted text.
+  @JsonKey(includeIfNull: false)
+  String? get suffix => throw _privateConstructorUsedError;
+
   /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
   @JsonKey(includeIfNull: false)
   List<String>? get images => throw _privateConstructorUsedError;
@@ -91,6 +95,7 @@ abstract class $GenerateCompletionRequestCopyWith<$Res> {
   $Res call(
       {String model,
       String prompt,
+      @JsonKey(includeIfNull: false) String? suffix,
       @JsonKey(includeIfNull: false) List<String>? images,
       @JsonKey(includeIfNull: false) String? system,
       @JsonKey(includeIfNull: false) String? template,
@@ -123,6 +128,7 @@ class _$GenerateCompletionRequestCopyWithImpl<$Res,
   $Res call({
     Object? model = null,
     Object? prompt = null,
+    Object? suffix = freezed,
     Object? images = freezed,
     Object? system = freezed,
     Object? template = freezed,
@@ -142,6 +148,10 @@ class _$GenerateCompletionRequestCopyWithImpl<$Res,
           ? _value.prompt
           : prompt // ignore: cast_nullable_to_non_nullable
               as String,
+      suffix: freezed == suffix
+          ? _value.suffix
+          : suffix // ignore: cast_nullable_to_non_nullable
+              as String?,
       images: freezed == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
@@ -206,6 +216,7 @@ abstract class _$$GenerateCompletionRequestImplCopyWith<$Res>
   $Res call(
       {String model,
       String prompt,
+      @JsonKey(includeIfNull: false) String? suffix,
       @JsonKey(includeIfNull: false) List<String>? images,
       @JsonKey(includeIfNull: false) String? system,
       @JsonKey(includeIfNull: false) String? template,
@@ -238,6 +249,7 @@ class __$$GenerateCompletionRequestImplCopyWithImpl<$Res>
   $Res call({
     Object? model = null,
     Object? prompt = null,
+    Object? suffix = freezed,
     Object? images = freezed,
     Object? system = freezed,
     Object? template = freezed,
@@ -257,6 +269,10 @@ class __$$GenerateCompletionRequestImplCopyWithImpl<$Res>
           ? _value.prompt
           : prompt // ignore: cast_nullable_to_non_nullable
               as String,
+      suffix: freezed == suffix
+          ? _value.suffix
+          : suffix // ignore: cast_nullable_to_non_nullable
+              as String?,
       images: freezed == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
@@ -303,6 +319,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
   const _$GenerateCompletionRequestImpl(
       {required this.model,
       required this.prompt,
+      @JsonKey(includeIfNull: false) this.suffix,
       @JsonKey(includeIfNull: false) final List<String>? images,
       @JsonKey(includeIfNull: false) this.system,
       @JsonKey(includeIfNull: false) this.template,
@@ -331,6 +348,11 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
   /// The prompt to generate a response.
   @override
   final String prompt;
+
+  /// The text that comes after the inserted text.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? suffix;
 
   /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
   final List<String>? _images;
@@ -409,7 +431,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
 
   @override
   String toString() {
-    return 'GenerateCompletionRequest(model: $model, prompt: $prompt, images: $images, system: $system, template: $template, context: $context, options: $options, format: $format, raw: $raw, stream: $stream, keepAlive: $keepAlive)';
+    return 'GenerateCompletionRequest(model: $model, prompt: $prompt, suffix: $suffix, images: $images, system: $system, template: $template, context: $context, options: $options, format: $format, raw: $raw, stream: $stream, keepAlive: $keepAlive)';
   }
 
   @override
@@ -419,6 +441,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
             other is _$GenerateCompletionRequestImpl &&
             (identical(other.model, model) || other.model == model) &&
             (identical(other.prompt, prompt) || other.prompt == prompt) &&
+            (identical(other.suffix, suffix) || other.suffix == suffix) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
             (identical(other.system, system) || other.system == system) &&
             (identical(other.template, template) ||
@@ -438,6 +461,7 @@ class _$GenerateCompletionRequestImpl extends _GenerateCompletionRequest {
       runtimeType,
       model,
       prompt,
+      suffix,
       const DeepCollectionEquality().hash(_images),
       system,
       template,
@@ -467,6 +491,7 @@ abstract class _GenerateCompletionRequest extends GenerateCompletionRequest {
   const factory _GenerateCompletionRequest(
       {required final String model,
       required final String prompt,
+      @JsonKey(includeIfNull: false) final String? suffix,
       @JsonKey(includeIfNull: false) final List<String>? images,
       @JsonKey(includeIfNull: false) final String? system,
       @JsonKey(includeIfNull: false) final String? template,
@@ -495,6 +520,11 @@ abstract class _GenerateCompletionRequest extends GenerateCompletionRequest {
 
   /// The prompt to generate a response.
   String get prompt;
+  @override
+
+  /// The text that comes after the inserted text.
+  @JsonKey(includeIfNull: false)
+  String? get suffix;
   @override
 
   /// (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
@@ -567,67 +597,89 @@ mixin _$RequestOptions {
   @JsonKey(name: 'num_keep', includeIfNull: false)
   int? get numKeep => throw _privateConstructorUsedError;
 
-  /// Sets the random number seed to use for generation. Setting this to a specific number will make the model generate the same text for the same prompt. (Default: 0)
+  /// Sets the random number seed to use for generation. Setting this to a specific number will make the model
+  /// generate the same text for the same prompt. (Default: 0)
   @JsonKey(includeIfNull: false)
   int? get seed => throw _privateConstructorUsedError;
 
-  /// Maximum number of tokens to predict when generating text. (Default: 128, -1 = infinite generation, -2 = fill context)
+  /// Maximum number of tokens to predict when generating text.
+  /// (Default: 128, -1 = infinite generation, -2 = fill context)
   @JsonKey(name: 'num_predict', includeIfNull: false)
   int? get numPredict => throw _privateConstructorUsedError;
 
-  /// Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers, while a lower value (e.g. 10) will be more conservative. (Default: 40)
+  /// Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers,
+  /// while a lower value (e.g. 10) will be more conservative. (Default: 40)
   @JsonKey(name: 'top_k', includeIfNull: false)
   int? get topK => throw _privateConstructorUsedError;
 
-  /// Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
+  /// Works together with top_k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value
+  /// (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP => throw _privateConstructorUsedError;
 
-  /// Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
+  /// Alternative to the top_p, and aims to ensure a balance of quality and variety. min_p represents the minimum
+  /// probability for a token to be considered, relative to the probability of the most likely token. For
+  /// example, with min_p=0.05 and the most likely token having a probability of 0.9, logits with a value less
+  /// than 0.05*0.9=0.045 are filtered out. (Default: 0.0)
+  @JsonKey(name: 'min_p', includeIfNull: false)
+  double? get minP => throw _privateConstructorUsedError;
+
+  /// Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value
+  /// (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
   @JsonKey(name: 'tfs_z', includeIfNull: false)
   double? get tfsZ => throw _privateConstructorUsedError;
 
-  /// Typical p is used to reduce the impact of less probable tokens from the output.
+  /// Typical p is used to reduce the impact of less probable tokens from the output. (default: 1)
   @JsonKey(name: 'typical_p', includeIfNull: false)
   double? get typicalP => throw _privateConstructorUsedError;
 
-  /// Sets how far back for the model to look back to prevent repetition. (Default: 64, 0 = disabled, -1 = num_ctx)
+  /// Sets how far back for the model to look back to prevent repetition.
+  /// (Default: 64, 0 = disabled, -1 = num_ctx)
   @JsonKey(name: 'repeat_last_n', includeIfNull: false)
   int? get repeatLastN => throw _privateConstructorUsedError;
 
-  /// The temperature of the model. Increasing the temperature will make the model answer more creatively. (Default: 0.8)
+  /// The temperature of the model. Increasing the temperature will make the model answer more creatively.
+  /// (Default: 0.8)
   @JsonKey(includeIfNull: false)
   double? get temperature => throw _privateConstructorUsedError;
 
-  /// Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more strongly, while a lower value (e.g., 0.9) will be more lenient. (Default: 1.1)
+  /// Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more
+  /// strongly, while a lower value (e.g., 0.9) will be more lenient. (Default: 1.1)
   @JsonKey(name: 'repeat_penalty', includeIfNull: false)
   double? get repeatPenalty => throw _privateConstructorUsedError;
 
-  /// Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
+  /// Positive values penalize new tokens based on whether they appear in the text so far, increasing the
+  /// model's likelihood to talk about new topics. (Default: 0)
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty => throw _privateConstructorUsedError;
 
-  /// Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+  /// Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the
+  /// model's likelihood to repeat the same line verbatim. (Default: 0)
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   double? get frequencyPenalty => throw _privateConstructorUsedError;
 
-  /// Enable Mirostat sampling for controlling perplexity. (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
+  /// Enable Mirostat sampling for controlling perplexity.
+  /// (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
   @JsonKey(includeIfNull: false)
   int? get mirostat => throw _privateConstructorUsedError;
 
-  /// Controls the balance between coherence and diversity of the output. A lower value will result in more focused and coherent text. (Default: 5.0)
+  /// Controls the balance between coherence and diversity of the output. A lower value will result in more
+  /// focused and coherent text. (Default: 5.0)
   @JsonKey(name: 'mirostat_tau', includeIfNull: false)
   double? get mirostatTau => throw _privateConstructorUsedError;
 
-  /// Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate will result in slower adjustments, while a higher learning rate will make the algorithm more responsive. (Default: 0.1)
+  /// Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate
+  /// will result in slower adjustments, while a higher learning rate will make the algorithm more responsive.
+  /// (Default: 0.1)
   @JsonKey(name: 'mirostat_eta', includeIfNull: false)
   double? get mirostatEta => throw _privateConstructorUsedError;
 
-  /// Penalize newlines in the output. (Default: false)
+  /// Penalize newlines in the output. (Default: true)
   @JsonKey(name: 'penalize_newline', includeIfNull: false)
   bool? get penalizeNewline => throw _privateConstructorUsedError;
 
-  /// Sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
+  /// Sequences where the API will stop generating further tokens. The returned text will not contain the stop
+  /// sequence.
   @JsonKey(includeIfNull: false)
   List<String>? get stop => throw _privateConstructorUsedError;
 
@@ -635,15 +687,16 @@ mixin _$RequestOptions {
   @JsonKey(includeIfNull: false)
   bool? get numa => throw _privateConstructorUsedError;
 
-  /// Sets the size of the context window used to generate the next token.
+  /// Sets the size of the context window used to generate the next token. (Default: 2048)
   @JsonKey(name: 'num_ctx', includeIfNull: false)
   int? get numCtx => throw _privateConstructorUsedError;
 
-  /// Sets the number of batches to use for generation. (Default: 1)
+  /// Sets the number of batches to use for generation. (Default: 512)
   @JsonKey(name: 'num_batch', includeIfNull: false)
   int? get numBatch => throw _privateConstructorUsedError;
 
-  /// The number of layers to send to the GPU(s). On macOS it defaults to 1 to enable metal support, 0 to disable.
+  /// The number of layers to send to the GPU(s).
+  /// On macOS it defaults to 1 to enable metal support, 0 to disable.
   @JsonKey(name: 'num_gpu', includeIfNull: false)
   int? get numGpu => throw _privateConstructorUsedError;
 
@@ -655,7 +708,7 @@ mixin _$RequestOptions {
   @JsonKey(name: 'low_vram', includeIfNull: false)
   bool? get lowVram => throw _privateConstructorUsedError;
 
-  /// Enable f16 key/value. (Default: false)
+  /// Enable f16 key/value. (Default: true)
   @JsonKey(name: 'f16_kv', includeIfNull: false)
   bool? get f16Kv => throw _privateConstructorUsedError;
 
@@ -675,7 +728,9 @@ mixin _$RequestOptions {
   @JsonKey(name: 'use_mlock', includeIfNull: false)
   bool? get useMlock => throw _privateConstructorUsedError;
 
-  /// Sets the number of threads to use during computation. By default, Ollama will detect this for optimal performance. It is recommended to set this value to the number of physical CPU cores your system has (as opposed to the logical number of cores).
+  /// Sets the number of threads to use during computation. By default, Ollama will detect this for optimal
+  /// performance. It is recommended to set this value to the number of physical CPU cores your system has
+  /// (as opposed to the logical number of cores).
   @JsonKey(name: 'num_thread', includeIfNull: false)
   int? get numThread => throw _privateConstructorUsedError;
 
@@ -697,6 +752,7 @@ abstract class $RequestOptionsCopyWith<$Res> {
       @JsonKey(name: 'num_predict', includeIfNull: false) int? numPredict,
       @JsonKey(name: 'top_k', includeIfNull: false) int? topK,
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
+      @JsonKey(name: 'min_p', includeIfNull: false) double? minP,
       @JsonKey(name: 'tfs_z', includeIfNull: false) double? tfsZ,
       @JsonKey(name: 'typical_p', includeIfNull: false) double? typicalP,
       @JsonKey(name: 'repeat_last_n', includeIfNull: false) int? repeatLastN,
@@ -745,6 +801,7 @@ class _$RequestOptionsCopyWithImpl<$Res, $Val extends RequestOptions>
     Object? numPredict = freezed,
     Object? topK = freezed,
     Object? topP = freezed,
+    Object? minP = freezed,
     Object? tfsZ = freezed,
     Object? typicalP = freezed,
     Object? repeatLastN = freezed,
@@ -790,6 +847,10 @@ class _$RequestOptionsCopyWithImpl<$Res, $Val extends RequestOptions>
       topP: freezed == topP
           ? _value.topP
           : topP // ignore: cast_nullable_to_non_nullable
+              as double?,
+      minP: freezed == minP
+          ? _value.minP
+          : minP // ignore: cast_nullable_to_non_nullable
               as double?,
       tfsZ: freezed == tfsZ
           ? _value.tfsZ
@@ -905,6 +966,7 @@ abstract class _$$RequestOptionsImplCopyWith<$Res>
       @JsonKey(name: 'num_predict', includeIfNull: false) int? numPredict,
       @JsonKey(name: 'top_k', includeIfNull: false) int? topK,
       @JsonKey(name: 'top_p', includeIfNull: false) double? topP,
+      @JsonKey(name: 'min_p', includeIfNull: false) double? minP,
       @JsonKey(name: 'tfs_z', includeIfNull: false) double? tfsZ,
       @JsonKey(name: 'typical_p', includeIfNull: false) double? typicalP,
       @JsonKey(name: 'repeat_last_n', includeIfNull: false) int? repeatLastN,
@@ -951,6 +1013,7 @@ class __$$RequestOptionsImplCopyWithImpl<$Res>
     Object? numPredict = freezed,
     Object? topK = freezed,
     Object? topP = freezed,
+    Object? minP = freezed,
     Object? tfsZ = freezed,
     Object? typicalP = freezed,
     Object? repeatLastN = freezed,
@@ -996,6 +1059,10 @@ class __$$RequestOptionsImplCopyWithImpl<$Res>
       topP: freezed == topP
           ? _value.topP
           : topP // ignore: cast_nullable_to_non_nullable
+              as double?,
+      minP: freezed == minP
+          ? _value.minP
+          : minP // ignore: cast_nullable_to_non_nullable
               as double?,
       tfsZ: freezed == tfsZ
           ? _value.tfsZ
@@ -1106,6 +1173,7 @@ class _$RequestOptionsImpl extends _RequestOptions {
       @JsonKey(name: 'num_predict', includeIfNull: false) this.numPredict,
       @JsonKey(name: 'top_k', includeIfNull: false) this.topK,
       @JsonKey(name: 'top_p', includeIfNull: false) this.topP,
+      @JsonKey(name: 'min_p', includeIfNull: false) this.minP,
       @JsonKey(name: 'tfs_z', includeIfNull: false) this.tfsZ,
       @JsonKey(name: 'typical_p', includeIfNull: false) this.typicalP,
       @JsonKey(name: 'repeat_last_n', includeIfNull: false) this.repeatLastN,
@@ -1144,85 +1212,109 @@ class _$RequestOptionsImpl extends _RequestOptions {
   @JsonKey(name: 'num_keep', includeIfNull: false)
   final int? numKeep;
 
-  /// Sets the random number seed to use for generation. Setting this to a specific number will make the model generate the same text for the same prompt. (Default: 0)
+  /// Sets the random number seed to use for generation. Setting this to a specific number will make the model
+  /// generate the same text for the same prompt. (Default: 0)
   @override
   @JsonKey(includeIfNull: false)
   final int? seed;
 
-  /// Maximum number of tokens to predict when generating text. (Default: 128, -1 = infinite generation, -2 = fill context)
+  /// Maximum number of tokens to predict when generating text.
+  /// (Default: 128, -1 = infinite generation, -2 = fill context)
   @override
   @JsonKey(name: 'num_predict', includeIfNull: false)
   final int? numPredict;
 
-  /// Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers, while a lower value (e.g. 10) will be more conservative. (Default: 40)
+  /// Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers,
+  /// while a lower value (e.g. 10) will be more conservative. (Default: 40)
   @override
   @JsonKey(name: 'top_k', includeIfNull: false)
   final int? topK;
 
-  /// Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
+  /// Works together with top_k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value
+  /// (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
   @override
   @JsonKey(name: 'top_p', includeIfNull: false)
   final double? topP;
 
-  /// Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
+  /// Alternative to the top_p, and aims to ensure a balance of quality and variety. min_p represents the minimum
+  /// probability for a token to be considered, relative to the probability of the most likely token. For
+  /// example, with min_p=0.05 and the most likely token having a probability of 0.9, logits with a value less
+  /// than 0.05*0.9=0.045 are filtered out. (Default: 0.0)
+  @override
+  @JsonKey(name: 'min_p', includeIfNull: false)
+  final double? minP;
+
+  /// Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value
+  /// (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
   @override
   @JsonKey(name: 'tfs_z', includeIfNull: false)
   final double? tfsZ;
 
-  /// Typical p is used to reduce the impact of less probable tokens from the output.
+  /// Typical p is used to reduce the impact of less probable tokens from the output. (default: 1)
   @override
   @JsonKey(name: 'typical_p', includeIfNull: false)
   final double? typicalP;
 
-  /// Sets how far back for the model to look back to prevent repetition. (Default: 64, 0 = disabled, -1 = num_ctx)
+  /// Sets how far back for the model to look back to prevent repetition.
+  /// (Default: 64, 0 = disabled, -1 = num_ctx)
   @override
   @JsonKey(name: 'repeat_last_n', includeIfNull: false)
   final int? repeatLastN;
 
-  /// The temperature of the model. Increasing the temperature will make the model answer more creatively. (Default: 0.8)
+  /// The temperature of the model. Increasing the temperature will make the model answer more creatively.
+  /// (Default: 0.8)
   @override
   @JsonKey(includeIfNull: false)
   final double? temperature;
 
-  /// Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more strongly, while a lower value (e.g., 0.9) will be more lenient. (Default: 1.1)
+  /// Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more
+  /// strongly, while a lower value (e.g., 0.9) will be more lenient. (Default: 1.1)
   @override
   @JsonKey(name: 'repeat_penalty', includeIfNull: false)
   final double? repeatPenalty;
 
-  /// Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
+  /// Positive values penalize new tokens based on whether they appear in the text so far, increasing the
+  /// model's likelihood to talk about new topics. (Default: 0)
   @override
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   final double? presencePenalty;
 
-  /// Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+  /// Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the
+  /// model's likelihood to repeat the same line verbatim. (Default: 0)
   @override
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   final double? frequencyPenalty;
 
-  /// Enable Mirostat sampling for controlling perplexity. (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
+  /// Enable Mirostat sampling for controlling perplexity.
+  /// (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
   @override
   @JsonKey(includeIfNull: false)
   final int? mirostat;
 
-  /// Controls the balance between coherence and diversity of the output. A lower value will result in more focused and coherent text. (Default: 5.0)
+  /// Controls the balance between coherence and diversity of the output. A lower value will result in more
+  /// focused and coherent text. (Default: 5.0)
   @override
   @JsonKey(name: 'mirostat_tau', includeIfNull: false)
   final double? mirostatTau;
 
-  /// Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate will result in slower adjustments, while a higher learning rate will make the algorithm more responsive. (Default: 0.1)
+  /// Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate
+  /// will result in slower adjustments, while a higher learning rate will make the algorithm more responsive.
+  /// (Default: 0.1)
   @override
   @JsonKey(name: 'mirostat_eta', includeIfNull: false)
   final double? mirostatEta;
 
-  /// Penalize newlines in the output. (Default: false)
+  /// Penalize newlines in the output. (Default: true)
   @override
   @JsonKey(name: 'penalize_newline', includeIfNull: false)
   final bool? penalizeNewline;
 
-  /// Sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
+  /// Sequences where the API will stop generating further tokens. The returned text will not contain the stop
+  /// sequence.
   final List<String>? _stop;
 
-  /// Sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
+  /// Sequences where the API will stop generating further tokens. The returned text will not contain the stop
+  /// sequence.
   @override
   @JsonKey(includeIfNull: false)
   List<String>? get stop {
@@ -1238,17 +1330,18 @@ class _$RequestOptionsImpl extends _RequestOptions {
   @JsonKey(includeIfNull: false)
   final bool? numa;
 
-  /// Sets the size of the context window used to generate the next token.
+  /// Sets the size of the context window used to generate the next token. (Default: 2048)
   @override
   @JsonKey(name: 'num_ctx', includeIfNull: false)
   final int? numCtx;
 
-  /// Sets the number of batches to use for generation. (Default: 1)
+  /// Sets the number of batches to use for generation. (Default: 512)
   @override
   @JsonKey(name: 'num_batch', includeIfNull: false)
   final int? numBatch;
 
-  /// The number of layers to send to the GPU(s). On macOS it defaults to 1 to enable metal support, 0 to disable.
+  /// The number of layers to send to the GPU(s).
+  /// On macOS it defaults to 1 to enable metal support, 0 to disable.
   @override
   @JsonKey(name: 'num_gpu', includeIfNull: false)
   final int? numGpu;
@@ -1263,7 +1356,7 @@ class _$RequestOptionsImpl extends _RequestOptions {
   @JsonKey(name: 'low_vram', includeIfNull: false)
   final bool? lowVram;
 
-  /// Enable f16 key/value. (Default: false)
+  /// Enable f16 key/value. (Default: true)
   @override
   @JsonKey(name: 'f16_kv', includeIfNull: false)
   final bool? f16Kv;
@@ -1288,14 +1381,16 @@ class _$RequestOptionsImpl extends _RequestOptions {
   @JsonKey(name: 'use_mlock', includeIfNull: false)
   final bool? useMlock;
 
-  /// Sets the number of threads to use during computation. By default, Ollama will detect this for optimal performance. It is recommended to set this value to the number of physical CPU cores your system has (as opposed to the logical number of cores).
+  /// Sets the number of threads to use during computation. By default, Ollama will detect this for optimal
+  /// performance. It is recommended to set this value to the number of physical CPU cores your system has
+  /// (as opposed to the logical number of cores).
   @override
   @JsonKey(name: 'num_thread', includeIfNull: false)
   final int? numThread;
 
   @override
   String toString() {
-    return 'RequestOptions(numKeep: $numKeep, seed: $seed, numPredict: $numPredict, topK: $topK, topP: $topP, tfsZ: $tfsZ, typicalP: $typicalP, repeatLastN: $repeatLastN, temperature: $temperature, repeatPenalty: $repeatPenalty, presencePenalty: $presencePenalty, frequencyPenalty: $frequencyPenalty, mirostat: $mirostat, mirostatTau: $mirostatTau, mirostatEta: $mirostatEta, penalizeNewline: $penalizeNewline, stop: $stop, numa: $numa, numCtx: $numCtx, numBatch: $numBatch, numGpu: $numGpu, mainGpu: $mainGpu, lowVram: $lowVram, f16Kv: $f16Kv, logitsAll: $logitsAll, vocabOnly: $vocabOnly, useMmap: $useMmap, useMlock: $useMlock, numThread: $numThread)';
+    return 'RequestOptions(numKeep: $numKeep, seed: $seed, numPredict: $numPredict, topK: $topK, topP: $topP, minP: $minP, tfsZ: $tfsZ, typicalP: $typicalP, repeatLastN: $repeatLastN, temperature: $temperature, repeatPenalty: $repeatPenalty, presencePenalty: $presencePenalty, frequencyPenalty: $frequencyPenalty, mirostat: $mirostat, mirostatTau: $mirostatTau, mirostatEta: $mirostatEta, penalizeNewline: $penalizeNewline, stop: $stop, numa: $numa, numCtx: $numCtx, numBatch: $numBatch, numGpu: $numGpu, mainGpu: $mainGpu, lowVram: $lowVram, f16Kv: $f16Kv, logitsAll: $logitsAll, vocabOnly: $vocabOnly, useMmap: $useMmap, useMlock: $useMlock, numThread: $numThread)';
   }
 
   @override
@@ -1309,6 +1404,7 @@ class _$RequestOptionsImpl extends _RequestOptions {
                 other.numPredict == numPredict) &&
             (identical(other.topK, topK) || other.topK == topK) &&
             (identical(other.topP, topP) || other.topP == topP) &&
+            (identical(other.minP, minP) || other.minP == minP) &&
             (identical(other.tfsZ, tfsZ) || other.tfsZ == tfsZ) &&
             (identical(other.typicalP, typicalP) ||
                 other.typicalP == typicalP) &&
@@ -1359,6 +1455,7 @@ class _$RequestOptionsImpl extends _RequestOptions {
         numPredict,
         topK,
         topP,
+        minP,
         tfsZ,
         typicalP,
         repeatLastN,
@@ -1407,6 +1504,7 @@ abstract class _RequestOptions extends RequestOptions {
       @JsonKey(name: 'num_predict', includeIfNull: false) final int? numPredict,
       @JsonKey(name: 'top_k', includeIfNull: false) final int? topK,
       @JsonKey(name: 'top_p', includeIfNull: false) final double? topP,
+      @JsonKey(name: 'min_p', includeIfNull: false) final double? minP,
       @JsonKey(name: 'tfs_z', includeIfNull: false) final double? tfsZ,
       @JsonKey(name: 'typical_p', includeIfNull: false) final double? typicalP,
       @JsonKey(name: 'repeat_last_n', includeIfNull: false)
@@ -1451,82 +1549,105 @@ abstract class _RequestOptions extends RequestOptions {
   int? get numKeep;
   @override
 
-  /// Sets the random number seed to use for generation. Setting this to a specific number will make the model generate the same text for the same prompt. (Default: 0)
+  /// Sets the random number seed to use for generation. Setting this to a specific number will make the model
+  /// generate the same text for the same prompt. (Default: 0)
   @JsonKey(includeIfNull: false)
   int? get seed;
   @override
 
-  /// Maximum number of tokens to predict when generating text. (Default: 128, -1 = infinite generation, -2 = fill context)
+  /// Maximum number of tokens to predict when generating text.
+  /// (Default: 128, -1 = infinite generation, -2 = fill context)
   @JsonKey(name: 'num_predict', includeIfNull: false)
   int? get numPredict;
   @override
 
-  /// Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers, while a lower value (e.g. 10) will be more conservative. (Default: 40)
+  /// Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers,
+  /// while a lower value (e.g. 10) will be more conservative. (Default: 40)
   @JsonKey(name: 'top_k', includeIfNull: false)
   int? get topK;
   @override
 
-  /// Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
+  /// Works together with top_k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value
+  /// (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP;
   @override
 
-  /// Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
+  /// Alternative to the top_p, and aims to ensure a balance of quality and variety. min_p represents the minimum
+  /// probability for a token to be considered, relative to the probability of the most likely token. For
+  /// example, with min_p=0.05 and the most likely token having a probability of 0.9, logits with a value less
+  /// than 0.05*0.9=0.045 are filtered out. (Default: 0.0)
+  @JsonKey(name: 'min_p', includeIfNull: false)
+  double? get minP;
+  @override
+
+  /// Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value
+  /// (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
   @JsonKey(name: 'tfs_z', includeIfNull: false)
   double? get tfsZ;
   @override
 
-  /// Typical p is used to reduce the impact of less probable tokens from the output.
+  /// Typical p is used to reduce the impact of less probable tokens from the output. (default: 1)
   @JsonKey(name: 'typical_p', includeIfNull: false)
   double? get typicalP;
   @override
 
-  /// Sets how far back for the model to look back to prevent repetition. (Default: 64, 0 = disabled, -1 = num_ctx)
+  /// Sets how far back for the model to look back to prevent repetition.
+  /// (Default: 64, 0 = disabled, -1 = num_ctx)
   @JsonKey(name: 'repeat_last_n', includeIfNull: false)
   int? get repeatLastN;
   @override
 
-  /// The temperature of the model. Increasing the temperature will make the model answer more creatively. (Default: 0.8)
+  /// The temperature of the model. Increasing the temperature will make the model answer more creatively.
+  /// (Default: 0.8)
   @JsonKey(includeIfNull: false)
   double? get temperature;
   @override
 
-  /// Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more strongly, while a lower value (e.g., 0.9) will be more lenient. (Default: 1.1)
+  /// Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more
+  /// strongly, while a lower value (e.g., 0.9) will be more lenient. (Default: 1.1)
   @JsonKey(name: 'repeat_penalty', includeIfNull: false)
   double? get repeatPenalty;
   @override
 
-  /// Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
+  /// Positive values penalize new tokens based on whether they appear in the text so far, increasing the
+  /// model's likelihood to talk about new topics. (Default: 0)
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty;
   @override
 
-  /// Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+  /// Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the
+  /// model's likelihood to repeat the same line verbatim. (Default: 0)
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   double? get frequencyPenalty;
   @override
 
-  /// Enable Mirostat sampling for controlling perplexity. (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
+  /// Enable Mirostat sampling for controlling perplexity.
+  /// (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
   @JsonKey(includeIfNull: false)
   int? get mirostat;
   @override
 
-  /// Controls the balance between coherence and diversity of the output. A lower value will result in more focused and coherent text. (Default: 5.0)
+  /// Controls the balance between coherence and diversity of the output. A lower value will result in more
+  /// focused and coherent text. (Default: 5.0)
   @JsonKey(name: 'mirostat_tau', includeIfNull: false)
   double? get mirostatTau;
   @override
 
-  /// Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate will result in slower adjustments, while a higher learning rate will make the algorithm more responsive. (Default: 0.1)
+  /// Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate
+  /// will result in slower adjustments, while a higher learning rate will make the algorithm more responsive.
+  /// (Default: 0.1)
   @JsonKey(name: 'mirostat_eta', includeIfNull: false)
   double? get mirostatEta;
   @override
 
-  /// Penalize newlines in the output. (Default: false)
+  /// Penalize newlines in the output. (Default: true)
   @JsonKey(name: 'penalize_newline', includeIfNull: false)
   bool? get penalizeNewline;
   @override
 
-  /// Sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
+  /// Sequences where the API will stop generating further tokens. The returned text will not contain the stop
+  /// sequence.
   @JsonKey(includeIfNull: false)
   List<String>? get stop;
   @override
@@ -1536,17 +1657,18 @@ abstract class _RequestOptions extends RequestOptions {
   bool? get numa;
   @override
 
-  /// Sets the size of the context window used to generate the next token.
+  /// Sets the size of the context window used to generate the next token. (Default: 2048)
   @JsonKey(name: 'num_ctx', includeIfNull: false)
   int? get numCtx;
   @override
 
-  /// Sets the number of batches to use for generation. (Default: 1)
+  /// Sets the number of batches to use for generation. (Default: 512)
   @JsonKey(name: 'num_batch', includeIfNull: false)
   int? get numBatch;
   @override
 
-  /// The number of layers to send to the GPU(s). On macOS it defaults to 1 to enable metal support, 0 to disable.
+  /// The number of layers to send to the GPU(s).
+  /// On macOS it defaults to 1 to enable metal support, 0 to disable.
   @JsonKey(name: 'num_gpu', includeIfNull: false)
   int? get numGpu;
   @override
@@ -1561,7 +1683,7 @@ abstract class _RequestOptions extends RequestOptions {
   bool? get lowVram;
   @override
 
-  /// Enable f16 key/value. (Default: false)
+  /// Enable f16 key/value. (Default: true)
   @JsonKey(name: 'f16_kv', includeIfNull: false)
   bool? get f16Kv;
   @override
@@ -1586,12 +1708,162 @@ abstract class _RequestOptions extends RequestOptions {
   bool? get useMlock;
   @override
 
-  /// Sets the number of threads to use during computation. By default, Ollama will detect this for optimal performance. It is recommended to set this value to the number of physical CPU cores your system has (as opposed to the logical number of cores).
+  /// Sets the number of threads to use during computation. By default, Ollama will detect this for optimal
+  /// performance. It is recommended to set this value to the number of physical CPU cores your system has
+  /// (as opposed to the logical number of cores).
   @JsonKey(name: 'num_thread', includeIfNull: false)
   int? get numThread;
   @override
   @JsonKey(ignore: true)
   _$$RequestOptionsImplCopyWith<_$RequestOptionsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+VersionResponse _$VersionResponseFromJson(Map<String, dynamic> json) {
+  return _VersionResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$VersionResponse {
+  /// The version of the Ollama server.
+  @JsonKey(includeIfNull: false)
+  String? get version => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $VersionResponseCopyWith<VersionResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $VersionResponseCopyWith<$Res> {
+  factory $VersionResponseCopyWith(
+          VersionResponse value, $Res Function(VersionResponse) then) =
+      _$VersionResponseCopyWithImpl<$Res, VersionResponse>;
+  @useResult
+  $Res call({@JsonKey(includeIfNull: false) String? version});
+}
+
+/// @nodoc
+class _$VersionResponseCopyWithImpl<$Res, $Val extends VersionResponse>
+    implements $VersionResponseCopyWith<$Res> {
+  _$VersionResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? version = freezed,
+  }) {
+    return _then(_value.copyWith(
+      version: freezed == version
+          ? _value.version
+          : version // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$VersionResponseImplCopyWith<$Res>
+    implements $VersionResponseCopyWith<$Res> {
+  factory _$$VersionResponseImplCopyWith(_$VersionResponseImpl value,
+          $Res Function(_$VersionResponseImpl) then) =
+      __$$VersionResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(includeIfNull: false) String? version});
+}
+
+/// @nodoc
+class __$$VersionResponseImplCopyWithImpl<$Res>
+    extends _$VersionResponseCopyWithImpl<$Res, _$VersionResponseImpl>
+    implements _$$VersionResponseImplCopyWith<$Res> {
+  __$$VersionResponseImplCopyWithImpl(
+      _$VersionResponseImpl _value, $Res Function(_$VersionResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? version = freezed,
+  }) {
+    return _then(_$VersionResponseImpl(
+      version: freezed == version
+          ? _value.version
+          : version // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$VersionResponseImpl extends _VersionResponse {
+  const _$VersionResponseImpl({@JsonKey(includeIfNull: false) this.version})
+      : super._();
+
+  factory _$VersionResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$VersionResponseImplFromJson(json);
+
+  /// The version of the Ollama server.
+  @override
+  @JsonKey(includeIfNull: false)
+  final String? version;
+
+  @override
+  String toString() {
+    return 'VersionResponse(version: $version)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$VersionResponseImpl &&
+            (identical(other.version, version) || other.version == version));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, version);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$VersionResponseImplCopyWith<_$VersionResponseImpl> get copyWith =>
+      __$$VersionResponseImplCopyWithImpl<_$VersionResponseImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$VersionResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _VersionResponse extends VersionResponse {
+  const factory _VersionResponse(
+          {@JsonKey(includeIfNull: false) final String? version}) =
+      _$VersionResponseImpl;
+  const _VersionResponse._() : super._();
+
+  factory _VersionResponse.fromJson(Map<String, dynamic> json) =
+      _$VersionResponseImpl.fromJson;
+
+  @override
+
+  /// The version of the Ollama server.
+  @JsonKey(includeIfNull: false)
+  String? get version;
+  @override
+  @JsonKey(ignore: true)
+  _$$VersionResponseImplCopyWith<_$VersionResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -2130,6 +2402,10 @@ mixin _$GenerateChatCompletionRequest {
   @JsonKey(name: 'keep_alive', includeIfNull: false)
   int? get keepAlive => throw _privateConstructorUsedError;
 
+  /// A list of tools the model may call.
+  @JsonKey(includeIfNull: false)
+  List<Tool>? get tools => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $GenerateChatCompletionRequestCopyWith<GenerateChatCompletionRequest>
@@ -2153,7 +2429,8 @@ abstract class $GenerateChatCompletionRequestCopyWith<$Res> {
       ResponseFormat? format,
       @JsonKey(includeIfNull: false) RequestOptions? options,
       bool stream,
-      @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive});
+      @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,
+      @JsonKey(includeIfNull: false) List<Tool>? tools});
 
   $RequestOptionsCopyWith<$Res>? get options;
 }
@@ -2178,6 +2455,7 @@ class _$GenerateChatCompletionRequestCopyWithImpl<$Res,
     Object? options = freezed,
     Object? stream = null,
     Object? keepAlive = freezed,
+    Object? tools = freezed,
   }) {
     return _then(_value.copyWith(
       model: null == model
@@ -2204,6 +2482,10 @@ class _$GenerateChatCompletionRequestCopyWithImpl<$Res,
           ? _value.keepAlive
           : keepAlive // ignore: cast_nullable_to_non_nullable
               as int?,
+      tools: freezed == tools
+          ? _value.tools
+          : tools // ignore: cast_nullable_to_non_nullable
+              as List<Tool>?,
     ) as $Val);
   }
 
@@ -2238,7 +2520,8 @@ abstract class _$$GenerateChatCompletionRequestImplCopyWith<$Res>
       ResponseFormat? format,
       @JsonKey(includeIfNull: false) RequestOptions? options,
       bool stream,
-      @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive});
+      @JsonKey(name: 'keep_alive', includeIfNull: false) int? keepAlive,
+      @JsonKey(includeIfNull: false) List<Tool>? tools});
 
   @override
   $RequestOptionsCopyWith<$Res>? get options;
@@ -2263,6 +2546,7 @@ class __$$GenerateChatCompletionRequestImplCopyWithImpl<$Res>
     Object? options = freezed,
     Object? stream = null,
     Object? keepAlive = freezed,
+    Object? tools = freezed,
   }) {
     return _then(_$GenerateChatCompletionRequestImpl(
       model: null == model
@@ -2289,6 +2573,10 @@ class __$$GenerateChatCompletionRequestImplCopyWithImpl<$Res>
           ? _value.keepAlive
           : keepAlive // ignore: cast_nullable_to_non_nullable
               as int?,
+      tools: freezed == tools
+          ? _value._tools
+          : tools // ignore: cast_nullable_to_non_nullable
+              as List<Tool>?,
     ));
   }
 }
@@ -2306,8 +2594,10 @@ class _$GenerateChatCompletionRequestImpl
       this.format,
       @JsonKey(includeIfNull: false) this.options,
       this.stream = false,
-      @JsonKey(name: 'keep_alive', includeIfNull: false) this.keepAlive})
+      @JsonKey(name: 'keep_alive', includeIfNull: false) this.keepAlive,
+      @JsonKey(includeIfNull: false) final List<Tool>? tools})
       : _messages = messages,
+        _tools = tools,
         super._();
 
   factory _$GenerateChatCompletionRequestImpl.fromJson(
@@ -2361,9 +2651,23 @@ class _$GenerateChatCompletionRequestImpl
   @JsonKey(name: 'keep_alive', includeIfNull: false)
   final int? keepAlive;
 
+  /// A list of tools the model may call.
+  final List<Tool>? _tools;
+
+  /// A list of tools the model may call.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<Tool>? get tools {
+    final value = _tools;
+    if (value == null) return null;
+    if (_tools is EqualUnmodifiableListView) return _tools;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'GenerateChatCompletionRequest(model: $model, messages: $messages, format: $format, options: $options, stream: $stream, keepAlive: $keepAlive)';
+    return 'GenerateChatCompletionRequest(model: $model, messages: $messages, format: $format, options: $options, stream: $stream, keepAlive: $keepAlive, tools: $tools)';
   }
 
   @override
@@ -2377,7 +2681,8 @@ class _$GenerateChatCompletionRequestImpl
             (identical(other.options, options) || other.options == options) &&
             (identical(other.stream, stream) || other.stream == stream) &&
             (identical(other.keepAlive, keepAlive) ||
-                other.keepAlive == keepAlive));
+                other.keepAlive == keepAlive) &&
+            const DeepCollectionEquality().equals(other._tools, _tools));
   }
 
   @JsonKey(ignore: true)
@@ -2389,7 +2694,8 @@ class _$GenerateChatCompletionRequestImpl
       format,
       options,
       stream,
-      keepAlive);
+      keepAlive,
+      const DeepCollectionEquality().hash(_tools));
 
   @JsonKey(ignore: true)
   @override
@@ -2418,8 +2724,9 @@ abstract class _GenerateChatCompletionRequest
       final ResponseFormat? format,
       @JsonKey(includeIfNull: false) final RequestOptions? options,
       final bool stream,
-      @JsonKey(name: 'keep_alive', includeIfNull: false)
-      final int? keepAlive}) = _$GenerateChatCompletionRequestImpl;
+      @JsonKey(name: 'keep_alive', includeIfNull: false) final int? keepAlive,
+      @JsonKey(includeIfNull: false)
+      final List<Tool>? tools}) = _$GenerateChatCompletionRequestImpl;
   const _GenerateChatCompletionRequest._() : super._();
 
   factory _GenerateChatCompletionRequest.fromJson(Map<String, dynamic> json) =
@@ -2465,6 +2772,11 @@ abstract class _GenerateChatCompletionRequest
   @JsonKey(name: 'keep_alive', includeIfNull: false)
   int? get keepAlive;
   @override
+
+  /// A list of tools the model may call.
+  @JsonKey(includeIfNull: false)
+  List<Tool>? get tools;
+  @override
   @JsonKey(ignore: true)
   _$$GenerateChatCompletionRequestImplCopyWith<
           _$GenerateChatCompletionRequestImpl>
@@ -2479,22 +2791,19 @@ GenerateChatCompletionResponse _$GenerateChatCompletionResponseFromJson(
 /// @nodoc
 mixin _$GenerateChatCompletionResponse {
   /// A message in the chat endpoint
-  @JsonKey(includeIfNull: false)
-  Message? get message => throw _privateConstructorUsedError;
+  Message get message => throw _privateConstructorUsedError;
 
   /// The model name.
   ///
   /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
-  @JsonKey(includeIfNull: false)
-  String? get model => throw _privateConstructorUsedError;
+  String get model => throw _privateConstructorUsedError;
 
   /// Date on which a model was created.
-  @JsonKey(name: 'created_at', includeIfNull: false)
-  String? get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
+  String get createdAt => throw _privateConstructorUsedError;
 
   /// Whether the response has completed.
-  @JsonKey(includeIfNull: false)
-  bool? get done => throw _privateConstructorUsedError;
+  bool get done => throw _privateConstructorUsedError;
 
   /// Reason why the model is done generating a response.
   @JsonKey(
@@ -2542,10 +2851,10 @@ abstract class $GenerateChatCompletionResponseCopyWith<$Res> {
           GenerateChatCompletionResponse>;
   @useResult
   $Res call(
-      {@JsonKey(includeIfNull: false) Message? message,
-      @JsonKey(includeIfNull: false) String? model,
-      @JsonKey(name: 'created_at', includeIfNull: false) String? createdAt,
-      @JsonKey(includeIfNull: false) bool? done,
+      {Message message,
+      String model,
+      @JsonKey(name: 'created_at') String createdAt,
+      bool done,
       @JsonKey(
           name: 'done_reason',
           includeIfNull: false,
@@ -2560,7 +2869,7 @@ abstract class $GenerateChatCompletionResponseCopyWith<$Res> {
       @JsonKey(name: 'eval_count', includeIfNull: false) int? evalCount,
       @JsonKey(name: 'eval_duration', includeIfNull: false) int? evalDuration});
 
-  $MessageCopyWith<$Res>? get message;
+  $MessageCopyWith<$Res> get message;
 }
 
 /// @nodoc
@@ -2577,10 +2886,10 @@ class _$GenerateChatCompletionResponseCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? message = freezed,
-    Object? model = freezed,
-    Object? createdAt = freezed,
-    Object? done = freezed,
+    Object? message = null,
+    Object? model = null,
+    Object? createdAt = null,
+    Object? done = null,
     Object? doneReason = freezed,
     Object? totalDuration = freezed,
     Object? loadDuration = freezed,
@@ -2590,22 +2899,22 @@ class _$GenerateChatCompletionResponseCopyWithImpl<$Res,
     Object? evalDuration = freezed,
   }) {
     return _then(_value.copyWith(
-      message: freezed == message
+      message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as Message?,
-      model: freezed == model
+              as Message,
+      model: null == model
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
+              as String,
+      createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      done: freezed == done
+              as String,
+      done: null == done
           ? _value.done
           : done // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
       doneReason: freezed == doneReason
           ? _value.doneReason
           : doneReason // ignore: cast_nullable_to_non_nullable
@@ -2639,12 +2948,8 @@ class _$GenerateChatCompletionResponseCopyWithImpl<$Res,
 
   @override
   @pragma('vm:prefer-inline')
-  $MessageCopyWith<$Res>? get message {
-    if (_value.message == null) {
-      return null;
-    }
-
-    return $MessageCopyWith<$Res>(_value.message!, (value) {
+  $MessageCopyWith<$Res> get message {
+    return $MessageCopyWith<$Res>(_value.message, (value) {
       return _then(_value.copyWith(message: value) as $Val);
     });
   }
@@ -2660,10 +2965,10 @@ abstract class _$$GenerateChatCompletionResponseImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(includeIfNull: false) Message? message,
-      @JsonKey(includeIfNull: false) String? model,
-      @JsonKey(name: 'created_at', includeIfNull: false) String? createdAt,
-      @JsonKey(includeIfNull: false) bool? done,
+      {Message message,
+      String model,
+      @JsonKey(name: 'created_at') String createdAt,
+      bool done,
       @JsonKey(
           name: 'done_reason',
           includeIfNull: false,
@@ -2679,7 +2984,7 @@ abstract class _$$GenerateChatCompletionResponseImplCopyWith<$Res>
       @JsonKey(name: 'eval_duration', includeIfNull: false) int? evalDuration});
 
   @override
-  $MessageCopyWith<$Res>? get message;
+  $MessageCopyWith<$Res> get message;
 }
 
 /// @nodoc
@@ -2695,10 +3000,10 @@ class __$$GenerateChatCompletionResponseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? message = freezed,
-    Object? model = freezed,
-    Object? createdAt = freezed,
-    Object? done = freezed,
+    Object? message = null,
+    Object? model = null,
+    Object? createdAt = null,
+    Object? done = null,
     Object? doneReason = freezed,
     Object? totalDuration = freezed,
     Object? loadDuration = freezed,
@@ -2708,22 +3013,22 @@ class __$$GenerateChatCompletionResponseImplCopyWithImpl<$Res>
     Object? evalDuration = freezed,
   }) {
     return _then(_$GenerateChatCompletionResponseImpl(
-      message: freezed == message
+      message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as Message?,
-      model: freezed == model
+              as Message,
+      model: null == model
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
+              as String,
+      createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      done: freezed == done
+              as String,
+      done: null == done
           ? _value.done
           : done // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
       doneReason: freezed == doneReason
           ? _value.doneReason
           : doneReason // ignore: cast_nullable_to_non_nullable
@@ -2761,10 +3066,10 @@ class __$$GenerateChatCompletionResponseImplCopyWithImpl<$Res>
 class _$GenerateChatCompletionResponseImpl
     extends _GenerateChatCompletionResponse {
   const _$GenerateChatCompletionResponseImpl(
-      {@JsonKey(includeIfNull: false) this.message,
-      @JsonKey(includeIfNull: false) this.model,
-      @JsonKey(name: 'created_at', includeIfNull: false) this.createdAt,
-      @JsonKey(includeIfNull: false) this.done,
+      {required this.message,
+      required this.model,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      required this.done,
       @JsonKey(
           name: 'done_reason',
           includeIfNull: false,
@@ -2786,25 +3091,22 @@ class _$GenerateChatCompletionResponseImpl
 
   /// A message in the chat endpoint
   @override
-  @JsonKey(includeIfNull: false)
-  final Message? message;
+  final Message message;
 
   /// The model name.
   ///
   /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
   @override
-  @JsonKey(includeIfNull: false)
-  final String? model;
+  final String model;
 
   /// Date on which a model was created.
   @override
-  @JsonKey(name: 'created_at', includeIfNull: false)
-  final String? createdAt;
+  @JsonKey(name: 'created_at')
+  final String createdAt;
 
   /// Whether the response has completed.
   @override
-  @JsonKey(includeIfNull: false)
-  final bool? done;
+  final bool done;
 
   /// Reason why the model is done generating a response.
   @override
@@ -2910,11 +3212,10 @@ class _$GenerateChatCompletionResponseImpl
 abstract class _GenerateChatCompletionResponse
     extends GenerateChatCompletionResponse {
   const factory _GenerateChatCompletionResponse(
-      {@JsonKey(includeIfNull: false) final Message? message,
-      @JsonKey(includeIfNull: false) final String? model,
-      @JsonKey(name: 'created_at', includeIfNull: false)
-      final String? createdAt,
-      @JsonKey(includeIfNull: false) final bool? done,
+      {required final Message message,
+      required final String model,
+      @JsonKey(name: 'created_at') required final String createdAt,
+      required final bool done,
       @JsonKey(
           name: 'done_reason',
           includeIfNull: false,
@@ -2939,25 +3240,22 @@ abstract class _GenerateChatCompletionResponse
   @override
 
   /// A message in the chat endpoint
-  @JsonKey(includeIfNull: false)
-  Message? get message;
+  Message get message;
   @override
 
   /// The model name.
   ///
   /// Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
-  @JsonKey(includeIfNull: false)
-  String? get model;
+  String get model;
   @override
 
   /// Date on which a model was created.
-  @JsonKey(name: 'created_at', includeIfNull: false)
-  String? get createdAt;
+  @JsonKey(name: 'created_at')
+  String get createdAt;
   @override
 
   /// Whether the response has completed.
-  @JsonKey(includeIfNull: false)
-  bool? get done;
+  bool get done;
   @override
 
   /// Reason why the model is done generating a response.
@@ -3019,6 +3317,10 @@ mixin _$Message {
   @JsonKey(includeIfNull: false)
   List<String>? get images => throw _privateConstructorUsedError;
 
+  /// A list of tools the model wants to call.
+  @JsonKey(name: 'tool_calls', includeIfNull: false)
+  List<ToolCall>? get toolCalls => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $MessageCopyWith<Message> get copyWith => throw _privateConstructorUsedError;
@@ -3032,7 +3334,9 @@ abstract class $MessageCopyWith<$Res> {
   $Res call(
       {MessageRole role,
       String content,
-      @JsonKey(includeIfNull: false) List<String>? images});
+      @JsonKey(includeIfNull: false) List<String>? images,
+      @JsonKey(name: 'tool_calls', includeIfNull: false)
+      List<ToolCall>? toolCalls});
 }
 
 /// @nodoc
@@ -3051,6 +3355,7 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
     Object? role = null,
     Object? content = null,
     Object? images = freezed,
+    Object? toolCalls = freezed,
   }) {
     return _then(_value.copyWith(
       role: null == role
@@ -3065,6 +3370,10 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      toolCalls: freezed == toolCalls
+          ? _value.toolCalls
+          : toolCalls // ignore: cast_nullable_to_non_nullable
+              as List<ToolCall>?,
     ) as $Val);
   }
 }
@@ -3079,7 +3388,9 @@ abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
   $Res call(
       {MessageRole role,
       String content,
-      @JsonKey(includeIfNull: false) List<String>? images});
+      @JsonKey(includeIfNull: false) List<String>? images,
+      @JsonKey(name: 'tool_calls', includeIfNull: false)
+      List<ToolCall>? toolCalls});
 }
 
 /// @nodoc
@@ -3096,6 +3407,7 @@ class __$$MessageImplCopyWithImpl<$Res>
     Object? role = null,
     Object? content = null,
     Object? images = freezed,
+    Object? toolCalls = freezed,
   }) {
     return _then(_$MessageImpl(
       role: null == role
@@ -3110,6 +3422,10 @@ class __$$MessageImplCopyWithImpl<$Res>
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      toolCalls: freezed == toolCalls
+          ? _value._toolCalls
+          : toolCalls // ignore: cast_nullable_to_non_nullable
+              as List<ToolCall>?,
     ));
   }
 }
@@ -3120,8 +3436,11 @@ class _$MessageImpl extends _Message {
   const _$MessageImpl(
       {required this.role,
       required this.content,
-      @JsonKey(includeIfNull: false) final List<String>? images})
+      @JsonKey(includeIfNull: false) final List<String>? images,
+      @JsonKey(name: 'tool_calls', includeIfNull: false)
+      final List<ToolCall>? toolCalls})
       : _images = images,
+        _toolCalls = toolCalls,
         super._();
 
   factory _$MessageImpl.fromJson(Map<String, dynamic> json) =>
@@ -3149,9 +3468,23 @@ class _$MessageImpl extends _Message {
     return EqualUnmodifiableListView(value);
   }
 
+  /// A list of tools the model wants to call.
+  final List<ToolCall>? _toolCalls;
+
+  /// A list of tools the model wants to call.
+  @override
+  @JsonKey(name: 'tool_calls', includeIfNull: false)
+  List<ToolCall>? get toolCalls {
+    final value = _toolCalls;
+    if (value == null) return null;
+    if (_toolCalls is EqualUnmodifiableListView) return _toolCalls;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'Message(role: $role, content: $content, images: $images)';
+    return 'Message(role: $role, content: $content, images: $images, toolCalls: $toolCalls)';
   }
 
   @override
@@ -3161,13 +3494,19 @@ class _$MessageImpl extends _Message {
             other is _$MessageImpl &&
             (identical(other.role, role) || other.role == role) &&
             (identical(other.content, content) || other.content == content) &&
-            const DeepCollectionEquality().equals(other._images, _images));
+            const DeepCollectionEquality().equals(other._images, _images) &&
+            const DeepCollectionEquality()
+                .equals(other._toolCalls, _toolCalls));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, role, content, const DeepCollectionEquality().hash(_images));
+      runtimeType,
+      role,
+      content,
+      const DeepCollectionEquality().hash(_images),
+      const DeepCollectionEquality().hash(_toolCalls));
 
   @JsonKey(ignore: true)
   @override
@@ -3185,10 +3524,11 @@ class _$MessageImpl extends _Message {
 
 abstract class _Message extends Message {
   const factory _Message(
-          {required final MessageRole role,
-          required final String content,
-          @JsonKey(includeIfNull: false) final List<String>? images}) =
-      _$MessageImpl;
+      {required final MessageRole role,
+      required final String content,
+      @JsonKey(includeIfNull: false) final List<String>? images,
+      @JsonKey(name: 'tool_calls', includeIfNull: false)
+      final List<ToolCall>? toolCalls}) = _$MessageImpl;
   const _Message._() : super._();
 
   factory _Message.fromJson(Map<String, dynamic> json) = _$MessageImpl.fromJson;
@@ -3207,8 +3547,746 @@ abstract class _Message extends Message {
   @JsonKey(includeIfNull: false)
   List<String>? get images;
   @override
+
+  /// A list of tools the model wants to call.
+  @JsonKey(name: 'tool_calls', includeIfNull: false)
+  List<ToolCall>? get toolCalls;
+  @override
   @JsonKey(ignore: true)
   _$$MessageImplCopyWith<_$MessageImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Tool _$ToolFromJson(Map<String, dynamic> json) {
+  return _Tool.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Tool {
+  /// The type of tool.
+  ToolType get type => throw _privateConstructorUsedError;
+
+  /// A function that the model may call.
+  @JsonKey(includeIfNull: false)
+  ToolFunction? get function => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ToolCopyWith<Tool> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ToolCopyWith<$Res> {
+  factory $ToolCopyWith(Tool value, $Res Function(Tool) then) =
+      _$ToolCopyWithImpl<$Res, Tool>;
+  @useResult
+  $Res call(
+      {ToolType type, @JsonKey(includeIfNull: false) ToolFunction? function});
+
+  $ToolFunctionCopyWith<$Res>? get function;
+}
+
+/// @nodoc
+class _$ToolCopyWithImpl<$Res, $Val extends Tool>
+    implements $ToolCopyWith<$Res> {
+  _$ToolCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? function = freezed,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ToolType,
+      function: freezed == function
+          ? _value.function
+          : function // ignore: cast_nullable_to_non_nullable
+              as ToolFunction?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ToolFunctionCopyWith<$Res>? get function {
+    if (_value.function == null) {
+      return null;
+    }
+
+    return $ToolFunctionCopyWith<$Res>(_value.function!, (value) {
+      return _then(_value.copyWith(function: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$ToolImplCopyWith<$Res> implements $ToolCopyWith<$Res> {
+  factory _$$ToolImplCopyWith(
+          _$ToolImpl value, $Res Function(_$ToolImpl) then) =
+      __$$ToolImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {ToolType type, @JsonKey(includeIfNull: false) ToolFunction? function});
+
+  @override
+  $ToolFunctionCopyWith<$Res>? get function;
+}
+
+/// @nodoc
+class __$$ToolImplCopyWithImpl<$Res>
+    extends _$ToolCopyWithImpl<$Res, _$ToolImpl>
+    implements _$$ToolImplCopyWith<$Res> {
+  __$$ToolImplCopyWithImpl(_$ToolImpl _value, $Res Function(_$ToolImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? function = freezed,
+  }) {
+    return _then(_$ToolImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ToolType,
+      function: freezed == function
+          ? _value.function
+          : function // ignore: cast_nullable_to_non_nullable
+              as ToolFunction?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ToolImpl extends _Tool {
+  const _$ToolImpl(
+      {this.type = ToolType.function,
+      @JsonKey(includeIfNull: false) this.function})
+      : super._();
+
+  factory _$ToolImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ToolImplFromJson(json);
+
+  /// The type of tool.
+  @override
+  @JsonKey()
+  final ToolType type;
+
+  /// A function that the model may call.
+  @override
+  @JsonKey(includeIfNull: false)
+  final ToolFunction? function;
+
+  @override
+  String toString() {
+    return 'Tool(type: $type, function: $function)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ToolImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.function, function) ||
+                other.function == function));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, function);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ToolImplCopyWith<_$ToolImpl> get copyWith =>
+      __$$ToolImplCopyWithImpl<_$ToolImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ToolImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Tool extends Tool {
+  const factory _Tool(
+          {final ToolType type,
+          @JsonKey(includeIfNull: false) final ToolFunction? function}) =
+      _$ToolImpl;
+  const _Tool._() : super._();
+
+  factory _Tool.fromJson(Map<String, dynamic> json) = _$ToolImpl.fromJson;
+
+  @override
+
+  /// The type of tool.
+  ToolType get type;
+  @override
+
+  /// A function that the model may call.
+  @JsonKey(includeIfNull: false)
+  ToolFunction? get function;
+  @override
+  @JsonKey(ignore: true)
+  _$$ToolImplCopyWith<_$ToolImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ToolFunction _$ToolFunctionFromJson(Map<String, dynamic> json) {
+  return _ToolFunction.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ToolFunction {
+  /// The name of the function to be called.
+  String get name => throw _privateConstructorUsedError;
+
+  /// A description of what the function does, used by the model to choose when and how to call the function.
+  String get description => throw _privateConstructorUsedError;
+
+  /// The parameters the functions accepts, described as a JSON Schema object.
+  Map<String, dynamic> get parameters => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ToolFunctionCopyWith<ToolFunction> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ToolFunctionCopyWith<$Res> {
+  factory $ToolFunctionCopyWith(
+          ToolFunction value, $Res Function(ToolFunction) then) =
+      _$ToolFunctionCopyWithImpl<$Res, ToolFunction>;
+  @useResult
+  $Res call({String name, String description, Map<String, dynamic> parameters});
+}
+
+/// @nodoc
+class _$ToolFunctionCopyWithImpl<$Res, $Val extends ToolFunction>
+    implements $ToolFunctionCopyWith<$Res> {
+  _$ToolFunctionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? description = null,
+    Object? parameters = null,
+  }) {
+    return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      parameters: null == parameters
+          ? _value.parameters
+          : parameters // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ToolFunctionImplCopyWith<$Res>
+    implements $ToolFunctionCopyWith<$Res> {
+  factory _$$ToolFunctionImplCopyWith(
+          _$ToolFunctionImpl value, $Res Function(_$ToolFunctionImpl) then) =
+      __$$ToolFunctionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String name, String description, Map<String, dynamic> parameters});
+}
+
+/// @nodoc
+class __$$ToolFunctionImplCopyWithImpl<$Res>
+    extends _$ToolFunctionCopyWithImpl<$Res, _$ToolFunctionImpl>
+    implements _$$ToolFunctionImplCopyWith<$Res> {
+  __$$ToolFunctionImplCopyWithImpl(
+      _$ToolFunctionImpl _value, $Res Function(_$ToolFunctionImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? description = null,
+    Object? parameters = null,
+  }) {
+    return _then(_$ToolFunctionImpl(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      parameters: null == parameters
+          ? _value._parameters
+          : parameters // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ToolFunctionImpl extends _ToolFunction {
+  const _$ToolFunctionImpl(
+      {required this.name,
+      required this.description,
+      required final Map<String, dynamic> parameters})
+      : _parameters = parameters,
+        super._();
+
+  factory _$ToolFunctionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ToolFunctionImplFromJson(json);
+
+  /// The name of the function to be called.
+  @override
+  final String name;
+
+  /// A description of what the function does, used by the model to choose when and how to call the function.
+  @override
+  final String description;
+
+  /// The parameters the functions accepts, described as a JSON Schema object.
+  final Map<String, dynamic> _parameters;
+
+  /// The parameters the functions accepts, described as a JSON Schema object.
+  @override
+  Map<String, dynamic> get parameters {
+    if (_parameters is EqualUnmodifiableMapView) return _parameters;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_parameters);
+  }
+
+  @override
+  String toString() {
+    return 'ToolFunction(name: $name, description: $description, parameters: $parameters)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ToolFunctionImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            const DeepCollectionEquality()
+                .equals(other._parameters, _parameters));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, name, description,
+      const DeepCollectionEquality().hash(_parameters));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ToolFunctionImplCopyWith<_$ToolFunctionImpl> get copyWith =>
+      __$$ToolFunctionImplCopyWithImpl<_$ToolFunctionImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ToolFunctionImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ToolFunction extends ToolFunction {
+  const factory _ToolFunction(
+      {required final String name,
+      required final String description,
+      required final Map<String, dynamic> parameters}) = _$ToolFunctionImpl;
+  const _ToolFunction._() : super._();
+
+  factory _ToolFunction.fromJson(Map<String, dynamic> json) =
+      _$ToolFunctionImpl.fromJson;
+
+  @override
+
+  /// The name of the function to be called.
+  String get name;
+  @override
+
+  /// A description of what the function does, used by the model to choose when and how to call the function.
+  String get description;
+  @override
+
+  /// The parameters the functions accepts, described as a JSON Schema object.
+  Map<String, dynamic> get parameters;
+  @override
+  @JsonKey(ignore: true)
+  _$$ToolFunctionImplCopyWith<_$ToolFunctionImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ToolCall _$ToolCallFromJson(Map<String, dynamic> json) {
+  return _ToolCall.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ToolCall {
+  /// The function the model wants to call.
+  @JsonKey(includeIfNull: false)
+  ToolCallFunction? get function => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ToolCallCopyWith<ToolCall> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ToolCallCopyWith<$Res> {
+  factory $ToolCallCopyWith(ToolCall value, $Res Function(ToolCall) then) =
+      _$ToolCallCopyWithImpl<$Res, ToolCall>;
+  @useResult
+  $Res call({@JsonKey(includeIfNull: false) ToolCallFunction? function});
+
+  $ToolCallFunctionCopyWith<$Res>? get function;
+}
+
+/// @nodoc
+class _$ToolCallCopyWithImpl<$Res, $Val extends ToolCall>
+    implements $ToolCallCopyWith<$Res> {
+  _$ToolCallCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? function = freezed,
+  }) {
+    return _then(_value.copyWith(
+      function: freezed == function
+          ? _value.function
+          : function // ignore: cast_nullable_to_non_nullable
+              as ToolCallFunction?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ToolCallFunctionCopyWith<$Res>? get function {
+    if (_value.function == null) {
+      return null;
+    }
+
+    return $ToolCallFunctionCopyWith<$Res>(_value.function!, (value) {
+      return _then(_value.copyWith(function: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$ToolCallImplCopyWith<$Res>
+    implements $ToolCallCopyWith<$Res> {
+  factory _$$ToolCallImplCopyWith(
+          _$ToolCallImpl value, $Res Function(_$ToolCallImpl) then) =
+      __$$ToolCallImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(includeIfNull: false) ToolCallFunction? function});
+
+  @override
+  $ToolCallFunctionCopyWith<$Res>? get function;
+}
+
+/// @nodoc
+class __$$ToolCallImplCopyWithImpl<$Res>
+    extends _$ToolCallCopyWithImpl<$Res, _$ToolCallImpl>
+    implements _$$ToolCallImplCopyWith<$Res> {
+  __$$ToolCallImplCopyWithImpl(
+      _$ToolCallImpl _value, $Res Function(_$ToolCallImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? function = freezed,
+  }) {
+    return _then(_$ToolCallImpl(
+      function: freezed == function
+          ? _value.function
+          : function // ignore: cast_nullable_to_non_nullable
+              as ToolCallFunction?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ToolCallImpl extends _ToolCall {
+  const _$ToolCallImpl({@JsonKey(includeIfNull: false) this.function})
+      : super._();
+
+  factory _$ToolCallImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ToolCallImplFromJson(json);
+
+  /// The function the model wants to call.
+  @override
+  @JsonKey(includeIfNull: false)
+  final ToolCallFunction? function;
+
+  @override
+  String toString() {
+    return 'ToolCall(function: $function)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ToolCallImpl &&
+            (identical(other.function, function) ||
+                other.function == function));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, function);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ToolCallImplCopyWith<_$ToolCallImpl> get copyWith =>
+      __$$ToolCallImplCopyWithImpl<_$ToolCallImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ToolCallImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ToolCall extends ToolCall {
+  const factory _ToolCall(
+          {@JsonKey(includeIfNull: false) final ToolCallFunction? function}) =
+      _$ToolCallImpl;
+  const _ToolCall._() : super._();
+
+  factory _ToolCall.fromJson(Map<String, dynamic> json) =
+      _$ToolCallImpl.fromJson;
+
+  @override
+
+  /// The function the model wants to call.
+  @JsonKey(includeIfNull: false)
+  ToolCallFunction? get function;
+  @override
+  @JsonKey(ignore: true)
+  _$$ToolCallImplCopyWith<_$ToolCallImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ToolCallFunction _$ToolCallFunctionFromJson(Map<String, dynamic> json) {
+  return _ToolCallFunction.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ToolCallFunction {
+  /// The name of the function to be called.
+  String get name => throw _privateConstructorUsedError;
+
+  /// The arguments to pass to the function.
+  Map<String, dynamic> get arguments => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ToolCallFunctionCopyWith<ToolCallFunction> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ToolCallFunctionCopyWith<$Res> {
+  factory $ToolCallFunctionCopyWith(
+          ToolCallFunction value, $Res Function(ToolCallFunction) then) =
+      _$ToolCallFunctionCopyWithImpl<$Res, ToolCallFunction>;
+  @useResult
+  $Res call({String name, Map<String, dynamic> arguments});
+}
+
+/// @nodoc
+class _$ToolCallFunctionCopyWithImpl<$Res, $Val extends ToolCallFunction>
+    implements $ToolCallFunctionCopyWith<$Res> {
+  _$ToolCallFunctionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? arguments = null,
+  }) {
+    return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      arguments: null == arguments
+          ? _value.arguments
+          : arguments // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ToolCallFunctionImplCopyWith<$Res>
+    implements $ToolCallFunctionCopyWith<$Res> {
+  factory _$$ToolCallFunctionImplCopyWith(_$ToolCallFunctionImpl value,
+          $Res Function(_$ToolCallFunctionImpl) then) =
+      __$$ToolCallFunctionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String name, Map<String, dynamic> arguments});
+}
+
+/// @nodoc
+class __$$ToolCallFunctionImplCopyWithImpl<$Res>
+    extends _$ToolCallFunctionCopyWithImpl<$Res, _$ToolCallFunctionImpl>
+    implements _$$ToolCallFunctionImplCopyWith<$Res> {
+  __$$ToolCallFunctionImplCopyWithImpl(_$ToolCallFunctionImpl _value,
+      $Res Function(_$ToolCallFunctionImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? arguments = null,
+  }) {
+    return _then(_$ToolCallFunctionImpl(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      arguments: null == arguments
+          ? _value._arguments
+          : arguments // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ToolCallFunctionImpl extends _ToolCallFunction {
+  const _$ToolCallFunctionImpl(
+      {required this.name, required final Map<String, dynamic> arguments})
+      : _arguments = arguments,
+        super._();
+
+  factory _$ToolCallFunctionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ToolCallFunctionImplFromJson(json);
+
+  /// The name of the function to be called.
+  @override
+  final String name;
+
+  /// The arguments to pass to the function.
+  final Map<String, dynamic> _arguments;
+
+  /// The arguments to pass to the function.
+  @override
+  Map<String, dynamic> get arguments {
+    if (_arguments is EqualUnmodifiableMapView) return _arguments;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_arguments);
+  }
+
+  @override
+  String toString() {
+    return 'ToolCallFunction(name: $name, arguments: $arguments)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ToolCallFunctionImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality()
+                .equals(other._arguments, _arguments));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, name, const DeepCollectionEquality().hash(_arguments));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ToolCallFunctionImplCopyWith<_$ToolCallFunctionImpl> get copyWith =>
+      __$$ToolCallFunctionImplCopyWithImpl<_$ToolCallFunctionImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ToolCallFunctionImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ToolCallFunction extends ToolCallFunction {
+  const factory _ToolCallFunction(
+      {required final String name,
+      required final Map<String, dynamic> arguments}) = _$ToolCallFunctionImpl;
+  const _ToolCallFunction._() : super._();
+
+  factory _ToolCallFunction.fromJson(Map<String, dynamic> json) =
+      _$ToolCallFunctionImpl.fromJson;
+
+  @override
+
+  /// The name of the function to be called.
+  String get name;
+  @override
+
+  /// The arguments to pass to the function.
+  Map<String, dynamic> get arguments;
+  @override
+  @JsonKey(ignore: true)
+  _$$ToolCallFunctionImplCopyWith<_$ToolCallFunctionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -4857,6 +5935,266 @@ abstract class _ModelDetails extends ModelDetails {
       throw _privateConstructorUsedError;
 }
 
+ModelInformation _$ModelInformationFromJson(Map<String, dynamic> json) {
+  return _ModelInformation.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ModelInformation {
+  /// The architecture of the model.
+  @JsonKey(name: 'general.architecture', includeIfNull: false)
+  String? get generalArchitecture => throw _privateConstructorUsedError;
+
+  /// The file type of the model.
+  @JsonKey(name: 'general.file_type', includeIfNull: false)
+  int? get generalFileType => throw _privateConstructorUsedError;
+
+  /// The number of parameters in the model.
+  @JsonKey(name: 'general.parameter_count', includeIfNull: false)
+  int? get generalParameterCount => throw _privateConstructorUsedError;
+
+  /// The number of parameters in the model.
+  @JsonKey(name: 'general.quantization_version', includeIfNull: false)
+  int? get generalQuantizationVersion => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ModelInformationCopyWith<ModelInformation> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ModelInformationCopyWith<$Res> {
+  factory $ModelInformationCopyWith(
+          ModelInformation value, $Res Function(ModelInformation) then) =
+      _$ModelInformationCopyWithImpl<$Res, ModelInformation>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'general.architecture', includeIfNull: false)
+      String? generalArchitecture,
+      @JsonKey(name: 'general.file_type', includeIfNull: false)
+      int? generalFileType,
+      @JsonKey(name: 'general.parameter_count', includeIfNull: false)
+      int? generalParameterCount,
+      @JsonKey(name: 'general.quantization_version', includeIfNull: false)
+      int? generalQuantizationVersion});
+}
+
+/// @nodoc
+class _$ModelInformationCopyWithImpl<$Res, $Val extends ModelInformation>
+    implements $ModelInformationCopyWith<$Res> {
+  _$ModelInformationCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? generalArchitecture = freezed,
+    Object? generalFileType = freezed,
+    Object? generalParameterCount = freezed,
+    Object? generalQuantizationVersion = freezed,
+  }) {
+    return _then(_value.copyWith(
+      generalArchitecture: freezed == generalArchitecture
+          ? _value.generalArchitecture
+          : generalArchitecture // ignore: cast_nullable_to_non_nullable
+              as String?,
+      generalFileType: freezed == generalFileType
+          ? _value.generalFileType
+          : generalFileType // ignore: cast_nullable_to_non_nullable
+              as int?,
+      generalParameterCount: freezed == generalParameterCount
+          ? _value.generalParameterCount
+          : generalParameterCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      generalQuantizationVersion: freezed == generalQuantizationVersion
+          ? _value.generalQuantizationVersion
+          : generalQuantizationVersion // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ModelInformationImplCopyWith<$Res>
+    implements $ModelInformationCopyWith<$Res> {
+  factory _$$ModelInformationImplCopyWith(_$ModelInformationImpl value,
+          $Res Function(_$ModelInformationImpl) then) =
+      __$$ModelInformationImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'general.architecture', includeIfNull: false)
+      String? generalArchitecture,
+      @JsonKey(name: 'general.file_type', includeIfNull: false)
+      int? generalFileType,
+      @JsonKey(name: 'general.parameter_count', includeIfNull: false)
+      int? generalParameterCount,
+      @JsonKey(name: 'general.quantization_version', includeIfNull: false)
+      int? generalQuantizationVersion});
+}
+
+/// @nodoc
+class __$$ModelInformationImplCopyWithImpl<$Res>
+    extends _$ModelInformationCopyWithImpl<$Res, _$ModelInformationImpl>
+    implements _$$ModelInformationImplCopyWith<$Res> {
+  __$$ModelInformationImplCopyWithImpl(_$ModelInformationImpl _value,
+      $Res Function(_$ModelInformationImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? generalArchitecture = freezed,
+    Object? generalFileType = freezed,
+    Object? generalParameterCount = freezed,
+    Object? generalQuantizationVersion = freezed,
+  }) {
+    return _then(_$ModelInformationImpl(
+      generalArchitecture: freezed == generalArchitecture
+          ? _value.generalArchitecture
+          : generalArchitecture // ignore: cast_nullable_to_non_nullable
+              as String?,
+      generalFileType: freezed == generalFileType
+          ? _value.generalFileType
+          : generalFileType // ignore: cast_nullable_to_non_nullable
+              as int?,
+      generalParameterCount: freezed == generalParameterCount
+          ? _value.generalParameterCount
+          : generalParameterCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      generalQuantizationVersion: freezed == generalQuantizationVersion
+          ? _value.generalQuantizationVersion
+          : generalQuantizationVersion // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ModelInformationImpl extends _ModelInformation {
+  const _$ModelInformationImpl(
+      {@JsonKey(name: 'general.architecture', includeIfNull: false)
+      this.generalArchitecture,
+      @JsonKey(name: 'general.file_type', includeIfNull: false)
+      this.generalFileType,
+      @JsonKey(name: 'general.parameter_count', includeIfNull: false)
+      this.generalParameterCount,
+      @JsonKey(name: 'general.quantization_version', includeIfNull: false)
+      this.generalQuantizationVersion})
+      : super._();
+
+  factory _$ModelInformationImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ModelInformationImplFromJson(json);
+
+  /// The architecture of the model.
+  @override
+  @JsonKey(name: 'general.architecture', includeIfNull: false)
+  final String? generalArchitecture;
+
+  /// The file type of the model.
+  @override
+  @JsonKey(name: 'general.file_type', includeIfNull: false)
+  final int? generalFileType;
+
+  /// The number of parameters in the model.
+  @override
+  @JsonKey(name: 'general.parameter_count', includeIfNull: false)
+  final int? generalParameterCount;
+
+  /// The number of parameters in the model.
+  @override
+  @JsonKey(name: 'general.quantization_version', includeIfNull: false)
+  final int? generalQuantizationVersion;
+
+  @override
+  String toString() {
+    return 'ModelInformation(generalArchitecture: $generalArchitecture, generalFileType: $generalFileType, generalParameterCount: $generalParameterCount, generalQuantizationVersion: $generalQuantizationVersion)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ModelInformationImpl &&
+            (identical(other.generalArchitecture, generalArchitecture) ||
+                other.generalArchitecture == generalArchitecture) &&
+            (identical(other.generalFileType, generalFileType) ||
+                other.generalFileType == generalFileType) &&
+            (identical(other.generalParameterCount, generalParameterCount) ||
+                other.generalParameterCount == generalParameterCount) &&
+            (identical(other.generalQuantizationVersion,
+                    generalQuantizationVersion) ||
+                other.generalQuantizationVersion ==
+                    generalQuantizationVersion));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, generalArchitecture,
+      generalFileType, generalParameterCount, generalQuantizationVersion);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ModelInformationImplCopyWith<_$ModelInformationImpl> get copyWith =>
+      __$$ModelInformationImplCopyWithImpl<_$ModelInformationImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ModelInformationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ModelInformation extends ModelInformation {
+  const factory _ModelInformation(
+      {@JsonKey(name: 'general.architecture', includeIfNull: false)
+      final String? generalArchitecture,
+      @JsonKey(name: 'general.file_type', includeIfNull: false)
+      final int? generalFileType,
+      @JsonKey(name: 'general.parameter_count', includeIfNull: false)
+      final int? generalParameterCount,
+      @JsonKey(name: 'general.quantization_version', includeIfNull: false)
+      final int? generalQuantizationVersion}) = _$ModelInformationImpl;
+  const _ModelInformation._() : super._();
+
+  factory _ModelInformation.fromJson(Map<String, dynamic> json) =
+      _$ModelInformationImpl.fromJson;
+
+  @override
+
+  /// The architecture of the model.
+  @JsonKey(name: 'general.architecture', includeIfNull: false)
+  String? get generalArchitecture;
+  @override
+
+  /// The file type of the model.
+  @JsonKey(name: 'general.file_type', includeIfNull: false)
+  int? get generalFileType;
+  @override
+
+  /// The number of parameters in the model.
+  @JsonKey(name: 'general.parameter_count', includeIfNull: false)
+  int? get generalParameterCount;
+  @override
+
+  /// The number of parameters in the model.
+  @JsonKey(name: 'general.quantization_version', includeIfNull: false)
+  int? get generalQuantizationVersion;
+  @override
+  @JsonKey(ignore: true)
+  _$$ModelInformationImplCopyWith<_$ModelInformationImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 ProcessResponse _$ProcessResponseFromJson(Map<String, dynamic> json) {
   return _ProcessResponse.fromJson(json);
 }
@@ -5518,6 +6856,10 @@ mixin _$ModelInfo {
   @JsonKey(includeIfNull: false)
   ModelDetails? get details => throw _privateConstructorUsedError;
 
+  /// Details about a model.
+  @JsonKey(name: 'model_info', includeIfNull: false)
+  ModelInformation? get modelInfo => throw _privateConstructorUsedError;
+
   /// The default messages for the model.
   @JsonKey(includeIfNull: false)
   List<Message>? get messages => throw _privateConstructorUsedError;
@@ -5540,9 +6882,12 @@ abstract class $ModelInfoCopyWith<$Res> {
       @JsonKey(includeIfNull: false) String? template,
       @JsonKey(includeIfNull: false) String? system,
       @JsonKey(includeIfNull: false) ModelDetails? details,
+      @JsonKey(name: 'model_info', includeIfNull: false)
+      ModelInformation? modelInfo,
       @JsonKey(includeIfNull: false) List<Message>? messages});
 
   $ModelDetailsCopyWith<$Res>? get details;
+  $ModelInformationCopyWith<$Res>? get modelInfo;
 }
 
 /// @nodoc
@@ -5564,6 +6909,7 @@ class _$ModelInfoCopyWithImpl<$Res, $Val extends ModelInfo>
     Object? template = freezed,
     Object? system = freezed,
     Object? details = freezed,
+    Object? modelInfo = freezed,
     Object? messages = freezed,
   }) {
     return _then(_value.copyWith(
@@ -5591,6 +6937,10 @@ class _$ModelInfoCopyWithImpl<$Res, $Val extends ModelInfo>
           ? _value.details
           : details // ignore: cast_nullable_to_non_nullable
               as ModelDetails?,
+      modelInfo: freezed == modelInfo
+          ? _value.modelInfo
+          : modelInfo // ignore: cast_nullable_to_non_nullable
+              as ModelInformation?,
       messages: freezed == messages
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
@@ -5607,6 +6957,18 @@ class _$ModelInfoCopyWithImpl<$Res, $Val extends ModelInfo>
 
     return $ModelDetailsCopyWith<$Res>(_value.details!, (value) {
       return _then(_value.copyWith(details: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ModelInformationCopyWith<$Res>? get modelInfo {
+    if (_value.modelInfo == null) {
+      return null;
+    }
+
+    return $ModelInformationCopyWith<$Res>(_value.modelInfo!, (value) {
+      return _then(_value.copyWith(modelInfo: value) as $Val);
     });
   }
 }
@@ -5626,10 +6988,14 @@ abstract class _$$ModelInfoImplCopyWith<$Res>
       @JsonKey(includeIfNull: false) String? template,
       @JsonKey(includeIfNull: false) String? system,
       @JsonKey(includeIfNull: false) ModelDetails? details,
+      @JsonKey(name: 'model_info', includeIfNull: false)
+      ModelInformation? modelInfo,
       @JsonKey(includeIfNull: false) List<Message>? messages});
 
   @override
   $ModelDetailsCopyWith<$Res>? get details;
+  @override
+  $ModelInformationCopyWith<$Res>? get modelInfo;
 }
 
 /// @nodoc
@@ -5649,6 +7015,7 @@ class __$$ModelInfoImplCopyWithImpl<$Res>
     Object? template = freezed,
     Object? system = freezed,
     Object? details = freezed,
+    Object? modelInfo = freezed,
     Object? messages = freezed,
   }) {
     return _then(_$ModelInfoImpl(
@@ -5676,6 +7043,10 @@ class __$$ModelInfoImplCopyWithImpl<$Res>
           ? _value.details
           : details // ignore: cast_nullable_to_non_nullable
               as ModelDetails?,
+      modelInfo: freezed == modelInfo
+          ? _value.modelInfo
+          : modelInfo // ignore: cast_nullable_to_non_nullable
+              as ModelInformation?,
       messages: freezed == messages
           ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
@@ -5694,6 +7065,7 @@ class _$ModelInfoImpl extends _ModelInfo {
       @JsonKey(includeIfNull: false) this.template,
       @JsonKey(includeIfNull: false) this.system,
       @JsonKey(includeIfNull: false) this.details,
+      @JsonKey(name: 'model_info', includeIfNull: false) this.modelInfo,
       @JsonKey(includeIfNull: false) final List<Message>? messages})
       : _messages = messages,
         super._();
@@ -5731,6 +7103,11 @@ class _$ModelInfoImpl extends _ModelInfo {
   @JsonKey(includeIfNull: false)
   final ModelDetails? details;
 
+  /// Details about a model.
+  @override
+  @JsonKey(name: 'model_info', includeIfNull: false)
+  final ModelInformation? modelInfo;
+
   /// The default messages for the model.
   final List<Message>? _messages;
 
@@ -5747,7 +7124,7 @@ class _$ModelInfoImpl extends _ModelInfo {
 
   @override
   String toString() {
-    return 'ModelInfo(license: $license, modelfile: $modelfile, parameters: $parameters, template: $template, system: $system, details: $details, messages: $messages)';
+    return 'ModelInfo(license: $license, modelfile: $modelfile, parameters: $parameters, template: $template, system: $system, details: $details, modelInfo: $modelInfo, messages: $messages)';
   }
 
   @override
@@ -5764,6 +7141,8 @@ class _$ModelInfoImpl extends _ModelInfo {
                 other.template == template) &&
             (identical(other.system, system) || other.system == system) &&
             (identical(other.details, details) || other.details == details) &&
+            (identical(other.modelInfo, modelInfo) ||
+                other.modelInfo == modelInfo) &&
             const DeepCollectionEquality().equals(other._messages, _messages));
   }
 
@@ -5777,6 +7156,7 @@ class _$ModelInfoImpl extends _ModelInfo {
       template,
       system,
       details,
+      modelInfo,
       const DeepCollectionEquality().hash(_messages));
 
   @JsonKey(ignore: true)
@@ -5801,6 +7181,8 @@ abstract class _ModelInfo extends ModelInfo {
           @JsonKey(includeIfNull: false) final String? template,
           @JsonKey(includeIfNull: false) final String? system,
           @JsonKey(includeIfNull: false) final ModelDetails? details,
+          @JsonKey(name: 'model_info', includeIfNull: false)
+          final ModelInformation? modelInfo,
           @JsonKey(includeIfNull: false) final List<Message>? messages}) =
       _$ModelInfoImpl;
   const _ModelInfo._() : super._();
@@ -5838,6 +7220,11 @@ abstract class _ModelInfo extends ModelInfo {
   /// Details about a model.
   @JsonKey(includeIfNull: false)
   ModelDetails? get details;
+  @override
+
+  /// Details about a model.
+  @JsonKey(name: 'model_info', includeIfNull: false)
+  ModelInformation? get modelInfo;
   @override
 
   /// The default messages for the model.
@@ -6973,9 +8360,8 @@ PushModelResponse _$PushModelResponseFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PushModelResponse {
   /// Status pushing the model.
-  @JsonKey(
-      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-  PushModelStatus? get status => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
+  String? get status => throw _privateConstructorUsedError;
 
   /// the model's digest
   @JsonKey(includeIfNull: false)
@@ -7002,10 +8388,7 @@ abstract class $PushModelResponseCopyWith<$Res> {
       _$PushModelResponseCopyWithImpl<$Res, PushModelResponse>;
   @useResult
   $Res call(
-      {@JsonKey(
-          includeIfNull: false,
-          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      PushModelStatus? status,
+      {@JsonKey(includeIfNull: false) String? status,
       @JsonKey(includeIfNull: false) String? digest,
       @JsonKey(includeIfNull: false) int? total,
       @JsonKey(includeIfNull: false) int? completed});
@@ -7033,7 +8416,7 @@ class _$PushModelResponseCopyWithImpl<$Res, $Val extends PushModelResponse>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as PushModelStatus?,
+              as String?,
       digest: freezed == digest
           ? _value.digest
           : digest // ignore: cast_nullable_to_non_nullable
@@ -7059,10 +8442,7 @@ abstract class _$$PushModelResponseImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(
-          includeIfNull: false,
-          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      PushModelStatus? status,
+      {@JsonKey(includeIfNull: false) String? status,
       @JsonKey(includeIfNull: false) String? digest,
       @JsonKey(includeIfNull: false) int? total,
       @JsonKey(includeIfNull: false) int? completed});
@@ -7088,7 +8468,7 @@ class __$$PushModelResponseImplCopyWithImpl<$Res>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as PushModelStatus?,
+              as String?,
       digest: freezed == digest
           ? _value.digest
           : digest // ignore: cast_nullable_to_non_nullable
@@ -7109,10 +8489,7 @@ class __$$PushModelResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PushModelResponseImpl extends _PushModelResponse {
   const _$PushModelResponseImpl(
-      {@JsonKey(
-          includeIfNull: false,
-          unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-      this.status,
+      {@JsonKey(includeIfNull: false) this.status,
       @JsonKey(includeIfNull: false) this.digest,
       @JsonKey(includeIfNull: false) this.total,
       @JsonKey(includeIfNull: false) this.completed})
@@ -7123,9 +8500,8 @@ class _$PushModelResponseImpl extends _PushModelResponse {
 
   /// Status pushing the model.
   @override
-  @JsonKey(
-      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-  final PushModelStatus? status;
+  @JsonKey(includeIfNull: false)
+  final String? status;
 
   /// the model's digest
   @override
@@ -7181,10 +8557,7 @@ class _$PushModelResponseImpl extends _PushModelResponse {
 
 abstract class _PushModelResponse extends PushModelResponse {
   const factory _PushModelResponse(
-          {@JsonKey(
-              includeIfNull: false,
-              unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-          final PushModelStatus? status,
+          {@JsonKey(includeIfNull: false) final String? status,
           @JsonKey(includeIfNull: false) final String? digest,
           @JsonKey(includeIfNull: false) final int? total,
           @JsonKey(includeIfNull: false) final int? completed}) =
@@ -7197,9 +8570,8 @@ abstract class _PushModelResponse extends PushModelResponse {
   @override
 
   /// Status pushing the model.
-  @JsonKey(
-      includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
-  PushModelStatus? get status;
+  @JsonKey(includeIfNull: false)
+  String? get status;
   @override
 
   /// the model's digest

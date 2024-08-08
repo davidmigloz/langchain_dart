@@ -154,7 +154,7 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
   /// - [ChatFirebaseVertexAI.location]
   ChatFirebaseVertexAI({
     super.defaultOptions = const ChatFirebaseVertexAIOptions(
-      model: 'gemini-1.5-flash',
+      model: defaultModel,
     ),
     this.app,
     this.appCheck,
@@ -188,14 +188,17 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
   /// A UUID generator.
   late final Uuid _uuid = const Uuid();
 
-  @override
-  String get modelType => 'chat-firebase-vertex-ai';
-
   /// The current model set in [_firebaseClient];
   String _currentModel;
 
   /// The current system instruction set in [_firebaseClient];
   String? _currentSystemInstruction;
+
+  @override
+  String get modelType => 'chat-firebase-vertex-ai';
+
+  /// The default model to use unless another is specified.
+  static const defaultModel = 'gemini-1.5-flash';
 
   @override
   Future<ChatResult> invoke(
@@ -329,8 +332,7 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
     final List<ChatMessage> messages,
     final ChatFirebaseVertexAIOptions? options,
   ) {
-    final model =
-        options?.model ?? defaultOptions.model ?? throwNullModelError();
+    final model = options?.model ?? defaultOptions.model ?? defaultModel;
 
     final systemInstruction = messages.firstOrNull is SystemChatMessage
         ? messages.firstOrNull?.contentAsString

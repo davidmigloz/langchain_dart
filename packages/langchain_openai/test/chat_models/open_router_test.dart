@@ -27,7 +27,7 @@ void main() {
 
     test('Test invoke OpenRouter API with different models', () async {
       final models = [
-        'gpt-3.5-turbo',
+        'gpt-4o-mini',
         'gpt-4',
         'google/gemini-pro',
         'anthropic/claude-2',
@@ -57,7 +57,7 @@ void main() {
 
     test('Test stream OpenRouter API with different models', () async {
       final models = [
-        'gpt-3.5-turbo',
+        'gpt-4o-mini',
         'gpt-4',
         // 'google/gemini-pro', // Not supported
         'anthropic/claude-2',
@@ -88,7 +88,7 @@ void main() {
 
     test('Test countTokens', () async {
       final models = [
-        'gpt-3.5-turbo',
+        'gpt-4o-mini',
         'gpt-4',
         'google/gemini-pro',
         'anthropic/claude-2',

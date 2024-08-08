@@ -17,17 +17,24 @@ Unofficial Dart client for [Ollama](https://ollama.ai/) API.
 **Supported endpoints:**
 
 - Completions (with streaming support)
-- Chat completions
+- Chat completions (with streaming and tool calling support)
 - Embeddings
 - Models
 - Blobs
+- Version
 
 ## Table of contents
 
 - [Usage](#usage)
   * [Completions](#completions)
+    + [Generate completion](#generate-completion)
+    + [Stream completion](#stream-completion)
   * [Chat completions](#chat-completions)
+    + [Generate chat completion](#generate-chat-completion)
+    + [Stream chat completion](#stream-chat-completion)
+    + [Tool calling](#tool-calling)
   * [Embeddings](#embeddings)
+    + [Generate embedding](#generate-embedding)
   * [Models](#models)
     + [Create model](#create-model)
     + [List models](#list-models)
@@ -36,6 +43,7 @@ Unofficial Dart client for [Ollama](https://ollama.ai/) API.
     + [Pull a Model](#pull-a-model)
     + [Push a Model](#push-a-model)
     + [Check if a Blob Exists](#check-if-a-blob-exists)
+  * [Version](#version)
 - [Advance Usage](#advance-usage)
   * [Default HTTP client](#default-http-client)
   * [Custom HTTP client ](#custom-http-client)
@@ -53,7 +61,7 @@ Refer to the [documentation](https://github.com/jmorganca/ollama/blob/main/docs/
 
 Given a prompt, the model will generate a response.
 
-**Generate completion:**
+#### Generate completion
 
 ```dart
 final generated = await client.generateCompletion(
@@ -66,7 +74,7 @@ print(generated.response);
 // The sky appears blue because of a phenomenon called Rayleigh scattering...
 ```
 
-**Stream completion:**
+#### Stream completion
 
 ```dart
 final stream = client.generateCompletionStream(
@@ -87,7 +95,7 @@ print(text);
 
 Given a prompt, the model will generate a response in a chat format.
 
-**Generate chat completion:**
+#### Generate chat completion
 
 ```dart
 final res = await client.generateChatCompletion(
@@ -110,7 +118,7 @@ print(res);
 // Message(role: MessageRole.assistant, content: 123456789)
 ```
 
-**Stream chat completion:**
+#### Stream chat completion
 
 ```dart
 final stream = client.generateChatCompletionStream(
@@ -138,11 +146,91 @@ print(text);
 // 123456789
 ```
 
+#### Tool calling
+
+Tool calling allows a model to respond to a given prompt by generating output that matches a user-defined schema, that you can then use to call the tools in your code and return the result back to the model to complete the conversation.
+
+**Notes:** 
+- Tool calling requires Ollama 0.2.8 or newer.
+- Streaming tool calls is not supported at the moment.
+- Not all models support tool calls. Check the Ollama catalogue for models that have the `Tools` tag (e.g. [`llama3.1`](https://ollama.com/library/llama3.1)). 
+
+```dart
+const tool = Tool(
+  function: ToolFunction(
+    name: 'get_current_weather',
+    description: 'Get the current weather in a given location',
+    parameters: {
+      'type': 'object',
+      'properties': {
+        'location': {
+          'type': 'string',
+          'description': 'The city and country, e.g. San Francisco, US',
+        },
+        'unit': {
+          'type': 'string',
+          'description': 'The unit of temperature to return',
+          'enum': ['celsius', 'fahrenheit'],
+        },
+      },
+      'required': ['location'],
+    },
+  ),
+);
+
+const userMsg = Message(
+  role: MessageRole.user,
+  content: 'What’s the weather like in Barcelona in celsius?',
+);
+
+final res1 = await client.generateChatCompletion(
+  request: GenerateChatCompletionRequest(
+    model: 'llama3.1',
+    messages: [userMsg],
+    tools: [tool],
+  ),
+);
+
+print(res1.message.toolCalls);
+// [
+//   ToolCall(
+//     function:
+//       ToolCallFunction(
+//         name: get_current_weather,
+//         arguments: {
+//           location: Barcelona, ES,
+//           unit: celsius
+//         }
+//       )
+//   )
+// ]
+
+// Call your tool here. For this example, we'll just mock the response.
+const toolResult = '{"location": "Barcelona, ES", "temperature": 20, "unit": "celsius"}';
+
+// Submit the response of the tool call to the model
+final res2 = await client.generateChatCompletion(
+  request: GenerateChatCompletionRequest(
+    model: 'llama3.1',
+    messages: [
+      userMsg,
+      res1.message,
+      Message(
+        role: MessageRole.tool,
+        content: toolResult,
+      ),
+    ],
+  ),
+);
+print(res2.message.content);
+// The current weather in Barcelona is 20°C.
+```
+
 ### Embeddings
 
 Given a prompt, the model will generate an embedding representing the prompt.
 
-**Generate embedding:**
+#### Generate embedding
 
 ```dart
 final generated = await client.generateEmbedding(
@@ -270,6 +358,15 @@ await client.checkBlob(
 ```
 
 If the blob doesn't exist, an `OllamaClientException` exception will be thrown.
+
+### Version
+
+Get the version of the Ollama server.
+
+```dart
+final res = await client.getVersion();
+print(res.version);
+```
 
 ## Advance Usage
 

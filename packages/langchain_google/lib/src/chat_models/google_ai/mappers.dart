@@ -294,6 +294,11 @@ extension ChatToolChoiceMapper on ChatToolChoice {
             mode: g.FunctionCallingMode.auto,
           ),
         ),
+      ChatToolChoiceRequired() => g.ToolConfig(
+          functionCallingConfig: g.FunctionCallingConfig(
+            mode: g.FunctionCallingMode.any,
+          ),
+        ),
       final ChatToolChoiceForced t => g.ToolConfig(
           functionCallingConfig: g.FunctionCallingConfig(
             mode: g.FunctionCallingMode.any,

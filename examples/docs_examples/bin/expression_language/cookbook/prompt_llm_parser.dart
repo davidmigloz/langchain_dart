@@ -32,7 +32,7 @@ Future<void> _promptTemplateLLM() async {
   //   },
   //   finishReason: FinishReason.stop,
   //   metadata: {
-  //     model: gpt-3.5-turbo-0125,
+  //     model: gpt-4o-mini,
   //     created: 1714835666,
   //     system_fingerprint: fp_3b956da36b
   //   },
@@ -65,7 +65,7 @@ Future<void> _attachingStopSequences() async {
   //   },
   //   finishReason: FinishReason.stop,
   //   metadata: {
-  //     model: gpt-3.5-turbo-0125,
+  //     model: gpt-4o-mini,
   //     created: 1714835734,
   //     system_fingerprint: fp_a450710239
   //   },
@@ -133,7 +133,7 @@ Future<void> _attachingToolCallInformation() async {
   //   },
   //   finishReason: FinishReason.stop,
   //   metadata: {
-  //     model: gpt-3.5-turbo-0125,
+  //     model: gpt-4o-mini,
   //     created: 1714835806,
   //     system_fingerprint: fp_3b956da36b
   //   },

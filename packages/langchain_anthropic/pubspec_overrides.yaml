@@ -1,0 +1,6 @@
+# melos_managed_dependency_overrides: anthropic_sdk_dart,langchain_core
+dependency_overrides:
+  anthropic_sdk_dart:
+    path: ../anthropic_sdk_dart
+  langchain_core:
+    path: ../langchain_core

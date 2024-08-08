@@ -60,7 +60,9 @@ class ParsedToolCall {
   }
 
   @override
-  int get hashCode => id.hashCode ^ name.hashCode ^ arguments.hashCode;
+  int get hashCode {
+    return id.hashCode ^ name.hashCode ^ arguments.hashCode;
+  }
 
   @override
   String toString() {

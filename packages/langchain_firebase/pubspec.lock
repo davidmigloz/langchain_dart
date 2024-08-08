@@ -206,7 +206,7 @@ packages:
       path: "../langchain_core"
       relative: true
     source: path
-    version: "0.3.2"
+    version: "0.3.4"
   leak_tracker:
     dependency: transitive
     description:

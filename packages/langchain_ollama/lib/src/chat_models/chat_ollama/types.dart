@@ -1,14 +1,21 @@
+import 'package:collection/collection.dart';
 import 'package:langchain_core/chat_models.dart';
+import 'package:meta/meta.dart';
 
-import '../llms/types.dart';
+import '../../../langchain_ollama.dart';
+import '../../llms/types.dart';
 
 /// {@template chat_ollama_options}
 /// Options to pass into ChatOllama.
+///
+/// For a complete list of supported models and model variants, see the
+/// [Ollama model library](https://ollama.ai/library).
 /// {@endtemplate}
+@immutable
 class ChatOllamaOptions extends ChatModelOptions {
   /// {@macro chat_ollama_options}
   const ChatOllamaOptions({
-    this.model = 'llama3',
+    super.model,
     this.format,
     this.keepAlive,
     this.numKeep,
@@ -16,6 +23,7 @@ class ChatOllamaOptions extends ChatModelOptions {
     this.numPredict,
     this.topK,
     this.topP,
+    this.minP,
     this.tfsZ,
     this.typicalP,
     this.repeatLastN,
@@ -40,11 +48,10 @@ class ChatOllamaOptions extends ChatModelOptions {
     this.useMmap,
     this.useMlock,
     this.numThread,
+    super.tools,
+    super.toolChoice,
     super.concurrencyLimit,
   });
-
-  /// The model used to generate completions
-  final String? model;
 
   /// The format to return a response in. Currently the only accepted value is
   /// json.
@@ -84,11 +91,19 @@ class ChatOllamaOptions extends ChatModelOptions {
   /// (Default: 40)
   final int? topK;
 
-  /// Works together with top-k. A higher value (e.g., 0.95) will lead to more
+  /// Works together with [topK]. A higher value (e.g., 0.95) will lead to more
   /// diverse text, while a lower value (e.g., 0.5) will generate more focused
   /// and conservative text.
   /// (Default: 0.9)
   final double? topP;
+
+  /// Alternative to the [topP], and aims to ensure a balance of quality and
+  /// variety. [minP] represents the minimum probability for a token to be
+  /// considered, relative to the probability of the most likely token. For
+  /// example, with min_p=0.05 and the most likely token having a probability
+  /// of 0.9, logits with a value less than 0.05*0.9=0.045 are filtered out.
+  /// (Default: 0.0)
+  final double? minP;
 
   /// Tail free sampling is used to reduce the impact of less probable tokens
   /// from the output. A higher value (e.g., 2.0) will reduce the impact more,
@@ -141,7 +156,7 @@ class ChatOllamaOptions extends ChatModelOptions {
   final double? mirostatEta;
 
   /// Penalize newlines in the output.
-  /// (Default: false)
+  /// (Default: true)
   final bool? penalizeNewline;
 
   /// Sequences where the API will stop generating further tokens. The returned
@@ -172,7 +187,7 @@ class ChatOllamaOptions extends ChatModelOptions {
   final bool? lowVram;
 
   /// Enable f16 key/value.
-  /// (Default: false)
+  /// (Default: true)
   final bool? f16KV;
 
   /// Enable logits all.
@@ -197,16 +212,17 @@ class ChatOllamaOptions extends ChatModelOptions {
   /// the logical number of cores).
   final int? numThread;
 
-  /// Creates a copy of this [ChatOllamaOptions] object with the given fields
-  /// replaced with the new values.
+  @override
   ChatOllamaOptions copyWith({
     final String? model,
     final OllamaResponseFormat? format,
+    final int? keepAlive,
     final int? numKeep,
     final int? seed,
     final int? numPredict,
     final int? topK,
     final double? topP,
+    final double? minP,
     final double? tfsZ,
     final double? typicalP,
     final int? repeatLastN,
@@ -222,7 +238,6 @@ class ChatOllamaOptions extends ChatModelOptions {
     final bool? numa,
     final int? numCtx,
     final int? numBatch,
-    final int? numGqa,
     final int? numGpu,
     final int? mainGpu,
     final bool? lowVram,
@@ -231,19 +246,19 @@ class ChatOllamaOptions extends ChatModelOptions {
     final bool? vocabOnly,
     final bool? useMmap,
     final bool? useMlock,
-    final bool? embeddingOnly,
-    final double? ropeFrequencyBase,
-    final double? ropeFrequencyScale,
     final int? numThread,
+    final int? concurrencyLimit,
   }) {
     return ChatOllamaOptions(
       model: model ?? this.model,
       format: format ?? this.format,
+      keepAlive: keepAlive ?? this.keepAlive,
       numKeep: numKeep ?? this.numKeep,
       seed: seed ?? this.seed,
       numPredict: numPredict ?? this.numPredict,
       topK: topK ?? this.topK,
       topP: topP ?? this.topP,
+      minP: minP ?? this.minP,
       tfsZ: tfsZ ?? this.tfsZ,
       typicalP: typicalP ?? this.typicalP,
       repeatLastN: repeatLastN ?? this.repeatLastN,
@@ -268,6 +283,123 @@ class ChatOllamaOptions extends ChatModelOptions {
       useMmap: useMmap ?? this.useMmap,
       useMlock: useMlock ?? this.useMlock,
       numThread: numThread ?? this.numThread,
+      concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
+  }
+
+  @override
+  ChatOllamaOptions merge(covariant final ChatOllamaOptions? other) {
+    return copyWith(
+      model: other?.model,
+      format: other?.format,
+      keepAlive: other?.keepAlive,
+      numKeep: other?.numKeep,
+      seed: other?.seed,
+      numPredict: other?.numPredict,
+      topK: other?.topK,
+      topP: other?.topP,
+      minP: other?.minP,
+      tfsZ: other?.tfsZ,
+      typicalP: other?.typicalP,
+      repeatLastN: other?.repeatLastN,
+      temperature: other?.temperature,
+      repeatPenalty: other?.repeatPenalty,
+      presencePenalty: other?.presencePenalty,
+      frequencyPenalty: other?.frequencyPenalty,
+      mirostat: other?.mirostat,
+      mirostatTau: other?.mirostatTau,
+      mirostatEta: other?.mirostatEta,
+      penalizeNewline: other?.penalizeNewline,
+      stop: other?.stop,
+      numa: other?.numa,
+      numCtx: other?.numCtx,
+      numBatch: other?.numBatch,
+      numGpu: other?.numGpu,
+      mainGpu: other?.mainGpu,
+      lowVram: other?.lowVram,
+      f16KV: other?.f16KV,
+      logitsAll: other?.logitsAll,
+      vocabOnly: other?.vocabOnly,
+      useMmap: other?.useMmap,
+      useMlock: other?.useMlock,
+      numThread: other?.numThread,
+      concurrencyLimit: other?.concurrencyLimit,
+    );
+  }
+
+  @override
+  bool operator ==(covariant final ChatOllamaOptions other) {
+    return model == other.model &&
+        format == other.format &&
+        keepAlive == other.keepAlive &&
+        numKeep == other.numKeep &&
+        seed == other.seed &&
+        numPredict == other.numPredict &&
+        topK == other.topK &&
+        topP == other.topP &&
+        minP == other.minP &&
+        tfsZ == other.tfsZ &&
+        typicalP == other.typicalP &&
+        repeatLastN == other.repeatLastN &&
+        temperature == other.temperature &&
+        repeatPenalty == other.repeatPenalty &&
+        presencePenalty == other.presencePenalty &&
+        frequencyPenalty == other.frequencyPenalty &&
+        mirostat == other.mirostat &&
+        mirostatTau == other.mirostatTau &&
+        mirostatEta == other.mirostatEta &&
+        penalizeNewline == other.penalizeNewline &&
+        const ListEquality<String>().equals(stop, other.stop) &&
+        numa == other.numa &&
+        numCtx == other.numCtx &&
+        numBatch == other.numBatch &&
+        numGpu == other.numGpu &&
+        mainGpu == other.mainGpu &&
+        lowVram == other.lowVram &&
+        f16KV == other.f16KV &&
+        logitsAll == other.logitsAll &&
+        vocabOnly == other.vocabOnly &&
+        useMmap == other.useMmap &&
+        useMlock == other.useMlock &&
+        numThread == other.numThread &&
+        concurrencyLimit == other.concurrencyLimit;
+  }
+
+  @override
+  int get hashCode {
+    return model.hashCode ^
+        format.hashCode ^
+        keepAlive.hashCode ^
+        numKeep.hashCode ^
+        seed.hashCode ^
+        numPredict.hashCode ^
+        topK.hashCode ^
+        topP.hashCode ^
+        minP.hashCode ^
+        tfsZ.hashCode ^
+        typicalP.hashCode ^
+        repeatLastN.hashCode ^
+        temperature.hashCode ^
+        repeatPenalty.hashCode ^
+        presencePenalty.hashCode ^
+        frequencyPenalty.hashCode ^
+        mirostat.hashCode ^
+        mirostatTau.hashCode ^
+        mirostatEta.hashCode ^
+        penalizeNewline.hashCode ^
+        const ListEquality<String>().hash(stop) ^
+        numa.hashCode ^
+        numCtx.hashCode ^
+        numBatch.hashCode ^
+        numGpu.hashCode ^
+        mainGpu.hashCode ^
+        lowVram.hashCode ^
+        f16KV.hashCode ^
+        logitsAll.hashCode ^
+        vocabOnly.hashCode ^
+        useMmap.hashCode ^
+        useMlock.hashCode ^
+        numThread.hashCode ^
+        concurrencyLimit.hashCode;
   }
 }

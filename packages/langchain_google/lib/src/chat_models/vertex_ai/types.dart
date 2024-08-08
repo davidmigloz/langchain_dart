@@ -1,13 +1,19 @@
+import 'package:collection/collection.dart';
 import 'package:langchain_core/chat_models.dart';
+import 'package:meta/meta.dart';
 
 /// {@template chat_vertex_ai_options}
 /// Options to pass into the Vertex AI Chat Model.
+///
+/// You can find a list of available models here:
+/// https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models
 /// {@endtemplate}
+@immutable
 class ChatVertexAIOptions extends ChatModelOptions {
   /// {@macro chat_vertex_ai_options}
   const ChatVertexAIOptions({
-    this.publisher = 'google',
-    this.model = 'chat-bison',
+    this.publisher,
+    super.model,
     this.maxOutputTokens,
     this.temperature,
     this.topP,
@@ -22,17 +28,6 @@ class ChatVertexAIOptions extends ChatModelOptions {
   ///
   /// Use `google` for first-party models.
   final String? publisher;
-
-  /// The text model to use.
-  ///
-  /// To use the latest model version, specify the model name without a version
-  /// number (e.g. `chat-bison`).
-  /// To use a stable model version, specify the model version number
-  /// (e.g. `chat-bison@001`).
-  ///
-  /// You can find a list of available models here:
-  /// https://cloud.google.com/vertex-ai/docs/generative-ai/learn/models
-  final String? model;
 
   /// Maximum number of tokens that can be generated in the response. A token
   /// is approximately four characters. 100 tokens correspond to roughly
@@ -102,8 +97,7 @@ class ChatVertexAIOptions extends ChatModelOptions {
   /// List of messages to the model to learn how to respond to the conversation.
   final List<ChatExample>? examples;
 
-  /// Creates a copy of this [ChatVertexAIOptions] object with the given fields
-  /// replaced with the new values.
+  @override
   ChatVertexAIOptions copyWith({
     final String? publisher,
     final String? model,
@@ -114,6 +108,7 @@ class ChatVertexAIOptions extends ChatModelOptions {
     final List<String>? stopSequences,
     final int? candidateCount,
     final List<ChatExample>? examples,
+    final int? concurrencyLimit,
   }) {
     return ChatVertexAIOptions(
       publisher: publisher ?? this.publisher,
@@ -125,6 +120,52 @@ class ChatVertexAIOptions extends ChatModelOptions {
       stopSequences: stopSequences ?? this.stopSequences,
       candidateCount: candidateCount ?? this.candidateCount,
       examples: examples ?? this.examples,
+      concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
+  }
+
+  @override
+  ChatVertexAIOptions merge(covariant ChatVertexAIOptions? other) {
+    return copyWith(
+      publisher: other?.publisher,
+      model: other?.model,
+      maxOutputTokens: other?.maxOutputTokens,
+      temperature: other?.temperature,
+      topP: other?.topP,
+      topK: other?.topK,
+      stopSequences: other?.stopSequences,
+      candidateCount: other?.candidateCount,
+      examples: other?.examples,
+      concurrencyLimit: other?.concurrencyLimit,
+    );
+  }
+
+  @override
+  bool operator ==(covariant final ChatVertexAIOptions other) {
+    return publisher == other.publisher &&
+        model == other.model &&
+        maxOutputTokens == other.maxOutputTokens &&
+        temperature == other.temperature &&
+        topP == other.topP &&
+        topK == other.topK &&
+        const ListEquality<String>()
+            .equals(stopSequences, other.stopSequences) &&
+        candidateCount == other.candidateCount &&
+        const ListEquality<ChatExample>().equals(examples, other.examples) &&
+        concurrencyLimit == other.concurrencyLimit;
+  }
+
+  @override
+  int get hashCode {
+    return publisher.hashCode ^
+        model.hashCode ^
+        maxOutputTokens.hashCode ^
+        temperature.hashCode ^
+        topP.hashCode ^
+        topK.hashCode ^
+        const ListEquality<String>().hash(stopSequences) ^
+        candidateCount.hashCode ^
+        const ListEquality<ChatExample>().hash(examples) ^
+        concurrencyLimit.hashCode;
   }
 }

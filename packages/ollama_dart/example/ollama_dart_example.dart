@@ -11,6 +11,7 @@ Future<void> main() async {
   await _generateChatCompletion(client);
   await _generateChatCompletionWithHistory(client);
   await _generateChatCompletionStream(client);
+  await _generateChatToolCalling(client);
 
   // Embeddings
   await _generateEmbedding(client);
@@ -69,7 +70,7 @@ Future<void> _generateCompletionStream(final OllamaClient client) async {
 Future<void> _generateChatCompletion(final OllamaClient client) async {
   final generated = await client.generateChatCompletion(
     request: const GenerateChatCompletionRequest(
-      model: 'llama3:latest',
+      model: 'llama3.1',
       messages: [
         Message(
           role: MessageRole.system,
@@ -86,7 +87,7 @@ Future<void> _generateChatCompletion(final OllamaClient client) async {
       ],
     ),
   );
-  print(generated.message?.content);
+  print(generated.message.content);
 }
 
 Future<void> _generateChatCompletionWithHistory(
@@ -94,7 +95,7 @@ Future<void> _generateChatCompletionWithHistory(
 ) async {
   final generated = await client.generateChatCompletion(
     request: const GenerateChatCompletionRequest(
-      model: 'llama3:latest',
+      model: 'llama3.1',
       messages: [
         Message(
           role: MessageRole.user,
@@ -111,13 +112,13 @@ Future<void> _generateChatCompletionWithHistory(
       ],
     ),
   );
-  print(generated.message?.content);
+  print(generated.message.content);
 }
 
 Future<void> _generateChatCompletionStream(final OllamaClient client) async {
   final stream = client.generateChatCompletionStream(
     request: const GenerateChatCompletionRequest(
-      model: 'llama3:latest',
+      model: 'llama3.1',
       messages: [
         Message(
           role: MessageRole.system,
@@ -132,9 +133,82 @@ Future<void> _generateChatCompletionStream(final OllamaClient client) async {
   );
   String text = '';
   await for (final res in stream) {
-    text += (res.message?.content ?? '').trim();
+    text += res.message.content.trim();
   }
   print(text);
+}
+
+Future<void> _generateChatToolCalling(final OllamaClient client) async {
+  const tool = Tool(
+    function: ToolFunction(
+      name: 'get_current_weather',
+      description: 'Get the current weather in a given location',
+      parameters: {
+        'type': 'object',
+        'properties': {
+          'location': {
+            'type': 'string',
+            'description': 'The city and country, e.g. San Francisco, US',
+          },
+          'unit': {
+            'type': 'string',
+            'description': 'The unit of temperature to return',
+            'enum': ['celsius', 'fahrenheit'],
+          },
+        },
+        'required': ['location'],
+      },
+    ),
+  );
+
+  const userMsg = Message(
+    role: MessageRole.user,
+    content: 'What’s the weather like in Barcelona in celsius?',
+  );
+
+  final res1 = await client.generateChatCompletion(
+    request: const GenerateChatCompletionRequest(
+      model: 'llama3.1',
+      messages: [userMsg],
+      tools: [tool],
+      keepAlive: 1,
+    ),
+  );
+
+  print(res1.message.toolCalls);
+  // [
+  //   ToolCall(
+  //     function:
+  //       ToolCallFunction(
+  //         name: get_current_weather,
+  //         arguments: {
+  //           location: Barcelona, ES,
+  //           unit: celsius
+  //         }
+  //       )
+  //   )
+  // ]
+
+  // Call your tool here. For this example, we'll just mock the response.
+  const toolResult =
+      '{"location": "Barcelona, ES", "temperature": 20, "unit": "celsius"}';
+
+  // Submit the response of the tool call to the model
+  final res2 = await client.generateChatCompletion(
+    request: GenerateChatCompletionRequest(
+      model: 'llama3.1',
+      messages: [
+        userMsg,
+        res1.message,
+        const Message(
+          role: MessageRole.tool,
+          content: toolResult,
+        ),
+      ],
+    ),
+  );
+  print(res2.message.content);
+  // The current weather in Barcelona is 20°C.
 }
 
 Future<void> _generateEmbedding(final OllamaClient client) async {

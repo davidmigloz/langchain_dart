@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: OpenAI API
   description: The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details.
-  version: "2.0.0"
+  version: "2.1.0"
   termsOfService: https://openai.com/policies/terms-of-use
   contact:
     name: OpenAI Support
@@ -16,7 +16,7 @@ tags:
   - name: Assistants
     description: Build Assistants that can call models and use tools.
   - name: Audio
-    description: Learn how to turn audio into text or text into audio.
+    description: Turn audio into text or text into audio.
   - name: Chat
     description: Given a list of messages comprising a conversation, the model will return a response.
   - name: Completions
@@ -29,6 +29,8 @@ tags:
     description: Create large batches of API requests to run asynchronously.
   - name: Files
     description: Files are used to upload documents that can be used with features like Assistants and Fine-tuning.
+  - name: Uploads
+    description: Use Uploads to upload large files in multiple parts.
   - name: Images
     description: Given a prompt and/or an input image, the model will generate a new image.
   - name: Models
@@ -117,7 +119,7 @@ paths:
                 "id": "chatcmpl-123",
                 "object": "chat.completion",
                 "created": 1677652288,
-                "model": "gpt-3.5-turbo-0125",
+                "model": "gpt-4o-mini",
                 "system_fingerprint": "fp_44709d6fcb",
                 "choices": [{
                   "index": 0,
@@ -214,7 +216,7 @@ paths:
                 "id": "chatcmpl-123",
                 "object": "chat.completion",
                 "created": 1677652288,
-                "model": "gpt-3.5-turbo-0125",
+                "model": "gpt-4o-mini",
                 "system_fingerprint": "fp_44709d6fcb",
                 "choices": [{
                   "index": 0,
@@ -289,13 +291,13 @@ paths:
                 
                 main();
             response: &chat_completion_chunk_example |
-              {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1694268190,"model":"gpt-3.5-turbo-0125", "system_fingerprint": "fp_44709d6fcb", "choices":[{"index":0,"delta":{"role":"assistant","content":""},"logprobs":null,"finish_reason":null}]}
+              {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1694268190,"model":"gpt-4o-mini", "system_fingerprint": "fp_44709d6fcb", "choices":[{"index":0,"delta":{"role":"assistant","content":""},"logprobs":null,"finish_reason":null}]}
               
-              {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1694268190,"model":"gpt-3.5-turbo-0125", "system_fingerprint": "fp_44709d6fcb", "choices":[{"index":0,"delta":{"content":"Hello"},"logprobs":null,"finish_reason":null}]}
+              {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1694268190,"model":"gpt-4o-mini", "system_fingerprint": "fp_44709d6fcb", "choices":[{"index":0,"delta":{"content":"Hello"},"logprobs":null,"finish_reason":null}]}
               
               ....
               
-              {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1694268190,"model":"gpt-3.5-turbo-0125", "system_fingerprint": "fp_44709d6fcb", "choices":[{"index":0,"delta":{},"logprobs":null,"finish_reason":"stop"}]}
+              {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1694268190,"model":"gpt-4o-mini", "system_fingerprint": "fp_44709d6fcb", "choices":[{"index":0,"delta":{},"logprobs":null,"finish_reason":"stop"}]}
           - title: Functions
             request:
               curl: |
@@ -412,7 +414,7 @@ paths:
                 "id": "chatcmpl-abc123",
                 "object": "chat.completion",
                 "created": 1699896916,
-                "model": "gpt-3.5-turbo-0125",
+                "model": "gpt-4o-mini",
                 "choices": [
                   {
                     "index": 0,
@@ -494,7 +496,7 @@ paths:
                 "id": "chatcmpl-123",
                 "object": "chat.completion",
                 "created": 1702685778,
-                "model": "gpt-3.5-turbo-0125",
+                "model": "gpt-4o-mini",
                 "choices": [
                   {
                     "index": 0,
@@ -1506,9 +1508,9 @@ paths:
         
         The Assistants API supports files up to 2 million tokens and of specific file types. See the [Assistants Tools guide](/docs/assistants/tools) for details.
         
-        The Fine-tuning API only supports `.jsonl` files.
+        The Fine-tuning API only supports `.jsonl` files. The input also has certain required formats for fine-tuning [chat](/docs/api-reference/fine-tuning/chat-input) or [completions](/docs/api-reference/fine-tuning/completions-input) models.
         
-        The Batch API only supports `.jsonl` files up to 100 MB in size.
+        The Batch API only supports `.jsonl` files up to 100 MB in size. The input also has a specific required [format](/docs/api-reference/batch/request-input).
         
         Please [contact us](https://help.openai.com/) if you need to increase these storage limits.
       requestBody:
@@ -1721,6 +1723,218 @@ paths:
               }
               
               main();
+  /uploads:
+    post:
+      operationId: createUpload
+      tags:
+        - Uploads
+      summary: |
+        Creates an intermediate [Upload](/docs/api-reference/uploads/object) object that you can add [Parts](/docs/api-reference/uploads/part-object) to. Currently, an Upload can accept at most 8 GB in total and expires after an hour after you create it.
+        
+        Once you complete the Upload, we will create a [File](/docs/api-reference/files/object) object that contains all the parts you uploaded. This File is usable in the rest of our platform as a regular File object.
+        
+        For certain `purpose`s, the correct `mime_type` must be specified. Please refer to documentation for the supported MIME types for your use case:
+        - [Assistants](/docs/assistants/tools/file-search/supported-files)
+        
+        For guidance on the proper filename extensions for each purpose, please follow the documentation on [creating a File](/docs/api-reference/files/create).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUploadRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Upload"
+      x-oaiMeta:
+        name: Create upload
+        group: uploads
+        returns: The [Upload](/docs/api-reference/uploads/object) object with status `pending`.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/uploads \
+                -H "Authorization: Bearer $OPENAI_API_KEY" \
+                -d '{
+                  "purpose": "fine-tune",
+                  "filename": "training_examples.jsonl",
+                  "bytes": 2147483648,
+                  "mime_type": "text/jsonl"
+                }'
+          response: |
+            {
+              "id": "upload_abc123",
+              "object": "upload",
+              "bytes": 2147483648,
+              "created_at": 1719184911,
+              "filename": "training_examples.jsonl",
+              "purpose": "fine-tune",
+              "status": "pending",
+              "expires_at": 1719127296
+            }
+
+  /uploads/{upload_id}/parts:
+    post:
+      operationId: addUploadPart
+      tags:
+        - Uploads
+      summary: |
+        Adds a [Part](/docs/api-reference/uploads/part-object) to an [Upload](/docs/api-reference/uploads/object) object. A Part represents a chunk of bytes from the file you are trying to upload. 
+        
+        Each Part can be at most 64 MB, and you can add Parts until you hit the Upload maximum of 8 GB.
+        
+        It is possible to add multiple Parts in parallel. You can decide the intended order of the Parts when you [complete the Upload](/docs/api-reference/uploads/complete).
+      parameters:
+        - in: path
+          name: upload_id
+          required: true
+          schema:
+            type: string
+            example: upload_abc123
+          description: |
+            The ID of the Upload.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/AddUploadPartRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadPart"
+      x-oaiMeta:
+        name: Add upload part
+        group: uploads
+        returns: The upload [Part](/docs/api-reference/uploads/part-object) object.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/uploads/upload_abc123/parts
+                -F data="aHR0cHM6Ly9hcGkub3BlbmFpLmNvbS92MS91cGxvYWRz..."
+          response: |
+            {
+              "id": "part_def456",
+              "object": "upload.part",
+              "created_at": 1719185911,
+              "upload_id": "upload_abc123"
+            }
+
+  /uploads/{upload_id}/complete:
+    post:
+      operationId: completeUpload
+      tags:
+        - Uploads
+      summary: |
+        Completes the [Upload](/docs/api-reference/uploads/object). 
+        
+        Within the returned Upload object, there is a nested [File](/docs/api-reference/files/object) object that is ready to use in the rest of the platform.
+        
+        You can specify the order of the Parts by passing in an ordered list of the Part IDs.
+        
+        The number of bytes uploaded upon completion must match the number of bytes initially specified when creating the Upload object. No Parts may be added after an Upload is completed.
+      parameters:
+        - in: path
+          name: upload_id
+          required: true
+          schema:
+            type: string
+            example: upload_abc123
+          description: |
+            The ID of the Upload.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CompleteUploadRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Upload"
+      x-oaiMeta:
+        name: Complete upload
+        group: uploads
+        returns: The [Upload](/docs/api-reference/uploads/object) object with status `completed` with an additional `file` property containing the created usable File object.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/uploads/upload_abc123/complete
+                -d '{
+                  "part_ids": ["part_def456", "part_ghi789"]
+                }'
+          response: |
+            {
+              "id": "upload_abc123",
+              "object": "upload",
+              "bytes": 2147483648,
+              "created_at": 1719184911,
+              "filename": "training_examples.jsonl",
+              "purpose": "fine-tune",
+              "status": "completed",
+              "expires_at": 1719127296,
+              "file": {
+                "id": "file-xyz321",
+                "object": "file",
+                "bytes": 2147483648,
+                "created_at": 1719186911,
+                "filename": "training_examples.jsonl",
+                "purpose": "fine-tune",
+              }
+            }
+
+  /uploads/{upload_id}/cancel:
+    post:
+      operationId: cancelUpload
+      tags:
+        - Uploads
+      summary: |
+        Cancels the Upload. No Parts may be added after an Upload is cancelled.
+      parameters:
+        - in: path
+          name: upload_id
+          required: true
+          schema:
+            type: string
+            example: upload_abc123
+          description: |
+            The ID of the Upload.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Upload"
+      x-oaiMeta:
+        name: Cancel upload
+        group: uploads
+        returns: The [Upload](/docs/api-reference/uploads/object) object with status `cancelled`.
+        examples:
+          request:
+            curl: |
+              curl https://api.openai.com/v1/uploads/upload_abc123/cancel
+          response: |
+            {
+              "id": "upload_abc123",
+              "object": "upload",
+              "bytes": 2147483648,
+              "created_at": 1719184911,
+              "filename": "training_examples.jsonl",
+              "purpose": "fine-tune",
+              "status": "cancelled",
+              "expires_at": 1719127296
+            }
 
   /fine_tuning/jobs:
     post:
@@ -2608,7 +2822,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: [ "asc", "desc" ]
+            enum: ["asc", "desc"]
         - name: after
           in: query
           description: &pagination_after_param_description |
@@ -3457,7 +3671,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: [ "asc", "desc" ]
+            enum: ["asc", "desc"]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -3680,7 +3894,7 @@ paths:
         name: Retrieve message
         group: threads
         beta: true
-        returns: The [message](/docs/api-reference/threads/messages/object) object matching the specified ID.
+        returns: The [message](/docs/api-reference/messages/object) object matching the specified ID.
         examples:
           request:
             curl: |
@@ -3768,7 +3982,7 @@ paths:
         name: Modify message
         group: threads
         beta: true
-        returns: The modified [message](/docs/api-reference/threads/messages/object) object.
+        returns: The modified [message](/docs/api-reference/messages/object) object.
         examples:
           request:
             curl: |
@@ -4005,7 +4219,8 @@ paths:
                 "incomplete_details": null,
                 "usage": null,
                 "response_format": "auto",
-                "tool_choice": "auto"
+                "tool_choice": "auto",
+                "parallel_tool_calls": true
               }
 
           - title: Streaming
@@ -4067,13 +4282,13 @@ paths:
               data: {"id":"thread_123","object":"thread","created_at":1710348075,"metadata":{}}
               
               event: thread.run.created
-              data: {"id":"run_123","object":"thread.run","created_at":1710348075,"assistant_id":"asst_123","thread_id":"thread_123","status":"queued","started_at":null,"expires_at":1710348675,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"tool_resources":{},"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto"}
+              data: {"id":"run_123","object":"thread.run","created_at":1710348075,"assistant_id":"asst_123","thread_id":"thread_123","status":"queued","started_at":null,"expires_at":1710348675,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"tool_resources":{},"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto","parallel_tool_calls":true}
               
               event: thread.run.queued
-              data: {"id":"run_123","object":"thread.run","created_at":1710348075,"assistant_id":"asst_123","thread_id":"thread_123","status":"queued","started_at":null,"expires_at":1710348675,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"tool_resources":{},"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto"}
+              data: {"id":"run_123","object":"thread.run","created_at":1710348075,"assistant_id":"asst_123","thread_id":"thread_123","status":"queued","started_at":null,"expires_at":1710348675,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"tool_resources":{},"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto","parallel_tool_calls":true}
               
               event: thread.run.in_progress
-              data: {"id":"run_123","object":"thread.run","created_at":1710348075,"assistant_id":"asst_123","thread_id":"thread_123","status":"in_progress","started_at":null,"expires_at":1710348675,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"tool_resources":{},"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto"}
+              data: {"id":"run_123","object":"thread.run","created_at":1710348075,"assistant_id":"asst_123","thread_id":"thread_123","status":"in_progress","started_at":null,"expires_at":1710348675,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"tool_resources":{},"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto","parallel_tool_calls":true}
               
               event: thread.run.step.created
               data: {"id":"step_001","object":"thread.run.step","created_at":1710348076,"run_id":"run_123","assistant_id":"asst_123","thread_id":"thread_123","type":"message_creation","status":"in_progress","cancelled_at":null,"completed_at":null,"expires_at":1710348675,"failed_at":null,"last_error":null,"step_details":{"type":"message_creation","message_creation":{"message_id":"msg_001"}},"usage":null}
@@ -4105,7 +4320,7 @@ paths:
               data: {"id":"step_001","object":"thread.run.step","created_at":1710348076,"run_id":"run_123","assistant_id":"asst_123","thread_id":"thread_123","type":"message_creation","status":"completed","cancelled_at":null,"completed_at":1710348077,"expires_at":1710348675,"failed_at":null,"last_error":null,"step_details":{"type":"message_creation","message_creation":{"message_id":"msg_001"}},"usage":{"prompt_tokens":20,"completion_tokens":11,"total_tokens":31}}
               
               event: thread.run.completed
-              {"id":"run_123","object":"thread.run","created_at":1710348076,"assistant_id":"asst_123","thread_id":"thread_123","status":"completed","started_at":1713226836,"expires_at":null,"cancelled_at":null,"failed_at":null,"completed_at":1713226837,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":{"prompt_tokens":345,"completion_tokens":11,"total_tokens":356},"response_format":"auto","tool_choice":"auto"}
+              {"id":"run_123","object":"thread.run","created_at":1710348076,"assistant_id":"asst_123","thread_id":"thread_123","status":"completed","started_at":1713226836,"expires_at":null,"cancelled_at":null,"failed_at":null,"completed_at":1713226837,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":{"prompt_tokens":345,"completion_tokens":11,"total_tokens":356},"response_format":"auto","tool_choice":"auto","parallel_tool_calls":true}
               
               event: done
               data: [DONE]
@@ -4236,13 +4451,13 @@ paths:
               data: {"id":"thread_123","object":"thread","created_at":1710351818,"metadata":{}}
               
               event: thread.run.created
-              data: {"id":"run_123","object":"thread.run","created_at":1710351818,"assistant_id":"asst_123","thread_id":"thread_123","status":"queued","started_at":null,"expires_at":1710352418,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[{"type":"function","function":{"name":"get_current_weather","description":"Get the current weather in a given location","parameters":{"type":"object","properties":{"location":{"type":"string","description":"The city and state, e.g. San Francisco, CA"},"unit":{"type":"string","enum":["celsius","fahrenheit"]}},"required":["location"]}}}],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto"}}
+              data: {"id":"run_123","object":"thread.run","created_at":1710351818,"assistant_id":"asst_123","thread_id":"thread_123","status":"queued","started_at":null,"expires_at":1710352418,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[{"type":"function","function":{"name":"get_current_weather","description":"Get the current weather in a given location","parameters":{"type":"object","properties":{"location":{"type":"string","description":"The city and state, e.g. San Francisco, CA"},"unit":{"type":"string","enum":["celsius","fahrenheit"]}},"required":["location"]}}}],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto","parallel_tool_calls":true}}
               
               event: thread.run.queued
-              data: {"id":"run_123","object":"thread.run","created_at":1710351818,"assistant_id":"asst_123","thread_id":"thread_123","status":"queued","started_at":null,"expires_at":1710352418,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[{"type":"function","function":{"name":"get_current_weather","description":"Get the current weather in a given location","parameters":{"type":"object","properties":{"location":{"type":"string","description":"The city and state, e.g. San Francisco, CA"},"unit":{"type":"string","enum":["celsius","fahrenheit"]}},"required":["location"]}}}],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto"}}
+              data: {"id":"run_123","object":"thread.run","created_at":1710351818,"assistant_id":"asst_123","thread_id":"thread_123","status":"queued","started_at":null,"expires_at":1710352418,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[{"type":"function","function":{"name":"get_current_weather","description":"Get the current weather in a given location","parameters":{"type":"object","properties":{"location":{"type":"string","description":"The city and state, e.g. San Francisco, CA"},"unit":{"type":"string","enum":["celsius","fahrenheit"]}},"required":["location"]}}}],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto","parallel_tool_calls":true}}
               
               event: thread.run.in_progress
-              data: {"id":"run_123","object":"thread.run","created_at":1710351818,"assistant_id":"asst_123","thread_id":"thread_123","status":"in_progress","started_at":1710351818,"expires_at":1710352418,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[{"type":"function","function":{"name":"get_current_weather","description":"Get the current weather in a given location","parameters":{"type":"object","properties":{"location":{"type":"string","description":"The city and state, e.g. San Francisco, CA"},"unit":{"type":"string","enum":["celsius","fahrenheit"]}},"required":["location"]}}}],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto"}}
+              data: {"id":"run_123","object":"thread.run","created_at":1710351818,"assistant_id":"asst_123","thread_id":"thread_123","status":"in_progress","started_at":1710351818,"expires_at":1710352418,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[{"type":"function","function":{"name":"get_current_weather","description":"Get the current weather in a given location","parameters":{"type":"object","properties":{"location":{"type":"string","description":"The city and state, e.g. San Francisco, CA"},"unit":{"type":"string","enum":["celsius","fahrenheit"]}},"required":["location"]}}}],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto","parallel_tool_calls":true}}
               
               event: thread.run.step.created
               data: {"id":"step_001","object":"thread.run.step","created_at":1710351819,"run_id":"run_123","assistant_id":"asst_123","thread_id":"thread_123","type":"tool_calls","status":"in_progress","cancelled_at":null,"completed_at":null,"expires_at":1710352418,"failed_at":null,"last_error":null,"step_details":{"type":"tool_calls","tool_calls":[]},"usage":null}
@@ -4268,7 +4483,7 @@ paths:
               data: {"id":"step_001","object":"thread.run.step.delta","delta":{"step_details":{"type":"tool_calls","tool_calls":[{"index":0,"type":"function","function":{"arguments":"\"}"}}]}}}
               
               event: thread.run.requires_action
-              data: {"id":"run_123","object":"thread.run","created_at":1710351818,"assistant_id":"asst_123","thread_id":"thread_123","status":"requires_action","started_at":1710351818,"expires_at":1710352418,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":{"type":"submit_tool_outputs","submit_tool_outputs":{"tool_calls":[{"id":"call_XXNp8YGaFrjrSjgqxtC8JJ1B","type":"function","function":{"name":"get_current_weather","arguments":"{\"location\":\"San Francisco, CA\",\"unit\":\"fahrenheit\"}"}}]}},"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[{"type":"function","function":{"name":"get_current_weather","description":"Get the current weather in a given location","parameters":{"type":"object","properties":{"location":{"type":"string","description":"The city and state, e.g. San Francisco, CA"},"unit":{"type":"string","enum":["celsius","fahrenheit"]}},"required":["location"]}}}],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":{"prompt_tokens":345,"completion_tokens":11,"total_tokens":356},"response_format":"auto","tool_choice":"auto"}}
+              data: {"id":"run_123","object":"thread.run","created_at":1710351818,"assistant_id":"asst_123","thread_id":"thread_123","status":"requires_action","started_at":1710351818,"expires_at":1710352418,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":{"type":"submit_tool_outputs","submit_tool_outputs":{"tool_calls":[{"id":"call_XXNp8YGaFrjrSjgqxtC8JJ1B","type":"function","function":{"name":"get_current_weather","arguments":"{\"location\":\"San Francisco, CA\",\"unit\":\"fahrenheit\"}"}}]}},"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[{"type":"function","function":{"name":"get_current_weather","description":"Get the current weather in a given location","parameters":{"type":"object","properties":{"location":{"type":"string","description":"The city and state, e.g. San Francisco, CA"},"unit":{"type":"string","enum":["celsius","fahrenheit"]}},"required":["location"]}}}],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":{"prompt_tokens":345,"completion_tokens":11,"total_tokens":356},"response_format":"auto","tool_choice":"auto","parallel_tool_calls":true}}
               
               event: done
               data: [DONE]
@@ -4299,7 +4514,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: [ "asc", "desc" ]
+            enum: ["asc", "desc"]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -4400,7 +4615,8 @@ paths:
                     "last_messages": null
                   },
                   "response_format": "auto",
-                  "tool_choice": "auto"
+                  "tool_choice": "auto",
+                  "parallel_tool_calls": true
                 },
                 {
                   "id": "run_abc456",
@@ -4446,7 +4662,8 @@ paths:
                     "last_messages": null
                   },
                   "response_format": "auto",
-                  "tool_choice": "auto"
+                  "tool_choice": "auto",
+                  "parallel_tool_calls": true
                 }
               ],
               "first_id": "run_abc123",
@@ -4552,7 +4769,8 @@ paths:
                   "last_messages": null
                 },
                 "response_format": "auto",
-                "tool_choice": "auto"
+                "tool_choice": "auto",
+                "parallel_tool_calls": true
               }
           - title: Streaming
             request:
@@ -4596,13 +4814,13 @@ paths:
                 main();
             response: |
               event: thread.run.created
-              data: {"id":"run_123","object":"thread.run","created_at":1710330640,"assistant_id":"asst_123","thread_id":"thread_123","status":"queued","started_at":null,"expires_at":1710331240,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto"}}
+              data: {"id":"run_123","object":"thread.run","created_at":1710330640,"assistant_id":"asst_123","thread_id":"thread_123","status":"queued","started_at":null,"expires_at":1710331240,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto","parallel_tool_calls":true}}
               
               event: thread.run.queued
-              data: {"id":"run_123","object":"thread.run","created_at":1710330640,"assistant_id":"asst_123","thread_id":"thread_123","status":"queued","started_at":null,"expires_at":1710331240,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto"}}
+              data: {"id":"run_123","object":"thread.run","created_at":1710330640,"assistant_id":"asst_123","thread_id":"thread_123","status":"queued","started_at":null,"expires_at":1710331240,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto","parallel_tool_calls":true}}
               
               event: thread.run.in_progress
-              data: {"id":"run_123","object":"thread.run","created_at":1710330640,"assistant_id":"asst_123","thread_id":"thread_123","status":"in_progress","started_at":1710330641,"expires_at":1710331240,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto"}}
+              data: {"id":"run_123","object":"thread.run","created_at":1710330640,"assistant_id":"asst_123","thread_id":"thread_123","status":"in_progress","started_at":1710330641,"expires_at":1710331240,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto","parallel_tool_calls":true}}
               
               event: thread.run.step.created
               data: {"id":"step_001","object":"thread.run.step","created_at":1710330641,"run_id":"run_123","assistant_id":"asst_123","thread_id":"thread_123","type":"message_creation","status":"in_progress","cancelled_at":null,"completed_at":null,"expires_at":1710331240,"failed_at":null,"last_error":null,"step_details":{"type":"message_creation","message_creation":{"message_id":"msg_001"}},"usage":null}
@@ -4634,7 +4852,7 @@ paths:
               data: {"id":"step_001","object":"thread.run.step","created_at":1710330641,"run_id":"run_123","assistant_id":"asst_123","thread_id":"thread_123","type":"message_creation","status":"completed","cancelled_at":null,"completed_at":1710330642,"expires_at":1710331240,"failed_at":null,"last_error":null,"step_details":{"type":"message_creation","message_creation":{"message_id":"msg_001"}},"usage":{"prompt_tokens":20,"completion_tokens":11,"total_tokens":31}}
               
               event: thread.run.completed
-              data: {"id":"run_123","object":"thread.run","created_at":1710330640,"assistant_id":"asst_123","thread_id":"thread_123","status":"completed","started_at":1710330641,"expires_at":null,"cancelled_at":null,"failed_at":null,"completed_at":1710330642,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":{"prompt_tokens":20,"completion_tokens":11,"total_tokens":31},"response_format":"auto","tool_choice":"auto"}}
+              data: {"id":"run_123","object":"thread.run","created_at":1710330640,"assistant_id":"asst_123","thread_id":"thread_123","status":"completed","started_at":1710330641,"expires_at":null,"cancelled_at":null,"failed_at":null,"completed_at":1710330642,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":{"prompt_tokens":20,"completion_tokens":11,"total_tokens":31},"response_format":"auto","tool_choice":"auto","parallel_tool_calls":true}}
               
               event: done
               data: [DONE]
@@ -4751,13 +4969,13 @@ paths:
                 main();
             response: |
               event: thread.run.created
-              data: {"id":"run_123","object":"thread.run","created_at":1710348075,"assistant_id":"asst_123","thread_id":"thread_123","status":"queued","started_at":null,"expires_at":1710348675,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto"}}
+              data: {"id":"run_123","object":"thread.run","created_at":1710348075,"assistant_id":"asst_123","thread_id":"thread_123","status":"queued","started_at":null,"expires_at":1710348675,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto","parallel_tool_calls":true}}
               
               event: thread.run.queued
-              data: {"id":"run_123","object":"thread.run","created_at":1710348075,"assistant_id":"asst_123","thread_id":"thread_123","status":"queued","started_at":null,"expires_at":1710348675,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto"}}
+              data: {"id":"run_123","object":"thread.run","created_at":1710348075,"assistant_id":"asst_123","thread_id":"thread_123","status":"queued","started_at":null,"expires_at":1710348675,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto","parallel_tool_calls":true}}
               
               event: thread.run.in_progress
-              data: {"id":"run_123","object":"thread.run","created_at":1710348075,"assistant_id":"asst_123","thread_id":"thread_123","status":"in_progress","started_at":1710348075,"expires_at":1710348675,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto"}}
+              data: {"id":"run_123","object":"thread.run","created_at":1710348075,"assistant_id":"asst_123","thread_id":"thread_123","status":"in_progress","started_at":1710348075,"expires_at":1710348675,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto","parallel_tool_calls":true}}
               
               event: thread.run.step.created
               data: {"id":"step_001","object":"thread.run.step","created_at":1710348076,"run_id":"run_123","assistant_id":"asst_123","thread_id":"thread_123","type":"message_creation","status":"in_progress","cancelled_at":null,"completed_at":null,"expires_at":1710348675,"failed_at":null,"last_error":null,"step_details":{"type":"message_creation","message_creation":{"message_id":"msg_001"}},"usage":null}
@@ -4789,7 +5007,7 @@ paths:
               data: {"id":"step_001","object":"thread.run.step","created_at":1710348076,"run_id":"run_123","assistant_id":"asst_123","thread_id":"thread_123","type":"message_creation","status":"completed","cancelled_at":null,"completed_at":1710348077,"expires_at":1710348675,"failed_at":null,"last_error":null,"step_details":{"type":"message_creation","message_creation":{"message_id":"msg_001"}},"usage":{"prompt_tokens":20,"completion_tokens":11,"total_tokens":31}}
               
               event: thread.run.completed
-              data: {"id":"run_123","object":"thread.run","created_at":1710348075,"assistant_id":"asst_123","thread_id":"thread_123","status":"completed","started_at":1710348075,"expires_at":null,"cancelled_at":null,"failed_at":null,"completed_at":1710348077,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":{"prompt_tokens":20,"completion_tokens":11,"total_tokens":31},"response_format":"auto","tool_choice":"auto"}}
+              data: {"id":"run_123","object":"thread.run","created_at":1710348075,"assistant_id":"asst_123","thread_id":"thread_123","status":"completed","started_at":1710348075,"expires_at":null,"cancelled_at":null,"failed_at":null,"completed_at":1710348077,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":{"prompt_tokens":20,"completion_tokens":11,"total_tokens":31},"response_format":"auto","tool_choice":"auto","parallel_tool_calls":true}}
               
               event: done
               data: [DONE]
@@ -4893,7 +5111,8 @@ paths:
                 "last_messages": null
               },
               "response_format": "auto",
-              "tool_choice": "auto"
+              "tool_choice": "auto",
+              "parallel_tool_calls": true
             }
     post:
       operationId: modifyRun
@@ -5021,7 +5240,8 @@ paths:
                 "last_messages": null
               },
               "response_format": "auto",
-              "tool_choice": "auto"
+              "tool_choice": "auto",
+              "parallel_tool_calls": true
             }
 
   /threads/{thread_id}/runs/{run_id}/submit_tool_outputs:
@@ -5167,7 +5387,8 @@ paths:
                   "last_messages": null
                 },
                 "response_format": "auto",
-                "tool_choice": "auto"
+                "tool_choice": "auto",
+                "parallel_tool_calls": true
               }
 
           - title: Streaming
@@ -5234,10 +5455,10 @@ paths:
               data: {"id":"step_001","object":"thread.run.step","created_at":1710352449,"run_id":"run_123","assistant_id":"asst_123","thread_id":"thread_123","type":"tool_calls","status":"completed","cancelled_at":null,"completed_at":1710352475,"expires_at":1710353047,"failed_at":null,"last_error":null,"step_details":{"type":"tool_calls","tool_calls":[{"id":"call_iWr0kQ2EaYMaxNdl0v3KYkx7","type":"function","function":{"name":"get_current_weather","arguments":"{\"location\":\"San Francisco, CA\",\"unit\":\"fahrenheit\"}","output":"70 degrees and sunny."}}]},"usage":{"prompt_tokens":291,"completion_tokens":24,"total_tokens":315}}
               
               event: thread.run.queued
-              data: {"id":"run_123","object":"thread.run","created_at":1710352447,"assistant_id":"asst_123","thread_id":"thread_123","status":"queued","started_at":1710352448,"expires_at":1710353047,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[{"type":"function","function":{"name":"get_current_weather","description":"Get the current weather in a given location","parameters":{"type":"object","properties":{"location":{"type":"string","description":"The city and state, e.g. San Francisco, CA"},"unit":{"type":"string","enum":["celsius","fahrenheit"]}},"required":["location"]}}}],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto"}}
+              data: {"id":"run_123","object":"thread.run","created_at":1710352447,"assistant_id":"asst_123","thread_id":"thread_123","status":"queued","started_at":1710352448,"expires_at":1710353047,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[{"type":"function","function":{"name":"get_current_weather","description":"Get the current weather in a given location","parameters":{"type":"object","properties":{"location":{"type":"string","description":"The city and state, e.g. San Francisco, CA"},"unit":{"type":"string","enum":["celsius","fahrenheit"]}},"required":["location"]}}}],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto","parallel_tool_calls":true}}
               
               event: thread.run.in_progress
-              data: {"id":"run_123","object":"thread.run","created_at":1710352447,"assistant_id":"asst_123","thread_id":"thread_123","status":"in_progress","started_at":1710352475,"expires_at":1710353047,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[{"type":"function","function":{"name":"get_current_weather","description":"Get the current weather in a given location","parameters":{"type":"object","properties":{"location":{"type":"string","description":"The city and state, e.g. San Francisco, CA"},"unit":{"type":"string","enum":["celsius","fahrenheit"]}},"required":["location"]}}}],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto"}}
+              data: {"id":"run_123","object":"thread.run","created_at":1710352447,"assistant_id":"asst_123","thread_id":"thread_123","status":"in_progress","started_at":1710352475,"expires_at":1710353047,"cancelled_at":null,"failed_at":null,"completed_at":null,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[{"type":"function","function":{"name":"get_current_weather","description":"Get the current weather in a given location","parameters":{"type":"object","properties":{"location":{"type":"string","description":"The city and state, e.g. San Francisco, CA"},"unit":{"type":"string","enum":["celsius","fahrenheit"]}},"required":["location"]}}}],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":null,"response_format":"auto","tool_choice":"auto","parallel_tool_calls":true}}
               
               event: thread.run.step.created
               data: {"id":"step_002","object":"thread.run.step","created_at":1710352476,"run_id":"run_123","assistant_id":"asst_123","thread_id":"thread_123","type":"message_creation","status":"in_progress","cancelled_at":null,"completed_at":null,"expires_at":1710353047,"failed_at":null,"last_error":null,"step_details":{"type":"message_creation","message_creation":{"message_id":"msg_002"}},"usage":null}
@@ -5275,7 +5496,7 @@ paths:
               data: {"id":"step_002","object":"thread.run.step","created_at":1710352476,"run_id":"run_123","assistant_id":"asst_123","thread_id":"thread_123","type":"message_creation","status":"completed","cancelled_at":null,"completed_at":1710352477,"expires_at":1710353047,"failed_at":null,"last_error":null,"step_details":{"type":"message_creation","message_creation":{"message_id":"msg_002"}},"usage":{"prompt_tokens":329,"completion_tokens":18,"total_tokens":347}}
               
               event: thread.run.completed
-              data: {"id":"run_123","object":"thread.run","created_at":1710352447,"assistant_id":"asst_123","thread_id":"thread_123","status":"completed","started_at":1710352475,"expires_at":null,"cancelled_at":null,"failed_at":null,"completed_at":1710352477,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[{"type":"function","function":{"name":"get_current_weather","description":"Get the current weather in a given location","parameters":{"type":"object","properties":{"location":{"type":"string","description":"The city and state, e.g. San Francisco, CA"},"unit":{"type":"string","enum":["celsius","fahrenheit"]}},"required":["location"]}}}],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":{"prompt_tokens":20,"completion_tokens":11,"total_tokens":31},"response_format":"auto","tool_choice":"auto"}}
+              data: {"id":"run_123","object":"thread.run","created_at":1710352447,"assistant_id":"asst_123","thread_id":"thread_123","status":"completed","started_at":1710352475,"expires_at":null,"cancelled_at":null,"failed_at":null,"completed_at":1710352477,"required_action":null,"last_error":null,"model":"gpt-4-turbo","instructions":null,"tools":[{"type":"function","function":{"name":"get_current_weather","description":"Get the current weather in a given location","parameters":{"type":"object","properties":{"location":{"type":"string","description":"The city and state, e.g. San Francisco, CA"},"unit":{"type":"string","enum":["celsius","fahrenheit"]}},"required":["location"]}}}],"metadata":{},"temperature":1.0,"top_p":1.0,"max_completion_tokens":null,"max_prompt_tokens":null,"truncation_strategy":{"type":"auto","last_messages":null},"incomplete_details":null,"usage":{"prompt_tokens":20,"completion_tokens":11,"total_tokens":31},"response_format":"auto","tool_choice":"auto","parallel_tool_calls":true}}
               
               event: done
               data: [DONE]
@@ -5373,7 +5594,9 @@ paths:
               "usage": null,
               "temperature": 1.0,
               "top_p": 1.0,
-              "response_format": "auto"
+              "response_format": "auto",
+              "tool_choice": "auto",
+              "parallel_tool_calls": true
             }
 
   /threads/{thread_id}/runs/{run_id}/steps:
@@ -5408,7 +5631,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: [ "asc", "desc" ]
+            enum: ["asc", "desc"]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -5614,7 +5837,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: [ "asc", "desc" ]
+            enum: ["asc", "desc"]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -5989,7 +6212,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: [ "asc", "desc" ]
+            enum: ["asc", "desc"]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -6005,7 +6228,7 @@ paths:
           description: "Filter by file status. One of `in_progress`, `completed`, `failed`, `cancelled`."
           schema:
             type: string
-            enum: [ "in_progress", "completed", "failed", "cancelled" ]
+            enum: ["in_progress", "completed", "failed", "cancelled"]
       responses:
         "200":
           description: OK
@@ -6551,7 +6774,7 @@ paths:
           schema:
             type: string
             default: desc
-            enum: [ "asc", "desc" ]
+            enum: ["asc", "desc"]
         - name: after
           in: query
           description: *pagination_after_param_description
@@ -6567,7 +6790,7 @@ paths:
           description: "Filter by file status. One of `in_progress`, `completed`, `failed`, `cancelled`."
           schema:
             type: string
-            enum: [ "in_progress", "completed", "failed", "cancelled" ]
+            enum: ["in_progress", "completed", "failed", "cancelled"]
       responses:
         "200":
           description: OK
@@ -6655,7 +6878,7 @@ paths:
                     
                     See [upload file](/docs/api-reference/files/create) for how to upload a file.
                     
-                    Your input file must be formatted as a [JSONL file](/docs/api-reference/batch/requestInput), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 100 MB in size.
+                    Your input file must be formatted as a [JSONL file](/docs/api-reference/batch/request-input), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 100 MB in size.
                 endpoint:
                   type: string
                   enum:
@@ -6667,7 +6890,7 @@ paths:
                   description: The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
                 completion_window:
                   type: string
-                  enum: [ "24h" ]
+                  enum: ["24h"]
                   description: The time frame within which the batch should be processed. Currently only `24h` is supported.
                 metadata:
                   type: object
@@ -6930,7 +7153,7 @@ paths:
       operationId: cancelBatch
       tags:
         - Batch
-      summary: Cancels an in-progress batch.
+      summary: Cancels an in-progress batch. The batch will be in status `cancelling` for up to 10 minutes, before changing to `cancelled`, where it will have partial results (if any) available in the output file.
       parameters:
         - in: path
           name: batch_id
@@ -7044,7 +7267,7 @@ components:
       properties:
         object:
           type: string
-          enum: [ list ]
+          enum: [list]
         data:
           type: array
           items:
@@ -7075,7 +7298,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum: [ "gpt-3.5-turbo-instruct", "davinci-002", "babbage-002" ]
+              enum: ["gpt-3.5-turbo-instruct", "davinci-002", "babbage-002"]
           x-oaiTypeLabel: string
         prompt:
           description: &completions_prompt_description |
@@ -7287,7 +7510,7 @@ components:
                   The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
                   `length` if the maximum number of tokens specified in the request was reached,
                   or `content_filter` if content was omitted due to a flag from our content filters.
-                enum: [ "stop", "length", "content_filter" ]
+                enum: ["stop", "length", "content_filter"]
               index:
                 type: integer
               logprobs:
@@ -7329,7 +7552,7 @@ components:
         object:
           type: string
           description: The object type, which is always "text_completion"
-          enum: [ text_completion ]
+          enum: [text_completion]
         usage:
           $ref: "#/components/schemas/CompletionUsage"
       required:
@@ -7374,7 +7597,7 @@ components:
       properties:
         type:
           type: string
-          enum: [ "image_url" ]
+          enum: ["image_url"]
           description: The type of the content part.
         image_url:
           type: object
@@ -7386,7 +7609,7 @@ components:
             detail:
               type: string
               description: Specifies the detail level of the image. Learn more in the [Vision guide](/docs/guides/vision/low-or-high-fidelity-image-understanding).
-              enum: [ "auto", "low", "high" ]
+              enum: ["auto", "low", "high"]
               default: "auto"
           required:
             - url
@@ -7400,7 +7623,7 @@ components:
       properties:
         type:
           type: string
-          enum: [ "text" ]
+          enum: ["text"]
           description: The type of the content part.
         text:
           type: string
@@ -7427,7 +7650,7 @@ components:
           type: string
         role:
           type: string
-          enum: [ "system" ]
+          enum: ["system"]
           description: The role of the messages author, in this case `system`.
         name:
           type: string
@@ -7448,7 +7671,7 @@ components:
               description: The text contents of the message.
               title: Text content
             - type: array
-              description: An array of content parts with a defined type, each can be of type `text` or `image_url` when passing in images. You can pass multiple images by adding multiple `image_url` content parts. Image input is only supported when using the `gpt-4-visual-preview` model.
+              description: An array of content parts with a defined type, each can be of type `text` or `image_url` when passing in images. You can pass multiple images by adding multiple `image_url` content parts. Image input is only supported when using the `gpt-4o` model.
               title: Array of content parts
               items:
                 $ref: "#/components/schemas/ChatCompletionRequestMessageContentPart"
@@ -7456,7 +7679,7 @@ components:
           x-oaiExpandable: true
         role:
           type: string
-          enum: [ "user" ]
+          enum: ["user"]
           description: The role of the messages author, in this case `user`.
         name:
           type: string
@@ -7476,7 +7699,7 @@ components:
             The contents of the assistant message. Required unless `tool_calls` or `function_call` is specified.
         role:
           type: string
-          enum: [ "assistant" ]
+          enum: ["assistant"]
           description: The role of the messages author, in this case `assistant`.
         name:
           type: string
@@ -7501,13 +7724,27 @@ components:
       required:
         - role
 
+    FineTuneChatCompletionRequestAssistantMessage:
+      allOf:
+        - type: object
+          title: Assistant message
+          deprecated: false
+          properties:
+            weight:
+              type: integer
+              enum: [0, 1]
+              description: "Controls whether the assistant message is trained against (0 or 1)"
+        - $ref: "#/components/schemas/ChatCompletionRequestAssistantMessage"
+      required:
+        - role
+
     ChatCompletionRequestToolMessage:
       type: object
       title: Tool message
       properties:
         role:
           type: string
-          enum: [ "tool" ]
+          enum: ["tool"]
           description: The role of the messages author, in this case `tool`.
         content:
           type: string
@@ -7527,7 +7764,7 @@ components:
       properties:
         role:
           type: string
-          enum: [ "function" ]
+          enum: ["function"]
           description: The role of the messages author, in this case `function`.
         content:
           nullable: true
@@ -7577,7 +7814,7 @@ components:
       properties:
         type:
           type: string
-          enum: [ "function" ]
+          enum: ["function"]
           description: The type of the tool. Currently, only `function` is supported.
         function:
           $ref: "#/components/schemas/FunctionObject"
@@ -7614,7 +7851,7 @@ components:
             `none` means the model will not call any tool and instead generates a message.
             `auto` means the model can pick between generating a message or calling one or more tools.
             `required` means the model must call one or more tools.
-          enum: [ none, auto, required ]
+          enum: [none, auto, required]
         - $ref: "#/components/schemas/ChatCompletionNamedToolChoice"
       x-oaiExpandable: true
 
@@ -7624,7 +7861,7 @@ components:
       properties:
         type:
           type: string
-          enum: [ "function" ]
+          enum: ["function"]
           description: The type of the tool. Currently, only `function` is supported.
         function:
           type: object
@@ -7637,6 +7874,11 @@ components:
       required:
         - type
         - function
+
+    ParallelToolCalls:
+      description: Whether to enable [parallel function calling](/docs/guides/function-calling/parallel-function-calling) during tool use.
+      type: boolean
+      default: true
 
     ChatCompletionMessageToolCalls:
       type: array
@@ -7653,7 +7895,7 @@ components:
           description: The ID of the tool call.
         type:
           type: string
-          enum: [ "function" ]
+          enum: ["function"]
           description: The type of the tool. Currently, only `function` is supported.
         function:
           type: object
@@ -7683,7 +7925,7 @@ components:
           description: The ID of the tool call.
         type:
           type: string
-          enum: [ "function" ]
+          enum: ["function"]
           description: The type of the tool. Currently, only `function` is supported.
         function:
           type: object
@@ -7732,7 +7974,7 @@ components:
           $ref: "#/components/schemas/ChatCompletionMessageToolCalls"
         role:
           type: string
-          enum: [ "assistant" ]
+          enum: ["assistant"]
           description: The role of the author of this message.
         function_call:
           type: object
@@ -7777,7 +8019,7 @@ components:
             $ref: "#/components/schemas/ChatCompletionMessageToolCallChunk"
         role:
           type: string
-          enum: [ "system", "user", "assistant", "tool" ]
+          enum: ["system", "user", "assistant", "tool"]
           description: The role of the author of this message.
 
     CreateChatCompletionRequest:
@@ -7799,6 +8041,8 @@ components:
                 [
                   "gpt-4o",
                   "gpt-4o-2024-05-13",
+                  "gpt-4o-mini",
+                  "gpt-4o-mini-2024-07-18",
                   "gpt-4-turbo",
                   "gpt-4-turbo-2024-04-09",
                   "gpt-4-0125-preview",
@@ -7882,7 +8126,7 @@ components:
           properties:
             type:
               type: string
-              enum: [ "text", "json_object" ]
+              enum: ["text", "json_object"]
               example: "json_object"
               default: "text"
               description: Must be one of `text` or `json_object`.
@@ -7897,6 +8141,18 @@ components:
             Determinism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to monitor changes in the backend.
           x-oaiMeta:
             beta: true
+        service_tier:
+          description: |
+            Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service:
+              - If set to 'auto', the system will utilize scale tier credits until they are exhausted.
+              - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.
+              - When not set, the default behavior is 'auto'.
+            
+              When this parameter is set, the response body will include the `service_tier` utilized.
+          type: string
+          enum: ["auto", "default"]
+          nullable: true
+          default: null
         stop:
           description: |
             Up to 4 sequences where the API will stop generating further tokens.
@@ -7943,6 +8199,8 @@ components:
             $ref: "#/components/schemas/ChatCompletionTool"
         tool_choice:
           $ref: "#/components/schemas/ChatCompletionToolChoiceOption"
+        parallel_tool_calls:
+          $ref: "#/components/schemas/ParallelToolCalls"
         user: *end_user_param_configuration
         function_call:
           deprecated: true
@@ -7960,7 +8218,7 @@ components:
               description: >
                 `none` means the model will not call a function and instead generates a message.
                 `auto` means the model can pick between generating a message or calling a function.
-              enum: [ none, auto ]
+              enum: [none, auto]
             - $ref: "#/components/schemas/ChatCompletionFunctionCallOption"
           x-oaiExpandable: true
         functions:
@@ -8036,6 +8294,12 @@ components:
         model:
           type: string
           description: The model used for the chat completion.
+        service_tier:
+          description: The service tier used for processing the request. This field is only included if the `service_tier` parameter is specified in the request.
+          type: string
+          enum: ["scale", "default"]
+          example: "scale"
+          nullable: true
         system_fingerprint:
           type: string
           description: |
@@ -8045,7 +8309,7 @@ components:
         object:
           type: string
           description: The object type, which is always `chat.completion`.
-          enum: [ chat.completion ]
+          enum: [chat.completion]
         usage:
           $ref: "#/components/schemas/CompletionUsage"
       required:
@@ -8083,7 +8347,7 @@ components:
                   &chat_completion_function_finish_reason_description |
                   The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence, `length` if the maximum number of tokens specified in the request was reached, `content_filter` if content was omitted due to a flag from our content filters, or `function_call` if the model called a function.
                 enum:
-                  [ "stop", "length", "function_call", "content_filter" ]
+                  ["stop", "length", "function_call", "content_filter"]
               index:
                 type: integer
                 description: The index of the choice in the list of choices.
@@ -8104,7 +8368,7 @@ components:
         object:
           type: string
           description: The object type, which is always `chat.completion`.
-          enum: [ chat.completion ]
+          enum: [chat.completion]
         usage:
           $ref: "#/components/schemas/CompletionUsage"
       required:
@@ -8163,7 +8427,7 @@ components:
           type: boolean
         object:
           type: string
-          enum: [ list ]
+          enum: [list]
       required:
         - object
         - data
@@ -8212,6 +8476,12 @@ components:
         model:
           type: string
           description: The model to generate the completion.
+        service_tier:
+          description: The service tier used for processing the request. This field is only included if the `service_tier` parameter is specified in the request.
+          type: string
+          enum: ["scale", "default"]
+          example: "scale"
+          nullable: true
         system_fingerprint:
           type: string
           description: |
@@ -8220,7 +8490,7 @@ components:
         object:
           type: string
           description: The object type, which is always `chat.completion.chunk`.
-          enum: [ chat.completion.chunk ]
+          enum: [chat.completion.chunk]
         usage:
           type: object
           description: |
@@ -8270,7 +8540,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum: [ "dall-e-2", "dall-e-3" ]
+              enum: ["dall-e-2", "dall-e-3"]
           x-oaiTypeLabel: string
           default: "dall-e-2"
           example: "dall-e-3"
@@ -8286,27 +8556,27 @@ components:
           description: The number of images to generate. Must be between 1 and 10. For `dall-e-3`, only `n=1` is supported.
         quality:
           type: string
-          enum: [ "standard", "hd" ]
+          enum: ["standard", "hd"]
           default: "standard"
           example: "standard"
           description: The quality of the image that will be generated. `hd` creates images with finer details and greater consistency across the image. This param is only supported for `dall-e-3`.
         response_format: &images_response_format
           type: string
-          enum: [ "url", "b64_json" ]
+          enum: ["url", "b64_json"]
           default: "url"
           example: "url"
           nullable: true
           description: The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated.
         size: &images_size
           type: string
-          enum: [ "256x256", "512x512", "1024x1024", "1792x1024", "1024x1792" ]
+          enum: ["256x256", "512x512", "1024x1024", "1792x1024", "1024x1792"]
           default: "1024x1024"
           example: "1024x1024"
           nullable: true
           description: The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`. Must be one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3` models.
         style:
           type: string
-          enum: [ "vivid", "natural" ]
+          enum: ["vivid", "natural"]
           default: "vivid"
           example: "vivid"
           nullable: true
@@ -8367,7 +8637,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum: [ "dall-e-2" ]
+              enum: ["dall-e-2"]
           x-oaiTypeLabel: string
           default: "dall-e-2"
           example: "dall-e-2"
@@ -8383,7 +8653,7 @@ components:
           description: The number of images to generate. Must be between 1 and 10.
         size: &dalle2_images_size
           type: string
-          enum: [ "256x256", "512x512", "1024x1024" ]
+          enum: ["256x256", "512x512", "1024x1024"]
           default: "1024x1024"
           example: "1024x1024"
           nullable: true
@@ -8405,7 +8675,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum: [ "dall-e-2" ]
+              enum: ["dall-e-2"]
           x-oaiTypeLabel: string
           default: "dall-e-2"
           example: "dall-e-2"
@@ -8443,7 +8713,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum: [ "text-moderation-latest", "text-moderation-stable" ]
+              enum: ["text-moderation-latest", "text-moderation-stable"]
           x-oaiTypeLabel: string
       required:
         - input
@@ -8586,7 +8856,7 @@ components:
             $ref: "#/components/schemas/OpenAIFile"
         object:
           type: string
-          enum: [ list ]
+          enum: [list]
       required:
         - object
         - data
@@ -8606,7 +8876,7 @@ components:
             
             Use "assistants" for [Assistants](/docs/api-reference/assistants) and [Message](/docs/api-reference/messages) files, "vision" for Assistants image file inputs, "batch" for [Batch API](/docs/guides/batch), and "fine-tune" for [Fine-tuning](/docs/api-reference/fine-tuning).
           type: string
-          enum: [ "assistants", "batch", "fine-tune", "vision" ]
+          enum: ["assistants", "batch", "fine-tune", "vision"]
       required:
         - file
         - purpose
@@ -8618,13 +8888,77 @@ components:
           type: string
         object:
           type: string
-          enum: [ file ]
+          enum: [file]
         deleted:
           type: boolean
       required:
         - id
         - object
         - deleted
+
+    CreateUploadRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        filename:
+          description: |
+            The name of the file to upload.
+          type: string
+        purpose:
+          description: |
+            The intended purpose of the uploaded file.
+            
+            See the [documentation on File purposes](/docs/api-reference/files/create#files-create-purpose).
+          type: string
+          enum: ["assistants", "batch", "fine-tune", "vision"]
+        bytes:
+          description: |
+            The number of bytes in the file you are uploading.
+          type: integer
+        mime_type:
+          description: |
+            The MIME type of the file.
+            
+            This must fall within the supported MIME types for your file purpose. See the supported MIME types for assistants and vision.
+          type: string
+      required:
+        - filename
+        - purpose
+        - bytes
+        - mime_type
+
+    AddUploadPartRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        data:
+          description: |
+            The chunk of bytes for this Part.
+          type: string
+          format: binary
+      required:
+        - data
+
+    CompleteUploadRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        part_ids:
+          type: array
+          description: |
+            The ordered list of Part IDs.
+          items:
+            type: string
+        md5:
+          description: |
+            The optional md5 checksum for the file contents to verify if the bytes uploaded matches what you expect.
+          type: string
+      required:
+        - part_ids
+
+    CancelUploadRequest:
+      type: object
+      additionalProperties: false
 
     CreateFineTuningJobRequest:
       type: object
@@ -8637,7 +8971,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum: [ "babbage-002", "davinci-002", "gpt-3.5-turbo" ]
+              enum: ["babbage-002", "davinci-002", "gpt-3.5-turbo"]
           x-oaiTypeLabel: string
         training_file:
           description: |
@@ -8646,6 +8980,8 @@ components:
             See [upload file](/docs/api-reference/files/create) for how to upload a file.
             
             Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.
+            
+            The contents of the file should differ depending on if the model uses the [chat](/docs/api-reference/fine-tuning/chat-input) or [completions](/docs/api-reference/fine-tuning/completions-input) format.
             
             See the [fine-tuning guide](/docs/guides/fine-tuning) for more details.
           type: string
@@ -8660,7 +8996,7 @@ components:
                 are updated less frequently, but with lower variance.
               oneOf:
                 - type: string
-                  enum: [ auto ]
+                  enum: [auto]
                 - type: integer
                   minimum: 1
                   maximum: 256
@@ -8671,7 +9007,7 @@ components:
                 overfitting.
               oneOf:
                 - type: string
-                  enum: [ auto ]
+                  enum: [auto]
                 - type: number
                   minimum: 0
                   exclusiveMinimum: true
@@ -8682,7 +9018,7 @@ components:
                 through the training dataset.
               oneOf:
                 - type: string
-                  enum: [ auto ]
+                  enum: [auto]
                 - type: integer
                   minimum: 1
                   maximum: 50
@@ -8727,7 +9063,7 @@ components:
                   The type of integration to enable. Currently, only "wandb" (Weights and Biases) is supported.
                 oneOf:
                   - type: string
-                    enum: [ wandb ]
+                    enum: [wandb]
               wandb:
                 type: object
                 description: |
@@ -8784,7 +9120,7 @@ components:
             $ref: "#/components/schemas/FineTuningJobEvent"
         object:
           type: string
-          enum: [ list ]
+          enum: [list]
       required:
         - object
         - data
@@ -8798,7 +9134,7 @@ components:
             $ref: "#/components/schemas/FineTuningJobCheckpoint"
         object:
           type: string
-          enum: [ list ]
+          enum: [list]
         first_id:
           type: string
           nullable: true
@@ -8873,7 +9209,7 @@ components:
           example: "float"
           default: "float"
           type: string
-          enum: [ "float", "base64" ]
+          enum: ["float", "base64"]
         dimensions:
           description: |
             The number of dimensions the resulting output embeddings should have. Only supported in `text-embedding-3` and later models.
@@ -8898,7 +9234,7 @@ components:
         object:
           type: string
           description: The object type, which is always "list".
-          enum: [ list ]
+          enum: [list]
         usage:
           type: object
           description: The usage information for the request.
@@ -8935,7 +9271,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum: [ "whisper-1" ]
+              enum: ["whisper-1"]
           x-oaiTypeLabel: string
         language:
           description: |
@@ -8970,7 +9306,7 @@ components:
             enum:
               - word
               - segment
-          default: [ segment ]
+          default: [segment]
       required:
         - file
         - model
@@ -9057,7 +9393,7 @@ components:
           type: number
           format: float
           description: End time of the word in seconds.
-      required: [ word, start, end ]
+      required: [word, start, end]
 
     CreateTranscriptionResponseVerboseJson:
       type: object
@@ -9082,7 +9418,7 @@ components:
           description: Segments of the transcribed text and their corresponding details.
           items:
             $ref: "#/components/schemas/TranscriptionSegment"
-      required: [ language, duration, text ]
+      required: [language, duration, text]
       x-oaiMeta:
         name: The transcription object (Verbose JSON)
         group: audio
@@ -9105,7 +9441,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum: [ "whisper-1" ]
+              enum: ["whisper-1"]
           x-oaiTypeLabel: string
         prompt:
           description: |
@@ -9151,7 +9487,7 @@ components:
           description: Segments of the translated text and their corresponding details.
           items:
             $ref: "#/components/schemas/TranscriptionSegment"
-      required: [ language, duration, text ]
+      required: [language, duration, text]
 
     CreateSpeechRequest:
       type: object
@@ -9163,7 +9499,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum: [ "tts-1", "tts-1-hd" ]
+              enum: ["tts-1", "tts-1-hd"]
           x-oaiTypeLabel: string
         input:
           type: string
@@ -9172,12 +9508,12 @@ components:
         voice:
           description: The voice to use when generating the audio. Supported voices are `alloy`, `echo`, `fable`, `onyx`, `nova`, and `shimmer`. Previews of the voices are available in the [Text to speech guide](/docs/guides/text-to-speech/voice-options).
           type: string
-          enum: [ "alloy", "echo", "fable", "onyx", "nova", "shimmer" ]
+          enum: ["alloy", "echo", "fable", "onyx", "nova", "shimmer"]
         response_format:
           description: "The format to audio in. Supported formats are `mp3`, `opus`, `aac`, `flac`, `wav`, and `pcm`."
           default: "mp3"
           type: string
-          enum: [ "mp3", "opus", "aac", "flac", "wav", "pcm" ]
+          enum: ["mp3", "opus", "aac", "flac", "wav", "pcm"]
         speed:
           description: "The speed of the generated audio. Select a value from `0.25` to `4.0`. `1.0` is the default."
           type: number
@@ -9202,7 +9538,7 @@ components:
         object:
           type: string
           description: The object type, which is always "model".
-          enum: [ model ]
+          enum: [model]
         owned_by:
           type: string
           description: The organization that owns the model.
@@ -9234,7 +9570,7 @@ components:
         object:
           type: string
           description: The object type, which is always `file`.
-          enum: [ "file" ]
+          enum: ["file"]
         purpose:
           type: string
           description: The intended purpose of the file. Supported values are `assistants`, `assistants_output`, `batch`, `batch_output`, `fine-tune`, `fine-tune-results` and `vision`.
@@ -9252,7 +9588,7 @@ components:
           type: string
           deprecated: true
           description: Deprecated. The current status of the file, which can be either `uploaded`, `processed`, or `error`.
-          enum: [ "uploaded", "processed", "error" ]
+          enum: ["uploaded", "processed", "error"]
         status_details:
           type: string
           deprecated: true
@@ -9276,6 +9612,105 @@ components:
             "filename": "salesOverview.pdf",
             "purpose": "assistants",
           }
+    Upload:
+      type: object
+      title: Upload
+      description: |
+        The Upload object can accept byte chunks in the form of Parts.
+      properties:
+        id:
+          type: string
+          description: The Upload unique identifier, which can be referenced in API endpoints.
+        created_at:
+          type: integer
+          description: The Unix timestamp (in seconds) for when the Upload was created.
+        filename:
+          type: string
+          description: The name of the file to be uploaded.
+        bytes:
+          type: integer
+          description: The intended number of bytes to be uploaded.
+        purpose:
+          type: string
+          description: The intended purpose of the file. [Please refer here](/docs/api-reference/files/object#files/object-purpose) for acceptable values.
+        status:
+          type: string
+          description: The status of the Upload.
+          enum: ["pending", "completed", "cancelled", "expired"]
+        expires_at:
+          type: integer
+          description: The Unix timestamp (in seconds) for when the Upload was created.
+        object:
+          type: string
+          description: The object type, which is always "upload".
+          enum: [upload]
+        file:
+          $ref: "#/components/schemas/OpenAIFile"
+          nullable: true
+          description: The ready File object after the Upload is completed.
+      required:
+        - bytes
+        - created_at
+        - expires_at
+        - filename
+        - id
+        - purpose
+        - status
+        - step_number
+      x-oaiMeta:
+        name: The upload object
+        example: |
+          {
+            "id": "upload_abc123",
+            "object": "upload",
+            "bytes": 2147483648,
+            "created_at": 1719184911,
+            "filename": "training_examples.jsonl",
+            "purpose": "fine-tune",
+            "status": "completed",
+            "expires_at": 1719127296,
+            "file": {
+              "id": "file-xyz321",
+              "object": "file",
+              "bytes": 2147483648,
+              "created_at": 1719186911,
+              "filename": "training_examples.jsonl",
+              "purpose": "fine-tune",
+            }
+          }
+    UploadPart:
+      type: object
+      title: UploadPart
+      description: |
+        The upload Part represents a chunk of bytes we can add to an Upload object.
+      properties:
+        id:
+          type: string
+          description: The upload Part unique identifier, which can be referenced in API endpoints.
+        created_at:
+          type: integer
+          description: The Unix timestamp (in seconds) for when the Part was created.
+        upload_id:
+          type: string
+          description: The ID of the Upload object that this Part was added to.
+        object:
+          type: string
+          description: The object type, which is always `upload.part`.
+          enum: ['upload.part']
+      required:
+        - created_at
+        - id
+        - object
+        - upload_id
+      x-oaiMeta:
+        name: The upload part object
+        example: |
+          {
+              "id": "part_def456",
+              "object": "upload.part",
+              "created_at": 1719186911,
+              "upload_id": "upload_abc123"
+          }
     Embedding:
       type: object
       description: |
@@ -9293,7 +9728,7 @@ components:
         object:
           type: string
           description: The object type, which is always "embedding".
-          enum: [ embedding ]
+          enum: [embedding]
       required:
         - index
         - object
@@ -9358,15 +9793,15 @@ components:
             n_epochs:
               oneOf:
                 - type: string
-                  enum: [ auto ]
+                  enum: [auto]
                 - type: integer
                   minimum: 1
                   maximum: 50
               default: auto
               description:
-                The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.
-                
-                "auto" decides the optimal number of epochs based on the size of the dataset. If setting the number manually, we support any number between 1 and 50 epochs.
+                  The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.
+                    
+                    "auto" decides the optimal number of epochs based on the size of the dataset. If setting the number manually, we support any number between 1 and 50 epochs.
           required:
             - n_epochs
         model:
@@ -9375,7 +9810,7 @@ components:
         object:
           type: string
           description: The object type, which is always "fine_tuning.job".
-          enum: [ fine_tuning.job ]
+          enum: [fine_tuning.job]
         organization_id:
           type: string
           description: The organization that owns the fine-tuning job.
@@ -9454,7 +9889,7 @@ components:
         type:
           type: string
           description: "The type of the integration being enabled for the fine-tuning job"
-          enum: [ "wandb" ]
+          enum: ["wandb"]
         wandb:
           type: object
           description: |
@@ -9499,12 +9934,12 @@ components:
           type: integer
         level:
           type: string
-          enum: [ "info", "warn", "error" ]
+          enum: ["info", "warn", "error"]
         message:
           type: string
         object:
           type: string
-          enum: [ fine_tuning.job.event ]
+          enum: [fine_tuning.job.event]
       required:
         - id
         - object
@@ -9564,7 +9999,7 @@ components:
         object:
           type: string
           description: The object type, which is always "fine_tuning.job.checkpoint".
-          enum: [ fine_tuning.job.checkpoint ]
+          enum: [fine_tuning.job.checkpoint]
       required:
         - created_at
         - fine_tuning_job_id
@@ -9592,6 +10027,98 @@ components:
               "full_valid_mean_token_accuracy": 0.944
             },
             "step_number": 88
+          }
+
+    FinetuneChatRequestInput:
+      type: object
+      description: The per-line training example of a fine-tuning input file for chat models
+      properties:
+        messages:
+          type: array
+          minItems: 1
+          items:
+            oneOf:
+              - $ref: "#/components/schemas/ChatCompletionRequestSystemMessage"
+              - $ref: "#/components/schemas/ChatCompletionRequestUserMessage"
+              - $ref: "#/components/schemas/FineTuneChatCompletionRequestAssistantMessage"
+              - $ref: "#/components/schemas/ChatCompletionRequestToolMessage"
+              - $ref: "#/components/schemas/ChatCompletionRequestFunctionMessage"
+            x-oaiExpandable: true
+        tools:
+          type: array
+          description: A list of tools the model may generate JSON inputs for.
+          items:
+            $ref: "#/components/schemas/ChatCompletionTool"
+        parallel_tool_calls:
+          $ref: "#/components/schemas/ParallelToolCalls"
+        functions:
+          deprecated: true
+          description:
+            A list of functions the model may generate JSON inputs for.
+          type: array
+          minItems: 1
+          maxItems: 128
+          items:
+            $ref: "#/components/schemas/ChatCompletionFunctions"
+      x-oaiMeta:
+        name: Training format for chat models
+        example: |
+          {
+            "messages": [
+              { "role": "user", "content": "What is the weather in San Francisco?" },
+              {
+                "role": "assistant",
+                "tool_calls": [
+                  {
+                    "id": "call_id",
+                    "type": "function",
+                    "function": {
+                      "name": "get_current_weather",
+                      "arguments": "{\"location\": \"San Francisco, USA\", \"format\": \"celsius\"}"
+                    }
+                  }
+                ]
+              }
+            ],
+            "parallel_tool_calls": false,
+            "tools": [
+              {
+                "type": "function",
+                "function": {
+                  "name": "get_current_weather",
+                  "description": "Get the current weather",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "location": {
+                          "type": "string",
+                          "description": "The city and country, eg. San Francisco, USA"
+                      },
+                      "format": { "type": "string", "enum": ["celsius", "fahrenheit"] }
+                    },
+                    "required": ["location", "format"]
+                  }
+                }
+              }
+            ]
+          }
+
+    FinetuneCompletionRequestInput:
+      type: object
+      description: The per-line training example of a fine-tuning input file for completions models
+      properties:
+        prompt:
+          type: string
+          description: The input prompt for this training example.
+        completion:
+          type: string
+          description: The desired completion for this training example.
+      x-oaiMeta:
+        name: Training format for completions models
+        example: |
+          {
+            "prompt": "What is the answer to 2+2",
+            "completion": "4"
           }
 
     CompletionUsage:
@@ -9661,7 +10188,7 @@ components:
         - type: string
           description: >
             `auto` is the default value
-          enum: [ none, auto ]
+          enum: [none, auto]
         - $ref: "#/components/schemas/AssistantsApiResponseFormat"
       x-oaiExpandable: true
 
@@ -9672,7 +10199,7 @@ components:
       properties:
         type:
           type: string
-          enum: [ "text", "json_object" ]
+          enum: ["text", "json_object"]
           example: "json_object"
           default: "text"
           description: Must be one of `text` or `json_object`.
@@ -9688,7 +10215,7 @@ components:
         object:
           description: The object type, which is always `assistant`.
           type: string
-          enum: [ assistant ]
+          enum: [assistant]
         created_at:
           description: The Unix timestamp (in seconds) for when the assistant was created.
           type: integer
@@ -9716,7 +10243,7 @@ components:
         tools:
           description: &assistant_tools_param_description |
             A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
-          default: [ ]
+          default: []
           type: array
           maxItems: 128
           items:
@@ -9737,7 +10264,7 @@ components:
                   type: array
                   description: |
                     A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter`` tool. There can be a maximum of 20 files associated with the tool.
-                  default: [ ]
+                  default: []
                   maxItems: 20
                   items:
                     type: string
@@ -9810,6 +10337,8 @@ components:
                 [
                   "gpt-4o",
                   "gpt-4o-2024-05-13",
+                  "gpt-4o-mini",
+                  "gpt-4o-mini-2024-07-18",
                   "gpt-4-turbo",
                   "gpt-4-turbo-2024-04-09",
                   "gpt-4-0125-preview",
@@ -9847,7 +10376,7 @@ components:
           maxLength: 256000
         tools:
           description: *assistant_tools_param_description
-          default: [ ]
+          default: []
           type: array
           maxItems: 128
           items:
@@ -9868,7 +10397,7 @@ components:
                   type: array
                   description: |
                     A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
-                  default: [ ]
+                  default: []
                   maxItems: 20
                   items:
                     type: string
@@ -9897,14 +10426,60 @@ components:
                         maxItems: 10000
                         items:
                           type: string
+                      chunking_strategy:
+                        # Ideally we'd reuse the chunking strategy schema here, but it doesn't expand properly
+                        type: object
+                        description: The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+                        oneOf:
+                          - type: object
+                            title: Auto Chunking Strategy
+                            description: The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`.
+                            additionalProperties: false
+                            properties:
+                              type:
+                                type: string
+                                description: Always `auto`.
+                                enum: ["auto"]
+                            required:
+                              - type
+                          - type: object
+                            title: Static Chunking Strategy
+                            additionalProperties: false
+                            properties:
+                              type:
+                                type: string
+                                description: Always `static`.
+                                enum: ["static"]
+                              static:
+                                type: object
+                                additionalProperties: false
+                                properties:
+                                  max_chunk_size_tokens:
+                                    type: integer
+                                    minimum: 100
+                                    maximum: 4096
+                                    description: The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`.
+                                  chunk_overlap_tokens:
+                                    type: integer
+                                    description: |
+                                      The number of tokens that overlap between chunks. The default value is `400`.
+                                      
+                                      Note that the overlap must not exceed half of `max_chunk_size_tokens`.
+                                required:
+                                  - max_chunk_size_tokens
+                                  - chunk_overlap_tokens
+                            required:
+                              - type
+                              - static
+                        x-oaiExpandable: true
                       metadata:
                         type: object
                         description: |
                           Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
                         x-oaiTypeLabel: map
               oneOf:
-                - required: [ vector_store_ids ]
-                - required: [ vector_stores ]
+                - required: [vector_store_ids]
+                - required: [vector_stores]
           nullable: true
         metadata:
           description: *metadata_description
@@ -9962,7 +10537,7 @@ components:
           maxLength: 256000
         tools:
           description: *assistant_tools_param_description
-          default: [ ]
+          default: []
           type: array
           maxItems: 128
           items:
@@ -9983,7 +10558,7 @@ components:
                   type: array
                   description: |
                     Overrides the list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
-                  default: [ ]
+                  default: []
                   maxItems: 20
                   items:
                     type: string
@@ -10035,7 +10610,7 @@ components:
           type: boolean
         object:
           type: string
-          enum: [ assistant.deleted ]
+          enum: [assistant.deleted]
       required:
         - id
         - object
@@ -10078,7 +10653,7 @@ components:
         type:
           type: string
           description: "The type of tool being defined: `code_interpreter`"
-          enum: [ "code_interpreter" ]
+          enum: ["code_interpreter"]
       required:
         - type
 
@@ -10089,7 +10664,30 @@ components:
         type:
           type: string
           description: "The type of tool being defined: `file_search`"
-          enum: [ "file_search" ]
+          enum: ["file_search"]
+        file_search:
+          type: object
+          description: Overrides for the file search tool.
+          properties:
+            max_num_results:
+              type: integer
+              minimum: 1
+              maximum: 50
+              description: |
+                The maximum number of results the file search tool should output. The default is 20 for gpt-4* models and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
+                
+                Note that the file search tool may output fewer than `max_num_results` results. See the [file search tool documentation](/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
+      required:
+        - type
+
+    AssistantToolsFileSearchTypeOnly:
+      type: object
+      title: FileSearch tool
+      properties:
+        type:
+          type: string
+          description: "The type of tool being defined: `file_search`"
+          enum: ["file_search"]
       required:
         - type
 
@@ -10100,7 +10698,7 @@ components:
         type:
           type: string
           description: "The type of tool being defined: `function`"
-          enum: [ "function" ]
+          enum: ["function"]
         function:
           $ref: "#/components/schemas/FunctionObject"
       required:
@@ -10115,7 +10713,7 @@ components:
         type:
           type: string
           description: The truncation strategy to use for the thread. The default is `auto`. If set to `last_messages`, the thread will be truncated to the n most recent messages in the thread. When set to `auto`, messages in the middle of the thread will be dropped to fit the context length of the model, `max_prompt_tokens`.
-          enum: [ "auto", "last_messages" ]
+          enum: ["auto", "last_messages"]
         last_messages:
           type: integer
           description: The number of most recent messages from the thread when constructing the context for the run.
@@ -10138,7 +10736,7 @@ components:
             `none` means the model will not call any tools and instead generates a message.
             `auto` means the model can pick between generating a message or calling one or more tools.
             `required` means the model must call one or more tools before responding to the user.
-          enum: [ none, auto, required ]
+          enum: [none, auto, required]
         - $ref: "#/components/schemas/AssistantsNamedToolChoice"
       x-oaiExpandable: true
 
@@ -10148,7 +10746,7 @@ components:
       properties:
         type:
           type: string
-          enum: [ "function", "code_interpreter", "file_search" ]
+          enum: ["function", "code_interpreter", "file_search"]
           description: The type of the tool. If type is `function`, the function name must be set
         function:
           type: object
@@ -10172,7 +10770,7 @@ components:
         object:
           description: The object type, which is always `thread.run`.
           type: string
-          enum: [ "thread.run" ]
+          enum: ["thread.run"]
         created_at:
           description: The Unix timestamp (in seconds) for when the run was created.
           type: integer
@@ -10205,7 +10803,7 @@ components:
             type:
               description: For now, this is always `submit_tool_outputs`.
               type: string
-              enum: [ "submit_tool_outputs" ]
+              enum: ["submit_tool_outputs"]
             submit_tool_outputs:
               type: object
               description: Details on the tool outputs needed for this run to continue.
@@ -10229,7 +10827,7 @@ components:
               type: string
               description: One of `server_error`, `rate_limit_exceeded`, or `invalid_prompt`.
               enum:
-                [ "server_error", "rate_limit_exceeded", "invalid_prompt" ]
+                ["server_error", "rate_limit_exceeded", "invalid_prompt"]
             message:
               type: string
               description: A human-readable description of the error.
@@ -10264,7 +10862,7 @@ components:
             reason:
               description: The reason why the run is incomplete. This will point to which specific token limit was reached over the course of the run.
               type: string
-              enum: [ "max_completion_tokens", "max_prompt_tokens" ]
+              enum: ["max_completion_tokens", "max_prompt_tokens"]
         model:
           description: The model that the [assistant](/docs/api-reference/assistants) used for this run.
           type: string
@@ -10273,7 +10871,7 @@ components:
           type: string
         tools:
           description: The list of tools that the [assistant](/docs/api-reference/assistants) used for this run.
-          default: [ ]
+          default: []
           type: array
           maxItems: 20
           items:
@@ -10315,6 +10913,8 @@ components:
         tool_choice:
           $ref: "#/components/schemas/AssistantsApiToolChoiceOption"
           nullable: true
+        parallel_tool_calls:
+          $ref: "#/components/schemas/ParallelToolCalls"
         response_format:
           $ref: "#/components/schemas/AssistantsApiResponseFormatOption"
           nullable: true
@@ -10342,6 +10942,7 @@ components:
         - max_completion_tokens
         - truncation_strategy
         - tool_choice
+        - parallel_tool_calls
         - response_format
       x-oaiMeta:
         name: The run object
@@ -10379,7 +10980,8 @@ components:
               "last_messages": null
             },
             "response_format": "auto",
-            "tool_choice": "auto"
+            "tool_choice": "auto",
+            "parallel_tool_calls": true
           }
     CreateRunRequest:
       type: object
@@ -10398,6 +11000,8 @@ components:
                 [
                   "gpt-4o",
                   "gpt-4o-2024-05-13",
+                  "gpt-4o-mini",
+                  "gpt-4o-mini-2024-07-18",
                   "gpt-4-turbo",
                   "gpt-4-turbo-2024-04-09",
                   "gpt-4-0125-preview",
@@ -10491,6 +11095,8 @@ components:
         tool_choice:
           $ref: "#/components/schemas/AssistantsApiToolChoiceOption"
           nullable: true
+        parallel_tool_calls:
+          $ref: "#/components/schemas/ParallelToolCalls"
         response_format:
           $ref: "#/components/schemas/AssistantsApiResponseFormatOption"
           nullable: true
@@ -10565,7 +11171,7 @@ components:
         type:
           type: string
           description: The type of tool call the output is required for. For now, this is always `function`.
-          enum: [ "function" ]
+          enum: ["function"]
         function:
           type: object
           description: The function definition.
@@ -10604,6 +11210,8 @@ components:
                 [
                   "gpt-4o",
                   "gpt-4o-2024-05-13",
+                  "gpt-4o-mini",
+                  "gpt-4o-mini-2024-07-18",
                   "gpt-4-turbo",
                   "gpt-4-turbo-2024-04-09",
                   "gpt-4-0125-preview",
@@ -10651,7 +11259,7 @@ components:
                   type: array
                   description: |
                     A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
-                  default: [ ]
+                  default: []
                   maxItems: 20
                   items:
                     type: string
@@ -10710,6 +11318,8 @@ components:
         tool_choice:
           $ref: "#/components/schemas/AssistantsApiToolChoiceOption"
           nullable: true
+        parallel_tool_calls:
+          $ref: "#/components/schemas/ParallelToolCalls"
         response_format:
           $ref: "#/components/schemas/AssistantsApiResponseFormatOption"
           nullable: true
@@ -10728,7 +11338,7 @@ components:
         object:
           description: The object type, which is always `thread`.
           type: string
-          enum: [ "thread" ]
+          enum: ["thread"]
         created_at:
           description: The Unix timestamp (in seconds) for when the thread was created.
           type: integer
@@ -10744,7 +11354,7 @@ components:
                   type: array
                   description: |
                     A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
-                  default: [ ]
+                  default: []
                   maxItems: 20
                   items:
                     type: string
@@ -10802,7 +11412,7 @@ components:
                   type: array
                   description: |
                     A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
-                  default: [ ]
+                  default: []
                   maxItems: 20
                   items:
                     type: string
@@ -10831,14 +11441,61 @@ components:
                         maxItems: 10000
                         items:
                           type: string
+                      chunking_strategy:
+                        # Ideally we'd reuse the chunking strategy schema here, but it doesn't expand properly
+                        type: object
+                        description: The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+                        oneOf:
+                          - type: object
+                            title: Auto Chunking Strategy
+                            description: The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`.
+                            additionalProperties: false
+                            properties:
+                              type:
+                                type: string
+                                description: Always `auto`.
+                                enum: ["auto"]
+                            required:
+                              - type
+                          - type: object
+                            title: Static Chunking Strategy
+                            additionalProperties: false
+                            properties:
+                              type:
+                                type: string
+                                description: Always `static`.
+                                enum: ["static"]
+                              static:
+                                type: object
+                                additionalProperties: false
+                                properties:
+                                  max_chunk_size_tokens:
+                                    type: integer
+                                    minimum: 100
+                                    maximum: 4096
+                                    description: The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`.
+                                  chunk_overlap_tokens:
+                                    type: integer
+                                    description: |
+                                      The number of tokens that overlap between chunks. The default value is `400`.
+                                      
+                                      Note that the overlap must not exceed half of `max_chunk_size_tokens`.
+                                required:
+                                  - max_chunk_size_tokens
+                                  - chunk_overlap_tokens
+                            required:
+                              - type
+                              - static
+                        x-oaiExpandable: true
                       metadata:
                         type: object
                         description: |
                           Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
                         x-oaiTypeLabel: map
+                    x-oaiExpandable: true
               oneOf:
-                - required: [ vector_store_ids ]
-                - required: [ vector_stores ]
+                - required: [vector_store_ids]
+                - required: [vector_stores]
           nullable: true
         metadata:
           description: *metadata_description
@@ -10862,7 +11519,7 @@ components:
                   type: array
                   description: |
                     A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
-                  default: [ ]
+                  default: []
                   maxItems: 20
                   items:
                     type: string
@@ -10892,7 +11549,7 @@ components:
           type: boolean
         object:
           type: string
-          enum: [ thread.deleted ]
+          enum: [thread.deleted]
       required:
         - id
         - object
@@ -10934,7 +11591,7 @@ components:
         object:
           description: The object type, which is always `thread.message`.
           type: string
-          enum: [ "thread.message" ]
+          enum: ["thread.message"]
         created_at:
           description: The Unix timestamp (in seconds) for when the message was created.
           type: integer
@@ -10944,7 +11601,7 @@ components:
         status:
           description: The status of the message, which can be either `in_progress`, `incomplete`, or `completed`.
           type: string
-          enum: [ "in_progress", "incomplete", "completed" ]
+          enum: ["in_progress", "incomplete", "completed"]
         incomplete_details:
           description: On an incomplete message, details about why the message is incomplete.
           type: object
@@ -10974,7 +11631,7 @@ components:
         role:
           description: The entity that produced the message. One of `user` or `assistant`.
           type: string
-          enum: [ "user", "assistant" ]
+          enum: ["user", "assistant"]
         content:
           description: The content of the message in array of text and/or images.
           type: array
@@ -11006,7 +11663,7 @@ components:
                 items:
                   oneOf:
                     - $ref: "#/components/schemas/AssistantToolsCode"
-                    - $ref: "#/components/schemas/AssistantToolsFileSearch"
+                    - $ref: "#/components/schemas/AssistantToolsFileSearchTypeOnly"
                   x-oaiExpandable: true
           description: A list of files attached to the message, and the tools they were added to.
           nullable: true
@@ -11067,7 +11724,7 @@ components:
         object:
           description: The object type, which is always `thread.message.delta`.
           type: string
-          enum: [ "thread.message.delta" ]
+          enum: ["thread.message.delta"]
         delta:
           description: The delta containing the fields that have changed on the Message.
           type: object
@@ -11075,7 +11732,7 @@ components:
             role:
               description: The entity that produced the message. One of `user` or `assistant`.
               type: string
-              enum: [ "user", "assistant" ]
+              enum: ["user", "assistant"]
             content:
               description: The content of the message in array of text and/or images.
               type: array
@@ -11116,7 +11773,7 @@ components:
       properties:
         role:
           type: string
-          enum: [ "user", "assistant" ]
+          enum: ["user", "assistant"]
           description: |
             The role of the entity that is creating the message. Allowed values include:
             - `user`: Indicates the message is sent by an actual user and should be used in most cases to represent user-generated messages.
@@ -11151,7 +11808,7 @@ components:
                 items:
                   oneOf:
                     - $ref: "#/components/schemas/AssistantToolsCode"
-                    - $ref: "#/components/schemas/AssistantToolsFileSearch"
+                    - $ref: "#/components/schemas/AssistantToolsFileSearchTypeOnly"
                   x-oaiExpandable: true
           description: A list of files attached to the message, and the tools they should be added to.
           required:
@@ -11183,7 +11840,7 @@ components:
           type: boolean
         object:
           type: string
-          enum: [ thread.message.deleted ]
+          enum: [thread.message.deleted]
       required:
         - id
         - object
@@ -11222,7 +11879,7 @@ components:
         type:
           description: Always `image_file`.
           type: string
-          enum: [ "image_file" ]
+          enum: ["image_file"]
         image_file:
           type: object
           properties:
@@ -11232,7 +11889,7 @@ components:
             detail:
               type: string
               description: Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
-              enum: [ "auto", "low", "high" ]
+              enum: ["auto", "low", "high"]
               default: "auto"
           required:
             - file_id
@@ -11251,7 +11908,7 @@ components:
         type:
           description: Always `image_file`.
           type: string
-          enum: [ "image_file" ]
+          enum: ["image_file"]
         image_file:
           type: object
           properties:
@@ -11261,7 +11918,7 @@ components:
             detail:
               type: string
               description: Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
-              enum: [ "auto", "low", "high" ]
+              enum: ["auto", "low", "high"]
               default: "auto"
       required:
         - index
@@ -11274,7 +11931,7 @@ components:
       properties:
         type:
           type: string
-          enum: [ "image_url" ]
+          enum: ["image_url"]
           description: The type of the content part.
         image_url:
           type: object
@@ -11286,7 +11943,7 @@ components:
             detail:
               type: string
               description: Specifies the detail level of the image. `low` uses fewer tokens, you can opt in to high resolution using `high`. Default value is `auto`
-              enum: [ "auto", "low", "high" ]
+              enum: ["auto", "low", "high"]
               default: "auto"
           required:
             - url
@@ -11305,7 +11962,7 @@ components:
         type:
           description: Always `image_url`.
           type: string
-          enum: [ "image_url" ]
+          enum: ["image_url"]
         image_url:
           type: object
           properties:
@@ -11315,7 +11972,7 @@ components:
             detail:
               type: string
               description: Specifies the detail level of the image. `low` uses fewer tokens, you can opt in to high resolution using `high`.
-              enum: [ "auto", "low", "high" ]
+              enum: ["auto", "low", "high"]
               default: "auto"
       required:
         - index
@@ -11329,7 +11986,7 @@ components:
         type:
           description: Always `text`.
           type: string
-          enum: [ "text" ]
+          enum: ["text"]
         text:
           type: object
           properties:
@@ -11358,7 +12015,7 @@ components:
         type:
           description: Always `text`.
           type: string
-          enum: [ "text" ]
+          enum: ["text"]
         text:
           type: string
           description: Text content to be sent to the model
@@ -11374,7 +12031,7 @@ components:
         type:
           description: Always `file_citation`.
           type: string
-          enum: [ "file_citation" ]
+          enum: ["file_citation"]
         text:
           description: The text in the message content that needs to be replaced.
           type: string
@@ -11384,12 +12041,8 @@ components:
             file_id:
               description: The ID of the specific File the citation is from.
               type: string
-            quote:
-              description: The specific quote in the file.
-              type: string
           required:
             - file_id
-            - quote
         start_index:
           type: integer
           minimum: 0
@@ -11411,7 +12064,7 @@ components:
         type:
           description: Always `file_path`.
           type: string
-          enum: [ "file_path" ]
+          enum: ["file_path"]
         text:
           description: The text in the message content that needs to be replaced.
           type: string
@@ -11447,7 +12100,7 @@ components:
         type:
           description: Always `text`.
           type: string
-          enum: [ "text" ]
+          enum: ["text"]
         text:
           type: object
           properties:
@@ -11476,7 +12129,7 @@ components:
         type:
           description: Always `file_citation`.
           type: string
-          enum: [ "file_citation" ]
+          enum: ["file_citation"]
         text:
           description: The text in the message content that needs to be replaced.
           type: string
@@ -11510,7 +12163,7 @@ components:
         type:
           description: Always `file_path`.
           type: string
-          enum: [ "file_path" ]
+          enum: ["file_path"]
         text:
           description: The text in the message content that needs to be replaced.
           type: string
@@ -11542,7 +12195,7 @@ components:
         object:
           description: The object type, which is always `thread.run.step`.
           type: string
-          enum: [ "thread.run.step" ]
+          enum: ["thread.run.step"]
         created_at:
           description: The Unix timestamp (in seconds) for when the run step was created.
           type: integer
@@ -11558,11 +12211,11 @@ components:
         type:
           description: The type of run step, which can be either `message_creation` or `tool_calls`.
           type: string
-          enum: [ "message_creation", "tool_calls" ]
+          enum: ["message_creation", "tool_calls"]
         status:
           description: The status of the run step, which can be either `in_progress`, `cancelled`, `failed`, `completed`, or `expired`.
           type: string
-          enum: [ "in_progress", "cancelled", "failed", "completed", "expired" ]
+          enum: ["in_progress", "cancelled", "failed", "completed", "expired"]
         step_details:
           type: object
           description: The details of the run step.
@@ -11578,7 +12231,7 @@ components:
             code:
               type: string
               description: One of `server_error` or `rate_limit_exceeded`.
-              enum: [ "server_error", "rate_limit_exceeded" ]
+              enum: ["server_error", "rate_limit_exceeded"]
             message:
               type: string
               description: A human-readable description of the error.
@@ -11642,7 +12295,7 @@ components:
         object:
           description: The object type, which is always `thread.run.step.delta`.
           type: string
-          enum: [ "thread.run.step.delta" ]
+          enum: ["thread.run.step.delta"]
         delta:
           description: The delta containing the fields that have changed on the run step.
           type: object
@@ -11713,7 +12366,7 @@ components:
         type:
           description: Always `message_creation`.
           type: string
-          enum: [ "message_creation" ]
+          enum: ["message_creation"]
         message_creation:
           type: object
           properties:
@@ -11734,7 +12387,7 @@ components:
         type:
           description: Always `message_creation`.
           type: string
-          enum: [ "message_creation" ]
+          enum: ["message_creation"]
         message_creation:
           type: object
           properties:
@@ -11752,7 +12405,7 @@ components:
         type:
           description: Always `tool_calls`.
           type: string
-          enum: [ "tool_calls" ]
+          enum: ["tool_calls"]
         tool_calls:
           type: array
           description: |
@@ -11775,7 +12428,7 @@ components:
         type:
           description: Always `tool_calls`.
           type: string
-          enum: [ "tool_calls" ]
+          enum: ["tool_calls"]
         tool_calls:
           type: array
           description: |
@@ -11800,7 +12453,7 @@ components:
         type:
           type: string
           description: The type of tool call. This is always going to be `code_interpreter` for this type of tool call.
-          enum: [ "code_interpreter" ]
+          enum: ["code_interpreter"]
         code_interpreter:
           type: object
           description: The Code Interpreter tool call definition.
@@ -11839,7 +12492,7 @@ components:
         type:
           type: string
           description: The type of tool call. This is always going to be `code_interpreter` for this type of tool call.
-          enum: [ "code_interpreter" ]
+          enum: ["code_interpreter"]
         code_interpreter:
           type: object
           description: The Code Interpreter tool call definition.
@@ -11868,7 +12521,7 @@ components:
         type:
           description: Always `logs`.
           type: string
-          enum: [ "logs" ]
+          enum: ["logs"]
         logs:
           type: string
           description: The text output from the Code Interpreter tool call.
@@ -11887,7 +12540,7 @@ components:
         type:
           description: Always `logs`.
           type: string
-          enum: [ "logs" ]
+          enum: ["logs"]
         logs:
           type: string
           description: The text output from the Code Interpreter tool call.
@@ -11902,7 +12555,7 @@ components:
         type:
           description: Always `image`.
           type: string
-          enum: [ "image" ]
+          enum: ["image"]
         image:
           type: object
           properties:
@@ -11925,7 +12578,7 @@ components:
         type:
           description: Always `image`.
           type: string
-          enum: [ "image" ]
+          enum: ["image"]
         image:
           type: object
           properties:
@@ -11946,7 +12599,7 @@ components:
         type:
           type: string
           description: The type of tool call. This is always going to be `file_search` for this type of tool call.
-          enum: [ "file_search" ]
+          enum: ["file_search"]
         file_search:
           type: object
           description: For now, this is always going to be an empty object.
@@ -11969,7 +12622,7 @@ components:
         type:
           type: string
           description: The type of tool call. This is always going to be `file_search` for this type of tool call.
-          enum: [ "file_search" ]
+          enum: ["file_search"]
         file_search:
           type: object
           description: For now, this is always going to be an empty object.
@@ -11989,7 +12642,7 @@ components:
         type:
           type: string
           description: The type of tool call. This is always going to be `function` for this type of tool call.
-          enum: [ "function" ]
+          enum: ["function"]
         function:
           type: object
           description: The definition of the function that was called.
@@ -12026,7 +12679,7 @@ components:
         type:
           type: string
           description: The type of tool call. This is always going to be `function` for this type of tool call.
-          enum: [ "function" ]
+          enum: ["function"]
         function:
           type: object
           description: The definition of the function that was called.
@@ -12053,7 +12706,7 @@ components:
         anchor:
           description: "Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`."
           type: string
-          enum: [ "last_active_at" ]
+          enum: ["last_active_at"]
         days:
           description: The number of days after the anchor time that the vector store will expire.
           type: integer
@@ -12074,7 +12727,7 @@ components:
         object:
           description: The object type, which is always `vector_store`.
           type: string
-          enum: [ "vector_store" ]
+          enum: ["vector_store"]
         created_at:
           description: The Unix timestamp (in seconds) for when the vector store was created.
           type: integer
@@ -12111,7 +12764,7 @@ components:
         status:
           description: The status of the vector store, which can be either `expired`, `in_progress`, or `completed`. A status of `completed` indicates that the vector store is ready for use.
           type: string
-          enum: [ "expired", "in_progress", "completed" ]
+          enum: ["expired", "in_progress", "completed"]
         expires_after:
           $ref: "#/components/schemas/VectorStoreExpirationAfter"
         expires_at:
@@ -12175,6 +12828,13 @@ components:
           type: string
         expires_after:
           $ref: "#/components/schemas/VectorStoreExpirationAfter"
+        chunking_strategy:
+          type: object
+          description: The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy. Only applicable if `file_ids` is non-empty.
+          oneOf:
+            - $ref: "#/components/schemas/AutoChunkingStrategyRequestParam"
+            - $ref: "#/components/schemas/StaticChunkingStrategyRequestParam"
+          x-oaiExpandable: true
         metadata:
           description: *metadata_description
           type: object
@@ -12232,7 +12892,7 @@ components:
           type: boolean
         object:
           type: string
-          enum: [ vector_store.deleted ]
+          enum: [vector_store.deleted]
       required:
         - id
         - object
@@ -12249,7 +12909,7 @@ components:
         object:
           description: The object type, which is always `vector_store.file`.
           type: string
-          enum: [ "vector_store.file" ]
+          enum: ["vector_store.file"]
         usage_bytes:
           description: The total vector store usage in bytes. Note that this may be different from the original file size.
           type: integer
@@ -12262,7 +12922,7 @@ components:
         status:
           description: The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use.
           type: string
-          enum: [ "in_progress", "completed", "cancelled", "failed" ]
+          enum: ["in_progress", "completed", "cancelled", "failed"]
         last_error:
           type: object
           description: The last error associated with this vector store file. Will be `null` if there are no errors.
@@ -12284,6 +12944,13 @@ components:
           required:
             - code
             - message
+        chunking_strategy:
+          type: object
+          description: The strategy used to chunk the file.
+          oneOf:
+            - $ref: "#/components/schemas/StaticChunkingStrategyResponseParam"
+            - $ref: "#/components/schemas/OtherChunkingStrategyResponseParam"
+          x-oaiExpandable: true
       required:
         - id
         - object
@@ -12303,8 +12970,98 @@ components:
             "created_at": 1698107661,
             "vector_store_id": "vs_abc123",
             "status": "completed",
-            "last_error": null
+            "last_error": null,
+            "chunking_strategy": {
+              "type": "static",
+              "static": {
+                "max_chunk_size_tokens": 800,
+                "chunk_overlap_tokens": 400
+              }
+            }
           }
+
+    OtherChunkingStrategyResponseParam:
+      type: object
+      title: Other Chunking Strategy
+      description: This is returned when the chunking strategy is unknown. Typically, this is because the file was indexed before the `chunking_strategy` concept was introduced in the API.
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          description: Always `other`.
+          enum: ["other"]
+      required:
+        - type
+
+    StaticChunkingStrategyResponseParam:
+      type: object
+      title: Static Chunking Strategy
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          description: Always `static`.
+          enum: ["static"]
+        static:
+          $ref: "#/components/schemas/StaticChunkingStrategy"
+      required:
+        - type
+        - static
+
+    StaticChunkingStrategy:
+      type: object
+      additionalProperties: false
+      properties:
+        max_chunk_size_tokens:
+          type: integer
+          minimum: 100
+          maximum: 4096
+          description: The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`.
+        chunk_overlap_tokens:
+          type: integer
+          description: |
+            The number of tokens that overlap between chunks. The default value is `400`.
+            
+            Note that the overlap must not exceed half of `max_chunk_size_tokens`.
+      required:
+        - max_chunk_size_tokens
+        - chunk_overlap_tokens
+
+    AutoChunkingStrategyRequestParam:
+      type: object
+      title: Auto Chunking Strategy
+      description: The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`.
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          description: Always `auto`.
+          enum: ["auto"]
+      required:
+        - type
+
+    StaticChunkingStrategyRequestParam:
+      type: object
+      title: Static Chunking Strategy
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          description: Always `static`.
+          enum: ["static"]
+        static:
+          $ref: "#/components/schemas/StaticChunkingStrategy"
+      required:
+        - type
+        - static
+
+    ChunkingStrategyRequestParam:
+      type: object
+      description: The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+      oneOf:
+        - $ref: "#/components/schemas/AutoChunkingStrategyRequestParam"
+        - $ref: "#/components/schemas/StaticChunkingStrategyRequestParam"
+      x-oaiExpandable: true
 
     CreateVectorStoreFileRequest:
       type: object
@@ -12313,6 +13070,8 @@ components:
         file_id:
           description: A [File](/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files.
           type: string
+        chunking_strategy:
+          $ref: "#/components/schemas/ChunkingStrategyRequestParam"
       required:
         - file_id
 
@@ -12350,7 +13109,7 @@ components:
           type: boolean
         object:
           type: string
-          enum: [ vector_store.file.deleted ]
+          enum: [vector_store.file.deleted]
       required:
         - id
         - object
@@ -12367,7 +13126,7 @@ components:
         object:
           description: The object type, which is always `vector_store.file_batch`.
           type: string
-          enum: [ "vector_store.files_batch" ]
+          enum: ["vector_store.files_batch"]
         created_at:
           description: The Unix timestamp (in seconds) for when the vector store files batch was created.
           type: integer
@@ -12377,7 +13136,7 @@ components:
         status:
           description: The status of the vector store files batch, which can be either `in_progress`, `completed`, `cancelled` or `failed`.
           type: string
-          enum: [ "in_progress", "completed", "cancelled", "failed" ]
+          enum: ["in_progress", "completed", "cancelled", "failed"]
         file_counts:
           type: object
           properties:
@@ -12439,6 +13198,8 @@ components:
           maxItems: 500
           items:
             type: string
+        chunking_strategy:
+          $ref: "#/components/schemas/ChunkingStrategyRequestParam"
       required:
         - file_ids
 
@@ -12480,7 +13241,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.created" ]
+              enum: ["thread.created"]
             data:
               $ref: "#/components/schemas/ThreadObject"
           required:
@@ -12496,7 +13257,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.run.created" ]
+              enum: ["thread.run.created"]
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -12509,7 +13270,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.run.queued" ]
+              enum: ["thread.run.queued"]
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -12522,7 +13283,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.run.in_progress" ]
+              enum: ["thread.run.in_progress"]
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -12535,7 +13296,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.run.requires_action" ]
+              enum: ["thread.run.requires_action"]
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -12548,7 +13309,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.run.completed" ]
+              enum: ["thread.run.completed"]
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -12574,7 +13335,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.run.failed" ]
+              enum: ["thread.run.failed"]
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -12587,7 +13348,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.run.cancelling" ]
+              enum: ["thread.run.cancelling"]
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -12600,7 +13361,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.run.cancelled" ]
+              enum: ["thread.run.cancelled"]
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -12613,7 +13374,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.run.expired" ]
+              enum: ["thread.run.expired"]
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -12629,7 +13390,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.run.step.created" ]
+              enum: ["thread.run.step.created"]
             data:
               $ref: "#/components/schemas/RunStepObject"
           required:
@@ -12642,7 +13403,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.run.step.in_progress" ]
+              enum: ["thread.run.step.in_progress"]
             data:
               $ref: "#/components/schemas/RunStepObject"
           required:
@@ -12655,7 +13416,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.run.step.delta" ]
+              enum: ["thread.run.step.delta"]
             data:
               $ref: "#/components/schemas/RunStepDeltaObject"
           required:
@@ -12668,7 +13429,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.run.step.completed" ]
+              enum: ["thread.run.step.completed"]
             data:
               $ref: "#/components/schemas/RunStepObject"
           required:
@@ -12681,7 +13442,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.run.step.failed" ]
+              enum: ["thread.run.step.failed"]
             data:
               $ref: "#/components/schemas/RunStepObject"
           required:
@@ -12694,7 +13455,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.run.step.cancelled" ]
+              enum: ["thread.run.step.cancelled"]
             data:
               $ref: "#/components/schemas/RunStepObject"
           required:
@@ -12707,7 +13468,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.run.step.expired" ]
+              enum: ["thread.run.step.expired"]
             data:
               $ref: "#/components/schemas/RunStepObject"
           required:
@@ -12723,7 +13484,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.message.created" ]
+              enum: ["thread.message.created"]
             data:
               $ref: "#/components/schemas/MessageObject"
           required:
@@ -12736,7 +13497,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.message.in_progress" ]
+              enum: ["thread.message.in_progress"]
             data:
               $ref: "#/components/schemas/MessageObject"
           required:
@@ -12749,7 +13510,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.message.delta" ]
+              enum: ["thread.message.delta"]
             data:
               $ref: "#/components/schemas/MessageDeltaObject"
           required:
@@ -12762,7 +13523,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.message.completed" ]
+              enum: ["thread.message.completed"]
             data:
               $ref: "#/components/schemas/MessageObject"
           required:
@@ -12775,7 +13536,7 @@ components:
           properties:
             event:
               type: string
-              enum: [ "thread.message.incomplete" ]
+              enum: ["thread.message.incomplete"]
             data:
               $ref: "#/components/schemas/MessageObject"
           required:
@@ -12790,7 +13551,7 @@ components:
       properties:
         event:
           type: string
-          enum: [ "error" ]
+          enum: ["error"]
         data:
           $ref: "#/components/schemas/Error"
       required:
@@ -12805,10 +13566,10 @@ components:
       properties:
         event:
           type: string
-          enum: [ "done" ]
+          enum: ["done"]
         data:
           type: string
-          enum: [ "[DONE]" ]
+          enum: ["[DONE]"]
       required:
         - event
         - data
@@ -12823,7 +13584,7 @@ components:
           type: string
         object:
           type: string
-          enum: [ batch ]
+          enum: [batch]
           description: The object type, which is always `batch`.
         endpoint:
           type: string
@@ -12948,7 +13709,7 @@ components:
           description: A developer-provided per-request id that will be used to match outputs to inputs. Must be unique for each request in a batch.
         method:
           type: string
-          enum: [ "POST" ]
+          enum: ["POST"]
           description: The HTTP method to be used for the request. Currently only `POST` is supported.
         url:
           type: string
@@ -13014,14 +13775,14 @@ components:
           type: boolean
         object:
           type: string
-          enum: [ list ]
+          enum: [list]
       required:
         - object
         - data
         - has_more
 
 security:
-  - ApiKeyAuth: [ ]
+  - ApiKeyAuth: []
 
 x-oaiMeta:
   navigationGroups:
@@ -13134,6 +13895,12 @@ x-oaiMeta:
           key: cancelFineTuningJob
           path: cancel
         - type: object
+          key: FinetuneChatRequestInput
+          path: chat-input
+        - type: object
+          key: FinetuneCompletionRequestInput
+          path: completions-input
+        - type: object
           key: FineTuningJob
           path: object
         - type: object
@@ -13167,10 +13934,10 @@ x-oaiMeta:
           path: object
         - type: object
           key: BatchRequestInput
-          path: requestInput
+          path: request-input
         - type: object
           key: BatchRequestOutput
-          path: requestOutput
+          path: request-output
     - id: files
       title: Files
       description: |
@@ -13195,6 +13962,30 @@ x-oaiMeta:
         - type: object
           key: OpenAIFile
           path: object
+    - id: uploads
+      title: Uploads
+      description: |
+        Allows you to upload large files in multiple parts.
+      navigationGroup: endpoints
+      sections:
+        - type: endpoint
+          key: createUpload
+          path: create
+        - type: endpoint
+          key: addUploadPart
+          path: add-part
+        - type: endpoint
+          key: completeUpload
+          path: complete
+        - type: endpoint
+          key: cancelUpload
+          path: cancel
+        - type: object
+          key: Upload
+          path: object
+        - type: object
+          key: UploadPart
+          path: part-object
     - id: images
       title: Images
       description: |
