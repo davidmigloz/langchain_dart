@@ -14,6 +14,7 @@
     - [Binding: Configuring runnables](/expression_language/primitives/binding.md)
     - [Router: Routing inputs](/expression_language/primitives/router.md)
   - [Streaming](/expression_language/streaming.md)
+  - [Fallbacks](/expression_language/fallbacks.md)
   - Cookbook
     - [Prompt + LLM](/expression_language/cookbook/prompt_llm_parser.md)
     - [Multiple chains](/expression_language/cookbook/multiple_chains.md)
@@ -56,6 +57,7 @@
           - [Tool calling](/modules/model_io/models/chat_models/how_to/tools.md)
           - [LLMChain](/modules/model_io/models/chat_models/how_to/llm_chain.md)
         - Integrations
+          - [Anthropic](/modules/model_io/models/chat_models/integrations/anthropic.md) 
           - [OpenAI](/modules/model_io/models/chat_models/integrations/openai.md)
           - [Firebase Vertex AI](/modules/model_io/models/chat_models/integrations/firebase_vertex_ai.md)
           - [GCP Vertex AI](/modules/model_io/models/chat_models/integrations/gcp_vertex_ai.md)

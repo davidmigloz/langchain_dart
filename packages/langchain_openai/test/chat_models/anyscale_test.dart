@@ -30,8 +30,6 @@ void main() {
         'codellama/CodeLlama-34b-Instruct-hf',
         'mistralai/Mistral-7B-Instruct-v0.1',
         'mistralai/Mixtral-8x7B-Instruct-v0.1',
-        'HuggingFaceH4/zephyr-7b-beta',
-        'Open-Orca/Mistral-7B-OpenOrca',
       ];
       for (final model in models) {
         final res = await chatModel.invoke(
@@ -67,8 +65,6 @@ void main() {
         'codellama/CodeLlama-34b-Instruct-hf',
         'mistralai/Mistral-7B-Instruct-v0.1',
         'mistralai/Mixtral-8x7B-Instruct-v0.1',
-        'HuggingFaceH4/zephyr-7b-beta',
-        'Open-Orca/Mistral-7B-OpenOrca',
       ];
       for (final model in models) {
         final stream = chatModel.stream(

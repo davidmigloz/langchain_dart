@@ -1,12 +1,16 @@
 import 'package:langchain_core/chat_models.dart';
+import 'package:meta/meta.dart';
 
 /// {@template chat_mistral_ai_options}
 /// Options to pass into ChatMistralAI.
+///
+/// You can check the list of available models [here](https://docs.mistral.ai/models).
 /// {@endtemplate}
+@immutable
 class ChatMistralAIOptions extends ChatModelOptions {
   /// {@macro chat_mistral_ai_options}
   const ChatMistralAIOptions({
-    this.model = 'mistral-small',
+    super.model,
     this.temperature,
     this.topP,
     this.maxTokens,
@@ -14,11 +18,6 @@ class ChatMistralAIOptions extends ChatModelOptions {
     this.randomSeed,
     super.concurrencyLimit,
   });
-
-  /// ID of the model to use. You can use the [List Available Models](https://docs.mistral.ai/api#operation/listModels)
-  /// API to see all of your available models, or see our [Model overview](https://docs.mistral.ai/models)
-  /// for model descriptions.
-  final String? model;
 
   /// What sampling temperature to use, between 0.0 and 2.0. Higher values like
   /// 0.8 will make the output more random, while lower values like 0.2 will
@@ -47,8 +46,7 @@ class ChatMistralAIOptions extends ChatModelOptions {
   /// If set, different calls will generate deterministic results.
   final int? randomSeed;
 
-  /// Creates a copy of this [ChatMistralAIOptions] object with the given fields
-  /// replaced with the new values.
+  @override
   ChatMistralAIOptions copyWith({
     final String? model,
     final double? temperature,
@@ -56,6 +54,7 @@ class ChatMistralAIOptions extends ChatModelOptions {
     final int? maxTokens,
     final bool? safePrompt,
     final int? randomSeed,
+    final int? concurrencyLimit,
   }) {
     return ChatMistralAIOptions(
       model: model ?? this.model,
@@ -64,6 +63,42 @@ class ChatMistralAIOptions extends ChatModelOptions {
       maxTokens: maxTokens ?? this.maxTokens,
       safePrompt: safePrompt ?? this.safePrompt,
       randomSeed: randomSeed ?? this.randomSeed,
+      concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
+  }
+
+  @override
+  ChatMistralAIOptions merge(covariant ChatMistralAIOptions? other) {
+    return copyWith(
+      model: other?.model,
+      temperature: other?.temperature,
+      topP: other?.topP,
+      maxTokens: other?.maxTokens,
+      safePrompt: other?.safePrompt,
+      randomSeed: other?.randomSeed,
+      concurrencyLimit: other?.concurrencyLimit,
+    );
+  }
+
+  @override
+  bool operator ==(covariant final ChatMistralAIOptions other) {
+    return model == other.model &&
+        temperature == other.temperature &&
+        topP == other.topP &&
+        maxTokens == other.maxTokens &&
+        safePrompt == other.safePrompt &&
+        randomSeed == other.randomSeed &&
+        concurrencyLimit == other.concurrencyLimit;
+  }
+
+  @override
+  int get hashCode {
+    return model.hashCode ^
+        temperature.hashCode ^
+        topP.hashCode ^
+        maxTokens.hashCode ^
+        safePrompt.hashCode ^
+        randomSeed.hashCode ^
+        concurrencyLimit.hashCode;
   }
 }

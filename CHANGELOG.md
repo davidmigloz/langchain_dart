@@ -2,6 +2,253 @@
 
 Check out the #announcements channel in the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details about each release.
 
+## 2024-07-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`langchain_community` - `v0.3.0`](#langchain_community---v030)
+ - [`langchain_ollama` - `v0.3.0`](#langchain_ollama---v030)
+ - [`langchain_openai` - `v0.7.0`](#langchain_openai---v070)
+ - [`ollama_dart` - `v0.2.0`](#ollama_dart---v020)
+ - [`openai_dart` - `v0.4.0`](#openai_dart---v040)
+
+Packages with other changes:
+
+ - [`langchain` - `v0.7.4`](#langchain---v074)
+ - [`langchain_anthropic` - `v0.1.1`](#langchain_anthropic---v011)
+ - [`langchain_chroma` - `v0.2.1+1`](#langchain_chroma---v0211)
+ - [`langchain_core` - `v0.3.4`](#langchain_core---v034)
+ - [`langchain_firebase` - `v0.2.1`](#langchain_firebase---v021)
+ - [`langchain_google` - `v0.6.1`](#langchain_google---v061)
+ - [`langchain_mistralai` - `v0.2.2`](#langchain_mistralai---v022)
+ - [`langchain_pinecone` - `v0.1.0+7`](#langchain_pinecone---v0107)
+ - [`langchain_supabase` - `v0.1.1+1`](#langchain_supabase---v0111)
+
+---
+
+#### `langchain` - `v0.7.4`
+
+ - **FEAT**: Add Fallback support for Runnables ([#501](https://github.com/davidmigloz/langchain_dart/issues/501)). ([5887858d](https://github.com/davidmigloz/langchain_dart/commit/5887858d667d43c49978291ea98a92cab0069971))
+ - **FEAT**: Implement additive options merging for cascade bind calls ([#500](https://github.com/davidmigloz/langchain_dart/issues/500)). ([8691eb21](https://github.com/davidmigloz/langchain_dart/commit/8691eb21d5d2ffbf853997cbc0eaa29a56c6ca43))
+ - **REFACTOR**: Remove default model from the language model options ([#498](https://github.com/davidmigloz/langchain_dart/issues/498)). ([44363e43](https://github.com/davidmigloz/langchain_dart/commit/44363e435778282ed27bc1b2771cf8b25abc7560))
+ - **REFACTOR**: Depend on exact versions for internal 1st party dependencies ([#484](https://github.com/davidmigloz/langchain_dart/issues/484)). ([244e5e8f](https://github.com/davidmigloz/langchain_dart/commit/244e5e8f30e0d9a642fe01a804cc0de5e807e13d))
+ - **DOCS**: Update README.md with Ollama tool call support. ([e016b0bd](https://github.com/davidmigloz/langchain_dart/commit/e016b0bd02065971faab2a3a48be625ff33a08cf))
+
+#### `langchain_core` - `v0.3.4`
+
+ - **FEAT**: Add Fallback support for Runnables ([#501](https://github.com/davidmigloz/langchain_dart/issues/501)). ([5887858d](https://github.com/davidmigloz/langchain_dart/commit/5887858d667d43c49978291ea98a92cab0069971))
+ - **FEAT**: Implement additive options merging for cascade bind calls ([#500](https://github.com/davidmigloz/langchain_dart/issues/500)). ([8691eb21](https://github.com/davidmigloz/langchain_dart/commit/8691eb21d5d2ffbf853997cbc0eaa29a56c6ca43))
+ - **REFACTOR**: Remove default model from the language model options ([#498](https://github.com/davidmigloz/langchain_dart/issues/498)). ([44363e43](https://github.com/davidmigloz/langchain_dart/commit/44363e435778282ed27bc1b2771cf8b25abc7560))
+
+#### `langchain_community` - `v0.3.0`
+
+ - **FEAT**: Implement additive options merging for cascade bind calls ([#500](https://github.com/davidmigloz/langchain_dart/issues/500)). ([8691eb21](https://github.com/davidmigloz/langchain_dart/commit/8691eb21d5d2ffbf853997cbc0eaa29a56c6ca43))
+ - **REFACTOR**: Depend on exact versions for internal 1st party dependencies ([#484](https://github.com/davidmigloz/langchain_dart/issues/484)). ([244e5e8f](https://github.com/davidmigloz/langchain_dart/commit/244e5e8f30e0d9a642fe01a804cc0de5e807e13d))
+
+#### `langchain_ollama` - `v0.3.0`
+
+ - **FEAT**: Add tool calling support in ChatOllama ([#505](https://github.com/davidmigloz/langchain_dart/issues/505)). ([6ffde204](https://github.com/davidmigloz/langchain_dart/commit/6ffde2043c1e865411c8b1096063619d6bcd80aa))
+ - **BREAKING** **FEAT**: Update Ollama default model to llama-3.1 ([#506](https://github.com/davidmigloz/langchain_dart/issues/506)). ([b1134bf1](https://github.com/davidmigloz/langchain_dart/commit/b1134bf1163cdcea26a9f1e65fee5c515be3857c))
+ - **FEAT**: Implement additive options merging for cascade bind calls ([#500](https://github.com/davidmigloz/langchain_dart/issues/500)). ([8691eb21](https://github.com/davidmigloz/langchain_dart/commit/8691eb21d5d2ffbf853997cbc0eaa29a56c6ca43))
+ - **REFACTOR**: Remove default model from the language model options ([#498](https://github.com/davidmigloz/langchain_dart/issues/498)). ([44363e43](https://github.com/davidmigloz/langchain_dart/commit/44363e435778282ed27bc1b2771cf8b25abc7560))
+ - **REFACTOR**: Depend on exact versions for internal 1st party dependencies ([#484](https://github.com/davidmigloz/langchain_dart/issues/484)). ([244e5e8f](https://github.com/davidmigloz/langchain_dart/commit/244e5e8f30e0d9a642fe01a804cc0de5e807e13d))
+ - **DOCS**: Update Ollama request options default values in API docs ([#479](https://github.com/davidmigloz/langchain_dart/issues/479)). ([e1f93366](https://github.com/davidmigloz/langchain_dart/commit/e1f9336619ee12624a7b045ca18a3118ead0158f))
+
+#### `langchain_openai` - `v0.7.0`
+
+ - **BREAKING** **FEAT**: Update ChatOpenAI default model to gpt-4o-mini ([#507](https://github.com/davidmigloz/langchain_dart/issues/507)). ([c7b8ce91](https://github.com/davidmigloz/langchain_dart/commit/c7b8ce91ac5b4dbe6bed563fae124a9f5ad76a84))
+ - **FEAT**: Add support for disabling parallel tool calls in ChatOpenAI ([#493](https://github.com/davidmigloz/langchain_dart/issues/493)). ([c46d676d](https://github.com/davidmigloz/langchain_dart/commit/c46d676dee836f1d17e0d1fd61a8f1f0ba5c2881))
+ - **FEAT**: Add GPT-4o-mini to model catalog ([#497](https://github.com/davidmigloz/langchain_dart/issues/497)). ([faa23aee](https://github.com/davidmigloz/langchain_dart/commit/faa23aeeecfb64dc7d018e642952e41cc7f9eeaf))
+ - **FEAT**: Add support for service tier in ChatOpenAI ([#495](https://github.com/davidmigloz/langchain_dart/issues/495)). ([af79a4ff](https://github.com/davidmigloz/langchain_dart/commit/af79a4ffcadb207bfc704365462edebfca1ed6c7))
+ - **FEAT**: Implement additive options merging for cascade bind calls ([#500](https://github.com/davidmigloz/langchain_dart/issues/500)). ([8691eb21](https://github.com/davidmigloz/langchain_dart/commit/8691eb21d5d2ffbf853997cbc0eaa29a56c6ca43))
+ - **REFACTOR**: Remove default model from the language model options ([#498](https://github.com/davidmigloz/langchain_dart/issues/498)). ([44363e43](https://github.com/davidmigloz/langchain_dart/commit/44363e435778282ed27bc1b2771cf8b25abc7560))
+ - **REFACTOR**: Depend on exact versions for internal 1st party dependencies ([#484](https://github.com/davidmigloz/langchain_dart/issues/484)). ([244e5e8f](https://github.com/davidmigloz/langchain_dart/commit/244e5e8f30e0d9a642fe01a804cc0de5e807e13d))
+
+#### `langchain_anthropic` - `v0.1.1`
+
+ - **FEAT**: Implement additive options merging for cascade bind calls ([#500](https://github.com/davidmigloz/langchain_dart/issues/500)). ([8691eb21](https://github.com/davidmigloz/langchain_dart/commit/8691eb21d5d2ffbf853997cbc0eaa29a56c6ca43))
+ - **REFACTOR**: Remove default model from the language model options ([#498](https://github.com/davidmigloz/langchain_dart/issues/498)). ([44363e43](https://github.com/davidmigloz/langchain_dart/commit/44363e435778282ed27bc1b2771cf8b25abc7560))
+ - **REFACTOR**: Depend on exact versions for internal 1st party dependencies ([#484](https://github.com/davidmigloz/langchain_dart/issues/484)). ([244e5e8f](https://github.com/davidmigloz/langchain_dart/commit/244e5e8f30e0d9a642fe01a804cc0de5e807e13d))
+
+#### `langchain_firebase` - `v0.2.1`
+
+ - **FEAT**: Implement additive options merging for cascade bind calls ([#500](https://github.com/davidmigloz/langchain_dart/issues/500)). ([8691eb21](https://github.com/davidmigloz/langchain_dart/commit/8691eb21d5d2ffbf853997cbc0eaa29a56c6ca43))
+ - **REFACTOR**: Remove default model from the language model options ([#498](https://github.com/davidmigloz/langchain_dart/issues/498)). ([44363e43](https://github.com/davidmigloz/langchain_dart/commit/44363e435778282ed27bc1b2771cf8b25abc7560))
+ - **REFACTOR**: Depend on exact versions for internal 1st party dependencies ([#484](https://github.com/davidmigloz/langchain_dart/issues/484)). ([244e5e8f](https://github.com/davidmigloz/langchain_dart/commit/244e5e8f30e0d9a642fe01a804cc0de5e807e13d))
+
+#### `langchain_google` - `v0.6.1`
+
+ - **FEAT**: Implement additive options merging for cascade bind calls ([#500](https://github.com/davidmigloz/langchain_dart/issues/500)). ([8691eb21](https://github.com/davidmigloz/langchain_dart/commit/8691eb21d5d2ffbf853997cbc0eaa29a56c6ca43))
+ - **REFACTOR**: Remove default model from the language model options ([#498](https://github.com/davidmigloz/langchain_dart/issues/498)). ([44363e43](https://github.com/davidmigloz/langchain_dart/commit/44363e435778282ed27bc1b2771cf8b25abc7560))
+ - **REFACTOR**: Depend on exact versions for internal 1st party dependencies ([#484](https://github.com/davidmigloz/langchain_dart/issues/484)). ([244e5e8f](https://github.com/davidmigloz/langchain_dart/commit/244e5e8f30e0d9a642fe01a804cc0de5e807e13d))
+
+#### `langchain_mistralai` - `v0.2.2`
+
+ - **FEAT**: Implement additive options merging for cascade bind calls ([#500](https://github.com/davidmigloz/langchain_dart/issues/500)). ([8691eb21](https://github.com/davidmigloz/langchain_dart/commit/8691eb21d5d2ffbf853997cbc0eaa29a56c6ca43))
+ - **REFACTOR**: Remove default model from the language model options ([#498](https://github.com/davidmigloz/langchain_dart/issues/498)). ([44363e43](https://github.com/davidmigloz/langchain_dart/commit/44363e435778282ed27bc1b2771cf8b25abc7560))
+ - **REFACTOR**: Depend on exact versions for internal 1st party dependencies ([#484](https://github.com/davidmigloz/langchain_dart/issues/484)). ([244e5e8f](https://github.com/davidmigloz/langchain_dart/commit/244e5e8f30e0d9a642fe01a804cc0de5e807e13d))
+
+#### `langchain_chroma` - `v0.2.1+1`
+
+ - **REFACTOR**: Depend on exact versions for internal 1st party dependencies ([#484](https://github.com/davidmigloz/langchain_dart/issues/484)). ([244e5e8f](https://github.com/davidmigloz/langchain_dart/commit/244e5e8f30e0d9a642fe01a804cc0de5e807e13d))
+
+#### `langchain_pinecone` - `v0.1.0+7`
+
+ - **REFACTOR**: Depend on exact versions for internal 1st party dependencies ([#484](https://github.com/davidmigloz/langchain_dart/issues/484)). ([244e5e8f](https://github.com/davidmigloz/langchain_dart/commit/244e5e8f30e0d9a642fe01a804cc0de5e807e13d))
+
+#### `langchain_supabase` - `v0.1.1+1`
+
+ - **REFACTOR**: Depend on exact versions for internal 1st party dependencies ([#484](https://github.com/davidmigloz/langchain_dart/issues/484)). ([244e5e8f](https://github.com/davidmigloz/langchain_dart/commit/244e5e8f30e0d9a642fe01a804cc0de5e807e13d))
+
+#### `ollama_dart` - `v0.2.0`
+
+ - **FEAT**: Add tool calling support in ollama_dart ([#504](https://github.com/davidmigloz/langchain_dart/issues/504)). ([1ffdb41b](https://github.com/davidmigloz/langchain_dart/commit/1ffdb41b8f19941336c1cd911c73f0b3d46af975))
+ - **BREAKING** **FEAT**: Update Ollama default model to llama-3.1 ([#506](https://github.com/davidmigloz/langchain_dart/issues/506)). ([b1134bf1](https://github.com/davidmigloz/langchain_dart/commit/b1134bf1163cdcea26a9f1e65fee5c515be3857c))
+ - **FEAT**: Add support for Ollama version and model info ([#488](https://github.com/davidmigloz/langchain_dart/issues/488)). ([a110ecb7](https://github.com/davidmigloz/langchain_dart/commit/a110ecb7f10e7975bd2416aa65add98984c6efb8))
+ - **FEAT**: Add suffix support in Ollama completions API in ollama_dart ([#503](https://github.com/davidmigloz/langchain_dart/issues/503)). ([30d05a69](https://github.com/davidmigloz/langchain_dart/commit/30d05a69b07f88f803b9abfdf2fded9348a73490))
+ - **BREAKING** **REFACTOR**: Change Ollama push model status type from enum to String ([#489](https://github.com/davidmigloz/langchain_dart/issues/489)). ([90c9ccd9](https://github.com/davidmigloz/langchain_dart/commit/90c9ccd986c7b679ed30225d2380120e17dfec41))
+ - **DOCS**: Update Ollama request options default values in API docs ([#479](https://github.com/davidmigloz/langchain_dart/issues/479)). ([e1f93366](https://github.com/davidmigloz/langchain_dart/commit/e1f9336619ee12624a7b045ca18a3118ead0158f))
+
+#### `openai_dart` - `v0.4.0`
+
+ - **FEAT**: Add support for disabling parallel tool calls in openai_dart ([#492](https://github.com/davidmigloz/langchain_dart/issues/492)). ([a91e0719](https://github.com/davidmigloz/langchain_dart/commit/a91e07196278ae4da5917d52395f3c246fc35bf2))
+ - **FEAT**: Add GPT-4o-mini to model catalog ([#497](https://github.com/davidmigloz/langchain_dart/issues/497)). ([faa23aee](https://github.com/davidmigloz/langchain_dart/commit/faa23aeeecfb64dc7d018e642952e41cc7f9eeaf))
+ - **FEAT**: Support chunking strategy in file_search tool in openai_dart ([#496](https://github.com/davidmigloz/langchain_dart/issues/496)). ([cfa974a9](https://github.com/davidmigloz/langchain_dart/commit/cfa974a9e2fc4b79e5b66765b22d76710575d5bc))
+ - **FEAT**: Add support for overrides in the file search tool in openai_dart ([#491](https://github.com/davidmigloz/langchain_dart/issues/491)). ([89605638](https://github.com/davidmigloz/langchain_dart/commit/89605638c465be37c2738258d840c21d32fe9554))
+ - **FEAT**: Allow to customize OpenAI-Beta header in openai_dart ([#502](https://github.com/davidmigloz/langchain_dart/issues/502)). ([5fed8dbb](https://github.com/davidmigloz/langchain_dart/commit/5fed8dbb8205ba7925ca59d6f07a4f5e052b52b1))
+ - **FEAT**: Add support for service tier in openai_dart ([#494](https://github.com/davidmigloz/langchain_dart/issues/494)). ([0838e4b9](https://github.com/davidmigloz/langchain_dart/commit/0838e4b9f5bb25e29fbc163a0ff5cf3e64409d40))
+
+## 2024-07-02
+
+### Changes
+
+---
+
+New packages:
+
+- [`langchain_anthropic` - `v0.1.0`](#langchain_anthropic---v010)
+- [`tavily_dart` - `v0.1.0`](#tavily_dart---v010)
+
+Packages with breaking changes:
+
+- [`langchain_firebase` - `v0.2.0`](#langchain_firebase---v020)
+- [`langchain_google` - `v0.6.0`](#langchain_google---v060)
+
+Packages with other changes:
+
+- [`langchain` - `v0.7.3`](#langchain---v073)
+- [`langchain_core` - `v0.3.3`](#langchain_core---v033)
+- [`langchain_community` - `v0.2.2`](#langchain_community---v022)
+- [`langchain_chroma` - `v0.2.1`](#langchain_chroma---v021)
+- [`langchain_mistralai` - `v0.2.1`](#langchain_mistralai---v021)
+- [`langchain_ollama` - `v0.2.2+1`](#langchain_ollama---v0221)
+- [`langchain_openai` - `v0.6.3`](#langchain_openai---v063)
+- [`langchain_pinecone` - `v0.1.0+6`](#langchain_pinecone---v0106)
+- [`langchain_supabase` - `v0.1.1`](#langchain_supabase---v011)
+- [`anthropic_sdk_dart` - `v0.1.0`](#anthropic_sdk_dart---v010)
+- [`googleai_dart` - `v0.1.0+2`](#googleai_dart---v0102)
+- [`mistralai_dart` - `v0.0.3+3`](#mistralai_dart---v0033)
+- [`ollama_dart` - `v0.1.2`](#ollama_dart---v012)
+- [`openai_dart` - `v0.3.3+1`](#openai_dart---v0331)
+
+---
+
+#### `langchain` - `v0.7.3`
+
+> Note: Anthropic integration (`ChatAnthropic`) is available in the new [`langchain_anthropic`](https://pub.dev/packages/langchain_anthropic) package.
+
+- **FEAT**: Add support for TavilySearchResultsTool and TavilyAnswerTool ([#467](https://github.com/davidmigloz/langchain_dart/issues/467)). ([a9f35755](https://github.com/davidmigloz/langchain_dart/commit/a9f35755dfac9d257efb251c4a6c5948673c2f6c))
+- **DOCS**: Document existing integrations in README.md. ([cc4246c8](https://github.com/davidmigloz/langchain_dart/commit/cc4246c8ab907de2c82843bff145edfffe32d302))
+
+#### `langchain_core` - `v0.3.3`
+
+- **FEAT**: Add support for ChatToolChoiceRequired ([#474](https://github.com/davidmigloz/langchain_dart/issues/474)). ([bf324f36](https://github.com/davidmigloz/langchain_dart/commit/bf324f36f645c53458d5891f8285991cd50f2649))
+- **FEAT**: Update ChatResult.id concat logic ([#477](https://github.com/davidmigloz/langchain_dart/issues/477)). ([44c7fafd](https://github.com/davidmigloz/langchain_dart/commit/44c7fafd934bf6517e285830b1ca98282127cb7d))
+
+#### `langchain_community` - `v0.2.2`
+
+- **FEAT**: Add support for TavilySearchResultsTool and TavilyAnswerTool ([#467](https://github.com/davidmigloz/langchain_dart/issues/467)). ([a9f35755](https://github.com/davidmigloz/langchain_dart/commit/a9f35755dfac9d257efb251c4a6c5948673c2f6c))
+
+#### `langchain_anthropic` - `v0.1.0`
+
+- **FEAT**: Add ChatAnthropic integration ([#477](https://github.com/davidmigloz/langchain_dart/issues/477)). ([44c7fafd](https://github.com/davidmigloz/langchain_dart/commit/44c7fafd934bf6517e285830b1ca98282127cb7d))
+
+#### `langchain_firebase` - `v0.2.0`
+
+> Note: `ChatFirebaseVertexAI` now uses `gemini-1.5-flash` model by default.
+
+- **BREAKING** **FEAT**: Update ChatFirebaseVertexAI default model to  gemini-1.5-flash ([#458](https://github.com/davidmigloz/langchain_dart/issues/458)). ([d3c96c52](https://github.com/davidmigloz/langchain_dart/commit/d3c96c52e95e889ba6955e3de80a83978b27618b))
+- **FEAT**: Add support for ChatToolChoiceRequired ([#474](https://github.com/davidmigloz/langchain_dart/issues/474)). ([bf324f36](https://github.com/davidmigloz/langchain_dart/commit/bf324f36f645c53458d5891f8285991cd50f2649))
+- **FEAT**: Support response MIME type in ChatFirebaseVertexAI ([#461](https://github.com/davidmigloz/langchain_dart/issues/461)) ([#463](https://github.com/davidmigloz/langchain_dart/issues/463)). ([c3452721](https://github.com/davidmigloz/langchain_dart/commit/c3452721c78ba3071ed2510a243f9c824a291c34))
+- **FEAT**: Add support for Firebase Auth in ChatFirebaseVertexAI ([#460](https://github.com/davidmigloz/langchain_dart/issues/460)). ([6d137290](https://github.com/davidmigloz/langchain_dart/commit/6d137290ca0f56c9fcc725e6211e838a3e3c6d16))
+- **FEAT**: Add support for usage metadata in ChatFirebaseVertexAI ([#457](https://github.com/davidmigloz/langchain_dart/issues/457)). ([2587f9e2](https://github.com/davidmigloz/langchain_dart/commit/2587f9e2bcbcc2bf5e2295dce409e92a89bf3c44))
+- **REFACTOR**: Simplify how tools are passed to the internal Firebase client ([#459](https://github.com/davidmigloz/langchain_dart/issues/459)). ([7f772396](https://github.com/davidmigloz/langchain_dart/commit/7f77239601fb216a01ec9d25680ec4d3dc4b97c7))
+
+#### `langchain_google` - `v0.6.0`
+
+> Note: `ChatGoogleGenerativeAI` now uses `gemini-1.5-flash` model by default.
+
+- **BREAKING** **FEAT**: Update ChatGoogleGenerativeAI default model to  gemini-1.5-flash ([#462](https://github.com/davidmigloz/langchain_dart/issues/462)). ([c8b30c90](https://github.com/davidmigloz/langchain_dart/commit/c8b30c906a17751547cc340f987b6670fbd67e69))
+- **FEAT**: Add support for ChatToolChoiceRequired ([#474](https://github.com/davidmigloz/langchain_dart/issues/474)). ([bf324f36](https://github.com/davidmigloz/langchain_dart/commit/bf324f36f645c53458d5891f8285991cd50f2649))
+- **FEAT**: Support response MIME type and schema in ChatGoogleGenerativeAI ([#461](https://github.com/davidmigloz/langchain_dart/issues/461)). ([e258399e](https://github.com/davidmigloz/langchain_dart/commit/e258399e03437e8abe25417a14671dfb719cb273))
+- **REFACTOR**: Migrate conditional imports to js_interop ([#453](https://github.com/davidmigloz/langchain_dart/issues/453)). ([a6a78cfe](https://github.com/davidmigloz/langchain_dart/commit/a6a78cfe05fb8ce68e683e1ad4395ca86197a6c5))
+
+#### `langchain_openai` - `v0.6.3`
+
+- **FEAT**: Add support for ChatToolChoiceRequired ([#474](https://github.com/davidmigloz/langchain_dart/issues/474)). ([bf324f36](https://github.com/davidmigloz/langchain_dart/commit/bf324f36f645c53458d5891f8285991cd50f2649))
+
+#### `langchain_ollama` - `v0.2.2+1`
+
+- **DOCS**: Update ChatOllama API docs. ([cc4246c8](https://github.com/davidmigloz/langchain_dart/commit/cc4246c8ab907de2c82843bff145edfffe32d302))
+
+#### `langchain_chroma` - `v0.2.1`
+
+- Update a dependency to the latest release.
+
+#### `langchain_mistralai` - `v0.2.1`
+
+- Update a dependency to the latest release.
+
+#### `langchain_pinecone` - `v0.1.0+6`
+
+- Update a dependency to the latest release.
+
+#### `langchain_supabase` - `v0.1.1`
+
+- Update a dependency to the latest release.
+
+#### `anthropic_sdk_dart` - `v0.1.0`
+
+- **FEAT**: Add support for tool use in anthropic_sdk_dart client ([#469](https://github.com/davidmigloz/langchain_dart/issues/469)). ([81896cfd](https://github.com/davidmigloz/langchain_dart/commit/81896cfdfce116b010dd51391994251d2a836333))
+- **FEAT**: Add extensions on ToolResultBlockContent in anthropic_sdk_dart ([#476](https://github.com/davidmigloz/langchain_dart/issues/476)). ([8d92d9b0](https://github.com/davidmigloz/langchain_dart/commit/8d92d9b008755ff9b9ca3545eb26fc49a296a909))
+- **REFACTOR**: Improve schemas names in anthropic_sdk_dart ([#475](https://github.com/davidmigloz/langchain_dart/issues/475)). ([8ebeacde](https://github.com/davidmigloz/langchain_dart/commit/8ebeacded02ab92885354c9447b1a55e024b56d1))
+- **REFACTOR**: Migrate conditional imports to js_interop ([#453](https://github.com/davidmigloz/langchain_dart/issues/453)). ([a6a78cfe](https://github.com/davidmigloz/langchain_dart/commit/a6a78cfe05fb8ce68e683e1ad4395ca86197a6c5))
+
+#### `ollama_dart` - `v0.1.2`
+
+- **FEAT**: Add support for listing running Ollama models ([#451](https://github.com/davidmigloz/langchain_dart/issues/451)). ([cfaa31fb](https://github.com/davidmigloz/langchain_dart/commit/cfaa31fb8ce1dc128570c95d403809f71e0199d9))
+- **REFACTOR**: Migrate conditional imports to js_interop ([#453](https://github.com/davidmigloz/langchain_dart/issues/453)). ([a6a78cfe](https://github.com/davidmigloz/langchain_dart/commit/a6a78cfe05fb8ce68e683e1ad4395ca86197a6c5))
+
+#### `tavily_dart` - `v0.1.0`
+
+- **FEAT**: Implement tavily_dart, a Dart client for Tavily API ([#456](https://github.com/davidmigloz/langchain_dart/issues/456)). ([fbfb79ba](https://github.com/davidmigloz/langchain_dart/commit/fbfb79bad81dbbd5844a90938fda79b201f20047))
+
+#### `googleai_dart` - `v0.1.0+2`
+
+- **REFACTOR**: Migrate conditional imports to js_interop ([#453](https://github.com/davidmigloz/langchain_dart/issues/453)). ([a6a78cfe](https://github.com/davidmigloz/langchain_dart/commit/a6a78cfe05fb8ce68e683e1ad4395ca86197a6c5))
+
+#### `mistralai_dart` - `v0.0.3+3`
+
+- **REFACTOR**: Migrate conditional imports to js_interop ([#453](https://github.com/davidmigloz/langchain_dart/issues/453)). ([a6a78cfe](https://github.com/davidmigloz/langchain_dart/commit/a6a78cfe05fb8ce68e683e1ad4395ca86197a6c5))
+
+#### `openai_dart` - `v0.3.3+1`
+
+- **REFACTOR**: Migrate conditional imports to js_interop ([#453](https://github.com/davidmigloz/langchain_dart/issues/453)). ([a6a78cfe](https://github.com/davidmigloz/langchain_dart/commit/a6a78cfe05fb8ce68e683e1ad4395ca86197a6c5))
+
 ## 2024-06-01
 
 ### Changes

@@ -20,7 +20,7 @@ import 'types.dart';
 /// ```dart
 /// final llm = Ollama(
 ///   defaultOption: const OllamaOptions(
-///     model: 'llama3',
+///     model: 'llama3.1',
 ///     temperature: 1,
 ///   ),
 /// );
@@ -49,7 +49,7 @@ import 'types.dart';
 /// ```dart
 /// final llm = Ollama(
 ///   defaultOptions: const OllamaOptions(
-///     model: 'llama3',
+///     model: 'llama3.1',
 ///     temperature: 0,
 ///     format: 'json',
 ///   ),
@@ -83,7 +83,7 @@ import 'types.dart';
 /// final prompt1 = PromptTemplate.fromTemplate('How are you {name}?');
 /// final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
 /// final chain = Runnable.fromMap({
-///   'q1': prompt1 | llm.bind(const OllamaOptions(model: 'llama3')) | outputParser,
+///   'q1': prompt1 | llm.bind(const OllamaOptions(model: 'llama3.1')) | outputParser,
 ///   'q2': prompt2| llm.bind(const OllamaOptions(model: 'mistral')) | outputParser,
 /// });
 /// final res = await chain.invoke({'name': 'David'});
@@ -93,7 +93,7 @@ import 'types.dart';
 ///
 /// 1. Download and install [Ollama](https://ollama.ai)
 /// 2. Fetch a model via `ollama pull <model family>`
-///   * e.g., for `Llama-7b`: `ollama pull llama3`
+///   * e.g., for `Llama-7b`: `ollama pull llama3.1`
 ///
 /// ### Advance
 ///
@@ -152,7 +152,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     super.defaultOptions = const OllamaOptions(
-      model: 'llama3',
+      model: defaultModel,
     ),
     this.encoding = 'cl100k_base',
   }) : _client = OllamaClient(
@@ -176,6 +176,9 @@ class Ollama extends BaseLLM<OllamaOptions> {
 
   @override
   String get modelType => 'ollama';
+
+  /// The default model to use unless another is specified.
+  static const defaultModel = 'llama3.1';
 
   @override
   Future<LLMResult> invoke(
@@ -210,14 +213,15 @@ class Ollama extends BaseLLM<OllamaOptions> {
     final OllamaOptions? options,
   }) {
     return GenerateCompletionRequest(
-      model: options?.model ?? defaultOptions.model ?? throwNullModelError(),
+      model: options?.model ?? defaultOptions.model ?? defaultModel,
       prompt: prompt,
-      system: options?.system,
-      template: options?.template,
-      context: options?.context,
-      format: options?.format?.toResponseFormat(),
-      raw: options?.raw,
-      keepAlive: options?.keepAlive,
+      system: options?.system ?? defaultOptions.system,
+      suffix: options?.suffix ?? defaultOptions.suffix,
+      template: options?.template ?? defaultOptions.template,
+      context: options?.context ?? defaultOptions.context,
+      format: (options?.format ?? defaultOptions.format)?.toResponseFormat(),
+      raw: options?.raw ?? defaultOptions.raw,
+      keepAlive: options?.keepAlive ?? defaultOptions.keepAlive,
       stream: stream,
       options: RequestOptions(
         numKeep: options?.numKeep ?? defaultOptions.numKeep,
@@ -225,6 +229,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
         numPredict: options?.numPredict ?? defaultOptions.numPredict,
         topK: options?.topK ?? defaultOptions.topK,
         topP: options?.topP ?? defaultOptions.topP,
+        minP: options?.minP ?? defaultOptions.minP,
         tfsZ: options?.tfsZ ?? defaultOptions.tfsZ,
         typicalP: options?.typicalP ?? defaultOptions.typicalP,
         repeatLastN: options?.repeatLastN ?? defaultOptions.repeatLastN,

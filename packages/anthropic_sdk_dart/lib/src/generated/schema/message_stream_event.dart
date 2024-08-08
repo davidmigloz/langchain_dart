@@ -69,8 +69,9 @@ sealed class MessageStreamEvent with _$MessageStreamEvent {
 
   /// A start event in a streaming content block.
   const factory MessageStreamEvent.contentBlockStart({
-    /// A block of text content.
-    @JsonKey(name: 'content_block') required TextBlock contentBlock,
+    /// A block of content in a message.
+    /// Any of: [TextBlock], [ImageBlock], [ToolUseBlock], [ToolResultBlock]
+    @JsonKey(name: 'content_block') required Block contentBlock,
 
     /// The index of the content block.
     required int index,
@@ -85,8 +86,9 @@ sealed class MessageStreamEvent with _$MessageStreamEvent {
 
   /// A delta event in a streaming content block.
   const factory MessageStreamEvent.contentBlockDelta({
-    /// A delta in a streaming text block.
-    required TextBlockDelta delta,
+    /// A delta in a streaming message.
+    /// Any of: [TextBlockDelta], [InputJsonBlockDelta]
+    required BlockDelta delta,
 
     /// The index of the content block.
     required int index,

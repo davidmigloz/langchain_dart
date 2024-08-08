@@ -18,9 +18,6 @@ class MessageContentTextAnnotationsFileCitation
   const factory MessageContentTextAnnotationsFileCitation({
     /// The ID of the specific File the citation is from.
     @JsonKey(name: 'file_id') required String fileId,
-
-    /// The specific quote in the file.
-    @JsonKey(includeIfNull: false) String? quote,
   }) = _MessageContentTextAnnotationsFileCitation;
 
   /// Object construction from a JSON representation
@@ -29,7 +26,7 @@ class MessageContentTextAnnotationsFileCitation
       _$MessageContentTextAnnotationsFileCitationFromJson(json);
 
   /// List of all property names of schema
-  static const List<String> propertyNames = ['file_id', 'quote'];
+  static const List<String> propertyNames = ['file_id'];
 
   /// Perform validations on the schema property values
   String? validateSchema() {
@@ -40,7 +37,6 @@ class MessageContentTextAnnotationsFileCitation
   Map<String, dynamic> toMap() {
     return {
       'file_id': fileId,
-      'quote': quote,
     };
   }
 }

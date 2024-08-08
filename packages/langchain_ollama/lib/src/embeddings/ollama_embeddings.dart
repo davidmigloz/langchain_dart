@@ -13,7 +13,7 @@ import 'package:ollama_dart/ollama_dart.dart';
 ///
 /// Example:
 /// ```dart
-/// final embeddings = OllamaEmbeddings(model: 'llama3');
+/// final embeddings = OllamaEmbeddings(model: 'llama3.1');
 /// final res = await embeddings.embedQuery('Hello world');
 /// ```
 ///
@@ -23,7 +23,7 @@ import 'package:ollama_dart/ollama_dart.dart';
 ///
 /// 1. Download and install [Ollama](https://ollama.ai)
 /// 2. Fetch a model via `ollama pull <model family>`
-///   * e.g., for `Llama-7b`: `ollama pull llama3`
+///   * e.g., for `Llama-7b`: `ollama pull llama3.1`
 ///
 /// ### Advance
 ///
@@ -76,7 +76,7 @@ class OllamaEmbeddings implements Embeddings {
   /// - `client`: the HTTP client to use. You can set your own HTTP client if
   ///   you need further customization (e.g. to use a Socks5 proxy).
   OllamaEmbeddings({
-    this.model = 'llama3',
+    this.model = 'llama3.1',
     this.keepAlive,
     final String baseUrl = 'http://localhost:11434/api',
     final Map<String, String>? headers,

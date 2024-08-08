@@ -193,6 +193,9 @@ extension ChatToolChoiceMapper on ChatToolChoice {
       ChatToolChoiceAuto _ => const ChatCompletionToolChoiceOption.mode(
           ChatCompletionToolChoiceMode.auto,
         ),
+      ChatToolChoiceRequired() => const ChatCompletionToolChoiceOption.mode(
+          ChatCompletionToolChoiceMode.required,
+        ),
       final ChatToolChoiceForced t => ChatCompletionToolChoiceOption.tool(
           ChatCompletionNamedToolChoice(
             type: ChatCompletionNamedToolChoiceType.function,
@@ -255,6 +258,17 @@ extension ChatOpenAIResponseFormatMapper on ChatOpenAIResponseFormat {
       },
     );
   }
+}
+
+extension ChatOpenAIServiceTierX on ChatOpenAIServiceTier? {
+  CreateChatCompletionRequestServiceTier?
+      toCreateChatCompletionRequestServiceTier() => switch (this) {
+            ChatOpenAIServiceTier.auto =>
+              CreateChatCompletionRequestServiceTier.auto,
+            ChatOpenAIServiceTier.vDefault =>
+              CreateChatCompletionRequestServiceTier.vDefault,
+            null => null,
+          };
 }
 
 FinishReason _mapFinishReason(

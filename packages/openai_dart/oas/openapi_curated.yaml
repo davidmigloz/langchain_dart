@@ -4,7 +4,7 @@ openapi: 3.0.0
 info:
   title: OpenAI API
   description: The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details.
-  version: "2.0.0"
+  version: "2.1.0"
   termsOfService: https://openai.com/policies/terms-of-use
   contact:
     name: OpenAI Support
@@ -1465,7 +1465,7 @@ paths:
       operationId: cancelBatch
       tags:
         - Batch
-      summary: Cancels an in-progress batch.
+      summary: Cancels an in-progress batch. The batch will be in status `cancelling` for up to 10 minutes, before changing to `cancelled`, where it will have partial results (if any) available in the output file.
       parameters:
         - in: path
           name: batch_id
@@ -1820,6 +1820,8 @@ components:
                   "gpt-4-vision-preview",
                   "gpt-4o",
                   "gpt-4o-2024-05-13",
+                  "gpt-4o-mini",
+                  "gpt-4o-mini-2024-07-18",
                   "gpt-3.5-turbo",
                   "gpt-3.5-turbo-16k",
                   "gpt-3.5-turbo-16k-0613",
@@ -1908,6 +1910,20 @@ components:
             This feature is in Beta. 
             If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result.
             Determinism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to monitor changes in the backend.
+        service_tier:
+          description: |
+            Specifies the latency tier to use for processing the request. This parameter is relevant for customers 
+            subscribed to the scale tier service:
+              - If set to 'auto', the system will utilize scale tier credits until they are exhausted.
+              - If set to 'default', the request will be processed using the default service tier with a lower 
+                uptime SLA and no latency guarantee.
+              - When not set, the default behavior is 'auto'.
+            
+              When this parameter is set, the response body will include the `service_tier` utilized.
+          type: string
+          enum: [ "auto", "default" ]
+          nullable: true
+          default: null
         stop:
           title: ChatCompletionStop
           description: |
@@ -1974,6 +1990,13 @@ components:
                 `required` means the model must call one or more tools.
               enum: [ none, auto, required ]
             - $ref: "#/components/schemas/ChatCompletionNamedToolChoice"
+        parallel_tool_calls: &parallel_tool_calls
+          description: |
+            Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling) 
+            during tool use.
+          type: boolean
+          default: null
+          nullable: true
         user: *end_user_param_configuration
         function_call:
           title: ChatCompletionFunctionCall
@@ -2051,7 +2074,7 @@ components:
             - type: string
               description: The text contents of the message.
             - type: array
-              description: An array of content parts with a defined type, each can be of type `text` or `image_url` when passing in images. You can pass multiple images by adding multiple `image_url` content parts. Image input is only supported when using the `gpt-4-vision-preview` model.
+              description: An array of content parts with a defined type, each can be of type `text` or `image_url` when passing in images. You can pass multiple images by adding multiple `image_url` content parts. Image input is only supported when using the `gpt-4o` model.
               items:
                 $ref: "#/components/schemas/ChatCompletionMessageContentPart"
               minItems: 1
@@ -2290,6 +2313,8 @@ components:
         model:
           type: string
           description: The model used for the chat completion.
+        service_tier:
+          $ref: "#/components/schemas/ServiceTier"
         system_fingerprint:
           type: string
           description: |
@@ -2342,6 +2367,14 @@ components:
           "content_filter",
           "function_call",
         ]
+    ServiceTier:
+      description: |
+        The service tier used for processing the request. This field is only included if the `service_tier` parameter 
+        is specified in the request.
+      type: string
+      enum: [ "scale", "default" ]
+      example: "scale"
+      nullable: true
     ChatCompletionLogprobs: &chat_completion_response_logprobs
       description: Log probability information for the choice.
       type: object
@@ -2412,6 +2445,8 @@ components:
         model:
           type: string
           description: The model to generate the completion.
+        service_tier:
+          $ref: "#/components/schemas/ServiceTier"
         system_fingerprint:
           type: string
           description: |
@@ -2668,8 +2703,13 @@ components:
 
             See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
 
-            Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.
+            Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose 
+            `fine-tune`.
 
+            The contents of the file should differ depending on if the model uses the 
+            [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input) or 
+            [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format.
+            
             See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
           type: string
           example: "file-abc123"
@@ -2881,8 +2921,10 @@ components:
         n_epochs:
           title: FineTuningNEpochs
           description: |
-            The number of epochs to train the model for. An epoch refers to one
-            full cycle through the training dataset.
+            The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.
+            
+            "auto" decides the optimal number of epochs based on the size of the dataset. If setting the number 
+            manually, we support any number between 1 and 50 epochs.
           oneOf:
             - type: string
               title: FineTuningNEpochsOptions
@@ -3486,6 +3528,8 @@ components:
                   "gpt-4-vision-preview",
                   "gpt-4o",
                   "gpt-4o-2024-05-13",
+                  "gpt-4o-mini",
+                  "gpt-4o-mini-2024-07-18",
                   "gpt-3.5-turbo",
                   "gpt-3.5-turbo-16k",
                   "gpt-3.5-turbo-16k-0613",
@@ -3710,7 +3754,23 @@ components:
         type:
           type: string
           description: "The type of tool being defined: `file_search`"
-          default: "file_search"
+          default: file_search
+        file_search:
+          type: object
+          description: Overrides for the file search tool.
+          properties:
+            max_num_results:
+              type: integer
+              minimum: 1
+              maximum: 50
+              description: |
+                The maximum number of results the file search tool should output. The default is 20 for gpt-4* models 
+                and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
+                
+                Note that the file search tool may output fewer than `max_num_results` results. See the [file search 
+                tool documentation](/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
+      required:
+        - type
     AssistantToolsFunction:
       type: object
       description: Function tool
@@ -3938,6 +3998,7 @@ components:
                 `required` means the model must call one or more tools before responding to the user.
               enum: [ none, auto, required ]
             - $ref: "#/components/schemas/AssistantsNamedToolChoice"
+        parallel_tool_calls: *parallel_tool_calls
         response_format:
           description: |
             Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
@@ -3976,6 +4037,7 @@ components:
         - max_completion_tokens
         - truncation_strategy
         - tool_choice
+        - parallel_tool_calls
         - response_format
     RunCompletionUsage:
       type: object
@@ -4030,6 +4092,8 @@ components:
                   "gpt-4-vision-preview",
                   "gpt-4o",
                   "gpt-4o-2024-05-13",
+                  "gpt-4o-mini",
+                  "gpt-4o-mini-2024-07-18",
                   "gpt-3.5-turbo",
                   "gpt-3.5-turbo-16k",
                   "gpt-3.5-turbo-16k-0613",
@@ -4115,6 +4179,7 @@ components:
                 `required` means the model must call one or more tools before responding to the user.
               enum: [ none, auto, required ]
             - $ref: "#/components/schemas/AssistantsNamedToolChoice"
+        parallel_tool_calls: *parallel_tool_calls
         response_format:
           description: |
             Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
@@ -4271,6 +4336,8 @@ components:
                   "gpt-4-vision-preview",
                   "gpt-4o",
                   "gpt-4o-2024-05-13",
+                  "gpt-4o-mini",
+                  "gpt-4o-mini-2024-07-18",
                   "gpt-3.5-turbo",
                   "gpt-3.5-turbo-16k",
                   "gpt-3.5-turbo-16k-0613",
@@ -4345,6 +4412,7 @@ components:
                 `required` means the model must call one or more tools before responding to the user.
               enum: [ none, auto, required ]
             - $ref: "#/components/schemas/AssistantsNamedToolChoice"
+        parallel_tool_calls: *parallel_tool_calls
         response_format:
           description: |
             Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
@@ -4470,6 +4538,8 @@ components:
           maxItems: 10000
           items:
             type: string
+        chunking_strategy:
+          $ref: "#/components/schemas/ChunkingStrategyRequestParam"
         metadata:
           type: object
           description: |
@@ -4885,12 +4955,8 @@ components:
         file_id:
           description: The ID of the specific File the citation is from.
           type: string
-        quote:
-          description: The specific quote in the file.
-          type: string
       required:
         - file_id
-        # - quote # https://github.com/openai/openai-openapi/issues/263
     MessageContentTextAnnotationsFilePathObject:
       type: object
       description: A URL for the file that's generated when the assistant used the `code_interpreter` tool to generate a file.
@@ -5680,6 +5746,8 @@ components:
             type: string
         expires_after:
           $ref: "#/components/schemas/VectorStoreExpirationAfter"
+        chunking_strategy:
+          $ref: "#/components/schemas/ChunkingStrategyRequestParam"
         metadata:
           description: *metadata_description
           type: object
@@ -5795,6 +5863,8 @@ components:
           required:
             - code
             - message
+        chunking_strategy:
+          $ref: "#/components/schemas/ChunkingStrategyResponseParam"
       required:
         - id
         - object
@@ -5803,6 +5873,97 @@ components:
         - vector_store_id
         - status
         - last_error
+    ChunkingStrategyRequestParam:
+      type: object
+      description: The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
+      oneOf:
+        - $ref: "#/components/schemas/AutoChunkingStrategyRequestParam"
+        - $ref: "#/components/schemas/StaticChunkingStrategyRequestParam"
+      discriminator:
+        propertyName: type
+    AutoChunkingStrategyRequestParam:
+      type: object
+      description: |
+        Auto Chunking Strategy, the default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` 
+        and `chunk_overlap_tokens` of `400`.
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          description: Always `auto`.
+          default: auto
+      required:
+        - type
+    StaticChunkingStrategyRequestParam:
+      type: object
+      description: Static chunking strategy
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          description: Always `static`.
+          default: static
+        static:
+          $ref: "#/components/schemas/StaticChunkingStrategy"
+      required:
+        - type
+        - static
+    StaticChunkingStrategy:
+      type: object
+      description: Static chunking strategy
+      additionalProperties: false
+      properties:
+        max_chunk_size_tokens:
+          type: integer
+          minimum: 100
+          maximum: 4096
+          description: |
+            The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the 
+            maximum value is `4096`.
+        chunk_overlap_tokens:
+          type: integer
+          description: |
+            The number of tokens that overlap between chunks. The default value is `400`.
+            
+            Note that the overlap must not exceed half of `max_chunk_size_tokens`.
+      required:
+        - max_chunk_size_tokens
+        - chunk_overlap_tokens
+    ChunkingStrategyResponseParam:
+      type: object
+      description: The chunking strategy used to chunk the file(s).
+      oneOf:
+        - $ref: "#/components/schemas/StaticChunkingStrategyResponseParam"
+        - $ref: "#/components/schemas/OtherChunkingStrategyResponseParam"
+      discriminator:
+        propertyName: type
+    OtherChunkingStrategyResponseParam:
+      type: object
+      description: |
+        Other Chunking Strategy. This is returned when the chunking strategy is unknown. Typically, this is because 
+        the file was indexed before the `chunking_strategy` concept was introduced in the API.
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          description: Always `other`.
+          default: other
+      required:
+        - type
+    StaticChunkingStrategyResponseParam:
+      type: object
+      description: Static Chunking Strategy.
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          description: Always `static`.
+          default: static
+        static:
+          $ref: "#/components/schemas/StaticChunkingStrategy"
+      required:
+        - type
+        - static
     CreateVectorStoreFileRequest:
       type: object
       description: Request object for the Create vector store file endpoint.
@@ -5810,6 +5971,8 @@ components:
         file_id:
           description: A [File](https://platform.openai.com/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files.
           type: string
+        chunking_strategy:
+          $ref: "#/components/schemas/ChunkingStrategyRequestParam"
       required:
         - file_id
     ListVectorStoreFilesResponse:
@@ -5923,6 +6086,8 @@ components:
           maxItems: 500
           items:
             type: string
+        chunking_strategy:
+          $ref: "#/components/schemas/ChunkingStrategyRequestParam"
       required:
         - file_ids
     AssistantStreamEvent:
@@ -6115,7 +6280,7 @@ components:
             
             See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
             
-            Your input file must be formatted as a JSONL file, and must be uploaded with the purpose `batch`.
+            Your input file must be formatted as a [JSONL file](https://platform.openai.com/docs/api-reference/batch/request-input), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 100 MB in size.
         endpoint:
           $ref: "#/components/schemas/BatchEndpoint"
         completion_window:

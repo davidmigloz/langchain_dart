@@ -20,6 +20,18 @@ tags:
     description: List and describe the various models available.
 
 paths:
+  /version:
+    get:
+      operationId: getVersion
+      summary: Returns the version of the Ollama server.
+      description: This endpoint returns the version of the Ollama server.
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResponse'
   /generate:
     post:
       operationId: generateCompletion
@@ -261,11 +273,14 @@ components:
             The model name. 
             
             Model names follow a `model:tag` format. Some examples are `orca-mini:3b-q4_1` and `llama3:70b`. The tag is optional and, if not provided, will default to `latest`. The tag is used to identify a specific version.
-          example: llama3:8b
+          example: llama3.1
         prompt:
           type: string
           description: The prompt to generate a response.
           example: Why is the sky blue?
+        suffix:
+          type: string
+          description: The text that comes after the inserted text.
         images:
           type: array
           description: (optional) a list of Base64-encoded images to include in the message (for multimodal models such as llava)
@@ -300,10 +315,10 @@ components:
           description: &stream |
             If `false` the response will be returned as a single response object, otherwise the response will be streamed as a series of objects.
           default: false
-        keep_alive:
+        keep_alive: &keep_alive
           type: integer
           nullable: true
-          description: &keep_alive |
+          description: |
             How long (in minutes) to keep the model loaded in memory.
             
             - If set to a positive duration (e.g. 20), the model will stay loaded for the provided duration.
@@ -326,90 +341,115 @@ components:
           type: integer
           nullable: true
           description: |
-            Sets the random number seed to use for generation. Setting this to a specific number will make the model generate the same text for the same prompt. (Default: 0)
+            Sets the random number seed to use for generation. Setting this to a specific number will make the model 
+            generate the same text for the same prompt. (Default: 0)
         num_predict:
           type: integer
           nullable: true
           description: |
-            Maximum number of tokens to predict when generating text. (Default: 128, -1 = infinite generation, -2 = fill context)
+            Maximum number of tokens to predict when generating text. 
+            (Default: 128, -1 = infinite generation, -2 = fill context)
         top_k:
           type: integer
           nullable: true
           description: |
-            Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers, while a lower value (e.g. 10) will be more conservative. (Default: 40)
+            Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers, 
+            while a lower value (e.g. 10) will be more conservative. (Default: 40)
         top_p:
           type: number
           format: float
           nullable: true
           description: |
-            Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
+            Works together with top_k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value 
+            (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
+        min_p:
+          type: number
+          format: float
+          nullable: true
+          description: |
+            Alternative to the top_p, and aims to ensure a balance of quality and variety. min_p represents the minimum 
+            probability for a token to be considered, relative to the probability of the most likely token. For 
+            example, with min_p=0.05 and the most likely token having a probability of 0.9, logits with a value less 
+            than 0.05*0.9=0.045 are filtered out. (Default: 0.0)
         tfs_z:
           type: number
           format: float
           nullable: true
           description: |
-            Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
+            Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value 
+            (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
         typical_p:
           type: number
           format: float
           nullable: true
           description: |
-            Typical p is used to reduce the impact of less probable tokens from the output.
+            Typical p is used to reduce the impact of less probable tokens from the output. (default: 1)
         repeat_last_n:
           type: integer
           nullable: true
           description: |
-            Sets how far back for the model to look back to prevent repetition. (Default: 64, 0 = disabled, -1 = num_ctx)
+            Sets how far back for the model to look back to prevent repetition. 
+            (Default: 64, 0 = disabled, -1 = num_ctx)
         temperature:
           type: number
           format: float
           nullable: true
           description: |
-            The temperature of the model. Increasing the temperature will make the model answer more creatively. (Default: 0.8)
+            The temperature of the model. Increasing the temperature will make the model answer more creatively. 
+            (Default: 0.8)
         repeat_penalty:
           type: number
           format: float
           nullable: true
           description: |
-            Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more strongly, while a lower value (e.g., 0.9) will be more lenient. (Default: 1.1)
+            Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more 
+            strongly, while a lower value (e.g., 0.9) will be more lenient. (Default: 1.1)
         presence_penalty:
           type: number
           format: float
           nullable: true
           description: |
-            Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
+            Positive values penalize new tokens based on whether they appear in the text so far, increasing the 
+            model's likelihood to talk about new topics. (Default: 0)
         frequency_penalty:
           type: number
           format: float
           nullable: true
           description: |
-            Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+            Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the 
+            model's likelihood to repeat the same line verbatim. (Default: 0)
         mirostat:
           type: integer
           nullable: true
           description: |
-            Enable Mirostat sampling for controlling perplexity. (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
+            Enable Mirostat sampling for controlling perplexity. 
+            (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
         mirostat_tau:
           type: number
           format: float
           nullable: true
           description: |
-            Controls the balance between coherence and diversity of the output. A lower value will result in more focused and coherent text. (Default: 5.0)
+            Controls the balance between coherence and diversity of the output. A lower value will result in more 
+            focused and coherent text. (Default: 5.0)
         mirostat_eta:
           type: number
           format: float
           nullable: true
           description: |
-            Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate will result in slower adjustments, while a higher learning rate will make the algorithm more responsive. (Default: 0.1)
+            Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate 
+            will result in slower adjustments, while a higher learning rate will make the algorithm more responsive. 
+            (Default: 0.1)
         penalize_newline:
           type: boolean
           nullable: true
           description: |
-            Penalize newlines in the output. (Default: false)
+            Penalize newlines in the output. (Default: true)
         stop:
           type: array
           nullable: true
-          description: Sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
+          description: |
+            Sequences where the API will stop generating further tokens. The returned text will not contain the stop 
+            sequence.
           items:
             type: string
         numa:
@@ -421,17 +461,18 @@ components:
           type: integer
           nullable: true
           description: |
-            Sets the size of the context window used to generate the next token.
+            Sets the size of the context window used to generate the next token. (Default: 2048)
         num_batch:
           type: integer
           nullable: true
           description: |
-            Sets the number of batches to use for generation. (Default: 1)
+            Sets the number of batches to use for generation. (Default: 512)
         num_gpu:
           type: integer
           nullable: true
           description: |
-            The number of layers to send to the GPU(s). On macOS it defaults to 1 to enable metal support, 0 to disable.
+            The number of layers to send to the GPU(s). 
+            On macOS it defaults to 1 to enable metal support, 0 to disable.
         main_gpu:
           type: integer
           nullable: true
@@ -446,7 +487,7 @@ components:
           type: boolean
           nullable: true
           description: |
-            Enable f16 key/value. (Default: false)
+            Enable f16 key/value. (Default: true)
         logits_all:
           type: boolean
           nullable: true
@@ -471,7 +512,9 @@ components:
           type: integer
           nullable: true
           description: |
-            Sets the number of threads to use during computation. By default, Ollama will detect this for optimal performance. It is recommended to set this value to the number of physical CPU cores your system has (as opposed to the logical number of cores).
+            Sets the number of threads to use during computation. By default, Ollama will detect this for optimal 
+            performance. It is recommended to set this value to the number of physical CPU cores your system has 
+            (as opposed to the logical number of cores).
     ResponseFormat:
       type: string
       description: |
@@ -482,6 +525,13 @@ components:
         Note: it's important to instruct the model to use JSON in the prompt. Otherwise, the model may generate large amounts whitespace.
       enum:
         - json
+    VersionResponse:
+      type: object
+      description: The response class for the version endpoint.
+      properties:
+        version:
+          type: string
+          description: The version of the Ollama server.
     GenerateCompletionResponse:
       type: object
       description: The response class for the generate endpoint.
@@ -489,7 +539,7 @@ components:
         model:
           type: string
           description: *model_name
-          example: llama3:8b
+          example: llama3.1
         created_at:
           type: string
           format: date-time
@@ -546,7 +596,7 @@ components:
         model:
           type: string
           description: *model_name
-          example: llama3:8b
+          example: llama3.1
         messages:
           type: array
           description: The messages of the chat, this can be used to keep a chat memory
@@ -560,10 +610,12 @@ components:
           type: boolean
           description: *stream
           default: false
-        keep_alive:
-          type: integer
-          nullable: true
-          description: *keep_alive
+        keep_alive: *keep_alive
+        tools:
+          type: array
+          description: A list of tools the model may call.
+          items:
+            $ref: '#/components/schemas/Tool'
       required:
         - model
         - messages
@@ -576,7 +628,7 @@ components:
         model:
           type: string
           description: *model_name
-          example: llama3:8b
+          example: llama3.1
         created_at:
           type: string
           format: date-time
@@ -616,6 +668,11 @@ components:
           format: int64
           description: Time in nanoseconds spent generating the response.
           example: 1325948000
+      required:
+        - model
+        - created_at
+        - message
+        - done
     DoneReason:
       type: string
       description: Reason why the model is done generating a response.
@@ -630,7 +687,7 @@ components:
         role:
           type: string
           description: The role of the message
-          enum: [ "system", "user", "assistant" ]
+          enum: [ "system", "user", "assistant", "tool" ]
         content:
           type: string
           description: The content of the message
@@ -642,9 +699,69 @@ components:
             type: string
             description: Base64-encoded image (for multimodal models such as llava)
             example: iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAIAAAD0YtNRAAAABnRSTlMA/AD+APzoM1ogAAAAWklEQVR4AWP48+8PLkR7uUdzcMvtU8EhdykHKAciEXL3pvw5FQIURaBDJkARoDhY3zEXiCgCHbNBmAlUiyaBkENoxZSDWnOtBmoAQu7TnT+3WuDOA7KBIkAGAGwiNeqjusp/AAAAAElFTkSuQmCC
+        tool_calls:
+          type: array
+          description: A list of tools the model wants to call.
+          items:
+            $ref: '#/components/schemas/ToolCall'
       required:
         - role
         - content
+    Tool:
+      type: object
+      description: A tool the model may call.
+      properties:
+        type:
+          type: string
+          enum:
+            - function
+          default: function
+          description: The type of tool.
+        function:
+          $ref: '#/components/schemas/ToolFunction'
+    ToolFunction:
+      type: object
+      description: A function that the model may call.
+      properties:
+        name:
+          type: string
+          description: The name of the function to be called.
+        description:
+          type: string
+          description: |
+            A description of what the function does, used by the model to choose when and how to call the function.
+        parameters:
+          $ref: '#/components/schemas/ToolFunctionParams'
+      required:
+        - name
+        - description
+        - parameters
+    ToolFunctionParams:
+      type: object
+      description: The parameters the functions accepts, described as a JSON Schema object.
+      additionalProperties: true
+    ToolCall:
+      type: object
+      description: The tool the model wants to call.
+      properties:
+        function:
+          $ref: '#/components/schemas/ToolCallFunction'
+    ToolCallFunction:
+      type: object
+      description: The function the model wants to call.
+      properties:
+        name:
+          type: string
+          description: The name of the function to be called.
+        arguments:
+          $ref: '#/components/schemas/ToolCallFunctionArgs'
+      required:
+        - name
+        - arguments
+    ToolCallFunctionArgs:
+      type: object
+      description: The arguments to pass to the function.
+      additionalProperties: true
     GenerateEmbeddingRequest:
       description: Generate embeddings from a model.
       type: object
@@ -652,17 +769,14 @@ components:
         model:
           type: string
           description: *model_name
-          example: llama3:8b
+          example: llama3.1
         prompt:
           type: string
           description: Text to generate embeddings for.
           example: 'Here is an article about llamas...'
         options:
           $ref: '#/components/schemas/RequestOptions'
-        keep_alive:
-          type: integer
-          nullable: true
-          description: *keep_alive
+        keep_alive: *keep_alive
       required:
         - model
         - prompt
@@ -732,7 +846,7 @@ components:
         model:
           type: string
           description: *model_name
-          example: llama3:8b
+          example: llama3.1
         modified_at:
           type: string
           format: date-time
@@ -773,6 +887,26 @@ components:
         quantization_level:
           type: string
           description: The quantization level of the model.
+    ModelInformation:
+      type: object
+      description: Details about a model.
+      properties:
+        general.architecture:
+          type: string
+          description: The architecture of the model.
+        general.file_type:
+          type: integer
+          nullable: true
+          description: The file type of the model.
+        general.parameter_count:
+          type: integer
+          format: int64
+          nullable: true
+          description: The number of parameters in the model.
+        general.quantization_version:
+          type: integer
+          nullable: true
+          description: The number of parameters in the model.
     ProcessResponse:
       type: object
       description: Response class for the list running models endpoint.
@@ -789,7 +923,7 @@ components:
         model:
           type: string
           description: *model_name
-          example: llama3:8b
+          example: llama3.1
         size:
           type: integer
           format: int64
@@ -817,7 +951,7 @@ components:
         model:
           type: string
           description: *model_name
-          example: llama3:8b
+          example: llama3.1
       required:
         - model
     ModelInfo:
@@ -850,6 +984,8 @@ components:
           description: The system prompt for the model.
         details:
           $ref: '#/components/schemas/ModelDetails'
+        model_info:
+          $ref: '#/components/schemas/ModelInformation'
         messages:
           type: array
           nullable: true
@@ -863,7 +999,7 @@ components:
         source:
           type: string
           description: Name of the model to copy.
-          example: llama3:8b
+          example: llama3.1
         destination:
           type: string
           description: Name of the new model.
@@ -888,7 +1024,7 @@ components:
         model:
           type: string
           description: *model_name
-          example: llama3:8b
+          example: llama3.1
         insecure:
           type: boolean
           description: |
@@ -976,7 +1112,8 @@ components:
       description: Response class for pushing a model.
       properties:
         status:
-          $ref: '#/components/schemas/PushModelStatus'
+          type: string
+          description: Status pushing the model.
         digest:
           type: string
           description: the model's digest
@@ -991,11 +1128,3 @@ components:
           format: int64
           description: Total bytes transferred.
           example: 2142590208
-    PushModelStatus:
-      type: string
-      description: Status pushing the model.
-      enum:
-        - retrieving manifest
-        - starting upload
-        - pushing manifest
-        - success

@@ -10,7 +10,7 @@ import 'package:test/test.dart';
 void main() {
   group('Ollama tests', skip: Platform.environment.containsKey('CI'), () {
     late Ollama llm;
-    const defaultModel = 'llama3:latest';
+    const defaultModel = 'llama3.1';
 
     setUp(() async {
       llm = Ollama(

@@ -25,4 +25,6 @@ enum StopReason {
   maxTokens,
   @JsonValue('stop_sequence')
   stopSequence,
+  @JsonValue('tool_use')
+  toolUse,
 }

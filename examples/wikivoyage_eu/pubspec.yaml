@@ -1,5 +1,5 @@
 name: wikivoyage_eu
-description: Wikivoyage EU chatbot using llama3 and ObjectBox.
+description: Wikivoyage EU chatbot using llama3.1 and ObjectBox.
 version: 1.0.0
 publish_to: none
 
@@ -7,6 +7,6 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  langchain: ^0.7.2
-  langchain_ollama: ^0.2.2
-  langchain_community: 0.2.1+1
+  langchain: ^0.7.4
+  langchain_ollama: ^0.3.0
+  langchain_community: 0.3.0

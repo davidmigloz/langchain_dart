@@ -2,6 +2,7 @@ import 'dart:async';
 
 import '../../utils.dart';
 import 'binding.dart';
+import 'fallbacks.dart';
 import 'function.dart';
 import 'input_map.dart';
 import 'input_stream_map.dart';
@@ -279,6 +280,25 @@ abstract class Runnable<RunInput extends Object?,
     return RunnableBinding<RunInput, CallOptions, RunOutput>(
       bound: this,
       options: options,
+    );
+  }
+
+  /// Adds fallback runnables to be invoked if the primary runnable fails.
+  ///
+  /// This method creates a [RunnableWithFallback] instance that wraps the
+  /// current [Runnable]. If the initial invocation of the current [Runnable]
+  /// fails, the [fallbacks] runnables are attempted in the order they are
+  /// provided. This process continues until a runnable succeeds or all
+  /// fallbacks fail. The result of the first successful runnable is returned,
+  /// or an error is thrown if all runnables fail.
+  ///
+  /// - [fallbacks]: A list of [Runnable] instances to be used as fallbacks.
+  RunnableWithFallback<RunInput, RunOutput> withFallbacks(
+    List<Runnable<RunInput, RunnableOptions, RunOutput>> fallbacks,
+  ) {
+    return RunnableWithFallback<RunInput, RunOutput>(
+      mainRunnable: this,
+      fallbacks: fallbacks,
     );
   }
 
