@@ -25,3 +25,6 @@ dependencies:
 
 dev_dependencies:
   test: ^1.25.2
+  langchain_community:
+  langchain_openai:
+  langchain_ollama:
