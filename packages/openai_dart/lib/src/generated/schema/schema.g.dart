@@ -13,17 +13,17 @@ _$CreateCompletionRequestImpl _$$CreateCompletionRequestImplFromJson(
     _$CreateCompletionRequestImpl(
       model: const _CompletionModelConverter().fromJson(json['model']),
       prompt: const _CompletionPromptConverter().fromJson(json['prompt']),
-      bestOf: json['best_of'] as int?,
+      bestOf: (json['best_of'] as num?)?.toInt(),
       echo: json['echo'] as bool? ?? false,
       frequencyPenalty: (json['frequency_penalty'] as num?)?.toDouble() ?? 0.0,
       logitBias: (json['logit_bias'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as int),
+        (k, e) => MapEntry(k, (e as num).toInt()),
       ),
-      logprobs: json['logprobs'] as int?,
-      maxTokens: json['max_tokens'] as int? ?? 16,
-      n: json['n'] as int? ?? 1,
+      logprobs: (json['logprobs'] as num?)?.toInt(),
+      maxTokens: (json['max_tokens'] as num?)?.toInt() ?? 16,
+      n: (json['n'] as num?)?.toInt() ?? 1,
       presencePenalty: (json['presence_penalty'] as num?)?.toDouble() ?? 0.0,
-      seed: json['seed'] as int?,
+      seed: (json['seed'] as num?)?.toInt(),
       stop: const _CompletionStopConverter().fromJson(json['stop']),
       stream: json['stream'] as bool? ?? false,
       streamOptions: json['stream_options'] == null
@@ -113,7 +113,8 @@ _$CompletionPromptListListIntImpl _$$CompletionPromptListListIntImplFromJson(
         Map<String, dynamic> json) =>
     _$CompletionPromptListListIntImpl(
       (json['value'] as List<dynamic>)
-          .map((e) => (e as List<dynamic>).map((e) => e as int).toList())
+          .map((e) =>
+              (e as List<dynamic>).map((e) => (e as num).toInt()).toList())
           .toList(),
       $type: json['runtimeType'] as String?,
     );
@@ -128,7 +129,7 @@ Map<String, dynamic> _$$CompletionPromptListListIntImplToJson(
 _$CompletionPromptListIntImpl _$$CompletionPromptListIntImplFromJson(
         Map<String, dynamic> json) =>
     _$CompletionPromptListIntImpl(
-      (json['value'] as List<dynamic>).map((e) => e as int).toList(),
+      (json['value'] as List<dynamic>).map((e) => (e as num).toInt()).toList(),
       $type: json['runtimeType'] as String?,
     );
 
@@ -202,7 +203,7 @@ _$CreateCompletionResponseImpl _$$CreateCompletionResponseImplFromJson(
       choices: (json['choices'] as List<dynamic>)
           .map((e) => CompletionChoice.fromJson(e as Map<String, dynamic>))
           .toList(),
-      created: json['created'] as int,
+      created: (json['created'] as num).toInt(),
       model: json['model'] as String,
       systemFingerprint: json['system_fingerprint'] as String?,
       object:
@@ -243,7 +244,7 @@ _$CompletionChoiceImpl _$$CompletionChoiceImplFromJson(
       finishReason: $enumDecodeNullable(
           _$CompletionFinishReasonEnumMap, json['finish_reason'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
-      index: json['index'] as int,
+      index: (json['index'] as num).toInt(),
       logprobs: json['logprobs'] == null
           ? null
           : CompletionLogprobs.fromJson(
@@ -270,7 +271,7 @@ _$CompletionLogprobsImpl _$$CompletionLogprobsImplFromJson(
         Map<String, dynamic> json) =>
     _$CompletionLogprobsImpl(
       textOffset: (json['text_offset'] as List<dynamic>?)
-          ?.map((e) => e as int)
+          ?.map((e) => (e as num).toInt())
           .toList(),
       tokenLogprobs: (json['token_logprobs'] as List<dynamic>?)
           ?.map((e) => (e as num?)?.toDouble())
@@ -310,18 +311,18 @@ _$CreateChatCompletionRequestImpl _$$CreateChatCompletionRequestImplFromJson(
           .toList(),
       frequencyPenalty: (json['frequency_penalty'] as num?)?.toDouble() ?? 0.0,
       logitBias: (json['logit_bias'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as int),
+        (k, e) => MapEntry(k, (e as num).toInt()),
       ),
       logprobs: json['logprobs'] as bool?,
-      topLogprobs: json['top_logprobs'] as int?,
-      maxTokens: json['max_tokens'] as int?,
-      n: json['n'] as int? ?? 1,
+      topLogprobs: (json['top_logprobs'] as num?)?.toInt(),
+      maxTokens: (json['max_tokens'] as num?)?.toInt(),
+      n: (json['n'] as num?)?.toInt() ?? 1,
       presencePenalty: (json['presence_penalty'] as num?)?.toDouble() ?? 0.0,
       responseFormat: json['response_format'] == null
           ? null
           : ChatCompletionResponseFormat.fromJson(
               json['response_format'] as Map<String, dynamic>),
-      seed: json['seed'] as int?,
+      seed: (json['seed'] as num?)?.toInt(),
       serviceTier: $enumDecodeNullable(
           _$CreateChatCompletionRequestServiceTierEnumMap, json['service_tier'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
@@ -427,6 +428,7 @@ const _$ChatCompletionModelsEnumMap = {
   ChatCompletionModels.gpt4VisionPreview: 'gpt-4-vision-preview',
   ChatCompletionModels.gpt4o: 'gpt-4o',
   ChatCompletionModels.gpt4o20240513: 'gpt-4o-2024-05-13',
+  ChatCompletionModels.gpt4o20240806: 'gpt-4o-2024-08-06',
   ChatCompletionModels.gpt4oMini: 'gpt-4o-mini',
   ChatCompletionModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
   ChatCompletionModels.gpt35Turbo: 'gpt-3.5-turbo',
@@ -717,7 +719,7 @@ _$CreateChatCompletionResponseImpl _$$CreateChatCompletionResponseImplFromJson(
           .map((e) =>
               ChatCompletionResponseChoice.fromJson(e as Map<String, dynamic>))
           .toList(),
-      created: json['created'] as int,
+      created: (json['created'] as num).toInt(),
       model: json['model'] as String,
       serviceTier: $enumDecodeNullable(
           _$ServiceTierEnumMap, json['service_tier'],
@@ -761,7 +763,7 @@ _$ChatCompletionResponseChoiceImpl _$$ChatCompletionResponseChoiceImplFromJson(
       finishReason: $enumDecodeNullable(
           _$ChatCompletionFinishReasonEnumMap, json['finish_reason'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
-      index: json['index'] as int?,
+      index: (json['index'] as num?)?.toInt(),
       message: ChatCompletionAssistantMessage.fromJson(
           json['message'] as Map<String, dynamic>),
       logprobs: json['logprobs'] == null
@@ -816,7 +818,9 @@ _$ChatCompletionTokenLogprobImpl _$$ChatCompletionTokenLogprobImplFromJson(
     _$ChatCompletionTokenLogprobImpl(
       token: json['token'] as String,
       logprob: (json['logprob'] as num).toDouble(),
-      bytes: (json['bytes'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      bytes: (json['bytes'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
       topLogprobs: (json['top_logprobs'] as List<dynamic>)
           .map((e) =>
               ChatCompletionTokenTopLogprob.fromJson(e as Map<String, dynamic>))
@@ -837,8 +841,9 @@ _$ChatCompletionTokenTopLogprobImpl
         _$ChatCompletionTokenTopLogprobImpl(
           token: json['token'] as String,
           logprob: (json['logprob'] as num).toDouble(),
-          bytes:
-              (json['bytes'] as List<dynamic>?)?.map((e) => e as int).toList(),
+          bytes: (json['bytes'] as List<dynamic>?)
+              ?.map((e) => (e as num).toInt())
+              .toList(),
         );
 
 Map<String, dynamic> _$$ChatCompletionTokenTopLogprobImplToJson(
@@ -858,7 +863,7 @@ _$CreateChatCompletionStreamResponseImpl
               .map((e) => ChatCompletionStreamResponseChoice.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
-          created: json['created'] as int?,
+          created: (json['created'] as num?)?.toInt(),
           model: json['model'] as String?,
           serviceTier: $enumDecodeNullable(
               _$ServiceTierEnumMap, json['service_tier'],
@@ -904,7 +909,7 @@ _$ChatCompletionStreamResponseChoiceImpl
           finishReason: $enumDecodeNullable(
               _$ChatCompletionFinishReasonEnumMap, json['finish_reason'],
               unknownValue: JsonKey.nullForUndefinedEnumValue),
-          index: json['index'] as int?,
+          index: (json['index'] as num?)?.toInt(),
         );
 
 Map<String, dynamic> _$$ChatCompletionStreamResponseChoiceImplToJson(
@@ -1013,7 +1018,7 @@ _$ChatCompletionStreamMessageToolCallChunkImpl
     _$$ChatCompletionStreamMessageToolCallChunkImplFromJson(
             Map<String, dynamic> json) =>
         _$ChatCompletionStreamMessageToolCallChunkImpl(
-          index: json['index'] as int,
+          index: (json['index'] as num).toInt(),
           id: json['id'] as String?,
           type: $enumDecodeNullable(
               _$ChatCompletionStreamMessageToolCallChunkTypeEnumMap,
@@ -1051,9 +1056,9 @@ const _$ChatCompletionStreamMessageToolCallChunkTypeEnumMap = {
 _$CompletionUsageImpl _$$CompletionUsageImplFromJson(
         Map<String, dynamic> json) =>
     _$CompletionUsageImpl(
-      completionTokens: json['completion_tokens'] as int?,
-      promptTokens: json['prompt_tokens'] as int,
-      totalTokens: json['total_tokens'] as int,
+      completionTokens: (json['completion_tokens'] as num?)?.toInt(),
+      promptTokens: (json['prompt_tokens'] as num).toInt(),
+      totalTokens: (json['total_tokens'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$CompletionUsageImplToJson(
@@ -1072,7 +1077,7 @@ _$CreateEmbeddingRequestImpl _$$CreateEmbeddingRequestImplFromJson(
       encodingFormat: $enumDecodeNullable(
               _$EmbeddingEncodingFormatEnumMap, json['encoding_format']) ??
           EmbeddingEncodingFormat.float,
-      dimensions: json['dimensions'] as int?,
+      dimensions: (json['dimensions'] as num?)?.toInt(),
       user: json['user'] as String?,
     );
 
@@ -1139,7 +1144,8 @@ _$EmbeddingInputListListIntImpl _$$EmbeddingInputListListIntImplFromJson(
         Map<String, dynamic> json) =>
     _$EmbeddingInputListListIntImpl(
       (json['value'] as List<dynamic>)
-          .map((e) => (e as List<dynamic>).map((e) => e as int).toList())
+          .map((e) =>
+              (e as List<dynamic>).map((e) => (e as num).toInt()).toList())
           .toList(),
       $type: json['runtimeType'] as String?,
     );
@@ -1154,7 +1160,7 @@ Map<String, dynamic> _$$EmbeddingInputListListIntImplToJson(
 _$EmbeddingInputListIntImpl _$$EmbeddingInputListIntImplFromJson(
         Map<String, dynamic> json) =>
     _$EmbeddingInputListIntImpl(
-      (json['value'] as List<dynamic>).map((e) => e as int).toList(),
+      (json['value'] as List<dynamic>).map((e) => (e as num).toInt()).toList(),
       $type: json['runtimeType'] as String?,
     );
 
@@ -1231,7 +1237,7 @@ const _$CreateEmbeddingResponseObjectEnumMap = {
 
 _$EmbeddingImpl _$$EmbeddingImplFromJson(Map<String, dynamic> json) =>
     _$EmbeddingImpl(
-      index: json['index'] as int,
+      index: (json['index'] as num).toInt(),
       embedding: const _EmbeddingVectorConverter().fromJson(json['embedding']),
       object: $enumDecode(_$EmbeddingObjectEnumMap, json['object']),
     );
@@ -1279,8 +1285,8 @@ Map<String, dynamic> _$$EmbeddingVectorStringImplToJson(
 
 _$EmbeddingUsageImpl _$$EmbeddingUsageImplFromJson(Map<String, dynamic> json) =>
     _$EmbeddingUsageImpl(
-      promptTokens: json['prompt_tokens'] as int,
-      totalTokens: json['total_tokens'] as int,
+      promptTokens: (json['prompt_tokens'] as num).toInt(),
+      totalTokens: (json['total_tokens'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$EmbeddingUsageImplToJson(
@@ -1305,7 +1311,7 @@ _$CreateFineTuningJobRequestImpl _$$CreateFineTuningJobRequestImplFromJson(
           ?.map(
               (e) => FineTuningIntegration.fromJson(e as Map<String, dynamic>))
           .toList(),
-      seed: json['seed'] as int?,
+      seed: (json['seed'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$CreateFineTuningJobRequestImplToJson(
@@ -1348,6 +1354,7 @@ const _$FineTuningModelsEnumMap = {
   FineTuningModels.babbage002: 'babbage-002',
   FineTuningModels.davinci002: 'davinci-002',
   FineTuningModels.gpt35Turbo: 'gpt-3.5-turbo',
+  FineTuningModels.gpt4oMini: 'gpt-4o-mini',
 };
 
 _$FineTuningModelStringImpl _$$FineTuningModelStringImplFromJson(
@@ -1367,12 +1374,12 @@ Map<String, dynamic> _$$FineTuningModelStringImplToJson(
 _$FineTuningJobImpl _$$FineTuningJobImplFromJson(Map<String, dynamic> json) =>
     _$FineTuningJobImpl(
       id: json['id'] as String,
-      createdAt: json['created_at'] as int,
+      createdAt: (json['created_at'] as num).toInt(),
       error: json['error'] == null
           ? null
           : FineTuningJobError.fromJson(json['error'] as Map<String, dynamic>),
       fineTunedModel: json['fine_tuned_model'] as String?,
-      finishedAt: json['finished_at'] as int?,
+      finishedAt: (json['finished_at'] as num?)?.toInt(),
       hyperparameters: FineTuningJobHyperparameters.fromJson(
           json['hyperparameters'] as Map<String, dynamic>),
       model: json['model'] as String,
@@ -1382,7 +1389,7 @@ _$FineTuningJobImpl _$$FineTuningJobImplFromJson(Map<String, dynamic> json) =>
           .map((e) => e as String)
           .toList(),
       status: $enumDecode(_$FineTuningJobStatusEnumMap, json['status']),
-      trainedTokens: json['trained_tokens'] as int?,
+      trainedTokens: (json['trained_tokens'] as num?)?.toInt(),
       trainingFile: json['training_file'] as String,
       validationFile: json['validation_file'] as String?,
       integrations: (json['integrations'] as List<dynamic>?)
@@ -1528,7 +1535,7 @@ const _$FineTuningNEpochsOptionsEnumMap = {
 _$FineTuningNEpochsIntImpl _$$FineTuningNEpochsIntImplFromJson(
         Map<String, dynamic> json) =>
     _$FineTuningNEpochsIntImpl(
-      json['value'] as int,
+      (json['value'] as num).toInt(),
       $type: json['runtimeType'] as String?,
     );
 
@@ -1632,7 +1639,7 @@ _$FineTuningJobEventImpl _$$FineTuningJobEventImplFromJson(
         Map<String, dynamic> json) =>
     _$FineTuningJobEventImpl(
       id: json['id'] as String,
-      createdAt: json['created_at'] as int,
+      createdAt: (json['created_at'] as num).toInt(),
       level: $enumDecode(_$FineTuningJobEventLevelEnumMap, json['level']),
       message: json['message'] as String,
       object: $enumDecode(_$FineTuningJobEventObjectEnumMap, json['object']),
@@ -1662,9 +1669,9 @@ _$FineTuningJobCheckpointImpl _$$FineTuningJobCheckpointImplFromJson(
         Map<String, dynamic> json) =>
     _$FineTuningJobCheckpointImpl(
       id: json['id'] as String,
-      createdAt: json['created_at'] as int,
+      createdAt: (json['created_at'] as num).toInt(),
       fineTunedModelCheckpoint: json['fine_tuned_model_checkpoint'] as String,
-      stepNumber: json['step_number'] as int,
+      stepNumber: (json['step_number'] as num).toInt(),
       metrics: FineTuningJobCheckpointMetrics.fromJson(
           json['metrics'] as Map<String, dynamic>),
       fineTuningJobId: json['fine_tuning_job_id'] as String,
@@ -1732,7 +1739,7 @@ _$CreateImageRequestImpl _$$CreateImageRequestImplFromJson(
       model: json['model'] == null
           ? const CreateImageRequestModelString('dall-e-2')
           : const _CreateImageRequestModelConverter().fromJson(json['model']),
-      n: json['n'] as int? ?? 1,
+      n: (json['n'] as num?)?.toInt() ?? 1,
       quality: $enumDecodeNullable(_$ImageQualityEnumMap, json['quality']) ??
           ImageQuality.standard,
       responseFormat: $enumDecodeNullable(
@@ -1831,7 +1838,7 @@ Map<String, dynamic> _$$CreateImageRequestModelStringImplToJson(
 
 _$ImagesResponseImpl _$$ImagesResponseImplFromJson(Map<String, dynamic> json) =>
     _$ImagesResponseImpl(
-      created: json['created'] as int,
+      created: (json['created'] as num).toInt(),
       data: (json['data'] as List<dynamic>)
           .map((e) => Image.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1867,7 +1874,7 @@ Map<String, dynamic> _$$ImageImplToJson(_$ImageImpl instance) {
 
 _$ModelImpl _$$ModelImplFromJson(Map<String, dynamic> json) => _$ModelImpl(
       id: json['id'] as String,
-      created: json['created'] as int,
+      created: (json['created'] as num).toInt(),
       object: $enumDecode(_$ModelObjectEnumMap, json['object']),
       ownedBy: json['owned_by'] as String,
     );
@@ -2109,7 +2116,7 @@ _$AssistantObjectImpl _$$AssistantObjectImplFromJson(
     _$AssistantObjectImpl(
       id: json['id'] as String,
       object: $enumDecode(_$AssistantObjectObjectEnumMap, json['object']),
-      createdAt: json['created_at'] as int,
+      createdAt: (json['created_at'] as num).toInt(),
       name: json['name'] as String?,
       description: json['description'] as String?,
       model: json['model'] as String,
@@ -2277,6 +2284,7 @@ const _$AssistantModelsEnumMap = {
   AssistantModels.gpt4VisionPreview: 'gpt-4-vision-preview',
   AssistantModels.gpt4o: 'gpt-4o',
   AssistantModels.gpt4o20240513: 'gpt-4o-2024-05-13',
+  AssistantModels.gpt4o20240806: 'gpt-4o-2024-08-06',
   AssistantModels.gpt4oMini: 'gpt-4o-mini',
   AssistantModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
   AssistantModels.gpt35Turbo: 'gpt-3.5-turbo',
@@ -2545,7 +2553,7 @@ _$TruncationObjectImpl _$$TruncationObjectImplFromJson(
         Map<String, dynamic> json) =>
     _$TruncationObjectImpl(
       type: $enumDecode(_$TruncationObjectTypeEnumMap, json['type']),
-      lastMessages: json['last_messages'] as int?,
+      lastMessages: (json['last_messages'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$TruncationObjectImplToJson(
@@ -2573,7 +2581,7 @@ _$RunObjectImpl _$$RunObjectImplFromJson(Map<String, dynamic> json) =>
     _$RunObjectImpl(
       id: json['id'] as String,
       object: $enumDecode(_$RunObjectObjectEnumMap, json['object']),
-      createdAt: json['created_at'] as int,
+      createdAt: (json['created_at'] as num).toInt(),
       threadId: json['thread_id'] as String,
       assistantId: json['assistant_id'] as String,
       status: $enumDecode(_$RunStatusEnumMap, json['status']),
@@ -2584,11 +2592,11 @@ _$RunObjectImpl _$$RunObjectImplFromJson(Map<String, dynamic> json) =>
       lastError: json['last_error'] == null
           ? null
           : RunLastError.fromJson(json['last_error'] as Map<String, dynamic>),
-      expiresAt: json['expires_at'] as int?,
-      startedAt: json['started_at'] as int?,
-      cancelledAt: json['cancelled_at'] as int?,
-      failedAt: json['failed_at'] as int?,
-      completedAt: json['completed_at'] as int?,
+      expiresAt: (json['expires_at'] as num?)?.toInt(),
+      startedAt: (json['started_at'] as num?)?.toInt(),
+      cancelledAt: (json['cancelled_at'] as num?)?.toInt(),
+      failedAt: (json['failed_at'] as num?)?.toInt(),
+      completedAt: (json['completed_at'] as num?)?.toInt(),
       incompleteDetails: json['incomplete_details'] == null
           ? null
           : RunObjectIncompleteDetails.fromJson(
@@ -2604,8 +2612,8 @@ _$RunObjectImpl _$$RunObjectImplFromJson(Map<String, dynamic> json) =>
           : RunCompletionUsage.fromJson(json['usage'] as Map<String, dynamic>),
       temperature: (json['temperature'] as num?)?.toDouble(),
       topP: (json['top_p'] as num?)?.toDouble(),
-      maxPromptTokens: json['max_prompt_tokens'] as int?,
-      maxCompletionTokens: json['max_completion_tokens'] as int?,
+      maxPromptTokens: (json['max_prompt_tokens'] as num?)?.toInt(),
+      maxCompletionTokens: (json['max_completion_tokens'] as num?)?.toInt(),
       truncationStrategy: json['truncation_strategy'] == null
           ? null
           : TruncationObject.fromJson(
@@ -2830,9 +2838,9 @@ Map<String, dynamic> _$$RunSubmitToolOutputsImplToJson(
 _$RunCompletionUsageImpl _$$RunCompletionUsageImplFromJson(
         Map<String, dynamic> json) =>
     _$RunCompletionUsageImpl(
-      completionTokens: json['completion_tokens'] as int,
-      promptTokens: json['prompt_tokens'] as int,
-      totalTokens: json['total_tokens'] as int,
+      completionTokens: (json['completion_tokens'] as num).toInt(),
+      promptTokens: (json['prompt_tokens'] as num).toInt(),
+      totalTokens: (json['total_tokens'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$RunCompletionUsageImplToJson(
@@ -2859,8 +2867,8 @@ _$CreateRunRequestImpl _$$CreateRunRequestImplFromJson(
       metadata: json['metadata'] as Map<String, dynamic>?,
       temperature: (json['temperature'] as num?)?.toDouble() ?? 1.0,
       topP: (json['top_p'] as num?)?.toDouble() ?? 1.0,
-      maxPromptTokens: json['max_prompt_tokens'] as int?,
-      maxCompletionTokens: json['max_completion_tokens'] as int?,
+      maxPromptTokens: (json['max_prompt_tokens'] as num?)?.toInt(),
+      maxCompletionTokens: (json['max_completion_tokens'] as num?)?.toInt(),
       truncationStrategy: json['truncation_strategy'] == null
           ? null
           : TruncationObject.fromJson(
@@ -2939,6 +2947,7 @@ const _$RunModelsEnumMap = {
   RunModels.gpt4VisionPreview: 'gpt-4-vision-preview',
   RunModels.gpt4o: 'gpt-4o',
   RunModels.gpt4o20240513: 'gpt-4o-2024-05-13',
+  RunModels.gpt4o20240806: 'gpt-4o-2024-08-06',
   RunModels.gpt4oMini: 'gpt-4o-mini',
   RunModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
   RunModels.gpt35Turbo: 'gpt-3.5-turbo',
@@ -3185,8 +3194,8 @@ _$CreateThreadAndRunRequestImpl _$$CreateThreadAndRunRequestImplFromJson(
       metadata: json['metadata'] as Map<String, dynamic>?,
       temperature: (json['temperature'] as num?)?.toDouble() ?? 1.0,
       topP: (json['top_p'] as num?)?.toDouble() ?? 1.0,
-      maxPromptTokens: json['max_prompt_tokens'] as int?,
-      maxCompletionTokens: json['max_completion_tokens'] as int?,
+      maxPromptTokens: (json['max_prompt_tokens'] as num?)?.toInt(),
+      maxCompletionTokens: (json['max_completion_tokens'] as num?)?.toInt(),
       truncationStrategy: json['truncation_strategy'] == null
           ? null
           : TruncationObject.fromJson(
@@ -3265,6 +3274,7 @@ const _$ThreadAndRunModelsEnumMap = {
   ThreadAndRunModels.gpt4VisionPreview: 'gpt-4-vision-preview',
   ThreadAndRunModels.gpt4o: 'gpt-4o',
   ThreadAndRunModels.gpt4o20240513: 'gpt-4o-2024-05-13',
+  ThreadAndRunModels.gpt4o20240806: 'gpt-4o-2024-08-06',
   ThreadAndRunModels.gpt4oMini: 'gpt-4o-mini',
   ThreadAndRunModels.gpt4oMini20240718: 'gpt-4o-mini-2024-07-18',
   ThreadAndRunModels.gpt35Turbo: 'gpt-3.5-turbo',
@@ -3377,7 +3387,7 @@ _$ThreadObjectImpl _$$ThreadObjectImplFromJson(Map<String, dynamic> json) =>
     _$ThreadObjectImpl(
       id: json['id'] as String,
       object: $enumDecode(_$ThreadObjectObjectEnumMap, json['object']),
-      createdAt: json['created_at'] as int,
+      createdAt: (json['created_at'] as num).toInt(),
       toolResources: json['tool_resources'] == null
           ? null
           : ToolResources.fromJson(
@@ -3597,7 +3607,7 @@ _$MessageObjectImpl _$$MessageObjectImplFromJson(Map<String, dynamic> json) =>
     _$MessageObjectImpl(
       id: json['id'] as String,
       object: $enumDecode(_$MessageObjectObjectEnumMap, json['object']),
-      createdAt: json['created_at'] as int,
+      createdAt: (json['created_at'] as num).toInt(),
       threadId: json['thread_id'] as String,
       status: $enumDecodeNullable(_$MessageObjectStatusEnumMap, json['status'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
@@ -3605,8 +3615,8 @@ _$MessageObjectImpl _$$MessageObjectImplFromJson(Map<String, dynamic> json) =>
           ? null
           : MessageObjectIncompleteDetails.fromJson(
               json['incomplete_details'] as Map<String, dynamic>),
-      completedAt: json['completed_at'] as int?,
-      incompleteAt: json['incomplete_at'] as int?,
+      completedAt: (json['completed_at'] as num?)?.toInt(),
+      incompleteAt: (json['incomplete_at'] as num?)?.toInt(),
       role: $enumDecode(_$MessageRoleEnumMap, json['role']),
       content: (json['content'] as List<dynamic>)
           .map((e) => MessageContent.fromJson(e as Map<String, dynamic>))
@@ -3962,7 +3972,7 @@ _$MessageDeltaContentImageUrlObjectImpl
     _$$MessageDeltaContentImageUrlObjectImplFromJson(
             Map<String, dynamic> json) =>
         _$MessageDeltaContentImageUrlObjectImpl(
-          index: json['index'] as int?,
+          index: (json['index'] as num?)?.toInt(),
           type: json['type'] as String?,
           imageUrl: json['image_url'] == null
               ? null
@@ -4040,7 +4050,7 @@ _$RunStepObjectImpl _$$RunStepObjectImplFromJson(Map<String, dynamic> json) =>
     _$RunStepObjectImpl(
       id: json['id'] as String,
       object: $enumDecode(_$RunStepObjectObjectEnumMap, json['object']),
-      createdAt: json['created_at'] as int,
+      createdAt: (json['created_at'] as num).toInt(),
       assistantId: json['assistant_id'] as String,
       threadId: json['thread_id'] as String,
       runId: json['run_id'] as String,
@@ -4052,10 +4062,10 @@ _$RunStepObjectImpl _$$RunStepObjectImplFromJson(Map<String, dynamic> json) =>
           ? null
           : RunStepLastError.fromJson(
               json['last_error'] as Map<String, dynamic>),
-      expiredAt: json['expired_at'] as int?,
-      cancelledAt: json['cancelled_at'] as int?,
-      failedAt: json['failed_at'] as int?,
-      completedAt: json['completed_at'] as int?,
+      expiredAt: (json['expired_at'] as num?)?.toInt(),
+      cancelledAt: (json['cancelled_at'] as num?)?.toInt(),
+      failedAt: (json['failed_at'] as num?)?.toInt(),
+      completedAt: (json['completed_at'] as num?)?.toInt(),
       metadata: json['metadata'] as Map<String, dynamic>?,
       usage: json['usage'] == null
           ? null
@@ -4300,9 +4310,9 @@ Map<String, dynamic>
 _$RunStepCompletionUsageImpl _$$RunStepCompletionUsageImplFromJson(
         Map<String, dynamic> json) =>
     _$RunStepCompletionUsageImpl(
-      completionTokens: json['completion_tokens'] as int,
-      promptTokens: json['prompt_tokens'] as int,
-      totalTokens: json['total_tokens'] as int,
+      completionTokens: (json['completion_tokens'] as num).toInt(),
+      promptTokens: (json['prompt_tokens'] as num).toInt(),
+      totalTokens: (json['total_tokens'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$RunStepCompletionUsageImplToJson(
@@ -4318,7 +4328,7 @@ _$VectorStoreExpirationAfterImpl _$$VectorStoreExpirationAfterImplFromJson(
     _$VectorStoreExpirationAfterImpl(
       anchor: $enumDecode(
           _$VectorStoreExpirationAfterAnchorEnumMap, json['anchor']),
-      days: json['days'] as int,
+      days: (json['days'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$VectorStoreExpirationAfterImplToJson(
@@ -4337,9 +4347,9 @@ _$VectorStoreObjectImpl _$$VectorStoreObjectImplFromJson(
     _$VectorStoreObjectImpl(
       id: json['id'] as String,
       object: json['object'] as String,
-      createdAt: json['created_at'] as int,
+      createdAt: (json['created_at'] as num).toInt(),
       name: json['name'] as String?,
-      usageBytes: json['usage_bytes'] as int,
+      usageBytes: (json['usage_bytes'] as num).toInt(),
       fileCounts: VectorStoreObjectFileCounts.fromJson(
           json['file_counts'] as Map<String, dynamic>),
       status: $enumDecode(_$VectorStoreObjectStatusEnumMap, json['status']),
@@ -4347,8 +4357,8 @@ _$VectorStoreObjectImpl _$$VectorStoreObjectImplFromJson(
           ? null
           : VectorStoreExpirationAfter.fromJson(
               json['expires_after'] as Map<String, dynamic>),
-      expiresAt: json['expires_at'] as int?,
-      lastActiveAt: json['last_active_at'] as int?,
+      expiresAt: (json['expires_at'] as num?)?.toInt(),
+      lastActiveAt: (json['last_active_at'] as num?)?.toInt(),
       metadata: json['metadata'],
     );
 
@@ -4386,11 +4396,11 @@ const _$VectorStoreObjectStatusEnumMap = {
 _$VectorStoreObjectFileCountsImpl _$$VectorStoreObjectFileCountsImplFromJson(
         Map<String, dynamic> json) =>
     _$VectorStoreObjectFileCountsImpl(
-      inProgress: json['in_progress'] as int,
-      completed: json['completed'] as int,
-      failed: json['failed'] as int,
-      cancelled: json['cancelled'] as int,
-      total: json['total'] as int,
+      inProgress: (json['in_progress'] as num).toInt(),
+      completed: (json['completed'] as num).toInt(),
+      failed: (json['failed'] as num).toInt(),
+      cancelled: (json['cancelled'] as num).toInt(),
+      total: (json['total'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$VectorStoreObjectFileCountsImplToJson(
@@ -4509,8 +4519,8 @@ _$VectorStoreFileObjectImpl _$$VectorStoreFileObjectImplFromJson(
     _$VectorStoreFileObjectImpl(
       id: json['id'] as String,
       object: json['object'] as String,
-      usageBytes: json['usage_bytes'] as int,
-      createdAt: json['created_at'] as int,
+      usageBytes: (json['usage_bytes'] as num).toInt(),
+      createdAt: (json['created_at'] as num).toInt(),
       vectorStoreId: json['vector_store_id'] as String,
       status: $enumDecode(_$VectorStoreFileStatusEnumMap, json['status']),
       lastError: json['last_error'] == null
@@ -4568,17 +4578,16 @@ Map<String, dynamic> _$$VectorStoreFileObjectLastErrorImplToJson(
     };
 
 const _$VectorStoreFileObjectLastErrorCodeEnumMap = {
-  VectorStoreFileObjectLastErrorCode.internalError: 'internal_error',
-  VectorStoreFileObjectLastErrorCode.fileNotFound: 'file_not_found',
-  VectorStoreFileObjectLastErrorCode.parsingError: 'parsing_error',
-  VectorStoreFileObjectLastErrorCode.unhandledMimeType: 'unhandled_mime_type',
+  VectorStoreFileObjectLastErrorCode.serverError: 'server_error',
+  VectorStoreFileObjectLastErrorCode.unsupportedFile: 'unsupported_file',
+  VectorStoreFileObjectLastErrorCode.invalidFile: 'invalid_file',
 };
 
 _$StaticChunkingStrategyImpl _$$StaticChunkingStrategyImplFromJson(
         Map<String, dynamic> json) =>
     _$StaticChunkingStrategyImpl(
-      maxChunkSizeTokens: json['max_chunk_size_tokens'] as int,
-      chunkOverlapTokens: json['chunk_overlap_tokens'] as int,
+      maxChunkSizeTokens: (json['max_chunk_size_tokens'] as num).toInt(),
+      chunkOverlapTokens: (json['chunk_overlap_tokens'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$StaticChunkingStrategyImplToJson(
@@ -4657,7 +4666,7 @@ _$VectorStoreFileBatchObjectImpl _$$VectorStoreFileBatchObjectImplFromJson(
     _$VectorStoreFileBatchObjectImpl(
       id: json['id'] as String,
       object: json['object'] as String,
-      createdAt: json['created_at'] as int,
+      createdAt: (json['created_at'] as num).toInt(),
       vectorStoreId: json['vector_store_id'] as String,
       status: $enumDecode(
           _$VectorStoreFileBatchObjectStatusEnumMap, json['status']),
@@ -4687,11 +4696,11 @@ _$VectorStoreFileBatchObjectFileCountsImpl
     _$$VectorStoreFileBatchObjectFileCountsImplFromJson(
             Map<String, dynamic> json) =>
         _$VectorStoreFileBatchObjectFileCountsImpl(
-          inProgress: json['in_progress'] as int,
-          completed: json['completed'] as int,
-          failed: json['failed'] as int,
-          cancelled: json['cancelled'] as int,
-          total: json['total'] as int,
+          inProgress: (json['in_progress'] as num).toInt(),
+          completed: (json['completed'] as num).toInt(),
+          failed: (json['failed'] as num).toInt(),
+          cancelled: (json['cancelled'] as num).toInt(),
+          total: (json['total'] as num).toInt(),
         );
 
 Map<String, dynamic> _$$VectorStoreFileBatchObjectFileCountsImplToJson(
@@ -4802,15 +4811,15 @@ _$BatchImpl _$$BatchImplFromJson(Map<String, dynamic> json) => _$BatchImpl(
       status: $enumDecode(_$BatchStatusEnumMap, json['status']),
       outputFileId: json['output_file_id'] as String?,
       errorFileId: json['error_file_id'] as String?,
-      createdAt: json['created_at'] as int,
-      inProgressAt: json['in_progress_at'] as int?,
-      expiresAt: json['expires_at'] as int?,
-      finalizingAt: json['finalizing_at'] as int?,
-      completedAt: json['completed_at'] as int?,
-      failedAt: json['failed_at'] as int?,
-      expiredAt: json['expired_at'] as int?,
-      cancellingAt: json['cancelling_at'] as int?,
-      cancelledAt: json['cancelled_at'] as int?,
+      createdAt: (json['created_at'] as num).toInt(),
+      inProgressAt: (json['in_progress_at'] as num?)?.toInt(),
+      expiresAt: (json['expires_at'] as num?)?.toInt(),
+      finalizingAt: (json['finalizing_at'] as num?)?.toInt(),
+      completedAt: (json['completed_at'] as num?)?.toInt(),
+      failedAt: (json['failed_at'] as num?)?.toInt(),
+      expiredAt: (json['expired_at'] as num?)?.toInt(),
+      cancellingAt: (json['cancelling_at'] as num?)?.toInt(),
+      cancelledAt: (json['cancelled_at'] as num?)?.toInt(),
       requestCounts: json['request_counts'] == null
           ? null
           : BatchRequestCounts.fromJson(
@@ -4892,9 +4901,9 @@ Map<String, dynamic> _$$BatchErrorsImplToJson(_$BatchErrorsImpl instance) {
 _$BatchRequestCountsImpl _$$BatchRequestCountsImplFromJson(
         Map<String, dynamic> json) =>
     _$BatchRequestCountsImpl(
-      total: json['total'] as int,
-      completed: json['completed'] as int,
-      failed: json['failed'] as int,
+      total: (json['total'] as num).toInt(),
+      completed: (json['completed'] as num).toInt(),
+      failed: (json['failed'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$BatchRequestCountsImplToJson(
@@ -4911,7 +4920,7 @@ _$BatchErrorsDataInnerImpl _$$BatchErrorsDataInnerImplFromJson(
       code: json['code'] as String?,
       message: json['message'] as String?,
       param: json['param'] as String?,
-      line: json['line'] as int?,
+      line: (json['line'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$BatchErrorsDataInnerImplToJson(
@@ -5250,7 +5259,7 @@ _$AssistantToolsFileSearchFileSearchImpl
     _$$AssistantToolsFileSearchFileSearchImplFromJson(
             Map<String, dynamic> json) =>
         _$AssistantToolsFileSearchFileSearchImpl(
-          maxNumResults: json['max_num_results'] as int?,
+          maxNumResults: (json['max_num_results'] as num?)?.toInt(),
         );
 
 Map<String, dynamic> _$$AssistantToolsFileSearchFileSearchImplToJson(
@@ -5315,7 +5324,7 @@ _$MessageDeltaContentImageFileObjectImpl
     _$$MessageDeltaContentImageFileObjectImplFromJson(
             Map<String, dynamic> json) =>
         _$MessageDeltaContentImageFileObjectImpl(
-          index: json['index'] as int,
+          index: (json['index'] as num).toInt(),
           type: json['type'] as String,
           imageFile: json['image_file'] == null
               ? null
@@ -5343,7 +5352,7 @@ Map<String, dynamic> _$$MessageDeltaContentImageFileObjectImplToJson(
 _$MessageDeltaContentTextObjectImpl
     _$$MessageDeltaContentTextObjectImplFromJson(Map<String, dynamic> json) =>
         _$MessageDeltaContentTextObjectImpl(
-          index: json['index'] as int,
+          index: (json['index'] as num).toInt(),
           type: json['type'] as String,
           text: json['text'] == null
               ? null
@@ -5376,8 +5385,8 @@ _$MessageContentTextAnnotationsFileCitationObjectImpl
           text: json['text'] as String,
           fileCitation: MessageContentTextAnnotationsFileCitation.fromJson(
               json['file_citation'] as Map<String, dynamic>),
-          startIndex: json['start_index'] as int,
-          endIndex: json['end_index'] as int,
+          startIndex: (json['start_index'] as num).toInt(),
+          endIndex: (json['end_index'] as num).toInt(),
         );
 
 Map<String, dynamic>
@@ -5399,8 +5408,8 @@ _$MessageContentTextAnnotationsFilePathObjectImpl
           text: json['text'] as String,
           filePath: MessageContentTextAnnotationsFilePath.fromJson(
               json['file_path'] as Map<String, dynamic>),
-          startIndex: json['start_index'] as int,
-          endIndex: json['end_index'] as int,
+          startIndex: (json['start_index'] as num).toInt(),
+          endIndex: (json['end_index'] as num).toInt(),
         );
 
 Map<String, dynamic> _$$MessageContentTextAnnotationsFilePathObjectImplToJson(
@@ -5430,15 +5439,15 @@ _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl
     _$$MessageDeltaContentTextAnnotationsFileCitationObjectImplFromJson(
             Map<String, dynamic> json) =>
         _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl(
-          index: json['index'] as int,
+          index: (json['index'] as num).toInt(),
           type: json['type'] as String,
           text: json['text'] as String?,
           fileCitation: json['file_citation'] == null
               ? null
               : MessageDeltaContentTextAnnotationsFileCitation.fromJson(
                   json['file_citation'] as Map<String, dynamic>),
-          startIndex: json['start_index'] as int?,
-          endIndex: json['end_index'] as int?,
+          startIndex: (json['start_index'] as num?)?.toInt(),
+          endIndex: (json['end_index'] as num?)?.toInt(),
         );
 
 Map<String, dynamic>
@@ -5466,15 +5475,15 @@ _$MessageDeltaContentTextAnnotationsFilePathObjectImpl
     _$$MessageDeltaContentTextAnnotationsFilePathObjectImplFromJson(
             Map<String, dynamic> json) =>
         _$MessageDeltaContentTextAnnotationsFilePathObjectImpl(
-          index: json['index'] as int,
+          index: (json['index'] as num).toInt(),
           type: json['type'] as String,
           text: json['text'] as String?,
           filePath: json['file_path'] == null
               ? null
               : MessageDeltaContentTextAnnotationsFilePathObjectFilePath
                   .fromJson(json['file_path'] as Map<String, dynamic>),
-          startIndex: json['start_index'] as int?,
-          endIndex: json['end_index'] as int?,
+          startIndex: (json['start_index'] as num?)?.toInt(),
+          endIndex: (json['end_index'] as num?)?.toInt(),
         );
 
 Map<String, dynamic>
@@ -5683,7 +5692,7 @@ _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
     _$$RunStepDeltaStepDetailsToolCallsCodeObjectImplFromJson(
             Map<String, dynamic> json) =>
         _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl(
-          index: json['index'] as int,
+          index: (json['index'] as num).toInt(),
           id: json['id'] as String?,
           type: json['type'] as String,
           codeInterpreter: json['code_interpreter'] == null
@@ -5714,7 +5723,7 @@ _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
     _$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplFromJson(
             Map<String, dynamic> json) =>
         _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl(
-          index: json['index'] as int,
+          index: (json['index'] as num).toInt(),
           id: json['id'] as String?,
           type: json['type'] as String,
           fileSearch: json['file_search'] as Map<String, dynamic>,
@@ -5743,7 +5752,7 @@ _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
     _$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplFromJson(
             Map<String, dynamic> json) =>
         _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl(
-          index: json['index'] as int,
+          index: (json['index'] as num).toInt(),
           id: json['id'] as String?,
           type: json['type'] as String,
           function: json['function'] == null
@@ -5831,7 +5840,7 @@ _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl
     _$$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImplFromJson(
             Map<String, dynamic> json) =>
         _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl(
-          index: json['index'] as int,
+          index: (json['index'] as num).toInt(),
           type: json['type'] as String,
           logs: json['logs'] as String?,
         );
@@ -5858,7 +5867,7 @@ _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl
     _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplFromJson(
             Map<String, dynamic> json) =>
         _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl(
-          index: json['index'] as int,
+          index: (json['index'] as num).toInt(),
           type: json['type'] as String,
           image: json['image'] == null
               ? null
