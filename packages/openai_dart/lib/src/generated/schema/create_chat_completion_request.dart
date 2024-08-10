@@ -302,6 +302,8 @@ enum ChatCompletionModels {
   gpt4o,
   @JsonValue('gpt-4o-2024-05-13')
   gpt4o20240513,
+  @JsonValue('gpt-4o-2024-08-06')
+  gpt4o20240806,
   @JsonValue('gpt-4o-mini')
   gpt4oMini,
   @JsonValue('gpt-4o-mini-2024-07-18')

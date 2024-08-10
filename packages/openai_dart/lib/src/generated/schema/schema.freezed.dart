@@ -123,8 +123,12 @@ mixin _$CreateCompletionRequest {
   @JsonKey(includeIfNull: false)
   String? get user => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateCompletionRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateCompletionRequestCopyWith<CreateCompletionRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -178,6 +182,8 @@ class _$CreateCompletionRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -276,6 +282,8 @@ class _$CreateCompletionRequestCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of CreateCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CompletionModelCopyWith<$Res> get model {
@@ -284,6 +292,8 @@ class _$CreateCompletionRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of CreateCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CompletionPromptCopyWith<$Res>? get prompt {
@@ -296,6 +306,8 @@ class _$CreateCompletionRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of CreateCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CompletionStopCopyWith<$Res>? get stop {
@@ -308,6 +320,8 @@ class _$CreateCompletionRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of CreateCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions {
@@ -377,6 +391,8 @@ class __$$CreateCompletionRequestImplCopyWithImpl<$Res>
       $Res Function(_$CreateCompletionRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -676,7 +692,7 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
             (identical(other.user, user) || other.user == user));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -699,7 +715,9 @@ class _$CreateCompletionRequestImpl extends _CreateCompletionRequest {
       topP,
       user);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateCompletionRequestImplCopyWith<_$CreateCompletionRequestImpl>
@@ -746,127 +764,129 @@ abstract class _CreateCompletionRequest extends CreateCompletionRequest {
   factory _CreateCompletionRequest.fromJson(Map<String, dynamic> json) =
       _$CreateCompletionRequestImpl.fromJson;
 
-  @override
-
   /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  @override
   @_CompletionModelConverter()
   CompletionModel get model;
-  @override
 
   /// The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays.
   ///
   /// Note that <|endoftext|> is the document separator that the model sees during training, so if a prompt is not specified the model will generate as if from the beginning of a new document.
+  @override
   @_CompletionPromptConverter()
   CompletionPrompt? get prompt;
-  @override
 
   /// Generates `best_of` completions server-side and returns the "best" (the one with the highest log probability per token). Results cannot be streamed.
   ///
   /// When used with `n`, `best_of` controls the number of candidate completions and `n` specifies how many to return – `best_of` must be greater than `n`.
   ///
   /// **Note:** Because this parameter generates many completions, it can quickly consume your token quota. Use carefully and ensure that you have reasonable settings for `max_tokens` and `stop`.
+  @override
   @JsonKey(name: 'best_of', includeIfNull: false)
   int? get bestOf;
-  @override
 
   /// Echo back the prompt in addition to the completion
+  @override
   @JsonKey(includeIfNull: false)
   bool? get echo;
-  @override
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
   /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+  @override
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   double? get frequencyPenalty;
-  @override
 
   /// Modify the likelihood of specified tokens appearing in the completion.
   ///
   /// Accepts a JSON object that maps tokens (specified by their token ID in the GPT tokenizer) to an associated bias value from -100 to 100. You can use this [tokenizer tool](https://platform.openai.com/tokenizer?view=bpe) to convert text to token IDs. Mathematically, the bias is added to the logits generated by the model prior to sampling. The exact effect will vary per model, but values between -1 and 1 should decrease or increase likelihood of selection; values like -100 or 100 should result in a ban or exclusive selection of the relevant token.
   ///
   /// As an example, you can pass `{"50256": -100}` to prevent the <|endoftext|> token from being generated.
+  @override
   @JsonKey(name: 'logit_bias', includeIfNull: false)
   Map<String, int>? get logitBias;
-  @override
 
   /// Include the log probabilities on the `logprobs` most likely output tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response.
   ///
   /// The maximum value for `logprobs` is 5.
+  @override
   @JsonKey(includeIfNull: false)
   int? get logprobs;
-  @override
 
   /// The maximum number of [tokens](https://platform.openai.com/tokenizer) that can be generated in the completion.
   ///
   /// The token count of your prompt plus `max_tokens` cannot exceed the model's context length. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
+  @override
   @JsonKey(name: 'max_tokens', includeIfNull: false)
   int? get maxTokens;
-  @override
 
   /// How many completions to generate for each prompt.
   ///
   /// **Note:** Because this parameter generates many completions, it can quickly consume your token quota. Use carefully and ensure that you have reasonable settings for `max_tokens` and `stop`.
+  @override
   @JsonKey(includeIfNull: false)
   int? get n;
-  @override
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
   ///
   /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+  @override
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty;
-  @override
 
   /// If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result.
   ///
   /// Determinism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to monitor changes in the backend.
+  @override
   @JsonKey(includeIfNull: false)
   int? get seed;
-  @override
 
   /// Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
+  @override
   @_CompletionStopConverter()
   @JsonKey(includeIfNull: false)
   CompletionStop? get stop;
-  @override
 
   /// Whether to stream back partial progress. If set, tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format) as they become available, with the stream terminated by a `data: [DONE]` message. [Example Python code](https://cookbook.openai.com/examples/how_to_stream_completions).
+  @override
   @JsonKey(includeIfNull: false)
   bool? get stream;
-  @override
 
   /// Options for streaming response. Only set this when you set `stream: true`.
+  @override
   @JsonKey(name: 'stream_options', includeIfNull: false)
   ChatCompletionStreamOptions? get streamOptions;
-  @override
 
   /// The suffix that comes after a completion of inserted text.
   ///
   /// This parameter is only supported for `gpt-3.5-turbo-instruct`.
+  @override
   @JsonKey(includeIfNull: false)
   String? get suffix;
-  @override
 
   /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
   ///
   /// We generally recommend altering this or `top_p` but not both.
+  @override
   @JsonKey(includeIfNull: false)
   double? get temperature;
-  @override
 
   /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
   ///
   /// We generally recommend altering this or `temperature` but not both.
+  @override
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP;
-  @override
 
   /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+  @override
   @JsonKey(includeIfNull: false)
   String? get user;
+
+  /// Create a copy of CreateCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateCompletionRequestImplCopyWith<_$CreateCompletionRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -925,6 +945,8 @@ mixin _$CompletionModel {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this CompletionModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -944,6 +966,9 @@ class _$CompletionModelCopyWithImpl<$Res, $Val extends CompletionModel>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of CompletionModel
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -966,6 +991,8 @@ class __$$CompletionModelEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$CompletionModelEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CompletionModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1010,11 +1037,13 @@ class _$CompletionModelEnumerationImpl extends CompletionModelEnumeration {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CompletionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CompletionModelEnumerationImplCopyWith<_$CompletionModelEnumerationImpl>
@@ -1101,7 +1130,10 @@ abstract class CompletionModelEnumeration extends CompletionModel {
 
   @override
   CompletionModels get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CompletionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CompletionModelEnumerationImplCopyWith<_$CompletionModelEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1124,6 +1156,8 @@ class __$$CompletionModelStringImplCopyWithImpl<$Res>
       $Res Function(_$CompletionModelStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CompletionModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1167,11 +1201,13 @@ class _$CompletionModelStringImpl extends CompletionModelString {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CompletionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CompletionModelStringImplCopyWith<_$CompletionModelStringImpl>
@@ -1258,7 +1294,10 @@ abstract class CompletionModelString extends CompletionModel {
 
   @override
   String get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CompletionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CompletionModelStringImplCopyWith<_$CompletionModelStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1333,6 +1372,8 @@ mixin _$CompletionPrompt {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this CompletionPrompt to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -1352,6 +1393,9 @@ class _$CompletionPromptCopyWithImpl<$Res, $Val extends CompletionPrompt>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of CompletionPrompt
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1374,6 +1418,8 @@ class __$$CompletionPromptListListIntImplCopyWithImpl<$Res>
       $Res Function(_$CompletionPromptListListIntImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CompletionPrompt
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1425,12 +1471,14 @@ class _$CompletionPromptListListIntImpl extends CompletionPromptListListInt {
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_value));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CompletionPrompt
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CompletionPromptListListIntImplCopyWith<_$CompletionPromptListListIntImpl>
@@ -1529,7 +1577,10 @@ abstract class CompletionPromptListListInt extends CompletionPrompt {
 
   @override
   List<List<int>> get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CompletionPrompt
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CompletionPromptListListIntImplCopyWith<_$CompletionPromptListListIntImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1553,6 +1604,8 @@ class __$$CompletionPromptListIntImplCopyWithImpl<$Res>
       $Res Function(_$CompletionPromptListIntImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CompletionPrompt
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1603,12 +1656,14 @@ class _$CompletionPromptListIntImpl extends CompletionPromptListInt {
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_value));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CompletionPrompt
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CompletionPromptListIntImplCopyWith<_$CompletionPromptListIntImpl>
@@ -1707,7 +1762,10 @@ abstract class CompletionPromptListInt extends CompletionPrompt {
 
   @override
   List<int> get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CompletionPrompt
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CompletionPromptListIntImplCopyWith<_$CompletionPromptListIntImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1732,6 +1790,8 @@ class __$$CompletionPromptListStringImplCopyWithImpl<$Res>
       $Res Function(_$CompletionPromptListStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CompletionPrompt
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1783,12 +1843,14 @@ class _$CompletionPromptListStringImpl extends CompletionPromptListString {
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_value));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CompletionPrompt
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CompletionPromptListStringImplCopyWith<_$CompletionPromptListStringImpl>
@@ -1887,7 +1949,10 @@ abstract class CompletionPromptListString extends CompletionPrompt {
 
   @override
   List<String> get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CompletionPrompt
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CompletionPromptListStringImplCopyWith<_$CompletionPromptListStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1911,6 +1976,8 @@ class __$$CompletionPromptStringImplCopyWithImpl<$Res>
       $Res Function(_$CompletionPromptStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CompletionPrompt
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1954,11 +2021,13 @@ class _$CompletionPromptStringImpl extends CompletionPromptString {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CompletionPrompt
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CompletionPromptStringImplCopyWith<_$CompletionPromptStringImpl>
@@ -2057,7 +2126,10 @@ abstract class CompletionPromptString extends CompletionPrompt {
 
   @override
   String get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CompletionPrompt
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CompletionPromptStringImplCopyWith<_$CompletionPromptStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -2116,6 +2188,8 @@ mixin _$CompletionStop {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this CompletionStop to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -2135,6 +2209,9 @@ class _$CompletionStopCopyWithImpl<$Res, $Val extends CompletionStop>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of CompletionStop
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2156,6 +2233,8 @@ class __$$CompletionStopListStringImplCopyWithImpl<$Res>
       $Res Function(_$CompletionStopListStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CompletionStop
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2206,12 +2285,14 @@ class _$CompletionStopListStringImpl extends CompletionStopListString {
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_value));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CompletionStop
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CompletionStopListStringImplCopyWith<_$CompletionStopListStringImpl>
@@ -2298,7 +2379,10 @@ abstract class CompletionStopListString extends CompletionStop {
 
   @override
   List<String> get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CompletionStop
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CompletionStopListStringImplCopyWith<_$CompletionStopListStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -2320,6 +2404,8 @@ class __$$CompletionStopStringImplCopyWithImpl<$Res>
       $Res Function(_$CompletionStopStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CompletionStop
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2363,11 +2449,13 @@ class _$CompletionStopStringImpl extends CompletionStopString {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CompletionStop
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CompletionStopStringImplCopyWith<_$CompletionStopStringImpl>
@@ -2455,7 +2543,10 @@ abstract class CompletionStopString extends CompletionStop {
 
   @override
   String? get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CompletionStop
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CompletionStopStringImplCopyWith<_$CompletionStopStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -2493,8 +2584,12 @@ mixin _$CreateCompletionResponse {
   @JsonKey(includeIfNull: false)
   CompletionUsage? get usage => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateCompletionResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateCompletionResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateCompletionResponseCopyWith<CreateCompletionResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2529,6 +2624,8 @@ class _$CreateCompletionResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateCompletionResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2572,6 +2669,8 @@ class _$CreateCompletionResponseCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of CreateCompletionResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CompletionUsageCopyWith<$Res>? get usage {
@@ -2618,6 +2717,8 @@ class __$$CreateCompletionResponseImplCopyWithImpl<$Res>
       $Res Function(_$CreateCompletionResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateCompletionResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2739,7 +2840,7 @@ class _$CreateCompletionResponseImpl extends _CreateCompletionResponse {
             (identical(other.usage, usage) || other.usage == usage));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -2751,7 +2852,9 @@ class _$CreateCompletionResponseImpl extends _CreateCompletionResponse {
       object,
       usage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateCompletionResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateCompletionResponseImplCopyWith<_$CreateCompletionResponseImpl>
@@ -2782,40 +2885,42 @@ abstract class _CreateCompletionResponse extends CreateCompletionResponse {
   factory _CreateCompletionResponse.fromJson(Map<String, dynamic> json) =
       _$CreateCompletionResponseImpl.fromJson;
 
-  @override
-
   /// A unique identifier for the completion.
-  String get id;
   @override
+  String get id;
 
   /// The list of completion choices the model generated for the input prompt.
-  List<CompletionChoice> get choices;
   @override
+  List<CompletionChoice> get choices;
 
   /// The Unix timestamp (in seconds) of when the completion was created.
-  int get created;
   @override
+  int get created;
 
   /// The model used for completion.
-  String get model;
   @override
+  String get model;
 
   /// This fingerprint represents the backend configuration that the model runs with.
   ///
   /// Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.
+  @override
   @JsonKey(name: 'system_fingerprint', includeIfNull: false)
   String? get systemFingerprint;
-  @override
 
   /// The object type, which is always "text_completion"
-  CreateCompletionResponseObject get object;
   @override
+  CreateCompletionResponseObject get object;
 
   /// Usage statistics for the completion request.
+  @override
   @JsonKey(includeIfNull: false)
   CompletionUsage? get usage;
+
+  /// Create a copy of CreateCompletionResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateCompletionResponseImplCopyWith<_$CreateCompletionResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -2844,8 +2949,12 @@ mixin _$CompletionChoice {
   /// The text of the completion.
   String get text => throw _privateConstructorUsedError;
 
+  /// Serializes this CompletionChoice to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CompletionChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CompletionChoiceCopyWith<CompletionChoice> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2878,6 +2987,8 @@ class _$CompletionChoiceCopyWithImpl<$Res, $Val extends CompletionChoice>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CompletionChoice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2906,6 +3017,8 @@ class _$CompletionChoiceCopyWithImpl<$Res, $Val extends CompletionChoice>
     ) as $Val);
   }
 
+  /// Create a copy of CompletionChoice
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CompletionLogprobsCopyWith<$Res>? get logprobs {
@@ -2948,6 +3061,8 @@ class __$$CompletionChoiceImplCopyWithImpl<$Res>
       $Res Function(_$CompletionChoiceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CompletionChoice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3032,12 +3147,14 @@ class _$CompletionChoiceImpl extends _CompletionChoice {
             (identical(other.text, text) || other.text == text));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, finishReason, index, logprobs, text);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CompletionChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CompletionChoiceImplCopyWith<_$CompletionChoiceImpl> get copyWith =>
@@ -3066,29 +3183,31 @@ abstract class _CompletionChoice extends CompletionChoice {
   factory _CompletionChoice.fromJson(Map<String, dynamic> json) =
       _$CompletionChoiceImpl.fromJson;
 
-  @override
-
   /// The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
   /// `length` if the maximum number of tokens specified in the request was reached,
   /// or `content_filter` if content was omitted due to a flag from our content filters.
+  @override
   @JsonKey(
       name: 'finish_reason',
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   CompletionFinishReason? get finishReason;
-  @override
 
   /// The index of the choice in the list of generated choices.
-  int get index;
   @override
+  int get index;
 
   /// The probabilities on the `logprobs` most likely tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response.
-  CompletionLogprobs? get logprobs;
   @override
+  CompletionLogprobs? get logprobs;
 
   /// The text of the completion.
-  String get text;
   @override
-  @JsonKey(ignore: true)
+  String get text;
+
+  /// Create a copy of CompletionChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CompletionChoiceImplCopyWith<_$CompletionChoiceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3116,8 +3235,12 @@ mixin _$CompletionLogprobs {
   List<Map<String, double>?>? get topLogprobs =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this CompletionLogprobs to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CompletionLogprobs
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CompletionLogprobsCopyWith<CompletionLogprobs> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3148,6 +3271,8 @@ class _$CompletionLogprobsCopyWithImpl<$Res, $Val extends CompletionLogprobs>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CompletionLogprobs
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3203,6 +3328,8 @@ class __$$CompletionLogprobsImplCopyWithImpl<$Res>
       $Res Function(_$CompletionLogprobsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CompletionLogprobs
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3327,7 +3454,7 @@ class _$CompletionLogprobsImpl extends _CompletionLogprobs {
                 .equals(other._topLogprobs, _topLogprobs));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -3336,7 +3463,9 @@ class _$CompletionLogprobsImpl extends _CompletionLogprobs {
       const DeepCollectionEquality().hash(_tokens),
       const DeepCollectionEquality().hash(_topLogprobs));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CompletionLogprobs
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CompletionLogprobsImplCopyWith<_$CompletionLogprobsImpl> get copyWith =>
@@ -3366,28 +3495,30 @@ abstract class _CompletionLogprobs extends CompletionLogprobs {
   factory _CompletionLogprobs.fromJson(Map<String, dynamic> json) =
       _$CompletionLogprobsImpl.fromJson;
 
-  @override
-
   /// The offset of the token from the beginning of the prompt.
+  @override
   @JsonKey(name: 'text_offset', includeIfNull: false)
   List<int>? get textOffset;
-  @override
 
   /// The log probabilities of tokens in the completion.
+  @override
   @JsonKey(name: 'token_logprobs', includeIfNull: false)
   List<double?>? get tokenLogprobs;
-  @override
 
   /// The tokens generated by the model converted back to text.
+  @override
   @JsonKey(includeIfNull: false)
   List<String>? get tokens;
-  @override
 
   /// The log probabilities of the `logprobs` most likely tokens.
+  @override
   @JsonKey(name: 'top_logprobs', includeIfNull: false)
   List<Map<String, double>?>? get topLogprobs;
+
+  /// Create a copy of CompletionLogprobs
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CompletionLogprobsImplCopyWith<_$CompletionLogprobsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3543,8 +3674,12 @@ mixin _$CreateChatCompletionRequest {
   @JsonKey(includeIfNull: false)
   List<FunctionObject>? get functions => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateChatCompletionRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateChatCompletionRequestCopyWith<CreateChatCompletionRequest>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -3617,6 +3752,8 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3740,6 +3877,8 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of CreateChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionModelCopyWith<$Res> get model {
@@ -3748,6 +3887,8 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of CreateChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionResponseFormatCopyWith<$Res>? get responseFormat {
@@ -3761,6 +3902,8 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of CreateChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionStopCopyWith<$Res>? get stop {
@@ -3773,6 +3916,8 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of CreateChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionStreamOptionsCopyWith<$Res>? get streamOptions {
@@ -3786,6 +3931,8 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of CreateChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionToolChoiceOptionCopyWith<$Res>? get toolChoice {
@@ -3799,6 +3946,8 @@ class _$CreateChatCompletionRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of CreateChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionFunctionCallCopyWith<$Res>? get functionCall {
@@ -3887,6 +4036,8 @@ class __$$CreateChatCompletionRequestImplCopyWithImpl<$Res>
       $Res Function(_$CreateChatCompletionRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4309,7 +4460,7 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
                 .equals(other._functions, _functions));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -4338,7 +4489,9 @@ class _$CreateChatCompletionRequestImpl extends _CreateChatCompletionRequest {
         const DeepCollectionEquality().hash(_functions)
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateChatCompletionRequestImplCopyWith<_$CreateChatCompletionRequestImpl>
@@ -4404,75 +4557,73 @@ abstract class _CreateChatCompletionRequest
   factory _CreateChatCompletionRequest.fromJson(Map<String, dynamic> json) =
       _$CreateChatCompletionRequestImpl.fromJson;
 
-  @override
-
   /// ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.
+  @override
   @_ChatCompletionModelConverter()
   ChatCompletionModel get model;
-  @override
 
   /// A list of messages comprising the conversation so far. [Example Python code](https://cookbook.openai.com/examples/how_to_format_inputs_to_chatgpt_models).
-  List<ChatCompletionMessage> get messages;
   @override
+  List<ChatCompletionMessage> get messages;
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
   ///
   /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+  @override
   @JsonKey(name: 'frequency_penalty', includeIfNull: false)
   double? get frequencyPenalty;
-  @override
 
   /// Modify the likelihood of specified tokens appearing in the completion.
   ///
   /// Accepts a JSON object that maps tokens (specified by their token ID in the tokenizer) to an associated bias value from -100 to 100. Mathematically, the bias is added to the logits generated by the model prior to sampling. The exact effect will vary per model, but values between -1 and 1 should decrease or increase likelihood of selection; values like -100 or 100 should result in a ban or exclusive selection of the relevant token.
+  @override
   @JsonKey(name: 'logit_bias', includeIfNull: false)
   Map<String, int>? get logitBias;
-  @override
 
   /// Whether to return log probabilities of the output tokens or not. If true, returns the log probabilities of each output token returned in the `content` of `message`.
+  @override
   @JsonKey(includeIfNull: false)
   bool? get logprobs;
-  @override
 
   /// An integer between 0 and 20 specifying the number of most likely tokens to return at each token position, each with an associated log probability. `logprobs` must be set to `true` if this parameter is used.
+  @override
   @JsonKey(name: 'top_logprobs', includeIfNull: false)
   int? get topLogprobs;
-  @override
 
   /// The maximum number of [tokens](https://platform.openai.com/tokenizer) that can be generated in the chat completion.
   ///
   /// The total length of input tokens and generated tokens is limited by the model's context length. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
+  @override
   @JsonKey(name: 'max_tokens', includeIfNull: false)
   int? get maxTokens;
-  @override
 
   /// How many chat completion choices to generate for each input message. Note that you will be charged based on the number of generated tokens across all of the choices. Keep `n` as `1` to minimize costs.
+  @override
   @JsonKey(includeIfNull: false)
   int? get n;
-  @override
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
   ///
   /// [See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation/parameter-details)
+  @override
   @JsonKey(name: 'presence_penalty', includeIfNull: false)
   double? get presencePenalty;
-  @override
 
   /// An object specifying the format that the model must output. Compatible with [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) and all GPT-3.5 Turbo models newer than `gpt-3.5-turbo-1106`.
   ///
   /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
   ///
   /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @override
   @JsonKey(name: 'response_format', includeIfNull: false)
   ChatCompletionResponseFormat? get responseFormat;
-  @override
 
   /// This feature is in Beta.
   /// If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result.
   /// Determinism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to monitor changes in the backend.
+  @override
   @JsonKey(includeIfNull: false)
   int? get seed;
-  @override
 
   /// Specifies the latency tier to use for processing the request. This parameter is relevant for customers
   /// subscribed to the scale tier service:
@@ -4482,47 +4633,47 @@ abstract class _CreateChatCompletionRequest
   ///   - When not set, the default behavior is 'auto'.
   ///
   ///   When this parameter is set, the response body will include the `service_tier` utilized.
+  @override
   @JsonKey(
       name: 'service_tier',
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   CreateChatCompletionRequestServiceTier? get serviceTier;
-  @override
 
   /// Up to 4 sequences where the API will stop generating further tokens.
+  @override
   @_ChatCompletionStopConverter()
   @JsonKey(includeIfNull: false)
   ChatCompletionStop? get stop;
-  @override
 
   /// If set, partial message deltas will be sent, like in ChatGPT. Tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format) as they become available, with the stream terminated by a `data: [DONE]` message. [Example Python code](https://cookbook.openai.com/examples/how_to_stream_completions).
+  @override
   @JsonKey(includeIfNull: false)
   bool? get stream;
-  @override
 
   /// Options for streaming response. Only set this when you set `stream: true`.
+  @override
   @JsonKey(name: 'stream_options', includeIfNull: false)
   ChatCompletionStreamOptions? get streamOptions;
-  @override
 
   /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
   ///
   /// We generally recommend altering this or `top_p` but not both.
+  @override
   @JsonKey(includeIfNull: false)
   double? get temperature;
-  @override
 
   /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
   ///
   /// We generally recommend altering this or `temperature` but not both.
+  @override
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP;
-  @override
 
   /// A list of tools the model may call. Currently, only functions are supported as a tool. Use this to provide a list of functions the model may generate JSON inputs for. A max of 128 functions are supported.
+  @override
   @JsonKey(includeIfNull: false)
   List<ChatCompletionTool>? get tools;
-  @override
 
   /// Controls which (if any) tool is called by the model.
   /// `none` means the model will not call any tool and instead generates a message.
@@ -4531,21 +4682,21 @@ abstract class _CreateChatCompletionRequest
   /// Specifying a particular tool via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
   ///
   /// `none` is the default when no tools are present. `auto` is the default if tools are present.
+  @override
   @_ChatCompletionToolChoiceOptionConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   ChatCompletionToolChoiceOption? get toolChoice;
-  @override
 
   /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
   /// during tool use.
+  @override
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
   bool? get parallelToolCalls;
-  @override
 
   /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+  @override
   @JsonKey(includeIfNull: false)
   String? get user;
-  @override
 
   /// Deprecated in favor of `tool_choice`.
   ///
@@ -4555,18 +4706,22 @@ abstract class _CreateChatCompletionRequest
   /// Specifying a particular function via [ChatCompletionFunctionCallOption] forces the model to call that function.
   ///
   /// `none` is the default when no functions are present. `auto` is the default if functions are present.
+  @override
   @_ChatCompletionFunctionCallConverter()
   @JsonKey(name: 'function_call', includeIfNull: false)
   ChatCompletionFunctionCall? get functionCall;
-  @override
 
   /// Deprecated in favor of `tools`.
   ///
   /// A list of functions the model may generate JSON inputs for.
+  @override
   @JsonKey(includeIfNull: false)
   List<FunctionObject>? get functions;
+
+  /// Create a copy of CreateChatCompletionRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateChatCompletionRequestImplCopyWith<_$CreateChatCompletionRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -4625,6 +4780,8 @@ mixin _$ChatCompletionModel {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this ChatCompletionModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -4644,6 +4801,9 @@ class _$ChatCompletionModelCopyWithImpl<$Res, $Val extends ChatCompletionModel>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ChatCompletionModel
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -4666,6 +4826,8 @@ class __$$ChatCompletionModelEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionModelEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4711,11 +4873,13 @@ class _$ChatCompletionModelEnumerationImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionModelEnumerationImplCopyWith<
@@ -4803,7 +4967,10 @@ abstract class ChatCompletionModelEnumeration extends ChatCompletionModel {
 
   @override
   ChatCompletionModels get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionModelEnumerationImplCopyWith<
           _$ChatCompletionModelEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -4829,6 +4996,8 @@ class __$$ChatCompletionModelStringImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionModelStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4872,11 +5041,13 @@ class _$ChatCompletionModelStringImpl extends ChatCompletionModelString {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionModelStringImplCopyWith<_$ChatCompletionModelStringImpl>
@@ -4963,7 +5134,10 @@ abstract class ChatCompletionModelString extends ChatCompletionModel {
 
   @override
   String get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionModelStringImplCopyWith<_$ChatCompletionModelStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -4979,8 +5153,12 @@ mixin _$ChatCompletionResponseFormat {
   ChatCompletionResponseFormatType get type =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionResponseFormat to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionResponseFormatCopyWith<ChatCompletionResponseFormat>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -5007,6 +5185,8 @@ class _$ChatCompletionResponseFormatCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5043,6 +5223,8 @@ class __$$ChatCompletionResponseFormatImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionResponseFormatImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5086,11 +5268,13 @@ class _$ChatCompletionResponseFormatImpl extends _ChatCompletionResponseFormat {
             (identical(other.type, type) || other.type == type));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionResponseFormatImplCopyWith<
@@ -5116,12 +5300,14 @@ abstract class _ChatCompletionResponseFormat
   factory _ChatCompletionResponseFormat.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionResponseFormatImpl.fromJson;
 
-  @override
-
   /// Must be one of `text` or `json_object`.
-  ChatCompletionResponseFormatType get type;
   @override
-  @JsonKey(ignore: true)
+  ChatCompletionResponseFormatType get type;
+
+  /// Create a copy of ChatCompletionResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionResponseFormatImplCopyWith<
           _$ChatCompletionResponseFormatImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -5181,6 +5367,8 @@ mixin _$ChatCompletionStop {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this ChatCompletionStop to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -5200,6 +5388,9 @@ class _$ChatCompletionStopCopyWithImpl<$Res, $Val extends ChatCompletionStop>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ChatCompletionStop
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -5222,6 +5413,8 @@ class __$$ChatCompletionStopListStringImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionStopListStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionStop
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5273,12 +5466,14 @@ class _$ChatCompletionStopListStringImpl extends ChatCompletionStopListString {
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_value));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionStop
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionStopListStringImplCopyWith<
@@ -5366,7 +5561,10 @@ abstract class ChatCompletionStopListString extends ChatCompletionStop {
 
   @override
   List<String> get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionStop
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionStopListStringImplCopyWith<
           _$ChatCompletionStopListStringImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -5392,6 +5590,8 @@ class __$$ChatCompletionStopStringImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionStopStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionStop
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5435,11 +5635,13 @@ class _$ChatCompletionStopStringImpl extends ChatCompletionStopString {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionStop
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionStopStringImplCopyWith<_$ChatCompletionStopStringImpl>
@@ -5526,7 +5728,10 @@ abstract class ChatCompletionStopString extends ChatCompletionStop {
 
   @override
   String? get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionStop
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionStopStringImplCopyWith<_$ChatCompletionStopStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -5597,6 +5802,8 @@ mixin _$ChatCompletionToolChoiceOption {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this ChatCompletionToolChoiceOption to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -5619,6 +5826,9 @@ class _$ChatCompletionToolChoiceOptionCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ChatCompletionToolChoiceOption
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -5641,6 +5851,8 @@ class __$$ChatCompletionToolChoiceOptionEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionToolChoiceOptionEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionToolChoiceOption
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5687,11 +5899,13 @@ class _$ChatCompletionToolChoiceOptionEnumerationImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionToolChoiceOption
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionToolChoiceOptionEnumerationImplCopyWith<
@@ -5791,7 +6005,10 @@ abstract class ChatCompletionToolChoiceOptionEnumeration
 
   @override
   ChatCompletionToolChoiceMode get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionToolChoiceOption
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionToolChoiceOptionEnumerationImplCopyWith<
           _$ChatCompletionToolChoiceOptionEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -5828,6 +6045,8 @@ class __$$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWit
           _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionToolChoiceOption
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5842,6 +6061,8 @@ class __$$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWit
     ));
   }
 
+  /// Create a copy of ChatCompletionToolChoiceOption
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionNamedToolChoiceCopyWith<$Res> get value {
@@ -5886,11 +6107,13 @@ class _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionToolChoiceOption
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWith<
@@ -5992,7 +6215,10 @@ abstract class ChatCompletionToolChoiceOptionChatCompletionNamedToolChoice
 
   @override
   ChatCompletionNamedToolChoice get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionToolChoiceOption
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImplCopyWith<
           _$ChatCompletionToolChoiceOptionChatCompletionNamedToolChoiceImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -6063,6 +6289,8 @@ mixin _$ChatCompletionFunctionCall {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this ChatCompletionFunctionCall to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -6084,6 +6312,9 @@ class _$ChatCompletionFunctionCallCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ChatCompletionFunctionCall
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -6106,6 +6337,8 @@ class __$$ChatCompletionFunctionCallEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionFunctionCallEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionFunctionCall
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6152,11 +6385,13 @@ class _$ChatCompletionFunctionCallEnumerationImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionFunctionCall
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionFunctionCallEnumerationImplCopyWith<
@@ -6253,7 +6488,10 @@ abstract class ChatCompletionFunctionCallEnumeration
 
   @override
   ChatCompletionFunctionCallMode get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionFunctionCall
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionFunctionCallEnumerationImplCopyWith<
           _$ChatCompletionFunctionCallEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -6290,6 +6528,8 @@ class __$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWith
           _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionFunctionCall
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6304,6 +6544,8 @@ class __$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWith
     ));
   }
 
+  /// Create a copy of ChatCompletionFunctionCall
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionFunctionCallOptionCopyWith<$Res> get value {
@@ -6349,11 +6591,13 @@ class _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionFunctionCall
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWith<
@@ -6453,7 +6697,10 @@ abstract class ChatCompletionFunctionCallChatCompletionFunctionCallOption
 
   @override
   ChatCompletionFunctionCallOption get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionFunctionCall
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImplCopyWith<
           _$ChatCompletionFunctionCallChatCompletionFunctionCallOptionImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -6472,8 +6719,12 @@ mixin _$ChatCompletionMessageFunctionCall {
   /// The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function.
   String get arguments => throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionMessageFunctionCall to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionMessageFunctionCall
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionMessageFunctionCallCopyWith<ChatCompletionMessageFunctionCall>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -6500,6 +6751,8 @@ class _$ChatCompletionMessageFunctionCallCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionMessageFunctionCall
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6541,6 +6794,8 @@ class __$$ChatCompletionMessageFunctionCallImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionMessageFunctionCallImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionMessageFunctionCall
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6595,11 +6850,13 @@ class _$ChatCompletionMessageFunctionCallImpl
                 other.arguments == arguments));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, arguments);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionMessageFunctionCall
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionMessageFunctionCallImplCopyWith<
@@ -6626,16 +6883,18 @@ abstract class _ChatCompletionMessageFunctionCall
           Map<String, dynamic> json) =
       _$ChatCompletionMessageFunctionCallImpl.fromJson;
 
-  @override
-
   /// The name of the function to call.
-  String get name;
   @override
+  String get name;
 
   /// The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function.
-  String get arguments;
   @override
-  @JsonKey(ignore: true)
+  String get arguments;
+
+  /// Create a copy of ChatCompletionMessageFunctionCall
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionMessageFunctionCallImplCopyWith<
           _$ChatCompletionMessageFunctionCallImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -6651,8 +6910,12 @@ mixin _$ChatCompletionFunctionCallOption {
   /// The name of the function to call.
   String get name => throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionFunctionCallOption to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionFunctionCallOption
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionFunctionCallOptionCopyWith<ChatCompletionFunctionCallOption>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -6679,6 +6942,8 @@ class _$ChatCompletionFunctionCallOptionCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionFunctionCallOption
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6715,6 +6980,8 @@ class __$$ChatCompletionFunctionCallOptionImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionFunctionCallOptionImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionFunctionCallOption
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6757,11 +7024,13 @@ class _$ChatCompletionFunctionCallOptionImpl
             (identical(other.name, name) || other.name == name));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionFunctionCallOption
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionFunctionCallOptionImplCopyWith<
@@ -6787,12 +7056,14 @@ abstract class _ChatCompletionFunctionCallOption
           Map<String, dynamic> json) =
       _$ChatCompletionFunctionCallOptionImpl.fromJson;
 
-  @override
-
   /// The name of the function to call.
-  String get name;
   @override
-  @JsonKey(ignore: true)
+  String get name;
+
+  /// Create a copy of ChatCompletionFunctionCallOption
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionFunctionCallOptionImplCopyWith<
           _$ChatCompletionFunctionCallOptionImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -6817,8 +7088,12 @@ mixin _$FunctionObject {
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get parameters => throw _privateConstructorUsedError;
 
+  /// Serializes this FunctionObject to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FunctionObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FunctionObjectCopyWith<FunctionObject> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -6845,6 +7120,8 @@ class _$FunctionObjectCopyWithImpl<$Res, $Val extends FunctionObject>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FunctionObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6891,6 +7168,8 @@ class __$$FunctionObjectImplCopyWithImpl<$Res>
       _$FunctionObjectImpl _value, $Res Function(_$FunctionObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FunctionObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6972,12 +7251,14 @@ class _$FunctionObjectImpl extends _FunctionObject {
                 .equals(other._parameters, _parameters));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, description,
       const DeepCollectionEquality().hash(_parameters));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FunctionObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FunctionObjectImplCopyWith<_$FunctionObjectImpl> get copyWith =>
@@ -7003,24 +7284,26 @@ abstract class _FunctionObject extends FunctionObject {
   factory _FunctionObject.fromJson(Map<String, dynamic> json) =
       _$FunctionObjectImpl.fromJson;
 
-  @override
-
   /// The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.
-  String get name;
   @override
+  String get name;
 
   /// A description of what the function does, used by the model to choose when and how to call the function.
+  @override
   @JsonKey(includeIfNull: false)
   String? get description;
-  @override
 
   /// The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
   ///
   /// Omitting `parameters` defines a function with an empty parameter list.
+  @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get parameters;
+
+  /// Create a copy of FunctionObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FunctionObjectImplCopyWith<_$FunctionObjectImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -7037,8 +7320,12 @@ mixin _$ChatCompletionTool {
   /// A function that the model may call.
   FunctionObject get function => throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionTool to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionTool
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionToolCopyWith<ChatCompletionTool> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -7064,6 +7351,8 @@ class _$ChatCompletionToolCopyWithImpl<$Res, $Val extends ChatCompletionTool>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionTool
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7082,6 +7371,8 @@ class _$ChatCompletionToolCopyWithImpl<$Res, $Val extends ChatCompletionTool>
     ) as $Val);
   }
 
+  /// Create a copy of ChatCompletionTool
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FunctionObjectCopyWith<$Res> get function {
@@ -7113,6 +7404,8 @@ class __$$ChatCompletionToolImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionToolImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionTool
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7164,11 +7457,13 @@ class _$ChatCompletionToolImpl extends _ChatCompletionTool {
                 other.function == function));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, function);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionTool
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionToolImplCopyWith<_$ChatCompletionToolImpl> get copyWith =>
@@ -7192,16 +7487,18 @@ abstract class _ChatCompletionTool extends ChatCompletionTool {
   factory _ChatCompletionTool.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionToolImpl.fromJson;
 
-  @override
-
   /// The type of the tool. Currently, only `function` is supported.
-  ChatCompletionToolType get type;
   @override
+  ChatCompletionToolType get type;
 
   /// A function that the model may call.
-  FunctionObject get function;
   @override
-  @JsonKey(ignore: true)
+  FunctionObject get function;
+
+  /// Create a copy of ChatCompletionTool
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionToolImplCopyWith<_$ChatCompletionToolImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -7221,8 +7518,12 @@ mixin _$ChatCompletionNamedToolChoice {
   ChatCompletionFunctionCallOption get function =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionNamedToolChoice to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionNamedToolChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionNamedToolChoiceCopyWith<ChatCompletionNamedToolChoice>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -7253,6 +7554,8 @@ class _$ChatCompletionNamedToolChoiceCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionNamedToolChoice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7271,6 +7574,8 @@ class _$ChatCompletionNamedToolChoiceCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of ChatCompletionNamedToolChoice
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionFunctionCallOptionCopyWith<$Res> get function {
@@ -7308,6 +7613,8 @@ class __$$ChatCompletionNamedToolChoiceImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionNamedToolChoiceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionNamedToolChoice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7362,11 +7669,13 @@ class _$ChatCompletionNamedToolChoiceImpl
                 other.function == function));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, function);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionNamedToolChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionNamedToolChoiceImplCopyWith<
@@ -7393,16 +7702,18 @@ abstract class _ChatCompletionNamedToolChoice
   factory _ChatCompletionNamedToolChoice.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionNamedToolChoiceImpl.fromJson;
 
-  @override
-
   /// The type of the tool. Currently, only `function` is supported.
-  ChatCompletionNamedToolChoiceType get type;
   @override
+  ChatCompletionNamedToolChoiceType get type;
 
   /// Forces the model to call the specified function.
-  ChatCompletionFunctionCallOption get function;
   @override
-  @JsonKey(ignore: true)
+  ChatCompletionFunctionCallOption get function;
+
+  /// Create a copy of ChatCompletionNamedToolChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionNamedToolChoiceImplCopyWith<
           _$ChatCompletionNamedToolChoiceImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -7426,8 +7737,12 @@ mixin _$ChatCompletionMessageToolCall {
   ChatCompletionMessageFunctionCall get function =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionMessageToolCall to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionMessageToolCall
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionMessageToolCallCopyWith<ChatCompletionMessageToolCall>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -7459,6 +7774,8 @@ class _$ChatCompletionMessageToolCallCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionMessageToolCall
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7482,6 +7799,8 @@ class _$ChatCompletionMessageToolCallCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of ChatCompletionMessageToolCall
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionMessageFunctionCallCopyWith<$Res> get function {
@@ -7520,6 +7839,8 @@ class __$$ChatCompletionMessageToolCallImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionMessageToolCallImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionMessageToolCall
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7584,11 +7905,13 @@ class _$ChatCompletionMessageToolCallImpl
                 other.function == function));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, type, function);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionMessageToolCall
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionMessageToolCallImplCopyWith<
@@ -7616,20 +7939,22 @@ abstract class _ChatCompletionMessageToolCall
   factory _ChatCompletionMessageToolCall.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionMessageToolCallImpl.fromJson;
 
-  @override
-
   /// The ID of the tool call.
-  String get id;
   @override
+  String get id;
 
   /// The type of the tool. Currently, only `function` is supported.
-  ChatCompletionMessageToolCallType get type;
   @override
+  ChatCompletionMessageToolCallType get type;
 
   /// The name and arguments of a function that should be called, as generated by the model.
-  ChatCompletionMessageFunctionCall get function;
   @override
-  @JsonKey(ignore: true)
+  ChatCompletionMessageFunctionCall get function;
+
+  /// Create a copy of ChatCompletionMessageToolCall
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionMessageToolCallImplCopyWith<
           _$ChatCompletionMessageToolCallImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -7646,8 +7971,12 @@ mixin _$ChatCompletionStreamOptions {
   @JsonKey(name: 'include_usage', includeIfNull: false)
   bool? get includeUsage => throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionStreamOptions to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionStreamOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionStreamOptionsCopyWith<ChatCompletionStreamOptions>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -7676,6 +8005,8 @@ class _$ChatCompletionStreamOptionsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionStreamOptions
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7714,6 +8045,8 @@ class __$$ChatCompletionStreamOptionsImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionStreamOptionsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionStreamOptions
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7758,11 +8091,13 @@ class _$ChatCompletionStreamOptionsImpl extends _ChatCompletionStreamOptions {
                 other.includeUsage == includeUsage));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, includeUsage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionStreamOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionStreamOptionsImplCopyWith<_$ChatCompletionStreamOptionsImpl>
@@ -7787,13 +8122,15 @@ abstract class _ChatCompletionStreamOptions
   factory _ChatCompletionStreamOptions.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionStreamOptionsImpl.fromJson;
 
-  @override
-
   /// If set, an additional chunk will be streamed before the `data: [DONE]` message. The `usage` field on this chunk shows the token usage statistics for the entire request, and the `choices` field will always be an empty array. All other chunks will also include a `usage` field, but with a null value.
+  @override
   @JsonKey(name: 'include_usage', includeIfNull: false)
   bool? get includeUsage;
+
+  /// Create a copy of ChatCompletionStreamOptions
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionStreamOptionsImplCopyWith<_$ChatCompletionStreamOptionsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -7840,8 +8177,12 @@ mixin _$CreateChatCompletionResponse {
   @JsonKey(includeIfNull: false)
   CompletionUsage? get usage => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateChatCompletionResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateChatCompletionResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateChatCompletionResponseCopyWith<CreateChatCompletionResponse>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -7883,6 +8224,8 @@ class _$CreateChatCompletionResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateChatCompletionResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7931,6 +8274,8 @@ class _$CreateChatCompletionResponseCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of CreateChatCompletionResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CompletionUsageCopyWith<$Res>? get usage {
@@ -7982,6 +8327,8 @@ class __$$CreateChatCompletionResponseImplCopyWithImpl<$Res>
       $Res Function(_$CreateChatCompletionResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateChatCompletionResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -8126,7 +8473,7 @@ class _$CreateChatCompletionResponseImpl extends _CreateChatCompletionResponse {
             (identical(other.usage, usage) || other.usage == usage));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -8139,7 +8486,9 @@ class _$CreateChatCompletionResponseImpl extends _CreateChatCompletionResponse {
       object,
       usage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateChatCompletionResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateChatCompletionResponseImplCopyWith<
@@ -8177,50 +8526,52 @@ abstract class _CreateChatCompletionResponse
   factory _CreateChatCompletionResponse.fromJson(Map<String, dynamic> json) =
       _$CreateChatCompletionResponseImpl.fromJson;
 
-  @override
-
   /// A unique identifier for the chat completion.
+  @override
   @JsonKey(includeIfNull: false)
   String? get id;
-  @override
 
   /// A list of chat completion choices. Can be more than one if `n` is greater than 1.
-  List<ChatCompletionResponseChoice> get choices;
   @override
+  List<ChatCompletionResponseChoice> get choices;
 
   /// The Unix timestamp (in seconds) of when the chat completion was created.
-  int get created;
   @override
+  int get created;
 
   /// The model used for the chat completion.
-  String get model;
   @override
+  String get model;
 
   /// The service tier used for processing the request. This field is only included if the `service_tier` parameter
   /// is specified in the request.
+  @override
   @JsonKey(
       name: 'service_tier',
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ServiceTier? get serviceTier;
-  @override
 
   /// This fingerprint represents the backend configuration that the model runs with.
   ///
   /// Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.
+  @override
   @JsonKey(name: 'system_fingerprint', includeIfNull: false)
   String? get systemFingerprint;
-  @override
 
   /// The object type, which is always `chat.completion`.
-  String get object;
   @override
+  String get object;
 
   /// Usage statistics for the completion request.
+  @override
   @JsonKey(includeIfNull: false)
   CompletionUsage? get usage;
+
+  /// Create a copy of CreateChatCompletionResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateChatCompletionResponseImplCopyWith<
           _$CreateChatCompletionResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -8254,8 +8605,12 @@ mixin _$ChatCompletionResponseChoice {
   /// Log probability information for the choice.
   ChatCompletionLogprobs? get logprobs => throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionResponseChoice to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionResponseChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionResponseChoiceCopyWith<ChatCompletionResponseChoice>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -8291,6 +8646,8 @@ class _$ChatCompletionResponseChoiceCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionResponseChoice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -8319,6 +8676,8 @@ class _$ChatCompletionResponseChoiceCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of ChatCompletionResponseChoice
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionLogprobsCopyWith<$Res>? get logprobs {
@@ -8364,6 +8723,8 @@ class __$$ChatCompletionResponseChoiceImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionResponseChoiceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionResponseChoice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -8451,12 +8812,14 @@ class _$ChatCompletionResponseChoiceImpl extends _ChatCompletionResponseChoice {
                 other.logprobs == logprobs));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, finishReason, index,
       const DeepCollectionEquality().hash(message), logprobs);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionResponseChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionResponseChoiceImplCopyWith<
@@ -8488,31 +8851,33 @@ abstract class _ChatCompletionResponseChoice
   factory _ChatCompletionResponseChoice.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionResponseChoiceImpl.fromJson;
 
-  @override
-
   /// The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
   /// `length` if the maximum number of tokens specified in the request was reached,
   /// `content_filter` if content was omitted due to a flag from our content filters,
   /// `tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.
+  @override
   @JsonKey(
       name: 'finish_reason',
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ChatCompletionFinishReason? get finishReason;
-  @override
 
   /// The index of the choice in the list of choices.
+  @override
   @JsonKey(includeIfNull: false)
   int? get index;
-  @override
 
   /// An assistant message in a chat conversation.
-  ChatCompletionAssistantMessage get message;
   @override
+  ChatCompletionAssistantMessage get message;
 
   /// Log probability information for the choice.
-  ChatCompletionLogprobs? get logprobs;
   @override
-  @JsonKey(ignore: true)
+  ChatCompletionLogprobs? get logprobs;
+
+  /// Create a copy of ChatCompletionResponseChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionResponseChoiceImplCopyWith<
           _$ChatCompletionResponseChoiceImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -8529,8 +8894,12 @@ mixin _$ChatCompletionLogprobs {
   List<ChatCompletionTokenLogprob>? get content =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionLogprobs to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionLogprobs
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionLogprobsCopyWith<ChatCompletionLogprobs> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -8555,6 +8924,8 @@ class _$ChatCompletionLogprobsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionLogprobs
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -8591,6 +8962,8 @@ class __$$ChatCompletionLogprobsImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionLogprobsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionLogprobs
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -8642,12 +9015,14 @@ class _$ChatCompletionLogprobsImpl extends _ChatCompletionLogprobs {
             const DeepCollectionEquality().equals(other._content, _content));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_content));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionLogprobs
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionLogprobsImplCopyWith<_$ChatCompletionLogprobsImpl>
@@ -8671,12 +9046,14 @@ abstract class _ChatCompletionLogprobs extends ChatCompletionLogprobs {
   factory _ChatCompletionLogprobs.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionLogprobsImpl.fromJson;
 
-  @override
-
   /// A list of message content tokens with log probability information.
-  List<ChatCompletionTokenLogprob>? get content;
   @override
-  @JsonKey(ignore: true)
+  List<ChatCompletionTokenLogprob>? get content;
+
+  /// Create a copy of ChatCompletionLogprobs
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionLogprobsImplCopyWith<_$ChatCompletionLogprobsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -8702,8 +9079,12 @@ mixin _$ChatCompletionTokenLogprob {
   List<ChatCompletionTokenTopLogprob> get topLogprobs =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionTokenLogprob to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionTokenLogprob
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionTokenLogprobCopyWith<ChatCompletionTokenLogprob>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -8734,6 +9115,8 @@ class _$ChatCompletionTokenLogprobCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionTokenLogprob
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -8790,6 +9173,8 @@ class __$$ChatCompletionTokenLogprobImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionTokenLogprobImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionTokenLogprob
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -8886,7 +9271,7 @@ class _$ChatCompletionTokenLogprobImpl extends _ChatCompletionTokenLogprob {
                 .equals(other._topLogprobs, _topLogprobs));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -8895,7 +9280,9 @@ class _$ChatCompletionTokenLogprobImpl extends _ChatCompletionTokenLogprob {
       const DeepCollectionEquality().hash(_bytes),
       const DeepCollectionEquality().hash(_topLogprobs));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionTokenLogprob
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionTokenLogprobImplCopyWith<_$ChatCompletionTokenLogprobImpl>
@@ -8923,25 +9310,27 @@ abstract class _ChatCompletionTokenLogprob extends ChatCompletionTokenLogprob {
   factory _ChatCompletionTokenLogprob.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionTokenLogprobImpl.fromJson;
 
-  @override
-
   /// The token.
-  String get token;
   @override
+  String get token;
 
   /// The log probability of this token, if it is within the top 20 most likely tokens. Otherwise, the value `-9999.0` is used to signify that the token is very unlikely.
-  double get logprob;
   @override
+  double get logprob;
 
   /// A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token.
-  List<int>? get bytes;
   @override
+  List<int>? get bytes;
 
   /// List of the most likely tokens and their log probability, at this token position. In rare cases, there may be fewer than the number of requested `top_logprobs` returned.
+  @override
   @JsonKey(name: 'top_logprobs')
   List<ChatCompletionTokenTopLogprob> get topLogprobs;
+
+  /// Create a copy of ChatCompletionTokenLogprob
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionTokenLogprobImplCopyWith<_$ChatCompletionTokenLogprobImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -8962,8 +9351,12 @@ mixin _$ChatCompletionTokenTopLogprob {
   /// A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token.
   List<int>? get bytes => throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionTokenTopLogprob to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionTokenTopLogprob
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionTokenTopLogprobCopyWith<ChatCompletionTokenTopLogprob>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -8990,6 +9383,8 @@ class _$ChatCompletionTokenTopLogprobCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionTokenTopLogprob
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -9036,6 +9431,8 @@ class __$$ChatCompletionTokenTopLogprobImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionTokenTopLogprobImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionTokenTopLogprob
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -9111,12 +9508,14 @@ class _$ChatCompletionTokenTopLogprobImpl
             const DeepCollectionEquality().equals(other._bytes, _bytes));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, token, logprob, const DeepCollectionEquality().hash(_bytes));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionTokenTopLogprob
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionTokenTopLogprobImplCopyWith<
@@ -9143,20 +9542,22 @@ abstract class _ChatCompletionTokenTopLogprob
   factory _ChatCompletionTokenTopLogprob.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionTokenTopLogprobImpl.fromJson;
 
-  @override
-
   /// The token.
-  String get token;
   @override
+  String get token;
 
   /// The log probability of this token, if it is within the top 20 most likely tokens. Otherwise, the value `-9999.0` is used to signify that the token is very unlikely.
-  double get logprob;
   @override
+  double get logprob;
 
   /// A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token.
-  List<int>? get bytes;
   @override
-  @JsonKey(ignore: true)
+  List<int>? get bytes;
+
+  /// Create a copy of ChatCompletionTokenTopLogprob
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionTokenTopLogprobImplCopyWith<
           _$ChatCompletionTokenTopLogprobImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -9208,8 +9609,12 @@ mixin _$CreateChatCompletionStreamResponse {
   @JsonKey(includeIfNull: false)
   CompletionUsage? get usage => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateChatCompletionStreamResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateChatCompletionStreamResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateChatCompletionStreamResponseCopyWith<
           CreateChatCompletionStreamResponse>
       get copyWith => throw _privateConstructorUsedError;
@@ -9252,6 +9657,8 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateChatCompletionStreamResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -9300,6 +9707,8 @@ class _$CreateChatCompletionStreamResponseCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of CreateChatCompletionStreamResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CompletionUsageCopyWith<$Res>? get usage {
@@ -9351,6 +9760,8 @@ class __$$CreateChatCompletionStreamResponseImplCopyWithImpl<$Res>
       $Res Function(_$CreateChatCompletionStreamResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateChatCompletionStreamResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -9501,7 +9912,7 @@ class _$CreateChatCompletionStreamResponseImpl
             (identical(other.usage, usage) || other.usage == usage));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -9514,7 +9925,9 @@ class _$CreateChatCompletionStreamResponseImpl
       object,
       usage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateChatCompletionStreamResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateChatCompletionStreamResponseImplCopyWith<
@@ -9553,54 +9966,56 @@ abstract class _CreateChatCompletionStreamResponse
           Map<String, dynamic> json) =
       _$CreateChatCompletionStreamResponseImpl.fromJson;
 
-  @override
-
   /// A unique identifier for the chat completion. Each chunk has the same ID.
+  @override
   @JsonKey(includeIfNull: false)
   String? get id;
-  @override
 
   /// A list of chat completion choices. Can contain more than one elements if `n` is greater than 1. Can also be empty for the
   /// last chunk if you set `stream_options: {"include_usage": true}`.
-  List<ChatCompletionStreamResponseChoice> get choices;
   @override
+  List<ChatCompletionStreamResponseChoice> get choices;
 
   /// The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp.
+  @override
   @JsonKey(includeIfNull: false)
   int? get created;
-  @override
 
   /// The model to generate the completion.
+  @override
   @JsonKey(includeIfNull: false)
   String? get model;
-  @override
 
   /// The service tier used for processing the request. This field is only included if the `service_tier` parameter
   /// is specified in the request.
+  @override
   @JsonKey(
       name: 'service_tier',
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ServiceTier? get serviceTier;
-  @override
 
   /// This fingerprint represents the backend configuration that the model runs with.
   ///
   /// Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact
+  @override
   @JsonKey(name: 'system_fingerprint', includeIfNull: false)
   String? get systemFingerprint;
-  @override
 
   /// The object type, which is always `chat.completion.chunk`.
+  @override
   @JsonKey(includeIfNull: false)
   String? get object;
-  @override
 
   /// Usage statistics for the completion request.
+  @override
   @JsonKey(includeIfNull: false)
   CompletionUsage? get usage;
+
+  /// Create a copy of CreateChatCompletionStreamResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateChatCompletionStreamResponseImplCopyWith<
           _$CreateChatCompletionStreamResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -9636,8 +10051,12 @@ mixin _$ChatCompletionStreamResponseChoice {
   @JsonKey(includeIfNull: false)
   int? get index => throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionStreamResponseChoice to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionStreamResponseChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionStreamResponseChoiceCopyWith<
           ChatCompletionStreamResponseChoice>
       get copyWith => throw _privateConstructorUsedError;
@@ -9676,6 +10095,8 @@ class _$ChatCompletionStreamResponseChoiceCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionStreamResponseChoice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -9704,6 +10125,8 @@ class _$ChatCompletionStreamResponseChoiceCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of ChatCompletionStreamResponseChoice
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionStreamResponseDeltaCopyWith<$Res> get delta {
@@ -9713,6 +10136,8 @@ class _$ChatCompletionStreamResponseChoiceCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of ChatCompletionStreamResponseChoice
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionStreamResponseChoiceLogprobsCopyWith<$Res>? get logprobs {
@@ -9762,6 +10187,8 @@ class __$$ChatCompletionStreamResponseChoiceImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionStreamResponseChoiceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionStreamResponseChoice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -9851,12 +10278,14 @@ class _$ChatCompletionStreamResponseChoiceImpl
             (identical(other.index, index) || other.index == index));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, delta, logprobs, finishReason, index);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionStreamResponseChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionStreamResponseChoiceImplCopyWith<
@@ -9890,32 +10319,34 @@ abstract class _ChatCompletionStreamResponseChoice
           Map<String, dynamic> json) =
       _$ChatCompletionStreamResponseChoiceImpl.fromJson;
 
-  @override
-
   /// A chat completion delta generated by streamed model responses.
-  ChatCompletionStreamResponseDelta get delta;
   @override
+  ChatCompletionStreamResponseDelta get delta;
 
   /// Log probability information for the choice.
+  @override
   @JsonKey(includeIfNull: false)
   ChatCompletionStreamResponseChoiceLogprobs? get logprobs;
-  @override
 
   /// The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
   /// `length` if the maximum number of tokens specified in the request was reached,
   /// `content_filter` if content was omitted due to a flag from our content filters,
   /// `tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.
+  @override
   @JsonKey(
       name: 'finish_reason',
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ChatCompletionFinishReason? get finishReason;
-  @override
 
   /// The index of the choice in the list of choices.
+  @override
   @JsonKey(includeIfNull: false)
   int? get index;
+
+  /// Create a copy of ChatCompletionStreamResponseChoice
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionStreamResponseChoiceImplCopyWith<
           _$ChatCompletionStreamResponseChoiceImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -9933,8 +10364,12 @@ mixin _$ChatCompletionStreamResponseChoiceLogprobs {
   List<ChatCompletionTokenLogprob>? get content =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionStreamResponseChoiceLogprobs to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionStreamResponseChoiceLogprobs
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionStreamResponseChoiceLogprobsCopyWith<
           ChatCompletionStreamResponseChoiceLogprobs>
       get copyWith => throw _privateConstructorUsedError;
@@ -9963,6 +10398,8 @@ class _$ChatCompletionStreamResponseChoiceLogprobsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionStreamResponseChoiceLogprobs
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -10000,6 +10437,8 @@ class __$$ChatCompletionStreamResponseChoiceLogprobsImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionStreamResponseChoiceLogprobsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionStreamResponseChoiceLogprobs
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -10053,12 +10492,14 @@ class _$ChatCompletionStreamResponseChoiceLogprobsImpl
             const DeepCollectionEquality().equals(other._content, _content));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_content));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionStreamResponseChoiceLogprobs
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionStreamResponseChoiceLogprobsImplCopyWith<
@@ -10087,12 +10528,14 @@ abstract class _ChatCompletionStreamResponseChoiceLogprobs
           Map<String, dynamic> json) =
       _$ChatCompletionStreamResponseChoiceLogprobsImpl.fromJson;
 
-  @override
-
   /// A list of message content tokens with log probability information.
-  List<ChatCompletionTokenLogprob>? get content;
   @override
-  @JsonKey(ignore: true)
+  List<ChatCompletionTokenLogprob>? get content;
+
+  /// Create a copy of ChatCompletionStreamResponseChoiceLogprobs
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionStreamResponseChoiceLogprobsImplCopyWith<
           _$ChatCompletionStreamResponseChoiceLogprobsImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -10124,8 +10567,12 @@ mixin _$ChatCompletionStreamResponseDelta {
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ChatCompletionMessageRole? get role => throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionStreamResponseDelta to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionStreamResponseDelta
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionStreamResponseDeltaCopyWith<ChatCompletionStreamResponseDelta>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -10163,6 +10610,8 @@ class _$ChatCompletionStreamResponseDeltaCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionStreamResponseDelta
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -10191,6 +10640,8 @@ class _$ChatCompletionStreamResponseDeltaCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of ChatCompletionStreamResponseDelta
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionStreamMessageFunctionCallCopyWith<$Res>? get functionCall {
@@ -10239,6 +10690,8 @@ class __$$ChatCompletionStreamResponseDeltaImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionStreamResponseDeltaImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionStreamResponseDelta
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -10336,12 +10789,14 @@ class _$ChatCompletionStreamResponseDeltaImpl
             (identical(other.role, role) || other.role == role));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, content, functionCall,
       const DeepCollectionEquality().hash(_toolCalls), role);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionStreamResponseDelta
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionStreamResponseDeltaImplCopyWith<
@@ -10376,29 +10831,31 @@ abstract class _ChatCompletionStreamResponseDelta
           Map<String, dynamic> json) =
       _$ChatCompletionStreamResponseDeltaImpl.fromJson;
 
-  @override
-
   /// The contents of the chunk message.
+  @override
   @JsonKey(includeIfNull: false)
   String? get content;
-  @override
 
   /// The name and arguments of a function that should be called, as generated by the model.
+  @override
   @JsonKey(name: 'function_call', includeIfNull: false)
   ChatCompletionStreamMessageFunctionCall? get functionCall;
-  @override
 
   /// No Description
+  @override
   @JsonKey(name: 'tool_calls', includeIfNull: false)
   List<ChatCompletionStreamMessageToolCallChunk>? get toolCalls;
-  @override
 
   /// The role of the messages author. One of `system`, `user`, `assistant`, or `tool` (`function` is deprecated).
+  @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ChatCompletionMessageRole? get role;
+
+  /// Create a copy of ChatCompletionStreamResponseDelta
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionStreamResponseDeltaImplCopyWith<
           _$ChatCompletionStreamResponseDeltaImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -10420,8 +10877,12 @@ mixin _$ChatCompletionStreamMessageFunctionCall {
   @JsonKey(includeIfNull: false)
   String? get arguments => throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionStreamMessageFunctionCall to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionStreamMessageFunctionCall
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionStreamMessageFunctionCallCopyWith<
           ChatCompletionStreamMessageFunctionCall>
       get copyWith => throw _privateConstructorUsedError;
@@ -10452,6 +10913,8 @@ class _$ChatCompletionStreamMessageFunctionCallCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionStreamMessageFunctionCall
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -10495,6 +10958,8 @@ class __$$ChatCompletionStreamMessageFunctionCallImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionStreamMessageFunctionCallImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionStreamMessageFunctionCall
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -10552,11 +11017,13 @@ class _$ChatCompletionStreamMessageFunctionCallImpl
                 other.arguments == arguments));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, arguments);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionStreamMessageFunctionCall
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionStreamMessageFunctionCallImplCopyWith<
@@ -10585,18 +11052,20 @@ abstract class _ChatCompletionStreamMessageFunctionCall
           Map<String, dynamic> json) =
       _$ChatCompletionStreamMessageFunctionCallImpl.fromJson;
 
-  @override
-
   /// The name of the function to call.
+  @override
   @JsonKey(includeIfNull: false)
   String? get name;
-  @override
 
   /// The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function.
+  @override
   @JsonKey(includeIfNull: false)
   String? get arguments;
+
+  /// Create a copy of ChatCompletionStreamMessageFunctionCall
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionStreamMessageFunctionCallImplCopyWith<
           _$ChatCompletionStreamMessageFunctionCallImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -10628,8 +11097,12 @@ mixin _$ChatCompletionStreamMessageToolCallChunk {
   ChatCompletionStreamMessageFunctionCall? get function =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionStreamMessageToolCallChunk to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionStreamMessageToolCallChunk
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionStreamMessageToolCallChunkCopyWith<
           ChatCompletionStreamMessageToolCallChunk>
       get copyWith => throw _privateConstructorUsedError;
@@ -10668,6 +11141,8 @@ class _$ChatCompletionStreamMessageToolCallChunkCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionStreamMessageToolCallChunk
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -10696,6 +11171,8 @@ class _$ChatCompletionStreamMessageToolCallChunkCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of ChatCompletionStreamMessageToolCallChunk
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionStreamMessageFunctionCallCopyWith<$Res>? get function {
@@ -10743,6 +11220,8 @@ class __$$ChatCompletionStreamMessageToolCallChunkImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionStreamMessageToolCallChunkImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionStreamMessageToolCallChunk
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -10827,11 +11306,13 @@ class _$ChatCompletionStreamMessageToolCallChunkImpl
                 other.function == function));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, index, id, type, function);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionStreamMessageToolCallChunk
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionStreamMessageToolCallChunkImplCopyWith<
@@ -10866,28 +11347,30 @@ abstract class _ChatCompletionStreamMessageToolCallChunk
           Map<String, dynamic> json) =
       _$ChatCompletionStreamMessageToolCallChunkImpl.fromJson;
 
-  @override
-
   /// No Description
-  int get index;
   @override
+  int get index;
 
   /// The ID of the tool call.
+  @override
   @JsonKey(includeIfNull: false)
   String? get id;
-  @override
 
   /// The type of the tool. Currently, only `function` is supported.
+  @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ChatCompletionStreamMessageToolCallChunkType? get type;
-  @override
 
   /// The name and arguments of a function that should be called, as generated by the model.
+  @override
   @JsonKey(includeIfNull: false)
   ChatCompletionStreamMessageFunctionCall? get function;
+
+  /// Create a copy of ChatCompletionStreamMessageToolCallChunk
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionStreamMessageToolCallChunkImplCopyWith<
           _$ChatCompletionStreamMessageToolCallChunkImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -10911,8 +11394,12 @@ mixin _$CompletionUsage {
   @JsonKey(name: 'total_tokens')
   int get totalTokens => throw _privateConstructorUsedError;
 
+  /// Serializes this CompletionUsage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CompletionUsageCopyWith<CompletionUsage> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -10939,6 +11426,8 @@ class _$CompletionUsageCopyWithImpl<$Res, $Val extends CompletionUsage>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -10985,6 +11474,8 @@ class __$$CompletionUsageImplCopyWithImpl<$Res>
       _$CompletionUsageImpl _value, $Res Function(_$CompletionUsageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -11054,12 +11545,14 @@ class _$CompletionUsageImpl extends _CompletionUsage {
                 other.totalTokens == totalTokens));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, completionTokens, promptTokens, totalTokens);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CompletionUsageImplCopyWith<_$CompletionUsageImpl> get copyWith =>
@@ -11085,23 +11578,25 @@ abstract class _CompletionUsage extends CompletionUsage {
   factory _CompletionUsage.fromJson(Map<String, dynamic> json) =
       _$CompletionUsageImpl.fromJson;
 
-  @override
-
   /// Number of tokens in the generated completion.
+  @override
   @JsonKey(name: 'completion_tokens')
   int? get completionTokens;
-  @override
 
   /// Number of tokens in the prompt.
+  @override
   @JsonKey(name: 'prompt_tokens')
   int get promptTokens;
-  @override
 
   /// Total number of tokens used in the request (prompt + completion).
+  @override
   @JsonKey(name: 'total_tokens')
   int get totalTokens;
+
+  /// Create a copy of CompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CompletionUsageImplCopyWith<_$CompletionUsageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -11134,8 +11629,12 @@ mixin _$CreateEmbeddingRequest {
   @JsonKey(includeIfNull: false)
   String? get user => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateEmbeddingRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateEmbeddingRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateEmbeddingRequestCopyWith<CreateEmbeddingRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -11168,6 +11667,8 @@ class _$CreateEmbeddingRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateEmbeddingRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -11201,6 +11702,8 @@ class _$CreateEmbeddingRequestCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of CreateEmbeddingRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $EmbeddingModelCopyWith<$Res> get model {
@@ -11209,6 +11712,8 @@ class _$CreateEmbeddingRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of CreateEmbeddingRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $EmbeddingInputCopyWith<$Res> get input {
@@ -11250,6 +11755,8 @@ class __$$CreateEmbeddingRequestImplCopyWithImpl<$Res>
       $Res Function(_$CreateEmbeddingRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateEmbeddingRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -11343,12 +11850,14 @@ class _$CreateEmbeddingRequestImpl extends _CreateEmbeddingRequest {
             (identical(other.user, user) || other.user == user));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, model, input, encodingFormat, dimensions, user);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateEmbeddingRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateEmbeddingRequestImplCopyWith<_$CreateEmbeddingRequestImpl>
@@ -11377,33 +11886,35 @@ abstract class _CreateEmbeddingRequest extends CreateEmbeddingRequest {
   factory _CreateEmbeddingRequest.fromJson(Map<String, dynamic> json) =
       _$CreateEmbeddingRequestImpl.fromJson;
 
-  @override
-
   /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  @override
   @_EmbeddingModelConverter()
   EmbeddingModel get model;
-  @override
 
   /// Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. The input must not exceed the max input tokens for the model (8192 tokens for `text-embedding-ada-002`), cannot be an empty string, and any array must be 2048 dimensions or less. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.
+  @override
   @_EmbeddingInputConverter()
   EmbeddingInput get input;
-  @override
 
   /// The format to return the embeddings in. Can be either `float` or [`base64`](https://pypi.org/project/pybase64/).
+  @override
   @JsonKey(name: 'encoding_format')
   EmbeddingEncodingFormat get encodingFormat;
-  @override
 
   /// The number of dimensions the resulting output embeddings should have. Only supported in `text-embedding-3` and later models.
+  @override
   @JsonKey(includeIfNull: false)
   int? get dimensions;
-  @override
 
   /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+  @override
   @JsonKey(includeIfNull: false)
   String? get user;
+
+  /// Create a copy of CreateEmbeddingRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateEmbeddingRequestImplCopyWith<_$CreateEmbeddingRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -11462,6 +11973,8 @@ mixin _$EmbeddingModel {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this EmbeddingModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -11481,6 +11994,9 @@ class _$EmbeddingModelCopyWithImpl<$Res, $Val extends EmbeddingModel>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of EmbeddingModel
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -11502,6 +12018,8 @@ class __$$EmbeddingModelEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$EmbeddingModelEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EmbeddingModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -11545,11 +12063,13 @@ class _$EmbeddingModelEnumerationImpl extends EmbeddingModelEnumeration {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EmbeddingModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmbeddingModelEnumerationImplCopyWith<_$EmbeddingModelEnumerationImpl>
@@ -11636,7 +12156,10 @@ abstract class EmbeddingModelEnumeration extends EmbeddingModel {
 
   @override
   EmbeddingModels get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EmbeddingModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmbeddingModelEnumerationImplCopyWith<_$EmbeddingModelEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -11658,6 +12181,8 @@ class __$$EmbeddingModelStringImplCopyWithImpl<$Res>
       $Res Function(_$EmbeddingModelStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EmbeddingModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -11701,11 +12226,13 @@ class _$EmbeddingModelStringImpl extends EmbeddingModelString {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EmbeddingModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmbeddingModelStringImplCopyWith<_$EmbeddingModelStringImpl>
@@ -11793,7 +12320,10 @@ abstract class EmbeddingModelString extends EmbeddingModel {
 
   @override
   String get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EmbeddingModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmbeddingModelStringImplCopyWith<_$EmbeddingModelStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -11868,6 +12398,8 @@ mixin _$EmbeddingInput {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this EmbeddingInput to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -11887,6 +12419,9 @@ class _$EmbeddingInputCopyWithImpl<$Res, $Val extends EmbeddingInput>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of EmbeddingInput
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -11908,6 +12443,8 @@ class __$$EmbeddingInputListListIntImplCopyWithImpl<$Res>
       $Res Function(_$EmbeddingInputListListIntImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EmbeddingInput
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -11958,12 +12495,14 @@ class _$EmbeddingInputListListIntImpl extends EmbeddingInputListListInt {
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_value));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EmbeddingInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmbeddingInputListListIntImplCopyWith<_$EmbeddingInputListListIntImpl>
@@ -12062,7 +12601,10 @@ abstract class EmbeddingInputListListInt extends EmbeddingInput {
 
   @override
   List<List<int>> get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EmbeddingInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmbeddingInputListListIntImplCopyWith<_$EmbeddingInputListListIntImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -12085,6 +12627,8 @@ class __$$EmbeddingInputListIntImplCopyWithImpl<$Res>
       $Res Function(_$EmbeddingInputListIntImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EmbeddingInput
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -12135,12 +12679,14 @@ class _$EmbeddingInputListIntImpl extends EmbeddingInputListInt {
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_value));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EmbeddingInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmbeddingInputListIntImplCopyWith<_$EmbeddingInputListIntImpl>
@@ -12239,7 +12785,10 @@ abstract class EmbeddingInputListInt extends EmbeddingInput {
 
   @override
   List<int> get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EmbeddingInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmbeddingInputListIntImplCopyWith<_$EmbeddingInputListIntImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -12263,6 +12812,8 @@ class __$$EmbeddingInputListStringImplCopyWithImpl<$Res>
       $Res Function(_$EmbeddingInputListStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EmbeddingInput
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -12313,12 +12864,14 @@ class _$EmbeddingInputListStringImpl extends EmbeddingInputListString {
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_value));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EmbeddingInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmbeddingInputListStringImplCopyWith<_$EmbeddingInputListStringImpl>
@@ -12417,7 +12970,10 @@ abstract class EmbeddingInputListString extends EmbeddingInput {
 
   @override
   List<String> get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EmbeddingInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmbeddingInputListStringImplCopyWith<_$EmbeddingInputListStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -12439,6 +12995,8 @@ class __$$EmbeddingInputStringImplCopyWithImpl<$Res>
       $Res Function(_$EmbeddingInputStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EmbeddingInput
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -12482,11 +13040,13 @@ class _$EmbeddingInputStringImpl extends EmbeddingInputString {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EmbeddingInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmbeddingInputStringImplCopyWith<_$EmbeddingInputStringImpl>
@@ -12586,7 +13146,10 @@ abstract class EmbeddingInputString extends EmbeddingInput {
 
   @override
   String get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EmbeddingInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmbeddingInputStringImplCopyWith<_$EmbeddingInputStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -12612,8 +13175,12 @@ mixin _$CreateEmbeddingResponse {
   @JsonKey(includeIfNull: false)
   EmbeddingUsage? get usage => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateEmbeddingResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateEmbeddingResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateEmbeddingResponseCopyWith<CreateEmbeddingResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -12644,6 +13211,8 @@ class _$CreateEmbeddingResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateEmbeddingResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -12672,6 +13241,8 @@ class _$CreateEmbeddingResponseCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of CreateEmbeddingResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $EmbeddingUsageCopyWith<$Res>? get usage {
@@ -12714,6 +13285,8 @@ class __$$CreateEmbeddingResponseImplCopyWithImpl<$Res>
       $Res Function(_$CreateEmbeddingResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateEmbeddingResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -12797,12 +13370,14 @@ class _$CreateEmbeddingResponseImpl extends _CreateEmbeddingResponse {
             (identical(other.usage, usage) || other.usage == usage));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType,
       const DeepCollectionEquality().hash(_data), model, object, usage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateEmbeddingResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateEmbeddingResponseImplCopyWith<_$CreateEmbeddingResponseImpl>
@@ -12829,25 +13404,27 @@ abstract class _CreateEmbeddingResponse extends CreateEmbeddingResponse {
   factory _CreateEmbeddingResponse.fromJson(Map<String, dynamic> json) =
       _$CreateEmbeddingResponseImpl.fromJson;
 
-  @override
-
   /// The list of embeddings generated by the model.
-  List<Embedding> get data;
   @override
+  List<Embedding> get data;
 
   /// The name of the model used to generate the embedding.
-  String get model;
   @override
+  String get model;
 
   /// The object type, which is always "list".
-  CreateEmbeddingResponseObject get object;
   @override
+  CreateEmbeddingResponseObject get object;
 
   /// The usage information for the request.
+  @override
   @JsonKey(includeIfNull: false)
   EmbeddingUsage? get usage;
+
+  /// Create a copy of CreateEmbeddingResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateEmbeddingResponseImplCopyWith<_$CreateEmbeddingResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -12868,8 +13445,12 @@ mixin _$Embedding {
   /// The object type, which is always "embedding".
   EmbeddingObject get object => throw _privateConstructorUsedError;
 
+  /// Serializes this Embedding to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Embedding
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $EmbeddingCopyWith<Embedding> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -12897,6 +13478,8 @@ class _$EmbeddingCopyWithImpl<$Res, $Val extends Embedding>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Embedding
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -12920,6 +13503,8 @@ class _$EmbeddingCopyWithImpl<$Res, $Val extends Embedding>
     ) as $Val);
   }
 
+  /// Create a copy of Embedding
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $EmbeddingVectorCopyWith<$Res> get embedding {
@@ -12954,6 +13539,8 @@ class __$$EmbeddingImplCopyWithImpl<$Res>
       _$EmbeddingImpl _value, $Res Function(_$EmbeddingImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Embedding
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -13019,11 +13606,13 @@ class _$EmbeddingImpl extends _Embedding {
             (identical(other.object, object) || other.object == object));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, index, embedding, object);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Embedding
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmbeddingImplCopyWith<_$EmbeddingImpl> get copyWith =>
@@ -13047,21 +13636,23 @@ abstract class _Embedding extends Embedding {
   factory _Embedding.fromJson(Map<String, dynamic> json) =
       _$EmbeddingImpl.fromJson;
 
-  @override
-
   /// The index of the embedding in the list of embeddings.
-  int get index;
   @override
+  int get index;
 
   /// The embedding vector, which is a list of floats. The length of vector depends on the model as listed in the [embedding guide](https://platform.openai.com/docs/guides/embeddings).
+  @override
   @_EmbeddingVectorConverter()
   EmbeddingVector get embedding;
-  @override
 
   /// The object type, which is always "embedding".
-  EmbeddingObject get object;
   @override
-  @JsonKey(ignore: true)
+  EmbeddingObject get object;
+
+  /// Create a copy of Embedding
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmbeddingImplCopyWith<_$EmbeddingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -13120,6 +13711,8 @@ mixin _$EmbeddingVector {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this EmbeddingVector to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -13139,6 +13732,9 @@ class _$EmbeddingVectorCopyWithImpl<$Res, $Val extends EmbeddingVector>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of EmbeddingVector
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -13160,6 +13756,8 @@ class __$$EmbeddingVectorListDoubleImplCopyWithImpl<$Res>
       $Res Function(_$EmbeddingVectorListDoubleImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EmbeddingVector
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -13210,12 +13808,14 @@ class _$EmbeddingVectorListDoubleImpl extends EmbeddingVectorListDouble {
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_value));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EmbeddingVector
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmbeddingVectorListDoubleImplCopyWith<_$EmbeddingVectorListDoubleImpl>
@@ -13302,7 +13902,10 @@ abstract class EmbeddingVectorListDouble extends EmbeddingVector {
 
   @override
   List<double> get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EmbeddingVector
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmbeddingVectorListDoubleImplCopyWith<_$EmbeddingVectorListDoubleImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -13325,6 +13928,8 @@ class __$$EmbeddingVectorStringImplCopyWithImpl<$Res>
       $Res Function(_$EmbeddingVectorStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EmbeddingVector
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -13368,11 +13973,13 @@ class _$EmbeddingVectorStringImpl extends EmbeddingVectorString {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EmbeddingVector
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmbeddingVectorStringImplCopyWith<_$EmbeddingVectorStringImpl>
@@ -13459,7 +14066,10 @@ abstract class EmbeddingVectorString extends EmbeddingVector {
 
   @override
   String get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EmbeddingVector
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmbeddingVectorStringImplCopyWith<_$EmbeddingVectorStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -13478,8 +14088,12 @@ mixin _$EmbeddingUsage {
   @JsonKey(name: 'total_tokens')
   int get totalTokens => throw _privateConstructorUsedError;
 
+  /// Serializes this EmbeddingUsage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EmbeddingUsage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $EmbeddingUsageCopyWith<EmbeddingUsage> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -13505,6 +14119,8 @@ class _$EmbeddingUsageCopyWithImpl<$Res, $Val extends EmbeddingUsage>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of EmbeddingUsage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -13545,6 +14161,8 @@ class __$$EmbeddingUsageImplCopyWithImpl<$Res>
       _$EmbeddingUsageImpl _value, $Res Function(_$EmbeddingUsageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EmbeddingUsage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -13601,11 +14219,13 @@ class _$EmbeddingUsageImpl extends _EmbeddingUsage {
                 other.totalTokens == totalTokens));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, promptTokens, totalTokens);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EmbeddingUsage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmbeddingUsageImplCopyWith<_$EmbeddingUsageImpl> get copyWith =>
@@ -13630,18 +14250,20 @@ abstract class _EmbeddingUsage extends EmbeddingUsage {
   factory _EmbeddingUsage.fromJson(Map<String, dynamic> json) =
       _$EmbeddingUsageImpl.fromJson;
 
-  @override
-
   /// The number of tokens used by the prompt.
+  @override
   @JsonKey(name: 'prompt_tokens')
   int get promptTokens;
-  @override
 
   /// The total number of tokens used by the request.
+  @override
   @JsonKey(name: 'total_tokens')
   int get totalTokens;
+
+  /// Create a copy of EmbeddingUsage
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmbeddingUsageImplCopyWith<_$EmbeddingUsageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -13680,7 +14302,7 @@ mixin _$CreateFineTuningJobRequest {
 
   /// A string of up to 18 characters that will be added to your fine-tuned model name.
   ///
-  /// For example, a `suffix` of "custom-model-name" would produce a model name like `ft:gpt-3.5-turbo:openai:custom-model-name:7p4lURel`.
+  /// For example, a `suffix` of "custom-model-name" would produce a model name like `ft:gpt-4o-mini:openai:custom-model-name:7p4lURel`.
   @JsonKey(includeIfNull: false)
   String? get suffix => throw _privateConstructorUsedError;
 
@@ -13707,8 +14329,12 @@ mixin _$CreateFineTuningJobRequest {
   @JsonKey(includeIfNull: false)
   int? get seed => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateFineTuningJobRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateFineTuningJobRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateFineTuningJobRequestCopyWith<CreateFineTuningJobRequest>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -13746,6 +14372,8 @@ class _$CreateFineTuningJobRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateFineTuningJobRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -13789,6 +14417,8 @@ class _$CreateFineTuningJobRequestCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of CreateFineTuningJobRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FineTuningModelCopyWith<$Res> get model {
@@ -13797,6 +14427,8 @@ class _$CreateFineTuningJobRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of CreateFineTuningJobRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FineTuningJobHyperparametersCopyWith<$Res>? get hyperparameters {
@@ -13847,6 +14479,8 @@ class __$$CreateFineTuningJobRequestImplCopyWithImpl<$Res>
       $Res Function(_$CreateFineTuningJobRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateFineTuningJobRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -13940,7 +14574,7 @@ class _$CreateFineTuningJobRequestImpl extends _CreateFineTuningJobRequest {
 
   /// A string of up to 18 characters that will be added to your fine-tuned model name.
   ///
-  /// For example, a `suffix` of "custom-model-name" would produce a model name like `ft:gpt-3.5-turbo:openai:custom-model-name:7p4lURel`.
+  /// For example, a `suffix` of "custom-model-name" would produce a model name like `ft:gpt-4o-mini:openai:custom-model-name:7p4lURel`.
   @override
   @JsonKey(includeIfNull: false)
   final String? suffix;
@@ -14002,7 +14636,7 @@ class _$CreateFineTuningJobRequestImpl extends _CreateFineTuningJobRequest {
             (identical(other.seed, seed) || other.seed == seed));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -14014,7 +14648,9 @@ class _$CreateFineTuningJobRequestImpl extends _CreateFineTuningJobRequest {
       const DeepCollectionEquality().hash(_integrations),
       seed);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateFineTuningJobRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateFineTuningJobRequestImplCopyWith<_$CreateFineTuningJobRequestImpl>
@@ -14047,13 +14683,11 @@ abstract class _CreateFineTuningJobRequest extends CreateFineTuningJobRequest {
   factory _CreateFineTuningJobRequest.fromJson(Map<String, dynamic> json) =
       _$CreateFineTuningJobRequestImpl.fromJson;
 
-  @override
-
   /// The name of the model to fine-tune. You can select one of the
   /// [supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).
+  @override
   @_FineTuningModelConverter()
   FineTuningModel get model;
-  @override
 
   /// The ID of an uploaded file that contains training data.
   ///
@@ -14067,21 +14701,21 @@ abstract class _CreateFineTuningJobRequest extends CreateFineTuningJobRequest {
   /// [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format.
   ///
   /// See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
+  @override
   @JsonKey(name: 'training_file')
   String get trainingFile;
-  @override
 
   /// The hyperparameters used for the fine-tuning job. See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
+  @override
   @JsonKey(includeIfNull: false)
   FineTuningJobHyperparameters? get hyperparameters;
-  @override
 
   /// A string of up to 18 characters that will be added to your fine-tuned model name.
   ///
-  /// For example, a `suffix` of "custom-model-name" would produce a model name like `ft:gpt-3.5-turbo:openai:custom-model-name:7p4lURel`.
+  /// For example, a `suffix` of "custom-model-name" would produce a model name like `ft:gpt-4o-mini:openai:custom-model-name:7p4lURel`.
+  @override
   @JsonKey(includeIfNull: false)
   String? get suffix;
-  @override
 
   /// The ID of an uploaded file that contains validation data.
   ///
@@ -14093,21 +14727,25 @@ abstract class _CreateFineTuningJobRequest extends CreateFineTuningJobRequest {
   /// Your dataset must be formatted as a JSONL file. You must upload your file with the purpose `fine-tune`.
   ///
   /// See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
+  @override
   @JsonKey(name: 'validation_file', includeIfNull: false)
   String? get validationFile;
-  @override
 
   /// A list of integrations to enable for your fine-tuning job.
+  @override
   @JsonKey(includeIfNull: false)
   List<FineTuningIntegration>? get integrations;
-  @override
 
   /// The seed controls the reproducibility of the job. Passing in the same seed and job parameters should produce the same results, but may differ in rare cases.
   /// If a seed is not specified, one will be generated for you.
+  @override
   @JsonKey(includeIfNull: false)
   int? get seed;
+
+  /// Create a copy of CreateFineTuningJobRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateFineTuningJobRequestImplCopyWith<_$CreateFineTuningJobRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -14166,6 +14804,8 @@ mixin _$FineTuningModel {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this FineTuningModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -14185,6 +14825,9 @@ class _$FineTuningModelCopyWithImpl<$Res, $Val extends FineTuningModel>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of FineTuningModel
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -14207,6 +14850,8 @@ class __$$FineTuningModelEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$FineTuningModelEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FineTuningModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -14251,11 +14896,13 @@ class _$FineTuningModelEnumerationImpl extends FineTuningModelEnumeration {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FineTuningModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FineTuningModelEnumerationImplCopyWith<_$FineTuningModelEnumerationImpl>
@@ -14342,7 +14989,10 @@ abstract class FineTuningModelEnumeration extends FineTuningModel {
 
   @override
   FineTuningModels get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FineTuningModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FineTuningModelEnumerationImplCopyWith<_$FineTuningModelEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -14365,6 +15015,8 @@ class __$$FineTuningModelStringImplCopyWithImpl<$Res>
       $Res Function(_$FineTuningModelStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FineTuningModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -14408,11 +15060,13 @@ class _$FineTuningModelStringImpl extends FineTuningModelString {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FineTuningModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FineTuningModelStringImplCopyWith<_$FineTuningModelStringImpl>
@@ -14499,7 +15153,10 @@ abstract class FineTuningModelString extends FineTuningModel {
 
   @override
   String get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FineTuningModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FineTuningModelStringImplCopyWith<_$FineTuningModelStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -14566,8 +15223,12 @@ mixin _$FineTuningJob {
   List<FineTuningIntegration>? get integrations =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this FineTuningJob to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FineTuningJob
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FineTuningJobCopyWith<FineTuningJob> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -14610,6 +15271,8 @@ class _$FineTuningJobCopyWithImpl<$Res, $Val extends FineTuningJob>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FineTuningJob
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -14693,6 +15356,8 @@ class _$FineTuningJobCopyWithImpl<$Res, $Val extends FineTuningJob>
     ) as $Val);
   }
 
+  /// Create a copy of FineTuningJob
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FineTuningJobErrorCopyWith<$Res>? get error {
@@ -14705,6 +15370,8 @@ class _$FineTuningJobCopyWithImpl<$Res, $Val extends FineTuningJob>
     });
   }
 
+  /// Create a copy of FineTuningJob
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FineTuningJobHyperparametersCopyWith<$Res> get hyperparameters {
@@ -14755,6 +15422,8 @@ class __$$FineTuningJobImplCopyWithImpl<$Res>
       _$FineTuningJobImpl _value, $Res Function(_$FineTuningJobImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FineTuningJob
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -14988,7 +15657,7 @@ class _$FineTuningJobImpl extends _FineTuningJob {
                 .equals(other._integrations, _integrations));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -15008,7 +15677,9 @@ class _$FineTuningJobImpl extends _FineTuningJob {
       validationFile,
       const DeepCollectionEquality().hash(_integrations));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FineTuningJob
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FineTuningJobImplCopyWith<_$FineTuningJobImpl> get copyWith =>
@@ -15045,77 +15716,79 @@ abstract class _FineTuningJob extends FineTuningJob {
   factory _FineTuningJob.fromJson(Map<String, dynamic> json) =
       _$FineTuningJobImpl.fromJson;
 
-  @override
-
   /// The object identifier, which can be referenced in the API endpoints.
-  String get id;
   @override
+  String get id;
 
   /// The Unix timestamp (in seconds) for when the fine-tuning job was created.
+  @override
   @JsonKey(name: 'created_at')
   int get createdAt;
-  @override
 
   /// For fine-tuning jobs that have `failed`, this will contain more information on the cause of the failure.
-  FineTuningJobError? get error;
   @override
+  FineTuningJobError? get error;
 
   /// The name of the fine-tuned model that is being created. The value will be null if the fine-tuning job is still running.
+  @override
   @JsonKey(name: 'fine_tuned_model')
   String? get fineTunedModel;
-  @override
 
   /// The Unix timestamp (in seconds) for when the fine-tuning job was finished. The value will be null if the fine-tuning job is still running.
+  @override
   @JsonKey(name: 'finished_at')
   int? get finishedAt;
-  @override
 
   /// The hyperparameters used for the fine-tuning job. See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.
-  FineTuningJobHyperparameters get hyperparameters;
   @override
+  FineTuningJobHyperparameters get hyperparameters;
 
   /// The base model that is being fine-tuned.
-  String get model;
   @override
+  String get model;
 
   /// The object type, which is always "fine_tuning.job".
-  FineTuningJobObject get object;
   @override
+  FineTuningJobObject get object;
 
   /// The organization that owns the fine-tuning job.
+  @override
   @JsonKey(name: 'organization_id')
   String get organizationId;
-  @override
 
   /// The compiled results file ID(s) for the fine-tuning job. You can retrieve the results with the [Files API](https://platform.openai.com/docs/api-reference/files/retrieve-contents).
+  @override
   @JsonKey(name: 'result_files')
   List<String> get resultFiles;
-  @override
 
   /// The current status of the fine-tuning job, which can be either `validating_files`, `queued`, `running`, `succeeded`, `failed`, or `cancelled`.
-  FineTuningJobStatus get status;
   @override
+  FineTuningJobStatus get status;
 
   /// The total number of billable tokens processed by this fine-tuning job. The value will be null if the fine-tuning job is still running.
+  @override
   @JsonKey(name: 'trained_tokens')
   int? get trainedTokens;
-  @override
 
   /// The file ID used for training. You can retrieve the training data with the [Files API](https://platform.openai.com/docs/api-reference/files/retrieve-contents).
+  @override
   @JsonKey(name: 'training_file')
   String get trainingFile;
-  @override
 
   /// The file ID used for validation. You can retrieve the validation results with the [Files API](https://platform.openai.com/docs/api-reference/files/retrieve-contents).
+  @override
   @JsonKey(name: 'validation_file')
   String? get validationFile;
-  @override
 
   /// A list of integrations to enable for this fine-tuning job.
+  @override
   @JsonKey(includeIfNull: false)
   List<FineTuningIntegration>? get integrations;
+
+  /// Create a copy of FineTuningJob
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FineTuningJobImplCopyWith<_$FineTuningJobImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -15135,8 +15808,12 @@ mixin _$FineTuningIntegration {
   /// to your run, and set a default entity (team, username, etc) to be associated with your run.
   FineTuningIntegrationWandb get wandb => throw _privateConstructorUsedError;
 
+  /// Serializes this FineTuningIntegration to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FineTuningIntegration
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FineTuningIntegrationCopyWith<FineTuningIntegration> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -15163,6 +15840,8 @@ class _$FineTuningIntegrationCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FineTuningIntegration
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -15181,6 +15860,8 @@ class _$FineTuningIntegrationCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of FineTuningIntegration
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FineTuningIntegrationWandbCopyWith<$Res> get wandb {
@@ -15214,6 +15895,8 @@ class __$$FineTuningIntegrationImplCopyWithImpl<$Res>
       $Res Function(_$FineTuningIntegrationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FineTuningIntegration
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -15266,11 +15949,13 @@ class _$FineTuningIntegrationImpl extends _FineTuningIntegration {
             (identical(other.wandb, wandb) || other.wandb == wandb));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, wandb);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FineTuningIntegration
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FineTuningIntegrationImplCopyWith<_$FineTuningIntegrationImpl>
@@ -15295,18 +15980,20 @@ abstract class _FineTuningIntegration extends FineTuningIntegration {
   factory _FineTuningIntegration.fromJson(Map<String, dynamic> json) =
       _$FineTuningIntegrationImpl.fromJson;
 
-  @override
-
   /// The type of integration to enable. Currently, only "wandb" (Weights and Biases) is supported.
-  FineTuningIntegrationType get type;
   @override
+  FineTuningIntegrationType get type;
 
   /// The settings for your integration with Weights and Biases. This payload specifies the project that
   /// metrics will be sent to. Optionally, you can set an explicit display name for your run, add tags
   /// to your run, and set a default entity (team, username, etc) to be associated with your run.
-  FineTuningIntegrationWandb get wandb;
   @override
-  @JsonKey(ignore: true)
+  FineTuningIntegrationWandb get wandb;
+
+  /// Create a copy of FineTuningIntegration
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FineTuningIntegrationImplCopyWith<_$FineTuningIntegrationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -15335,8 +16022,12 @@ mixin _$FineTuningIntegrationWandb {
   @JsonKey(includeIfNull: false)
   List<String>? get tags => throw _privateConstructorUsedError;
 
+  /// Serializes this FineTuningIntegrationWandb to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FineTuningIntegrationWandb
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FineTuningIntegrationWandbCopyWith<FineTuningIntegrationWandb>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -15366,6 +16057,8 @@ class _$FineTuningIntegrationWandbCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FineTuningIntegrationWandb
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -15421,6 +16114,8 @@ class __$$FineTuningIntegrationWandbImplCopyWithImpl<$Res>
       $Res Function(_$FineTuningIntegrationWandbImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FineTuningIntegrationWandb
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -15512,12 +16207,14 @@ class _$FineTuningIntegrationWandbImpl extends _FineTuningIntegrationWandb {
             const DeepCollectionEquality().equals(other._tags, _tags));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, project, name, entity,
       const DeepCollectionEquality().hash(_tags));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FineTuningIntegrationWandb
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FineTuningIntegrationWandbImplCopyWith<_$FineTuningIntegrationWandbImpl>
@@ -15544,29 +16241,31 @@ abstract class _FineTuningIntegrationWandb extends FineTuningIntegrationWandb {
   factory _FineTuningIntegrationWandb.fromJson(Map<String, dynamic> json) =
       _$FineTuningIntegrationWandbImpl.fromJson;
 
-  @override
-
   /// The name of the project that the new run will be created under.
-  String get project;
   @override
+  String get project;
 
   /// A display name to set for the run. If not set, we will use the Job ID as the name.
+  @override
   @JsonKey(includeIfNull: false)
   String? get name;
-  @override
 
   /// The entity to use for the run. This allows you to set the team or username of the WandB user that you would
   /// like associated with the run. If not set, the default entity for the registered WandB API key is used.
+  @override
   @JsonKey(includeIfNull: false)
   String? get entity;
-  @override
 
   /// A list of tags to be attached to the newly created run. These tags are passed through directly to WandB. Some
   /// default tags are generated by OpenAI: "openai/finetune", "openai/{base-model}", "openai/{ftjob-abcdef}".
+  @override
   @JsonKey(includeIfNull: false)
   List<String>? get tags;
+
+  /// Create a copy of FineTuningIntegrationWandb
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FineTuningIntegrationWandbImplCopyWith<_$FineTuningIntegrationWandbImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -15586,8 +16285,12 @@ mixin _$FineTuningJobError {
   /// The parameter that was invalid, usually `training_file` or `validation_file`. This field will be null if the failure was not parameter-specific.
   String? get param => throw _privateConstructorUsedError;
 
+  /// Serializes this FineTuningJobError to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FineTuningJobError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FineTuningJobErrorCopyWith<FineTuningJobError> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -15611,6 +16314,8 @@ class _$FineTuningJobErrorCopyWithImpl<$Res, $Val extends FineTuningJobError>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FineTuningJobError
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -15654,6 +16359,8 @@ class __$$FineTuningJobErrorImplCopyWithImpl<$Res>
       $Res Function(_$FineTuningJobErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FineTuningJobError
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -15715,11 +16422,13 @@ class _$FineTuningJobErrorImpl extends _FineTuningJobError {
             (identical(other.param, param) || other.param == param));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, code, message, param);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FineTuningJobError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FineTuningJobErrorImplCopyWith<_$FineTuningJobErrorImpl> get copyWith =>
@@ -15744,20 +16453,22 @@ abstract class _FineTuningJobError extends FineTuningJobError {
   factory _FineTuningJobError.fromJson(Map<String, dynamic> json) =
       _$FineTuningJobErrorImpl.fromJson;
 
-  @override
-
   /// A machine-readable error code.
-  String get code;
   @override
+  String get code;
 
   /// A human-readable error message.
-  String get message;
   @override
+  String get message;
 
   /// The parameter that was invalid, usually `training_file` or `validation_file`. This field will be null if the failure was not parameter-specific.
-  String? get param;
   @override
-  @JsonKey(ignore: true)
+  String? get param;
+
+  /// Create a copy of FineTuningJobError
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FineTuningJobErrorImplCopyWith<_$FineTuningJobErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -15777,8 +16488,12 @@ mixin _$FineTuningJobHyperparameters {
   @JsonKey(name: 'n_epochs')
   FineTuningNEpochs get nEpochs => throw _privateConstructorUsedError;
 
+  /// Serializes this FineTuningJobHyperparameters to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FineTuningJobHyperparameters
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FineTuningJobHyperparametersCopyWith<FineTuningJobHyperparameters>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -15810,6 +16525,8 @@ class _$FineTuningJobHyperparametersCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FineTuningJobHyperparameters
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -15823,6 +16540,8 @@ class _$FineTuningJobHyperparametersCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of FineTuningJobHyperparameters
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FineTuningNEpochsCopyWith<$Res> get nEpochs {
@@ -15860,6 +16579,8 @@ class __$$FineTuningJobHyperparametersImplCopyWithImpl<$Res>
       $Res Function(_$FineTuningJobHyperparametersImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FineTuningJobHyperparameters
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -15909,11 +16630,13 @@ class _$FineTuningJobHyperparametersImpl extends _FineTuningJobHyperparameters {
             (identical(other.nEpochs, nEpochs) || other.nEpochs == nEpochs));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, nEpochs);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FineTuningJobHyperparameters
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FineTuningJobHyperparametersImplCopyWith<
@@ -15941,17 +16664,19 @@ abstract class _FineTuningJobHyperparameters
   factory _FineTuningJobHyperparameters.fromJson(Map<String, dynamic> json) =
       _$FineTuningJobHyperparametersImpl.fromJson;
 
-  @override
-
   /// The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.
   ///
   /// "auto" decides the optimal number of epochs based on the size of the dataset. If setting the number
   /// manually, we support any number between 1 and 50 epochs.
+  @override
   @_FineTuningNEpochsConverter()
   @JsonKey(name: 'n_epochs')
   FineTuningNEpochs get nEpochs;
+
+  /// Create a copy of FineTuningJobHyperparameters
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FineTuningJobHyperparametersImplCopyWith<
           _$FineTuningJobHyperparametersImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -16011,6 +16736,8 @@ mixin _$FineTuningNEpochs {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this FineTuningNEpochs to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -16030,6 +16757,9 @@ class _$FineTuningNEpochsCopyWithImpl<$Res, $Val extends FineTuningNEpochs>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of FineTuningNEpochs
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -16052,6 +16782,8 @@ class __$$FineTuningNEpochsEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$FineTuningNEpochsEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FineTuningNEpochs
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -16096,11 +16828,13 @@ class _$FineTuningNEpochsEnumerationImpl extends FineTuningNEpochsEnumeration {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FineTuningNEpochs
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FineTuningNEpochsEnumerationImplCopyWith<
@@ -16189,7 +16923,10 @@ abstract class FineTuningNEpochsEnumeration extends FineTuningNEpochs {
 
   @override
   FineTuningNEpochsOptions get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FineTuningNEpochs
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FineTuningNEpochsEnumerationImplCopyWith<
           _$FineTuningNEpochsEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -16212,6 +16949,8 @@ class __$$FineTuningNEpochsIntImplCopyWithImpl<$Res>
       $Res Function(_$FineTuningNEpochsIntImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FineTuningNEpochs
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -16255,11 +16994,13 @@ class _$FineTuningNEpochsIntImpl extends FineTuningNEpochsInt {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FineTuningNEpochs
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FineTuningNEpochsIntImplCopyWith<_$FineTuningNEpochsIntImpl>
@@ -16347,7 +17088,10 @@ abstract class FineTuningNEpochsInt extends FineTuningNEpochs {
 
   @override
   int get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FineTuningNEpochs
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FineTuningNEpochsIntImplCopyWith<_$FineTuningNEpochsIntImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -16370,8 +17114,12 @@ mixin _$ListPaginatedFineTuningJobsResponse {
   ListPaginatedFineTuningJobsResponseObject get object =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this ListPaginatedFineTuningJobsResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ListPaginatedFineTuningJobsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ListPaginatedFineTuningJobsResponseCopyWith<
           ListPaginatedFineTuningJobsResponse>
       get copyWith => throw _privateConstructorUsedError;
@@ -16402,6 +17150,8 @@ class _$ListPaginatedFineTuningJobsResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ListPaginatedFineTuningJobsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -16451,6 +17201,8 @@ class __$$ListPaginatedFineTuningJobsResponseImplCopyWithImpl<$Res>
       $Res Function(_$ListPaginatedFineTuningJobsResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ListPaginatedFineTuningJobsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -16525,12 +17277,14 @@ class _$ListPaginatedFineTuningJobsResponseImpl
             (identical(other.object, object) || other.object == object));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_data), hasMore, object);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ListPaginatedFineTuningJobsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListPaginatedFineTuningJobsResponseImplCopyWith<
@@ -16559,21 +17313,23 @@ abstract class _ListPaginatedFineTuningJobsResponse
           Map<String, dynamic> json) =
       _$ListPaginatedFineTuningJobsResponseImpl.fromJson;
 
-  @override
-
   /// The list of fine-tuning jobs.
-  List<FineTuningJob> get data;
   @override
+  List<FineTuningJob> get data;
 
   /// Whether there are more fine-tuning jobs to retrieve.
+  @override
   @JsonKey(name: 'has_more')
   bool get hasMore;
-  @override
 
   /// The object type, which is always "list".
-  ListPaginatedFineTuningJobsResponseObject get object;
   @override
-  @JsonKey(ignore: true)
+  ListPaginatedFineTuningJobsResponseObject get object;
+
+  /// Create a copy of ListPaginatedFineTuningJobsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListPaginatedFineTuningJobsResponseImplCopyWith<
           _$ListPaginatedFineTuningJobsResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -16593,8 +17349,12 @@ mixin _$ListFineTuningJobEventsResponse {
   ListFineTuningJobEventsResponseObject get object =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this ListFineTuningJobEventsResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ListFineTuningJobEventsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ListFineTuningJobEventsResponseCopyWith<ListFineTuningJobEventsResponse>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -16623,6 +17383,8 @@ class _$ListFineTuningJobEventsResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ListFineTuningJobEventsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -16666,6 +17428,8 @@ class __$$ListFineTuningJobEventsResponseImplCopyWithImpl<$Res>
       $Res Function(_$ListFineTuningJobEventsResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ListFineTuningJobEventsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -16727,12 +17491,14 @@ class _$ListFineTuningJobEventsResponseImpl
             (identical(other.object, object) || other.object == object));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_data), object);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ListFineTuningJobEventsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListFineTuningJobEventsResponseImplCopyWith<
@@ -16759,16 +17525,18 @@ abstract class _ListFineTuningJobEventsResponse
   factory _ListFineTuningJobEventsResponse.fromJson(Map<String, dynamic> json) =
       _$ListFineTuningJobEventsResponseImpl.fromJson;
 
-  @override
-
   /// The list of fine-tuning job events.
-  List<FineTuningJobEvent> get data;
   @override
+  List<FineTuningJobEvent> get data;
 
   /// The object type, which is always "list".
-  ListFineTuningJobEventsResponseObject get object;
   @override
-  @JsonKey(ignore: true)
+  ListFineTuningJobEventsResponseObject get object;
+
+  /// Create a copy of ListFineTuningJobEventsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListFineTuningJobEventsResponseImplCopyWith<
           _$ListFineTuningJobEventsResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -16800,8 +17568,12 @@ mixin _$ListFineTuningJobCheckpointsResponse {
   @JsonKey(name: 'has_more')
   bool get hasMore => throw _privateConstructorUsedError;
 
+  /// Serializes this ListFineTuningJobCheckpointsResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ListFineTuningJobCheckpointsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ListFineTuningJobCheckpointsResponseCopyWith<
           ListFineTuningJobCheckpointsResponse>
       get copyWith => throw _privateConstructorUsedError;
@@ -16834,6 +17606,8 @@ class _$ListFineTuningJobCheckpointsResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ListFineTuningJobCheckpointsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -16895,6 +17669,8 @@ class __$$ListFineTuningJobCheckpointsResponseImplCopyWithImpl<$Res>
       $Res Function(_$ListFineTuningJobCheckpointsResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ListFineTuningJobCheckpointsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -16993,7 +17769,7 @@ class _$ListFineTuningJobCheckpointsResponseImpl
             (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -17003,7 +17779,9 @@ class _$ListFineTuningJobCheckpointsResponseImpl
       lastId,
       hasMore);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ListFineTuningJobCheckpointsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListFineTuningJobCheckpointsResponseImplCopyWith<
@@ -17035,31 +17813,33 @@ abstract class _ListFineTuningJobCheckpointsResponse
           Map<String, dynamic> json) =
       _$ListFineTuningJobCheckpointsResponseImpl.fromJson;
 
-  @override
-
   /// The list of fine-tuning job checkpoints.
-  List<FineTuningJobCheckpoint> get data;
   @override
+  List<FineTuningJobCheckpoint> get data;
 
   /// The object type, which is always "list".
-  ListFineTuningJobCheckpointsResponseObject get object;
   @override
+  ListFineTuningJobCheckpointsResponseObject get object;
 
   /// The ID of the first checkpoint in the list.
+  @override
   @JsonKey(name: 'first_id', includeIfNull: false)
   String? get firstId;
-  @override
 
   /// The ID of the last checkpoint in the list.
+  @override
   @JsonKey(name: 'last_id', includeIfNull: false)
   String? get lastId;
-  @override
 
   /// Whether there are more checkpoints to retrieve.
+  @override
   @JsonKey(name: 'has_more')
   bool get hasMore;
+
+  /// Create a copy of ListFineTuningJobCheckpointsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListFineTuningJobCheckpointsResponseImplCopyWith<
           _$ListFineTuningJobCheckpointsResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -17087,8 +17867,12 @@ mixin _$FineTuningJobEvent {
   /// The object type, which is always "fine_tuning.job.event".
   FineTuningJobEventObject get object => throw _privateConstructorUsedError;
 
+  /// Serializes this FineTuningJobEvent to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FineTuningJobEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FineTuningJobEventCopyWith<FineTuningJobEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -17117,6 +17901,8 @@ class _$FineTuningJobEventCopyWithImpl<$Res, $Val extends FineTuningJobEvent>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FineTuningJobEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -17175,6 +17961,8 @@ class __$$FineTuningJobEventImplCopyWithImpl<$Res>
       $Res Function(_$FineTuningJobEventImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FineTuningJobEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -17262,12 +18050,14 @@ class _$FineTuningJobEventImpl extends _FineTuningJobEvent {
             (identical(other.object, object) || other.object == object));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, id, createdAt, level, message, object);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FineTuningJobEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FineTuningJobEventImplCopyWith<_$FineTuningJobEventImpl> get copyWith =>
@@ -17295,29 +18085,31 @@ abstract class _FineTuningJobEvent extends FineTuningJobEvent {
   factory _FineTuningJobEvent.fromJson(Map<String, dynamic> json) =
       _$FineTuningJobEventImpl.fromJson;
 
-  @override
-
   /// The event identifier, which can be referenced in the API endpoints.
-  String get id;
   @override
+  String get id;
 
   /// The Unix timestamp (in seconds) for when the event was created.
+  @override
   @JsonKey(name: 'created_at')
   int get createdAt;
-  @override
 
   /// The log level of the event.
-  FineTuningJobEventLevel get level;
   @override
+  FineTuningJobEventLevel get level;
 
   /// The message of the event.
-  String get message;
   @override
+  String get message;
 
   /// The object type, which is always "fine_tuning.job.event".
-  FineTuningJobEventObject get object;
   @override
-  @JsonKey(ignore: true)
+  FineTuningJobEventObject get object;
+
+  /// Create a copy of FineTuningJobEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FineTuningJobEventImplCopyWith<_$FineTuningJobEventImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -17356,8 +18148,12 @@ mixin _$FineTuningJobCheckpoint {
   FineTuningJobCheckpointObject get object =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this FineTuningJobCheckpoint to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FineTuningJobCheckpoint
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FineTuningJobCheckpointCopyWith<FineTuningJobCheckpoint> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -17392,6 +18188,8 @@ class _$FineTuningJobCheckpointCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FineTuningJobCheckpoint
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -17435,6 +18233,8 @@ class _$FineTuningJobCheckpointCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of FineTuningJobCheckpoint
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FineTuningJobCheckpointMetricsCopyWith<$Res> get metrics {
@@ -17478,6 +18278,8 @@ class __$$FineTuningJobCheckpointImplCopyWithImpl<$Res>
       $Res Function(_$FineTuningJobCheckpointImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FineTuningJobCheckpoint
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -17595,12 +18397,14 @@ class _$FineTuningJobCheckpointImpl extends _FineTuningJobCheckpoint {
             (identical(other.object, object) || other.object == object));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, createdAt,
       fineTunedModelCheckpoint, stepNumber, metrics, fineTuningJobId, object);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FineTuningJobCheckpoint
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FineTuningJobCheckpointImplCopyWith<_$FineTuningJobCheckpointImpl>
@@ -17632,40 +18436,42 @@ abstract class _FineTuningJobCheckpoint extends FineTuningJobCheckpoint {
   factory _FineTuningJobCheckpoint.fromJson(Map<String, dynamic> json) =
       _$FineTuningJobCheckpointImpl.fromJson;
 
-  @override
-
   /// The checkpoint identifier, which can be referenced in the API endpoints.
-  String get id;
   @override
+  String get id;
 
   /// The Unix timestamp (in seconds) for when the checkpoint was created.
+  @override
   @JsonKey(name: 'created_at')
   int get createdAt;
-  @override
 
   /// The name of the fine-tuned checkpoint model that is created.
+  @override
   @JsonKey(name: 'fine_tuned_model_checkpoint')
   String get fineTunedModelCheckpoint;
-  @override
 
   /// The step number that the checkpoint was created at.
+  @override
   @JsonKey(name: 'step_number')
   int get stepNumber;
-  @override
 
   /// Metrics at the step number during the fine-tuning job.
-  FineTuningJobCheckpointMetrics get metrics;
   @override
+  FineTuningJobCheckpointMetrics get metrics;
 
   /// The name of the fine-tuning job that this checkpoint was created from.
+  @override
   @JsonKey(name: 'fine_tuning_job_id')
   String get fineTuningJobId;
-  @override
 
   /// The object type, which is always "fine_tuning.job.checkpoint".
-  FineTuningJobCheckpointObject get object;
   @override
-  @JsonKey(ignore: true)
+  FineTuningJobCheckpointObject get object;
+
+  /// Create a copy of FineTuningJobCheckpoint
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FineTuningJobCheckpointImplCopyWith<_$FineTuningJobCheckpointImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -17705,8 +18511,12 @@ mixin _$FineTuningJobCheckpointMetrics {
   @JsonKey(name: 'full_valid_mean_token_accuracy', includeIfNull: false)
   double? get fullValidMeanTokenAccuracy => throw _privateConstructorUsedError;
 
+  /// Serializes this FineTuningJobCheckpointMetrics to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FineTuningJobCheckpointMetrics
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FineTuningJobCheckpointMetricsCopyWith<FineTuningJobCheckpointMetrics>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -17744,6 +18554,8 @@ class _$FineTuningJobCheckpointMetricsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FineTuningJobCheckpointMetrics
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -17821,6 +18633,8 @@ class __$$FineTuningJobCheckpointMetricsImplCopyWithImpl<$Res>
       $Res Function(_$FineTuningJobCheckpointMetricsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FineTuningJobCheckpointMetrics
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -17949,7 +18763,7 @@ class _$FineTuningJobCheckpointMetricsImpl
                     fullValidMeanTokenAccuracy));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -17961,7 +18775,9 @@ class _$FineTuningJobCheckpointMetricsImpl
       fullValidLoss,
       fullValidMeanTokenAccuracy);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FineTuningJobCheckpointMetrics
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FineTuningJobCheckpointMetricsImplCopyWith<
@@ -17999,43 +18815,45 @@ abstract class _FineTuningJobCheckpointMetrics
   factory _FineTuningJobCheckpointMetrics.fromJson(Map<String, dynamic> json) =
       _$FineTuningJobCheckpointMetricsImpl.fromJson;
 
-  @override
-
   /// The step number that the metrics were recorded at.
+  @override
   @JsonKey(includeIfNull: false)
   double? get step;
-  @override
 
   /// The training loss at the step number.
+  @override
   @JsonKey(name: 'train_loss', includeIfNull: false)
   double? get trainLoss;
-  @override
 
   /// The training mean token accuracy at the step number.
+  @override
   @JsonKey(name: 'train_mean_token_accuracy', includeIfNull: false)
   double? get trainMeanTokenAccuracy;
-  @override
 
   /// The validation loss at the step number.
+  @override
   @JsonKey(name: 'valid_loss', includeIfNull: false)
   double? get validLoss;
-  @override
 
   /// The validation mean token accuracy at the step number.
+  @override
   @JsonKey(name: 'valid_mean_token_accuracy', includeIfNull: false)
   double? get validMeanTokenAccuracy;
-  @override
 
   /// The full validation loss at the step number.
+  @override
   @JsonKey(name: 'full_valid_loss', includeIfNull: false)
   double? get fullValidLoss;
-  @override
 
   /// The full validation mean token accuracy at the step number.
+  @override
   @JsonKey(name: 'full_valid_mean_token_accuracy', includeIfNull: false)
   double? get fullValidMeanTokenAccuracy;
+
+  /// Create a copy of FineTuningJobCheckpointMetrics
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FineTuningJobCheckpointMetricsImplCopyWith<
           _$FineTuningJobCheckpointMetricsImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -18083,8 +18901,12 @@ mixin _$CreateImageRequest {
   @JsonKey(includeIfNull: false)
   String? get user => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateImageRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateImageRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateImageRequestCopyWith<CreateImageRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -18130,6 +18952,8 @@ class _$CreateImageRequestCopyWithImpl<$Res, $Val extends CreateImageRequest>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateImageRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -18178,6 +19002,8 @@ class _$CreateImageRequestCopyWithImpl<$Res, $Val extends CreateImageRequest>
     ) as $Val);
   }
 
+  /// Create a copy of CreateImageRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CreateImageRequestModelCopyWith<$Res>? get model {
@@ -18233,6 +19059,8 @@ class __$$CreateImageRequestImplCopyWithImpl<$Res>
       $Res Function(_$CreateImageRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateImageRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -18377,12 +19205,14 @@ class _$CreateImageRequestImpl extends _CreateImageRequest {
             (identical(other.user, user) || other.user == user));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, prompt, model, n, quality,
       responseFormat, size, style, user);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateImageRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateImageRequestImplCopyWith<_$CreateImageRequestImpl> get copyWith =>
@@ -18425,52 +19255,54 @@ abstract class _CreateImageRequest extends CreateImageRequest {
   factory _CreateImageRequest.fromJson(Map<String, dynamic> json) =
       _$CreateImageRequestImpl.fromJson;
 
-  @override
-
   /// A text description of the desired image(s). The maximum length is 1000 characters for `dall-e-2` and 4000 characters for `dall-e-3`.
-  String get prompt;
   @override
+  String get prompt;
 
   /// The model to use for image generation.
+  @override
   @_CreateImageRequestModelConverter()
   @JsonKey(includeIfNull: false)
   CreateImageRequestModel? get model;
-  @override
 
   /// The number of images to generate. Must be between 1 and 10. For `dall-e-3`, only `n=1` is supported.
+  @override
   @JsonKey(includeIfNull: false)
   int? get n;
-  @override
 
   /// The quality of the image that will be generated. `hd` creates images with finer details and greater consistency across the image. This param is only supported for `dall-e-3`.
-  ImageQuality get quality;
   @override
+  ImageQuality get quality;
 
   /// The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated.
+  @override
   @JsonKey(
       name: 'response_format',
       includeIfNull: false,
       unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ImageResponseFormat? get responseFormat;
-  @override
 
   /// The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`. Must be one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3` models.
+  @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ImageSize? get size;
-  @override
 
   /// The style of the generated images. Must be one of `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images. This param is only supported for `dall-e-3`.
+  @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   ImageStyle? get style;
-  @override
 
   /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).
+  @override
   @JsonKey(includeIfNull: false)
   String? get user;
+
+  /// Create a copy of CreateImageRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateImageRequestImplCopyWith<_$CreateImageRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -18533,6 +19365,8 @@ mixin _$CreateImageRequestModel {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this CreateImageRequestModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -18553,6 +19387,9 @@ class _$CreateImageRequestModelCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of CreateImageRequestModel
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -18575,6 +19412,8 @@ class __$$CreateImageRequestModelEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$CreateImageRequestModelEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateImageRequestModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -18621,11 +19460,13 @@ class _$CreateImageRequestModelEnumerationImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateImageRequestModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateImageRequestModelEnumerationImplCopyWith<
@@ -18715,7 +19556,10 @@ abstract class CreateImageRequestModelEnumeration
 
   @override
   ImageModels get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateImageRequestModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateImageRequestModelEnumerationImplCopyWith<
           _$CreateImageRequestModelEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -18741,6 +19585,8 @@ class __$$CreateImageRequestModelStringImplCopyWithImpl<$Res>
       $Res Function(_$CreateImageRequestModelStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateImageRequestModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -18786,11 +19632,13 @@ class _$CreateImageRequestModelStringImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateImageRequestModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateImageRequestModelStringImplCopyWith<
@@ -18878,7 +19726,10 @@ abstract class CreateImageRequestModelString extends CreateImageRequestModel {
 
   @override
   String get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateImageRequestModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateImageRequestModelStringImplCopyWith<
           _$CreateImageRequestModelStringImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -18896,8 +19747,12 @@ mixin _$ImagesResponse {
   /// The list of images generated by the model.
   List<Image> get data => throw _privateConstructorUsedError;
 
+  /// Serializes this ImagesResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ImagesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ImagesResponseCopyWith<ImagesResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -18921,6 +19776,8 @@ class _$ImagesResponseCopyWithImpl<$Res, $Val extends ImagesResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ImagesResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -18959,6 +19816,8 @@ class __$$ImagesResponseImplCopyWithImpl<$Res>
       _$ImagesResponseImpl _value, $Res Function(_$ImagesResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ImagesResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -19018,12 +19877,14 @@ class _$ImagesResponseImpl extends _ImagesResponse {
             const DeepCollectionEquality().equals(other._data, _data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, created, const DeepCollectionEquality().hash(_data));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ImagesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ImagesResponseImplCopyWith<_$ImagesResponseImpl> get copyWith =>
@@ -19047,16 +19908,18 @@ abstract class _ImagesResponse extends ImagesResponse {
   factory _ImagesResponse.fromJson(Map<String, dynamic> json) =
       _$ImagesResponseImpl.fromJson;
 
-  @override
-
   /// The Unix timestamp (in seconds) when the image was created.
-  int get created;
   @override
+  int get created;
 
   /// The list of images generated by the model.
-  List<Image> get data;
   @override
-  @JsonKey(ignore: true)
+  List<Image> get data;
+
+  /// Create a copy of ImagesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ImagesResponseImplCopyWith<_$ImagesResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -19079,8 +19942,12 @@ mixin _$Image {
   @JsonKey(name: 'revised_prompt', includeIfNull: false)
   String? get revisedPrompt => throw _privateConstructorUsedError;
 
+  /// Serializes this Image to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Image
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ImageCopyWith<Image> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -19106,6 +19973,8 @@ class _$ImageCopyWithImpl<$Res, $Val extends Image>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Image
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -19152,6 +20021,8 @@ class __$$ImageImplCopyWithImpl<$Res>
       _$ImageImpl _value, $Res Function(_$ImageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Image
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -19220,11 +20091,13 @@ class _$ImageImpl extends _Image {
                 other.revisedPrompt == revisedPrompt));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, b64Json, url, revisedPrompt);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Image
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ImageImplCopyWith<_$ImageImpl> get copyWith =>
@@ -19248,23 +20121,25 @@ abstract class _Image extends Image {
 
   factory _Image.fromJson(Map<String, dynamic> json) = _$ImageImpl.fromJson;
 
-  @override
-
   /// The base64-encoded JSON of the generated image, if `response_format` is `b64_json`.
+  @override
   @JsonKey(name: 'b64_json', includeIfNull: false)
   String? get b64Json;
-  @override
 
   /// The URL of the generated image, if `response_format` is `url` (default).
+  @override
   @JsonKey(includeIfNull: false)
   String? get url;
-  @override
 
   /// The prompt that was used to generate the image, if there was any revision to the prompt.
+  @override
   @JsonKey(name: 'revised_prompt', includeIfNull: false)
   String? get revisedPrompt;
+
+  /// Create a copy of Image
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ImageImplCopyWith<_$ImageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -19288,8 +20163,12 @@ mixin _$Model {
   @JsonKey(name: 'owned_by')
   String get ownedBy => throw _privateConstructorUsedError;
 
+  /// Serializes this Model to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Model
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ModelCopyWith<Model> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -19315,6 +20194,8 @@ class _$ModelCopyWithImpl<$Res, $Val extends Model>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Model
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -19366,6 +20247,8 @@ class __$$ModelImplCopyWithImpl<$Res>
       _$ModelImpl _value, $Res Function(_$ModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Model
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -19441,11 +20324,13 @@ class _$ModelImpl extends _Model {
             (identical(other.ownedBy, ownedBy) || other.ownedBy == ownedBy));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, created, object, ownedBy);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Model
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ModelImplCopyWith<_$ModelImpl> get copyWith =>
@@ -19469,25 +20354,27 @@ abstract class _Model extends Model {
 
   factory _Model.fromJson(Map<String, dynamic> json) = _$ModelImpl.fromJson;
 
-  @override
-
   /// The model identifier, which can be referenced in the API endpoints.
-  String get id;
   @override
+  String get id;
 
   /// The Unix timestamp (in seconds) when the model was created.
-  int get created;
   @override
+  int get created;
 
   /// The object type, which is always "model".
-  ModelObject get object;
   @override
+  ModelObject get object;
 
   /// The organization that owns the model.
+  @override
   @JsonKey(name: 'owned_by')
   String get ownedBy;
+
+  /// Create a copy of Model
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ModelImplCopyWith<_$ModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -19504,8 +20391,12 @@ mixin _$ListModelsResponse {
   /// The list of models.
   List<Model> get data => throw _privateConstructorUsedError;
 
+  /// Serializes this ListModelsResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ListModelsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ListModelsResponseCopyWith<ListModelsResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -19529,6 +20420,8 @@ class _$ListModelsResponseCopyWithImpl<$Res, $Val extends ListModelsResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ListModelsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -19567,6 +20460,8 @@ class __$$ListModelsResponseImplCopyWithImpl<$Res>
       $Res Function(_$ListModelsResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ListModelsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -19626,12 +20521,14 @@ class _$ListModelsResponseImpl extends _ListModelsResponse {
             const DeepCollectionEquality().equals(other._data, _data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, object, const DeepCollectionEquality().hash(_data));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ListModelsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListModelsResponseImplCopyWith<_$ListModelsResponseImpl> get copyWith =>
@@ -19655,16 +20552,18 @@ abstract class _ListModelsResponse extends ListModelsResponse {
   factory _ListModelsResponse.fromJson(Map<String, dynamic> json) =
       _$ListModelsResponseImpl.fromJson;
 
-  @override
-
   /// The object type, which is always "list".
-  ListModelsResponseObject get object;
   @override
+  ListModelsResponseObject get object;
 
   /// The list of models.
-  List<Model> get data;
   @override
-  @JsonKey(ignore: true)
+  List<Model> get data;
+
+  /// Create a copy of ListModelsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListModelsResponseImplCopyWith<_$ListModelsResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -19684,8 +20583,12 @@ mixin _$DeleteModelResponse {
   /// The object type, which is always "model".
   String get object => throw _privateConstructorUsedError;
 
+  /// Serializes this DeleteModelResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DeleteModelResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DeleteModelResponseCopyWith<DeleteModelResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -19709,6 +20612,8 @@ class _$DeleteModelResponseCopyWithImpl<$Res, $Val extends DeleteModelResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DeleteModelResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -19752,6 +20657,8 @@ class __$$DeleteModelResponseImplCopyWithImpl<$Res>
       $Res Function(_$DeleteModelResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DeleteModelResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -19813,11 +20720,13 @@ class _$DeleteModelResponseImpl extends _DeleteModelResponse {
             (identical(other.object, object) || other.object == object));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, deleted, object);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DeleteModelResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DeleteModelResponseImplCopyWith<_$DeleteModelResponseImpl> get copyWith =>
@@ -19842,20 +20751,22 @@ abstract class _DeleteModelResponse extends DeleteModelResponse {
   factory _DeleteModelResponse.fromJson(Map<String, dynamic> json) =
       _$DeleteModelResponseImpl.fromJson;
 
-  @override
-
   /// The model identifier.
-  String get id;
   @override
+  String get id;
 
   /// Whether the model was deleted.
-  bool get deleted;
   @override
+  bool get deleted;
 
   /// The object type, which is always "model".
-  String get object;
   @override
-  @JsonKey(ignore: true)
+  String get object;
+
+  /// Create a copy of DeleteModelResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DeleteModelResponseImplCopyWith<_$DeleteModelResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -19878,8 +20789,12 @@ mixin _$CreateModerationRequest {
   @_ModerationInputConverter()
   ModerationInput get input => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateModerationRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateModerationRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateModerationRequestCopyWith<CreateModerationRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -19911,6 +20826,8 @@ class _$CreateModerationRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateModerationRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -19929,6 +20846,8 @@ class _$CreateModerationRequestCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of CreateModerationRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ModerationModelCopyWith<$Res>? get model {
@@ -19941,6 +20860,8 @@ class _$CreateModerationRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of CreateModerationRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ModerationInputCopyWith<$Res> get input {
@@ -19981,6 +20902,8 @@ class __$$CreateModerationRequestImplCopyWithImpl<$Res>
       $Res Function(_$CreateModerationRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateModerationRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -20040,11 +20963,13 @@ class _$CreateModerationRequestImpl extends _CreateModerationRequest {
             (identical(other.input, input) || other.input == input));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, model, input);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateModerationRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateModerationRequestImplCopyWith<_$CreateModerationRequestImpl>
@@ -20071,21 +20996,23 @@ abstract class _CreateModerationRequest extends CreateModerationRequest {
   factory _CreateModerationRequest.fromJson(Map<String, dynamic> json) =
       _$CreateModerationRequestImpl.fromJson;
 
-  @override
-
   /// Two content moderations models are available: `text-moderation-stable` and `text-moderation-latest`.
   ///
   /// The default is `text-moderation-latest` which will be automatically upgraded over time. This ensures you are always using our most accurate model. If you use `text-moderation-stable`, we will provide advanced notice before updating the model. Accuracy of `text-moderation-stable` may be slightly lower than for `text-moderation-latest`.
+  @override
   @_ModerationModelConverter()
   @JsonKey(includeIfNull: false)
   ModerationModel? get model;
-  @override
 
   /// The input text to classify
+  @override
   @_ModerationInputConverter()
   ModerationInput get input;
+
+  /// Create a copy of CreateModerationRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateModerationRequestImplCopyWith<_$CreateModerationRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -20144,6 +21071,8 @@ mixin _$ModerationModel {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this ModerationModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -20163,6 +21092,9 @@ class _$ModerationModelCopyWithImpl<$Res, $Val extends ModerationModel>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ModerationModel
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -20185,6 +21117,8 @@ class __$$ModerationModelEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$ModerationModelEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ModerationModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -20229,11 +21163,13 @@ class _$ModerationModelEnumerationImpl extends ModerationModelEnumeration {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ModerationModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ModerationModelEnumerationImplCopyWith<_$ModerationModelEnumerationImpl>
@@ -20320,7 +21256,10 @@ abstract class ModerationModelEnumeration extends ModerationModel {
 
   @override
   ModerationModels get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ModerationModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ModerationModelEnumerationImplCopyWith<_$ModerationModelEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -20343,6 +21282,8 @@ class __$$ModerationModelStringImplCopyWithImpl<$Res>
       $Res Function(_$ModerationModelStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ModerationModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -20386,11 +21327,13 @@ class _$ModerationModelStringImpl extends ModerationModelString {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ModerationModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ModerationModelStringImplCopyWith<_$ModerationModelStringImpl>
@@ -20477,7 +21420,10 @@ abstract class ModerationModelString extends ModerationModel {
 
   @override
   String get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ModerationModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ModerationModelStringImplCopyWith<_$ModerationModelStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -20536,6 +21482,8 @@ mixin _$ModerationInput {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this ModerationInput to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -20555,6 +21503,9 @@ class _$ModerationInputCopyWithImpl<$Res, $Val extends ModerationInput>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ModerationInput
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -20576,6 +21527,8 @@ class __$$ModerationInputListStringImplCopyWithImpl<$Res>
       $Res Function(_$ModerationInputListStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ModerationInput
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -20626,12 +21579,14 @@ class _$ModerationInputListStringImpl extends ModerationInputListString {
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_value));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ModerationInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ModerationInputListStringImplCopyWith<_$ModerationInputListStringImpl>
@@ -20718,7 +21673,10 @@ abstract class ModerationInputListString extends ModerationInput {
 
   @override
   List<String> get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ModerationInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ModerationInputListStringImplCopyWith<_$ModerationInputListStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -20741,6 +21699,8 @@ class __$$ModerationInputStringImplCopyWithImpl<$Res>
       $Res Function(_$ModerationInputStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ModerationInput
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -20784,11 +21744,13 @@ class _$ModerationInputStringImpl extends ModerationInputString {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ModerationInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ModerationInputStringImplCopyWith<_$ModerationInputStringImpl>
@@ -20875,7 +21837,10 @@ abstract class ModerationInputString extends ModerationInput {
 
   @override
   String get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ModerationInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ModerationInputStringImplCopyWith<_$ModerationInputStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -20896,8 +21861,12 @@ mixin _$CreateModerationResponse {
   /// A list of moderation objects.
   List<Moderation> get results => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateModerationResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateModerationResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateModerationResponseCopyWith<CreateModerationResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -20922,6 +21891,8 @@ class _$CreateModerationResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateModerationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -20968,6 +21939,8 @@ class __$$CreateModerationResponseImplCopyWithImpl<$Res>
       $Res Function(_$CreateModerationResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateModerationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -21039,12 +22012,14 @@ class _$CreateModerationResponseImpl extends _CreateModerationResponse {
             const DeepCollectionEquality().equals(other._results, _results));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, id, model, const DeepCollectionEquality().hash(_results));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateModerationResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateModerationResponseImplCopyWith<_$CreateModerationResponseImpl>
@@ -21070,20 +22045,22 @@ abstract class _CreateModerationResponse extends CreateModerationResponse {
   factory _CreateModerationResponse.fromJson(Map<String, dynamic> json) =
       _$CreateModerationResponseImpl.fromJson;
 
-  @override
-
   /// The unique identifier for the moderation request.
-  String get id;
   @override
+  String get id;
 
   /// The model used to generate the moderation results.
-  String get model;
   @override
+  String get model;
 
   /// A list of moderation objects.
-  List<Moderation> get results;
   @override
-  @JsonKey(ignore: true)
+  List<Moderation> get results;
+
+  /// Create a copy of CreateModerationResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateModerationResponseImplCopyWith<_$CreateModerationResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -21105,8 +22082,12 @@ mixin _$Moderation {
   ModerationCategoriesScores get categoryScores =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this Moderation to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Moderation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ModerationCopyWith<Moderation> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -21137,6 +22118,8 @@ class _$ModerationCopyWithImpl<$Res, $Val extends Moderation>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Moderation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -21160,6 +22143,8 @@ class _$ModerationCopyWithImpl<$Res, $Val extends Moderation>
     ) as $Val);
   }
 
+  /// Create a copy of Moderation
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ModerationCategoriesCopyWith<$Res> get categories {
@@ -21168,6 +22153,8 @@ class _$ModerationCopyWithImpl<$Res, $Val extends Moderation>
     });
   }
 
+  /// Create a copy of Moderation
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ModerationCategoriesScoresCopyWith<$Res> get categoryScores {
@@ -21206,6 +22193,8 @@ class __$$ModerationImplCopyWithImpl<$Res>
       _$ModerationImpl _value, $Res Function(_$ModerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Moderation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -21272,12 +22261,14 @@ class _$ModerationImpl extends _Moderation {
                 other.categoryScores == categoryScores));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, flagged, categories, categoryScores);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Moderation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ModerationImplCopyWith<_$ModerationImpl> get copyWith =>
@@ -21303,21 +22294,23 @@ abstract class _Moderation extends Moderation {
   factory _Moderation.fromJson(Map<String, dynamic> json) =
       _$ModerationImpl.fromJson;
 
-  @override
-
   /// Whether any of the below categories are flagged.
-  bool get flagged;
   @override
+  bool get flagged;
 
   /// A list of the categories, and whether they are flagged or not.
-  ModerationCategories get categories;
   @override
+  ModerationCategories get categories;
 
   /// A list of the categories along with their scores as predicted by model.
+  @override
   @JsonKey(name: 'category_scores')
   ModerationCategoriesScores get categoryScores;
+
+  /// Create a copy of Moderation
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ModerationImplCopyWith<_$ModerationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -21368,8 +22361,12 @@ mixin _$ModerationCategories {
   @JsonKey(name: 'violence/graphic')
   bool get violenceGraphic => throw _privateConstructorUsedError;
 
+  /// Serializes this ModerationCategories to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ModerationCategories
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ModerationCategoriesCopyWith<ModerationCategories> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -21405,6 +22402,8 @@ class _$ModerationCategoriesCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ModerationCategories
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -21499,6 +22498,8 @@ class __$$ModerationCategoriesImplCopyWithImpl<$Res>
       $Res Function(_$ModerationCategoriesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ModerationCategories
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -21668,7 +22669,7 @@ class _$ModerationCategoriesImpl extends _ModerationCategories {
                 other.violenceGraphic == violenceGraphic));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -21684,7 +22685,9 @@ class _$ModerationCategoriesImpl extends _ModerationCategories {
       violence,
       violenceGraphic);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ModerationCategories
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ModerationCategoriesImplCopyWith<_$ModerationCategoriesImpl>
@@ -21721,59 +22724,61 @@ abstract class _ModerationCategories extends ModerationCategories {
   factory _ModerationCategories.fromJson(Map<String, dynamic> json) =
       _$ModerationCategoriesImpl.fromJson;
 
-  @override
-
   /// Content that expresses, incites, or promotes hate based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste. Hateful content aimed at non-protected groups (e.g., chess players) is harassment.
-  bool get hate;
   @override
+  bool get hate;
 
   /// Hateful content that also includes violence or serious harm towards the targeted group based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste.
+  @override
   @JsonKey(name: 'hate/threatening')
   bool get hateThreatening;
-  @override
 
   /// Content that expresses, incites, or promotes harassing language towards any target.
-  bool get harassment;
   @override
+  bool get harassment;
 
   /// Harassment content that also includes violence or serious harm towards any target.
+  @override
   @JsonKey(name: 'harassment/threatening')
   bool get harassmentThreatening;
-  @override
 
   /// Content that promotes, encourages, or depicts acts of self-harm, such as suicide, cutting, and eating disorders.
+  @override
   @JsonKey(name: 'self-harm')
   bool get selfHarm;
-  @override
 
   /// Content where the speaker expresses that they are engaging or intend to engage in acts of self-harm, such as suicide, cutting, and eating disorders.
+  @override
   @JsonKey(name: 'self-harm/intent')
   bool get selfHarmIntent;
-  @override
 
   /// Content that encourages performing acts of self-harm, such as suicide, cutting, and eating disorders, or that gives instructions or advice on how to commit such acts.
+  @override
   @JsonKey(name: 'self-harm/instructions')
   bool get selfHarmInstructions;
-  @override
 
   /// Content meant to arouse sexual excitement, such as the description of sexual activity, or that promotes sexual services (excluding sex education and wellness).
-  bool get sexual;
   @override
+  bool get sexual;
 
   /// Sexual content that includes an individual who is under 18 years old.
+  @override
   @JsonKey(name: 'sexual/minors')
   bool get sexualMinors;
-  @override
 
   /// Content that depicts death, violence, or physical injury.
-  bool get violence;
   @override
+  bool get violence;
 
   /// Content that depicts death, violence, or physical injury in graphic detail.
+  @override
   @JsonKey(name: 'violence/graphic')
   bool get violenceGraphic;
+
+  /// Create a copy of ModerationCategories
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ModerationCategoriesImplCopyWith<_$ModerationCategoriesImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -21825,8 +22830,12 @@ mixin _$ModerationCategoriesScores {
   @JsonKey(name: 'violence/graphic')
   double get violenceGraphic => throw _privateConstructorUsedError;
 
+  /// Serializes this ModerationCategoriesScores to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ModerationCategoriesScores
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ModerationCategoriesScoresCopyWith<ModerationCategoriesScores>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -21863,6 +22872,8 @@ class _$ModerationCategoriesScoresCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ModerationCategoriesScores
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -21960,6 +22971,8 @@ class __$$ModerationCategoriesScoresImplCopyWithImpl<$Res>
       $Res Function(_$ModerationCategoriesScoresImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ModerationCategoriesScores
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -22130,7 +23143,7 @@ class _$ModerationCategoriesScoresImpl extends _ModerationCategoriesScores {
                 other.violenceGraphic == violenceGraphic));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -22146,7 +23159,9 @@ class _$ModerationCategoriesScoresImpl extends _ModerationCategoriesScores {
       violence,
       violenceGraphic);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ModerationCategoriesScores
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ModerationCategoriesScoresImplCopyWith<_$ModerationCategoriesScoresImpl>
@@ -22183,59 +23198,61 @@ abstract class _ModerationCategoriesScores extends ModerationCategoriesScores {
   factory _ModerationCategoriesScores.fromJson(Map<String, dynamic> json) =
       _$ModerationCategoriesScoresImpl.fromJson;
 
-  @override
-
   /// The score for the category 'hate'.
-  double get hate;
   @override
+  double get hate;
 
   /// The score for the category 'hate/threatening'.
+  @override
   @JsonKey(name: 'hate/threatening')
   double get hateThreatening;
-  @override
 
   /// The score for the category 'harassment'.
-  double get harassment;
   @override
+  double get harassment;
 
   /// The score for the category 'harassment/threatening'.
+  @override
   @JsonKey(name: 'harassment/threatening')
   double get harassmentThreatening;
-  @override
 
   /// The score for the category 'self-harm'.
+  @override
   @JsonKey(name: 'self-harm')
   double get selfHarm;
-  @override
 
   /// The score for the category 'self-harm/intent'.
+  @override
   @JsonKey(name: 'self-harm/intent')
   double get selfHarmIntent;
-  @override
 
   /// The score for the category 'self-harm/instructions'.
+  @override
   @JsonKey(name: 'self-harm/instructions')
   double get selfHarmInstructions;
-  @override
 
   /// The score for the category 'sexual'.
-  double get sexual;
   @override
+  double get sexual;
 
   /// The score for the category 'sexual/minors'.
+  @override
   @JsonKey(name: 'sexual/minors')
   double get sexualMinors;
-  @override
 
   /// The score for the category 'violence'.
-  double get violence;
   @override
+  double get violence;
 
   /// The score for the category 'violence/graphic'.
+  @override
   @JsonKey(name: 'violence/graphic')
   double get violenceGraphic;
+
+  /// Create a copy of ModerationCategoriesScores
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ModerationCategoriesScoresImplCopyWith<_$ModerationCategoriesScoresImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -22268,38 +23285,59 @@ mixin _$AssistantObject {
   /// The system instructions that the assistant uses. The maximum length is 256,000 characters.
   String? get instructions => throw _privateConstructorUsedError;
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of
+  /// types `code_interpreter`, `file_search`, or `function`.
   List<AssistantTools> get tools => throw _privateConstructorUsedError;
 
   /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources => throw _privateConstructorUsedError;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
-  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
+  /// while lower values like 0.2 will make it more focused and deterministic.
   @JsonKey(includeIfNull: false)
   double? get temperature => throw _privateConstructorUsedError;
 
-  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results
+  /// of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability
+  /// mass are considered.
   ///
   /// We generally recommend altering this or temperature but not both.
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP => throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// since `gpt-4o-mini-1106`.
   ///
-  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+  /// the model will match your supplied JSON schema. Learn more in the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+  /// is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
+  /// system or user message. Without this, the model may generate an unending stream of whitespace until the
+  /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
+  /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
+  /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
   @_AssistantObjectResponseFormatConverter()
   @JsonKey(name: 'response_format', includeIfNull: false)
   AssistantObjectResponseFormat? get responseFormat =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this AssistantObject to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AssistantObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AssistantObjectCopyWith<AssistantObject> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -22342,6 +23380,8 @@ class _$AssistantObjectCopyWithImpl<$Res, $Val extends AssistantObject>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AssistantObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -22415,6 +23455,8 @@ class _$AssistantObjectCopyWithImpl<$Res, $Val extends AssistantObject>
     ) as $Val);
   }
 
+  /// Create a copy of AssistantObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ToolResourcesCopyWith<$Res>? get toolResources {
@@ -22427,6 +23469,8 @@ class _$AssistantObjectCopyWithImpl<$Res, $Val extends AssistantObject>
     });
   }
 
+  /// Create a copy of AssistantObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AssistantObjectResponseFormatCopyWith<$Res>? get responseFormat {
@@ -22481,6 +23525,8 @@ class __$$AssistantObjectImplCopyWithImpl<$Res>
       _$AssistantObjectImpl _value, $Res Function(_$AssistantObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -22610,10 +23656,12 @@ class _$AssistantObjectImpl extends _AssistantObject {
   @override
   final String? instructions;
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of
+  /// types `code_interpreter`, `file_search`, or `function`.
   final List<AssistantTools> _tools;
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of
+  /// types `code_interpreter`, `file_search`, or `function`.
   @override
   List<AssistantTools> get tools {
     if (_tools is EqualUnmodifiableListView) return _tools;
@@ -22626,10 +23674,14 @@ class _$AssistantObjectImpl extends _AssistantObject {
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   final ToolResources? toolResources;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
   Map<String, dynamic>? get metadata {
     final value = _metadata;
@@ -22639,23 +23691,37 @@ class _$AssistantObjectImpl extends _AssistantObject {
     return EqualUnmodifiableMapView(value);
   }
 
-  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
+  /// while lower values like 0.2 will make it more focused and deterministic.
   @override
   @JsonKey(includeIfNull: false)
   final double? temperature;
 
-  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results
+  /// of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability
+  /// mass are considered.
   ///
   /// We generally recommend altering this or temperature but not both.
   @override
   @JsonKey(name: 'top_p', includeIfNull: false)
   final double? topP;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// since `gpt-4o-mini-1106`.
   ///
-  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+  /// the model will match your supplied JSON schema. Learn more in the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+  /// is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
+  /// system or user message. Without this, the model may generate an unending stream of whitespace until the
+  /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
+  /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
+  /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
   @override
   @_AssistantObjectResponseFormatConverter()
   @JsonKey(name: 'response_format', includeIfNull: false)
@@ -22692,7 +23758,7 @@ class _$AssistantObjectImpl extends _AssistantObject {
                 other.responseFormat == responseFormat));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -22710,7 +23776,9 @@ class _$AssistantObjectImpl extends _AssistantObject {
       topP,
       responseFormat);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AssistantObjectImplCopyWith<_$AssistantObjectImpl> get copyWith =>
@@ -22749,72 +23817,91 @@ abstract class _AssistantObject extends AssistantObject {
   factory _AssistantObject.fromJson(Map<String, dynamic> json) =
       _$AssistantObjectImpl.fromJson;
 
-  @override
-
   /// The identifier, which can be referenced in API endpoints.
-  String get id;
   @override
+  String get id;
 
   /// The object type, which is always `assistant`.
-  AssistantObjectObject get object;
   @override
+  AssistantObjectObject get object;
 
   /// The Unix timestamp (in seconds) for when the assistant was created.
+  @override
   @JsonKey(name: 'created_at')
   int get createdAt;
-  @override
 
   /// The name of the assistant. The maximum length is 256 characters.
-  String? get name;
   @override
+  String? get name;
 
   /// The description of the assistant. The maximum length is 512 characters.
-  String? get description;
   @override
+  String? get description;
 
   /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
-  String get model;
   @override
+  String get model;
 
   /// The system instructions that the assistant uses. The maximum length is 256,000 characters.
+  @override
   String? get instructions;
-  @override
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
-  List<AssistantTools> get tools;
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of
+  /// types `code_interpreter`, `file_search`, or `function`.
   @override
+  List<AssistantTools> get tools;
 
   /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @override
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources;
-  @override
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
+  @override
   Map<String, dynamic>? get metadata;
-  @override
 
-  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
+  /// while lower values like 0.2 will make it more focused and deterministic.
+  @override
   @JsonKey(includeIfNull: false)
   double? get temperature;
-  @override
 
-  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results
+  /// of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability
+  /// mass are considered.
   ///
   /// We generally recommend altering this or temperature but not both.
+  @override
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP;
-  @override
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// since `gpt-4o-mini-1106`.
   ///
-  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+  /// the model will match your supplied JSON schema. Learn more in the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+  /// is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
+  /// system or user message. Without this, the model may generate an unending stream of whitespace until the
+  /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
+  /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
+  /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @override
   @_AssistantObjectResponseFormatConverter()
   @JsonKey(name: 'response_format', includeIfNull: false)
   AssistantObjectResponseFormat? get responseFormat;
+
+  /// Create a copy of AssistantObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AssistantObjectImplCopyWith<_$AssistantObjectImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -22888,6 +23975,8 @@ mixin _$AssistantObjectResponseFormat {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this AssistantObjectResponseFormat to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -22910,6 +23999,9 @@ class _$AssistantObjectResponseFormatCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of AssistantObjectResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -22932,6 +24024,8 @@ class __$$AssistantObjectResponseFormatEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$AssistantObjectResponseFormatEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantObjectResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -22978,11 +24072,13 @@ class _$AssistantObjectResponseFormatEnumerationImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantObjectResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AssistantObjectResponseFormatEnumerationImplCopyWith<
@@ -23084,7 +24180,10 @@ abstract class AssistantObjectResponseFormatEnumeration
 
   @override
   AssistantResponseFormatMode get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AssistantObjectResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AssistantObjectResponseFormatEnumerationImplCopyWith<
           _$AssistantObjectResponseFormatEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -23120,6 +24219,8 @@ class __$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<
           _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantObjectResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -23133,6 +24234,8 @@ class __$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<
     ));
   }
 
+  /// Create a copy of AssistantObjectResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AssistantsResponseFormatCopyWith<$Res> get value {
@@ -23176,11 +24279,13 @@ class _$AssistantObjectResponseFormatAssistantsResponseFormatImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantObjectResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWith<
@@ -23283,7 +24388,10 @@ abstract class AssistantObjectResponseFormatAssistantsResponseFormat
 
   @override
   AssistantsResponseFormat get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AssistantObjectResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AssistantObjectResponseFormatAssistantsResponseFormatImplCopyWith<
           _$AssistantObjectResponseFormatAssistantsResponseFormatImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -23312,39 +24420,60 @@ mixin _$CreateAssistantRequest {
   @JsonKey(includeIfNull: false)
   String? get instructions => throw _privateConstructorUsedError;
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of
+  /// types `code_interpreter`, `file_search`, or `function`.
   List<AssistantTools> get tools => throw _privateConstructorUsedError;
 
   /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources => throw _privateConstructorUsedError;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
-  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
+  /// while lower values like 0.2 will make it more focused and deterministic.
   @JsonKey(includeIfNull: false)
   double? get temperature => throw _privateConstructorUsedError;
 
-  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results
+  /// of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability
+  /// mass are considered.
   ///
   /// We generally recommend altering this or temperature but not both.
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP => throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// since `gpt-4o-mini-1106`.
   ///
-  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+  /// the model will match your supplied JSON schema. Learn more in the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+  /// is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
+  /// system or user message. Without this, the model may generate an unending stream of whitespace until the
+  /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
+  /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
+  /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
   @_CreateAssistantRequestResponseFormatConverter()
   @JsonKey(name: 'response_format', includeIfNull: false)
   CreateAssistantRequestResponseFormat? get responseFormat =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this CreateAssistantRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateAssistantRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateAssistantRequestCopyWith<CreateAssistantRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -23386,6 +24515,8 @@ class _$CreateAssistantRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateAssistantRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -23444,6 +24575,8 @@ class _$CreateAssistantRequestCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of CreateAssistantRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AssistantModelCopyWith<$Res> get model {
@@ -23452,6 +24585,8 @@ class _$CreateAssistantRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of CreateAssistantRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ToolResourcesCopyWith<$Res>? get toolResources {
@@ -23464,6 +24599,8 @@ class _$CreateAssistantRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of CreateAssistantRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CreateAssistantRequestResponseFormatCopyWith<$Res>? get responseFormat {
@@ -23520,6 +24657,8 @@ class __$$CreateAssistantRequestImplCopyWithImpl<$Res>
       $Res Function(_$CreateAssistantRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateAssistantRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -23622,10 +24761,12 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
   @JsonKey(includeIfNull: false)
   final String? instructions;
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of
+  /// types `code_interpreter`, `file_search`, or `function`.
   final List<AssistantTools> _tools;
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of
+  /// types `code_interpreter`, `file_search`, or `function`.
   @override
   @JsonKey()
   List<AssistantTools> get tools {
@@ -23639,10 +24780,14 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   final ToolResources? toolResources;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata {
@@ -23653,23 +24798,37 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
     return EqualUnmodifiableMapView(value);
   }
 
-  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
+  /// while lower values like 0.2 will make it more focused and deterministic.
   @override
   @JsonKey(includeIfNull: false)
   final double? temperature;
 
-  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results
+  /// of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability
+  /// mass are considered.
   ///
   /// We generally recommend altering this or temperature but not both.
   @override
   @JsonKey(name: 'top_p', includeIfNull: false)
   final double? topP;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// since `gpt-4o-mini-1106`.
   ///
-  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+  /// the model will match your supplied JSON schema. Learn more in the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+  /// is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
+  /// system or user message. Without this, the model may generate an unending stream of whitespace until the
+  /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
+  /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
+  /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
   @override
   @_CreateAssistantRequestResponseFormatConverter()
   @JsonKey(name: 'response_format', includeIfNull: false)
@@ -23702,7 +24861,7 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
                 other.responseFormat == responseFormat));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -23717,7 +24876,9 @@ class _$CreateAssistantRequestImpl extends _CreateAssistantRequest {
       topP,
       responseFormat);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateAssistantRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateAssistantRequestImplCopyWith<_$CreateAssistantRequestImpl>
@@ -23753,64 +24914,83 @@ abstract class _CreateAssistantRequest extends CreateAssistantRequest {
   factory _CreateAssistantRequest.fromJson(Map<String, dynamic> json) =
       _$CreateAssistantRequestImpl.fromJson;
 
-  @override
-
   /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  @override
   @_AssistantModelConverter()
   AssistantModel get model;
-  @override
 
   /// The name of the assistant. The maximum length is 256 characters.
+  @override
   @JsonKey(includeIfNull: false)
   String? get name;
-  @override
 
   /// The description of the assistant. The maximum length is 512 characters.
+  @override
   @JsonKey(includeIfNull: false)
   String? get description;
-  @override
 
   /// The system instructions that the assistant uses. The maximum length is 256,000 characters.
+  @override
   @JsonKey(includeIfNull: false)
   String? get instructions;
-  @override
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
-  List<AssistantTools> get tools;
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of
+  /// types `code_interpreter`, `file_search`, or `function`.
   @override
+  List<AssistantTools> get tools;
 
   /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @override
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources;
-  @override
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
+  @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
-  @override
 
-  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
+  /// while lower values like 0.2 will make it more focused and deterministic.
+  @override
   @JsonKey(includeIfNull: false)
   double? get temperature;
-  @override
 
-  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results
+  /// of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability
+  /// mass are considered.
   ///
   /// We generally recommend altering this or temperature but not both.
+  @override
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP;
-  @override
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// since `gpt-4o-mini-1106`.
   ///
-  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+  /// the model will match your supplied JSON schema. Learn more in the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+  /// is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
+  /// system or user message. Without this, the model may generate an unending stream of whitespace until the
+  /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
+  /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
+  /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @override
   @_CreateAssistantRequestResponseFormatConverter()
   @JsonKey(name: 'response_format', includeIfNull: false)
   CreateAssistantRequestResponseFormat? get responseFormat;
+
+  /// Create a copy of CreateAssistantRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateAssistantRequestImplCopyWith<_$CreateAssistantRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -23869,6 +25049,8 @@ mixin _$AssistantModel {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this AssistantModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -23888,6 +25070,9 @@ class _$AssistantModelCopyWithImpl<$Res, $Val extends AssistantModel>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of AssistantModel
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -23909,6 +25094,8 @@ class __$$AssistantModelEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$AssistantModelEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -23952,11 +25139,13 @@ class _$AssistantModelEnumerationImpl extends AssistantModelEnumeration {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AssistantModelEnumerationImplCopyWith<_$AssistantModelEnumerationImpl>
@@ -24043,7 +25232,10 @@ abstract class AssistantModelEnumeration extends AssistantModel {
 
   @override
   AssistantModels get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AssistantModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AssistantModelEnumerationImplCopyWith<_$AssistantModelEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -24065,6 +25257,8 @@ class __$$AssistantModelStringImplCopyWithImpl<$Res>
       $Res Function(_$AssistantModelStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -24108,11 +25302,13 @@ class _$AssistantModelStringImpl extends AssistantModelString {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AssistantModelStringImplCopyWith<_$AssistantModelStringImpl>
@@ -24200,7 +25396,10 @@ abstract class AssistantModelString extends AssistantModel {
 
   @override
   String get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AssistantModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AssistantModelStringImplCopyWith<_$AssistantModelStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -24274,6 +25473,8 @@ mixin _$CreateAssistantRequestResponseFormat {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this CreateAssistantRequestResponseFormat to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -24296,6 +25497,9 @@ class _$CreateAssistantRequestResponseFormatCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of CreateAssistantRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -24322,6 +25526,8 @@ class __$$CreateAssistantRequestResponseFormatEnumerationImplCopyWithImpl<$Res>
           _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateAssistantRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -24368,11 +25574,13 @@ class _$CreateAssistantRequestResponseFormatEnumerationImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateAssistantRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateAssistantRequestResponseFormatEnumerationImplCopyWith<
@@ -24475,7 +25683,10 @@ abstract class CreateAssistantRequestResponseFormatEnumeration
 
   @override
   CreateAssistantResponseFormatMode get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateAssistantRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateAssistantRequestResponseFormatEnumerationImplCopyWith<
           _$CreateAssistantRequestResponseFormatEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -24512,6 +25723,8 @@ class __$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWi
           _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateAssistantRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -24526,6 +25739,8 @@ class __$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWi
     ));
   }
 
+  /// Create a copy of CreateAssistantRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AssistantsResponseFormatCopyWith<$Res> get value {
@@ -24570,11 +25785,13 @@ class _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateAssistantRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
@@ -24679,7 +25896,10 @@ abstract class CreateAssistantRequestResponseFormatAssistantsResponseFormat
 
   @override
   AssistantsResponseFormat get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateAssistantRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
           _$CreateAssistantRequestResponseFormatAssistantsResponseFormatImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -24708,7 +25928,8 @@ mixin _$ModifyAssistantRequest {
   @JsonKey(includeIfNull: false)
   String? get instructions => throw _privateConstructorUsedError;
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of
+  /// types `code_interpreter`, `file_search`, or `function`.
   List<AssistantTools> get tools => throw _privateConstructorUsedError;
 
   /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order. If a file was previosuly attached to the list but does not show up in the list, it will be deleted from the assistant.
@@ -24719,32 +25940,52 @@ mixin _$ModifyAssistantRequest {
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources => throw _privateConstructorUsedError;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
-  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
+  /// while lower values like 0.2 will make it more focused and deterministic.
   @JsonKey(includeIfNull: false)
   double? get temperature => throw _privateConstructorUsedError;
 
-  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results
+  /// of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability
+  /// mass are considered.
   ///
   /// We generally recommend altering this or temperature but not both.
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP => throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// since `gpt-4o-mini-1106`.
   ///
-  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+  /// the model will match your supplied JSON schema. Learn more in the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+  /// is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
+  /// system or user message. Without this, the model may generate an unending stream of whitespace until the
+  /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
+  /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
+  /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
   @_ModifyAssistantRequestResponseFormatConverter()
   @JsonKey(name: 'response_format', includeIfNull: false)
   ModifyAssistantRequestResponseFormat? get responseFormat =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this ModifyAssistantRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ModifyAssistantRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ModifyAssistantRequestCopyWith<ModifyAssistantRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -24786,6 +26027,8 @@ class _$ModifyAssistantRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ModifyAssistantRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -24849,6 +26092,8 @@ class _$ModifyAssistantRequestCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of ModifyAssistantRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ToolResourcesCopyWith<$Res>? get toolResources {
@@ -24861,6 +26106,8 @@ class _$ModifyAssistantRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of ModifyAssistantRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ModifyAssistantRequestResponseFormatCopyWith<$Res>? get responseFormat {
@@ -24916,6 +26163,8 @@ class __$$ModifyAssistantRequestImplCopyWithImpl<$Res>
       $Res Function(_$ModifyAssistantRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ModifyAssistantRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -25025,10 +26274,12 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
   @JsonKey(includeIfNull: false)
   final String? instructions;
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of
+  /// types `code_interpreter`, `file_search`, or `function`.
   final List<AssistantTools> _tools;
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of
+  /// types `code_interpreter`, `file_search`, or `function`.
   @override
   @JsonKey()
   List<AssistantTools> get tools {
@@ -25054,10 +26305,14 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   final ToolResources? toolResources;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata {
@@ -25068,23 +26323,37 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
     return EqualUnmodifiableMapView(value);
   }
 
-  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
+  /// while lower values like 0.2 will make it more focused and deterministic.
   @override
   @JsonKey(includeIfNull: false)
   final double? temperature;
 
-  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results
+  /// of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability
+  /// mass are considered.
   ///
   /// We generally recommend altering this or temperature but not both.
   @override
   @JsonKey(name: 'top_p', includeIfNull: false)
   final double? topP;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// since `gpt-4o-mini-1106`.
   ///
-  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+  /// the model will match your supplied JSON schema. Learn more in the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+  /// is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
+  /// system or user message. Without this, the model may generate an unending stream of whitespace until the
+  /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
+  /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
+  /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
   @override
   @_ModifyAssistantRequestResponseFormatConverter()
   @JsonKey(name: 'response_format', includeIfNull: false)
@@ -25118,7 +26387,7 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
                 other.responseFormat == responseFormat));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -25134,7 +26403,9 @@ class _$ModifyAssistantRequestImpl extends _ModifyAssistantRequest {
       topP,
       responseFormat);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ModifyAssistantRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ModifyAssistantRequestImplCopyWith<_$ModifyAssistantRequestImpl>
@@ -25171,69 +26442,88 @@ abstract class _ModifyAssistantRequest extends ModifyAssistantRequest {
   factory _ModifyAssistantRequest.fromJson(Map<String, dynamic> json) =
       _$ModifyAssistantRequestImpl.fromJson;
 
-  @override
-
   /// ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
+  @override
   @JsonKey(includeIfNull: false)
   String? get model;
-  @override
 
   /// The name of the assistant. The maximum length is 256 characters.
+  @override
   @JsonKey(includeIfNull: false)
   String? get name;
-  @override
 
   /// The description of the assistant. The maximum length is 512 characters.
+  @override
   @JsonKey(includeIfNull: false)
   String? get description;
-  @override
 
   /// The system instructions that the assistant uses. The maximum length is 256,000 characters.
+  @override
   @JsonKey(includeIfNull: false)
   String? get instructions;
-  @override
 
-  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
-  List<AssistantTools> get tools;
+  /// A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of
+  /// types `code_interpreter`, `file_search`, or `function`.
   @override
+  List<AssistantTools> get tools;
 
   /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order. If a file was previosuly attached to the list but does not show up in the list, it will be deleted from the assistant.
+  @override
   @JsonKey(name: 'file_ids')
   List<String> get fileIds;
-  @override
 
   /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @override
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources;
-  @override
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
+  @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
-  @override
 
-  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
+  /// while lower values like 0.2 will make it more focused and deterministic.
+  @override
   @JsonKey(includeIfNull: false)
   double? get temperature;
-  @override
 
-  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results
+  /// of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability
+  /// mass are considered.
   ///
   /// We generally recommend altering this or temperature but not both.
+  @override
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP;
-  @override
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// since `gpt-4o-mini-1106`.
   ///
-  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+  /// the model will match your supplied JSON schema. Learn more in the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+  /// is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
+  /// system or user message. Without this, the model may generate an unending stream of whitespace until the
+  /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
+  /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
+  /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @override
   @_ModifyAssistantRequestResponseFormatConverter()
   @JsonKey(name: 'response_format', includeIfNull: false)
   ModifyAssistantRequestResponseFormat? get responseFormat;
+
+  /// Create a copy of ModifyAssistantRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ModifyAssistantRequestImplCopyWith<_$ModifyAssistantRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -25307,6 +26597,8 @@ mixin _$ModifyAssistantRequestResponseFormat {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this ModifyAssistantRequestResponseFormat to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -25329,6 +26621,9 @@ class _$ModifyAssistantRequestResponseFormatCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ModifyAssistantRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -25355,6 +26650,8 @@ class __$$ModifyAssistantRequestResponseFormatEnumerationImplCopyWithImpl<$Res>
           _then)
       : super(_value, _then);
 
+  /// Create a copy of ModifyAssistantRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -25401,11 +26698,13 @@ class _$ModifyAssistantRequestResponseFormatEnumerationImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ModifyAssistantRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ModifyAssistantRequestResponseFormatEnumerationImplCopyWith<
@@ -25508,7 +26807,10 @@ abstract class ModifyAssistantRequestResponseFormatEnumeration
 
   @override
   ModifyAssistantResponseFormatMode get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ModifyAssistantRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ModifyAssistantRequestResponseFormatEnumerationImplCopyWith<
           _$ModifyAssistantRequestResponseFormatEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -25545,6 +26847,8 @@ class __$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWi
           _then)
       : super(_value, _then);
 
+  /// Create a copy of ModifyAssistantRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -25559,6 +26863,8 @@ class __$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWi
     ));
   }
 
+  /// Create a copy of ModifyAssistantRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AssistantsResponseFormatCopyWith<$Res> get value {
@@ -25603,11 +26909,13 @@ class _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ModifyAssistantRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
@@ -25712,7 +27020,10 @@ abstract class ModifyAssistantRequestResponseFormatAssistantsResponseFormat
 
   @override
   AssistantsResponseFormat get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ModifyAssistantRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImplCopyWith<
           _$ModifyAssistantRequestResponseFormatAssistantsResponseFormatImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -25735,8 +27046,12 @@ mixin _$DeleteAssistantResponse {
   DeleteAssistantResponseObject get object =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this DeleteAssistantResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DeleteAssistantResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DeleteAssistantResponseCopyWith<DeleteAssistantResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -25761,6 +27076,8 @@ class _$DeleteAssistantResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DeleteAssistantResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -25807,6 +27124,8 @@ class __$$DeleteAssistantResponseImplCopyWithImpl<$Res>
       $Res Function(_$DeleteAssistantResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DeleteAssistantResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -25868,11 +27187,13 @@ class _$DeleteAssistantResponseImpl extends _DeleteAssistantResponse {
             (identical(other.object, object) || other.object == object));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, deleted, object);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DeleteAssistantResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DeleteAssistantResponseImplCopyWith<_$DeleteAssistantResponseImpl>
@@ -25898,20 +27219,22 @@ abstract class _DeleteAssistantResponse extends DeleteAssistantResponse {
   factory _DeleteAssistantResponse.fromJson(Map<String, dynamic> json) =
       _$DeleteAssistantResponseImpl.fromJson;
 
-  @override
-
   /// The assistant identifier.
-  String get id;
   @override
+  String get id;
 
   /// Whether the assistant was deleted.
-  bool get deleted;
   @override
+  bool get deleted;
 
   /// The object type, which is always `assistant.deleted`.
-  DeleteAssistantResponseObject get object;
   @override
-  @JsonKey(ignore: true)
+  DeleteAssistantResponseObject get object;
+
+  /// Create a copy of DeleteAssistantResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DeleteAssistantResponseImplCopyWith<_$DeleteAssistantResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -25941,8 +27264,12 @@ mixin _$ListAssistantsResponse {
   @JsonKey(name: 'has_more')
   bool get hasMore => throw _privateConstructorUsedError;
 
+  /// Serializes this ListAssistantsResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ListAssistantsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ListAssistantsResponseCopyWith<ListAssistantsResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -25972,6 +27299,8 @@ class _$ListAssistantsResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ListAssistantsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -26033,6 +27362,8 @@ class __$$ListAssistantsResponseImplCopyWithImpl<$Res>
       $Res Function(_$ListAssistantsResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ListAssistantsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -26129,12 +27460,14 @@ class _$ListAssistantsResponseImpl extends _ListAssistantsResponse {
             (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, object,
       const DeepCollectionEquality().hash(_data), firstId, lastId, hasMore);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ListAssistantsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListAssistantsResponseImplCopyWith<_$ListAssistantsResponseImpl>
@@ -26162,31 +27495,33 @@ abstract class _ListAssistantsResponse extends ListAssistantsResponse {
   factory _ListAssistantsResponse.fromJson(Map<String, dynamic> json) =
       _$ListAssistantsResponseImpl.fromJson;
 
-  @override
-
   /// The object type, which is always `list`.
-  String get object;
   @override
+  String get object;
 
   /// The list of assistants.
-  List<AssistantObject> get data;
   @override
+  List<AssistantObject> get data;
 
   /// The ID of the first assistant in the list.
+  @override
   @JsonKey(name: 'first_id')
   String get firstId;
-  @override
 
   /// The ID of the last assistant in the list.
+  @override
   @JsonKey(name: 'last_id')
   String get lastId;
-  @override
 
   /// Whether there are more assistants to retrieve.
+  @override
   @JsonKey(name: 'has_more')
   bool get hasMore;
+
+  /// Create a copy of ListAssistantsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListAssistantsResponseImplCopyWith<_$ListAssistantsResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -26206,8 +27541,12 @@ mixin _$AssistantsNamedToolChoice {
   AssistantsFunctionCallOption? get function =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this AssistantsNamedToolChoice to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AssistantsNamedToolChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AssistantsNamedToolChoiceCopyWith<AssistantsNamedToolChoice> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -26236,6 +27575,8 @@ class _$AssistantsNamedToolChoiceCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AssistantsNamedToolChoice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -26254,6 +27595,8 @@ class _$AssistantsNamedToolChoiceCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of AssistantsNamedToolChoice
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AssistantsFunctionCallOptionCopyWith<$Res>? get function {
@@ -26295,6 +27638,8 @@ class __$$AssistantsNamedToolChoiceImplCopyWithImpl<$Res>
       $Res Function(_$AssistantsNamedToolChoiceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantsNamedToolChoice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -26348,11 +27693,13 @@ class _$AssistantsNamedToolChoiceImpl extends _AssistantsNamedToolChoice {
                 other.function == function));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, function);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantsNamedToolChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AssistantsNamedToolChoiceImplCopyWith<_$AssistantsNamedToolChoiceImpl>
@@ -26378,17 +27725,19 @@ abstract class _AssistantsNamedToolChoice extends AssistantsNamedToolChoice {
   factory _AssistantsNamedToolChoice.fromJson(Map<String, dynamic> json) =
       _$AssistantsNamedToolChoiceImpl.fromJson;
 
-  @override
-
   /// The type of the tool. If type is `function`, the function name must be set
-  AssistantsToolType get type;
   @override
+  AssistantsToolType get type;
 
   /// No Description
+  @override
   @JsonKey(includeIfNull: false)
   AssistantsFunctionCallOption? get function;
+
+  /// Create a copy of AssistantsNamedToolChoice
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AssistantsNamedToolChoiceImplCopyWith<_$AssistantsNamedToolChoiceImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -26403,8 +27752,12 @@ mixin _$AssistantsFunctionCallOption {
   /// The name of the function to call.
   String get name => throw _privateConstructorUsedError;
 
+  /// Serializes this AssistantsFunctionCallOption to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AssistantsFunctionCallOption
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AssistantsFunctionCallOptionCopyWith<AssistantsFunctionCallOption>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -26431,6 +27784,8 @@ class _$AssistantsFunctionCallOptionCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AssistantsFunctionCallOption
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -26467,6 +27822,8 @@ class __$$AssistantsFunctionCallOptionImplCopyWithImpl<$Res>
       $Res Function(_$AssistantsFunctionCallOptionImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantsFunctionCallOption
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -26507,11 +27864,13 @@ class _$AssistantsFunctionCallOptionImpl extends _AssistantsFunctionCallOption {
             (identical(other.name, name) || other.name == name));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantsFunctionCallOption
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AssistantsFunctionCallOptionImplCopyWith<
@@ -26536,12 +27895,14 @@ abstract class _AssistantsFunctionCallOption
   factory _AssistantsFunctionCallOption.fromJson(Map<String, dynamic> json) =
       _$AssistantsFunctionCallOptionImpl.fromJson;
 
-  @override
-
   /// The name of the function to call.
-  String get name;
   @override
-  @JsonKey(ignore: true)
+  String get name;
+
+  /// Create a copy of AssistantsFunctionCallOption
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AssistantsFunctionCallOptionImplCopyWith<
           _$AssistantsFunctionCallOptionImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -26557,8 +27918,12 @@ mixin _$AssistantsResponseFormat {
   /// Must be one of `text` or `json_object`.
   AssistantsResponseFormatType get type => throw _privateConstructorUsedError;
 
+  /// Serializes this AssistantsResponseFormat to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AssistantsResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AssistantsResponseFormatCopyWith<AssistantsResponseFormat> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -26583,6 +27948,8 @@ class _$AssistantsResponseFormatCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AssistantsResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -26619,6 +27986,8 @@ class __$$AssistantsResponseFormatImplCopyWithImpl<$Res>
       $Res Function(_$AssistantsResponseFormatImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantsResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -26661,11 +28030,13 @@ class _$AssistantsResponseFormatImpl extends _AssistantsResponseFormat {
             (identical(other.type, type) || other.type == type));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantsResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AssistantsResponseFormatImplCopyWith<_$AssistantsResponseFormatImpl>
@@ -26689,12 +28060,14 @@ abstract class _AssistantsResponseFormat extends AssistantsResponseFormat {
   factory _AssistantsResponseFormat.fromJson(Map<String, dynamic> json) =
       _$AssistantsResponseFormatImpl.fromJson;
 
-  @override
-
   /// Must be one of `text` or `json_object`.
-  AssistantsResponseFormatType get type;
   @override
-  @JsonKey(ignore: true)
+  AssistantsResponseFormatType get type;
+
+  /// Create a copy of AssistantsResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AssistantsResponseFormatImplCopyWith<_$AssistantsResponseFormatImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -26712,8 +28085,12 @@ mixin _$TruncationObject {
   @JsonKey(name: 'last_messages', includeIfNull: false)
   int? get lastMessages => throw _privateConstructorUsedError;
 
+  /// Serializes this TruncationObject to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TruncationObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TruncationObjectCopyWith<TruncationObject> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -26739,6 +28116,8 @@ class _$TruncationObjectCopyWithImpl<$Res, $Val extends TruncationObject>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TruncationObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -26779,6 +28158,8 @@ class __$$TruncationObjectImplCopyWithImpl<$Res>
       $Res Function(_$TruncationObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TruncationObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -26833,11 +28214,13 @@ class _$TruncationObjectImpl extends _TruncationObject {
                 other.lastMessages == lastMessages));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, lastMessages);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TruncationObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TruncationObjectImplCopyWith<_$TruncationObjectImpl> get copyWith =>
@@ -26862,17 +28245,19 @@ abstract class _TruncationObject extends TruncationObject {
   factory _TruncationObject.fromJson(Map<String, dynamic> json) =
       _$TruncationObjectImpl.fromJson;
 
-  @override
-
   /// The truncation strategy to use for the thread. The default is `auto`. If set to `last_messages`, the thread will be truncated to the n most recent messages in the thread. When set to `auto`, messages in the middle of the thread will be dropped to fit the context length of the model, `max_prompt_tokens`.
-  TruncationObjectType get type;
   @override
+  TruncationObjectType get type;
 
   /// The number of most recent messages from the thread when constructing the context for the run.
+  @override
   @JsonKey(name: 'last_messages', includeIfNull: false)
   int? get lastMessages;
+
+  /// Create a copy of TruncationObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TruncationObjectImplCopyWith<_$TruncationObjectImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -26946,7 +28331,9 @@ mixin _$RunObject {
   /// The list of tools that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
   List<AssistantTools> get tools => throw _privateConstructorUsedError;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
   /// Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.).
@@ -26987,18 +28374,33 @@ mixin _$RunObject {
   @JsonKey(name: 'parallel_tool_calls')
   bool? get parallelToolCalls => throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// since `gpt-4o-mini-1106`.
   ///
-  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+  /// the model will match your supplied JSON schema. Learn more in the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+  /// is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
+  /// system or user message. Without this, the model may generate an unending stream of whitespace until the
+  /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
+  /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
+  /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
   @_RunObjectResponseFormatConverter()
   @JsonKey(name: 'response_format')
   RunObjectResponseFormat get responseFormat =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this RunObject to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunObjectCopyWith<RunObject> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -27062,6 +28464,8 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -27205,6 +28609,8 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
     ) as $Val);
   }
 
+  /// Create a copy of RunObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunRequiredActionCopyWith<$Res>? get requiredAction {
@@ -27217,6 +28623,8 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
     });
   }
 
+  /// Create a copy of RunObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunLastErrorCopyWith<$Res>? get lastError {
@@ -27229,6 +28637,8 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
     });
   }
 
+  /// Create a copy of RunObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunObjectIncompleteDetailsCopyWith<$Res>? get incompleteDetails {
@@ -27242,6 +28652,8 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
     });
   }
 
+  /// Create a copy of RunObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunCompletionUsageCopyWith<$Res>? get usage {
@@ -27254,6 +28666,8 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
     });
   }
 
+  /// Create a copy of RunObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TruncationObjectCopyWith<$Res>? get truncationStrategy {
@@ -27266,6 +28680,8 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
     });
   }
 
+  /// Create a copy of RunObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunObjectToolChoiceCopyWith<$Res>? get toolChoice {
@@ -27278,6 +28694,8 @@ class _$RunObjectCopyWithImpl<$Res, $Val extends RunObject>
     });
   }
 
+  /// Create a copy of RunObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunObjectResponseFormatCopyWith<$Res> get responseFormat {
@@ -27355,6 +28773,8 @@ class __$$RunObjectImplCopyWithImpl<$Res>
       _$RunObjectImpl _value, $Res Function(_$RunObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -27627,10 +29047,14 @@ class _$RunObjectImpl extends _RunObject {
     return EqualUnmodifiableListView(_tools);
   }
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
   Map<String, dynamic>? get metadata {
     final value = _metadata;
@@ -27685,11 +29109,22 @@ class _$RunObjectImpl extends _RunObject {
   @JsonKey(name: 'parallel_tool_calls')
   final bool? parallelToolCalls;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// since `gpt-4o-mini-1106`.
   ///
-  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+  /// the model will match your supplied JSON schema. Learn more in the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+  /// is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
+  /// system or user message. Without this, the model may generate an unending stream of whitespace until the
+  /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
+  /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
+  /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
   @override
   @_RunObjectResponseFormatConverter()
   @JsonKey(name: 'response_format')
@@ -27753,7 +29188,7 @@ class _$RunObjectImpl extends _RunObject {
                 other.responseFormat == responseFormat));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -27786,7 +29221,9 @@ class _$RunObjectImpl extends _RunObject {
         responseFormat
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunObjectImplCopyWith<_$RunObjectImpl> get copyWith =>
@@ -27843,146 +29280,161 @@ abstract class _RunObject extends RunObject {
   factory _RunObject.fromJson(Map<String, dynamic> json) =
       _$RunObjectImpl.fromJson;
 
-  @override
-
   /// The identifier, which can be referenced in API endpoints.
-  String get id;
   @override
+  String get id;
 
   /// The object type, which is always `thread.run`.
-  RunObjectObject get object;
   @override
+  RunObjectObject get object;
 
   /// The Unix timestamp (in seconds) for when the run was created.
+  @override
   @JsonKey(name: 'created_at')
   int get createdAt;
-  @override
 
   /// The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was executed on as a part of this run.
+  @override
   @JsonKey(name: 'thread_id')
   String get threadId;
-  @override
 
   /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for execution of this run.
+  @override
   @JsonKey(name: 'assistant_id')
   String get assistantId;
-  @override
 
   /// The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, `incomplete`, or `expired`.
-  RunStatus get status;
   @override
+  RunStatus get status;
 
   /// Details on the action required to continue the run. Will be `null` if no action is required.
+  @override
   @JsonKey(name: 'required_action')
   RunRequiredAction? get requiredAction;
-  @override
 
   /// The last error associated with this run. Will be `null` if there are no errors.
+  @override
   @JsonKey(name: 'last_error')
   RunLastError? get lastError;
-  @override
 
   /// The Unix timestamp (in seconds) for when the run will expire.
+  @override
   @JsonKey(name: 'expires_at')
   int? get expiresAt;
-  @override
 
   /// The Unix timestamp (in seconds) for when the run was started.
+  @override
   @JsonKey(name: 'started_at')
   int? get startedAt;
-  @override
 
   /// The Unix timestamp (in seconds) for when the run was cancelled.
+  @override
   @JsonKey(name: 'cancelled_at')
   int? get cancelledAt;
-  @override
 
   /// The Unix timestamp (in seconds) for when the run failed.
+  @override
   @JsonKey(name: 'failed_at')
   int? get failedAt;
-  @override
 
   /// The Unix timestamp (in seconds) for when the run was completed.
+  @override
   @JsonKey(name: 'completed_at')
   int? get completedAt;
-  @override
 
   /// Details on why the run is incomplete. Will be `null` if the run is not incomplete.
+  @override
   @JsonKey(name: 'incomplete_details')
   RunObjectIncompleteDetails? get incompleteDetails;
-  @override
 
   /// The model that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
-  String get model;
   @override
+  String get model;
 
   /// The instructions that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
-  String get instructions;
   @override
+  String get instructions;
 
   /// The list of tools that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run.
+  @override
   List<AssistantTools> get tools;
-  @override
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
-  Map<String, dynamic>? get metadata;
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
+  Map<String, dynamic>? get metadata;
 
   /// Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.).
-  RunCompletionUsage? get usage;
   @override
+  RunCompletionUsage? get usage;
 
   /// The sampling temperature used for this run. If not set, defaults to 1.
+  @override
   @JsonKey(includeIfNull: false)
   double? get temperature;
-  @override
 
   /// The nucleus sampling value used for this run. If not set, defaults to 1.
+  @override
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP;
-  @override
 
   /// The maximum number of prompt tokens specified to have been used over the course of the run.
+  @override
   @JsonKey(name: 'max_prompt_tokens')
   int? get maxPromptTokens;
-  @override
 
   /// The maximum number of completion tokens specified to have been used over the course of the run.
+  @override
   @JsonKey(name: 'max_completion_tokens')
   int? get maxCompletionTokens;
-  @override
 
   /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
+  @override
   @JsonKey(name: 'truncation_strategy')
   TruncationObject? get truncationStrategy;
-  @override
 
   /// Controls which (if any) tool is called by the model.
   /// `none` means the model will not call any tools and instead generates a message.
   /// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
   /// `required` means the model must call one or more tools before responding to the user.
   /// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  @override
   @_RunObjectToolChoiceConverter()
   @JsonKey(name: 'tool_choice')
   RunObjectToolChoice? get toolChoice;
-  @override
 
   /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
   /// during tool use.
+  @override
   @JsonKey(name: 'parallel_tool_calls')
   bool? get parallelToolCalls;
-  @override
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// since `gpt-4o-mini-1106`.
   ///
-  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+  /// the model will match your supplied JSON schema. Learn more in the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+  /// is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
+  /// system or user message. Without this, the model may generate an unending stream of whitespace until the
+  /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
+  /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
+  /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @override
   @_RunObjectResponseFormatConverter()
   @JsonKey(name: 'response_format')
   RunObjectResponseFormat get responseFormat;
+
+  /// Create a copy of RunObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunObjectImplCopyWith<_$RunObjectImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -28001,8 +29453,12 @@ mixin _$RunRequiredAction {
   RunSubmitToolOutputs get submitToolOutputs =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this RunRequiredAction to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunRequiredAction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunRequiredActionCopyWith<RunRequiredAction> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -28031,6 +29487,8 @@ class _$RunRequiredActionCopyWithImpl<$Res, $Val extends RunRequiredAction>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunRequiredAction
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -28049,6 +29507,8 @@ class _$RunRequiredActionCopyWithImpl<$Res, $Val extends RunRequiredAction>
     ) as $Val);
   }
 
+  /// Create a copy of RunRequiredAction
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunSubmitToolOutputsCopyWith<$Res> get submitToolOutputs {
@@ -28084,6 +29544,8 @@ class __$$RunRequiredActionImplCopyWithImpl<$Res>
       $Res Function(_$RunRequiredActionImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunRequiredAction
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -28138,11 +29600,13 @@ class _$RunRequiredActionImpl extends _RunRequiredAction {
                 other.submitToolOutputs == submitToolOutputs));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, submitToolOutputs);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunRequiredAction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunRequiredActionImplCopyWith<_$RunRequiredActionImpl> get copyWith =>
@@ -28168,17 +29632,19 @@ abstract class _RunRequiredAction extends RunRequiredAction {
   factory _RunRequiredAction.fromJson(Map<String, dynamic> json) =
       _$RunRequiredActionImpl.fromJson;
 
-  @override
-
   /// For now, this is always `submit_tool_outputs`.
-  RunRequiredActionType get type;
   @override
+  RunRequiredActionType get type;
 
   /// Details on the tool outputs needed for this run to continue.
+  @override
   @JsonKey(name: 'submit_tool_outputs')
   RunSubmitToolOutputs get submitToolOutputs;
+
+  /// Create a copy of RunRequiredAction
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunRequiredActionImplCopyWith<_$RunRequiredActionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -28195,8 +29661,12 @@ mixin _$RunLastError {
   /// A human-readable description of the error.
   String get message => throw _privateConstructorUsedError;
 
+  /// Serializes this RunLastError to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunLastError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunLastErrorCopyWith<RunLastError> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -28220,6 +29690,8 @@ class _$RunLastErrorCopyWithImpl<$Res, $Val extends RunLastError>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunLastError
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -28258,6 +29730,8 @@ class __$$RunLastErrorImplCopyWithImpl<$Res>
       _$RunLastErrorImpl _value, $Res Function(_$RunLastErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunLastError
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -28308,11 +29782,13 @@ class _$RunLastErrorImpl extends _RunLastError {
             (identical(other.message, message) || other.message == message));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, code, message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunLastError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunLastErrorImplCopyWith<_$RunLastErrorImpl> get copyWith =>
@@ -28335,16 +29811,18 @@ abstract class _RunLastError extends RunLastError {
   factory _RunLastError.fromJson(Map<String, dynamic> json) =
       _$RunLastErrorImpl.fromJson;
 
-  @override
-
   /// One of `server_error`, `rate_limit_exceeded`, or `invalid_prompt`.
-  RunLastErrorCode get code;
   @override
+  RunLastErrorCode get code;
 
   /// A human-readable description of the error.
-  String get message;
   @override
-  @JsonKey(ignore: true)
+  String get message;
+
+  /// Create a copy of RunLastError
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunLastErrorImplCopyWith<_$RunLastErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -28362,8 +29840,12 @@ mixin _$RunObjectIncompleteDetails {
   RunObjectIncompleteDetailsReason? get reason =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this RunObjectIncompleteDetails to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunObjectIncompleteDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunObjectIncompleteDetailsCopyWith<RunObjectIncompleteDetails>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -28393,6 +29875,8 @@ class _$RunObjectIncompleteDetailsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunObjectIncompleteDetails
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -28433,6 +29917,8 @@ class __$$RunObjectIncompleteDetailsImplCopyWithImpl<$Res>
       $Res Function(_$RunObjectIncompleteDetailsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunObjectIncompleteDetails
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -28480,11 +29966,13 @@ class _$RunObjectIncompleteDetailsImpl extends _RunObjectIncompleteDetails {
             (identical(other.reason, reason) || other.reason == reason));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, reason);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunObjectIncompleteDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunObjectIncompleteDetailsImplCopyWith<_$RunObjectIncompleteDetailsImpl>
@@ -28511,14 +29999,16 @@ abstract class _RunObjectIncompleteDetails extends RunObjectIncompleteDetails {
   factory _RunObjectIncompleteDetails.fromJson(Map<String, dynamic> json) =
       _$RunObjectIncompleteDetailsImpl.fromJson;
 
-  @override
-
   /// The reason why the run is incomplete. This will point to which specific token limit was reached over the course of the run.
+  @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   RunObjectIncompleteDetailsReason? get reason;
+
+  /// Create a copy of RunObjectIncompleteDetails
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunObjectIncompleteDetailsImplCopyWith<_$RunObjectIncompleteDetailsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -28579,6 +30069,8 @@ mixin _$RunObjectToolChoice {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this RunObjectToolChoice to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -28598,6 +30090,9 @@ class _$RunObjectToolChoiceCopyWithImpl<$Res, $Val extends RunObjectToolChoice>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of RunObjectToolChoice
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -28620,6 +30115,8 @@ class __$$RunObjectToolChoiceEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$RunObjectToolChoiceEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunObjectToolChoice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -28665,11 +30162,13 @@ class _$RunObjectToolChoiceEnumerationImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunObjectToolChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunObjectToolChoiceEnumerationImplCopyWith<
@@ -28760,7 +30259,10 @@ abstract class RunObjectToolChoiceEnumeration extends RunObjectToolChoice {
 
   @override
   RunObjectToolChoiceMode get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunObjectToolChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunObjectToolChoiceEnumerationImplCopyWith<
           _$RunObjectToolChoiceEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -28791,6 +30293,8 @@ class __$$RunObjectToolChoiceAssistantsNamedToolChoiceImplCopyWithImpl<$Res>
       $Res Function(_$RunObjectToolChoiceAssistantsNamedToolChoiceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunObjectToolChoice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -28804,6 +30308,8 @@ class __$$RunObjectToolChoiceAssistantsNamedToolChoiceImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of RunObjectToolChoice
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AssistantsNamedToolChoiceCopyWith<$Res> get value {
@@ -28845,11 +30351,13 @@ class _$RunObjectToolChoiceAssistantsNamedToolChoiceImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunObjectToolChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunObjectToolChoiceAssistantsNamedToolChoiceImplCopyWith<
@@ -28944,7 +30452,10 @@ abstract class RunObjectToolChoiceAssistantsNamedToolChoice
 
   @override
   AssistantsNamedToolChoice get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunObjectToolChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunObjectToolChoiceAssistantsNamedToolChoiceImplCopyWith<
           _$RunObjectToolChoiceAssistantsNamedToolChoiceImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -29012,6 +30523,8 @@ mixin _$RunObjectResponseFormat {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this RunObjectResponseFormat to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -29032,6 +30545,9 @@ class _$RunObjectResponseFormatCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of RunObjectResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -29054,6 +30570,8 @@ class __$$RunObjectResponseFormatEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$RunObjectResponseFormatEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunObjectResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -29100,11 +30618,13 @@ class _$RunObjectResponseFormatEnumerationImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunObjectResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunObjectResponseFormatEnumerationImplCopyWith<
@@ -29199,7 +30719,10 @@ abstract class RunObjectResponseFormatEnumeration
 
   @override
   RunObjectResponseFormatMode get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunObjectResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunObjectResponseFormatEnumerationImplCopyWith<
           _$RunObjectResponseFormatEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -29231,6 +30754,8 @@ class __$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<$Res>
           _then)
       : super(_value, _then);
 
+  /// Create a copy of RunObjectResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -29244,6 +30769,8 @@ class __$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of RunObjectResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AssistantsResponseFormatCopyWith<$Res> get value {
@@ -29285,11 +30812,13 @@ class _$RunObjectResponseFormatAssistantsResponseFormatImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunObjectResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWith<
@@ -29386,7 +30915,10 @@ abstract class RunObjectResponseFormatAssistantsResponseFormat
 
   @override
   AssistantsResponseFormat get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunObjectResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunObjectResponseFormatAssistantsResponseFormatImplCopyWith<
           _$RunObjectResponseFormatAssistantsResponseFormatImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -29402,8 +30934,12 @@ mixin _$RunSubmitToolOutputs {
   @JsonKey(name: 'tool_calls')
   List<RunToolCallObject> get toolCalls => throw _privateConstructorUsedError;
 
+  /// Serializes this RunSubmitToolOutputs to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunSubmitToolOutputs
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunSubmitToolOutputsCopyWith<RunSubmitToolOutputs> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -29428,6 +30964,8 @@ class _$RunSubmitToolOutputsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunSubmitToolOutputs
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -29461,6 +30999,8 @@ class __$$RunSubmitToolOutputsImplCopyWithImpl<$Res>
       $Res Function(_$RunSubmitToolOutputsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunSubmitToolOutputs
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -29513,12 +31053,14 @@ class _$RunSubmitToolOutputsImpl extends _RunSubmitToolOutputs {
                 .equals(other._toolCalls, _toolCalls));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_toolCalls));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunSubmitToolOutputs
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunSubmitToolOutputsImplCopyWith<_$RunSubmitToolOutputsImpl>
@@ -29544,13 +31086,15 @@ abstract class _RunSubmitToolOutputs extends RunSubmitToolOutputs {
   factory _RunSubmitToolOutputs.fromJson(Map<String, dynamic> json) =
       _$RunSubmitToolOutputsImpl.fromJson;
 
-  @override
-
   /// A list of the relevant tool calls.
+  @override
   @JsonKey(name: 'tool_calls')
   List<RunToolCallObject> get toolCalls;
+
+  /// Create a copy of RunSubmitToolOutputs
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunSubmitToolOutputsImplCopyWith<_$RunSubmitToolOutputsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -29573,8 +31117,12 @@ mixin _$RunCompletionUsage {
   @JsonKey(name: 'total_tokens')
   int get totalTokens => throw _privateConstructorUsedError;
 
+  /// Serializes this RunCompletionUsage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunCompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunCompletionUsageCopyWith<RunCompletionUsage> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -29601,6 +31149,8 @@ class _$RunCompletionUsageCopyWithImpl<$Res, $Val extends RunCompletionUsage>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunCompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -29647,6 +31197,8 @@ class __$$RunCompletionUsageImplCopyWithImpl<$Res>
       $Res Function(_$RunCompletionUsageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunCompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -29716,12 +31268,14 @@ class _$RunCompletionUsageImpl extends _RunCompletionUsage {
                 other.totalTokens == totalTokens));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, completionTokens, promptTokens, totalTokens);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunCompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunCompletionUsageImplCopyWith<_$RunCompletionUsageImpl> get copyWith =>
@@ -29747,23 +31301,25 @@ abstract class _RunCompletionUsage extends RunCompletionUsage {
   factory _RunCompletionUsage.fromJson(Map<String, dynamic> json) =
       _$RunCompletionUsageImpl.fromJson;
 
-  @override
-
   /// Number of completion tokens used over the course of the run.
+  @override
   @JsonKey(name: 'completion_tokens')
   int get completionTokens;
-  @override
 
   /// Number of prompt tokens used over the course of the run.
+  @override
   @JsonKey(name: 'prompt_tokens')
   int get promptTokens;
-  @override
 
   /// Total number of tokens used (prompt + completion).
+  @override
   @JsonKey(name: 'total_tokens')
   int get totalTokens;
+
+  /// Create a copy of RunCompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunCompletionUsageImplCopyWith<_$RunCompletionUsageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -29800,15 +31356,20 @@ mixin _$CreateRunRequest {
   @JsonKey(includeIfNull: false)
   List<AssistantTools>? get tools => throw _privateConstructorUsedError;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
-  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
+  /// while lower values like 0.2 will make it more focused and deterministic.
   @JsonKey(includeIfNull: false)
   double? get temperature => throw _privateConstructorUsedError;
 
-  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results
+  /// of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability
+  /// mass are considered.
   ///
   /// We generally recommend altering this or temperature but not both.
   @JsonKey(name: 'top_p', includeIfNull: false)
@@ -29842,11 +31403,22 @@ mixin _$CreateRunRequest {
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
   bool? get parallelToolCalls => throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// since `gpt-4o-mini-1106`.
   ///
-  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+  /// the model will match your supplied JSON schema. Learn more in the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+  /// is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
+  /// system or user message. Without this, the model may generate an unending stream of whitespace until the
+  /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
+  /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
+  /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
   @_CreateRunRequestResponseFormatConverter()
   @JsonKey(name: 'response_format', includeIfNull: false)
   CreateRunRequestResponseFormat? get responseFormat =>
@@ -29856,8 +31428,12 @@ mixin _$CreateRunRequest {
   @JsonKey(includeIfNull: false)
   bool? get stream => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateRunRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateRunRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateRunRequestCopyWith<CreateRunRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -29914,6 +31490,8 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -30002,6 +31580,8 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
     ) as $Val);
   }
 
+  /// Create a copy of CreateRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CreateRunRequestModelCopyWith<$Res>? get model {
@@ -30014,6 +31594,8 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
     });
   }
 
+  /// Create a copy of CreateRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TruncationObjectCopyWith<$Res>? get truncationStrategy {
@@ -30026,6 +31608,8 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
     });
   }
 
+  /// Create a copy of CreateRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CreateRunRequestToolChoiceCopyWith<$Res>? get toolChoice {
@@ -30039,6 +31623,8 @@ class _$CreateRunRequestCopyWithImpl<$Res, $Val extends CreateRunRequest>
     });
   }
 
+  /// Create a copy of CreateRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CreateRunRequestResponseFormatCopyWith<$Res>? get responseFormat {
@@ -30109,6 +31695,8 @@ class __$$CreateRunRequestImplCopyWithImpl<$Res>
       $Res Function(_$CreateRunRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -30288,10 +31876,14 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
     return EqualUnmodifiableListView(value);
   }
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata {
@@ -30302,12 +31894,15 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
     return EqualUnmodifiableMapView(value);
   }
 
-  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
+  /// while lower values like 0.2 will make it more focused and deterministic.
   @override
   @JsonKey(includeIfNull: false)
   final double? temperature;
 
-  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results
+  /// of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability
+  /// mass are considered.
   ///
   /// We generally recommend altering this or temperature but not both.
   @override
@@ -30345,11 +31940,22 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
   final bool? parallelToolCalls;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// since `gpt-4o-mini-1106`.
   ///
-  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+  /// the model will match your supplied JSON schema. Learn more in the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+  /// is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
+  /// system or user message. Without this, the model may generate an unending stream of whitespace until the
+  /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
+  /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
+  /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
   @override
   @_CreateRunRequestResponseFormatConverter()
   @JsonKey(name: 'response_format', includeIfNull: false)
@@ -30399,7 +32005,7 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
             (identical(other.stream, stream) || other.stream == stream));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -30420,7 +32026,9 @@ class _$CreateRunRequestImpl extends _CreateRunRequest {
       responseFormat,
       stream);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateRunRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateRunRequestImplCopyWith<_$CreateRunRequestImpl> get copyWith =>
@@ -30471,102 +32079,120 @@ abstract class _CreateRunRequest extends CreateRunRequest {
   factory _CreateRunRequest.fromJson(Map<String, dynamic> json) =
       _$CreateRunRequestImpl.fromJson;
 
-  @override
-
   /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run.
+  @override
   @JsonKey(name: 'assistant_id')
   String get assistantId;
-  @override
 
   /// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+  @override
   @_CreateRunRequestModelConverter()
   @JsonKey(includeIfNull: false)
   CreateRunRequestModel? get model;
-  @override
 
   /// Overrides the [instructions](https://platform.openai.com/docs/api-reference/assistants/createAssistant) of the assistant. This is useful for modifying the behavior on a per-run basis.
+  @override
   @JsonKey(includeIfNull: false)
   String? get instructions;
-  @override
 
   /// Appends additional instructions at the end of the instructions for the run. This is useful for modifying the behavior on a per-run basis without overriding other instructions.
+  @override
   @JsonKey(name: 'additional_instructions', includeIfNull: false)
   String? get additionalInstructions;
-  @override
 
   /// Adds additional messages to the thread before creating the run.
+  @override
   @JsonKey(name: 'additional_messages', includeIfNull: false)
   List<CreateMessageRequest>? get additionalMessages;
-  @override
 
   /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
+  @override
   @JsonKey(includeIfNull: false)
   List<AssistantTools>? get tools;
-  @override
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
+  @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
-  @override
 
-  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
+  /// while lower values like 0.2 will make it more focused and deterministic.
+  @override
   @JsonKey(includeIfNull: false)
   double? get temperature;
-  @override
 
-  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results
+  /// of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability
+  /// mass are considered.
   ///
   /// We generally recommend altering this or temperature but not both.
+  @override
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP;
-  @override
 
   /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+  @override
   @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
   int? get maxPromptTokens;
-  @override
 
   /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+  @override
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   int? get maxCompletionTokens;
-  @override
 
   /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
+  @override
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   TruncationObject? get truncationStrategy;
-  @override
 
   /// Controls which (if any) tool is called by the model.
   /// `none` means the model will not call any tools and instead generates a message.
   /// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
   /// `required` means the model must call one or more tools before responding to the user.
   /// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  @override
   @_CreateRunRequestToolChoiceConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   CreateRunRequestToolChoice? get toolChoice;
-  @override
 
   /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
   /// during tool use.
+  @override
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
   bool? get parallelToolCalls;
-  @override
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// since `gpt-4o-mini-1106`.
   ///
-  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+  /// the model will match your supplied JSON schema. Learn more in the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+  /// is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
+  /// system or user message. Without this, the model may generate an unending stream of whitespace until the
+  /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
+  /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
+  /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @override
   @_CreateRunRequestResponseFormatConverter()
   @JsonKey(name: 'response_format', includeIfNull: false)
   CreateRunRequestResponseFormat? get responseFormat;
-  @override
 
   /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
+  @override
   @JsonKey(includeIfNull: false)
   bool? get stream;
+
+  /// Create a copy of CreateRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateRunRequestImplCopyWith<_$CreateRunRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -30629,6 +32255,8 @@ mixin _$CreateRunRequestModel {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this CreateRunRequestModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -30649,6 +32277,9 @@ class _$CreateRunRequestModelCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of CreateRunRequestModel
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -30671,6 +32302,8 @@ class __$$CreateRunRequestModelEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$CreateRunRequestModelEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateRunRequestModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -30717,11 +32350,13 @@ class _$CreateRunRequestModelEnumerationImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateRunRequestModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateRunRequestModelEnumerationImplCopyWith<
@@ -30809,7 +32444,10 @@ abstract class CreateRunRequestModelEnumeration extends CreateRunRequestModel {
 
   @override
   RunModels get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateRunRequestModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateRunRequestModelEnumerationImplCopyWith<
           _$CreateRunRequestModelEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -30835,6 +32473,8 @@ class __$$CreateRunRequestModelStringImplCopyWithImpl<$Res>
       $Res Function(_$CreateRunRequestModelStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateRunRequestModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -30879,11 +32519,13 @@ class _$CreateRunRequestModelStringImpl extends CreateRunRequestModelString {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateRunRequestModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateRunRequestModelStringImplCopyWith<_$CreateRunRequestModelStringImpl>
@@ -30970,7 +32612,10 @@ abstract class CreateRunRequestModelString extends CreateRunRequestModel {
 
   @override
   String get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateRunRequestModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateRunRequestModelStringImplCopyWith<_$CreateRunRequestModelStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -31038,6 +32683,8 @@ mixin _$CreateRunRequestToolChoice {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this CreateRunRequestToolChoice to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -31059,6 +32706,9 @@ class _$CreateRunRequestToolChoiceCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of CreateRunRequestToolChoice
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -31081,6 +32731,8 @@ class __$$CreateRunRequestToolChoiceEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$CreateRunRequestToolChoiceEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateRunRequestToolChoice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -31127,11 +32779,13 @@ class _$CreateRunRequestToolChoiceEnumerationImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateRunRequestToolChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateRunRequestToolChoiceEnumerationImplCopyWith<
@@ -31227,7 +32881,10 @@ abstract class CreateRunRequestToolChoiceEnumeration
 
   @override
   CreateRunRequestToolChoiceMode get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateRunRequestToolChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateRunRequestToolChoiceEnumerationImplCopyWith<
           _$CreateRunRequestToolChoiceEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -31263,6 +32920,8 @@ class __$$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWithImpl<
           _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateRunRequestToolChoice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -31276,6 +32935,8 @@ class __$$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWithImpl<
     ));
   }
 
+  /// Create a copy of CreateRunRequestToolChoice
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AssistantsNamedToolChoiceCopyWith<$Res> get value {
@@ -31318,11 +32979,13 @@ class _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateRunRequestToolChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWith<
@@ -31420,7 +33083,10 @@ abstract class CreateRunRequestToolChoiceAssistantsNamedToolChoice
 
   @override
   AssistantsNamedToolChoice get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateRunRequestToolChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWith<
           _$CreateRunRequestToolChoiceAssistantsNamedToolChoiceImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -31492,6 +33158,8 @@ mixin _$CreateRunRequestResponseFormat {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this CreateRunRequestResponseFormat to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -31514,6 +33182,9 @@ class _$CreateRunRequestResponseFormatCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of CreateRunRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -31536,6 +33207,8 @@ class __$$CreateRunRequestResponseFormatEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$CreateRunRequestResponseFormatEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateRunRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -31582,11 +33255,13 @@ class _$CreateRunRequestResponseFormatEnumerationImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateRunRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateRunRequestResponseFormatEnumerationImplCopyWith<
@@ -31686,7 +33361,10 @@ abstract class CreateRunRequestResponseFormatEnumeration
 
   @override
   CreateRunRequestResponseFormatMode get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateRunRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateRunRequestResponseFormatEnumerationImplCopyWith<
           _$CreateRunRequestResponseFormatEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -31723,6 +33401,8 @@ class __$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl
           _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateRunRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -31736,6 +33416,8 @@ class __$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWithImpl
     ));
   }
 
+  /// Create a copy of CreateRunRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AssistantsResponseFormatCopyWith<$Res> get value {
@@ -31779,11 +33461,13 @@ class _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateRunRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
@@ -31883,7 +33567,10 @@ abstract class CreateRunRequestResponseFormatAssistantsResponseFormat
 
   @override
   AssistantsResponseFormat get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateRunRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
           _$CreateRunRequestResponseFormatAssistantsResponseFormatImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -31913,8 +33600,12 @@ mixin _$ListRunsResponse {
   @JsonKey(name: 'has_more')
   bool get hasMore => throw _privateConstructorUsedError;
 
+  /// Serializes this ListRunsResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ListRunsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ListRunsResponseCopyWith<ListRunsResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -31943,6 +33634,8 @@ class _$ListRunsResponseCopyWithImpl<$Res, $Val extends ListRunsResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ListRunsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -32001,6 +33694,8 @@ class __$$ListRunsResponseImplCopyWithImpl<$Res>
       $Res Function(_$ListRunsResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ListRunsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -32097,12 +33792,14 @@ class _$ListRunsResponseImpl extends _ListRunsResponse {
             (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, object,
       const DeepCollectionEquality().hash(_data), firstId, lastId, hasMore);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ListRunsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListRunsResponseImplCopyWith<_$ListRunsResponseImpl> get copyWith =>
@@ -32130,31 +33827,33 @@ abstract class _ListRunsResponse extends ListRunsResponse {
   factory _ListRunsResponse.fromJson(Map<String, dynamic> json) =
       _$ListRunsResponseImpl.fromJson;
 
-  @override
-
   /// The object type, which is always `list`.
-  String get object;
   @override
+  String get object;
 
   /// The list of runs.
-  List<RunObject> get data;
   @override
+  List<RunObject> get data;
 
   /// The ID of the first run in the list.
+  @override
   @JsonKey(name: 'first_id')
   String get firstId;
-  @override
 
   /// The ID of the last run in the list.
+  @override
   @JsonKey(name: 'last_id')
   String get lastId;
-  @override
 
   /// Whether there are more runs to retrieve.
+  @override
   @JsonKey(name: 'has_more')
   bool get hasMore;
+
+  /// Create a copy of ListRunsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListRunsResponseImplCopyWith<_$ListRunsResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -32165,12 +33864,18 @@ ModifyRunRequest _$ModifyRunRequestFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ModifyRunRequest {
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
+  /// Serializes this ModifyRunRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ModifyRunRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ModifyRunRequestCopyWith<ModifyRunRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -32194,6 +33899,8 @@ class _$ModifyRunRequestCopyWithImpl<$Res, $Val extends ModifyRunRequest>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ModifyRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -32227,6 +33934,8 @@ class __$$ModifyRunRequestImplCopyWithImpl<$Res>
       $Res Function(_$ModifyRunRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ModifyRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -32252,10 +33961,14 @@ class _$ModifyRunRequestImpl extends _ModifyRunRequest {
   factory _$ModifyRunRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$ModifyRunRequestImplFromJson(json);
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata {
@@ -32279,12 +33992,14 @@ class _$ModifyRunRequestImpl extends _ModifyRunRequest {
             const DeepCollectionEquality().equals(other._metadata, _metadata));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_metadata));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ModifyRunRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ModifyRunRequestImplCopyWith<_$ModifyRunRequestImpl> get copyWith =>
@@ -32308,13 +34023,17 @@ abstract class _ModifyRunRequest extends ModifyRunRequest {
   factory _ModifyRunRequest.fromJson(Map<String, dynamic> json) =
       _$ModifyRunRequestImpl.fromJson;
 
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
-
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
+
+  /// Create a copy of ModifyRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ModifyRunRequestImplCopyWith<_$ModifyRunRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -32335,8 +34054,12 @@ mixin _$SubmitToolOutputsRunRequest {
   @JsonKey(includeIfNull: false)
   bool? get stream => throw _privateConstructorUsedError;
 
+  /// Serializes this SubmitToolOutputsRunRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SubmitToolOutputsRunRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SubmitToolOutputsRunRequestCopyWith<SubmitToolOutputsRunRequest>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -32365,6 +34088,8 @@ class _$SubmitToolOutputsRunRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SubmitToolOutputsRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -32408,6 +34133,8 @@ class __$$SubmitToolOutputsRunRequestImplCopyWithImpl<$Res>
       $Res Function(_$SubmitToolOutputsRunRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SubmitToolOutputsRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -32473,12 +34200,14 @@ class _$SubmitToolOutputsRunRequestImpl extends _SubmitToolOutputsRunRequest {
             (identical(other.stream, stream) || other.stream == stream));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_toolOutputs), stream);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SubmitToolOutputsRunRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SubmitToolOutputsRunRequestImplCopyWith<_$SubmitToolOutputsRunRequestImpl>
@@ -32505,18 +34234,20 @@ abstract class _SubmitToolOutputsRunRequest
   factory _SubmitToolOutputsRunRequest.fromJson(Map<String, dynamic> json) =
       _$SubmitToolOutputsRunRequestImpl.fromJson;
 
-  @override
-
   /// A list of tools for which the outputs are being submitted.
+  @override
   @JsonKey(name: 'tool_outputs')
   List<RunSubmitToolOutput> get toolOutputs;
-  @override
 
   /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
+  @override
   @JsonKey(includeIfNull: false)
   bool? get stream;
+
+  /// Create a copy of SubmitToolOutputsRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SubmitToolOutputsRunRequestImplCopyWith<_$SubmitToolOutputsRunRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -32535,8 +34266,12 @@ mixin _$RunSubmitToolOutput {
   @JsonKey(includeIfNull: false)
   String? get output => throw _privateConstructorUsedError;
 
+  /// Serializes this RunSubmitToolOutput to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunSubmitToolOutput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunSubmitToolOutputCopyWith<RunSubmitToolOutput> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -32562,6 +34297,8 @@ class _$RunSubmitToolOutputCopyWithImpl<$Res, $Val extends RunSubmitToolOutput>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunSubmitToolOutput
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -32602,6 +34339,8 @@ class __$$RunSubmitToolOutputImplCopyWithImpl<$Res>
       $Res Function(_$RunSubmitToolOutputImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunSubmitToolOutput
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -32657,11 +34396,13 @@ class _$RunSubmitToolOutputImpl extends _RunSubmitToolOutput {
             (identical(other.output, output) || other.output == output));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, toolCallId, output);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunSubmitToolOutput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunSubmitToolOutputImplCopyWith<_$RunSubmitToolOutputImpl> get copyWith =>
@@ -32687,18 +34428,20 @@ abstract class _RunSubmitToolOutput extends RunSubmitToolOutput {
   factory _RunSubmitToolOutput.fromJson(Map<String, dynamic> json) =
       _$RunSubmitToolOutputImpl.fromJson;
 
-  @override
-
   /// The ID of the tool call in the `required_action` object within the run object the output is being submitted for.
+  @override
   @JsonKey(name: 'tool_call_id', includeIfNull: false)
   String? get toolCallId;
-  @override
 
   /// The output of the tool call to be submitted to continue the run.
+  @override
   @JsonKey(includeIfNull: false)
   String? get output;
+
+  /// Create a copy of RunSubmitToolOutput
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunSubmitToolOutputImplCopyWith<_$RunSubmitToolOutputImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -32718,8 +34461,12 @@ mixin _$RunToolCallObject {
   /// The function definition.
   RunToolCallFunction get function => throw _privateConstructorUsedError;
 
+  /// Serializes this RunToolCallObject to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunToolCallObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunToolCallObjectCopyWith<RunToolCallObject> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -32746,6 +34493,8 @@ class _$RunToolCallObjectCopyWithImpl<$Res, $Val extends RunToolCallObject>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunToolCallObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -32769,6 +34518,8 @@ class _$RunToolCallObjectCopyWithImpl<$Res, $Val extends RunToolCallObject>
     ) as $Val);
   }
 
+  /// Create a copy of RunToolCallObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunToolCallFunctionCopyWith<$Res> get function {
@@ -32801,6 +34552,8 @@ class __$$RunToolCallObjectImplCopyWithImpl<$Res>
       $Res Function(_$RunToolCallObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunToolCallObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -32863,11 +34616,13 @@ class _$RunToolCallObjectImpl extends _RunToolCallObject {
                 other.function == function));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, type, function);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunToolCallObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunToolCallObjectImplCopyWith<_$RunToolCallObjectImpl> get copyWith =>
@@ -32892,20 +34647,22 @@ abstract class _RunToolCallObject extends RunToolCallObject {
   factory _RunToolCallObject.fromJson(Map<String, dynamic> json) =
       _$RunToolCallObjectImpl.fromJson;
 
-  @override
-
   /// The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://platform.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint.
-  String get id;
   @override
+  String get id;
 
   /// The type of tool call the output is required for. For now, this is always `function`.
-  RunToolCallObjectType get type;
   @override
+  RunToolCallObjectType get type;
 
   /// The function definition.
-  RunToolCallFunction get function;
   @override
-  @JsonKey(ignore: true)
+  RunToolCallFunction get function;
+
+  /// Create a copy of RunToolCallObject
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunToolCallObjectImplCopyWith<_$RunToolCallObjectImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -32922,8 +34679,12 @@ mixin _$RunToolCallFunction {
   /// The arguments that the model expects you to pass to the function.
   String get arguments => throw _privateConstructorUsedError;
 
+  /// Serializes this RunToolCallFunction to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunToolCallFunction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunToolCallFunctionCopyWith<RunToolCallFunction> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -32947,6 +34708,8 @@ class _$RunToolCallFunctionCopyWithImpl<$Res, $Val extends RunToolCallFunction>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunToolCallFunction
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -32985,6 +34748,8 @@ class __$$RunToolCallFunctionImplCopyWithImpl<$Res>
       $Res Function(_$RunToolCallFunctionImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunToolCallFunction
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -33036,11 +34801,13 @@ class _$RunToolCallFunctionImpl extends _RunToolCallFunction {
                 other.arguments == arguments));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, arguments);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunToolCallFunction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunToolCallFunctionImplCopyWith<_$RunToolCallFunctionImpl> get copyWith =>
@@ -33064,16 +34831,18 @@ abstract class _RunToolCallFunction extends RunToolCallFunction {
   factory _RunToolCallFunction.fromJson(Map<String, dynamic> json) =
       _$RunToolCallFunctionImpl.fromJson;
 
-  @override
-
   /// The name of the function.
-  String get name;
   @override
+  String get name;
 
   /// The arguments that the model expects you to pass to the function.
-  String get arguments;
   @override
-  @JsonKey(ignore: true)
+  String get arguments;
+
+  /// Create a copy of RunToolCallFunction
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunToolCallFunctionImplCopyWith<_$RunToolCallFunctionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -33110,15 +34879,20 @@ mixin _$CreateThreadAndRunRequest {
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources => throw _privateConstructorUsedError;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
-  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
+  /// while lower values like 0.2 will make it more focused and deterministic.
   @JsonKey(includeIfNull: false)
   double? get temperature => throw _privateConstructorUsedError;
 
-  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results
+  /// of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability
+  /// mass are considered.
   ///
   /// We generally recommend altering this or temperature but not both.
   @JsonKey(name: 'top_p', includeIfNull: false)
@@ -33152,11 +34926,22 @@ mixin _$CreateThreadAndRunRequest {
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
   bool? get parallelToolCalls => throw _privateConstructorUsedError;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// since `gpt-4o-mini-1106`.
   ///
-  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+  /// the model will match your supplied JSON schema. Learn more in the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+  /// is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
+  /// system or user message. Without this, the model may generate an unending stream of whitespace until the
+  /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
+  /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
+  /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
   @_CreateThreadAndRunRequestResponseFormatConverter()
   @JsonKey(name: 'response_format', includeIfNull: false)
   CreateThreadAndRunRequestResponseFormat? get responseFormat =>
@@ -33166,8 +34951,12 @@ mixin _$CreateThreadAndRunRequest {
   @JsonKey(includeIfNull: false)
   bool? get stream => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateThreadAndRunRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateThreadAndRunRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateThreadAndRunRequestCopyWith<CreateThreadAndRunRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -33226,6 +35015,8 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateThreadAndRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -33314,6 +35105,8 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of CreateThreadAndRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CreateThreadRequestCopyWith<$Res>? get thread {
@@ -33326,6 +35119,8 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of CreateThreadAndRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ThreadAndRunModelCopyWith<$Res>? get model {
@@ -33338,6 +35133,8 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of CreateThreadAndRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ToolResourcesCopyWith<$Res>? get toolResources {
@@ -33350,6 +35147,8 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of CreateThreadAndRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TruncationObjectCopyWith<$Res>? get truncationStrategy {
@@ -33362,6 +35161,8 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of CreateThreadAndRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CreateThreadAndRunRequestToolChoiceCopyWith<$Res>? get toolChoice {
@@ -33375,6 +35176,8 @@ class _$CreateThreadAndRunRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of CreateThreadAndRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CreateThreadAndRunRequestResponseFormatCopyWith<$Res>? get responseFormat {
@@ -33451,6 +35254,8 @@ class __$$CreateThreadAndRunRequestImplCopyWithImpl<$Res>
       $Res Function(_$CreateThreadAndRunRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateThreadAndRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -33615,10 +35420,14 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   final ToolResources? toolResources;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata {
@@ -33629,12 +35438,15 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
     return EqualUnmodifiableMapView(value);
   }
 
-  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
+  /// while lower values like 0.2 will make it more focused and deterministic.
   @override
   @JsonKey(includeIfNull: false)
   final double? temperature;
 
-  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results
+  /// of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability
+  /// mass are considered.
   ///
   /// We generally recommend altering this or temperature but not both.
   @override
@@ -33672,11 +35484,22 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
   final bool? parallelToolCalls;
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// since `gpt-4o-mini-1106`.
   ///
-  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+  /// the model will match your supplied JSON schema. Learn more in the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+  /// is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
+  /// system or user message. Without this, the model may generate an unending stream of whitespace until the
+  /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
+  /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
+  /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
   @override
   @_CreateThreadAndRunRequestResponseFormatConverter()
   @JsonKey(name: 'response_format', includeIfNull: false)
@@ -33725,7 +35548,7 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
             (identical(other.stream, stream) || other.stream == stream));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -33746,7 +35569,9 @@ class _$CreateThreadAndRunRequestImpl extends _CreateThreadAndRunRequest {
       responseFormat,
       stream);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateThreadAndRunRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateThreadAndRunRequestImplCopyWith<_$CreateThreadAndRunRequestImpl>
@@ -33796,102 +35621,120 @@ abstract class _CreateThreadAndRunRequest extends CreateThreadAndRunRequest {
   factory _CreateThreadAndRunRequest.fromJson(Map<String, dynamic> json) =
       _$CreateThreadAndRunRequestImpl.fromJson;
 
-  @override
-
   /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run.
+  @override
   @JsonKey(name: 'assistant_id')
   String get assistantId;
-  @override
 
   /// If no thread is provided, an empty thread will be created.
+  @override
   @JsonKey(includeIfNull: false)
   CreateThreadRequest? get thread;
-  @override
 
   /// The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+  @override
   @_ThreadAndRunModelConverter()
   @JsonKey(includeIfNull: false)
   ThreadAndRunModel? get model;
-  @override
 
   /// Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis.
+  @override
   @JsonKey(includeIfNull: false)
   String? get instructions;
-  @override
 
   /// Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis.
+  @override
   @JsonKey(includeIfNull: false)
   List<AssistantTools>? get tools;
-  @override
 
   /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @override
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources;
-  @override
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
+  @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
-  @override
 
-  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
+  /// while lower values like 0.2 will make it more focused and deterministic.
+  @override
   @JsonKey(includeIfNull: false)
   double? get temperature;
-  @override
 
-  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+  /// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results
+  /// of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability
+  /// mass are considered.
   ///
   /// We generally recommend altering this or temperature but not both.
+  @override
   @JsonKey(name: 'top_p', includeIfNull: false)
   double? get topP;
-  @override
 
   /// The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+  @override
   @JsonKey(name: 'max_prompt_tokens', includeIfNull: false)
   int? get maxPromptTokens;
-  @override
 
   /// The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.
+  @override
   @JsonKey(name: 'max_completion_tokens', includeIfNull: false)
   int? get maxCompletionTokens;
-  @override
 
   /// Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run.
+  @override
   @JsonKey(name: 'truncation_strategy', includeIfNull: false)
   TruncationObject? get truncationStrategy;
-  @override
 
   /// Controls which (if any) tool is called by the model.
   /// `none` means the model will not call any tools and instead generates a message.
   /// `auto` is the default value and means the model can pick between generating a message or calling one or more tools.
   /// `required` means the model must call one or more tools before responding to the user.
   /// Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
+  @override
   @_CreateThreadAndRunRequestToolChoiceConverter()
   @JsonKey(name: 'tool_choice', includeIfNull: false)
   CreateThreadAndRunRequestToolChoice? get toolChoice;
-  @override
 
   /// Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling)
   /// during tool use.
+  @override
   @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
   bool? get parallelToolCalls;
-  @override
 
-  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
+  /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+  /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
+  /// since `gpt-4o-mini-1106`.
   ///
-  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
+  /// the model will match your supplied JSON schema. Learn more in the
+  /// [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
   ///
-  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  /// Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates
+  /// is valid JSON.
+  ///
+  /// **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a
+  /// system or user message. Without this, the model may generate an unending stream of whitespace until the
+  /// generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note
+  /// that the message content may be partially cut off if `finish_reason="length"`, which indicates the
+  /// generation exceeded `max_tokens` or the conversation exceeded the max context length.
+  @override
   @_CreateThreadAndRunRequestResponseFormatConverter()
   @JsonKey(name: 'response_format', includeIfNull: false)
   CreateThreadAndRunRequestResponseFormat? get responseFormat;
-  @override
 
   /// If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
+  @override
   @JsonKey(includeIfNull: false)
   bool? get stream;
+
+  /// Create a copy of CreateThreadAndRunRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateThreadAndRunRequestImplCopyWith<_$CreateThreadAndRunRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -33950,6 +35793,8 @@ mixin _$ThreadAndRunModel {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this ThreadAndRunModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -33969,6 +35814,9 @@ class _$ThreadAndRunModelCopyWithImpl<$Res, $Val extends ThreadAndRunModel>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ThreadAndRunModel
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -33991,6 +35839,8 @@ class __$$ThreadAndRunModelEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$ThreadAndRunModelEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ThreadAndRunModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -34035,11 +35885,13 @@ class _$ThreadAndRunModelEnumerationImpl extends ThreadAndRunModelEnumeration {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ThreadAndRunModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ThreadAndRunModelEnumerationImplCopyWith<
@@ -34127,7 +35979,10 @@ abstract class ThreadAndRunModelEnumeration extends ThreadAndRunModel {
 
   @override
   ThreadAndRunModels get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ThreadAndRunModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ThreadAndRunModelEnumerationImplCopyWith<
           _$ThreadAndRunModelEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -34152,6 +36007,8 @@ class __$$ThreadAndRunModelStringImplCopyWithImpl<$Res>
       $Res Function(_$ThreadAndRunModelStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ThreadAndRunModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -34195,11 +36052,13 @@ class _$ThreadAndRunModelStringImpl extends ThreadAndRunModelString {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ThreadAndRunModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ThreadAndRunModelStringImplCopyWith<_$ThreadAndRunModelStringImpl>
@@ -34286,7 +36145,10 @@ abstract class ThreadAndRunModelString extends ThreadAndRunModel {
 
   @override
   String get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ThreadAndRunModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ThreadAndRunModelStringImplCopyWith<_$ThreadAndRunModelStringImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -34361,6 +36223,8 @@ mixin _$CreateThreadAndRunRequestToolChoice {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this CreateThreadAndRunRequestToolChoice to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -34383,6 +36247,9 @@ class _$CreateThreadAndRunRequestToolChoiceCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of CreateThreadAndRunRequestToolChoice
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -34408,6 +36275,8 @@ class __$$CreateThreadAndRunRequestToolChoiceEnumerationImplCopyWithImpl<$Res>
       $Res Function(_$CreateThreadAndRunRequestToolChoiceEnumerationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateThreadAndRunRequestToolChoice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -34454,11 +36323,13 @@ class _$CreateThreadAndRunRequestToolChoiceEnumerationImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateThreadAndRunRequestToolChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateThreadAndRunRequestToolChoiceEnumerationImplCopyWith<
@@ -34562,7 +36433,10 @@ abstract class CreateThreadAndRunRequestToolChoiceEnumeration
 
   @override
   CreateThreadAndRunRequestToolChoiceMode get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateThreadAndRunRequestToolChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateThreadAndRunRequestToolChoiceEnumerationImplCopyWith<
           _$CreateThreadAndRunRequestToolChoiceEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -34599,6 +36473,8 @@ class __$$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWi
           _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateThreadAndRunRequestToolChoice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -34613,6 +36489,8 @@ class __$$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWi
     ));
   }
 
+  /// Create a copy of CreateThreadAndRunRequestToolChoice
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AssistantsNamedToolChoiceCopyWith<$Res> get value {
@@ -34657,11 +36535,13 @@ class _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateThreadAndRunRequestToolChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWith<
@@ -34767,7 +36647,10 @@ abstract class CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoice
 
   @override
   AssistantsNamedToolChoice get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateThreadAndRunRequestToolChoice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImplCopyWith<
           _$CreateThreadAndRunRequestToolChoiceAssistantsNamedToolChoiceImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -34847,6 +36730,8 @@ mixin _$CreateThreadAndRunRequestResponseFormat {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this CreateThreadAndRunRequestResponseFormat to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -34870,6 +36755,9 @@ class _$CreateThreadAndRunRequestResponseFormatCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of CreateThreadAndRunRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -34900,6 +36788,8 @@ class __$$CreateThreadAndRunRequestResponseFormatEnumerationImplCopyWithImpl<
           _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateThreadAndRunRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -34946,11 +36836,13 @@ class _$CreateThreadAndRunRequestResponseFormatEnumerationImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateThreadAndRunRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateThreadAndRunRequestResponseFormatEnumerationImplCopyWith<
@@ -35057,7 +36949,10 @@ abstract class CreateThreadAndRunRequestResponseFormatEnumeration
 
   @override
   CreateThreadAndRunRequestResponseFormatMode get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateThreadAndRunRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateThreadAndRunRequestResponseFormatEnumerationImplCopyWith<
           _$CreateThreadAndRunRequestResponseFormatEnumerationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -35096,6 +36991,8 @@ class __$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCop
           _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateThreadAndRunRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -35110,6 +37007,8 @@ class __$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCop
     ));
   }
 
+  /// Create a copy of CreateThreadAndRunRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AssistantsResponseFormatCopyWith<$Res> get value {
@@ -35154,11 +37053,13 @@ class _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateThreadAndRunRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
@@ -35267,7 +37168,10 @@ abstract class CreateThreadAndRunRequestResponseFormatAssistantsResponseFormat
 
   @override
   AssistantsResponseFormat get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateThreadAndRunRequestResponseFormat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImplCopyWith<
           _$CreateThreadAndRunRequestResponseFormatAssistantsResponseFormatImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -35293,11 +37197,17 @@ mixin _$ThreadObject {
   @JsonKey(name: 'tool_resources')
   ToolResources? get toolResources => throw _privateConstructorUsedError;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
+  /// Serializes this ThreadObject to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ThreadObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ThreadObjectCopyWith<ThreadObject> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -35328,6 +37238,8 @@ class _$ThreadObjectCopyWithImpl<$Res, $Val extends ThreadObject>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ThreadObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -35361,6 +37273,8 @@ class _$ThreadObjectCopyWithImpl<$Res, $Val extends ThreadObject>
     ) as $Val);
   }
 
+  /// Create a copy of ThreadObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ToolResourcesCopyWith<$Res>? get toolResources {
@@ -35401,6 +37315,8 @@ class __$$ThreadObjectImplCopyWithImpl<$Res>
       _$ThreadObjectImpl _value, $Res Function(_$ThreadObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ThreadObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -35468,10 +37384,14 @@ class _$ThreadObjectImpl extends _ThreadObject {
   @JsonKey(name: 'tool_resources')
   final ToolResources? toolResources;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
   Map<String, dynamic>? get metadata {
     final value = _metadata;
@@ -35500,12 +37420,14 @@ class _$ThreadObjectImpl extends _ThreadObject {
             const DeepCollectionEquality().equals(other._metadata, _metadata));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, object, createdAt,
       toolResources, const DeepCollectionEquality().hash(_metadata));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ThreadObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ThreadObjectImplCopyWith<_$ThreadObjectImpl> get copyWith =>
@@ -35532,30 +37454,34 @@ abstract class _ThreadObject extends ThreadObject {
   factory _ThreadObject.fromJson(Map<String, dynamic> json) =
       _$ThreadObjectImpl.fromJson;
 
-  @override
-
   /// The identifier, which can be referenced in API endpoints.
-  String get id;
   @override
+  String get id;
 
   /// The object type, which is always `thread`.
-  ThreadObjectObject get object;
   @override
+  ThreadObjectObject get object;
 
   /// The Unix timestamp (in seconds) for when the thread was created.
+  @override
   @JsonKey(name: 'created_at')
   int get createdAt;
-  @override
 
   /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @override
   @JsonKey(name: 'tool_resources')
   ToolResources? get toolResources;
-  @override
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
-  Map<String, dynamic>? get metadata;
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
-  @JsonKey(ignore: true)
+  Map<String, dynamic>? get metadata;
+
+  /// Create a copy of ThreadObject
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ThreadObjectImplCopyWith<_$ThreadObjectImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -35575,12 +37501,18 @@ mixin _$CreateThreadRequest {
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources => throw _privateConstructorUsedError;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateThreadRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateThreadRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateThreadRequestCopyWith<CreateThreadRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -35610,6 +37542,8 @@ class _$CreateThreadRequestCopyWithImpl<$Res, $Val extends CreateThreadRequest>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateThreadRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -35633,6 +37567,8 @@ class _$CreateThreadRequestCopyWithImpl<$Res, $Val extends CreateThreadRequest>
     ) as $Val);
   }
 
+  /// Create a copy of CreateThreadRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ToolResourcesCopyWith<$Res>? get toolResources {
@@ -35672,6 +37608,8 @@ class __$$CreateThreadRequestImplCopyWithImpl<$Res>
       $Res Function(_$CreateThreadRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateThreadRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -35730,10 +37668,14 @@ class _$CreateThreadRequestImpl extends _CreateThreadRequest {
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   final ToolResources? toolResources;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata {
@@ -35760,7 +37702,7 @@ class _$CreateThreadRequestImpl extends _CreateThreadRequest {
             const DeepCollectionEquality().equals(other._metadata, _metadata));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -35768,7 +37710,9 @@ class _$CreateThreadRequestImpl extends _CreateThreadRequest {
       toolResources,
       const DeepCollectionEquality().hash(_metadata));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateThreadRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateThreadRequestImplCopyWith<_$CreateThreadRequestImpl> get copyWith =>
@@ -35796,23 +37740,27 @@ abstract class _CreateThreadRequest extends CreateThreadRequest {
   factory _CreateThreadRequest.fromJson(Map<String, dynamic> json) =
       _$CreateThreadRequestImpl.fromJson;
 
-  @override
-
   /// A list of [messages](https://platform.openai.com/docs/api-reference/messages) to start the thread with.
+  @override
   @JsonKey(includeIfNull: false)
   List<CreateMessageRequest>? get messages;
-  @override
 
   /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @override
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources;
-  @override
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
+  @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
+
+  /// Create a copy of CreateThreadRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateThreadRequestImplCopyWith<_$CreateThreadRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -35827,12 +37775,18 @@ mixin _$ModifyThreadRequest {
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources => throw _privateConstructorUsedError;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
+  /// Serializes this ModifyThreadRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ModifyThreadRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ModifyThreadRequestCopyWith<ModifyThreadRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -35861,6 +37815,8 @@ class _$ModifyThreadRequestCopyWithImpl<$Res, $Val extends ModifyThreadRequest>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ModifyThreadRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -35879,6 +37835,8 @@ class _$ModifyThreadRequestCopyWithImpl<$Res, $Val extends ModifyThreadRequest>
     ) as $Val);
   }
 
+  /// Create a copy of ModifyThreadRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ToolResourcesCopyWith<$Res>? get toolResources {
@@ -35917,6 +37875,8 @@ class __$$ModifyThreadRequestImplCopyWithImpl<$Res>
       $Res Function(_$ModifyThreadRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ModifyThreadRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -35954,10 +37914,14 @@ class _$ModifyThreadRequestImpl extends _ModifyThreadRequest {
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   final ToolResources? toolResources;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata {
@@ -35983,12 +37947,14 @@ class _$ModifyThreadRequestImpl extends _ModifyThreadRequest {
             const DeepCollectionEquality().equals(other._metadata, _metadata));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, toolResources,
       const DeepCollectionEquality().hash(_metadata));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ModifyThreadRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ModifyThreadRequestImplCopyWith<_$ModifyThreadRequestImpl> get copyWith =>
@@ -36014,18 +37980,22 @@ abstract class _ModifyThreadRequest extends ModifyThreadRequest {
   factory _ModifyThreadRequest.fromJson(Map<String, dynamic> json) =
       _$ModifyThreadRequestImpl.fromJson;
 
-  @override
-
   /// A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  @override
   @JsonKey(name: 'tool_resources', includeIfNull: false)
   ToolResources? get toolResources;
-  @override
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
+  @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
+
+  /// Create a copy of ModifyThreadRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ModifyThreadRequestImplCopyWith<_$ModifyThreadRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -36045,8 +38015,12 @@ mixin _$ToolResources {
   @JsonKey(name: 'file_search', includeIfNull: false)
   ToolResourcesFileSearch? get fileSearch => throw _privateConstructorUsedError;
 
+  /// Serializes this ToolResources to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ToolResources
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ToolResourcesCopyWith<ToolResources> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -36077,6 +38051,8 @@ class _$ToolResourcesCopyWithImpl<$Res, $Val extends ToolResources>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ToolResources
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -36095,6 +38071,8 @@ class _$ToolResourcesCopyWithImpl<$Res, $Val extends ToolResources>
     ) as $Val);
   }
 
+  /// Create a copy of ToolResources
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ToolResourcesCodeInterpreterCopyWith<$Res>? get codeInterpreter {
@@ -36108,6 +38086,8 @@ class _$ToolResourcesCopyWithImpl<$Res, $Val extends ToolResources>
     });
   }
 
+  /// Create a copy of ToolResources
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ToolResourcesFileSearchCopyWith<$Res>? get fileSearch {
@@ -36149,6 +38129,8 @@ class __$$ToolResourcesImplCopyWithImpl<$Res>
       _$ToolResourcesImpl _value, $Res Function(_$ToolResourcesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ToolResources
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -36206,11 +38188,13 @@ class _$ToolResourcesImpl extends _ToolResources {
                 other.fileSearch == fileSearch));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, codeInterpreter, fileSearch);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ToolResources
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ToolResourcesImplCopyWith<_$ToolResourcesImpl> get copyWith =>
@@ -36235,18 +38219,20 @@ abstract class _ToolResources extends ToolResources {
   factory _ToolResources.fromJson(Map<String, dynamic> json) =
       _$ToolResourcesImpl.fromJson;
 
-  @override
-
   /// No Description
+  @override
   @JsonKey(name: 'code_interpreter', includeIfNull: false)
   ToolResourcesCodeInterpreter? get codeInterpreter;
-  @override
 
   /// No Description
+  @override
   @JsonKey(name: 'file_search', includeIfNull: false)
   ToolResourcesFileSearch? get fileSearch;
+
+  /// Create a copy of ToolResources
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ToolResourcesImplCopyWith<_$ToolResourcesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -36262,8 +38248,12 @@ mixin _$ToolResourcesCodeInterpreter {
   @JsonKey(name: 'file_ids')
   List<String> get fileIds => throw _privateConstructorUsedError;
 
+  /// Serializes this ToolResourcesCodeInterpreter to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ToolResourcesCodeInterpreter
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ToolResourcesCodeInterpreterCopyWith<ToolResourcesCodeInterpreter>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -36290,6 +38280,8 @@ class _$ToolResourcesCodeInterpreterCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ToolResourcesCodeInterpreter
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -36326,6 +38318,8 @@ class __$$ToolResourcesCodeInterpreterImplCopyWithImpl<$Res>
       $Res Function(_$ToolResourcesCodeInterpreterImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ToolResourcesCodeInterpreter
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -36377,12 +38371,14 @@ class _$ToolResourcesCodeInterpreterImpl extends _ToolResourcesCodeInterpreter {
             const DeepCollectionEquality().equals(other._fileIds, _fileIds));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_fileIds));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ToolResourcesCodeInterpreter
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ToolResourcesCodeInterpreterImplCopyWith<
@@ -36408,13 +38404,15 @@ abstract class _ToolResourcesCodeInterpreter
   factory _ToolResourcesCodeInterpreter.fromJson(Map<String, dynamic> json) =
       _$ToolResourcesCodeInterpreterImpl.fromJson;
 
-  @override
-
   /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
+  @override
   @JsonKey(name: 'file_ids')
   List<String> get fileIds;
+
+  /// Create a copy of ToolResourcesCodeInterpreter
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ToolResourcesCodeInterpreterImplCopyWith<
           _$ToolResourcesCodeInterpreterImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -36436,8 +38434,12 @@ mixin _$ToolResourcesFileSearch {
   List<ToolResourcesFileSearchVectorStore>? get vectorStores =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this ToolResourcesFileSearch to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ToolResourcesFileSearch
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ToolResourcesFileSearchCopyWith<ToolResourcesFileSearch> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -36466,6 +38468,8 @@ class _$ToolResourcesFileSearchCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ToolResourcesFileSearch
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -36511,6 +38515,8 @@ class __$$ToolResourcesFileSearchImplCopyWithImpl<$Res>
       $Res Function(_$ToolResourcesFileSearchImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ToolResourcesFileSearch
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -36589,14 +38595,16 @@ class _$ToolResourcesFileSearchImpl extends _ToolResourcesFileSearch {
                 .equals(other._vectorStores, _vectorStores));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_vectorStoreIds),
       const DeepCollectionEquality().hash(_vectorStores));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ToolResourcesFileSearch
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ToolResourcesFileSearchImplCopyWith<_$ToolResourcesFileSearchImpl>
@@ -36623,18 +38631,20 @@ abstract class _ToolResourcesFileSearch extends ToolResourcesFileSearch {
   factory _ToolResourcesFileSearch.fromJson(Map<String, dynamic> json) =
       _$ToolResourcesFileSearchImpl.fromJson;
 
-  @override
-
   /// The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.
+  @override
   @JsonKey(name: 'vector_store_ids', includeIfNull: false)
   List<String>? get vectorStoreIds;
-  @override
 
   /// A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.
+  @override
   @JsonKey(name: 'vector_stores', includeIfNull: false)
   List<ToolResourcesFileSearchVectorStore>? get vectorStores;
+
+  /// Create a copy of ToolResourcesFileSearch
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ToolResourcesFileSearchImplCopyWith<_$ToolResourcesFileSearchImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -36660,8 +38670,12 @@ mixin _$ToolResourcesFileSearchVectorStore {
   @JsonKey(includeIfNull: false)
   dynamic get metadata => throw _privateConstructorUsedError;
 
+  /// Serializes this ToolResourcesFileSearchVectorStore to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ToolResourcesFileSearchVectorStore
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ToolResourcesFileSearchVectorStoreCopyWith<
           ToolResourcesFileSearchVectorStore>
       get copyWith => throw _privateConstructorUsedError;
@@ -36695,6 +38709,8 @@ class _$ToolResourcesFileSearchVectorStoreCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ToolResourcesFileSearchVectorStore
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -36718,6 +38734,8 @@ class _$ToolResourcesFileSearchVectorStoreCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of ToolResourcesFileSearchVectorStore
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy {
@@ -36761,6 +38779,8 @@ class __$$ToolResourcesFileSearchVectorStoreImplCopyWithImpl<$Res>
       $Res Function(_$ToolResourcesFileSearchVectorStoreImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ToolResourcesFileSearchVectorStore
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -36843,7 +38863,7 @@ class _$ToolResourcesFileSearchVectorStoreImpl
             const DeepCollectionEquality().equals(other.metadata, metadata));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -36851,7 +38871,9 @@ class _$ToolResourcesFileSearchVectorStoreImpl
       chunkingStrategy,
       const DeepCollectionEquality().hash(metadata));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ToolResourcesFileSearchVectorStore
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ToolResourcesFileSearchVectorStoreImplCopyWith<
@@ -36882,24 +38904,26 @@ abstract class _ToolResourcesFileSearchVectorStore
           Map<String, dynamic> json) =
       _$ToolResourcesFileSearchVectorStoreImpl.fromJson;
 
-  @override
-
   /// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.
+  @override
   @JsonKey(name: 'file_ids', includeIfNull: false)
   List<String>? get fileIds;
-  @override
 
   /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
   /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @override
   @JsonKey(name: 'chunking_strategy', includeIfNull: false)
   ChunkingStrategyRequestParam? get chunkingStrategy;
-  @override
 
   /// Set of 16 key-value pairs that can be attached to a vector store. This can be useful for storing additional information about the vector store in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  @override
   @JsonKey(includeIfNull: false)
   dynamic get metadata;
+
+  /// Create a copy of ToolResourcesFileSearchVectorStore
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ToolResourcesFileSearchVectorStoreImplCopyWith<
           _$ToolResourcesFileSearchVectorStoreImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -36920,8 +38944,12 @@ mixin _$DeleteThreadResponse {
   /// The object type, which is always `thread.deleted`.
   DeleteThreadResponseObject get object => throw _privateConstructorUsedError;
 
+  /// Serializes this DeleteThreadResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DeleteThreadResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DeleteThreadResponseCopyWith<DeleteThreadResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -36946,6 +38974,8 @@ class _$DeleteThreadResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DeleteThreadResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -36989,6 +39019,8 @@ class __$$DeleteThreadResponseImplCopyWithImpl<$Res>
       $Res Function(_$DeleteThreadResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DeleteThreadResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -37050,11 +39082,13 @@ class _$DeleteThreadResponseImpl extends _DeleteThreadResponse {
             (identical(other.object, object) || other.object == object));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, deleted, object);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DeleteThreadResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DeleteThreadResponseImplCopyWith<_$DeleteThreadResponseImpl>
@@ -37081,20 +39115,22 @@ abstract class _DeleteThreadResponse extends DeleteThreadResponse {
   factory _DeleteThreadResponse.fromJson(Map<String, dynamic> json) =
       _$DeleteThreadResponseImpl.fromJson;
 
-  @override
-
   /// The thread identifier.
-  String get id;
   @override
+  String get id;
 
   /// Whether the thread was deleted.
-  bool get deleted;
   @override
+  bool get deleted;
 
   /// The object type, which is always `thread.deleted`.
-  DeleteThreadResponseObject get object;
   @override
-  @JsonKey(ignore: true)
+  DeleteThreadResponseObject get object;
+
+  /// Create a copy of DeleteThreadResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DeleteThreadResponseImplCopyWith<_$DeleteThreadResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -37123,8 +39159,12 @@ mixin _$ListThreadsResponse {
   @JsonKey(name: 'has_more')
   bool get hasMore => throw _privateConstructorUsedError;
 
+  /// Serializes this ListThreadsResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ListThreadsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ListThreadsResponseCopyWith<ListThreadsResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -37153,6 +39193,8 @@ class _$ListThreadsResponseCopyWithImpl<$Res, $Val extends ListThreadsResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ListThreadsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -37211,6 +39253,8 @@ class __$$ListThreadsResponseImplCopyWithImpl<$Res>
       $Res Function(_$ListThreadsResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ListThreadsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -37307,12 +39351,14 @@ class _$ListThreadsResponseImpl extends _ListThreadsResponse {
             (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, object,
       const DeepCollectionEquality().hash(_data), firstId, lastId, hasMore);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ListThreadsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListThreadsResponseImplCopyWith<_$ListThreadsResponseImpl> get copyWith =>
@@ -37340,31 +39386,33 @@ abstract class _ListThreadsResponse extends ListThreadsResponse {
   factory _ListThreadsResponse.fromJson(Map<String, dynamic> json) =
       _$ListThreadsResponseImpl.fromJson;
 
-  @override
-
   /// The object type, which is always `list`.
-  String get object;
   @override
+  String get object;
 
   /// The list of threads.
-  List<ThreadObject> get data;
   @override
+  List<ThreadObject> get data;
 
   /// The ID of the first thread in the list.
+  @override
   @JsonKey(name: 'first_id')
   String get firstId;
-  @override
 
   /// The ID of the last thread in the list.
+  @override
   @JsonKey(name: 'last_id')
   String get lastId;
-  @override
 
   /// Whether there are more threads to retrieve.
+  @override
   @JsonKey(name: 'has_more')
   bool get hasMore;
+
+  /// Create a copy of ListThreadsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListThreadsResponseImplCopyWith<_$ListThreadsResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -37424,11 +39472,17 @@ mixin _$MessageObject {
   List<MessageAttachment>? get attachments =>
       throw _privateConstructorUsedError;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
+  /// Serializes this MessageObject to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageObjectCopyWith<MessageObject> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -37470,6 +39524,8 @@ class _$MessageObjectCopyWithImpl<$Res, $Val extends MessageObject>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -37548,6 +39604,8 @@ class _$MessageObjectCopyWithImpl<$Res, $Val extends MessageObject>
     ) as $Val);
   }
 
+  /// Create a copy of MessageObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MessageObjectIncompleteDetailsCopyWith<$Res>? get incompleteDetails {
@@ -37600,6 +39658,8 @@ class __$$MessageObjectImplCopyWithImpl<$Res>
       _$MessageObjectImpl _value, $Res Function(_$MessageObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -37782,10 +39842,14 @@ class _$MessageObjectImpl extends _MessageObject {
     return EqualUnmodifiableListView(value);
   }
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
   Map<String, dynamic>? get metadata {
     final value = _metadata;
@@ -37828,7 +39892,7 @@ class _$MessageObjectImpl extends _MessageObject {
             const DeepCollectionEquality().equals(other._metadata, _metadata));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -37847,7 +39911,9 @@ class _$MessageObjectImpl extends _MessageObject {
       const DeepCollectionEquality().hash(_attachments),
       const DeepCollectionEquality().hash(_metadata));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageObjectImplCopyWith<_$MessageObjectImpl> get copyWith =>
@@ -37884,72 +39950,76 @@ abstract class _MessageObject extends MessageObject {
   factory _MessageObject.fromJson(Map<String, dynamic> json) =
       _$MessageObjectImpl.fromJson;
 
-  @override
-
   /// The identifier, which can be referenced in API endpoints.
-  String get id;
   @override
+  String get id;
 
   /// The object type, which is always `thread.message`.
-  MessageObjectObject get object;
   @override
+  MessageObjectObject get object;
 
   /// The Unix timestamp (in seconds) for when the message was created.
+  @override
   @JsonKey(name: 'created_at')
   int get createdAt;
-  @override
 
   /// The [thread](https://platform.openai.com/docs/api-reference/threads) ID that this message belongs to.
+  @override
   @JsonKey(name: 'thread_id')
   String get threadId;
-  @override
 
   /// The status of the message, which can be either `in_progress`, `incomplete`, or `completed`.
+  @override
   @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   MessageObjectStatus? get status;
-  @override
 
   /// On an incomplete message, details about why the message is incomplete.
+  @override
   @JsonKey(name: 'incomplete_details')
   MessageObjectIncompleteDetails? get incompleteDetails;
-  @override
 
   /// The Unix timestamp (in seconds) for when the message was completed.
+  @override
   @JsonKey(name: 'completed_at')
   int? get completedAt;
-  @override
 
   /// The Unix timestamp (in seconds) for when the message was marked as incomplete.
+  @override
   @JsonKey(name: 'incomplete_at')
   int? get incompleteAt;
-  @override
 
   /// The entity that produced the message. One of `user` or `assistant`.
-  MessageRole get role;
   @override
+  MessageRole get role;
 
   /// The content of the message in array of text and/or images.
-  List<MessageContent> get content;
   @override
+  List<MessageContent> get content;
 
   /// If applicable, the ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) that authored this message.
+  @override
   @JsonKey(name: 'assistant_id')
   String? get assistantId;
-  @override
 
   /// The ID of the [run](https://platform.openai.com/docs/api-reference/runs) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
+  @override
   @JsonKey(name: 'run_id')
   String? get runId;
-  @override
 
   /// A list of files attached to the message, and the tools they were added to.
+  @override
   List<MessageAttachment>? get attachments;
-  @override
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
-  Map<String, dynamic>? get metadata;
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
-  @JsonKey(ignore: true)
+  Map<String, dynamic>? get metadata;
+
+  /// Create a copy of MessageObject
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageObjectImplCopyWith<_$MessageObjectImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -37965,8 +40035,12 @@ mixin _$MessageObjectIncompleteDetails {
   MessageObjectIncompleteDetailsReason get reason =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this MessageObjectIncompleteDetails to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageObjectIncompleteDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageObjectIncompleteDetailsCopyWith<MessageObjectIncompleteDetails>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -37993,6 +40067,8 @@ class _$MessageObjectIncompleteDetailsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageObjectIncompleteDetails
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -38029,6 +40105,8 @@ class __$$MessageObjectIncompleteDetailsImplCopyWithImpl<$Res>
       $Res Function(_$MessageObjectIncompleteDetailsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageObjectIncompleteDetails
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -38071,11 +40149,13 @@ class _$MessageObjectIncompleteDetailsImpl
             (identical(other.reason, reason) || other.reason == reason));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, reason);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageObjectIncompleteDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageObjectIncompleteDetailsImplCopyWith<
@@ -38101,12 +40181,14 @@ abstract class _MessageObjectIncompleteDetails
   factory _MessageObjectIncompleteDetails.fromJson(Map<String, dynamic> json) =
       _$MessageObjectIncompleteDetailsImpl.fromJson;
 
-  @override
-
   /// The reason the message is incomplete.
-  MessageObjectIncompleteDetailsReason get reason;
   @override
-  @JsonKey(ignore: true)
+  MessageObjectIncompleteDetailsReason get reason;
+
+  /// Create a copy of MessageObjectIncompleteDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageObjectIncompleteDetailsImplCopyWith<
           _$MessageObjectIncompleteDetailsImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -38126,8 +40208,12 @@ mixin _$MessageAttachment {
   @JsonKey(includeIfNull: false)
   List<AssistantTools>? get tools => throw _privateConstructorUsedError;
 
+  /// Serializes this MessageAttachment to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageAttachment
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageAttachmentCopyWith<MessageAttachment> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -38153,6 +40239,8 @@ class _$MessageAttachmentCopyWithImpl<$Res, $Val extends MessageAttachment>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageAttachment
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -38193,6 +40281,8 @@ class __$$MessageAttachmentImplCopyWithImpl<$Res>
       $Res Function(_$MessageAttachmentImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageAttachment
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -38257,12 +40347,14 @@ class _$MessageAttachmentImpl extends _MessageAttachment {
             const DeepCollectionEquality().equals(other._tools, _tools));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, fileId, const DeepCollectionEquality().hash(_tools));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageAttachment
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageAttachmentImplCopyWith<_$MessageAttachmentImpl> get copyWith =>
@@ -38287,18 +40379,20 @@ abstract class _MessageAttachment extends MessageAttachment {
   factory _MessageAttachment.fromJson(Map<String, dynamic> json) =
       _$MessageAttachmentImpl.fromJson;
 
-  @override
-
   /// The ID of the file to attach to the message.
+  @override
   @JsonKey(name: 'file_id', includeIfNull: false)
   String? get fileId;
-  @override
 
   /// The tools to add this file to.
+  @override
   @JsonKey(includeIfNull: false)
   List<AssistantTools>? get tools;
+
+  /// Create a copy of MessageAttachment
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageAttachmentImplCopyWith<_$MessageAttachmentImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -38318,8 +40412,12 @@ mixin _$MessageDeltaObject {
   /// The delta containing the fields that have changed on the Message.
   MessageDelta get delta => throw _privateConstructorUsedError;
 
+  /// Serializes this MessageDeltaObject to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageDeltaObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageDeltaObjectCopyWith<MessageDeltaObject> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -38345,6 +40443,8 @@ class _$MessageDeltaObjectCopyWithImpl<$Res, $Val extends MessageDeltaObject>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageDeltaObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -38368,6 +40468,8 @@ class _$MessageDeltaObjectCopyWithImpl<$Res, $Val extends MessageDeltaObject>
     ) as $Val);
   }
 
+  /// Create a copy of MessageDeltaObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MessageDeltaCopyWith<$Res> get delta {
@@ -38399,6 +40501,8 @@ class __$$MessageDeltaObjectImplCopyWithImpl<$Res>
       $Res Function(_$MessageDeltaObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageDeltaObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -38460,11 +40564,13 @@ class _$MessageDeltaObjectImpl extends _MessageDeltaObject {
             (identical(other.delta, delta) || other.delta == delta));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, object, delta);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageDeltaObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageDeltaObjectImplCopyWith<_$MessageDeltaObjectImpl> get copyWith =>
@@ -38489,20 +40595,22 @@ abstract class _MessageDeltaObject extends MessageDeltaObject {
   factory _MessageDeltaObject.fromJson(Map<String, dynamic> json) =
       _$MessageDeltaObjectImpl.fromJson;
 
-  @override
-
   /// The identifier of the message, which can be referenced in API endpoints.
-  String get id;
   @override
+  String get id;
 
   /// The object type, which is always `thread.message.delta`.
-  MessageDeltaObjectObject get object;
   @override
+  MessageDeltaObjectObject get object;
 
   /// The delta containing the fields that have changed on the Message.
-  MessageDelta get delta;
   @override
-  @JsonKey(ignore: true)
+  MessageDelta get delta;
+
+  /// Create a copy of MessageDeltaObject
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageDeltaObjectImplCopyWith<_$MessageDeltaObjectImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -38522,8 +40630,12 @@ mixin _$MessageDelta {
   @JsonKey(includeIfNull: false)
   List<MessageDeltaContent>? get content => throw _privateConstructorUsedError;
 
+  /// Serializes this MessageDelta to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageDelta
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageDeltaCopyWith<MessageDelta> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -38552,6 +40664,8 @@ class _$MessageDeltaCopyWithImpl<$Res, $Val extends MessageDelta>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageDelta
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -38595,6 +40709,8 @@ class __$$MessageDeltaImplCopyWithImpl<$Res>
       _$MessageDeltaImpl _value, $Res Function(_$MessageDeltaImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageDelta
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -38663,12 +40779,14 @@ class _$MessageDeltaImpl extends _MessageDelta {
             const DeepCollectionEquality().equals(other._content, _content));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, role, const DeepCollectionEquality().hash(_content));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageDelta
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageDeltaImplCopyWith<_$MessageDeltaImpl> get copyWith =>
@@ -38695,19 +40813,21 @@ abstract class _MessageDelta extends MessageDelta {
   factory _MessageDelta.fromJson(Map<String, dynamic> json) =
       _$MessageDeltaImpl.fromJson;
 
-  @override
-
   /// The entity that produced the message. One of `user` or `assistant`.
+  @override
   @JsonKey(
       includeIfNull: false, unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   MessageRole? get role;
-  @override
 
   /// The content of the message in array of text and/or images.
+  @override
   @JsonKey(includeIfNull: false)
   List<MessageDeltaContent>? get content;
+
+  /// Create a copy of MessageDelta
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageDeltaImplCopyWith<_$MessageDeltaImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -38730,12 +40850,18 @@ mixin _$CreateMessageRequest {
   List<MessageAttachment>? get attachments =>
       throw _privateConstructorUsedError;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateMessageRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateMessageRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateMessageRequestCopyWith<CreateMessageRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -38767,6 +40893,8 @@ class _$CreateMessageRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateMessageRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -38795,6 +40923,8 @@ class _$CreateMessageRequestCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of CreateMessageRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CreateMessageRequestContentCopyWith<$Res> get content {
@@ -38831,6 +40961,8 @@ class __$$CreateMessageRequestImplCopyWithImpl<$Res>
       $Res Function(_$CreateMessageRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateMessageRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -38898,10 +41030,14 @@ class _$CreateMessageRequestImpl extends _CreateMessageRequest {
     return EqualUnmodifiableListView(value);
   }
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata {
@@ -38929,7 +41065,7 @@ class _$CreateMessageRequestImpl extends _CreateMessageRequest {
             const DeepCollectionEquality().equals(other._metadata, _metadata));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -38938,7 +41074,9 @@ class _$CreateMessageRequestImpl extends _CreateMessageRequest {
       const DeepCollectionEquality().hash(_attachments),
       const DeepCollectionEquality().hash(_metadata));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateMessageRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateMessageRequestImplCopyWith<_$CreateMessageRequestImpl>
@@ -38967,27 +41105,31 @@ abstract class _CreateMessageRequest extends CreateMessageRequest {
   factory _CreateMessageRequest.fromJson(Map<String, dynamic> json) =
       _$CreateMessageRequestImpl.fromJson;
 
-  @override
-
   /// The entity that produced the message. One of `user` or `assistant`.
-  MessageRole get role;
   @override
+  MessageRole get role;
 
   /// The content of the message.
+  @override
   @_CreateMessageRequestContentConverter()
   CreateMessageRequestContent get content;
-  @override
 
   /// A list of files attached to the message, and the tools they were added to.
+  @override
   @JsonKey(includeIfNull: false)
   List<MessageAttachment>? get attachments;
-  @override
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
+  @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
+
+  /// Create a copy of CreateMessageRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateMessageRequestImplCopyWith<_$CreateMessageRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -39054,6 +41196,8 @@ mixin _$CreateMessageRequestContent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this CreateMessageRequestContent to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -39076,6 +41220,9 @@ class _$CreateMessageRequestContentCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of CreateMessageRequestContent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -39101,6 +41248,8 @@ class __$$CreateMessageRequestContentListMessageContentImplCopyWithImpl<$Res>
       $Res Function(_$CreateMessageRequestContentListMessageContentImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateMessageRequestContent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -39154,12 +41303,14 @@ class _$CreateMessageRequestContentListMessageContentImpl
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_value));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateMessageRequestContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateMessageRequestContentListMessageContentImplCopyWith<
@@ -39256,7 +41407,10 @@ abstract class CreateMessageRequestContentListMessageContent
 
   @override
   List<MessageContent> get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateMessageRequestContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateMessageRequestContentListMessageContentImplCopyWith<
           _$CreateMessageRequestContentListMessageContentImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -39282,6 +41436,8 @@ class __$$CreateMessageRequestContentStringImplCopyWithImpl<$Res>
       $Res Function(_$CreateMessageRequestContentStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateMessageRequestContent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -39328,11 +41484,13 @@ class _$CreateMessageRequestContentStringImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateMessageRequestContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateMessageRequestContentStringImplCopyWith<
@@ -39426,7 +41584,10 @@ abstract class CreateMessageRequestContentString
 
   @override
   String get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateMessageRequestContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateMessageRequestContentStringImplCopyWith<
           _$CreateMessageRequestContentStringImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -39438,12 +41599,18 @@ ModifyMessageRequest _$ModifyMessageRequestFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ModifyMessageRequest {
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
+  /// Serializes this ModifyMessageRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ModifyMessageRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ModifyMessageRequestCopyWith<ModifyMessageRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -39468,6 +41635,8 @@ class _$ModifyMessageRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ModifyMessageRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -39501,6 +41670,8 @@ class __$$ModifyMessageRequestImplCopyWithImpl<$Res>
       $Res Function(_$ModifyMessageRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ModifyMessageRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -39526,10 +41697,14 @@ class _$ModifyMessageRequestImpl extends _ModifyMessageRequest {
   factory _$ModifyMessageRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$ModifyMessageRequestImplFromJson(json);
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata {
@@ -39553,12 +41728,14 @@ class _$ModifyMessageRequestImpl extends _ModifyMessageRequest {
             const DeepCollectionEquality().equals(other._metadata, _metadata));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_metadata));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ModifyMessageRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ModifyMessageRequestImplCopyWith<_$ModifyMessageRequestImpl>
@@ -39583,13 +41760,17 @@ abstract class _ModifyMessageRequest extends ModifyMessageRequest {
   factory _ModifyMessageRequest.fromJson(Map<String, dynamic> json) =
       _$ModifyMessageRequestImpl.fromJson;
 
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
-
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   Map<String, dynamic>? get metadata;
+
+  /// Create a copy of ModifyMessageRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ModifyMessageRequestImplCopyWith<_$ModifyMessageRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -39610,8 +41791,12 @@ mixin _$DeleteMessageResponse {
   /// The object type, which is always `thread.message.deleted`.
   DeleteMessageResponseObject get object => throw _privateConstructorUsedError;
 
+  /// Serializes this DeleteMessageResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DeleteMessageResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DeleteMessageResponseCopyWith<DeleteMessageResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -39636,6 +41821,8 @@ class _$DeleteMessageResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DeleteMessageResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -39681,6 +41868,8 @@ class __$$DeleteMessageResponseImplCopyWithImpl<$Res>
       $Res Function(_$DeleteMessageResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DeleteMessageResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -39742,11 +41931,13 @@ class _$DeleteMessageResponseImpl extends _DeleteMessageResponse {
             (identical(other.object, object) || other.object == object));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, deleted, object);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DeleteMessageResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DeleteMessageResponseImplCopyWith<_$DeleteMessageResponseImpl>
@@ -39772,20 +41963,22 @@ abstract class _DeleteMessageResponse extends DeleteMessageResponse {
   factory _DeleteMessageResponse.fromJson(Map<String, dynamic> json) =
       _$DeleteMessageResponseImpl.fromJson;
 
-  @override
-
   /// The message identifier.
-  String get id;
   @override
+  String get id;
 
   /// Whether the message was deleted.
-  bool get deleted;
   @override
+  bool get deleted;
 
   /// The object type, which is always `thread.message.deleted`.
-  DeleteMessageResponseObject get object;
   @override
-  @JsonKey(ignore: true)
+  DeleteMessageResponseObject get object;
+
+  /// Create a copy of DeleteMessageResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DeleteMessageResponseImplCopyWith<_$DeleteMessageResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -39814,8 +42007,12 @@ mixin _$ListMessagesResponse {
   @JsonKey(name: 'has_more')
   bool get hasMore => throw _privateConstructorUsedError;
 
+  /// Serializes this ListMessagesResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ListMessagesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ListMessagesResponseCopyWith<ListMessagesResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -39845,6 +42042,8 @@ class _$ListMessagesResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ListMessagesResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -39903,6 +42102,8 @@ class __$$ListMessagesResponseImplCopyWithImpl<$Res>
       $Res Function(_$ListMessagesResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ListMessagesResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -39999,12 +42200,14 @@ class _$ListMessagesResponseImpl extends _ListMessagesResponse {
             (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, object,
       const DeepCollectionEquality().hash(_data), firstId, lastId, hasMore);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ListMessagesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListMessagesResponseImplCopyWith<_$ListMessagesResponseImpl>
@@ -40033,31 +42236,33 @@ abstract class _ListMessagesResponse extends ListMessagesResponse {
   factory _ListMessagesResponse.fromJson(Map<String, dynamic> json) =
       _$ListMessagesResponseImpl.fromJson;
 
-  @override
-
   /// The object type, which is always `list`.
-  String get object;
   @override
+  String get object;
 
   /// The list of messages.
-  List<MessageObject> get data;
   @override
+  List<MessageObject> get data;
 
   /// The ID of the first message in the list.
+  @override
   @JsonKey(name: 'first_id')
   String get firstId;
-  @override
 
   /// The ID of the last message in the list.
+  @override
   @JsonKey(name: 'last_id')
   String get lastId;
-  @override
 
   /// Whether there are more messages to retrieve.
+  @override
   @JsonKey(name: 'has_more')
   bool get hasMore;
+
+  /// Create a copy of ListMessagesResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListMessagesResponseImplCopyWith<_$ListMessagesResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -40076,8 +42281,12 @@ mixin _$MessageContentImageFile {
   /// Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
   MessageContentImageDetail get detail => throw _privateConstructorUsedError;
 
+  /// Serializes this MessageContentImageFile to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageContentImageFile
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageContentImageFileCopyWith<MessageContentImageFile> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -40104,6 +42313,8 @@ class _$MessageContentImageFileCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageContentImageFile
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -40147,6 +42358,8 @@ class __$$MessageContentImageFileImplCopyWithImpl<$Res>
       $Res Function(_$MessageContentImageFileImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageContentImageFile
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -40201,11 +42414,13 @@ class _$MessageContentImageFileImpl extends _MessageContentImageFile {
             (identical(other.detail, detail) || other.detail == detail));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, fileId, detail);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageContentImageFile
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageContentImageFileImplCopyWith<_$MessageContentImageFileImpl>
@@ -40229,17 +42444,19 @@ abstract class _MessageContentImageFile extends MessageContentImageFile {
   factory _MessageContentImageFile.fromJson(Map<String, dynamic> json) =
       _$MessageContentImageFileImpl.fromJson;
 
-  @override
-
   /// The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content. Set `purpose="vision"` when uploading the File if you need to later display the file content.
+  @override
   @JsonKey(name: 'file_id')
   String get fileId;
-  @override
 
   /// Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
-  MessageContentImageDetail get detail;
   @override
-  @JsonKey(ignore: true)
+  MessageContentImageDetail get detail;
+
+  /// Create a copy of MessageContentImageFile
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageContentImageFileImplCopyWith<_$MessageContentImageFileImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -40257,8 +42474,12 @@ mixin _$MessageContentImageUrl {
   /// Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
   MessageContentImageDetail get detail => throw _privateConstructorUsedError;
 
+  /// Serializes this MessageContentImageUrl to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageContentImageUrl
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageContentImageUrlCopyWith<MessageContentImageUrl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -40283,6 +42504,8 @@ class _$MessageContentImageUrlCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageContentImageUrl
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -40324,6 +42547,8 @@ class __$$MessageContentImageUrlImplCopyWithImpl<$Res>
       $Res Function(_$MessageContentImageUrlImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageContentImageUrl
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -40376,11 +42601,13 @@ class _$MessageContentImageUrlImpl extends _MessageContentImageUrl {
             (identical(other.detail, detail) || other.detail == detail));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, url, detail);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageContentImageUrl
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageContentImageUrlImplCopyWith<_$MessageContentImageUrlImpl>
@@ -40404,16 +42631,18 @@ abstract class _MessageContentImageUrl extends MessageContentImageUrl {
   factory _MessageContentImageUrl.fromJson(Map<String, dynamic> json) =
       _$MessageContentImageUrlImpl.fromJson;
 
-  @override
-
   /// The external URL of the image, must be a supported image types: jpeg, jpg, png, gif, webp.
-  String get url;
   @override
+  String get url;
 
   /// Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`.
-  MessageContentImageDetail get detail;
   @override
-  @JsonKey(ignore: true)
+  MessageContentImageDetail get detail;
+
+  /// Create a copy of MessageContentImageUrl
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageContentImageUrlImplCopyWith<_$MessageContentImageUrlImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -40431,8 +42660,12 @@ mixin _$MessageRequestContentTextObject {
   /// Text content to be sent to the model
   String get text => throw _privateConstructorUsedError;
 
+  /// Serializes this MessageRequestContentTextObject to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageRequestContentTextObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageRequestContentTextObjectCopyWith<MessageRequestContentTextObject>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -40459,6 +42692,8 @@ class _$MessageRequestContentTextObjectCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageRequestContentTextObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -40500,6 +42735,8 @@ class __$$MessageRequestContentTextObjectImplCopyWithImpl<$Res>
       $Res Function(_$MessageRequestContentTextObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageRequestContentTextObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -40553,11 +42790,13 @@ class _$MessageRequestContentTextObjectImpl
             (identical(other.text, text) || other.text == text));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, text);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageRequestContentTextObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageRequestContentTextObjectImplCopyWith<
@@ -40583,16 +42822,18 @@ abstract class _MessageRequestContentTextObject
   factory _MessageRequestContentTextObject.fromJson(Map<String, dynamic> json) =
       _$MessageRequestContentTextObjectImpl.fromJson;
 
-  @override
-
   /// Always `text`.
-  String get type;
   @override
+  String get type;
 
   /// Text content to be sent to the model
-  String get text;
   @override
-  @JsonKey(ignore: true)
+  String get text;
+
+  /// Create a copy of MessageRequestContentTextObject
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageRequestContentTextObjectImplCopyWith<
           _$MessageRequestContentTextObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -40612,8 +42853,12 @@ mixin _$MessageContentText {
   List<MessageContentTextAnnotations>? get annotations =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this MessageContentText to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageContentText
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageContentTextCopyWith<MessageContentText> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -40640,6 +42885,8 @@ class _$MessageContentTextCopyWithImpl<$Res, $Val extends MessageContentText>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageContentText
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -40681,6 +42928,8 @@ class __$$MessageContentTextImplCopyWithImpl<$Res>
       $Res Function(_$MessageContentTextImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageContentText
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -40746,12 +42995,14 @@ class _$MessageContentTextImpl extends _MessageContentText {
                 .equals(other._annotations, _annotations));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, value, const DeepCollectionEquality().hash(_annotations));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageContentText
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageContentTextImplCopyWith<_$MessageContentTextImpl> get copyWith =>
@@ -40777,17 +43028,19 @@ abstract class _MessageContentText extends MessageContentText {
   factory _MessageContentText.fromJson(Map<String, dynamic> json) =
       _$MessageContentTextImpl.fromJson;
 
-  @override
-
   /// The data that makes up the text.
-  String get value;
   @override
+  String get value;
 
   /// A list of annotations that point to specific quotes from specific files.
+  @override
   @JsonKey(includeIfNull: false)
   List<MessageContentTextAnnotations>? get annotations;
+
+  /// Create a copy of MessageContentText
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageContentTextImplCopyWith<_$MessageContentTextImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -40804,8 +43057,12 @@ mixin _$MessageContentTextAnnotationsFileCitation {
   @JsonKey(name: 'file_id')
   String get fileId => throw _privateConstructorUsedError;
 
+  /// Serializes this MessageContentTextAnnotationsFileCitation to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageContentTextAnnotationsFileCitation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageContentTextAnnotationsFileCitationCopyWith<
           MessageContentTextAnnotationsFileCitation>
       get copyWith => throw _privateConstructorUsedError;
@@ -40834,6 +43091,8 @@ class _$MessageContentTextAnnotationsFileCitationCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageContentTextAnnotationsFileCitation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -40870,6 +43129,8 @@ class __$$MessageContentTextAnnotationsFileCitationImplCopyWithImpl<$Res>
       $Res Function(_$MessageContentTextAnnotationsFileCitationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageContentTextAnnotationsFileCitation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -40914,11 +43175,13 @@ class _$MessageContentTextAnnotationsFileCitationImpl
             (identical(other.fileId, fileId) || other.fileId == fileId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, fileId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageContentTextAnnotationsFileCitation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageContentTextAnnotationsFileCitationImplCopyWith<
@@ -40947,13 +43210,15 @@ abstract class _MessageContentTextAnnotationsFileCitation
           Map<String, dynamic> json) =
       _$MessageContentTextAnnotationsFileCitationImpl.fromJson;
 
-  @override
-
   /// The ID of the specific File the citation is from.
+  @override
   @JsonKey(name: 'file_id')
   String get fileId;
+
+  /// Create a copy of MessageContentTextAnnotationsFileCitation
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageContentTextAnnotationsFileCitationImplCopyWith<
           _$MessageContentTextAnnotationsFileCitationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -40978,8 +43243,12 @@ mixin _$MessageDeltaContentImageUrlObject {
   @JsonKey(name: 'image_url', includeIfNull: false)
   MessageContentImageUrl? get imageUrl => throw _privateConstructorUsedError;
 
+  /// Serializes this MessageDeltaContentImageUrlObject to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageDeltaContentImageUrlObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageDeltaContentImageUrlObjectCopyWith<MessageDeltaContentImageUrlObject>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -41012,6 +43281,8 @@ class _$MessageDeltaContentImageUrlObjectCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageDeltaContentImageUrlObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -41035,6 +43306,8 @@ class _$MessageDeltaContentImageUrlObjectCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of MessageDeltaContentImageUrlObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MessageContentImageUrlCopyWith<$Res>? get imageUrl {
@@ -41077,6 +43350,8 @@ class __$$MessageDeltaContentImageUrlObjectImplCopyWithImpl<$Res>
       $Res Function(_$MessageDeltaContentImageUrlObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageDeltaContentImageUrlObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -41146,11 +43421,13 @@ class _$MessageDeltaContentImageUrlObjectImpl
                 other.imageUrl == imageUrl));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, index, type, imageUrl);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageDeltaContentImageUrlObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageDeltaContentImageUrlObjectImplCopyWith<
@@ -41180,23 +43457,25 @@ abstract class _MessageDeltaContentImageUrlObject
           Map<String, dynamic> json) =
       _$MessageDeltaContentImageUrlObjectImpl.fromJson;
 
-  @override
-
   /// The index of the content part in the message.
+  @override
   @JsonKey(includeIfNull: false)
   int? get index;
-  @override
 
   /// Always `image_url`.
+  @override
   @JsonKey(includeIfNull: false)
   String? get type;
-  @override
 
   /// The image URL part of a message.
+  @override
   @JsonKey(name: 'image_url', includeIfNull: false)
   MessageContentImageUrl? get imageUrl;
+
+  /// Create a copy of MessageDeltaContentImageUrlObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageDeltaContentImageUrlObjectImplCopyWith<
           _$MessageDeltaContentImageUrlObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -41218,8 +43497,12 @@ mixin _$MessageDeltaContentText {
   List<MessageDeltaContentTextAnnotations>? get annotations =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this MessageDeltaContentText to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageDeltaContentText
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageDeltaContentTextCopyWith<MessageDeltaContentText> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -41247,6 +43530,8 @@ class _$MessageDeltaContentTextCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageDeltaContentText
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -41291,6 +43576,8 @@ class __$$MessageDeltaContentTextImplCopyWithImpl<$Res>
       $Res Function(_$MessageDeltaContentTextImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageDeltaContentText
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -41357,12 +43644,14 @@ class _$MessageDeltaContentTextImpl extends _MessageDeltaContentText {
                 .equals(other._annotations, _annotations));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, value, const DeepCollectionEquality().hash(_annotations));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageDeltaContentText
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageDeltaContentTextImplCopyWith<_$MessageDeltaContentTextImpl>
@@ -41388,18 +43677,20 @@ abstract class _MessageDeltaContentText extends MessageDeltaContentText {
   factory _MessageDeltaContentText.fromJson(Map<String, dynamic> json) =
       _$MessageDeltaContentTextImpl.fromJson;
 
-  @override
-
   /// The data that makes up the text.
+  @override
   @JsonKey(includeIfNull: false)
   String? get value;
-  @override
 
   /// A list of annotations that point to specific quotes from specific files.
+  @override
   @JsonKey(includeIfNull: false)
   List<MessageDeltaContentTextAnnotations>? get annotations;
+
+  /// Create a copy of MessageDeltaContentText
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageDeltaContentTextImplCopyWith<_$MessageDeltaContentTextImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -41420,8 +43711,12 @@ mixin _$MessageDeltaContentTextAnnotationsFileCitation {
   @JsonKey(includeIfNull: false)
   String? get quote => throw _privateConstructorUsedError;
 
+  /// Serializes this MessageDeltaContentTextAnnotationsFileCitation to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageDeltaContentTextAnnotationsFileCitation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageDeltaContentTextAnnotationsFileCitationCopyWith<
           MessageDeltaContentTextAnnotationsFileCitation>
       get copyWith => throw _privateConstructorUsedError;
@@ -41452,6 +43747,8 @@ class _$MessageDeltaContentTextAnnotationsFileCitationCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageDeltaContentTextAnnotationsFileCitation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -41498,6 +43795,8 @@ class __$$MessageDeltaContentTextAnnotationsFileCitationImplCopyWithImpl<$Res>
       $Res Function(_$MessageDeltaContentTextAnnotationsFileCitationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageDeltaContentTextAnnotationsFileCitation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -41554,11 +43853,13 @@ class _$MessageDeltaContentTextAnnotationsFileCitationImpl
             (identical(other.quote, quote) || other.quote == quote));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, fileId, quote);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageDeltaContentTextAnnotationsFileCitation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageDeltaContentTextAnnotationsFileCitationImplCopyWith<
@@ -41588,18 +43889,20 @@ abstract class _MessageDeltaContentTextAnnotationsFileCitation
           Map<String, dynamic> json) =
       _$MessageDeltaContentTextAnnotationsFileCitationImpl.fromJson;
 
-  @override
-
   /// The ID of the specific File the citation is from.
+  @override
   @JsonKey(name: 'file_id', includeIfNull: false)
   String? get fileId;
-  @override
 
   /// The specific quote in the file.
+  @override
   @JsonKey(includeIfNull: false)
   String? get quote;
+
+  /// Create a copy of MessageDeltaContentTextAnnotationsFileCitation
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageDeltaContentTextAnnotationsFileCitationImplCopyWith<
           _$MessageDeltaContentTextAnnotationsFileCitationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -41664,14 +43967,20 @@ mixin _$RunStepObject {
   @JsonKey(name: 'completed_at')
   int? get completedAt => throw _privateConstructorUsedError;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
 
   /// Usage statistics related to the run step. This value will be `null` while the run step's status is `in_progress`.
   RunStepCompletionUsage? get usage => throw _privateConstructorUsedError;
 
+  /// Serializes this RunStepObject to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunStepObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunStepObjectCopyWith<RunStepObject> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -41715,6 +44024,8 @@ class _$RunStepObjectCopyWithImpl<$Res, $Val extends RunStepObject>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunStepObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -41803,6 +44114,8 @@ class _$RunStepObjectCopyWithImpl<$Res, $Val extends RunStepObject>
     ) as $Val);
   }
 
+  /// Create a copy of RunStepObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunStepDetailsCopyWith<$Res> get stepDetails {
@@ -41811,6 +44124,8 @@ class _$RunStepObjectCopyWithImpl<$Res, $Val extends RunStepObject>
     });
   }
 
+  /// Create a copy of RunStepObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunStepLastErrorCopyWith<$Res>? get lastError {
@@ -41823,6 +44138,8 @@ class _$RunStepObjectCopyWithImpl<$Res, $Val extends RunStepObject>
     });
   }
 
+  /// Create a copy of RunStepObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunStepCompletionUsageCopyWith<$Res>? get usage {
@@ -41878,6 +44195,8 @@ class __$$RunStepObjectImplCopyWithImpl<$Res>
       _$RunStepObjectImpl _value, $Res Function(_$RunStepObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -42060,10 +44379,14 @@ class _$RunStepObjectImpl extends _RunStepObject {
   @JsonKey(name: 'completed_at')
   final int? completedAt;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   final Map<String, dynamic>? _metadata;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
   Map<String, dynamic>? get metadata {
     final value = _metadata;
@@ -42114,7 +44437,7 @@ class _$RunStepObjectImpl extends _RunStepObject {
             (identical(other.usage, usage) || other.usage == usage));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -42135,7 +44458,9 @@ class _$RunStepObjectImpl extends _RunStepObject {
       const DeepCollectionEquality().hash(_metadata),
       usage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepObjectImplCopyWith<_$RunStepObjectImpl> get copyWith =>
@@ -42172,83 +44497,87 @@ abstract class _RunStepObject extends RunStepObject {
   factory _RunStepObject.fromJson(Map<String, dynamic> json) =
       _$RunStepObjectImpl.fromJson;
 
-  @override
-
   /// The identifier of the run step, which can be referenced in API endpoints.
-  String get id;
   @override
+  String get id;
 
   /// The object type, which is always `thread.run.step`.
-  RunStepObjectObject get object;
   @override
+  RunStepObjectObject get object;
 
   /// The Unix timestamp (in seconds) for when the run step was created.
+  @override
   @JsonKey(name: 'created_at')
   int get createdAt;
-  @override
 
   /// The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) associated with the run step.
+  @override
   @JsonKey(name: 'assistant_id')
   String get assistantId;
-  @override
 
   /// The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was run.
+  @override
   @JsonKey(name: 'thread_id')
   String get threadId;
-  @override
 
   /// The ID of the [run](https://platform.openai.com/docs/api-reference/runs) that this run step is a part of.
+  @override
   @JsonKey(name: 'run_id')
   String get runId;
-  @override
 
   /// The type of run step, which can be either `message_creation` or `tool_calls`.
-  RunStepType get type;
   @override
+  RunStepType get type;
 
   /// The status of the run step, which can be either `in_progress`, `cancelled`, `failed`, `completed`, or `expired`.
-  RunStepStatus get status;
   @override
+  RunStepStatus get status;
 
   /// The details of the run step.
   /// Any of: [RunStepDetailsMessageCreationObject], [RunStepDetailsToolCallsObject]
+  @override
   @JsonKey(name: 'step_details')
   RunStepDetails get stepDetails;
-  @override
 
   /// The last error associated with this run step. Will be `null` if there are no errors.
+  @override
   @JsonKey(name: 'last_error')
   RunStepLastError? get lastError;
-  @override
 
   /// The Unix timestamp (in seconds) for when the run step expired. A step is considered expired if the parent run is expired.
+  @override
   @JsonKey(name: 'expired_at')
   int? get expiredAt;
-  @override
 
   /// The Unix timestamp (in seconds) for when the run step was cancelled.
+  @override
   @JsonKey(name: 'cancelled_at')
   int? get cancelledAt;
-  @override
 
   /// The Unix timestamp (in seconds) for when the run step failed.
+  @override
   @JsonKey(name: 'failed_at')
   int? get failedAt;
-  @override
 
   /// The Unix timestamp (in seconds) for when the run step completed.
+  @override
   @JsonKey(name: 'completed_at')
   int? get completedAt;
-  @override
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
-  Map<String, dynamic>? get metadata;
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
+  Map<String, dynamic>? get metadata;
 
   /// Usage statistics related to the run step. This value will be `null` while the run step's status is `in_progress`.
-  RunStepCompletionUsage? get usage;
   @override
-  @JsonKey(ignore: true)
+  RunStepCompletionUsage? get usage;
+
+  /// Create a copy of RunStepObject
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepObjectImplCopyWith<_$RunStepObjectImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -42265,8 +44594,12 @@ mixin _$RunStepLastError {
   /// A human-readable description of the error.
   String get message => throw _privateConstructorUsedError;
 
+  /// Serializes this RunStepLastError to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunStepLastError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunStepLastErrorCopyWith<RunStepLastError> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -42290,6 +44623,8 @@ class _$RunStepLastErrorCopyWithImpl<$Res, $Val extends RunStepLastError>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunStepLastError
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -42328,6 +44663,8 @@ class __$$RunStepLastErrorImplCopyWithImpl<$Res>
       $Res Function(_$RunStepLastErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepLastError
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -42378,11 +44715,13 @@ class _$RunStepLastErrorImpl extends _RunStepLastError {
             (identical(other.message, message) || other.message == message));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, code, message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepLastError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepLastErrorImplCopyWith<_$RunStepLastErrorImpl> get copyWith =>
@@ -42406,16 +44745,18 @@ abstract class _RunStepLastError extends RunStepLastError {
   factory _RunStepLastError.fromJson(Map<String, dynamic> json) =
       _$RunStepLastErrorImpl.fromJson;
 
-  @override
-
   /// One of `server_error` or `rate_limit_exceeded`.
-  RunStepLastErrorCode get code;
   @override
+  RunStepLastErrorCode get code;
 
   /// A human-readable description of the error.
-  String get message;
   @override
-  @JsonKey(ignore: true)
+  String get message;
+
+  /// Create a copy of RunStepLastError
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepLastErrorImplCopyWith<_$RunStepLastErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -42435,8 +44776,12 @@ mixin _$RunStepDeltaObject {
   /// The delta containing the fields that have changed on the run step.
   RunStepDelta get delta => throw _privateConstructorUsedError;
 
+  /// Serializes this RunStepDeltaObject to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunStepDeltaObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunStepDeltaObjectCopyWith<RunStepDeltaObject> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -42462,6 +44807,8 @@ class _$RunStepDeltaObjectCopyWithImpl<$Res, $Val extends RunStepDeltaObject>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunStepDeltaObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -42485,6 +44832,8 @@ class _$RunStepDeltaObjectCopyWithImpl<$Res, $Val extends RunStepDeltaObject>
     ) as $Val);
   }
 
+  /// Create a copy of RunStepDeltaObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunStepDeltaCopyWith<$Res> get delta {
@@ -42516,6 +44865,8 @@ class __$$RunStepDeltaObjectImplCopyWithImpl<$Res>
       $Res Function(_$RunStepDeltaObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDeltaObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -42577,11 +44928,13 @@ class _$RunStepDeltaObjectImpl extends _RunStepDeltaObject {
             (identical(other.delta, delta) || other.delta == delta));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, object, delta);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDeltaObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDeltaObjectImplCopyWith<_$RunStepDeltaObjectImpl> get copyWith =>
@@ -42606,20 +44959,22 @@ abstract class _RunStepDeltaObject extends RunStepDeltaObject {
   factory _RunStepDeltaObject.fromJson(Map<String, dynamic> json) =
       _$RunStepDeltaObjectImpl.fromJson;
 
-  @override
-
   /// The identifier of the run step, which can be referenced in API endpoints.
-  String get id;
   @override
+  String get id;
 
   /// The object type, which is always `thread.run.step.delta`.
-  RunStepDeltaObjectObject get object;
   @override
+  RunStepDeltaObjectObject get object;
 
   /// The delta containing the fields that have changed on the run step.
-  RunStepDelta get delta;
   @override
-  @JsonKey(ignore: true)
+  RunStepDelta get delta;
+
+  /// Create a copy of RunStepDeltaObject
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDeltaObjectImplCopyWith<_$RunStepDeltaObjectImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -42635,8 +44990,12 @@ mixin _$RunStepDelta {
   @JsonKey(name: 'step_details', includeIfNull: false)
   RunStepDeltaDetails? get stepDetails => throw _privateConstructorUsedError;
 
+  /// Serializes this RunStepDelta to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunStepDelta
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunStepDeltaCopyWith<RunStepDelta> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -42664,6 +45023,8 @@ class _$RunStepDeltaCopyWithImpl<$Res, $Val extends RunStepDelta>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunStepDelta
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -42677,6 +45038,8 @@ class _$RunStepDeltaCopyWithImpl<$Res, $Val extends RunStepDelta>
     ) as $Val);
   }
 
+  /// Create a copy of RunStepDelta
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunStepDeltaDetailsCopyWith<$Res>? get stepDetails {
@@ -42714,6 +45077,8 @@ class __$$RunStepDeltaImplCopyWithImpl<$Res>
       _$RunStepDeltaImpl _value, $Res Function(_$RunStepDeltaImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDelta
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -42758,11 +45123,13 @@ class _$RunStepDeltaImpl extends _RunStepDelta {
                 other.stepDetails == stepDetails));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, stepDetails);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDelta
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDeltaImplCopyWith<_$RunStepDeltaImpl> get copyWith =>
@@ -42785,14 +45152,16 @@ abstract class _RunStepDelta extends RunStepDelta {
   factory _RunStepDelta.fromJson(Map<String, dynamic> json) =
       _$RunStepDeltaImpl.fromJson;
 
-  @override
-
   /// The details of the run step
   /// Any of: [RunStepDeltaStepDetailsMessageCreationObject], [RunStepDeltaStepDetailsToolCallsObject]
+  @override
   @JsonKey(name: 'step_details', includeIfNull: false)
   RunStepDeltaDetails? get stepDetails;
+
+  /// Create a copy of RunStepDelta
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDeltaImplCopyWith<_$RunStepDeltaImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -42821,8 +45190,12 @@ mixin _$ListRunStepsResponse {
   @JsonKey(name: 'has_more')
   bool get hasMore => throw _privateConstructorUsedError;
 
+  /// Serializes this ListRunStepsResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ListRunStepsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ListRunStepsResponseCopyWith<ListRunStepsResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -42852,6 +45225,8 @@ class _$ListRunStepsResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ListRunStepsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -42910,6 +45285,8 @@ class __$$ListRunStepsResponseImplCopyWithImpl<$Res>
       $Res Function(_$ListRunStepsResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ListRunStepsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -43006,12 +45383,14 @@ class _$ListRunStepsResponseImpl extends _ListRunStepsResponse {
             (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, object,
       const DeepCollectionEquality().hash(_data), firstId, lastId, hasMore);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ListRunStepsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListRunStepsResponseImplCopyWith<_$ListRunStepsResponseImpl>
@@ -43040,31 +45419,33 @@ abstract class _ListRunStepsResponse extends ListRunStepsResponse {
   factory _ListRunStepsResponse.fromJson(Map<String, dynamic> json) =
       _$ListRunStepsResponseImpl.fromJson;
 
-  @override
-
   /// The object type, which is always `list`.
-  String get object;
   @override
+  String get object;
 
   /// The list of run steps.
-  List<RunStepObject> get data;
   @override
+  List<RunStepObject> get data;
 
   /// The ID of the first run step in the list.
+  @override
   @JsonKey(name: 'first_id')
   String get firstId;
-  @override
 
   /// The ID of the last run step in the list.
+  @override
   @JsonKey(name: 'last_id')
   String get lastId;
-  @override
 
   /// Whether there are more run steps to retrieve.
+  @override
   @JsonKey(name: 'has_more')
   bool get hasMore;
+
+  /// Create a copy of ListRunStepsResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListRunStepsResponseImplCopyWith<_$ListRunStepsResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -43080,8 +45461,12 @@ mixin _$RunStepDetailsMessageCreation {
   @JsonKey(name: 'message_id')
   String get messageId => throw _privateConstructorUsedError;
 
+  /// Serializes this RunStepDetailsMessageCreation to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunStepDetailsMessageCreation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunStepDetailsMessageCreationCopyWith<RunStepDetailsMessageCreation>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -43108,6 +45493,8 @@ class _$RunStepDetailsMessageCreationCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunStepDetailsMessageCreation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -43144,6 +45531,8 @@ class __$$RunStepDetailsMessageCreationImplCopyWithImpl<$Res>
       $Res Function(_$RunStepDetailsMessageCreationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDetailsMessageCreation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -43189,11 +45578,13 @@ class _$RunStepDetailsMessageCreationImpl
                 other.messageId == messageId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, messageId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDetailsMessageCreation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDetailsMessageCreationImplCopyWith<
@@ -43219,13 +45610,15 @@ abstract class _RunStepDetailsMessageCreation
   factory _RunStepDetailsMessageCreation.fromJson(Map<String, dynamic> json) =
       _$RunStepDetailsMessageCreationImpl.fromJson;
 
-  @override
-
   /// The ID of the message that was created by this run step.
+  @override
   @JsonKey(name: 'message_id')
   String get messageId;
+
+  /// Create a copy of RunStepDetailsMessageCreation
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDetailsMessageCreationImplCopyWith<
           _$RunStepDetailsMessageCreationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -43243,8 +45636,12 @@ mixin _$RunStepDeltaStepDetailsMessageCreation {
   @JsonKey(name: 'message_id', includeIfNull: false)
   String? get messageId => throw _privateConstructorUsedError;
 
+  /// Serializes this RunStepDeltaStepDetailsMessageCreation to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunStepDeltaStepDetailsMessageCreation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunStepDeltaStepDetailsMessageCreationCopyWith<
           RunStepDeltaStepDetailsMessageCreation>
       get copyWith => throw _privateConstructorUsedError;
@@ -43273,6 +45670,8 @@ class _$RunStepDeltaStepDetailsMessageCreationCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunStepDeltaStepDetailsMessageCreation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -43310,6 +45709,8 @@ class __$$RunStepDeltaStepDetailsMessageCreationImplCopyWithImpl<$Res>
       $Res Function(_$RunStepDeltaStepDetailsMessageCreationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDeltaStepDetailsMessageCreation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -43355,11 +45756,13 @@ class _$RunStepDeltaStepDetailsMessageCreationImpl
                 other.messageId == messageId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, messageId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDeltaStepDetailsMessageCreation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDeltaStepDetailsMessageCreationImplCopyWith<
@@ -43387,13 +45790,15 @@ abstract class _RunStepDeltaStepDetailsMessageCreation
           Map<String, dynamic> json) =
       _$RunStepDeltaStepDetailsMessageCreationImpl.fromJson;
 
-  @override
-
   /// The ID of the message that was created by this run step.
+  @override
   @JsonKey(name: 'message_id', includeIfNull: false)
   String? get messageId;
+
+  /// Create a copy of RunStepDeltaStepDetailsMessageCreation
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDeltaStepDetailsMessageCreationImplCopyWith<
           _$RunStepDeltaStepDetailsMessageCreationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -43414,8 +45819,12 @@ mixin _$RunStepDetailsToolCallsCodeObjectCodeInterpreter {
   List<RunStepDetailsToolCallsCodeOutput> get outputs =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this RunStepDetailsToolCallsCodeObjectCodeInterpreter to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunStepDetailsToolCallsCodeObjectCodeInterpreter
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith<
           RunStepDetailsToolCallsCodeObjectCodeInterpreter>
       get copyWith => throw _privateConstructorUsedError;
@@ -43445,6 +45854,8 @@ class _$RunStepDetailsToolCallsCodeObjectCodeInterpreterCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunStepDetailsToolCallsCodeObjectCodeInterpreter
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -43491,6 +45902,8 @@ class __$$RunStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWithImpl<$Res>
           _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDetailsToolCallsCodeObjectCodeInterpreter
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -43553,12 +45966,14 @@ class _$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl
             const DeepCollectionEquality().equals(other._outputs, _outputs));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, input, const DeepCollectionEquality().hash(_outputs));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDetailsToolCallsCodeObjectCodeInterpreter
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWith<
@@ -43588,16 +46003,18 @@ abstract class _RunStepDetailsToolCallsCodeObjectCodeInterpreter
           Map<String, dynamic> json) =
       _$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl.fromJson;
 
-  @override
-
   /// The input to the Code Interpreter tool call.
-  String get input;
   @override
+  String get input;
 
   /// The outputs from the Code Interpreter tool call. Code Interpreter can output one or more items, including text (`logs`) or images (`image`). Each of these are represented by a different object type.
-  List<RunStepDetailsToolCallsCodeOutput> get outputs;
   @override
-  @JsonKey(ignore: true)
+  List<RunStepDetailsToolCallsCodeOutput> get outputs;
+
+  /// Create a copy of RunStepDetailsToolCallsCodeObjectCodeInterpreter
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWith<
           _$RunStepDetailsToolCallsCodeObjectCodeInterpreterImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -43621,8 +46038,12 @@ mixin _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter {
   List<RunStepDeltaStepDetailsToolCallsCodeOutput>? get outputs =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith<
           RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter>
       get copyWith => throw _privateConstructorUsedError;
@@ -43660,6 +46081,8 @@ class _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterCopyWithImpl<
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -43715,6 +46138,8 @@ class __$$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWithI
           _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -43785,12 +46210,14 @@ class _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl
             const DeepCollectionEquality().equals(other._outputs, _outputs));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, input, const DeepCollectionEquality().hash(_outputs));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWith<
@@ -43822,18 +46249,20 @@ abstract class _RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter
           Map<String, dynamic> json) =
       _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl.fromJson;
 
-  @override
-
   /// The input to the Code Interpreter tool call.
+  @override
   @JsonKey(includeIfNull: false)
   String? get input;
-  @override
 
   /// The outputs from the Code Interpreter tool call. Code Interpreter can output one or more items, including text (`logs`) or images (`image`). Each of these are represented by a different object type.
+  @override
   @JsonKey(includeIfNull: false)
   List<RunStepDeltaStepDetailsToolCallsCodeOutput>? get outputs;
+
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImplCopyWith<
           _$RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -43851,8 +46280,12 @@ mixin _$RunStepDetailsToolCallsCodeOutputImage {
   @JsonKey(name: 'file_id')
   String get fileId => throw _privateConstructorUsedError;
 
+  /// Serializes this RunStepDetailsToolCallsCodeOutputImage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunStepDetailsToolCallsCodeOutputImage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunStepDetailsToolCallsCodeOutputImageCopyWith<
           RunStepDetailsToolCallsCodeOutputImage>
       get copyWith => throw _privateConstructorUsedError;
@@ -43880,6 +46313,8 @@ class _$RunStepDetailsToolCallsCodeOutputImageCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunStepDetailsToolCallsCodeOutputImage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -43916,6 +46351,8 @@ class __$$RunStepDetailsToolCallsCodeOutputImageImplCopyWithImpl<$Res>
       $Res Function(_$RunStepDetailsToolCallsCodeOutputImageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDetailsToolCallsCodeOutputImage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -43960,11 +46397,13 @@ class _$RunStepDetailsToolCallsCodeOutputImageImpl
             (identical(other.fileId, fileId) || other.fileId == fileId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, fileId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDetailsToolCallsCodeOutputImage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDetailsToolCallsCodeOutputImageImplCopyWith<
@@ -43992,13 +46431,15 @@ abstract class _RunStepDetailsToolCallsCodeOutputImage
           Map<String, dynamic> json) =
       _$RunStepDetailsToolCallsCodeOutputImageImpl.fromJson;
 
-  @override
-
   /// The [file](https://platform.openai.com/docs/api-reference/files) ID of the image.
+  @override
   @JsonKey(name: 'file_id')
   String get fileId;
+
+  /// Create a copy of RunStepDetailsToolCallsCodeOutputImage
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDetailsToolCallsCodeOutputImageImplCopyWith<
           _$RunStepDetailsToolCallsCodeOutputImageImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -44016,8 +46457,12 @@ mixin _$RunStepDeltaStepDetailsToolCallsCodeOutputImage {
   @JsonKey(name: 'file_id', includeIfNull: false)
   String? get fileId => throw _privateConstructorUsedError;
 
+  /// Serializes this RunStepDeltaStepDetailsToolCallsCodeOutputImage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsCodeOutputImage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunStepDeltaStepDetailsToolCallsCodeOutputImageCopyWith<
           RunStepDeltaStepDetailsToolCallsCodeOutputImage>
       get copyWith => throw _privateConstructorUsedError;
@@ -44046,6 +46491,8 @@ class _$RunStepDeltaStepDetailsToolCallsCodeOutputImageCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsCodeOutputImage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -44086,6 +46533,8 @@ class __$$RunStepDeltaStepDetailsToolCallsCodeOutputImageImplCopyWithImpl<$Res>
           _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsCodeOutputImage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -44130,11 +46579,13 @@ class _$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl
             (identical(other.fileId, fileId) || other.fileId == fileId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, fileId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsCodeOutputImage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageImplCopyWith<
@@ -44164,13 +46615,15 @@ abstract class _RunStepDeltaStepDetailsToolCallsCodeOutputImage
           Map<String, dynamic> json) =
       _$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl.fromJson;
 
-  @override
-
   /// The [file](https://platform.openai.com/docs/api-reference/files) ID of the image.
+  @override
   @JsonKey(name: 'file_id', includeIfNull: false)
   String? get fileId;
+
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsCodeOutputImage
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageImplCopyWith<
           _$RunStepDeltaStepDetailsToolCallsCodeOutputImageImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -44195,8 +46648,12 @@ mixin _$RunStepCompletionUsage {
   @JsonKey(name: 'total_tokens')
   int get totalTokens => throw _privateConstructorUsedError;
 
+  /// Serializes this RunStepCompletionUsage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunStepCompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunStepCompletionUsageCopyWith<RunStepCompletionUsage> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -44224,6 +46681,8 @@ class _$RunStepCompletionUsageCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunStepCompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -44273,6 +46732,8 @@ class __$$RunStepCompletionUsageImplCopyWithImpl<$Res>
       $Res Function(_$RunStepCompletionUsageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepCompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -44342,12 +46803,14 @@ class _$RunStepCompletionUsageImpl extends _RunStepCompletionUsage {
                 other.totalTokens == totalTokens));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, completionTokens, promptTokens, totalTokens);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepCompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepCompletionUsageImplCopyWith<_$RunStepCompletionUsageImpl>
@@ -44373,23 +46836,25 @@ abstract class _RunStepCompletionUsage extends RunStepCompletionUsage {
   factory _RunStepCompletionUsage.fromJson(Map<String, dynamic> json) =
       _$RunStepCompletionUsageImpl.fromJson;
 
-  @override
-
   /// Number of completion tokens used over the course of the run step.
+  @override
   @JsonKey(name: 'completion_tokens')
   int get completionTokens;
-  @override
 
   /// Number of prompt tokens used over the course of the run step.
+  @override
   @JsonKey(name: 'prompt_tokens')
   int get promptTokens;
-  @override
 
   /// Total number of tokens used (prompt + completion).
+  @override
   @JsonKey(name: 'total_tokens')
   int get totalTokens;
+
+  /// Create a copy of RunStepCompletionUsage
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepCompletionUsageImplCopyWith<_$RunStepCompletionUsageImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -44408,8 +46873,12 @@ mixin _$VectorStoreExpirationAfter {
   /// The number of days after the anchor time that the vector store will expire.
   int get days => throw _privateConstructorUsedError;
 
+  /// Serializes this VectorStoreExpirationAfter to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of VectorStoreExpirationAfter
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $VectorStoreExpirationAfterCopyWith<VectorStoreExpirationAfter>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -44435,6 +46904,8 @@ class _$VectorStoreExpirationAfterCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of VectorStoreExpirationAfter
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -44476,6 +46947,8 @@ class __$$VectorStoreExpirationAfterImplCopyWithImpl<$Res>
       $Res Function(_$VectorStoreExpirationAfterImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of VectorStoreExpirationAfter
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -44528,11 +47001,13 @@ class _$VectorStoreExpirationAfterImpl extends _VectorStoreExpirationAfter {
             (identical(other.days, days) || other.days == days));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, anchor, days);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of VectorStoreExpirationAfter
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VectorStoreExpirationAfterImplCopyWith<_$VectorStoreExpirationAfterImpl>
@@ -44556,16 +47031,18 @@ abstract class _VectorStoreExpirationAfter extends VectorStoreExpirationAfter {
   factory _VectorStoreExpirationAfter.fromJson(Map<String, dynamic> json) =
       _$VectorStoreExpirationAfterImpl.fromJson;
 
-  @override
-
   /// Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`.
-  VectorStoreExpirationAfterAnchor get anchor;
   @override
+  VectorStoreExpirationAfterAnchor get anchor;
 
   /// The number of days after the anchor time that the vector store will expire.
-  int get days;
   @override
-  @JsonKey(ignore: true)
+  int get days;
+
+  /// Create a copy of VectorStoreExpirationAfter
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VectorStoreExpirationAfterImplCopyWith<_$VectorStoreExpirationAfterImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -44614,11 +47091,17 @@ mixin _$VectorStoreObject {
   @JsonKey(name: 'last_active_at')
   int? get lastActiveAt => throw _privateConstructorUsedError;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   dynamic get metadata => throw _privateConstructorUsedError;
 
+  /// Serializes this VectorStoreObject to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of VectorStoreObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $VectorStoreObjectCopyWith<VectorStoreObject> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -44657,6 +47140,8 @@ class _$VectorStoreObjectCopyWithImpl<$Res, $Val extends VectorStoreObject>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of VectorStoreObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -44720,6 +47205,8 @@ class _$VectorStoreObjectCopyWithImpl<$Res, $Val extends VectorStoreObject>
     ) as $Val);
   }
 
+  /// Create a copy of VectorStoreObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $VectorStoreObjectFileCountsCopyWith<$Res> get fileCounts {
@@ -44729,6 +47216,8 @@ class _$VectorStoreObjectCopyWithImpl<$Res, $Val extends VectorStoreObject>
     });
   }
 
+  /// Create a copy of VectorStoreObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $VectorStoreExpirationAfterCopyWith<$Res>? get expiresAfter {
@@ -44779,6 +47268,8 @@ class __$$VectorStoreObjectImplCopyWithImpl<$Res>
       $Res Function(_$VectorStoreObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of VectorStoreObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -44909,7 +47400,9 @@ class _$VectorStoreObjectImpl extends _VectorStoreObject {
   @JsonKey(name: 'last_active_at')
   final int? lastActiveAt;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
   final dynamic metadata;
 
@@ -44942,7 +47435,7 @@ class _$VectorStoreObjectImpl extends _VectorStoreObject {
             const DeepCollectionEquality().equals(other.metadata, metadata));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -44958,7 +47451,9 @@ class _$VectorStoreObjectImpl extends _VectorStoreObject {
       lastActiveAt,
       const DeepCollectionEquality().hash(metadata));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of VectorStoreObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VectorStoreObjectImplCopyWith<_$VectorStoreObjectImpl> get copyWith =>
@@ -44993,58 +47488,62 @@ abstract class _VectorStoreObject extends VectorStoreObject {
   factory _VectorStoreObject.fromJson(Map<String, dynamic> json) =
       _$VectorStoreObjectImpl.fromJson;
 
-  @override
-
   /// The identifier, which can be referenced in API endpoints.
-  String get id;
   @override
+  String get id;
 
   /// The object type, which is always `vector_store`.
-  String get object;
   @override
+  String get object;
 
   /// The Unix timestamp (in seconds) for when the vector store was created.
+  @override
   @JsonKey(name: 'created_at')
   int get createdAt;
-  @override
 
   /// The name of the vector store.
-  String? get name;
   @override
+  String? get name;
 
   /// The total number of bytes used by the files in the vector store.
+  @override
   @JsonKey(name: 'usage_bytes')
   int get usageBytes;
-  @override
 
   /// The number of files in the vector store.
+  @override
   @JsonKey(name: 'file_counts')
   VectorStoreObjectFileCounts get fileCounts;
-  @override
 
   /// The status of the vector store, which can be either `expired`, `in_progress`, or `completed`. A status of `completed` indicates that the vector store is ready for use.
-  VectorStoreObjectStatus get status;
   @override
+  VectorStoreObjectStatus get status;
 
   /// The expiration policy for a vector store.
+  @override
   @JsonKey(name: 'expires_after', includeIfNull: false)
   VectorStoreExpirationAfter? get expiresAfter;
-  @override
 
   /// The Unix timestamp (in seconds) for when the vector store will expire.
+  @override
   @JsonKey(name: 'expires_at', includeIfNull: false)
   int? get expiresAt;
-  @override
 
   /// The Unix timestamp (in seconds) for when the vector store was last active.
+  @override
   @JsonKey(name: 'last_active_at')
   int? get lastActiveAt;
-  @override
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
-  dynamic get metadata;
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
-  @JsonKey(ignore: true)
+  dynamic get metadata;
+
+  /// Create a copy of VectorStoreObject
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VectorStoreObjectImplCopyWith<_$VectorStoreObjectImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -45072,8 +47571,12 @@ mixin _$VectorStoreObjectFileCounts {
   /// The total number of files.
   int get total => throw _privateConstructorUsedError;
 
+  /// Serializes this VectorStoreObjectFileCounts to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of VectorStoreObjectFileCounts
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $VectorStoreObjectFileCountsCopyWith<VectorStoreObjectFileCounts>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -45105,6 +47608,8 @@ class _$VectorStoreObjectFileCountsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of VectorStoreObjectFileCounts
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -45166,6 +47671,8 @@ class __$$VectorStoreObjectFileCountsImplCopyWithImpl<$Res>
       $Res Function(_$VectorStoreObjectFileCountsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of VectorStoreObjectFileCounts
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -45256,12 +47763,14 @@ class _$VectorStoreObjectFileCountsImpl extends _VectorStoreObjectFileCounts {
             (identical(other.total, total) || other.total == total));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, inProgress, completed, failed, cancelled, total);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of VectorStoreObjectFileCounts
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VectorStoreObjectFileCountsImplCopyWith<_$VectorStoreObjectFileCountsImpl>
@@ -45289,29 +47798,31 @@ abstract class _VectorStoreObjectFileCounts
   factory _VectorStoreObjectFileCounts.fromJson(Map<String, dynamic> json) =
       _$VectorStoreObjectFileCountsImpl.fromJson;
 
-  @override
-
   /// The number of files that are currently being processed.
+  @override
   @JsonKey(name: 'in_progress')
   int get inProgress;
-  @override
 
   /// The number of files that have been successfully processed.
-  int get completed;
   @override
+  int get completed;
 
   /// The number of files that have failed to process.
-  int get failed;
   @override
+  int get failed;
 
   /// The number of files that were cancelled.
-  int get cancelled;
   @override
+  int get cancelled;
 
   /// The total number of files.
-  int get total;
   @override
-  @JsonKey(ignore: true)
+  int get total;
+
+  /// Create a copy of VectorStoreObjectFileCounts
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VectorStoreObjectFileCountsImplCopyWith<_$VectorStoreObjectFileCountsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -45342,12 +47853,18 @@ mixin _$CreateVectorStoreRequest {
   ChunkingStrategyRequestParam? get chunkingStrategy =>
       throw _privateConstructorUsedError;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   dynamic get metadata => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateVectorStoreRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateVectorStoreRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateVectorStoreRequestCopyWith<CreateVectorStoreRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -45382,6 +47899,8 @@ class _$CreateVectorStoreRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateVectorStoreRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -45415,6 +47934,8 @@ class _$CreateVectorStoreRequestCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of CreateVectorStoreRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $VectorStoreExpirationAfterCopyWith<$Res>? get expiresAfter {
@@ -45428,6 +47949,8 @@ class _$CreateVectorStoreRequestCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of CreateVectorStoreRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy {
@@ -45476,6 +47999,8 @@ class __$$CreateVectorStoreRequestImplCopyWithImpl<$Res>
       $Res Function(_$CreateVectorStoreRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateVectorStoreRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -45557,7 +48082,9 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
   @JsonKey(name: 'chunking_strategy', includeIfNull: false)
   final ChunkingStrategyRequestParam? chunkingStrategy;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   final dynamic metadata;
@@ -45581,7 +48108,7 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
             const DeepCollectionEquality().equals(other.metadata, metadata));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -45591,7 +48118,9 @@ class _$CreateVectorStoreRequestImpl extends _CreateVectorStoreRequest {
       chunkingStrategy,
       const DeepCollectionEquality().hash(metadata));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateVectorStoreRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateVectorStoreRequestImplCopyWith<_$CreateVectorStoreRequestImpl>
@@ -45622,34 +48151,38 @@ abstract class _CreateVectorStoreRequest extends CreateVectorStoreRequest {
   factory _CreateVectorStoreRequest.fromJson(Map<String, dynamic> json) =
       _$CreateVectorStoreRequestImpl.fromJson;
 
-  @override
-
   /// The name of the vector store.
+  @override
   @JsonKey(includeIfNull: false)
   String? get name;
-  @override
 
   /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
+  @override
   @JsonKey(name: 'file_ids', includeIfNull: false)
   List<String>? get fileIds;
-  @override
 
   /// The expiration policy for a vector store.
+  @override
   @JsonKey(name: 'expires_after', includeIfNull: false)
   VectorStoreExpirationAfter? get expiresAfter;
-  @override
 
   /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
   /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @override
   @JsonKey(name: 'chunking_strategy', includeIfNull: false)
   ChunkingStrategyRequestParam? get chunkingStrategy;
-  @override
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
+  @override
   @JsonKey(includeIfNull: false)
   dynamic get metadata;
+
+  /// Create a copy of CreateVectorStoreRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateVectorStoreRequestImplCopyWith<_$CreateVectorStoreRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -45670,12 +48203,18 @@ mixin _$UpdateVectorStoreRequest {
   VectorStoreExpirationAfter? get expiresAfter =>
       throw _privateConstructorUsedError;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   dynamic get metadata => throw _privateConstructorUsedError;
 
+  /// Serializes this UpdateVectorStoreRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UpdateVectorStoreRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UpdateVectorStoreRequestCopyWith<UpdateVectorStoreRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -45706,6 +48245,8 @@ class _$UpdateVectorStoreRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UpdateVectorStoreRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -45729,6 +48270,8 @@ class _$UpdateVectorStoreRequestCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of UpdateVectorStoreRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $VectorStoreExpirationAfterCopyWith<$Res>? get expiresAfter {
@@ -45772,6 +48315,8 @@ class __$$UpdateVectorStoreRequestImplCopyWithImpl<$Res>
       $Res Function(_$UpdateVectorStoreRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UpdateVectorStoreRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -45818,7 +48363,9 @@ class _$UpdateVectorStoreRequestImpl extends _UpdateVectorStoreRequest {
   @JsonKey(name: 'expires_after', includeIfNull: false)
   final VectorStoreExpirationAfter? expiresAfter;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   final dynamic metadata;
@@ -45839,12 +48386,14 @@ class _$UpdateVectorStoreRequestImpl extends _UpdateVectorStoreRequest {
             const DeepCollectionEquality().equals(other.metadata, metadata));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, expiresAfter,
       const DeepCollectionEquality().hash(metadata));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UpdateVectorStoreRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UpdateVectorStoreRequestImplCopyWith<_$UpdateVectorStoreRequestImpl>
@@ -45871,23 +48420,27 @@ abstract class _UpdateVectorStoreRequest extends UpdateVectorStoreRequest {
   factory _UpdateVectorStoreRequest.fromJson(Map<String, dynamic> json) =
       _$UpdateVectorStoreRequestImpl.fromJson;
 
-  @override
-
   /// The name of the vector store.
+  @override
   @JsonKey(includeIfNull: false)
   String? get name;
-  @override
 
   /// The expiration policy for a vector store.
+  @override
   @JsonKey(name: 'expires_after', includeIfNull: false)
   VectorStoreExpirationAfter? get expiresAfter;
-  @override
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
+  @override
   @JsonKey(includeIfNull: false)
   dynamic get metadata;
+
+  /// Create a copy of UpdateVectorStoreRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UpdateVectorStoreRequestImplCopyWith<_$UpdateVectorStoreRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -45917,8 +48470,12 @@ mixin _$ListVectorStoresResponse {
   @JsonKey(name: 'has_more')
   bool get hasMore => throw _privateConstructorUsedError;
 
+  /// Serializes this ListVectorStoresResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ListVectorStoresResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ListVectorStoresResponseCopyWith<ListVectorStoresResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -45948,6 +48505,8 @@ class _$ListVectorStoresResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ListVectorStoresResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -46009,6 +48568,8 @@ class __$$ListVectorStoresResponseImplCopyWithImpl<$Res>
       $Res Function(_$ListVectorStoresResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ListVectorStoresResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -46105,12 +48666,14 @@ class _$ListVectorStoresResponseImpl extends _ListVectorStoresResponse {
             (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, object,
       const DeepCollectionEquality().hash(_data), firstId, lastId, hasMore);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ListVectorStoresResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListVectorStoresResponseImplCopyWith<_$ListVectorStoresResponseImpl>
@@ -46138,31 +48701,33 @@ abstract class _ListVectorStoresResponse extends ListVectorStoresResponse {
   factory _ListVectorStoresResponse.fromJson(Map<String, dynamic> json) =
       _$ListVectorStoresResponseImpl.fromJson;
 
-  @override
-
   /// The object type, which is always `list`.
-  String get object;
   @override
+  String get object;
 
   /// A list of assistant files.
-  List<VectorStoreObject> get data;
   @override
+  List<VectorStoreObject> get data;
 
   /// The ID of the first assistant file in the list.
+  @override
   @JsonKey(name: 'first_id')
   String? get firstId;
-  @override
 
   /// The ID of the last assistant file in the list.
+  @override
   @JsonKey(name: 'last_id')
   String? get lastId;
-  @override
 
   /// Whether there are more assistant files available.
+  @override
   @JsonKey(name: 'has_more')
   bool get hasMore;
+
+  /// Create a copy of ListVectorStoresResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListVectorStoresResponseImplCopyWith<_$ListVectorStoresResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -46183,8 +48748,12 @@ mixin _$DeleteVectorStoreResponse {
   /// The object type, which is always `vector_store.deleted`.
   String get object => throw _privateConstructorUsedError;
 
+  /// Serializes this DeleteVectorStoreResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DeleteVectorStoreResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DeleteVectorStoreResponseCopyWith<DeleteVectorStoreResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -46209,6 +48778,8 @@ class _$DeleteVectorStoreResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DeleteVectorStoreResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -46255,6 +48826,8 @@ class __$$DeleteVectorStoreResponseImplCopyWithImpl<$Res>
       $Res Function(_$DeleteVectorStoreResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DeleteVectorStoreResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -46316,11 +48889,13 @@ class _$DeleteVectorStoreResponseImpl extends _DeleteVectorStoreResponse {
             (identical(other.object, object) || other.object == object));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, deleted, object);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DeleteVectorStoreResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DeleteVectorStoreResponseImplCopyWith<_$DeleteVectorStoreResponseImpl>
@@ -46345,20 +48920,22 @@ abstract class _DeleteVectorStoreResponse extends DeleteVectorStoreResponse {
   factory _DeleteVectorStoreResponse.fromJson(Map<String, dynamic> json) =
       _$DeleteVectorStoreResponseImpl.fromJson;
 
-  @override
-
   /// The ID of the deleted vector store.
-  String get id;
   @override
+  String get id;
 
   /// Whether the vector store was deleted.
-  bool get deleted;
   @override
+  bool get deleted;
 
   /// The object type, which is always `vector_store.deleted`.
-  String get object;
   @override
-  @JsonKey(ignore: true)
+  String get object;
+
+  /// Create a copy of DeleteVectorStoreResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DeleteVectorStoreResponseImplCopyWith<_$DeleteVectorStoreResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -46402,8 +48979,12 @@ mixin _$VectorStoreFileObject {
   ChunkingStrategyResponseParam? get chunkingStrategy =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this VectorStoreFileObject to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of VectorStoreFileObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $VectorStoreFileObjectCopyWith<VectorStoreFileObject> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -46440,6 +49021,8 @@ class _$VectorStoreFileObjectCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of VectorStoreFileObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -46488,6 +49071,8 @@ class _$VectorStoreFileObjectCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of VectorStoreFileObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $VectorStoreFileObjectLastErrorCopyWith<$Res>? get lastError {
@@ -46501,6 +49086,8 @@ class _$VectorStoreFileObjectCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of VectorStoreFileObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChunkingStrategyResponseParamCopyWith<$Res>? get chunkingStrategy {
@@ -46550,6 +49137,8 @@ class __$$VectorStoreFileObjectImplCopyWithImpl<$Res>
       $Res Function(_$VectorStoreFileObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of VectorStoreFileObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -46680,12 +49269,14 @@ class _$VectorStoreFileObjectImpl extends _VectorStoreFileObject {
                 other.chunkingStrategy == chunkingStrategy));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, object, usageBytes,
       createdAt, vectorStoreId, status, lastError, chunkingStrategy);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of VectorStoreFileObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VectorStoreFileObjectImplCopyWith<_$VectorStoreFileObjectImpl>
@@ -46718,46 +49309,48 @@ abstract class _VectorStoreFileObject extends VectorStoreFileObject {
   factory _VectorStoreFileObject.fromJson(Map<String, dynamic> json) =
       _$VectorStoreFileObjectImpl.fromJson;
 
-  @override
-
   /// The identifier, which can be referenced in API endpoints.
-  String get id;
   @override
+  String get id;
 
   /// The object type, which is always `vector_store.file`.
-  String get object;
   @override
+  String get object;
 
   /// The total vector store usage in bytes. Note that this may be different from the original file size.
+  @override
   @JsonKey(name: 'usage_bytes')
   int get usageBytes;
-  @override
 
   /// The Unix timestamp (in seconds) for when the vector store file was created.
+  @override
   @JsonKey(name: 'created_at')
   int get createdAt;
-  @override
 
   /// The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to.
+  @override
   @JsonKey(name: 'vector_store_id')
   String get vectorStoreId;
-  @override
 
   /// The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use.
-  VectorStoreFileStatus get status;
   @override
+  VectorStoreFileStatus get status;
 
   /// The last error associated with this vector store file. Will be `null` if there are no errors.
+  @override
   @JsonKey(name: 'last_error')
   VectorStoreFileObjectLastError? get lastError;
-  @override
 
   /// The chunking strategy used to chunk the file(s).
   /// Any of: [StaticChunkingStrategyResponseParam], [OtherChunkingStrategyResponseParam]
+  @override
   @JsonKey(name: 'chunking_strategy', includeIfNull: false)
   ChunkingStrategyResponseParam? get chunkingStrategy;
+
+  /// Create a copy of VectorStoreFileObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VectorStoreFileObjectImplCopyWith<_$VectorStoreFileObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -46776,8 +49369,12 @@ mixin _$VectorStoreFileObjectLastError {
   /// A human-readable description of the error.
   String get message => throw _privateConstructorUsedError;
 
+  /// Serializes this VectorStoreFileObjectLastError to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of VectorStoreFileObjectLastError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $VectorStoreFileObjectLastErrorCopyWith<VectorStoreFileObjectLastError>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -46804,6 +49401,8 @@ class _$VectorStoreFileObjectLastErrorCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of VectorStoreFileObjectLastError
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -46845,6 +49444,8 @@ class __$$VectorStoreFileObjectLastErrorImplCopyWithImpl<$Res>
       $Res Function(_$VectorStoreFileObjectLastErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of VectorStoreFileObjectLastError
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -46898,11 +49499,13 @@ class _$VectorStoreFileObjectLastErrorImpl
             (identical(other.message, message) || other.message == message));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, code, message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of VectorStoreFileObjectLastError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VectorStoreFileObjectLastErrorImplCopyWith<
@@ -46928,16 +49531,18 @@ abstract class _VectorStoreFileObjectLastError
   factory _VectorStoreFileObjectLastError.fromJson(Map<String, dynamic> json) =
       _$VectorStoreFileObjectLastErrorImpl.fromJson;
 
-  @override
-
   /// One of `server_error` or `rate_limit_exceeded`.
-  VectorStoreFileObjectLastErrorCode get code;
   @override
+  VectorStoreFileObjectLastErrorCode get code;
 
   /// A human-readable description of the error.
-  String get message;
   @override
-  @JsonKey(ignore: true)
+  String get message;
+
+  /// Create a copy of VectorStoreFileObjectLastError
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VectorStoreFileObjectLastErrorImplCopyWith<
           _$VectorStoreFileObjectLastErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -46961,8 +49566,12 @@ mixin _$StaticChunkingStrategy {
   @JsonKey(name: 'chunk_overlap_tokens')
   int get chunkOverlapTokens => throw _privateConstructorUsedError;
 
+  /// Serializes this StaticChunkingStrategy to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of StaticChunkingStrategy
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $StaticChunkingStrategyCopyWith<StaticChunkingStrategy> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -46989,6 +49598,8 @@ class _$StaticChunkingStrategyCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of StaticChunkingStrategy
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -47032,6 +49643,8 @@ class __$$StaticChunkingStrategyImplCopyWithImpl<$Res>
       $Res Function(_$StaticChunkingStrategyImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StaticChunkingStrategy
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -47091,12 +49704,14 @@ class _$StaticChunkingStrategyImpl extends _StaticChunkingStrategy {
                 other.chunkOverlapTokens == chunkOverlapTokens));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, maxChunkSizeTokens, chunkOverlapTokens);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StaticChunkingStrategy
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StaticChunkingStrategyImplCopyWith<_$StaticChunkingStrategyImpl>
@@ -47122,21 +49737,23 @@ abstract class _StaticChunkingStrategy extends StaticChunkingStrategy {
   factory _StaticChunkingStrategy.fromJson(Map<String, dynamic> json) =
       _$StaticChunkingStrategyImpl.fromJson;
 
-  @override
-
   /// The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the
   /// maximum value is `4096`.
+  @override
   @JsonKey(name: 'max_chunk_size_tokens')
   int get maxChunkSizeTokens;
-  @override
 
   /// The number of tokens that overlap between chunks. The default value is `400`.
   ///
   /// Note that the overlap must not exceed half of `max_chunk_size_tokens`.
+  @override
   @JsonKey(name: 'chunk_overlap_tokens')
   int get chunkOverlapTokens;
+
+  /// Create a copy of StaticChunkingStrategy
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StaticChunkingStrategyImplCopyWith<_$StaticChunkingStrategyImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -47158,8 +49775,12 @@ mixin _$CreateVectorStoreFileRequest {
   ChunkingStrategyRequestParam? get chunkingStrategy =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this CreateVectorStoreFileRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateVectorStoreFileRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateVectorStoreFileRequestCopyWith<CreateVectorStoreFileRequest>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -47191,6 +49812,8 @@ class _$CreateVectorStoreFileRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateVectorStoreFileRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -47209,6 +49832,8 @@ class _$CreateVectorStoreFileRequestCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of CreateVectorStoreFileRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy {
@@ -47251,6 +49876,8 @@ class __$$CreateVectorStoreFileRequestImplCopyWithImpl<$Res>
       $Res Function(_$CreateVectorStoreFileRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateVectorStoreFileRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -47309,11 +49936,13 @@ class _$CreateVectorStoreFileRequestImpl extends _CreateVectorStoreFileRequest {
                 other.chunkingStrategy == chunkingStrategy));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, fileId, chunkingStrategy);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateVectorStoreFileRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateVectorStoreFileRequestImplCopyWith<
@@ -47341,19 +49970,21 @@ abstract class _CreateVectorStoreFileRequest
   factory _CreateVectorStoreFileRequest.fromJson(Map<String, dynamic> json) =
       _$CreateVectorStoreFileRequestImpl.fromJson;
 
-  @override
-
   /// A [File](https://platform.openai.com/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files.
+  @override
   @JsonKey(name: 'file_id')
   String get fileId;
-  @override
 
   /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
   /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @override
   @JsonKey(name: 'chunking_strategy', includeIfNull: false)
   ChunkingStrategyRequestParam? get chunkingStrategy;
+
+  /// Create a copy of CreateVectorStoreFileRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateVectorStoreFileRequestImplCopyWith<
           _$CreateVectorStoreFileRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -47384,8 +50015,12 @@ mixin _$ListVectorStoreFilesResponse {
   @JsonKey(name: 'has_more')
   bool get hasMore => throw _privateConstructorUsedError;
 
+  /// Serializes this ListVectorStoreFilesResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ListVectorStoreFilesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ListVectorStoreFilesResponseCopyWith<ListVectorStoreFilesResponse>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -47417,6 +50052,8 @@ class _$ListVectorStoreFilesResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ListVectorStoreFilesResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -47478,6 +50115,8 @@ class __$$ListVectorStoreFilesResponseImplCopyWithImpl<$Res>
       $Res Function(_$ListVectorStoreFilesResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ListVectorStoreFilesResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -47575,12 +50214,14 @@ class _$ListVectorStoreFilesResponseImpl extends _ListVectorStoreFilesResponse {
             (identical(other.hasMore, hasMore) || other.hasMore == hasMore));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, object,
       const DeepCollectionEquality().hash(_data), firstId, lastId, hasMore);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ListVectorStoreFilesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListVectorStoreFilesResponseImplCopyWith<
@@ -47610,31 +50251,33 @@ abstract class _ListVectorStoreFilesResponse
   factory _ListVectorStoreFilesResponse.fromJson(Map<String, dynamic> json) =
       _$ListVectorStoreFilesResponseImpl.fromJson;
 
-  @override
-
   /// The object type, which is always `list`.
-  String get object;
   @override
+  String get object;
 
   /// A list of message files.
-  List<VectorStoreFileObject> get data;
   @override
+  List<VectorStoreFileObject> get data;
 
   /// The ID of the first message file in the list.
+  @override
   @JsonKey(name: 'first_id')
   String get firstId;
-  @override
 
   /// The ID of the last message file in the list.
+  @override
   @JsonKey(name: 'last_id')
   String get lastId;
-  @override
 
   /// Whether there are more message files available.
+  @override
   @JsonKey(name: 'has_more')
   bool get hasMore;
+
+  /// Create a copy of ListVectorStoreFilesResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListVectorStoreFilesResponseImplCopyWith<
           _$ListVectorStoreFilesResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -47656,8 +50299,12 @@ mixin _$DeleteVectorStoreFileResponse {
   /// The object type, which is always `vector_store.file.deleted`.
   String get object => throw _privateConstructorUsedError;
 
+  /// Serializes this DeleteVectorStoreFileResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DeleteVectorStoreFileResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DeleteVectorStoreFileResponseCopyWith<DeleteVectorStoreFileResponse>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -47684,6 +50331,8 @@ class _$DeleteVectorStoreFileResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DeleteVectorStoreFileResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -47730,6 +50379,8 @@ class __$$DeleteVectorStoreFileResponseImplCopyWithImpl<$Res>
       $Res Function(_$DeleteVectorStoreFileResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DeleteVectorStoreFileResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -47793,11 +50444,13 @@ class _$DeleteVectorStoreFileResponseImpl
             (identical(other.object, object) || other.object == object));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, deleted, object);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DeleteVectorStoreFileResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DeleteVectorStoreFileResponseImplCopyWith<
@@ -47824,20 +50477,22 @@ abstract class _DeleteVectorStoreFileResponse
   factory _DeleteVectorStoreFileResponse.fromJson(Map<String, dynamic> json) =
       _$DeleteVectorStoreFileResponseImpl.fromJson;
 
-  @override
-
   /// The ID of the deleted vector store file.
-  String get id;
   @override
+  String get id;
 
   /// Whether the vector store file was deleted.
-  bool get deleted;
   @override
+  bool get deleted;
 
   /// The object type, which is always `vector_store.file.deleted`.
-  String get object;
   @override
-  @JsonKey(ignore: true)
+  String get object;
+
+  /// Create a copy of DeleteVectorStoreFileResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DeleteVectorStoreFileResponseImplCopyWith<
           _$DeleteVectorStoreFileResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -47873,8 +50528,12 @@ mixin _$VectorStoreFileBatchObject {
   VectorStoreFileBatchObjectFileCounts get fileCounts =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this VectorStoreFileBatchObject to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of VectorStoreFileBatchObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $VectorStoreFileBatchObjectCopyWith<VectorStoreFileBatchObject>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -47909,6 +50568,8 @@ class _$VectorStoreFileBatchObjectCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of VectorStoreFileBatchObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -47947,6 +50608,8 @@ class _$VectorStoreFileBatchObjectCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of VectorStoreFileBatchObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $VectorStoreFileBatchObjectFileCountsCopyWith<$Res> get fileCounts {
@@ -47989,6 +50652,8 @@ class __$$VectorStoreFileBatchObjectImplCopyWithImpl<$Res>
       $Res Function(_$VectorStoreFileBatchObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of VectorStoreFileBatchObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -48092,12 +50757,14 @@ class _$VectorStoreFileBatchObjectImpl extends _VectorStoreFileBatchObject {
                 other.fileCounts == fileCounts));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, id, object, createdAt, vectorStoreId, status, fileCounts);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of VectorStoreFileBatchObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VectorStoreFileBatchObjectImplCopyWith<_$VectorStoreFileBatchObjectImpl>
@@ -48127,35 +50794,37 @@ abstract class _VectorStoreFileBatchObject extends VectorStoreFileBatchObject {
   factory _VectorStoreFileBatchObject.fromJson(Map<String, dynamic> json) =
       _$VectorStoreFileBatchObjectImpl.fromJson;
 
-  @override
-
   /// The identifier, which can be referenced in API endpoints.
-  String get id;
   @override
+  String get id;
 
   /// The object type, which is always `vector_store.file_batch`.
-  String get object;
   @override
+  String get object;
 
   /// The Unix timestamp (in seconds) for when the vector store files batch was created.
+  @override
   @JsonKey(name: 'created_at')
   int get createdAt;
-  @override
 
   /// The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to.
+  @override
   @JsonKey(name: 'vector_store_id')
   String get vectorStoreId;
-  @override
 
   /// The status of the vector store files batch, which can be either `in_progress`, `completed`, `cancelled` or `failed`.
-  VectorStoreFileBatchObjectStatus get status;
   @override
+  VectorStoreFileBatchObjectStatus get status;
 
   /// The number of files per status.
+  @override
   @JsonKey(name: 'file_counts')
   VectorStoreFileBatchObjectFileCounts get fileCounts;
+
+  /// Create a copy of VectorStoreFileBatchObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VectorStoreFileBatchObjectImplCopyWith<_$VectorStoreFileBatchObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -48183,8 +50852,12 @@ mixin _$VectorStoreFileBatchObjectFileCounts {
   /// The total number of files.
   int get total => throw _privateConstructorUsedError;
 
+  /// Serializes this VectorStoreFileBatchObjectFileCounts to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of VectorStoreFileBatchObjectFileCounts
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $VectorStoreFileBatchObjectFileCountsCopyWith<
           VectorStoreFileBatchObjectFileCounts>
       get copyWith => throw _privateConstructorUsedError;
@@ -48217,6 +50890,8 @@ class _$VectorStoreFileBatchObjectFileCountsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of VectorStoreFileBatchObjectFileCounts
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -48278,6 +50953,8 @@ class __$$VectorStoreFileBatchObjectFileCountsImplCopyWithImpl<$Res>
       $Res Function(_$VectorStoreFileBatchObjectFileCountsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of VectorStoreFileBatchObjectFileCounts
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -48369,12 +51046,14 @@ class _$VectorStoreFileBatchObjectFileCountsImpl
             (identical(other.total, total) || other.total == total));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, inProgress, completed, failed, cancelled, total);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of VectorStoreFileBatchObjectFileCounts
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VectorStoreFileBatchObjectFileCountsImplCopyWith<
@@ -48404,29 +51083,31 @@ abstract class _VectorStoreFileBatchObjectFileCounts
           Map<String, dynamic> json) =
       _$VectorStoreFileBatchObjectFileCountsImpl.fromJson;
 
-  @override
-
   /// The number of files that are currently being processed.
+  @override
   @JsonKey(name: 'in_progress')
   int get inProgress;
-  @override
 
   /// The number of files that have been processed.
-  int get completed;
   @override
+  int get completed;
 
   /// The number of files that have failed to process.
-  int get failed;
   @override
+  int get failed;
 
   /// The number of files that where cancelled.
-  int get cancelled;
   @override
+  int get cancelled;
 
   /// The total number of files.
-  int get total;
   @override
-  @JsonKey(ignore: true)
+  int get total;
+
+  /// Create a copy of VectorStoreFileBatchObjectFileCounts
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VectorStoreFileBatchObjectFileCountsImplCopyWith<
           _$VectorStoreFileBatchObjectFileCountsImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -48449,8 +51130,12 @@ mixin _$CreateVectorStoreFileBatchRequest {
   ChunkingStrategyRequestParam? get chunkingStrategy =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this CreateVectorStoreFileBatchRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateVectorStoreFileBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateVectorStoreFileBatchRequestCopyWith<CreateVectorStoreFileBatchRequest>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -48482,6 +51167,8 @@ class _$CreateVectorStoreFileBatchRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateVectorStoreFileBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -48500,6 +51187,8 @@ class _$CreateVectorStoreFileBatchRequestCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of CreateVectorStoreFileBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChunkingStrategyRequestParamCopyWith<$Res>? get chunkingStrategy {
@@ -48542,6 +51231,8 @@ class __$$CreateVectorStoreFileBatchRequestImplCopyWithImpl<$Res>
       $Res Function(_$CreateVectorStoreFileBatchRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateVectorStoreFileBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -48609,12 +51300,14 @@ class _$CreateVectorStoreFileBatchRequestImpl
                 other.chunkingStrategy == chunkingStrategy));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType,
       const DeepCollectionEquality().hash(_fileIds), chunkingStrategy);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateVectorStoreFileBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateVectorStoreFileBatchRequestImplCopyWith<
@@ -48643,19 +51336,21 @@ abstract class _CreateVectorStoreFileBatchRequest
           Map<String, dynamic> json) =
       _$CreateVectorStoreFileBatchRequestImpl.fromJson;
 
-  @override
-
   /// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files.
+  @override
   @JsonKey(name: 'file_ids')
   List<String> get fileIds;
-  @override
 
   /// The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.
   /// Any of: [AutoChunkingStrategyRequestParam], [StaticChunkingStrategyRequestParam]
+  @override
   @JsonKey(name: 'chunking_strategy', includeIfNull: false)
   ChunkingStrategyRequestParam? get chunkingStrategy;
+
+  /// Create a copy of CreateVectorStoreFileBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateVectorStoreFileBatchRequestImplCopyWith<
           _$CreateVectorStoreFileBatchRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -48679,8 +51374,12 @@ mixin _$Error {
   /// The type of error.
   String get type => throw _privateConstructorUsedError;
 
+  /// Serializes this Error to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Error
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ErrorCopyWith<Error> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -48702,6 +51401,8 @@ class _$ErrorCopyWithImpl<$Res, $Val extends Error>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Error
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -48749,6 +51450,8 @@ class __$$ErrorImplCopyWithImpl<$Res>
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Error
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -48823,11 +51526,13 @@ class _$ErrorImpl extends _Error {
             (identical(other.type, type) || other.type == type));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, code, message, param, type);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Error
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
@@ -48851,24 +51556,26 @@ abstract class _Error extends Error {
 
   factory _Error.fromJson(Map<String, dynamic> json) = _$ErrorImpl.fromJson;
 
-  @override
-
   /// The error code.
-  String? get code;
   @override
+  String? get code;
 
   /// A human-readable description of the error.
-  String get message;
   @override
+  String get message;
 
   /// The parameter in the request that caused the error.
-  String? get param;
   @override
+  String? get param;
 
   /// The type of error.
-  String get type;
   @override
-  @JsonKey(ignore: true)
+  String get type;
+
+  /// Create a copy of Error
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48899,8 +51606,12 @@ mixin _$CreateBatchRequest {
   @JsonKey(includeIfNull: false)
   Map<String, String>? get metadata => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateBatchRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateBatchRequestCopyWith<CreateBatchRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48929,6 +51640,8 @@ class _$CreateBatchRequestCopyWithImpl<$Res, $Val extends CreateBatchRequest>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -48982,6 +51695,8 @@ class __$$CreateBatchRequestImplCopyWithImpl<$Res>
       $Res Function(_$CreateBatchRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -49076,12 +51791,14 @@ class _$CreateBatchRequestImpl extends _CreateBatchRequest {
             const DeepCollectionEquality().equals(other._metadata, _metadata));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, inputFileId, endpoint,
       completionWindow, const DeepCollectionEquality().hash(_metadata));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateBatchRequestImplCopyWith<_$CreateBatchRequestImpl> get copyWith =>
@@ -49109,31 +51826,33 @@ abstract class _CreateBatchRequest extends CreateBatchRequest {
   factory _CreateBatchRequest.fromJson(Map<String, dynamic> json) =
       _$CreateBatchRequestImpl.fromJson;
 
-  @override
-
   /// The ID of an uploaded file that contains requests for the new batch.
   ///
   /// See [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.
   ///
   /// Your input file must be formatted as a [JSONL file](https://platform.openai.com/docs/api-reference/batch/request-input), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 100 MB in size.
+  @override
   @JsonKey(name: 'input_file_id')
   String get inputFileId;
-  @override
 
   /// The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
-  BatchEndpoint get endpoint;
   @override
+  BatchEndpoint get endpoint;
 
   /// The time frame within which the batch should be processed. Currently only `24h` is supported.
+  @override
   @JsonKey(name: 'completion_window')
   BatchCompletionWindow get completionWindow;
-  @override
 
   /// Optional custom metadata for the batch.
+  @override
   @JsonKey(includeIfNull: false)
   Map<String, String>? get metadata;
+
+  /// Create a copy of CreateBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateBatchRequestImplCopyWith<_$CreateBatchRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -49217,12 +51936,18 @@ mixin _$Batch {
   @JsonKey(name: 'request_counts', includeIfNull: false)
   BatchRequestCounts? get requestCounts => throw _privateConstructorUsedError;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @JsonKey(includeIfNull: false)
   dynamic get metadata => throw _privateConstructorUsedError;
 
+  /// Serializes this Batch to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Batch
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BatchCopyWith<Batch> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -49270,6 +51995,8 @@ class _$BatchCopyWithImpl<$Res, $Val extends Batch>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Batch
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -49378,6 +52105,8 @@ class _$BatchCopyWithImpl<$Res, $Val extends Batch>
     ) as $Val);
   }
 
+  /// Create a copy of Batch
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BatchErrorsCopyWith<$Res>? get errors {
@@ -49390,6 +52119,8 @@ class _$BatchCopyWithImpl<$Res, $Val extends Batch>
     });
   }
 
+  /// Create a copy of Batch
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BatchRequestCountsCopyWith<$Res>? get requestCounts {
@@ -49449,6 +52180,8 @@ class __$$BatchImplCopyWithImpl<$Res>
       _$BatchImpl _value, $Res Function(_$BatchImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Batch
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -49678,7 +52411,9 @@ class _$BatchImpl extends _Batch {
   @JsonKey(name: 'request_counts', includeIfNull: false)
   final BatchRequestCounts? requestCounts;
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
   @override
   @JsonKey(includeIfNull: false)
   final dynamic metadata;
@@ -49730,7 +52465,7 @@ class _$BatchImpl extends _Batch {
             const DeepCollectionEquality().equals(other.metadata, metadata));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -49756,7 +52491,9 @@ class _$BatchImpl extends _Batch {
         const DeepCollectionEquality().hash(metadata)
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Batch
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BatchImplCopyWith<_$BatchImpl> get copyWith =>
@@ -49805,104 +52542,108 @@ abstract class _Batch extends Batch {
 
   factory _Batch.fromJson(Map<String, dynamic> json) = _$BatchImpl.fromJson;
 
-  @override
-
   /// No Description
-  String get id;
   @override
+  String get id;
 
   /// The object type, which is always `batch`.
-  BatchObject get object;
   @override
+  BatchObject get object;
 
   /// The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.
-  BatchEndpoint get endpoint;
   @override
+  BatchEndpoint get endpoint;
 
   /// No Description
+  @override
   @JsonKey(includeIfNull: false)
   BatchErrors? get errors;
-  @override
 
   /// The ID of the input file for the batch.
+  @override
   @JsonKey(name: 'input_file_id')
   String get inputFileId;
-  @override
 
   /// The time frame within which the batch should be processed. Currently only `24h` is supported.
+  @override
   @JsonKey(name: 'completion_window')
   BatchCompletionWindow get completionWindow;
-  @override
 
   /// The current status of the batch.
-  BatchStatus get status;
   @override
+  BatchStatus get status;
 
   /// The ID of the file containing the outputs of successfully executed requests.
+  @override
   @JsonKey(name: 'output_file_id', includeIfNull: false)
   String? get outputFileId;
-  @override
 
   /// The ID of the file containing the outputs of requests with errors.
+  @override
   @JsonKey(name: 'error_file_id', includeIfNull: false)
   String? get errorFileId;
-  @override
 
   /// The Unix timestamp (in seconds) for when the batch was created.
+  @override
   @JsonKey(name: 'created_at')
   int get createdAt;
-  @override
 
   /// The Unix timestamp (in seconds) for when the batch started processing.
+  @override
   @JsonKey(name: 'in_progress_at', includeIfNull: false)
   int? get inProgressAt;
-  @override
 
   /// The Unix timestamp (in seconds) for when the batch will expire.
+  @override
   @JsonKey(name: 'expires_at', includeIfNull: false)
   int? get expiresAt;
-  @override
 
   /// The Unix timestamp (in seconds) for when the batch started finalizing.
+  @override
   @JsonKey(name: 'finalizing_at', includeIfNull: false)
   int? get finalizingAt;
-  @override
 
   /// The Unix timestamp (in seconds) for when the batch was completed.
+  @override
   @JsonKey(name: 'completed_at', includeIfNull: false)
   int? get completedAt;
-  @override
 
   /// The Unix timestamp (in seconds) for when the batch failed.
+  @override
   @JsonKey(name: 'failed_at', includeIfNull: false)
   int? get failedAt;
-  @override
 
   /// The Unix timestamp (in seconds) for when the batch expired.
+  @override
   @JsonKey(name: 'expired_at', includeIfNull: false)
   int? get expiredAt;
-  @override
 
   /// The Unix timestamp (in seconds) for when the batch started cancelling.
+  @override
   @JsonKey(name: 'cancelling_at', includeIfNull: false)
   int? get cancellingAt;
-  @override
 
   /// The Unix timestamp (in seconds) for when the batch was cancelled.
+  @override
   @JsonKey(name: 'cancelled_at', includeIfNull: false)
   int? get cancelledAt;
-  @override
 
   /// The request counts for different statuses within the batch.
+  @override
   @JsonKey(name: 'request_counts', includeIfNull: false)
   BatchRequestCounts? get requestCounts;
-  @override
 
-  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.
+  /// Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional
+  /// information about the object in a structured format. Keys can be a maximum of 64 characters long and values
+  /// can be a maxium of 512 characters long.
+  @override
   @JsonKey(includeIfNull: false)
   dynamic get metadata;
+
+  /// Create a copy of Batch
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BatchImplCopyWith<_$BatchImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -49921,8 +52662,12 @@ mixin _$BatchErrors {
   @JsonKey(includeIfNull: false)
   List<BatchErrorsDataInner>? get data => throw _privateConstructorUsedError;
 
+  /// Serializes this BatchErrors to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BatchErrors
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BatchErrorsCopyWith<BatchErrors> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -49948,6 +52693,8 @@ class _$BatchErrorsCopyWithImpl<$Res, $Val extends BatchErrors>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BatchErrors
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -49988,6 +52735,8 @@ class __$$BatchErrorsImplCopyWithImpl<$Res>
       _$BatchErrorsImpl _value, $Res Function(_$BatchErrorsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BatchErrors
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -50052,12 +52801,14 @@ class _$BatchErrorsImpl extends _BatchErrors {
             const DeepCollectionEquality().equals(other._data, _data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, object, const DeepCollectionEquality().hash(_data));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BatchErrors
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BatchErrorsImplCopyWith<_$BatchErrorsImpl> get copyWith =>
@@ -50081,18 +52832,20 @@ abstract class _BatchErrors extends BatchErrors {
   factory _BatchErrors.fromJson(Map<String, dynamic> json) =
       _$BatchErrorsImpl.fromJson;
 
-  @override
-
   /// The object type, which is always `list`.
+  @override
   @JsonKey(includeIfNull: false)
   String? get object;
-  @override
 
   /// No Description
+  @override
   @JsonKey(includeIfNull: false)
   List<BatchErrorsDataInner>? get data;
+
+  /// Create a copy of BatchErrors
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BatchErrorsImplCopyWith<_$BatchErrorsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50112,8 +52865,12 @@ mixin _$BatchRequestCounts {
   /// Number of requests that have failed.
   int get failed => throw _privateConstructorUsedError;
 
+  /// Serializes this BatchRequestCounts to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BatchRequestCounts
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BatchRequestCountsCopyWith<BatchRequestCounts> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50137,6 +52894,8 @@ class _$BatchRequestCountsCopyWithImpl<$Res, $Val extends BatchRequestCounts>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BatchRequestCounts
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -50180,6 +52939,8 @@ class __$$BatchRequestCountsImplCopyWithImpl<$Res>
       $Res Function(_$BatchRequestCountsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BatchRequestCounts
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -50242,11 +53003,13 @@ class _$BatchRequestCountsImpl extends _BatchRequestCounts {
             (identical(other.failed, failed) || other.failed == failed));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, total, completed, failed);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BatchRequestCounts
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BatchRequestCountsImplCopyWith<_$BatchRequestCountsImpl> get copyWith =>
@@ -50271,20 +53034,22 @@ abstract class _BatchRequestCounts extends BatchRequestCounts {
   factory _BatchRequestCounts.fromJson(Map<String, dynamic> json) =
       _$BatchRequestCountsImpl.fromJson;
 
-  @override
-
   /// Total number of requests in the batch.
-  int get total;
   @override
+  int get total;
 
   /// Number of requests that have been completed successfully.
-  int get completed;
   @override
+  int get completed;
 
   /// Number of requests that have failed.
-  int get failed;
   @override
-  @JsonKey(ignore: true)
+  int get failed;
+
+  /// Create a copy of BatchRequestCounts
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BatchRequestCountsImplCopyWith<_$BatchRequestCountsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50311,8 +53076,12 @@ mixin _$BatchErrorsDataInner {
   @JsonKey(includeIfNull: false)
   int? get line => throw _privateConstructorUsedError;
 
+  /// Serializes this BatchErrorsDataInner to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BatchErrorsDataInner
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BatchErrorsDataInnerCopyWith<BatchErrorsDataInner> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50341,6 +53110,8 @@ class _$BatchErrorsDataInnerCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BatchErrorsDataInner
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -50393,6 +53164,8 @@ class __$$BatchErrorsDataInnerImplCopyWithImpl<$Res>
       $Res Function(_$BatchErrorsDataInnerImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BatchErrorsDataInner
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -50471,11 +53244,13 @@ class _$BatchErrorsDataInnerImpl extends _BatchErrorsDataInner {
             (identical(other.line, line) || other.line == line));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, code, message, param, line);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BatchErrorsDataInner
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BatchErrorsDataInnerImplCopyWith<_$BatchErrorsDataInnerImpl>
@@ -50503,28 +53278,30 @@ abstract class _BatchErrorsDataInner extends BatchErrorsDataInner {
   factory _BatchErrorsDataInner.fromJson(Map<String, dynamic> json) =
       _$BatchErrorsDataInnerImpl.fromJson;
 
-  @override
-
   /// An error code identifying the error type.
+  @override
   @JsonKey(includeIfNull: false)
   String? get code;
-  @override
 
   /// A human-readable message providing more details about the error.
+  @override
   @JsonKey(includeIfNull: false)
   String? get message;
-  @override
 
   /// The name of the parameter that caused the error, if applicable.
+  @override
   @JsonKey(includeIfNull: false)
   String? get param;
-  @override
 
   /// The line number of the input file where the error occurred, if applicable.
+  @override
   @JsonKey(includeIfNull: false)
   int? get line;
+
+  /// Create a copy of BatchErrorsDataInner
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BatchErrorsDataInnerImplCopyWith<_$BatchErrorsDataInnerImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -50553,8 +53330,12 @@ mixin _$ListBatchesResponse {
   /// The object type, which is always `list`.
   ListBatchesResponseObject get object => throw _privateConstructorUsedError;
 
+  /// Serializes this ListBatchesResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ListBatchesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ListBatchesResponseCopyWith<ListBatchesResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50583,6 +53364,8 @@ class _$ListBatchesResponseCopyWithImpl<$Res, $Val extends ListBatchesResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ListBatchesResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -50641,6 +53424,8 @@ class __$$ListBatchesResponseImplCopyWithImpl<$Res>
       $Res Function(_$ListBatchesResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ListBatchesResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -50737,7 +53522,7 @@ class _$ListBatchesResponseImpl extends _ListBatchesResponse {
             (identical(other.object, object) || other.object == object));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -50747,7 +53532,9 @@ class _$ListBatchesResponseImpl extends _ListBatchesResponse {
       hasMore,
       object);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ListBatchesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListBatchesResponseImplCopyWith<_$ListBatchesResponseImpl> get copyWith =>
@@ -50775,31 +53562,33 @@ abstract class _ListBatchesResponse extends ListBatchesResponse {
   factory _ListBatchesResponse.fromJson(Map<String, dynamic> json) =
       _$ListBatchesResponseImpl.fromJson;
 
-  @override
-
   /// No Description
-  List<Batch> get data;
   @override
+  List<Batch> get data;
 
   /// The ID of the first batch in the list.
+  @override
   @JsonKey(name: 'first_id', includeIfNull: false)
   String? get firstId;
-  @override
 
   /// The ID of the last batch in the list.
+  @override
   @JsonKey(name: 'last_id', includeIfNull: false)
   String? get lastId;
-  @override
 
   /// Whether there are more batches available.
+  @override
   @JsonKey(name: 'has_more')
   bool get hasMore;
-  @override
 
   /// The object type, which is always `list`.
-  ListBatchesResponseObject get object;
   @override
-  @JsonKey(ignore: true)
+  ListBatchesResponseObject get object;
+
+  /// Create a copy of ListBatchesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListBatchesResponseImplCopyWith<_$ListBatchesResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50944,8 +53733,13 @@ mixin _$ChatCompletionMessage {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this ChatCompletionMessage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionMessageCopyWith<ChatCompletionMessage> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50970,6 +53764,8 @@ class _$ChatCompletionMessageCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -51009,6 +53805,8 @@ class __$$ChatCompletionSystemMessageImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionSystemMessageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -51075,11 +53873,13 @@ class _$ChatCompletionSystemMessageImpl extends ChatCompletionSystemMessage {
             (identical(other.name, name) || other.name == name));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, role, content, name);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionSystemMessageImplCopyWith<_$ChatCompletionSystemMessageImpl>
@@ -51242,20 +54042,22 @@ abstract class ChatCompletionSystemMessage extends ChatCompletionMessage {
   factory ChatCompletionSystemMessage.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionSystemMessageImpl.fromJson;
 
-  @override
-
   /// The role of the messages author, in this case `system`.
-  ChatCompletionMessageRole get role;
   @override
+  ChatCompletionMessageRole get role;
 
   /// The contents of the system message.
+  @override
   String get content;
 
   /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
   @JsonKey(includeIfNull: false)
   String? get name;
+
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionSystemMessageImplCopyWith<_$ChatCompletionSystemMessageImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -51288,6 +54090,8 @@ class __$$ChatCompletionUserMessageImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionUserMessageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -51311,6 +54115,8 @@ class __$$ChatCompletionUserMessageImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionUserMessageContentCopyWith<$Res> get content {
@@ -51363,11 +54169,13 @@ class _$ChatCompletionUserMessageImpl extends ChatCompletionUserMessage {
             (identical(other.name, name) || other.name == name));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, role, content, name);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionUserMessageImplCopyWith<_$ChatCompletionUserMessageImpl>
@@ -51531,21 +54339,23 @@ abstract class ChatCompletionUserMessage extends ChatCompletionMessage {
   factory ChatCompletionUserMessage.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionUserMessageImpl.fromJson;
 
-  @override
-
   /// The role of the messages author, in this case `user`.
-  ChatCompletionMessageRole get role;
   @override
+  ChatCompletionMessageRole get role;
 
   /// The contents of the user message.
+  @override
   @_ChatCompletionUserMessageContentConverter()
   ChatCompletionUserMessageContent get content;
 
   /// An optional name for the participant. Provides the model information to differentiate between participants of the same role.
   @JsonKey(includeIfNull: false)
   String? get name;
+
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionUserMessageImplCopyWith<_$ChatCompletionUserMessageImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -51581,6 +54391,8 @@ class __$$ChatCompletionAssistantMessageImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionAssistantMessageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -51614,6 +54426,8 @@ class __$$ChatCompletionAssistantMessageImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionMessageFunctionCallCopyWith<$Res>? get functionCall {
@@ -51699,12 +54513,14 @@ class _$ChatCompletionAssistantMessageImpl
                 other.functionCall == functionCall));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, role, content, name,
       const DeepCollectionEquality().hash(_toolCalls), functionCall);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionAssistantMessageImplCopyWith<
@@ -51872,13 +54688,12 @@ abstract class ChatCompletionAssistantMessage extends ChatCompletionMessage {
   factory ChatCompletionAssistantMessage.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionAssistantMessageImpl.fromJson;
 
-  @override
-
   /// The role of the messages author, in this case `assistant`.
-  ChatCompletionMessageRole get role;
   @override
+  ChatCompletionMessageRole get role;
 
   /// The contents of the assistant message. Required unless `tool_calls` or `function_call` is specified.
+  @override
   @JsonKey(includeIfNull: false)
   String? get content;
 
@@ -51893,8 +54708,11 @@ abstract class ChatCompletionAssistantMessage extends ChatCompletionMessage {
   /// Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model.
   @JsonKey(name: 'function_call', includeIfNull: false)
   ChatCompletionMessageFunctionCall? get functionCall;
+
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionAssistantMessageImplCopyWith<
           _$ChatCompletionAssistantMessageImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -51925,6 +54743,8 @@ class __$$ChatCompletionToolMessageImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionToolMessageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -51991,11 +54811,13 @@ class _$ChatCompletionToolMessageImpl extends ChatCompletionToolMessage {
                 other.toolCallId == toolCallId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, role, content, toolCallId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionToolMessageImplCopyWith<_$ChatCompletionToolMessageImpl>
@@ -52158,20 +54980,22 @@ abstract class ChatCompletionToolMessage extends ChatCompletionMessage {
   factory ChatCompletionToolMessage.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionToolMessageImpl.fromJson;
 
-  @override
-
   /// The role of the messages author, in this case `tool`.
-  ChatCompletionMessageRole get role;
   @override
+  ChatCompletionMessageRole get role;
 
   /// The contents of the tool message.
+  @override
   String get content;
 
   /// Tool call that this message is responding to.
   @JsonKey(name: 'tool_call_id')
   String get toolCallId;
+
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionToolMessageImplCopyWith<_$ChatCompletionToolMessageImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -52198,6 +55022,8 @@ class __$$ChatCompletionFunctionMessageImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionFunctionMessageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -52264,11 +55090,13 @@ class _$ChatCompletionFunctionMessageImpl
             (identical(other.name, name) || other.name == name));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, role, content, name);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionFunctionMessageImplCopyWith<
@@ -52431,19 +55259,21 @@ abstract class ChatCompletionFunctionMessage extends ChatCompletionMessage {
   factory ChatCompletionFunctionMessage.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionFunctionMessageImpl.fromJson;
 
-  @override
-
   /// The role of the messages author, in this case `function`.
-  ChatCompletionMessageRole get role;
   @override
+  ChatCompletionMessageRole get role;
 
   /// The contents of the function message.
+  @override
   String? get content;
 
   /// The name of the function to call.
   String get name;
+
+  /// Create a copy of ChatCompletionMessage
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionFunctionMessageImplCopyWith<
           _$ChatCompletionFunctionMessageImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -52509,6 +55339,8 @@ mixin _$ChatCompletionUserMessageContent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this ChatCompletionUserMessageContent to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -52531,6 +55363,9 @@ class _$ChatCompletionUserMessageContentCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ChatCompletionUserMessageContent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -52553,6 +55388,8 @@ class __$$ChatCompletionMessageContentPartsImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionMessageContentPartsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionUserMessageContent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -52606,12 +55443,14 @@ class _$ChatCompletionMessageContentPartsImpl
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_value));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionUserMessageContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionMessageContentPartsImplCopyWith<
@@ -52704,7 +55543,10 @@ abstract class ChatCompletionMessageContentParts
 
   @override
   List<ChatCompletionMessageContentPart> get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionUserMessageContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionMessageContentPartsImplCopyWith<
           _$ChatCompletionMessageContentPartsImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -52730,6 +55572,8 @@ class __$$ChatCompletionUserMessageContentStringImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionUserMessageContentStringImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionUserMessageContent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -52776,11 +55620,13 @@ class _$ChatCompletionUserMessageContentStringImpl
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionUserMessageContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionUserMessageContentStringImplCopyWith<
@@ -52873,7 +55719,10 @@ abstract class ChatCompletionUserMessageContentString
 
   @override
   String get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionUserMessageContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionUserMessageContentStringImplCopyWith<
           _$ChatCompletionUserMessageContentStringImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -52950,8 +55799,13 @@ mixin _$ChatCompletionMessageContentPart {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this ChatCompletionMessageContentPart to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionMessageContentPart
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionMessageContentPartCopyWith<ChatCompletionMessageContentPart>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -52978,6 +55832,8 @@ class _$ChatCompletionMessageContentPartCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionMessageContentPart
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -53014,6 +55870,8 @@ class __$$ChatCompletionMessageContentPartTextImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionMessageContentPartTextImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionMessageContentPart
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -53069,11 +55927,13 @@ class _$ChatCompletionMessageContentPartTextImpl
             (identical(other.text, text) || other.text == text));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, text);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionMessageContentPart
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionMessageContentPartTextImplCopyWith<
@@ -53173,15 +56033,17 @@ abstract class ChatCompletionMessageContentPartText
           Map<String, dynamic> json) =
       _$ChatCompletionMessageContentPartTextImpl.fromJson;
 
-  @override
-
   /// The type of the content part, in this case `text`.
+  @override
   ChatCompletionMessageContentPartType get type;
 
   /// The text content.
   String get text;
+
+  /// Create a copy of ChatCompletionMessageContentPart
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionMessageContentPartTextImplCopyWith<
           _$ChatCompletionMessageContentPartTextImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -53213,6 +56075,8 @@ class __$$ChatCompletionMessageContentPartImageImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionMessageContentPartImageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionMessageContentPart
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -53231,6 +56095,8 @@ class __$$ChatCompletionMessageContentPartImageImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of ChatCompletionMessageContentPart
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatCompletionMessageImageUrlCopyWith<$Res> get imageUrl {
@@ -53279,11 +56145,13 @@ class _$ChatCompletionMessageContentPartImageImpl
                 other.imageUrl == imageUrl));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, imageUrl);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionMessageContentPart
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionMessageContentPartImageImplCopyWith<
@@ -53385,16 +56253,18 @@ abstract class ChatCompletionMessageContentPartImage
           Map<String, dynamic> json) =
       _$ChatCompletionMessageContentPartImageImpl.fromJson;
 
-  @override
-
   /// The type of the content part, in this case `image_url`.
+  @override
   ChatCompletionMessageContentPartType get type;
 
   /// The URL of the image.
   @JsonKey(name: 'image_url')
   ChatCompletionMessageImageUrl get imageUrl;
+
+  /// Create a copy of ChatCompletionMessageContentPart
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionMessageContentPartImageImplCopyWith<
           _$ChatCompletionMessageContentPartImageImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -53414,8 +56284,12 @@ mixin _$ChatCompletionMessageImageUrl {
   ChatCompletionMessageImageDetail get detail =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this ChatCompletionMessageImageUrl to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatCompletionMessageImageUrl
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatCompletionMessageImageUrlCopyWith<ChatCompletionMessageImageUrl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -53442,6 +56316,8 @@ class _$ChatCompletionMessageImageUrlCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatCompletionMessageImageUrl
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -53483,6 +56359,8 @@ class __$$ChatCompletionMessageImageUrlImplCopyWithImpl<$Res>
       $Res Function(_$ChatCompletionMessageImageUrlImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatCompletionMessageImageUrl
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -53537,11 +56415,13 @@ class _$ChatCompletionMessageImageUrlImpl
             (identical(other.detail, detail) || other.detail == detail));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, url, detail);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatCompletionMessageImageUrl
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatCompletionMessageImageUrlImplCopyWith<
@@ -53568,16 +56448,18 @@ abstract class _ChatCompletionMessageImageUrl
   factory _ChatCompletionMessageImageUrl.fromJson(Map<String, dynamic> json) =
       _$ChatCompletionMessageImageUrlImpl.fromJson;
 
-  @override
-
   /// Either a URL of the image or the base64 encoded image data.
-  String get url;
   @override
+  String get url;
 
   /// Specifies the detail level of the image. Learn more in the [Vision guide](https://platform.openai.com/docs/guides/vision/low-or-high-fidelity-image-understanding).
-  ChatCompletionMessageImageDetail get detail;
   @override
-  @JsonKey(ignore: true)
+  ChatCompletionMessageImageDetail get detail;
+
+  /// Create a copy of ChatCompletionMessageImageUrl
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatCompletionMessageImageUrlImplCopyWith<
           _$ChatCompletionMessageImageUrlImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -53659,8 +56541,13 @@ mixin _$AssistantTools {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this AssistantTools to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AssistantTools
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AssistantToolsCopyWith<AssistantTools> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -53684,6 +56571,8 @@ class _$AssistantToolsCopyWithImpl<$Res, $Val extends AssistantTools>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AssistantTools
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -53720,6 +56609,8 @@ class __$$AssistantToolsCodeInterpreterImplCopyWithImpl<$Res>
       $Res Function(_$AssistantToolsCodeInterpreterImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantTools
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -53763,11 +56654,13 @@ class _$AssistantToolsCodeInterpreterImpl
             (identical(other.type, type) || other.type == type));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantTools
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AssistantToolsCodeInterpreterImplCopyWith<
@@ -53872,12 +56765,14 @@ abstract class AssistantToolsCodeInterpreter extends AssistantTools {
   factory AssistantToolsCodeInterpreter.fromJson(Map<String, dynamic> json) =
       _$AssistantToolsCodeInterpreterImpl.fromJson;
 
-  @override
-
   /// The type of tool being defined: `code_interpreter`
-  String get type;
   @override
-  @JsonKey(ignore: true)
+  String get type;
+
+  /// Create a copy of AssistantTools
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AssistantToolsCodeInterpreterImplCopyWith<
           _$AssistantToolsCodeInterpreterImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -53909,6 +56804,8 @@ class __$$AssistantToolsFileSearchImplCopyWithImpl<$Res>
       $Res Function(_$AssistantToolsFileSearchImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantTools
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -53927,6 +56824,8 @@ class __$$AssistantToolsFileSearchImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of AssistantTools
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AssistantToolsFileSearchFileSearchCopyWith<$Res>? get fileSearch {
@@ -53976,11 +56875,13 @@ class _$AssistantToolsFileSearchImpl extends AssistantToolsFileSearch {
                 other.fileSearch == fileSearch));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, fileSearch);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantTools
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AssistantToolsFileSearchImplCopyWith<_$AssistantToolsFileSearchImpl>
@@ -54087,16 +56988,18 @@ abstract class AssistantToolsFileSearch extends AssistantTools {
   factory AssistantToolsFileSearch.fromJson(Map<String, dynamic> json) =
       _$AssistantToolsFileSearchImpl.fromJson;
 
-  @override
-
   /// The type of tool being defined: `file_search`
+  @override
   String get type;
 
   /// Overrides for the file search tool.
   @JsonKey(name: 'file_search', includeIfNull: false)
   AssistantToolsFileSearchFileSearch? get fileSearch;
+
+  /// Create a copy of AssistantTools
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AssistantToolsFileSearchImplCopyWith<_$AssistantToolsFileSearchImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -54124,6 +57027,8 @@ class __$$AssistantToolsFunctionImplCopyWithImpl<$Res>
       $Res Function(_$AssistantToolsFunctionImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantTools
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -54142,6 +57047,8 @@ class __$$AssistantToolsFunctionImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of AssistantTools
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FunctionObjectCopyWith<$Res> get function {
@@ -54185,11 +57092,13 @@ class _$AssistantToolsFunctionImpl extends AssistantToolsFunction {
                 other.function == function));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, function);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantTools
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AssistantToolsFunctionImplCopyWith<_$AssistantToolsFunctionImpl>
@@ -54294,15 +57203,17 @@ abstract class AssistantToolsFunction extends AssistantTools {
   factory AssistantToolsFunction.fromJson(Map<String, dynamic> json) =
       _$AssistantToolsFunctionImpl.fromJson;
 
-  @override
-
   /// The type of tool being defined: `function`
+  @override
   String get type;
 
   /// A function that the model may call.
   FunctionObject get function;
+
+  /// Create a copy of AssistantTools
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AssistantToolsFunctionImplCopyWith<_$AssistantToolsFunctionImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -54314,7 +57225,7 @@ AssistantToolsFileSearchFileSearch _$AssistantToolsFileSearchFileSearchFromJson(
 
 /// @nodoc
 mixin _$AssistantToolsFileSearchFileSearch {
-  /// The maximum number of results the file search tool should output. The default is 20 for gpt-4* models
+  /// The maximum number of results the file search tool should output. The default is 20 for `gpt-4*` models
   /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
   ///
   /// Note that the file search tool may output fewer than `max_num_results` results. See the [file search
@@ -54322,8 +57233,12 @@ mixin _$AssistantToolsFileSearchFileSearch {
   @JsonKey(name: 'max_num_results', includeIfNull: false)
   int? get maxNumResults => throw _privateConstructorUsedError;
 
+  /// Serializes this AssistantToolsFileSearchFileSearch to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AssistantToolsFileSearchFileSearch
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AssistantToolsFileSearchFileSearchCopyWith<
           AssistantToolsFileSearchFileSearch>
       get copyWith => throw _privateConstructorUsedError;
@@ -54353,6 +57268,8 @@ class _$AssistantToolsFileSearchFileSearchCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AssistantToolsFileSearchFileSearch
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -54391,6 +57308,8 @@ class __$$AssistantToolsFileSearchFileSearchImplCopyWithImpl<$Res>
       $Res Function(_$AssistantToolsFileSearchFileSearchImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantToolsFileSearchFileSearch
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -54418,7 +57337,7 @@ class _$AssistantToolsFileSearchFileSearchImpl
           Map<String, dynamic> json) =>
       _$$AssistantToolsFileSearchFileSearchImplFromJson(json);
 
-  /// The maximum number of results the file search tool should output. The default is 20 for gpt-4* models
+  /// The maximum number of results the file search tool should output. The default is 20 for `gpt-4*` models
   /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
   ///
   /// Note that the file search tool may output fewer than `max_num_results` results. See the [file search
@@ -54441,11 +57360,13 @@ class _$AssistantToolsFileSearchFileSearchImpl
                 other.maxNumResults == maxNumResults));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, maxNumResults);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantToolsFileSearchFileSearch
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AssistantToolsFileSearchFileSearchImplCopyWith<
@@ -54472,17 +57393,19 @@ abstract class _AssistantToolsFileSearchFileSearch
           Map<String, dynamic> json) =
       _$AssistantToolsFileSearchFileSearchImpl.fromJson;
 
-  @override
-
-  /// The maximum number of results the file search tool should output. The default is 20 for gpt-4* models
+  /// The maximum number of results the file search tool should output. The default is 20 for `gpt-4*` models
   /// and 5 for gpt-3.5-turbo. This number should be between 1 and 50 inclusive.
   ///
   /// Note that the file search tool may output fewer than `max_num_results` results. See the [file search
   /// tool documentation](/docs/assistants/tools/file-search/number-of-chunks-returned) for more information.
+  @override
   @JsonKey(name: 'max_num_results', includeIfNull: false)
   int? get maxNumResults;
+
+  /// Create a copy of AssistantToolsFileSearchFileSearch
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AssistantToolsFileSearchFileSearchImplCopyWith<
           _$AssistantToolsFileSearchFileSearchImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -54563,8 +57486,13 @@ mixin _$MessageContent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this MessageContent to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageContentCopyWith<MessageContent> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54588,6 +57516,8 @@ class _$MessageContentCopyWithImpl<$Res, $Val extends MessageContent>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageContent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -54628,6 +57558,8 @@ class __$$MessageContentImageFileObjectImplCopyWithImpl<$Res>
       $Res Function(_$MessageContentImageFileObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageContent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -54646,6 +57578,8 @@ class __$$MessageContentImageFileObjectImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of MessageContent
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MessageContentImageFileCopyWith<$Res> get imageFile {
@@ -54693,11 +57627,13 @@ class _$MessageContentImageFileObjectImpl
                 other.imageFile == imageFile));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, imageFile);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageContentImageFileObjectImplCopyWith<
@@ -54804,16 +57740,18 @@ abstract class MessageContentImageFileObject extends MessageContent {
   factory MessageContentImageFileObject.fromJson(Map<String, dynamic> json) =
       _$MessageContentImageFileObjectImpl.fromJson;
 
-  @override
-
   /// Always `image_file`.
+  @override
   String get type;
 
   /// The image file that is part of a message.
   @JsonKey(name: 'image_file')
   MessageContentImageFile get imageFile;
+
+  /// Create a copy of MessageContent
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageContentImageFileObjectImplCopyWith<
           _$MessageContentImageFileObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -54845,6 +57783,8 @@ class __$$MessageContentImageUrlObjectImplCopyWithImpl<$Res>
       $Res Function(_$MessageContentImageUrlObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageContent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -54863,6 +57803,8 @@ class __$$MessageContentImageUrlObjectImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of MessageContent
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MessageContentImageUrlCopyWith<$Res> get imageUrl {
@@ -54909,11 +57851,13 @@ class _$MessageContentImageUrlObjectImpl extends MessageContentImageUrlObject {
                 other.imageUrl == imageUrl));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, imageUrl);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageContentImageUrlObjectImplCopyWith<
@@ -55020,16 +57964,18 @@ abstract class MessageContentImageUrlObject extends MessageContent {
   factory MessageContentImageUrlObject.fromJson(Map<String, dynamic> json) =
       _$MessageContentImageUrlObjectImpl.fromJson;
 
-  @override
-
   /// The type of the content part. Always `image_url`.
+  @override
   String get type;
 
   /// The image URL part of a message.
   @JsonKey(name: 'image_url')
   MessageContentImageUrl get imageUrl;
+
+  /// Create a copy of MessageContent
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageContentImageUrlObjectImplCopyWith<
           _$MessageContentImageUrlObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -55058,6 +58004,8 @@ class __$$MessageContentTextObjectImplCopyWithImpl<$Res>
       $Res Function(_$MessageContentTextObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageContent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -55076,6 +58024,8 @@ class __$$MessageContentTextObjectImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of MessageContent
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MessageContentTextCopyWith<$Res> get text {
@@ -55117,11 +58067,13 @@ class _$MessageContentTextObjectImpl extends MessageContentTextObject {
             (identical(other.text, text) || other.text == text));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, text);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageContentTextObjectImplCopyWith<_$MessageContentTextObjectImpl>
@@ -55225,15 +58177,17 @@ abstract class MessageContentTextObject extends MessageContent {
   factory MessageContentTextObject.fromJson(Map<String, dynamic> json) =
       _$MessageContentTextObjectImpl.fromJson;
 
-  @override
-
   /// Always `text`.
+  @override
   String get type;
 
   /// The text content that is part of a message.
   MessageContentText get text;
+
+  /// Create a copy of MessageContent
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageContentTextObjectImplCopyWith<_$MessageContentTextObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -55318,8 +58272,13 @@ mixin _$MessageDeltaContent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this MessageDeltaContent to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageDeltaContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageDeltaContentCopyWith<MessageDeltaContent> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -55343,6 +58302,8 @@ class _$MessageDeltaContentCopyWithImpl<$Res, $Val extends MessageDeltaContent>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageDeltaContent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -55390,6 +58351,8 @@ class __$$MessageDeltaContentImageFileObjectImplCopyWithImpl<$Res>
       $Res Function(_$MessageDeltaContentImageFileObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageDeltaContent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -55413,6 +58376,8 @@ class __$$MessageDeltaContentImageFileObjectImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of MessageDeltaContent
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MessageContentImageFileCopyWith<$Res>? get imageFile {
@@ -55469,11 +58434,13 @@ class _$MessageDeltaContentImageFileObjectImpl
                 other.imageFile == imageFile));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, index, type, imageFile);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageDeltaContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageDeltaContentImageFileObjectImplCopyWith<
@@ -55586,20 +58553,22 @@ abstract class MessageDeltaContentImageFileObject extends MessageDeltaContent {
           Map<String, dynamic> json) =
       _$MessageDeltaContentImageFileObjectImpl.fromJson;
 
-  @override
-
   /// The index of the content part in the message.
-  int get index;
   @override
+  int get index;
 
   /// Always `image_file`.
+  @override
   String get type;
 
   /// The image file that is part of a message.
   @JsonKey(name: 'image_file', includeIfNull: false)
   MessageContentImageFile? get imageFile;
+
+  /// Create a copy of MessageDeltaContent
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageDeltaContentImageFileObjectImplCopyWith<
           _$MessageDeltaContentImageFileObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -55632,6 +58601,8 @@ class __$$MessageDeltaContentTextObjectImplCopyWithImpl<$Res>
       $Res Function(_$MessageDeltaContentTextObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageDeltaContent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -55655,6 +58626,8 @@ class __$$MessageDeltaContentTextObjectImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of MessageDeltaContent
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MessageDeltaContentTextCopyWith<$Res>? get text {
@@ -55710,11 +58683,13 @@ class _$MessageDeltaContentTextObjectImpl
             (identical(other.text, text) || other.text == text));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, index, type, text);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageDeltaContent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageDeltaContentTextObjectImplCopyWith<
@@ -55825,20 +58800,22 @@ abstract class MessageDeltaContentTextObject extends MessageDeltaContent {
   factory MessageDeltaContentTextObject.fromJson(Map<String, dynamic> json) =
       _$MessageDeltaContentTextObjectImpl.fromJson;
 
-  @override
-
   /// The index of the content part in the message.
-  int get index;
   @override
+  int get index;
 
   /// Always `text`.
+  @override
   String get type;
 
   /// The text content that is part of a message.
   @JsonKey(includeIfNull: false)
   MessageDeltaContentText? get text;
+
+  /// Create a copy of MessageDeltaContent
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageDeltaContentTextObjectImplCopyWith<
           _$MessageDeltaContentTextObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -55963,8 +58940,13 @@ mixin _$MessageContentTextAnnotations {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this MessageContentTextAnnotations to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageContentTextAnnotationsCopyWith<MessageContentTextAnnotations>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -55995,6 +58977,8 @@ class _$MessageContentTextAnnotationsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -56057,6 +59041,8 @@ class __$$MessageContentTextAnnotationsFileCitationObjectImplCopyWithImpl<$Res>
           _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -56090,6 +59076,8 @@ class __$$MessageContentTextAnnotationsFileCitationObjectImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of MessageContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MessageContentTextAnnotationsFileCitationCopyWith<$Res> get fileCitation {
@@ -56159,12 +59147,14 @@ class _$MessageContentTextAnnotationsFileCitationObjectImpl
                 other.endIndex == endIndex));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, type, text, fileCitation, startIndex, endIndex);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageContentTextAnnotationsFileCitationObjectImplCopyWith<
@@ -56310,30 +59300,32 @@ abstract class MessageContentTextAnnotationsFileCitationObject
           Map<String, dynamic> json) =
       _$MessageContentTextAnnotationsFileCitationObjectImpl.fromJson;
 
-  @override
-
   /// Always `file_citation`.
-  String get type;
   @override
+  String get type;
 
   /// The text in the message content that needs to be replaced.
+  @override
   String get text;
 
   /// A citation within the message that points to a specific quote from a specific File associated with the assistant or the message.
   @JsonKey(name: 'file_citation')
   MessageContentTextAnnotationsFileCitation get fileCitation;
-  @override
 
   /// The start index of the text in the message content that needs to be replaced.
+  @override
   @JsonKey(name: 'start_index')
   int get startIndex;
-  @override
 
   /// The end index of the text in the message content that needs to be replaced.
+  @override
   @JsonKey(name: 'end_index')
   int get endIndex;
+
+  /// Create a copy of MessageContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageContentTextAnnotationsFileCitationObjectImplCopyWith<
           _$MessageContentTextAnnotationsFileCitationObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -56371,6 +59363,8 @@ class __$$MessageContentTextAnnotationsFilePathObjectImplCopyWithImpl<$Res>
       $Res Function(_$MessageContentTextAnnotationsFilePathObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -56404,6 +59398,8 @@ class __$$MessageContentTextAnnotationsFilePathObjectImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of MessageContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MessageContentTextAnnotationsFilePathCopyWith<$Res> get filePath {
@@ -56473,12 +59469,14 @@ class _$MessageContentTextAnnotationsFilePathObjectImpl
                 other.endIndex == endIndex));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, type, text, filePath, startIndex, endIndex);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageContentTextAnnotationsFilePathObjectImplCopyWith<
@@ -56623,30 +59621,32 @@ abstract class MessageContentTextAnnotationsFilePathObject
           Map<String, dynamic> json) =
       _$MessageContentTextAnnotationsFilePathObjectImpl.fromJson;
 
-  @override
-
   /// Always `file_path`.
-  String get type;
   @override
+  String get type;
 
   /// The text in the message content that needs to be replaced.
+  @override
   String get text;
 
   /// No Description
   @JsonKey(name: 'file_path')
   MessageContentTextAnnotationsFilePath get filePath;
-  @override
 
   /// No Description
+  @override
   @JsonKey(name: 'start_index')
   int get startIndex;
-  @override
 
   /// No Description
+  @override
   @JsonKey(name: 'end_index')
   int get endIndex;
+
+  /// Create a copy of MessageContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageContentTextAnnotationsFilePathObjectImplCopyWith<
           _$MessageContentTextAnnotationsFilePathObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -56663,8 +59663,12 @@ mixin _$MessageContentTextAnnotationsFilePath {
   @JsonKey(name: 'file_id')
   String get fileId => throw _privateConstructorUsedError;
 
+  /// Serializes this MessageContentTextAnnotationsFilePath to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageContentTextAnnotationsFilePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageContentTextAnnotationsFilePathCopyWith<
           MessageContentTextAnnotationsFilePath>
       get copyWith => throw _privateConstructorUsedError;
@@ -56692,6 +59696,8 @@ class _$MessageContentTextAnnotationsFilePathCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageContentTextAnnotationsFilePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -56728,6 +59734,8 @@ class __$$MessageContentTextAnnotationsFilePathImplCopyWithImpl<$Res>
       $Res Function(_$MessageContentTextAnnotationsFilePathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageContentTextAnnotationsFilePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -56772,11 +59780,13 @@ class _$MessageContentTextAnnotationsFilePathImpl
             (identical(other.fileId, fileId) || other.fileId == fileId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, fileId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageContentTextAnnotationsFilePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageContentTextAnnotationsFilePathImplCopyWith<
@@ -56803,13 +59813,15 @@ abstract class _MessageContentTextAnnotationsFilePath
           Map<String, dynamic> json) =
       _$MessageContentTextAnnotationsFilePathImpl.fromJson;
 
-  @override
-
   /// The ID of the file that was generated.
+  @override
   @JsonKey(name: 'file_id')
   String get fileId;
+
+  /// Create a copy of MessageContentTextAnnotationsFilePath
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageContentTextAnnotationsFilePathImplCopyWith<
           _$MessageContentTextAnnotationsFilePathImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -56948,8 +59960,13 @@ mixin _$MessageDeltaContentTextAnnotations {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this MessageDeltaContentTextAnnotations to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageDeltaContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageDeltaContentTextAnnotationsCopyWith<
           MessageDeltaContentTextAnnotations>
       get copyWith => throw _privateConstructorUsedError;
@@ -56982,6 +59999,8 @@ class _$MessageDeltaContentTextAnnotationsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageDeltaContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -57055,6 +60074,8 @@ class __$$MessageDeltaContentTextAnnotationsFileCitationObjectImplCopyWithImpl<
           _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageDeltaContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -57093,6 +60114,8 @@ class __$$MessageDeltaContentTextAnnotationsFileCitationObjectImplCopyWithImpl<
     ));
   }
 
+  /// Create a copy of MessageDeltaContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MessageDeltaContentTextAnnotationsFileCitationCopyWith<$Res>?
@@ -57175,12 +60198,14 @@ class _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl
                 other.endIndex == endIndex));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, index, type, text, fileCitation, startIndex, endIndex);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageDeltaContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageDeltaContentTextAnnotationsFileCitationObjectImplCopyWith<
@@ -57339,35 +60364,37 @@ abstract class MessageDeltaContentTextAnnotationsFileCitationObject
           Map<String, dynamic> json) =
       _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl.fromJson;
 
-  @override
-
   /// The index of the annotation in the text content part.
-  int get index;
   @override
+  int get index;
 
   /// Always `file_citation`.
-  String get type;
   @override
+  String get type;
 
   /// The text in the message content that needs to be replaced.
+  @override
   @JsonKey(includeIfNull: false)
   String? get text;
 
   /// A citation within the message that points to a specific quote from a specific File associated with the assistant or the message.
   @JsonKey(name: 'file_citation', includeIfNull: false)
   MessageDeltaContentTextAnnotationsFileCitation? get fileCitation;
-  @override
 
   /// The start index of the text in the message content that needs to be replaced.
+  @override
   @JsonKey(name: 'start_index', includeIfNull: false)
   int? get startIndex;
-  @override
 
   /// The end index of the text in the message content that needs to be replaced.
+  @override
   @JsonKey(name: 'end_index', includeIfNull: false)
   int? get endIndex;
+
+  /// Create a copy of MessageDeltaContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageDeltaContentTextAnnotationsFileCitationObjectImplCopyWith<
           _$MessageDeltaContentTextAnnotationsFileCitationObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -57409,6 +60436,8 @@ class __$$MessageDeltaContentTextAnnotationsFilePathObjectImplCopyWithImpl<$Res>
           _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageDeltaContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -57447,6 +60476,8 @@ class __$$MessageDeltaContentTextAnnotationsFilePathObjectImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of MessageDeltaContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MessageDeltaContentTextAnnotationsFilePathObjectFilePathCopyWith<$Res>?
@@ -57528,12 +60559,14 @@ class _$MessageDeltaContentTextAnnotationsFilePathObjectImpl
                 other.endIndex == endIndex));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, index, type, text, filePath, startIndex, endIndex);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageDeltaContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageDeltaContentTextAnnotationsFilePathObjectImplCopyWith<
@@ -57690,35 +60723,37 @@ abstract class MessageDeltaContentTextAnnotationsFilePathObject
           Map<String, dynamic> json) =
       _$MessageDeltaContentTextAnnotationsFilePathObjectImpl.fromJson;
 
-  @override
-
   /// The index of the annotation in the text content part.
-  int get index;
   @override
+  int get index;
 
   /// Always `file_path`.
-  String get type;
   @override
+  String get type;
 
   /// The text in the message content that needs to be replaced.
+  @override
   @JsonKey(includeIfNull: false)
   String? get text;
 
   /// No Description
   @JsonKey(name: 'file_path', includeIfNull: false)
   MessageDeltaContentTextAnnotationsFilePathObjectFilePath? get filePath;
-  @override
 
   /// No Description
+  @override
   @JsonKey(name: 'start_index', includeIfNull: false)
   int? get startIndex;
-  @override
 
   /// No Description
+  @override
   @JsonKey(name: 'end_index', includeIfNull: false)
   int? get endIndex;
+
+  /// Create a copy of MessageDeltaContentTextAnnotations
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageDeltaContentTextAnnotationsFilePathObjectImplCopyWith<
           _$MessageDeltaContentTextAnnotationsFilePathObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -57737,8 +60772,12 @@ mixin _$MessageDeltaContentTextAnnotationsFilePathObjectFilePath {
   @JsonKey(name: 'file_id', includeIfNull: false)
   String? get fileId => throw _privateConstructorUsedError;
 
+  /// Serializes this MessageDeltaContentTextAnnotationsFilePathObjectFilePath to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageDeltaContentTextAnnotationsFilePathObjectFilePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageDeltaContentTextAnnotationsFilePathObjectFilePathCopyWith<
           MessageDeltaContentTextAnnotationsFilePathObjectFilePath>
       get copyWith => throw _privateConstructorUsedError;
@@ -57773,6 +60812,8 @@ class _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathCopyWithImpl<
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageDeltaContentTextAnnotationsFilePathObjectFilePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -57820,6 +60861,8 @@ class __$$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImplCopyWithIm
           _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageDeltaContentTextAnnotationsFilePathObjectFilePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -57866,11 +60909,13 @@ class _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl
             (identical(other.fileId, fileId) || other.fileId == fileId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, fileId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageDeltaContentTextAnnotationsFilePathObjectFilePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImplCopyWith<
@@ -57901,13 +60946,15 @@ abstract class _MessageDeltaContentTextAnnotationsFilePathObjectFilePath
           Map<String, dynamic> json) =
       _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl.fromJson;
 
-  @override
-
   /// The ID of the file that was generated.
+  @override
   @JsonKey(name: 'file_id', includeIfNull: false)
   String? get fileId;
+
+  /// Create a copy of MessageDeltaContentTextAnnotationsFilePathObjectFilePath
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImplCopyWith<
           _$MessageDeltaContentTextAnnotationsFilePathObjectFilePathImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -57995,8 +61042,13 @@ mixin _$RunStepDetails {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this RunStepDetails to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunStepDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunStepDetailsCopyWith<RunStepDetails> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -58020,6 +61072,8 @@ class _$RunStepDetailsCopyWithImpl<$Res, $Val extends RunStepDetails>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunStepDetails
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -58061,6 +61115,8 @@ class __$$RunStepDetailsMessageCreationObjectImplCopyWithImpl<$Res>
       $Res Function(_$RunStepDetailsMessageCreationObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDetails
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -58079,6 +61135,8 @@ class __$$RunStepDetailsMessageCreationObjectImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of RunStepDetails
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunStepDetailsMessageCreationCopyWith<$Res> get messageCreation {
@@ -58126,11 +61184,13 @@ class _$RunStepDetailsMessageCreationObjectImpl
                 other.messageCreation == messageCreation));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, messageCreation);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDetailsMessageCreationObjectImplCopyWith<
@@ -58247,16 +61307,18 @@ abstract class RunStepDetailsMessageCreationObject extends RunStepDetails {
           Map<String, dynamic> json) =
       _$RunStepDetailsMessageCreationObjectImpl.fromJson;
 
-  @override
-
   /// Always `message_creation`.
+  @override
   String get type;
 
   /// Details of the message creation by the run step.
   @JsonKey(name: 'message_creation')
   RunStepDetailsMessageCreation get messageCreation;
+
+  /// Create a copy of RunStepDetails
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDetailsMessageCreationObjectImplCopyWith<
           _$RunStepDetailsMessageCreationObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -58286,6 +61348,8 @@ class __$$RunStepDetailsToolCallsObjectImplCopyWithImpl<$Res>
       $Res Function(_$RunStepDetailsToolCallsObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDetails
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -58351,12 +61415,14 @@ class _$RunStepDetailsToolCallsObjectImpl
                 .equals(other._toolCalls, _toolCalls));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, type, const DeepCollectionEquality().hash(_toolCalls));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDetailsToolCallsObjectImplCopyWith<
@@ -58472,16 +61538,18 @@ abstract class RunStepDetailsToolCallsObject extends RunStepDetails {
   factory RunStepDetailsToolCallsObject.fromJson(Map<String, dynamic> json) =
       _$RunStepDetailsToolCallsObjectImpl.fromJson;
 
-  @override
-
   /// Always `tool_calls`.
+  @override
   String get type;
 
   /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.
   @JsonKey(name: 'tool_calls')
   List<RunStepDetailsToolCalls> get toolCalls;
+
+  /// Create a copy of RunStepDetails
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDetailsToolCallsObjectImplCopyWith<
           _$RunStepDetailsToolCallsObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -58571,8 +61639,13 @@ mixin _$RunStepDeltaDetails {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this RunStepDeltaDetails to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunStepDeltaDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunStepDeltaDetailsCopyWith<RunStepDeltaDetails> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -58596,6 +61669,8 @@ class _$RunStepDeltaDetailsCopyWithImpl<$Res, $Val extends RunStepDeltaDetails>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunStepDeltaDetails
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -58639,6 +61714,8 @@ class __$$RunStepDeltaStepDetailsMessageCreationObjectImplCopyWithImpl<$Res>
       $Res Function(_$RunStepDeltaStepDetailsMessageCreationObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDeltaDetails
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -58657,6 +61734,8 @@ class __$$RunStepDeltaStepDetailsMessageCreationObjectImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of RunStepDeltaDetails
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunStepDeltaStepDetailsMessageCreationCopyWith<$Res>? get messageCreation {
@@ -58709,11 +61788,13 @@ class _$RunStepDeltaStepDetailsMessageCreationObjectImpl
                 other.messageCreation == messageCreation));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, messageCreation);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDeltaDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDeltaStepDetailsMessageCreationObjectImplCopyWith<
@@ -58835,16 +61916,18 @@ abstract class RunStepDeltaStepDetailsMessageCreationObject
           Map<String, dynamic> json) =
       _$RunStepDeltaStepDetailsMessageCreationObjectImpl.fromJson;
 
-  @override
-
   /// Always `message_creation`.
+  @override
   String get type;
 
   /// Details of the message creation by the run step.
   @JsonKey(name: 'message_creation', includeIfNull: false)
   RunStepDeltaStepDetailsMessageCreation? get messageCreation;
+
+  /// Create a copy of RunStepDeltaDetails
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDeltaStepDetailsMessageCreationObjectImplCopyWith<
           _$RunStepDeltaStepDetailsMessageCreationObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -58875,6 +61958,8 @@ class __$$RunStepDeltaStepDetailsToolCallsObjectImplCopyWithImpl<$Res>
       $Res Function(_$RunStepDeltaStepDetailsToolCallsObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDeltaDetails
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -58942,12 +62027,14 @@ class _$RunStepDeltaStepDetailsToolCallsObjectImpl
                 .equals(other._toolCalls, _toolCalls));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, type, const DeepCollectionEquality().hash(_toolCalls));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDeltaDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDeltaStepDetailsToolCallsObjectImplCopyWith<
@@ -59068,16 +62155,18 @@ abstract class RunStepDeltaStepDetailsToolCallsObject
           Map<String, dynamic> json) =
       _$RunStepDeltaStepDetailsToolCallsObjectImpl.fromJson;
 
-  @override
-
   /// Always `tool_calls`.
+  @override
   String get type;
 
   /// An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.
   @JsonKey(name: 'tool_calls', includeIfNull: false)
   List<RunStepDeltaStepDetailsToolCalls>? get toolCalls;
+
+  /// Create a copy of RunStepDeltaDetails
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDeltaStepDetailsToolCallsObjectImplCopyWith<
           _$RunStepDeltaStepDetailsToolCallsObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -59181,8 +62270,13 @@ mixin _$RunStepDetailsToolCalls {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this RunStepDetailsToolCalls to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunStepDetailsToolCallsCopyWith<RunStepDetailsToolCalls> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -59207,6 +62301,8 @@ class _$RunStepDetailsToolCallsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -59255,6 +62351,8 @@ class __$$RunStepDetailsToolCallsCodeObjectImplCopyWithImpl<$Res>
       $Res Function(_$RunStepDetailsToolCallsCodeObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -59278,6 +62376,8 @@ class __$$RunStepDetailsToolCallsCodeObjectImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of RunStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith<$Res>
@@ -59332,11 +62432,13 @@ class _$RunStepDetailsToolCallsCodeObjectImpl
                 other.codeInterpreter == codeInterpreter));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, type, codeInterpreter);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDetailsToolCallsCodeObjectImplCopyWith<
@@ -59465,20 +62567,22 @@ abstract class RunStepDetailsToolCallsCodeObject
           Map<String, dynamic> json) =
       _$RunStepDetailsToolCallsCodeObjectImpl.fromJson;
 
-  @override
-
   /// The ID of the tool call.
-  String get id;
   @override
+  String get id;
 
   /// Always `code_interpreter`.
+  @override
   String get type;
 
   /// The Code Interpreter tool call definition.
   @JsonKey(name: 'code_interpreter')
   RunStepDetailsToolCallsCodeObjectCodeInterpreter get codeInterpreter;
+
+  /// Create a copy of RunStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDetailsToolCallsCodeObjectImplCopyWith<
           _$RunStepDetailsToolCallsCodeObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -59509,6 +62613,8 @@ class __$$RunStepDetailsToolCallsFileSearchObjectImplCopyWithImpl<$Res>
       $Res Function(_$RunStepDetailsToolCallsFileSearchObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -59585,12 +62691,14 @@ class _$RunStepDetailsToolCallsFileSearchObjectImpl
                 .equals(other._fileSearch, _fileSearch));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, id, type, const DeepCollectionEquality().hash(_fileSearch));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDetailsToolCallsFileSearchObjectImplCopyWith<
@@ -59720,20 +62828,22 @@ abstract class RunStepDetailsToolCallsFileSearchObject
           Map<String, dynamic> json) =
       _$RunStepDetailsToolCallsFileSearchObjectImpl.fromJson;
 
-  @override
-
   /// The ID of the tool call object.
-  String get id;
   @override
+  String get id;
 
   /// The type of tool call. This is always going to be `file_search` for this type of tool call.
+  @override
   String get type;
 
   /// For now, this is always going to be an empty object.
   @JsonKey(name: 'file_search')
   Map<String, dynamic> get fileSearch;
+
+  /// Create a copy of RunStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDetailsToolCallsFileSearchObjectImplCopyWith<
           _$RunStepDetailsToolCallsFileSearchObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -59763,6 +62873,8 @@ class __$$RunStepDetailsToolCallsFunctionObjectImplCopyWithImpl<$Res>
       $Res Function(_$RunStepDetailsToolCallsFunctionObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -59786,6 +62898,8 @@ class __$$RunStepDetailsToolCallsFunctionObjectImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of RunStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunStepDetailsToolCallsFunctionCopyWith<$Res> get function {
@@ -59836,11 +62950,13 @@ class _$RunStepDetailsToolCallsFunctionObjectImpl
                 other.function == function));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, type, function);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDetailsToolCallsFunctionObjectImplCopyWith<
@@ -59968,19 +63084,21 @@ abstract class RunStepDetailsToolCallsFunctionObject
           Map<String, dynamic> json) =
       _$RunStepDetailsToolCallsFunctionObjectImpl.fromJson;
 
-  @override
-
   /// The ID of the tool call object.
-  String get id;
   @override
+  String get id;
 
   /// Always `function`.
+  @override
   String get type;
 
   /// The definition of the function that was called.
   RunStepDetailsToolCallsFunction get function;
+
+  /// Create a copy of RunStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDetailsToolCallsFunctionObjectImplCopyWith<
           _$RunStepDetailsToolCallsFunctionObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -60002,8 +63120,12 @@ mixin _$RunStepDetailsToolCallsFunction {
   /// The output of the function. This will be `null` if the outputs have not been [submitted](https://platform.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
   String? get output => throw _privateConstructorUsedError;
 
+  /// Serializes this RunStepDetailsToolCallsFunction to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunStepDetailsToolCallsFunction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunStepDetailsToolCallsFunctionCopyWith<RunStepDetailsToolCallsFunction>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -60030,6 +63152,8 @@ class _$RunStepDetailsToolCallsFunctionCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunStepDetailsToolCallsFunction
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -60076,6 +63200,8 @@ class __$$RunStepDetailsToolCallsFunctionImplCopyWithImpl<$Res>
       $Res Function(_$RunStepDetailsToolCallsFunctionImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDetailsToolCallsFunction
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -60140,11 +63266,13 @@ class _$RunStepDetailsToolCallsFunctionImpl
             (identical(other.output, output) || other.output == output));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, arguments, output);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDetailsToolCallsFunction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDetailsToolCallsFunctionImplCopyWith<
@@ -60171,20 +63299,22 @@ abstract class _RunStepDetailsToolCallsFunction
   factory _RunStepDetailsToolCallsFunction.fromJson(Map<String, dynamic> json) =
       _$RunStepDetailsToolCallsFunctionImpl.fromJson;
 
-  @override
-
   /// The name of the function.
-  String get name;
   @override
+  String get name;
 
   /// The arguments passed to the function.
-  String get arguments;
   @override
+  String get arguments;
 
   /// The output of the function. This will be `null` if the outputs have not been [submitted](https://platform.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
-  String? get output;
   @override
-  @JsonKey(ignore: true)
+  String? get output;
+
+  /// Create a copy of RunStepDetailsToolCallsFunction
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDetailsToolCallsFunctionImplCopyWith<
           _$RunStepDetailsToolCallsFunctionImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -60329,8 +63459,13 @@ mixin _$RunStepDeltaStepDetailsToolCalls {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this RunStepDeltaStepDetailsToolCalls to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunStepDeltaStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunStepDeltaStepDetailsToolCallsCopyWith<RunStepDeltaStepDetailsToolCalls>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -60358,6 +63493,8 @@ class _$RunStepDeltaStepDetailsToolCallsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunStepDeltaStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -60414,6 +63551,8 @@ class __$$RunStepDeltaStepDetailsToolCallsCodeObjectImplCopyWithImpl<$Res>
       $Res Function(_$RunStepDeltaStepDetailsToolCallsCodeObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDeltaStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -60442,6 +63581,8 @@ class __$$RunStepDeltaStepDetailsToolCallsCodeObjectImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of RunStepDeltaStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterCopyWith<$Res>?
@@ -60509,12 +63650,14 @@ class _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl
                 other.codeInterpreter == codeInterpreter));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, index, id, type, codeInterpreter);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDeltaStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDeltaStepDetailsToolCallsCodeObjectImplCopyWith<
@@ -60680,26 +63823,28 @@ abstract class RunStepDeltaStepDetailsToolCallsCodeObject
           Map<String, dynamic> json) =
       _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl.fromJson;
 
-  @override
-
   /// The index of the tool call in the tool calls array.
-  int get index;
   @override
+  int get index;
 
   /// The ID of the tool call.
+  @override
   @JsonKey(includeIfNull: false)
   String? get id;
-  @override
 
   /// Always `code_interpreter`.
+  @override
   String get type;
 
   /// The Code Interpreter tool call definition. - outputs
   @JsonKey(name: 'code_interpreter', includeIfNull: false)
   RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter?
       get codeInterpreter;
+
+  /// Create a copy of RunStepDeltaStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDeltaStepDetailsToolCallsCodeObjectImplCopyWith<
           _$RunStepDeltaStepDetailsToolCallsCodeObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -60735,6 +63880,8 @@ class __$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplCopyWithImpl<$Res>
           _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDeltaStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -60823,12 +63970,14 @@ class _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl
                 .equals(other._fileSearch, _fileSearch));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, index, id, type,
       const DeepCollectionEquality().hash(_fileSearch));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDeltaStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplCopyWith<
@@ -60994,25 +64143,27 @@ abstract class RunStepDeltaStepDetailsToolCallsFileSearchObject
           Map<String, dynamic> json) =
       _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl.fromJson;
 
-  @override
-
   /// The index of the tool call in the tool calls array.
-  int get index;
   @override
+  int get index;
 
   /// The ID of the tool call object.
+  @override
   @JsonKey(includeIfNull: false)
   String? get id;
-  @override
 
   /// The type of tool call. This is always going to be `file_search` for this type of tool call.
+  @override
   String get type;
 
   /// For now, this is always going to be an empty object.
   @JsonKey(name: 'file_search')
   Map<String, dynamic> get fileSearch;
+
+  /// Create a copy of RunStepDeltaStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDeltaStepDetailsToolCallsFileSearchObjectImplCopyWith<
           _$RunStepDeltaStepDetailsToolCallsFileSearchObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -61049,6 +64200,8 @@ class __$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplCopyWithImpl<$Res>
       $Res Function(_$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDeltaStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -61077,6 +64230,8 @@ class __$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of RunStepDeltaStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunStepDeltaStepDetailsToolCallsFunctionCopyWith<$Res>? get function {
@@ -61141,11 +64296,13 @@ class _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl
                 other.function == function));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, index, id, type, function);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDeltaStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplCopyWith<
@@ -61311,25 +64468,27 @@ abstract class RunStepDeltaStepDetailsToolCallsFunctionObject
           Map<String, dynamic> json) =
       _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl.fromJson;
 
-  @override
-
   /// The index of the tool call in the tool calls array.
-  int get index;
   @override
+  int get index;
 
   /// The ID of the tool call object.
+  @override
   @JsonKey(includeIfNull: false)
   String? get id;
-  @override
 
   /// Always `function`.
+  @override
   String get type;
 
   /// The definition of the function that was called.
   @JsonKey(includeIfNull: false)
   RunStepDeltaStepDetailsToolCallsFunction? get function;
+
+  /// Create a copy of RunStepDeltaStepDetailsToolCalls
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDeltaStepDetailsToolCallsFunctionObjectImplCopyWith<
           _$RunStepDeltaStepDetailsToolCallsFunctionObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -61355,8 +64514,12 @@ mixin _$RunStepDeltaStepDetailsToolCallsFunction {
   @JsonKey(includeIfNull: false)
   String? get output => throw _privateConstructorUsedError;
 
+  /// Serializes this RunStepDeltaStepDetailsToolCallsFunction to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsFunction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunStepDeltaStepDetailsToolCallsFunctionCopyWith<
           RunStepDeltaStepDetailsToolCallsFunction>
       get copyWith => throw _privateConstructorUsedError;
@@ -61388,6 +64551,8 @@ class _$RunStepDeltaStepDetailsToolCallsFunctionCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsFunction
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -61437,6 +64602,8 @@ class __$$RunStepDeltaStepDetailsToolCallsFunctionImplCopyWithImpl<$Res>
       $Res Function(_$RunStepDeltaStepDetailsToolCallsFunctionImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsFunction
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -61506,11 +64673,13 @@ class _$RunStepDeltaStepDetailsToolCallsFunctionImpl
             (identical(other.output, output) || other.output == output));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, arguments, output);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsFunction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDeltaStepDetailsToolCallsFunctionImplCopyWith<
@@ -61540,23 +64709,25 @@ abstract class _RunStepDeltaStepDetailsToolCallsFunction
           Map<String, dynamic> json) =
       _$RunStepDeltaStepDetailsToolCallsFunctionImpl.fromJson;
 
-  @override
-
   /// The name of the function.
+  @override
   @JsonKey(includeIfNull: false)
   String? get name;
-  @override
 
   /// The arguments passed to the function.
+  @override
   @JsonKey(includeIfNull: false)
   String? get arguments;
-  @override
 
   /// The output of the function. This will be `null` if the outputs have not been [submitted](https://platform.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
+  @override
   @JsonKey(includeIfNull: false)
   String? get output;
+
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsFunction
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDeltaStepDetailsToolCallsFunctionImplCopyWith<
           _$RunStepDeltaStepDetailsToolCallsFunctionImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -61630,8 +64801,13 @@ mixin _$RunStepDetailsToolCallsCodeOutput {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this RunStepDetailsToolCallsCodeOutput to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunStepDetailsToolCallsCodeOutput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunStepDetailsToolCallsCodeOutputCopyWith<RunStepDetailsToolCallsCodeOutput>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -61658,6 +64834,8 @@ class _$RunStepDetailsToolCallsCodeOutputCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunStepDetailsToolCallsCodeOutput
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -61696,6 +64874,8 @@ class __$$RunStepDetailsToolCallsCodeOutputLogsObjectImplCopyWithImpl<$Res>
       $Res Function(_$RunStepDetailsToolCallsCodeOutputLogsObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDetailsToolCallsCodeOutput
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -61749,11 +64929,13 @@ class _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl
             (identical(other.logs, logs) || other.logs == logs));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, logs);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDetailsToolCallsCodeOutput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDetailsToolCallsCodeOutputLogsObjectImplCopyWith<
@@ -61853,15 +65035,17 @@ abstract class RunStepDetailsToolCallsCodeOutputLogsObject
           Map<String, dynamic> json) =
       _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl.fromJson;
 
-  @override
-
   /// Always `logs`.
+  @override
   String get type;
 
   /// The text output from the Code Interpreter tool call.
   String get logs;
+
+  /// Create a copy of RunStepDetailsToolCallsCodeOutput
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDetailsToolCallsCodeOutputLogsObjectImplCopyWith<
           _$RunStepDetailsToolCallsCodeOutputLogsObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -61893,6 +65077,8 @@ class __$$RunStepDetailsToolCallsCodeOutputImageObjectImplCopyWithImpl<$Res>
       $Res Function(_$RunStepDetailsToolCallsCodeOutputImageObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDetailsToolCallsCodeOutput
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -61911,6 +65097,8 @@ class __$$RunStepDetailsToolCallsCodeOutputImageObjectImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of RunStepDetailsToolCallsCodeOutput
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunStepDetailsToolCallsCodeOutputImageCopyWith<$Res> get image {
@@ -61955,11 +65143,13 @@ class _$RunStepDetailsToolCallsCodeOutputImageObjectImpl
             (identical(other.image, image) || other.image == image));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, image);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDetailsToolCallsCodeOutput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDetailsToolCallsCodeOutputImageObjectImplCopyWith<
@@ -62060,15 +65250,17 @@ abstract class RunStepDetailsToolCallsCodeOutputImageObject
           Map<String, dynamic> json) =
       _$RunStepDetailsToolCallsCodeOutputImageObjectImpl.fromJson;
 
-  @override
-
   /// Always `image`.
+  @override
   String get type;
 
   /// Code interpreter image output.
   RunStepDetailsToolCallsCodeOutputImage get image;
+
+  /// Create a copy of RunStepDetailsToolCallsCodeOutput
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDetailsToolCallsCodeOutputImageObjectImplCopyWith<
           _$RunStepDetailsToolCallsCodeOutputImageObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -62172,8 +65364,13 @@ mixin _$RunStepDeltaStepDetailsToolCallsCodeOutput {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this RunStepDeltaStepDetailsToolCallsCodeOutput to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsCodeOutput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RunStepDeltaStepDetailsToolCallsCodeOutputCopyWith<
           RunStepDeltaStepDetailsToolCallsCodeOutput>
       get copyWith => throw _privateConstructorUsedError;
@@ -62202,6 +65399,8 @@ class _$RunStepDeltaStepDetailsToolCallsCodeOutputCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsCodeOutput
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -62251,6 +65450,8 @@ class __$$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImplCopyWithImpl<
           _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsCodeOutput
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -62318,11 +65519,13 @@ class _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl
             (identical(other.logs, logs) || other.logs == logs));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, index, type, logs);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsCodeOutput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImplCopyWith<
@@ -62448,20 +65651,22 @@ abstract class RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject
           Map<String, dynamic> json) =
       _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl.fromJson;
 
-  @override
-
   /// The index of the output in the outputs array.
-  int get index;
   @override
+  int get index;
 
   /// Always `logs`.
+  @override
   String get type;
 
   /// The text output from the Code Interpreter tool call.
   @JsonKey(includeIfNull: false)
   String? get logs;
+
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsCodeOutput
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImplCopyWith<
           _$RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -62502,6 +65707,8 @@ class __$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplCopyWithImpl<
           _then)
       : super(_value, _then);
 
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsCodeOutput
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -62525,6 +65732,8 @@ class __$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplCopyWithImpl<
     ));
   }
 
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsCodeOutput
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunStepDeltaStepDetailsToolCallsCodeOutputImageCopyWith<$Res>? get image {
@@ -62583,11 +65792,13 @@ class _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl
             (identical(other.image, image) || other.image == image));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, index, type, image);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsCodeOutput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplCopyWith<
@@ -62714,20 +65925,22 @@ abstract class RunStepDeltaStepDetailsToolCallsCodeOutputImageObject
           Map<String, dynamic> json) =
       _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl.fromJson;
 
-  @override
-
   /// The index of the output in the outputs array.
-  int get index;
   @override
+  int get index;
 
   /// Always `image`.
+  @override
   String get type;
 
   /// Code interpreter image output.
   @JsonKey(includeIfNull: false)
   RunStepDeltaStepDetailsToolCallsCodeOutputImage? get image;
+
+  /// Create a copy of RunStepDeltaStepDetailsToolCallsCodeOutput
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImplCopyWith<
           _$RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -62793,8 +66006,13 @@ mixin _$ChunkingStrategyRequestParam {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this ChunkingStrategyRequestParam to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChunkingStrategyRequestParam
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChunkingStrategyRequestParamCopyWith<ChunkingStrategyRequestParam>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -62821,6 +66039,8 @@ class _$ChunkingStrategyRequestParamCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChunkingStrategyRequestParam
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -62857,6 +66077,8 @@ class __$$AutoChunkingStrategyRequestParamImplCopyWithImpl<$Res>
       $Res Function(_$AutoChunkingStrategyRequestParamImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChunkingStrategyRequestParam
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -62899,11 +66121,13 @@ class _$AutoChunkingStrategyRequestParamImpl
             (identical(other.type, type) || other.type == type));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChunkingStrategyRequestParam
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AutoChunkingStrategyRequestParamImplCopyWith<
@@ -62991,12 +66215,14 @@ abstract class AutoChunkingStrategyRequestParam
   factory AutoChunkingStrategyRequestParam.fromJson(Map<String, dynamic> json) =
       _$AutoChunkingStrategyRequestParamImpl.fromJson;
 
-  @override
-
   /// Always `auto`.
-  String get type;
   @override
-  @JsonKey(ignore: true)
+  String get type;
+
+  /// Create a copy of ChunkingStrategyRequestParam
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AutoChunkingStrategyRequestParamImplCopyWith<
           _$AutoChunkingStrategyRequestParamImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -63026,6 +66252,8 @@ class __$$StaticChunkingStrategyRequestParamImplCopyWithImpl<$Res>
       $Res Function(_$StaticChunkingStrategyRequestParamImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChunkingStrategyRequestParam
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -63044,6 +66272,8 @@ class __$$StaticChunkingStrategyRequestParamImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of ChunkingStrategyRequestParam
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $StaticChunkingStrategyCopyWith<$Res> get static {
@@ -63087,11 +66317,13 @@ class _$StaticChunkingStrategyRequestParamImpl
             (identical(other.static, static) || other.static == static));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, static);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChunkingStrategyRequestParam
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StaticChunkingStrategyRequestParamImplCopyWith<
@@ -63182,15 +66414,17 @@ abstract class StaticChunkingStrategyRequestParam
           Map<String, dynamic> json) =
       _$StaticChunkingStrategyRequestParamImpl.fromJson;
 
-  @override
-
   /// Always `static`.
+  @override
   String get type;
 
   /// Static chunking strategy
   StaticChunkingStrategy get static;
+
+  /// Create a copy of ChunkingStrategyRequestParam
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StaticChunkingStrategyRequestParamImplCopyWith<
           _$StaticChunkingStrategyRequestParamImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -63256,8 +66490,13 @@ mixin _$ChunkingStrategyResponseParam {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this ChunkingStrategyResponseParam to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChunkingStrategyResponseParam
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChunkingStrategyResponseParamCopyWith<ChunkingStrategyResponseParam>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -63284,6 +66523,8 @@ class _$ChunkingStrategyResponseParamCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChunkingStrategyResponseParam
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -63322,6 +66563,8 @@ class __$$StaticChunkingStrategyResponseParamImplCopyWithImpl<$Res>
       $Res Function(_$StaticChunkingStrategyResponseParamImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChunkingStrategyResponseParam
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -63340,6 +66583,8 @@ class __$$StaticChunkingStrategyResponseParamImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of ChunkingStrategyResponseParam
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $StaticChunkingStrategyCopyWith<$Res> get static {
@@ -63383,11 +66628,13 @@ class _$StaticChunkingStrategyResponseParamImpl
             (identical(other.static, static) || other.static == static));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, static);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChunkingStrategyResponseParam
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StaticChunkingStrategyResponseParamImplCopyWith<
@@ -63478,15 +66725,17 @@ abstract class StaticChunkingStrategyResponseParam
           Map<String, dynamic> json) =
       _$StaticChunkingStrategyResponseParamImpl.fromJson;
 
-  @override
-
   /// Always `static`.
+  @override
   String get type;
 
   /// Static chunking strategy
   StaticChunkingStrategy get static;
+
+  /// Create a copy of ChunkingStrategyResponseParam
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StaticChunkingStrategyResponseParamImplCopyWith<
           _$StaticChunkingStrategyResponseParamImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -63514,6 +66763,8 @@ class __$$OtherChunkingStrategyResponseParamImplCopyWithImpl<$Res>
       $Res Function(_$OtherChunkingStrategyResponseParamImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChunkingStrategyResponseParam
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -63556,11 +66807,13 @@ class _$OtherChunkingStrategyResponseParamImpl
             (identical(other.type, type) || other.type == type));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChunkingStrategyResponseParam
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$OtherChunkingStrategyResponseParamImplCopyWith<
@@ -63649,12 +66902,14 @@ abstract class OtherChunkingStrategyResponseParam
           Map<String, dynamic> json) =
       _$OtherChunkingStrategyResponseParamImpl.fromJson;
 
-  @override
-
   /// Always `other`.
-  String get type;
   @override
-  @JsonKey(ignore: true)
+  String get type;
+
+  /// Create a copy of ChunkingStrategyResponseParam
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$OtherChunkingStrategyResponseParamImplCopyWith<
           _$OtherChunkingStrategyResponseParamImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -63777,8 +67032,13 @@ mixin _$AssistantStreamEvent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this AssistantStreamEvent to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AssistantStreamEventCopyWith<AssistantStreamEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -63803,6 +67063,8 @@ class _$AssistantStreamEventCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -63838,6 +67100,8 @@ class __$$ThreadStreamEventImplCopyWithImpl<$Res>
       $Res Function(_$ThreadStreamEventImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -63856,6 +67120,8 @@ class __$$ThreadStreamEventImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ThreadObjectCopyWith<$Res> get data {
@@ -63896,11 +67162,13 @@ class _$ThreadStreamEventImpl extends ThreadStreamEvent {
             (identical(other.data, data) || other.data == data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, event, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ThreadStreamEventImplCopyWith<_$ThreadStreamEventImpl> get copyWith =>
@@ -64033,16 +67301,18 @@ abstract class ThreadStreamEvent extends AssistantStreamEvent {
   factory ThreadStreamEvent.fromJson(Map<String, dynamic> json) =
       _$ThreadStreamEventImpl.fromJson;
 
-  @override
-
   /// The type of the event.
-  EventType get event;
   @override
+  EventType get event;
 
   /// Represents a thread that contains [messages](https://platform.openai.com/docs/api-reference/messages).
-  ThreadObject get data;
   @override
-  @JsonKey(ignore: true)
+  ThreadObject get data;
+
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ThreadStreamEventImplCopyWith<_$ThreadStreamEventImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -64068,6 +67338,8 @@ class __$$RunStreamEventImplCopyWithImpl<$Res>
       _$RunStreamEventImpl _value, $Res Function(_$RunStreamEventImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -64086,6 +67358,8 @@ class __$$RunStreamEventImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunObjectCopyWith<$Res> get data {
@@ -64126,11 +67400,13 @@ class _$RunStreamEventImpl extends RunStreamEvent {
             (identical(other.data, data) || other.data == data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, event, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStreamEventImplCopyWith<_$RunStreamEventImpl> get copyWith =>
@@ -64263,16 +67539,18 @@ abstract class RunStreamEvent extends AssistantStreamEvent {
   factory RunStreamEvent.fromJson(Map<String, dynamic> json) =
       _$RunStreamEventImpl.fromJson;
 
-  @override
-
   /// The type of the event.
-  EventType get event;
   @override
+  EventType get event;
 
   /// Represents an execution run on a [thread](https://platform.openai.com/docs/api-reference/threads).
-  RunObject get data;
   @override
-  @JsonKey(ignore: true)
+  RunObject get data;
+
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStreamEventImplCopyWith<_$RunStreamEventImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -64298,6 +67576,8 @@ class __$$RunStepStreamEventImplCopyWithImpl<$Res>
       $Res Function(_$RunStepStreamEventImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -64316,6 +67596,8 @@ class __$$RunStepStreamEventImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunStepObjectCopyWith<$Res> get data {
@@ -64356,11 +67638,13 @@ class _$RunStepStreamEventImpl extends RunStepStreamEvent {
             (identical(other.data, data) || other.data == data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, event, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepStreamEventImplCopyWith<_$RunStepStreamEventImpl> get copyWith =>
@@ -64493,16 +67777,18 @@ abstract class RunStepStreamEvent extends AssistantStreamEvent {
   factory RunStepStreamEvent.fromJson(Map<String, dynamic> json) =
       _$RunStepStreamEventImpl.fromJson;
 
-  @override
-
   /// The type of the event.
-  EventType get event;
   @override
+  EventType get event;
 
   /// Represents a step in execution of a run.
-  RunStepObject get data;
   @override
-  @JsonKey(ignore: true)
+  RunStepObject get data;
+
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepStreamEventImplCopyWith<_$RunStepStreamEventImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -64531,6 +67817,8 @@ class __$$RunStepStreamDeltaEventImplCopyWithImpl<$Res>
       $Res Function(_$RunStepStreamDeltaEventImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -64549,6 +67837,8 @@ class __$$RunStepStreamDeltaEventImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RunStepDeltaObjectCopyWith<$Res> get data {
@@ -64589,11 +67879,13 @@ class _$RunStepStreamDeltaEventImpl extends RunStepStreamDeltaEvent {
             (identical(other.data, data) || other.data == data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, event, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RunStepStreamDeltaEventImplCopyWith<_$RunStepStreamDeltaEventImpl>
@@ -64726,16 +68018,18 @@ abstract class RunStepStreamDeltaEvent extends AssistantStreamEvent {
   factory RunStepStreamDeltaEvent.fromJson(Map<String, dynamic> json) =
       _$RunStepStreamDeltaEventImpl.fromJson;
 
-  @override
-
   /// The type of the event.
-  EventType get event;
   @override
+  EventType get event;
 
   /// Represents a run step delta i.e. any changed fields on a run step during streaming.
-  RunStepDeltaObject get data;
   @override
-  @JsonKey(ignore: true)
+  RunStepDeltaObject get data;
+
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RunStepStreamDeltaEventImplCopyWith<_$RunStepStreamDeltaEventImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -64761,6 +68055,8 @@ class __$$MessageStreamEventImplCopyWithImpl<$Res>
       $Res Function(_$MessageStreamEventImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -64779,6 +68075,8 @@ class __$$MessageStreamEventImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MessageObjectCopyWith<$Res> get data {
@@ -64819,11 +68117,13 @@ class _$MessageStreamEventImpl extends MessageStreamEvent {
             (identical(other.data, data) || other.data == data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, event, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageStreamEventImplCopyWith<_$MessageStreamEventImpl> get copyWith =>
@@ -64956,16 +68256,18 @@ abstract class MessageStreamEvent extends AssistantStreamEvent {
   factory MessageStreamEvent.fromJson(Map<String, dynamic> json) =
       _$MessageStreamEventImpl.fromJson;
 
-  @override
-
   /// The type of the event.
-  EventType get event;
   @override
+  EventType get event;
 
   /// Represents a message within a [thread](https://platform.openai.com/docs/api-reference/threads).
-  MessageObject get data;
   @override
-  @JsonKey(ignore: true)
+  MessageObject get data;
+
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageStreamEventImplCopyWith<_$MessageStreamEventImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -64994,6 +68296,8 @@ class __$$MessageStreamDeltaEventImplCopyWithImpl<$Res>
       $Res Function(_$MessageStreamDeltaEventImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -65012,6 +68316,8 @@ class __$$MessageStreamDeltaEventImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MessageDeltaObjectCopyWith<$Res> get data {
@@ -65052,11 +68358,13 @@ class _$MessageStreamDeltaEventImpl extends MessageStreamDeltaEvent {
             (identical(other.data, data) || other.data == data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, event, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageStreamDeltaEventImplCopyWith<_$MessageStreamDeltaEventImpl>
@@ -65189,16 +68497,18 @@ abstract class MessageStreamDeltaEvent extends AssistantStreamEvent {
   factory MessageStreamDeltaEvent.fromJson(Map<String, dynamic> json) =
       _$MessageStreamDeltaEventImpl.fromJson;
 
-  @override
-
   /// The type of the event.
-  EventType get event;
   @override
+  EventType get event;
 
   /// Represents a message delta i.e. any changed fields on a message during streaming.
-  MessageDeltaObject get data;
   @override
-  @JsonKey(ignore: true)
+  MessageDeltaObject get data;
+
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageStreamDeltaEventImplCopyWith<_$MessageStreamDeltaEventImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -65224,6 +68534,8 @@ class __$$ErrorEventImplCopyWithImpl<$Res>
       _$ErrorEventImpl _value, $Res Function(_$ErrorEventImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -65242,6 +68554,8 @@ class __$$ErrorEventImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ErrorCopyWith<$Res> get data {
@@ -65281,11 +68595,13 @@ class _$ErrorEventImpl extends ErrorEvent {
             (identical(other.data, data) || other.data == data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, event, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ErrorEventImplCopyWith<_$ErrorEventImpl> get copyWith =>
@@ -65417,16 +68733,18 @@ abstract class ErrorEvent extends AssistantStreamEvent {
   factory ErrorEvent.fromJson(Map<String, dynamic> json) =
       _$ErrorEventImpl.fromJson;
 
-  @override
-
   /// The type of the event.
-  EventType get event;
   @override
+  EventType get event;
 
   /// Represents an error that occurred during an API request.
-  Error get data;
   @override
-  @JsonKey(ignore: true)
+  Error get data;
+
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorEventImplCopyWith<_$ErrorEventImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -65450,6 +68768,8 @@ class __$$DoneEventImplCopyWithImpl<$Res>
       _$DoneEventImpl _value, $Res Function(_$DoneEventImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -65499,11 +68819,13 @@ class _$DoneEventImpl extends DoneEvent {
             (identical(other.data, data) || other.data == data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, event, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DoneEventImplCopyWith<_$DoneEventImpl> get copyWith =>
@@ -65635,16 +68957,18 @@ abstract class DoneEvent extends AssistantStreamEvent {
   factory DoneEvent.fromJson(Map<String, dynamic> json) =
       _$DoneEventImpl.fromJson;
 
-  @override
-
   /// The type of the event.
-  EventType get event;
   @override
+  EventType get event;
 
   /// No Description
-  String get data;
   @override
-  @JsonKey(ignore: true)
+  String get data;
+
+  /// Create a copy of AssistantStreamEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DoneEventImplCopyWith<_$DoneEventImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

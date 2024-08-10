@@ -39,7 +39,7 @@ class CreateFineTuningJobRequest with _$CreateFineTuningJobRequest {
 
     /// A string of up to 18 characters that will be added to your fine-tuned model name.
     ///
-    /// For example, a `suffix` of "custom-model-name" would produce a model name like `ft:gpt-3.5-turbo:openai:custom-model-name:7p4lURel`.
+    /// For example, a `suffix` of "custom-model-name" would produce a model name like `ft:gpt-4o-mini:openai:custom-model-name:7p4lURel`.
     @JsonKey(includeIfNull: false) String? suffix,
 
     /// The ID of an uploaded file that contains validation data.
@@ -127,6 +127,8 @@ enum FineTuningModels {
   davinci002,
   @JsonValue('gpt-3.5-turbo')
   gpt35Turbo,
+  @JsonValue('gpt-4o-mini')
+  gpt4oMini,
 }
 
 // ==========================================
