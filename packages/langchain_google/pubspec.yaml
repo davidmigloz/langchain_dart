@@ -14,24 +14,24 @@ topics:
   - vertex-ai
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.4.0 <4.0.0"
 
 dependencies:
-  collection: ">=1.17.0 <1.20.0"
-  fetch_client: ^1.0.2
+  collection: ^1.18.0
+  fetch_client: ^1.1.2
   gcloud: ^0.8.12
-  google_generative_ai: 0.4.3
+  google_generative_ai: 0.4.4
   googleapis: ^12.0.0
-  googleapis_auth: ^1.5.1
-  http: ^1.1.0
+  googleapis_auth: ^1.6.0
+  http: ^1.2.2
   langchain_core: 0.3.4
   meta: ^1.11.0
-  uuid: ^4.3.3
+  uuid: ^4.4.2
   vertex_ai: ^0.1.0+1
   langchain_firebase: ^0.1.0
   firebase_core: ^2.31.0
 
 dev_dependencies:
-  test: ^1.24.9
+  test: ^1.25.8
   fake_cloud_firestore: ^2.5.1
   langchain: ^0.6.0+1

@@ -14,19 +14,20 @@ topics:
   - firebase
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=3.19.0"
+  sdk: ">=3.4.0 <4.0.0"
+  flutter: ">=3.22.0"
 
 dependencies:
-  collection: ">=1.17.0 <1.20.0"
+  collection: ^1.18.0
   firebase_app_check: ^0.3.0
   firebase_auth: ^5.1.0
-  firebase_core: ^3.1.0
+  firebase_core: ^3.3.0
   cloud_firestore: ^4.17.0
+
   firebase_vertexai: ^0.2.2
   langchain_core: 0.3.4
   meta: ^1.11.0
-  uuid: ^4.3.3
+  uuid: ^4.4.2
 
 dev_dependencies:
   flutter_test:
