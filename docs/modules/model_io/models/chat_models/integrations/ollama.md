@@ -182,6 +182,8 @@ final chatModel = ChatOllama(
 );
 ```
 
+**Pro-tip:** You can improve tool-calling performance of small models by using few-shot prompting. You can find out how to do this [here](https://langchaindart.dev/#/modules/model_io/models/chat_models/how_to/tools?id=few-shot-prompting) and in this [blog post](https://blog.langchain.dev/few-shot-prompting-to-improve-tool-calling-performance).
+
 ### JSON mode
 
 You can force the model to produce JSON output that you can easily parse using `JsonOutputParser`, useful for extracting structured data.

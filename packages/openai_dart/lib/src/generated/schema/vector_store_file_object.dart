@@ -140,12 +140,10 @@ class VectorStoreFileObjectLastError with _$VectorStoreFileObjectLastError {
 
 /// One of `server_error` or `rate_limit_exceeded`.
 enum VectorStoreFileObjectLastErrorCode {
-  @JsonValue('internal_error')
-  internalError,
-  @JsonValue('file_not_found')
-  fileNotFound,
-  @JsonValue('parsing_error')
-  parsingError,
-  @JsonValue('unhandled_mime_type')
-  unhandledMimeType,
+  @JsonValue('server_error')
+  serverError,
+  @JsonValue('unsupported_file')
+  unsupportedFile,
+  @JsonValue('invalid_file')
+  invalidFile,
 }

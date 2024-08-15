@@ -4,14 +4,14 @@ version: 1.0.0
 publish_to: none
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.4.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   equatable: ^2.0.5
-  flutter_bloc: ^8.1.5
-  flutter_markdown: ^0.6.22
+  flutter_bloc: ^8.1.6
+  flutter_markdown: ^0.7.3
   langchain: ^0.7.4
   langchain_google: ^0.6.1
   langchain_mistralai: ^0.2.2

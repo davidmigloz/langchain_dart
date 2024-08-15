@@ -58,7 +58,7 @@ class OpenAIClientException implements Exception {
 // CLASS: OpenAIClient
 // ==========================================
 
-/// Client for OpenAI API (v.2.1.0)
+/// Client for OpenAI API (v.2.3.0)
 ///
 /// The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details.
 class OpenAIClient {
