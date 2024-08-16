@@ -1,4 +1,4 @@
-# melos_managed_dependency_overrides: langchain_core,langchain_firebase,langchain
+# melos_managed_dependency_overrides: langchain,langchain_core,langchain_firebase
 dependency_overrides:
   langchain:
     path: ../../langchain
