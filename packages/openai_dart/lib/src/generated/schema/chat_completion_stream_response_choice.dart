@@ -79,7 +79,7 @@ class ChatCompletionStreamResponseChoiceLogprobs
   /// Factory constructor for ChatCompletionStreamResponseChoiceLogprobs
   const factory ChatCompletionStreamResponseChoiceLogprobs({
     /// A list of message content tokens with log probability information.
-    required List<ChatCompletionTokenLogprob>? content,
+    @JsonKey(includeIfNull: false) List<ChatCompletionTokenLogprob>? content,
   }) = _ChatCompletionStreamResponseChoiceLogprobs;
 
   /// Object construction from a JSON representation
