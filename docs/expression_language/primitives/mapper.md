@@ -54,9 +54,7 @@ In the following example, the model streams the output in chunks and the output 
 final model = ChatOpenAI(
   apiKey: openAiApiKey,
   defaultOptions: ChatOpenAIOptions(
-    responseFormat: ChatOpenAIResponseFormat(
-      type: ChatOpenAIResponseFormatType.jsonObject,
-    ),
+    responseFormat: ChatOpenAIResponseFormat.jsonObject,
   ),
 );
 final parser = JsonOutputParser<ChatResult>();

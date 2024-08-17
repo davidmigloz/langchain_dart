@@ -248,15 +248,19 @@ extension CreateChatCompletionStreamResponseMapper
 }
 
 extension ChatOpenAIResponseFormatMapper on ChatOpenAIResponseFormat {
-  ChatCompletionResponseFormat toChatCompletionResponseFormat() {
-    return ChatCompletionResponseFormat(
-      type: switch (type) {
-        ChatOpenAIResponseFormatType.text =>
-          ChatCompletionResponseFormatType.text,
-        ChatOpenAIResponseFormatType.jsonObject =>
-          ChatCompletionResponseFormatType.jsonObject,
-      },
-    );
+  ResponseFormat toChatCompletionResponseFormat() {
+    return switch (this) {
+      ChatOpenAIResponseFormatText() => const ResponseFormat.text(),
+      ChatOpenAIResponseFormatJsonObject() => const ResponseFormat.jsonObject(),
+      final ChatOpenAIResponseFormatJsonSchema res => ResponseFormat.jsonSchema(
+          jsonSchema: JsonSchemaObject(
+            name: res.jsonSchema.name,
+            description: res.jsonSchema.description,
+            schema: res.jsonSchema.schema,
+            strict: res.jsonSchema.strict,
+          ),
+        ),
+    };
   }
 }
 

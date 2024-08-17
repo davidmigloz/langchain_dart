@@ -63,9 +63,7 @@ Future<void> _mapInputStream() async {
   final model = ChatOpenAI(
     apiKey: openAiApiKey,
     defaultOptions: const ChatOpenAIOptions(
-      responseFormat: ChatOpenAIResponseFormat(
-        type: ChatOpenAIResponseFormatType.jsonObject,
-      ),
+      responseFormat: ChatOpenAIResponseFormat.jsonObject,
     ),
   );
   final parser = JsonOutputParser<ChatResult>();

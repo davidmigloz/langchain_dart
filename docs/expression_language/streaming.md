@@ -124,9 +124,7 @@ Let’s see such a parser in action to understand what this means.
 final model = ChatOpenAI(
   apiKey: openAiApiKey,
   defaultOptions: const ChatOpenAIOptions(
-    responseFormat: ChatOpenAIResponseFormat(
-      type: ChatOpenAIResponseFormatType.jsonObject,
-    ),
+    responseFormat: ChatOpenAIResponseFormat.jsonObject,
   ),
 );
 final parser = JsonOutputParser<ChatResult>();
