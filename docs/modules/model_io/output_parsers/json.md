@@ -21,9 +21,7 @@ final model = ChatOpenAI(
   apiKey: openAiApiKey,
   defaultOptions: ChatOpenAIOptions(
     model: 'gpt-4-turbo',
-    responseFormat: ChatOpenAIResponseFormat(
-      type: ChatOpenAIResponseFormatType.jsonObject,
-    ),
+    responseFormat: ChatOpenAIResponseFormat.jsonObject,
   ),
 );
 final parser = JsonOutputParser<ChatResult>();

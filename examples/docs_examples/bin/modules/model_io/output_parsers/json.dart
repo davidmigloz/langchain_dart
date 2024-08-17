@@ -22,9 +22,7 @@ Future<void> _invoke() async {
     apiKey: openAiApiKey,
     defaultOptions: const ChatOpenAIOptions(
       model: 'gpt-4-turbo',
-      responseFormat: ChatOpenAIResponseFormat(
-        type: ChatOpenAIResponseFormatType.jsonObject,
-      ),
+      responseFormat: ChatOpenAIResponseFormat.jsonObject,
     ),
   );
   final parser = JsonOutputParser<ChatResult>();
@@ -51,9 +49,7 @@ Future<void> _streaming() async {
     apiKey: openAiApiKey,
     defaultOptions: const ChatOpenAIOptions(
       model: 'gpt-4-turbo',
-      responseFormat: ChatOpenAIResponseFormat(
-        type: ChatOpenAIResponseFormatType.jsonObject,
-      ),
+      responseFormat: ChatOpenAIResponseFormat.jsonObject,
     ),
   );
 
