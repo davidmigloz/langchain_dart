@@ -414,6 +414,7 @@ Map<String, dynamic> _$$ChatCompletionModelEnumerationImplToJson(
     };
 
 const _$ChatCompletionModelsEnumMap = {
+  ChatCompletionModels.chatgpt4oLatest: 'chatgpt-4o-latest',
   ChatCompletionModels.gpt4: 'gpt-4',
   ChatCompletionModels.gpt432k: 'gpt-4-32k',
   ChatCompletionModels.gpt432k0314: 'gpt-4-32k-0314',
