@@ -5,15 +5,15 @@
 part of open_a_i_schema;
 
 // ==========================================
-// ENUM: ChatCompletionMessageContentPartType
+// ENUM: ResponseFormatType
 // ==========================================
 
-/// The type of the content part.
-enum ChatCompletionMessageContentPartType {
+/// The type of response format being defined.
+enum ResponseFormatType {
   @JsonValue('text')
   text,
-  @JsonValue('image_url')
-  imageUrl,
-  @JsonValue('refusal')
-  refusal,
+  @JsonValue('json_object')
+  jsonObject,
+  @JsonValue('json_schema')
+  jsonSchema,
 }

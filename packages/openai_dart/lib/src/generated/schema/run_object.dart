@@ -105,9 +105,10 @@ class RunObject with _$RunObject {
     /// during tool use.
     @JsonKey(name: 'parallel_tool_calls') required bool? parallelToolCalls,
 
-    /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+    /// Specifies the format that the model must output. Compatible with
+    /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
     /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-    /// since `gpt-4o-mini-1106`.
+    /// since `gpt-3.5-turbo-1106`.
     ///
     /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
     /// the model will match your supplied JSON schema. Learn more in the
@@ -451,8 +452,6 @@ class _RunObjectToolChoiceConverter
 
 /// `auto` is the default value
 enum RunObjectResponseFormatMode {
-  @JsonValue('none')
-  none,
   @JsonValue('auto')
   auto,
 }
@@ -461,9 +460,10 @@ enum RunObjectResponseFormatMode {
 // CLASS: RunObjectResponseFormat
 // ==========================================
 
-/// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+/// Specifies the format that the model must output. Compatible with
+/// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
 /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-/// since `gpt-4o-mini-1106`.
+/// since `gpt-3.5-turbo-1106`.
 ///
 /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
 /// the model will match your supplied JSON schema. Learn more in the
@@ -487,9 +487,9 @@ sealed class RunObjectResponseFormat with _$RunObjectResponseFormat {
   ) = RunObjectResponseFormatEnumeration;
 
   /// No Description
-  const factory RunObjectResponseFormat.format(
-    AssistantsResponseFormat value,
-  ) = RunObjectResponseFormatAssistantsResponseFormat;
+  const factory RunObjectResponseFormat.responseFormat(
+    ResponseFormat value,
+  ) = RunObjectResponseFormatResponseFormat;
 
   /// Object construction from a JSON representation
   factory RunObjectResponseFormat.fromJson(Map<String, dynamic> json) =>
@@ -513,8 +513,8 @@ class _RunObjectResponseFormatConverter
     }
     if (data is Map<String, dynamic>) {
       try {
-        return RunObjectResponseFormatAssistantsResponseFormat(
-          AssistantsResponseFormat.fromJson(data),
+        return RunObjectResponseFormatResponseFormat(
+          ResponseFormat.fromJson(data),
         );
       } catch (e) {}
     }
@@ -528,8 +528,7 @@ class _RunObjectResponseFormatConverter
     return switch (data) {
       RunObjectResponseFormatEnumeration(value: final v) =>
         _$RunObjectResponseFormatModeEnumMap[v]!,
-      RunObjectResponseFormatAssistantsResponseFormat(value: final v) =>
-        v.toJson(),
+      RunObjectResponseFormatResponseFormat(value: final v) => v.toJson(),
     };
   }
 }

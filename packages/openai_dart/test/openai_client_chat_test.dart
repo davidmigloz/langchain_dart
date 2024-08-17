@@ -389,12 +389,12 @@ void main() {
     test('Test jsonObject response format', () async {
       const request = CreateChatCompletionRequest(
         model: ChatCompletionModel.model(
-          ChatCompletionModels.gpt41106Preview,
+          ChatCompletionModels.gpt4oMini,
         ),
         messages: [
           ChatCompletionMessage.system(
             content:
-                'You are a helpful assistant. That extracts names from text '
+                'You are a helpful assistant that extracts names from text '
                 'and returns them in a JSON array.',
           ),
           ChatCompletionMessage.user(
@@ -404,8 +404,59 @@ void main() {
           ),
         ],
         temperature: 0,
-        responseFormat: ChatCompletionResponseFormat(
-          type: ChatCompletionResponseFormatType.jsonObject,
+        responseFormat: ResponseFormat.jsonObject(),
+      );
+      final res = await client.createChatCompletion(request: request);
+      expect(res.choices, hasLength(1));
+      final choice = res.choices.first;
+      final message = choice.message;
+      expect(message.role, ChatCompletionMessageRole.assistant);
+      final content = message.content;
+      final jsonContent = json.decode(content!) as Map<String, dynamic>;
+      final jsonName = jsonContent['names'] as List<dynamic>;
+      expect(jsonName, isList);
+      expect(jsonName, hasLength(3));
+      expect(jsonName, contains('John'));
+      expect(jsonName, contains('Mary'));
+      expect(jsonName, contains('Peter'));
+    });
+
+    test('Test jsonSchema response format', () async {
+      const request = CreateChatCompletionRequest(
+        model: ChatCompletionModel.model(
+          ChatCompletionModels.gpt4oMini,
+        ),
+        messages: [
+          ChatCompletionMessage.system(
+            content:
+                'You are a helpful assistant. That extracts names from text.',
+          ),
+          ChatCompletionMessage.user(
+            content: ChatCompletionUserMessageContent.string(
+              'John, Mary, and Peter.',
+            ),
+          ),
+        ],
+        temperature: 0,
+        responseFormat: ResponseFormat.jsonSchema(
+          jsonSchema: JsonSchemaObject(
+            name: 'Names',
+            description: 'A list of names',
+            strict: true,
+            schema: {
+              'type': 'object',
+              'properties': {
+                'names': {
+                  'type': 'array',
+                  'items': {
+                    'type': 'string',
+                  },
+                },
+              },
+              'additionalProperties': false,
+              'required': ['names'],
+            },
+          ),
         ),
       );
       final res = await client.createChatCompletion(request: request);
