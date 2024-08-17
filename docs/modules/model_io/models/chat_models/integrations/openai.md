@@ -127,9 +127,7 @@ final llm = ChatOpenAI(
   defaultOptions: const ChatOpenAIOptions(
     model: 'gpt-4-turbo',
     temperature: 0,
-    responseFormat: ChatOpenAIResponseFormat(
-      type: ChatOpenAIResponseFormatType.jsonObject,
-    ),
+    responseFormat: ChatOpenAIResponseFormat.jsonObject,
   ),
 );
 final chain = llm.pipe(JsonOutputParser());

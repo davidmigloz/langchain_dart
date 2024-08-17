@@ -79,9 +79,10 @@ class CreateRunRequest with _$CreateRunRequest {
     @JsonKey(name: 'parallel_tool_calls', includeIfNull: false)
     bool? parallelToolCalls,
 
-    /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+    /// Specifies the format that the model must output. Compatible with
+    /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
     /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-    /// since `gpt-4o-mini-1106`.
+    /// since `gpt-3.5-turbo-1106`.
     ///
     /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
     /// the model will match your supplied JSON schema. Learn more in the
@@ -390,8 +391,6 @@ class _CreateRunRequestToolChoiceConverter
 
 /// `auto` is the default value
 enum CreateRunRequestResponseFormatMode {
-  @JsonValue('none')
-  none,
   @JsonValue('auto')
   auto,
 }
@@ -400,9 +399,10 @@ enum CreateRunRequestResponseFormatMode {
 // CLASS: CreateRunRequestResponseFormat
 // ==========================================
 
-/// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+/// Specifies the format that the model must output. Compatible with
+/// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
 /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-/// since `gpt-4o-mini-1106`.
+/// since `gpt-3.5-turbo-1106`.
 ///
 /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
 /// the model will match your supplied JSON schema. Learn more in the
@@ -427,9 +427,9 @@ sealed class CreateRunRequestResponseFormat
   ) = CreateRunRequestResponseFormatEnumeration;
 
   /// No Description
-  const factory CreateRunRequestResponseFormat.format(
-    AssistantsResponseFormat value,
-  ) = CreateRunRequestResponseFormatAssistantsResponseFormat;
+  const factory CreateRunRequestResponseFormat.responseFormat(
+    ResponseFormat value,
+  ) = CreateRunRequestResponseFormatResponseFormat;
 
   /// Object construction from a JSON representation
   factory CreateRunRequestResponseFormat.fromJson(Map<String, dynamic> json) =>
@@ -458,8 +458,8 @@ class _CreateRunRequestResponseFormatConverter
     }
     if (data is Map<String, dynamic>) {
       try {
-        return CreateRunRequestResponseFormatAssistantsResponseFormat(
-          AssistantsResponseFormat.fromJson(data),
+        return CreateRunRequestResponseFormatResponseFormat(
+          ResponseFormat.fromJson(data),
         );
       } catch (e) {}
     }
@@ -473,7 +473,7 @@ class _CreateRunRequestResponseFormatConverter
     return switch (data) {
       CreateRunRequestResponseFormatEnumeration(value: final v) =>
         _$CreateRunRequestResponseFormatModeEnumMap[v]!,
-      CreateRunRequestResponseFormatAssistantsResponseFormat(value: final v) =>
+      CreateRunRequestResponseFormatResponseFormat(value: final v) =>
         v.toJson(),
       null => null,
     };

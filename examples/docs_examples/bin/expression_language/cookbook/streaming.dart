@@ -79,9 +79,7 @@ Future<void> _inputStreams() async {
   final model = ChatOpenAI(
     apiKey: openAiApiKey,
     defaultOptions: const ChatOpenAIOptions(
-      responseFormat: ChatOpenAIResponseFormat(
-        type: ChatOpenAIResponseFormatType.jsonObject,
-      ),
+      responseFormat: ChatOpenAIResponseFormat.jsonObject,
     ),
   );
   final parser = JsonOutputParser<ChatResult>();
@@ -125,9 +123,7 @@ Future<void> _inputStreamMapper() async {
   final model = ChatOpenAI(
     apiKey: openAiApiKey,
     defaultOptions: const ChatOpenAIOptions(
-      responseFormat: ChatOpenAIResponseFormat(
-        type: ChatOpenAIResponseFormatType.jsonObject,
-      ),
+      responseFormat: ChatOpenAIResponseFormat.jsonObject,
     ),
   );
   final parser = JsonOutputParser<ChatResult>();

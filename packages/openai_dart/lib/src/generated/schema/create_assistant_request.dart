@@ -51,9 +51,10 @@ class CreateAssistantRequest with _$CreateAssistantRequest {
     /// We generally recommend altering this or temperature but not both.
     @JsonKey(name: 'top_p', includeIfNull: false) @Default(1.0) double? topP,
 
-    /// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+    /// Specifies the format that the model must output. Compatible with
+    /// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
     /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-    /// since `gpt-4o-mini-1106`.
+    /// since `gpt-3.5-turbo-1106`.
     ///
     /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
     /// the model will match your supplied JSON schema. Learn more in the
@@ -263,8 +264,6 @@ class _AssistantModelConverter
 
 /// `auto` is the default value
 enum CreateAssistantResponseFormatMode {
-  @JsonValue('none')
-  none,
   @JsonValue('auto')
   auto,
 }
@@ -273,9 +272,10 @@ enum CreateAssistantResponseFormatMode {
 // CLASS: CreateAssistantRequestResponseFormat
 // ==========================================
 
-/// Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
+/// Specifies the format that the model must output. Compatible with
+/// [GPT-4o](https://platform.openai.com/docs/models/gpt-4o),
 /// [GPT-4 Turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models
-/// since `gpt-4o-mini-1106`.
+/// since `gpt-3.5-turbo-1106`.
 ///
 /// Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees
 /// the model will match your supplied JSON schema. Learn more in the
@@ -300,9 +300,9 @@ sealed class CreateAssistantRequestResponseFormat
   ) = CreateAssistantRequestResponseFormatEnumeration;
 
   /// No Description
-  const factory CreateAssistantRequestResponseFormat.format(
-    AssistantsResponseFormat value,
-  ) = CreateAssistantRequestResponseFormatAssistantsResponseFormat;
+  const factory CreateAssistantRequestResponseFormat.responseFormat(
+    ResponseFormat value,
+  ) = CreateAssistantRequestResponseFormatResponseFormat;
 
   /// Object construction from a JSON representation
   factory CreateAssistantRequestResponseFormat.fromJson(
@@ -332,8 +332,8 @@ class _CreateAssistantRequestResponseFormatConverter
     }
     if (data is Map<String, dynamic>) {
       try {
-        return CreateAssistantRequestResponseFormatAssistantsResponseFormat(
-          AssistantsResponseFormat.fromJson(data),
+        return CreateAssistantRequestResponseFormatResponseFormat(
+          ResponseFormat.fromJson(data),
         );
       } catch (e) {}
     }
@@ -347,9 +347,7 @@ class _CreateAssistantRequestResponseFormatConverter
     return switch (data) {
       CreateAssistantRequestResponseFormatEnumeration(value: final v) =>
         _$CreateAssistantResponseFormatModeEnumMap[v]!,
-      CreateAssistantRequestResponseFormatAssistantsResponseFormat(
-        value: final v
-      ) =>
+      CreateAssistantRequestResponseFormatResponseFormat(value: final v) =>
         v.toJson(),
       null => null,
     };
