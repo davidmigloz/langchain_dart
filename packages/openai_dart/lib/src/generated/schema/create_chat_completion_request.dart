@@ -277,6 +277,8 @@ class CreateChatCompletionRequest with _$CreateChatCompletionRequest {
 
 /// Available completion models. Mind that the list may not be exhaustive nor up-to-date.
 enum ChatCompletionModels {
+  @JsonValue('chatgpt-4o-latest')
+  chatgpt4oLatest,
   @JsonValue('gpt-4')
   gpt4,
   @JsonValue('gpt-4-32k')
