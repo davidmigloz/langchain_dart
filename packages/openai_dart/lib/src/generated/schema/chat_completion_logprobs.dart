@@ -16,7 +16,7 @@ class ChatCompletionLogprobs with _$ChatCompletionLogprobs {
   /// Factory constructor for ChatCompletionLogprobs
   const factory ChatCompletionLogprobs({
     /// A list of message content tokens with log probability information.
-    required List<ChatCompletionTokenLogprob>? content,
+    @JsonKey(includeIfNull: false) List<ChatCompletionTokenLogprob>? content,
   }) = _ChatCompletionLogprobs;
 
   /// Object construction from a JSON representation
