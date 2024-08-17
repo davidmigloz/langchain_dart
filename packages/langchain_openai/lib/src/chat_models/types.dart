@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 /// Options to pass into the OpenAI Chat Model.
 ///
 /// Available [ChatOpenAIOptions.model]s:
+/// - `chatgpt-4o-latest`
 /// - `gpt-4`
 /// - `gpt-4-32k`
 /// - `gpt-4-32k-0314`

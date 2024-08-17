@@ -1806,6 +1806,7 @@ components:
                 Available completion models. Mind that the list may not be exhaustive nor up-to-date.
               enum:
                 [
+                  "chatgpt-4o-latest",
                   "gpt-4",
                   "gpt-4-32k",
                   "gpt-4-32k-0314",
