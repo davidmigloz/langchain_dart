@@ -1,27 +1,31 @@
-import 'binding.dart';
-import 'types.dart';
+import 'dart:async';
+import '../../runnables.dart';
+import '../utils/retry_client.dart';
 
 class RunnableRetry<RunInput extends Object?, RunOutput extends Object?>
-    extends RunnableBinding<RunInput, RunnableOptions, RunOutput> {
+    extends Runnable<RunInput, RunnableOptions, RunOutput> {
   RunnableRetry({
-    required super.bound,
-    required super.options,
-    required this.maxAttempt,
+    required this.runnable,
+    required super.defaultOptions,
+    required this.retryOptions,
   });
 
-  final int maxAttempt;
+  final Runnable<RunInput, RunnableOptions, RunOutput> runnable;
+
+  final RetryOptions retryOptions;
 
   @override
-  Future<RunOutput> invoke(RunInput input, {RunnableOptions? options}) async {
-    Object? error;
-    for (int attempt = 1; attempt <= maxAttempt; attempt++) {
-      try {
-        return await bound.invoke(input, options: options ?? defaultOptions);
-      } catch (e) {
-        error = e;
-      }
-    }
-    throw Exception('max retries exceeded: $error');
+  Future<RunOutput> invoke(
+    RunInput input, {
+    RunnableOptions? options,
+  }) async {
+    return retryClient(
+      options: retryOptions,
+      fn: () => runnable.invoke(
+        input,
+        options: runnable.getCompatibleOptions(options),
+      ),
+    );
   }
 
   @override
@@ -29,20 +33,25 @@ class RunnableRetry<RunInput extends Object?, RunOutput extends Object?>
     List<RunInput> inputs, {
     List<RunnableOptions>? options,
   }) async {
-    Object? error;
-    for (int attempt = 0; attempt <= maxAttempt!; attempt++) {
-      try {
-        return await bound.batch(inputs, options: options);
-      } catch (e) {
-        error = e;
-      }
+    List<RunnableOptions>? currentOptions;
+    final compatibleOptions =
+        options?.map(runnable.getCompatibleOptions).toList(growable: false);
+    final hasNullOptions = compatibleOptions?.any((o) => o == null) ?? false;
+    if (!hasNullOptions) {
+      currentOptions = compatibleOptions?.cast();
     }
-    throw Exception('max retries exceeded: $error');
+    return retryClient(
+      options: retryOptions,
+      fn: () => runnable.batch(
+        inputs,
+        options: currentOptions,
+      ),
+    );
   }
 
   @override
   Stream<RunOutput> stream(RunInput input, {RunnableOptions? options}) {
     // TODO: implement stream
-    return super.stream(input, options: options);
+    return super.stream(input);
   }
 }

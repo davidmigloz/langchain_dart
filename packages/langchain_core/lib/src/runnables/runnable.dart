@@ -303,11 +303,11 @@ abstract class Runnable<RunInput extends Object?,
     );
   }
 
-  RunnableRetry<RunInput, RunOutput> withRetry(int maxAttempt) {
-    return RunnableRetry(
-      bound: this,
-      options: this.defaultOptions,
-      maxAttempt: maxAttempt,
+  RunnableRetry<RunInput, RunOutput> withRetry(RetryOptions options) {
+    return RunnableRetry<RunInput, RunOutput>(
+      runnable: this,
+      defaultOptions: defaultOptions,
+      retryOptions: options,
     );
   }
 
