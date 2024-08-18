@@ -16,9 +16,9 @@ class RetryOptions {
   final bool addJitter;
 }
 
-Future<T> retryClient<T>({
+FutureOr<T> retryClient<T>({
   required RetryOptions options,
-  required Future<T> Function() fn,
+  required FutureOr<T> Function() fn,
 }) async {
   int attempt = 0;
   Object? error;
@@ -51,7 +51,7 @@ Future<void> _delay(Duration duration, int attempt, bool addJitter) async {
   final Duration delay;
   if (addJitter) {
     final random = Random();
-    final jitter = random.nextInt(30);
+    final jitter = random.nextInt(100);
     delay = Duration(milliseconds: duration.inMilliseconds + jitter);
   } else {
     delay = duration;

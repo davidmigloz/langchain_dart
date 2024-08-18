@@ -50,8 +50,10 @@ class RunnableRetry<RunInput extends Object?, RunOutput extends Object?>
   }
 
   @override
-  Stream<RunOutput> stream(RunInput input, {RunnableOptions? options}) {
-    // TODO: implement stream
-    return super.stream(input);
+  Stream<RunOutput> stream(RunInput input, {RunnableOptions? options}) async*{
+    yield* await retryClient(
+      options: retryOptions,
+      fn: () => runnable.stream(input),
+    );
   }
 }
