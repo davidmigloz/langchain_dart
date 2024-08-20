@@ -1,10 +1,14 @@
 @TestOn('vm')
+@Timeout(Duration(minutes: 50))
 library; // Uses dart:io
+
+import 'dart:io';
 
 import 'package:langchain/langchain.dart'
     show
         Agent,
         AgentExecutor,
+        BaseChatModel,
         ChatMessage,
         ChatPromptTemplate,
         ConversationBufferMemory,
@@ -16,126 +20,137 @@ import 'package:langchain/langchain.dart'
         ToolsAgentOutputParser;
 import 'package:langchain_community/langchain_community.dart';
 import 'package:langchain_core/src/agents/types.dart';
-import 'package:langchain_core/src/runnables/types.dart';
+import 'package:langchain_core/src/chat_models/types.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:langchain_ollama/langchain_ollama.dart';
+import 'package:langchain_openai/langchain_openai.dart';
 import 'package:meta/meta.dart';
 import 'package:test/test.dart';
 
 void main() {
-  // const defaultModel = 'gemma2';
-  const defaultModel = 'llama3-groq-tool-use';
-  // const defaultModel = 'qwen2';
-  group('ChatOllamaToolsAgent tests', () {
-    test('Test ChatOllamaToolsAgent with calculator tool', () async {
-      final llm = ChatOllama(
+  late BaseChatModel llm;
+  const defaultOllamaModel = 'llama3-groq-tool-use';
+  const defaultOpenAIModel = 'gpt-4-turbo';
+  group('ChatToolsAgent using Ollama tests', () {
+    setUp(() async {
+      llm = ChatOllama(
         defaultOptions: ChatOllamaOptions(
-          model: defaultModel,
+          model: defaultOllamaModel,
           temperature: 0,
-          tools: [CalculatorTool()],
+          tools: [CalculatorTool(), searchTool],
         ),
       );
-
-      final agent = ToolsAgent.fromLLMAndTools(
-        llm: llm,
-      );
-
-      final executor = AgentExecutor(agent: agent);
-
-      final res = await executor
-          .run('What is 40 raised to the 0.43 power with 3 decimals? ');
-
-      expect(res, contains('4.885'));
     });
-    Future<void> testMemory({required final bool returnMessages}) async {
-      final tool = Tool.fromFunction<_SearchInput, String>(
-        name: 'search',
-        description: 'Tool for searching the web.',
-        inputJsonSchema: const {
-          'type': 'object',
-          'properties': {
-            'query': {
-              'type': 'string',
-              'description': 'The query to search for',
-            },
-            'n': {
-              'type': 'number',
-              'description': 'The number of results to return',
-            },
-          },
-          'required': ['query'],
-        },
-        func: (final _SearchInput toolInput) async {
-          final n = toolInput.n;
-          final res = List<String>.generate(n, (final i) => 'Result ${i + 1}');
-          return 'Results:\n${res.join('\n')}';
-        },
-        getInputFromJson: _SearchInput.fromJson,
-      );
-      final tools = [tool];
-      final llm = ChatOllama(
-        defaultOptions: ChatOllamaOptions(
-          model: defaultModel,
-          temperature: 0,
-          tools: [CalculatorTool(), ...tools],
-        ),
-      );
-      final memory = ConversationBufferMemory(returnMessages: returnMessages);
-      final agent = ToolsAgent.fromLLMAndTools(
-        llm: llm,
-        memory: memory,
-      );
-
-      final executor = AgentExecutor(agent: agent);
-
-      final res1 = await executor.run(
-        'Search for cats. Return only 3 results.',
-      );
-
-      expect(res1, contains('Result 1'));
-      expect(res1, contains('Result 2'));
-      expect(res1, contains('Result 3'));
-      expect(res1, isNot(contains('Result 4')));
-
-      final res2 = await executor.run(
-        'How many results did the search return?',
-      );
-      expect(res2, contains('3'));
-      expect(res2, isNot(contains('1')));
-      expect(res2, isNot(contains('2')));
-      expect(res2, isNot(contains('4')));
-
-      final res3 = await executor.run('What was the last result?');
-      expect(res3, contains('Result 3'));
-    }
-
+    test('Test ChatToolsAgent with calculator tool', () async {
+      await testAgentWithCalculator(llm);
+    });
     test('Test ToolsAgent with messages memory', () async {
-      await testMemory(returnMessages: true);
+      await testMemory(llm, returnMessages: true);
     });
-
     test('Test ToolsAgent with string memory throws error', () async {
       expect(
-        () async => testMemory(returnMessages: false),
+        () async => testMemory(llm, returnMessages: false),
         throwsA(isA<AssertionError>()),
       );
     });
+    test('Test ToolsAgent LCEL equivalent using Ollama', () async {
+      final res =
+          await testLCDLEquivalent(llm: llm, tool: CalculatorTool()).invoke({
+        'input': 'What is 40 raised to the 0.43 power with 3 decimals?',
+      });
+      expect(res['output'], contains('4.88'));
+    });
   });
 
-  group('ToolsAgent LCEL equivalent test', () {
-    final tool = CalculatorTool();
-    final model = ChatOllama(
-      defaultOptions: const ChatOllamaOptions(
-        model: defaultModel,
-        temperature: 0,
-      ),
-    ).bind(ChatOllamaOptions(tools: [tool]));
+  group('ChatToolsAgent using OpenAi tests', () {
+    setUp(() async {
+      final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
+      llm = ChatOpenAI(
+        apiKey: openaiApiKey,
+        defaultOptions: ChatOpenAIOptions(
+          model: defaultOpenAIModel,
+          tools: [CalculatorTool(), searchTool],
+        ),
+      );
+    });
+    test('Test ChatToolsAgent with calculator tool', () async {
+      await testAgentWithCalculator(llm);
+    });
+    test('Test ToolsAgent with messages memory', () async {
+      await testMemory(llm, returnMessages: true);
+    });
+    test('Test ToolsAgent with string memory throws error', () async {
+      expect(
+        () async => testMemory(llm, returnMessages: false),
+        throwsA(isA<AssertionError>()),
+      );
+    });
+    test('Test ToolsAgent LCEL equivalent using OpenAi', () async {
+      final res =
+          await testLCDLEquivalent(llm: llm, tool: CalculatorTool()).invoke({
+        'input': 'What is 40 raised to the 0.43 power with 3 decimals?',
+      });
+      expect(res['output'], contains('4.88'));
+    });
+  });
+}
 
-    final prompt = ChatPromptTemplate.fromPromptMessages([
-      SystemChatMessagePromptTemplate.fromTemplate(
-        '''
+Future<void> testAgentWithCalculator(
+  BaseChatModel<ChatModelOptions> llm,
+) async {
+  final agent = ToolsAgent.fromLLMAndTools(
+    llm: llm,
+  );
+  final executor = AgentExecutor(agent: agent);
+  final res = await executor
+      .run('What is 40 raised to the 0.43 power with 3 decimals? ');
+  expect(res, contains('4.885'));
+}
+
+Future<void> testMemory(
+  BaseChatModel llm, {
+  required final bool returnMessages,
+}) async {
+  final memory = ConversationBufferMemory(returnMessages: returnMessages);
+  final agent = ToolsAgent.fromLLMAndTools(
+    llm: llm,
+    memory: memory,
+  );
+
+  final executor = AgentExecutor(agent: agent);
+
+  final res1 = await executor.run(
+    'Search for cats. Return only 3 results.',
+  );
+
+  expect(res1, contains('Result 1'));
+  expect(res1, contains('Result 2'));
+  expect(res1, contains('Result 3'));
+  expect(res1, isNot(contains('Result 4')));
+
+  final res2 = await executor.run(
+    'How many results did the search return?',
+  );
+  expect(res2, contains('3'));
+  expect(res2, isNot(contains('1')));
+  expect(res2, isNot(contains('2')));
+  expect(res2, isNot(contains('4')));
+
+  final res3 = await executor.run('What was the last result?');
+  expect(res3, contains('Result 3'));
+}
+
+AgentExecutor testLCDLEquivalent({
+  required BaseChatModel<ChatModelOptions> llm,
+  required Tool tool,
+}) {
+  llm.bind(llm.defaultOptions);
+  final prompt = ChatPromptTemplate.fromPromptMessages([
+    SystemChatMessagePromptTemplate.fromTemplate(
+      '''
     'You are a helpful assistant'
     \n\n
-                  'You have access to these tools: ${model.defaultOptions.tools!.map((t) => t.name).join(', ')}'
+                  'You have access to these tools: ${llm.defaultOptions.tools!.map((t) => t.name).join(', ')}'
                   Instructions:
                   
                   Based on the user input, select tool_choice from the available tools.
@@ -157,41 +172,33 @@ void main() {
                   }}
                   ```'
                   ''',
-      ),
-      HumanChatMessagePromptTemplate.fromTemplate('{input}'),
-      const MessagesPlaceholder(variableName: 'agent_scratchpad'),
-    ]);
+    ),
+    HumanChatMessagePromptTemplate.fromTemplate('{input}'),
+    const MessagesPlaceholder(variableName: 'agent_scratchpad'),
+  ]);
 
-    final agent = Agent.fromRunnable(
-      Runnable.mapInput(
-        (final AgentPlanInput planInput) => <String, dynamic>{
-          'input': planInput.inputs['input'],
-          'agent_scratchpad': planInput.intermediateSteps
-              .map((final s) {
-                return s.action.messageLog +
-                    [
-                      ChatMessage.tool(
-                        toolCallId: s.action.id,
-                        content: s.observation,
-                      ),
-                    ];
-              })
-              .expand((final m) => m)
-              .toList(growable: false),
-        },
-      ).pipe(prompt).pipe(model).pipe(const ToolsAgentOutputParser()),
-      tools: [tool],
-    );
+  final agent = Agent.fromRunnable(
+    Runnable.mapInput(
+      (final AgentPlanInput planInput) => <String, dynamic>{
+        'input': planInput.inputs['input'],
+        'agent_scratchpad': planInput.intermediateSteps
+            .map((final s) {
+              return s.action.messageLog +
+                  [
+                    ChatMessage.tool(
+                      toolCallId: s.action.id,
+                      content: s.observation,
+                    ),
+                  ];
+            })
+            .expand((final m) => m)
+            .toList(growable: false),
+      },
+    ).pipe(prompt).pipe(llm).pipe(const ToolsAgentOutputParser()),
+    tools: [tool],
+  );
 
-    final executor = AgentExecutor(agent: agent);
-
-    test('Test ToolsAgent LCEL equivalent', () async {
-      final res = await executor.invoke({
-        'input': 'What is 40 raised to the 0.43 power with 3 decimals?',
-      });
-      expect(res['output'], contains('4.88'));
-    });
-  });
+  return AgentExecutor(agent: agent);
 }
 
 @immutable
@@ -217,3 +224,28 @@ class _SearchInput {
   @override
   int get hashCode => query.hashCode ^ n.hashCode;
 }
+
+final searchTool = Tool.fromFunction<_SearchInput, String>(
+  name: 'search',
+  description: 'Tool for searching the web.',
+  inputJsonSchema: const {
+    'type': 'object',
+    'properties': {
+      'query': {
+        'type': 'string',
+        'description': 'The query to search for',
+      },
+      'n': {
+        'type': 'number',
+        'description': 'The number of results to return',
+      },
+    },
+    'required': ['query'],
+  },
+  func: (final _SearchInput toolInput) async {
+    final n = toolInput.n;
+    final res = List<String>.generate(n, (final i) => 'Result ${i + 1}');
+    return 'Results:\n${res.join('\n')}';
+  },
+  getInputFromJson: _SearchInput.fromJson,
+);

@@ -176,8 +176,9 @@ class ToolsAgent extends BaseSingleActionAgent {
             return Tool.fromFunction(
               name: toolSpec.name,
               description: toolSpec.description,
+              getInputFromJson: toolSpec.getInputFromJson,
               inputJsonSchema: toolSpec.inputJsonSchema,
-              func: (final input) async => toolSpec.invoke(input!),
+              func: (final input) async => toolSpec.invoke(input),
             );
           } else {
             throw ArgumentError('Invalid tool type: ${toolSpec.runtimeType}');

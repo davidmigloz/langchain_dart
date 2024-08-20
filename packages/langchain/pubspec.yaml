@@ -28,3 +28,4 @@ dev_dependencies:
   langchain_community:
   langchain_openai:
   langchain_ollama:
+    path: ../langchain_ollama
