@@ -6,7 +6,55 @@ import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:openai_dart/openai_dart.dart';
 
+import 'chat_openai.dart';
 import 'types.dart';
+
+/// Creates a [CreateChatCompletionRequest] from the given input.
+CreateChatCompletionRequest createChatCompletionRequest(
+  final List<ChatMessage> messages, {
+  required final ChatOpenAIOptions? options,
+  required final ChatOpenAIOptions defaultOptions,
+  final bool stream = false,
+}) {
+  final messagesDtos = messages.toChatCompletionMessages();
+  final toolsDtos =
+      (options?.tools ?? defaultOptions.tools)?.toChatCompletionTool();
+  final toolChoice = (options?.toolChoice ?? defaultOptions.toolChoice)
+      ?.toChatCompletionToolChoice();
+  final responseFormatDto =
+      (options?.responseFormat ?? defaultOptions.responseFormat)
+          ?.toChatCompletionResponseFormat();
+  final serviceTierDto = (options?.serviceTier ?? defaultOptions.serviceTier)
+      .toCreateChatCompletionRequestServiceTier();
+
+  return CreateChatCompletionRequest(
+    model: ChatCompletionModel.modelId(
+      options?.model ?? defaultOptions.model ?? ChatOpenAI.defaultModel,
+    ),
+    messages: messagesDtos,
+    tools: toolsDtos,
+    toolChoice: toolChoice,
+    frequencyPenalty:
+        options?.frequencyPenalty ?? defaultOptions.frequencyPenalty,
+    logitBias: options?.logitBias ?? defaultOptions.logitBias,
+    maxTokens: options?.maxTokens ?? defaultOptions.maxTokens,
+    n: options?.n ?? defaultOptions.n,
+    presencePenalty: options?.presencePenalty ?? defaultOptions.presencePenalty,
+    responseFormat: responseFormatDto,
+    seed: options?.seed ?? defaultOptions.seed,
+    stop: (options?.stop ?? defaultOptions.stop) != null
+        ? ChatCompletionStop.listString(options?.stop ?? defaultOptions.stop!)
+        : null,
+    temperature: options?.temperature ?? defaultOptions.temperature,
+    topP: options?.topP ?? defaultOptions.topP,
+    parallelToolCalls:
+        options?.parallelToolCalls ?? defaultOptions.parallelToolCalls,
+    serviceTier: serviceTierDto,
+    user: options?.user ?? defaultOptions.user,
+    streamOptions:
+        stream ? const ChatCompletionStreamOptions(includeUsage: true) : null,
+  );
+}
 
 extension ChatMessageListMapper on List<ChatMessage> {
   List<ChatCompletionMessage> toChatCompletionMessages() {
@@ -15,34 +63,34 @@ extension ChatMessageListMapper on List<ChatMessage> {
 
   ChatCompletionMessage _mapMessage(final ChatMessage msg) {
     return switch (msg) {
-      final SystemChatMessage systemChatMessage => ChatCompletionMessage.system(
-          content: systemChatMessage.content,
-        ),
-      final HumanChatMessage humanChatMessage => ChatCompletionMessage.user(
-          content: switch (humanChatMessage.content) {
-            final ChatMessageContentText c => _mapMessageContentString(c),
-            final ChatMessageContentImage c =>
-              ChatCompletionUserMessageContent.parts(
-                [_mapMessageContentPartImage(c)],
-              ),
-            final ChatMessageContentMultiModal c => _mapMessageContentPart(c),
-          },
-        ),
-      final AIChatMessage aiChatMessage => ChatCompletionMessage.assistant(
-          content: aiChatMessage.content,
-          toolCalls: aiChatMessage.toolCalls.isNotEmpty
-              ? aiChatMessage.toolCalls
-                  .map(_mapMessageToolCall)
-                  .toList(growable: false)
-              : null,
-        ),
-      final ToolChatMessage toolChatMessage => ChatCompletionMessage.tool(
-          toolCallId: toolChatMessage.toolCallId,
-          content: toolChatMessage.content,
-        ),
+      final SystemChatMessage msg => _mapSystemMessage(msg),
+      final HumanChatMessage msg => _mapHumanMessage(msg),
+      final AIChatMessage msg => _mapAIMessage(msg),
+      final ToolChatMessage msg => _mapToolMessage(msg),
       CustomChatMessage() =>
         throw UnsupportedError('OpenAI does not support custom messages'),
     };
+  }
+
+  ChatCompletionMessage _mapSystemMessage(
+    final SystemChatMessage systemChatMessage,
+  ) {
+    return ChatCompletionMessage.system(content: systemChatMessage.content);
+  }
+
+  ChatCompletionMessage _mapHumanMessage(
+    final HumanChatMessage humanChatMessage,
+  ) {
+    return ChatCompletionMessage.user(
+      content: switch (humanChatMessage.content) {
+        final ChatMessageContentText c => _mapMessageContentString(c),
+        final ChatMessageContentImage c =>
+          ChatCompletionUserMessageContent.parts(
+            [_mapMessageContentPartImage(c)],
+          ),
+        final ChatMessageContentMultiModal c => _mapMessageContentPart(c),
+      },
+    );
   }
 
   ChatCompletionUserMessageContentString _mapMessageContentString(
@@ -105,6 +153,17 @@ extension ChatMessageListMapper on List<ChatMessage> {
     return ChatCompletionMessageContentParts(partsList);
   }
 
+  ChatCompletionMessage _mapAIMessage(final AIChatMessage aiChatMessage) {
+    return ChatCompletionMessage.assistant(
+      content: aiChatMessage.content,
+      toolCalls: aiChatMessage.toolCalls.isNotEmpty
+          ? aiChatMessage.toolCalls
+              .map(_mapMessageToolCall)
+              .toList(growable: false)
+          : null,
+    );
+  }
+
   ChatCompletionMessageToolCall _mapMessageToolCall(
     final AIChatMessageToolCall toolCall,
   ) {
@@ -117,12 +176,26 @@ extension ChatMessageListMapper on List<ChatMessage> {
       ),
     );
   }
+
+  ChatCompletionMessage _mapToolMessage(
+    final ToolChatMessage toolChatMessage,
+  ) {
+    return ChatCompletionMessage.tool(
+      toolCallId: toolChatMessage.toolCallId,
+      content: toolChatMessage.content,
+    );
+  }
 }
 
 extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
   ChatResult toChatResult(final String id) {
     final choice = choices.first;
     final msg = choice.message;
+
+    if (msg.refusal != null && msg.refusal!.isNotEmpty) {
+      throw OpenAIRefusalException(msg.refusal!);
+    }
+
     return ChatResult(
       id: id,
       output: AIChatMessage(
@@ -211,6 +284,11 @@ extension CreateChatCompletionStreamResponseMapper
   ChatResult toChatResult(final String id) {
     final choice = choices.firstOrNull;
     final delta = choice?.delta;
+
+    if (delta?.refusal != null && delta!.refusal!.isNotEmpty) {
+      throw OpenAIRefusalException(delta.refusal!);
+    }
+
     return ChatResult(
       id: id,
       output: AIChatMessage(
