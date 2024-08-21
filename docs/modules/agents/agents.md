@@ -75,7 +75,7 @@ First, let's load the language model we're going to use to control the agent.
 ```dart
 final llm = ChatOpenAI(
   apiKey: openAiKey,
-  defaultOptions: const ChatOpenAIOptions(temperature: 0),
+  defaultOptions: ChatOpenAIOptions(temperature: 0),
 );
 ```
 
@@ -91,7 +91,7 @@ Finally, let's initialize an agent with the tools, the language model, and the
 type of agent we want to use.
 
 ```dart
-final agent = OpenAIToolsAgent.fromLLMAndTools(llm: llm, tools: tools);
+final agent = ToolsAgent.fromLLMAndTools(llm: llm, tools: tools);
 ```
 
 Now let's create the agent executor and test it out!

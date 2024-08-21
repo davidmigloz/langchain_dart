@@ -18,7 +18,7 @@ void main() async {
     CalculatorTool(),
     OpenAIDallETool(apiKey: openAiKey),
   ];
-  final agent = OpenAIToolsAgent.fromLLMAndTools(llm: llm, tools: tools);
+  final agent = ToolsAgent.fromLLMAndTools(llm: llm, tools: tools);
   final executor = AgentExecutor(agent: agent);
   final res = await executor.run(
     'Calculate the result of 40 raised to the power of 0.43 and generate a funny illustration with it. '
