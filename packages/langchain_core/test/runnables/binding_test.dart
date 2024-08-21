@@ -4,6 +4,7 @@ import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/output_parsers.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_core/runnables.dart';
+import 'package:langchain_core/tools.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -123,4 +124,14 @@ class _FakeOptionsChatModelOptions extends ChatModelOptions {
   const _FakeOptionsChatModelOptions(this.stop);
 
   final String stop;
+
+  @override
+  ChatModelOptions copyWith({
+    final String? model,
+    final List<ToolSpec>? tools,
+    final ChatToolChoice? toolChoice,
+    final int? concurrencyLimit,
+  }) {
+    return _FakeOptionsChatModelOptions(stop);
+  }
 }
