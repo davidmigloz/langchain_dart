@@ -15,19 +15,26 @@ const _systemChatMessagePromptTemplate = SystemChatMessagePromptTemplate(
 );
 
 /// {@template tools_agent}
-/// An Agent driven by Tools powered API.
+/// An agent powered by the tool calling API.
 ///
 /// Example:
 /// ```dart
-/// final llm = ChatTools(
-///   model: 'mistral', // or any other model supported by llm
-///   temperature: 0,
+/// final llm = ChatOllama(
+///   defaultOptions: ChatOllamaOptions(
+///     model: 'llama3-groq-tool-use',
+///     temperature: 0,
+///   ),
 /// );
 /// final tools = [CalculatorTool()];
 /// final agent = ToolsAgent.fromLLMAndTools(llm: llm, tools: tools);
 /// final executor = AgentExecutor(agent: agent);
 /// final res = await executor.run('What is 40 raised to the 0.43 power? ');
 /// ```
+///
+/// You can use any chat model that supports tools, like `ChatOpenAI`,
+/// `ChatOllama`, `ChatAnthropic`, `ChatFirebaseVertexAI`, etc. Check the
+/// [documentation](https://langchaindart.dev/#/modules/model_io/models/chat_models/how_to/tools)
+/// for a complete list.
 ///
 /// You can easily add memory to the agent using the memory parameter from the
 /// [ToolsAgent.fromLLMAndTools] constructor. Make sure you enable
@@ -109,7 +116,8 @@ class ToolsAgent extends BaseSingleActionAgent {
   /// Construct an [ToolsAgent] from an [llm] and [tools].
   ///
   /// - [llm] - The model to use for the agent.
-  /// - [llmOptions] - The options to use for the model, must include the tools
+  /// - [tools] - The tools the agent has access to. You can omit this field if
+  ///   you have already configured the tools in the [llm].
   /// - [memory] - The memory to use for the agent.
   /// - [systemChatMessage] message to use as the system message that will be
   ///   the first in the prompt. Default: "You are a helpful AI assistant".
@@ -117,74 +125,37 @@ class ToolsAgent extends BaseSingleActionAgent {
   ///   system message and the input from the agent.
   factory ToolsAgent.fromLLMAndTools({
     required final BaseChatModel llm,
+    final List<Tool>? tools,
     final BaseChatMemory? memory,
     final SystemChatMessagePromptTemplate systemChatMessage =
         _systemChatMessagePromptTemplate,
     final List<ChatMessagePromptTemplate>? extraPromptMessages,
   }) {
     assert(
-      llm.defaultOptions.tools != null,
-      'The `tools` field in `llmOptions` must be set',
+      tools != null || llm.defaultOptions.tools != null,
+      'Tools must be provided or configured in the llm',
     );
     assert(
-      llm.defaultOptions.tools!.every((tool) => tool is Tool),
+      tools != null || llm.defaultOptions.tools!.every((tool) => tool is Tool),
       'All elements in `tools` must be of type `Tool` or its subclasses',
     );
+
+    final actualTools = tools ?? llm.defaultOptions.tools!.cast<Tool>();
+
     return ToolsAgent(
       llmChain: LLMChain(
         llm: llm,
-        llmOptions: llm.defaultOptions,
+        llmOptions: llm.defaultOptions.copyWith(
+          tools: actualTools,
+        ),
         prompt: createPrompt(
-          // systemChatMessage: toolPrompt!,
-          systemChatMessage: SystemChatMessagePromptTemplate(
-            prompt: PromptTemplate(
-              inputVariables: const {},
-              template: '''
-              ${systemChatMessage.prompt.template}\n\n
-                  'You have access to these tools: ${llm.defaultOptions.tools!.map((t) => t.name).join(', ')}'
-                  Instructions:
-                  
-                  Based on the user input, select tool_choice from the available tools.
-                  Respond with a JSON object containing a "tool_calls" array.
-                  Each tool call in the array should have:
-                  
-                  "tool_name": The name of the selected tool (string)
-                  "tool_input": A JSON string with the input for the tool
-                  
-                  Example response format:
-                  ```json
-                  {{
-                    "tool_calls": [
-                      {{
-                        "tool_name": "tool_name",
-                        "tool_input": "{{"param1":"value1","param2":"value2"}}"
-                      }}
-                    ]
-                  }}
-                  ```'
-                  ''',
-            ),
-          ),
+          systemChatMessage: systemChatMessage,
           extraPromptMessages: extraPromptMessages,
           memory: memory,
         ),
         memory: memory,
       ),
-      tools: llm.defaultOptions.tools!.map(
-        (toolSpec) {
-          if (toolSpec is Tool) {
-            return Tool.fromFunction(
-              name: toolSpec.name,
-              description: toolSpec.description,
-              getInputFromJson: toolSpec.getInputFromJson,
-              inputJsonSchema: toolSpec.inputJsonSchema,
-              func: (final input) async => toolSpec.invoke(input),
-            );
-          } else {
-            throw ArgumentError('Invalid tool type: ${toolSpec.runtimeType}');
-          }
-        },
-      ).toList(),
+      tools: actualTools,
     );
   }
 
