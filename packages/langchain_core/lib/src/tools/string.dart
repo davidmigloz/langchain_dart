@@ -14,6 +14,7 @@ abstract base class StringTool<Options extends ToolOptions>
     required super.name,
     required super.description,
     final String inputDescription = 'The input to the tool',
+    super.strict = false,
     super.returnDirect = false,
     super.handleToolError,
     super.defaultOptions,
@@ -36,6 +37,8 @@ abstract base class StringTool<Options extends ToolOptions>
   ///   purpose.
   /// - [description] is used to tell the model how/when/why to use the tool.
   ///   You can provide few-shot examples as a part of the description.
+  /// - [strict] whether to enable strict schema adherence when generating the
+  ///   tool call (only supported by some providers).
   /// - [func] is the function that will be called when the tool is run.
   /// - [returnDirect] whether to return the tool's output directly.
   ///   Setting this to true means that after the tool is called,
@@ -46,6 +49,7 @@ abstract base class StringTool<Options extends ToolOptions>
     required final String name,
     required final String description,
     final String inputDescription = 'The input to the tool',
+    final bool strict = false,
     required final FutureOr<String> Function(String input) func,
     final bool returnDirect = false,
     final String Function(ToolException)? handleToolError,
@@ -54,6 +58,7 @@ abstract base class StringTool<Options extends ToolOptions>
       name: name,
       description: description,
       inputDescription: inputDescription,
+      strict: strict,
       func: func,
       returnDirect: returnDirect,
       handleToolError: handleToolError,
@@ -84,6 +89,7 @@ final class _StringToolFunc<Options extends ToolOptions>
     required super.name,
     required super.description,
     super.inputDescription,
+    required super.strict,
     required FutureOr<String> Function(String) func,
     super.returnDirect = false,
     super.handleToolError,
