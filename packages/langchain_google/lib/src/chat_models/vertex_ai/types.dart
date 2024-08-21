@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/tools.dart';
 import 'package:meta/meta.dart';
 
 /// {@template chat_vertex_ai_options}
@@ -108,6 +109,8 @@ class ChatVertexAIOptions extends ChatModelOptions {
     final List<String>? stopSequences,
     final int? candidateCount,
     final List<ChatExample>? examples,
+    final List<ToolSpec>? tools,
+    final ChatToolChoice? toolChoice,
     final int? concurrencyLimit,
   }) {
     return ChatVertexAIOptions(
