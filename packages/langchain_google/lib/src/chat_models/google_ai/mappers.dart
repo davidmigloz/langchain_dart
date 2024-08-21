@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs
 import 'dart:convert';
 
-import 'package:collection/collection.dart';
 import 'package:google_generative_ai/google_generative_ai.dart' as g;
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
@@ -96,7 +95,7 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
                 _ => throw AssertionError('Unknown part type: $p'),
               },
             )
-            .whereNotNull()
+            .nonNulls
             .join('\n'),
         toolCalls: candidate.content.parts
             .whereType<g.FunctionCall>()

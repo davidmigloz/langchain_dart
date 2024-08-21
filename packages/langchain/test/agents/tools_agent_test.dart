@@ -16,13 +16,15 @@ void main() {
   const defaultOllamaModel = 'llama3-groq-tool-use';
   const defaultOpenAIModel = 'gpt-4o-mini';
 
-  group('ChatToolsAgent using Ollama tests', () {
+  group('ChatToolsAgent using Ollama tests',
+      skip: Platform.environment.containsKey('CI'), () {
     setUp(() async {
       llm = ChatOllama(
         defaultOptions: ChatOllamaOptions(
           model: defaultOllamaModel,
           temperature: 0,
           tools: [CalculatorTool(), searchTool],
+          keepAlive: 1,
         ),
       );
     });
