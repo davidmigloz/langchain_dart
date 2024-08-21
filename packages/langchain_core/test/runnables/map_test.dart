@@ -1,5 +1,4 @@
 // ignore_for_file: unused_element
-import 'package:collection/collection.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/llms.dart';
 import 'package:langchain_core/output_parsers.dart';
@@ -43,11 +42,11 @@ void main() {
 
       final left = streamList
           .map((final it) => it['left']) //
-          .whereNotNull()
+          .nonNulls
           .join();
       final right = streamList
           .map((final it) => it['right']) //
-          .whereNotNull()
+          .nonNulls
           .join();
 
       expect(left, 'Hello world!');
