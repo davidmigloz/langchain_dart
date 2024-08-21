@@ -6928,7 +6928,7 @@ mixin _$FunctionObject {
   /// Whether to enable strict schema adherence when generating the function call. If set to true, the model will
   /// follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when
   /// `strict` is `true`. Learn more about Structured Outputs in the
-  /// [function calling guide](docs/guides/function-calling).
+  /// [function calling guide](](https://platform.openai.com/docs/guides/function-calling).
   @JsonKey(includeIfNull: false)
   bool? get strict => throw _privateConstructorUsedError;
 
@@ -7095,7 +7095,7 @@ class _$FunctionObjectImpl extends _FunctionObject {
   /// Whether to enable strict schema adherence when generating the function call. If set to true, the model will
   /// follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when
   /// `strict` is `true`. Learn more about Structured Outputs in the
-  /// [function calling guide](docs/guides/function-calling).
+  /// [function calling guide](](https://platform.openai.com/docs/guides/function-calling).
   @override
   @JsonKey(includeIfNull: false)
   final bool? strict;
@@ -7172,7 +7172,7 @@ abstract class _FunctionObject extends FunctionObject {
   /// Whether to enable strict schema adherence when generating the function call. If set to true, the model will
   /// follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when
   /// `strict` is `true`. Learn more about Structured Outputs in the
-  /// [function calling guide](docs/guides/function-calling).
+  /// [function calling guide](](https://platform.openai.com/docs/guides/function-calling).
   @override
   @JsonKey(includeIfNull: false)
   bool? get strict;
@@ -9041,6 +9041,11 @@ mixin _$ChatCompletionLogprobs {
   List<ChatCompletionTokenLogprob>? get content =>
       throw _privateConstructorUsedError;
 
+  /// A list of message refusal tokens with log probability information.
+  @JsonKey(includeIfNull: false)
+  List<ChatCompletionTokenLogprob>? get refusal =>
+      throw _privateConstructorUsedError;
+
   /// Serializes this ChatCompletionLogprobs to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -9058,8 +9063,9 @@ abstract class $ChatCompletionLogprobsCopyWith<$Res> {
       _$ChatCompletionLogprobsCopyWithImpl<$Res, ChatCompletionLogprobs>;
   @useResult
   $Res call(
-      {@JsonKey(includeIfNull: false)
-      List<ChatCompletionTokenLogprob>? content});
+      {@JsonKey(includeIfNull: false) List<ChatCompletionTokenLogprob>? content,
+      @JsonKey(includeIfNull: false)
+      List<ChatCompletionTokenLogprob>? refusal});
 }
 
 /// @nodoc
@@ -9079,11 +9085,16 @@ class _$ChatCompletionLogprobsCopyWithImpl<$Res,
   @override
   $Res call({
     Object? content = freezed,
+    Object? refusal = freezed,
   }) {
     return _then(_value.copyWith(
       content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
+              as List<ChatCompletionTokenLogprob>?,
+      refusal: freezed == refusal
+          ? _value.refusal
+          : refusal // ignore: cast_nullable_to_non_nullable
               as List<ChatCompletionTokenLogprob>?,
     ) as $Val);
   }
@@ -9099,8 +9110,9 @@ abstract class _$$ChatCompletionLogprobsImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(includeIfNull: false)
-      List<ChatCompletionTokenLogprob>? content});
+      {@JsonKey(includeIfNull: false) List<ChatCompletionTokenLogprob>? content,
+      @JsonKey(includeIfNull: false)
+      List<ChatCompletionTokenLogprob>? refusal});
 }
 
 /// @nodoc
@@ -9119,11 +9131,16 @@ class __$$ChatCompletionLogprobsImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? content = freezed,
+    Object? refusal = freezed,
   }) {
     return _then(_$ChatCompletionLogprobsImpl(
       content: freezed == content
           ? _value._content
           : content // ignore: cast_nullable_to_non_nullable
+              as List<ChatCompletionTokenLogprob>?,
+      refusal: freezed == refusal
+          ? _value._refusal
+          : refusal // ignore: cast_nullable_to_non_nullable
               as List<ChatCompletionTokenLogprob>?,
     ));
   }
@@ -9134,8 +9151,11 @@ class __$$ChatCompletionLogprobsImplCopyWithImpl<$Res>
 class _$ChatCompletionLogprobsImpl extends _ChatCompletionLogprobs {
   const _$ChatCompletionLogprobsImpl(
       {@JsonKey(includeIfNull: false)
-      final List<ChatCompletionTokenLogprob>? content})
+      final List<ChatCompletionTokenLogprob>? content,
+      @JsonKey(includeIfNull: false)
+      final List<ChatCompletionTokenLogprob>? refusal})
       : _content = content,
+        _refusal = refusal,
         super._();
 
   factory _$ChatCompletionLogprobsImpl.fromJson(Map<String, dynamic> json) =>
@@ -9155,9 +9175,23 @@ class _$ChatCompletionLogprobsImpl extends _ChatCompletionLogprobs {
     return EqualUnmodifiableListView(value);
   }
 
+  /// A list of message refusal tokens with log probability information.
+  final List<ChatCompletionTokenLogprob>? _refusal;
+
+  /// A list of message refusal tokens with log probability information.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<ChatCompletionTokenLogprob>? get refusal {
+    final value = _refusal;
+    if (value == null) return null;
+    if (_refusal is EqualUnmodifiableListView) return _refusal;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'ChatCompletionLogprobs(content: $content)';
+    return 'ChatCompletionLogprobs(content: $content, refusal: $refusal)';
   }
 
   @override
@@ -9165,13 +9199,16 @@ class _$ChatCompletionLogprobsImpl extends _ChatCompletionLogprobs {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionLogprobsImpl &&
-            const DeepCollectionEquality().equals(other._content, _content));
+            const DeepCollectionEquality().equals(other._content, _content) &&
+            const DeepCollectionEquality().equals(other._refusal, _refusal));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_content));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_content),
+      const DeepCollectionEquality().hash(_refusal));
 
   /// Create a copy of ChatCompletionLogprobs
   /// with the given fields replaced by the non-null parameter values.
@@ -9193,7 +9230,9 @@ class _$ChatCompletionLogprobsImpl extends _ChatCompletionLogprobs {
 abstract class _ChatCompletionLogprobs extends ChatCompletionLogprobs {
   const factory _ChatCompletionLogprobs(
           {@JsonKey(includeIfNull: false)
-          final List<ChatCompletionTokenLogprob>? content}) =
+          final List<ChatCompletionTokenLogprob>? content,
+          @JsonKey(includeIfNull: false)
+          final List<ChatCompletionTokenLogprob>? refusal}) =
       _$ChatCompletionLogprobsImpl;
   const _ChatCompletionLogprobs._() : super._();
 
@@ -9204,6 +9243,11 @@ abstract class _ChatCompletionLogprobs extends ChatCompletionLogprobs {
   @override
   @JsonKey(includeIfNull: false)
   List<ChatCompletionTokenLogprob>? get content;
+
+  /// A list of message refusal tokens with log probability information.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<ChatCompletionTokenLogprob>? get refusal;
 
   /// Create a copy of ChatCompletionLogprobs
   /// with the given fields replaced by the non-null parameter values.
@@ -10520,6 +10564,11 @@ mixin _$ChatCompletionStreamResponseChoiceLogprobs {
   List<ChatCompletionTokenLogprob>? get content =>
       throw _privateConstructorUsedError;
 
+  /// A list of message refusal tokens with log probability information.
+  @JsonKey(includeIfNull: false)
+  List<ChatCompletionTokenLogprob>? get refusal =>
+      throw _privateConstructorUsedError;
+
   /// Serializes this ChatCompletionStreamResponseChoiceLogprobs to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -10540,8 +10589,9 @@ abstract class $ChatCompletionStreamResponseChoiceLogprobsCopyWith<$Res> {
           ChatCompletionStreamResponseChoiceLogprobs>;
   @useResult
   $Res call(
-      {@JsonKey(includeIfNull: false)
-      List<ChatCompletionTokenLogprob>? content});
+      {@JsonKey(includeIfNull: false) List<ChatCompletionTokenLogprob>? content,
+      @JsonKey(includeIfNull: false)
+      List<ChatCompletionTokenLogprob>? refusal});
 }
 
 /// @nodoc
@@ -10562,11 +10612,16 @@ class _$ChatCompletionStreamResponseChoiceLogprobsCopyWithImpl<$Res,
   @override
   $Res call({
     Object? content = freezed,
+    Object? refusal = freezed,
   }) {
     return _then(_value.copyWith(
       content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
+              as List<ChatCompletionTokenLogprob>?,
+      refusal: freezed == refusal
+          ? _value.refusal
+          : refusal // ignore: cast_nullable_to_non_nullable
               as List<ChatCompletionTokenLogprob>?,
     ) as $Val);
   }
@@ -10583,8 +10638,9 @@ abstract class _$$ChatCompletionStreamResponseChoiceLogprobsImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(includeIfNull: false)
-      List<ChatCompletionTokenLogprob>? content});
+      {@JsonKey(includeIfNull: false) List<ChatCompletionTokenLogprob>? content,
+      @JsonKey(includeIfNull: false)
+      List<ChatCompletionTokenLogprob>? refusal});
 }
 
 /// @nodoc
@@ -10603,11 +10659,16 @@ class __$$ChatCompletionStreamResponseChoiceLogprobsImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? content = freezed,
+    Object? refusal = freezed,
   }) {
     return _then(_$ChatCompletionStreamResponseChoiceLogprobsImpl(
       content: freezed == content
           ? _value._content
           : content // ignore: cast_nullable_to_non_nullable
+              as List<ChatCompletionTokenLogprob>?,
+      refusal: freezed == refusal
+          ? _value._refusal
+          : refusal // ignore: cast_nullable_to_non_nullable
               as List<ChatCompletionTokenLogprob>?,
     ));
   }
@@ -10619,8 +10680,11 @@ class _$ChatCompletionStreamResponseChoiceLogprobsImpl
     extends _ChatCompletionStreamResponseChoiceLogprobs {
   const _$ChatCompletionStreamResponseChoiceLogprobsImpl(
       {@JsonKey(includeIfNull: false)
-      final List<ChatCompletionTokenLogprob>? content})
+      final List<ChatCompletionTokenLogprob>? content,
+      @JsonKey(includeIfNull: false)
+      final List<ChatCompletionTokenLogprob>? refusal})
       : _content = content,
+        _refusal = refusal,
         super._();
 
   factory _$ChatCompletionStreamResponseChoiceLogprobsImpl.fromJson(
@@ -10641,9 +10705,23 @@ class _$ChatCompletionStreamResponseChoiceLogprobsImpl
     return EqualUnmodifiableListView(value);
   }
 
+  /// A list of message refusal tokens with log probability information.
+  final List<ChatCompletionTokenLogprob>? _refusal;
+
+  /// A list of message refusal tokens with log probability information.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<ChatCompletionTokenLogprob>? get refusal {
+    final value = _refusal;
+    if (value == null) return null;
+    if (_refusal is EqualUnmodifiableListView) return _refusal;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'ChatCompletionStreamResponseChoiceLogprobs(content: $content)';
+    return 'ChatCompletionStreamResponseChoiceLogprobs(content: $content, refusal: $refusal)';
   }
 
   @override
@@ -10651,13 +10729,16 @@ class _$ChatCompletionStreamResponseChoiceLogprobsImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatCompletionStreamResponseChoiceLogprobsImpl &&
-            const DeepCollectionEquality().equals(other._content, _content));
+            const DeepCollectionEquality().equals(other._content, _content) &&
+            const DeepCollectionEquality().equals(other._refusal, _refusal));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_content));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_content),
+      const DeepCollectionEquality().hash(_refusal));
 
   /// Create a copy of ChatCompletionStreamResponseChoiceLogprobs
   /// with the given fields replaced by the non-null parameter values.
@@ -10683,7 +10764,9 @@ abstract class _ChatCompletionStreamResponseChoiceLogprobs
     extends ChatCompletionStreamResponseChoiceLogprobs {
   const factory _ChatCompletionStreamResponseChoiceLogprobs(
           {@JsonKey(includeIfNull: false)
-          final List<ChatCompletionTokenLogprob>? content}) =
+          final List<ChatCompletionTokenLogprob>? content,
+          @JsonKey(includeIfNull: false)
+          final List<ChatCompletionTokenLogprob>? refusal}) =
       _$ChatCompletionStreamResponseChoiceLogprobsImpl;
   const _ChatCompletionStreamResponseChoiceLogprobs._() : super._();
 
@@ -10695,6 +10778,11 @@ abstract class _ChatCompletionStreamResponseChoiceLogprobs
   @override
   @JsonKey(includeIfNull: false)
   List<ChatCompletionTokenLogprob>? get content;
+
+  /// A list of message refusal tokens with log probability information.
+  @override
+  @JsonKey(includeIfNull: false)
+  List<ChatCompletionTokenLogprob>? get refusal;
 
   /// Create a copy of ChatCompletionStreamResponseChoiceLogprobs
   /// with the given fields replaced by the non-null parameter values.
